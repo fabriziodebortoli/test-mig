@@ -427,6 +427,14 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			if (dbCredentials == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
 			// if databaseName is empty I use master
 			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
 
@@ -474,6 +482,14 @@ namespace Microarea.AdminServer.Controllers
 			{
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (dbCredentials == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			// I use master database to load all dbs
@@ -890,29 +906,31 @@ namespace Microarea.AdminServer.Controllers
 		//---------------------------------------------------------------------
 		private OperationResult PrecheckSubscriptionDB(ExtendedSubscriptionDatabase extSubDatabase)
 		{
+			// result globale dell'operazione, imposto un numero di codice per capire se ci sono operazioni da eseguire
 			OperationResult opRes = new OperationResult();
 
-			List<string> msgList = new List<string>();
+			List<OperationResult> msgList = new List<OperationResult>();
 
 			// check preventivi sui dati inseriti
 			if (extSubDatabase.Database.DBServer != extSubDatabase.Database.DMSDBServer)
 			{
-				msgList.Add("Both databases must be in the same server!");
+				msgList.Add(new OperationResult() { Message = "Both databases must be in the same server!" });
 			}
 
 			if (extSubDatabase.Database.DBName == extSubDatabase.Database.DMSDBName)
 			{
-				msgList.Add("The databases names must be different!");
+				msgList.Add(new OperationResult() { Message = "The databases names must be different!" });
 			}
 
 			if (extSubDatabase.Database.DBOwner == extSubDatabase.Database.DMSDBOwner)
 				if (extSubDatabase.Database.DBPassword != extSubDatabase.Database.DMSDBPassword)
 				{
-					msgList.Add("Passwords different for same users!");
+					msgList.Add(new OperationResult() { Message = "Passwords different for same users!" } );
 				}
 
 			if (msgList.Count > 0)
 			{
+				opRes.Code = -1;
 				opRes.Content = msgList;
 				return opRes;
 			}
@@ -938,28 +956,30 @@ namespace Microarea.AdminServer.Controllers
 
 			if (dTask.Diagnostic.Error)
 			{
-				msgList.Add(dTask.Diagnostic.GetErrorsStrings());
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Result = false;
 				opRes.Content = msgList;
+				opRes.Code = -1;
 				// faccio return perche' si e' verificata un'eccezione sul server e, visto che il server del DMS e' uguale, non procedo ulteriormente
 				return opRes;
 			}
 
 			if (!existERPDb)
-				msgList.Add(string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer));
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
 
 			bool existDMSDb = dTask.ExistDataBase(extSubDatabase.Database.DMSDBName);
 			if (dTask.Diagnostic.Error)
 			{
-				msgList.Add(dTask.Diagnostic.GetErrorsStrings());
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Result = false;
 				opRes.Content = msgList;
+				opRes.Code = -1;
 				// faccio return perche' si e' verificata un'eccezione sul server e, visto che il server del DMS e' uguale, non procedo ulteriormente
 				return opRes;
 			}
 
 			if (!existDMSDb)
-				msgList.Add(string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer));
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
 			//
 			
 			// check informazioni database (Unicode - Collation)
@@ -971,8 +991,9 @@ namespace Microarea.AdminServer.Controllers
 				if (erpDBInfo.HasError || dmsDBInfo.HasError)
 				{
 					opRes.Result = false;
-					msgList.Add(erpDBInfo.Error + "\r\n" + dmsDBInfo.Error);
+					msgList.Add(new OperationResult() { Message = erpDBInfo.Error + "\r\n" + dmsDBInfo.Error });
 					opRes.Content = msgList;
+					opRes.Code = -1;
 					return opRes;
 				}
 
@@ -981,16 +1002,18 @@ namespace Microarea.AdminServer.Controllers
 					if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
 					{
 						opRes.Result = false;
-						msgList.Add(DatabaseManagerStrings.ErrorUnicodeValuesNotCompatible);
+						msgList.Add(new OperationResult() { Message = DatabaseManagerStrings.ErrorUnicodeValuesNotCompatible });
 						opRes.Content = msgList;
+						opRes.Code = -1;
 						return opRes;
 					}
 
 					if (string.Compare(erpDBInfo.Collation, dmsDBInfo.Collation, StringComparison.InvariantCultureIgnoreCase) != 0)
 					{
 						opRes.Result = false;
-						msgList.Add(string.Format(DatabaseManagerStrings.ErrorCollationNotCompatible, erpDBInfo.Name, erpDBInfo.Collation, dmsDBInfo.Name, dmsDBInfo.Collation));
+						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorCollationNotCompatible, erpDBInfo.Name, erpDBInfo.Collation, dmsDBInfo.Name, dmsDBInfo.Collation) });
 						opRes.Content = msgList;
+						opRes.Code = -1;
 						return opRes;
 					}
 					else
@@ -1010,11 +1033,12 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = dTask.Diagnostic.ToJson(true);
+				opRes.Code = -1;
 				return opRes;
 			}
 
 			if (!existLogin)
-				msgList.Add(string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer));
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
 			//
 
 			// check validita' login e password per il db di ERP
@@ -1039,10 +1063,11 @@ namespace Microarea.AdminServer.Controllers
 				else
 				{
 					if (errorNr == 18456)
-						msgList.Add(string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner));
+						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner) });
 					
 					opRes.Result = false;
 					opRes.Message = dTask.Diagnostic.ToJson(true);
+					opRes.Code = -1;
 					return opRes;
 				}
 			}
@@ -1070,10 +1095,11 @@ namespace Microarea.AdminServer.Controllers
 				else
 				{
 					if (errorNr == 18456)
-						msgList.Add(string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner));
+						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
 
 					opRes.Result = false;
 					opRes.Message = dTask.Diagnostic.ToJson(true);
+					opRes.Code = -1;
 					return opRes;
 				}
 			}
@@ -1090,7 +1116,17 @@ namespace Microarea.AdminServer.Controllers
 				{
 					foreach (IDiagnosticItem item in items)
 						if (!string.IsNullOrWhiteSpace(item.FullExplain))
-							msgList.Add(item.FullExplain);
+							msgList.Add(new OperationResult() { Message = item.FullExplain });
+				}
+
+				if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					!dbManager.ContextInfo.HasSlaves)
+					||
+					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
+				{
+					opRes.Code = -1;
 				}
 			}
 			//
@@ -1230,6 +1266,14 @@ namespace Microarea.AdminServer.Controllers
 			{
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (subDatabase == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			// I use master database to load all dbs
