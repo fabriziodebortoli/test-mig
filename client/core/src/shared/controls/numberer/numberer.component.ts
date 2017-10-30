@@ -1,16 +1,15 @@
+import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges } from '@angular/core';
+
+import { isNumeric } from '../../../rxjs.imports';
+import { ContextMenuItem } from './../../models/context-menu-item.model';
+import { FormMode } from './../../../shared/models/form-mode.enum';
+import { NumbererStateEnum } from './numberer-state.enum';
+import { ControlComponent } from '../control.component';
+
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { ControlComponent } from '../control.component';
 import { EventDataService } from './../../../core/services/eventdata.service';
 
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges } from '@angular/core';
-import { NumbererStateEnum } from './numberer-state.enum';
-
-import { FormMode } from './../../../core/models/enums';
-
-import { isNumeric } from "rxjs/util/isNumeric"
-
-import { ContextMenuItem } from '@taskbuilder/core';
 
 @Component({
     selector: "tb-numberer",
