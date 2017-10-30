@@ -144,10 +144,14 @@ namespace Microarea.RSWeb.WoormViewer
             foreach (BaseObj item in this)
             {
                 if (item.IsHidden && item.HideExpr == null)
-                {
                     continue;
-                }
-                    
+ 
+               if (item.InternalID >= SpecialReportField.REPORT_LOWER_SPECIAL_ID)
+                    continue;
+
+                if (array && item.AnchorRepeaterID != 0)
+                    continue;   //li emette il repeater 
+
                 if (!template && item.HideExpr != null && item.DynamicIsHidden)
                 {
                     item.ToJsonHiddenData(true);
@@ -159,9 +163,9 @@ namespace Microarea.RSWeb.WoormViewer
                             template ||
                             item is FieldRect ||
                             item is Table ||
-                           item is Chart ||
-                           //item is Repeater ||
-                           item.IsDynamic()
+                            item is Chart ||
+                            item is Repeater ||
+                            item.IsDynamic()
                         )
                     )
                 {
@@ -323,6 +327,9 @@ namespace Microarea.RSWeb.WoormViewer
                 {
                     obj.InternalID = document.SymbolTable.GetNewID();
                 }
+
+                if (obj is Repeater)
+                    ((Repeater)obj).AddIDToDynamicStaticObjects();
             }
         }
     }

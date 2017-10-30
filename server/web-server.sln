@@ -38,7 +38,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "report-service", "report-se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.csproj", "{14A255AF-F8EC-475B-ABB7-EC617822C4DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "erp-service", "erp-service\erp-service.csproj", "{BADE9594-0127-4632-90C2-A6EA0658402F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "erp-service", "erp-service\erp-service.csproj", "{BADE9594-0127-4632-90C2-A6EA0658402F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "admin-server-test", "admin-server-test\admin-server-test.csproj", "{654A9F8A-C4E9-4B6C-87B0-3CFD8BC91BDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,6 +108,10 @@ Global
 		{BADE9594-0127-4632-90C2-A6EA0658402F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BADE9594-0127-4632-90C2-A6EA0658402F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BADE9594-0127-4632-90C2-A6EA0658402F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{654A9F8A-C4E9-4B6C-87B0-3CFD8BC91BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{654A9F8A-C4E9-4B6C-87B0-3CFD8BC91BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{654A9F8A-C4E9-4B6C-87B0-3CFD8BC91BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{654A9F8A-C4E9-4B6C-87B0-3CFD8BC91BDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

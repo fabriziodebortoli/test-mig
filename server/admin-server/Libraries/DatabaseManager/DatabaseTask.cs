@@ -1291,7 +1291,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// la login non esiste o la password e' sbagliata
 				if (ex.Number == 18456)
 				{
-					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid + " " + ex.Message, extendedInfo);
 					return false;
 				}
 
@@ -1355,7 +1355,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// la login non esiste o la password e' sbagliata
 				if (ex.Number == 18456)
 				{
-					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid + " " + ex.Message, extendedInfo);
 					return false;
 				}
 
