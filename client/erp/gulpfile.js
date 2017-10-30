@@ -87,8 +87,7 @@ gulp.task('rollup:fesm', function() {
                 '@angular/common',
                 '@angular/forms',
                 '@angular/http',
-                '@taskbuilder/core',
-                'ngx-cookie'
+                '@taskbuilder/core'
             ],
 
             // Format of generated bundle
@@ -133,8 +132,7 @@ gulp.task('rollup:umd', function() {
                 '@angular/common',
                 '@angular/forms',
                 '@angular/http',
-                '@taskbuilder/core',
-                'ngx-cookie'
+                '@taskbuilder/core'
             ],
 
             // Format of generated bundle
@@ -155,7 +153,6 @@ gulp.task('rollup:umd', function() {
                 typescript: 'ts',
                 '@angular/core': 'core',
                 '@angular/common': 'common',
-                'ngx-cookie': 'ngxCookie',
                 '@angular/http': 'http',
                 '@taskbuilder/core': 'core$1',
                 '@angular/forms': 'forms'

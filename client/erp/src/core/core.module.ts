@@ -1,5 +1,4 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { CookieModule, CookieService } from 'ngx-cookie';
 import { ERPService } from './services/erp.service';
 export { ERPService } from './services/erp.service';
 import { ErpHttpService } from './services/erp-http.service';
@@ -12,8 +11,7 @@ export const ERP_SERVICES = [
 ];
 
 @NgModule({
-    imports: [CookieModule.forChild()],
-    providers: [ERP_SERVICES, CookieService]
+    providers: [ERP_SERVICES]
 })
 export class ERPCoreModule {
     static forRoot(): ModuleWithProviders {
