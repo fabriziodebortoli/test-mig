@@ -8,6 +8,9 @@
         <!-- <button (click)='toggleState()' kendoButton [disabled]="!(enableStateInEdit && enableCtrlInEdit)" *ngIf="model?.stateData">
             <m4-icon icon="{{icon}}"></m4-icon>
         </button> -->
-        <ng-container #contextMenu></ng-container>
+
+        <tb-context-menu [contextMenu]="numbererContextMenu"></tb-context-menu>
+
+        <!-- <ng-container #contextMenu></ng-container> -->
     </div>
 </div>
