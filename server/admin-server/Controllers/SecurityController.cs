@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
@@ -279,16 +280,7 @@ namespace Microarea.AdminServer.Controllers
 
 			return result;
 		}
-
-		//-----------------------------------------------------------------------------
-		private void SetPendingFlag(string instanceKey)
-        {
-            // Imposto la nuova data massima di disconnessione, deve arrivare da gwam.
-            IInstance i = GetInstance(instanceKey);
-            i.PendingDate = DateTime.Now.AddMonths(1);//todo deve arrivare dal gwam
-            (i as Instance)?.Save(burgerData);
-        }
-
+        
         //-----------------------------------------------------------------------------	
         private bool VerifyPendingFlag(string instanceKey) 
         {
@@ -390,15 +382,17 @@ namespace Microarea.AdminServer.Controllers
         private string GetInstanceSecurityValue(string instancekey)
         {
             IRegisteredApp app = new RegisteredApp();
-
-            app = burgerData.GetObject<RegisteredApp, IRegisteredApp>(
-                String.Empty, ModelTables.RegisteredApps, SqlLogicOperators.AND, new WhereCondition[] {
+            try
+            {
+                app = burgerData.GetObject<RegisteredApp, IRegisteredApp>(
+                    String.Empty, ModelTables.RegisteredApps, SqlLogicOperators.AND, new WhereCondition[] {
                         new WhereCondition("AppId", instancekey, QueryComparingOperators.IsEqual, false)
-                });
+                    });
 
-            if (app == null) 
-                return string.Empty;
-
+                if (app == null)
+                    return string.Empty;
+            }
+            catch { }
             return app.SecurityValue; 
         }
 
@@ -431,7 +425,12 @@ namespace Microarea.AdminServer.Controllers
                     String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
                         new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
             }
-            catch { return null;}
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                //todo log
+                return null;
+            } 
         }
 
         /// <summary>
@@ -583,7 +582,7 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private bool IsOnPremisesInstance(string instanceKey)
         {
-          return String.Compare(GetInstanceOrigin(instanceKey), "ONPREMISES", StringComparison.InvariantCultureIgnoreCase) == 0;
+          return String.Compare(GetInstanceOrigin(instanceKey), Instance.OnPremisesOrigin, StringComparison.InvariantCultureIgnoreCase) == 0;
         }
 
         //----------------------------------------------------------------------

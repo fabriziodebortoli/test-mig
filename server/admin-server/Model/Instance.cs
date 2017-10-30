@@ -10,6 +10,8 @@ namespace Microarea.AdminServer.Model
 	//================================================================================
 	public class Instance : IInstance, IModelObject
     {
+        public const string OnPremisesOrigin = "ONPREMISES";
+
         string instanceKey;
         string description = string.Empty;
         string origin = string.Empty;
@@ -19,6 +21,7 @@ namespace Microarea.AdminServer.Model
         bool underMaintenance;
         DateTime pendingDate;
         int ticks = TicksHelper.GetTicks();
+        int verificationCode = 0;
         //---------------------------------------------------------------------
         public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
         public string Description { get { return this.description; } set { this.description = value; } }
@@ -28,6 +31,7 @@ namespace Microarea.AdminServer.Model
         public string Tags { get => tags; set => tags = value; }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
         public DateTime PendingDate { get => pendingDate; set => pendingDate = value; }
+        public int VerificationCode { get => verificationCode; set => verificationCode = value; }
         public int Ticks { get => ticks; set => ticks = value; }
 
         //---------------------------------------------------------------------
@@ -55,6 +59,7 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@Tags", this.tags));
             burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
             burgerDataParameters.Add(new BurgerDataParameter("@PendingDate", this.pendingDate));
+            burgerDataParameters.Add(new BurgerDataParameter("@VerificationCode", this.verificationCode));
             burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
             BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
 
@@ -65,26 +70,44 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public IModelObject Fetch(IDataReader reader)
         {
-            VerifyTicks(ticks = (int)reader["Ticks"]);
-			Instance instance = new Instance
-			{
-				instanceKey = reader["InstanceKey"] as string,
-				description = reader["Description"] as string,
-				disabled = (bool)reader["Disabled"],
-				origin = reader["Origin"] as string,
-				tags = reader["Tags"] as string,
-				underMaintenance = (bool)reader["UnderMaintenance"],
-				pendingDate = (DateTime)reader["PendingDate"],
-                ticks = (int)reader["Ticks"] 
-			};
-            
-			return instance;
+            Instance instance = new Instance
+            {
+                instanceKey = reader["InstanceKey"] as string,
+                description = reader["Description"] as string,
+                disabled = (bool)reader["Disabled"],
+                origin = reader["Origin"] as string,
+                tags = reader["Tags"] as string,
+                underMaintenance = (bool)reader["UnderMaintenance"],
+                pendingDate = (DateTime)reader["PendingDate"],
+                verificationCode = (int)reader["VerificationCode"],
+                ticks = (int)reader["Ticks"]
+            };
+
+            //verifico la pending date, se la data è manomessa rilascio eccezione
+            if (!VerifyPendingDate(instance))
+                throw new Exception(String.Format("Istanza {0} manomessa, colonna pending date non valida! è necessario connettersi al GWAM per validare i dati.", instanceKey));
+
+            return instance;
         }
 
         //---------------------------------------------------------------------
-        private void VerifyTicks(int ticks)
+        private bool VerifyInstance(Instance i)
         {
-           
+            bool ok = VerifyTicks(i);
+            if (ok)
+                ok = VerifyPendingDate(i);
+            return ok;
+        }
+
+        //---------------------------------------------------------------------
+        private bool VerifyTicks(Instance i)
+        {
+            return true;
+        } 
+        //---------------------------------------------------------------------
+        private bool VerifyPendingDate(Instance i)
+        {
+            return TicksHelper.GetDateHashing(i.PendingDate) == i.VerificationCode;
         }
 
         //---------------------------------------------------------------------
