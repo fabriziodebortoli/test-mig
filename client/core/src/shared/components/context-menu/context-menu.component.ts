@@ -25,7 +25,7 @@ export class ContextMenuComponent {
   contextMenuBinding: ContextMenuItem[];
   currentItem: ContextMenuItem;
 
-  @Input() fontIcon = 'more_vert';
+  @Input() fontIcon = 'tb-menu2';
   @Input() contextMenu: ContextMenuItem[];
   @Input() popupClass = 'content popup';
   @ViewChild('anchor') divFocus: HTMLElement;
@@ -39,20 +39,20 @@ export class ContextMenuComponent {
     // });
 
     // SCENARIO 2: RIEMPITO DA HTML
-    this.contextMenu = new Array<ContextMenuItem>();
+    // this.contextMenu = new Array<ContextMenuItem>();
 
-    const subItems_bis = new Array<ContextMenuItem>();
-    const item4 = new ContextMenuItem('solo questo disable unchecked', 'Id4', false, false);
-    subItems_bis.push(item4);
+    // const subItems_bis = new Array<ContextMenuItem>();
+    // const item4 = new ContextMenuItem('solo questo disable unchecked', 'Id4', false, false);
+    // subItems_bis.push(item4);
 
-    const subItems = new Array<ContextMenuItem>();
-    const item1 = new ContextMenuItem('disabled unchecked', 'Id1', false, false);
-    const item5 = new ContextMenuItem('enabled checked', 'Id5', true, true);
-    const item2 = new ContextMenuItem('has one sub item', 'Id2', true, false, subItems_bis);
-    subItems.push(item1, item5);
+    // const subItems = new Array<ContextMenuItem>();
+    // const item1 = new ContextMenuItem('disabled unchecked', 'Id1', false, false);
+    // const item5 = new ContextMenuItem('enabled checked', 'Id5', true, true);
+    // const item2 = new ContextMenuItem('has one sub item', 'Id2', true, false, subItems_bis);
+    // subItems.push(item1, item5);
 
-    const item3 = new ContextMenuItem('has 2 sub items', 'Id3', true, false, subItems);
-    this.contextMenu.push(item1, item2, item5, item3);
+    // const item3 = new ContextMenuItem('has 2 sub items', 'Id3', true, false, subItems);
+    // this.contextMenu.push(item1, item2, item5, item3);
 
   }
 
@@ -67,7 +67,11 @@ export class ContextMenuComponent {
       return;
     }
 
-    this.eventDataService.raiseCommand('', menuItem.id);
+    if (typeof menuItem.fnc === 'function')
+      menuItem.fnc();
+    else
+      this.eventDataService.raiseCommand('', menuItem.id);
+
     this.onToggle();
   }
 
