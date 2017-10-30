@@ -2,7 +2,7 @@
     <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
         <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
-            (ngModelChange)="changeModelValue()" [style.width.px]="width" (keydown)="onKeyDown($event)" (blur)="onBlur($event)"
+            (ngModelChange)="changeModelValue($event)" [style.width.px]="width" (keydown)="onKeyDown($event)" (blur)="onBlur($event)"
             #textbox>
         </kendo-maskedtextbox>
         <!-- (change)="onChange($event)" -->
@@ -13,5 +13,6 @@
         <tb-context-menu [contextMenu]="numbererContextMenu"></tb-context-menu>
 
         <!-- <ng-container #contextMenu></ng-container> -->
+        <button (click)="test()">test</button>
     </div>
 </div>
