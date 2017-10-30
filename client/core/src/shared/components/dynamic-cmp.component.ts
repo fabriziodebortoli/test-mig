@@ -6,6 +6,7 @@ import { ComponentInfo } from './../models/component-info.model';
 
 import { EventDataService } from './../../core/services/eventdata.service';
 import { ComponentService } from './../../core/services/component.service';
+import { Store } from './../../core/services/store.service';
 
 import { DynamicDialogComponent } from './../containers/dynamic-dialog/dynamic-dialog.component';
 import { DiagnosticDialogComponent } from './../containers/diagnostic-dialog/diagnostic-dialog.component';
@@ -19,7 +20,7 @@ import { DocumentComponent } from './document.component';
 @Component({
     selector: 'tb-dynamic-cmp-tree',
     template: '<ng-content></ng-content>',
-    providers: [EventDataService]
+    providers: [EventDataService, Store]
 })
 export class DynamicCmpComponentTree {
 
