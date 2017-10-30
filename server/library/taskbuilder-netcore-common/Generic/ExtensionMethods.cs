@@ -815,9 +815,9 @@ namespace Microarea.Common.Generic
         {
             return n.ToString().ToJson(name, bracket, false, false);
         }
-        public static string ToJson(this ushort n, string prefix, string name, bool bracket = false)
+        public static string ToJson(this ushort n, string prefix, string name, bool bracket = false, string postfix = "")
         {
-            return (prefix + n.ToString()).ToJson(name, bracket, false, true);
+            return (prefix + n.ToString() + postfix).ToJson(name, bracket, false, true);
         }
         public static string ToJson(this long n, string name = null, bool bracket = false)
         {

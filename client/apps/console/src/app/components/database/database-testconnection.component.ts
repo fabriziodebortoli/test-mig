@@ -16,6 +16,14 @@ export class DatabaseTestconnectionComponent implements OnInit {
   isWorking: boolean;
   dbCredentials: DatabaseCredentials;
   subscriptionKey: string;
+
+   // dropdown auxiliary variables
+  providers: Array<{ name:string, value:string }> = [
+    { name: 'SQL Azure', value: 'SQLAzure'},
+    { name: 'SQL Server', value: 'SQLServer'}
+  ];
+
+  selectedProvider: { name: string, value: string } = { name: '', value: ''};
   
   //--------------------------------------------------------------------------------------------------------
   constructor(
@@ -42,6 +50,8 @@ export class DatabaseTestconnectionComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   testConnection() {
     
+    this.dbCredentials.Provider = this.selectedProvider.value;
+
     if (this.dbCredentials.Provider == '' || this.dbCredentials.Server == '' || this.dbCredentials.Login == '') {
       alert('Check credentials first!');
       return;
