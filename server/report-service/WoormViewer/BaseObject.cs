@@ -91,7 +91,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                InternalID.ToJson("id", "id") + ',' +
+                IdToJson() + ',' +
 
                 IsHidden.ToJson("hidden") + ',' +
                 Transparent.ToJson("transparent") + ',' +
@@ -111,10 +111,22 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        string RepeaterRowId()
+        {
+            if (this.AnchorRepeaterID == 0)
+                return string.Empty;
+            return '_' + this.RepeaterRow.ToString();
+
+        }
+        string IdToJson()
+        {
+            return InternalID.ToJson("id", "id", false, RepeaterRowId());
+        }
+
         virtual public string ToJsonHiddenData(bool bracket)
         {
-            string s = "\"baseobj\":{" +
-                            InternalID.ToJson("id", "id") + ',' +
+             string s = "\"baseobj\":{" +
+                            IdToJson() + ',' +
                             false.ToJson("hidden") +
                             '}';
             if (bracket)
@@ -127,7 +139,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                 InternalID.ToJson("id", "id") +
+                IdToJson() +
 
                 (this.HideExpr != null ? ',' + this.DynamicIsHidden.ToJson("hidden") : "") +
                 (this.TooltipExpr != null ? ',' + this.DynamicTooltip.ToJson("tooltip", false, true) : "") +
