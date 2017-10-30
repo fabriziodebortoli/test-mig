@@ -43,8 +43,10 @@ export class InfoService {
         this.culture.value = culture;
     }
 
+    getAuthorization():string{
+        return JSON.stringify({ ui_culture: this.culture.value });
+    }
     load() {
-        //TODOLUCA, manca unsub?
         return new Promise((resolve, reject) => {
             this.http.get('assets/config.json')
                 .map(res => res.json())
