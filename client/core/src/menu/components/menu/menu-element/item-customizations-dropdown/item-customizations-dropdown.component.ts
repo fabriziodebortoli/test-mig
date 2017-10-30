@@ -160,4 +160,12 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     return this.anchor.nativeElement.contains(target);
   }
 
+  public getToolTip(customization: EsCustomizItem) {
+    let message = "";
+    message += this.localizationService.localizedElements.CustomizationNotActive + ":\n";
+    message += customization.applicationOwner + " / " + customization.moduleOwner;
+    return message;
+  }
+
+
 }

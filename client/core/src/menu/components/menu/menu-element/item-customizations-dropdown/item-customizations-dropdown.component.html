@@ -14,9 +14,10 @@
         <div *ngIf="easystudioService.customizations !== undefined && easystudioService.customizations.length > 0">
             <hr />{{localizationService?.localizedElements?.OpenEasyStudioWithCustomization}}:
             <div *ngFor="let customization of easystudioService.customizations" class="itemSelected" [ngClass]="getCustomizClass(customization)">
-                <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)">{{customization.customizationName}}</div>
+                <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)" matTooltip="{{getToolTip(customization)}}" matTooltipShowDelay="500" matTooltipPosition='below'>
+                    {{customization.customizationName}}
+                </div>
             </div>
-            <div style="margin-bottom:40px;"></div>
         </div>
     </div>
 </ng-template>

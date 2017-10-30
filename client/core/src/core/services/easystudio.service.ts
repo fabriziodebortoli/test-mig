@@ -20,10 +20,10 @@ export class EasystudioService {
     public currentModule: string;                      //current module selected by ESContext
     public currentApplication: string;                 //current applic selected by ESContext
     public modules: any[];                             //list of modules in the file system
-    public applications: any[];                        //list of applics in the file system
+    public applications: any[];                      //list of applics in the file system
     public customizations: EsCustomizItem[];    //list of customization in the file system, each knows its owners
-    public memory: { allApplications: MyObj[] };
-    public memory2: { Customizations: EsCustomizItem[] };
+    public memoryESContext: { allApplications: MyObj[] };
+    public memoryCustsList: { Customizations: EsCustomizItem[] };
 
 
     constructor(public httpMenuService: HttpMenuService,
@@ -37,6 +37,16 @@ export class EasystudioService {
             this.extractNames(result);
             return result;
         }));
+    }
+
+    //--------------------------------------------------------------------------------
+    public getModules(): any {
+        return this.modules;
+    }
+
+    //--------------------------------------------------------------------------------
+    public getApplications(): any {
+        return this.applications;
     }
 
     //--------------------------------------------------------------------------------
@@ -62,14 +72,14 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public initEasyStudioData(object: any) {
         this.subscriptions.push(this.httpMenuService.initEasyStudioData(object).subscribe((result) => {
-            this.memory2 = { Customizations: [] };
+            this.memoryCustsList = { Customizations: [] };
             this.customizations = [];
-            let body = result["_body"]; // if body=="" is not design, if body=="Customizations:{}" is design but empty
+            let body = result["_body"]; // if body=="" isDesignable not, if body=="Customizations:{}" isDesignable but empty
             let canHaveCustoms = body != "";
-            if (canHaveCustoms) {                
-                this.memory2 = JSON.parse(body);
-                if (this.memory2 != undefined) {
-                    this.memory2.Customizations.forEach(element => {
+            if (canHaveCustoms) {
+                this.memoryCustsList = JSON.parse(body);
+                if (this.memoryCustsList != undefined) {
+                    this.memoryCustsList.Customizations.forEach(element => {
                         if (this.customizations.indexOf(element) === -1)
                             this.customizations.push(element);
                     })
@@ -114,9 +124,9 @@ export class EasystudioService {
         let body = result["_body"];
         if (body === undefined || body === "")
             return;
-        this.memory = JSON.parse(result["_body"]);
+        this.memoryESContext = JSON.parse(result["_body"]);
         let allApplications = resultJson["allApplications"];
-        if(!allApplications) return;
+        if (!allApplications) return;
         for (var index = 0; index < allApplications.length; index++) {
             var applicElem = allApplications[index].application;
             if (this.applications.indexOf(applicElem) === -1)
@@ -144,33 +154,37 @@ export class EasystudioService {
     public createNewContext(newAppName, newModName, type) {
         this.subscriptions.push(this.httpMenuService.createNewContext(newAppName, newModName, type).subscribe((result) => {
             if (result) {
-                this.modules.push(newModName);
-                //this.memory.allApplications.push(newAppName, newModName);
-                this.memory.allApplications.push(new MyObj(newAppName, newModName));
-
+                let newObj = new MyObj(newAppName, newModName)
+                if (this.memoryESContext.allApplications.indexOf(newObj) === -1)
+                    this.memoryESContext.allApplications.push(newObj);
                 if (this.applications.indexOf(newAppName) === -1) { //nessuna occorrenza
                     this.applications.push(newAppName);
                 }
                 this.modules = this.getModulesBy(newAppName);
+                
                 this.setAppAndModule(newAppName, newModName, false);
-
+                return true;
             }
+            return result;
         }));
     }
 
     //--------------------------------------------------------------------------------
     public getModulesBy(app: string) {
-        let y = this.memory;
-        if(!y) return;
-        let modules: any[] = new Array();
+        let y = this.memoryESContext;
+        if (!y) return;
+        let modulesLocal: any[] = new Array();
         for (var index = 0; index < y.allApplications.length; index++) {
             var element = y.allApplications[index].application;
             if (element !== app)
                 continue;
-            modules.push(y.allApplications[index].module);
+            if (modulesLocal.indexOf(y.allApplications[index].module) === -1)  //nessuna occorrenza
+               modulesLocal.push(y.allApplications[index].module);
         }
-        return modules;
+        return modulesLocal;
     }
+
+
 
     //--------------------------------------------------------------------------------
     dispose() {
