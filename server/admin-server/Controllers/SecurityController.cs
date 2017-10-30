@@ -589,14 +589,14 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
         {
-            bootstrapTokenContainer.SetResult(false, code, message);
+            bootstrapTokenContainer.SetToken(false, code, message);
             return SetResponse(bootstrapTokenContainer, statuscode);
         }
 
         //----------------------------------------------------------------------
         private IActionResult SetSuccessResponse(BootstrapTokenContainer bootstrapTokenContainer, BootstrapToken token, string message)
         {
-            bootstrapTokenContainer.SetResult(true, (int)LoginReturnCodes.NoError, message, token, _settings.SecretsKeys.TokenHashingKey);
+            bootstrapTokenContainer.SetToken(true, (int)LoginReturnCodes.NoError, message, token, _settings.SecretsKeys.TokenHashingKey);
             return SetResponse(bootstrapTokenContainer, 200);
         }
 
