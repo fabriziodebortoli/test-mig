@@ -5,7 +5,6 @@ import { WebSocketService, InfoService, DocumentComponent, ComponentService, Eve
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
-import { CookieService } from 'ngx-cookie';
 
 import { baseobj } from './models/baseobj.model';
 import { fieldrect } from './models/fieldrect.model';
@@ -34,7 +33,7 @@ import { Snapshot } from './report-objects/snapshotdialog/snapshot';
   encapsulation: ViewEncapsulation.None,
 })
 
-export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy{
+export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
 
   /*if this component is used standalone, the namespace has to be passed from the outside template,
   otherwise it is passed by the ComponentService creation logic*/
@@ -54,14 +53,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public curPageNum: number;
   public runReport: boolean = false;
 
-  public id:string;
-  
+  public id: string;
+
 
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
     eventData: EventDataService,
-    public cookieService: CookieService,
     public infoService: InfoService,
 
     public componentService: ComponentService,
@@ -116,7 +114,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
-      authtoken: this.cookieService.get('authtoken')
+      authtoken: localStorage.getItem('authtoken')
     };
 
     if (this.args.params.runAtTbLoader) {
@@ -449,7 +447,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     iframeHTML.src = s;
   }
 
-  getLayoutId(){
+  getLayoutId() {
 
   }
 

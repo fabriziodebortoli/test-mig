@@ -89,7 +89,7 @@ gulp.task('rollup:fesm', function() {
                 'rxjs/add/observable/timer', 'rxjs/add/operator/toPromise', 'rxjs/add/operator/map', 'rxjs/add/observable/of', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray',
                 'rxjs/add/operator/do', 'rxjs/add/operator/repeat', 'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
                 'rxjs/Subscription', 'rxjs/Observer', 'rxjs/Observable', 'rxjs/observable/ErrorObservable', 'rxjs/BehaviorSubject', 'rxjs/util/TimeoutError', 'rxjs/Subject',
-                'moment', 'ngx-cookie', 'bwip-angular2',
+                'moment', 'bwip-angular2',
                 '@taskbuilder/core'
             ],
 
@@ -137,7 +137,7 @@ gulp.task('rollup:umd', function() {
                 'rxjs/add/observable/timer', 'rxjs/add/operator/toPromise', 'rxjs/add/operator/map', 'rxjs/add/observable/of', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray',
                 'rxjs/add/operator/do', 'rxjs/add/operator/repeat', 'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
                 'rxjs/Subscription', 'rxjs/Observer', 'rxjs/Observable', 'rxjs/observable/ErrorObservable', 'rxjs/BehaviorSubject', 'rxjs/util/TimeoutError', 'rxjs/Subject',
-                'moment', 'ngx-cookie', 'bwip-angular2',
+                'moment', 'bwip-angular2',
                 '@taskbuilder/core'
             ],
 
@@ -180,7 +180,6 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-angular-charts': 'kendoAngularCharts',
                 '@progress/kendo-angular-buttons': 'kendoAngularButtons',
                 '@progress/kendo-angular-inputs': 'kendoAngularInputs',
-                'ngx-cookie': 'ngxCookie',
                 'bwip-angular2': 'bwipjs',
                 'moment': 'moment'
             },
