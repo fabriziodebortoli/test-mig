@@ -892,7 +892,7 @@ namespace Microarea.Common.Generic
 
         public static string ToHtml(this Color color)
         {
-            return '#' + color.Name.Right(6);
+            return '#' + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
         }
 
         public static string ToJson(this Color color, string name = null, bool bracket = false)

@@ -697,14 +697,28 @@ namespace Microarea.AdminServer.Controllers
 
 			if (!existERPDb && !string.IsNullOrWhiteSpace(subDatabase.Database.DBName))
 			{
-				// creazione contenitore db su Azure
-				AzureCreateDBParameters param = new AzureCreateDBParameters();
-				param.DatabaseName = subDatabase.Database.DBName;
-				param.MaxSize = AzureMaxSize.GB1;
+				// devo controllare che il provider indicato sia compatibile con la versione del server specificato, 
+				// altrimenti la creazione del db potrebbe non funzionare per errata sintassi
+				if (isAzureDB)
+				{
+					// creazione contenitore db su Azure
+					AzureCreateDBParameters param = new AzureCreateDBParameters();
+					param.DatabaseName = subDatabase.Database.DBName;
+					param.MaxSize = AzureMaxSize.GB1;
 
-				// I create ERP database
+					// I create ERP database
+					opRes.Result = dTask.CreateAzureDatabase(param);
+				}
+				else
+				{
+					// impostazione parametri creazione contenitore db su SqlServer
+					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
+					sqlParam.DatabaseName = subDatabase.Database.DBName;
 
-				opRes.Result = dTask.CreateAzureDatabase(param);
+					// I create ERP database
+					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
+				}
+
 				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 				if (!opRes.Result)
@@ -713,14 +727,28 @@ namespace Microarea.AdminServer.Controllers
 
 			if (!existDMSDb && !string.IsNullOrWhiteSpace(subDatabase.Database.DMSDBName))
 			{
-				// creazione contenitore db su Azure
-				AzureCreateDBParameters param = new AzureCreateDBParameters();
-				param.DatabaseName = subDatabase.Database.DMSDBName;
-				param.MaxSize = AzureMaxSize.GB1;
+				// devo controllare che il provider indicato sia compatibile con la versione del server specificato, 
+				// altrimenti la creazione del db potrebbe non funzionare per errata sintassi
+				if (isAzureDB)
+				{
+					// creazione contenitore db su Azure
+					AzureCreateDBParameters param = new AzureCreateDBParameters();
+					param.DatabaseName = subDatabase.Database.DMSDBName;
+					param.MaxSize = AzureMaxSize.GB1;
 
-				// I create DMS database
+					// I create DMS database
+					opRes.Result = dTask.CreateAzureDatabase(param);
+				}
+				else
+				{
+					// impostazione parametri creazione contenitore db su SqlServer
+					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
+					sqlParam.DatabaseName = subDatabase.Database.DBName;
 
-				opRes.Result = dTask.CreateAzureDatabase(param);
+					// I create DMS database
+					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
+				}
+
 				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 				if (!opRes.Result)

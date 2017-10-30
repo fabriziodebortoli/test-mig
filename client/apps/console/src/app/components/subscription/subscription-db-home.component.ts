@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModelService } from 'app/services/model.service';
 import { AccountInfo } from 'app/authentication/account-info';
 import { DatabaseCredentials, ExtendedSubscriptionDatabase } from '../../authentication/credentials';
+import { OperationResult } from '../../services/operationResult';
 
 @Component({
   selector: 'app-subscription-db-home',
@@ -19,6 +20,13 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
   viewMaster: boolean = true;
   isEditing: boolean = false;
   dbCredentials: DatabaseCredentials;
+  operationsList: OperationResult[];
+  extendedSubDatabase: ExtendedSubscriptionDatabase;
+
+  // variables for app-database-operations component
+  checkDatabaseIsStarted: boolean = false;
+  checkDatabaseIsRunning: boolean = false;
+  somethingToDo: boolean = false;
 
   // admin dialog auxiliary variables  
   openDialog: boolean;
@@ -32,6 +40,7 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute) {
     this.fields = [];
+    this.operationsList = [];
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -184,32 +193,37 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
     if (!this.validateInput())
       return;
 
+    // devo controllare se qualcosa e' cambiato
     this.openDialog = true;
   }
 
   //--------------------------------------------------------------------------------------------------------
   executeElaboration() {
 
+    this.checkDatabaseIsStarted = this.checkDatabaseIsRunning = true;
+    this.somethingToDo = false;
+
     let test = this.modelService.testConnection(this.model.SubscriptionKey, this.dbCredentials).
       subscribe(
-      result => {
+      testResult => {
 
-        if (result.Result) {
-          // after save I return to parent page
-          this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: this.model.SubscriptionKey } });
+        if (testResult.Result) {
 
-          let extendedSubDatabase: ExtendedSubscriptionDatabase = new ExtendedSubscriptionDatabase(this.dbCredentials, this.model);
+          this.extendedSubDatabase = new ExtendedSubscriptionDatabase(this.dbCredentials, this.model);
 
-          let update = this.modelService.checkDatabase(this.model.SubscriptionKey, extendedSubDatabase).
-            //this.modelService.updateDatabase(this.model.SubscriptionKey, extendedSubDatabase).
+          let update = this.modelService.checkDatabase(this.model.SubscriptionKey, this.extendedSubDatabase).
             subscribe(
-            updateResult => {
-              if (!updateResult.Result) {
-                alert(updateResult.Message);
+            checkResult => {
+
+              if (!checkResult.Result) {
+                alert(checkResult.Message);
               }
+
+              this.operationsList = checkResult['Content'];
+              this.somethingToDo = (checkResult.Code === 0);
+
               update.unsubscribe();
-              // after save I return to parent page
-              //this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: this.model.SubscriptionKey } });
+              this.checkDatabaseIsRunning = false;
             },
             updateError => {
               console.log(updateError);
@@ -219,7 +233,7 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
             )
         }
         else
-          alert('Unable to connect! ' + result.Message);
+          alert('Unable to connect! ' + testResult.Message);
 
         // clear local array with dialog values
         this.fields.forEach(element => {
