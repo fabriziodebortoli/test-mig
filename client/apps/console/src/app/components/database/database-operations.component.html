@@ -1,3 +1,14 @@
-<p>
-  database-operations works!
-</p>
+<h3 class="componentTitle">{{ extSubDatabase.Database.Name }}</h3>
+<admin-list *ngIf="!isWorking" [items]=operations [readingData]=readingData [columnNames]="['Message']"></admin-list>
+<div *ngIf="readingData">
+  <p>Database checking elaboration is running and its duration will be in few seconds. Please wait...</p>
+</div>
+<div *ngIf="isWorking">
+  <p>Database update is in progress and its duration will be in few minutes. Please wait...</p>
+</div>
+<div class="right pt20" *ngIf="!readingData && operationsToDo && !isWorking">
+  <admin-button [buttonText]="'Confirm'" (click)="confirmDbOperations()"></admin-button>
+</div>
+<div *ngIf="isWorking" class="right pt20">
+  <img src="assets/ajax-loader.gif" />
+</div>
