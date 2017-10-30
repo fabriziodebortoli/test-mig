@@ -1,5 +1,4 @@
 import { InfoService } from './../../../core/services/info.service';
-import { CookieService } from 'ngx-cookie';
 import { HttpService } from './../../../core/services/http.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
@@ -28,8 +27,7 @@ export class VATCodeComponent extends ControlComponent {
         public tbComponentService: TbComponentService,
         public eventDataService: EventDataService,
         public httpService: HttpService,
-        public infoService: InfoService,
-        public cookieService: CookieService
+        public infoService: InfoService
     ) {
         // super(layoutService, tbComponentService, eventDataService);
         super(layoutService, tbComponentService);
@@ -64,7 +62,7 @@ export class VATCodeComponent extends ControlComponent {
         // ...
 
         // request http al servizio web che verifical'esistenza del vat code nella realta
-        let params = { authtoken: this.cookieService.get('authtoken') };
+        let params = { authtoken: localStorage.getItem('authtoken') };
         let url = this.infoService.getDocumentBaseUrl() + 'getProductInfo/';
         let sub = this.httpService.postData(url, params).subscribe(res => {
             console.log(res)

@@ -67,13 +67,9 @@ const TB_HOME_COMPONENTS = [
   StandaloneReportComponent
 ];
 
-
-import { CookieModule, CookieService } from 'ngx-cookie';
-
 @NgModule({
-  imports: [CommonModule, TB_MODULES, CookieModule.forChild()],
+  imports: [CommonModule, TB_MODULES],
   declarations: [TB_HOME_COMPONENTS],
-  exports: [TB_MODULES, TB_HOME_COMPONENTS],
-  providers: [CookieService]
+  exports: [TB_MODULES, TB_HOME_COMPONENTS]
 })
 export class TaskbuilderCoreModule { }

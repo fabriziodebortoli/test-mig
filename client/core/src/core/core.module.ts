@@ -77,17 +77,15 @@ export const TB_GUARDS = [CoreGuard];
 
 import { HttpModule } from '@angular/http';
 
-import { CookieModule, CookieService } from 'ngx-cookie';
-
 @NgModule({
-    imports: [HttpModule, CookieModule.forRoot()],
-    providers: [TB_SERVICES, TB_GUARDS, CookieService]
+    imports: [HttpModule],
+    providers: [TB_SERVICES, TB_GUARDS]
 })
 export class TbCoreModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: TbCoreModule,
-            providers: [TB_SERVICES, TB_GUARDS, CookieService]
+            providers: [TB_SERVICES, TB_GUARDS]
         };
     }
     constructor( @Optional() @SkipSelf() parentModule: TbCoreModule) {

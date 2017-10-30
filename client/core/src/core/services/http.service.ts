@@ -1,8 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, ErrorObservable } from '../../rxjs.imports';
 
-import { CookieService } from 'ngx-cookie';
+import { Observable, ErrorObservable } from '../../rxjs.imports';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 import { LoginSession } from './../../shared/models/login-session.model';
@@ -19,7 +18,6 @@ export class HttpService {
         public http: Http,
         public utils: UtilsService,
         public logger: Logger,
-        public cookieService: CookieService,
         public infoService: InfoService) {
     }
 
@@ -129,12 +127,6 @@ export class HttpService {
         headers.append('Authorization', this.infoService.getAuthorization());
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
             .catch(this.handleError);
-
-        /*obs.map((res: Response) => {
-            let headers: Headers = res.headers;
-            var cookie = headers.getAll('set-cookie');
-        })
-        return obs;*/
     }
     handleError(error: any): ErrorObservable {
         // In a real world app, we might use a remote logging infrastructure
@@ -193,7 +185,7 @@ export class HttpService {
      */
     getPreferences(): Observable<any> {
         let urlToRun = this.infoService.getMenuServiceUrl() + 'getPreferences/';
-        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company') }
+        let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company') }
 
         return this.postData(urlToRun, obj)
             .map((res: any) => {
@@ -211,7 +203,7 @@ export class HttpService {
      * @returns {Observable<any>} setPreference
      */
     setPreference(referenceName: string, referenceValue: string): Observable<any> {
-        let obj = { name: referenceName, value: referenceValue, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+        let obj = { name: referenceName, value: referenceValue, user: localStorage.getItem('_user'), company: localStorage.getItem('_company') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'setPreference/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -225,7 +217,7 @@ export class HttpService {
   * @returns {Observable<any>} getThemedSettings
   */
     getThemedSettings(): Observable<any> {
-        let obj = { authtoken: this.cookieService.get('authtoken') };
+        let obj = { authtoken: localStorage.getItem('authtoken') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
