@@ -11,11 +11,20 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 
 
+import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
+
 @Component({
     selector: "tb-numberer",
     templateUrl: './numberer.component.html',
     styleUrls: ['./numberer.component.scss']
 })
+
+// COSA MANCA:
+// menu: insert in search - remove from search
+// state button
+// sistemare la posizione del context menu
+// enabled del context menu (legare a enabled della text)
+// estendere la tb-text
 
 export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
@@ -23,6 +32,7 @@ export class NumbererComponent extends ControlComponent {
     @Input() automaticNumbering: boolean;
 
     @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
+    @ViewChild('textbox') textbox: MaskedTextBoxComponent;
 
     tbEditIcon = 'tb-edit';
     tbExecuteIcon = 'tb-execute';
@@ -35,12 +45,13 @@ export class NumbererComponent extends ControlComponent {
     private paddingEnabled: boolean = true;
 
     numbererContextMenu: ContextMenuItem[] = [];
-    itemDisablePadding = new ContextMenuItem('disable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
-    itemEnablePadding = new ContextMenuItem('enable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
-    itemDoPadding = new ContextMenuItem('perform digit padding in front of the number', '', true, false, null, this.doPadding.bind(this));
+    menuItemDisablePadding = new ContextMenuItem('disable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
+    menuItemEnablePadding = new ContextMenuItem('enable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
+    menuItemDoPadding = new ContextMenuItem('perform digit padding in front of the number', '', true, false, null, this.doPadding.bind(this));
 
-    formatMask = '';
-    ctrlEnabled = false;
+    mask = '';
+    //ctrlEnabled = false;
+    ctrlEnabled = false; // da rimuovere dopo aver implementato lo store
     enableStateInEdit = false;
 
     private currentState: NumbererStateEnum;
@@ -51,21 +62,19 @@ export class NumbererComponent extends ControlComponent {
         // this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
         // this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
 
-        // this.eventData.model.FormMode.subscribe(x => {
-        //     this.ctrlEnabled = (x.value == FormMode.NEW || (x.value == FormMode.EDIT && this.enableCtrlInEdit));
-        // })
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
             if (b) {
-                this.tbMask = b.formatMask;
+                this.tbMask = b.mask;
                 // this.useFormatMask = b.useFormatMask;
-                this.useFormatMask = (b.formatMask !== '');
+                this.useFormatMask = (b.mask !== '');
                 this.enableCtrlInEdit = b.enableCtrlInEdit;
                 this.enableStateInEdit = b.enableStateInEdit;
 
                 this.paddingEnabled = (this.tbMask !== '');
                 this.ctrlEnabled = (x.value === FormMode.NEW || (x.value === FormMode.EDIT && this.enableCtrlInEdit));
-                this.ctrlEnabled = true;
+
+                this.ctrlEnabled = true; // da rimuovere dopo aver implementato lo store
 
                 this.setComponentMask();
             }
@@ -90,11 +99,11 @@ export class NumbererComponent extends ControlComponent {
     buildContextMenu() {
         this.numbererContextMenu.splice(0, this.numbererContextMenu.length);
         if (this.paddingEnabled) {
-            this.numbererContextMenu.push(this.itemDisablePadding);
-            this.numbererContextMenu.push(this.itemDoPadding);
+            this.numbererContextMenu.push(this.menuItemDisablePadding);
+            this.numbererContextMenu.push(this.menuItemDoPadding);
         }
         else {
-            this.numbererContextMenu.push(this.itemEnablePadding);
+            this.numbererContextMenu.push(this.menuItemEnablePadding);
         }
     }
 
@@ -107,11 +116,11 @@ export class NumbererComponent extends ControlComponent {
         switch (this.eventData.model.FormMode.value) {
             case FormMode.BROWSE:
             case FormMode.FIND: {
-                this.formatMask = '';
+                this.mask = '';
                 break;
             }
             default: {
-                this.formatMask = this.valueToMask(this.model.value, this.tbMask);
+                this.mask = this.valueToMask(this.model.value, this.tbMask);
                 break;
             }
         }
@@ -269,16 +278,26 @@ export class NumbererComponent extends ControlComponent {
     }
 
     onBlur($event) {
-        if (this.eventData.model.FormMode.value === FormMode.FIND)
+        if (this.eventData.model.FormMode.value === FormMode.FIND && this.paddingEnabled)
             this.doPadding();
     }
 
     doPadding() {
+        let value: string;
+        if (this.eventData.model.FormMode.value === FormMode.FIND)
+            value = this.textbox.input.nativeElement.value;
+        else
+            value = this.model.value;
+
         if (
-            this.model.value.trim() !== '' &&
-            isNumeric(this.model.value.substr(0, 1))
-        )
-            this.model.value = this.maskToValue(this.tbMask, this.model.value);
+            value.trim() !== '' &&
+            isNumeric(value.substr(0, 1))
+        ) {
+            if (this.eventData.model.FormMode.value === FormMode.FIND)
+                this.textbox.input.nativeElement.value = this.maskToValue(this.tbMask, value);
+            else
+                this.model.value = this.maskToValue(this.tbMask, value);
+        }
     }
 
     ngOnChanges(changes) {

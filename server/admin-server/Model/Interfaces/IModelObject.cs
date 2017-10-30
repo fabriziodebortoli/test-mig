@@ -1,5 +1,6 @@
 ﻿using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using System;
 using System.Data;
 
 namespace Microarea.AdminServer.Model.Interfaces
@@ -11,11 +12,20 @@ namespace Microarea.AdminServer.Model.Interfaces
         IModelObject Fetch(IDataReader reader);
         string GetKey();
     }
+
     //================================================================================
     public class TicksHelper
     {
-        public static int GetTicks() {
-            return System.DateTime.UtcNow.GetHashCode();
+        //---------------------------------------------------------------------
+        public static int GetTicks()
+        {
+            return DateTime.UtcNow.GetHashCode();
+        }
+
+        //---------------------------------------------------------------------
+        public static int GetDateHashing(DateTime dateTime)
+        {
+            return dateTime.GetHashCode();
         }
     }
 }

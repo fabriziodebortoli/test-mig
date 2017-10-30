@@ -66,10 +66,14 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         internal static Account GetAccountByName(BurgerData burgerData, string accountName)
         {
-            return burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-                  {
+            try
+            {
+                return burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
+                      {
                     new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false)
-                  }) as Account;
+                      }) as Account;
+            }
+            catch {  return null; } // todo log
 
         }
 
@@ -108,7 +112,6 @@ namespace Microarea.AdminServer.Model
 
             List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
             burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.AccountName));
-
             burgerDataParameters.Add(new BurgerDataParameter("@FullName", this.FullName));
             burgerDataParameters.Add(new BurgerDataParameter("@Password", this.Password));
 

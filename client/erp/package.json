@@ -30,6 +30,9 @@
     "bugs": {
         "url": "https://github.com/Microarea/Taskbuilder.git/issues"
     },
+    "peerDependencies": {
+        "lodash": "^1.0.0"
+    },
     "devDependencies": {
         "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
         "@angular/animations": "^4.4.5",
