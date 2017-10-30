@@ -126,6 +126,7 @@ export class HttpService {
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Authorization', this.infoService.getAuthorization());
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
             .catch(this.handleError);
 
