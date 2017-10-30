@@ -20,7 +20,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public bool Result { get => result; set => result = value; }
 		public string Message { get => message; set => message = value; }
 		public int ResultCode { get => resultCode; set => resultCode = value; }
-		public string JwtToken { get => jwtToken; set => jwtToken = value; }
+		public string JwtToken { get => jwtToken; }
 
         //----------------------------------------------------------------------
         public BootstrapTokenContainer()
@@ -33,12 +33,11 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		}
 
         //----------------------------------------------------------------------
-        public void SetResult(bool result, int resultCode, string message, BootstrapToken token = null, string secretKey = "")
+        public void SetToken(bool result, int resultCode, string message, BootstrapToken token = null, string secretKey = "")
 		{
 			this.result = result;
 			this.resultCode = resultCode;
 			this.message = message;
-
 			this.expirationDate = result ? DateTime.Now.AddMinutes(defaultTokenDurationMinutes) : DateTime.MinValue;
 			this.jwtToken = result ? GenerateJWTToken(token, secretKey) : String.Empty;
 		}

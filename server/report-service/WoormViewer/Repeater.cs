@@ -37,7 +37,9 @@ namespace Microarea.RSWeb.Objects
 			if (Count == 0)
 			{
 				BaseObjList pMasterObjs = new BaseObjList(repeater.Document);
-				Add(pMasterObjs);
+                pMasterObjs.Add(new SqrRect(repeater));
+
+                Add(pMasterObjs);
 			}
 			return this[0];
 		}
@@ -45,28 +47,6 @@ namespace Microarea.RSWeb.Objects
 		//---------------------------------------------------------------------------
 		protected void Detach(BaseObj pObj)
 		{
-			/*
-			pObj->m_AnchorRepeaterID = 0;
-
-			if (!pObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
-				return;
-			//----
-
-			WoormTable* pSymTable = (
-				m_pRepeater->m_pDocument->m_pEditorManager 
-				? 
-				m_pRepeater->m_pDocument->m_pEditorManager->GetSymTable() 
-				: NULL);
-	       	
-			if (pSymTable && pObj->GetInternalID())
-			{
-				WoormField* pF = pSymTable->GetFieldByID(pObj->GetInternalID());
-				if (pF && pF->GetFieldType() == WoormField::FIELD_COLUMN)
-				{
-					pF->RemoveDispTable();
-				}
-			}
-			*/
 		}
 
 		//---------------------------------------------------------------------------
@@ -88,8 +68,9 @@ namespace Microarea.RSWeb.Objects
 		public void AddChild(BaseObj pObj)
 		{
 			pObj.AnchorRepeaterID = repeater.InternalID;
+            pObj.RepeaterRow = 0;
 
-			GetMasterObjects().Add(pObj);
+            GetMasterObjects().Add(pObj);
 
 			if (!(pObj is FieldRect))
 				return;
@@ -114,29 +95,14 @@ namespace Microarea.RSWeb.Objects
 		//---------------------------------------------------------------------------
 		public void RemoveChild(BaseObj pObj)
 		{
-			/*
-			 * 	int idx = GetMasterObjects()->FindPtr(pObj);
-			if (idx < 0) 
-				return;
-
-			GetMasterObjects()->RemoveAt(idx);	//delete automatica DISABILITATA nel primo array
-
-			idx += 1; //in posizione 0 c'e' un SqrRect di cornice
-			for (int r = 1; r < GetSize(); r++)
-			{
-				CBaseObjArray* pRow = (CBaseObjArray*) GetAt(r);
-				pRow->RemoveAt(idx);	//delete automatica
-			}
-			//----
-			Detach(pObj);
-
-			 * */
 		}
 
 		//---------------------------------------------------------------------------
 		public void Replicate()
 		{
 			BaseObjList pMasterObjs = GetMasterObjects();
+		    for (int i = 0; i < pMasterObjs.Count; i++)
+				    pMasterObjs[i].RepeaterRow = 0;
 
 			int w = repeater.Rect.Width + repeater.nXOffset;
 			int h = repeater.Rect.Height + repeater.nYOffset;
@@ -148,8 +114,7 @@ namespace Microarea.RSWeb.Objects
 				BaseObjList pRow = pMasterObjs.Clone();
 
 				SqrRect pR = new SqrRect(repeater);
-				pR.AnchorRepeaterID = repeater.InternalID;
-				pRow.Insert(0, pR);
+                pRow[0] = pR;
 
 				int x = repeater.ByColumn
 					? w * (r / (repeater.nRows))
@@ -161,14 +126,14 @@ namespace Microarea.RSWeb.Objects
 
 				pRow.MoveBaseRect(x, y, true);
 
-				for (int i = 0; i < pRow.Count; i++)
-					pRow[i].RepeaterRow = r;
+                for (int i = 0; i < pRow.Count; i++)
+                {
+                    pRow[i].AnchorRepeaterID = repeater.InternalID;
+                    pRow[i].RepeaterRow = r;
+                }
 
 				Add(pRow);
 			}
-
-			for (int i = 0; i < pMasterObjs.Count; i++)
-				pMasterObjs[i].RepeaterRow = 0;
 		}
 
 		//---------------------------------------------------------------------
@@ -275,17 +240,6 @@ namespace Microarea.RSWeb.Objects
 
 			if (Rows.GetMasterObjects().Count > 0)
 				Rows.Replicate();
-
-			/* per l'editor
-			 * 	if (m_pDocument->m_pEditorManager->ExistsTable(m_wInternalID))
-				{
-					if (!m_pDocument->m_pEditorManager->SetTableRows(m_wInternalID, m_nRows * m_nColumns))
-					{
-						// table wID not found must signal error but must delete table
-						m_pDocument->Message(_TB("Id table not found"));
-					}
-				}
-			 */
 		}
 
 		//---------------------------------------------------------------------
@@ -387,6 +341,33 @@ namespace Microarea.RSWeb.Objects
         }
 
         //------------------------------------------------------------------------------
+        public void AddIDToDynamicStaticObjects()
+        {
+            BaseObjList listMasters = Rows[0];
+
+            for  (int r = 1; r < this.Rows.Count; r++)
+            {
+                BaseObjList list = Rows[r];
+
+                for (int o = 1; o < list.Count; o++)
+                {
+                    BaseObj obj = list[o];
+
+                    if (obj.InternalID == 0)
+                    {
+                        BaseObj master = listMasters[o];
+
+                        if (master.InternalID == 0)
+                            master.InternalID = this.Document.SymbolTable.GetNewID();
+
+                        obj.InternalID = master.InternalID;
+                    }
+                }
+            }
+
+        }
+
+        //------------------------------------------------------------------------------
         string ToJsonTemplate1(bool bracket)
         {
             string name = "repeater";
@@ -433,11 +414,14 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string s = base.ToJsonTemplate(bracket);
+            string s = string.Empty;    // base.ToJsonTemplate(bracket);
+            bool first = true;
 
             foreach (BaseObjList list in this.Rows)
             {
-                s += ',' + list.ToJson(/*template=*/true, string.Empty, /*bracket=*/false, /*array=*/false);
+                if (first) first = false; else s += ',';
+
+                s += list.ToJson(/*template=*/true, string.Empty, /*bracket=*/false, /*array=*/false);
             }
 
              return s;
@@ -445,11 +429,14 @@ namespace Microarea.RSWeb.Objects
 
         override public string ToJsonData(bool bracket)
         {
-            string s = base.ToJsonData(bracket);
+            string s = string.Empty;    // base.ToJsonData(bracket);
+            bool first = true;
 
             foreach (BaseObjList list in this.Rows)
             {
-                s += ',' + list.ToJson(/*template=*/false, string.Empty, /*bracket=*/false, /*array=*/false);
+                if (first) first = false; else s += ',';
+
+                s += list.ToJson(/*template=*/false, string.Empty, /*bracket=*/false, /*array=*/false);
             }
 
              return s;

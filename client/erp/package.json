@@ -13,7 +13,7 @@
         "playground:build": "tsc -p playground -w",
         "playground": "concurrently \"npm run build:watch\" \"npm run playground:build\" \"npm run lite\"",
         "test": "tsc && karma start",
-        "postinstal": "npm link ../core/src"
+        "postinstall": "npm link ../core/src"
     },
     "repository": {
         "type": "git",
@@ -29,6 +29,9 @@
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Microarea/Taskbuilder.git/issues"
+    },
+    "peerDependencies": {
+        "lodash": "^1.0.0"
     },
     "devDependencies": {
         "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",

@@ -110,7 +110,7 @@ export class HttpService {
         let headers = new Headers();
         headers.append('Access-Control-Allow-Origin', window.location.origin);
         headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
-        return this.http.post(url, undefined, { withCredentials: true, headers: headers })
+        return this.http.post(url, undefined, { withCredentials: true/*, headers: headers*/ })
             .map((res: Response) => {
                 return this.createOperationResult(res);
             });
@@ -126,6 +126,7 @@ export class HttpService {
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Authorization', this.infoService.getAuthorization());
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
             .catch(this.handleError);
 
@@ -135,7 +136,6 @@ export class HttpService {
         })
         return obs;*/
     }
-
     handleError(error: any): ErrorObservable {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message

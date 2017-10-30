@@ -5,6 +5,8 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.PostMan;
+using Microarea.AdminServer.Services.PostMan.actuators;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -21,8 +23,10 @@ namespace Microarea.AdminServer.Controllers
         private IHostingEnvironment _env;
 
 		BurgerData burgerData;
+		PostMan postMan;
+		IPostManActuator mailActuator;
 
-        IJsonHelper jsonHelper;
+		IJsonHelper jsonHelper;
 		IHttpHelper _httpHelper;
 
 		string GWAMUrl;
@@ -30,14 +34,19 @@ namespace Microarea.AdminServer.Controllers
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
         {
-            _env = env;
-            _settings = settings.Value;
-            this.jsonHelper = jsonHelper;
-			_httpHelper = httpHelper;
-
+			// configurations
+            this._env = env;
+            this._settings = settings.Value;
 			this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
 
+			// helpers
+			this.jsonHelper = jsonHelper;
+			this._httpHelper = httpHelper;
+
+			// services
 			this.burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+			this.mailActuator = new MailActuator("mail.microarea.it");
+			this.postMan = new PostMan(mailActuator);
 		}
 
 		[HttpGet]
@@ -332,6 +341,50 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Code = (int)AppReturnCodes.OK;
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpPost("/api/messages")]
+		[Produces("application/json")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiMessages([FromBody] APIMessageData apiMessageData, string instanceKey)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// check AuthorizationHeader first
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, instanceKey, RoleLevelsStrings.Instance);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (apiMessageData == null || !apiMessageData.HasData())
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 400, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			try
+			{
+				this.postMan.Send(apiMessageData.Destination, apiMessageData.Subject, apiMessageData.Body);
+			}
+			catch (Exception e)
+			{
+				opRes.Result = false;
+				opRes.Message = String.Concat(Strings.InternalError, " (", e.Message, ")");
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			opRes.Result = true;
+			opRes.Message = Strings.OK;
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
