@@ -1,4 +1,5 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Controllers.Helpers.APIQuery;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
@@ -184,7 +185,7 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-				opRes = Query(modelTable, apiQueryData);
+				opRes = APIQueryHelper.Query(modelTable, apiQueryData, this.burgerData);
 
 				if (opRes.Result)
 				{
@@ -203,57 +204,6 @@ namespace Microarea.AdminServer.Controllers
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-		}
-
-		//-----------------------------------------------------------------------------	
-		private OperationResult Query(ModelTables modelTable, APIQueryData apiQueryData)
-		{
-			// load Body data in QueryInfo object
-
-			SelectScript selectScript = new SelectScript(SqlScriptManager.GetTableName(modelTable));
-
-			foreach (KeyValuePair<string, string> kvp in apiQueryData.MatchingFields)
-			{
-				selectScript.AddWhereParameter(kvp.Key, kvp.Value, QueryComparingOperators.IsEqual, false);
-			}
-
-			foreach (KeyValuePair<string, string> kvp in apiQueryData.LikeFields)
-			{
-				selectScript.AddWhereParameter(kvp.Key, kvp.Value, QueryComparingOperators.Like, false);
-			}
-
-			OperationResult opRes = new OperationResult();
-			opRes.Result = true;
-
-			switch (modelTable)
-			{
-				case ModelTables.Accounts:
-					opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.Subscriptions:
-					opRes.Content = this.burgerData.GetList<Subscription, ISubscription>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.Roles:
-					opRes.Content = this.burgerData.GetList<Role, IRole>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.AccountRoles:
-					opRes.Content = this.burgerData.GetList<AccountRoles, IAccountRoles>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.Instances:
-					opRes.Content = this.burgerData.GetList<Instance, IInstance>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.SubscriptionAccounts:
-					opRes.Content = this.burgerData.GetList<SubscriptionAccount, ISubscriptionAccount>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.None:
-				default:
-					opRes.Result = false;
-					opRes.Code = (int)AppReturnCodes.UnknownModelName;
-					opRes.Message = Strings.UnknownModelName;
-					break;
-			}
-
-			return opRes;
 		}
 
 		[HttpDelete("/api/query/{modelName}/{instanceKey}")]

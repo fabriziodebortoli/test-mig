@@ -37,8 +37,11 @@ namespace Microarea.RSWeb.Objects
 			if (Count == 0)
 			{
 				BaseObjList pMasterObjs = new BaseObjList(repeater.Document);
-                pMasterObjs.Add(new SqrRect(repeater));
 
+                SqrRect pRep = new SqrRect(repeater);
+                pRep.AnchorRepeaterID = repeater.InternalID;
+                pMasterObjs.Add(pRep);
+ 
                 Add(pMasterObjs);
 			}
 			return this[0];
@@ -101,8 +104,10 @@ namespace Microarea.RSWeb.Objects
 		public void Replicate()
 		{
 			BaseObjList pMasterObjs = GetMasterObjects();
-		    for (int i = 0; i < pMasterObjs.Count; i++)
-				    pMasterObjs[i].RepeaterRow = 0;
+            for (int i = 0; i < pMasterObjs.Count; i++)
+            {
+                pMasterObjs[i].RepeaterRow = 0;
+             }
 
 			int w = repeater.Rect.Width + repeater.nXOffset;
 			int h = repeater.Rect.Height + repeater.nYOffset;
