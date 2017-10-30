@@ -13,7 +13,7 @@
         "playground:build": "tsc -p playground -w",
         "playground": "concurrently \"npm run build:watch\" \"npm run playground:build\" \"npm run lite\"",
         "test": "tsc && karma start",
-        "postinstall": "npm link ../core/src"
+        "link-core": "npm link ../core/src && cd src && npm link ../../core/src"
     },
     "repository": {
         "type": "git",
