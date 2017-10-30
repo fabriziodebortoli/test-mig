@@ -9,6 +9,7 @@ import { ControlComponent } from '../control.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
+import { Store } from './../../../core/services/store.service';
 
 
 import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
@@ -30,6 +31,9 @@ export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
     @Input() public hotLink: any = undefined;
     @Input() automaticNumbering: boolean;
+
+    @Input() slice: any;
+    @Input() selector: any;
 
     @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
     @ViewChild('textbox') textbox: MaskedTextBoxComponent;
@@ -79,13 +83,19 @@ export class NumbererComponent extends ControlComponent {
                 this.setComponentMask();
             }
         });
+
+        this.store
+            .select(this.selector)
+            .select('value')
+            .subscribe(v => console.log('FUNZIONA!!!!!!!!: ' + v));
     }
 
     constructor(
         public eventData: EventDataService,
         public vcr: ViewContainerRef,
         layoutService: LayoutService,
-        tbComponentService: TbComponentService
+        tbComponentService: TbComponentService,
+        private store: Store
     ) {
         super(layoutService, tbComponentService);
 
@@ -301,9 +311,11 @@ export class NumbererComponent extends ControlComponent {
     }
 
     ngOnChanges(changes) {
-        if (changes['model'] && changes['model'].previousValue != changes['model'].currentValue) {
-            this.setComponentMask();
-        }
+        console.log('numberer ngOnChanges: ' + JSON.stringify(changes));
+    }
+
+    test() {
+        this.eventData.change.emit('0');
     }
 
     changeModelValue(value) {
