@@ -1,3 +1,4 @@
+import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable, ErrorObservable } from '../../rxjs.imports';
@@ -23,7 +24,8 @@ export class InfoService {
 
     constructor(
         public http: Http,
-        public logger: Logger
+        public logger: Logger, 
+        private utilsService : UtilsService
     ) {
         this.culture.value = localStorage.getItem(this.cultureId);
     }
@@ -74,8 +76,7 @@ export class InfoService {
             else {
 
                 let params = { authtoken: localStorage.getItem('authtoken') };
-                let url = this.getDocumentBaseUrl() + 'getProductInfo/';
-
+                let url = this.getMenuServiceUrl() + 'getProductInfo/';
                 let sub = this.request(url, params)
                     .subscribe(result => {
                         this.productInfo = result.ProductInfos;
@@ -169,8 +170,7 @@ export class InfoService {
     request(url: string, data: Object): Observable<any> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-        return this.http.post(url, data, { withCredentials: true, headers: headers })
+        return this.http.post(url,  this.utilsService.serializeData(data), { withCredentials: true, headers: headers })
             .map(res => res.json())
             .catch((error: any): ErrorObservable => {
                 let errMsg = (error.message) ? error.message :
