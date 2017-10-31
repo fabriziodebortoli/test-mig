@@ -57,7 +57,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -89,7 +89,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -124,7 +124,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             string filename = nameSpace;
             if (!System.IO.File.Exists(filename))
@@ -170,7 +170,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             if (!System.IO.File.Exists(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
@@ -203,7 +203,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             if (!System.IO.File.Exists(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
@@ -232,7 +232,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -251,7 +251,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -270,7 +270,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
