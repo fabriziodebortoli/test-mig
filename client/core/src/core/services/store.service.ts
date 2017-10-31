@@ -101,14 +101,9 @@ export class StoreT<T> extends Observable<T> {
   }
 
   selectSlice(...paths: string[]): StoreT<any> {
-    return new StoreT(Observable.combineLatest(...paths.map(p => this.select<any>(s => _.get(s, p)))).share()
-      .map(res => res.reduce((o, val) => { o[val] = val; return o; }, {})));
+    const selectors = paths.map(p => s => _.get(s, p));
+    return this.select(createSelector.call(null, selectors, s => s));
   }
-
-  // selectSlice(...paths: string[]): StoreT<any> {
-  //   const selectors = paths.map(x => s => _.get(s, paths));
-  //   return this.select(createSelector.call(null, selectors, s => s));
-  // }
 
   selectByMap<T>(map: T): StoreT<{[P in keyof T]: any}> {
     return this.select(createSelectorByMap(map));
@@ -135,6 +130,6 @@ export class StoreT<T> extends Observable<T> {
 export class Store extends StoreT<any> {
   constructor(private eventDataService: EventDataService, private logger: Logger) {
     super(eventDataService.change.map(id => eventDataService.model));
-    this.logger.debug('Store instance ' + Math.round(new Date().getTime() / 1000));
+    this.logger.debug('Store instantiated ' + Math.round(new Date().getTime() / 1000));
   }
 }
