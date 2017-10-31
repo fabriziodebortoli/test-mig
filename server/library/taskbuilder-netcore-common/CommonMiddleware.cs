@@ -38,14 +38,7 @@ namespace Microarea.Common
 
         private void BeginInvoke(HttpContext context)
         {
-            string c = string.Empty;
-            string authHeader = context.Request.Headers["Authorization"];
-            if (authHeader != null)
-            {
-                JObject jObject = JObject.Parse(authHeader);
-                c = jObject.GetValue(culture_cookie)?.ToString();
-            }
-
+            string c = AutorizationHeaderManager.GetAuthorizationElement(context.Request, culture_cookie);
             if (string.IsNullOrEmpty(c))
             {
                 c = InstallationData.ServerConnectionInfo.PreferredLanguage;

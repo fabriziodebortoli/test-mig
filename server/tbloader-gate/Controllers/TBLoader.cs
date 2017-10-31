@@ -9,6 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Net.Http.Headers;
+using Microsoft.Extensions.Primitives;
 
 namespace Microarea.TbLoaderGate
 {
@@ -26,7 +31,7 @@ namespace Microarea.TbLoaderGate
             tbLoaderServer = parameters.Value.tbLoaderServer;
             tbLoaderPort = parameters.Value.tbLoaderPort;
         }
-		const string TbLoaderCookie = "tbloader-name";
+		const string TbLoaderName = "TbLoader-Name";
         static readonly int leftTrimCount = "/tbloader/api".Length;
         [Route("/controller")]
         public IActionResult Index()
@@ -40,6 +45,7 @@ namespace Microarea.TbLoaderGate
             return new JsonResult(new TBLoaderResult() { message = feature?.Error.Message, success = false });
 
         }
+
         [Route("[controller]/api/{*args}")]
         public async Task ApiAsync()
         {
@@ -49,21 +55,30 @@ namespace Microarea.TbLoaderGate
 			string tbName = "";
             try
             {
-                HttpContext.Request.Cookies.TryGetValue(TbLoaderCookie, out tbName);
-				bool newInstance;
+                // tbName = HttpContext.Request.Headers["Authorization"];
+                JObject jObject = null;
+                string authHeader = HttpContext.Request.Headers["Authorization"];
+                if (authHeader != null)
+                {
+                    jObject = JObject.Parse(authHeader);
+
+                    tbName = jObject.GetValue(TbLoaderName)?.ToString();
+                }
+
+                bool newInstance;
 				TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbLoaderServer, tbLoaderPort, tbName, createTB, out newInstance);
                 if (tb == null)
                 {
                     TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
                     string json = JsonConvert.SerializeObject(res);
                     byte[] buff = Encoding.UTF8.GetBytes(json);
-					HttpContext.Response.Cookies.Delete(TbLoaderCookie);
 
 					await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
                 }
                 else
                 {
 					tbName = tb.name;
+                    jObject[TbLoaderName] = tbName;
 
 					using (var client = new HttpClient())
                     {
@@ -75,14 +90,14 @@ namespace Microarea.TbLoaderGate
                         msg.RequestUri = new Uri(url);
 
                         //copy request headers
-                        foreach (var header in HttpContext.Request.Headers)
+                        foreach (KeyValuePair<string, StringValues> header in HttpContext.Request.Headers)
                         {
                             //sometimes some invalid headers arrives!?
                             if (header.Key == "Content-Length" || header.Key == "Content-Type")
                                 continue;
                             try
                             {
-                                msg.Headers.Add(header.Key, header.Value.ToArray());
+                                msg.Headers.Add(header.Key, header.Value.ToArray()  );
                             }
                             catch
                             {
@@ -104,9 +119,9 @@ namespace Microarea.TbLoaderGate
                                 HttpContext.Response.Headers[h.Key] = sv;
                         }
 
-						if (newInstance)
-							HttpContext.Response.Cookies.Append(TbLoaderCookie, tbName);
-
+                        HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
+                        HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
+                        
                         HttpContext.Response.StatusCode = (int) resp.StatusCode;
 
                         await resp.Content.CopyToAsync(HttpContext.Response.Body);
@@ -117,7 +132,6 @@ namespace Microarea.TbLoaderGate
             {
                 //todo mandare risposta al client 
                 TBLoaderEngine.RemoveTbLoader(tbName);
-				HttpContext.Response.Cookies.Delete(TbLoaderCookie);
 				throw new Exception("Error communicating with backend", ex);
             }
         }

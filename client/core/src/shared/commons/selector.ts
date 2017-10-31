@@ -27,6 +27,7 @@ export function memoize(t: AnyFn): { memoized: AnyFn; reset: () => void } {
     }
     for (let i = 0; i < arguments.length; i++) {
       if (arguments[i] !== lastArguments[i]) {
+        t['tag'] = i;
         lastResult = t.apply(null, arguments);
         lastArguments = arguments;
 
@@ -194,29 +195,25 @@ export function createSelector(...input: any[]): Selector<any, any> {
 
   const selectors = args.slice(0, args.length - 1);
   const projector = args[args.length - 1];
-  const memoizedSelectors = selectors.filter(
-    (selector: any) =>
-      selector.release && typeof selector.release === 'function'
-  );
 
-  const memoizedProjector = memoize(function (...selectors: any[]) {
+  const memoizedProjector = memoize(function fun(...selectors: any[]) {
+    projector['tag'] = fun['tag'];
     return projector.apply(null, selectors);
   });
 
-  const memoizedState = memoize(function (state: any) {
+  // pd: can't memoize state due to mutability
+  const memoizedState = function (state: any) {
     const args = selectors.map(fn => fn(state));
 
     return memoizedProjector.memoized.apply(null, args);
-  });
+  };
 
   function release() {
-    memoizedState.reset();
+    // memoizedState.reset();
     memoizedProjector.reset();
-
-    memoizedSelectors.forEach(selector => selector.release());
   }
 
-  return Object.assign(memoizedState.memoized, {
+  return Object.assign(memoizedState, {
     release,
     projector: memoizedProjector.memoized,
   });
@@ -225,8 +222,11 @@ export function createSelector(...input: any[]): Selector<any, any> {
 export function createSelectorByMap<T>(selectorMap: T): Selector<any, {[P in keyof T]: any}> {
   const props = Object.keys(selectorMap);
   const selectors = props.map(x => s => _.get(s, selectorMap[x]));
-  return createSelector.call(null, selectors, (...slices: any[]) =>
-    slices.reduce((o, val, i) => { o[props[i]] = val; return o; }, {}));
+  return createSelector.call(null, selectors,
+    function fun(...slices: any[]) {
+      return slices.reduce((o, val, i) => { o[props[i]] = val; return o; },
+        { propertyChangedName: fun.hasOwnProperty('tag') ? props[fun['tag']] : undefined });
+    });
 }
 
 

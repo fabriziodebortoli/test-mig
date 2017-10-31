@@ -102,16 +102,13 @@ export class WebSocketService {
         this.connection.onopen = (arg) => {
             this.logger.debug("WebSocket Connected", JSON.stringify(arg));
 
-            this.logger.debug("document.cookie", document.cookie);
-
             // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
                 args:
                 {
                     webSocketName: localStorage.getItem('authtoken'),
-                    tbLoaderName: this.getTbLoaderName()
-                    // tbLoaderName: localStorage.getItem('tbloader-name')
+                    tbLoaderName: localStorage.getItem('tbloader-name')
                 }
             }));
 
@@ -126,23 +123,6 @@ export class WebSocketService {
             this.setWsConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
         };
-    }
-
-
-    getTbLoaderName() {
-        var name = "tbloader-name=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
     }
 
     wsClose() {

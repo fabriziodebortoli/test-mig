@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { URLSearchParams, Http, Response } from '@angular/http';
+import { URLSearchParams, Http, Response, Headers } from '@angular/http';
 import { Observable } from '../../rxjs.imports';
 
 import { InfoService } from './../../core/services/info.service';
@@ -110,8 +110,10 @@ export class WidgetsService {
 
   getActiveWidgets(): Observable<WidgetRow[]> {
     const url: string = this.infoService.getBaseUrl() + '/widgets-service/getActiveWidgets';
-
-    return this.http.get(url, { withCredentials: true }).map(
+    let headers = new Headers();
+    headers.append("Authorization", this.infoService.getAuthorization());
+    console.log("headers" , headers);
+    return this.http.get(url, { withCredentials: true, headers: headers }).map(
       (res: Response) => {
 
         this.isFirstUse = res.status === 203;
@@ -126,7 +128,10 @@ export class WidgetsService {
   getWidget(ns: string): Observable<Widget> {
     const url: string = this.infoService.getBaseUrl() + '/widgets-service/getWidget/' + ns + '/';
 
-    return this.http.get(url, { withCredentials: true }).map(
+    let headers = new Headers();
+    headers.append("Authorization", this.infoService.getAuthorization());
+ 
+    return this.http.get(url, { withCredentials: true, headers: headers }).map(
       (res: Response) => {
         return res.json();
       },

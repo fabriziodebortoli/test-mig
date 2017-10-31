@@ -27,7 +27,8 @@ export class HttpService {
         let message = jObject && jObject.message ? jObject.message : "";
         let messages = jObject && jObject.messages ? jObject.messages : [];
         messages.push(message);
-        return new OperationResult(!ok, messages);
+        let tbLoaderName = JSON.parse(res.headers.get('Authorization'))['TbLoader-Name'];
+        return new OperationResult(!ok, messages, tbLoaderName);
     }
 
     isLogged(params: { authtoken: string }): Observable<boolean> {
@@ -101,7 +102,7 @@ export class HttpService {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
                 return this.createOperationResult(res);
-            })
+            });
     }
 
     postDataWithAllowOrigin(url: string): Observable<OperationResult> {
@@ -123,6 +124,7 @@ export class HttpService {
 
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
+        // headers.append('Content-Type', 'application/json'); // TODO quando il backend sarà pronto
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         headers.append('Authorization', this.infoService.getAuthorization());
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
@@ -212,10 +214,10 @@ export class HttpService {
     }
 
     /**
-  * API /getThemedSettings
-  * 
-  * @returns {Observable<any>} getThemedSettings
-  */
+    * API /getThemedSettings
+    * 
+    * @returns {Observable<any>} getThemedSettings
+    */
     getThemedSettings(): Observable<any> {
         let obj = { authtoken: localStorage.getItem('authtoken') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';
