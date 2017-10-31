@@ -36,7 +36,7 @@ export class VatComponent extends ControlComponent {
   ngOnChanges(changes) {
     this.validate();
     if (changes.slice) {
-      console.log('slice ngOnChanges: ' + JSON.stringify(changes.slice));
+      console.log('SLICE CHANGED ' + (changes.slice.currentValue && changes.slice.currentValue.propertyChangedName) + '\n' + JSON.stringify(changes.slice));
     }
   }
 
