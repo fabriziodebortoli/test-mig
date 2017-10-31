@@ -88,6 +88,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} instance is not valid. May need to be connect to GWAM. It is not possible to work offline..
+        /// </summary>
+        public static string BurgledInstance {
+            get {
+                return ResourceManager.GetString("BurgledInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database name is empty.
         /// </summary>
         public static string DatabaseNameEmpty {

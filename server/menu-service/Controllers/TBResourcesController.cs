@@ -36,7 +36,7 @@ namespace Microarea.Menu.Controllers
 
             string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
             if (string.IsNullOrEmpty(sAuthT))
-                return false; //  StatusCode = 504, Content = "non sei autenticato!" 
+                return false; //  StatusCode = 401, Content = "non sei autenticato!" 
 
             LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT);
 

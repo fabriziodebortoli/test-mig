@@ -11,6 +11,8 @@ using System.IO;
 using System.Reflection;
 using Microsoft.DotNet.PlatformAbstractions;
 using TaskBuilderNetCore.Interfaces;
+using Newtonsoft.Json.Linq;
+using Microarea.Common;
 
 namespace widgets_service.Controllers
 {
@@ -20,11 +22,9 @@ namespace widgets_service.Controllers
 		private LoginInfoMessage loginInfo = null;
 		private UserInfo userInfo = null;
 
-		private bool CheckAuthentication(out string errMessage)
+		private bool CheckAuthentication(string sAuthT, out string errMessage)
 		{
 			errMessage = string.Empty;
-
-			string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
 			if (string.IsNullOrEmpty(sAuthT))
 			{
 				errMessage = "Missing authentication";
@@ -68,13 +68,15 @@ namespace widgets_service.Controllers
             if (nameSpace.IsNullOrEmpty())
                 return new ContentResult { StatusCode = 500, Content = "Empty file name", ContentType = "application/text" };
 
+            string sAuthT =  AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+
             string errMessage = "";
             String content = "";
             try
             {
-                if (!CheckAuthentication(out errMessage))
+                if (!CheckAuthentication(sAuthT, out errMessage))
                 {
-                    return new ContentResult { StatusCode = 504, Content = errMessage, ContentType = "application/text" };
+                    return new ContentResult { StatusCode = 401, Content = errMessage, ContentType = "application/text" };
                 }
             }
             catch (Exception e)
@@ -112,11 +114,14 @@ namespace widgets_service.Controllers
 			String content = "";
 			string widgetFileFullName = "";
             int statusCode = 404;
-			try
+
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+
+            try
 			{
-				if (!CheckAuthentication(out errMessage))
+				if (!CheckAuthentication(sAuthT, out errMessage))
 				{
-					return new ContentResult { StatusCode = 504, Content = errMessage, ContentType = "application/text" };
+					return new ContentResult { StatusCode = 401, Content = errMessage, ContentType = "application/text" };
 				}
 			}
 			catch (Exception e)
