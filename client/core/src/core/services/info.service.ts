@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable, ErrorObservable } from '../../rxjs.imports';
 
-import { CookieService } from 'ngx-cookie';
-
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Logger } from './logger.service';
 
@@ -25,27 +23,32 @@ export class InfoService {
 
     constructor(
         public http: Http,
-        public cookieService: CookieService,
         public logger: Logger
     ) {
-        this.culture.value = cookieService.get(this.cultureId);
+        this.culture.value = localStorage.getItem(this.cultureId);
     }
 
     resetCulture() {
-        this.cookieService.remove(this.cultureId);
+        localStorage.removeItem(this.cultureId);
         this.culture.value = null;
     }
 
     saveCulture() {
-        this.cookieService.put(this.cultureId, this.culture.value);
+        localStorage.setItem(this.cultureId, this.culture.value);
     }
+
     setCulture(culture: string) {
         this.culture.value = culture;
     }
 
-    getAuthorization():string{
+    getCulture(): string {
+        return this.culture.value;
+    }
+
+    getAuthorization(): string {
         return JSON.stringify({ ui_culture: this.culture.value });
     }
+
     load() {
         return new Promise((resolve, reject) => {
             this.http.get('assets/config.json')
@@ -70,8 +73,8 @@ export class InfoService {
             }
             else {
 
-                let params = { authtoken: this.cookieService.get('authtoken') };
-                let url = this.getDocumentBaseUrl() + 'getProductInfo/';
+                let params = { authtoken: localStorage.getItem('authtoken') };
+                let url = this.getMenuServiceUrl() + 'getProductInfo/';
 
                 let sub = this.request(url, params)
                     .subscribe(result => {

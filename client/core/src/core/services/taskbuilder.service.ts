@@ -4,7 +4,6 @@ import { DialogService } from '@progress/kendo-angular-dialog';
 import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, BehaviorSubject, Subscription } from '../../rxjs.imports';
-import { CookieService } from 'ngx-cookie';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 
@@ -29,7 +28,6 @@ export class TaskbuilderService {
     constructor(
         public httpService: HttpService,
         public socket: WebSocketService,
-        public cookieService: CookieService,
         public logger: Logger,
         public router: Router,
         public infoService: InfoService,
@@ -85,7 +83,7 @@ export class TaskbuilderService {
 
     openTbConnection(): Observable<boolean> {
 
-        let authtoken = this.cookieService.get('authtoken');
+        let authtoken = localStorage.getItem('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
         let isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
@@ -96,8 +94,6 @@ export class TaskbuilderService {
                     this.logger.debug("openTBConnection result...", tbRes);
 
                     if (tbRes.error) {
-
-
                         this.stopConnection = true;
 
                         this.logger.debug("error messages:", tbRes.messages);
@@ -125,7 +121,7 @@ export class TaskbuilderService {
     }
 
     closeConnection() {
-        let authtoken = this.cookieService.get('authtoken');
+        let authtoken = localStorage.getItem('authtoken');
         this.logger.debug("closeTbConnection...", authtoken);
 
         this.httpService.closeTBConnection({ authtoken: authtoken }).subscribe();

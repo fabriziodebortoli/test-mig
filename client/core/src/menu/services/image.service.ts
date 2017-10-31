@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { CookieService } from 'ngx-cookie';
-
 import { Logger } from './../../core/services/logger.service';
 import { InfoService } from './../../core/services/info.service';
 import { HttpService } from './../../core/services/http.service';
@@ -50,7 +48,7 @@ export class ImageService {
 
     //---------------------------------------------------------------------------------------------
 
-    getObjectIcon (object) {
+    getObjectIcon(object) {
 
         if (object.sub_type != undefined) {
             if (object.application == undefined)
@@ -84,7 +82,7 @@ export class ImageService {
     }
 
     //---------------------------------------------------------------------------------------------
-    getWorkerImage (item) {
+    getWorkerImage(item) {
 
         if (item == undefined)
             return;

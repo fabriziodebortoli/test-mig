@@ -81,7 +81,6 @@ $color-dialog: #0277bd;
     min-height: 300px;
     min-width: 500px;
     display: inline-flex;
-    overflow: hidden;
 }
 
 nav {
@@ -201,12 +200,8 @@ article {
 
 .list8 ul li span:hover,
 .selected {
-    /* font-size: 14px;
-    -moz-box-shadow: 10px 10px 20px #85C4FF;
-    -webkit-box-shadow: 10px 10px 20px #85C4FF;
-    box-shadow: 10px 10px 20px #85C4FF;*/
-    border: 1px solid $color-dialog;
-    box-shadow: 5px 5px 5px $color-dialog;
+    background-color: $color-dialog;
+    color: white;
 }
 
 .esContainer {
@@ -222,4 +217,35 @@ article {
 .ebButtons {
     flex-direction: row;
     height: 20px;
+}
+
+label {
+    font-size: 10px;
+    color: $color-dialog;
+}
+
+.pushbutton {
+    display: -webkit-flex;
+    -webkit-justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-content: center;
+    align-content: center;
+}
+
+.pushB {
+    display: -webkit-flex;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    padding: 10px;
+    padding-top: 35px;
+}
+
+.textBoxCentral {
+    padding: 1.07142857em;
 }

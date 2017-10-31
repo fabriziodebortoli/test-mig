@@ -1,5 +1,4 @@
 import { SettingsService } from './../../core/services/settings.service';
-import { CookieService } from 'ngx-cookie';
 import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
@@ -88,9 +87,7 @@ export class MenuService {
         public settingsService: SettingsService,
         public componentService: ComponentService,
         public infoService: InfoService,
-        public loadingService: LoadingService,
-        public cookieService: CookieService
-
+        public loadingService: LoadingService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -207,7 +204,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    runFunction (object) {
+    runFunction(object) {
         if (object === undefined)
             return;
 
@@ -264,7 +261,7 @@ export class MenuService {
             urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
         }
 
-        let authtoken = this.cookieService.get('authtoken');
+        let authtoken = localStorage.getItem('authtoken');
         urlToRun += "&authtoken=" + authtoken;
         let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
             object.isLoading = false;
@@ -354,7 +351,7 @@ export class MenuService {
     };
 
     //---------------------------------------------------------------------------------------------
-    getSearchItemTooltip (object) {
+    getSearchItemTooltip(object) {
         return object.title + ' | ' + object.applicationTitle + " | " + object.groupTitle + " | " + object.menu + " | " + object.tile;
     }
 
@@ -565,7 +562,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    removeFromMostUsed (object) {
+    removeFromMostUsed(object) {
 
         this.removeFromMostUsedArray(object);
     };

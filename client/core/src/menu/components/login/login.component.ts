@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { Subscription } from '../../../rxjs.imports';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 
-import { CookieService } from 'ngx-cookie';
-
 import { LoginSession } from './../../../shared/models/login-session.model';
 
 import { UtilsService } from './../../../core/services/utils.service';
@@ -44,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public authService: AuthService,
-    public cookieService: CookieService,
     public router: Router,
     public logger: Logger,
     public httpService: HttpService,
@@ -106,14 +103,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //-------------------------------------------------------------------------------------
   loadState() {
-    this.connectionData.user = this.cookieService.get('_user');
-    this.connectionData.company = this.cookieService.get('_company');
+
+    this.connectionData.user = localStorage.getItem('_user');
+    this.connectionData.company = localStorage.getItem('_company');
   }
 
   //-------------------------------------------------------------------------------------
   saveState() {
-    this.cookieService.put('_user', this.connectionData.user);
-    this.cookieService.put('_company', this.connectionData.company);
+    localStorage.setItem('_user', this.connectionData.user);
+    localStorage.setItem('_company', this.connectionData.company);
   }
 
   //-------------------------------------------------------------------------------------

@@ -92,7 +92,7 @@ gulp.task('rollup:fesm', function() {
                 'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie', 'lodash'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash'
             ],
 
             // Format of generated bundle
@@ -142,7 +142,7 @@ gulp.task('rollup:umd', function() {
                 'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie', 'lodash'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash'
             ],
 
             // Format of generated bundle
@@ -197,7 +197,6 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-data-query': 'kendoDataQuery',
                 '@angular/animations': 'animations',
                 '@telerik/kendo-intl': 'kendoIntl',
-                'ngx-cookie': 'ngxCookie',
                 'lodash': '_'
             },
 
