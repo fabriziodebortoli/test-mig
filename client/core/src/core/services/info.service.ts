@@ -48,7 +48,7 @@ export class InfoService {
     }
 
     getAuthorization(): string {
-        return JSON.stringify({ ui_culture: this.culture.value });
+        return JSON.stringify({ ui_culture: this.culture.value, authtoken: localStorage.getItem('authtoken')});
     }
 
     load() {
