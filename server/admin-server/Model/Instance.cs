@@ -1,9 +1,13 @@
-﻿using Microarea.AdminServer.Model.Interfaces;
+﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Model
 {
@@ -49,6 +53,9 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public OperationResult Save(BurgerData burgerData)
         {
+            //la save in locale non deve più esistere.
+
+
             OperationResult opRes = new OperationResult();
 
             List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
@@ -84,30 +91,23 @@ namespace Microarea.AdminServer.Model
             };
 
             //verifico la pending date, se la data è manomessa rilascio eccezione
-            if (!VerifyPendingDate(instance))
-                throw new Exception(String.Format("Istanza {0} manomessa, colonna pending date non valida! è necessario connettersi al GWAM per validare i dati.", instanceKey));
+            if (!instance.VerifyPendingDate())
+                throw new Exception(String.Format(Strings.BurgledInstance, instanceKey));
 
+            //QUI CODICE PER VERIFICARE I TICKS CON IL GWAM
+            
             return instance;
         }
 
         //---------------------------------------------------------------------
-        private bool VerifyInstance(Instance i)
-        {
-            bool ok = VerifyTicks(i);
-            if (ok)
-                ok = VerifyPendingDate(i);
-            return ok;
-        }
-
-        //---------------------------------------------------------------------
-        private bool VerifyTicks(Instance i)
+        private bool VerifyTicks()
         {
             return true;
         } 
         //---------------------------------------------------------------------
-        private bool VerifyPendingDate(Instance i)
+        internal bool VerifyPendingDate()
         {
-            return TicksHelper.GetDateHashing(i.PendingDate) == i.VerificationCode;
+            return TicksHelper.GetDateHashing(PendingDate) == VerificationCode;
         }
 
         //---------------------------------------------------------------------

@@ -409,10 +409,12 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private DateTime GetInstancePendingDate(string instancekey)
         {
-            IInstance instance = GetInstance(instancekey);
+            Instance instance = (Instance)GetInstance(instancekey);
             if (instance == null)
                 return DateTime.MinValue;
 
+           if (!instance.VerifyPendingDate())
+                return DateTime.MinValue;
             return instance.PendingDate;
         }
 
