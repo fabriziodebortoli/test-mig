@@ -30,7 +30,6 @@ export class ReportRectComponent {
       'left': this.rect.rect.left + 'px',
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
-      'margin': '1em',
       'border-radius': this.rect.ratio + 'px',
       'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color
     };

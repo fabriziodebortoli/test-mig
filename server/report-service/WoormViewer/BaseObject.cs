@@ -2271,9 +2271,9 @@ namespace Microarea.RSWeb.Objects
         };
 
         public Label Label;
-        public string FormatStyleName = DefaultFormat.Testo;
-
         public WoormValue Value;
+
+        public string FormatStyleName = DefaultFormat.Testo;
         public bool IsHtml = false;
         public EmailParameter Email;
         public bool AppendMailPart = false;
@@ -2291,12 +2291,7 @@ namespace Microarea.RSWeb.Objects
 
         public WoormViewerExpression LabelTextColorExpr = null; // dynamic UI
         public WoormViewerExpression LabelTextExpr = null;      // dynamic UI
-
         public WoormViewerExpression FormatStyleExpr = null;    // server-side si applica al value
-
-        //const string VALUE = "Value";
-        //const string LABEL = "Label";
-        //const string LOCALIZEDTEXT = "LocalizedText";
 
         //-------------------------------------------------------------------------------
         public Color TemplateTextColor
@@ -2559,9 +2554,8 @@ namespace Microarea.RSWeb.Objects
         public FieldRect(FieldRect s)
             : base(s)
         {
-            this.Value = s.Value.Clone();   //DEEP clone !
-
-            this.Label = s.Label;   //? deep
+            this.Value = s.Value.Clone();   
+            this.Label = s.Label.Clone();
 
             this.BarCode = s.BarCode;
             this.IsTextFile = s.IsTextFile;
