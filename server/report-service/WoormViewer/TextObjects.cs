@@ -19,18 +19,24 @@ namespace Microarea.RSWeb.Objects
 			Align = AlignType.DT_LEFT | AlignType.DT_TOP;
 		}
 
-		//------------------------------------------------------------------------------
-		//public Label(SerializationInfo info, StreamingContext context)
-		//: base (info, context)
-		//{
-		//}
-	}
-	/// <summary>
-	/// Summary description for GenericText.
-	/// </summary>
-	/// ================================================================================
-	//[Serializable]
-	public class WoormValue : BasicText
+        //------------------------------------------------------------------------------
+        public Label(Label s)
+            : base (s)
+        {  
+        }
+
+        //------------------------------------------------------------------------------
+        public Label Clone()
+        {
+            return new Label(this);
+        }
+    }
+    /// <summary>
+    /// Summary description for GenericText.
+    /// </summary>
+    /// ================================================================================
+    //[Serializable]
+    public class WoormValue : BasicText
 	{
 		private object  rdeData = null;
 		private string  formattedData = string.Empty;
@@ -58,20 +64,10 @@ namespace Microarea.RSWeb.Objects
         public WoormValue(WoormValue s)
             : base (s)
         {
+            rdeData = s.RDEData;
+            formattedData = s.FormattedData;
+            cellTail = s.CellTail;
         }
-
-		//------------------------------------------------------------------------------
-		//public WoormValue(SerializationInfo info, StreamingContext context)
-		//{
-		//	formattedData = info.GetString(FORMATTEDDATA);
-		//}
-
-		//-------------------------------------------------------------------------------
-		//public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		//{
-		//	base.GetObjectData(info, context);
-		//	info.AddValue(FORMATTEDDATA, formattedData);
-		//}
 
         //------------------------------------------------------------------------------
         public WoormValue Clone()

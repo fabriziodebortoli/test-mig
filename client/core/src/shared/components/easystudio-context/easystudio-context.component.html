@@ -11,11 +11,14 @@
             <b>{{easystudioService.currentModule}}</b>
         </div>
     </div>
-    <div (click)="changeCustomizationContext()" class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-inscription" matTooltip="{{openCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
+    <div class="ebButtons topBarMenuComponentLike">
+        <m4-icon icon="tb-inscription" (click)="changeCustomizationContext()" matTooltip="{{openCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
     </div>
-    <div *ngIf="contextIsValid()" (click)="close()" class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-shutdown" matTooltip="{{closeCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
+    <div *ngIf="!contextIsValid()" class="ebButtons topBarMenuComponentLike">
+        <m4-icon icon="tb-emptystar" (click)="openDefaultContextMethod()" matTooltip="{{localizationService?.localizedElements?.OpenDefaultContext}}" matTooltipShowDelay="500"></m4-icon>
+    </div>
+    <div *ngIf="contextIsValid()" class="ebButtons topBarMenuComponentLike">
+        <m4-icon icon="tb-shutdown" (click)="close()" matTooltip="{{closeCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
     </div>
 
     <kendo-dialog *ngIf="opened" kendoRippleContainer (close)="cancel()">
@@ -38,7 +41,6 @@
             <article id="article" *ngIf="applicSelected !== undefined">
                 <div class=" list8">
                     <h1 class="tit">{{localizationService?.localizedElements?.Modules}}</h1>
-
                     <ul *ngFor="let mod of easystudioService.getModules()">
                         <li id="{{mod}}" [ngClass]="{'selected': moduleSelected === mod}">
                             <span (click)="setModule(mod)">{{mod}}</span>
@@ -58,6 +60,7 @@
                 <input kendoTextBox #moduleChosen1 [(ngModel)]="moduleSelected" />
             </kendo-textbox-container>
             <m4-icon class="pushB" icon="tb-plusmathfilled" (click)="showNewPair(true)" matTooltip="{{localizationService?.localizedElements?.NewApplicationLabel}}" matTooltipShowDelay="500"></m4-icon>
+            <m4-icon class="pushB" icon="{{isThisPairDefault || isDefault ? 'tb-filledstar' : 'tb-emptystar'}}" (click)="setDefaultContext()"></m4-icon>
         </div>
         <div *ngIf="newPairVisible" class="pushbutton selected">
             <kendo-textbox-container class="textBoxCentral">

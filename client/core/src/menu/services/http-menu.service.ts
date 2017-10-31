@@ -143,7 +143,7 @@ export class HttpMenuService {
   * 
   * @returns {Observable<any>} getDefaultContext
   */
-    getDefaultContext(app: string, mod: string, type: string): Observable<any> {
+    getDefaultContext(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };
         let url = this.infoService.getDocumentBaseUrl() + 'getDefaultContext/';
         return this.httpService.postData(url, obj)
