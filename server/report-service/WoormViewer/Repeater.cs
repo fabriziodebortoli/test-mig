@@ -118,8 +118,8 @@ namespace Microarea.RSWeb.Objects
 			{
 				BaseObjList pRow = pMasterObjs.Clone();
 
-				SqrRect pR = new SqrRect(repeater);
-                pRow[0] = pR;
+				//SqrRect pR = new SqrRect(repeater);
+                //pRow[0] = pR;
 
 				int x = repeater.ByColumn
 					? w * (r / (repeater.nRows))
