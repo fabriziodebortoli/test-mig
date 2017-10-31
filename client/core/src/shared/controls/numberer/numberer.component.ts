@@ -36,7 +36,7 @@ export class NumbererComponent extends ControlComponent {
     @Input() selector: any;
 
     @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-    @ViewChild('textbox') textbox: MaskedTextBoxComponent;
+    //@ViewChild('textbox') textbox: MaskedTextBoxComponent;
 
     tbEditIcon = 'tb-edit';
     tbExecuteIcon = 'tb-execute';
@@ -54,8 +54,9 @@ export class NumbererComponent extends ControlComponent {
     menuItemDoPadding = new ContextMenuItem('perform digit padding in front of the number', '', true, false, null, this.doPadding.bind(this));
 
     mask = '';
+    valueWasPadded = false;
     //ctrlEnabled = false;
-    ctrlEnabled = false; // da rimuovere dopo aver implementato lo store
+    ctrlEnabled = true; // da rimuovere dopo aver implementato lo store
     enableStateInEdit = false;
 
     private currentState: NumbererStateEnum;
@@ -69,9 +70,9 @@ export class NumbererComponent extends ControlComponent {
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
             if (b) {
-                this.tbMask = b.mask;
+                this.tbMask = b.formatMask;
                 // this.useFormatMask = b.useFormatMask;
-                this.useFormatMask = (b.mask !== '');
+                this.useFormatMask = (b.formatMask !== '');
                 this.enableCtrlInEdit = b.enableCtrlInEdit;
                 this.enableStateInEdit = b.enableStateInEdit;
 
@@ -87,7 +88,9 @@ export class NumbererComponent extends ControlComponent {
         this.store
             .select(this.selector)
             .select('value')
-            .subscribe(v => console.log('FUNZIONA!!!!!!!!: ' + v));
+            .subscribe(
+            v => console.log('changeOfValue ' + v)
+            );
     }
 
     constructor(
@@ -293,20 +296,15 @@ export class NumbererComponent extends ControlComponent {
     }
 
     doPadding() {
-        let value: string;
-        if (this.eventData.model.FormMode.value === FormMode.FIND)
-            value = this.textbox.input.nativeElement.value;
-        else
-            value = this.model.value;
+        let value = this.model.value;
 
         if (
             value.trim() !== '' &&
-            isNumeric(value.substr(0, 1))
+            isNumeric(value.substr(0, 1)) &&
+            !this.valueWasPadded
         ) {
-            if (this.eventData.model.FormMode.value === FormMode.FIND)
-                this.textbox.input.nativeElement.value = this.maskToValue(this.tbMask, value);
-            else
-                this.model.value = this.maskToValue(this.tbMask, value);
+            this.model.value = this.maskToValue(this.tbMask, value);
+            this.valueWasPadded = true;
         }
     }
 
@@ -314,14 +312,13 @@ export class NumbererComponent extends ControlComponent {
         console.log('numberer ngOnChanges: ' + JSON.stringify(changes));
     }
 
-    test() {
-        this.eventData.change.emit('0');
-    }
+    // test() {
+    //     this.eventData.change.emit('0');
+    // }
 
     changeModelValue(value) {
-        if (value) {
-            this.model.value = value;
-        }
+        this.model.value = value;
+        this.valueWasPadded = false;
     }
 
     // onChange($event) {
