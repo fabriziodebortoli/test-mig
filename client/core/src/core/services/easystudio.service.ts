@@ -19,6 +19,8 @@ export class EasystudioService {
     public subscriptions = [];
     public currentModule: string;                      //current module selected by ESContext
     public currentApplication: string;                 //current applic selected by ESContext
+    public defaultModule: string;                      //default module read from prferences
+    public defaultApplication: string;                 //default applic read from prferences
     public modules: any[];                             //list of modules in the file system
     public applications: any[];                      //list of applics in the file system
     public customizations: EsCustomizItem[];    //list of customization in the file system, each knows its owners
@@ -26,15 +28,19 @@ export class EasystudioService {
     public memoryCustsList: { Customizations: EsCustomizItem[] };
 
 
-    constructor(public httpMenuService: HttpMenuService,
-        public settingService: SettingsService) {
+    //--------------------------------------------------------------------------------
+    constructor(public httpMenuService: HttpMenuService, public settingService: SettingsService) {
         this.getCurrentContext();
     }
 
     //--------------------------------------------------------------------------------
     public getCurrentContext(): any {
         this.subscriptions.push(this.httpMenuService.getCurrentContext().subscribe((result) => {
-            this.extractNames(result);
+            let array = this.extractCouple(result);
+            if (array !== null && array !== undefined) {
+                this.currentApplication = array[0];
+                this.currentModule = array[1];
+            }
             return result;
         }));
     }
@@ -50,21 +56,21 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    private extractNames(result: Response) {
-        if (result == undefined) return;
+    private extractCouple(result: Response): string[] {
+        if (result == undefined) return null;
         let res = result["_body"];
         if (res !== "") {
             let array: string[] = res.toString().split(';');
-            if (!array || array.length != 2) return;
-            this.currentApplication = array[0];
-            this.currentModule = array[1];
+            if (!array || array.length != 2) return null;
+            return array;
+
         }
     }
 
     //--------------------------------------------------------------------------------
     public initEasyStudioContext() {
         this.subscriptions.push(this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
-            this.extractNames2(result);
+            this.extractNamesAllApps(result);
             return result;
         }));
     }
@@ -80,7 +86,7 @@ export class EasystudioService {
                 this.memoryCustsList = JSON.parse(body);
                 if (this.memoryCustsList != undefined) {
                     this.memoryCustsList.Customizations.forEach(element => {
-                        if (this.customizations.indexOf(element) === -1)
+                        if (this.customizations.find(e => e === element) === undefined)
                             this.customizations.push(element);
                     })
                 }
@@ -115,7 +121,7 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    private extractNames2(result: Response) {
+    private extractNamesAllApps(result: Response) {
         if (result == undefined) return;
         this.applications = [];
         this.modules = [];
@@ -129,7 +135,7 @@ export class EasystudioService {
         if (!allApplications) return;
         for (var index = 0; index < allApplications.length; index++) {
             var applicElem = allApplications[index].application;
-            if (this.applications.indexOf(applicElem) === -1)
+            if (this.applications.find(e => e === applicElem) === undefined)
                 this.applications.push(applicElem);
         }
     }
@@ -137,7 +143,7 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public refreshEasyBuilderApps() {
         this.subscriptions.push(this.httpMenuService.refreshEasyBuilderApps().subscribe((result) => {
-            this.extractNames2(result);
+            this.extractNamesAllApps(result);
             return result;
         }));
     }
@@ -155,13 +161,13 @@ export class EasystudioService {
         this.subscriptions.push(this.httpMenuService.createNewContext(newAppName, newModName, type).subscribe((result) => {
             if (result) {
                 let newObj = new MyObj(newAppName, newModName)
-                if (this.memoryESContext.allApplications.indexOf(newObj) === -1)
+                if (this.memoryESContext.allApplications.find(e => e === newObj) === undefined)
                     this.memoryESContext.allApplications.push(newObj);
-                if (this.applications.indexOf(newAppName) === -1) { //nessuna occorrenza
+                if (this.applications.find(e => e === newAppName) === undefined) { //nessuna occorrenza
                     this.applications.push(newAppName);
                 }
                 this.modules = this.getModulesBy(newAppName);
-                
+
                 this.setAppAndModule(newAppName, newModName, false);
                 return true;
             }
@@ -179,12 +185,28 @@ export class EasystudioService {
             if (element !== app)
                 continue;
             if (modulesLocal.indexOf(y.allApplications[index].module) === -1)  //nessuna occorrenza
-               modulesLocal.push(y.allApplications[index].module);
+                modulesLocal.push(y.allApplications[index].module);
         }
         return modulesLocal;
     }
 
-
+    //--------------------------------------------------------------------------------
+    public getDefaultContext(setAsCurrent: boolean) {
+        this.subscriptions.push(this.httpMenuService.getDefaultContext().subscribe((result) => {
+            if (result) {
+                let array = this.extractCouple(result);
+                if (array !== null && array !== undefined) {
+                    this.defaultApplication = array[0];
+                    this.defaultModule = array[1];
+                    if (setAsCurrent) {
+                        this.currentApplication = this.defaultApplication;
+                        this.currentModule = this.defaultModule;
+                    }
+                }
+                return result;
+            }
+        }));
+    }
 
     //--------------------------------------------------------------------------------
     dispose() {
