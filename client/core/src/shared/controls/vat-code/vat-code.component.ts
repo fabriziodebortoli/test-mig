@@ -63,7 +63,7 @@ export class VATCodeComponent extends ControlComponent {
 
         // request http al servizio web che verifical'esistenza del vat code nella realta
         let params = { authtoken: localStorage.getItem('authtoken') };
-        let url = this.infoService.getDocumentBaseUrl() + 'getProductInfo/';
+        let url = this.infoService.getMenuServiceUrl() + 'getProductInfo/';
         let sub = this.httpService.postData(url, params).subscribe(res => {
             console.log(res)
             if (res) {

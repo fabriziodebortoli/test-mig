@@ -74,7 +74,7 @@ export class InfoService {
             else {
 
                 let params = { authtoken: localStorage.getItem('authtoken') };
-                let url = this.getDocumentBaseUrl() + 'getProductInfo/';
+                let url = this.getMenuServiceUrl() + 'getProductInfo/';
 
                 let sub = this.request(url, params)
                     .subscribe(result => {
