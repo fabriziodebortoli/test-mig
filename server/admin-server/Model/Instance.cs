@@ -14,8 +14,6 @@ namespace Microarea.AdminServer.Model
 	//================================================================================
 	public class Instance : IInstance, IModelObject
     {
-        public const string OnPremisesOrigin = "ONPREMISES";
-
         string instanceKey;
         string description = string.Empty;
         string origin = string.Empty;

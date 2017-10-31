@@ -72,8 +72,6 @@ namespace Microarea.AdminServer.Controllers
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
                     {
-                      if(! IsOnPremisesInstance(instanceKey))
-                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
                         if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
@@ -319,8 +317,7 @@ namespace Microarea.AdminServer.Controllers
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
                     {
-                        if (!IsOnPremisesInstance(instanceKey))
-                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                      
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
                         if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
@@ -475,10 +472,7 @@ namespace Microarea.AdminServer.Controllers
                 Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo(instanceKey));
                 // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
-                {
-                    if(! IsOnPremisesInstance(instanceKey))
-                        return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                    
+                {                    
 					//imposto il flag pending per capire quanto tempo passa fuori copertura
                     if (!VerifyPendingFlag(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
@@ -580,12 +574,6 @@ namespace Microarea.AdminServer.Controllers
 
 			return (Task<string>)opRes.Content;
 		}
-
-		//----------------------------------------------------------------------
-		private bool IsOnPremisesInstance(string instanceKey)
-        {
-          return String.Compare(GetInstanceOrigin(instanceKey), Instance.OnPremisesOrigin, StringComparison.InvariantCultureIgnoreCase) == 0;
-        }
 
         //----------------------------------------------------------------------
         private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
