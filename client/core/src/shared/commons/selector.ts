@@ -194,29 +194,24 @@ export function createSelector(...input: any[]): Selector<any, any> {
 
   const selectors = args.slice(0, args.length - 1);
   const projector = args[args.length - 1];
-  const memoizedSelectors = selectors.filter(
-    (selector: any) =>
-      selector.release && typeof selector.release === 'function'
-  );
 
   const memoizedProjector = memoize(function (...selectors: any[]) {
     return projector.apply(null, selectors);
   });
 
-  const memoizedState = memoize(function (state: any) {
+  // pd: can't memoize state due to mutability
+  const memoizedState = function (state: any) {
     const args = selectors.map(fn => fn(state));
 
     return memoizedProjector.memoized.apply(null, args);
-  });
+  };
 
   function release() {
-    memoizedState.reset();
+    // memoizedState.reset();
     memoizedProjector.reset();
-
-    memoizedSelectors.forEach(selector => selector.release());
   }
 
-  return Object.assign(memoizedState.memoized, {
+  return Object.assign(memoizedState, {
     release,
     projector: memoizedProjector.memoized,
   });
