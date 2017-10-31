@@ -104,7 +104,7 @@ export class TaskbuilderService {
                         this.diagnosticService.showDiagnostic(tbRes.messages).subscribe(() => this.authService.logout());
 
                     } else {
-                        localStorage.setItem('tbloader-name', tbRes.tbLoaderName);
+                        localStorage.setItem('tbLoaderName', tbRes.tbLoaderName);
                         this.logger.debug("TbLoader Connected...", tbRes.tbLoaderName);
                         this.tbConnection.next(true);
                     }
