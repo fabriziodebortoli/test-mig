@@ -1,9 +1,8 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input, ViewEncapsulation, Type, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Type, OnChanges, SimpleChanges, ChangeDetectorRef, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
-
 import { HttpService } from './../../../core/services/http.service';
 
 import { ControlComponent } from './../control.component';
@@ -21,13 +20,16 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
   public isReport: boolean = false;
   public data: any;
   public selectionTypes: any[] = [];
-  public selectionType: string = 'Code';
+  public selectionType: string = 'code';
   // public  skipBlurFlag: boolean = false;
 
   showTable: boolean = false;
   showOptions: boolean = false;
   selectionColumn: string = '';
   multiSelectedValues: any[] = [];
+
+  @ViewChild('anchor') public anchor: ElementRef;
+  @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
   constructor(public httpService: HttpService,
     layoutService: LayoutService,
@@ -38,6 +40,31 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
     super(layoutService, tbComponentService);
   }
 
+  // ---------------------------------------------------------------------------------------
+  @HostListener('keydown', ['$event'])
+  public keydown(event: any): void {
+    if (event.keyCode === 27) {
+      this.closeOptions();
+      this.closeTable();
+    }
+  }
+
+  // ---------------------------------------------------------------------------------------
+  @HostListener('document:click', ['$event'])
+  public documentClick(event: any): void {
+    if (!this.contains(event.target)) {
+      this.closeOptions();
+      this.closeTable();
+    }
+  }
+
+  // ---------------------------------------------------------------------------------------
+  private contains(target: any): boolean {
+    return (this.anchor ? this.anchor.nativeElement.contains(target) : false) ||
+      (this.popup ? this.popup.nativeElement.contains(target) : false);
+  }
+
+  // ---------------------------------------------------------------------------------------
   ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
@@ -78,7 +105,10 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
       this.showOptions = false;
     })
   }
-
+  // ---------------------------------------------------------------------------------------
+  SeletctionTypeChanged(type: string) {
+    this.selectionType = type;
+  }
   // ---------------------------------------------------------------------------------------
   selectionChanged(value: any) {
     if (this.enableMultiSelection) {
@@ -115,6 +145,15 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
      this.skipBlurFlag = true;
    }
  */
+
+  // ---------------------------------------------------------------------------------------
+  closeTable() {
+    this.showTable = false;
+  }
+  closeOptions() {
+    this.showOptions = false;
+  }
+
   // ---------------------------------------------------------------------------------------
   onOptionsClick() {
 
