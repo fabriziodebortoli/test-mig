@@ -335,6 +335,7 @@ namespace Microarea.AdminServer.Controllers
 
 			opRes.Result = true;
 			opRes.Message = Strings.OK;
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
