@@ -4,15 +4,13 @@
 
 <button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!model.enabled"></button>
 <kendo-popup [anchor]="anchor" (blur)="showOptions = false" *ngIf="showOptions" (anchorViewportLeave)="closeOptions()">
-    <div class="search-options">
+    <div class="searchOptions">
         Search for:
         <br>
-        <mat-list>
-            <mat-list-item *ngFor="let item of selectionTypes" [ngClass]="{'elemSelected': item===selectionType, 'selTypeElem':true}"
-                (click)="SeletctionTypeChanged(item)">
-                {{item}}
-            </mat-list-item>
-        </mat-list>
+        <div *ngFor="let item of selectionTypes" [ngClass]="{'elemSelected': item===selectionType, 'selTypeElem':true}" (click)="SeletctionTypeChanged(item)">
+            {{item}}
+        </div>
+
 
         <!-- <mat-radio-group [(ngModel)]="selectionType">
             <mat-radio-button *ngFor="let item of selectionTypes" [value]="item">{{item}}</mat-radio-button>

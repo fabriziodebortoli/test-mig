@@ -108,7 +108,7 @@ export class WebSocketService {
                 args:
                 {
                     webSocketName: localStorage.getItem('authtoken'),
-                    tbLoaderName: localStorage.getItem('tbloader-name')
+                    tbLoaderName: localStorage.getItem('tbLoaderName')
                 }
             }));
 
@@ -176,6 +176,7 @@ export class WebSocketService {
     }
     runDocument(ns: String, args: string = ''): Promise<void> {
         const data = { cmd: 'runDocument', ns: ns, sKeyArgs: args };
+        console.log("runDocument", data);
         return this.safeSend(data);
     }
 

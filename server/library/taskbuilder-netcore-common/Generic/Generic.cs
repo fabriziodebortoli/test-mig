@@ -217,23 +217,6 @@ namespace Microarea.Common.Generic
 			{
 				Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();
 				MenuInfo.CachedMenuInfos.Delete(currentUser);
-				ClearThumbnails();
-
-			}
-
-			//--------------------------------------------------------------------------------------------------------------------------------
-			private static void ClearThumbnails()
-			{
-				try
-				{
-					string file = BasePathFinder.BasePathFinderInstance.GetMenuThumbnailsFolderPath(false);
-					DirectoryInfo di = new DirectoryInfo(file);
-					if (di != null && di.Exists)
-						di.Delete(true);
-				}
-				catch (Exception)
-				{
-				}
 			}
 
 			/// <summary>
