@@ -133,27 +133,28 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        virtual public string ToJson(bool template, string name, bool bracket = false)
+        virtual public string ToJson(bool template, string name /*= string.Empty*/, bool bracket = false, bool array = true)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
-            s += '[';
-            int count = this.Count - 1;
+            if (array) s += '[';
+            bool first = true;
             foreach (BaseObj item in this)
             {
                 if (item.IsHidden && item.HideExpr == null)
-                {
-                    count--;
                     continue;
-                }
-                    
+ 
+               if (item.InternalID >= SpecialReportField.REPORT_LOWER_SPECIAL_ID)
+                    continue;
+
+                if (array && item.AnchorRepeaterID != 0)
+                    continue;   //li emette il repeater 
 
                 if (!template && item.HideExpr != null && item.DynamicIsHidden)
                 {
                     item.ToJsonHiddenData(true);
-                    count--;
                     continue;
                 }
 
@@ -162,36 +163,33 @@ namespace Microarea.RSWeb.WoormViewer
                             template ||
                             item is FieldRect ||
                             item is Table ||
-                           item is Chart ||
-                           //item is Repeater ||
-                           item.IsDynamic()
+                            item is Chart ||
+                            item is Repeater ||
+                            item.IsDynamic()
                         )
                     )
                 {
-                    count--;
                     continue;
                 }
                     
-
                 if (!template && item.InternalID == 0)
                 {
                     //TODO BUG!
-                    count--;
                     continue;
                 }
 
+                if (first)
+                {
+                    first = false;
+                }
+                else s += ',';
+ 
                 if (template)
                     s += item.ToJsonTemplate(true);
                 else
                     s += item.ToJsonData(true);
-
-                if (count > 0)
-                {
-                    s += ',';
-                    count--;
-                }
             }
-            s += ']';
+            if (array) s += ']';
 
             if (bracket)
                 s = '{' + s + '}';
@@ -303,7 +301,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        override public string ToJson(bool template, string name, bool bracket = false)
+        override public string ToJson(bool template, string name, bool bracket = false, bool array = true)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
@@ -329,6 +327,9 @@ namespace Microarea.RSWeb.WoormViewer
                 {
                     obj.InternalID = document.SymbolTable.GetNewID();
                 }
+
+                if (obj is Repeater)
+                    ((Repeater)obj).AddIDToDynamicStaticObjects();
             }
         }
     }

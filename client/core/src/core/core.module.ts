@@ -2,8 +2,6 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 
 import 'hammerjs';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 /**
  * Servizi
  * 
@@ -16,6 +14,7 @@ import { ComponentService } from './services/component.service';
 import { ComponentInfoService } from './services/component-info.service';
 import { DataService } from './services/data.service';
 import { DocumentService } from './services/document.service';
+import { EasystudioService } from './services/easystudio.service';
 import { EnumsService } from './services/enums.service';
 import { EventDataService } from './services/eventdata.service';
 import { ExplorerService } from './services/explorer.service';
@@ -31,6 +30,10 @@ import { WebSocketService } from './services/websocket.service';
 import { TbComponentService } from './services/tbcomponent.service';
 import { LocalizationService } from './services/localization.service';
 import { LoadingService } from './services/loading.service';
+import { DiagnosticService } from './services/diagnostic.service';
+import { SettingsService } from './services/settings.service';
+import { EventManagerService } from './services/event-manager.service';
+import { Store } from './services/store.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -40,6 +43,7 @@ export { ComponentService } from './services/component.service';
 export { ComponentInfoService } from './services/component-info.service';
 export { DataService } from './services/data.service';
 export { DocumentService } from './services/document.service';
+export { EasystudioService } from './services/easystudio.service';
 export { EnumsService } from './services/enums.service';
 export { EventDataService } from './services/eventdata.service';
 export { ExplorerService } from './services/explorer.service';
@@ -55,25 +59,33 @@ export { UtilsService } from './services/utils.service';
 export { WebSocketService } from './services/websocket.service';
 export { LocalizationService } from './services/localization.service';
 export { LoadingService } from './services/loading.service';
+export { DiagnosticService } from './services/diagnostic.service';
+export { SettingsService } from './services/settings.service';
+export { EventManagerService } from './services/event-manager.service';
+export { Store } from './services/store.service';
 
 export const TB_SERVICES = [
-    TbComponentService, BOService, ComponentService, DocumentService, DataService, EnumsService,
+    TbComponentService, BOService, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
-    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, LocalizationService, LoadingService
+    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService,
+    LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
 ];
 
 import { CoreGuard } from './guards/core.guard';
 export { CoreGuard } from './guards/core.guard';
 export const TB_GUARDS = [CoreGuard];
 
+import { HttpModule } from '@angular/http';
+
 @NgModule({
-    providers: [CookieService, TB_SERVICES, TB_GUARDS]
+    imports: [HttpModule],
+    providers: [TB_SERVICES, TB_GUARDS]
 })
 export class TbCoreModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: TbCoreModule,
-            providers: [CookieService, TB_SERVICES, TB_GUARDS]
+            providers: [TB_SERVICES, TB_GUARDS]
         };
     }
     constructor( @Optional() @SkipSelf() parentModule: TbCoreModule) {

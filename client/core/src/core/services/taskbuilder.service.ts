@@ -1,18 +1,16 @@
-﻿import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+﻿import { AuthService } from './auth.service';
+import { EventManagerService } from './event-manager.service';
+import { DialogService } from '@progress/kendo-angular-dialog';
+import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Observable, Subject, BehaviorSubject, Subscription } from '../../rxjs.imports';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { InfoService } from './info.service';
-import { EventManagerService } from './../../menu/services/event-manager.service';
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
+import { DiagnosticService } from './diagnostic.service';
 import { Logger } from './logger.service';
 
 @Injectable()
@@ -26,15 +24,16 @@ export class TaskbuilderService {
     connected: Subject<boolean> = new BehaviorSubject(false);
 
     subscriptions: Subscription[] = [];
-
+    stopConnection: boolean = false;
     constructor(
         public httpService: HttpService,
         public socket: WebSocketService,
-        public cookieService: CookieService,
         public logger: Logger,
         public router: Router,
         public infoService: InfoService,
-        public eventManagerService: EventManagerService
+        public eventManagerService: EventManagerService,
+        public diagnosticService: DiagnosticService,
+        public authService: AuthService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -79,12 +78,12 @@ export class TaskbuilderService {
 
     // provo ad aprire connessione TB
     openConnection() {
-        this.openTbConnection().delay(this.timeout).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true)).subscribe();
+        this.openTbConnection().delay(this.timeout).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true || this.stopConnection === true)).subscribe();
     }
 
     openTbConnection(): Observable<boolean> {
 
-        let authtoken = this.cookieService.get('authtoken');
+        let authtoken = localStorage.getItem('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
         let isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
@@ -95,21 +94,23 @@ export class TaskbuilderService {
                     this.logger.debug("openTBConnection result...", tbRes);
 
                     if (tbRes.error) {
+                        this.stopConnection = true;
 
                         this.logger.debug("error messages:", tbRes.messages);
                         // il TB c'è ma non riesce a collegare
                         this.logger.error("openTBConnection Connection Error - Reconnecting...");
-                        this.tbConnection.next(false);
-                        observer.next(false);
-                        observer.complete();
+                        this.tbConnection.next(true); //passo true perchè la connessione è finita, anche se in maniera fallimentare, in questo modo stoppo il loading
+
+                        this.diagnosticService.showDiagnostic(tbRes.messages).subscribe(() => this.authService.logout());
 
                     } else {
-                        this.logger.debug("TbLoader Connected...")
+                        localStorage.setItem('tbLoaderName', tbRes.tbLoaderName);
+                        this.logger.debug("TbLoader Connected...", tbRes.tbLoaderName);
                         this.tbConnection.next(true);
-
-                        observer.next(true);
-                        observer.complete();
                     }
+
+                    observer.next(true);
+                    observer.complete();
 
                 }, (error) => {
                     this.logger.error("openTBConnection Connection failed", error);
@@ -121,7 +122,7 @@ export class TaskbuilderService {
     }
 
     closeConnection() {
-        let authtoken = this.cookieService.get('authtoken');
+        let authtoken = localStorage.getItem('authtoken');
         this.logger.debug("closeTbConnection...", authtoken);
 
         this.httpService.closeTBConnection({ authtoken: authtoken }).subscribe();

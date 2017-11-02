@@ -23,8 +23,17 @@ export class AccountComponent implements OnInit {
   saving: boolean;
   loggedAccountName:string;
   subscriptionsAccount:Array<SubscriptionAccount>;
-  
 
+  languages: Array<{ name:string, value:string }> = [
+    { name: 'Italian', value: 'it-IT'},
+    { name: 'English', value: 'en-EN'}
+  ];
+
+  regionalSettings: Array<{ name:string, value:string }> = [
+    { name: 'Italian', value: 'it-IT'},
+    { name: 'English', value: 'en-EN'}
+  ];
+  
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
     this.model = new Account();
@@ -123,7 +132,7 @@ export class AccountComponent implements OnInit {
         }
           
         this.model = new Account();
-        this.router.navigateByUrl('/accountsHome');
+        this.router.navigateByUrl('/accountsHome', { skipLocationChange:true});
       },
       err => 
       {

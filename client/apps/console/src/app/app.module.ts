@@ -14,7 +14,7 @@ import { SubscriptionHomeComponent } from './components/subscription/subscriptio
 import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
 import { LoginService } from './services/login.service';
-import { DatabaseInfoComponent } from './components/database-info/database-info.component';
+import { DatabaseInfoComponent } from './components/database/database-info.component';
 import { InstanceComponent } from './components/instance/instance.component';
 import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
 import { EntityHomeComponent } from './components/entity/entity-home.component';
@@ -24,12 +24,14 @@ import { InstanceHomeComponent } from './components/instance/instance-home.compo
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { AccountSubscriptionsComponent } from './components/account/account-subscriptions.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
-import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
-import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
+import { DatabaseConfigurationComponent } from './components/database/database-configuration.component';
+import { DatabaseTestconnectionComponent } from './components/database/database-testconnection.component';
 import { DatabaseService } from './services/database.service';
 import { UploadFileService } from './services/upload-file.service';
 import { SubscriptionDbHomeComponent } from './components/subscription/subscription-db-home.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { TestControlsComponent } from './components/test-controls/test-controls.component';
+import { DatabaseOperationsComponent } from './components/database/database-operations.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
     DatabaseConfigurationComponent,
     DatabaseTestconnectionComponent,
     SubscriptionDbHomeComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    TestControlsComponent,
+    DatabaseOperationsComponent
   ],
   imports: [
     BrowserModule,

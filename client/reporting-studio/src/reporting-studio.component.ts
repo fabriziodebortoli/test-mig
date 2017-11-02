@@ -1,20 +1,29 @@
-import { RsExportService } from './rs-export.service';
-import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService, InfoService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from './models';
-import { DocumentComponent } from '@taskbuilder/core';
-import { ComponentService } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
-import { ReportingStudioService } from './reporting-studio.service';
-import { Snapshot } from './report-objects/snapshotdialog/snapshot';
+
+import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService } from '@taskbuilder/core';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
+
+import { baseobj } from './models/baseobj.model';
+import { fieldrect } from './models/fieldrect.model';
+import { textrect } from './models/textrect.model';
+import { table } from './models/table.model';
+import { column } from './models/column.model';
+import { graphrect } from './models/graphrect.model';
+import { sqrrect } from './models/sqrrect.model';
+import { link } from './models/link.model';
+import { CommandType } from './models/command-type.model';
+import { PdfType, SvgType, PngType } from './models/export-type.model';
+
+import { Subscription } from './rxjs.imports';
+
+import { RsExportService } from './rs-export.service';
+import { ReportLayoutComponent } from './report-objects/layout/layout.component';
+import { ReportingStudioService } from './reporting-studio.service';
+import { Snapshot } from './report-objects/snapshotdialog/snapshot';
+
 
 @Component({
   selector: 'tb-reporting-studio',
@@ -44,16 +53,21 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public curPageNum: number;
   public runReport: boolean = false;
 
+  public id: string;
+
+
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
     eventData: EventDataService,
-    public cookieService: CookieService,
     public infoService: InfoService,
 
     public componentService: ComponentService,
     public tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData, null);
+
+    this.id = this.rsService.generateId();
+    this.rsExportService.layoutId = this.id
   }
 
   // -----------------------------------------------
@@ -100,14 +114,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
-      authtoken: this.cookieService.get('authtoken')
+      authtoken: localStorage.getItem('authtoken')
     };
 
-    if (this.args.params.runAtTbLoader)
-    {
+    if (this.args.params.runAtTbLoader) {
       message.componentId = this.cmpId;
     }
-    
+
     this.rsService.doSendSync(JSON.stringify(message));
   }
 
@@ -382,7 +395,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   //--------------------------------------------------
   async startSavePDF() {
-    await this.rsExportService.timeout(3000);
     this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }
@@ -433,6 +445,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
     var s = this.infoService.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
+  }
+
+  getLayoutId() {
+
   }
 
 }

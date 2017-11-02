@@ -48,7 +48,7 @@ namespace Microarea.RSWeb
             });
 
             services.AddMvc();
-
+            services.AddResponseCaching();
             services.AddMemoryCache();  // AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -71,6 +71,8 @@ namespace Microarea.RSWeb
            app.UseCors("CorsPolicy");
 
            app.UseSession();
+
+           app.UseResponseCaching();
 
            app.UseStaticFiles();
 

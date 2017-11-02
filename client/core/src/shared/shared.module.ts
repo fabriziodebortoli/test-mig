@@ -1,9 +1,9 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -13,7 +13,8 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
 } from '@angular/material';
 
 const MATERIAL_MODULES = [
@@ -25,7 +26,8 @@ const MATERIAL_MODULES = [
     MatToolbarModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
 ];
 
 import { TbIconsModule } from '@taskbuilder/icons';
@@ -84,6 +86,8 @@ import { CultureSelectorComponent } from './components/culture-selector/culture-
 import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
+
 
 
 // import { TbComponent } from './components/tb.component';
@@ -123,13 +127,14 @@ export { CultureSelectorComponent } from './components/culture-selector/culture-
 export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
+export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent
+    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent
 ];
 
 /**
@@ -230,6 +235,7 @@ import { TextComponent } from './controls/text/text.component';
 import { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 import { ControlComponent } from './controls/control.component';
 import { VATCodeComponent } from './controls/vat-code/vat-code.component';
+import { NumbererComponent } from './controls/numberer/numberer.component';
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -266,24 +272,15 @@ export { TextComponent } from './controls/text/text.component';
 export { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 export { ControlComponent } from './controls/control.component';
 export { VATCodeComponent } from './controls/vat-code/vat-code.component';
+export { NumbererComponent } from './controls/numberer/numberer.component';
 
 const TB_CONTROLS = [
-    ControlComponent, VATCodeComponent,
+    ControlComponent, VATCodeComponent, NumbererComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
     LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent
-];
-
-const TB_MODULES = [
-    ReactiveFormsModule,
-    CommonModule,
-    FormsModule,
-    HttpModule,
-    RouterModule,
-    TbIconsModule,
-    // MasonryModule
 ];
 
 /**
@@ -313,11 +310,24 @@ export { OperationResult } from './models/operation-result.model';
 export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
+export * from './models/store.models';
+export * from './commons/selector';
+
+/**
+ * NON ESPORTARE
+ */
+const _MODULES = [
+    CommonModule,
+    FormsModule,
+    HttpModule,
+    RouterModule,
+    TbIconsModule
+];
 
 @NgModule({
-    imports: [TB_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
+    imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
-    exports: [TB_MODULES, MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
+    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
     entryComponents: [UnsupportedComponent, RadarComponent]
 })
 export class TbSharedModule { }

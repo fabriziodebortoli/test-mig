@@ -1,5 +1,5 @@
 import { HttpService } from './http.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from '../../rxjs.imports';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 

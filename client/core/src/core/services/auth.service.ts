@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Observable } from '../../rxjs.imports';
 
 import { LoginCompact } from './../../shared/models/login-compact.model';
 import { LoginSession } from './../../shared/models/login-session.model';
 import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { Logger } from './logger.service';
-import { EventManagerService } from './../../menu/services/event-manager.service';
+import { InfoService } from './info.service';
 import { HttpService } from './http.service';
+import { EventManagerService } from './event-manager.service';
 
 @Injectable()
 export class AuthService {
@@ -24,13 +22,11 @@ export class AuthService {
 
     constructor(
         public httpService: HttpService,
+        public infoService: InfoService,
         public logger: Logger,
         public router: Router,
-        public cookieService: CookieService,
         public eventManagerService: EventManagerService
-    ) {
-
-    }
+    ) { }
 
     login(connectionData: LoginSession): Observable<LoginCompact> {
         this.errorMessage = "";
@@ -41,7 +37,7 @@ export class AuthService {
                 this.errorMessage = result.message;
             }
 
-            this.cookieService.put('authtoken', this.islogged ? result.authtoken : null);
+            localStorage.setItem('authtoken', this.islogged ? result.authtoken : null);
 
             this.eventManagerService.emitLoggedIn();
 
@@ -50,13 +46,20 @@ export class AuthService {
     }
 
     isLogged(): Observable<boolean> {
-        return this.httpService.isLogged({ authtoken: this.cookieService.get('authtoken') }).map(isLogged => {
+        return this.httpService.isLogged({ authtoken: localStorage.getItem('authtoken') }).map(isLogged => {
             if (!isLogged) {
-                this.cookieService.remove('authtoken');
+                localStorage.removeItem('authtoken');
             }
             return isLogged;
         });
     }
+
+    changePassword(connectionData: LoginSession, newPassword: string): Observable<LoginCompact> {
+        return this.httpService.changePassword({ user: connectionData.user, oldPassword: connectionData.password, newPassword: newPassword }).map(result => {
+            return result;
+        });
+    }
+
     getRedirectUrl(): string {
         return this.redirectUrl;
     }
@@ -71,12 +74,12 @@ export class AuthService {
     }
 
     logout(): void {
-        let subs = this.httpService.logoff({ authtoken: this.cookieService.get('authtoken') }).subscribe(
+        let subs = this.httpService.logoff({ authtoken: localStorage.getItem('authtoken') }).subscribe(
             loggedOut => {
                 if (loggedOut) {
                     this.eventManagerService.emitloggingOff();
                     this.islogged = !loggedOut;
-                    this.cookieService.remove('authtoken');
+                    localStorage.removeItem('authtoken');
 
                     this.router.navigate([this.getLoginUrl()]);
                 }

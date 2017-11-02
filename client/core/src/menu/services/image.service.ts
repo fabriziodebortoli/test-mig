@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 import { Logger } from './../../core/services/logger.service';
 import { InfoService } from './../../core/services/info.service';
 import { HttpService } from './../../core/services/http.service';
@@ -23,11 +21,8 @@ export class ImageService {
 
         let url = 'assets/images/';
 
-        switch (application.name) {
-            case 'TBS':
-                url += 'LogoTBSSmall.png';
-                break;
-            case 'ERP':
+        switch (application.name.toLowerCase()) {
+            case 'erp':
                 url += 'LogoMagoNetSmall.png';
                 break;
             default:
@@ -48,12 +43,12 @@ export class ImageService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : this.infoService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
+        return imageFile === undefined ? '' : this.infoService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------
 
-    getObjectIcon = function (object) {
+    getObjectIcon(object) {
 
         if (object.sub_type != undefined) {
             if (object.application == undefined)
@@ -82,12 +77,12 @@ export class ImageService {
     }
 
     //---------------------------------------------------------------------------------------------
-    isCustomImage = function (object) {
+    isCustomImage(object) {
         return object.isCustomImage == undefined || object.isCustomImage == 'Images/Default.png';
     }
 
     //---------------------------------------------------------------------------------------------
-    getWorkerImage = function (item) {
+    getWorkerImage(item) {
 
         if (item == undefined)
             return;

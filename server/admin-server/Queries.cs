@@ -9,8 +9,8 @@ namespace Microarea.AdminServer
         public const string ExistInstance = @"SELECT COUNT(*) FROM MP_Instances WHERE InstanceKey = @InstanceKey ";
         public const string SelectInstance = @"SELECT * FROM MP_Instances WHERE InstanceKey = '{0}'";
         public const string SelectInstanceAll = @"SELECT * FROM MP_Instances";
-        public const string InsertInstance = @"INSERT INTO MP_Instances (InstanceKey, Description, Disabled, Origin, Tags, UnderMaintenance, PendingDate) VALUES (@InstanceKey, @Description, @Disabled, @Origin, @Tags, @UnderMaintenance, @PendingDate)";
-        public const string UpdateInstance = @"UPDATE MP_Instances SET Description = @Description, Disabled = @Disabled, Origin=@Origin, Tags=@Tags, UnderMaintenance=@UnderMaintenance, PendingDate=@PendingDate WHERE InstanceKey = @InstanceKey";
+        public const string InsertInstance = @"INSERT INTO MP_Instances (InstanceKey, Description, Disabled, Origin, Tags, UnderMaintenance, PendingDate, VerificationCode, Ticks) VALUES (@InstanceKey, @Description, @Disabled, @Origin, @Tags, @UnderMaintenance, @PendingDate, @VerificationCode,  @Ticks)";
+        public const string UpdateInstance = @"UPDATE MP_Instances SET Description = @Description, Disabled = @Disabled, Origin=@Origin, Tags=@Tags, UnderMaintenance=@UnderMaintenance, PendingDate=@PendingDate, VerificationCode=@VerificationCode, Ticks=@Ticks WHERE InstanceKey = @InstanceKey";
         public const string DeleteInstance = @"DELETE MP_Instances WHERE InstanceKey = @InstanceKey";
 
         // Instance specialized (BurgerData)
@@ -40,10 +40,10 @@ namespace Microarea.AdminServer
         public const string ExistSubscription = @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionsAll = @"SELECT * FROM MP_Subscriptions";
         public const string SelectSubscription = @"SELECT * FROM MP_Subscriptions WHERE SubscriptionKey = '{0}'";
-        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, Language, RegionalSettings, MinDBSizeToWarn, UnderMaintenance) 
-											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @Language, @RegionalSettings, @MinDBSizeToWarn, @UnderMaintenance)";
+        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, Language, RegionalSettings, MinDBSizeToWarn, UnderMaintenance, Ticks) 
+											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @Language, @RegionalSettings, @MinDBSizeToWarn, @UnderMaintenance, @Ticks)";
         public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, Language = @Language, 
-												RegionalSettings = @RegionalSettings, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance WHERE SubscriptionKey = @SubscriptionKey";
+												RegionalSettings = @RegionalSettings, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance, Ticks=@Ticks WHERE SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscription = @"DELETE MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
 
         // SubscriptionSlot
@@ -66,6 +66,17 @@ namespace Microarea.AdminServer
 		// SubscriptionDatabases (BurgerData)
 		public const string SelectDatabases = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}'";
 		public const string SelectDatabaseByName = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}' AND Name = '{2}'";
+
+		// SubscriptionExternalSources
+		public const string ExistSubscriptionExternalSource = @"SELECT COUNT(*) FROM MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
+		public const string SelectSubscriptionExternalSource = @"SELECT * FROM MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
+		public const string InsertSubscriptionExternalSource = @"INSERT INTO MP_SubscriptionExternalSources (InstanceKey, SubscriptionKey, Source, Description, Provider, Server, Database, User, Password, 
+																Disabled, UnderMaintenance, AdditionalInfo)  VALUES (@InstanceKey, @SubscriptionKey, @Source, @Description, @Provider, 
+																@Server, @Database, @User, @Password, @Disabled, @UnderMaintenance, @AdditionalInfo)";
+		public const string UpdateSubscriptionExternalSource = @"UPDATE MP_SubscriptionExternalSources SET Description = @Description, Provider = @Provider, Server = @Server, Database = @Database, 
+																User = @User, Password = @Password, Disabled = @Disabled, UnderMaintenance = @UnderMaintenance, AdditionalInfo = @AdditionalInfo
+																WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
+		public const string DeleteSubscriptionExternalSource = @"DELETE MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
 
 		// Account
 		public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
@@ -91,7 +102,8 @@ namespace Microarea.AdminServer
         public const string ExistSubscriptionAccount = @"SELECT COUNT(*) FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionAccountBySubscriptionKey = @"SELECT * FROM MP_SubscriptionAccounts WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionAccountByAccount = @"SELECT * FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName";
-        public const string InsertSubscriptionAccount = @"INSERT INTO MP_SubscriptionAccounts (AccountName, SubscriptionKey) VALUES (@AccountName, @SubscriptionKey)";
+        public const string InsertSubscriptionAccount = @"INSERT INTO MP_SubscriptionAccounts (AccountName, SubscriptionKey, Ticks) VALUES (@AccountName, @SubscriptionKey, @Ticks)";
+        public const string UpdateSubscriptionAccount = @"UPDATE  MP_SubscriptionAccounts SET Ticks=@Ticks  WHERE AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
 
         // SecurityToken
@@ -113,8 +125,8 @@ namespace Microarea.AdminServer
         public const string SelectAccountRoles = @"SELECT * FROM MP_AccountRoles acc INNER JOIN 
 															MP_Roles rol on acc.RoleName = rol.RoleName 
 															WHERE AccountName = '{0}' AND rol.Disabled = 0";
-        public const string InsertAccountRoles = @"INSERT INTO MP_AccountRoles (RoleName, AccountName, EntityKey, Level) VALUES (@RoleName, @AccountName, @EntityKey, @Level)";
-        public const string UpdateAccountRoles = @"UPDATE MP_AccountRoles SET Level = @Level WHERE RoleId = @RoleId AND AccountName = @AccountName AND EntityKey = @EntityKey";
+        public const string InsertAccountRoles = @"INSERT INTO MP_AccountRoles (RoleName, AccountName, EntityKey, Level, Ticks) VALUES (@RoleName, @AccountName, @EntityKey, @Level, @Ticks)";
+        public const string UpdateAccountRoles = @"UPDATE MP_AccountRoles SET Level = @Level, Ticks=@Ticks WHERE RoleName = @RoleName AND AccountName = @AccountName AND EntityKey = @EntityKey";
         public const string DeleteAccountRole = @"DELETE MP_AccountRoles WHERE RoleName = @RoleName AND AccountName = @AccountName AND EntityKey = @EntityKey";
         // AccountRole (BurgerData)
         public const string SelectRolesByAccountName = @"SELECT * FROM MP_AccountRoles acc INNER JOIN 

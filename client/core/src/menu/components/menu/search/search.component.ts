@@ -1,11 +1,11 @@
+import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from '../../../../rxjs.imports';
 
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
 import { LocalizationService } from './../../../../core/services/localization.service';
-import { SettingsService } from './../../../services/settings.service';
 import { MenuService } from './../../../services/menu.service';
 
 @Component({
@@ -37,7 +37,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.filteredElements = this.inputControl.valueChanges
       .startWith(null)
-      .map(val => val ? this.filter(val) : this.menuService.searchSources.slice(0, (val && val.length > 0) ? this.settingsService.nrMaxItemsSearch : 0));
+      .map(val => this.filter(val));
+
 
     this.valueChangesSubscription = this.inputControl.valueChanges.subscribe(data => {
       if (this.isObject(data))
@@ -59,7 +60,20 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   filter(val: string): string[] {
-    return this.menuService.searchSources.filter(option => new RegExp(val, 'gi').test(option.title)).slice(0, (val && val.length > 0) ? this.settingsService.nrMaxItemsSearch : 0);
+    if (!val)
+      return [];
+
+
+    //fino ai 3 caratteri digitati, limito la ricerca a 20 (cablato)
+    if (val.length >= 0 && val.length <= 3)
+      return this.menuService.searchSources.filter(option =>
+        new RegExp(val, 'gi').test(option.title)
+      ).slice(0, 20);
+
+    //dal 4 carattere in su, non limito, faccio vedere tutte le entries, sperando non siano millemila
+    return this.menuService.searchSources.filter(option =>
+      new RegExp(val, 'gi').test(option.title)
+    ).slice(0, this.menuService.searchSources.length);
   }
 
   displayElement(element: any): string {

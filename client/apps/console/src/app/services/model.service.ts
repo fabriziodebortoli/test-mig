@@ -1,4 +1,4 @@
-import { DatabaseCredentials } from './../authentication/credentials';
+import { DatabaseCredentials, ExtendedSubscriptionDatabase } from './../authentication/credentials';
 import { AuthorizationProperties } from './../authentication/auth-info';
 import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
@@ -64,7 +64,7 @@ export class ModelService {
       .map((res: Response) => {
         return res.json();
       })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (saveAccount)'));
     }
     
     return Observable.throw('AuthorizationHeader is missing!');
@@ -87,7 +87,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (getAccounts)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (saveSubscription)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (getSubscriptions)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -180,7 +180,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (getInstances)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ export class ModelService {
     .map((res : Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (query)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -226,7 +226,7 @@ export class ModelService {
     .map((res : Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (queryDelete)'));
   }  
   
   //--------------------------------------------------------------------------------------------------------
@@ -244,7 +244,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (addAccountSubscriptionAssociation)'));
   }
   
   // returns all databases for the couple instanceKey + subscriptionKey
@@ -277,7 +277,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (getDatabases)'));
   }
   
   // returns a specific database by instanceKey + subscriptionKey + name
@@ -310,7 +310,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (getDatabase)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -329,7 +329,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (saveDatabase)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -356,7 +356,7 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (quickConfigureDatabase)'));
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -376,6 +376,64 @@ export class ModelService {
     .map((res: Response) => {
       return res.json();
     })
-    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (testConnection)'));
+  }
+
+   //--------------------------------------------------------------------------------------------------------
+   updateDatabase(subscriptionKey: string, body: ExtendedSubscriptionDatabase): Observable<OperationResult> {
+    
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+    
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+    
+    // I need the instanceKey where the currentAccount is logged
+    let localAccountInfo = localStorage.getItem(this.currentAccountName);
+    let instancekey: string = '';
+    
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instancekey = accountInfo.instanceKey;
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+    
+    return this.http.post(environment.adminAPIUrl + 'database/update/' + subscriptionKey, bodyString, options)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (updateDatabase)'));
+  }
+
+   //--------------------------------------------------------------------------------------------------------
+   checkDatabase(subscriptionKey: string, body: ExtendedSubscriptionDatabase): Observable<OperationResult> {
+    
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+    
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+    
+    // I need the instanceKey where the currentAccount is logged
+    let localAccountInfo = localStorage.getItem(this.currentAccountName);
+    let instancekey: string = '';
+    
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instancekey = accountInfo.instanceKey;
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+    
+    return this.http.post(environment.adminAPIUrl + 'database/check/' + subscriptionKey, bodyString, options)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error (checkDatabase)'));
   }
 }

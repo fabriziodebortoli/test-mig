@@ -1,9 +1,7 @@
+import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Observable, ErrorObservable } from '../../rxjs.imports';
 
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Logger } from './logger.service';
@@ -26,14 +24,36 @@ export class InfoService {
 
     constructor(
         public http: Http,
-        public cookieService: CookieService,
-        public logger: Logger
+        public logger: Logger,
+        private utilsService: UtilsService
     ) {
-        this.culture.value = cookieService.get(this.cultureId);
+        this.culture.value = localStorage.getItem(this.cultureId);
+    }
+
+    resetCulture() {
+        localStorage.removeItem(this.cultureId);
+        this.culture.value = null;
     }
 
     saveCulture() {
-        this.cookieService.put(this.cultureId, this.culture.value);
+        localStorage.setItem(this.cultureId, this.culture.value);
+    }
+
+    setCulture(culture: string) {
+        this.culture.value = culture;
+    }
+
+    getCulture(): string {
+        return this.culture.value;
+    }
+
+    getAuthorization(): string {
+        return JSON.stringify(
+            {
+                ui_culture: this.culture.value,
+                authtoken: localStorage.getItem('authtoken'),
+                tbLoaderName: localStorage.getItem('tbLoaderName')
+            });
     }
 
     load() {
@@ -60,14 +80,11 @@ export class InfoService {
             }
             else {
 
-                let params = { authtoken: this.cookieService.get('authtoken') };
-                let url = this.getDocumentBaseUrl() + 'getProductInfo/';
-
+                let params = { authtoken: localStorage.getItem('authtoken') };
+                let url = this.getMenuServiceUrl() + 'getProductInfo/';
                 let sub = this.request(url, params)
                     .subscribe(result => {
-                        this.logger.debug("productInfo", result);
                         this.productInfo = result.ProductInfos;
-
                         observer.next(this.productInfo);
                         observer.complete();
                         sub.unsubscribe();
@@ -130,7 +147,7 @@ export class InfoService {
 
     //TODO da spostare nel httpservice della libreria di controlli
     getNetCoreErpCoreBaseUrl() {
-       return this.getBaseUrl() +  '/erp-core/';
+        return this.getBaseUrl() + '/erp-core/';
     }
 
     getAccountManagerBaseUrl() {
@@ -158,8 +175,7 @@ export class InfoService {
     request(url: string, data: Object): Observable<any> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-        return this.http.post(url, data, { withCredentials: true, headers: headers })
+        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers })
             .map(res => res.json())
             .catch((error: any): ErrorObservable => {
                 let errMsg = (error.message) ? error.message :

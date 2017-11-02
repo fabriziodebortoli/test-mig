@@ -135,14 +135,38 @@
   <data name="AuditingEnabled" xml:space="preserve">
     <value>Auditing enabled</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChangeCustomizationContext" xml:space="preserve">
+    <value>Change customization context</value>
+  </data>
+  <data name="ChooseCustomization" xml:space="preserve">
+    <value>Item customizations</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
   <data name="ClearCachedData" xml:space="preserve">
     <value>Clear cached data</value>
+  </data>
+  <data name="CloneEasyStudioDocument" xml:space="preserve">
+    <value>Clone as a New Document</value>
+  </data>
+  <data name="CloseCustomizationContext" xml:space="preserve">
+    <value>Close customization context</value>
   </data>
   <data name="CloseLabel" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="CompanyLabel" xml:space="preserve">
     <value>Company</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
   </data>
   <data name="Connected" xml:space="preserve">
     <value>Connected</value>
@@ -159,6 +183,12 @@
   <data name="CurrentModule" xml:space="preserve">
     <value>Current Module</value>
   </data>
+  <data name="CustomizationContext" xml:space="preserve">
+    <value>Customization Context</value>
+  </data>
+  <data name="CustomizationNotActive" xml:space="preserve">
+    <value>Customization valid only for context</value>
+  </data>
   <data name="DBName" xml:space="preserve">
     <value>Database</value>
   </data>
@@ -170,6 +200,12 @@
   </data>
   <data name="DebugVersion" xml:space="preserve">
     <value>Debug Version</value>
+  </data>
+  <data name="DefaultNewApp" xml:space="preserve">
+    <value>NewApplication</value>
+  </data>
+  <data name="DefaultNewMod" xml:space="preserve">
+    <value>NewModule</value>
   </data>
   <data name="Disconnected" xml:space="preserve">
     <value>Disconnected</value>
@@ -213,11 +249,41 @@
   <data name="MostUsedLabel" xml:space="preserve">
     <value>Recently used</value>
   </data>
+  <data name="NotDesignableDocument" xml:space="preserve">
+    <value>This document/batch is not designable</value>
+  </data>
+  <data name="OpenDefaultContext" xml:space="preserve">
+    <value>Open Default Context</value>
+  </data>
+  <data name="OpenEasyStudioNewCustomization" xml:space="preserve">
+    <value>New EasyStudio customization</value>
+  </data>
+  <data name="OpenEasyStudioWithCustomization" xml:space="preserve">
+    <value>Edit EasyStudio Customization</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old password</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PasswordsNotMatching" xml:space="preserve">
+    <value>The passwords are not matching</value>
+  </data>
   <data name="Provider" xml:space="preserve">
     <value>Provider</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
@@ -234,6 +300,15 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="UserAlreadyConnected" xml:space="preserve">
+    <value>The user is already connected to the system. Do you want to close previous working session and open new one?</value>
+  </data>
+  <data name="UserAlreadyConnectedTitle" xml:space="preserve">
+    <value>User already connected</value>
+  </data>
+  <data name="UserMustChangePassword" xml:space="preserve">
+    <value>You need to change password</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
@@ -242,5 +317,68 @@
   </data>
   <data name="WebApplicationServer" xml:space="preserve">
     <value>Web Application Server</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="NewApplicationLabel" xml:space="preserve">
+    <value>Insert new application name</value>
+  </data>
+  <data name="NewModuleLabel" xml:space="preserve">
+    <value>Insert new module name</value>
+  </data>
+  <data name="OpenCustomizationContext" xml:space="preserve">
+    <value>Open Customization Context</value>
+  </data>
+  <data name="SelectedApplication" xml:space="preserve">
+    <value>Selected application</value>
+  </data>
+  <data name="SelectedModule" xml:space="preserve">
+    <value>Selected module</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="OperationDate" xml:space="preserve">
+    <value>Operation Date</value>
+  </data>
+  <data name="ClearFavoriteList" xml:space="preserve">
+    <value>Clear favorite list</value>
+  </data>
+  <data name="ClearMostUsedList" xml:space="preserve">
+    <value>Clear most used list</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ProductInfo" xml:space="preserve">
+    <value>Product info</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Selections" xml:space="preserve">
+    <value>Selections</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Select language</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Select theme</value>
   </data>
 </root>

@@ -45,20 +45,11 @@
     <rs-chart-range-bar [chart]="chart" *ngSwitchCase="CT.RangeArea">
     </rs-chart-range-bar>
 
-    <rs-chart-bubble [chart]="chart" *ngSwitchCase="CT.Bubble">
-    </rs-chart-bubble>
-    <rs-chart-bubble [chart]="chart" *ngSwitchCase="CT.Scatter">
-    </rs-chart-bubble>
-    <rs-chart-bubble [chart]="chart" *ngSwitchCase="CT.ScatterLine">
-    </rs-chart-bubble>
-
-    <rs-chart-polar [chart]="chart" *ngSwitchCase="CT.PolarLine">
-    </rs-chart-polar>
-    <rs-chart-polar [chart]="chart" *ngSwitchCase="CT.PolarArea">
-    </rs-chart-polar>
-    <rs-chart-polar [chart]="chart" *ngSwitchCase="CT.PolarScatter">
-    </rs-chart-polar>
-
+    <rs-chart-radar [chart]="chart" *ngSwitchCase="CT.RadarLine">
+    </rs-chart-radar>
+    <rs-chart-radar [chart]="chart" *ngSwitchCase="CT.RadarArea">
+    </rs-chart-radar>
+   
     <rs-chart-bubble [chart]="chart" *ngSwitchCase="CT.Bubble">
     </rs-chart-bubble>
     <rs-chart-bubble [chart]="chart" *ngSwitchCase="CT.BubbleScatter">

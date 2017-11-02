@@ -3,7 +3,7 @@ import { BodyEditColumnComponent } from './../body-edit-column/body-edit-column.
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, Input, OnDestroy, ContentChildren, ChangeDetectorRef, ViewChild, AfterContentInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../rxjs.imports';
 
 import { ControlComponent } from './../control.component';
 

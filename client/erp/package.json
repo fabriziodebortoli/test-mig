@@ -12,7 +12,8 @@
         "lite": "lite-server",
         "playground:build": "tsc -p playground -w",
         "playground": "concurrently \"npm run build:watch\" \"npm run playground:build\" \"npm run lite\"",
-        "test": "tsc && karma start"
+        "test": "tsc && karma start",
+        "link-core": "npm link ../core/src && cd src && npm link ../../core/src"
     },
     "repository": {
         "type": "git",
@@ -29,13 +30,20 @@
     "bugs": {
         "url": "https://github.com/Microarea/Taskbuilder.git/issues"
     },
+    "peerDependencies": {
+        "lodash": "^1.0.0"
+    },
     "devDependencies": {
-        "@angular/common": "^4.0.0",
-        "@angular/compiler": "^4.0.0",
-        "@angular/compiler-cli": "^4.0.0",
-        "@angular/core": "^4.0.0",
-        "@angular/platform-browser": "^4.0.0",
-        "@angular/platform-browser-dynamic": "^4.0.0",
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
+        "@angular/animations": "^4.4.5",
+        "@angular/common": "^4.4.4",
+        "@angular/compiler": "^4.4.4",
+        "@angular/compiler-cli": "^4.4.4",
+        "@angular/core": "^4.4.4",
+        "@angular/forms": "^4.4.4",
+        "@angular/http": "^4.4.4",
+        "@angular/platform-browser": "^4.4.4",
+        "@angular/platform-browser-dynamic": "^4.4.4",
         "@compodoc/compodoc": "^1.0.0-beta.10",
         "@types/jasmine": "2.5.38",
         "@types/node": "~6.0.60",

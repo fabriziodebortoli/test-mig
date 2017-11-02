@@ -1,8 +1,5 @@
 ﻿import { EventEmitter, Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Observable } from '../../rxjs.imports';
 
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
 import { SocketConnectionStatus } from './../../shared/models/websocket-connection.enum';
@@ -32,11 +29,11 @@ export class WebSocketService {
     public radarInfos: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
     public windowStrings: EventEmitter<any> = new EventEmitter();
+    public behaviours: EventEmitter<any> = new EventEmitter();
 
     constructor(
         public infoService: InfoService,
         public httpService: HttpService,
-        public cookieService: CookieService,
         public logger: Logger) {
     }
 
@@ -85,6 +82,7 @@ export class WebSocketService {
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
                         case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
+                        case 'Behaviours': $this.behaviours.emit(obj.args); break;
 
                         default: break;
                     }
@@ -103,13 +101,14 @@ export class WebSocketService {
 
         this.connection.onopen = (arg) => {
             this.logger.debug("WebSocket Connected", JSON.stringify(arg));
+
             // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
                 args:
                 {
-                    webSocketName: this.cookieService.get('authtoken'),
-                    tbLoaderName: this.cookieService.get('tbloader-name')
+                    webSocketName: localStorage.getItem('authtoken'),
+                    tbLoaderName: localStorage.getItem('tbloader-name')
                 }
             }));
 

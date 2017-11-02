@@ -26,9 +26,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
 
-    if (this.route.snapshot.queryParams['instanceToEdit'] !== undefined) {
+    let instanceKey: string = this.route.snapshot.queryParams['instanceToEdit'];
+    
+    if (instanceKey !== undefined) {
+      
       this.editing = true;
-      let instanceKey: string = this.route.snapshot.queryParams['instanceToEdit'];
       this.modelService.getInstances(instanceKey)
       .subscribe(
           res => {
@@ -78,11 +80,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+   //--------------------------------------------------------------------------------------------------------
+   ngOnDestroy() {
     if (this.subscription === undefined)
       return;
 
     this.subscription.unsubscribe;
   }
-  
 }

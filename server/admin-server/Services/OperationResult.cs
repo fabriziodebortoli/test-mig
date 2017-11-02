@@ -23,7 +23,6 @@ namespace Microarea.AdminServer.Services
 			this.Code = 0;
 		}
 
-        [Obsolete ("Specificare sempre anche un codice")]
 		//--------------------------------------------------------------------------------
 		public OperationResult(bool result, string message) : this()
 		{

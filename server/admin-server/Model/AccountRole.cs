@@ -14,14 +14,16 @@ namespace Microarea.AdminServer.Model
 		string accountName;
         string entityKey;
 		string level;
+        int ticks = TicksHelper.GetTicks();
 
-		public string RoleName { get => roleName; set => roleName = value; }
+        public string RoleName { get => roleName; set => roleName = value; }
 		public string AccountName { get => accountName; set => accountName = value; }
         public string EntityKey { get => entityKey; set => entityKey = value; }
 		public string Level { get => level; set => level = value; }
+        public int Ticks { get => ticks; set => ticks = value; }
 
-		//---------------------------------------------------------------------
-		public AccountRoles()
+        //---------------------------------------------------------------------
+        public AccountRoles()
 		{
 			roleName = string.Empty;
 			accountName = string.Empty;
@@ -37,7 +39,8 @@ namespace Microarea.AdminServer.Model
 			account.AccountName = dataReader["AccountName"] as string;
 			account.EntityKey = dataReader["EntityKey"] as string;
 			account.Level = dataReader["Level"] as string;
-			return account;
+            account.Ticks = (int)dataReader["Ticks"] ;
+            return account;
 		}
 
 		//---------------------------------------------------------------------
@@ -50,11 +53,12 @@ namespace Microarea.AdminServer.Model
 			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
 			burgerDataParameters.Add(new BurgerDataParameter("@EntityKey", this.entityKey));
 			burgerDataParameters.Add(new BurgerDataParameter("@Level", this.level));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks",this.ticks));
 
-			BurgerDataParameter roleNameKeyColumnParameter = new BurgerDataParameter("@RoleName", this.roleName);
+            BurgerDataParameter roleNameKeyColumnParameter = new BurgerDataParameter("@RoleName", this.roleName);
 			BurgerDataParameter accountNameKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
 			BurgerDataParameter entityKeyColumnParameter = new BurgerDataParameter("@EntityKey", this.entityKey);
-			BurgerDataParameter[] keyParameters = new BurgerDataParameter[] {
+            BurgerDataParameter[] keyParameters = new BurgerDataParameter[] {
 				roleNameKeyColumnParameter,
 				accountNameKeyColumnParameter,
 				entityKeyColumnParameter

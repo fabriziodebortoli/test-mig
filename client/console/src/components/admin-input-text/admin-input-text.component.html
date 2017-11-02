@@ -1,3 +1,14 @@
-<kendo-textbox-container floatingLabel="{{inputLabel}}" style="width:95%">
-    <input kendoTextBox adminAutoFocus [ngModel]="inputData" (ngModelChange)="change($event)" [readonly]="read" style="margin-top:-2px" />
-</kendo-textbox-container>
+<div *ngIf="!material" class="left-label">{{inputLabel}}</div>
+<div style="display:inline">
+    <kendo-textbox-container [floatingLabel]="material ? inputLabel : ''" [style.width]="material ? '95%' : ''">
+        <input 
+            kendoTextBox 
+            adminAutoFocus 
+            class="text-bg"
+            [type]="textType" 
+            [ngModel]="inputData" 
+            (ngModelChange)="change($event)" 
+            [readonly]="read" 
+            [ngStyle]="{ 'margin-top' : marginTopStyle }" />
+    </kendo-textbox-container>
+</div>

@@ -3,10 +3,8 @@ import { LoadingService } from './../../../core/services/loading.service';
 import { MenuService } from './../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../rxjs.imports';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { LoginSession } from './../../../shared/models/login-session.model';
 
@@ -37,11 +35,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   connectionData: LoginSession = new LoginSession();
   errorMessages: string[] = [];
   userAlreadyConnectedOpened: boolean = false;
+  changePasswordOpened: boolean = false;
   clearCachedData: boolean = false;
+  confirmPassword: string = "";
+  newPassword: string = "";
 
   constructor(
     public authService: AuthService,
-    public cookieService: CookieService,
     public router: Router,
     public logger: Logger,
     public httpService: HttpService,
@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.getCompaniesForUser(this.connectionData.user);
     }
 
+    //TODOLUCA unsubscribe?
     this.authService.isLogged().subscribe(isLogged => {
       if (isLogged) {
         this.router.navigate([this.authService.getDefaultUrl()]);
@@ -80,7 +81,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
 
       if (this.companies.length > 0 && this.connectionData.company == undefined) {
-        this.logger.log("this.companies.length", this.companies.length)
         this.connectionData.company = this.companies[0];
       }
 
@@ -103,24 +103,30 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //-------------------------------------------------------------------------------------
   loadState() {
-    this.connectionData.user = this.cookieService.get('_user');
-    this.connectionData.company = this.cookieService.get('_company');
+
+    this.connectionData.user = localStorage.getItem('_user');
+    this.connectionData.company = localStorage.getItem('_company');
   }
 
   //-------------------------------------------------------------------------------------
   saveState() {
-    this.cookieService.put('_user', this.connectionData.user);
-    this.cookieService.put('_company', this.connectionData.company);
+    localStorage.setItem('_user', this.connectionData.user);
+    localStorage.setItem('_company', this.connectionData.company);
   }
 
   //-------------------------------------------------------------------------------------
-  login() {
+  changePasswordlogin() {
+  }
+
+  //-------------------------------------------------------------------------------------
+  login(overwrite: boolean = false) {
     this.saveState();
     this.loadingService.setLoading(true, this.localizationService.localizedElements.Loading);
-    this.authService.login(this.connectionData).subscribe(result => {
+    this.connectionData.overwrite = overwrite;
+    let subs = this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
-        console.log(this.clearCachedData);
         this.menuService.clearCachedData = this.clearCachedData;
+        this.connectionData.overwrite = false;
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);
         this.loadingService.setLoading(false);
@@ -128,9 +134,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else {
         this.logger.debug('Login Error', this.authService.errorMessage);
         this.loadingService.setLoading(false);
-        if (result.errorCode == 9)
+        if (result.errorCode == 9) //UserAlreadyLoggedError
+        {
           this.userAlreadyConnectedOpened = true;
+        }
+        else if (result.errorCode == 19) //UserMustChangePasswordError
+        {
+          this.changePasswordOpened = true;
+        }
       }
+      subs.unsubscribe();
     });
   }
 
@@ -141,13 +154,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   userConnectedYes() {
-    this.connectionData.overwrite = true;
-    this.login();
-    this.connectionData.overwrite = false;
+    this.login(true);
     this.userAlreadyConnectedOpened = false;
 
   }
   userConnectedCancel() {
     this.userAlreadyConnectedOpened = false;
+  }
+
+  changePasswordOk() {
+    this.authService.changePassword(this.connectionData, this.newPassword).
+      subscribe((res) => {
+
+        if (res.success) {
+          this.changePasswordOpened = false;
+          this.connectionData.password = this.newPassword;
+          this.login();
+        }
+      });
   }
 }

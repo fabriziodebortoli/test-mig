@@ -1,6 +1,6 @@
+import { EventManagerService } from './../../../../core/services/event-manager.service';
 import { Component, Input, HostBinding } from '@angular/core';
 
-import { EventManagerService } from './../../../services/event-manager.service';
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';

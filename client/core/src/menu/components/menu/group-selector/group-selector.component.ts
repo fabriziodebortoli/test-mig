@@ -12,8 +12,6 @@ import { MenuService } from './../../../services/menu.service';
 export class GroupSelectorComponent {
 
     @Output() itemSelected: EventEmitter<any> = new EventEmitter();
-    iconType: string = 'M4';
-
     constructor(
         public menuService: MenuService,
         public imageService: ImageService,

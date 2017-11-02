@@ -48,7 +48,7 @@ namespace Microarea.AdminServer.Model
 		public bool MustChangePassword { get { return this.mustChangePassword; } set { this.mustChangePassword = value; } }
 		public bool CannotChangePassword { get { return this.cannotChangePassword; } set { this.cannotChangePassword = value; } }
 		public DateTime PasswordExpirationDate { get { return this.passwordExpirationDate; } set { this.passwordExpirationDate = value; } }
-		public int PasswordDuration { get { return this.passwordDuration; } set { this.passwordDuration = value; } }
+        public int PasswordDuration { get { return this.passwordDuration; } set { this.passwordDuration = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool Locked { get { return this.locked; } set { this.locked = value; } }
 		public string Language { get { return this.language; } set { this.language = value; } }
@@ -61,8 +61,21 @@ namespace Microarea.AdminServer.Model
 
         //---------------------------------------------------------------------
         public Account()
-        { 
-		}
+        { }
+
+        //---------------------------------------------------------------------
+        internal static Account GetAccountByName(BurgerData burgerData, string accountName)
+        {
+            try
+            {
+                return burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
+                      {
+                    new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false)
+                      }) as Account;
+            }
+            catch {  return null; } // todo log
+
+        }
 
         //--------------------------------------------------------------------------------
         public IModelObject Fetch(IDataReader dataReader)
@@ -99,7 +112,6 @@ namespace Microarea.AdminServer.Model
 
             List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
             burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.AccountName));
-
             burgerDataParameters.Add(new BurgerDataParameter("@FullName", this.FullName));
             burgerDataParameters.Add(new BurgerDataParameter("@Password", this.Password));
 
@@ -144,22 +156,21 @@ namespace Microarea.AdminServer.Model
         public Account(string accountName)
         {
             this.accountName = accountName;
-        } 
-        
+        }
+
         //---------------------------------------------------------------------
         public bool CheckPassword(string password)
         {
             // calculating password hash
             Byte[] salt = Salt;
+            //siccome il salt a null viene in save sostituito con  array vuoto devo controllare sia null sia array vuoto
+            string passwordToCheck = (salt != null && salt.Length > 0) ? SecurityManager.HashThis(password, salt) : password;
 
-            string passwordToCheck = salt != null ? SecurityManager.HashThis(password, salt) : password;
+            if (Password == passwordToCheck) return true;
 
-            if (Password != passwordToCheck)
-            {
-                AddWrongPwdLoginCount();
-                return false;
-            }
-            return true;
+            AddWrongPwdLoginCount();
+            return false;
+
         }
 
         //---------------------------------------------------------------------
@@ -198,7 +209,6 @@ namespace Microarea.AdminServer.Model
             LoginFailedCount = 0;
 
         }
-
 
         //----------------------------------------------------------------------
         public LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata)

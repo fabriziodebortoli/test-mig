@@ -815,9 +815,9 @@ namespace Microarea.Common.Generic
         {
             return n.ToString().ToJson(name, bracket, false, false);
         }
-        public static string ToJson(this ushort n, string prefix, string name, bool bracket = false)
+        public static string ToJson(this ushort n, string prefix, string name, bool bracket = false, string postfix = "")
         {
-            return (prefix + n.ToString()).ToJson(name, bracket, false, true);
+            return (prefix + n.ToString() + postfix).ToJson(name, bracket, false, true);
         }
         public static string ToJson(this long n, string name = null, bool bracket = false)
         {
@@ -892,7 +892,7 @@ namespace Microarea.Common.Generic
 
         public static string ToHtml(this Color color)
         {
-            return '#' + color.Name.Right(6);
+            return '#' + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
         }
 
         public static string ToJson(this Color color, string name = null, bool bracket = false)

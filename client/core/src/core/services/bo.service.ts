@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from '../../rxjs.imports';
 
 import { apply, diff } from 'json8-patch';
 
@@ -149,6 +149,13 @@ export class BOService extends DocumentService {
                 this.eventData.radarInfos.emit(data.response.radarInfo);
             }
         }));
+       
+        this.subscriptions.push(this.webSocketService.behaviours.subscribe(data => {
+            const cmpId = this.mainCmpId;
+            if (data.response.id === cmpId) {
+                this.eventData.behaviours.emit(data.response.behaviours);
+            }
+        }));
 
         this.subscriptions.push(this.webSocketService.windowStrings.subscribe((args: any) => {
             this.windowStrings.emit(args);
@@ -164,6 +171,7 @@ export class BOService extends DocumentService {
             boClient.init();
         });
         this.registerModelField('', 'Title');
+        this.registerModelField('', 'FormMode');
         this.registerModelField('', 'HeaderStripTitle');
         super.init(cmpId);
         this.webSocketService.checkMessageDialog(this.mainCmpId);
@@ -179,7 +187,7 @@ export class BOService extends DocumentService {
         this.webSocketService.closeServerComponent(this.mainCmpId);
     }
     isServerSideCommand(idCommand: string) {
-        return this.serverSideCommandMap.includes(idCommand);
+        return this.serverSideCommandMap.indexOf(idCommand) > 0;
     }
     public appendToModelStructure(modelStructure: any) {
         //aggiorna i campi usati dal modello client

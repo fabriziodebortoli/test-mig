@@ -1,6 +1,8 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Controllers.Helpers.APIQuery;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Libraries.DatabaseManager;
+using Microarea.AdminServer.Libraries.DataManagerEngine;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
@@ -202,7 +204,7 @@ namespace Microarea.AdminServer.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("/api/database/quickcreate/{instanceKey}/{subscriptionKey}")]
-		public IActionResult QuickCreate(string instanceKey, string subscriptionKey)
+		public IActionResult ApiQuickCreate(string instanceKey, string subscriptionKey)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -249,21 +251,21 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			// imposto i nomi dei database
 			string dbName = instanceKey + "_" + subscriptionKey + "_Master_DB";
 			string dmsDbName = dbName + "_DMS";
 
-			// creazione contenitore db su Azure
+			// impostazione parametri creazione contenitore db su Azure
+			// queste impostazioni dovranno essere definite a livello di subscription
 			AzureCreateDBParameters param = new AzureCreateDBParameters();
 			param.DatabaseName = dbName;
 			param.MaxSize = AzureMaxSize.GB1;
 
-			// creazione contenitore db su SqlServer
+			// impostazione parametri creazione contenitore db su SqlServer
 			SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
 			sqlParam.DatabaseName = dbName;
 
 			// to create database I need to connect to master
-
-			// I create ERP database
 
 			DatabaseTask dTask = new DatabaseTask(true);
 			dTask.CurrentStringConnection =
@@ -275,6 +277,8 @@ namespace Microarea.AdminServer.Controllers
 				settings.DatabaseInfo.DBUser,
 				settings.DatabaseInfo.DBPassword
 				);
+
+			// I create ERP database
 			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
 				dTask.CreateAzureDatabase(param);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
@@ -335,25 +339,9 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// creo la struttura leggendo i metedati da filesystem
+			// il Provider deve essere definito a livello di subscription
+			subDatabase.Provider = "SQLAzure";
 
-			Diagnostic dbTesterDiagnostic = new Diagnostic("DatabaseController");
-
-			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");//dati reperibili dal db, attualmente il nome server però non lo abbiamo 
-			pf.Edition = "Professional";
-
-			// creazione tabelle per il database aziendale
-			DatabaseManager dbManager = new DatabaseManager
-				(
-				pf,
-				dbTesterDiagnostic,
-				(BrandLoader)InstallationData.BrandLoader,
-				new ContextInfo.SystemDBConnectionInfo(), // da togliere
-				DBNetworkType.Large,
-				"IT"
-				);
-
-			subDatabase.Provider = "SQLServer";
 			subDatabase.DBName = dbName;
 			subDatabase.DBServer = settings.DatabaseInfo.DBServer;
 			subDatabase.DBOwner = loginName;
@@ -370,6 +358,9 @@ namespace Microarea.AdminServer.Controllers
 			Debug.WriteLine("-------- Login Name: " + loginName);
 			Debug.WriteLine("-------- Password: " + password);
 
+			// creo la struttura leggendo i metadati da filesystem
+
+			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
@@ -420,7 +411,7 @@ namespace Microarea.AdminServer.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("/api/database/testconnection/{subscriptionKey}")]
-		public IActionResult TestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
+		public IActionResult ApiTestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -437,13 +428,21 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			if (dbCredentials == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
 			// if databaseName is empty I use master
 			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
 
 			string connectionString =
 				string.Format
 				(
-				(!isAzureDB) ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
 				dbCredentials.Server,
 				string.IsNullOrWhiteSpace(dbCredentials.Database) ? DatabaseLayerConsts.MasterDatabase : dbCredentials.Database,
 				dbCredentials.Login,
@@ -469,7 +468,7 @@ namespace Microarea.AdminServer.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("/api/database/exist/{subscriptionKey}/{dbName}")]
-		public IActionResult ExistDatabase(string subscriptionKey, string dbName, [FromBody] DatabaseCredentials dbCredentials)
+		public IActionResult ApiExistDatabase(string subscriptionKey, string dbName, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -486,13 +485,21 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			if (dbCredentials == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
 			// I use master database to load all dbs
 			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
 
 			string connectionString =
 				string.Format
 				(
-				(!isAzureDB) ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
 				dbCredentials.Server,
 				DatabaseLayerConsts.MasterDatabase,
 				dbCredentials.Login,
@@ -503,23 +510,40 @@ namespace Microarea.AdminServer.Controllers
 			dTask.CurrentStringConnection = connectionString;
 
 			opRes.Result = dTask.ExistDataBase(dbName);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			// controllo se nel diagnostico c'e' un errore e imposto il result a false
+			if (dTask.Diagnostic.Error)
+			{
+				opRes.Result = false;
+				opRes.Message = dTask.Diagnostic.ToJson(true);
+			}
+			else
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		[HttpPost("/api/database/update")]
+		[HttpPost("/api/database/check/{subscriptionKey}")]
 		//---------------------------------------------------------------------
-		public IActionResult Update([FromBody] FullSubcriptionDatabase subDatabase)
+		public IActionResult ApiCheck(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
-			// @@TODO: in Angular devo effettuare un controllo preventivo e farmi passare anche le credenziali di amministrazione
-			// vedere se e' corretto riempire una classe esterna con le informazioni delle DatabaseCredentials e SubscriptionDatabase
-			// i nomi dei server devono essere tutti uguali!
-
 			OperationResult opRes = new OperationResult();
 
-			if (subDatabase == null)
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+			 
+			if (extSubDatabase.AdminCredentials == null || extSubDatabase.Database == null)
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
@@ -527,9 +551,47 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// I set subscription UnderMaintenance = true
+			opRes = APIDatabaseHelper.PrecheckSubscriptionDB(extSubDatabase);
 
-			opRes = SetSubscriptionDBUnderMaintenance(subDatabase.Database);
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpPost("/api/database/update/{subscriptionKey}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiUpdate(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
+		{
+			// @@TODO: in Angular devo effettuare un controllo preventivo e farmi passare anche le credenziali di amministrazione
+			// vedere se e' corretto riempire una classe esterna con le informazioni delle DatabaseCredentials e SubscriptionDatabase
+			// i nomi dei server devono essere tutti uguali!
+
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (extSubDatabase.AdminCredentials == null || extSubDatabase.Database == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// devo controllare il flag UnderMaintenance: se a true devo fare return e segnalare che e' gia' in aggiornamento
+
+			// I set subscription UnderMaintenance = true
+			opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData);
 
 			if (!opRes.Result)
 			{
@@ -539,35 +601,58 @@ namespace Microarea.AdminServer.Controllers
 
 			// eseguo i controlli preventivi sui database ERP+DMS (unicode, collation, etc.)
 
-			opRes = CheckDatabases(subDatabase);
+			opRes = APIDatabaseHelper.CheckDatabases(extSubDatabase);
 
 			if (!opRes.Result)
 			{
-				//@TODO lascio il flag UnderMaintenance a true?
+				//re-imposto il flag UnderMaintenance a false
+				opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false);
 				opRes.Message = Strings.OperationKO;
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			// check login per erp db
-			opRes = CheckLogin(subDatabase);
+			opRes = APIDatabaseHelper.CheckLogin(extSubDatabase);
 
 			if (opRes.Result)
-				opRes = CheckLogin(subDatabase, true);
+				opRes = APIDatabaseHelper.CheckLogin(extSubDatabase, true);
 
             if (!opRes.Result)//@TODO se fallisce la checklogin interrompo perchè potrebbe non aver creato  nulla, per esempio se password non rispettano le policy
             {
-                //@TODO lascio il flag UnderMaintenance a true?
-                opRes.Message = Strings.OperationKO;
+				//re-imposto il flag UnderMaintenance a false
+				opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false);
+				opRes.Message = Strings.OperationKO;
                 return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
             }
 
-            // se tutto ok allora devo aggiornare i campi nella SubscriptionDatabase
-            // e poi eseguire il check del database 
-            // se e' necessario un aggiornamento devo chiedere prima conferma all'utente
+			// se tutto ok allora devo aggiornare i campi nella SubscriptionDatabase
+			// e poi eseguire il check del database 
+			// se e' necessario un aggiornamento devo chiedere prima conferma all'utente
+			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
 
-            // I set subscription UnderMaintenance = false
+			dbManager.ImportDefaultData = true;
+			dbManager.ImportSampleData = false;
+			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 
-            opRes = SetSubscriptionDBUnderMaintenance(subDatabase.Database, false);
+			if (!opRes.Result)
+			{
+				//re-imposto il flag UnderMaintenance a false
+				opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false);
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// I set subscription UnderMaintenance = false
+
+			opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false);
 
 			if (!opRes.Result)
 			{
@@ -579,239 +664,161 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
+		[HttpPost("/api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
 		//---------------------------------------------------------------------
-		private OperationResult CheckDatabases(FullSubcriptionDatabase subDatabase)
+		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
-			// I use master database to load information
-			bool isAzureDB = (subDatabase.AdminCredentials.Provider == "SQLAzure");
+			string authHeader = HttpContext.Request.Headers["Authorization"];
 
-			string connectionString =
-				string.Format
-				(
-				(!isAzureDB) ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
-				subDatabase.AdminCredentials.Server,
-				DatabaseLayerConsts.MasterDatabase,
-				subDatabase.AdminCredentials.Login,
-				subDatabase.AdminCredentials.Password
-				);
+			// check AuthorizationHeader first
 
-			// provo a connetermi al master con le credenziali di amministrazione
-			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
-
-			// operazione forse superflua se il TestConnection viene fatto a monte dall'interfaccia angular
-			opRes.Result = dTask.TryToConnect();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
-				return opRes;
-
-			// controllo se i database esistono
-			bool existERPDb = dTask.ExistDataBase(subDatabase.Database.DBName);
-			bool existDMSDb = dTask.ExistDataBase(subDatabase.Database.DMSDBName);
-
-			if (!existERPDb && !string.IsNullOrWhiteSpace(subDatabase.Database.DBName))
 			{
-				// creazione contenitore db su Azure
-				AzureCreateDBParameters param = new AzureCreateDBParameters();
-				param.DatabaseName = subDatabase.Database.DBName;
-				param.MaxSize = AzureMaxSize.GB1;
-
-				// I create ERP database
-
-				opRes.Result = dTask.CreateAzureDatabase(param);
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-				if (!opRes.Result)
-					return opRes;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (!existDMSDb && !string.IsNullOrWhiteSpace(subDatabase.Database.DMSDBName))
-			{
-				// creazione contenitore db su Azure
-				AzureCreateDBParameters param = new AzureCreateDBParameters();
-				param.DatabaseName = subDatabase.Database.DMSDBName;
-				param.MaxSize = AzureMaxSize.GB1;
-
-				// I create DMS database
-
-				opRes.Result = dTask.CreateAzureDatabase(param);
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-				if (!opRes.Result)
-					return opRes;
-			}
-
-			DBInfo erpDBInfo = LoadDBMarkInfo(connectionString, subDatabase.Database.DBName);
-			DBInfo dmsDBInfo = LoadDBMarkInfo(connectionString, subDatabase.Database.DMSDBName);
-
-			if (erpDBInfo.HasError || dmsDBInfo.HasError)
+			if (subDatabase == null)
 			{
 				opRes.Result = false;
-				opRes.Message = erpDBInfo.Error + "\r\n" + dmsDBInfo.Error;
-				return opRes;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)//questi bool sono rimasti vecchi , se non esistevano dopo creazione db rimangono a false, è corretto?
+			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase, false); // il param 2 effettua il controllo solo sul db di ERP
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
 			{
-				if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
-				{
-					opRes.Result = false;
-					opRes.Message = "Flag unicode non compatibili";
-					return opRes;
-				}
-
-				if (string.Compare(erpDBInfo.Collation, dmsDBInfo.Collation, StringComparison.InvariantCultureIgnoreCase) != 0)
-				{
-					opRes.Result = false;
-					opRes.Message = "Collation non compatibili";
-					return opRes;
-				}
-				else
-				{
-					//@@TODO: verifica compatibilita' collation con ISOSTATO attivazione
-					// se non va bene return false
-				}
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			else
+			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
 			{
-				//@@TODO ALTER DATABASE ALTER COLLATE per ogni database empty con collate != Latin1_General_CI_AS
-				// (valutare se basta il check esistenza TB_DBMark o entrare nel merito di tutte le tabelle)
-				// in AC controllava tutte le tabelle 
+				opRes.Result = false;
+				opRes.Message = "ERP database does not contain any table, unable to proceed!";
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			subDatabase.Database.IsUnicode = erpDBInfo.UseUnicode;
-			subDatabase.Database.DatabaseCulture = "1040"; //todo : lcid della collation
-			opRes.Result = true;
+			BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
+			importExportManager.SetDefaultDataConfiguration(configuration);
+			importExportManager.ImportDefaultDataSilentMode(true);
 
-			return opRes;
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
+		[HttpPost("/api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
 		//---------------------------------------------------------------------
-		private OperationResult CheckLogin(FullSubcriptionDatabase subDatabase, bool isDMS = false)
+		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
-            string serverName = isDMS ? subDatabase.Database.DMSDBServer : subDatabase.Database.DBServer;
-			string dbName = isDMS ?     subDatabase.Database.DMSDBName     :subDatabase.Database.DBName  ;
-			string dbowner = isDMS ?    subDatabase.Database.DMSDBOwner    :subDatabase.Database.DBOwner;
-			string password = isDMS ?   subDatabase.Database.DMSDBPassword :subDatabase.Database.DBPassword ;
+			string authHeader = HttpContext.Request.Headers["Authorization"];
 
-            if (string.IsNullOrWhiteSpace(serverName) || string.IsNullOrWhiteSpace(dbName) || string.IsNullOrWhiteSpace(dbowner))
-            {
-                opRes.Result = false;
-                opRes.Message = Strings.EmptyCredentials;
-                return opRes;
-            }
-                // I use master database to load information
-                bool isAzureDB = (subDatabase.AdminCredentials.Provider == "SQLAzure");
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (subDatabase == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase, false); // il param 2 effettua il controllo solo sul db di ERP
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
+			{
+				opRes.Result = false;
+				opRes.Message = "ERP database does not contain any table, unable to proceed!";
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
+			importExportManager.SetSampleDataConfiguration(configuration, iso);
+			importExportManager.ImportSampleDataSilentMode(true);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiDeleteObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (subDatabase == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// I use master database to load all dbs
+			bool isAzureDB = (subDatabase.Provider == "SQLAzure");
 
 			string connectionString =
 				string.Format
 				(
-				(!isAzureDB) ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
-				subDatabase.AdminCredentials.Server,
-				DatabaseLayerConsts.MasterDatabase,
-				subDatabase.AdminCredentials.Login,
-				subDatabase.AdminCredentials.Password
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+				subDatabase.DBServer,
+				subDatabase.DBName,
+				subDatabase.DBOwner,
+				subDatabase.DBPassword
 				);
 
-			// provo a connetermi al master con le credenziali di amministrazione
 			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
-			
-			// check esistenza login
-			bool existLogin = dTask.ExistLogin(dbowner);
+			opRes.Result = dTask.DeleteDatabaseObjects();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			// se la login non esiste la creo, poi creo l'utente sul database con ruolo dbo
-			if (!existLogin)
-			{
-				opRes.Result = dTask.CreateLogin(dbowner, password);
-
-				if (opRes.Result)
-					opRes.Result = dTask.CreateUser(dbowner, dbName);
-
-				if (!opRes.Result)
-					opRes.Message = dTask.Diagnostic.ToJson(true);
-
-				return opRes;
-			}
-
-			// la login esiste
-			// quindi vado solo a creare utente + ruolo
-			opRes.Result = dTask.CreateUser(dbowner, dbName);
-
-			if (opRes.Result)
-			{
-				// provo a connettermi al database con le nuove credenziali
-				dTask.CurrentStringConnection = string.Format((!isAzureDB) ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection, serverName, dbName, dbowner, password);
-				opRes.Result = dTask.TryToConnect();
-				if (!opRes.Result)
-					opRes.Message = dTask.Diagnostic.ToJson(true);
-			}
-
-			return opRes;
-		}
-
-		//---------------------------------------------------------------------
-		private DBInfo LoadDBMarkInfo(string connectionString, string dbName)
-		{
-			// devo cambiare il nome del database senza utilizzare la ChangeDatabase, non supportata da Azure
-			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString) { InitialCatalog = dbName	};
-
-			DBInfo info = new DBInfo { Name = dbName };
-            if (string.IsNullOrWhiteSpace(dbName))
-                return info;
-            try
-			{
-				using (TBConnection myConnection = new TBConnection(builder.ConnectionString, DBMSType.SQLSERVER))
-				{
-					myConnection.Open();
-
-					TBDatabaseSchema tbSchema = new TBDatabaseSchema(myConnection);
-					// se esiste la tabella TB_DBMark procedo a leggere le informazioni sulla colonna Status
-					if (tbSchema.ExistTable(DatabaseLayerConsts.TB_DBMark))
-					{
-						info.ExistDBMark = true;
-						info.UseUnicode = TBCheckDatabase.IsUnicodeDataType(myConnection);
-						info.Collation = TBCheckDatabase.GetColumnCollation(myConnection);
-					}
-					else
-						info.ExistDBMark = false;
-				}
-			}
-			catch(Exception e)
-			{
-				info.Error = e.Message;
-			}
-
-			return info;
-		}
-
-		//---------------------------------------------------------------------
-		private OperationResult SetSubscriptionDBUnderMaintenance(SubscriptionDatabase subDatabase, bool set = true)
-		{
-			OperationResult opRes = new OperationResult();
-
-			try
-			{
-				subDatabase.UnderMaintenance = set;
-				opRes = subDatabase.Save(burgerData);
-				opRes.Message = Strings.OperationOK;
-			}
-			catch (Exception exc)
-			{
-				opRes.Result = false;
-				opRes.Message = "DatabaseController.SetUnderMaintenance" + exc.Message;
-			}
-
-			return opRes;		
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}
 
 	//================================================================================
-	public class FullSubcriptionDatabase
+	public class ExtendedSubscriptionDatabase
 	{
 		public DatabaseCredentials AdminCredentials;
 		public SubscriptionDatabase Database;

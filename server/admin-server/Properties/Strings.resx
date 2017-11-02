@@ -279,4 +279,7 @@
   <data name="DatabaseNameEmpty" xml:space="preserve">
     <value>Database name is empty</value>
   </data>
+  <data name="BurgledInstance" xml:space="preserve">
+    <value>The {0} instance is not valid. May need to be connect to GWAM. It is not possible to work offline.</value>
+  </data>
 </root>

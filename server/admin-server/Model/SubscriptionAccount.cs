@@ -12,13 +12,15 @@ namespace Microarea.AdminServer.Model
 	{
         string accountName;
 		string subscriptionKey;
+        int ticks = TicksHelper.GetTicks();
 
-		//---------------------------------------------------------------------
-		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
+        //---------------------------------------------------------------------
+        public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
         public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
+        public int Ticks { get => ticks; set => ticks = value; }
 
-		//---------------------------------------------------------------------
-		public SubscriptionAccount()
+        //---------------------------------------------------------------------
+        public SubscriptionAccount()
 		{
 			accountName = string.Empty;
 			subscriptionKey = string.Empty;
@@ -32,7 +34,7 @@ namespace Microarea.AdminServer.Model
 			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
 			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
 			burgerDataParameters.Add(new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey));
-
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
 			BurgerDataParameter accountKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
 			BurgerDataParameter subscriptionKeyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
 			BurgerDataParameter[] keyColumns = new BurgerDataParameter[] {
@@ -51,7 +53,9 @@ namespace Microarea.AdminServer.Model
 			SubscriptionAccount subAccount = new SubscriptionAccount();
 			subAccount.accountName = reader["AccountName"] as string;
 			subAccount.subscriptionKey = reader["SubscriptionKey"] as string;
-			return subAccount;
+            subAccount.Ticks = (int)reader["Ticks"] ;
+
+            return subAccount;
 		}
 
 		//---------------------------------------------------------------------

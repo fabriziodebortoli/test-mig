@@ -1,10 +1,10 @@
-import {OperationResult} from '../../services/operationResult';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Credentials } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
 import { AccountInfo } from '../../authentication/account-info';
+import { OperationResult } from '../../services/operationResult';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -132,6 +132,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (accountInfo !== undefined && accountInfo !== null && accountInfo.instanceKey !== '') {
         this.selectedInstanceKey = accountInfo.instanceKey;
         this.loginStep+=2;
+        //this.inputPsw.nativeElement.focus();
         return;
       }
     }
@@ -167,6 +168,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
 
             this.loginStep++;
+            //this.inputPsw.nativeElement.focus();
           }
         },
         err => {

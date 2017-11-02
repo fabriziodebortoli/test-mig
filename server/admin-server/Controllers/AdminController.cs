@@ -1,10 +1,13 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Controllers.Helpers.APIQuery;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.PostMan;
+using Microarea.AdminServer.Services.PostMan.actuators;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -21,8 +24,10 @@ namespace Microarea.AdminServer.Controllers
         private IHostingEnvironment _env;
 
 		BurgerData burgerData;
+		PostMan postMan;
+		IPostManActuator mailActuator;
 
-        IJsonHelper jsonHelper;
+		IJsonHelper jsonHelper;
 		IHttpHelper _httpHelper;
 
 		string GWAMUrl;
@@ -30,14 +35,19 @@ namespace Microarea.AdminServer.Controllers
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
         {
-            _env = env;
-            _settings = settings.Value;
-            this.jsonHelper = jsonHelper;
-			_httpHelper = httpHelper;
-
+			// configurations
+            this._env = env;
+            this._settings = settings.Value;
 			this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
 
+			// helpers
+			this.jsonHelper = jsonHelper;
+			this._httpHelper = httpHelper;
+
+			// services
 			this.burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+			this.mailActuator = new MailActuator("mail.microarea.it");
+			this.postMan = new PostMan(mailActuator);
 		}
 
 		[HttpGet]
@@ -175,7 +185,7 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-				opRes = Query(modelTable, apiQueryData);
+				opRes = APIQueryHelper.Query(modelTable, apiQueryData, this.burgerData);
 
 				if (opRes.Result)
 				{
@@ -194,57 +204,6 @@ namespace Microarea.AdminServer.Controllers
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-		}
-
-		//-----------------------------------------------------------------------------	
-		private OperationResult Query(ModelTables modelTable, APIQueryData apiQueryData)
-		{
-			// load Body data in QueryInfo object
-
-			SelectScript selectScript = new SelectScript(SqlScriptManager.GetTableName(modelTable));
-
-			foreach (KeyValuePair<string, string> kvp in apiQueryData.MatchingFields)
-			{
-				selectScript.AddWhereParameter(kvp.Key, kvp.Value, QueryComparingOperators.IsEqual, false);
-			}
-
-			foreach (KeyValuePair<string, string> kvp in apiQueryData.LikeFields)
-			{
-				selectScript.AddWhereParameter(kvp.Key, kvp.Value, QueryComparingOperators.Like, false);
-			}
-
-			OperationResult opRes = new OperationResult();
-			opRes.Result = true;
-
-			switch (modelTable)
-			{
-				case ModelTables.Accounts:
-					opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.Subscriptions:
-					opRes.Content = this.burgerData.GetList<Subscription, ISubscription>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.Roles:
-					opRes.Content = this.burgerData.GetList<Role, IRole>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.AccountRoles:
-					opRes.Content = this.burgerData.GetList<AccountRoles, IAccountRoles>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.Instances:
-					opRes.Content = this.burgerData.GetList<Instance, IInstance>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.SubscriptionAccounts:
-					opRes.Content = this.burgerData.GetList<SubscriptionAccount, ISubscriptionAccount>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
-					break;
-				case ModelTables.None:
-				default:
-					opRes.Result = false;
-					opRes.Code = (int)AppReturnCodes.UnknownModelName;
-					opRes.Message = Strings.UnknownModelName;
-					break;
-			}
-
-			return opRes;
 		}
 
 		[HttpDelete("/api/query/{modelName}/{instanceKey}")]
@@ -332,6 +291,50 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Code = (int)AppReturnCodes.OK;
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpPost("/api/messages")]
+		[Produces("application/json")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiMessages([FromBody] APIMessageData apiMessageData, string instanceKey)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// check AuthorizationHeader first
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, instanceKey, RoleLevelsStrings.Instance);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (apiMessageData == null || !apiMessageData.HasData())
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 400, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			try
+			{
+				this.postMan.Send(apiMessageData.Destination, apiMessageData.Subject, apiMessageData.Body);
+			}
+			catch (Exception e)
+			{
+				opRes.Result = false;
+				opRes.Message = String.Concat(Strings.InternalError, " (", e.Message, ")");
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			opRes.Result = true;
+			opRes.Message = Strings.OK;
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 

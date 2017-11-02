@@ -1,12 +1,10 @@
-import { Http } from '@angular/http';
-import { InfoService, HttpService } from '@taskbuilder/core';
-import { ComponentService } from '@taskbuilder/core';
-import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Http } from '@angular/http';
 
-import { EventDataService, DocumentService } from '@taskbuilder/core';
-import { CommandType } from './models';
+import { EventDataService, DocumentService, InfoService, HttpService, ComponentService, Logger } from '@taskbuilder/core';
+
+import { Subject } from './rxjs.imports';
+import { CommandType } from './models/command-type.model';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
@@ -102,6 +100,14 @@ export class ReportingStudioService extends DocumentService {
     reset() {
         this.pageNum = 1;
         this.showAsk = false;
+    }
+
+    //--------------------------------------------------
+    generateId(): string {
+        let result = '';
+        let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (var i = 10; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
     }
 }
 

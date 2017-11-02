@@ -1194,10 +1194,6 @@ namespace Microarea.Common.MenuLoader
 				if (tmpRoot.Node == null || !tmpRoot.IsRoot)
 				{
 					AddLoadErrorMessage(String.Format(MenuManagerLoaderStrings.InvalidMenuFileMsg, fileToLoad));
-	
-					if (aMenuInfo != null)
-						aMenuInfo.RaiseLoadFavoritesMenuEndedEvent(this);
-					
 					return false;
 				}
 
@@ -1214,15 +1210,8 @@ namespace Microarea.Common.MenuLoader
 				ArrayList applicationItems = tmpRoot.ApplicationsItems;
 				if (applicationItems != null)
 				{
-					if (aMenuInfo != null)
-						aMenuInfo.RaiseLoadFavoritesMenuStartedEvent(this, applicationItems.Count);
-					
-					int appCount = 0;
 					foreach (MenuXmlNode appNodeToAdd in applicationItems)
 					{
-						if (aMenuInfo != null)
-							aMenuInfo.RaiseLoadFavoritesMenuAppIndexChangedEvent(this, appCount++);
-
 						MenuXmlNode appNode = AddApplicationNode(appNodeToAdd, commandsTypeToLoad);
 						if (appNode == null)
 							continue;
@@ -1260,9 +1249,6 @@ namespace Microarea.Common.MenuLoader
 							}
 						}
 					}
-
-					if (aMenuInfo != null)
-						aMenuInfo.RaiseLoadFavoritesMenuEndedEvent(this);
 				}
 
 				MenuXmlNode tmpCommandShortcutsNode = tmpRoot.GetCommandShortcutsNode();

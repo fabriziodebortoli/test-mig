@@ -11,6 +11,8 @@ using Microarea.Common.Applications;
 using Microarea.RSWeb.Render;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
+using Microsoft.AspNetCore.Cors;
+using Microarea.Common;
 
 /*
 localhost:5000/rs/template/erp.company.isocountrycodes/1
@@ -30,7 +32,7 @@ namespace Microarea.RSWeb.Controllers
     {
         UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
 
@@ -56,7 +58,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -88,7 +90,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -113,6 +115,8 @@ namespace Microarea.RSWeb.Controllers
         }
 
         //---------------------------------------------------------------------
+        [ResponseCache(Duration = 604800, Location = ResponseCacheLocation.Any)]
+        [EnableCors("CorsPolicy")]
         [Route("image/{namespace}")]
         public IActionResult GetImage(string nameSpace)
         {
@@ -121,7 +125,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             string filename = nameSpace;
             if (!System.IO.File.Exists(filename))
@@ -141,12 +145,12 @@ namespace Microarea.RSWeb.Controllers
             if (!System.IO.File.Exists(filename))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
-            string ext = System.IO.Path.GetExtension(filename);
+            string ext = System.IO.Path.GetExtension(filename).TrimStart('.');
 
             try
             {
+                this.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                 FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-
                 return new FileStreamResult(f, "image/" + ext);
             }
             catch (Exception)
@@ -167,7 +171,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             if (!System.IO.File.Exists(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
@@ -200,7 +204,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             if (!System.IO.File.Exists(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
@@ -229,7 +233,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -248,7 +252,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -267,7 +271,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 

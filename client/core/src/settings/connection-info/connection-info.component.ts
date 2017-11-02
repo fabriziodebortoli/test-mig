@@ -1,7 +1,7 @@
 import { LocalizationService } from './../../core/services/localization.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../rxjs.imports';
 
 @Component({
   selector: 'tb-connection-info',
@@ -12,8 +12,8 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
 
   public connectionInfos: any;
   public showdbsize: boolean;
-  public connectionInfoSub: Subscription;
 
+  private subscriptions = [];
   constructor(
     public httpMenuService: HttpMenuService,
     public localizationService: LocalizationService
@@ -22,20 +22,19 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.connectionInfoSub = this.httpMenuService.getConnectionInfo().subscribe(result => {
+    this.subscriptions.push(this.httpMenuService.getConnectionInfo().subscribe(result => {
       this.connectionInfos = result;
       this.showdbsize = this.connectionInfos.showdbsizecontrols == 'Yes';
-    });
+    }));
 
-    this.localizationService.localizationsLoaded.subscribe((loaded) => {
-      console.log("loaded", loaded);
+    this.subscriptions.push(this.localizationService.localizationsLoaded.subscribe((loaded) => {
       if (!loaded)
         return;
-    });
+    }));
   }
 
   ngOnDestroy() {
-    this.connectionInfoSub.unsubscribe();
+    this.subscriptions.forEach(subs => subs.unsubscribe());
   }
 }
 

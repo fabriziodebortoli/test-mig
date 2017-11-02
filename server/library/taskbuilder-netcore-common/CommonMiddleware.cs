@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
+using System.IO;
+using TaskBuilderNetCore.Interfaces;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Microarea.Common
 {
@@ -27,13 +31,17 @@ namespace Microarea.Common
 
         public Task Invoke(HttpContext context)
         {
-            string c;
+            this.BeginInvoke(context);
+            return this.next.Invoke(context);
+        }
 
-            if (!context.Request.Cookies.TryGetValue(culture_cookie, out c))
+
+        private void BeginInvoke(HttpContext context)
+        {
+            string c = AutorizationHeaderManager.GetAuthorizationElement(context.Request, culture_cookie);
+            if (string.IsNullOrEmpty(c))
             {
                 c = InstallationData.ServerConnectionInfo.PreferredLanguage;
-                CookieOptions opt = new CookieOptions { Expires = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(14)) };
-                context.Response.Cookies.Append(CommonMiddleware.culture_cookie, c, opt);
             }
             try
             {
@@ -44,10 +52,7 @@ namespace Microarea.Common
             {
                 //in caso di cookie errato... non dovrebbe mai passare di qui...
             }
-
-            return this.next(context);
         }
-
     }
 
     public class WebAppConfigurator : IWebAppConfigurator

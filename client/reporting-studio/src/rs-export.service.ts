@@ -1,17 +1,12 @@
-import { ReportingStudioService } from './reporting-studio.service';
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { PdfType, SvgType, PngType } from './models';
 
 import { drawDOM, exportPDF, DrawOptions, Group, exportImage, exportSVG } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
-import { Subscription } from "rxjs/Subscription";
-import { Observable } from 'rxjs/Rx';
+import { Subscription, Subject, Observable } from './rxjs.imports';
 
+import { PdfType, SvgType, PngType } from './models/export-type.model';
+import { ReportingStudioService } from './reporting-studio.service';
 import { Snapshot } from './report-objects/snapshotdialog/snapshot';
-import { timeout } from 'rxjs/operator/timeout';
-
-
 
 @Injectable()
 export class RsExportService {
@@ -24,6 +19,7 @@ export class RsExportService {
     pngState: PngType = PngType.NOPNG;
     filePdf = new Group();
     titleReport: string;
+    layoutId: string;
 
     user: boolean;
     nameSnap: string;
@@ -88,20 +84,20 @@ export class RsExportService {
 
 
     async appendPDF() {
-        await this.timeout(20000);
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 this.filePdf.append(group);
             })
     }
 
     async renderPDF() {
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 this.filePdf.append(group);
                 return exportPDF(this.filePdf, {
                     multiPage: true
                 });
+                
             })
             .then((dataUri) => {
                 saveAs(dataUri, this.titleReport + '.pdf');
@@ -109,12 +105,13 @@ export class RsExportService {
             }).then(() => {
                 this.eventFirstPage.emit();
                 this.rsService.reset();
+                this.filePdf = new Group();
             });
     }
 
     //------EXPORT PNG-----------------------------------
     async exportPNG() {
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 return exportImage(group);
             })
@@ -127,7 +124,7 @@ export class RsExportService {
 
     //------EXPORT SVG-----------------------------------
     async exportSVG() {
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 return exportSVG(group);
             })

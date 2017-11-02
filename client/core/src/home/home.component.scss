@@ -35,26 +35,25 @@ mat-sidenav-container,
     flex-flow: column;
 }
 
-.tabber-container>.k-tabstrip>.k-content {
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    background: #F1F4F7;
-}
-
-.tabber-container>.k-tabstrip>.k-tabstrip-items {
-    background-color: #0277bd;
-    border-bottom: 1px solid #ddd;
-    height: 30px;
-    line-height: 30px;
+.tabber-container>.k-tabstrip {
+    &>.k-tabstrip-items {
+        background-color: #0277bd;
+        border-bottom: 1px solid #ddd;
+        height: 30px;
+        line-height: 30px;
+    }
+    &>.k-content {
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background: #F1F4F7;
+    }
 }
 
 .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
     line-height: 27px;
-    padding: 0 20px 0 0;
     font-size: 13px;
     font-weight: 700;
-    position: relative;
     cursor: pointer;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
@@ -72,36 +71,23 @@ mat-sidenav-container,
     color: #0277bd;
 }
 
-.tabber-container>.k-tabstrip>.k-tabstrip-items #k-tabstrip-tab-0,
-.tabber-container>.k-tabstrip>.k-tabstrip-items #k-tabstrip-tab-1 {
-    padding: 0;
-}
-
 .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link {
     padding: 0 10px;
-    text-align: center;
-}
-
-.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link m4-icon {
-    font-size: 16px;
-    padding: 3px;
-}
-
-.marginLeft {
-    margin-left: 5px;
-}
-
-.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link m4-icon.close {
-    line-height: 30px;
-    position: absolute;
-    top: 1px;
-    right: 7px;
-    font-size: 14px;
-}
-
-.menu-tab {
-    display: flex;
-    flex-direction: row;
+    &>div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &>span {
+            padding: 0 7px;
+        }
+        m4-icon {
+            font-size: 16px;
+            padding-top: 3px;
+        }
+        m4-icon.close {
+            font-size: 14px;
+        }
+    }
 }
 
 #dpi {
@@ -112,3 +98,6 @@ mat-sidenav-container,
     width: 1in;
 }
 
+.hidden {
+    visibility: hidden;
+}

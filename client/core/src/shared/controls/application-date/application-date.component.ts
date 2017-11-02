@@ -1,11 +1,14 @@
-import { InfoService } from './../../../core/services/info.service';
+import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation } from '@angular/core';
 import { formatDate } from '@telerik/kendo-intl';
+
+import { Subscription, Subject } from '../../../rxjs.imports';
+
 import { OperationResult } from './../../models/operation-result.model';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
+
+import { LocalizationService } from './../../../core/services/localization.service';
+import { InfoService } from './../../../core/services/info.service';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
-import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'tb-application-date',
@@ -25,7 +28,11 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
 
     public opened: boolean = false;
 
-    constructor(public infoService: InfoService, public httpMenuService: HttpMenuService, public taskbuilderService: TaskbuilderService) {
+    constructor(
+        public infoService: InfoService,
+        public httpMenuService: HttpMenuService,
+        public taskbuilderService: TaskbuilderService,
+        public localizationService: LocalizationService) {
     }
 
     ngOnInit() {
@@ -41,7 +48,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach((sub) => sub.unsubscribe());
     }
     getDate() {
-        this.httpMenuService.getApplicationDate().subscribe((res) => {
+        let subs = this.httpMenuService.getApplicationDate().subscribe((res) => {
             if (!res.dateInfo)
                 return;
 
@@ -50,9 +57,11 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
             this.applicationDate = this.internalDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
             this.culture = res.dateInfo.culture;
             this.dateFormat = res.dateInfo.formatDate;
+
+            subs.unsubscribe();
         })
     }
-    
+
     public handleChange(value: Date) {
         this.internalDate = value;
     }

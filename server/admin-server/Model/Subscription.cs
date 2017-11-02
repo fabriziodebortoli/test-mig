@@ -18,18 +18,20 @@ namespace Microarea.AdminServer.Model
 		string regionalSettings = string.Empty;
 		int minDBSizeToWarn;
         bool underMaintenance;
+        int ticks = TicksHelper.GetTicks();
 
-		//---------------------------------------------------------------------
-		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
+        //---------------------------------------------------------------------
+        public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
         public string ActivationToken { get { return this.activationToken; } set { this.activationToken = value; } }
 		public string Language { get { return this.language; } set { this.language = value; } }
 		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
 		public int MinDBSizeToWarn { get { return this.minDBSizeToWarn; } set { this.minDBSizeToWarn = value; } }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
+        public int Ticks { get => ticks; set => ticks = value; }
 
-		//---------------------------------------------------------------------
-		public Subscription() {}
+        //---------------------------------------------------------------------
+        public Subscription() {}
 
 		//---------------------------------------------------------------------
 		public Subscription(string subscriptionKey) : this()
@@ -60,8 +62,9 @@ namespace Microarea.AdminServer.Model
 			burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.regionalSettings));
 			burgerDataParameters.Add(new BurgerDataParameter("@MinDBSizeToWarn", this.minDBSizeToWarn));
 			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
 
-			BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
+            BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
 
 			opRes.Result = burgerData.Save(ModelTables.Subscriptions, keyColumnParameter, burgerDataParameters);
 			opRes.Content = this;
@@ -79,7 +82,8 @@ namespace Microarea.AdminServer.Model
 			subscription.regionalSettings = reader["RegionalSettings"] as string;
 			subscription.minDBSizeToWarn = (int)reader["MinDBSizeToWarn"];
 			subscription.underMaintenance = (bool)reader["UnderMaintenance"];
-			return subscription;
+            subscription.Ticks = (int)reader["Ticks"];
+            return subscription;
 		}
 
 		//---------------------------------------------------------------------

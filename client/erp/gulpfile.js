@@ -84,12 +84,24 @@ gulp.task('rollup:fesm', function() {
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
                 '@angular/core',
-                '@angular/common'
+                '@angular/common',
+                '@angular/forms',
+                '@angular/http',
+                '@taskbuilder/core'
             ],
 
             // Format of generated bundle
             // See "format" in https://rollupjs.org/#core-functionality
-            format: 'es'
+            format: 'es',
+
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
+            }
         }))
         .pipe(gulp.dest(distFolder));
 });
@@ -117,7 +129,10 @@ gulp.task('rollup:umd', function() {
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
                 '@angular/core',
-                '@angular/common'
+                '@angular/common',
+                '@angular/forms',
+                '@angular/http',
+                '@taskbuilder/core'
             ],
 
             // Format of generated bundle
@@ -135,7 +150,21 @@ gulp.task('rollup:umd', function() {
 
             // See "globals" in https://rollupjs.org/#core-functionality
             globals: {
-                typescript: 'ts'
+                typescript: 'ts',
+                '@angular/core': 'core',
+                '@angular/common': 'common',
+                '@angular/http': 'http',
+                '@taskbuilder/core': 'core$1',
+                '@angular/forms': 'forms'
+            },
+
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
             }
 
         }))

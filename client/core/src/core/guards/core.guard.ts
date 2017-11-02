@@ -1,6 +1,6 @@
 import { Inject, forwardRef, Injectable } from '@angular/core';
 import { CanActivate, UrlSegment, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from '../../rxjs.imports';
 
 import { Logger } from './../services/logger.service';
 import { AuthService } from './../services/auth.service';

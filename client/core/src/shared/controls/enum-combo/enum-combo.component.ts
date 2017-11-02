@@ -1,7 +1,7 @@
 ﻿import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../rxjs.imports';
 
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';

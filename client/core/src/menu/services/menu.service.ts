@@ -1,9 +1,9 @@
+import { SettingsService } from './../../core/services/settings.service';
 import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, BehaviorSubject } from '../../rxjs.imports';
 
 import { InfoService } from './../../core/services/info.service';
 import { HttpService } from './../../core/services/http.service';
@@ -12,7 +12,6 @@ import { UtilsService } from './../../core/services/utils.service';
 import { WebSocketService } from './../../core/services/websocket.service';
 import { Logger } from './../../core/services/logger.service';
 import { ImageService } from './image.service';
-import { SettingsService } from './settings.service';
 import { HttpMenuService } from './http-menu.service';
 
 @Injectable()
@@ -89,7 +88,6 @@ export class MenuService {
         public componentService: ComponentService,
         public infoService: InfoService,
         public loadingService: LoadingService
-
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -206,7 +204,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    runFunction = function (object) {
+    runFunction(object) {
         if (object === undefined)
             return;
 
@@ -224,11 +222,11 @@ export class MenuService {
         }
         this.addToMostUsed(object);
         object.isLoading = true;
-        const subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
+        let subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
             object.isLoading = false;
             subs1.unsubscribe();
         });
-        const subs2 = this.componentService.componentCreationError.subscribe(reason => {
+        let subs2 = this.componentService.componentCreationError.subscribe(reason => {
             object.isLoading = false;
             subs2.unsubscribe();
         });
@@ -263,6 +261,8 @@ export class MenuService {
             urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
         }
 
+        let authtoken = localStorage.getItem('authtoken');
+        urlToRun += "&authtoken=" + authtoken;
         let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
             object.isLoading = false;
             sub.unsubscribe();
@@ -351,9 +351,8 @@ export class MenuService {
     };
 
     //---------------------------------------------------------------------------------------------
-    getSearchItemTooltip = function (object) {
-        // return $sce.trustAsHtml(object.title + "<br/>" + object.applicationTitle + " | " + object.groupTitle + " | " + object.menu + " | " + object.tile);
-        return "ciao";
+    getSearchItemTooltip(object) {
+        return object.title + ' | ' + object.applicationTitle + " | " + object.groupTitle + " | " + object.menu + " | " + object.tile;
     }
 
 
@@ -414,7 +413,7 @@ export class MenuService {
     }
 
     updateAllFavoritesAndMostUsed() {
-        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(()=>{
+        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(() => {
             sub.unsubscribe();
         });
     }
@@ -483,7 +482,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    resetMenuServices(){
+    resetMenuServices() {
         this.allMenus = [];
         this.favoritesCount = 0;
         this.mostUsedCount = 0;
@@ -511,7 +510,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     loadFavoritesAndMostUsed() {
-    
+
         if (this.allMenus != undefined)
             this.findFavoritesAndMostUsedInApplication(this.allMenus);
 
@@ -563,7 +562,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    removeFromMostUsed = function (object) {
+    removeFromMostUsed(object) {
 
         this.removeFromMostUsedArray(object);
     };

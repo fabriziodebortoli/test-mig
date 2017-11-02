@@ -1,35 +1,20 @@
-.mat-radio-checked .mat-radio-outer-circle {
-    border-color: #4169E1 !important;
-}
-
-.mat-radio-inner-circle {
-    background-color: #03A9F4 !important;
-}
-
-.search-options {
-    padding: 3px !important;
-    font-size: small !important;
-}
-
-.search-options .mat-radio-label {
-    align-items: center !important;
-}
-
-.search-options .mat-radio-outer-circle {
-    height: 17px !important;
-    width: 17px !important;
-}
-
-.search-options .mat-radio-inner-circle {
-    height: 17px !important;
-    width: 17px !important;
-}
-
-.search-options .mat-radio-button {
-    display: block;
-}
-
 .tableHeader {
     background-color: #0277bd;
     color: white;
+}
+.searchOptions{
+    padding: 0px 5px;
+}
+
+.selTypeElem {
+    cursor: pointer;
+    padding: 3px;
+}
+
+.selTypeElem:hover {
+    background-color: rgba(202, 230, 247, 0.8);
+}
+
+.elemSelected {
+    background: #bde3f8;
 }

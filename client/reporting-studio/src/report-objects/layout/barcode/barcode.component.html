@@ -1,1 +1,5 @@
-<canvas id="barcodeCanvas"></canvas><div id="err"></div>
+<div class="barcodeContainer">
+    <canvas id="{{id}}" class="barcodeCanvas"></canvas>
+    <div class="barcodeText" *ngIf="IncludeText()">{{value}}</div>
+</div>
+

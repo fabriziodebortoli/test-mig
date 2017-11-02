@@ -1,3 +1,4 @@
+import { TbIconsModule } from '@taskbuilder/icons';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -39,7 +40,8 @@ const KENDO_UI_MODULES = [
   imports: [
     KENDO_UI_MODULES,
     CommonModule,
-    TbSharedModule
+    TbSharedModule,
+    TbIconsModule
   ],
   declarations: [
     WidgetContainerComponent,

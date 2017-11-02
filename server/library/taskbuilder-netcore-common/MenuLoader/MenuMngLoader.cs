@@ -308,7 +308,7 @@ namespace Microarea.Common.MenuLoader
 
                 this.ConfigurationHash = configurationHash;
                 this.CommandsTypeToLoad = commandsTypeToLoad;
-                this.Culture = Thread.CurrentThread.CurrentUICulture.Name;
+                this.Culture = CultureInfo.CurrentUICulture.Name;
                 this.InstallationDate = InstallationData.InstallationDate;
                 this.CacheDate = InstallationData.CacheDate;
                 this.pathFinder = pathFinder;
@@ -348,7 +348,7 @@ namespace Microarea.Common.MenuLoader
 
                 return Path.Combine(
                     clientInstallationPath,
-                    string.Format(StandardMenuCachingFileName, Thread.CurrentThread.CurrentUICulture.Name) 
+                    string.Format(StandardMenuCachingFileName, CultureInfo.CurrentUICulture.Name) 
                     );
             }
 
@@ -397,7 +397,7 @@ namespace Microarea.Common.MenuLoader
                     using (StreamWriter sw = fi.CreateText())
                         ser.Serialize(sw, this);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
 
@@ -429,20 +429,8 @@ namespace Microarea.Common.MenuLoader
 
         //---------------------------------------------------------------------------
         public event MenuParserEventHandler ScanStandardMenuComponentsStarted;
-        public event MenuParserEventHandler ScanStandardMenuComponentsModuleIndexChanged;
         public event MenuParserEventHandler ScanStandardMenuComponentsEnded;
-        public event MenuParserEventHandler ScanCustomMenuComponentsStarted;
-        public event MenuParserEventHandler ScanCustomMenuComponentsModuleIndexChanged;
-        public event MenuParserEventHandler ScanCustomMenuComponentsEnded;
-        public event MenuParserEventHandler LoadAllMenuFilesStarted;
-        public event MenuParserEventHandler LoadAllMenuFilesModuleIndexChanged;
-        public event MenuParserEventHandler LoadAllMenuFilesEnded;
-        public event MenuParserEventHandler LoadFavoritesMenuStarted;
-        public event MenuParserEventHandler LoadFavoritesMenuAppIndexChanged;
-        public event MenuParserEventHandler LoadFavoritesMenuEnded;
-        public event MenuParserEventHandler LoadCachedStandardMenuStarted;
-        public event MenuParserEventHandler LoadCachedStandardMenuEnded;
-
+        
         //----------------------------------------------------------------------------
         public event FavoritesActionEventHandler RemovingNodeFromFavorites;
         public event FavoritesActionEventHandler AddingNodeToFavorites;
@@ -1079,12 +1067,7 @@ namespace Microarea.Common.MenuLoader
             string configurationHash = LoginManager.LoginManagerInstance.GetConfigurationHash();
             try
             {
-
-                if (LoadCachedStandardMenuStarted != null)
-                    LoadCachedStandardMenuStarted(this, null);
-
                 cachedInfos = CachedMenuInfos.Load(commandsTypeToLoad, configurationHash, menuPathFinder.User);
-
                 return cachedInfos != null;
             }
             catch (Exception exception)
@@ -1095,9 +1078,6 @@ namespace Microarea.Common.MenuLoader
             }
             finally
             {
-                if (LoadCachedStandardMenuEnded != null)
-                    LoadCachedStandardMenuEnded(this, null);
-
                 if (cachedInfos == null)
                     cachedInfos = new CachedMenuInfos(commandsTypeToLoad, configurationHash, menuPathFinder);
             }
@@ -1204,9 +1184,9 @@ namespace Microarea.Common.MenuLoader
             }
             else
             {
-                int modulesCount = 0;
-                
-                List<string> activatedModules = LoginManager.LoginManagerInstance.GetModules();
+               
+				LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+				List <string> activatedModules = session.GetModules();
                 if (activatedModules == null || activatedModules.Count <= 0)
                 {
                     Debug.Fail("No activated modules found");
@@ -1256,8 +1236,6 @@ namespace Microarea.Common.MenuLoader
                             bool moduleFound = activatedModules.Exists((s) => { return string.Compare(s, appInfo.Name + "." + moduleInfo.Name, StringComparison.OrdinalIgnoreCase) == 0; });
                             if (!moduleFound)
                                 continue;
-
-                            ScanStandardMenuComponentsModuleIndexChanged?.Invoke(this, new MenuParserEventArgs(modulesCount++, moduleInfo));
 
                             ModuleMenuInfo aModule = new ModuleMenuInfo(moduleInfo.Name, moduleInfo.ModuleConfigInfo.Title, moduleInfo.ModuleConfigInfo.MenuViewOrder);
 
@@ -1342,13 +1320,9 @@ namespace Microarea.Common.MenuLoader
             if (menuPathFinder == null)
                 return;
 
-            if (ScanCustomMenuComponentsStarted != null)
-                ScanCustomMenuComponentsStarted(this, new MenuParserEventArgs(cachedInfos.TotalModules));
-
             string userName = (menuPathFinder.User != null && menuPathFinder.User.Length > 0) ? menuPathFinder.User : NameSolverStrings.AllUsers;
 
-            int modulesCount = 0;
-
+           
             foreach (ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
                 if
@@ -1361,9 +1335,6 @@ namespace Microarea.Common.MenuLoader
 
                 foreach (ModuleMenuInfo aModule in aApplication.ModulesMenuInfos)
                 {
-                    if (ScanCustomMenuComponentsModuleIndexChanged != null)
-                        ScanCustomMenuComponentsModuleIndexChanged(this, new MenuParserEventArgs(modulesCount++, aModule.Name, aModule.Title));
-
                     string fullCustomPath = PathFinder.GetCustomModulePath(aApplication.Name, aModule.Name);
                     DirectoryInfo moduleCustomMenuDirInfo = new DirectoryInfo(fullCustomPath + Path.DirectorySeparatorChar + NameSolverStrings.Menu);
                     if (moduleCustomMenuDirInfo != null && moduleCustomMenuDirInfo.Exists)
@@ -1395,8 +1366,6 @@ namespace Microarea.Common.MenuLoader
                     }
                 }
             }
-            if (ScanCustomMenuComponentsEnded != null)
-                ScanCustomMenuComponentsEnded(this, null);
         }
 
         //---------------------------------------------------------------------------
@@ -1449,11 +1418,7 @@ namespace Microarea.Common.MenuLoader
             if (menuPathFinder == null)
                 return;
 
-            if (LoadAllMenuFilesStarted != null)
-                LoadAllMenuFilesStarted(this, new MenuParserEventArgs(cachedInfos.TotalModules));
-
-            int modulesCount = 0;
-
+           
             //se sono stato letto da cache non ricalcolo le informazioni
             //tanto nulla e' cambiato
             if (!cachedInfos.FromFile)
@@ -1470,9 +1435,6 @@ namespace Microarea.Common.MenuLoader
 
                     foreach (ModuleMenuInfo aModule in aApplication.ModulesMenuInfos)
                     {
-                        if (LoadAllMenuFilesModuleIndexChanged != null)
-                            LoadAllMenuFilesModuleIndexChanged(this, new MenuParserEventArgs(modulesCount++, aModule.Name, aModule.Title));
-
                         LoadModuleStandardMenuFiles(aApplication.Name, aApplication.Type, aModule, commandsTypeToLoad);
                     }
                 }
@@ -1492,9 +1454,6 @@ namespace Microarea.Common.MenuLoader
                         (aModule.CustomCurrentUserMenuFiles == null || aModule.CustomCurrentUserMenuFiles.Count == 0)
                         )
                         continue;
-
-                    if (LoadAllMenuFilesModuleIndexChanged != null)
-                        LoadAllMenuFilesModuleIndexChanged(this, new MenuParserEventArgs(modulesCount++, aModule.Name, aModule.Title));
 
                     LoadModuleCustomMenuFiles(aApplication.Name, aApplication.Type, aModule, commandsTypeToLoad);
                 }
@@ -1534,9 +1493,6 @@ namespace Microarea.Common.MenuLoader
                         menuSecurityFilter.Filter(cachedInfos.EnvironmentXmlParser);
                 }
             }
-
-            if (LoadAllMenuFilesEnded != null)
-                LoadAllMenuFilesEnded(this, null);
         }
 
 
@@ -1846,27 +1802,6 @@ namespace Microarea.Common.MenuLoader
             }
 
             return menuLoaded;
-        }
-
-        //---------------------------------------------------------------------------
-        public void RaiseLoadFavoritesMenuStartedEvent(MenuXmlParser currentParser, int appTotalCount)
-        {
-            if (LoadFavoritesMenuStarted != null)
-                LoadFavoritesMenuStarted(this, new MenuParserEventArgs(currentParser, appTotalCount));
-        }
-
-        //---------------------------------------------------------------------------
-        public void RaiseLoadFavoritesMenuAppIndexChangedEvent(MenuXmlParser currentParser, int appCount)
-        {
-            if (LoadFavoritesMenuAppIndexChanged != null)
-                LoadFavoritesMenuAppIndexChanged(this, new MenuParserEventArgs(currentParser, appCount));
-        }
-
-        //---------------------------------------------------------------------------
-        public void RaiseLoadFavoritesMenuEndedEvent(MenuXmlParser currentParser)
-        {
-            if (LoadFavoritesMenuEnded != null)
-                LoadFavoritesMenuEnded(this, new MenuParserEventArgs(currentParser));
         }
 
         //---------------------------------------------------------------------------
@@ -2803,9 +2738,6 @@ namespace Microarea.Common.MenuLoader
 
         private IBrandLoader brandLoader = null;
 
-        public event MenuLoaderEventHandler LoadAllMenusStarted;
-        public event MenuLoaderEventHandler LoadAllMenusEnded;
-
         #region MenuLoader constructors
 
         //----------------------------------------------------------------------------
@@ -2855,7 +2787,7 @@ namespace Microarea.Common.MenuLoader
 
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
             if (!ignoreAllSecurityChecks)
-                applySecurityFilter = LoginManager.LoginManagerInstance.IsActivated("MicroareaConsole", "SecurityAdmin") &&
+                applySecurityFilter = session.IsActivated("MicroareaConsole", "SecurityAdmin") &&
                     (
                     session.LoginManagerSessionState == LoginManagerState.Logged && session.Security
                     );
@@ -2875,60 +2807,22 @@ namespace Microarea.Common.MenuLoader
             if (menuInfo != null)
             {
                 menuInfo.ScanStandardMenuComponentsStarted -= new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsStarted);
-                menuInfo.ScanStandardMenuComponentsModuleIndexChanged -= new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsModuleIndexChanged);
                 menuInfo.ScanStandardMenuComponentsEnded -= new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsEnded);
-                menuInfo.ScanCustomMenuComponentsStarted -= new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsStarted);
-                menuInfo.ScanCustomMenuComponentsModuleIndexChanged -= new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsModuleIndexChanged);
-                menuInfo.ScanCustomMenuComponentsEnded -= new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsEnded);
-                menuInfo.LoadAllMenuFilesStarted -= new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesStarted);
-                menuInfo.LoadAllMenuFilesModuleIndexChanged -= new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesModuleIndexChanged);
-                menuInfo.LoadAllMenuFilesEnded -= new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesEnded);
-                menuInfo.LoadFavoritesMenuStarted -= new MenuParserEventHandler(MenuInfo_LoadFavoritesMenuStarted);
-                menuInfo.LoadFavoritesMenuAppIndexChanged -= new MenuParserEventHandler(MenuInfo_LoadFavoritesMenuAppIndexChanged);
-                menuInfo.LoadFavoritesMenuEnded -= new MenuParserEventHandler(MenuInfo_LoadFavoritesMenuEnded);
-                menuInfo.LoadCachedStandardMenuStarted -= new MenuParserEventHandler(MenuInfo_LoadCachedStandardMenuStarted);
-                menuInfo.LoadCachedStandardMenuEnded -= new MenuParserEventHandler(MenuInfo_LoadCachedStandardMenuEnded);
             }
 
             menuInfo = new MenuInfo(pathFinder, authenticationToken, applySecurityFilter);
 
             menuInfo.ScanStandardMenuComponentsStarted += new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsStarted);
-            menuInfo.ScanStandardMenuComponentsModuleIndexChanged += new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsModuleIndexChanged);
             menuInfo.ScanStandardMenuComponentsEnded += new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsEnded);
-            menuInfo.ScanCustomMenuComponentsStarted += new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsStarted);
-            menuInfo.ScanCustomMenuComponentsModuleIndexChanged += new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsModuleIndexChanged);
-            menuInfo.ScanCustomMenuComponentsEnded += new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsEnded);
-            menuInfo.LoadAllMenuFilesStarted += new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesStarted);
-            menuInfo.LoadAllMenuFilesModuleIndexChanged += new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesModuleIndexChanged);
-            menuInfo.LoadAllMenuFilesEnded += new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesEnded);
-            menuInfo.LoadFavoritesMenuStarted += new MenuParserEventHandler(MenuInfo_LoadFavoritesMenuStarted);
-            menuInfo.LoadFavoritesMenuAppIndexChanged += new MenuParserEventHandler(MenuInfo_LoadFavoritesMenuAppIndexChanged);
-            menuInfo.LoadFavoritesMenuEnded += new MenuParserEventHandler(MenuInfo_LoadFavoritesMenuEnded);
-            menuInfo.LoadCachedStandardMenuStarted += new MenuParserEventHandler(MenuInfo_LoadCachedStandardMenuStarted);
-            menuInfo.LoadCachedStandardMenuEnded += new MenuParserEventHandler(MenuInfo_LoadCachedStandardMenuEnded);
 
             if (clearCachedData)
-            {
                 Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.PathFinder.User);
-                //menuInfo.DeleteCachedStandardMenu();
-                //LoginManager.LoginManagerInstance.init
-            }
-
 
             menuInfo.ScanStandardMenuComponents(environmentStandAlone, commandsTypeToLoad);
-
             menuInfo.ScanCustomMenuComponents();
-
-            if (LoadAllMenusStarted != null)
-                LoadAllMenusStarted(this, menuInfo);
 
             string file = MenuInfo.CachedMenuInfos.GetStandardMenuCachingFullFileName(pathFinder.User);
             menuInfo.LoadAllMenuFiles(environmentStandAlone, commandsTypeToLoad, ignoreAllSecurityChecks, clearCachedData || !File.Exists(file));
-
-            menuInfo.LoadFavoritesMenu(commandsTypeToLoad, ignoreAllSecurityChecks);
-
-            if (LoadAllMenusEnded != null)
-                LoadAllMenusEnded(this, menuInfo);
 
             return true;
         }

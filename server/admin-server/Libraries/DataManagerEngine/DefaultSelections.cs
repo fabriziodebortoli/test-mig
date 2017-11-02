@@ -2,6 +2,10 @@ using System.Collections.Specialized;
 using Microarea.Common.NameSolver;
 using Microarea.AdminServer.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
+using System.Collections;
+using System.IO;
+using System;
+using System.Data;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -61,11 +65,16 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		public DefaultSelections(ContextInfo context, BrandLoader brandLoader) 
 			: base(context, brandLoader)
 		{
-			SelectedIsoState		= ContextInfo.IsoState;
+			SelectedIsoState	= ContextInfo.IsoState;
 			this.brandLoader	= brandLoader;
 
-			Catalog	= new CatalogInfo();
-			Catalog.Load(ContextInfo.Connection, true);
+			// istanzio una connessione solo per il caricamento del catalog
+			using (TBConnection tbConnection = new TBConnection(context.ConnectAzDB, DBMSType.SQLSERVER))
+			{
+				tbConnection.Open();
+				Catalog = new CatalogInfo();
+				Catalog.Load(tbConnection, true);
+			}
 		}
 		# endregion
 
@@ -84,8 +93,55 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			// dati, inserisco nella combo il nome
 			if (mode == ModeType.EXPORT && !defaultConfigList.Contains(SelectedConfiguration))
 				defaultConfigList.Add(SelectedConfiguration);
-		}		
-		# endregion
+		}
+		#endregion
+
+		//---------------------------------------------------------------------------
+		public void LoadDefaultData()
+		{
+			if (string.IsNullOrWhiteSpace(SelectedConfiguration) || string.IsNullOrWhiteSpace(SelectedIsoState))
+				return;
+
+			ArrayList moduleList = null;
+			ArrayList fileList = new ArrayList();
+			GetAllApplication();
+
+			foreach (string appName in applicationList)
+			{
+				moduleList = new ArrayList(ContextInfo.PathFinder.GetModulesList(appName));
+
+				foreach (Common.NameSolver.ModuleInfo modInfo in moduleList)
+					AddDefaultFiles(appName, modInfo.Name, ref fileList);
+			}
+
+			StringCollection appendFiles = new StringCollection();
+			foreach (FileInfo file in fileList)
+			{
+				// skippo i file con un nome che inizia con DeploymentManifest (visto che potrebbe essere
+				// presente per esigenze di installazione di specifiche configurazioni dati di default/esempio 
+				// (esigenza sorta principalmente con i partner polacchi - miglioria 3067)
+				if (file.Name.StartsWith("DeploymentManifest", StringComparison.OrdinalIgnoreCase))
+					continue;
+
+				// devo inserire in coda quelli con suffisso Append
+				if (Path.GetFileNameWithoutExtension(file.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
+					appendFiles.Add(file.FullName);
+				else
+					ImportSel.AddItemInImportList(file.FullName);
+			}
+
+			//inserisco quelli con suffisso Append
+			foreach (string fileName in appendFiles)
+				ImportSel.AddItemInImportList(fileName);
+		}
+
+		//---------------------------------------------------------------------------
+		public void AddDefaultFiles(string appName, string moduleName, ref ArrayList fileList)
+		{
+			DirectoryInfo standardDir = new DirectoryInfo(Path.Combine(ContextInfo.PathFinder.GetStandardDataManagerDefaultPath(appName, moduleName, SelectedIsoState), SelectedConfiguration));
+			DirectoryInfo customDir = new DirectoryInfo(Path.Combine(ContextInfo.PathFinder.GetCustomDataManagerDefaultPath(appName, moduleName, SelectedIsoState), SelectedConfiguration));
+			ContextInfo.PathFinder.GetXMLFilesInPath(standardDir, customDir, ref fileList);
+		}
 
 		/// <summary>
 		/// pre-carica le selezioni del wizard con i dati contenuti nel file di configurazione indicato dall'utente

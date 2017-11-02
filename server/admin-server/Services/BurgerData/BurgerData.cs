@@ -44,49 +44,54 @@ namespace Microarea.AdminServer.Services.BurgerData
                 return GetObject<T, I>(command, table, null, null);
             }
 
-            //--------------------------------------------------------------------------------
-            public I GetObject<T, I>(string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, params WhereCondition[] conditions)
+        //--------------------------------------------------------------------------------
+        public I GetObject<T, I>(string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, params WhereCondition[] conditions)
+        {
+            IModelObject obj = ModelFactory.CreateModelObject<T, I>();
+
+            IDBManager dbManager = new DBManager(DataProvider.SqlClient, this.connectionString);
+
+            string tableName = SqlScriptManager.GetTableName(table);
+
+            if (String.IsNullOrEmpty(command))
+                command = conditions != null ?
+                    CreateSelectFromSelectParameters(conditions, sqlLogicOperator, tableName) :
+                    CreateSelectFromSelectParameters(sqlLogicOperator, tableName);
+
+            if (String.IsNullOrEmpty(command))
+                return default(I);
+
+            bool found = false;
+
+            try
             {
-                IModelObject obj = ModelFactory.CreateModelObject<T, I>();
+                dbManager.Open();
+                dbManager.ExecuteReader(System.Data.CommandType.Text, command);
 
-                IDBManager dbManager = new DBManager(DataProvider.SqlClient, this.connectionString);
-
-                string tableName = SqlScriptManager.GetTableName(table);
-
-                if (String.IsNullOrEmpty(command))
-                    command = conditions != null ?
-                        CreateSelectFromSelectParameters(conditions, sqlLogicOperator, tableName) :
-                        CreateSelectFromSelectParameters(sqlLogicOperator, tableName);
-
-                if (String.IsNullOrEmpty(command))
-                    return default(I);
-
-                bool found = false;
-
-                try
+                while (dbManager.DataReader.Read())
                 {
-                    dbManager.Open();
-                    dbManager.ExecuteReader(System.Data.CommandType.Text, command);
-
-                    while (dbManager.DataReader.Read())
-                    {
-                        found = true;
-                        obj = obj.Fetch(dbManager.DataReader);
-                    }
+                    found = true;
+                    obj = obj.Fetch(dbManager.DataReader);
                 }
-                catch (SqlException e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
-                    // todo log
-                }
-                finally
-                {
-                    dbManager.Close();
-                    dbManager.Dispose();
-                }
-
-                return found ? (I)obj : default(I);
             }
+            catch (SqlException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                // todo log
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                throw; //effettua il rethrow dell'exception, mantendo il callstack e le informazioni
+            }
+            finally
+            {
+                dbManager.Close();
+                dbManager.Dispose();
+            }
+
+            return found ? (I)obj : default(I);
+        }
 
 			//--------------------------------------------------------------------------------
 			public List<I> GetList<T, I>(string command, ModelTables table)
@@ -147,7 +152,12 @@ namespace Microarea.AdminServer.Services.BurgerData
 					System.Diagnostics.Debug.WriteLine(e.Message);
 					// todo log
 				}
-				finally
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                // todo log
+            }
+            finally
 				{
 					dbManager.Close();
 					dbManager.Dispose();
@@ -975,6 +985,7 @@ namespace Microarea.AdminServer.Services.BurgerData
             Subscriptions,
             SubscriptionAccounts,
 			SubscriptionDatabases,
+			SubscriptionExternalSources,
 			Roles,
             AccountRoles,
             RegisteredApps,

@@ -59,9 +59,10 @@ export class RadarComponent {
         params.set('columnInfos', JSON.stringify(this.columnInfos));
 
         this.logger.info('radar', params);
-        this.dataService.getRadarData(params).subscribe((data) => {
+        let subs = this.dataService.getRadarData(params).subscribe((data) => {
             this.radarData = data.rows;
             this.load();
+            subs.unsubscribe();
         });
     }
 

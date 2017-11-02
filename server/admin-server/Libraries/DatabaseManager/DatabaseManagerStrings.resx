@@ -664,4 +664,31 @@ Please contact your reseller for further information.</value>
   <data name="ErrorSPHelpUser" xml:space="preserve">
     <value>An error occurred during the execution of stored procedure sp_helpuser</value>
   </data>
+  <data name="ErrorAddingLoginToRole" xml:space="preserve">
+    <value>An error occurred adding login '{0}' to role '{1}'. ({2})</value>
+  </data>
+  <data name="ErrorCollationNotCompatible" xml:space="preserve">
+    <value>The collation of database '{0}' ({1}) is not compatible with the one of database '{2}' ({3}).</value>
+  </data>
+  <data name="ErrorCreatingUser" xml:space="preserve">
+    <value>An error occurred creating user '{0}' for login '{0}'. ({1})</value>
+  </data>
+  <data name="ErrorIncorrectPassword" xml:space="preserve">
+    <value>Login failed for user '{0}'. The specified password may not be correct.</value>
+  </data>
+  <data name="ErrorUnicodeValuesNotCompatible" xml:space="preserve">
+    <value>The unicode value of the two databases is not compatible</value>
+  </data>
+  <data name="WarningDBNotExists" xml:space="preserve">
+    <value>Specified database {0} does not exist on server {1}, so it will be created.</value>
+  </data>
+  <data name="WarningLoginNotExists" xml:space="preserve">
+    <value>Specified login '{0}' does not exist on server '{1}', so it will be created.</value>
+  </data>
+  <data name="ErrorDeletingObjectsFromDB" xml:space="preserve">
+    <value>An error occurred deleting objects from database '{0}'.</value>
+  </data>
+  <data name="ErrorChangingDbo" xml:space="preserve">
+    <value>An error occurred during set '{0}' login as dbowner for database '{1}'.</value>
+  </data>
 </root>

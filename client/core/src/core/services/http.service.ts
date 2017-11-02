@@ -1,9 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Observable, ErrorObservable } from '../../rxjs.imports';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 import { LoginSession } from './../../shared/models/login-session.model';
@@ -20,7 +18,6 @@ export class HttpService {
         public http: Http,
         public utils: UtilsService,
         public logger: Logger,
-        public cookieService: CookieService,
         public infoService: InfoService) {
     }
 
@@ -30,20 +27,45 @@ export class HttpService {
         let message = jObject && jObject.message ? jObject.message : "";
         let messages = jObject && jObject.messages ? jObject.messages : [];
         messages.push(message);
-        return new OperationResult(!ok, messages);
+        let respJson =  JSON.parse(res.headers.get('Authorization'));
+        let tbLoaderName = null;
+        if (respJson)
+             tbLoaderName = respJson['tbLoaderName'];
+        return new OperationResult(!ok, messages, tbLoaderName);
     }
 
     isLogged(params: { authtoken: string }): Observable<boolean> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {
-                return res.ok && res.json().success === true;
+                if (!res.ok)
+                    return false;
+                let jObj = res.json();
+                if (jObj.culture) {
+                    this.infoService.setCulture(jObj.culture);
+                    this.infoService.saveCulture();
+                }
+                return jObj.success === true;
             });
     }
 
     login(connectionData: LoginSession): Observable<LoginCompact> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'login-compact/', connectionData)
             .map((res: Response) => {
-                return res.json();
+                let jObj = res.json();
+                if (jObj.culture) {
+                    this.infoService.setCulture(jObj.culture);
+                    this.infoService.saveCulture();
+                }
+                return jObj;
+            });
+    }
+
+
+    changePassword(params: { user: string, oldPassword: string, newPassword: string }): Observable<LoginCompact> {
+        return this.postData(this.infoService.getAccountManagerBaseUrl() + 'change-password/', params)
+            .map((res: Response) => {
+                let jObj = res.json();
+                return jObj;
             });
     }
 
@@ -66,7 +88,9 @@ export class HttpService {
     logoff(params: { authtoken: string }): Observable<OperationResult> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'logoff/', params)
             .map((res: Response) => {
-                return res.json();
+                let jObj = res.json();
+                this.infoService.resetCulture();
+                return jObj;
             });
     }
 
@@ -81,15 +105,14 @@ export class HttpService {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
                 return this.createOperationResult(res);
-            })
+            });
     }
 
     postDataWithAllowOrigin(url: string): Observable<OperationResult> {
-        let token = this.cookieService.get('authtoken');
         let headers = new Headers();
         headers.append('Access-Control-Allow-Origin', window.location.origin);
         headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
-        return this.http.post(url, undefined, { withCredentials: true, headers: headers })
+        return this.http.post(url, undefined, { withCredentials: true/*, headers: headers*/ })
             .map((res: Response) => {
                 return this.createOperationResult(res);
             });
@@ -104,17 +127,19 @@ export class HttpService {
 
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
+        // headers.append('Content-Type', 'application/json'); // TODO quando il backend sarà pronto
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers }).catch(this.handleError);
-        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
+        headers.append('Authorization', this.infoService.getAuthorization());
+        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
+            .catch(this.handleError);
     }
-
     handleError(error: any): ErrorObservable {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        this.logger.error(errMsg);
+        if (this.logger)
+            this.logger.error(errMsg);
 
         return Observable.throw(errMsg);
     }
@@ -157,5 +182,53 @@ export class HttpService {
                 return res.json();
             });
     };
+
+    /**
+     * API /getPreferences
+     * 
+     * @returns {Observable<any>} getPreferences
+     */
+    getPreferences(): Observable<any> {
+        let urlToRun = this.infoService.getMenuServiceUrl() + 'getPreferences/';
+        let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company') }
+
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+     * API /setPreference
+     * 
+     * @param {string} referenceName
+     * @param {string} referenceValue
+     * 
+     * @returns {Observable<any>} setPreference
+     */
+    setPreference(referenceName: string, referenceValue: string): Observable<any> {
+        let obj = { name: referenceName, value: referenceValue, user: localStorage.getItem('_user'), company: localStorage.getItem('_company') };
+        var urlToRun = this.infoService.getMenuServiceUrl() + 'setPreference/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.ok;
+            });
+    }
+
+    /**
+    * API /getThemedSettings
+    * 
+    * @returns {Observable<any>} getThemedSettings
+    */
+    getThemedSettings(): Observable<any> {
+        let obj = { authtoken: localStorage.getItem('authtoken') };
+        var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
 
 }

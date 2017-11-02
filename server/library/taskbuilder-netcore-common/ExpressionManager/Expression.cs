@@ -1115,8 +1115,18 @@ namespace Microarea.Common.ExpressionManager
 			return str;
 		}
 
-		//-----------------------------------------------------------------------------
-		virtual public bool Compile(Parser aParser, CheckResultType check, string type)
+        //-----------------------------------------------------------------------------
+        virtual public bool Compile(string str, CheckResultType check, string type)
+        {
+            Parser p = new Parser(Parser.SourceType.FromString);
+            if (!p.Open(str))
+                return false;
+
+            return Compile(p, check, type);
+        }
+
+        //-----------------------------------------------------------------------------
+        virtual public bool Compile(Parser aParser, CheckResultType check, string type)
 		{
 			bool ok = true;
 			parser = aParser;
@@ -3809,7 +3819,7 @@ namespace Microarea.Common.ExpressionManager
 				if (idx == 0)
 					t = t.Mid("System.".Length);
 
-				Parameter pInfo = new Parameter(parName, t);
+				Parameter pInfo = new Parameter(parName, t, ParameterModeType.InOut);
 
 				pInfo.ValueString = v;
 
@@ -3874,7 +3884,7 @@ namespace Microarea.Common.ExpressionManager
 				{
 					Parameter p = function.Prototype.Parameters[np++];
 
-					Parameter pInfo = new Parameter(p.Name, p.Type);
+					Parameter pInfo = new Parameter(p.Name, p.Type, p.Mode);
 
 					pInfo.ValueString = SoapTypes.To(item.Data);
 

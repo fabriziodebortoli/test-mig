@@ -67,11 +67,22 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         public IActionResult ApiTBFSCreate()
         {
-            MetaDataManagerTool metadata = new MetaDataManagerTool("I-M4");
-            metadata.InsertAllStandardMetaDataInDB();
+            try
+            {
+                MetaDataManagerTool metadata = new MetaDataManagerTool("I-M4");
+                metadata.InsertAllStandardMetaDataInDB();
+            }
+            catch (Exception e)
+            {
+                this.jsonHelper.AddJsonCouple<bool>("result", false);
+                this.jsonHelper.AddJsonCouple<string>("message", String.Format("An error occurred: {0}", e.Message));
+                return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), StatusCode = 500, ContentType = "application/json" };
+            }
 
-            jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
-            return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+            this.jsonHelper.AddJsonCouple<bool>("result", true);
+            this.jsonHelper.AddJsonCouple<string>("message", "Test ended");
+            return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), StatusCode = 200, ContentType = "application/json" };
+
         }
 
         [HttpPost("api/tbfs/test")]

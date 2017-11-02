@@ -29,8 +29,6 @@ export class barcode {
                 return 'code93';
             case BarcodeType.DATAMATRIX:
                 return 'datamatrix';
-            case BarcodeType.EAN128:
-                return 'gs1-128';
             case BarcodeType.EAN13:
                 return 'ean13';
             case BarcodeType.EAN8:
@@ -56,6 +54,7 @@ export class barcode {
             case BarcodeType.QR:
                 return 'qrcode';
             case BarcodeType.UCC128:
+            case BarcodeType.EAN128:
                 return 'gs1-128';
             case BarcodeType.UPCA:
                 return 'upca';

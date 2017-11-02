@@ -619,11 +619,38 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred adding login &apos;{0}&apos; to role &apos;{1}&apos;. ({2}).
+        /// </summary>
+        internal static string ErrorAddingLoginToRole {
+            get {
+                return ResourceManager.GetString("ErrorAddingLoginToRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred during set &apos;{0}&apos; login as dbowner for database &apos;{1}&apos;..
+        /// </summary>
+        internal static string ErrorChangingDbo {
+            get {
+                return ResourceManager.GetString("ErrorChangingDbo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error code.
         /// </summary>
         internal static string ErrorCode {
             get {
                 return ResourceManager.GetString("ErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The collation of database &apos;{0}&apos; ({1}) is not compatible with the one of database &apos;{2}&apos; ({3})..
+        /// </summary>
+        internal static string ErrorCollationNotCompatible {
+            get {
+                return ResourceManager.GetString("ErrorCollationNotCompatible", resourceCulture);
             }
         }
         
@@ -646,6 +673,15 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred creating user &apos;{0}&apos; for login &apos;{0}&apos;. ({1}).
+        /// </summary>
+        internal static string ErrorCreatingUser {
+            get {
+                return ResourceManager.GetString("ErrorCreatingUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The database backup is stopped!.
         /// </summary>
         internal static string ErrorDatabaseBackup {
@@ -664,6 +700,15 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred deleting objects from database &apos;{0}&apos;..
+        /// </summary>
+        internal static string ErrorDeletingObjectsFromDB {
+            get {
+                return ResourceManager.GetString("ErrorDeletingObjectsFromDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parsing error of file {0} Line {1}, Position {2}.
         /// </summary>
         internal static string ErrorDuringParsingXmlFile {
@@ -678,6 +723,15 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         internal static string ErrorDuringVerifyDatabase {
             get {
                 return ResourceManager.GetString("ErrorDuringVerifyDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login failed for user &apos;{0}&apos;. The specified password may not be correct..
+        /// </summary>
+        internal static string ErrorIncorrectPassword {
+            get {
+                return ResourceManager.GetString("ErrorIncorrectPassword", resourceCulture);
             }
         }
         
@@ -759,6 +813,15 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         internal static string ErrorSPHelpUser {
             get {
                 return ResourceManager.GetString("ErrorSPHelpUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The unicode value of the two databases is not compatible.
+        /// </summary>
+        internal static string ErrorUnicodeValuesNotCompatible {
+            get {
+                return ResourceManager.GetString("ErrorUnicodeValuesNotCompatible", resourceCulture);
             }
         }
         
@@ -1659,6 +1722,24 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         internal static string UserWithoutPermission {
             get {
                 return ResourceManager.GetString("UserWithoutPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specified database {0} does not exist on server {1}, so it will be created..
+        /// </summary>
+        internal static string WarningDBNotExists {
+            get {
+                return ResourceManager.GetString("WarningDBNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specified login &apos;{0}&apos; does not exist on server &apos;{1}&apos;, so it will be created..
+        /// </summary>
+        internal static string WarningLoginNotExists {
+            get {
+                return ResourceManager.GetString("WarningLoginNotExists", resourceCulture);
             }
         }
         

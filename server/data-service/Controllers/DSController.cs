@@ -5,6 +5,7 @@ using Microarea.DataService.Models;
 using Microarea.Common.Applications;
 using Microarea.Common.Hotlink;
 using System.Globalization;
+using Microarea.Common;
 
 namespace DataService.Controllers
 {
@@ -24,7 +25,7 @@ namespace DataService.Controllers
 		}
 		UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
 
@@ -50,7 +51,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 			TbSession session = new TbSession(ui, nameSpace);
 
             Datasource ds = new Datasource(session);
@@ -71,7 +72,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -92,7 +93,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -110,7 +111,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -129,7 +130,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             Datasource ds = new Datasource(ui);
 

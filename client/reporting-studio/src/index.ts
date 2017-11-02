@@ -28,12 +28,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TbSharedModule, ComponentService, WebSocketService, HttpService, UtilsService, Logger } from '@taskbuilder/core';
 import { RsTestComponent } from './rs-test.component';
-import { ExcelModule } from '@progress/kendo-angular-grid'
-import { DialogModule } from '@progress/kendo-angular-dialog';
-import { GridModule } from '@progress/kendo-angular-grid';
-import { ChartsModule } from '@progress/kendo-angular-charts';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-import { InputsModule } from '@progress/kendo-angular-inputs';
 import { RouterModule } from "@angular/router";
 import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
@@ -42,24 +36,29 @@ export { RsExportService } from './rs-export.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export * from './rs-test.component';
-export * from './models';
-export * from './report-objects';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+export { barcode } from './models/barcode.model';
+export { chart, series } from './models/chart.model';
+export { PdfType, SvgType, PngType } from './models/export-type.model';
+export { column } from './models/column.model';
+export { link } from './models/link.model';
+export { graphrect } from './models/graphrect.model';
+export { fieldrect } from './models/fieldrect.model';
+export { textrect } from './models/textrect.model';
+export { table } from './models/table.model';
+export { sqrrect } from './models/sqrrect.model';
+export { baseobj } from './models/baseobj.model';
+export { repeater } from './models/repeater.model';
+export { TemplateItem } from './models/template-item.model';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TbSharedModule,
-    ExcelModule,
-    DialogModule,
-    GridModule,
-    ChartsModule,
-    ButtonsModule,
-    InputsModule,
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
@@ -106,8 +105,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
   entryComponents:
   [
     ReportingStudioComponent
-  ],
-  providers: []
+  ]
 })
 
 export class ReportingStudioModule {

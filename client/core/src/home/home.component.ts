@@ -1,12 +1,16 @@
+import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './../settings/settings-container/settings-container.component';
+import { BoolEditComponent } from './../shared/controls/bool-edit/bool-edit.component';
+import { SettingsService } from './../core/services/settings.service';
 import { LocalizationService } from './../core/services/localization.service';
-import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription } from '../rxjs.imports';
 
 import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';
 
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
+import { TabStripTabComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component";
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
 
 import { InfoService } from './../core/services/info.service';
@@ -18,7 +22,6 @@ import { LayoutService } from './../core/services/layout.service';
 import { ComponentService } from './../core/services/component.service';
 import { TaskbuilderService } from './../core/services/taskbuilder.service';
 import { SidenavService } from './../core/services/sidenav.service';
-import { SettingsService } from './../menu/services/settings.service';
 import { LoadingService } from './../core/services/loading.service';
 
 import { MenuService } from './../menu/services/menu.service';
@@ -38,9 +41,16 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
   @ViewChild('tabberContainer') tabberContainer: ElementRef;
   @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
+
+  @ViewChild('dashBoardTabStrip') dashBoardTabStrip: TabStripTabComponent;
+  @ViewChild('menuTabStrip') menuTabStrip: TabStripTabComponent;
+  @ViewChild('settingsTabStrip') settingsTabStrip: TabStripTabComponent;
+
+
   viewHeight: number;
 
   isDesktop: boolean;
+  settingsPageOpened: boolean = false;
 
   constructor(
     public sidenavService: SidenavService,
@@ -52,29 +62,36 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public localizationService: LocalizationService,
     public settingsService: SettingsService,
     public enumsService: EnumsService,
-    public infoService: InfoService, 
-    public loadingService: LoadingService 
+    public infoService: InfoService,
+    public loadingService: LoadingService,
+    private resolver: ComponentFactoryResolver
   ) {
 
+    this.initialize();
+  }
+
+  initialize() {
     this.loadingService.setLoading(true, "connecting...");
 
-    this.isDesktop = infoService.isDesktop;
+    this.isDesktop = this.infoService.isDesktop;
 
-    this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
+    this.subscriptions.push(this.settingsService.settingsPageOpenedEvent.subscribe((opened) => { this.openSettings(opened); }));
 
-    this.subscriptions.push(componentService.componentInfoCreated.subscribe(arg => {
+    this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
+
+    this.subscriptions.push(this.componentService.componentInfoCreated.subscribe(arg => {
       if (arg.activate) {
         this.kendoTabStripInstance.selectTab(arg.index + 2);
       }
     }));
 
-    this.subscriptions.push(tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
+    this.subscriptions.push(this.tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
 
-    this.subscriptions.push(componentService.componentInfoRemoved.subscribe(cmp => {
+    this.subscriptions.push(this.componentService.componentInfoRemoved.subscribe(cmp => {
       this.kendoTabStripInstance.selectTab(0);
     }));
 
-    this.subscriptions.push(componentService.componentCreationError.subscribe(reason => {
+    this.subscriptions.push(this.componentService.componentCreationError.subscribe(reason => {
       const args = new MessageDlgArgs();
       args.ok = true;
       args.text = reason;
@@ -89,7 +106,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
-        this.loadingService.setLoading(!connected, connected ?  "" : "connecting...");
+      this.loadingService.setLoading(!connected, connected ? "" : "connecting...");
     }));
 
   }
@@ -124,8 +141,41 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     info.document.close();
   }
 
-  onContextMenu() {
-    // return false;
+  getIcon(info: ComponentInfo) {
+    //qua andrebbe differenziata in base a report, document, settings ecc
+    return 'tb-inscription';
   }
 
+  onContextMenu() {
+    return !this.infoService.isDesktop;
+  }
+
+  closeSettings() {
+    this.kendoTabStripInstance.selectTab(0);
+    this.settingsPageOpened = false;
+    console.log("this.settingsPageOpened ", this.settingsPageOpened);
+  }
+
+  openSettings(opened: boolean) {
+
+    // console.log("this.settingsPageOpened ", this.settingsPageOpened );
+    // if (this.settingsPageOpened === true)
+    //   return;
+    if (!opened) {
+      this.settingsPageOpened = opened;
+      return;
+    }
+
+    if (opened == true && this.settingsPageOpened) {
+      return;
+    }
+
+    this.settingsPageOpened = opened;
+    this.componentService.createComponent(SettingsContainerComponent, this.resolver);
+
+    let len = this.kendoTabStripInstance.tabs.toArray().length;
+    setTimeout(() => {
+      this.kendoTabStripInstance.selectTab(len); //
+    }, 1);
+  }
 }

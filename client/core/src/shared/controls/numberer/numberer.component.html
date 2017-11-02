@@ -1,0 +1,18 @@
+<div class="tb-control tb-numberer">
+    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <div class="group">
+        <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
+            (ngModelChange)="changeModelValue($event)" [style.width.px]="width" (keydown)="onKeyDown($event)" (blur)="onBlur($event)"
+            #textbox>
+        </kendo-maskedtextbox>
+        <!-- (change)="onChange($event)" -->
+        <!-- <button (click)='toggleState()' kendoButton [disabled]="!(enableStateInEdit && enableCtrlInEdit)" *ngIf="model?.stateData">
+            <m4-icon icon="{{icon}}"></m4-icon>    
+        </button> -->
+
+        <tb-context-menu [contextMenu]="numbererContextMenu"></tb-context-menu>
+
+        <!-- <ng-container #contextMenu></ng-container> -->
+        <button (click)="test()">test</button>
+    </div>
+</div>

@@ -51,7 +51,7 @@ namespace WebApplication
                     AssemblyName an = new AssemblyName(module.Value);
                     var assembly = Assembly.Load(an);
                     foreach (Type t in assembly.GetTypes())
-                        if (typeof(IWebAppConfigurator).IsAssignableFrom(t))
+                        if (t.IsClass && typeof(IWebAppConfigurator).IsAssignableFrom(t))
                         {
                             configurators.Add((IWebAppConfigurator)Activator.CreateInstance(t));
                         }
@@ -95,7 +95,7 @@ namespace WebApplication
 
             foreach (Assembly asm in modules)
                 mvcBuilder.AddApplicationPart(asm);
-
+            services.AddResponseCaching();
             services.AddMemoryCache();
             services.AddSession(options =>
             {
@@ -110,8 +110,10 @@ namespace WebApplication
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseCors("CorsPolicy");
-
+            
             app.UseSession();
+
+            app.UseResponseCaching();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
