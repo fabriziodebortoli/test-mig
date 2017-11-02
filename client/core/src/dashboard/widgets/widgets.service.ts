@@ -130,7 +130,6 @@ export class WidgetsService {
 
     let headers = new Headers();
     headers.append("Authorization", this.infoService.getAuthorization());
- console.log("headers", headers)
     return this.http.get(url, { withCredentials: true, headers: headers }).map(
       (res: Response) => {
         return res.json();

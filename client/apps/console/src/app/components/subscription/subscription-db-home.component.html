@@ -1,5 +1,5 @@
 <div class="container">
-  <h2 class="componentTitle">{{model.SubscriptionKey}} Databases</h2>
+  <h2 class="componentTitle">Subscription {{model.SubscriptionKey}} / Database {{model.Name}}</h2>
 
   <div *ngIf="!checkDatabaseIsStarted">
     <div *ngIf="databaseService.needsAskCredentials && !databaseService.testConnectionOK">
@@ -18,8 +18,8 @@
       </table>
     </div>
 
-    <div *ngIf="viewMaster && !( databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
-      <app-subscription-database [model]="model"></app-subscription-database>
+    <div *ngIf="viewMaster && !(databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
+      <app-subscription-database [model]="model" [originalModel]="originalModel"></app-subscription-database>
     </div>
     <div *ngIf="!viewMaster">
       <app-subscription-database [model]="modelTest"></app-subscription-database>
