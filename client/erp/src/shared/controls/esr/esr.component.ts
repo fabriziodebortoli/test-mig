@@ -1,7 +1,7 @@
 import { TbComponentService, LayoutService, EventDataService, ControlComponent } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 import Esr from './esr';
-import { Helpers } from '../../../core/u/helpers';
+import * as u from '../../../core/u/helpers';
 
 @Component({
   selector: 'erp-esr',
@@ -21,7 +21,7 @@ export class EsrComponent extends ControlComponent {
      }
 
      onPasting(e: ClipboardEvent) {
-      if (!Helpers.hasBeenPastedANumber(e) ) {
+      if (!u.ClipboardEventHelper.isNotAlphanumeric(e) ) {
         this.errorMessage = this._TB('Only numbers admitted.');
         e.preventDefault();
       }
@@ -29,7 +29,7 @@ export class EsrComponent extends ControlComponent {
 
     onTyping(e: KeyboardEvent) {
       this.errorMessage = '';
-      if (!Helpers.hasBeenTypedANumber(e) )
+      if (!u.KeyboardEventHelper.isNotAlphanumeric(e) )
         e.preventDefault();
     }
 
