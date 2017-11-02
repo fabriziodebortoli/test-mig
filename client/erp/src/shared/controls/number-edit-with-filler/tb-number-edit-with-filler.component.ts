@@ -1,6 +1,6 @@
 import { TbComponentService, LayoutService, EventDataService, ControlComponent } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
-import { Helpers } from '../../../core/u/helpers';
+import * as u from '../../../core/u/helpers';
 
 @Component({
   selector: 'tb-number-edit-with-filler',
@@ -22,14 +22,14 @@ export class NumberEditWithFillerComponent extends ControlComponent {
      }
 
   onPasting(e: ClipboardEvent) {
-    if (!Helpers.hasBeenPastedANumber(e) ) {
+    if (!u.ClipboardEventHelper.isNumber(e) ) {
       this.errorMessage = this._TB('Only numbers admitted.');
       e.preventDefault();
     }
   }
 
   onTyping(e: KeyboardEvent) {
-    if (!Helpers.hasBeenTypedANumber(e) )
+    if (!u.KeyboardEventHelper.isNumber(e) )
       e.preventDefault();
   }
 
