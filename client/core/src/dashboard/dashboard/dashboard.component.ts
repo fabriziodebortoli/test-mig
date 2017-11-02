@@ -1,7 +1,8 @@
-import { SettingsService } from './../../core/services/settings.service';
-import { LocalizationService } from './../../core/services/localization.service';
 import { Component, OnInit } from '@angular/core';
 
+import { LocalizationService } from './../../core/services/localization.service';
+import { SettingsService } from './../../core/services/settings.service';
+import { ThemeService } from './../../core/services/theme.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { ImageService } from './../../menu/services/image.service';
 import { MenuService } from './../../menu/services/menu.service';
@@ -20,11 +21,20 @@ export class DashboardComponent {
     public imageService: ImageService,
     public utilsService: UtilsService,
     public settingsService: SettingsService,
+    public themeService: ThemeService,
     public localizationService: LocalizationService
   ) { }
 
   runFunction(object) {
     this.menuService.runFunction(object);
+  }
+
+  changeTheme() {
+    this.themeService.changeTheme('darcula');
+  }
+
+  resetTheme() {
+    this.themeService.resetTheme();
   }
 
 }
