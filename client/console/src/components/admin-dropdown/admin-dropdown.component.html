@@ -3,7 +3,7 @@
   <kendo-dropdownlist 
     [textField]="textField" 
     [valueField]="valueField" 
-    [defaultItem]="selectedValue"
+    [(ngModel)]="selectedValue"
     [data]="listItems"
     (valueChange)="change($event)">
   </kendo-dropdownlist>

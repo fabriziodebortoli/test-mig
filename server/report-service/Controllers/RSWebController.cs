@@ -12,6 +12,7 @@ using Microarea.RSWeb.Render;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
 using Microsoft.AspNetCore.Cors;
+using Microarea.Common;
 
 /*
 localhost:5000/rs/template/erp.company.isocountrycodes/1
@@ -31,7 +32,7 @@ namespace Microarea.RSWeb.Controllers
     {
         UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
 

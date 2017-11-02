@@ -24,8 +24,8 @@ export class InfoService {
 
     constructor(
         public http: Http,
-        public logger: Logger, 
-        private utilsService : UtilsService
+        public logger: Logger,
+        private utilsService: UtilsService
     ) {
         this.culture.value = localStorage.getItem(this.cultureId);
     }
@@ -48,7 +48,12 @@ export class InfoService {
     }
 
     getAuthorization(): string {
-        return JSON.stringify({ ui_culture: this.culture.value, authtoken: localStorage.getItem('authtoken')});
+        return JSON.stringify(
+            {
+                ui_culture: this.culture.value,
+                authtoken: localStorage.getItem('authtoken'),
+                tbLoaderName: localStorage.getItem('tbLoaderName')
+            });
     }
 
     load() {
@@ -170,7 +175,7 @@ export class InfoService {
     request(url: string, data: Object): Observable<any> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post(url,  this.utilsService.serializeData(data), { withCredentials: true, headers: headers })
+        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers })
             .map(res => res.json())
             .catch((error: any): ErrorObservable => {
                 let errMsg = (error.message) ? error.message :

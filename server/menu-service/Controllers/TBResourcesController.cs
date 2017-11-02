@@ -34,7 +34,7 @@ namespace Microarea.Menu.Controllers
             company = string.Empty;
             user = string.Empty;
 
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return false; //  StatusCode = 401, Content = "non sei autenticato!" 
 

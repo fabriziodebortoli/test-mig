@@ -1,7 +1,5 @@
 <div class="container" *ngIf="!databaseService.needsAskCredentials || databaseService.testConnectionOK">
 
-  <h3 class="componentTitle">{{ model.Name }}</h3>
-
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile half-tile">
@@ -18,7 +16,13 @@
       <div class="adminTile half-tile">
         General
         <div>
-          <admin-input-text [inputLabel]="'Provider'" [textType]="'text'" [(inputData)]="model.Provider"></admin-input-text>
+            <admin-dropdown 
+            [inputLabel]="'Provider'" 
+            [(selectedValue)]="selectedProvider"
+            [listItems]="providers" 
+            [textField]="'name'"
+            [valueField]="'value'"
+            (selectedValueChange)="onProviderValueChange($event)"></admin-dropdown>
         </div>
         <div class="m30">
           <admin-checkbox [checkText]="'Use Unicode'" [checkId]="'chkIsUnicode'" [(checkValue)]="model.IsUnicode" (inputDataChange)="model.IsUnicode = $event"></admin-checkbox>

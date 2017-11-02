@@ -17,6 +17,8 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
 
   model: SubscriptionDatabase;
   modelTest: SubscriptionDatabase;
+  originalModel: SubscriptionDatabase;
+
   viewMaster: boolean = true;
   isEditing: boolean = false;
   dbCredentials: DatabaseCredentials;
@@ -56,7 +58,8 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
     // istanzio i due model (master e test)
     this.model = new SubscriptionDatabase();
     this.modelTest = new SubscriptionDatabase();
-
+    this.originalModel = new SubscriptionDatabase();
+    
     this.model.SubscriptionKey = this.modelTest.SubscriptionKey = subscriptionKey;
 
     // I need the instanceKey where the currentAccount is logged
@@ -160,6 +163,12 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  //--------------------------------------------------------------------------------------------------------
+  mainDataHasChanged(): boolean {
+    
+    return true;
+  }
+
   // event on close dialog
   //--------------------------------------------------------------------------------------------------------
   onDialogClose() {
@@ -236,9 +245,7 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
           alert('Unable to connect! ' + testResult.Message);
 
         // clear local array with dialog values
-        this.fields.forEach(element => {
-          element.value = ''
-        });
+        this.fields.forEach(element => { element.value = '' });
         test.unsubscribe();
       },
       error => {

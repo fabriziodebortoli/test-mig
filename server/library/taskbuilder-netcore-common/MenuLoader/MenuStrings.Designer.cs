@@ -628,6 +628,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -642,6 +651,24 @@ namespace Microarea.Common.MenuLoader {
         public static string PasswordsNotMatching {
             get {
                 return ResourceManager.GetString("PasswordsNotMatching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product info.
+        /// </summary>
+        public static string ProductInfo {
+            get {
+                return ResourceManager.GetString("ProductInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
+        public static string Profile {
+            get {
+                return ResourceManager.GetString("Profile", resourceCulture);
             }
         }
         
@@ -705,6 +732,33 @@ namespace Microarea.Common.MenuLoader {
         public static string SelectedModule {
             get {
                 return ResourceManager.GetString("SelectedModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selections.
+        /// </summary>
+        public static string Selections {
+            get {
+                return ResourceManager.GetString("Selections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select language.
+        /// </summary>
+        public static string SelectLanguage {
+            get {
+                return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select theme.
+        /// </summary>
+        public static string SelectTheme {
+            get {
+                return ResourceManager.GetString("SelectTheme", resourceCulture);
             }
         }
         

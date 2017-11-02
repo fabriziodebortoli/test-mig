@@ -31,7 +31,7 @@ namespace Microarea.TbLoaderGate
             tbLoaderServer = parameters.Value.tbLoaderServer;
             tbLoaderPort = parameters.Value.tbLoaderPort;
         }
-		const string TbLoaderName = "TbLoader-Name";
+		const string TbLoaderName = "tbLoaderName";
         static readonly int leftTrimCount = "/tbloader/api".Length;
         [Route("/controller")]
         public IActionResult Index()

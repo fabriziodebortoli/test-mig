@@ -27,7 +27,10 @@ export class HttpService {
         let message = jObject && jObject.message ? jObject.message : "";
         let messages = jObject && jObject.messages ? jObject.messages : [];
         messages.push(message);
-        let tbLoaderName = JSON.parse(res.headers.get('Authorization'))['TbLoader-Name'];
+        let respJson =  JSON.parse(res.headers.get('Authorization'));
+        let tbLoaderName = null;
+        if (respJson)
+             tbLoaderName = respJson['tbLoaderName'];
         return new OperationResult(!ok, messages, tbLoaderName);
     }
 
