@@ -4,6 +4,7 @@ using Microarea.Common.Applications;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using static SQLHelper;
+using Microarea.Common;
 
 namespace ErpService.Controllers
 {
@@ -48,7 +49,7 @@ namespace ErpService.Controllers
         #region helpers
         UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
             Microsoft.AspNetCore.Http.ISession hsession = null;

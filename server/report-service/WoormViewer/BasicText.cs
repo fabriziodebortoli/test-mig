@@ -168,7 +168,8 @@ namespace Microarea.RSWeb.Objects
 			BkgColor = s.BkgColor;
 			Align = s.Align;
 			FontStyleName = s.FontStyleName;
-			DataType = s.DataType;
+            fontData = s.FontData;
+            DataType = s.DataType;
 		}
 	}
 }

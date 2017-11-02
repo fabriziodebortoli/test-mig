@@ -363,4 +363,22 @@
   <data name="ClearMostUsedList" xml:space="preserve">
     <value>Clear most used list</value>
   </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ProductInfo" xml:space="preserve">
+    <value>Product info</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Selections" xml:space="preserve">
+    <value>Selections</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Select language</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Select theme</value>
+  </data>
 </root>

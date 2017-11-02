@@ -41,6 +41,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     public type = "Customization";
 
     public newPairVisible = false;
+    public isDefault = false;
 
     constructor(
         public localizationService: LocalizationService,
@@ -61,6 +62,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             }
         });
         this.easystudioService.initEasyStudioContext();
+        this.easystudioService.getDefaultContext(false);
     }
 
     //--------------------------------------------------------------------------------
@@ -85,6 +87,8 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         this.easystudioService.closeCustomizationContext();
         this.applicSelected = undefined;
         this.moduleSelected = undefined;
+        this.isThisPairDefault = false;
+        this.isDefault = false;
     }
 
     //--------------------------------------------------------------------------------
@@ -111,8 +115,19 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     //--------------------------------------------------------------------------------
     public ok() {
+        let elemSearched = this.easystudioService.memoryESContext.allApplications.find(
+            c => c.application === this.applicSelected && c.module === this.moduleSelected);
+        if(elemSearched === undefined) //ora per default, se hanno digitato una coppia che non esista, gliela creo
+            this.addNewPair(this.applicSelected, this.moduleSelected);
         this.easystudioService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault);
         this.opened = false;
+        this.isThisPairDefault = false;
+        this.isDefault = false;
+    }
+
+    //--------------------------------------------------------------------------------
+    public setDefaultContext() {
+        this.isThisPairDefault = this.selectionIsValid();
     }
 
     //--------------------------------------------------------------------------------
@@ -120,9 +135,12 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         if (this.easystudioService.getApplications().indexOf(app) === -1) return;
         this.applicSelected = app;
         this.moduleSelected = undefined;
+        this.isThisPairDefault = false;
+        this.isDefault = false;
         this.easystudioService.modules = this.easystudioService.getModulesBy(app);
         if (this.easystudioService.modules.length == 1) {
             this.moduleSelected = this.easystudioService.getModules()[0];
+            this.checkIfIsDefault();
         }
     }
 
@@ -130,6 +148,13 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     private setModule(mod: string) {
         if (this.easystudioService.getModules().indexOf(mod) === -1) return;
         this.moduleSelected = mod;
+        this.checkIfIsDefault();
+    }
+
+    //--------------------------------------------------------------------------------
+    private checkIfIsDefault() {
+        this.isDefault = this.easystudioService.defaultApplication === this.applicSelected 
+         && this.easystudioService.defaultModule === this.moduleSelected;
     }
 
     //--------------------------------------------------------------------------------
@@ -193,4 +218,10 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         list = this.easystudioService.getModulesBy(newName);
         return list.indexOf(newModName) !== -1;
     }
+
+    //--------------------------------------------------------------------------------
+    openDefaultContextMethod(): void{
+        this.easystudioService.getDefaultContext(true);
+    }
+
 }

@@ -13,7 +13,8 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
 } from '@angular/material';
 
 const MATERIAL_MODULES = [
@@ -25,7 +26,8 @@ const MATERIAL_MODULES = [
     MatToolbarModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
 ];
 
 import { TbIconsModule } from '@taskbuilder/icons';
