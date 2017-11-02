@@ -5,6 +5,7 @@ using Microarea.DataService.Models;
 using Microarea.Common.Applications;
 using Microarea.Common.Hotlink;
 using System.Globalization;
+using Microarea.Common;
 
 namespace DataService.Controllers
 {
@@ -24,7 +25,7 @@ namespace DataService.Controllers
 		}
 		UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
 

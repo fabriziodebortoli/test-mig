@@ -13,6 +13,7 @@ using Microarea.Common.Generic;
 using Microarea.Common.Applications;
 
 using Microarea.RSWeb.Render;
+using Microarea.Common;
 
 namespace Microarea.RSWeb.Models
 {
@@ -130,7 +131,9 @@ namespace Microarea.RSWeb.Models
                 NamespaceMessage nm = JsonConvert.DeserializeObject<NamespaceMessage>(msgNs);
                 //check the request to find a tbloader associated. If exists, use the same istance (e.g. a report called from a tbloader document)
                 string tbIstanceID = "";
-                http.Request.Cookies.TryGetValue(TbSession.TbInstanceKey, out tbIstanceID);
+
+                tbIstanceID = AutorizationHeaderManager.GetAuthorizationElement(http.Request, TbSession.TbInstanceKey);
+
                 JsonReportEngine jengine = CreateEngine(nm, webSocket, tbIstanceID);
 
                 if (jengine == null)
