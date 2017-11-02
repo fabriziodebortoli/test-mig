@@ -294,10 +294,10 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		[HttpPost("/api/messages")]
+		[HttpPost("/api/messages/{instanceKey}")]
 		[Produces("application/json")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiMessages([FromBody] APIMessageData apiMessageData, string instanceKey)
+		public IActionResult ApiMessages(string instanceKey, [FromBody] APIMessageData apiMessageData)
 		{
 			OperationResult opRes = new OperationResult();
 
