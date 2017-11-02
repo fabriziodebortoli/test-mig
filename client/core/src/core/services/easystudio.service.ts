@@ -199,8 +199,7 @@ export class EasystudioService {
                     this.defaultApplication = array[0];
                     this.defaultModule = array[1];
                     if (setAsCurrent) {
-                        this.currentApplication = this.defaultApplication;
-                        this.currentModule = this.defaultModule;
+                        this.setAppAndModule(this.defaultApplication, this.defaultModule, true);
                     }
                 }
                 return result;
