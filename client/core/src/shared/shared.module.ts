@@ -77,6 +77,7 @@ import { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-
 import { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
 import { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
 import { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+import { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 import { UnsupportedComponent } from './components/unsupported.component';
 import { UnsupportedFactoryComponent } from './components/unsupported.component';
 import { OpenComponent } from './components/explorer/open/open.component';
@@ -118,6 +119,7 @@ export { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-
 export { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
 export { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
 export { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+export { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 export { UnsupportedComponent } from './components/unsupported.component';
 export { UnsupportedFactoryComponent } from './components/unsupported.component';
 export { OpenComponent } from './components/explorer/open/open.component';
@@ -132,7 +134,7 @@ export { DiagnosticComponent } from './components/diagnostic/diagnostic.componen
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
+    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent
 ];

@@ -18,6 +18,11 @@ call rimraf node_modules
 cd src
 call rimraf node_modules
 
+cd ..\..\bpm
+call rimraf node_modules
+cd src
+call rimraf node_modules
+
 cd ..\..\web-form
 call rimraf node_modules
 

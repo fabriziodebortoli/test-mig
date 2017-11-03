@@ -1,6 +1,8 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { BPMPageComponent } from '@taskbuilder/bpm';
+
 import { environment } from './../environments/environment';
 
 import {
@@ -19,6 +21,7 @@ import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
     { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
+    { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' },
     { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
     { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
     ...appRoutes
@@ -28,6 +31,8 @@ let childrenRoutes = environment.desktop ? [] : [...magoRoutes];
 export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
+    { path: 'bpm-s', loadChildren: '@taskbuilder/bpm#BPMModule' },
+    { path: 'bpm-c', component: BPMPageComponent },
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
     // { path: 'rs/:ns', component: StandaloneReportComponent }, // TODO riabilitare quando risolveremo problemi AOT
