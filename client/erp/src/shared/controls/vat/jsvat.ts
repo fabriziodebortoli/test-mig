@@ -1275,6 +1275,7 @@ function SKVATCheckDigit(vatnumber) {
 
 export default class JsVat {
   static isSupported(country: string): boolean {
+    if (!country) return false;
     const supported = [
       'AT',
       'BE',

@@ -294,10 +294,10 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		[HttpPost("/api/messages")]
+		[HttpPost("/api/messages/{instanceKey}")]
 		[Produces("application/json")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiMessages([FromBody] APIMessageData apiMessageData, string instanceKey)
+		public IActionResult ApiMessages(string instanceKey, [FromBody] APIMessageData apiMessageData)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -335,6 +335,46 @@ namespace Microarea.AdminServer.Controllers
 
 			opRes.Result = true;
 			opRes.Message = Strings.OK;
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpGet("/api/startup")]
+		[Produces("application/json")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiStartup()
+		{
+			OperationResult opRes = new OperationResult();
+			List<IInstance> localInstances;
+
+			try
+			{
+				localInstances = this.burgerData.GetList<Instance, IInstance>(Queries.SelectInstanceAll, ModelTables.Instances);
+			}
+			catch (Exception e)
+			{
+				opRes.Result = false;
+				opRes.Message = String.Concat("Startup API ended with an error ", Strings.InternalError, " (", e.Message, ")");
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			bool instancesAvailable = localInstances.Count > 0;
+			opRes.Result = instancesAvailable;
+			opRes.Content = localInstances.Count;
+
+			if (instancesAvailable)
+			{
+				// at least one instance exists, the system is ready to work
+				opRes.Message = "M4 Provisioning System is ready to go.";
+
+			} else
+			{
+				// no istances exist, the system should propose to init an instance
+				opRes.Message = "No application instances have been registered.";
+			}
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 

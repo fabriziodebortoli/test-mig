@@ -9,11 +9,11 @@ import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { SidenavService } from './../../core/services/sidenav.service';
 
 @Component({
-  selector: 'tb-home-sidenav',
-  templateUrl: './home-sidenav.component.html',
-  styleUrls: ['./home-sidenav.component.scss']
+  selector: 'tb-home-sidenav-left',
+  templateUrl: './home-sidenav-left.component.html',
+  styleUrls: ['./home-sidenav-left.component.scss']
 })
-export class HomeSidenavComponent implements OnInit {
+export class HomeSidenavLeftComponent implements OnInit {
 
   constructor(
     public sidenavService: SidenavService,
@@ -27,13 +27,12 @@ export class HomeSidenavComponent implements OnInit {
 
   ngOnInit() { }
 
-  toggleSidenav(menu: boolean = false) {
+  toggleSidenavLeft(menu: boolean = false) {
     
-    this.sidenavService.toggleSidenav();
+    this.sidenavService.toggleSidenavLeft();
 
     if (menu) {
-      this.tabberService.selectTab(1);
+      this.tabberService.selectMenuTab();
     }
   }
-
 }

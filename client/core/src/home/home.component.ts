@@ -35,7 +35,8 @@ import { MenuService } from './../menu/services/menu.service';
 })
 export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
 
-  @ViewChild('sidenav') sidenav;
+  @ViewChild('sidenavleft') sidenavleft;
+  @ViewChild('sidenavright') sidenavright;
   subscriptions: Subscription[] = [];
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
@@ -77,7 +78,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
 
     this.subscriptions.push(this.settingsService.settingsPageOpenedEvent.subscribe((opened) => { this.openSettings(opened); }));
 
-    this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
+    this.subscriptions.push(this.sidenavService.sidenavOpenedLeft$.subscribe(() => this.sidenavleft.toggle()));
+    this.subscriptions.push(this.sidenavService.sidenavOpenedRight$.subscribe(() => this.sidenavright.toggle()));
 
     this.subscriptions.push(this.componentService.componentInfoCreated.subscribe(arg => {
       if (arg.activate) {
@@ -86,6 +88,12 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     }));
 
     this.subscriptions.push(this.tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
+
+    this.subscriptions.push(this.tabberService.tabMenuSelected$.subscribe(() => {
+      //TODOLUCA, serve qualcosa che permetta la seleziona di tab by name o id, e non index
+      this.kendoTabStripInstance.tabs.forEach(tab => tab.active = false);
+      this.menuTabStrip.active = true;
+    }));
 
     this.subscriptions.push(this.componentService.componentInfoRemoved.subscribe(cmp => {
       this.kendoTabStripInstance.selectTab(0);
@@ -126,7 +134,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     this.calcViewHeight();
   }
   calcViewHeight() {
-    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight - 31 : 0;
+    console.log("screen.height", screen.height);
+    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight - 31 : screen.height;
     this.layoutService.setViewHeight(this.viewHeight);
   }
 
