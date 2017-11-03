@@ -393,4 +393,7 @@
   <data name="HiddenTilesLabel" xml:space="preserve">
     <value>Hidden tiles</value>
   </data>
+  <data name="HideTile" xml:space="preserve">
+    <value>Hide tile</value>
+  </data>
 </root>

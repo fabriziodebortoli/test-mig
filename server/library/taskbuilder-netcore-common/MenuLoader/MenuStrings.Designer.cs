@@ -475,6 +475,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide tile.
+        /// </summary>
+        public static string HideTile {
+            get {
+                return ResourceManager.GetString("HideTile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation Name.
         /// </summary>
         public static string InstallationName {

@@ -8,9 +8,12 @@
 
 .sidenav-header {
     display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     align-items: center;
     height: 52px;
     min-height: 50px;
+    margin-right: 15px;
 }
 
 .sidenav-title {

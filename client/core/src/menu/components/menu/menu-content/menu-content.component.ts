@@ -1,3 +1,4 @@
+import { LocalizationService } from './../../../../core/services/localization.service';
 import { EventManagerService } from './../../../../core/services/event-manager.service';
 import { Component, Input, HostBinding } from '@angular/core';
 
@@ -21,7 +22,8 @@ export class MenuContentComponent {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public imageService: ImageService,
-    public eventManagerService: EventManagerService
+    public eventManagerService: EventManagerService,
+    public localizationService: LocalizationService
   ) {
 
   }
