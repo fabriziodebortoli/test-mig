@@ -381,4 +381,16 @@
   <data name="SelectTheme" xml:space="preserve">
     <value>Select theme</value>
   </data>
+  <data name="ChangeApplicationDate" xml:space="preserve">
+    <value>Change application date</value>
+  </data>
+  <data name="ClearHiddenTilesList" xml:space="preserve">
+    <value>Clear hidden tiles list</value>
+  </data>
+  <data name="EmptyList" xml:space="preserve">
+    <value>Empty list...</value>
+  </data>
+  <data name="HiddenTilesLabel" xml:space="preserve">
+    <value>Hidden tiles</value>
+  </data>
 </root>

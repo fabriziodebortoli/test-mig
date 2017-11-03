@@ -28,6 +28,7 @@ export class MenuContentComponent {
 
   public objects: any;
   public _tile: any;
+  @Input() menu: any;
 
   @Input()
   get tile(): any {
