@@ -16,8 +16,12 @@ export class TopbarComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleSidenav() {
-    this.sidenavService.toggleSidenav();
+  toggleSidenavLeft() {
+    this.sidenavService.toggleSidenavLeft();
+  }
+
+  toggleSidenavRight() {
+    this.sidenavService.toggleSidenavRight();
   }
 
 }

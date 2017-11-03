@@ -9,11 +9,19 @@ import { Observable, Subject } from '../../rxjs.imports';
 @Injectable()
 export class SidenavService {
 
-  public sidenavOpenedSource = new Subject<boolean>();
-  sidenavOpened$: Observable<boolean> = this.sidenavOpenedSource.asObservable();
+  public sidenavLeftOpenedSource = new Subject<boolean>();
+  sidenavOpenedLeft$: Observable<boolean> = this.sidenavLeftOpenedSource.asObservable();
 
-  toggleSidenav() {
+  public sidenavRightOpenedSource = new Subject<boolean>();
+  sidenavOpenedRight$: Observable<boolean> = this.sidenavRightOpenedSource.asObservable();
 
-    this.sidenavOpenedSource.next();
+  toggleSidenavLeft() {
+
+    this.sidenavLeftOpenedSource.next();
   }
+
+  toggleSidenavRight() {
+    
+        this.sidenavRightOpenedSource.next();
+      }
 }
