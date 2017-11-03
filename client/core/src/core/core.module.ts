@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import 'hammerjs';
@@ -34,6 +35,7 @@ import { DiagnosticService } from './services/diagnostic.service';
 import { SettingsService } from './services/settings.service';
 import { EventManagerService } from './services/event-manager.service';
 import { Store } from './services/store.service';
+import { ThemeService } from './services/theme.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -63,11 +65,12 @@ export { DiagnosticService } from './services/diagnostic.service';
 export { SettingsService } from './services/settings.service';
 export { EventManagerService } from './services/event-manager.service';
 export { Store } from './services/store.service';
+export { ThemeService } from './services/theme.service';
 
 export const TB_SERVICES = [
     TbComponentService, BOService, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
-    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService,
+    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
     LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
 ];
 
@@ -77,9 +80,26 @@ export const TB_GUARDS = [CoreGuard];
 
 import { HttpModule } from '@angular/http';
 
+/**
+ * Themes
+ */
+import { DarculaTheme } from './themes/darcula/darcula-theme.component';
+import { ResetTheme } from './themes/reset/reset-theme.component';
+const THEME_COMPONENTS = [
+    DarculaTheme, ResetTheme
+];
+
 @NgModule({
-    imports: [HttpModule],
-    providers: [TB_SERVICES, TB_GUARDS]
+    imports: [
+        RouterModule.forChild([
+            { path: 'darcula', component: DarculaTheme, outlet: 'theme' },
+            { path: 'reset', component: ResetTheme, outlet: 'theme' },
+        ]),
+        HttpModule
+    ],
+    providers: [TB_SERVICES, TB_GUARDS],
+    declarations: [THEME_COMPONENTS],
+    entryComponents: [THEME_COMPONENTS]
 })
 export class TbCoreModule {
     static forRoot(): ModuleWithProviders {
