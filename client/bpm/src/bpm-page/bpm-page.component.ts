@@ -16,7 +16,10 @@ export class BPMPageComponent extends DocumentComponent implements OnInit {
         super(bpmService, eventData, null);
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        super.ngOnInit();
+        this.eventData.model = { 'Title': { 'value': "BPM" } };
+    }
 
 }
 
