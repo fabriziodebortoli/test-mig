@@ -134,7 +134,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     this.calcViewHeight();
   }
   calcViewHeight() {
-    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight - 31 : 0;
+    console.log("screen.height", screen.height);
+    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight - 31 : screen.height;
     this.layoutService.setViewHeight(this.viewHeight);
   }
 

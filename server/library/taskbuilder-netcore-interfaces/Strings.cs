@@ -844,6 +844,8 @@ namespace TaskBuilderNetCore.Interfaces
         public const string PostgreWinNtConnection = "Server={0};Port={1} ;Database={2};SearchPath={3};Integrated Security=true;Pooling=False"; // SearchPath da cambiare probabilmente
         public const string PostgreConnection = "Server={0};Port={1};Database={2};User Id={3};Password={4};SearchPath={5};Pooling=False";
 
+        public const string MySqlConnection = "server={0};uid={1};pwd={2};database={3}";
+
         public const string ODBCConnectionString = "Server={0};Database={1}; Uid={2}; Pwd={3};";
         public const string ODBCWinAuthConnectionString = "Server={0}; Database={1}; Trusted_Connection=yes;";
 

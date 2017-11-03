@@ -5,7 +5,7 @@ namespace TaskBuilderNetCore.Data
 {
     public class Provider
     {
-        public enum DBType { SQLSERVER, POSTGRE };
+        public enum DBType { SQLSERVER, POSTGRE, MYSQL };
     }
 
 

@@ -361,6 +361,7 @@ namespace Microarea.AdminServer.Controllers
 
 			bool instancesAvailable = localInstances.Count > 0;
 			opRes.Result = instancesAvailable;
+			opRes.Content = localInstances.Count;
 
 			if (instancesAvailable)
 			{

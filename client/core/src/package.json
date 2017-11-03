@@ -19,6 +19,8 @@
     "module": "taskbuilder-core.js",
     "typings": "taskbuilder-core.d.ts",
     "peerDependencies": {
+        "@taskbuilder/bpm": "git+https://github.com/Microarea/ng-bpm.git",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@angular/animations": "^4.4.4",
         "@angular/cdk": "2.0.0-beta.12",
         "@angular/core": "^4.4.4",
@@ -49,7 +51,6 @@
         "@progress/kendo-file-saver": "^1.0.4",
         "@progress/kendo-popup-common": "^1.2.2",
         "@progress/kendo-theme-default": "^2.43.1",
-        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "angular-tree-component": "^3.8.0",
         "json8-patch": "^0.4.0"
     }
