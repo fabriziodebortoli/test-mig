@@ -25,6 +25,6 @@ export class BPMPageComponent extends DocumentComponent implements OnInit {
 })
 export class BPMPageFactoryComponent {
     constructor(componentService: ComponentService, resolver: ComponentFactoryResolver) {
-        componentService.createComponent(BPMPageComponent, resolver);
+        componentService.createComponent(BPMPageComponent, resolver, { name: 'bpm' });
     }
 } 
