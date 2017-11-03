@@ -5,8 +5,6 @@ import { Logger, InfoService, DocumentService, ComponentService, EventDataServic
 @Injectable()
 export class BPMService extends DocumentService {
 
-  public BPMPageOpenedEvent: EventEmitter<boolean> = new EventEmitter();
-
   constructor(
     public logger: Logger,
     public eventData: EventDataService,
@@ -19,6 +17,5 @@ export class BPMService extends DocumentService {
   close() {
     super.close();
     this.componentService.removeComponentById(this.mainCmpId);
-    this.BPMPageOpenedEvent.emit(false);
   }
 }

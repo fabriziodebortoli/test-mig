@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
 using Npgsql;
-using System.Data.SqlClient;
-using System.Data.Common;
+using System;
 using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-
 
 namespace TaskBuilderNetCore.Data
 {
@@ -79,14 +79,19 @@ namespace TaskBuilderNetCore.Data
            
             switch (dbType)
             {
-                //case Provider.DBType.POSTGRE:
-                //    {
-                //        connection = new NpgsqlConnection(new NpgsqlConnectionStringBuilder(connectionString));
-                //        break;
-                //    }
+                case Provider.DBType.POSTGRE:
+                    {
+                        connection = new NpgsqlConnection(connectionString);
+                        break;
+                    }
                 case Provider.DBType.SQLSERVER:
                     {
                         connection = new SqlConnection(connectionString);
+                        break;
+                    }
+                case Provider.DBType.MYSQL:
+                    {
+                        connection = new MySqlConnection(connectionString);
                         break;
                     }
                 default:
@@ -131,6 +136,8 @@ namespace TaskBuilderNetCore.Data
 
             else if (connection is SqlConnection)
                 SqlConnection.ClearPool((SqlConnection)connection);
+            else if (connection is MySqlConnection)
+                MySqlConnection.ClearPool((MySqlConnection)connection);
 
             else
                 throw new DBException(DBExceptionStrings.DatabaseNotSuported);
