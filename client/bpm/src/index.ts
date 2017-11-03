@@ -11,6 +11,9 @@ export { BPMService } from './bpm.service';
 import { BPMPageComponent, BPMPageFactoryComponent } from './bpm-page/bpm-page.component';
 export { BPMPageComponent, BPMPageFactoryComponent } from './bpm-page/bpm-page.component';
 
+import { BPMStandaloneComponent } from './bpm-standalone/bpm-standalone.component';
+export { BPMStandaloneComponent } from './bpm-standalone/bpm-standalone.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,8 +23,8 @@ export { BPMPageComponent, BPMPageFactoryComponent } from './bpm-page/bpm-page.c
       { path: 'page', component: BPMPageFactoryComponent }
     ])
   ],
-  declarations: [BPMPageComponent, BPMPageFactoryComponent],
-  exports: [BPMPageComponent, BPMPageFactoryComponent],
-  entryComponents: [BPMPageComponent, BPMPageFactoryComponent]
+  declarations: [BPMPageComponent, BPMPageFactoryComponent, BPMStandaloneComponent],
+  exports: [BPMPageComponent, BPMPageFactoryComponent, BPMStandaloneComponent],
+  entryComponents: [BPMPageComponent, BPMPageFactoryComponent, BPMStandaloneComponent]
 })
 export class BPMModule { }

@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { BPMPageComponent } from '@taskbuilder/bpm';
+import { BPMStandaloneComponent } from '@taskbuilder/bpm';
 
 import { environment } from './../environments/environment';
 
@@ -31,8 +31,7 @@ let childrenRoutes = environment.desktop ? [] : [...magoRoutes];
 export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
-    { path: 'bpm-s', loadChildren: '@taskbuilder/bpm#BPMModule' },
-    { path: 'bpm-c', component: BPMPageComponent },
+    { path: 'bpm', component: BPMStandaloneComponent },
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
     // { path: 'rs/:ns', component: StandaloneReportComponent }, // TODO riabilitare quando risolveremo problemi AOT

@@ -1,4 +1,4 @@
-import { ComponentService, DocumentComponent, EventDataService } from '@taskbuilder/core';
+import { ComponentService, DocumentComponent, EventDataService, LayoutService } from '@taskbuilder/core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { URLSearchParams, Http, Response } from '@angular/http';
 
