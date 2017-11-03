@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
+using MySql.Data.MySqlClient;
 
 namespace TaskBuilderNetCore.Data
 {
@@ -60,6 +61,11 @@ namespace TaskBuilderNetCore.Data
                         ((SqlTransaction)transaction).Rollback(name);
                         break;
                     }
+                case Provider.DBType.MYSQL:
+                    {
+                       ((MySqlTransaction)transaction).Rollback();
+                        break;
+                    }
                 default:
                     throw new DBException(DBExceptionStrings.DatabaseNotSuported);
             }
@@ -77,6 +83,11 @@ namespace TaskBuilderNetCore.Data
                 case Provider.DBType.SQLSERVER:
                     {
                         ((SqlTransaction)transaction).Save(savePointName);
+                        break;
+                    }
+                case Provider.DBType.MYSQL:
+                    {
+                       // ((MySqlTransaction)transaction).Save(savePointName);
                         break;
                     }
                 default:
