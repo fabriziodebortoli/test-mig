@@ -83,10 +83,8 @@ namespace Microarea.AdminServer.Controllers
 					{
 						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
 					}
-
-					bool accountIsUpdated = opGWAMRes.Code == 6;
-
-					if (!accountIsUpdated)
+                    
+					if (opGWAMRes.Code == 31)//data to update
 					{
 						AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
 						account = accountIdentityPack.Account;
