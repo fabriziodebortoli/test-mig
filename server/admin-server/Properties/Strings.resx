@@ -219,8 +219,8 @@
   <data name="UserLocked" xml:space="preserve">
     <value>User is locked</value>
   </data>
-  <data name="UserUpToDate" xml:space="preserve">
-    <value>User up to date</value>
+  <data name="DataUpToDate" xml:space="preserve">
+    <value>Data up to date</value>
   </data>
   <data name="ValidToken" xml:space="preserve">
     <value>Token is valid</value>
@@ -281,5 +281,8 @@
   </data>
   <data name="BurgledInstance" xml:space="preserve">
     <value>The {0} instance is not valid. May need to be connect to GWAM. It is not possible to work offline.</value>
+  </data>
+  <data name="DataToUpdate" xml:space="preserve">
+    <value>Data to update</value>
   </data>
 </root>

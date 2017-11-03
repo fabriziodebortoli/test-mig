@@ -27,7 +27,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				case 5:
 					return Strings.InstanceNotValid;
 				case 6:
-					return Strings.UserUpToDate;
+					return Strings.DataUpToDate;
 				case 7:
 					return Strings.UserLoaded;
 				case 8:
@@ -71,12 +71,16 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				case 27:
 					return Strings.EmptyParameters;
                 case 28:
-                    return Strings.UnknownModelName;
-				case 29:
+                    return Strings.UnknownModelName;        
+                case 29:
+                    return Strings.EmptyModelName;
+                case 30:
 					return Strings.MissingRole;
-				case 30:
+				case 31:
 					return Strings.ValidToken;
-				default:
+                case 32:
+                    return Strings.DataToUpdate;
+                default:
 					return Strings.UnknownError;
 			}
 		}
