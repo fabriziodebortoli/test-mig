@@ -1,1 +1,22 @@
-<h1>Welcome to M4Cloud Admin</h1>
+<div class="container">
+  <h1>Welcome to M4Cloud Admin</h1>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="adminTile">
+        Information panel
+        <div *ngIf="instancesCount == 0">
+          <h3><admin-icon [iconSignature]="'warning'"></admin-icon>&nbsp;It looks like there are no registered M4 Cloud Instances.</h3>
+          <div class="pt20" style="border-top:1px solid #c0c0c0: margin-bottom:10px">
+            <admin-button [primary]=true [buttonText]="'Register New Instance'"></admin-button>
+          </div>
+        </div>
+        <div *ngIf="instancesCount > 0">
+          <h3 style="display:inline-block">{{ instancesCount }} registered instances</h3>
+          <a style="display:inline-block;margin-left:15px" [routerLink]="['/instancesHome']">Manage</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    </div>
+  </div>
+</div>
