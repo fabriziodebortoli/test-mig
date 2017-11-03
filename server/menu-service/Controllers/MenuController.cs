@@ -286,7 +286,68 @@ namespace Microarea.Menu.Controllers
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
         }
-          
+
+        //---------------------------------------------------------------------
+        [Route("addToHiddenTiles")]
+        public IActionResult AddToHiddenTiles()
+        {
+            //NewMenuSaver::AddToHiddenTiles
+
+            try
+            {
+                string user = HttpContext.Request.Form["user"];
+                string company = HttpContext.Request.Form["company"];
+                string appName = HttpContext.Request.Form["application"];
+                string groupName = HttpContext.Request.Form["group"];
+                string menuName = HttpContext.Request.Form["menu"];
+                string tileName = HttpContext.Request.Form["tile"];
+                NewMenuSaver.AddToHiddenTiles(user, company, appName, groupName, menuName, tileName);
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+
+        //---------------------------------------------------------------------
+        [Route("removeFromHiddenTiles")]
+        public IActionResult RemoveFromHiddenTiles()
+        {
+            try
+            {
+                string user = HttpContext.Request.Form["user"];
+                string company = HttpContext.Request.Form["company"];
+                string appName = HttpContext.Request.Form["application"];
+                string groupName = HttpContext.Request.Form["group"];
+                string menuName = HttpContext.Request.Form["menu"];
+                string tileName = HttpContext.Request.Form["tile"];
+                NewMenuSaver.RemoveFromHiddenTiles(user, company, appName, groupName, menuName, tileName);
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+        //---------------------------------------------------------------------
+        [Route("removeAllHiddenTiles")]
+        public IActionResult RemoveAllHiddenTiles()
+        {
+            try
+            {
+                string user = HttpContext.Request.Form["user"];
+                string company = HttpContext.Request.Form["company"];
+                NewMenuSaver.RemoveAllHiddenTiles(user, company);
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
     }
 }
 

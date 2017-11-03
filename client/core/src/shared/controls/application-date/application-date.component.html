@@ -2,7 +2,7 @@
     <m4-icon icon="erp-calendarflash" matTooltip='{{localizationService?.localizedElements?.OperationDate}}: {{applicationDate | date: dateFormat  }}'  matTooltipShowDelay="500"></m4-icon>
 </div>
 
-<kendo-dialog title="Change application date" *ngIf="opened" (close)="cancel()">
+<kendo-dialog title="{{localizationService?.localizedElements?.ChangeApplicationDate" *ngIf="opened" (close)="cancel()">
     <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
         <kendo-datepicker [format]="dateFormat" [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-datepicker>
         <label>{{errorMessage}}</label>
