@@ -1,5 +1,5 @@
 import { SettingsService } from './../../../../core/services/settings.service';
-import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from '../../../../rxjs.imports';
 
 import { LocalizationService } from './../../../../core/services/localization.service';
@@ -44,13 +44,9 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
   }
 
   refreshLayout() {
-    console.log("menuContainer.refreshLayout()");
   }
 
-
   ngAfterContentInit() {
-
-
   }
 
   initTab() {
@@ -120,15 +116,15 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
       let array = this.utilsService.toArray(this.menuService.selectedMenu.Menu);
       let newArray = [];
       for (let i = 0; i < array.length; i++) {
-        if (this.tileIsVisible(array[i]))
+        if (this.tileIsVisible(array[i]) && !array[i].hiddenTile)
           newArray.push(array[i]);
       }
-      
+
       //aggiunto per menù a tre livelli
-      let olstyleMenu  = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
+      let olstyleMenu = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
       for (let i = 0; i < olstyleMenu.length; i++) {
-        if (this.tileIsVisible(olstyleMenu[i]))
-        newArray.push(olstyleMenu[i]);
+        if (this.tileIsVisible(olstyleMenu[i]) && !olstyleMenu[i].hiddenTile)
+          newArray.push(olstyleMenu[i]);
       }
       return newArray;
     }

@@ -1,7 +1,11 @@
 <!-- <div class="" [ngClass]="{'brick--width2': objects.length > 10 }"> -->
 <div class="tb-card">
     <tb-card *ngIf="tile != undefined">
-        <tb-card-title class="tb-card-title" *ngIf="tile != undefined" [title]="tile.title" [isCollapsible]="false"></tb-card-title>
+        <tb-card-title class="tb-card-title" [title]="tile.title" [isCollapsible]="false">
+            <m4-icon icon="tb-hide" class="hideButton" (click)="menuService.addToHiddenTiles(menu, tile)"></m4-icon>
+        </tb-card-title>
+
+
         <tb-card-content>
             <div class="row">
                 <!-- <tb-menu-element [object]="object" *ngFor="let object of objects;" class="menu-content col-xs-12" [ngClass]="{'col-md-6': objects.length > 10 , 'col-md-12': objects.length <= 10}"></tb-menu-element> -->
