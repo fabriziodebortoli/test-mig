@@ -96,7 +96,6 @@ export class NumbererComponent extends ControlComponent {
 
     constructor(
         public eventData: EventDataService,
-        public vcr: ViewContainerRef,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         private store: Store
@@ -142,7 +141,6 @@ export class NumbererComponent extends ControlComponent {
 
     valueToMask(value: string, tbMask: string) {
         let ret = '';
-        let i: number;
         let tbMaskChar: string;
 
         value = value.trim();
@@ -150,7 +148,7 @@ export class NumbererComponent extends ControlComponent {
         if (value.length > 0)
             return '';
 
-        for (i = 0; i < tbMask.length; i++) {
+        for (let i = 0, len = tbMask.length; i < len; i++) {
             tbMaskChar = tbMask.substring(i, i + 1);
             // I 5 CARATTERI CHE SEGUONO INDICANO ELEMENTI DI MASCHERA NON EDITABILE, QUINDI PASSA IL CARATTERE DEL VALORE CONNESSO ALLA MASCHERA.
             // RIMANGONO DUE CARATTERI DI MASCHERA: IL SEPARATORE DECIMALE (,), CHE VIENE SOSTITUITO DAL PUNTO, E IL PUNTO INTERROGATIVO, CHE INDICA
@@ -170,11 +168,10 @@ export class NumbererComponent extends ControlComponent {
     }
 
     splitMask(tbMask: string): maskParts {
-        let i: number;
         let curChar: string;
         const ret: maskParts = { prefix: '', separator: '', body: '', suffix: '' };
 
-        for (i = 0; i < tbMask.length; i++) {
+        for (let i = 0, len = tbMask.length; i < len; i++) {
             curChar = tbMask.substring(i, i + 1);
 
             // prefisso
@@ -199,7 +196,6 @@ export class NumbererComponent extends ControlComponent {
 
     maskToValue(tbMaskParts: maskParts, value: string): string {
         let ret = '';
-        let i: number;
         let curChar: string;
         let bodyPos: number;
         let bodyValue: string;
@@ -221,7 +217,7 @@ export class NumbererComponent extends ControlComponent {
         }
         ret += tbMaskParts.separator;
 
-        for (i = bodyPos; i < value.length; i++) {
+        for (let i = bodyPos, len = value.length; i < len; i++) {
             curChar = value.substring(i, i + 1);
             if (!isNumeric(curChar) || (i - bodyPos + 1) > tbMaskParts.body.length) {
                 suffixPos = i;
