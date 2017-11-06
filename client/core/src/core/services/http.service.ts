@@ -27,10 +27,10 @@ export class HttpService {
         let message = jObject && jObject.message ? jObject.message : "";
         let messages = jObject && jObject.messages ? jObject.messages : [];
         messages.push(message);
-        let respJson =  JSON.parse(res.headers.get('Authorization'));
+        let respJson = JSON.parse(res.headers.get('Authorization'));
         let tbLoaderName = null;
         if (respJson)
-             tbLoaderName = respJson['tbLoaderName'];
+            tbLoaderName = respJson['tbLoaderName'];
         return new OperationResult(!ok, messages, tbLoaderName);
     }
 
@@ -110,9 +110,10 @@ export class HttpService {
 
     postDataWithAllowOrigin(url: string): Observable<OperationResult> {
         let headers = new Headers();
-        headers.append('Access-Control-Allow-Origin', window.location.origin);
-        headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
-        return this.http.post(url, undefined, { withCredentials: true/*, headers: headers*/ })
+        // headers.append('Access-Control-Allow-Origin', window.location.origin);
+        // headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
+        headers.append('Authorization', this.infoService.getAuthorization());
+        return this.http.post(url, undefined, { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return this.createOperationResult(res);
             });
@@ -145,7 +146,10 @@ export class HttpService {
     }
 
     getEnumsTable(): Observable<any> {
-        return this.http.get(this.infoService.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true })
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Authorization', this.infoService.getAuthorization());
+        return this.http.get(this.infoService.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
             })
@@ -154,8 +158,10 @@ export class HttpService {
 
     // tslint:disable-next-line:max-line-length
     getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = '', params: URLSearchParams): Observable<any> {
-        // tslint:disable-next-line:max-line-length
-        return this.http.get(this.infoService.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { search: params, withCredentials: true })
+        let headers = new Headers();
+        headers.append('Authorization', this.infoService.getAuthorization());
+
+        return this.http.get(this.infoService.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { search: params, withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
             })
@@ -163,7 +169,10 @@ export class HttpService {
     }
 
     getHotlinkSelectionTypes(namespace: string): Observable<any> {
-        return this.http.get(this.infoService.getDataServiceUrl() + 'getselections/' + namespace + '/', { withCredentials: true })
+        let headers = new Headers();
+        headers.append('Authorization', this.infoService.getAuthorization());
+
+        return this.http.get(this.infoService.getDataServiceUrl() + 'getselections/' + namespace + '/', { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
             })

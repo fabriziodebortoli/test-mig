@@ -176,7 +176,6 @@ export class WebSocketService {
     }
     runDocument(ns: String, args: string = ''): Promise<void> {
         const data = { cmd: 'runDocument', ns: ns, sKeyArgs: args };
-        console.log("runDocument", data);
         return this.safeSend(data);
     }
 

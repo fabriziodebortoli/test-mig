@@ -1,0 +1,25 @@
+$bkg-light:#2d2d2d;
+$bkg-medium:#333;
+$bkg-dark:#1e1e1e;
+$text-light: #fff;
+$text-medium: #8f8f96;
+.mat-toolbar.mat-primary {
+    background: $bkg-medium;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items {
+    background: $bkg-medium;
+    border-bottom-color: $bkg-light;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
+    background: $bkg-light;
+    color: $text-medium;
+    border-bottom-color: $bkg-light;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
+    background: $bkg-dark;
+    color: $text-light;
+    border-bottom-color: $bkg-dark;
+}

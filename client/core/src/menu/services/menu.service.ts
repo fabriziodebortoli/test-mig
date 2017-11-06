@@ -24,9 +24,10 @@ export class MenuService {
 
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
-
+    public hiddenTilesCount: number = 0;
     public allMenus: Array<any> = [];
 
+    public hiddenTiles = [];
     public favorites = [];
     public mostUsed = [];
 
@@ -93,7 +94,9 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    initApplicationAndGroup(applications) {
+    initApplicationAndGroup() {
+
+        let applications = this.allMenus;
 
         var queryStringLastApplicationName = this.utilsService.getApplicationFromQueryString();
         if (queryStringLastApplicationName != '')
@@ -503,9 +506,10 @@ export class MenuService {
             this.allMenus.push(temp[a])
         }
 
-        this.initApplicationAndGroup(this.allMenus);
+        this.initApplicationAndGroup();
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
+        this.loadHiddenTiles();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -645,4 +649,174 @@ export class MenuService {
     activateMenu() {
         this.menuActivated.emit();
     }
+
+
+    addToHiddenTiles(menu, tile) {
+
+        let sub = this.httpMenuService.addToHiddenTiles(this.selectedApplication.name, this.selectedGroup.name, menu.name, tile.name)
+            .subscribe(() => {
+                tile.currentApp = this.selectedApplication.name;
+                tile.currentGroup = this.selectedGroup.name;
+                tile.currentMenu = menu.name;
+
+                tile.currentAppTitle = this.selectedApplication.title;
+                tile.currentGroupTitle = this.selectedGroup.title;
+                tile.currentMenuTitle = menu.title;
+
+                this.addToHiddenTilesArray(tile);
+                this.selectedMenuChanged.emit(); //stuzzico la rigenerazione delle tiles
+                sub.unsubscribe();
+            });
+    }
+
+    //---------------------------------------------------------------------------------------------
+    removeFromHiddenTiles(tile) {
+
+        let sub = this.httpMenuService.removeFromHiddenTiles(tile.currentApp, tile.currentGroup, tile.currentMenu, tile.name)
+            .subscribe(() => {
+                this.removeFromHiddenTilesArray(tile);
+                this.selectedMenuChanged.emit();//stuzzico la rigenerazione delle tiles
+                sub.unsubscribe();
+            });
+    }
+
+    removeAllHiddenTiles() {
+        let sub = this.httpMenuService.removeAllHiddenTiles()
+            .subscribe(() => {
+                this.hiddenTiles.forEach((tile) => tile.hiddenTile = false);
+                this.hiddenTiles = [];
+                this.hiddenTilesCount = 0;
+                this.selectedMenuChanged.emit();//stuzzico la rigenerazione delle tiles
+                sub.unsubscribe();
+            });
+    }
+
+
+
+    //---------------------------------------------------------------------------------------------
+    addToHiddenTilesArray(tile: any) {
+        tile.hiddenTile = true;
+
+        for (var i = 0; i < this.hiddenTiles.length; i++) {
+            if (this.hiddenTiles[i] == tile) {
+                return;
+            }
+        }
+
+        this.hiddenTiles.push(tile);
+        this.hiddenTilesCount++;
+        // this.showOthers();
+    }
+
+    //---------------------------------------------------------------------------------------------
+    removeFromHiddenTilesArray(tile) {
+        var index = -1;
+
+        for (var i = 0; i < this.hiddenTiles.length; i++) {
+            if (this.hiddenTiles[i] == tile) {
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0) {
+            tile.hiddenTile = false;
+            this.hiddenTiles.splice(index, 1);
+            this.hiddenTilesCount--;
+        }
+    };
+
+    //---------------------------------------------------------------------------------------------
+    loadHiddenTiles() {
+
+        this.hiddenTiles = [];
+
+        this.findHiddenTilesInApplication();
+    };
+
+    findHiddenTilesInApplication() {
+        let applications = this.allMenus;
+
+        var tempAppArray = this.utilsService.toArray(applications);
+        for (var a = 0; a < tempAppArray.length; a++) {
+            var allGroupsArray = this.utilsService.toArray(tempAppArray[a].Group);
+            for (var d = 0; d < allGroupsArray.length; d++) {
+
+                var allMenusArray = this.utilsService.toArray(allGroupsArray[d].Menu);
+                for (var m = 0; m < allMenusArray.length; m++) {
+
+                    var allTiles = this.utilsService.toArray(allMenusArray[m].Menu);
+                    for (var t = 0; t < allTiles.length; t++) {
+                        if (this.utilsService.parseBool(allTiles[t].hiddenTile) == true) {
+                            allTiles[t].currentApp = tempAppArray[a].name;
+                            allTiles[t].currentGroup = allGroupsArray[d].name;
+                            allTiles[t].currentMenu = allMenusArray[m].name;
+
+                            allTiles[t].currentAppTitle = tempAppArray[a].title;
+                            allTiles[t].currentGroupTitle = allGroupsArray[d].title;
+                            allTiles[t].currentMenuTitle = allMenusArray[m].title;
+
+                            this.hiddenTiles.push(allTiles[t]);
+                            this.hiddenTilesCount++;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    //---------------------------------------------------------------------------------------------
+    getTileTooltip(tile) {
+        // tile.tileTooltip =  //$sce.trustAsHtml(
+        //     this.localizationService.localizedElements.ApplicationLabel + ": " + tile.currentAppTitle + "<br/>" +
+        //     this.localizationService.localizedElements.ModuleLabel + ": " + tile.currentGroupTitle + "<br/>" +
+        //     this.localizationService.localizedElements.MenuLabel + ": " + tile.currentMenuTitle;
+    };
+
+    /*controlla se ci sono dei tile nascosti nel menu corrente  --  credo non venga usata*/
+    //---------------------------------------------------------------------------------------------
+    ifMenuExistInHiddenTiles() {
+
+        if (this.selectedMenu == undefined || this.selectedApplication == undefined)
+            return false;
+
+        for (var i = 0; i < this.hiddenTiles.length; i++) {
+            if ((this.hiddenTiles[i].currentMenuTitle == this.selectedMenu.title) && (this.hiddenTiles[i].currentAppTitle == this.selectedApplication.title))
+                return true;
+        }
+        return false;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    ifOtherTilesAreHidden() {
+        if (this.selectedMenu == undefined)
+            return true;
+
+        for (var i = 0; i < this.hiddenTiles.length; i++) {
+            if (this.hiddenTiles[i].currentMenuTitle != this.selectedMenu.title)
+                return true;
+        }
+        return false;
+    }
+
+    //     //---------------------------------------------------------------------------------------------
+
+    //     $scope.showOthers = function () {
+    //         var display = $(".othersHiddenContainer").css("display");
+    //         if (display == 'none')
+    //             $(".othersHiddenContainer").css("display", "block");
+
+    //     }
+
+
+    //     //---------------------------------------------------------------------------------------------
+
+    //     $scope.hideOthers = function () {
+    //         var display = $(".othersHiddenContainer").css("display");
+    //         if (display == 'none')
+    //             $(".othersHiddenContainer").css("display", "block");
+    //         else
+    //             $(".othersHiddenContainer").css("display", "none");
+
+    //     }
+    // }
 }

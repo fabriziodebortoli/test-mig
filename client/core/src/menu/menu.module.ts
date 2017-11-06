@@ -16,11 +16,12 @@ import { MenuContainerComponent } from './components/menu/menu-container/menu-co
 import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
 import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
 import { ItemCustomizationsDropdownComponent } from './components/menu/menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
-
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
+import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
+
 export { LoginComponent } from './components/login/login.component';
 export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
@@ -35,6 +36,7 @@ export { MenuStepperComponent } from './components/menu/menu-stepper/menu-steppe
 export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
+export { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 
 import { MenuService } from './services/menu.service';
 import { HttpMenuService } from './services/http-menu.service';
@@ -56,6 +58,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+
+
 
 const NG_MODULES = [
     CommonModule,
@@ -94,6 +98,7 @@ const KENDO_MODULES = [
         MenuComponent,
         MenuTabberComponent,
         MenuTabComponent,
+        HiddenTilesComponent
     ],
     exports: [
         LoginComponent,
@@ -108,6 +113,7 @@ const KENDO_MODULES = [
         MenuStepperComponent,
         SearchComponent,
         MenuComponent,
+        HiddenTilesComponent
     ],
     providers: [TB_MENU_SERVICES]
 })

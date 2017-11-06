@@ -11,7 +11,8 @@
         "link-erp": "npm link ../erp/src",
         "link-icons": "npm link ../icons/src",
         "link-rs": "npm link ../reporting-studio/src",
-        "postinstall": "npm run link-core && npm run link-rs && npm run link-icons && npm run link-erp",
+        "link-bpm": "npm link ../bpm/src",
+        "postinstall": "npm run link-core && npm run link-rs && npm run link-icons && npm run link-erp && npm run link-bpm",
         "lint": "tslint \"src/**/*.ts\"",
         "test": "ng test",
         "pree2e": "webdriver-manager update",
@@ -30,6 +31,7 @@
         "@angular/platform-browser": "^4.4.4",
         "@angular/platform-browser-dynamic": "^4.4.4",
         "@angular/router": "^4.4.4",
+        "@taskbuilder/bpm": "git+https://github.com/Microarea/ng-bpm.git",
         "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
         "@taskbuilder/erp": "git+https://github.com/Microarea/ng-erp.git",
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
@@ -37,11 +39,11 @@
         "@types/hammerjs": "^2.0.33",
         "core-js": "^2.4.1",
         "hammerjs": "^2.0.8",
+        "lodash": "4.17.4",
         "npm": "^5.4.2",
         "rxjs": "^5.4.2",
         "ts-helpers": "^1.1.1",
-        "zone.js": "^0.8.14",
-        "lodash": "4.17.4"
+        "zone.js": "^0.8.14"
     },
     "devDependencies": {
         "@angular/cli": "1.4.4",

@@ -474,6 +474,20 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------
+        public static bool RemoveAllHiddenTiles(string user, string company)
+        {
+            PathFinder pf = new PathFinder(company, user);
+            string file = NewMenuFunctions.GetCustomUserHiddenTilesFile(pf);
+
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            doc.DocumentElement.RemoveAll();
+
+            SaveXml(doc, file);
+
+            return true;
+        }
+
+        //---------------------------------------------------------------------
         public static void SaveXml(XmlDocument doc, string file)
         {
             using (FileStream fileStream = new FileStream(file, FileMode.Create))

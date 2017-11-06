@@ -1,10 +1,12 @@
 <div id="dpi">a</div>
 <mat-sidenav-container (contextmenu)="onContextMenu();">
     <tb-message-dialog></tb-message-dialog>
-    <mat-sidenav mode="over" #sidenav>
-        <tb-home-sidenav></tb-home-sidenav>
+    <mat-sidenav mode="over" #sidenavleft align="start">
+        <tb-home-sidenav-left></tb-home-sidenav-left>
     </mat-sidenav>
-
+    <mat-sidenav mode="over" #sidenavright align="end">
+        <tb-home-sidenav-right></tb-home-sidenav-right>
+    </mat-sidenav>
     <div class="main-content">
         <tb-topbar>
             <div class="topbar-title-content">
@@ -74,6 +76,8 @@
         </div>
 
     </div>
+
+
 </mat-sidenav-container>
 <tb-loading></tb-loading>
 <tb-diagnostic></tb-diagnostic>

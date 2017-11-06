@@ -133,6 +133,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change application date.
+        /// </summary>
+        public static string ChangeApplicationDate {
+            get {
+                return ResourceManager.GetString("ChangeApplicationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change customization context.
         /// </summary>
         public static string ChangeCustomizationContext {
@@ -174,6 +183,15 @@ namespace Microarea.Common.MenuLoader {
         public static string ClearFavoriteList {
             get {
                 return ResourceManager.GetString("ClearFavoriteList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear hidden tiles list.
+        /// </summary>
+        public static string ClearHiddenTilesList {
+            get {
+                return ResourceManager.GetString("ClearHiddenTilesList", resourceCulture);
             }
         }
         
@@ -385,6 +403,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empty list....
+        /// </summary>
+        public static string EmptyList {
+            get {
+                return ResourceManager.GetString("EmptyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -435,6 +462,24 @@ namespace Microarea.Common.MenuLoader {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hidden tiles.
+        /// </summary>
+        public static string HiddenTilesLabel {
+            get {
+                return ResourceManager.GetString("HiddenTilesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide tile.
+        /// </summary>
+        public static string HideTile {
+            get {
+                return ResourceManager.GetString("HideTile", resourceCulture);
             }
         }
         

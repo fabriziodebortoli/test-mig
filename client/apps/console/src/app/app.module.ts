@@ -1,4 +1,5 @@
 import { ModelService } from './services/model.service';
+import { BackendService } from './services/backend.service';
 import { AccountComponent } from './components/account/account.component';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
@@ -66,7 +67,7 @@ import { DatabaseOperationsComponent } from './components/database/database-oper
     ConsoleModule
     //BrowserAnimationsModule
   ],
-  providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService],
+  providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService, BackendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

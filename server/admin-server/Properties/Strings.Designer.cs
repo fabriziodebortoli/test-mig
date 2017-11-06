@@ -106,6 +106,24 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data to update.
+        /// </summary>
+        public static string DataToUpdate {
+            get {
+                return ResourceManager.GetString("DataToUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data up to date.
+        /// </summary>
+        public static string DataUpToDate {
+            get {
+                return ResourceManager.GetString("DataUpToDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AccountName / Password is empty.
         /// </summary>
         public static string EmptyCredentials {
@@ -525,15 +543,6 @@ namespace Microarea.AdminServer.Properties {
         public static string UserLocked {
             get {
                 return ResourceManager.GetString("UserLocked", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User up to date.
-        /// </summary>
-        public static string UserUpToDate {
-            get {
-                return ResourceManager.GetString("UserUpToDate", resourceCulture);
             }
         }
         

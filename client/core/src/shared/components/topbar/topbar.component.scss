@@ -11,8 +11,13 @@ tb-topbar {
     }
 }
 
-#toggle-sidebar {
+#toggle-sidebar-left {
     cursor: pointer;
     margin-right: 10px;
+    font-size: 18px;
+}
+
+#toggle-sidebar-right{
+    cursor: pointer;
     font-size: 18px;
 }

@@ -401,6 +401,77 @@ export class HttpMenuService {
     }
 
     /**
+    * API /addToHiddenTiles
+    * 
+    * @returns {Observable<any>} changeThemes
+    */
+    addToHiddenTiles(application: string, group: string, menu: string, tile: string): Observable<OperationResult> {
+
+        let obj = {
+            user: localStorage.getItem('_user'),
+            company: localStorage.getItem('_company'),
+            authtoken: localStorage.getItem('authtoken'),
+            application: application,
+            group: group,
+            menu: menu,
+            tile: tile
+        };
+        var url = this.infoService.getMenuServiceUrl() + 'addToHiddenTiles/'
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res.ok;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+  * API /removeFromHiddenTiles
+  * 
+  * @returns {Observable<any>} removeFromHiddenTiles
+  */
+    removeFromHiddenTiles(application: string, group: string, menu: string, tile: string): Observable<OperationResult> {
+
+        let obj = {
+            user: localStorage.getItem('_user'),
+            company: localStorage.getItem('_company'),
+            authtoken: localStorage.getItem('authtoken'),
+            application: application,
+            group: group,
+            menu: menu,
+            tile: tile
+        };
+        var url = this.infoService.getMenuServiceUrl() + 'removeFromHiddenTiles/'
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res.ok;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+ * API /removeAllHiddenTiles
+ * 
+ * @returns {Observable<any>} removeAllHiddenTiles
+ */
+    removeAllHiddenTiles(): Observable<OperationResult> {
+
+        let obj = {
+            user: localStorage.getItem('_user'),
+            company: localStorage.getItem('_company'),
+            authtoken: localStorage.getItem('authtoken'),
+        };
+        var url = this.infoService.getMenuServiceUrl() + 'removeAllHiddenTiles/'
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res.ok;
+            })
+            .catch(this.handleError);
+    }
+
+
+
+
+    /**
      * TODO refactor with custom logger
      */
     private handleError(error: any) {
