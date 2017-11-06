@@ -11,8 +11,9 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Store } from './../../../core/services/store.service';
 
+//import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
 
-import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
+type maskParts = { prefix: string, separator: string, body: string, suffix: string };
 
 @Component({
     selector: "tb-numberer",
@@ -36,7 +37,7 @@ export class NumbererComponent extends ControlComponent {
     @Input() selector: any;
 
     @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-    @ViewChild('textbox') textbox: MaskedTextBoxComponent;
+    //@ViewChild('textbox') textbox: MaskedTextBoxComponent;
 
     tbEditIcon = 'tb-edit';
     tbExecuteIcon = 'tb-execute';
@@ -54,8 +55,9 @@ export class NumbererComponent extends ControlComponent {
     menuItemDoPadding = new ContextMenuItem('perform digit padding in front of the number', '', true, false, null, this.doPadding.bind(this));
 
     mask = '';
+    valueWasPadded = false;
     //ctrlEnabled = false;
-    ctrlEnabled = false; // da rimuovere dopo aver implementato lo store
+    ctrlEnabled = true; // da rimuovere dopo aver implementato lo store
     enableStateInEdit = false;
 
     private currentState: NumbererStateEnum;
@@ -69,9 +71,9 @@ export class NumbererComponent extends ControlComponent {
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
             if (b) {
-                this.tbMask = b.mask;
+                this.tbMask = b.formatMask;
                 // this.useFormatMask = b.useFormatMask;
-                this.useFormatMask = (b.mask !== '');
+                this.useFormatMask = (b.formatMask !== '');
                 this.enableCtrlInEdit = b.enableCtrlInEdit;
                 this.enableStateInEdit = b.enableStateInEdit;
 
@@ -87,12 +89,13 @@ export class NumbererComponent extends ControlComponent {
         this.store
             .select(this.selector)
             .select('value')
-            .subscribe(v => console.log('FUNZIONA!!!!!!!!: ' + v));
+            .subscribe(
+            v => console.log('changeOfValue ' + v)
+            );
     }
 
     constructor(
         public eventData: EventDataService,
-        public vcr: ViewContainerRef,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         private store: Store
@@ -138,7 +141,6 @@ export class NumbererComponent extends ControlComponent {
 
     valueToMask(value: string, tbMask: string) {
         let ret = '';
-        let i: number;
         let tbMaskChar: string;
 
         value = value.trim();
@@ -146,7 +148,7 @@ export class NumbererComponent extends ControlComponent {
         if (value.length > 0)
             return '';
 
-        for (i = 0; i < tbMask.length; i++) {
+        for (let i = 0, len = tbMask.length; i < len; i++) {
             tbMaskChar = tbMask.substring(i, i + 1);
             // I 5 CARATTERI CHE SEGUONO INDICANO ELEMENTI DI MASCHERA NON EDITABILE, QUINDI PASSA IL CARATTERE DEL VALORE CONNESSO ALLA MASCHERA.
             // RIMANGONO DUE CARATTERI DI MASCHERA: IL SEPARATORE DECIMALE (,), CHE VIENE SOSTITUITO DAL PUNTO, E IL PUNTO INTERROGATIVO, CHE INDICA
@@ -165,71 +167,76 @@ export class NumbererComponent extends ControlComponent {
             ;
     }
 
-    maskToValue(tbMask: string, value: string) {
-        let i: number;
-        let ret = '';
-        let sepPos: number;
+    splitMask(tbMask: string): maskParts {
         let curChar: string;
+        const ret: maskParts = { prefix: '', separator: '', body: '', suffix: '' };
 
-        let numValue = '';
-        let alphaValue = '';
-        let readingNumValue = true;
+        for (let i = 0, len = tbMask.length; i < len; i++) {
+            curChar = tbMask.substring(i, i + 1);
 
-        if (value.length === 0)
-            return ret;
+            // prefisso
+            if (curChar === 'Y')
+                ret.prefix += curChar;
 
-        // separo parte numerica e alfanumerica del valore inserito
-        // al primo carattere non numerico inizia la parte alfanumerica, che include anche i numerici successivi
-        for (i = 0; i < value.length; i++) {
+            // corpo
+            else if (curChar === '#')            //  (['#', ',', '.'].indexOf(curChar))  separatori decimali non considerati
+                ret.body += curChar;
+
+            // suffisso
+            else if (['-', '?', '*'].indexOf(curChar) > -1)
+                ret.suffix += curChar;
+
+            // separatore
+            else
+                ret.separator += curChar;
+        }
+
+        return ret;
+    }
+
+    maskToValue(tbMaskParts: maskParts, value: string): string {
+        let ret = '';
+        let curChar: string;
+        let bodyPos: number;
+        let bodyValue: string;
+        let suffixPos = -1;
+
+        // queta routine non considera i separatori decimali, che in mago non sono utilizzati nei numeratori
+
+        const sepPos = tbMaskParts.separator.length > 0 ? value.indexOf(tbMaskParts.separator) : -1;
+
+        // prefisso e separatore
+        if (sepPos > -1) {
+            // tutto quello che trovo a sinistra del separatore è il prefisso
+            ret += value.substring(0, sepPos);
+            bodyPos = sepPos + tbMaskParts.separator.length;
+        } else {
+            if (tbMaskParts.prefix !== '')
+                ret += (new Date()).getFullYear().toString().substr(4 - tbMaskParts.prefix.length, tbMaskParts.prefix.length);
+            bodyPos = 0;
+        }
+        ret += tbMaskParts.separator;
+
+        for (let i = bodyPos, len = value.length; i < len; i++) {
             curChar = value.substring(i, i + 1);
-            if (readingNumValue && isNumeric(curChar))
-                numValue += curChar;
-            else {
-                readingNumValue = false;
-                alphaValue += curChar;
+            if (!isNumeric(curChar) || (i - bodyPos + 1) > tbMaskParts.body.length) {
+                suffixPos = i;
+                break;
             }
         }
 
-        const tbMaskChunks: string[] = this.splitTbMask(tbMask);
-        tbMaskChunks.forEach(c => {
-            console.log(c);
-            if (c.startsWith('Y'))
-                // sostituisco la porzione di anno che mi interessa
-                ret += (new Date()).getFullYear().toString().substr(4 - c.length, c.length);
-
-            else if (
-                c.startsWith('#') ||
-                c.startsWith('N')) {
-                // faccio il padding del numero
-                sepPos = c.indexOf(',');
-                if (sepPos === -1)
-                    sepPos = c.indexOf('.');
-
-                if (sepPos === -1) {
-                    // se il valore inserito eccede la lunghezza del 'corpo' numerico tolgo l'eccedenza e l'aggiungo 
-                    // al suffisso
-                    if (numValue.length > c.length) {
-                        alphaValue = numValue.substring(numValue.length) + alphaValue;
-                        numValue = numValue.substring(0, numValue.length - 1);
-                    }
-
-                    ret += this.repeatChar('0', c.length - numValue.length) + numValue;
-                } else {
-                    // SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
-                    ret += this.repeatChar('0', sepPos - numValue.length) + numValue + '.' + this.repeatChar('0', numValue.length - sepPos + 1);
-                }
-            } else if (c === '/' || c === '-')
-                // separatore
-                ret += c;
-            else if (
-                c.startsWith('?') ||
-                c.startsWith('*') ||
-                c.startsWith('-')) {
-                if (alphaValue.length > c.length)
-                    alphaValue = alphaValue.substring(0, c.length - 1);
-                ret += alphaValue;
-            }
-        });
+        // corpo e suffisso
+        if (suffixPos === -1) {
+            bodyValue = value.substr(bodyPos, value.length - bodyPos);
+            ret += (this.repeatChar('0', tbMaskParts.body.length - bodyValue.length) +
+                bodyValue);
+        } else {
+            bodyValue = value.substr(bodyPos, suffixPos - bodyPos);
+            ret += (this.repeatChar('0', tbMaskParts.body.length - bodyValue.length) +
+                bodyValue);
+            if (tbMaskParts.suffix.length > 0)
+                ret += value.substr(suffixPos, tbMaskParts.suffix.length);
+        }
 
         return ret;
     }
@@ -239,45 +246,6 @@ export class NumbererComponent extends ControlComponent {
         let i: number;
         for (i = 1; i <= times; i++)
             ret += char;
-        return ret;
-    }
-
-    splitTbMask(tbMask: string): string[] {
-        let ret: string[] = [];
-        let i: number;
-        let tbPrevMaskChar: string;
-
-        let chunk = '';
-        let tbMaskChar = '';
-
-        for (i = 0; i < tbMask.length; i++) {
-            tbMaskChar = tbMask.substring(i, i + 1);
-
-            if (['Y', '#', '?', '*', '-', 'N'].indexOf(tbMaskChar) > -1) {
-                if (tbMaskChar !== tbPrevMaskChar) {
-                    if (chunk.length > 0) {
-                        ret.push(chunk);
-                        chunk = '';
-                    }
-                }
-
-                chunk += tbMaskChar;
-            } else if ([',', '.'].indexOf(tbMaskChar) > -1) {
-                // SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
-                chunk += tbMaskChar;
-            } else {
-                if (chunk.length > 0) {
-                    ret.push(chunk);
-                    chunk = tbMaskChar;
-                }
-            }
-
-            tbPrevMaskChar = tbMaskChar;
-        }
-
-        if (chunk.length > 0)
-            ret.push(chunk);
-
         return ret;
     }
 
@@ -293,20 +261,15 @@ export class NumbererComponent extends ControlComponent {
     }
 
     doPadding() {
-        let value: string;
-        if (this.eventData.model.FormMode.value === FormMode.FIND)
-            value = this.textbox.input.nativeElement.value;
-        else
-            value = this.model.value;
+        let value = this.model.value;
 
         if (
             value.trim() !== '' &&
-            isNumeric(value.substr(0, 1))
+            isNumeric(value.substr(0, 1)) &&
+            !this.valueWasPadded
         ) {
-            if (this.eventData.model.FormMode.value === FormMode.FIND)
-                this.textbox.input.nativeElement.value = this.maskToValue(this.tbMask, value);
-            else
-                this.model.value = this.maskToValue(this.tbMask, value);
+            this.model.value = this.maskToValue(this.splitMask(this.tbMask), value);
+            this.valueWasPadded = true;
         }
     }
 
@@ -314,15 +277,14 @@ export class NumbererComponent extends ControlComponent {
         console.log('numberer ngOnChanges: ' + JSON.stringify(changes));
     }
 
-    test() {
-        this.eventData.change.emit('0');
+    changeModelValue(value) {
+        this.model.value = value;
+        this.valueWasPadded = false;
     }
 
-    changeModelValue(value) {
-        if (value) {
-            this.model.value = value;
-        }
-    }
+    // test() {
+    //     this.eventData.change.emit('0');
+    // }
 
     // onChange($event) {
     //     this.model.value = this.model.value;
