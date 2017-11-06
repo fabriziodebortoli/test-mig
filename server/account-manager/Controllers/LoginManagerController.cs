@@ -142,6 +142,13 @@ namespace Microarea.AccountManager.Controllers
         }
 
         //-----------------------------------------------------------------------------------------
+        [Route("isServerUp")]
+        public IActionResult IsServerUp()
+        {
+            return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+        }
+
+        //-----------------------------------------------------------------------------------------
         [Route("isActivated")]
         public IActionResult IsActivated()
         {
