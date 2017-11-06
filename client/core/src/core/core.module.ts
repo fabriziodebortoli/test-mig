@@ -89,16 +89,27 @@ const THEME_COMPONENTS = [
     DarculaTheme, ResetTheme
 ];
 
+/**
+ * Pagine informative (404, ServerDown, Landing, ecc)
+ */
+import { ServerDownPage } from './pages/server-down/server-down.page';
+export { ServerDownPage } from './pages/server-down/server-down.page';
+const TB_PAGES = [
+    ServerDownPage
+];
+
 @NgModule({
     imports: [
         RouterModule.forChild([
             { path: 'darcula', component: DarculaTheme, outlet: 'theme' },
             { path: 'reset', component: ResetTheme, outlet: 'theme' },
+            { path: 'server-down', component: ServerDownPage },
         ]),
         HttpModule
     ],
     providers: [TB_SERVICES, TB_GUARDS],
-    declarations: [THEME_COMPONENTS],
+    declarations: [THEME_COMPONENTS, TB_PAGES],
+    exports: [TB_PAGES],
     entryComponents: [THEME_COMPONENTS]
 })
 export class TbCoreModule {
