@@ -275,8 +275,10 @@ namespace Microarea.Common.NameSolver
 					return string.Empty;
 
 				string webSrv = RemoteWebServer;
-				if (string.Compare(RemoteWebServer, Dns.GetHostName(), StringComparison.OrdinalIgnoreCase) == 0)
-					webSrv = "LocalHost";
+                //ottimizzazione rimossa, sotto netcore, quando il client gira su una macchina remota (cosa molto probabile) non mi deve tornare "localhost", 
+                //perchè non ha nessun senso, mi serve il nome della macchina a cui connettermi
+				//if (string.Compare(RemoteWebServer, Dns.GetHostName(), StringComparison.OrdinalIgnoreCase) == 0)
+				//	webSrv = "LocalHost";
 
 				return string.Format("http://{0}:{1}/{2}", webSrv, InstallationData.ServerConnectionInfo.WebServicesPort, installation);
 			}
