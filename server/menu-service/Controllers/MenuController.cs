@@ -348,6 +348,29 @@ namespace Microarea.Menu.Controllers
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
         }
+
+        //---------------------------------------------------------------------
+        [Route("updateCachedDateAndSave")]
+        public IActionResult UpdateCachedDateAndSave()
+        {
+            try
+            {
+                //string authtoken = HttpContext.Request.Form["authtoken"];
+                //LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
+                //if (session == null)
+                //    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                //BasePathFinder.BasePathFinderInstance.ResetApplicationsInfo();
+                BasePathFinder.BasePathFinderInstance.RefreshEasyBuilderApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);
+                BasePathFinder.BasePathFinderInstance.InstallationVer.UpdateCachedDateAndSave();
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
     }
 }
 
