@@ -3,6 +3,8 @@ import { OperationResult } from '../../services/operationResult';
 import { ModelService } from 'app/services/model.service';
 import { ExtendedSubscriptionDatabase } from '../../authentication/credentials';
 import { Router } from '@angular/router';
+import { MessageData } from '../../services/messageData';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-database-operations',
@@ -48,12 +50,34 @@ export class DatabaseOperationsComponent implements OnInit {
             subscribe(
             updateResult => {
 
+              // sample to send email after update database
+              /*let messageData: MessageData = new MessageData();
+              messageData.Destination = 'michela.delbene@microarea.it';
+              messageData.Subject = 'Update subscription database ' + this.extSubDatabase.Database.Name 
+              + ' for Subscription ' + this.extSubDatabase.Database.SubscriptionKey;
+              messageData.Body = updateResult.Message;
+
+              // I send an email
+              let sendMessage = this.modelService.sendMessage(messageData).
+                subscribe(
+                sendResult => {
+                  sendMessage.unsubscribe();
+                },
+                sendError => {
+                  console.log(sendError);
+                  alert(sendError);
+                  sendMessage.unsubscribe();
+                }
+                )*/
+
               if (!updateResult.Result) {
                 alert(updateResult.Message);
               }
               else
+              {
+                // if everything is ok I return to subscription home page
                 this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: this.extSubDatabase.Database.SubscriptionKey } });
-
+              }
               update.unsubscribe();
             },
             updateError => {
