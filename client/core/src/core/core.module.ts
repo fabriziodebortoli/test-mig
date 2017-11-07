@@ -1,3 +1,4 @@
+import { TbSharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
@@ -100,6 +101,7 @@ const TB_PAGES = [
 
 @NgModule({
     imports: [
+        TbSharedModule,
         RouterModule.forChild([
             { path: 'darcula', component: DarculaTheme, outlet: 'theme' },
             { path: 'reset', component: ResetTheme, outlet: 'theme' },
