@@ -107,6 +107,7 @@ namespace Microarea.RSWeb.Objects
 
         Categories Categories = null;
         List<Series> Series = new List<Series>();
+        List<Color> seriesColor= new List<Color>();
         ChartLegend Legend = new ChartLegend();
 
         //------------------------------------------------------------------------------
@@ -309,7 +310,7 @@ namespace Microarea.RSWeb.Objects
                     lex.SetError("TODO - il campo associato alla serie non esiste");
                     return false;
                 }
-
+                pSeries.BindedFields.Add(pF);
                 //if (!pF.IsArray() && !pF.IsColumn())
                 //{
                 //    lex.SetError(_TB("TODO - il campo associato alla serie non è un array/colonna"));
@@ -332,13 +333,30 @@ namespace Microarea.RSWeb.Objects
                 //    return false;
                 //}
 
-                pSeries.BindedFields.Add(pF);
+
             }
 
             if (lex.LookAhead(Token.COLOR))
             {
-                if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
-                    return false;
+                if (!IsChartFamilyPie())
+                {
+                    if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
+                        return false;
+                }
+                else
+                {
+                    string colorId = "";
+                    ok = lex.ParseTag(Token.COLOR);                  
+                    ok=lex.ParseID(out colorId);
+                    Variable pF = Document.SymbolTable.Find(colorId);
+                    if (pF == null)
+                    {
+                        lex.SetError("TODO - il campo associato al colore non esiste");
+                        return false;
+                    }
+                    var colors = GetArray(pF).Elements;
+                }
+                
                 pSeries.Colored = true;
             }
             else
@@ -374,7 +392,7 @@ namespace Microarea.RSWeb.Objects
             if (HasCategories())
             {
                 if (lex.Matched(Token.TITLE)) {
-                   ok= lex.ParseTag(Token.TITLE) && lex.ParseString(out Categories.Title);
+                   ok= /*lex.ParseTag(Token.TITLE) &&*/ lex.ParseString(out Categories.Title);
                     if (!ok)
                         return false;
                 }
