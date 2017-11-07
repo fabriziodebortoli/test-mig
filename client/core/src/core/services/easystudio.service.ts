@@ -168,6 +168,7 @@ export class EasystudioService {
                 }
                 this.modules = this.getModulesBy(newAppName);
 
+                this.httpMenuService.updateCachedDateAndSave().subscribe();
                 this.setAppAndModule(newAppName, newModName, false);
                 return true;
             }

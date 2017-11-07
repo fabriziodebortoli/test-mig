@@ -44,6 +44,7 @@ export class BOService extends DocumentService {
                         }
                     }
                     this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+                    this.eventData.change.emit('');
                 }
             });
         }));
@@ -103,6 +104,9 @@ export class BOService extends DocumentService {
         }));
 
         this.subscriptions.push(this.eventData.change.subscribe((cmpId: string) => {
+            if (!cmpId) {
+                return;
+            }
             const ret = this.onChange(cmpId);
             if (ret === true) {
                 this.doChange(cmpId);
@@ -111,7 +115,7 @@ export class BOService extends DocumentService {
             if (ret === false) {
                 return;
             }
-            //se sono observable
+            // se sono observable
             if (ret.subscribe) {
                 const subs = ret.subscribe(goOn => {
                     if (goOn) {

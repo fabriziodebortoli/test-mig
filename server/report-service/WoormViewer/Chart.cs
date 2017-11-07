@@ -373,9 +373,11 @@ namespace Microarea.RSWeb.Objects
 
             if (HasCategories())
             {
-                ok = lex.ParseTag(Token.TITLE) && lex.ParseString(out Categories.Title);
-                if (!ok)
-                    return false;
+                if (lex.Matched(Token.TITLE)) {
+                   ok= lex.ParseTag(Token.TITLE) && lex.ParseString(out Categories.Title);
+                    if (!ok)
+                        return false;
+                }
 
                 string sVarName = string.Empty;
                 ok = lex.ParseTag(Token.DATASOURCE) && lex.ParseID(out sVarName);
@@ -441,19 +443,19 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
         {
-            bool ok = lex.ParseTag(Token.CHART) &&
-                        lex.ParseBegin() &&
+            bool ok = lex.ParseTag(Token.CHART) && lex.ParseID(out Name) &&
+                        lex.ParseBegin() &&                     
+                        lex.ParseAlias(out this.InternalID) &&
                         lex.ParseTag(Token.TITLE) &&
-                        lex.ParseString(out Title) &&
-                        lex.ParseAlias(out this.InternalID);
+                        lex.ParseString(out Title);
 
-            if (lex.Matched(Token.COMMA))
-                ok = ok && lex.ParseID(out Name);
+           /* if (lex.Matched(Token.COMMA))
+                ok = ok && lex.ParseID(out Name); */
 
             int t = 0;
-            ok = ok && lex.ParseRect(out this.Rect) &&
-                       lex.ParseTag(Token.TYPE) &&
-                       lex.ParseInt(out t);
+            ok = ok &&
+                lex.ParseTag(Token.TYPE) && lex.ParseInt(out t) && 
+                lex.ParseRect(out this.Rect) ;
 
             ChartType = (EnumChartType)t;
 
