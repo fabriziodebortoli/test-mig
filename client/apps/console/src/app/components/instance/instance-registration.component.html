@@ -1,0 +1,54 @@
+<div class="container">
+  <h2 class="componentTitle">Register a new Instance</h2>
+
+  <div *ngIf="currentStep == 1">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Step 1: Instance Information</h2>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="adminTile tileNormal">
+          Main Data
+          <div>
+            <admin-input-text [inputLabel]="'Instance Key'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.InstanceKey"></admin-input-text>
+          </div>
+          <div>
+            <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="adminTile tileNormal">
+          Security
+          <div>
+            <admin-input-text [inputLabel]="'Activation Key'" [textType]="'text'" [(inputData)]="activationCode"></admin-input-text>          
+          </div>
+        </div>
+      </div>    
+    </div>
+    <div class="row center-xs end-sm end-lg">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <admin-button [buttonText]="'Save'" (click)="submitInstance()" [primary]="true"></admin-button>
+      </div>
+    </div>    
+  </div>
+
+  <div *ngIf="currentStep == 2">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Step 2: Select a subscription</h2>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="adminTile tileNormal">
+          Subscriptions
+          <admin-list 
+            [items]=subscriptions
+            [columnNames]="['SubscriptionKey']" 
+            [readingData]=readingData
+            (onSelectedItem)="associateInstanceToSubscription($event)"></admin-list>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+</div>
