@@ -24,7 +24,12 @@ export abstract class TbComponent implements OnInit {
     });
     return target;
   }
-
+  protected requireTranslation() {
+    let p : any = this;
+    while ((p = p.__proto__) != Object.prototype)
+      this.dictionaryId += p.constructor.name;
+    this.dictionaryId = this.dictionaryId + this.constructor.name;
+  }
   ngOnInit() {
     if (this.dictionaryId) {
       let sub = this.tbComponentService.infoService.getProductInfo().subscribe((productInfo: any) => {
