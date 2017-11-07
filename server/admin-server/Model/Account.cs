@@ -34,7 +34,7 @@ namespace Microarea.AdminServer.Model
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 		string parentAccount = string.Empty;
 		bool confirmed = false;
-        int ticks = DateTime.UtcNow.GetHashCode();
+        int ticks = TicksHelper.GetTicks();
 
         //---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
