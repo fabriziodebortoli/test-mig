@@ -141,25 +141,33 @@ export class ModelService {
   //--------------------------------------------------------------------------------------------------------
   registerInstance(body: Object, activationKey): Observable<OperationResult> {
     
-        if (activationKey === '') {
-          return Observable.throw('AuthorizationHeader is missing!');
-        }
-    
-        let bodyString = JSON.stringify(body);
-        let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': activationKey });
-        let options = new RequestOptions({ headers: headers });
-    
-        return this.http.put(environment.gwamAPIUrl + 'instances', body, options)
-          .map((res: Response) => {
-            return res.json();
-          })
-          .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
-      }  
+    if (activationKey === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': activationKey });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.put(environment.gwamAPIUrl + 'instances', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
+  }
 
   //--------------------------------------------------------------------------------------------------------
-  saveInstance(body: Object): Observable<OperationResult> {
-
+  setData(body: Object, goGWAM: boolean, activationCode: string, rowId: string): Observable<OperationResult> {
+    
     let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '' && activationCode === undefined) {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (authorizationHeader === '') {
+      authorizationHeader = activationCode;
+    }    
 
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
@@ -169,7 +177,39 @@ export class ModelService {
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(environment.gwamAPIUrl + 'instances', body, options)
+    let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl; 
+
+    return this.http.post(baseUrl + 'setdata/instances/' + rowId + '/activated' + '/1' , {}, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
+  }  
+
+  //--------------------------------------------------------------------------------------------------------
+  saveInstance(body: Object, goGWAM: boolean, activationCode: string): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '' && activationCode === undefined) {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (authorizationHeader === '') {
+      authorizationHeader = activationCode;
+    }    
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl; 
+
+    return this.http.post(baseUrl + 'instances', body, options)
       .map((res: Response) => {
         return res.json();
       })

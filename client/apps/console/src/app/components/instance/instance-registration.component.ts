@@ -17,6 +17,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
   model: Instance;
   activationCode: string;
+  securityValue: string;
   subscriptionSaveInstance: Subscription;
   subscriptionReadSubscriptions: Subscription;
   @Input() subscriptions: Array<SubscriptionAccount>;
@@ -29,6 +30,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
     this.model = new Instance();
     this.subscriptions = new Array<SubscriptionAccount>();
     this.currentStep = 1;
+    this.securityValue = '';
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -52,6 +54,8 @@ export class InstanceRegistrationComponent implements OnDestroy {
         this.model = new Instance();
         alert('Instance has been registered.');
         this.currentStep++;
+        
+        this.securityValue = res['Content'].securityValue;
 
         this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: "francesco.ricceri@microarea.it" } }, 'activation-code').subscribe(
           res => {
@@ -87,7 +91,22 @@ export class InstanceRegistrationComponent implements OnDestroy {
     this.modelService.addInstanceSubscriptionAssociation(instanceKey, subAcc.SubscriptionKey).subscribe(
       res => {
         alert('Association regularly saved.');
-        this.readingData = false;
+        this.currentStep++;
+
+        this.model.Activated = true;
+
+        this.modelService.setData({}, true, this.activationCode, instanceKey).retry(3).subscribe(
+          res => {
+            this.model.InstanceKey = instanceKey;
+            this.model.Description = "registered instance"
+            this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
+              res => { alert('Registration complete');},
+              err => { alert('Registration Failed'); }
+            )
+          },
+          err => { alert('An error occurred while updating the Instance on GWAM');}
+        )
+        
       },
       err => {
         alert('Oops, something went wrong with your request: ' + err);
