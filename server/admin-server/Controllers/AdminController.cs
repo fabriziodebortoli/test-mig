@@ -339,6 +339,69 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
+		[HttpPost("api/instances")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiInstanceRegistration([FromBody]Instance instance)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// checking small things before
+
+			if (String.IsNullOrWhiteSpace(instance.InstanceKey))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.InstanceKeyEmpty;
+				opRes.Code = -1;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// now we check authorization
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			if (authHeader == "activation-code")
+			{
+				opRes.Result = true;
+			} else
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.InvalidCredentials;
+			}
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			try
+			{
+				opRes = instance.Save(this.burgerData);
+			}
+			catch (Exception exc)
+			{
+				opRes.Result = false;
+				opRes.Message = "An error occurred " + exc.Message;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (opRes.Result)
+			{
+				opRes.Result = true;
+				opRes.Message = Strings.OK;
+			}
+			else
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.OperationKO;
+			}
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
 		[HttpGet("/api/startup")]
 		[Produces("application/json")]
 		//-----------------------------------------------------------------------------	

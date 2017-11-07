@@ -6,6 +6,7 @@ export class Instance {
     Origin: string;
     Tags: string;
     UnderMaintenance: boolean;
+    Activated: boolean;
 
     constructor() {
     }

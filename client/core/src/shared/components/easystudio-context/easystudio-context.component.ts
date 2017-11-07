@@ -178,6 +178,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             this.moduleSelected = newModName;
         }
         this.newPairVisible = false;
+        this.isDefault = false;
     }
 
     //--------------------------------------------------------------------------------
