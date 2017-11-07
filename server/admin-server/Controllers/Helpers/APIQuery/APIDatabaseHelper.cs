@@ -99,7 +99,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 				{
 					// impostazione parametri creazione contenitore db su SqlServer
 					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
-					sqlParam.DatabaseName = subDatabase.Database.DBName;
+					sqlParam.DatabaseName = subDatabase.Database.DMSDBName;
 
 					// I create DMS database
 					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
@@ -363,7 +363,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 			}
 
 			if (!existDMSDb)
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
 			//
 
 			// check informazioni database (Unicode - Collation)

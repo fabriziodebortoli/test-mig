@@ -13,7 +13,7 @@ import { Store } from './../../../core/services/store.service';
 
 //import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
 
-type maskParts = { prefix: string, separator: string, body: string, suffix: string };
+export type maskParts = { prefix: string, separator: string, body: string, suffix: string };
 
 @Component({
     selector: "tb-numberer",
@@ -56,8 +56,8 @@ export class NumbererComponent extends ControlComponent {
 
     mask = '';
     valueWasPadded = false;
-    //ctrlEnabled = false;
-    ctrlEnabled = true; // da rimuovere dopo aver implementato lo store
+    ctrlEnabled = false;
+    //ctrlEnabled = true; // da rimuovere dopo aver implementato lo store
     enableStateInEdit = false;
 
     private currentState: NumbererStateEnum;
@@ -78,10 +78,8 @@ export class NumbererComponent extends ControlComponent {
                 this.enableStateInEdit = b.enableStateInEdit;
 
                 this.paddingEnabled = (this.tbMask !== '');
-                this.ctrlEnabled = (x.value === FormMode.NEW || (x.value === FormMode.EDIT && this.enableCtrlInEdit));
 
-                this.ctrlEnabled = true; // da rimuovere dopo aver implementato lo store
-
+                this.onFormModeChanged(x.value);
                 this.setComponentMask();
             }
         });
@@ -90,7 +88,14 @@ export class NumbererComponent extends ControlComponent {
             .select(this.selector)
             .select('value')
             .subscribe(
-            v => console.log('changeOfValue ' + v)
+            (v) => this.setComponentMask()
+            );
+
+        this.store
+            .select(this.selector)
+            .select('formMode')
+            .subscribe(
+            (v) => this.onFormModeChanged(v)
             );
     }
 
@@ -101,8 +106,12 @@ export class NumbererComponent extends ControlComponent {
         private store: Store
     ) {
         super(layoutService, tbComponentService);
+    }
 
-
+    onFormModeChanged(formMode: FormMode) {
+        this.setComponentMask();
+        this.ctrlEnabled = (formMode === FormMode.FIND || formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableCtrlInEdit));
+        this.valueWasPadded = false;
     }
 
     ngAfterViewInit() {
@@ -145,7 +154,7 @@ export class NumbererComponent extends ControlComponent {
 
         value = value.trim();
 
-        if (value.length > 0)
+        if (value.length === 0)
             return '';
 
         for (let i = 0, len = tbMask.length; i < len; i++) {
@@ -242,11 +251,12 @@ export class NumbererComponent extends ControlComponent {
     }
 
     repeatChar(char: string, times: number): string {
-        let ret = '';
-        let i: number;
-        for (i = 1; i <= times; i++)
-            ret += char;
-        return ret;
+        return String(char).repeat(times);
+        // let ret = '';
+        // let i: number;
+        // for (i = 1; i <= times; i++)
+        //     ret += char;
+        // return ret;
     }
 
     onKeyDown($event) {
@@ -277,29 +287,11 @@ export class NumbererComponent extends ControlComponent {
         console.log('numberer ngOnChanges: ' + JSON.stringify(changes));
     }
 
-    changeModelValue(value) {
+    changeModelValue(value: string) {
+        //value = value.trim().toUpperCase();
         this.model.value = value;
         this.valueWasPadded = false;
     }
-
-    // test() {
-    //     this.eventData.change.emit('0');
-    // }
-
-    // onChange($event) {
-    //     this.model.value = this.model.value;
-    // }
-
-    // get htmlValue() {
-    //     if (this.model)
-    //         return this.model.value;
-    //     return null;
-    // }
-
-    // set htmlValue(value) {
-    //     if (this.model)
-    //         this.model.value = value;
-    // }
 
     // toggleState() {
     //     if (this.currentState == NumbererStateEnum.MaskedInput) {

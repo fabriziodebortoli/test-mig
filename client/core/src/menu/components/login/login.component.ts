@@ -1,9 +1,10 @@
+import { AnyFn } from './../../../shared/commons/selector';
 import { LocalizationService } from './../../../core/services/localization.service';
 import { LoadingService } from './../../../core/services/loading.service';
 import { MenuService } from './../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from '../../../rxjs.imports';
+import { Subscription, Observable } from '../../../rxjs.imports';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 
 import { LoginSession } from './../../../shared/models/login-session.model';
@@ -50,24 +51,42 @@ export class LoginComponent implements OnInit, OnDestroy {
     public localizationService: LocalizationService,
     public loadingService: LoadingService
   ) {
-    this.loadingService.setLoading(false);
+    this.loadingService.setLoading(true);
     this.localizationService.loadLocalizedElements()
   }
 
   //-------------------------------------------------------------------------------------
   ngOnInit() {
 
-    this.loadState();
-    if (this.connectionData.user != undefined) {
-      this.getCompaniesForUser(this.connectionData.user);
-    }
+    this.httpService.isServerUp().subscribe(isServerUp => {
+      this.loadingService.setLoading(false);
 
-    //TODOLUCA unsubscribe?
-    this.authService.isLogged().subscribe(isLogged => {
-      if (isLogged) {
-        this.router.navigate([this.authService.getDefaultUrl()]);
-      }
-    });
+      let subIsLogged = this.authService.isLogged().subscribe(isLogged => {
+        if (isLogged) {
+          this.router.navigate([this.authService.getDefaultUrl()]);
+        }
+        subIsLogged.unsubscribe();
+      });
+
+      this.loadState();
+      setTimeout(() => {
+        if (this.connectionData.user) {
+          this.getCompaniesForUser(this.connectionData.user);
+        }
+      }, 200);
+
+    },
+      ((error: any) => {
+        let errMsg = (error.message) ? error.message :
+          error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        if (this.logger)
+          this.logger.error(errMsg);
+
+
+        this.router.navigate([this.authService.getServerDownPageUrl()]);
+        return Observable.throw(errMsg);
+      }));
+
   }
 
   //-------------------------------------------------------------------------------------
@@ -80,7 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     let subs = this.httpService.getCompaniesForUser(user).subscribe((result) => {
       this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
 
-      if (this.companies.length > 0 && this.connectionData.company == undefined) {
+      if (this.companies.length > 0 && !this.connectionData.company) {
         this.connectionData.company = this.companies[0];
       }
 
@@ -103,7 +122,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //-------------------------------------------------------------------------------------
   loadState() {
-
     this.connectionData.user = localStorage.getItem('_user');
     this.connectionData.company = localStorage.getItem('_company');
   }

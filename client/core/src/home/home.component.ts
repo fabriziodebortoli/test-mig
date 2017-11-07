@@ -1,3 +1,4 @@
+import { ThemeService } from './../core/services/theme.service';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './../settings/settings-container/settings-container.component';
 import { BoolEditComponent } from './../shared/controls/bool-edit/bool-edit.component';
 import { SettingsService } from './../core/services/settings.service';
@@ -65,13 +66,15 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public enumsService: EnumsService,
     public infoService: InfoService,
     public loadingService: LoadingService,
-    private resolver: ComponentFactoryResolver
+    private resolver: ComponentFactoryResolver,
+    private themeService: ThemeService
   ) {
 
     this.initialize();
   }
 
   initialize() {
+
     this.loadingService.setLoading(true, "connecting...");
 
     this.isDesktop = this.infoService.isDesktop;

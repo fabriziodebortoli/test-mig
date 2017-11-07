@@ -57,6 +57,7 @@ namespace Microarea.RSWeb.Models
         public string nameSpace { get; set; }
         public string parameters { get; set; }
         public string authtoken { get; set; }
+        public string tbLoaderName { get; set; }
         //used to communicate to caller document in case this report is a document's report
         public string componentId { get; set; }
     }

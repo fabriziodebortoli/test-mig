@@ -1348,15 +1348,15 @@ namespace Microarea.RSWeb.WoormEngine
 			{
                 if (tbConnection == null)
                 {    //ANASTASIA PROVA POSTGRE
-                     // tbConnection = new DBConnection(DBType.SQLSERVER, Engine.Report.ReportSession.CompanyDbConnection/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider) TODO rsweb*/);
+                     tbConnection = new DBConnection(DBType.SQLSERVER, Engine.Report.ReportSession.CompanyDbConnection/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider) TODO rsweb*/);
                     
                     //Npgsql
                     //tbConnection = new DBConnection(DBType.POSTGRE, string.Format(TaskBuilderNetCore.Interfaces.NameSolverDatabaseStrings.PostgreConnection, "localhost", 5432, "postgres", "postgres",
                                                                                      //"sa", "")/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider) TODO rsweb*/);
 
                       //MYSQL
-                    tbConnection = new DBConnection(DBType.MYSQL, string.Format(TaskBuilderNetCore.Interfaces.NameSolverDatabaseStrings.MySqlConnection, "localhost", "root", "sasa", "northwind"
-                                                                                     )/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider) TODO rsweb*/);
+                   // tbConnection = new DBConnection(DBType.MYSQL, string.Format(TaskBuilderNetCore.Interfaces.NameSolverDatabaseStrings.MySqlConnection, "localhost", "root", "sasa", "northwind"
+                                                                                   //  )/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider) TODO rsweb*/);
 
                 }
                 if (tbConnection.State != ConnectionState.Open)
