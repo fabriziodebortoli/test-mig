@@ -106,6 +106,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data not found.
+        /// </summary>
+        public static string DataNotFound {
+            get {
+                return ResourceManager.GetString("DataNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data to update.
         /// </summary>
         public static string DataToUpdate {

@@ -14,6 +14,7 @@ import { AccountsHomeComponent } from "app/components/account/accounts-home.comp
 import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
 import { SubscriptionDbHomeComponent } from 'app/components/subscription/subscription-db-home.component';
 import { TestControlsComponent } from 'app/components/test-controls/test-controls.component';
+import { InstanceRegistrationComponent } from 'app/components/instance/instance-registration.component';
 
 export const routes: Routes = [
   { 
@@ -28,6 +29,10 @@ export const routes: Routes = [
     path: 'appHome',
     component: AppHomeComponent 
   },
+  { 
+    path: 'instancesRegistration',
+    component: InstanceRegistrationComponent
+  },  
   { 
     path: 'instancesHome',
     canActivate: [AuthGuardService],

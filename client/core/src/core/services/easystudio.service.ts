@@ -142,10 +142,8 @@ export class EasystudioService {
 
     //--------------------------------------------------------------------------------
     public refreshEasyBuilderApps() {
-        this.subscriptions.push(this.httpMenuService.refreshEasyBuilderApps().subscribe((result) => {
-            this.extractNamesAllApps(result);
-            return result;
-        }));
+        this.httpMenuService.updateCachedDateAndSave().subscribe();
+        this.initEasyStudioContext();
     }
 
     //--------------------------------------------------------------------------------
@@ -168,6 +166,7 @@ export class EasystudioService {
                 }
                 this.modules = this.getModulesBy(newAppName);
 
+                this.httpMenuService.updateCachedDateAndSave().subscribe();
                 this.setAppAndModule(newAppName, newModName, false);
                 return true;
             }

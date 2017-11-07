@@ -3,11 +3,11 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="adminTile">
-        Information panel
         <div *ngIf="instancesCount == 0">
-          <h3><admin-icon [iconSignature]="'warning'"></admin-icon>&nbsp;It looks like there are no registered M4 Cloud Instances.</h3>
-          <div class="pt20" style="border-top:1px solid #c0c0c0: margin-bottom:10px">
-            <admin-button [primary]=true [buttonText]="'Register New Instance'"></admin-button>
+          <h3><admin-icon [iconSignature]="'warning'"></admin-icon></h3>
+          <h3>It looks like there are no registered M4 Cloud Instances.</h3>
+          <div class="pt20" style="border-top:1px solid #c0c0c0; margin-bottom:10px">
+            <admin-button [primary]=true [buttonText]="'Register New Instance'" [routerLink]="['/instancesRegistration']"></admin-button>
           </div>
         </div>
         <div *ngIf="instancesCount > 0">

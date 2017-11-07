@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[MP_Instances] (
 	[Tags] [varchar] (255) NULL CONSTRAINT DF_Instances_Tags DEFAULT(''),
 	[UnderMaintenance] [bit] NULL CONSTRAINT DF_Instances_UnderMaintenance DEFAULT(0),
 	[PendingDate] [datetime] NULL CONSTRAINT DF_Instances_PendingDate DEFAULT (DateAdd (day , 10 , getdate() )),
+	[VerificationCode] [int] NULL CONSTRAINT DF_Instances_VerificationCode DEFAULT (0),
 	[Ticks] [int] NULL CONSTRAINT DF_Instances_Ticks DEFAULT (0),
 	CONSTRAINT [PK_MP_Instances] PRIMARY KEY NONCLUSTERED 
 	(

@@ -13,7 +13,7 @@ import { Store } from './../../../core/services/store.service';
 
 //import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
 
-type maskParts = { prefix: string, separator: string, body: string, suffix: string };
+export type maskParts = { prefix: string, separator: string, body: string, suffix: string };
 
 @Component({
     selector: "tb-numberer",
