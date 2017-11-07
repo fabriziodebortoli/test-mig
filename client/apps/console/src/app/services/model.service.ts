@@ -139,6 +139,24 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
+  registerInstance(body: Object, activationKey): Observable<OperationResult> {
+    
+        if (activationKey === '') {
+          return Observable.throw('AuthorizationHeader is missing!');
+        }
+    
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': activationKey });
+        let options = new RequestOptions({ headers: headers });
+    
+        return this.http.put(environment.gwamAPIUrl + 'instances', body, options)
+          .map((res: Response) => {
+            return res.json();
+          })
+          .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
+      }  
+
+  //--------------------------------------------------------------------------------------------------------
   saveInstance(body: Object): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
@@ -185,12 +203,16 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  query(modelName: string, body: Object): Observable<OperationResult> {
+  query(modelName: string, body: Object, activationCode?: string): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
-    if (authorizationHeader === '') {
+    if (authorizationHeader === '' && activationCode === undefined) {
       return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (authorizationHeader === '') {
+      authorizationHeader = activationCode;
     }
 
     if (modelName === '') {
@@ -247,6 +269,20 @@ export class ModelService {
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (addAccountSubscriptionAssociation)'));
   }
+
+  //--------------------------------------------------------------------------------------------------------
+  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string): Observable<OperationResult> {
+    
+    let authorizationHeader = "code";
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(environment.gwamAPIUrl + 'instanceSubscriptions/' + subscriptionKey + '/' + instanceKey, {}, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (addAccountSubscriptionAssociation)'));
+  }  
 
   // returns all databases for the couple instanceKey + subscriptionKey
   //--------------------------------------------------------------------------------------------------------
