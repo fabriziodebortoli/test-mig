@@ -52,8 +52,6 @@ namespace Microarea.AdminServer.Model
         public OperationResult Save(BurgerData burgerData)
         {
             //la save in locale non deve più esistere.
-
-
             OperationResult opRes = new OperationResult();
 
             List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
@@ -90,7 +88,7 @@ namespace Microarea.AdminServer.Model
 
             //verifico la pending date, se la data è manomessa rilascio eccezione
             if (!instance.VerifyPendingDate())
-                throw new Exception(String.Format(Strings.BurgledInstance, instanceKey));
+                throw new Exception(String.Format(Strings.BurgledInstance, instance.InstanceKey));
 
             //QUI CODICE PER VERIFICARE I TICKS CON IL GWAM
             
