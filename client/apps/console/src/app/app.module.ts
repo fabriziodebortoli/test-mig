@@ -33,6 +33,7 @@ import { SubscriptionDbHomeComponent } from './components/subscription/subscript
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { TestControlsComponent } from './components/test-controls/test-controls.component';
 import { DatabaseOperationsComponent } from './components/database/database-operations.component';
+import { InstanceRegistrationComponent } from './components/instance/instance-registration.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { DatabaseOperationsComponent } from './components/database/database-oper
     SubscriptionDbHomeComponent,
     FileUploadComponent,
     TestControlsComponent,
-    DatabaseOperationsComponent
+    DatabaseOperationsComponent,
+    InstanceRegistrationComponent
   ],
   imports: [
     BrowserModule,
