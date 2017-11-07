@@ -83,17 +83,36 @@ import { HttpModule } from '@angular/http';
 /**
  * Themes
  */
-import { DarculaTheme } from './themes/darcula/darcula-theme.component';
-import { ResetTheme } from './themes/reset/reset-theme.component';
+import { ArcticTheme } from './themes/arctic/arctic-theme.component';
+import { BorealisTheme } from './themes/borealis/borealis-theme.component';
+import { DefaultTheme } from './themes/default/default-theme.component';
+import { M4Theme } from './themes/m4/m4-theme.component';
+import { InfinityTheme } from './themes/infinity/infinity-theme.component';
+import { LakeTheme } from './themes/lake/lake-theme.component';
+import { OceanTheme } from './themes/ocean/ocean-theme.component';
+import { PurpleTheme } from './themes/purple/purple-theme.component';
+import { SnowFlakeTheme } from './themes/snowflake/snowflake-theme.component';
+import { UnderwaterTheme } from './themes/underwater/underwater-theme.component';
+
+
+
 const THEME_COMPONENTS = [
-    DarculaTheme, ResetTheme
+    ArcticTheme, BorealisTheme, DefaultTheme, M4Theme, InfinityTheme, LakeTheme, OceanTheme, PurpleTheme, SnowFlakeTheme, UnderwaterTheme
 ];
 
 @NgModule({
     imports: [
         RouterModule.forChild([
-            { path: 'darcula', component: DarculaTheme, outlet: 'theme' },
-            { path: 'reset', component: ResetTheme, outlet: 'theme' },
+            { path: 'arctic', component: ArcticTheme, outlet: 'theme' },
+            { path: 'borealis', component: BorealisTheme, outlet: 'theme' },
+            { path: 'default', component: DefaultTheme, outlet: 'theme' },
+            { path: 'm4', component: M4Theme, outlet: 'theme' },
+            { path: 'infinity', component: InfinityTheme, outlet: 'theme' },
+            { path: 'lake', component: LakeTheme, outlet: 'theme' },
+            { path: 'ocean', component: OceanTheme, outlet: 'theme' },
+            { path: 'purple', component: PurpleTheme, outlet: 'theme' },
+            { path: 'snowflake', component: SnowFlakeTheme, outlet: 'theme' },
+            { path: 'underwater', component: UnderwaterTheme, outlet: 'theme' }
         ]),
         HttpModule
     ],

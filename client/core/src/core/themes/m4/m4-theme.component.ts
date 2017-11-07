@@ -2,7 +2,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     template: '',
-    styleUrls: ['./darcula-theme.component.scss'],
+    styleUrls: ['./m4-theme.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class DarculaTheme { }
+export class M4Theme { }
+
