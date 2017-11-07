@@ -34,6 +34,10 @@ export class HttpService {
         return new OperationResult(!ok, messages, tbLoaderName);
     }
 
+    isServerUp(): Observable<boolean> {
+        return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isServerUp/', {}).map(() => true).catch(this.handleError);
+    }
+
     isLogged(params: { authtoken: string }): Observable<boolean> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {

@@ -1,3 +1,4 @@
+import { TbSharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
@@ -100,9 +101,20 @@ const THEME_COMPONENTS = [
     ArcticTheme, BorealisTheme, DefaultTheme, M4Theme, InfinityTheme, LakeTheme, OceanTheme, PurpleTheme, SnowFlakeTheme, UnderwaterTheme
 ];
 
+/**
+ * Pagine informative (404, ServerDown, Landing, ecc)
+ */
+import { ServerDownPage } from './pages/server-down/server-down.page';
+export { ServerDownPage } from './pages/server-down/server-down.page';
+const TB_PAGES = [
+    ServerDownPage
+];
+
 @NgModule({
     imports: [
+        TbSharedModule,
         RouterModule.forChild([
+
             { path: 'arctic', component: ArcticTheme, outlet: 'theme' },
             { path: 'borealis', component: BorealisTheme, outlet: 'theme' },
             { path: 'default', component: DefaultTheme, outlet: 'theme' },
@@ -112,12 +124,15 @@ const THEME_COMPONENTS = [
             { path: 'ocean', component: OceanTheme, outlet: 'theme' },
             { path: 'purple', component: PurpleTheme, outlet: 'theme' },
             { path: 'snowflake', component: SnowFlakeTheme, outlet: 'theme' },
-            { path: 'underwater', component: UnderwaterTheme, outlet: 'theme' }
+            { path: 'underwater', component: UnderwaterTheme, outlet: 'theme' },
+            { path: 'server-down', component: ServerDownPage },
+
         ]),
         HttpModule
     ],
     providers: [TB_SERVICES, TB_GUARDS],
-    declarations: [THEME_COMPONENTS],
+    declarations: [THEME_COMPONENTS, TB_PAGES],
+    exports: [TB_PAGES],
     entryComponents: [THEME_COMPONENTS]
 })
 export class TbCoreModule {
