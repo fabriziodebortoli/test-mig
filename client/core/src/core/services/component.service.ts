@@ -151,7 +151,9 @@ export class ComponentService {
     // check se tab già esistente, configurabile trmite l'attributo name nella createComponent
     this.currentComponent.name = args.name ? args.name : '';
     for (let c of this.components) {
-      if (c.name === this.currentComponent.name) { return false; }
+      if (c.name && c.name === this.currentComponent.name) {
+        return false;
+      }
     };
 
     if (this.currentComponent.modal) {

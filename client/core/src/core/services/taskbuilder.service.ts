@@ -1,4 +1,5 @@
-﻿import { AuthService } from './auth.service';
+﻿import { ThemeService } from './theme.service';
+import { AuthService } from './auth.service';
 import { EventManagerService } from './event-manager.service';
 import { DialogService } from '@progress/kendo-angular-dialog';
 import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
@@ -33,7 +34,8 @@ export class TaskbuilderService {
         public infoService: InfoService,
         public eventManagerService: EventManagerService,
         public diagnosticService: DiagnosticService,
-        public authService: AuthService
+        public authService: AuthService,
+        private themeService: ThemeService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -106,6 +108,8 @@ export class TaskbuilderService {
                     } else {
                         localStorage.setItem('tbLoaderName', tbRes.tbLoaderName);
                         this.logger.debug("TbLoader Connected...", tbRes.tbLoaderName);
+
+                        this.themeService.loadThemes();
                         this.tbConnection.next(true);
                     }
 
