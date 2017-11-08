@@ -27,7 +27,7 @@ export class MenuContentComponent {
   ) {
 
   }
-
+  pinned: boolean= false;
   public objects: any;
   public _tile: any;
   @Input() menu: any;
