@@ -217,9 +217,17 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  getInstances(body: string = ''): Observable<OperationResult> {
+  getInstances(body: string = '', activationCode?: string): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
+    
+    if (authorizationHeader === '' && activationCode === undefined) {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (authorizationHeader === '') {
+      authorizationHeader = activationCode;
+    }    
 
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
@@ -228,6 +236,7 @@ export class ModelService {
     // if body is not empty I add the instancekey
 
     let urlInstanceSegment: string = 'instances';
+    
     if (body !== '') {
       urlInstanceSegment += "/" + body;
     }
