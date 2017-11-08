@@ -8,7 +8,7 @@ export class Instance {
     UnderMaintenance: boolean;
     Activated: boolean;
     VerificationCode: number;
+    SecurityValue: string;
 
-    constructor() {
-    }
+    constructor() {}
 }
