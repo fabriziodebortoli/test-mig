@@ -205,6 +205,33 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document name.
+        /// </summary>
+        public static string CloneDialogDocName {
+            get {
+                return ResourceManager.GetString("CloneDialogDocName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document title.
+        /// </summary>
+        public static string CloneDialogDocTitle {
+            get {
+                return ResourceManager.GetString("CloneDialogDocTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating a new document, based on .
+        /// </summary>
+        public static string CloneDialogSubtitle {
+            get {
+                return ResourceManager.GetString("CloneDialogSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clone as a New Document.
         /// </summary>
         public static string CloneEasyStudioDocument {
