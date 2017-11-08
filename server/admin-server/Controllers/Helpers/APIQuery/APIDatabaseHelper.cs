@@ -42,7 +42,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 
 			// operazione forse superflua se il TestConnection viene fatto a monte dall'interfaccia angular
 			opRes.Result = dTask.TryToConnect();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();//dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
 				return opRes;
@@ -75,7 +75,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
 				}
 
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings(); // dTask.Diagnostic.ToJson(true);
 
 				if (!opRes.Result)
 					return opRes;
@@ -105,7 +105,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
 				}
 
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();// dTask.Diagnostic.ToJson(true);
 
 				if (!opRes.Result)
 					return opRes;
@@ -391,7 +391,9 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 			if (dTask.Diagnostic.Error)
 			{
 				opRes.Result = false;
-				opRes.Message = dTask.Diagnostic.ToJson(true);
+				//opRes.Message = dTask.Diagnostic.ToJson(true);
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
+				opRes.Content = msgList;
 				opRes.Code = -1;
 				return opRes;
 			}
@@ -425,8 +427,9 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner) });
 
 					opRes.Result = false;
-					opRes.Message = dTask.Diagnostic.ToJson(true);
+					//opRes.Message = dTask.Diagnostic.ToJson(true);
 					opRes.Code = -1;
+					opRes.Content = msgList;
 					return opRes;
 				}
 			}
@@ -457,39 +460,41 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
 
 					opRes.Result = false;
-					opRes.Message = dTask.Diagnostic.ToJson(true);
+					//opRes.Message = dTask.Diagnostic.ToJson(true);
 					opRes.Code = -1;
+					opRes.Content = msgList;
 					return opRes;
 				}
 			}
 			//
 
 			// check preventivo struttura dei database, se esistono
-			if (existERPDb && existDMSDb)
-			{
-				DatabaseManager dbManager = CreateDatabaseManager();
-				opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
+			/*			if (existERPDb && existDMSDb)
+						{
+							DatabaseManager dbManager = CreateDatabaseManager();
+							opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
 
-				IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
-				if (items != null)
-				{
-					foreach (IDiagnosticItem item in items)
-						if (!string.IsNullOrWhiteSpace(item.FullExplain))
-							msgList.Add(new OperationResult() { Message = item.FullExplain });
-				}
+							IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
+							if (items != null)
+							{
+								foreach (IDiagnosticItem item in items)
+									if (!string.IsNullOrWhiteSpace(item.FullExplain))
+										msgList.Add(new OperationResult() { Message = item.FullExplain });
+							}
 
-				if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-					!dbManager.ContextInfo.HasSlaves)
-					||
-					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
-					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
-				{
-					opRes.Code = -1;
-				}
-			}
-			//
-
+							if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+								!dbManager.ContextInfo.HasSlaves)
+								||
+								(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+								(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+								dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
+							{
+								opRes.Code = -1;
+							}
+						}
+						//
+			*/
+			opRes.Result = true;
 			opRes.Content = msgList;
 			return opRes;
 		}

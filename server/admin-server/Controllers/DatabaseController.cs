@@ -593,7 +593,7 @@ namespace Microarea.AdminServer.Controllers
 			// se tutto ok allora devo aggiornare i campi nella SubscriptionDatabase
 			// e poi eseguire il check del database 
 			// se e' necessario un aggiornamento devo chiedere prima conferma all'utente
-			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
+			/*DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
@@ -613,7 +613,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false);
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+			}*/
 
 			// I set subscription UnderMaintenance = false
 
