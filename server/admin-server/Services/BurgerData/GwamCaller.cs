@@ -11,93 +11,133 @@ namespace Microarea.AdminServer.Services.BurgerData
     {
         IHttpHelper httpHelper;
         string GWAMUrl;
+        AuthorizationInfo authInfo;
 
         //----------------------------------------------------------------------
-        public GwamCaller(IHttpHelper httpHelper, string GWAMUrl)
+        public GwamCaller(IHttpHelper httpHelper, string GWAMUrl, AuthorizationInfo authInfo)
         {
             this.httpHelper = httpHelper;
             this.GWAMUrl = GWAMUrl;
+            this.authInfo = authInfo;
         }
 
         //----------------------------------------------------------------------
-        internal async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod, AuthorizationInfo authInfo)
+        internal async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
         {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
-
             string url = String.Format(
                 "{0}accounts/{1}/{2}/{3}",
                 this.GWAMUrl, accMod.AccountName, accMod.InstanceKey, accMod.Ticks);
 
             // call GWAM API 
             OperationResult opRes = await httpHelper.PostDataAsync(
-                url, new List<KeyValuePair<string, string>>(), authHeader);
+                url, new List<KeyValuePair<string, string>>(), JsonConvert.SerializeObject(authInfo));
 
             if (!opRes.Result)
-            {
                 return Task.FromException<string>(new Exception());
-            }
 
             return (Task<string>)opRes.Content;
         }
 
         //----------------------------------------------------------------------
-        internal async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, AuthorizationInfo authInfo, string instanceKey)
+        internal async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, string instanceKey)
         {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
-
-            string url = GWAMUrl + "accounts";
-
             List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
             entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
             entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
             entries.Add(new KeyValuePair<string, string>("instanceKey", instanceKey));
 
-            OperationResult opRes = await httpHelper.PostDataAsync(url, entries, authHeader);
+            OperationResult opRes = await httpHelper.PostDataAsync(GWAMUrl + "accounts", entries, JsonConvert.SerializeObject(authInfo));
 
             if (!opRes.Result)
-            {
                 return Task.FromException<string>(new Exception());
-            }
 
             return (Task<string>)opRes.Content;
         }
 
         //----------------------------------------------------------------------
-        internal async Task<Task<string>> CheckRecoveryCode(string accountName, string recoveryCode, AuthorizationInfo authInfo)
+        internal async Task<Task<string>> CheckRecoveryCode(string accountName, string recoveryCode)
         {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
             // call GWAM API // todo onpremises ilaria
             OperationResult opRes = await httpHelper.PostDataAsync(
                 this.GWAMUrl + "recoveryCode/" + accountName + "/" + recoveryCode,
                 new List<KeyValuePair<string, string>>(),
-                authHeader);
+                 JsonConvert.SerializeObject(authInfo));
 
             if (!opRes.Result)
-            {
                 return Task.FromException<string>(new Exception());
-            }
 
             return (Task<string>)opRes.Content;
         }
 
-        // [HttpGet("/api/AccountRoles/{accountName}/{roleName}/{entityKey}/{ticks}")]
+        // [HttpGet("/api/accountRoles/{accountName}/{roleName}/{entityKey}/{ticks}")]
         //----------------------------------------------------------------------
-        internal async Task<Task<string>>GetAccountRoles(string accountName, string roleName, string entityKey, int ticks, AuthorizationInfo authInfo )
+        internal async Task<Task<string>>GetAccountRoles(string accountName, string roleName, string entityKey, int ticks )
         {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
-
             OperationResult opRes = await httpHelper.GetDataAsync(
-                this.GWAMUrl + "AccountRoles/" + accountName + "/" + roleName + "/" + entityKey + "/" + ticks,
-                authHeader);
+                this.GWAMUrl + "accountRoles/" + accountName + "/" + roleName + "/" + entityKey + "/" + ticks,
+                 JsonConvert.SerializeObject(authInfo));
 
             if (!opRes.Result)
-            {
                 return Task.FromException<string>(new Exception());
-            }
 
             return (Task<string>)opRes.Content;
         }
 
+        //[HttpGet("/api/instances/{instanceKey}/{ticks}")]
+        //----------------------------------------------------------------------
+        internal async Task<Task<string>> GetInstance(string instanceKey, int ticks)
+        {
+            OperationResult opRes = await httpHelper.GetDataAsync(
+                this.GWAMUrl + "instances/" + instanceKey + "/" + ticks,
+                 JsonConvert.SerializeObject(authInfo));
+
+            if (!opRes.Result)
+                return Task.FromException<string>(new Exception());
+
+            return (Task<string>)opRes.Content;
+        }
+
+        //[HttpGet("/api/subscription/{subscriptionKey}/{ticks}")]
+        //----------------------------------------------------------------------
+        internal async Task<Task<string>> GetSubscription(string subscriptionKey, int ticks)
+        {
+            OperationResult opRes = await httpHelper.GetDataAsync(
+                this.GWAMUrl + "subscription/" + subscriptionKey + "/" + ticks,
+                 JsonConvert.SerializeObject(authInfo));
+
+            if (!opRes.Result)
+                return Task.FromException<string>(new Exception());
+
+            return (Task<string>)opRes.Content;
+        }
+
+        // [HttpGet("/api/subscriptionInstances/{subscriptionKey}/{instanceKey}/{ticks}")]
+        //----------------------------------------------------------------------
+        internal async Task<Task<string>> GetSubscriptionInstances(string subscriptionKey, string instanceKey, int ticks)
+        {
+            OperationResult opRes = await httpHelper.GetDataAsync(
+                this.GWAMUrl + "subscriptionInstances/" + subscriptionKey + "/" + instanceKey + "/" + ticks,
+                 JsonConvert.SerializeObject(authInfo));
+
+            if (!opRes.Result)
+                return Task.FromException<string>(new Exception());
+
+            return (Task<string>)opRes.Content;
+        }
+
+        //[HttpGet("/api/subscriptionAccounts/{subscriptionKey}/{accountName}/{ticks}")]
+        //----------------------------------------------------------------------
+        internal async Task<Task<string>> GetSubscriptionAccounts(string subscriptionKey, string accountName, int ticks)
+        {
+            OperationResult opRes = await httpHelper.GetDataAsync(
+                this.GWAMUrl + "subscriptionAccounts/" + subscriptionKey + "/" + accountName + "/" + ticks,
+                 JsonConvert.SerializeObject(authInfo));
+
+            if (!opRes.Result)
+                return Task.FromException<string>(new Exception());
+
+            return (Task<string>)opRes.Content;
+        }
 
     }
 }

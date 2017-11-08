@@ -55,7 +55,7 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
-            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
             try
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);                
@@ -65,7 +65,7 @@ namespace Microarea.AdminServer.Controllers
 
                 { 
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await gc.VerifyAccountModificationGWAM(new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
+                    Task<string> responseData = await gc.VerifyAccountModificationGWAM(new AccountModification(account.AccountName, instanceKey, account.Ticks));
                     
                     //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versionesia comuqnue possibile continuare verificando la pendingdate
                   
@@ -113,7 +113,7 @@ namespace Microarea.AdminServer.Controllers
                 // Se non esiste, richiedi a gwam.
                 if (account == null)
                 {
-                    Task<string> responseData = await gc.VerifyUserOnGWAM(credentials, GetAuthorizationInfo(instanceKey), instanceKey);
+                    Task<string> responseData = await gc.VerifyUserOnGWAM(credentials, instanceKey);
                     OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
                     // GWAM call could not end correctly, but in this case we need gwam because does not exist the account in the provisioning db
 
@@ -301,7 +301,7 @@ namespace Microarea.AdminServer.Controllers
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
 
-            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
             try
             {
                 Account account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
@@ -311,7 +311,7 @@ namespace Microarea.AdminServer.Controllers
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await gc.VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
+						new AccountModification(account.AccountName, instanceKey, account.Ticks));
 
 
                     // GWAM call could not end correctly: so we check the object
@@ -467,10 +467,10 @@ namespace Microarea.AdminServer.Controllers
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
-            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
             try
             {
-                Task<string> responseData = await gc.CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo(instanceKey));
+                Task<string> responseData = await gc.CheckRecoveryCode(accountName, recoveryCode);
                 // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
                 {                    
@@ -513,8 +513,16 @@ namespace Microarea.AdminServer.Controllers
                     //TODO far qualcosa?
                 }
 
-				// TODO: check on GWAM if tables have been updated
+               
 				IInstance[] instancesArray = this.GetInstances(accountName);
+                ////qui per ogni istanza verifico se ci sono aggiornamenti sul gwam e nel caso me li salvo in locale
+                //foreach (IInstance i in instancesArray)
+                //{
+                //    GwamCaller gc = new GwamCaller(_httpHelper, GWAMUrl, GetAuthorizationInfo(i.InstanceKey));
+                //    Task<string> res = await gc.GetInstance(i.InstanceKey, i.Ticks);
+                //    //qui torna  se è da aggiornare  o no, se da aggiornare è da fare la save in locale
+                //    //((Instance)i).Save(burgerData);
+                //}
 				opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
