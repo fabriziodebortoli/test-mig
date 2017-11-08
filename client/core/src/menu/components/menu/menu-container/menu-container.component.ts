@@ -143,4 +143,17 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
   tileIsVisible(tile) {
     return this.ifTileHasObjects(tile);
   }
+
+  getMenus() {
+    if (!this.menuService || !this.menuService.selectedGroup)
+      return [];
+      
+    let tempMenus = [];
+    let menus = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
+    for (let i = 0; i < menus.length; i++) {
+      if (menus[i].Menu && menus[i].Menu.length > 0)
+        tempMenus.push(menus[i]);
+    }
+    return tempMenus;
+  }
 }

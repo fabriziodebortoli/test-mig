@@ -1,17 +1,37 @@
 ﻿
 namespace Microarea.AdminServer
 {
-    // Istruzioni SQL per la gestione delle strutture dati del model
     //=========================================================================
     public class Queries
     {
-        // Instance
+        // Instance queries
+
         public const string ExistInstance = @"SELECT COUNT(*) FROM MP_Instances WHERE InstanceKey = @InstanceKey ";
-        public const string SelectInstance = @"SELECT * FROM MP_Instances WHERE InstanceKey = '{0}'";
-        public const string SelectInstanceAll = @"SELECT * FROM MP_Instances";
-        public const string InsertInstance = @"INSERT INTO MP_Instances (InstanceKey, Description, Disabled, Origin, Tags, UnderMaintenance, PendingDate, VerificationCode, Ticks) VALUES (@InstanceKey, @Description, @Disabled, @Origin, @Tags, @UnderMaintenance, @PendingDate, @VerificationCode,  @Ticks)";
-        public const string UpdateInstance = @"UPDATE MP_Instances SET Description = @Description, Disabled = @Disabled, Origin=@Origin, Tags=@Tags, UnderMaintenance=@UnderMaintenance, PendingDate=@PendingDate, VerificationCode=@VerificationCode, Ticks=@Ticks WHERE InstanceKey = @InstanceKey";
-        public const string DeleteInstance = @"DELETE MP_Instances WHERE InstanceKey = @InstanceKey";
+
+		public const string SelectInstance = @"SELECT * FROM MP_Instances WHERE InstanceKey = '{0}'";
+
+		public const string SelectInstanceAll = @"SELECT * FROM MP_Instances";
+
+		public const string InsertInstance = @"INSERT INTO MP_Instances 
+													(InstanceKey, Description, Disabled, Origin, Tags, 
+													UnderMaintenance, PendingDate, VerificationCode, Ticks, SecurityValue) 
+												VALUES 
+													(@InstanceKey, @Description, @Disabled, @Origin, @Tags, 
+													@UnderMaintenance, @PendingDate, @VerificationCode,  @Ticks, @SecurityValue)";
+
+		public const string UpdateInstance = @"UPDATE MP_Instances 
+												SET Description = @Description, 
+													Disabled = @Disabled, 
+													Origin=@Origin, 
+													Tags=@Tags, 
+													UnderMaintenance=@UnderMaintenance, 
+													PendingDate=@PendingDate, 
+													VerificationCode=@VerificationCode, 
+													Ticks=@Ticks,
+													SecurityValue = @SecurityValue 
+												WHERE InstanceKey = @InstanceKey";
+
+		public const string DeleteInstance = @"DELETE MP_Instances WHERE InstanceKey = @InstanceKey";
 
         // Instance specialized (BurgerData)
         public const string SelectInstanceForAccount = @"SELECT * FROM MP_Instances WHERE InstanceKey IN

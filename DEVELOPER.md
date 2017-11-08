@@ -26,13 +26,19 @@ following products on your development machine:
 
 ```shell
 # global installation typescript
-$ npm install -g "typescript@latest"
+$ npm i -g "typescript@latest"
 ```
 
 * [Angular CLI](https://cli.angular.io/), (version `>= 1.4`) a command line interface for Angular
 ```shell
 # global installation Angular CLI
-$ npm install -g "@angular/cli"
+$ npm i -g "@angular/cli"
+```
+
+* [rimraf] - Shortcut to *rm -rf*
+```shell
+# global installation rimraf
+$ npm i -g rimraf
 ```
 
 * .NET Core

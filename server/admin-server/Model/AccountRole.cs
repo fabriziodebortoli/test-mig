@@ -1,9 +1,11 @@
-﻿using Microarea.AdminServer.Model.Interfaces;
+﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Model
 {
@@ -40,35 +42,34 @@ namespace Microarea.AdminServer.Model
 			account.EntityKey = dataReader["EntityKey"] as string;
 			account.Level = dataReader["Level"] as string;
             account.Ticks = (int)dataReader["Ticks"] ;
+
             return account;
 		}
 
-		//---------------------------------------------------------------------
-		public OperationResult Save(BurgerData burgerData)
+        //---------------------------------------------------------------------
+        public OperationResult Save(BurgerData burgerData)
         {
-			OperationResult opRes = new OperationResult();
+            OperationResult opRes = new OperationResult();
 
-			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
-			burgerDataParameters.Add(new BurgerDataParameter("@RoleName", this.roleName));
-			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
-			burgerDataParameters.Add(new BurgerDataParameter("@EntityKey", this.entityKey));
-			burgerDataParameters.Add(new BurgerDataParameter("@Level", this.level));
-            burgerDataParameters.Add(new BurgerDataParameter("@Ticks",this.ticks));
+            List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+            burgerDataParameters.Add(new BurgerDataParameter("@RoleName", this.roleName));
+            burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
+            burgerDataParameters.Add(new BurgerDataParameter("@EntityKey", this.entityKey));
+            burgerDataParameters.Add(new BurgerDataParameter("@Level", this.level));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
 
             BurgerDataParameter roleNameKeyColumnParameter = new BurgerDataParameter("@RoleName", this.roleName);
-			BurgerDataParameter accountNameKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
-			BurgerDataParameter entityKeyColumnParameter = new BurgerDataParameter("@EntityKey", this.entityKey);
+            BurgerDataParameter accountNameKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
+            BurgerDataParameter entityKeyColumnParameter = new BurgerDataParameter("@EntityKey", this.entityKey);
             BurgerDataParameter[] keyParameters = new BurgerDataParameter[] {
-				roleNameKeyColumnParameter,
-				accountNameKeyColumnParameter,
-				entityKeyColumnParameter
-			};
+                roleNameKeyColumnParameter,
+                accountNameKeyColumnParameter,
+                entityKeyColumnParameter
+            };
 
-			opRes.Result = burgerData.Save(ModelTables.AccountRoles, keyParameters, burgerDataParameters);
-			return opRes;
-		}
-
-       
+            opRes.Result = burgerData.Save(ModelTables.AccountRoles, keyParameters, burgerDataParameters);
+            return opRes;
+        }
 
         //--------------------------------------------------------------------------------
         public string GetKey()
