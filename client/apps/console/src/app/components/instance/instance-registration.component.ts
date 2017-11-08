@@ -97,11 +97,26 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
         this.modelService.setData({}, true, this.activationCode, instanceKey).retry(3).subscribe(
           res => {
-            this.model.InstanceKey = instanceKey;
-            this.model.Description = "registered instance"
-            this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
-              res => { alert('Registration complete');},
-              err => { alert('Registration Failed'); }
+
+            this.modelService.getInstances(instanceKey, this.activationCode).subscribe(
+              res => {
+
+                let instances:Instance[] = res['Content'];
+                
+                if (instances.length == 0) {
+                  return;
+                }
+                
+                this.model = instances[0];
+
+                //we read the instance, now we pass it to the admin console
+
+                this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
+                  res => { alert('Registration complete');},
+                  err => { alert('Registration Failed'); }
+                )
+              },
+              err => {}
             )
           },
           err => { alert('An error occurred while updating the Instance on GWAM');}
