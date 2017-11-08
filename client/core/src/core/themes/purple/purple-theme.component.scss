@@ -5,6 +5,7 @@ $bkg: #fff;
 
 $text-light: #fff;
 $text-medium: #8f8f96;
+$text-dark: #484040;
 
 .purple {
     //toolbar principale, dove si trova anche la "ricerca"
@@ -75,5 +76,274 @@ $text-medium: #8f8f96;
     //titolo della tbcard
     .tb-card-title{
         font-size: 17px;
+    }
+
+        //Colore icone di tipo document
+        tb-menu-element .menu-element-content .object-type.Document {
+            color: $bkg-medium;
+        }
+    
+       //Colore icone di tipo Report
+       tb-menu-element .menu-element-content .object-type.Report {
+            color: $bkg-medium;
+        }
+    
+        //Colore icone di tipo Batch
+       tb-menu-element .menu-element-content .object-type.Batch {
+            color: $bkg-medium;
+        }
+    
+       //Colore icone di tipo Function
+       tb-menu-element .menu-element-content .object-type.Function {
+            color: $bkg-medium;
+        }
+
+         //dimensione del font delle voci di menu
+    tb-menu-element .menu-element-content .object-type {
+        font-size: 16px;
+    }
+
+    //colore scrollbar
+    ::-webkit-scrollbar-thumb {
+        background:$bkg-medium;
+    }
+
+    //colore di fondo della sidenav
+    .mat-sidenav, mat-sidenav {
+        background: $bkg-medium;
+    }
+
+    //colore di fondo della lista applicazioni
+    ul.application-list {
+        background:  $bkg-light;
+    }
+
+    //colore di fondo della singola voce della list applicazioni
+    ul.application-list >li {
+        color: $text-dark;
+        background: $bkg-light;
+    }
+
+    //colore di fondo della lista gruppi
+    ul.groups-list {
+        background:  $bkg-light;
+    }
+
+    //colore di fondo della singola voce della list gruppi
+    ul.groups-list   > li{
+        background:  $bkg-light;
+        color: $text-dark;
+    }
+
+    //tidolo delle voci sidenav
+    .sidenav-subtitle h4 {
+        color: $text-dark;
+    }
+
+
+    //stile quando usato nella sidenav
+    /// inizio sidenav
+    .sidenav {
+        m4-icon.close {
+            color: $text-dark;
+        }
+        //recenti, colori 
+        .most-used-item {
+            color: $text-dark;
+            background:  $bkg-light;
+            &:hover {
+                background:  $bkg-light;
+            }
+            &:hover span {
+                color: $text-dark;
+            }
+            m4-icon.close {
+                &:hover {
+                    color: $text-dark;
+                }
+            }
+        }
+
+        .most-used-empty {
+            color: $text-dark;
+        }
+
+        //favoriti 
+    .favorite-item {
+            color: $text-dark;
+            background:  $bkg-medium;
+            &:hover {
+                background:  $bkg-medium;
+            }
+            &:hover span {
+                color: $text-dark;
+            }
+            m4-icon.close {
+                color: $text-dark;
+                &:hover {
+                    color: $text-dark;
+                }
+            }
+        }
+        .favorites-empty {
+            color: $text-dark;
+        }
+
+        // nascosti 
+        .hiddenTiles-item {
+            color: $text-dark;
+            background:  $bkg-medium;
+            &:hover {
+                background:  $bkg-medium;
+            }
+            color: $text-dark;
+            }
+            m4-icon.close {
+                color: $text-dark;
+                &:hover {
+                    color: $text-dark;
+                }
+            }
+        }
+        
+        .hiddenTiles-empty {
+            color: $text-dark
+        }
+    }
+    /// fine sidenav
+
+
+    //stile quando usato nella dashboard
+    /// inizio dashboard
+    .dashboard {
+    //recenti
+    .most-used-item {
+        background: #f1f4f7;
+        border: 1px solid #ddd;
+        margin: 3px 7px;
+        height: 28px;
+        &>span {
+            color: #00588c;
+            line-height: 29px;
+        }
+        &:hover span {
+            color: #333;
+        }
+        .type {
+            margin-right: 7px;
+        }
+        .type.Document {
+            color: #0277bd;
+        }
+        .type.Report,
+        .type.Function {
+            color: #3EAB66;
+        }
+        .type.Batch {
+            color: #ffa700;
+        }
+        m4-icon.close {
+            color: #ddd;
+            &:hover {
+                color: #0277bd;
+            }
+        }
+    }
+    .most-used-empty {
+        color: #666;
+    }
+
+    // favoriti 
+    .favorites {
+        ul.favorites-list {
+            .favorite-item {
+                background: #f1f4f7;
+                border: 1px solid #ddd;
+                margin: 3px 7px;
+                height: 28px;
+                m4-icon.type {
+                    margin: 0px 7px;
+                    line-height: 28px;
+                    font-size: 15px;
+                    padding-top: 2px;
+                }
+                &>span {
+                    color: #00588c;
+                    line-height: 29px;
+                }
+                &:hover span {
+                    color: #333;
+                }
+                m4-icon.type {
+                    margin-right: 7px;
+                }
+                m4-icon.type.Document {
+                    color: #0277bd;
+                }
+                m4-icon.type.Report,
+                m4-icon.type.Function {
+                    color: #3EAB66;
+                }
+                m4-icon.type.Batch {
+                    color: #ffa700;
+                }
+                m4-icon.close {
+                    color: #ddd;
+                    &:hover {
+                        color: #0277bd;
+                    }
+                }
+            }
+        }
+    }
+    .favorites-empty {
+        color: #666;
+    }
+
+    // nascosti 
+    .hiddentiles {
+        ul.hiddenTiles-list {
+            .hiddenTiles-item {
+                background: #f1f4f7;
+                border: 1px solid #ddd;
+                margin: 3px 7px;
+                height: 28px;
+                m4-icon.type {
+                    margin: 0px 7px;
+                    line-height: 28px;
+                    font-size: 15px;
+                    padding-top: 2px;
+                }
+                &>span {
+                    color: #00588c;
+                    line-height: 29px;
+                }
+                &:hover span {
+                    color: #333;
+                }
+                m4-icon.type {
+                    margin-right: 7px;
+                }
+                m4-icon.type.Document {
+                    color: #0277bd;
+                }
+                m4-icon.type.Report,
+                m4-icon.type.Function {
+                    color: #3EAB66;
+                }
+                m4-icon.type.Batch {
+                    color: #ffa700;
+                }
+                m4-icon.close {
+                    color: #ddd;
+                    &:hover {
+                        color: #0277bd;
+                    }
+                }
+            }
+        }
+    }
+    .hiddenTiles-empty {
+        color: #666;
     }
 }

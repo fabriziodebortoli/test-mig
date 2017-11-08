@@ -5,6 +5,7 @@ $bkg: #fff;
 
 $text-light: #fff;
 $text-medium: #8f8f96;
+$text-dark: #484040;
 
 .infinity {
     //toolbar principale, dove si trova anche la "ricerca"
@@ -75,5 +76,35 @@ $text-medium: #8f8f96;
     //titolo della tbcard
     .tb-card-title{
         font-size: 17px;
+    }
+
+        //Colore icone di tipo document
+        tb-menu-element .menu-element-content .object-type.Document {
+            color: $bkg-medium;
+        }
+    
+       //Colore icone di tipo Report
+       tb-menu-element .menu-element-content .object-type.Report {
+            color: $bkg-medium;
+        }
+    
+        //Colore icone di tipo Batch
+       tb-menu-element .menu-element-content .object-type.Batch {
+            color: $bkg-medium;
+        }
+    
+       //Colore icone di tipo Function
+       tb-menu-element .menu-element-content .object-type.Function {
+            color: $bkg-medium;
+        }
+
+         //dimensione del font delle voci di menu
+    tb-menu-element .menu-element-content .object-type {
+        font-size: 16px;
+    }
+
+    //
+    ::-webkit-scrollbar-thumb {
+        background:$bkg-medium;
     }
 }
