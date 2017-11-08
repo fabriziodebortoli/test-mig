@@ -376,19 +376,8 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private string GetInstanceSecurityValue(string instancekey)
         {
-            IRegisteredApp app = new RegisteredApp();
-            try
-            {
-                app = burgerData.GetObject<RegisteredApp, IRegisteredApp>(
-                    String.Empty, ModelTables.RegisteredApps, SqlLogicOperators.AND, new WhereCondition[] {
-                        new WhereCondition("AppId", instancekey, QueryComparingOperators.IsEqual, false)
-                    });
-
-                if (app == null)
-                    return string.Empty;
-            }
-            catch { }
-            return app.SecurityValue; 
+			// todo must read from the Instance table
+			return String.Empty;
         }
 
         //-----------------------------------------------------------------------------	
