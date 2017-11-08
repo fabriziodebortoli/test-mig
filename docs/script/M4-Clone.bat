@@ -23,8 +23,6 @@ rd /s /q web
 
 git clone https://github.com/Microarea/Taskbuilder.git web
 
-git checkout .
-
 cd %Installation%Standard\web\client\web-form\ 
 call npm i >> %Installation%5_npm_install.log
 

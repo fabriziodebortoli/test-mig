@@ -24,6 +24,7 @@ namespace Microarea.AdminServer.Model
         DateTime pendingDate;
         int ticks = TicksHelper.GetTicks();
         int verificationCode = 0;
+		string securityValue;
 
         public string InstanceKey { get => this.instanceKey; set => this.instanceKey = value; }
         public string Description { get => this.description;  set => this.description = value; }
@@ -36,12 +37,14 @@ namespace Microarea.AdminServer.Model
         public DateTime PendingDate { get => pendingDate; set => pendingDate = value; }
         public int VerificationCode { get => verificationCode; set => verificationCode = value; }
         public int Ticks { get => ticks; set => ticks = value; }
+		public string SecurityValue { get => securityValue; set => securityValue = value; }
 
         //---------------------------------------------------------------------
         public Instance()
 		{
 			this.description = String.Empty;
 			this.pendingDate = BurgerData.MinDateTimeValue;
+			this.securityValue = String.Empty;
 		}
 
 		//---------------------------------------------------------------------
@@ -53,7 +56,6 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public OperationResult Save(BurgerData burgerData)
         {
-            //la save in locale non deve più esistere.
             OperationResult opRes = new OperationResult();
 
             List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
@@ -66,7 +68,8 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@PendingDate", this.pendingDate));
             burgerDataParameters.Add(new BurgerDataParameter("@VerificationCode", this.verificationCode));
             burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
-            BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
+			burgerDataParameters.Add(new BurgerDataParameter("@SecurityValue", this.securityValue));
+			BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
 
             opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
             return opRes;
@@ -85,7 +88,8 @@ namespace Microarea.AdminServer.Model
                 underMaintenance = (bool)reader["UnderMaintenance"],
                 pendingDate = (DateTime)reader["PendingDate"],
                 verificationCode = (int)reader["VerificationCode"],
-                ticks = (int)reader["Ticks"]
+                ticks = (int)reader["Ticks"],
+				securityValue = reader["SecurityValue"] as string
             };
 
             //verifico la pending date, se la data è manomessa rilascio eccezione

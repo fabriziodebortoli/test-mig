@@ -68,3 +68,14 @@ Questo script come prima cosa cancella eventuali cadaveri di cartelle legate all
 Scaricare il file [M4-Get-Build.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Get-Build.bat) (tasto destro mouse -> Salva con nome)  effettua una sincroniccata pulita, più le relative build della parte angular  e netcore.
 
 
+### Build Completa
+Scaricare il file [M4-Build-Complete.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat) (tasto destro mouse -> Salva con nome) che effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
+
+ 1. Pulizia completa della cartella \apps
+ 2. Get latest (compreso di tentativo di automerge)  di taskbuilder, erp 
+ 3. Build in debug di taskbuilder e erp
+ 4. Sincronizzazione da git e compilata dei sorgenti web. (effettua tutte le operazioni presenti nel “M4-Get-Build.bat”
+
+N.B.: nello script è presente, anche se commentato con un “rem” , tutta la parte relativa ad MDC:  se normalmente sincronizzate anche questa applicazione, dovete semplicemente togliere i relativi “rem” dalle righe pertinenti ad mdc
+
+E' utile lanciare questo script tutte le sere, magari anche con una schedulazione di windows, in modo da avere l’intero ambiente pronto all’uso la mattina dopo (ovviamente a meno di errori di compilazione dovuti a checkin infausti)

@@ -376,8 +376,13 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private string GetInstanceSecurityValue(string instancekey)
         {
-			// todo must read from the Instance table
-			return String.Empty;
+			IInstance iInstance = this.burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND,
+				new WhereCondition[]
+				{
+					new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false)
+				});
+
+			return iInstance.SecurityValue;
         }
 
         //-----------------------------------------------------------------------------	
