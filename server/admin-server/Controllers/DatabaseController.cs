@@ -8,7 +8,6 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
-using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using TaskBuilderNetCore.Interfaces;
 
@@ -50,37 +48,11 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/databases")]
 		public IActionResult ApiDatabases([FromBody] SubscriptionDatabase subDatabase)
 		{
-			OperationResult opRes = new OperationResult();
-
-			if (string.IsNullOrWhiteSpace(subDatabase.InstanceKey))
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.InstanceKeyEmpty;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			if (String.IsNullOrEmpty(subDatabase.SubscriptionKey))
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.SubscriptionKeyEmpty;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			if (String.IsNullOrEmpty(subDatabase.Name))
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.DatabaseNameEmpty;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
 			// check AuthorizationHeader first
 
-			opRes = SecurityManager.ValidateAuthorization(
+			OperationResult opRes = SecurityManager.ValidateAuthorization(
 				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subDatabase.SubscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
@@ -92,10 +64,7 @@ namespace Microarea.AdminServer.Controllers
 			try
 			{
 				if (subDatabase != null)
-				{
 					opRes = subDatabase.Save(burgerData);
-					opRes.Message = Strings.OperationOK;
-				}
 				else
 				{
 					opRes.Result = false;
@@ -107,15 +76,11 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = "010 DatabaseController.ApiDatabases" + exc.Message;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (!opRes.Result)
-			{
-				opRes.Message = Strings.OperationKO;
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
+			opRes.Message = (opRes.Result) ? Strings.OperationOK : Strings.OperationKO;
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}

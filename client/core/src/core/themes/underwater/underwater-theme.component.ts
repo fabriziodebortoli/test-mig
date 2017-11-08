@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     template: '',
-    styleUrls: ['./reset-theme.component.scss'],
+    styleUrls: ['./underwater-theme.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ResetTheme { }
+export class UnderwaterTheme { }

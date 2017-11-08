@@ -1,0 +1,215 @@
+$bkg-light:rgba(90, 241, 146, 0.8);
+$bkg-medium:rgba(62,171,103, 0.8);
+$bkg-dark:rgba(0, 0, 0, 0.8);
+$bkg: #fff;
+
+$text-light: #fff;
+$text-medium: #8f8f96;
+$text-dark: #484040;
+.borealis{
+    //toolbar principale, dove si trova anche la "ricerca"
+    .mat-toolbar.mat-primary {
+        background: $bkg-light;
+    }
+
+    //Selettore menu/dashboard/documenti/report
+    .tabber-container>.k-tabstrip>.k-tabstrip-items {
+        background: $bkg-medium ;
+        border-bottom-color: $bkg-medium ;
+    }
+
+    //Selettore menu/dashboard/documenti/report, singola tab
+    .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
+        background: $bkg-medium;
+        color:  $text-light;
+        border-bottom-color: $bkg-medium;
+    }
+
+    //Selettore menu/dashboard/documenti/report, singola tab attiva
+    .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
+        background: $bkg-dark;
+        color: $text-light;
+        border-bottom-color:  $bkg-medium;
+    }
+
+    //colore barra del titolo delle finestre di messaggio modali
+    .k-dialog-titlebar {
+        background-color: $bkg-medium;
+    }
+
+    //colore pulsanti finestre di messaggio modali
+    .k-button.k-primary, .k-slider .k-draghandle, .k-switch-on .k-switch-handle {
+        background-color: $bkg-medium;
+        border-color: $bkg-medium;
+    }
+
+    //colore della toolbar principale della frame
+    .toolbar-top{
+        background-color: $bkg-medium;
+        color: $text-light;
+    }
+
+    //colore del tabber del selettore menu
+    .menu-page .k-tabstrip-top > .k-tabstrip-items {
+        background-color: $bkg-light;
+        color: $text-light;
+    }
+
+    //colore del tabber del selettore menu, singola tab
+    .menu-page .k-tabstrip > .k-tabstrip-items .k-item .k-link {
+        color: $text-light;
+    }
+
+    //colore del tabber del selettore menu, singola tab attiva
+    .menu-page .k-tabstrip-top > .k-tabstrip-items .k-item.k-state-active .k-link {
+        color: $bkg-light;
+        background: $bkg-dark;
+        color: $text-light;
+    }
+
+    //tbcard, 
+    .tb-card {
+        background-color: $bkg;
+    }
+
+    //titolo della tbcard
+    .tb-card-title{
+        font-size: 17px;
+    }
+
+    //Colore icone di tipo document
+    tb-menu-element .menu-element-content .object-type.Document {
+        color: $bkg-medium;
+    }
+
+   //Colore icone di tipo Report
+   tb-menu-element .menu-element-content .object-type.Report {
+        color: $bkg-medium;
+    }
+
+    //Colore icone di tipo Batch
+   tb-menu-element .menu-element-content .object-type.Batch {
+        color: $bkg-medium;
+    }
+
+   //Colore icone di tipo Function
+   tb-menu-element .menu-element-content .object-type.Function {
+        color: $bkg-medium;
+    }
+
+     //dimensione del font delle voci di menu
+     tb-menu-element .menu-element-content .object-type {
+        font-size: 16px;
+    }
+
+     //
+    //colore scrollbar
+    ::-webkit-scrollbar-thumb {
+        background:$bkg-medium;
+    }
+
+    //colore di fondo della sidenav
+    .mat-sidenav, mat-sidenav {
+        background: $bkg-medium;
+    }
+
+    //colore di fondo della lista applicazioni
+    ul.application-list {
+        background:  $bkg-light;
+    }
+
+    //colore di fondo della singola voce della list applicazioni
+    ul.application-list >li {
+        color: $text-dark;
+        background: $bkg-light;
+    }
+
+    //colore di fondo della lista gruppi
+    ul.groups-list {
+        background:  $bkg-light;
+    }
+
+    //colore di fondo della singola voce della list gruppi
+    ul.groups-list   > li{
+        background:  $bkg-light;
+        color: $text-dark;
+    }
+
+    //tidolo delle voci sidenav
+    .sidenav-subtitle h4 {
+        color: $text-dark;
+    }
+
+ //stile quando usato nella sidenav
+    /// inizio sidenav
+    .sidenav {
+        m4-icon.close {
+            color: $text-dark;
+        }
+        //recenti, colori 
+        .most-used-item, .favorite-item, .hiddenTiles-item  {
+            color: $text-dark;
+            background:  $bkg-light;
+            &:hover {
+                background:  $bkg-light;
+            }
+            &:hover span {
+                color: $text-dark;
+            }
+            m4-icon.close {
+                &:hover {
+                    color: $text-dark;
+                }
+            }
+        }
+
+        //recenti, favoriti , nascosti, lista vuota
+        .most-used-empty, .favorites-empty, .hiddenTiles-empty  {
+            color: $text-dark;
+        }
+    }
+    /// fine sidenav
+
+
+    //stile quando usato nella dashboard
+    /// inizio dashboard
+    .dashboard {
+        //recenti, preferiti
+        .most-used-item,  .favorite-item, .hiddentiles {
+            background: #f1f4f7;
+            border: 1px solid #ddd;
+            margin: 3px 7px;
+            height: 28px;
+            &>span {
+                color: $text-dark;
+                line-height: 29px;
+            }
+            &:hover span {
+                color: $bkg-medium;
+            }
+            .type {
+                margin-right: 7px;
+            }
+            .type.Document {
+                color: $bkg-medium;
+            }
+            .type.Report,
+            .type.Function {
+                color: $bkg-medium;
+            }
+            .type.Batch {
+                color: $bkg-medium;
+            }
+            m4-icon.close {
+                color: #ddd;
+                &:hover {
+                    color: $bkg-medium;
+                }
+            }
+
+            .most-used-empty, .favorites-empty,  .hiddenTiles-empty{
+                color: $text-dark;
+            }
+        }
+    }
+}

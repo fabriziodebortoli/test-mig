@@ -43,6 +43,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
             ...childrenRoutes
         ],
     },
+    // { path: 'server-down', component: ServerDownComponent },
     { path: '**', component: PageNotFoundComponent },
 ]);
 

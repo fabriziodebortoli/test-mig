@@ -29,63 +29,63 @@ mat-sidenav-container,
     margin-top: 5px;
 }
 
+.topbar-menu-content {
+    height: 50px;
+}
+
 .tabber-container {
     flex-grow: 1;
     display: flex;
     flex-flow: column;
-}
-
-.tabber-container>.k-tabstrip {
-    &>.k-tabstrip-items {
-        background-color: #0277bd;
-        border-bottom: 1px solid #ddd;
-        height: 30px;
-        line-height: 30px;
-    }
-    &>.k-content {
-        padding: 0;
-        border: none;
-        border-radius: 0;
-        background: #F1F4F7;
-    }
-}
-
-.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
-    line-height: 27px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-    color: white;
-    background: #00578c;
-    margin-left: 3px;
-    border-bottom-color: #00578c;
-    margin-bottom: 0px;
-}
-
-.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
-    background-color: #fff;
-    margin-bottom: -1px;
-    border-bottom-color: #fff;
-    color: #0277bd;
-}
-
-.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link {
-    padding: 0 10px;
-    &>div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        &>span {
-            padding: 0 7px;
+    &>.k-tabstrip {
+        &>.k-tabstrip-items {
+            background-color: #0277bd;
+            border-bottom: 1px solid #ddd;
+            height: 30px;
+            line-height: 30px;
         }
-        m4-icon {
-            font-size: 16px;
-            padding-top: 3px;
+        &>.k-content {
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            background: #F1F4F7;
         }
-        m4-icon.close {
-            font-size: 14px;
+    }
+    &>.k-tabstrip>.k-tabstrip-items .k-item {
+        line-height: 27px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+        color: white;
+        background: #00578c;
+        margin-left: 3px;
+        border-bottom-color: #00578c;
+        margin-bottom: 0px;
+    }
+    &>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
+        background-color: #fff;
+        margin-bottom: -1px;
+        border-bottom-color: #fff;
+        color: #0277bd;
+    }
+    &>.k-tabstrip>.k-tabstrip-items .k-item .k-link {
+        padding: 0 10px;
+        &>div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            &>span {
+                padding: 0 7px;
+            }
+            m4-icon {
+                font-size: 16px;
+                padding-top: 3px;
+            }
+            m4-icon.close {
+                font-size: 14px;
+            }
         }
     }
 }
