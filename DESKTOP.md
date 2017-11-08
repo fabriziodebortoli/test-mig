@@ -69,7 +69,7 @@ Scaricare il file [M4-Get-Build.bat](https://github.com/Microarea/Taskbuilder/bl
 
 
 ### Build Completa
-Scaricare il file [M4-Build-Complete.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Clone.bat) (tasto destro mouse -> Salva con nome) che effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
+Scaricare il file [M4-Build-Complete.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat) (tasto destro mouse -> Salva con nome) che effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
 
  1. Pulizia completa della cartella \apps
  2. Get latest (compreso di tentativo di automerge)  di taskbuilder, erp 
