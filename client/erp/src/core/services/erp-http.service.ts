@@ -16,16 +16,16 @@ export class ErpHttpService {
 
     postToDocumentBaseUrl(api: string, obj: any): Observable<Response> {
         const params = { authtoken: localStorage.getItem('authtoken') };
-        const url = 'http://localhost:5000/' + api;
+        const url = this.infoService.getBaseUrl() + api;
         const headers = new Headers({ 'Content-Type': 'application/json' });
         return this.http.post(url, JSON.stringify(obj), { withCredentials: true, headers: headers });
     }
 
     isVatDuplicate(vat: string): Observable<Response> {
-        return this.postToDocumentBaseUrl('erp-core/CheckVatDuplicate', vat);
+        return this.postToDocumentBaseUrl('/erp-core/CheckVatDuplicate', vat);
     }
 
     checkBinUsesStructure(zone: string, storage: string): Observable<Response> {
-        return this.postToDocumentBaseUrl('erp-core/CheckBinUsesStructure', { "zone": zone, "storage": storage });
+        return this.postToDocumentBaseUrl('/erp-core/CheckBinUsesStructure', { "zone": zone, "storage": storage });
     }
 }
