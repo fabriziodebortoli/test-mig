@@ -37,7 +37,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
   submitInstance() {
 
     if (this.model.InstanceKey == '') {
-      alert('Mandatory fields are empty! Check Instance key!');
+      alert('To proceed, an Instance key is required.');
       return;
     }
 
