@@ -20,5 +20,10 @@ export class ItemEditComponent extends ControlComponent {
     ) {
         super(layoutService, tbComponentService);
     }
+
+    funzione(): boolean {
+        return true;
+    }
+
 }
 
