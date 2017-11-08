@@ -9,6 +9,9 @@ TaskBuilder Web projects.
 [server - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/server)
 
 ## Developers
+
+[Sincronizzazione e Build ambiente di sviluppo Desktop](https://github.com/Microarea/Taskbuilder/blob/master/DESKTOP.md)
+
 [Building and Running TaskBuilder Web](https://github.com/Microarea/Taskbuilder/blob/master/DEVELOPER.md)
 
 [How to debug an Angular2 App](https://github.com/Microarea/Taskbuilder/blob/master/DEBUG.md)
