@@ -59,5 +59,6 @@ cd %Installation%Standard\web\server\web-server
 dotnet restore
 dotnet publish --framework netcoreapp2.0 --output "%Installation%Standard\TaskBuilder\WebFramework\M4Server" --configuration release >> %Installation%3_dotnet_publish.log
 
+%Installation%Apps\ClickOnceDeployer\ClickOnceDeployer.exe
 
 @echo on
