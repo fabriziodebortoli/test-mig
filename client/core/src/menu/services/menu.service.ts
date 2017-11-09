@@ -513,7 +513,11 @@ export class MenuService {
 
             app.Group = app.Group;
             app.Group.forEach(menu => {
-                menu.Menu = this.utilsService.toArray(menu.Menu);
+                //menu.Menu = this.utilsService.toArray(menu.Menu);
+                menu.Menu = this.utilsService.toArray(menu.Menu).filter(
+                    currentMenu => {
+                        return this.utilsService.toArray(currentMenu.Menu).length > 0 || this.utilsService.toArray(currentMenu.Object).length  > 0;
+                    });
 
                 //menu orfani a tre livelli
                 if (menu.Object) {
