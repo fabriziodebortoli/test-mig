@@ -30,6 +30,7 @@ import { TabberService } from './services/tabber.service';
 import { UtilsService } from './services/utils.service';
 import { WebSocketService } from './services/websocket.service';
 import { TbComponentService } from './services/tbcomponent.service';
+import { TbComponentServiceParams } from './services/tbcomponent.service.params';
 import { LocalizationService } from './services/localization.service';
 import { LoadingService } from './services/loading.service';
 import { DiagnosticService } from './services/diagnostic.service';
@@ -40,6 +41,7 @@ import { ThemeService } from './services/theme.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
+export { TbComponentServiceParams } from './services/tbcomponent.service.params';
 export { BOService } from './services/bo.service';
 export { BOClient } from './services/bo.service';
 export { ComponentService } from './services/component.service';
@@ -69,7 +71,7 @@ export { Store } from './services/store.service';
 export { ThemeService } from './services/theme.service';
 
 export const TB_SERVICES = [
-    TbComponentService, BOService, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
+    TbComponentService, TbComponentServiceParams, BOService, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
     LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
