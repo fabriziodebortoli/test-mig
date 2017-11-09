@@ -2,7 +2,7 @@
 set /p installationpath="Enter Installation path <c:\development>: "
 
 if [%installationpath%] == [] (
-	set installationpath="c:\development"
+	set installationpath=c:\development
 )
 
 if not exist %installationpath% (
