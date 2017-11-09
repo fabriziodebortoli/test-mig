@@ -1,4 +1,4 @@
-import { TbComponentServiceParams } from './../core/services/tbcomponent.service.params';
+import { DocumentServiceParams } from './../core/services/document.service.params';
 import { ComponentService } from './../core/services/component.service';
 import { EventDataService } from './../core/services/eventdata.service';
 
@@ -11,10 +11,9 @@ import { Observable } from '../rxjs.imports';
 export class TestService extends DocumentService {
 
     constructor(
-        params: TbComponentServiceParams,
-        eventData: EventDataService,
+        params: DocumentServiceParams,
         public componentService: ComponentService) {
-        super(params, eventData);
+        super(params);
     }
 
     close() {
