@@ -361,14 +361,7 @@ namespace Microarea.Common.Applications
             string xargs = d.OuterXml;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(session.TbBaseAddress + TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute) );
-            //costruisce l'header di Authorization, essendo la chiamata partita da WebSocket, gli headers non sono stati trasmessi dal browser
-            var auth = new JObject();
-            auth.Add("authtoken", session.UserInfo.AuthenticationToken);
-            auth.Add(TbSession.TbInstanceKey, session.TbInstanceID);
-
-            string authString = JsonConvert.SerializeObject(auth, Newtonsoft.Json.Formatting.None);
            
-          
             using (var client = new HttpClient())
             {
                 try
@@ -381,7 +374,7 @@ namespace Microarea.Common.Applications
                     });
 
                     request.Content = content;
-                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", string.Format(@"{0}", authString));
+                    AddAuthorizationHeader(session, client);
                     var response = await client.SendAsync(request);
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
@@ -446,17 +439,14 @@ namespace Microarea.Common.Applications
               <Param name="action" type="integer" mode="in" />
          </Function>
         */
-        public static async Task<string> GetHotLinkQuery(TbSession session, string ns, string aParams, /*Hotlink.HklAction*/int action)
+        public static async Task<string> GetHotLinkQuery(TbSession session, string aParams, /*Hotlink.HklAction*/int action)
         {
-            // ITbLoaderClient hotlinkInterface = null; //TODO RSWEB Session.GetTBClientInterface();
-            //if (hotlinkInterface != null)
-            //	return hotlinkInterface.GetHotlinkQuery(aNamespace, aParams, (int)action);
-            //-----------------------
-
-         /*   if (!session.LoggedToTb)
+            string ns = session.Namespace;
+           
+            /*TODO RSWEB REFACTORING estrarre metodo usato anche da runfunction, assignwoormparameter ecc..*/
+            bool retLogin = TbSession.TbLogin(session).Result;
+            if (!retLogin)
                 return null;
-            if (session.TbInstanceID.IsNullOrEmpty())
-                return null;    */
 
             var cookieContainer = new CookieContainer();
             using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
@@ -476,6 +466,7 @@ namespace Microarea.Common.Applications
                         new KeyValuePair<string, string>("action", action.ToString())
                    });
 
+                    AddAuthorizationHeader(session, client);
                     var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbHotlinkQueryRoute, content);
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
@@ -494,6 +485,15 @@ namespace Microarea.Common.Applications
                     return null;
                 }
             }
+        }
+        //-------------------------------------------------------------------------------------------------
+        private static void AddAuthorizationHeader(TbSession session, HttpClient client)
+        {
+            var auth = new JObject();
+            auth.Add("authtoken", session.UserInfo.AuthenticationToken);
+            auth.Add(TbSession.TbInstanceKey, session.TbInstanceID);
+            string authString = JsonConvert.SerializeObject(auth, Newtonsoft.Json.Formatting.None);
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", string.Format(@"{0}", authString));
         }
 
         //-------------------------------------------------------------------------------------------------

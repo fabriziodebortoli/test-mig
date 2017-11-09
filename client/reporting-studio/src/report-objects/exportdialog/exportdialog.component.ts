@@ -10,14 +10,18 @@ import { formatNumber } from '@telerik/kendo-intl';
 })
 
 export class ExportdialogComponent {
-    public subscriptions: Subscription[] = [];
-    public from: number;
-    public to: number;
-    public inputDisable: boolean = true;
+    subscriptions: Subscription[] = [];
+    from: number;
+    to: number;
+    copy: number;
+
+    multicopy: boolean = true;
+    inputDisable: boolean = true;
 
     constructor(public rsExportService: RsExportService) {
         this.from = 1;
         this.to = this.rsExportService.totalPages;
+        this.copy = 1;
     };
 
     ngOnDestroy() {
@@ -33,7 +37,7 @@ export class ExportdialogComponent {
     }
 
     startExport() {
-        this.rsExportService.initiaziedExport(this.from, this.to);
+        this.rsExportService.initializedExport(this.from, this.to, this.copy);
         this.rsExportService.exportfile = false;
     }
 
