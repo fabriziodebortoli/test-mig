@@ -60,16 +60,16 @@ Scaricare uno degli script seguenti ed eseguire come Amministratore, soprattutto
 Entrambi gli script, alla partenza, vi chiederanno di specificare il path di installazione della vostra cartella di sviluppo (ad esempio “c:\development”)
 
 ### Clone, Install e Build
-Scaricare il file [M4-Clone.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Clone.bat) (tasto destro mouse -> Salva con nome) che ha lo scopo di clonare, installare e buildare tutti i componenti provenienti da git.
+Scaricare il file [M4-Clone.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Clone.bat?raw=true) (tasto destro mouse -> Salva con nome) che ha lo scopo di clonare, installare e buildare tutti i componenti provenienti da git.
 Questo script come prima cosa cancella eventuali cadaveri di cartelle legate alla parte web, quindi qualsiasi modifica alla parte web non pushata su git, ***con questo script andrà irrimediabilmente persa***.
 
 
 ### Sincronizzazione e Build
-Scaricare il file [M4-Get-Build.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Get-Build.bat) (tasto destro mouse -> Salva con nome)  effettua una sincroniccata pulita, più le relative build della parte angular  e netcore.
+Scaricare il file [M4-Get-Build.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Get-Build.bat?raw=true) (tasto destro mouse -> Salva con nome)  effettua una sincroniccata pulita, più le relative build della parte angular  e netcore.
 
 
 ### Build Completa
-Scaricare il file [M4-Build-Complete.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat) (tasto destro mouse -> Salva con nome) che effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
+Scaricare il file [M4-Build-Complete.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat?raw=true) (tasto destro mouse -> Salva con nome) che effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
 
  1. Pulizia completa della cartella \apps
  2. Get latest (compreso di tentativo di automerge)  di taskbuilder, erp 
