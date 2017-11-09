@@ -38,8 +38,8 @@ export class HttpService {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isServerUp/', {}).map(() => true).catch(this.handleError);
     }
 
-    getTranslations(): Observable<any> {
-        let obj = {  }
+    getTranslations(dictionaryId: string, culture: string): Observable<Array<any>> {
+        let obj = { dictionaryId: dictionaryId, culture: culture };
         let url = this.infoService.getLocalizationServiceUrl() + 'getTranslations/';
         return this.postData(url, obj)
             .map((res: any) => {
