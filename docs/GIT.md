@@ -5,6 +5,8 @@ In questo documento trovate i principali comandi per git
 * [Sincronizzazione](#sincronizzazione)
 * [Branch](#branch)
 
+Link utile: [GIT - Guida tascabile](http://rogerdudler.github.io/git-guide/index.it.html)
+
 ## Clone
 Il primo passaggio è il clone di un repository remoto già esistente.
 Questo comando crea una directory con il nome del repository e vi scarica il contenuto remoto
