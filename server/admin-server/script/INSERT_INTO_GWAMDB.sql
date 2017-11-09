@@ -5,11 +5,6 @@ INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingD
 INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 0, N'http://test.m4app.com')
 INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 1, N'https://app.m4cloud.netcore.com')
 
--- Registeredapps
-INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'M-PAI', N'PAI', N'Microarea PAI', N'', N'ju23ff-KOPP-0911-ww2')
-INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'I-M4', N'Istanza M4 Cloud', N'Microarea Mago4', N'', N'ju23ff-KOPP-0911-ila')
-INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'I-M4-ENT', N'Istanza M4 Enterprise', N'Microarea Mago4 Enterprise', N'', N'ju23ff-KOPP-0911-mic')
-
 -- Subscriptions
 INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4', N'subscription M4', N'', N'', N'', 2044723,999)
 INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4-ENT', N'subscription Enterprise', N'', N'', N'', 2044723,999)
@@ -92,3 +87,7 @@ VALUES (N'I-M4', N'M4-MDC', N'AzDigital', N'Digital communications', N'', N'', N
 INSERT INTO [dbo].[MP_SubscriptionDatabases] ([InstanceKey],[SubscriptionKey],[Name],[Description],[DBServer],[DBName],[DBOwner],[DBPassword],[Disabled],[DatabaseCulture],[IsUnicode],[Provider],[UseDMS],[DMSDBServer],[DMSDBName],[DMSDBOwner],[DMSDBPassword],[Test], [UnderMaintenance]) 
 VALUES (N'I-M4', N'M4-MDC', N'AzDigitalPlus', N'azienda digitale plus', N'', N'', N'', N'', 0, N'', 0, N'', 0, N'', N'', N'', N'', 0, 0)
 
+-- Registeredapps --SOLO GWAM????
+INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'M-PAI', N'PAI', N'Microarea PAI', N'', N'ju23ff-KOPP-0911-ww2')
+INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'I-M4', N'Istanza M4 Cloud', N'Microarea Mago4', N'', N'ju23ff-KOPP-0911-ila')
+INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'I-M4-ENT', N'Istanza M4 Enterprise', N'Microarea Mago4 Enterprise', N'', N'ju23ff-KOPP-0911-mic')
