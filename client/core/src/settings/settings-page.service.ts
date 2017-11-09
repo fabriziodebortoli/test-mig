@@ -1,9 +1,6 @@
+import { DocumentServiceParams } from './../core/services/document.service.params';
 import { SettingsService } from './../core/services/settings.service';
-import { InfoService } from './../core/services/info.service';
 import { ComponentService } from './../core/services/component.service';
-import { EventDataService } from './../core/services/eventdata.service';
-
-import { Logger } from './../core/services/logger.service';
 import { DocumentService } from './../core/services/document.service';
 import { Injectable } from '@angular/core';
 import { Observable } from '../rxjs.imports';
@@ -12,13 +9,12 @@ import { Observable } from '../rxjs.imports';
 export class SettingsPageService extends DocumentService {
 
     constructor(
-        public logger: Logger,
-        public eventData: EventDataService,
-        public componentService: ComponentService,
-        public infoService: InfoService,
-        public settingsService: SettingsService
+        params: DocumentServiceParams,
+        public settingsService: SettingsService,
+        public componentService: ComponentService
+       
     ) {
-        super(logger, eventData, infoService);
+        super(params);
     }
 
     close() {

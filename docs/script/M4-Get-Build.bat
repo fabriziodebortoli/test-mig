@@ -2,7 +2,7 @@
 set /p installationpath="Enter Installation path <c:\development>: "
 
 if [%installationpath%] == [] (
-	set installationpath="c:\development"
+	set installationpath=c:\development
 )
 
 if not exist %installationpath% (
@@ -33,3 +33,4 @@ cd %Installation%Standard\web\server\web-server
 dotnet restore
 dotnet publish --framework netcoreapp2.0 --output "%Installation%Standard\TaskBuilder\WebFramework\M4Server" --configuration release >> %Installation%8_dotnet_publish.log
 
+%Installation%Apps\ClickOnceDeployer\ClickOnceDeployer.exe
