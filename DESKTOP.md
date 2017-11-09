@@ -4,7 +4,7 @@ Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il m
 
 * [Prerequisite Software](#prerequisite-software)
 * [Microarea Extension](#microarea-extension)
-* [Script](#Script)
+* [Script](#script)
 
 ## Prerequisite Software
 
@@ -60,21 +60,28 @@ Scaricare uno degli script seguenti ed eseguire come Amministratore, soprattutto
 Entrambi gli script, alla partenza, vi chiederanno di specificare il path di installazione della vostra cartella di sviluppo (ad esempio “c:\development”)
 
 ### Clone, Install e Build
-Scaricare il file [M4-Clone.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Clone.bat) (tasto destro mouse -> Salva con nome) che ha lo scopo di clonare, installare e buildare tutti i componenti provenienti da git.
+Il file **M4-Clone.bat** ha lo scopo di clonare, installare e buildare tutti i componenti provenienti da git.
+Si trova in ```<InstallationPath>/Standard/web/docs/script/M4-Client.bat```
+
 Questo script come prima cosa cancella eventuali cadaveri di cartelle legate alla parte web, quindi qualsiasi modifica alla parte web non pushata su git, ***con questo script andrà irrimediabilmente persa***.
 
 
 ### Sincronizzazione e Build
-Scaricare il file [M4-Get-Build.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Get-Build.bat) (tasto destro mouse -> Salva con nome)  effettua una sincroniccata pulita, più le relative build della parte angular  e netcore.
+Il file **M4-Get-Build.bat** effettua una sincronizzata pulita, più le relative build della parte angular  e netcore.
+Si trova in ```<InstallationPath>/Standard/web/docs/script/M4-Get-Build.bat```
+
 
 
 ### Build Completa
-Scaricare il file [M4-Build-Complete.bat](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat) (tasto destro mouse -> Salva con nome) che effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
+
+Il file **M4-Build-Complete.bat** effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
 
  1. Pulizia completa della cartella \apps
  2. Get latest (compreso di tentativo di automerge)  di taskbuilder, erp 
  3. Build in debug di taskbuilder e erp
  4. Sincronizzazione da git e compilata dei sorgenti web. (effettua tutte le operazioni presenti nel “M4-Get-Build.bat”
+
+Si trova in ```<InstallationPath>/Standard/web/docs/script/M4-Build-Complete.bat```
 
 N.B.: nello script è presente, anche se commentato con un “rem” , tutta la parte relativa ad MDC:  se normalmente sincronizzate anche questa applicazione, dovete semplicemente togliere i relativi “rem” dalle righe pertinenti ad mdc
 
