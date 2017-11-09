@@ -32,6 +32,7 @@ export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
     @Input() public hotLink: any = undefined;
     @Input() automaticNumbering: boolean;
+    @Input() popUpMenu: boolean = true;
 
     @Input() slice: any;
     @Input() selector: any;
@@ -111,21 +112,20 @@ export class NumbererComponent extends ControlComponent {
     onFormModeChanged(formMode: FormMode) {
         this.setComponentMask();
         this.ctrlEnabled = (formMode === FormMode.FIND || formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableCtrlInEdit));
-        this.valueWasPadded = false;
-    }
-
-    ngAfterViewInit() {
         this.buildContextMenu();
+        this.valueWasPadded = false;
     }
 
     buildContextMenu() {
         this.numbererContextMenu.splice(0, this.numbererContextMenu.length);
-        if (this.paddingEnabled) {
-            this.numbererContextMenu.push(this.menuItemDisablePadding);
-            this.numbererContextMenu.push(this.menuItemDoPadding);
-        }
-        else {
-            this.numbererContextMenu.push(this.menuItemEnablePadding);
+        if (this.ctrlEnabled) {
+            if (this.paddingEnabled) {
+                this.numbererContextMenu.push(this.menuItemDisablePadding);
+                this.numbererContextMenu.push(this.menuItemDoPadding);
+            }
+            else {
+                this.numbererContextMenu.push(this.menuItemEnablePadding);
+            }
         }
     }
 
@@ -287,8 +287,7 @@ export class NumbererComponent extends ControlComponent {
         console.log('numberer ngOnChanges: ' + JSON.stringify(changes));
     }
 
-    changeModelValue(value: string) {
-        //value = value.trim().toUpperCase();
+    changeModelValue(value) {
         this.model.value = value;
         this.valueWasPadded = false;
     }
