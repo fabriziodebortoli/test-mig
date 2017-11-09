@@ -16,7 +16,7 @@ import { EventManagerService } from './event-manager.service';
 export class AuthService {
     public redirectUrl: string = '/';
     public loginUrl: string = '/login';
-    public defaultUrl = '/home';
+    public defaultUrl = '/';
     public islogged: boolean = false;
     errorMessage: string = "";
 
@@ -71,6 +71,9 @@ export class AuthService {
     }
     getDefaultUrl(): string {
         return this.defaultUrl;
+    }
+    getServerDownPageUrl(): string {
+        return '/server-down';
     }
 
     logout(): void {

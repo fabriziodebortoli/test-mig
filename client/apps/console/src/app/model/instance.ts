@@ -6,7 +6,9 @@ export class Instance {
     Origin: string;
     Tags: string;
     UnderMaintenance: boolean;
+    Activated: boolean;
+    VerificationCode: number;
+    SecurityValue: string;
 
-    constructor() {
-    }
+    constructor() {}
 }

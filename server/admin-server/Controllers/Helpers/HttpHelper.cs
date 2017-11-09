@@ -12,10 +12,12 @@ namespace Microarea.AdminServer.Controllers.Helpers
 	public interface IHttpHelper
 	{
 		Task<OperationResult> PostDataAsync(string url, List<KeyValuePair<string, string>> bodyEntries, string authorizationHeader = "");
-	}
+        Task<OperationResult> GetDataAsync(string url, string authorizationHeader = "");
 
-	//================================================================================
-	public class HttpHelper : IHttpHelper
+    }
+
+    //================================================================================
+    public class HttpHelper : IHttpHelper
     {
 		HttpClient client;
 
@@ -26,7 +28,38 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
-    
+
+        //--------------------------------------------------------------------------------
+        public async Task<OperationResult> GetDataAsync(string url,  string authorizationHeader = "")
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (String.IsNullOrEmpty(url))
+            {
+                operationResult.Message = "Empty url is not allowed";
+                return operationResult;
+            }
+
+            try
+            {
+                if (!string.IsNullOrEmpty(authorizationHeader))
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authorizationHeader);
+             
+                HttpResponseMessage responseMessage = await client.GetAsync(url);
+                var responseData = responseMessage.Content.ReadAsStringAsync();
+                operationResult.Content = responseData;
+                operationResult.Result = true;
+            }
+            catch (Exception exc)
+            {
+                operationResult.Code = (int)AppReturnCodes.GWAMNotResponding;
+                operationResult.Result = false;
+                operationResult.Message = "An error occurred while executing GetDataAsync, " + exc.Message;
+            }
+
+            return operationResult;
+        }
+
         //--------------------------------------------------------------------------------
         public async Task<OperationResult> PostDataAsync(string url, List<KeyValuePair<string, string>> bodyEntries, string authorizationHeader = "")
 		{

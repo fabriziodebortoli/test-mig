@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { TabberService } from './../../core/services/tabber.service';
 import { LocalizationService } from './../../core/services/localization.service';
@@ -11,7 +11,8 @@ import { SidenavService } from './../../core/services/sidenav.service';
 @Component({
   selector: 'tb-home-sidenav-left',
   templateUrl: './home-sidenav-left.component.html',
-  styleUrls: ['./home-sidenav-left.component.scss']
+  styleUrls: ['./home-sidenav-left.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeSidenavLeftComponent implements OnInit {
 

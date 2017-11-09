@@ -99,7 +99,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 				{
 					// impostazione parametri creazione contenitore db su SqlServer
 					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
-					sqlParam.DatabaseName = subDatabase.Database.DBName;
+					sqlParam.DatabaseName = subDatabase.Database.DMSDBName;
 
 					// I create DMS database
 					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
@@ -295,31 +295,6 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 
 			List<OperationResult> msgList = new List<OperationResult>();
 
-			// check preventivi sui dati inseriti
-			if (extSubDatabase.Database.DBServer != extSubDatabase.Database.DMSDBServer)
-			{
-				msgList.Add(new OperationResult() { Message = "Both databases must be in the same server!" });
-			}
-
-			if (extSubDatabase.Database.DBName == extSubDatabase.Database.DMSDBName)
-			{
-				msgList.Add(new OperationResult() { Message = "The databases names must be different!" });
-			}
-
-			if (extSubDatabase.Database.DBOwner == extSubDatabase.Database.DMSDBOwner)
-				if (extSubDatabase.Database.DBPassword != extSubDatabase.Database.DMSDBPassword)
-				{
-					msgList.Add(new OperationResult() { Message = "Passwords different for same users!" });
-				}
-
-			if (msgList.Count > 0)
-			{
-				opRes.Code = -1;
-				opRes.Content = msgList;
-				return opRes;
-			}
-			//
-
 			// I use master database to load all dbs
 			bool isAzureDB = (extSubDatabase.AdminCredentials.Provider == "SQLAzure");
 
@@ -363,7 +338,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 			}
 
 			if (!existDMSDb)
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
 			//
 
 			// check informazioni database (Unicode - Collation)

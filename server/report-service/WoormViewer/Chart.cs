@@ -107,6 +107,7 @@ namespace Microarea.RSWeb.Objects
 
         Categories Categories = null;
         List<Series> Series = new List<Series>();
+        Variable ColorVar=null;
         ChartLegend Legend = new ChartLegend();
 
         //------------------------------------------------------------------------------
@@ -309,7 +310,7 @@ namespace Microarea.RSWeb.Objects
                     lex.SetError("TODO - il campo associato alla serie non esiste");
                     return false;
                 }
-
+                pSeries.BindedFields.Add(pF);
                 //if (!pF.IsArray() && !pF.IsColumn())
                 //{
                 //    lex.SetError(_TB("TODO - il campo associato alla serie non è un array/colonna"));
@@ -332,13 +333,30 @@ namespace Microarea.RSWeb.Objects
                 //    return false;
                 //}
 
-                pSeries.BindedFields.Add(pF);
+
             }
 
             if (lex.LookAhead(Token.COLOR))
             {
-                if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
-                    return false;
+                if (!IsChartFamilyPie())
+                {
+                    if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
+                        return false;
+                }
+                else
+                {
+                    string colorId = "";
+                    ok = lex.ParseTag(Token.COLOR);                  
+                    ok=lex.ParseID(out colorId);
+                    Variable pF = Document.SymbolTable.Find(colorId);
+                    if (pF == null)
+                    {
+                        lex.SetError("TODO - il campo associato al colore non esiste");
+                        return false;
+                    }
+                    ColorVar = pF;
+                }
+                
                 pSeries.Colored = true;
             }
             else
@@ -373,9 +391,11 @@ namespace Microarea.RSWeb.Objects
 
             if (HasCategories())
             {
-                ok = lex.ParseTag(Token.TITLE) && lex.ParseString(out Categories.Title);
-                if (!ok)
-                    return false;
+                if (lex.Matched(Token.TITLE)) {
+                   ok= /*lex.ParseTag(Token.TITLE) &&*/ lex.ParseString(out Categories.Title);
+                    if (!ok)
+                        return false;
+                }
 
                 string sVarName = string.Empty;
                 ok = lex.ParseTag(Token.DATASOURCE) && lex.ParseID(out sVarName);
@@ -441,19 +461,19 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
         {
-            bool ok = lex.ParseTag(Token.CHART) &&
-                        lex.ParseBegin() &&
+            bool ok = lex.ParseTag(Token.CHART) && lex.ParseID(out Name) &&
+                        lex.ParseBegin() &&                     
+                        lex.ParseAlias(out this.InternalID) &&
                         lex.ParseTag(Token.TITLE) &&
-                        lex.ParseString(out Title) &&
-                        lex.ParseAlias(out this.InternalID);
+                        lex.ParseString(out Title);
 
-            if (lex.Matched(Token.COMMA))
-                ok = ok && lex.ParseID(out Name);
+           /* if (lex.Matched(Token.COMMA))
+                ok = ok && lex.ParseID(out Name); */
 
             int t = 0;
-            ok = ok && lex.ParseRect(out this.Rect) &&
-                       lex.ParseTag(Token.TYPE) &&
-                       lex.ParseInt(out t);
+            ok = ok &&
+                lex.ParseTag(Token.TYPE) && lex.ParseInt(out t) && 
+                lex.ParseRect(out this.Rect) ;
 
             ChartType = (EnumChartType)t;
 

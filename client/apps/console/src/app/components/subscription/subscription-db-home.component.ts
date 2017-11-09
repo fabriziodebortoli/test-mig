@@ -163,12 +163,6 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  //--------------------------------------------------------------------------------------------------------
-  mainDataHasChanged(): boolean {
-    
-    return true;
-  }
-
   // event on close dialog
   //--------------------------------------------------------------------------------------------------------
   onDialogClose() {

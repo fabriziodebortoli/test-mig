@@ -17,7 +17,7 @@
         </div>
         <div>
           <admin-input-text [inputLabel]="'Password'" [textType]="'password'" *ngIf="!isDMS" [readOnly]=!editing [(inputData)]="subDBModel.DBPassword"></admin-input-text>
-          <admin-input-text [inputLabel]="'Password'" [textType]="'password'" *ngIf="isDMS" [readOnly]=!editing [(inputData)]="subDBModel.DBPassword"></admin-input-text>
+          <admin-input-text [inputLabel]="'Password'" [textType]="'password'" *ngIf="isDMS" [readOnly]=!editing [(inputData)]="subDBModel.DMSDBPassword"></admin-input-text>
         </div>
       </div>
     </div>

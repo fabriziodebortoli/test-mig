@@ -37,6 +37,7 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
+   
 
     /************************************************************** */
 
@@ -84,6 +85,23 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
+
+       /**
+  * API /updateCachedDateAndSave
+  * 
+  * @returns {Observable<any>} updateCachedDateAndSave
+  */
+  updateCachedDateAndSave(): Observable<any> {
+    let obj = { user: localStorage.getItem('authtoken') };
+    let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
+    return this.httpService.postData(url, obj)
+        .map((res: any) => {
+           return res;
+        })
+        .catch(this.handleError);
+}
+
+    
 
     /**
   * API /runEasyStudio

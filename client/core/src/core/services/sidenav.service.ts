@@ -16,12 +16,10 @@ export class SidenavService {
   sidenavOpenedRight$: Observable<boolean> = this.sidenavRightOpenedSource.asObservable();
 
   toggleSidenavLeft() {
-
     this.sidenavLeftOpenedSource.next();
   }
 
   toggleSidenavRight() {
-    
-        this.sidenavRightOpenedSource.next();
-      }
+    this.sidenavRightOpenedSource.next();
+  }
 }

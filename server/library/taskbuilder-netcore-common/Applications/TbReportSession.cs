@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using System.Threading;
 using Microarea.Common.Applications;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace Microarea.Common.Applications
 {
@@ -51,7 +52,7 @@ namespace Microarea.Common.Applications
         public const string TbHotlinkQueryRoute = "tb/document/getHotlinkQuery/";
         public const string TbAssignWoormParametersRoute = "tb/document/assignWoormParameters/";
 
-        public const string TbInstanceKey = "tbloader-name";
+        public const string TbInstanceKey = "tbLoaderName";
         public string TbInstanceID = string.Empty;
         public bool LoggedToTb = false;
 
@@ -339,19 +340,12 @@ namespace Microarea.Common.Applications
         }
 
         //-------------------------------------------------------------------------------------------------
-        //valore di ritorno della 
+        //valore di ritorno della runFunction
         public class RunFuctionResultMessage
         {
-            public class ResultMessage
-            {
-                public bool enabled { get; set; }
-                public int type { get; set; }
-                public string args { get; set; }
-                public string value { get; set; }
-            }
-
+            public string args { get; set; }
+            public string returnValue { get; set; }
             public bool success { get; set; }
-            public ResultMessage returnValue { get; set; }
         }
 
         public static async Task<RunFuctionResultMessage> TbRunFunction(TbSession session, FunctionPrototype fun)
@@ -366,16 +360,19 @@ namespace Microarea.Common.Applications
             fun.Parameters.Unparse(d.DocumentElement);
             string xargs = d.OuterXml;
 
-            var cookieContainer = new CookieContainer();
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
-            using (var client = new HttpClient(handler))
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(session.TbBaseAddress + TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute) );
+            //costruisce l'header di Authorization, essendo la chiamata partita da WebSocket, gli headers non sono stati trasmessi dal browser
+            var auth = new JObject();
+            auth.Add("authtoken", session.UserInfo.AuthenticationToken);
+            auth.Add(TbSession.TbInstanceKey, session.TbInstanceID);
+
+            string authString = JsonConvert.SerializeObject(auth, Newtonsoft.Json.Formatting.None);
+           
+          
+            using (var client = new HttpClient())
             {
                 try
                 {
-                    client.BaseAddress = new Uri(session.TbBaseAddress);
-
-                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbInstanceKey, session.TbInstanceID));
-
                     var content = new FormUrlEncodedContent(new[]
                     {
                         new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken),
@@ -383,7 +380,9 @@ namespace Microarea.Common.Applications
                         new KeyValuePair<string, string>("args", xargs)
                     });
 
-                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute, content);
+                    request.Content = content;
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", string.Format(@"{0}", authString));
+                    var response = await client.SendAsync(request);
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
                     var stringResponse = await response.Content.ReadAsStringAsync();

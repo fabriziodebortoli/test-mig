@@ -80,6 +80,9 @@ namespace Microarea.AdminServer.Controllers.Helpers
 					return Strings.ValidToken;
                 case 32:
                     return Strings.DataToUpdate;
+                case 33:
+                    return Strings.DataNotFound;
+                
                 default:
 					return Strings.UnknownError;
 			}

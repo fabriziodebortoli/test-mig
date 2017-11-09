@@ -3884,27 +3884,35 @@ namespace Microarea.Common.ExpressionManager
 				{
 					Parameter p = function.Prototype.Parameters[np++];
 
-					Parameter pInfo = new Parameter(p.Name, p.Type, p.Mode);
+					Parameter pInfo = new Parameter(p.Name, p.TbType, p.TbBaseType, p.Mode);
+                    //todo: rivedere gestione tipi (in jsonTypes?) 
+                    pInfo.ValueString = SoapTypes.To(item.Data);
 
-					pInfo.ValueString = SoapTypes.To(item.Data);
-
-					fun.Parameters.Add(pInfo);
+                    if (p.TbType == "array")
+                    {
+                        object[] arElements = WcfTypes.To(item.Data) as object[];
+                        foreach (object o in arElements)
+                        {
+                            pInfo.Values.Add(o);
+                        }
+                    }
+                    fun.Parameters.Add(pInfo);
 				}
 
-				//TODO RSWEB Call soap methods
-				//ITbLoaderClient tbLoader = GetTBClientInterface();
-				//ret = tbLoader.Call(function.Prototype, objs);
+                //TODO RSWEB Call soap methods
+                //ITbLoaderClient tbLoader = GetTBClientInterface();
+                //ret = tbLoader.Call(function.Prototype, objs);
 
-				bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
 				if (!retLogin)
 					return new Value(null);
 
-				RunFuctionResultMessage retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
-				if (retFun == null || !retFun.success)
+				RunFuctionResultMessage functionResult = TbSession.TbRunFunction(this.TbSession, fun).Result;
+				if (functionResult == null || !functionResult.success)
 					return new Value(null);
 
 				XmlDocument XmlRetParameters = new XmlDocument();
-				XmlRetParameters.LoadXml(retFun.returnValue.args);
+				XmlRetParameters.LoadXml(functionResult.args);
 
 				FunctionPrototype info = new FunctionPrototype();   //forse si puo' usare fun
 				FunctionPrototype.ParseParameters(XmlRetParameters.DocumentElement, info);
@@ -3918,15 +3926,38 @@ namespace Microarea.Common.ExpressionManager
 
 					if (pIN.Name.CompareNoCase(pOUT.Name))
 					{
-						if (pIN.Mode != ParameterModeType.In)
-							item.Data = SoapTypes.From(pOUT.ValueString, pOUT.Type);
+                        if (pIN.Mode != ParameterModeType.In)
+                        {
+                            //todo: rivedere gestione tipi (in jsonTypes?) 
+                            if (pOUT.Type.CompareNoCase("DataArray"))
+                            {
+                                item.Data = WcfTypes.From(pOUT.Values.ToArray(), pOUT.Type, pOUT.BaseType);
+                            }
+                            else
+                            {
+                                item.Data = SoapTypes.From(pOUT.ValueString, pOUT.Type);
+                            }
+                        }
 					}
 					else
 						Debug.Fail("Unmatched parameters" + '(' + pIN.Name + " <> " + pOUT.Name + ')');
 				}
 
-				return new Value(SoapTypes.From(retFun.returnValue.value, function.ReturnType));
-			}
+                
+                XmlDocument XmlRetValue = new XmlDocument();
+                XmlRetValue.LoadXml(functionResult.returnValue);
+                Parameter retValue = new Parameter();
+                retValue.Parse(XmlRetValue.DocumentElement);
+
+                if (retValue.Type.CompareNoCase("DataArray"))
+                {
+                    return new Value(WcfTypes.From(retValue.Values.ToArray(), retValue.Type, retValue.BaseType));
+                }
+                else
+                { 
+                    return new Value(SoapTypes.From(retValue.ValueString, function.ReturnType));
+                }
+            }
 			catch (TbLoaderClientInterfaceException e)
 			{
 				SetError(e.Message);
