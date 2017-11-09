@@ -1,6 +1,6 @@
 <div class="application-selector">
     <ul class="application-list" *ngIf="menuService?.allMenus">
-        <li *ngFor="let application of utilsService.toArray(menuService?.allMenus)" (click)="selectApplication(application)">
+        <li *ngFor="let application of menuService?.allMenus" (click)="selectApplication(application)">
             <img [src]="imageService.getApplicationIcon(application)" /><br />
             <p>{{application.title}}</p>
         </li>
