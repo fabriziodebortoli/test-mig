@@ -93,11 +93,11 @@ namespace Microarea.AdminServer.Model
             };
 
             //verifico la pending date, se la data è manomessa rilascio eccezione
-            //if (!instance.VerifyPendingDate())
-            //    throw new Exception(String.Format(Strings.BurgledInstance, instance.InstanceKey));
+            if (!instance.VerifyPendingDate())
+                throw new Exception(String.Format(Strings.BurgledInstance, instance.InstanceKey));
 
             //QUI CODICE PER VERIFICARE I TICKS CON IL GWAM
-            
+
             return instance;
         }
 
