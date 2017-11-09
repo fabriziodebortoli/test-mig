@@ -1,23 +1,19 @@
+import { TbComponentServiceParams } from './tbcomponent.service.params';
 import { Injectable } from '@angular/core';
 import { URLSearchParams, Http, Response, RequestOptions, RequestOptionsArgs, Headers } from '@angular/http';
-
 import { Observable } from '../../rxjs.imports';
-
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
-import { InfoService } from './info.service';
-import { Logger } from './logger.service';
 
 @Injectable()
 export class DataService extends DocumentService {
 
   constructor(
-    public logger: Logger,
-    public eventData: EventDataService,
-    public http: Http,
-    public infoService: InfoService
+    params: TbComponentServiceParams,
+    eventData: EventDataService,
+    public http: Http
   ) {
-    super(logger, eventData, infoService);
+    super(params, eventData);
   }
 
   // TODO refactor auth headers

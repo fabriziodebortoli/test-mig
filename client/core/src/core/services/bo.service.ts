@@ -1,3 +1,5 @@
+import { TbComponentServiceParams } from './tbcomponent.service.params';
+import { HttpService } from './http.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
@@ -6,7 +8,6 @@ import { apply, diff } from 'json8-patch';
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
 import { CommandEventArgs } from './../../shared/models/eventargs.model';
 
-import { InfoService } from './info.service';
 import { Logger } from './logger.service';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
@@ -20,12 +21,11 @@ export class BOService extends DocumentService {
     boClients = new Array<BOClient>();
     public windowStrings: EventEmitter<any> = new EventEmitter();
     constructor(
+        params: TbComponentServiceParams,
         public webSocketService: WebSocketService,
-        public eventData: EventDataService,
-        public logger: Logger,
-        public infoService: InfoService
+        public eventData: EventDataService
     ) {
-        super(logger, eventData, infoService);
+        super(params, eventData);
 
         this.subscriptions.push(this.webSocketService.modelData.subscribe(data => {
             const models: Array<any> = data.models;

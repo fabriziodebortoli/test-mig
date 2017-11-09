@@ -2,8 +2,6 @@ import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable, ErrorObservable } from '../../rxjs.imports';
-
-import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Logger } from './logger.service';
 
 export function loadConfig(config) {
@@ -26,7 +24,7 @@ export class InfoService {
     constructor(
         public http: Http,
         public logger: Logger,
-        private utilsService: UtilsService
+        public utilsService: UtilsService
     ) {
         this.culture.value = localStorage.getItem(this.cultureId);
     }
@@ -158,6 +156,10 @@ export class InfoService {
 
     getMenuServiceUrl() {
         return this.getBaseUrl() + '/menu-service/';
+    }
+
+    getLocalizationServiceUrl() {
+        return this.getBaseUrl() + '/localization-service/';
     }
 
     getEnumsServiceUrl() {

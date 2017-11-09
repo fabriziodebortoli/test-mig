@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-
 import { ViewModeType } from '../../shared/models/view-mode-type.model';
-
-import { InfoService } from './info.service';
+import { TbComponentServiceParams } from './tbcomponent.service.params';
 import { TbComponentService } from './tbcomponent.service';
-import { Logger } from './logger.service';
 import { EventDataService } from './eventdata.service';
 
 @Injectable()
 export class DocumentService extends TbComponentService {
 
     mainCmpId: string;
-    constructor(public logger: Logger, public eventData: EventDataService, public infoService: InfoService) {
-        super(logger, infoService);
+    constructor(
+        params: TbComponentServiceParams,
+        public eventData: EventDataService
+    ) {
+        super(params);
     }
 
     init(cmpId: string) {
