@@ -1,4 +1,4 @@
-import { TbComponentServiceParams } from './tbcomponent.service.params';
+import { DocumentServiceParams } from './document.service.params';
 import { Injectable } from '@angular/core';
 import { URLSearchParams, Http, Response, RequestOptions, RequestOptionsArgs, Headers } from '@angular/http';
 import { Observable } from '../../rxjs.imports';
@@ -9,11 +9,10 @@ import { DocumentService } from './document.service';
 export class DataService extends DocumentService {
 
   constructor(
-    params: TbComponentServiceParams,
-    eventData: EventDataService,
+    params: DocumentServiceParams,
     public http: Http
   ) {
-    super(params, eventData);
+    super(params);
   }
 
   // TODO refactor auth headers

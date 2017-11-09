@@ -1,4 +1,4 @@
-import { TbComponentServiceParams } from './tbcomponent.service.params';
+import { BOServiceParams } from './bo.service.params';
 import { HttpService } from './http.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
@@ -20,12 +20,10 @@ export class BOService extends DocumentService {
     subscriptions = [];
     boClients = new Array<BOClient>();
     public windowStrings: EventEmitter<any> = new EventEmitter();
-    constructor(
-        params: TbComponentServiceParams,
-        public webSocketService: WebSocketService,
-        public eventData: EventDataService
-    ) {
-        super(params, eventData);
+    public webSocketService: WebSocketService;
+    constructor(params: BOServiceParams) {
+        super(params);
+        this.webSocketService = params.webSocketService;
 
         this.subscriptions.push(this.webSocketService.modelData.subscribe(data => {
             const models: Array<any> = data.models;
