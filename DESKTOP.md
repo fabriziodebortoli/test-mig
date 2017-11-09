@@ -42,9 +42,14 @@ $ npm i -g rimraf
 
   * Download and install **.NET Core 2.0 SDK** - [link](https://www.microsoft.com/net/download/core)
 
+* Verificare di avere installato il seguente componente nella sezione "aspnet web development"
+![Prequisiti](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/Prerequisiti.png)
+
+
 * [Visual Studio Code](http://code.visualstudio.com/) source code editor
 
 * [Visual Studio Typescript Extension](https://www.microsoft.com/en-us/download/details.aspx?id=48593) - Only for VS 2015 users
+
 
 ## Microarea Extension
 
