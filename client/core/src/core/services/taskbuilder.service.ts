@@ -20,7 +20,7 @@ export class TaskbuilderService {
     errorMessages: string[] = [];
     redirectUrl = this.defaultUrl;
 
-    timeout = 30000;
+    timeout = 50000;
     tbConnection = new BehaviorSubject(false);
     connected: Subject<boolean> = new BehaviorSubject(false);
 

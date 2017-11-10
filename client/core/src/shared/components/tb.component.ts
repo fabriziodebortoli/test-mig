@@ -1,6 +1,7 @@
 import { InfoService } from './../../core/services/info.service';
 import { TbComponentService, TranslationInfo } from './../../core/services/tbcomponent.service';
 import { Input, OnInit } from '@angular/core';
+import { Observable } from '../../rxjs.imports';
 
 export abstract class TbComponent implements OnInit {
   @Input()
@@ -30,6 +31,11 @@ export abstract class TbComponent implements OnInit {
   }
 
   public readTranslationsFromServer() {
-    this.tbComponentService.readTranslationsFromServer();
+    let subs = this.tbComponentService.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
+      if (subs)
+        subs.unsubscribe();
+      this.translations = tn;
+      this.tbComponentService.saveTranslations(this.dictionaryId, this.translations);
+    });
   }
 }
