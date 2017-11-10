@@ -1,6 +1,6 @@
 -- Istanza e urls
-INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks]) VALUES (N'I-M4', N'istanza cloud M4', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime),'NjM5NDk2MTkwOTc3MTMwMDAwNg==', 999)
-INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks]) VALUES (N'I-M4-ENT', N'istanza M4 Enterprise', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 'NjM5NDk2MTkwOTc3MTMwMDAwNg==',999)
+INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks], [SecurityValue]) VALUES (N'I-M4', N'istanza cloud M4', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime),'NjM5NDk2MTkwOTc3MTMwMDAwNg==', 999, 'ju23ff-KOPP-0911-ila')
+INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks], [SecurityValue]) VALUES (N'I-M4-ENT', N'istanza M4 Enterprise', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 'NjM5NDk2MTkwOTc3MTMwMDAwNg==',999, 'ju23ff-KOPP-0911-mic')
 
 INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 0, N'http://test.m4app.com')
 INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 1, N'https://app.m4cloud.netcore.com')
