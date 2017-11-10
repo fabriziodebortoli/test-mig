@@ -1,3 +1,4 @@
+import { EasystudioService } from './../../core/services/easystudio.service';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from '../../rxjs.imports';
@@ -207,7 +208,6 @@ export class HttpMenuService {
 * @returns {Observable<any>} getCustomizationsForDocument
 */
     initEasyStudioData(object): Observable<any> {
-
         var ns = object.target;
         ns = 'document' + "." + ns;
         let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(ns) };
@@ -223,9 +223,20 @@ export class HttpMenuService {
 * 
 * @returns {Observable<any>} getDefaultContext
 */
-    cloneAsEasyStudioDocument(object): Observable<any> {
-        return null;
-        // guarda EasyStudioService.js
+    cloneAsEasyStudioDocument(object: any, docName: string, docTitle:string, esServices: EasystudioService): Observable<any> {
+        var ns = object.target;
+        let obj = { user: localStorage.getItem('_user') };
+	    var newNs = esServices.currentApplication + "." + esServices.currentModule + ".DynamicDocuments." + docName;
+	    var objType = object.objectType.toLowerCase();
+	    var urlToRun = this.infoService.getDocumentBaseUrl() + 'cloneEasyStudioDocument/?ns=' + encodeURIComponent(ns);
+	    urlToRun += "&newNamespace=" + encodeURIComponent(newNs);
+        urlToRun += "&newTitle=" + encodeURIComponent(docTitle);
+        return this.httpService.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        }).catch(this.handleError);
+
+      
     }
 
 

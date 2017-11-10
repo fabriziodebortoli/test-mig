@@ -5,9 +5,11 @@
                 {{localizationService?.localizedElements?.OpenEasyStudioNewCustomization}}
             </div>
         </div>
-        <!-- <div class="itemSelected" *ngIf="isDesignable && !isEasyStudioDocument(objectM)">
-            <div (click)="cloneAsEasyStudioDocumentIfNeeded(objectM)">{{localizationService?.localizedElements?.CloneEasyStudioDocument}}</div>
-        </div> -->
+        <div class="itemSelected" *ngIf="easystudioService.isDesignable && !easystudioService.isEasyStudioDocument(objectM)">
+            <div (click)="openCloneDialog()" [ngClass]="getNewCustClass()">
+                {{localizationService?.localizedElements?.CloneEasyStudioDocument}}
+            </div>
+        </div>
         <div class="is-disabled" *ngIf="!easystudioService.isDesignable">
             <div>{{localizationService?.localizedElements?.NotDesignableDocument}}</div>
         </div>
@@ -24,3 +26,5 @@
 
 <m4-icon class="star" icon="tb-menu2" (click)="initEasyStudio(objectM,template)" (mouseenter)="objectM.starHover=true" (mouseleave)="objectM.starHover=false" #anchor>
 </m4-icon>
+
+<tb-clone-doc-dialog #cloneDialog [object]="objectM"></tb-clone-doc-dialog>
