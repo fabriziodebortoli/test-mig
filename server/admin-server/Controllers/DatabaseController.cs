@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using TaskBuilderNetCore.Interfaces;
 
@@ -420,6 +421,21 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Result = dTask.TryToConnect();
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
+			// controllo che se l'edizione di SQL sia compatibile con il provider prescelto
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				connection.Open();
+				SQLServerEdition sqlEdition = TBCheckDatabase.GetSQLServerEdition(connection);
+				if (
+					(isAzureDB && sqlEdition != SQLServerEdition.SqlAzureV12) ||
+					(!isAzureDB && sqlEdition == SQLServerEdition.SqlAzureV12)
+					)
+				{
+					opRes.Result = false;
+					opRes.Message = "The provider and the edition of SQL Server you are chosen are not compatible. Please choose another one.";
+				}
+			}
+
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
@@ -550,6 +566,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -561,6 +578,7 @@ namespace Microarea.AdminServer.Controllers
 			if (!opRes.Result)
 			{
 				opRes.Message = Strings.OperationKO;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -571,8 +589,9 @@ namespace Microarea.AdminServer.Controllers
 			if (!opRes.Result)
 			{
 				//re-imposto il flag UnderMaintenance a false
-				opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false);
-				opRes.Message = Strings.OperationKO;
+				if (!APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false).Result)
+					opRes.Message = Strings.OperationKO;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
