@@ -1,7 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
 
 import { InfoService } from './../../../../core/services/info.service';
 import { SettingsService } from './../../../../core/services/settings.service';
+import { HttpService } from './../../../../core/services/http.service';
 
 import { EasyStudioContextComponent } from './../../../../shared/components/easystudio-context/easystudio-context.component';
 
@@ -11,17 +13,25 @@ import { EasyStudioContextComponent } from './../../../../shared/components/easy
   styleUrls: ['./topbar-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TopbarMenuComponent {
+export class TopbarMenuComponent implements OnDestroy{
 
   isDesktop: boolean;
   isESActivated: boolean;
   isBPMActivated: boolean;
+  subscription: Subscription
 
   constructor(
     public infoService: InfoService,
-    public settingsService: SettingsService) {
+    public settingsService: SettingsService,
+    public httpService: HttpService) {
     this.isDesktop = infoService.isDesktop;
     this.isESActivated = settingsService.IsEasyStudioActivated;
-    this.isBPMActivated = infoService.isBPMActivated;
+    this.subscription= httpService.isActivated('BPMConnector','Core').subscribe( res => {
+      this.isBPMActivated = res.result;
+    });
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }        
 }
