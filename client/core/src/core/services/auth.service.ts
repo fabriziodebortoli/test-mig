@@ -37,7 +37,7 @@ export class AuthService {
                 this.errorMessage = result.message;
             }
 
-            localStorage.setItem('authtoken', this.islogged ? result.authtoken : null);
+            sessionStorage.setItem('authtoken', this.islogged ? result.authtoken : null);
 
             this.eventManagerService.emitLoggedIn();
 
@@ -46,7 +46,7 @@ export class AuthService {
     }
 
     isLogged(): Observable<boolean> {
-        return this.httpService.isLogged({ authtoken: localStorage.getItem('authtoken') }).map(isLogged => {
+        return this.httpService.isLogged({ authtoken: sessionStorage.getItem('authtoken') }).map(isLogged => {
             if (!isLogged) {
                 localStorage.removeItem('authtoken');
             }
@@ -77,7 +77,7 @@ export class AuthService {
     }
 
     logout(): void {
-        let subs = this.httpService.logoff({ authtoken: localStorage.getItem('authtoken') }).subscribe(
+        let subs = this.httpService.logoff({ authtoken: sessionStorage.getItem('authtoken') }).subscribe(
             loggedOut => {
                 if (loggedOut) {
                     this.eventManagerService.emitloggingOff();

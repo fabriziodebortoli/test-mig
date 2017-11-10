@@ -266,7 +266,7 @@ export class MenuService {
             urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
         }
 
-        let authtoken = localStorage.getItem('authtoken');
+        let authtoken = sessionStorage.getItem('authtoken');
         urlToRun += "&authtoken=" + authtoken;
         let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
             object.isLoading = false;

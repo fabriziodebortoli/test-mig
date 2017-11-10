@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Instance } from '../../model/instance';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Credentials } from 'app/authentication/credentials';
 
 @Component({
   selector: 'app-instance',
@@ -13,9 +14,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./instance-registration.component.css']
 })
 
+//================================================================================
 export class InstanceRegistrationComponent implements OnDestroy {
 
   model: Instance;
+  accountName: string;
+  password: string;
   activationCode: string;
   securityValue: string;
   subscriptionSaveInstance: Subscription;
@@ -25,15 +29,40 @@ export class InstanceRegistrationComponent implements OnDestroy {
   currentStep: number;
   readingData: boolean;
 
-  //--------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
     this.subscriptions = new Array<SubscriptionAccount>();
     this.currentStep = 1;
     this.securityValue = '';
+    this.accountName = '';
+    this.password = '';
   }
 
-  //--------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
+  getPermission() {
+
+    if (this.accountName === '' || this.password === '') {
+      return;
+    }
+
+    let credentials = new Credentials();
+    credentials.accountName = this.accountName;
+    credentials.password = this.password;
+
+    this.modelService.getPermissionToken(credentials, "newinstance").subscribe(
+      res => {
+        this.activationCode = res['Content'];
+      },
+      err => {
+        alert('Cannot get a permission :(');
+        this.activationCode = '';
+      }
+    )
+
+  }
+
+  //--------------------------------------------------------------------------------
   submitInstance() {
 
     if (this.model.InstanceKey == '') {
@@ -56,7 +85,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
         
         this.securityValue = res['Content'].securityValue;
 
-        this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: "francesco.ricceri@microarea.it" } }, 'activation-code').subscribe(
+        this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: "francesco.ricceri@microarea.it" } }, this.activationCode).subscribe(
           res => {
             this.subscriptions = res['Content'];
             this.readingData = false;
@@ -76,7 +105,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
   }
 
-  //--------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
   associateInstanceToSubscription(subAcc) {
 
     let instanceKey: string = this.model.InstanceKey;
@@ -130,7 +159,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
     );
   }
 
-  //--------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
   ngOnDestroy() {
 
     if (this.subscriptionSaveInstance === undefined)

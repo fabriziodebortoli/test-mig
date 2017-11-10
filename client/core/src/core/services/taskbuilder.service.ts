@@ -85,7 +85,7 @@ export class TaskbuilderService {
 
     openTbConnection(): Observable<boolean> {
 
-        let authtoken = localStorage.getItem('authtoken');
+        let authtoken = sessionStorage.getItem('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
         let isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
@@ -126,7 +126,7 @@ export class TaskbuilderService {
     }
 
     closeConnection() {
-        let authtoken = localStorage.getItem('authtoken');
+        let authtoken = sessionStorage.getItem('authtoken');
         this.logger.debug("closeTbConnection...", authtoken);
 
         this.httpService.closeTBConnection({ authtoken: authtoken }).subscribe();

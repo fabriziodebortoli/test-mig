@@ -62,7 +62,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
     }
 
     logout() {
-        let subs = this.httpService.canLogoff({ authtoken: localStorage.getItem('authtoken') }).subscribe((res) => {
+        let subs = this.httpService.canLogoff({ authtoken: sessionStorage.getItem('authtoken') }).subscribe((res) => {
             if (!res.error) {
                 this.authService.logout();
             }
