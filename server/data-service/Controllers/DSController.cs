@@ -6,6 +6,7 @@ using Microarea.Common.Applications;
 using Microarea.Common.Hotlink;
 using System.Globalization;
 using Microarea.Common;
+using Newtonsoft.Json.Linq;
 
 namespace DataService.Controllers
 {
@@ -49,10 +50,27 @@ namespace DataService.Controllers
         [Route("getdata/{namespace}/{selectiontype}/{filter?}")]
         public IActionResult GetData(string nameSpace, string selectionType, string filter="")
         {
+            string authHeader = HttpContext.Request.Headers["Authorization"];
+            if (string.IsNullOrWhiteSpace(authHeader))
+            {
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+            }
             UserInfo ui = GetLoginInformation();
             if (ui == null)
+            {
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
-			TbSession session = new TbSession(ui, nameSpace);
+            }
+
+            TbSession session = new TbSession(ui, nameSpace);
+
+            JObject jObject = JObject.Parse(authHeader);
+            string instanceID = jObject.GetValue("tbLoaderName")?.ToString();  //TODO RSWEB  togliere stringa cablata e usare il tostring del datamember del messaggio
+            if (!string.IsNullOrWhiteSpace(instanceID))
+            {
+                session.TbInstanceID = instanceID;
+                session.LoggedToTb = true;
+            }
+            
 
             Datasource ds = new Datasource(session);
 

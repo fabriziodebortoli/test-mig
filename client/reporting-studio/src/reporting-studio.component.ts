@@ -97,6 +97,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsExportService.eventCurrentPage.subscribe(() => this.CurrentPage());
     this.rsExportService.eventSnapshot.subscribe(() => this.Snapshot());
     this.rsExportService.runSnapshot.subscribe(() => this.RunSnapshot());
+    this.rsExportService.eventPageNumber.subscribe(() => this.PageNumber());
   }
 
   // -----------------------------------------------

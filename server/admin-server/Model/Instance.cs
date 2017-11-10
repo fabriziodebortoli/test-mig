@@ -23,7 +23,7 @@ namespace Microarea.AdminServer.Model
         bool underMaintenance;
         DateTime pendingDate;
         int ticks = TicksHelper.GetTicks();
-        int verificationCode = 0;
+        string verificationCode;
 		string securityValue;
 
         public string InstanceKey { get => this.instanceKey; set => this.instanceKey = value; }
@@ -35,7 +35,7 @@ namespace Microarea.AdminServer.Model
         public string Tags { get => tags; set => tags = value; }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
         public DateTime PendingDate { get => pendingDate; set => pendingDate = value; }
-        public int VerificationCode { get => verificationCode; set => verificationCode = value; }
+        public string VerificationCode { get => verificationCode; set => verificationCode = value; }
         public int Ticks { get => ticks; set => ticks = value; }
 		public string SecurityValue { get => securityValue; set => securityValue = value; }
 
@@ -87,17 +87,17 @@ namespace Microarea.AdminServer.Model
                 tags = reader["Tags"] as string,
                 underMaintenance = (bool)reader["UnderMaintenance"],
                 pendingDate = (DateTime)reader["PendingDate"],
-                verificationCode = (int)reader["VerificationCode"],
+                verificationCode = reader["VerificationCode"] as string,
                 ticks = (int)reader["Ticks"],
 				securityValue = reader["SecurityValue"] as string
             };
 
             //verifico la pending date, se la data è manomessa rilascio eccezione
-            //if (!instance.VerifyPendingDate())
-            //    throw new Exception(String.Format(Strings.BurgledInstance, instance.InstanceKey));
+            if (!instance.VerifyPendingDate())
+                throw new Exception(String.Format(Strings.BurgledInstance, instance.InstanceKey));
 
             //QUI CODICE PER VERIFICARE I TICKS CON IL GWAM
-            
+
             return instance;
         }
 
