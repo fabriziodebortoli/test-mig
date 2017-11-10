@@ -17,8 +17,8 @@ using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
 {
-	//-----------------------------------------------------------------------------	
-	public class SecurityController : Controller
+    //================================================================================
+    public class SecurityController : Controller
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
@@ -55,19 +55,19 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
-
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
             try
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);                
                 Account account = Account.GetAccountByName(burgerData, credentials.AccountName);
                 // L'account esiste sul db locale
                 if (account!= null)
-                {
-                    // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
 
-                    //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versione onpremise sia comuqnue possibile continuare
+                { 
+                    // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
+                    Task<string> responseData = await gc.VerifyAccountModificationGWAM(new AccountModification(account.AccountName, instanceKey, account.Ticks));
+                    
+                    //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versionesia comuqnue possibile continuare verificando la pendingdate
                   
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
@@ -113,7 +113,7 @@ namespace Microarea.AdminServer.Controllers
                 // Se non esiste, richiedi a gwam.
                 if (account == null)
                 {
-                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo(instanceKey), instanceKey);
+                    Task<string> responseData = await gc.VerifyUserOnGWAM(credentials, instanceKey);
                     OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
                     // GWAM call could not end correctly, but in this case we need gwam because does not exist the account in the provisioning db
 
@@ -300,6 +300,8 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
+
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
             try
             {
                 Account account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
@@ -308,8 +310,8 @@ namespace Microarea.AdminServer.Controllers
                 if (account != null)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
+                    Task<string> responseData = await gc.VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, instanceKey, account.Ticks));
 
 
                     // GWAM call could not end correctly: so we check the object
@@ -376,19 +378,13 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private string GetInstanceSecurityValue(string instancekey)
         {
-            IRegisteredApp app = new RegisteredApp();
-            try
-            {
-                app = burgerData.GetObject<RegisteredApp, IRegisteredApp>(
-                    String.Empty, ModelTables.RegisteredApps, SqlLogicOperators.AND, new WhereCondition[] {
-                        new WhereCondition("AppId", instancekey, QueryComparingOperators.IsEqual, false)
-                    });
+			IInstance iInstance = this.burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND,
+				new WhereCondition[]
+				{
+					new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false)
+				});
 
-                if (app == null)
-                    return string.Empty;
-            }
-            catch { }
-            return app.SecurityValue; 
+			return iInstance.SecurityValue;
         }
 
         //-----------------------------------------------------------------------------	
@@ -465,9 +461,10 @@ namespace Microarea.AdminServer.Controllers
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
             try
             {
-                Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo(instanceKey));
+                Task<string> responseData = await gc.CheckRecoveryCode(accountName, recoveryCode);
                 // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
                 {                    
@@ -510,8 +507,16 @@ namespace Microarea.AdminServer.Controllers
                     //TODO far qualcosa?
                 }
 
-				// TODO: check on GWAM if tables have been updated
+               
 				IInstance[] instancesArray = this.GetInstances(accountName);
+                ////qui per ogni istanza verifico se ci sono aggiornamenti sul gwam e nel caso me li salvo in locale
+                //foreach (IInstance i in instancesArray)
+                //{
+                //    GwamCaller gc = new GwamCaller(_httpHelper, GWAMUrl, GetAuthorizationInfo(i.InstanceKey));
+                //    Task<string> res = await gc.GetInstance(i.InstanceKey, i.Ticks);
+                //    //qui torna  se è da aggiornare  o no, se da aggiornare è da fare la save in locale
+                //    //((Instance)i).Save(burgerData);
+                //}
 				opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
@@ -707,67 +712,7 @@ namespace Microarea.AdminServer.Controllers
 			return result;
         }
 
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, AuthorizationInfo authInfo, string instanceKey)
-        {
-			string authHeader = JsonConvert.SerializeObject(authInfo);
-
-			string url = _settings.ExternalUrls.GWAMUrl + "accounts";
-
-            List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
-            entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
-            entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
-            entries.Add(new KeyValuePair<string, string>("instanceKey", instanceKey));
-
-            OperationResult opRes = await _httpHelper.PostDataAsync(url, entries, authHeader);
-
-			if (!opRes.Result)
-			{
-				return Task.FromException<string>(new Exception());
-			}
-
-			return (Task<string>)opRes.Content;
-        }
-
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod, AuthorizationInfo authInfo)
-        {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
-
-            string url = String.Format(
-                "{0}accounts/{1}/{2}/{3}",
-                this.GWAMUrl, accMod.AccountName, accMod.InstanceKey, accMod.Ticks);
-
-            // call GWAM API 
-            OperationResult opRes = await _httpHelper.PostDataAsync(
-                url, new List<KeyValuePair<string, string>>(), authHeader);
-
-            if (!opRes.Result)
-            {
-                return Task.FromException<string>(new Exception());
-            }
-
-            return (Task<string>)opRes.Content;
-        }
-
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> CheckRecoveryCode(string accountName, string recoveryCode, AuthorizationInfo authInfo)
-        {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
-            // call GWAM API // todo onpremises ilaria
-            OperationResult opRes = await _httpHelper.PostDataAsync(
-                this.GWAMUrl + "recoveryCode/" + accountName + "/" + recoveryCode,
-                new List<KeyValuePair<string, string>>(), 
-				authHeader);
-
-            if (!opRes.Result)
-            {
-                return Task.FromException<string>(new Exception());
-            }
-
-            return (Task<string>)opRes.Content;
-        }
-
+     
 		/// <summary>
 		/// We create two tokens: one for API and one for Application (M4)
 		/// </summary>

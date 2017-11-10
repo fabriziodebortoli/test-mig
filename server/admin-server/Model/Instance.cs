@@ -23,23 +23,28 @@ namespace Microarea.AdminServer.Model
         bool underMaintenance;
         DateTime pendingDate;
         int ticks = TicksHelper.GetTicks();
-        int verificationCode = 0;
-        //---------------------------------------------------------------------
-        public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
-        public string Description { get { return this.description; } set { this.description = value; } }
-		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
-		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
+        string verificationCode;
+		string securityValue;
+
+        public string InstanceKey { get => this.instanceKey; set => this.instanceKey = value; }
+        public string Description { get => this.description;  set => this.description = value; }
+		public bool Disabled { get => this.disabled; set => this.disabled = value; }
+		public bool ExistsOnDB { get  => existsOnDB; set => existsOnDB = value; }
+
         public string Origin { get => origin; set => origin = value; }
         public string Tags { get => tags; set => tags = value; }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
         public DateTime PendingDate { get => pendingDate; set => pendingDate = value; }
-        public int VerificationCode { get => verificationCode; set => verificationCode = value; }
+        public string VerificationCode { get => verificationCode; set => verificationCode = value; }
         public int Ticks { get => ticks; set => ticks = value; }
+		public string SecurityValue { get => securityValue; set => securityValue = value; }
 
         //---------------------------------------------------------------------
         public Instance()
 		{
 			this.description = String.Empty;
+			this.pendingDate = BurgerData.MinDateTimeValue;
+			this.securityValue = String.Empty;
 		}
 
 		//---------------------------------------------------------------------
@@ -51,7 +56,6 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public OperationResult Save(BurgerData burgerData)
         {
-            //la save in locale non deve più esistere.
             OperationResult opRes = new OperationResult();
 
             List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
@@ -64,7 +68,8 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@PendingDate", this.pendingDate));
             burgerDataParameters.Add(new BurgerDataParameter("@VerificationCode", this.verificationCode));
             burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
-            BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
+			burgerDataParameters.Add(new BurgerDataParameter("@SecurityValue", this.securityValue));
+			BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
 
             opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
             return opRes;
@@ -82,8 +87,9 @@ namespace Microarea.AdminServer.Model
                 tags = reader["Tags"] as string,
                 underMaintenance = (bool)reader["UnderMaintenance"],
                 pendingDate = (DateTime)reader["PendingDate"],
-                verificationCode = (int)reader["VerificationCode"],
-                ticks = (int)reader["Ticks"]
+                verificationCode = reader["VerificationCode"] as string,
+                ticks = (int)reader["Ticks"],
+				securityValue = reader["SecurityValue"] as string
             };
 
             //verifico la pending date, se la data è manomessa rilascio eccezione
@@ -91,7 +97,7 @@ namespace Microarea.AdminServer.Model
                 throw new Exception(String.Format(Strings.BurgledInstance, instance.InstanceKey));
 
             //QUI CODICE PER VERIFICARE I TICKS CON IL GWAM
-            
+
             return instance;
         }
 

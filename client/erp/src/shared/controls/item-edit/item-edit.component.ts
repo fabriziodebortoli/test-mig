@@ -11,6 +11,8 @@ export class ItemEditComponent extends ControlComponent {
     @Input() slice: any;
     @Input() selector: any;
 
+    usePopUpMenu = false;
+
     constructor(
         public vcr: ViewContainerRef,
         layoutService: LayoutService,
@@ -19,6 +21,10 @@ export class ItemEditComponent extends ControlComponent {
         private http: ErpHttpService
     ) {
         super(layoutService, tbComponentService);
+    }
+
+    funzione(): boolean {
+        return true;
     }
 }
 

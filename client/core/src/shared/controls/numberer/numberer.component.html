@@ -6,6 +6,6 @@
             <!-- class="numberer"> -->
 
         </kendo-maskedtextbox>
-        <tb-context-menu [contextMenu]="numbererContextMenu"></tb-context-menu>
+        <tb-context-menu [contextMenu]="numbererContextMenu" *ngIf="popUpMenu"></tb-context-menu>
     </div>
 </div>

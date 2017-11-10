@@ -12,7 +12,8 @@ namespace Microarea.AdminServer.Model.Interfaces
         string Tags { get; set; }
         bool UnderMaintenance { get; set; }
         DateTime PendingDate { get; set; }
-        int VerificationCode { get; set; }
+        string VerificationCode { get; set; }
         int Ticks { get; set; }
-    }
+		string SecurityValue { get; set; }
+	}
 }

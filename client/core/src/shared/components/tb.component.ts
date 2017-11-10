@@ -1,68 +1,41 @@
 import { InfoService } from './../../core/services/info.service';
-import { TbComponentService } from './../../core/services/tbcomponent.service';
+import { TbComponentService, TranslationInfo } from './../../core/services/tbcomponent.service';
 import { Input, OnInit } from '@angular/core';
+import { Observable } from '../../rxjs.imports';
 
 export abstract class TbComponent implements OnInit {
   @Input()
   public cmpId: string = '';
 
   public dictionaryId = '';
-  public translations = [];
-  public culture = '';
   public installationVersion = '';
+  public translations = [];
 
-  constructor(public tbComponentService: TbComponentService) { }
+  constructor(public tbComponentService: TbComponentService) {
+    this.dictionaryId = tbComponentService.calculateDictionaryId(this);
+  }
 
   _TB(baseText: string) {
-    let target = baseText;
-    this.translations.some(t => {
-      if (t.base == baseText) {
-        target = t.target;
-        return true;
-      }
-      return false;
-    });
-    return target;
-  }
-  protected requireTranslation() {
-    let p : any = this;
-    while ((p = p.__proto__) != Object.prototype)
-      this.dictionaryId += p.constructor.name;
-    this.dictionaryId = this.dictionaryId + this.constructor.name;
+    return this.tbComponentService.translate(this.translations, baseText);
   }
   ngOnInit() {
-    if (this.dictionaryId) {
-      let sub = this.tbComponentService.infoService.getProductInfo().subscribe((productInfo: any) => {
-        this.installationVersion = productInfo.installationVersion;
-        if (sub)
-          sub.unsubscribe();
-        this.readTranslations();
-      });
-    }
-  }
+    let subs = this.tbComponentService.initTranslations(this.dictionaryId).subscribe(ti => {
+      if (subs)
+        subs.unsubscribe();
+      this.translations = ti.translations;
+      this.installationVersion = ti.installationVersion;
 
-  public readTranslations() {
-    let item = localStorage.getItem(this.dictionaryId);
-    let found = false;
-    if (item) {
-      try {
-        let jItem = JSON.parse(item);
-
-        if (jItem.installationVersion === this.installationVersion) {
-          this.translations = jItem.translations;
-          found = true;
-        }
-      }
-      catch (ex) {
-        console.log(ex);
-      }
-    }
-    if (!found) {
-      this.readTranslationsFromServer();
-    }
+      if (!this.translations)
+        this.readTranslationsFromServer();
+    });
   }
 
   public readTranslationsFromServer() {
-
+    let subs = this.tbComponentService.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
+      if (subs)
+        subs.unsubscribe();
+      this.translations = tn;
+      this.tbComponentService.saveTranslations(this.dictionaryId, this.translations);
+    });
   }
 }

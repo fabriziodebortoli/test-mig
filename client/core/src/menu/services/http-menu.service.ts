@@ -28,7 +28,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} getMenuElements
      */
     getMenuElements(clearCachedData: boolean): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company'), authtoken: localStorage.getItem('authtoken'), clearCachedData: clearCachedData }
+        let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company'), authtoken: sessionStorage.getItem('authtoken'), clearCachedData: clearCachedData }
         let url = this.infoService.getMenuServiceUrl() + 'getMenuElements/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
@@ -37,6 +37,7 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
+   
 
     /************************************************************** */
 
@@ -91,7 +92,7 @@ export class HttpMenuService {
   * @returns {Observable<any>} updateCachedDateAndSave
   */
   updateCachedDateAndSave(): Observable<any> {
-    let obj = { user: localStorage.getItem('authtoken') };
+    let obj = { user: sessionStorage.getItem('authtoken') };
     let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
     return this.httpService.postData(url, obj)
         .map((res: any) => {
@@ -244,7 +245,7 @@ export class HttpMenuService {
      */
     getConnectionInfo(): Observable<any> {
 
-        let obj = { authtoken: localStorage.getItem('authtoken') };
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var url = this.infoService.getMenuServiceUrl() + 'getConnectionInfo/';
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
@@ -259,7 +260,7 @@ export class HttpMenuService {
    */
     getApplicationDate(): Observable<any> {
 
-        let obj = { authtoken: localStorage.getItem('authtoken') };
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var url = this.infoService.getDocumentBaseUrl() + 'getApplicationDate/';
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
@@ -277,7 +278,7 @@ export class HttpMenuService {
         let day = date.getDate();
         let month = date.getMonth() + 1;
         let year = date.getFullYear();
-        let obj = { authtoken: localStorage.getItem('authtoken') };
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var url = this.infoService.getDocumentBaseUrl() + 'changeApplicationDate/?day=' + day + '&month=' + month + '&year=' + year;
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
@@ -393,7 +394,7 @@ export class HttpMenuService {
      */
     getThemes(): Observable<any> {
 
-        let obj = { authtoken: localStorage.getItem('authtoken') };
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var url = this.infoService.getDocumentBaseUrl() + 'getThemes/';
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
@@ -409,7 +410,7 @@ export class HttpMenuService {
      */
     changeThemes(theme: string): Observable<OperationResult> {
 
-        let obj = { authtoken: localStorage.getItem('authtoken') };
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var url = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
@@ -427,7 +428,7 @@ export class HttpMenuService {
         let obj = {
             user: localStorage.getItem('_user'),
             company: localStorage.getItem('_company'),
-            authtoken: localStorage.getItem('authtoken'),
+            authtoken: sessionStorage.getItem('authtoken'),
             application: application,
             group: group,
             menu: menu,
@@ -451,7 +452,7 @@ export class HttpMenuService {
         let obj = {
             user: localStorage.getItem('_user'),
             company: localStorage.getItem('_company'),
-            authtoken: localStorage.getItem('authtoken'),
+            authtoken: sessionStorage.getItem('authtoken'),
             application: application,
             group: group,
             menu: menu,
@@ -475,7 +476,7 @@ export class HttpMenuService {
         let obj = {
             user: localStorage.getItem('_user'),
             company: localStorage.getItem('_company'),
-            authtoken: localStorage.getItem('authtoken'),
+            authtoken: sessionStorage.getItem('authtoken'),
         };
         var url = this.infoService.getMenuServiceUrl() + 'removeAllHiddenTiles/'
         return this.httpService.postData(url, obj)

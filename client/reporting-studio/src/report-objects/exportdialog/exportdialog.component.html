@@ -2,15 +2,27 @@
     <mat-radio-button checked="checked" (click)="setAllPages()">All Pages </mat-radio-button>
     <mat-radio-button (click)="setRangePages()">Range Pages</mat-radio-button>
 
-    <br><br>
+    <br>
+    <br>
 
     <label>From page </label>
     <kendo-numerictextbox [(ngModel)]="from" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsExportService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
 
-    <br><br>
+    <br>
+    <br>
 
     <label>To page </label>
     <kendo-numerictextbox [(ngModel)]="to" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsExportService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
+
+    <br>
+    <br>
+    <hr>
+
+    <div *ngIf="rsExportService.exportpdf">
+        <label>Number of copy </label>
+        <kendo-numerictextbox [(ngModel)]="copy" [decimals]="0" [format]="'n0'" [min]="1"></kendo-numerictextbox>
+        <!--tb-checkbox  [model]="multiCopy" caption="Multi file"></tb-checkbox-->
+    </div>
 
     <kendo-dialog-actions>
         <button kendoButton *ngIf="rsExportService.exportpdf" (click)="startExport()">Export PDF</button>

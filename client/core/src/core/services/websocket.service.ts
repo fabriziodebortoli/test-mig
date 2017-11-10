@@ -107,7 +107,7 @@ export class WebSocketService {
                 cmd: 'SetClientWebSocketName',
                 args:
                 {
-                    webSocketName: localStorage.getItem('authtoken'),
+                    webSocketName: sessionStorage.getItem('authtoken'),
                     tbLoaderName: localStorage.getItem('tbLoaderName')
                 }
             }));

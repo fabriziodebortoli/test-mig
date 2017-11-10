@@ -18,6 +18,7 @@ using System.Xml;
 using Microarea.Common.StringLoader;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microarea.Common.Hotlink
 {
@@ -162,6 +163,8 @@ namespace Microarea.Common.Hotlink
                 return LoadDataFile();
             }
 
+            FunctionPrototype args = new FunctionPrototype();
+
             //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
             foreach (IParameter p in XmlDescription.Parameters)
             {
@@ -182,6 +185,10 @@ namespace Microarea.Common.Hotlink
                 }
 
                 SymTable.Add(paramField);
+
+                Parameter param = new Parameter(p.Name, p.TbType);
+                param.ValueString = SoapTypes.To(paramField.Data);
+                args.Parameters.Add(param);
             }
 
             //viene cercato il corpo della query ------------------
@@ -190,9 +197,13 @@ namespace Microarea.Common.Hotlink
             string query = "";
             if (sm == null)
             {
-                if (XmlDescription.SelectionTypeList.Count == 0 && !XmlDescription.ClassType.IsNullOrEmpty())
+                if (!XmlDescription.ClassType.IsNullOrEmpty())
                 {
-                  query = await TbSession.GetHotLinkQuery(Session, Session.Namespace, /*aParams*/"", (int)Hotlink.HklAction.DirectAccess);
+                  query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)Hotlink.HklAction.Code /*TODO*/);
+                  JObject jObject = JObject.Parse(query);
+                  query = jObject.GetValue("query")?.ToString();
+
+                  this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
                 }
                 else
                 {
@@ -201,11 +212,10 @@ namespace Microarea.Common.Hotlink
             }
             else
             {
-                this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
                 query = sm.Body;
+                this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
             }
-
-
+ 
             //------------------------------ 
             if (!this.CurrentQuery.Define(query))
                 return false;

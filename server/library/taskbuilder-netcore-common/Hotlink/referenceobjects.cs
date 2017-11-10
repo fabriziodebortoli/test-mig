@@ -325,6 +325,10 @@ namespace Microarea.Common.Hotlink
                 }
                 bool isDatafile = (datafile.Length > 0);
                 //----
+                string tbClassName = string.Empty;
+                XmlElement className = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.ClassName);
+                if (className != null)
+                    tbClassName = className.InnerText;
 
                 ParametersList parametersHotLink = new ParametersList();
                 string radarReportName = "";
@@ -397,6 +401,8 @@ namespace Microarea.Common.Hotlink
                         function.GetAttribute(ReferenceObjectsXML.Attribute.ServiceNamespace),
                         mi
                     );
+
+                fp.ClassType = tbClassName;
 
                 fp.IsDatafile = isDatafile;
                 fp.Datafile = datafile;

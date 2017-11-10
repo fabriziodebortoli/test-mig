@@ -1,5 +1,5 @@
 import { SettingsService } from './../../../../core/services/settings.service';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 import { LocalizationService } from './../../../../core/services/localization.service';
 import { ImageService } from './../../../services/image.service';
@@ -10,7 +10,8 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 @Component({
   selector: 'tb-most-used',
   templateUrl: './most-used.component.html',
-  styleUrls: ['./most-used.component.scss']
+  styleUrls: ['./most-used.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MostUsedComponent {
 
