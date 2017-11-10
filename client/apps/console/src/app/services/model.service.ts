@@ -157,6 +157,19 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
+  getPermissionToken(body: Object, reason: string): Observable<OperationResult> {
+    
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'permissions/' + reason, body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
+  }   
+
+  //--------------------------------------------------------------------------------------------------------
   setData(body: Object, goGWAM: boolean, activationCode: string, rowId: string): Observable<OperationResult> {
     
     let authorizationHeader = this.createAuthorizationHeader('app');
