@@ -244,7 +244,7 @@ export class HttpService {
     * @returns {Observable<any>} getThemedSettings
     */
     getThemedSettings(): Observable<any> {
-        let obj = { authtoken: localStorage.getItem('authtoken') };
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {

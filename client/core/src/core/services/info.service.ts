@@ -50,7 +50,7 @@ export class InfoService {
         return JSON.stringify(
             {
                 ui_culture: this.culture.value,
-                authtoken: localStorage.getItem('authtoken'),
+                authtoken: sessionStorage.getItem('authtoken'),
                 tbLoaderName: localStorage.getItem('tbLoaderName')
             });
     }
@@ -80,7 +80,7 @@ export class InfoService {
             }
             else {
 
-                let params = { authtoken: localStorage.getItem('authtoken') };
+                let params = { authtoken: sessionStorage.getItem('authtoken') };
                 let url = this.getMenuServiceUrl() + 'getProductInfo/';
                 let sub = this.request(url, params)
                     .subscribe(result => {
