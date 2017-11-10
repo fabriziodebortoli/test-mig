@@ -1,4 +1,4 @@
-import { DocumentServiceParams } from './document.service.params';
+import { TbComponentServiceParams } from './tbcomponent.service.params';
 import { Injectable } from '@angular/core';
 import { ViewModeType } from '../../shared/models/view-mode-type.model';
 import { TbComponentService } from './tbcomponent.service';
@@ -9,10 +9,10 @@ export class DocumentService extends TbComponentService {
 
     mainCmpId: string;
 
-    public eventData: EventDataService;
-    constructor(params: DocumentServiceParams) {
+    constructor(
+        params: TbComponentServiceParams,
+        public eventData: EventDataService) {
         super(params);
-        this.eventData = params.eventData;
     }
 
     init(cmpId: string) {

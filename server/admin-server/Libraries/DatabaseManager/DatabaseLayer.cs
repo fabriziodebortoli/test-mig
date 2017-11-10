@@ -934,7 +934,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					currEdition == SQLServerEdition.SqlServer2008 ||
                     currEdition == SQLServerEdition.SqlServer2012 ||
                     currEdition == SQLServerEdition.SqlServer2014 ||
-					currEdition == SQLServerEdition.SqlServer2016)
+					currEdition == SQLServerEdition.SqlServer2016 ||
+					currEdition == SQLServerEdition.SqlAzureV12)
 					return DatabaseVersion.SqlServer2000;
 			}
 
@@ -958,6 +959,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// - SQL 2014 Express Ed.	(Edition: Express Edition - ProductVersion: 12.)
 		/// - SQL 2016				(Edition: Standard Edition - ProductVersion: 13.)
 		/// - SQL 2016 Express Ed.	(Edition: Express Edition - ProductVersion: 13.)
+		/// - SQL Azure v.12		(Edition: SQL Azure - ProductVersion: 12.)
 		/// <param name="dbConnection">connessione aperta sul db</param>
 		/// <returns>enum SQLServerEdition</returns>
 		/// </summary>

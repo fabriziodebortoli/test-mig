@@ -18,6 +18,8 @@ namespace Microarea.Menu.Controllers
 		[Route("getTranslations")]
 		public IActionResult GetTranslations()
 		{
+			string dictionaryId = HttpContext.Request.Form["dictionaryId"];
+			string culture = HttpContext.Request.Form["culture"];
 			ArrayList list = new ArrayList();
 			list.Add(new { Base = "a", Target = "b" });
 			return new JsonResult(list);

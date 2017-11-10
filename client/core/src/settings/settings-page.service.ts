@@ -1,4 +1,5 @@
-import { DocumentServiceParams } from './../core/services/document.service.params';
+import { EventDataService } from './../core/services/eventdata.service';
+import { TbComponentServiceParams } from './../core/services/tbcomponent.service.params';
 import { SettingsService } from './../core/services/settings.service';
 import { ComponentService } from './../core/services/component.service';
 import { DocumentService } from './../core/services/document.service';
@@ -9,12 +10,13 @@ import { Observable } from '../rxjs.imports';
 export class SettingsPageService extends DocumentService {
 
     constructor(
-        params: DocumentServiceParams,
+        params: TbComponentServiceParams,
+        eventData: EventDataService,
         public settingsService: SettingsService,
         public componentService: ComponentService
        
     ) {
-        super(params);
+        super(params, eventData);
     }
 
     close() {

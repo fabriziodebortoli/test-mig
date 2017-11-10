@@ -396,4 +396,13 @@
   <data name="HideTile" xml:space="preserve">
     <value>Hide tile</value>
   </data>
+  <data name="CloneDialogDocName" xml:space="preserve">
+    <value>Document name</value>
+  </data>
+  <data name="CloneDialogDocTitle" xml:space="preserve">
+    <value>Document title</value>
+  </data>
+  <data name="CloneDialogSubtitle" xml:space="preserve">
+    <value>Creating a new document, based on </value>
+  </data>
 </root>
