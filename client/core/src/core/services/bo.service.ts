@@ -21,8 +21,8 @@ export class BOService extends DocumentService {
     boClients = new Array<BOClient>();
     public windowStrings: EventEmitter<any> = new EventEmitter();
     public webSocketService: WebSocketService;
-    constructor(params: BOServiceParams) {
-        super(params);
+    constructor(params: BOServiceParams, eventData: EventDataService) {
+        super(params, eventData);
         this.webSocketService = params.webSocketService;
 
         this.subscriptions.push(this.webSocketService.modelData.subscribe(data => {

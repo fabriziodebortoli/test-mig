@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { EventDataService, DocumentService, ComponentService, DocumentServiceParams } from '@taskbuilder/core';
+import { EventDataService, DocumentService, ComponentService, TbComponentServiceParams } from '@taskbuilder/core';
 
 import { Subject } from './rxjs.imports';
 import { CommandType } from './models/command-type.model';
@@ -19,11 +19,12 @@ export class ReportingStudioService extends DocumentService {
     public message: Subject<any> = new Subject<string>();
 
     constructor(
-        params: DocumentServiceParams,
+        params: TbComponentServiceParams,
+        eventData: EventDataService,
         public cmpService: ComponentService,
         public http: Http
     ) {
-        super(params);
+        super(params, eventData);
 
         this.rsServer = this.infoService.getWsBaseUrl() + '/rs';
         this.websocket = new WebSocket(this.rsServer);

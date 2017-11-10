@@ -92,29 +92,32 @@ export class RsExportService {
     }
 
     async renderPDF() {
-        await drawDOM(document.getElementById(this.layoutId))
-            .then((group: Group) => {
-                this.filePdf.append(group);
-                return exportPDF(this.filePdf, {
-                    multiPage: true
-                });
-                
-            })
-            .then((dataUri) => {
-                /*this.incrCopy++;
-                if(this.incrCopy < this.numberOfCopy){
+        this.incrCopy++;
+        if (this.incrCopy < this.numberOfCopy) {
+            await drawDOM(document.getElementById(this.layoutId))
+                .then((group: Group) => {
+                    this.filePdf.append(group);
+                }).then(() => {
                     this.eventPageNumber.emit();
                     return;
-                }
-                else{*/
+                })
+        }
+        else {
+            await drawDOM(document.getElementById(this.layoutId))
+                .then((group: Group) => {
+                    this.filePdf.append(group);
+                    return exportPDF(this.filePdf, {
+                        multiPage: true
+                    });
+                }).then((dataUri) => {
                     saveAs(dataUri, this.titleReport + '.pdf');
                     this.pdfState = PdfType.NOPDF;
-                //}
-            }).then(() => {
-                this.eventFirstPage.emit();
-                this.rsService.reset();
-                this.filePdf = new Group();
-            });
+                }).then(() => {
+                    this.eventFirstPage.emit();
+                    this.rsService.reset();
+                    this.filePdf = new Group();
+                });
+        }
     }
 
     //------EXPORT PNG-----------------------------------
