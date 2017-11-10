@@ -1,6 +1,6 @@
 <div class="container" *ngIf="!databaseService.needsAskCredentials || databaseService.testConnectionOK">
 
-  <div *ngIf="!checkDatabaseIsStarted">
+  <div *ngIf="!checkDbIsStarted">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="adminTile half-tile">
@@ -35,17 +35,23 @@
         <app-database-info [isDMS]="true" [subDBModel]="model" [isEditing]="editing"></app-database-info>
       </div>
     </div>
+  </div>
+  
+  <div class="row adminTile" *ngIf="checkDbIsStarted">
+    <admin-list [items]=operationsList [readingData]=checkDbIsRunning [columnNames]="['Message']"></admin-list>
+    <div *ngIf="!checkDbIsRunning" >
+    <admin-button *ngIf="!saveDbIsRunning" [buttonText]="'Return to main data'" (click)="returnToMainData()"></admin-button>
+    <admin-button *ngIf="!checkDbHasErrors && !saveDbIsRunning" [buttonText]="'Confirm'" (click)="submit()"></admin-button>
+  </div>
+  </div>
 
+  <div *ngIf="!checkDbIsStarted">
     <div class="row center-xs end-sm end-lg">
       <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-        <admin-button [buttonText]="'Save'" (click)="save()"></admin-button>
+        <admin-button [buttonText]="'Save'" [primary]=true (click)="submit()"></admin-button>
       </div>
     </div>
   </div>
 
-  <div class="row adminTile" *ngIf="checkDatabaseIsStarted || elaborationCompletedWithErrors">
-      <admin-list [items]=operationsList [readingData]=checkDatabaseIsStarted [columnNames]="['Message']"></admin-list>
-  </div>
-
-  <admin-dialog [mode]="'message'" [title]="'Save'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult ></admin-dialog>
+  <admin-dialog [mode]="'message'" [title]="'Save'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
 </div>
