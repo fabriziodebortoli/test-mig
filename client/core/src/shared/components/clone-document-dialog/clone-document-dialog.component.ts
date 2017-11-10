@@ -23,11 +23,15 @@ export class CloneDocumentDialogComponent {
      cancel(){
         this.openCloneDialog = false;
      }
+     
      open(){
+          if(!this.easystudioService.isContextActive())
+             return;        
          this.openCloneDialog = true;
      }
+
      okClone(object: any, docName: string, docTitle:string){
-         this.easystudioService.cloneDocument(object.target);
+         this.easystudioService.cloneDocument(object, docName, docTitle);
      }
 
 }

@@ -1,3 +1,4 @@
+import { EasyStudioContextComponent } from './../../shared/components/easystudio-context/easystudio-context.component';
 import { SettingsService } from './settings.service';
 import { EsCustomizItem } from './../../shared/models/es-customization-item.model';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
@@ -101,8 +102,18 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public cloneDocument(target: any) {
-        this.subscriptions.push(this.httpMenuService.cloneAsEasyStudioDocument(target).subscribe((result) => { }));
+    public cloneDocument(object: any, docName: string, docTitle:string) {
+        if (docName == undefined || !this.isContextActive())
+            return;
+        if (docTitle == undefined)
+            docTitle = docName;
+        this.subscriptions.push(this.httpMenuService.cloneAsEasyStudioDocument(object, docName, docTitle, this)
+        .subscribe((result) => 
+        { 
+            if(result){
+                
+            }
+        }));
     }
 
     //#endregion

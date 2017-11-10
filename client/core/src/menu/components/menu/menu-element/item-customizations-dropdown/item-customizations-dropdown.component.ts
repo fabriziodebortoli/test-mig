@@ -143,7 +143,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     this.close();
   }
   
-  //--------------------------------------------------------------------------------
+  /*//--------------------------------------------------------------------------------
   cloneAsEasyStudioDocumentIfNeeded(object) {
     // if (!(this.currentApplication !== undefined && this.currentApplication !== null && this.currentModule !== undefined && this.currentModule !== undefined)) {
     //   this.openContextMenu = true;
@@ -157,7 +157,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
         return;
       this.easystudioService.cloneDocument(object);
       this.close();
-  }
+  }*/
 
   //--------------------------------------------------------------------------------
   private contains(target: any): boolean {
