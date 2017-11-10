@@ -14,7 +14,7 @@ using TaskBuilderNetCore.Interfaces;
 namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 {
 	/// <summary>
-	/// 
+	/// Helper con i vari metodi richiamati dal DatabaseController
 	/// </summary>
 	//============================================================================
 	public class APIDatabaseHelper
@@ -42,7 +42,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 
 			// operazione forse superflua se il TestConnection viene fatto a monte dall'interfaccia angular
 			opRes.Result = dTask.TryToConnect();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();//dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
 				return opRes;
@@ -75,7 +75,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
 				}
 
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings(); // dTask.Diagnostic.ToJson(true);
 
 				if (!opRes.Result)
 					return opRes;
@@ -105,7 +105,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
 				}
 
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();// dTask.Diagnostic.ToJson(true);
 
 				if (!opRes.Result)
 					return opRes;
@@ -287,11 +287,16 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 			return opRes;
 		}
 
+		/// <summary>
+		/// Metodo per eseguire il check preventivo dei vari dati inseriti dall'utente per salvare il database
+		/// </summary>
+		/// <param name="extSubDatabase"></param>
+		/// <returns></returns>
 		//---------------------------------------------------------------------
 		public static OperationResult PrecheckSubscriptionDB(ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			// result globale dell'operazione, imposto un numero di codice per capire se ci sono operazioni da eseguire
-			OperationResult opRes = new OperationResult();
+			OperationResult opRes = new OperationResult	{ Result = true	};
 
 			List<OperationResult> msgList = new List<OperationResult>();
 
@@ -315,8 +320,8 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 
 			if (dTask.Diagnostic.Error)
 			{
-				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Result = false;
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Content = msgList;
 				opRes.Code = -1;
 				// faccio return perche' si e' verificata un'eccezione sul server e, visto che il server del DMS e' uguale, non procedo ulteriormente
@@ -325,20 +330,24 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 
 			if (!existERPDb)
 				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+			else
+				msgList.Add(new OperationResult() { Message = string.Format("Specified database {0} already exists on server {1}", extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
 
 			bool existDMSDb = dTask.ExistDataBase(extSubDatabase.Database.DMSDBName);
 			if (dTask.Diagnostic.Error)
 			{
-				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Result = false;
 				opRes.Content = msgList;
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Code = -1;
-				// faccio return perche' si e' verificata un'eccezione sul server e, visto che il server del DMS e' uguale, non procedo ulteriormente
+				// faccio return perche' si e' verificata un'eccezione sul server e non procedo ulteriormente
 				return opRes;
 			}
 
 			if (!existDMSDb)
 				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
+			else
+				msgList.Add(new OperationResult() { Message = string.Format("Specified database {0} already exists on server {1}", extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
 			//
 
 			// check informazioni database (Unicode - Collation)
@@ -351,34 +360,30 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 				{
 					opRes.Result = false;
 					msgList.Add(new OperationResult() { Message = erpDBInfo.Error + "\r\n" + dmsDBInfo.Error });
-					opRes.Content = msgList;
 					opRes.Code = -1;
-					return opRes;
 				}
-
-				if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
+				else
 				{
-					if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
+					if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
 					{
-						opRes.Result = false;
-						msgList.Add(new OperationResult() { Message = DatabaseManagerStrings.ErrorUnicodeValuesNotCompatible });
-						opRes.Content = msgList;
-						opRes.Code = -1;
-						return opRes;
-					}
+						if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
+						{
+							opRes.Result = false;
+							msgList.Add(new OperationResult() { Message = DatabaseManagerStrings.ErrorUnicodeValuesNotCompatible });
+							opRes.Code = -1;
+						}
 
-					if (string.Compare(erpDBInfo.Collation, dmsDBInfo.Collation, StringComparison.InvariantCultureIgnoreCase) != 0)
-					{
-						opRes.Result = false;
-						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorCollationNotCompatible, erpDBInfo.Name, erpDBInfo.Collation, dmsDBInfo.Name, dmsDBInfo.Collation) });
-						opRes.Content = msgList;
-						opRes.Code = -1;
-						return opRes;
-					}
-					else
-					{
-						//@@TODO: verifica compatibilita' collation con ISOSTATO attivazione
-						// se non va bene return false
+						if (string.Compare(erpDBInfo.Collation, dmsDBInfo.Collation, StringComparison.InvariantCultureIgnoreCase) != 0)
+						{
+							opRes.Result = false;
+							msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorCollationNotCompatible, erpDBInfo.Name, erpDBInfo.Collation, dmsDBInfo.Name, dmsDBInfo.Collation) });
+							opRes.Code = -1;
+						}
+						else
+						{
+							//@@TODO: verifica compatibilita' collation con ISOSTATO attivazione
+							// se non va bene return false
+						}
 					}
 				}
 			}
@@ -386,109 +391,134 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 
 			// check esistenza login
 			bool existLogin = dTask.ExistLogin(extSubDatabase.Database.DBOwner);
-
 			// se nel diagnostico c'e' un errore ritorno subito
 			if (dTask.Diagnostic.Error)
 			{
 				opRes.Result = false;
-				opRes.Message = dTask.Diagnostic.ToJson(true);
+				//opRes.Message = dTask.Diagnostic.ToJson(true);
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Code = -1;
-				return opRes;
 			}
-
-			if (!existLogin)
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
-			//
-
-			// check validita' login e password per il db di ERP
-			// provo a connettermi con la login specificata per il db di ERP al master
-			dTask.CurrentStringConnection =
-				string.Format
-				(
-				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-				extSubDatabase.Database.DBServer,
-				DatabaseLayerConsts.MasterDatabase,
-				extSubDatabase.Database.DBOwner,
-				extSubDatabase.Database.DBPassword
-				);
-
-			bool result = dTask.TryToConnect(out int errorNr);
-			if (dTask.Diagnostic.Error)
+			else
 			{
-				// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
-				// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
-				if (errorNr == 916)
-					opRes.Result = true;
+				if (!existLogin)
+					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
 				else
 				{
-					if (errorNr == 18456)
-						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner) });
+					// check validita' login e password per il db di ERP (solo se la login esiste)
+					// provo a connettermi con la login specificata per il db di ERP al master
+					dTask.CurrentStringConnection =
+						string.Format
+						(
+						isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+						extSubDatabase.Database.DBServer,
+						DatabaseLayerConsts.MasterDatabase,
+						extSubDatabase.Database.DBOwner,
+						extSubDatabase.Database.DBPassword
+						);
 
-					opRes.Result = false;
-					opRes.Message = dTask.Diagnostic.ToJson(true);
-					opRes.Code = -1;
-					return opRes;
+					dTask.TryToConnect(out int err);
+					if (dTask.Diagnostic.Error)
+					{
+						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
+						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
+						if (err == 916)
+							opRes.Result = true;
+						else
+						{
+							if (err == 18456)
+								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner) });
+
+							opRes.Result = false;
+							opRes.Code = -1;
+						}
+					}
+					else
+						msgList.Add(new OperationResult() { Message = string.Format("Specified login {0} exists on server {1}", extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
 				}
 			}
 			//
 
-			// check validita' login e password per il db del DMS
-			// provo a connettermi con la login specificata per il db del DMS al master
-			dTask.CurrentStringConnection =
-				string.Format
-				(
-				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-				extSubDatabase.Database.DMSDBServer,
-				DatabaseLayerConsts.MasterDatabase,
-				extSubDatabase.Database.DMSDBOwner,
-				extSubDatabase.Database.DMSDBPassword
-				);
+			bool sameLogin = string.Compare(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DMSDBOwner, StringComparison.InvariantCultureIgnoreCase) == 0;
+			bool existDMSLogin = existLogin;
 
-			result = dTask.TryToConnect(out errorNr);
-			if (dTask.Diagnostic.Error)
+			// se la login e' diversa allora devo tentare di connettermi
+			if (!sameLogin)
 			{
-				// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
-				// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
-				if (errorNr == 916)
-					opRes.Result = true;
-				else
-				{
-					if (errorNr == 18456)
-						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
+				// check esistenza login
+				existDMSLogin = dTask.ExistLogin(extSubDatabase.Database.DMSDBOwner);
 
+				// se nel diagnostico c'e' un errore ritorno subito
+				if (dTask.Diagnostic.Error)
+				{
 					opRes.Result = false;
-					opRes.Message = dTask.Diagnostic.ToJson(true);
+					msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 					opRes.Code = -1;
-					return opRes;
+				}
+
+				if (existDMSLogin)
+				{
+					// check validita' login e password per il db del DMS (solo se esiste)
+					// provo a connettermi con la login specificata per il db del DMS al master
+					dTask.CurrentStringConnection =
+						string.Format
+						(
+						isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+						extSubDatabase.Database.DMSDBServer,
+						DatabaseLayerConsts.MasterDatabase,
+						extSubDatabase.Database.DMSDBOwner,
+						extSubDatabase.Database.DMSDBPassword
+						);
+
+					dTask.TryToConnect(out int errorNr);
+
+					if (dTask.Diagnostic.Error)
+					{
+						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
+						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
+						if (errorNr == 916)
+							opRes.Result = true;
+						else
+						{
+							if (errorNr == 18456)
+								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
+
+							opRes.Result = false;
+							opRes.Code = -1;
+						}
+					}
+					else
+						msgList.Add(new OperationResult() { Message = string.Format("Specified login {0} exists on server {1}", extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
 				}
 			}
 			//
 
 			// check preventivo struttura dei database, se esistono
-			if (existERPDb && existDMSDb)
-			{
-				DatabaseManager dbManager = CreateDatabaseManager();
-				opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
+			/*			if (existERPDb && existDMSDb)
+						{
+							DatabaseManager dbManager = CreateDatabaseManager();
+							opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
 
-				IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
-				if (items != null)
-				{
-					foreach (IDiagnosticItem item in items)
-						if (!string.IsNullOrWhiteSpace(item.FullExplain))
-							msgList.Add(new OperationResult() { Message = item.FullExplain });
-				}
+							IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
+							if (items != null)
+							{
+								foreach (IDiagnosticItem item in items)
+									if (!string.IsNullOrWhiteSpace(item.FullExplain))
+										msgList.Add(new OperationResult() { Message = item.FullExplain });
+							}
 
-				if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-					!dbManager.ContextInfo.HasSlaves)
-					||
-					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
-					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
-				{
-					opRes.Code = -1;
-				}
-			}
-			//
+							if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+								!dbManager.ContextInfo.HasSlaves)
+								||
+								(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+								(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+								dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
+							{
+								opRes.Code = -1;
+							}
+						}
+						//
+			*/
 
 			opRes.Content = msgList;
 			return opRes;

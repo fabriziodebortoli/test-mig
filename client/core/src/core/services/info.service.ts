@@ -14,7 +14,6 @@ export class InfoService {
     baseUrl: string;
     wsBaseUrl: string;
     isDesktop: boolean = false;
-    isBPMActivated: boolean = false;
 
     productInfo: any;
     dictionaries: any;
@@ -65,7 +64,6 @@ export class InfoService {
                     this.baseUrl = config.baseUrl;
                     this.wsBaseUrl = config.wsBaseUrl;
                     this.isDesktop = config.isDesktop;
-                    this.isBPMActivated = config.isBPMActivated ? config.isBPMActivated : this.isBPMActivated; // TODO verificare come abilitare la pagina
 
                     resolve(true);
                 });
