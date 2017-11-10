@@ -1,14 +1,9 @@
 -- Istanza e urls
-INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks]) VALUES (N'I-M4', N'istanza cloud M4', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime),-893924235, 999)
-INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks]) VALUES (N'I-M4-ENT', N'istanza M4 Enterprise', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), -893924235,999)
+INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks]) VALUES (N'I-M4', N'istanza cloud M4', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime),'NjM5NDk2MTkwOTc3MTMwMDAwNg==', 999)
+INSERT [dbo].[MP_Instances] ([InstanceKey], [Description], [Disabled], [PendingDate], [VerificationCode], [Ticks]) VALUES (N'I-M4-ENT', N'istanza M4 Enterprise', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 'NjM5NDk2MTkwOTc3MTMwMDAwNg==',999)
 
 INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 0, N'http://test.m4app.com')
 INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 1, N'https://app.m4cloud.netcore.com')
-
--- Registeredapps
-INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'M-PAI', N'PAI', N'Microarea PAI', N'', N'ju23ff-KOPP-0911-ww2')
-INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'I-M4', N'Istanza M4 Cloud', N'Microarea Mago4', N'', N'ju23ff-KOPP-0911-ila')
-INSERT INTO [dbo].[MP_RegisteredApps] ([AppId],[Name],[Description],[URL],[SecurityValue]) VALUES (N'I-M4-ENT', N'Istanza M4 Enterprise', N'Microarea Mago4 Enterprise', N'', N'ju23ff-KOPP-0911-mic')
 
 -- Subscriptions
 INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4', N'subscription M4', N'', N'', N'', 2044723,999)

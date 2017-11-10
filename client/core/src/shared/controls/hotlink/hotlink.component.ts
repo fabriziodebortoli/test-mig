@@ -54,7 +54,9 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
   public documentClick(event: any): void {
     if (!this.contains(event.target)) {
       this.closeOptions();
-      this.closeTable();
+      if ( !this.enableMultiSelection) {
+        this.closeTable();
+      }
     }
   }
 

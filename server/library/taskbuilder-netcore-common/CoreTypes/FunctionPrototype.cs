@@ -403,6 +403,17 @@ namespace Microarea.Common.CoreTypes
                 rootElement.AppendChild(paramElement);
             }
         }
+
+        //-------------------------------------------------------------------------
+        public string Unparse()
+        {
+            XmlDocument d = new XmlDocument();
+            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
+            Unparse(d.DocumentElement);
+            return d.OuterXml;
+        }
+
+        
     }
 
 	/// <summary>

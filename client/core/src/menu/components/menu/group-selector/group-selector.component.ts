@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, ViewEncapsulation } from '@angular/core';
 
 import { UtilsService } from './../../../../core/services/utils.service';
 import { ImageService } from './../../../services/image.service';
@@ -7,7 +7,8 @@ import { MenuService } from './../../../services/menu.service';
 @Component({
     selector: 'tb-group-selector',
     templateUrl: './group-selector.component.html',
-    styleUrls: ['./group-selector.component.scss']
+    styleUrls: ['./group-selector.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class GroupSelectorComponent {
 

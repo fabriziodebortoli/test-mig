@@ -37,7 +37,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
   submitInstance() {
 
     if (this.model.InstanceKey == '') {
-      alert('Mandatory fields are empty! Check Instance key!');
+      alert('To proceed, an Instance key is required.');
       return;
     }
 
@@ -51,7 +51,6 @@ export class InstanceRegistrationComponent implements OnDestroy {
           return;
         }
 
-        this.model = new Instance();
         alert('Instance has been registered.');
         this.currentStep++;
         
@@ -80,7 +79,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
   //--------------------------------------------------------------------------------------------------------
   associateInstanceToSubscription(subAcc) {
 
-    let instanceKey: string = 'i-fra';
+    let instanceKey: string = this.model.InstanceKey;
 
     if (!confirm('This command will associate the instance ' + instanceKey + ' to this subscription: ' + subAcc.SubscriptionKey + '). Confirm?')) {
       return;
@@ -97,11 +96,27 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
         this.modelService.setData({}, true, this.activationCode, instanceKey).retry(3).subscribe(
           res => {
-            this.model.InstanceKey = instanceKey;
-            this.model.Description = "registered instance"
-            this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
-              res => { alert('Registration complete');},
-              err => { alert('Registration Failed'); }
+
+            this.modelService.getInstances(instanceKey, this.activationCode).subscribe(
+              res => {
+
+                let instances:Instance[] = res['Content'];
+                
+                if (instances.length == 0) {
+                  return;
+                }
+                
+                this.model = instances[0];
+                this.model.SecurityValue = this.securityValue;
+
+                //we read the instance, now we pass it to the admin console
+
+                this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
+                  res => { alert('Registration complete');},
+                  err => { alert('Registration Failed'); }
+                )
+              },
+              err => {}
             )
           },
           err => { alert('An error occurred while updating the Instance on GWAM');}

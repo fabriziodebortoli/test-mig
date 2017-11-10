@@ -78,6 +78,9 @@ namespace Microarea.TbLoaderGate
                 else
                 {
 					tbName = tb.name;
+                    if (jObject == null)
+                        jObject = new JObject();
+
                     jObject[TbLoaderName] = tbName;
 
 					using (var client = new HttpClient())

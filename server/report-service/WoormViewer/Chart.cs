@@ -107,7 +107,7 @@ namespace Microarea.RSWeb.Objects
 
         Categories Categories = null;
         List<Series> Series = new List<Series>();
-        List<Color> seriesColor= new List<Color>();
+        Variable ColorVar=null;
         ChartLegend Legend = new ChartLegend();
 
         //------------------------------------------------------------------------------
@@ -354,7 +354,7 @@ namespace Microarea.RSWeb.Objects
                         lex.SetError("TODO - il campo associato al colore non esiste");
                         return false;
                     }
-                    var colors = GetArray(pF).Elements;
+                    ColorVar = pF;
                 }
                 
                 pSeries.Colored = true;

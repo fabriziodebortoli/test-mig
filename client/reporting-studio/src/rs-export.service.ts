@@ -14,6 +14,8 @@ export class RsExportService {
     totalPages: number;
     firstPageExport: number;
     lastPageExport: number;
+    numberOfCopy: number;
+    incrCopy: number;
     pdfState: PdfType = PdfType.NOPDF;
     svgState: SvgType = SvgType.NOSVG;
     pngState: PngType = PngType.NOPNG;
@@ -35,6 +37,7 @@ export class RsExportService {
     @Output() rsExportPdf = new EventEmitter<void>();
     @Output() rsExportExcel = new EventEmitter<void>();
     @Output() rsExportDocx = new EventEmitter<void>();
+    @Output() eventPageNumber = new EventEmitter<void>();
 
     exportfile = false;
     exportpdf = false;
@@ -63,14 +66,12 @@ export class RsExportService {
         this.runSnapshot.emit();
     }
 
-    timeout(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     //------EXPORT PDF-----------------------------------
-    initiaziedExport(from: number, to: number) {
+    initializedExport(from: number, to: number, copy: number) {
         this.firstPageExport = from;
         this.lastPageExport = to;
+        this.numberOfCopy = copy;
+        this.incrCopy = 0;
         if (this.exportpdf)
             this.rsExportPdf.emit();
         if (this.exportexcel)
@@ -100,8 +101,15 @@ export class RsExportService {
                 
             })
             .then((dataUri) => {
-                saveAs(dataUri, this.titleReport + '.pdf');
-                this.pdfState = PdfType.NOPDF;
+                /*this.incrCopy++;
+                if(this.incrCopy < this.numberOfCopy){
+                    this.eventPageNumber.emit();
+                    return;
+                }
+                else{*/
+                    saveAs(dataUri, this.titleReport + '.pdf');
+                    this.pdfState = PdfType.NOPDF;
+                //}
             }).then(() => {
                 this.eventFirstPage.emit();
                 this.rsService.reset();
