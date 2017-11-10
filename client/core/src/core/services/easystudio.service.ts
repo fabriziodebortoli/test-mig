@@ -1,3 +1,4 @@
+import { EasyStudioContextComponent } from './../../shared/components/easystudio-context/easystudio-context.component';
 import { SettingsService } from './settings.service';
 import { EsCustomizItem } from './../../shared/models/es-customization-item.model';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
@@ -27,12 +28,22 @@ export class EasystudioService {
     public memoryESContext: { allApplications: MyObj[] };
     public memoryCustsList: { Customizations: EsCustomizItem[] };
 
-
+    //#region both
     //--------------------------------------------------------------------------------
-    constructor(public httpMenuService: HttpMenuService, public settingService: SettingsService) {
+    constructor(public httpMenuService: HttpMenuService,
+        public settingService: SettingsService) {
         this.getCurrentContext();
     }
 
+    //--------------------------------------------------------------------------------
+    dispose() {
+        this.subscriptions.forEach(subs => subs.unsubscribe());
+    }
+
+    //--------------------------------------------------------------------------------
+    public isContextActive(): boolean {
+        return this.currentApplication !== undefined && this.currentModule !== undefined;
+    }
     //--------------------------------------------------------------------------------
     public getCurrentContext(): any {
         this.subscriptions.push(this.httpMenuService.getCurrentContext().subscribe((result) => {
@@ -44,17 +55,6 @@ export class EasystudioService {
             return result;
         }));
     }
-
-    //--------------------------------------------------------------------------------
-    public getModules(): any {
-        return this.modules;
-    }
-
-    //--------------------------------------------------------------------------------
-    public getApplications(): any {
-        return this.applications;
-    }
-
     //--------------------------------------------------------------------------------
     private extractCouple(result: Response): string[] {
         if (result == undefined) return null;
@@ -66,15 +66,9 @@ export class EasystudioService {
 
         }
     }
+    //#endregion
 
-    //--------------------------------------------------------------------------------
-    public initEasyStudioContext() {
-        this.subscriptions.push(this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
-            this.extractNamesAllApps(result);
-            return result;
-        }));
-    }
-
+    //#region methods for menu items customizations
     //--------------------------------------------------------------------------------
     public initEasyStudioData(object: any) {
         this.subscriptions.push(this.httpMenuService.initEasyStudioData(object).subscribe((result) => {
@@ -103,20 +97,43 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public isContextActive(): boolean {
-        return this.currentApplication !== undefined && this.currentModule !== undefined;
-    }
-
-    //--------------------------------------------------------------------------------
     public runEasyStudio(target: any, customizationName: string) {
         this.subscriptions.push(this.httpMenuService.runEasyStudio(target, customizationName).subscribe((result) => { }));
     }
 
     //--------------------------------------------------------------------------------
-    public closeCustomizationContext() {
-        this.subscriptions.push(this.httpMenuService.closeCustomizationContext().subscribe((result) => {
-            this.currentApplication = undefined;
-            this.currentModule = undefined;
+    public cloneDocument(object: any, docName: string, docTitle:string) {
+        if (docName == undefined || !this.isContextActive())
+            return;
+        if (docTitle == undefined)
+            docTitle = docName;
+        this.subscriptions.push(this.httpMenuService.cloneAsEasyStudioDocument(object, docName, docTitle, this)
+        .subscribe((result) => 
+        { 
+            if(result){
+                
+            }
+        }));
+    }
+
+    //#endregion
+
+    //#region methods for EasyStudio Context
+    //--------------------------------------------------------------------------------
+    public getModules(): any {
+        return this.modules;
+    }
+
+    //--------------------------------------------------------------------------------
+    public getApplications(): any {
+        return this.applications;
+    }
+
+    //--------------------------------------------------------------------------------
+    public initEasyStudioContext() {
+        this.subscriptions.push(this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
+            this.extractNamesAllApps(result);
+            return result;
         }));
     }
 
@@ -138,6 +155,31 @@ export class EasystudioService {
             if (this.applications.find(e => e === applicElem) === undefined)
                 this.applications.push(applicElem);
         }
+    }
+
+    //--------------------------------------------------------------------------------
+    public getDefaultContext(setAsCurrent: boolean) {
+        this.subscriptions.push(this.httpMenuService.getDefaultContext().subscribe((result) => {
+            if (result) {
+                let array = this.extractCouple(result);
+                if (array !== null && array !== undefined) {
+                    this.defaultApplication = array[0];
+                    this.defaultModule = array[1];
+                    if (setAsCurrent) {
+                        this.setAppAndModule(this.defaultApplication, this.defaultModule, true);
+                    }
+                }
+                return result;
+            }
+        }));
+    }
+
+    //--------------------------------------------------------------------------------
+    public closeCustomizationContext() {
+        this.subscriptions.push(this.httpMenuService.closeCustomizationContext().subscribe((result) => {
+            this.currentApplication = undefined;
+            this.currentModule = undefined;
+        }));
     }
 
     //--------------------------------------------------------------------------------
@@ -189,25 +231,5 @@ export class EasystudioService {
         return modulesLocal;
     }
 
-    //--------------------------------------------------------------------------------
-    public getDefaultContext(setAsCurrent: boolean) {
-        this.subscriptions.push(this.httpMenuService.getDefaultContext().subscribe((result) => {
-            if (result) {
-                let array = this.extractCouple(result);
-                if (array !== null && array !== undefined) {
-                    this.defaultApplication = array[0];
-                    this.defaultModule = array[1];
-                    if (setAsCurrent) {
-                        this.setAppAndModule(this.defaultApplication, this.defaultModule, true);
-                    }
-                }
-                return result;
-            }
-        }));
-    }
-
-    //--------------------------------------------------------------------------------
-    dispose() {
-        this.subscriptions.forEach(subs => subs.unsubscribe());
-    }
+    //#endregion
 }

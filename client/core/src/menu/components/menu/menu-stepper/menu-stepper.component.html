@@ -6,14 +6,14 @@
 
     </mat-menu>
     <mat-menu #groups="matMenu" x-position="after" y-position="below">
-        <button mat-menu-item *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=menuService.setSelectedGroup(group) class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
+        <button mat-menu-item *ngFor="let group of menuService?.selectedApplication?.Group" (click)=menuService.setSelectedGroup(group) class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
         <tb-icon [iconType]="'M4'" [icon]="group?.icon" class="group-icon" *ngIf="group?.icon != undefined"></tb-icon>
         <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined" />
          {{group?.title}}
      </button>
     </mat-menu>
     <mat-menu #menus="matMenu" x-position="after" y-position="below">
-        <button mat-menu-item *ngFor="let menuTab of utilsService.toArray(menuService.selectedGroup?.Menu)" (click)=menuService.setSelectedMenu(menuTab) class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
+        <button mat-menu-item *ngFor="let menuTab of menuService.selectedGroup?.Menu" (click)=menuService.setSelectedMenu(menuTab) class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
      {{menuTab?.title}}
      </button>
     </mat-menu> -->

@@ -1,17 +1,16 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { Logger, InfoService, DocumentService, ComponentService, EventDataService } from '@taskbuilder/core';
+import { DocumentService, ComponentService, EventDataService, TbComponentServiceParams } from '@taskbuilder/core';
 
 @Injectable()
 export class BPMService extends DocumentService {
 
   constructor(
-    public logger: Logger,
-    public eventData: EventDataService,
-    public componentService: ComponentService,
-    public infoService: InfoService
+    params: TbComponentServiceParams,
+    eventData: EventDataService,
+    public componentService: ComponentService
   ) {
-    super(logger, eventData, infoService);
+    super(params, eventData);
   }
 
   close() {

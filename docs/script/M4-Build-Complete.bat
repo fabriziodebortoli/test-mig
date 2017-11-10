@@ -2,7 +2,7 @@
 set /p installationpath="Enter Installation path <c:\development>: "
 
 if [%installationpath%] == [] (
-	set installationpath="c:\development"
+	set installationpath=c:\development
 )
 
 if not exist %installationpath% (
@@ -38,9 +38,9 @@ rem %GetSorgenti% get %Installation%Standard\Applications\MDC /recursive > %Inst
 %GetSorgenti% resolve %Installation%Standard\Applications\ERP /recursive /auto:automerge
 rem %GetSorgenti% resolve %Installation%Standard\Applications\MDC /recursive /auto:automerge
 
-%BuildSorgenti% "%Installation%Standard\TaskBuilder\TaskBuilder3.sln" /out %Installation%BUILDTaskBuilder3.log /build %Build%
-%BuildSorgenti% "%Installation%Standard\Applications\ERP\ERP.sln" /out %Installation%BUILDERP.log /build %Build%
-rem %BuildSorgenti% "%Installation%Standard\Applications\MDC\MDC.sln" /out %Installation%BUILDMDC.log /build %Build%
+%BuildSorgenti% "%Installation%Standard\TaskBuilder\TaskBuilder3.sln" /out %Installation%BUILDTaskBuilder3.log /rebuild %Build%
+%BuildSorgenti% "%Installation%Standard\Applications\ERP\ERP.sln" /out %Installation%BUILDERP.log /rebuild %Build%
+rem %BuildSorgenti% "%Installation%Standard\Applications\MDC\MDC.sln" /out %Installation%BUILDMDC.log /rebuild %Build%
 
 
 cd %Installation%Standard\web

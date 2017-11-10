@@ -22,13 +22,11 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
     ) {
         super(document, eventData, ciService);
 
-        this.culture = this.ciService.globalInfoService.culture.value;
         let me = this;
         this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
             if (me.cmpId === args.id) {
                 me.translations = args.strings;
-                let jItem = { translations: me.translations, installationVersion: this.installationVersion };
-                localStorage.setItem(this.dictionaryId, JSON.stringify(jItem));
+               document.saveTranslations(this.dictionaryId, me.translations);
             }
         }));
     }
@@ -36,11 +34,11 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
 
     readTranslationsFromServer() {
         let s = this.document as BOService;
-        s.getWindowStrings(this.cmpId, this.culture);
+        s.getWindowStrings(this.cmpId, this.ciService.globalInfoService.culture.value);
     }
     ngOnInit() {
         const ci = this.ciService.componentInfo;
-        this.dictionaryId = ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.culture;
+        this.dictionaryId = ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.ciService.globalInfoService.culture.value;
         super.ngOnInit();
     }
     ngOnDestroy() {

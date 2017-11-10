@@ -1,6 +1,20 @@
 <div class="container">
   <h2 class="componentTitle">New Instance Registration</h2>
 
+  <div class="row center-xs end-sm end-lg">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div>
+        <admin-input-text [inputLabel]="'Account'" [textType]="'text'" [(inputData)]="accountName"></admin-input-text>
+      </div>
+      <div>
+        <admin-input-text [inputLabel]="'Password'" [textType]="'password'" [(inputData)]="password"></admin-input-text>
+      </div>
+      <div class="mt20">
+        <admin-button [buttonText]="'Get Permission'" (click)="getPermission()" [primary]="true"></admin-button>
+      </div>
+    </div>
+  </div>
+
   <div *ngIf="currentStep == 1">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -21,7 +35,7 @@
         <div class="adminTile tileNormal">
           Security
           <div>
-            <admin-input-text [inputLabel]="'Activation Key'" [textType]="'text'" [(inputData)]="activationCode"></admin-input-text>          
+            <admin-input-text [inputLabel]="'Activation Key'" [readOnly]=true [textType]="'text'" [(inputData)]="activationCode"></admin-input-text>          
           </div>
         </div>
       </div>    

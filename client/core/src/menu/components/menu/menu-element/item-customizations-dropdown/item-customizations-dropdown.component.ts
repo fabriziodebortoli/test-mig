@@ -1,3 +1,4 @@
+import { CloneDocumentDialogComponent } from './../../../../../shared/components/clone-document-dialog/clone-document-dialog.component';
 import { EsCustomizItem } from './../../../../../shared/models/es-customization-item.model';
 import { EasystudioService } from './../../../../../core/services/easystudio.service';
 import { LocalizationService } from './../../../../../core/services/localization.service';
@@ -22,11 +23,14 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
 
   @ViewChild('anchor', { read: ElementRef }) public anchor: ElementRef;
   @ViewChild('template', { read: TemplateRef }) public template: TemplateRef<any>;
+  @ViewChild(CloneDocumentDialogComponent) cloneDialog: CloneDocumentDialogComponent;
   @Input() objectM: any;
 
   elRef: HTMLElement;
   offsetLeft: any;
   offsetTop: any;
+  public newName: string;
+  public newTitle: string;
 
   @HostListener('window:keyup', ['$event'])
   public keyup(event: KeyboardEvent): void {
@@ -47,6 +51,10 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     public localizationService: LocalizationService,
     public popupService: PopupService) {
     this.elRef = elRef.nativeElement;
+  }
+
+  openCloneDialog(){
+    this.cloneDialog.open();
   }
 
   //--------------------------------------------------------------------------------
@@ -111,11 +119,6 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     return this.easystudioService.isEasyStudioDocument(object);
   }
 
-  //--------------------------------------------------------------------------------
-  getCustomizationTooltip(customization) {
-    //TODOROBY
-  }
-
   //--------------------------------------------------------------------------------  
   isCustomizationEnabled(customization) {
     if (!this.easystudioService.isContextActive())
@@ -133,13 +136,14 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     //   });
     // }
     // else {}
-    if (customization !== null && !this.isCustomizationEnabled(customization))
+    if(!this.easystudioService.isContextActive() || (customization !== null && !this.isCustomizationEnabled(customization)))     
       return;
     let custName = customization !== null ? customization.customizationName : undefined;
     this.easystudioService.runEasyStudio(object.target, custName);
     this.close();
   }
-  //--------------------------------------------------------------------------------
+  
+  /*//--------------------------------------------------------------------------------
   cloneAsEasyStudioDocumentIfNeeded(object) {
     // if (!(this.currentApplication !== undefined && this.currentApplication !== null && this.currentModule !== undefined && this.currentModule !== undefined)) {
     //   this.openContextMenu = true;
@@ -149,17 +153,18 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     //   });
     // }
     // else {
-    //   let sub = this.httpMenuService.cloneAsEasyStudioDocument(object).subscribe((result) => {
-    //     alert("clone lanciato");
-    //     sub.unsubscribe();
-    //   });
-    // }
-  }
+      if(!this.easystudioService.isContextActive())     
+        return;
+      this.easystudioService.cloneDocument(object);
+      this.close();
+  }*/
 
+  //--------------------------------------------------------------------------------
   private contains(target: any): boolean {
     return this.anchor.nativeElement.contains(target);
   }
 
+  //--------------------------------------------------------------------------------
   public getToolTip(customization: EsCustomizItem) {
     let message = "";
     message += this.localizationService.localizedElements.CustomizationNotActive + ":\n";

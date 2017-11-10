@@ -1,3 +1,4 @@
+
 import { TbSharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
@@ -30,6 +31,8 @@ import { TabberService } from './services/tabber.service';
 import { UtilsService } from './services/utils.service';
 import { WebSocketService } from './services/websocket.service';
 import { TbComponentService } from './services/tbcomponent.service';
+import { TbComponentServiceParams } from './services/tbcomponent.service.params';
+import { BOServiceParams } from './services/bo.service.params';
 import { LocalizationService } from './services/localization.service';
 import { LoadingService } from './services/loading.service';
 import { DiagnosticService } from './services/diagnostic.service';
@@ -40,6 +43,8 @@ import { ThemeService } from './services/theme.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
+export { TbComponentServiceParams } from './services/tbcomponent.service.params';
+export { BOServiceParams } from './services/bo.service.params';
 export { BOService } from './services/bo.service';
 export { BOClient } from './services/bo.service';
 export { ComponentService } from './services/component.service';
@@ -69,7 +74,7 @@ export { Store } from './services/store.service';
 export { ThemeService } from './services/theme.service';
 
 export const TB_SERVICES = [
-    TbComponentService, BOService, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
+    TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
     LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
@@ -87,18 +92,16 @@ import { HttpModule } from '@angular/http';
 import { ArcticTheme } from './themes/arctic/arctic-theme.component';
 import { BorealisTheme } from './themes/borealis/borealis-theme.component';
 import { DefaultTheme } from './themes/default/default-theme.component';
-import { M4Theme } from './themes/m4/m4-theme.component';
 import { InfinityTheme } from './themes/infinity/infinity-theme.component';
 import { LakeTheme } from './themes/lake/lake-theme.component';
+import { MonochromeTheme } from './themes/monochrome/monochrome-theme.component';
 import { OceanTheme } from './themes/ocean/ocean-theme.component';
 import { PurpleTheme } from './themes/purple/purple-theme.component';
 import { SnowFlakeTheme } from './themes/snowflake/snowflake-theme.component';
 import { UnderwaterTheme } from './themes/underwater/underwater-theme.component';
 
-
-
 const THEME_COMPONENTS = [
-    ArcticTheme, BorealisTheme, DefaultTheme, M4Theme, InfinityTheme, LakeTheme, OceanTheme, PurpleTheme, SnowFlakeTheme, UnderwaterTheme
+    ArcticTheme, BorealisTheme, DefaultTheme, MonochromeTheme, InfinityTheme, LakeTheme, OceanTheme, PurpleTheme, SnowFlakeTheme, UnderwaterTheme
 ];
 
 /**
@@ -118,7 +121,7 @@ const TB_PAGES = [
             { path: 'arctic', component: ArcticTheme, outlet: 'theme' },
             { path: 'borealis', component: BorealisTheme, outlet: 'theme' },
             { path: 'default', component: DefaultTheme, outlet: 'theme' },
-            { path: 'm4', component: M4Theme, outlet: 'theme' },
+            { path: 'monochrome', component: MonochromeTheme, outlet: 'theme' },
             { path: 'infinity', component: InfinityTheme, outlet: 'theme' },
             { path: 'lake', component: LakeTheme, outlet: 'theme' },
             { path: 'ocean', component: OceanTheme, outlet: 'theme' },
