@@ -26,12 +26,18 @@ export class TbComponentService {
             this.translations = ti.translations;
             this.installationVersion = ti.installationVersion;
 
-            if (!this.translations)
-                this.readTranslationsFromServer();
+            if (!this.translations) {
+                let subs = this.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
+                    if (subs)
+                        subs.unsubscribe();
+                    this.translations = tn;
+                    this.saveTranslations(this.dictionaryId, this.translations);
+                });
+            }
         });
     }
-    public readTranslationsFromServer() {
-        //this.infoService.httpService.
+    public readTranslationsFromServer(dictionaryId: string): Observable<Array<any>> {
+        return this.httpService.getTranslations(dictionaryId, this.infoService.culture.value);
     }
     public calculateDictionaryId(obj: Object) {
         let dictionaryId = '';
@@ -45,7 +51,10 @@ export class TbComponentService {
         }
         return dictionaryId;
     }
-
+    public saveTranslations(dictionaryId: string, translations: any[]) {
+        let jItem = { translations: translations, installationVersion: this.installationVersion };
+        localStorage.setItem(dictionaryId, JSON.stringify(jItem));
+    }
     public readTranslations(dictionaryId: string, installationVersion: string) {
         let item = localStorage.getItem(dictionaryId);
 
