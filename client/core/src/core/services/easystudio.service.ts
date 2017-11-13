@@ -102,7 +102,7 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public cloneDocument(object: any, docName: string, docTitle:string) {
+    public cloneDocument(object: any, docName: string, docTitle:string): boolean {
         if (docName == undefined || !this.isContextActive())
             return;
         if (docTitle == undefined)
@@ -110,9 +110,7 @@ export class EasystudioService {
         this.subscriptions.push(this.httpMenuService.cloneAsEasyStudioDocument(object, docName, docTitle, this)
         .subscribe((result) => 
         { 
-            if(result){
-                
-            }
+            return result;
         }));
     }
 

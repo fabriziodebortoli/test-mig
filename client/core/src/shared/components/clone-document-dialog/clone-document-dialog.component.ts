@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { EasystudioService } from './../../../core/services/easystudio.service';
 import { LocalizationService } from './../../../core/services/localization.service';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, Input } from '@angular/core';
@@ -18,7 +19,8 @@ export class CloneDocumentDialogComponent {
   
     constructor(
         public localizationService: LocalizationService,
-        public easystudioService: EasystudioService) { }
+        public easystudioService: EasystudioService,
+        public snackBar: MatSnackBar) { }
 
      cancel(){
         this.openCloneDialog = false;
@@ -31,7 +33,9 @@ export class CloneDocumentDialogComponent {
      }
 
      okClone(object: any, docName: string, docTitle:string){
-         this.easystudioService.cloneDocument(object, docName, docTitle);
+         var response = this.easystudioService.cloneDocument(object, docName, docTitle)
+         this.cancel();
+         this.snackBar.open('Your dashboard was empty, and has been created with a default layout.', 'Ok');
      }
 
 }
