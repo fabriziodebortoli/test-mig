@@ -55,7 +55,9 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
-            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
+            IInstance instance= this.GetInstance(instanceKey);
+
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
             try
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);                
@@ -72,8 +74,8 @@ namespace Microarea.AdminServer.Controllers
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
                     {
-                        //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag(instanceKey))
+                        ////imposto il flag pending per capire quanto tempo passa fuori copertura
+                        //if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -84,7 +86,7 @@ namespace Microarea.AdminServer.Controllers
 						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
 					}
                     
-					if (opGWAMRes.Code == 31)//data to update
+					if (opGWAMRes.Code == 32)//data to update //cambiare usare enumerativo
 					{
 						AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
 						account = accountIdentityPack.Account;
@@ -264,7 +266,7 @@ namespace Microarea.AdminServer.Controllers
 				};
 				result = accRole.Save(this.burgerData);
 
-				if (!result.Result)
+                if (!result.Result)
 				{
 					return result;
 				}
@@ -277,14 +279,7 @@ namespace Microarea.AdminServer.Controllers
 			return result;
 		}
         
-        //-----------------------------------------------------------------------------	
-        private bool VerifyPendingFlag(string instanceKey) 
-        {
-            // Verifico che la data attuale sia inferiore alla massima data prevista per la disconnessione.
-            DateTime dt = GetInstancePendingDate(instanceKey);
-            return DateTime.Now < dt;
-        }
-
+       
         // <summary>
         // Provides change password
         // </summary>
@@ -300,8 +295,8 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
-
-            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
+            IInstance instance = this.GetInstance(instanceKey);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
             try
             {
                 Account account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
@@ -319,7 +314,7 @@ namespace Microarea.AdminServer.Controllers
                     {
                       
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag(instanceKey))
+                    //    if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -461,7 +456,8 @@ namespace Microarea.AdminServer.Controllers
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
-            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, GetAuthorizationInfo(instanceKey));
+            IInstance instance = this.GetInstance(instanceKey);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
             try
             {
                 Task<string> responseData = await gc.CheckRecoveryCode(accountName, recoveryCode);
@@ -469,7 +465,7 @@ namespace Microarea.AdminServer.Controllers
                 if (responseData.Status == TaskStatus.Faulted)
                 {                    
 					//imposto il flag pending per capire quanto tempo passa fuori copertura
-                    if (!VerifyPendingFlag(instanceKey))
+                    //if (!VerifyPendingFlag(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                 }
             }
@@ -477,15 +473,15 @@ namespace Microarea.AdminServer.Controllers
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
         }
 
-		/// <summary>
-		/// This API returns the list of all instances belonging to an account
-		/// Used primarily by the login process in order to pre-select the instance
-		/// where user want to connect. We check only account name existence.
-		/// </summary>
-		[HttpPost("api/listInstances")]
-		//-----------------------------------------------------------------------------	
-		public async Task<ActionResult> ApiListInstances([FromBody]string accountName)
-		{
+        /// <summary>
+        /// This API returns the list of all instances belonging to an account
+        /// Used primarily by the login process in order to pre-select the instance
+        /// where user want to connect. We check only account name existence.
+        /// </summary>
+        [HttpPost("api/listInstances")]
+        //-----------------------------------------------------------------------------	
+        public async Task<ActionResult> ApiListInstances([FromBody]string accountName)
+        {
 			OperationResult opRes = new OperationResult();
 
 			if (String.IsNullOrEmpty(accountName))
@@ -496,28 +492,29 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
-
+            GwamCaller gc = null;
             // this is a pre-login, so only account name existence is verified
             Account account = Account.GetAccountByName(burgerData, accountName);
 
-			if (account != null)
-			{
+            if (account != null)
+            {
                 if (account.Disabled || account.Locked)
                 {
                     //TODO far qualcosa?
                 }
 
-               
-				IInstance[] instancesArray = this.GetInstances(accountName);
-                ////qui per ogni istanza verifico se ci sono aggiornamenti sul gwam e nel caso me li salvo in locale
-                //foreach (IInstance i in instancesArray)
-                //{
-                //    GwamCaller gc = new GwamCaller(_httpHelper, GWAMUrl, GetAuthorizationInfo(i.InstanceKey));
-                //    Task<string> res = await gc.GetInstance(i.InstanceKey, i.Ticks);
-                //    //qui torna  se è da aggiornare  o no, se da aggiornare è da fare la save in locale
-                //    //((Instance)i).Save(burgerData);
-                //}
-				opRes.Result = true;
+                IInstance[] instancesArray = this.GetInstances(accountName);
+
+
+                opRes = UpdateInstances(instancesArray);
+
+                if (!opRes.Result)
+                {
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
+                
+                opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
 				opRes.Content = instancesArray;
@@ -527,10 +524,10 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
-
-			// account doesn'exist in Admin BackEnd, so we ask the instances list to GWAM
-
-			Task<string> responseData = await GetInstancesListFromGWAM(accountName);
+           
+            // account doesn'exist in Admin BackEnd, so we ask the instances list to GWAM
+            gc = new GwamCaller(_httpHelper, GWAMUrl, null);
+            Task<string> responseData = await gc.GetInstancesListFromGWAM(accountName);
 
 			// GWAM call could not end correctly: so we check the object
 			if (responseData.Status == TaskStatus.Faulted)
@@ -561,22 +558,21 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		//----------------------------------------------------------------------
-		private async Task<Task<string>> GetInstancesListFromGWAM(string accountName)
-		{
-			string url = String.Format("{0}listInstances/{1}", this.GWAMUrl, accountName);
-
-			// call GWAM API 
-			OperationResult opRes = await _httpHelper.PostDataAsync(
-				url, new List<KeyValuePair<string, string>>(), String.Empty);
-
-			if (!opRes.Result)
-			{
-				return Task.FromException<string>(new Exception());
-			}
-
-			return (Task<string>)opRes.Content;
-		}
+        //----------------------------------------------------------------------
+        private OperationResult UpdateInstances(IInstance[] instancesArray)
+        {
+            OperationResult opRes = new OperationResult();
+            ////qui per ogni istanza verifico se ci sono aggiornamenti sul gwam e nel caso me li salvo in locale
+            foreach (IInstance i in instancesArray)
+            {
+                GwamCaller gc = new GwamCaller(_httpHelper, GWAMUrl, i);
+                opRes = gc.GetInstance();
+                if (opRes.Result && opRes.Code == (int) GwamMessageStrings.GWAMCodes.DataToUpdate)
+                    ((Instance)i).Save(burgerData);
+            }
+            opRes.Result = true;
+            return opRes;
+        }
 
         //----------------------------------------------------------------------
         private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)

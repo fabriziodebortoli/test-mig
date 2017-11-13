@@ -1,4 +1,8 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Libraries;
+using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,13 +16,60 @@ namespace Microarea.AdminServer.Services.BurgerData
         IHttpHelper httpHelper;
         string GWAMUrl;
         AuthorizationInfo authInfo;
+        IInstance instance;
+        bool GwamDown = false;
 
         //----------------------------------------------------------------------
-        public GwamCaller(IHttpHelper httpHelper, string GWAMUrl, AuthorizationInfo authInfo)
+        public GwamCaller(IHttpHelper httpHelper, string GWAMUrl, IInstance instance)
         {
             this.httpHelper = httpHelper;
             this.GWAMUrl = GWAMUrl;
-            this.authInfo = authInfo;
+            this.instance = instance == null ? new Instance() : instance;
+            this.authInfo = new AuthorizationInfo(AuthorizationInfo.TypeAppName, instance.InstanceKey, instance.SecurityValue);
+        }
+        
+        //----------------------------------------------------------------------
+        private OperationResult VerifyPendingFlag(Task<string> res)
+        {
+            OperationResult opRes = new OperationResult();
+            {               
+                // GWAM call could not end correctly: so we check the object
+                if (res.Status ==TaskStatus.Faulted)
+                {
+                    GwamDown = true;
+                    //imposto il flag pending per capire quanto tempo passa fuori copertura
+                    if (!instance.VerifyPendingDate())
+                    {
+                        // gwam non risponde e non possiamo lavorare offline
+                        opRes.Result = false;
+                        opRes.Code = (int)AppReturnCodes.GWAMCommunicationError;
+                        opRes.Message = Strings.GWAMCommunicationError;
+                        return opRes;
+                    }
+                }
+            }
+            opRes.Result = true;
+            opRes.Code = (int)GwamMessageStrings.GWAMCodes.OK; // gwam non risponde ma possiamo lavorare offline
+            return opRes;
+        }
+
+        //----------------------------------------------------------------------
+        internal async Task<Task<string>> GetInstancesListFromGWAM(string accountName)
+        {
+            OperationResult opRes = new OperationResult();
+            if (GwamDown)
+                return (Task<string>)opRes.Content;
+
+            string url = String.Format("{0}listInstances/{1}", this.GWAMUrl, accountName);
+
+            // call GWAM API 
+            opRes = await httpHelper.PostDataAsync(
+                url, new List<KeyValuePair<string, string>>(), String.Empty);
+
+            if (!opRes.Result)
+                return Task.FromException<string>(new Exception());
+
+            return (Task<string>)opRes.Content;
         }
 
         //----------------------------------------------------------------------
@@ -33,7 +84,7 @@ namespace Microarea.AdminServer.Services.BurgerData
                 url, new List<KeyValuePair<string, string>>(), JsonConvert.SerializeObject(authInfo));
 
             if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+                return Task.FromException<string>(new Exception());//FAULTED, POTREBBE NON RISPONDERE
 
             return (Task<string>)opRes.Content;
         }
@@ -83,14 +134,28 @@ namespace Microarea.AdminServer.Services.BurgerData
             return (Task<string>)opRes.Content;
         }
 
+        //----------------------------------------------------------------------
+        public OperationResult GetInstance()
+        {
+            OperationResult opRes = new OperationResult();
+            if (GwamDown)
+                return opRes;
+
+           Task<string>  res = GetInstanceAsync(instance.InstanceKey, instance.Ticks).Result;
+
+           opRes= VerifyPendingFlag(res);
+
+           return opRes;
+        }
+
         //[HttpGet("/api/instances/{instanceKey}/{ticks}")]
         //----------------------------------------------------------------------
-        internal async Task<Task<string>> GetInstance(string instanceKey, int ticks)
+        private async Task<Task<string>> GetInstanceAsync(string instanceKey, int ticks)
         {
             OperationResult opRes = await httpHelper.GetDataAsync(
-                this.GWAMUrl + "instances/" + instanceKey + "/" + ticks,
+                GWAMUrl + "instances/" + instanceKey + "/" + ticks,
                  JsonConvert.SerializeObject(authInfo));
-
+           
             if (!opRes.Result)
                 return Task.FromException<string>(new Exception());
 
