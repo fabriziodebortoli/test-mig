@@ -16,26 +16,29 @@ export class CloneDocumentDialogComponent {
     public docName: string;
     public docTitle: string;
     public openCloneDialog = false;
-  
+
     constructor(
         public localizationService: LocalizationService,
         public easystudioService: EasystudioService,
         public snackBar: MatSnackBar) { }
 
-     cancel(){
+    cancel() {
         this.openCloneDialog = false;
-     }
-     
-     open(){
-          if(!this.easystudioService.isContextActive())
-             return;        
-         this.openCloneDialog = true;
-     }
+    }
 
-     okClone(object: any, docName: string, docTitle:string){
-         var response = this.easystudioService.cloneDocument(object, docName, docTitle)
-         this.cancel();
-         this.snackBar.open('Your dashboard was empty, and has been created with a default layout.', 'Ok');
-     }
+    open() {
+        if (!this.easystudioService.isContextActive())
+            return;
+        this.openCloneDialog = true;
+    }
+
+    okClone(object: any, docName: string, docTitle: string) {
+        var response = this.easystudioService.cloneDocument(object, docName, docTitle)
+        this.cancel();
+        if (response)
+            this.snackBar.open(this.localizationService.localizedElements.NewDocumentCreatedwithSuccess, this.localizationService.localizedElements.Ok);
+        else
+            this.snackBar.open(this.localizationService.localizedElements.Error, this.localizationService.localizedElements.CloseLabel);
+    }
 
 }

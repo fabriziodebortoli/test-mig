@@ -601,6 +601,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Document Created with Success.
+        /// </summary>
+        public static string NewDocumentCreatedwithSuccess {
+            get {
+                return ResourceManager.GetString("NewDocumentCreatedwithSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert new module name.
         /// </summary>
         public static string NewModuleLabel {
