@@ -6,25 +6,29 @@
             <tb-view>
                 <tb-tilemanager>
                     <tb-tilegroup title="{{localizationService.localizedElements?.Selections}}" icon="erp-europe" tbLayoutTypeVbox>
-                        <tb-tile title="{{localizationService.localizedElements?.SelectLanguage}}" *ngIf="!isDesktop" tbTileAutoFill>
-                            <tb-culture-selector></tb-culture-selector>
-                        </tb-tile>
-                        <tb-tile title="{{localizationService.localizedElements?.SelectTheme}}" tbTileStandard>
-                            <tb-theme-changer></tb-theme-changer>
-                        </tb-tile>
+                        <ng-template>
+                            <tb-tile title="{{localizationService.localizedElements?.SelectLanguage}}" *ngIf="!isDesktop" tbTileAutoFill>
+                                <tb-culture-selector></tb-culture-selector>
+                            </tb-tile>
+                            <tb-tile title="{{localizationService.localizedElements?.SelectTheme}}" tbTileStandard>
+                                <tb-theme-changer></tb-theme-changer>
+                            </tb-tile>
+                        </ng-template>
                     </tb-tilegroup>
                     <!-- <tb-tilegroup [title]="{{localizationService.localizedElements?.SelectTheme}}" icon="tb-user">
                         Profile
                     </tb-tilegroup> -->
                     <tb-tilegroup title="{{localizationService.localizedElements?.ProductInfo}}" icon="tb-info">
-                        <tb-layoutcontainer tbLayoutTypeColumn>
-                            <tb-tile title="{{localizationService.localizedElements?.ProductInfo}}" tbTileStandard>
-                                <tb-product-info></tb-product-info>
-                            </tb-tile>
-                            <tb-tile title="{{localizationService.localizedElements?.ConnectionInfo}}" tbTileStandard>
-                                <tb-connection-info></tb-connection-info>
-                            </tb-tile>
-                        </tb-layoutcontainer>
+                        <ng-template>
+                            <tb-layoutcontainer tbLayoutTypeColumn>
+                                <tb-tile title="{{localizationService.localizedElements?.ProductInfo}}" tbTileStandard>
+                                    <tb-product-info></tb-product-info>
+                                </tb-tile>
+                                <tb-tile title="{{localizationService.localizedElements?.ConnectionInfo}}" tbTileStandard>
+                                    <tb-connection-info></tb-connection-info>
+                                </tb-tile>
+                            </tb-layoutcontainer>
+                        </ng-template>
                     </tb-tilegroup>
                 </tb-tilemanager>
             </tb-view>
