@@ -34,6 +34,7 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { TestControlsComponent } from './components/test-controls/test-controls.component';
 import { DatabaseOperationsComponent } from './components/database/database-operations.component';
 import { InstanceRegistrationComponent } from './components/instance/instance-registration.component';
+import { DatabaseUpgradeComponent } from './components/database/database-upgrade.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { InstanceRegistrationComponent } from './components/instance/instance-re
     FileUploadComponent,
     TestControlsComponent,
     DatabaseOperationsComponent,
-    InstanceRegistrationComponent
+    InstanceRegistrationComponent,
+    DatabaseUpgradeComponent
   ],
   imports: [
     BrowserModule,
