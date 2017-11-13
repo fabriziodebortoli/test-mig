@@ -11,9 +11,11 @@ using Microarea.AdminServer.Services.PostMan.actuators;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
 {
@@ -350,27 +352,32 @@ namespace Microarea.AdminServer.Controllers
 			if (String.IsNullOrWhiteSpace(instance.InstanceKey))
 			{
 				opRes.Result = false;
-				opRes.Message = Strings.InstanceKeyEmpty;
+				opRes.Message = Strings.NoValidInput;
 				opRes.Code = -1;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 400, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			// now we check authorization
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
-			if (authHeader == "activation-code")
-			{
-				opRes.Result = true;
-			} else
+			Task<string> responseData = SecurityManager.ValidatePermission(authHeader, this._httpHelper, this.GWAMUrl);
+
+			if (responseData.Status == TaskStatus.Faulted)
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.InvalidCredentials;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (!opRes.Result)
+			OperationResult validateRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
+
+			if (!validateRes.Result)
 			{
+				opRes.Result = false;
+				opRes.Message = Strings.InvalidCredentials;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
