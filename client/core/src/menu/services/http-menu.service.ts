@@ -111,7 +111,7 @@ export class HttpMenuService {
   */
     runEasyStudio(ns: string, customizationName: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(ns), customization: encodeURIComponent(customizationName) };
-        let url = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/';
+        let url = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/?ns=' + encodeURIComponent(ns);
         if (customizationName != undefined)
             url += "&customization=" + encodeURIComponent(customizationName);
         return this.httpService.postData(url, obj)
