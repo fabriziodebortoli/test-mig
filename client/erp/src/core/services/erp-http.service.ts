@@ -15,8 +15,10 @@ export class ErpHttpService {
 
     postData(api: string, obj: any): Observable<Response> {
         const url = this.infoService.getBaseUrl() + api;
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        headers.append('Authorization', this.infoService.getAuthorization());
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': this.infoService.getAuthorization()
+        });
         return this.http.post(url, JSON.stringify(obj), { withCredentials: true, headers: headers });
     }
 
