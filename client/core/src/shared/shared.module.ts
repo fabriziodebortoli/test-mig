@@ -85,6 +85,7 @@ import { SaveComponent } from './components/explorer/save/save.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
+import { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
 import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
@@ -127,6 +128,7 @@ export { SaveComponent } from './components/explorer/save/save.component';
 export { RadarComponent } from './components/radar/radar.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
+export { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
 export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
@@ -136,7 +138,7 @@ const TB_COMPONENTS = [
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent
+    BOComponent, BOSlaveComponent, BOCommonComponent,CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent
 ];
 
 /**
@@ -328,8 +330,8 @@ const _MODULES = [
 
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
-    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
+    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent],
     exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
-    entryComponents: [UnsupportedComponent, RadarComponent]
+    entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent]
 })
 export class TbSharedModule { }

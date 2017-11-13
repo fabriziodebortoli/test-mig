@@ -3,22 +3,22 @@ export class SubscriptionDatabase {
     InstanceKey: string;
     SubscriptionKey: string;
     Name: string;
-    Description: string;
+    Description: string = '';
     DBServer: string;
     DBName: string;
     DBOwner: string;
     DBPassword: string;
-	UseDMS: boolean = true;
+	  UseDMS: boolean = true;
     DMSDBServer: string;
     DMSDBName: string;
     DMSDBOwner: string;
     DMSDBPassword: string;
-    Disabled: boolean;
+    Disabled: boolean = false;
     DatabaseCulture: string;
-	IsUnicode: boolean;
+	  IsUnicode: boolean = false;
     Provider: string;
     Test: boolean;
-    UnderMaintenance: boolean;
+    UnderMaintenance: boolean = false;
 
     constructor() {
     }

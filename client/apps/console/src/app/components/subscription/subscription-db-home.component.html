@@ -1,44 +1,33 @@
 <div class="container">
   <h2 class="componentTitle">Subscription {{model.SubscriptionKey}} / Database {{model.Name}}</h2>
 
-  <div *ngIf="!checkDatabaseIsStarted">
-    <div *ngIf="databaseService.needsAskCredentials && !databaseService.testConnectionOK">
-      <app-database-testconnection></app-database-testconnection>
-    </div>
-    <div *ngIf="!isEditing && (!databaseService.needsAskCredentials || databaseService.testConnectionOK)">
-      <table>
-        <tr>
-          <td>
-            <label id="labm" (click)="ClickMaster()" class="mySelectedTab" readonly="readonly">Master</label>
-          </td>
-          <td>
-            <label id="labt" (click)="ClickTest()" class="myTab" readonly="readonly">Test</label>
-          </td>
-        </tr>
-      </table>
-    </div>
-
-    <div *ngIf="viewMaster && !(databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
-      <app-subscription-database [model]="model" [originalModel]="originalModel"></app-subscription-database>
-    </div>
-    <div *ngIf="!viewMaster">
-      <app-subscription-database [model]="modelTest"></app-subscription-database>
-    </div>
-
-    <div class="row center-xs end-sm end-lg" *ngIf="!(databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
-      <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-        <admin-button [buttonText]="'Update'" (click)="submitDatabase()"></admin-button>
-        <admin-dialog [mode]="'fields'" [title]="'Credentials'" [message]="'Please insert your administrative credentials to connect to server ' + model.DBServer"
-          [(fields)]=fields [(opened)]=openDialog [(result)]=dialogResult (onClose)="onDialogClose($event)"></admin-dialog>
-      </div>
-    </div>
+  <div *ngIf="databaseService.needsAskCredentials && !databaseService.testConnectionOK">
+    <app-database-testconnection></app-database-testconnection>
   </div>
-  
-  <div class="row adminTile" *ngIf="checkDatabaseIsStarted">
-    <app-database-operations 
-    [operations]=operationsList 
-    [readingData]=checkDatabaseIsRunning 
-    [extSubDatabase]=extendedSubDatabase 
-    [operationsToDo]=somethingToDo></app-database-operations>
+
+  <div *ngIf="!(databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
+    <admin-tabs>
+      <admin-tab [tabTitle]="'Main data'">
+        <div class="tab-content">
+          <app-subscription-database [model]="model" [originalModel]="originalModel"></app-subscription-database>
+        </div>
+      </admin-tab>
+      <admin-tab [tabTitle]="'Update database structure'">
+        <div class="tab-content">
+          <app-database-upgrade [model]="model"></app-database-upgrade>
+        </div>
+      </admin-tab>
+      <admin-tab [tabTitle]="'Import data'">
+        <div class="tab-content">
+          <h5>Coming soon...</h5>
+        </div>
+      </admin-tab>
+      <admin-tab [tabTitle]="'Delete options'">
+        <div class="tab-content">
+          <h5>Coming soon...</h5>
+        </div>
+      </admin-tab>
+    </admin-tabs>
   </div>
+
 </div>

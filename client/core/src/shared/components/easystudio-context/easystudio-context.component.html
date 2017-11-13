@@ -76,8 +76,8 @@
         </div>
 
         <kendo-dialog-actions>
-            <button kendoButton (click)="refresh()" primary="true">{{localizationService?.localizedElements?.Refresh}}</button>
-            <button kendoButton (click)="ok()" primary="true" [disabled]="!selectionIsValid() || newPairVisible">{{localizationService?.localizedElements?.Ok}}</button>
+            <button kendoButton (click)="refresh()">{{localizationService?.localizedElements?.Refresh}}</button>
+            <button kendoButton (click)="ok()" [disabled]="!selectionIsValid() || newPairVisible">{{localizationService?.localizedElements?.Ok}}</button>
             <button kendoButton (click)="cancel()">{{localizationService?.localizedElements?.Cancel}}</button>
         </kendo-dialog-actions>
     </kendo-dialog>
