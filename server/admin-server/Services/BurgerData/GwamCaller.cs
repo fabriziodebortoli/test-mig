@@ -139,5 +139,16 @@ namespace Microarea.AdminServer.Services.BurgerData
             return (Task<string>)opRes.Content;
         }
 
+		//----------------------------------------------------------------------
+		public static async Task<Task<string>> ValidateGWAMToken(string token, IHttpHelper httpHelper, string GWAMUrl)
+		{
+			OperationResult opRes = await httpHelper.GetDataAsync(GWAMUrl + "permissions/" + token);
+
+			if (!opRes.Result)
+				return Task.FromException<string>(new Exception());
+
+			return (Task<string>)opRes.Content;
+		}
+
     }
 }
