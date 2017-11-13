@@ -3,7 +3,6 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,17 +13,17 @@ namespace Microarea.AdminServer.Model
 	//================================================================================
 	public class Instance : IInstance, IModelObject
     {
-        string instanceKey;
+        string instanceKey = string.Empty;
         string description = string.Empty;
         string origin = string.Empty;
         string tags = string.Empty;
         bool disabled = false;
 		bool existsOnDB = false;
-        bool underMaintenance;
+        bool underMaintenance = false;
         DateTime pendingDate;
         int ticks = TicksHelper.GetTicks();
-        string verificationCode;
-		string securityValue;
+        string verificationCode = string.Empty;
+		string securityValue = string.Empty;
 
         public string InstanceKey { get => this.instanceKey; set => this.instanceKey = value; }
         public string Description { get => this.description;  set => this.description = value; }
@@ -107,7 +106,7 @@ namespace Microarea.AdminServer.Model
             return true;
         } 
         //---------------------------------------------------------------------
-        internal bool VerifyPendingDate()
+        public bool VerifyPendingDate()
         {
             return TicksHelper.GetDateHashing(PendingDate) == VerificationCode;
         }
