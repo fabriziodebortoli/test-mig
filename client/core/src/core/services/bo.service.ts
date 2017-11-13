@@ -99,6 +99,7 @@ export class BOService extends DocumentService {
 
         this.subscriptions.push(this.eventData.radarRecordSelected.subscribe((tbGuid: string) => {
             this.webSocketService.browseRecord(this.mainCmpId, tbGuid);
+            this.eventData.change.emit('');
         }));
 
         this.subscriptions.push(this.eventData.change.subscribe((cmpId: string) => {
@@ -150,6 +151,7 @@ export class BOService extends DocumentService {
             const cmpId = this.mainCmpId;
             if (data.response.id === cmpId) {
                 this.eventData.radarInfos.emit(data.response.radarInfo);
+                this.eventData.change.emit('');
             }
         }));
        
@@ -157,6 +159,7 @@ export class BOService extends DocumentService {
             const cmpId = this.mainCmpId;
             if (data.response.id === cmpId) {
                 this.eventData.behaviours.emit(data.response.behaviours);
+                this.eventData.change.emit('');
             }
         }));
 
