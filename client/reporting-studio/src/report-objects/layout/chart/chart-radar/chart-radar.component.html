@@ -3,7 +3,7 @@
 
     <kendo-chart-series>
         <kendo-chart-series-item *ngFor="let item of chart.series" [type]="getType(item)" [name]="item.title" [data]="item.data" field="value"
-            categoryField="category">
+            categoryField="category" [color]="item.color" [opacity]="item.opacity">
         </kendo-chart-series-item>
     </kendo-chart-series>
     <kendo-chart-value-axis>

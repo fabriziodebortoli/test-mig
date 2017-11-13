@@ -66,14 +66,20 @@ Entrambi gli script, alla partenza, vi chiederanno di specificare il path di ins
 
 ### Clone, Install e Build
 Il file **M4-Clone.bat** ha lo scopo di clonare, installare e buildare tutti i componenti provenienti da git.
-Si trova in ```<InstallationPath>/Standard/web/docs/script/M4-Client.bat```
+
+Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Clone.bat?raw=true) (tasto destro del mouse -> Salva con nome)
+
+Oppure nel repository  in ```<InstallationPath>/Standard/web/docs/script/M4-Client.bat```
 
 Questo script come prima cosa cancella eventuali cadaveri di cartelle legate alla parte web, quindi qualsiasi modifica alla parte web non pushata su git, ***con questo script andrà irrimediabilmente persa***.
 
 
 ### Sincronizzazione e Build
 Il file **M4-Get-Build.bat** effettua una sincronizzata pulita, più le relative build della parte angular  e netcore.
-Si trova in ```<InstallationPath>/Standard/web/docs/script/M4-Get-Build.bat```
+
+Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Get-Build.bat?raw=true) (tasto destro del mouse -> Salva con nome)
+
+Oppure nel repository in ```<InstallationPath>/Standard/web/docs/script/M4-Get-Build.bat```
 
 
 
@@ -86,7 +92,9 @@ Il file **M4-Build-Complete.bat** effettua invece tutte  le operazioni necessari
  3. Build in debug di taskbuilder e erp
  4. Sincronizzazione da git e compilata dei sorgenti web. (effettua tutte le operazioni presenti nel “M4-Get-Build.bat”
 
-Si trova in ```<InstallationPath>/Standard/web/docs/script/M4-Build-Complete.bat```
+Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat?raw=true) (tasto destro del mouse -> Salva con nome)
+
+Oppure, nel repository in ```<InstallationPath>/Standard/web/docs/script/M4-Build-Complete.bat```
 
 N.B.: nello script è presente, anche se commentato con un “rem” , tutta la parte relativa ad MDC:  se normalmente sincronizzate anche questa applicazione, dovete semplicemente togliere i relativi “rem” dalle righe pertinenti ad mdc
 
