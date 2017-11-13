@@ -142,6 +142,7 @@ export class BOService extends DocumentService {
             const cmpId = this.mainCmpId;
             if (result.id === cmpId) {
                 this.eventData.buttonsState = result.buttonsState;
+                this.eventData.change.emit('');
             }
         }));
 
