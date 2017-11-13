@@ -66,8 +66,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public enumsService: EnumsService,
     public infoService: InfoService,
     public loadingService: LoadingService,
-    private resolver: ComponentFactoryResolver,
-    private themeService: ThemeService
+    public resolver: ComponentFactoryResolver,
+    public themeService: ThemeService
   ) {
 
     this.initialize();

@@ -149,11 +149,14 @@ namespace Microarea.Common.Hotlink
             return true;
         }
 
-        public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "Code", string likeValue = "")
+        public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code", string likeValue = "")
         {
-            selection_type.Data = selectionType;
-            filter_value.Data = likeValue + '%';
+            if (!selectionType.CompareNoCase("direct"))
+                likeValue += "%";
 
+            selection_type.Data = selectionType;
+            filter_value.Data = likeValue;
+ 
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
@@ -340,7 +343,17 @@ namespace Microarea.Common.Hotlink
                 return false;
 
             if (XmlDescription.SelectionTypeList.Count == 0)
-                return false;
+            {
+                list = "{\"selections\":[";
+               
+                list += '\"' + "code" + '\"' + ',';
+                list += '\"' + "description" + '\"' + ',';
+                list += '\"' + "combo" + '\"';
+
+                list += "]}";
+
+                return true;
+            }
 
             bool first = true;
             list = "{\"selections\":[";
@@ -439,8 +452,15 @@ namespace Microarea.Common.Hotlink
             //emit json record header (localized title column, column name, datatype column
             records = "{";
 
-            if (XmlDescription != null)
-                records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+            if (XmlDescription != null && columns.Count > 0)
+            {
+                SymField f0 = columns[0] as SymField;
+                int idx = f0.Name.IndexOf('.');
+                if (idx > 0)
+                    records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+                else
+                    records += XmlDescription.DbFieldName.Mid(idx + 1).ToJson("key") + ',';
+            }
 
             records += "\"columns\":[";
             bool first = true;

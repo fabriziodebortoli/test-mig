@@ -7,7 +7,8 @@
         </kendo-chart-category-axis-item>
     </kendo-chart-category-axis>
     <kendo-chart-series>
-        <kendo-chart-series-item *ngFor="let item of chart.series" [type]="getType(item)" [stack]="getStack(item)" [name]="item.name" [data]="item.data" [style]="item.style" [color]="item.color">
+        <kendo-chart-series-item *ngFor="let item of chart.series" [type]="getType(item)" [stack]="getStack(item)" [name]="item.name" [data]="item.data" [style]="item.style"
+         [color]="item.color" [opacity]="item.opacity">
         </kendo-chart-series-item>
     </kendo-chart-series>
 </kendo-chart>

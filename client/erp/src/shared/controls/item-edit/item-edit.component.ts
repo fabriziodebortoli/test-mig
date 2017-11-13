@@ -11,7 +11,7 @@ export class ItemEditComponent extends ControlComponent {
     @Input() slice: any;
     @Input() selector: any;
 
-    usePopUpMenu = false;
+    itemsAutoNumbering = false;
 
     constructor(
         public vcr: ViewContainerRef,
@@ -23,8 +23,18 @@ export class ItemEditComponent extends ControlComponent {
         super(layoutService, tbComponentService);
     }
 
-    funzione(): boolean {
-        return true;
+    // funzione(): boolean {
+    //     return true;
+    // }
+
+    ngOnInit() {
+        this.readParams();
+    }
+
+    async readParams() {
+        let result = await this.http.checkItemsAutoNumbering().toPromise();
+        this.itemsAutoNumbering = result.json().itemsAutoNumbering;
+        this.itemsAutoNumbering = !this.itemsAutoNumbering;
     }
 }
 
