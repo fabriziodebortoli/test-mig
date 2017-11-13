@@ -7,8 +7,8 @@
         class="text-bg"
         [type]="textType" 
         [ngModel]="inputData" 
-        (ngModelChange)="change($event)" 
         [readonly]="readOnly" 
-        [ngStyle]="{ 'margin-top' : marginTopStyle }" />
+        [ngStyle]="{ 'margin-top' : marginTopStyle }"
+        (ngModelChange)="change($event)"  />
   </kendo-textbox-container>
 </div>
