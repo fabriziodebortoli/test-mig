@@ -1,7 +1,7 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input, ViewEncapsulation, Type, OnChanges, SimpleChanges, ChangeDetectorRef, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Type, ChangeDetectorRef, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { HttpService } from './../../../core/services/http.service';
 
@@ -10,7 +10,8 @@ import { ControlComponent } from './../control.component';
 @Component({
   selector: 'tb-hotlink',
   templateUrl: './hotlink.component.html',
-  styleUrls: ['./hotlink.component.scss']
+  styleUrls: ['./hotlink.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class HotlinkComponent extends ControlComponent implements OnInit {
@@ -219,7 +220,7 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
   // ---------------------------------------------------------------------------------------
   popupStyle() {
     return {
-      'max-width': '50%',
+      'max-width': '700px',
       'font-size': 'small'
     };
   }
