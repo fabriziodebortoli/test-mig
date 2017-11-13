@@ -37,4 +37,12 @@ export class StrBinEditComponent extends ControlComponent {
         return mask
             .replace(new RegExp(maskChar, 'g'), 'A');
     }
+
+    public onBlur() {
+
+    }
+
+    public changeModelValue($event) {
+
+    }
 }
