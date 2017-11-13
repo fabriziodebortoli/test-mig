@@ -19,21 +19,24 @@
 </kendo-popup>
 
 <button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!model.enabled"></button>
+
 <div #anchorTable></div>
 <kendo-popup [anchor]="anchorTable" (anchorViewportLeave)="closeTable()" *ngIf="showTable" [ngStyle]="popupStyle()">
-    <kendo-grid [data]="data.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
-        [height]="300">
-        <kendo-grid-column *ngIf="enableMultiSelection" [width]="45" [headerClass]="{'tableHeader':true}">
-            <ng-template kendoGridCellTemplate let-dataItem>
-                <input type="checkbox" [checked]="dataItem.Selected" (change)="onRowChecked($event, dataItem)" />
-            </ng-template>
-        </kendo-grid-column>
-        <kendo-grid-column *ngFor="let col of data.columns" field="{{col.id}}" title="{{col.id}}" [headerClass]="{'tableHeader':true}">
-            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                <div style="cursor:pointer">
-                    {{getValue(dataItem[col.id], col)}}
-                </div>
-            </ng-template>
-        </kendo-grid-column>
-    </kendo-grid>
+    <div class="hotlinkGrid">
+        <kendo-grid [data]="data.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
+            [height]="300">
+            <kendo-grid-column *ngIf="enableMultiSelection" [width]="50" [headerClass]="{'tableHeader':true}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <input type="checkbox" [checked]="dataItem.Selected" (change)="onRowChecked($event, dataItem)" />
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column *ngFor="let col of data.columns" field="{{col.id}}" [width]="130" title="{{col.id}}" [headerClass]="{'tableHeader':true}" >
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <div class="hotlinkGrodCell">
+                        {{getValue(dataItem[col.id], col)}}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+        </kendo-grid>
+    </div>
 </kendo-popup>

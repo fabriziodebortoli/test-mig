@@ -69,7 +69,7 @@ namespace Microarea.RSWeb.Objects
         public string Title;
 
         public EnumChartType SeriesType = EnumChartType.None;
-
+        double Transparent = 1;
         public Color Color = Color.White;
         public bool Colored = false;
         public int Group = 0;   //for grouping stacked column/bar
@@ -336,6 +336,18 @@ namespace Microarea.RSWeb.Objects
 
             }
 
+            if (lex.Matched(Token.GROUP))
+            {
+                if (!lex.ParseInt(out pSeries.Group))
+                    return false;
+            }
+
+            if (lex.Matched(Token.TRANSPARENT))
+            {
+                if (!lex.ParseDouble(out pSeries.Transparent))
+                    return false;
+            }
+
             if (lex.LookAhead(Token.COLOR))
             {
                 if (!IsChartFamilyPie())
@@ -370,11 +382,7 @@ namespace Microarea.RSWeb.Objects
                 pSeries.Style = (EnumChartStyle)st;
             }
 
-            if (lex.Matched(Token.GROUP))
-            {
-                if (!lex.ParseInt(out pSeries.Group))
-                    return false;
-            }
+           
 
             return lex.ParseEnd();
         }

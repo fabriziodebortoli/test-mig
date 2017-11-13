@@ -439,8 +439,15 @@ namespace Microarea.Common.Hotlink
             //emit json record header (localized title column, column name, datatype column
             records = "{";
 
-            if (XmlDescription != null)
-                records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+            if (XmlDescription != null && columns.Count > 0)
+            {
+                SymField f0 = columns[0] as SymField;
+                int idx = f0.Name.IndexOf('.');
+                if (idx > 0)
+                    records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+                else
+                    records += XmlDescription.DbFieldName.Mid(idx + 1).ToJson("key") + ',';
+            }
 
             records += "\"columns\":[";
             bool first = true;
