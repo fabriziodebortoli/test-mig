@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Widget, WidgetsService, WidgetRow } from './widgets.service';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'tb-widget-container',
   templateUrl: './widget-container.component.html',
-  styleUrls: ['./widget-container.component.scss']
+  styleUrls: ['./widget-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WidgetContainerComponent implements OnInit, OnDestroy {
   rows: WidgetRow[] = [];
   subscriptions = [];
-  constructor(public widgetsService: WidgetsService, public snackBar: MatSnackBar) {
+  constructor(public widgetsService: WidgetsService, public snackBar: MatSnackBar, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   getColspan(size: string) {
@@ -30,12 +31,13 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
           this.rows.push({ cols: [] });
           if (pageRow.cols) {
             pageRow.cols.forEach(wdgInfo => {
-              var emptyWdg = new Widget(wdgInfo.namespace);
-              var row = this.rows.length - 1;
-              var col = this.rows[row].cols.push(emptyWdg) - 1;
+              const emptyWdg = new Widget(wdgInfo.namespace);
+              const row = this.rows.length - 1;
+              const col = this.rows[row].cols.push(emptyWdg) - 1;
               this.subscriptions.push(this.widgetsService.getWidget(wdgInfo.namespace).subscribe(
-                (wdg) => {
+                wdg => {
                   this.rows[row].cols[col] = wdg;
+                  this.changeDetectorRef.detectChanges();
                 }
               ));
             });
