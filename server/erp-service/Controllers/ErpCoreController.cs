@@ -26,14 +26,18 @@ namespace ErpService.Controllers
         }
 
         [Route("CheckBinUsesStructure")]
-        public IActionResult CheckBinUsesStructure([FromBody] string value)
+        public IActionResult CheckBinUsesStructure([FromBody] string jsonValue)
         {
+            var result = new JsonResult(new { UseBinStructure = false });
+            if (jsonValue == null) return result;
+
             var ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "no auth" };
 
-            var zone = ((JObject)value)["zone"].Value<string>();
-            var storage = ((JObject)value)["storage"].Value<string>();
+            var json = JObject.Parse(jsonValue);
+            var zone = json.SelectToken("zone")?.Value<string>();
+            var storage = json.SelectToken("storage")?.Value<string>();
 
             var connection = new SqlConnection(ui.CompanyDbConnection);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
@@ -43,9 +47,30 @@ namespace ErpService.Controllers
                 }))
                 if (reader.Read())
                     return new JsonResult(new { UseBinStructure = reader[0] });
-            return new JsonResult(new { UseBinStructure = false });
+            return result;
         }
 
+        [Route("CheckItemsAutoNumbering")]
+        public IActionResult CheckItemsAutoNumbering()
+        {
+            var ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 401, Content = "no auth" };
+            var connection = new SqlConnection(ui.CompanyDbConnection);
+            using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
+                "select ItemAutoNum from MA_ItemParameters", null))
+            {
+                if (reader.Read())
+                {
+                    bool itemautonum = reader["ItemAutoNum"].ToString() == ('1').ToString();
+                    //bool itemautonum = bool.Parse(reader["ItemAutoNum"].ToString());
+
+                    var result = new JsonResult(new { ItemsAutoNumbering = itemautonum });
+                    return result;
+                }
+            }
+            return new JsonResult(new { ItemsAutoNumbering = false });
+        }
         #region helpers
         UserInfo GetLoginInformation()
         {

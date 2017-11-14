@@ -1,0 +1,1 @@
+..\..\..\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
