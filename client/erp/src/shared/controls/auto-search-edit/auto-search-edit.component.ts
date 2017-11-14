@@ -1,7 +1,7 @@
 import { TbComponentService, LayoutService, ControlComponent, EventDataService, Store } from '@taskbuilder/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
 import { Component, Input, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
-import { StringUtils } from "core/u/string-utils";
+import { StringUtils } from './../../../core/u/string-utils';
 
 @Component({
     selector: "erp-auto-search-edit",
