@@ -5,7 +5,6 @@ $bkg: #fff;
 $text-light: #fff;
 $text-medium: #8f8f96;
 $text-dark: #484040;
-$font-size-tooltip: 12px;
 .borealis {
     //toolbar principale, dove si trova anche la "ricerca"
     .mat-toolbar.mat-primary {
@@ -195,12 +194,4 @@ $font-size-tooltip: 12px;
             }
         }
     }
-}
-
-.mat-tooltip {
-    font-size: $font-size-tooltip !important;
-    background-color: $bkg-light !important;
-    color: $text-light !important;
-    border-radius: 0px !important;
-    padding: 10px 0px 10px 15px;
 }
