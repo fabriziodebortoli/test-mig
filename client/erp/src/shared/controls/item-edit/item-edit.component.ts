@@ -11,7 +11,7 @@ export class ItemEditComponent extends ControlComponent {
     @Input() slice: any;
     @Input() selector: any;
 
-    itemsAutoNumbering = false;
+    itemsAutoNumbering = true;
 
     constructor(
         public vcr: ViewContainerRef,
@@ -31,10 +31,14 @@ export class ItemEditComponent extends ControlComponent {
         this.readParams();
     }
 
-    async readParams() {
-        let result = await this.http.checkItemsAutoNumbering().toPromise();
-        this.itemsAutoNumbering = result.json().itemsAutoNumbering;
+    test2() {
         this.itemsAutoNumbering = !this.itemsAutoNumbering;
+    }
+
+    readParams() {
+        this.http.checkItemsAutoNumbering().subscribe(result => {
+            this.itemsAutoNumbering = result.json().itemsAutoNumbering;
+        })
     }
 }
 
