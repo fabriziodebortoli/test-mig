@@ -170,11 +170,11 @@ export class HttpService {
     }
 
     // tslint:disable-next-line:max-line-length
-    getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = '', params: URLSearchParams): Observable<any> {
+    getHotlinkData(namespace: string, selectionType: string = 'code', params: URLSearchParams): Observable<any> {
         let headers = new Headers();
         headers.append('Authorization', this.infoService.getAuthorization());
 
-        return this.http.get(this.infoService.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { search: params, withCredentials: true, headers: headers })
+        return this.http.get(this.infoService.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType, { search: params, withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
             })

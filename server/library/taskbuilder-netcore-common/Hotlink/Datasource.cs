@@ -149,20 +149,33 @@ namespace Microarea.Common.Hotlink
             return true;
         }
 
-        public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code", string likeValue = "")
+        public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
-            if (!selectionType.CompareNoCase("direct"))
-                likeValue += "%";
-
-            selection_type.Data = selectionType;
-            filter_value.Data = likeValue;
- 
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
 
+            string likeValue = requestQuery["filter"];
+            
+            if (!selectionType.CompareNoCase("direct"))
+                likeValue += "%";
+
+            selection_type.Data = selectionType;
+            filter_value.Data = likeValue != null ? likeValue : "";
+            int page;
+            if (!int.TryParse(requestQuery["page"], out page))
+            {
+              page = 1;
+            }
+            int per_page;
+            if (!int.TryParse(requestQuery["per_page"], out per_page))
+            {
+              per_page = 100;
+            }
+            //TODO RSWEB: considerare i parametri di paginazione nella query
             if (XmlDescription.IsDatafile)
             {
+                // TODO RSWEB: paginazione anche nella lettura dati da xml
                 return LoadDataFile();
             }
 
