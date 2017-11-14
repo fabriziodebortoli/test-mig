@@ -5,6 +5,7 @@ $bkg: #fff;
 $text-light: #fff;
 $text-medium: #000000;
 $text-dark: #484040;
+$font-size-tooltip: 12px;
 .snowflake {
     //toolbar principale, dove si trova anche la "ricerca"
     .mat-toolbar.mat-primary {
@@ -193,4 +194,12 @@ $text-dark: #484040;
             }
         }
     }
+}
+
+.mat-tooltip {
+    font-size: $font-size-tooltip !important;
+    background-color: $bkg-light !important;
+    color: $text-light !important;
+    border-radius: 0px !important;
+    padding: 10px 0px 10px 15px;
 }
