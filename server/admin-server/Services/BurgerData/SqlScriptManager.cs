@@ -126,7 +126,7 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return Queries.UpdateSubscription;
 
                 case ModelTables.SubscriptionAccounts:
-                    return String.Empty;
+                    return Queries.UpdateSubscriptionAccount;
 
 				case ModelTables.SubscriptionDatabases:
 					return Queries.UpdateSubscriptionDatabase;

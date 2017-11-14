@@ -1,3 +1,4 @@
+import { TopbarMenuAppComponent } from './../topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
 import { SettingsService } from './../../../core/services/settings.service';
 import { InfoService } from './../../../core/services/info.service';
 import { EasystudioService } from './../../../core/services/easystudio.service';
@@ -21,7 +22,6 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     public localizationsLoadedSubscription: any;
     public localizationLoaded: boolean;
 
-    public expandMode: number = PanelBarExpandMode.Multiple;
     public opened: boolean = false;
 
     public title: string;
@@ -35,16 +35,19 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     public applicSelected: string;
     public moduleSelected: string;
+    public newApplic: string;
+    public newModule: string;
     public isThisPairDefault = false;
     public type = "Customization";
 
     public newPairVisible = false;
+    public isDefault = false;
 
     constructor(
         public localizationService: LocalizationService,
         public easystudioService: EasystudioService,
         public infoService: InfoService,
-        public settingsService: SettingsService ) {}
+        public settingsService: SettingsService) { }
 
     //--------------------------------------------------------------------------------
     ngOnInit(): void {
@@ -59,6 +62,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             }
         });
         this.easystudioService.initEasyStudioContext();
+        this.easystudioService.getDefaultContext(false);
     }
 
     //--------------------------------------------------------------------------------
@@ -83,6 +87,8 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         this.easystudioService.closeCustomizationContext();
         this.applicSelected = undefined;
         this.moduleSelected = undefined;
+        this.isThisPairDefault = false;
+        this.isDefault = false;
     }
 
     //--------------------------------------------------------------------------------
@@ -103,61 +109,76 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     //--------------------------------------------------------------------------------
     public refresh() {
         this.easystudioService.refreshEasyBuilderApps();
+        this.applicSelected = undefined;
+        this.moduleSelected = undefined;
     }
 
     //--------------------------------------------------------------------------------
     public ok() {
+        let elemSearched = this.easystudioService.memoryESContext.allApplications.find(
+            c => c.application === this.applicSelected && c.module === this.moduleSelected);
+        if(elemSearched === undefined) //ora per default, se hanno digitato una coppia che non esista, gliela creo
+            this.addNewPair(this.applicSelected, this.moduleSelected);
         this.easystudioService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault);
         this.opened = false;
+        this.isThisPairDefault = false;
+        this.isDefault = false;
+    }
+
+    //--------------------------------------------------------------------------------
+    public setDefaultContext() {
+        this.isThisPairDefault = this.selectionIsValid();
     }
 
     //--------------------------------------------------------------------------------
     private setApplic(app: string) {
-        if (this.easystudioService.applications.indexOf(app) === -1) return;
+        if (this.easystudioService.getApplications().indexOf(app) === -1) return;
         this.applicSelected = app;
         this.moduleSelected = undefined;
+        this.isThisPairDefault = false;
+        this.isDefault = false;
         this.easystudioService.modules = this.easystudioService.getModulesBy(app);
         if (this.easystudioService.modules.length == 1) {
-            this.moduleSelected = this.easystudioService.modules[0];
+            this.moduleSelected = this.easystudioService.getModules()[0];
+            this.checkIfIsDefault();
         }
     }
 
     //--------------------------------------------------------------------------------
     private setModule(mod: string) {
-        if (this.easystudioService.modules.indexOf(mod) === -1) return;
+        if (this.easystudioService.getModules().indexOf(mod) === -1) return;
         this.moduleSelected = mod;
+        this.checkIfIsDefault();
+    }
+
+    //--------------------------------------------------------------------------------
+    private checkIfIsDefault() {
+        this.isDefault = this.easystudioService.defaultApplication === this.applicSelected 
+         && this.easystudioService.defaultModule === this.moduleSelected;
     }
 
     //--------------------------------------------------------------------------------
     showNewPair(show: boolean) {
         this.newPairVisible = show;
         if (show) {
-            this.applicSelected = this.generateNewApplicationName();
-            this.moduleSelected = this.generateNewModuleName(this.applicSelected);
-        }
-        else {
+            this.newApplic = this.generateNewApplicationName();
+            this.newModule = this.generateNewModuleName(this.applicSelected);
             this.applicSelected = undefined;
             this.moduleSelected = undefined;
         }
     }
 
     //---------------------------------------------------------------------------------------------
-    addNewPair(newAppNameEl, newModNameEl) {
-        if (newAppNameEl === undefined || newModNameEl === undefined)
+    addNewPair(newAppName, newModName) {
+        if (newAppName === undefined || newModName === undefined)
             return;
-        if (newAppNameEl.value === undefined || newModNameEl.value === undefined)
-            return;
-        let newAppName = newAppNameEl.value;
-        let newModName = newModNameEl.value;
-        if (this.easystudioService.memory.allApplications.indexOf(newAppName, newModName) === -1) {
-            //type = standard or custom
-            this.easystudioService.createNewContext(this.applicSelected, this.moduleSelected, this.type);
-
+        if (this.easystudioService.memoryESContext.allApplications.indexOf(newAppName, newModName) === -1) {
+            this.easystudioService.createNewContext(newAppName, newModName, this.type);//type = standard or custom
             this.applicSelected = newAppName;
             this.moduleSelected = newModName;
-
         }
         this.newPairVisible = false;
+        this.isDefault = false;
     }
 
     //--------------------------------------------------------------------------------
@@ -191,11 +212,17 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             return;
         var list = [];
         if (newModName === undefined) {
-            list = this.easystudioService.applications;
+            list = this.easystudioService.getApplications();
             return list.indexOf(newName) !== -1;
         }
 
         list = this.easystudioService.getModulesBy(newName);
         return list.indexOf(newModName) !== -1;
     }
+
+    //--------------------------------------------------------------------------------
+    openDefaultContextMethod(): void{
+        this.easystudioService.getDefaultContext(true);
+    }
+
 }

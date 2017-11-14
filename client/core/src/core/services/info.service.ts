@@ -1,10 +1,7 @@
+import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable, ErrorObservable } from '../../rxjs.imports';
-
-import { CookieService } from 'ngx-cookie';
-
-import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Logger } from './logger.service';
 
 export function loadConfig(config) {
@@ -25,26 +22,39 @@ export class InfoService {
 
     constructor(
         public http: Http,
-        public cookieService: CookieService,
-        public logger: Logger
+        public logger: Logger,
+        public utilsService: UtilsService
     ) {
-        this.culture.value = cookieService.get(this.cultureId);
+        this.culture.value = localStorage.getItem(this.cultureId);
     }
 
     resetCulture() {
-        this.cookieService.remove(this.cultureId);
+        localStorage.removeItem(this.cultureId);
         this.culture.value = null;
     }
 
     saveCulture() {
-        this.cookieService.put(this.cultureId, this.culture.value);
+        localStorage.setItem(this.cultureId, this.culture.value);
     }
+
     setCulture(culture: string) {
         this.culture.value = culture;
     }
 
+    getCulture(): string {
+        return this.culture.value;
+    }
+
+    getAuthorization(): string {
+        return JSON.stringify(
+            {
+                ui_culture: this.culture.value,
+                authtoken: sessionStorage.getItem('authtoken'),
+                tbLoaderName: localStorage.getItem('tbLoaderName')
+            });
+    }
+
     load() {
-        //TODOLUCA, manca unsub?
         return new Promise((resolve, reject) => {
             this.http.get('assets/config.json')
                 .map(res => res.json())
@@ -68,9 +78,8 @@ export class InfoService {
             }
             else {
 
-                let params = { authtoken: this.cookieService.get('authtoken') };
-                let url = this.getDocumentBaseUrl() + 'getProductInfo/';
-
+                let params = { authtoken: sessionStorage.getItem('authtoken') };
+                let url = this.getMenuServiceUrl() + 'getProductInfo/';
                 let sub = this.request(url, params)
                     .subscribe(result => {
                         this.productInfo = result.ProductInfos;
@@ -147,6 +156,10 @@ export class InfoService {
         return this.getBaseUrl() + '/menu-service/';
     }
 
+    getLocalizationServiceUrl() {
+        return this.getBaseUrl() + '/localization-service/';
+    }
+
     getEnumsServiceUrl() {
         let url = this.getBaseUrl() + '/enums-service/';
         return url;
@@ -164,8 +177,7 @@ export class InfoService {
     request(url: string, data: Object): Observable<any> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-        return this.http.post(url, data, { withCredentials: true, headers: headers })
+        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers })
             .map(res => res.json())
             .catch((error: any): ErrorObservable => {
                 let errMsg = (error.message) ? error.message :

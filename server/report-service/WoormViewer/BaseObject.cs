@@ -91,7 +91,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                InternalID.ToJson("id", "id") + ',' +
+                IdToJson() + ',' +
 
                 IsHidden.ToJson("hidden") + ',' +
                 Transparent.ToJson("transparent") + ',' +
@@ -111,10 +111,22 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        string RepeaterRowId()
+        {
+            if (this.AnchorRepeaterID == 0)
+                return string.Empty;
+            return '_' + this.RepeaterRow.ToString();
+
+        }
+        string IdToJson()
+        {
+            return InternalID.ToJson("id", "id", false, RepeaterRowId());
+        }
+
         virtual public string ToJsonHiddenData(bool bracket)
         {
-            string s = "\"baseobj\":{" +
-                            InternalID.ToJson("id", "id") + ',' +
+             string s = "\"baseobj\":{" +
+                            IdToJson() + ',' +
                             false.ToJson("hidden") +
                             '}';
             if (bracket)
@@ -127,7 +139,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                 InternalID.ToJson("id", "id") +
+                IdToJson() +
 
                 (this.HideExpr != null ? ',' + this.DynamicIsHidden.ToJson("hidden") : "") +
                 (this.TooltipExpr != null ? ',' + this.DynamicTooltip.ToJson("tooltip", false, true) : "") +
@@ -2259,9 +2271,9 @@ namespace Microarea.RSWeb.Objects
         };
 
         public Label Label;
-        public string FormatStyleName = DefaultFormat.Testo;
-
         public WoormValue Value;
+
+        public string FormatStyleName = DefaultFormat.Testo;
         public bool IsHtml = false;
         public EmailParameter Email;
         public bool AppendMailPart = false;
@@ -2279,12 +2291,7 @@ namespace Microarea.RSWeb.Objects
 
         public WoormViewerExpression LabelTextColorExpr = null; // dynamic UI
         public WoormViewerExpression LabelTextExpr = null;      // dynamic UI
-
         public WoormViewerExpression FormatStyleExpr = null;    // server-side si applica al value
-
-        //const string VALUE = "Value";
-        //const string LABEL = "Label";
-        //const string LOCALIZEDTEXT = "LocalizedText";
 
         //-------------------------------------------------------------------------------
         public Color TemplateTextColor
@@ -2547,9 +2554,8 @@ namespace Microarea.RSWeb.Objects
         public FieldRect(FieldRect s)
             : base(s)
         {
-            this.Value = s.Value.Clone();   //DEEP clone !
-
-            this.Label = s.Label;   //? deep
+            this.Value = s.Value.Clone();   
+            this.Label = s.Label.Clone();
 
             this.BarCode = s.BarCode;
             this.IsTextFile = s.IsTextFile;

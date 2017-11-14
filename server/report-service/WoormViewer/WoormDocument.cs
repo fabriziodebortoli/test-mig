@@ -21,7 +21,7 @@ using Microarea.Common.Lexan;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
-
+using Microarea.Common.ExpressionManager;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -219,8 +219,24 @@ namespace Microarea.RSWeb.WoormViewer
                         return document.ReportSession.PathFinder.ProductDate.ToString(shortDatePattern);
                     }
             }
-			return "";
+
+            string s = source.Trim();
+            if (s.IndexOfNoCase("EVAL ") == 0)
+            {
+                WoormViewerExpression expr = new WoormViewerExpression(document);
+                if (!expr.Compile(s.Mid(5), CheckResultType.Match, "String"))
+                {
+                    return "";
+                }
+
+                Value v = expr.Eval();
+                if (v.Valid && v.Data != null)
+                    return v.Data.ToString();
+            }
+
+            return "";
 		}
+
 		//---------------------------------------------------------------------------
 		static public string KeywordOld2New(string old)
 		{       
@@ -908,7 +924,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             layouts.ApplyRepeater();
             layouts.AddIDToDynamicStaticObjects();
-
+ 
             return true;
 		}
 

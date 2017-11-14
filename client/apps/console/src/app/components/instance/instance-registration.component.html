@@ -1,0 +1,82 @@
+<div class="container">
+  <h2 class="componentTitle">New Instance Registration</h2>
+
+  <div class="row center-xs end-sm end-lg">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div>
+        <admin-input-text [inputLabel]="'Account'" [textType]="'text'" [(inputData)]="accountName"></admin-input-text>
+      </div>
+      <div>
+        <admin-input-text [inputLabel]="'Password'" [textType]="'password'" [(inputData)]="password"></admin-input-text>
+      </div>
+      <div class="mt20">
+        <admin-button [buttonText]="'Get Permission'" (click)="getPermission()" [primary]="true"></admin-button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentStep == 1">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Step 1: Instance Information</h2>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="adminTile tileNormal">
+          Main Data
+          <div>
+            <admin-input-text [inputLabel]="'Instance Key'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.InstanceKey"></admin-input-text>
+          </div>
+          <div>
+            <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="adminTile tileNormal">
+          Security
+          <div>
+            <admin-input-text [inputLabel]="'Activation Key'" [readOnly]=true [textType]="'text'" [(inputData)]="activationCode"></admin-input-text>          
+          </div>
+        </div>
+      </div>    
+    </div>
+    <div class="row center-xs end-sm end-lg">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <admin-button [buttonText]="'Save'" (click)="submitInstance()" [primary]="true"></admin-button>
+      </div>
+    </div>    
+  </div>
+
+  <div *ngIf="currentStep == 2">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Step 2: Select a Subscription</h2>
+        <h3>Which subscription this Instance will belong to?</h3>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="adminTile tileNormal">
+          Subscriptions
+          <admin-list 
+            [items]=subscriptions
+            [columnNames]="['SubscriptionKey']" 
+            [readingData]=readingData
+            (onSelectedItem)="associateInstanceToSubscription($event)"></admin-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="currentStep == 3">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Step 3: Registration done</h2>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="adminTile tileNormal">
+          Registration of the new istance has been completed succesfully.
+        </div>
+      </div>
+    </div>
+  </div>   
+
+</div>

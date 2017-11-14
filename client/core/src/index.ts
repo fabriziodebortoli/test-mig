@@ -53,27 +53,26 @@ const TB_MODULES = [
  */
 import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
-import { HomeSidenavComponent } from './home/home-sidenav/home-sidenav.component';
+import { HomeSidenavLeftComponent } from './home/home-sidenav-left/home-sidenav-left.component';
+import { HomeSidenavRightComponent } from './home/home-sidenav-right/home-sidenav-right.component';
+
 import { HomeComponent } from './home/home.component';
 
 export { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 export { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
-export { HomeSidenavComponent } from './home/home-sidenav/home-sidenav.component';
+export { HomeSidenavLeftComponent } from './home/home-sidenav-left/home-sidenav-left.component';
+export { HomeSidenavRightComponent } from './home/home-sidenav-right/home-sidenav-right.component';
 export { HomeComponent } from './home/home.component';
 
 const TB_HOME_COMPONENTS = [
-  HomeComponent, HomeSidenavComponent,
+  HomeComponent, HomeSidenavLeftComponent, HomeSidenavRightComponent,
   StandaloneDocumentComponent,
   StandaloneReportComponent
 ];
 
-
-import { CookieModule, CookieService } from 'ngx-cookie';
-
 @NgModule({
-  imports: [CommonModule, TB_MODULES, CookieModule.forChild()],
+  imports: [CommonModule, TB_MODULES],
   declarations: [TB_HOME_COMPONENTS],
-  exports: [TB_MODULES, TB_HOME_COMPONENTS],
-  providers: [CookieService]
+  exports: [TB_MODULES, TB_HOME_COMPONENTS]
 })
 export class TaskbuilderCoreModule { }

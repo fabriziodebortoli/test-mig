@@ -20,6 +20,7 @@ ul.favorites-list {
     &>span {
         flex: 1;
         font-size: 12px;
+        font-weight: 600;
     }
     &:hover span {
         color: #fff;
@@ -52,7 +53,12 @@ ul.favorites-list {
 
 //stile quando usato nella sidenav
 /// inizio sidenav
-:host-context(.sidenav) {
+.sidenav {
+    .favorite-item {
+        &>span {
+            font-weight: 600;
+        }
+    }
     m4-icon.close {
         color: #646464;
     }
@@ -65,7 +71,7 @@ ul.favorites-list {
 /// fine sidenav
 //stile quando usato nella dashboard
 /// inizio dashboard
-:host-context(.dashboard) {
+.dashboard {
     .favorites {
         ul.favorites-list {
             .favorite-item {

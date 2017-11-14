@@ -10,5 +10,6 @@
 		string RegionalSettings { get; set; }
 		int MinDBSizeToWarn { get; set; }
         bool UnderMaintenance { get; set; }
-	}
+        int Ticks { get; set; }
+    }
 }

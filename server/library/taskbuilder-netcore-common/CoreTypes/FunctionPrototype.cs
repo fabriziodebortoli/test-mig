@@ -39,8 +39,21 @@ namespace Microarea.Common.CoreTypes
         protected string valueString;
         protected ArrayList values;
 
-        public string ValueString { get { return valueString; } set { valueString = value; } }
-        public ArrayList Values { get { return values; } }
+        public string ValueString {
+            get { return valueString; }
+
+            set { valueString = value; }
+        }
+        public ArrayList Values
+        {
+            get {
+                if (values is null)
+                {
+                    values = new ArrayList();
+                }
+                return values;
+            }
+        }
 
 		//---------------------------------------------------------------------
 		public virtual string Name
@@ -225,7 +238,26 @@ namespace Microarea.Common.CoreTypes
                baseType = ObjectHelper.FromTBType(tbBaseType);
             }
 
-            valueString = pElement.GetAttribute(WebMethodsXML.Attribute.Value);
+            if (tbType == "array")
+            {
+                if (pElement.HasChildNodes)
+                {
+                    foreach (XmlNode child in pElement.ChildNodes)
+                    {
+                        if (child.Name.CompareNoCase(WebMethodsXML.Attribute.Value))
+                        {
+                            valueString += child.InnerText;
+                            object to = ObjectHelper.CreateObject(baseType);
+                            to = ObjectHelper.CastFromDBData(child.InnerText, to);
+                            Values.Add(to);
+                        }
+                    }
+                }
+            }
+            else
+                valueString = pElement.GetAttribute(WebMethodsXML.Attribute.Value);
+
+           
 
             string temp = pElement.GetAttribute(WebMethodsXML.Attribute.Optional);
             if (temp != null && temp.Length > 0)
@@ -285,8 +317,17 @@ namespace Microarea.Common.CoreTypes
 
             if (optional)
                 pElement.SetAttribute(WebMethodsXML.Attribute.Optional, optional ? "true" : "false");
-
-            if (valueString != null)
+            
+            if (type == "array" && values != null)
+            {
+                for (int i = 0; i < values.Count; i++)
+                {
+                    XmlElement value = pElement.OwnerDocument.CreateElement(WebMethodsXML.Attribute.Value);
+                    value.InnerText = values[i].ToString();
+                    pElement.AppendChild(value);
+                }
+            }
+            else if (valueString != null)
                 pElement.SetAttribute(WebMethodsXML.Attribute.Value, valueString);
 
             return true;
@@ -362,6 +403,17 @@ namespace Microarea.Common.CoreTypes
                 rootElement.AppendChild(paramElement);
             }
         }
+
+        //-------------------------------------------------------------------------
+        public string Unparse()
+        {
+            XmlDocument d = new XmlDocument();
+            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
+            Unparse(d.DocumentElement);
+            return d.OuterXml;
+        }
+
+        
     }
 
 	/// <summary>

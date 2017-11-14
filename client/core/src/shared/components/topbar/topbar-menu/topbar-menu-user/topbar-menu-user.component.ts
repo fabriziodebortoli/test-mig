@@ -2,7 +2,6 @@ import { DiagnosticService } from './../../../../../core/services/diagnostic.ser
 import { DiagnosticItemComponent } from './../../../../containers/diagnostic-dialog/diagnostic-dialog.component';
 import { LocalizationService } from './../../../../../core/services/localization.service';
 import { SettingsService } from './../../../../../core/services/settings.service';
-import { CookieService } from 'ngx-cookie';
 import { HttpService } from './../../../../../core/services/http.service';
 import { InfoService } from './../../../../../core/services/info.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
@@ -34,7 +33,6 @@ export class TopbarMenuUserComponent implements OnDestroy {
         public infoService: InfoService,
         public httpService: HttpService,
         public settingsService: SettingsService,
-        private cookieService: CookieService,
         public localizationService: LocalizationService,
         public diagnosticService: DiagnosticService
     ) {
@@ -64,7 +62,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
     }
 
     logout() {
-        let subs = this.httpService.canLogoff({ authtoken: this.cookieService.get('authtoken') }).subscribe((res) => {
+        let subs = this.httpService.canLogoff({ authtoken: sessionStorage.getItem('authtoken') }).subscribe((res) => {
             if (!res.error) {
                 this.authService.logout();
             }

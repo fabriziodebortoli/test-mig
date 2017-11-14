@@ -1,3 +1,4 @@
+import { LocalizationService } from './../../../../core/services/localization.service';
 import { EventManagerService } from './../../../../core/services/event-manager.service';
 import { Component, Input, HostBinding } from '@angular/core';
 
@@ -21,13 +22,15 @@ export class MenuContentComponent {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public imageService: ImageService,
-    public eventManagerService: EventManagerService
+    public eventManagerService: EventManagerService,
+    public localizationService: LocalizationService
   ) {
 
   }
-
+  pinned: boolean= false;
   public objects: any;
   public _tile: any;
+  @Input() menu: any;
 
   @Input()
   get tile(): any {
@@ -36,7 +39,7 @@ export class MenuContentComponent {
 
   set tile(tile: any) {
     this._tile = tile;
-    this.objects = this.utilsService.toArray(this._tile.Object);
+    this.objects = this._tile.Object;
     // this.width2 = this.objects.length > 10;
   }
 

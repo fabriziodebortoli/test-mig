@@ -21,7 +21,7 @@ $series-d: #78d237;
 $series-e: #ff6358;
 $series-f: #aa46be;
 @import "~@progress/kendo-theme-default/scss/all";
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,500,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,500,600');
 * {
     font-family: 'Open Sans', sans-serif;
 }
@@ -204,4 +204,39 @@ md-card-title.mat-card-title m4-icon {
     100% {
         transform: rotate(360deg);
     }
+}
+
+
+/**POPUP*/
+
+.k-animation-container-shown,
+.k-animation-container>.k-popup {
+    box-shadow: none;
+}
+
+.k-animation-container-fixed>.k-popup {
+    margin-right: 12px;
+}
+
+.arrow-right:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #ececec;
+    position: absolute;
+    right: 0;
+    z-index: 9999;
+}
+
+
+/*TOOLTIP*/
+
+.mat-tooltip {
+    font-size: 12px !important;
+    background-color: #000000 !important;
+    color: #b5ddf7 !important;
+    border-radius: 0px !important;
+    padding: 10px 0px 10px 15px;
 }

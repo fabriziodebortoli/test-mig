@@ -552,7 +552,7 @@ namespace Microarea.Common.CoreTypes
         public const ushort REPORT_FUNCTION_RETURN_VALUE = 0x7FF4;
         public const ushort REPORT_HIDE_ALL_ASK_DIALOGS = 0x7FF3;
         //the latest used id
-        public const ushort REPORT_LOWER_SPECIAL_ID = 0x7FF3;
+        public const ushort REPORT_LOWER_SPECIAL_ID = 0x7FD0;
 
         //nomi delle variabili riservate
         public const string REPORT_DEFAULT_LAYOUT_NAME = "default";

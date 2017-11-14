@@ -12,7 +12,6 @@ namespace Microarea.AdminServer.Model
 	{
 		string subscriptionKey = string.Empty;
 		string description = string.Empty;
-		//ActivationToken activationToken = new ActivationToken(string.Empty);
 		string activationToken = string.Empty;
 		string language = string.Empty;
 		string regionalSettings = string.Empty;
@@ -62,7 +61,7 @@ namespace Microarea.AdminServer.Model
 			burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.regionalSettings));
 			burgerDataParameters.Add(new BurgerDataParameter("@MinDBSizeToWarn", this.minDBSizeToWarn));
 			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
-            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", TicksHelper.GetTicks()));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
 
             BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
 

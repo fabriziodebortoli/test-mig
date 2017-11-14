@@ -26,6 +26,33 @@ export class UtilsService {
       );
     }
 
+    // serializeData(data): URLSearchParams {
+      
+    //       let urlSearchParams = new URLSearchParams();
+      
+    //       // let buffer = [];
+      
+    //       // Serialize each key in the object.
+    //       for (let name in data) {
+    //         if (!data.hasOwnProperty(name)) {
+    //           continue;
+    //         }
+      
+    //         let value = data[name];
+      
+    //         // buffer.push(
+    //         //   encodeURIComponent(name) + '=' + encodeURIComponent((value == null) ? '' : value)
+    //         // );
+      
+    //         urlSearchParams.append(name, (value == null) ? '' : value);
+    //       }
+      
+    //       // Serialize the buffer and clean it up for transportation.
+    //       // let source = buffer.join('&').replace(/%20/g, '+');
+    //       // return (source);
+    //       return urlSearchParams;
+    //     };
+
     // Serialize the buffer and clean it up for transportation.
     let source = buffer.join('&').replace(/%20/g, '+');
     return (source);

@@ -69,11 +69,12 @@ namespace Microarea.RSWeb.Objects
         public string Title;
 
         public EnumChartType SeriesType = EnumChartType.None;
-
+        public double Transparent = -1;
         public Color Color = Color.White;
         public bool Colored = false;
         public int Group = 0;   //for grouping stacked column/bar
         public EnumChartStyle Style = EnumChartStyle.Normal;
+        public bool ShowLabel = false;
 
     };
 
@@ -107,6 +108,7 @@ namespace Microarea.RSWeb.Objects
 
         Categories Categories = null;
         List<Series> Series = new List<Series>();
+        Variable ColorVar=null;
         ChartLegend Legend = new ChartLegend();
 
         //------------------------------------------------------------------------------
@@ -279,7 +281,7 @@ namespace Microarea.RSWeb.Objects
             bool ok;
             if (lex.Matched(Token.TITLE))
             {
-                ok = /*lex.ParseTag(Token.TITLE) &&*/ lex.ParseString(out pSeries.Title);
+                ok = lex.ParseString(out pSeries.Title);
                 if (!ok)
                     return false;
             }
@@ -299,7 +301,7 @@ namespace Microarea.RSWeb.Objects
             while (lex.Matched(Token.DATASOURCE))
             {
                 string sVarName = string.Empty;
-                ok = /*lex.ParseTag(Token.DATASOURCE) &&*/ lex.ParseID(out sVarName);
+                ok = lex.ParseID(out sVarName);
                 if (!ok)
                     return false;
 
@@ -309,36 +311,42 @@ namespace Microarea.RSWeb.Objects
                     lex.SetError("TODO - il campo associato alla serie non esiste");
                     return false;
                 }
-
-                //if (!pF.IsArray() && !pF.IsColumn())
-                //{
-                //    lex.SetError(_TB("TODO - il campo associato alla serie non è un array/colonna"));
-                //    return false;
-                //}
-
-                //if (pF->IsColumn())
-                //{
-                //    if (pF->IsColTotal() || pF->IsSubTotal())
-                //    {
-                //        lex.SetError(_TB("TODO - il campo associato alla serie non può essere il totale/subtotale di una colonna"));
-                //        return false;
-                //    }
-                //}
-
-                //string dt = pF.DataType;
-                //if (!dt.IsNumeric())
-                //{
-                //    lex.SetError(_TB("TODO - il campo associato alla serie deve essere numerico"));
-                //    return false;
-                //}
-
                 pSeries.BindedFields.Add(pF);
+            }
+
+            if (lex.Matched(Token.GROUP))
+            {
+                if (!lex.ParseInt(out pSeries.Group))
+                    return false;
+            }
+
+            if (lex.Matched(Token.TRANSPARENT))
+            {
+                if (!lex.ParseDouble(out pSeries.Transparent))
+                    return false;
             }
 
             if (lex.LookAhead(Token.COLOR))
             {
-                if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
-                    return false;
+                if (!IsChartFamilyPie())
+                {
+                    if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
+                        return false;
+                }
+                else
+                {
+                    string colorId = "";
+                    ok = lex.ParseTag(Token.COLOR);                  
+                    ok=lex.ParseID(out colorId);
+                    Variable pF = Document.SymbolTable.Find(colorId);
+                    if (pF == null)
+                    {
+                        lex.SetError("TODO - il campo associato al colore non esiste");
+                        return false;
+                    }
+                    ColorVar = pF;
+                }
+                
                 pSeries.Colored = true;
             }
             else
@@ -352,9 +360,9 @@ namespace Microarea.RSWeb.Objects
                 pSeries.Style = (EnumChartStyle)st;
             }
 
-            if (lex.Matched(Token.GROUP))
+            if (lex.Matched(Token.LABEL))
             {
-                if (!lex.ParseInt(out pSeries.Group))
+                if (!lex.ParseBool(out pSeries.ShowLabel))
                     return false;
             }
 
@@ -373,9 +381,11 @@ namespace Microarea.RSWeb.Objects
 
             if (HasCategories())
             {
-                ok = lex.ParseTag(Token.TITLE) && lex.ParseString(out Categories.Title);
-                if (!ok)
-                    return false;
+                if (lex.Matched(Token.TITLE)) {
+                   ok= /*lex.ParseTag(Token.TITLE) &&*/ lex.ParseString(out Categories.Title);
+                    if (!ok)
+                        return false;
+                }
 
                 string sVarName = string.Empty;
                 ok = lex.ParseTag(Token.DATASOURCE) && lex.ParseID(out sVarName);
@@ -441,19 +451,19 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
         {
-            bool ok = lex.ParseTag(Token.CHART) &&
-                        lex.ParseBegin() &&
+            bool ok = lex.ParseTag(Token.CHART) && lex.ParseID(out Name) &&
+                        lex.ParseBegin() &&                     
+                        lex.ParseAlias(out this.InternalID) &&
                         lex.ParseTag(Token.TITLE) &&
-                        lex.ParseString(out Title) &&
-                        lex.ParseAlias(out this.InternalID);
+                        lex.ParseString(out Title);
 
-            if (lex.Matched(Token.COMMA))
-                ok = ok && lex.ParseID(out Name);
+           /* if (lex.Matched(Token.COMMA))
+                ok = ok && lex.ParseID(out Name); */
 
             int t = 0;
-            ok = ok && lex.ParseRect(out this.Rect) &&
-                       lex.ParseTag(Token.TYPE) &&
-                       lex.ParseInt(out t);
+            ok = ok &&
+                lex.ParseTag(Token.TYPE) && lex.ParseInt(out t) && 
+                lex.ParseRect(out this.Rect) ;
 
             ChartType = (EnumChartType)t;
 
@@ -601,8 +611,10 @@ namespace Microarea.RSWeb.Objects
 
             s += ',' + series.SeriesType.ToJson("type");
 
-            if (series.Group != 0)
+            if (series.Group != -1)
                 s += ',' + series.Group.ToJson("group");
+
+            s += ',' + series.Transparent.ToJson("transparent");
 
             switch (series.Style)
             {
@@ -616,6 +628,8 @@ namespace Microarea.RSWeb.Objects
                     s += ',' + "step".ToJson("style");
                     break;
             }
+
+            s += ',' + series.ShowLabel.ToJson("label");
 
             return s + '}';
         }
@@ -721,6 +735,8 @@ namespace Microarea.RSWeb.Objects
                 if (seriesItem.Group != 0)
                     series += ',' + seriesItem.Group.ToJson("group");
 
+                series += ',' + seriesItem.Transparent.ToJson("transparent");
+
                 switch (seriesItem.Style)
                 {
                     case EnumChartStyle.Normal:
@@ -733,6 +749,8 @@ namespace Microarea.RSWeb.Objects
                         series += ',' + "step".ToJson("style");
                         break;
                 }
+                series += ',' + seriesItem.ShowLabel.ToJson("label");
+
                 series += '}';
                 if (count > 0)
                 {
@@ -805,6 +823,8 @@ namespace Microarea.RSWeb.Objects
                 if (seriesItem.Group != 0)
                     series += ',' + seriesItem.Group.ToJson("group");
 
+                series += ',' + seriesItem.Transparent.ToJson("transparent");
+
                 switch (seriesItem.Style)
                 {
                     case EnumChartStyle.Normal:
@@ -817,6 +837,8 @@ namespace Microarea.RSWeb.Objects
                         series += ',' + "step".ToJson("style");
                         break;
                 }
+                series += ',' + seriesItem.ShowLabel.ToJson("label");
+
                 series += '}';
                 if (count > 0)
                 {
@@ -895,6 +917,8 @@ namespace Microarea.RSWeb.Objects
                 if (seriesItem.Group != 0)
                     series += ',' + seriesItem.Group.ToJson("group");
 
+                series += ',' + seriesItem.Transparent.ToJson("transparent");
+
                 switch (seriesItem.Style)
                 {
                     case EnumChartStyle.Normal:
@@ -907,6 +931,9 @@ namespace Microarea.RSWeb.Objects
                         series += ',' + "step".ToJson("style");
                         break;
                 }
+
+                series += ',' + seriesItem.ShowLabel.ToJson("label");
+
                 series += '}';
                 if (count > 0)
                 {

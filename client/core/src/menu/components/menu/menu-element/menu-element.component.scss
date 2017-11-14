@@ -26,6 +26,7 @@ tb-menu-element {
             flex-direction: row;
             align-items: center;
             flex: 1;
+            padding: 1px 0px;
         }
         p.description {
             font-size: 12px;
@@ -93,7 +94,7 @@ tb-menu-element {
     }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1025px) {
     tb-menu-element {
         .menu-element {
             padding: 0 0.2rem;

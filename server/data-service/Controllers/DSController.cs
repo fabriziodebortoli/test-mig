@@ -5,6 +5,8 @@ using Microarea.DataService.Models;
 using Microarea.Common.Applications;
 using Microarea.Common.Hotlink;
 using System.Globalization;
+using Microarea.Common;
+using Newtonsoft.Json.Linq;
 
 namespace DataService.Controllers
 {
@@ -24,7 +26,7 @@ namespace DataService.Controllers
 		}
 		UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+            string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
 
@@ -45,17 +47,34 @@ namespace DataService.Controllers
         }
         //---------------------------------------------------------------------
 
-        [Route("getdata/{namespace}/{selectiontype}/{filter?}")]
-        public IActionResult GetData(string nameSpace, string selectionType, string filter="")
+        [Route("getdata/{namespace}/{selectiontype}")]
+        public IActionResult GetData(string nameSpace, string selectionType)
         {
+            string authHeader = HttpContext.Request.Headers["Authorization"];
+            if (string.IsNullOrWhiteSpace(authHeader))
+            {
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+            }
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-			TbSession session = new TbSession(ui, nameSpace);
+            {
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+            }
+
+            TbSession session = new TbSession(ui, nameSpace);
+
+            JObject jObject = JObject.Parse(authHeader);
+            string instanceID = jObject.GetValue("tbLoaderName")?.ToString();  //TODO RSWEB  togliere stringa cablata e usare il tostring del datamember del messaggio
+            if (!string.IsNullOrWhiteSpace(instanceID))
+            {
+                session.TbInstanceID = instanceID;
+                session.LoggedToTb = true;
+            }
+            
 
             Datasource ds = new Datasource(session);
 
-			if (!ds.PrepareQueryAsync(HttpContext.Request.Query, selectionType, filter).Result)
+			if (!ds.PrepareQueryAsync(HttpContext.Request.Query, selectionType).Result)
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
 			string records;
@@ -71,7 +90,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -92,7 +111,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -110,7 +129,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -129,7 +148,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             Datasource ds = new Datasource(ui);
 

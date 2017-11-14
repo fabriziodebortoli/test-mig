@@ -1,3 +1,5 @@
+import { BOServiceParams } from './bo.service.params';
+import { HttpService } from './http.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
@@ -6,7 +8,6 @@ import { apply, diff } from 'json8-patch';
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
 import { CommandEventArgs } from './../../shared/models/eventargs.model';
 
-import { InfoService } from './info.service';
 import { Logger } from './logger.service';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
@@ -19,13 +20,10 @@ export class BOService extends DocumentService {
     subscriptions = [];
     boClients = new Array<BOClient>();
     public windowStrings: EventEmitter<any> = new EventEmitter();
-    constructor(
-        public webSocketService: WebSocketService,
-        public eventData: EventDataService,
-        public logger: Logger,
-        public infoService: InfoService
-    ) {
-        super(logger, eventData, infoService);
+    public webSocketService: WebSocketService;
+    constructor(params: BOServiceParams, eventData: EventDataService) {
+        super(params, eventData);
+        this.webSocketService = params.webSocketService;
 
         this.subscriptions.push(this.webSocketService.modelData.subscribe(data => {
             const models: Array<any> = data.models;
@@ -44,6 +42,7 @@ export class BOService extends DocumentService {
                         }
                     }
                     this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+                    this.eventData.change.emit('');
                 }
             });
         }));
@@ -103,6 +102,9 @@ export class BOService extends DocumentService {
         }));
 
         this.subscriptions.push(this.eventData.change.subscribe((cmpId: string) => {
+            if (!cmpId) {
+                return;
+            }
             const ret = this.onChange(cmpId);
             if (ret === true) {
                 this.doChange(cmpId);
@@ -111,7 +113,7 @@ export class BOService extends DocumentService {
             if (ret === false) {
                 return;
             }
-            //se sono observable
+            // se sono observable
             if (ret.subscribe) {
                 const subs = ret.subscribe(goOn => {
                     if (goOn) {
@@ -140,6 +142,7 @@ export class BOService extends DocumentService {
             const cmpId = this.mainCmpId;
             if (result.id === cmpId) {
                 this.eventData.buttonsState = result.buttonsState;
+                this.eventData.change.emit('');
             }
         }));
 

@@ -1,3 +1,6 @@
+
+import { TbSharedModule } from './../shared/shared.module';
+import { RouterModule } from '@angular/router';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import 'hammerjs';
@@ -28,14 +31,20 @@ import { TabberService } from './services/tabber.service';
 import { UtilsService } from './services/utils.service';
 import { WebSocketService } from './services/websocket.service';
 import { TbComponentService } from './services/tbcomponent.service';
+import { TbComponentServiceParams } from './services/tbcomponent.service.params';
+import { BOServiceParams } from './services/bo.service.params';
 import { LocalizationService } from './services/localization.service';
 import { LoadingService } from './services/loading.service';
 import { DiagnosticService } from './services/diagnostic.service';
 import { SettingsService } from './services/settings.service';
 import { EventManagerService } from './services/event-manager.service';
+import { Store } from './services/store.service';
+import { ThemeService } from './services/theme.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
+export { TbComponentServiceParams } from './services/tbcomponent.service.params';
+export { BOServiceParams } from './services/bo.service.params';
 export { BOService } from './services/bo.service';
 export { BOClient } from './services/bo.service';
 export { ComponentService } from './services/component.service';
@@ -61,12 +70,14 @@ export { LoadingService } from './services/loading.service';
 export { DiagnosticService } from './services/diagnostic.service';
 export { SettingsService } from './services/settings.service';
 export { EventManagerService } from './services/event-manager.service';
+export { Store } from './services/store.service';
+export { ThemeService } from './services/theme.service';
 
 export const TB_SERVICES = [
-    TbComponentService, BOService, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
+    TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
-    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService,
-    LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService
+    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
+    LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
 ];
 
 import { CoreGuard } from './guards/core.guard';
@@ -75,17 +86,63 @@ export const TB_GUARDS = [CoreGuard];
 
 import { HttpModule } from '@angular/http';
 
-import { CookieModule, CookieService } from 'ngx-cookie';
+/**
+ * Themes
+ */
+import { ArcticTheme } from './themes/arctic/arctic-theme.component';
+import { BorealisTheme } from './themes/borealis/borealis-theme.component';
+import { DefaultTheme } from './themes/default/default-theme.component';
+import { InfinityTheme } from './themes/infinity/infinity-theme.component';
+import { LakeTheme } from './themes/lake/lake-theme.component';
+import { MonochromeTheme } from './themes/monochrome/monochrome-theme.component';
+import { OceanTheme } from './themes/ocean/ocean-theme.component';
+import { PurpleTheme } from './themes/purple/purple-theme.component';
+import { SnowFlakeTheme } from './themes/snowflake/snowflake-theme.component';
+import { UnderwaterTheme } from './themes/underwater/underwater-theme.component';
+
+const THEME_COMPONENTS = [
+    ArcticTheme, BorealisTheme, DefaultTheme, MonochromeTheme, InfinityTheme, LakeTheme, OceanTheme, PurpleTheme, SnowFlakeTheme, UnderwaterTheme
+];
+
+/**
+ * Pagine informative (404, ServerDown, Landing, ecc)
+ */
+import { ServerDownPage } from './pages/server-down/server-down.page';
+export { ServerDownPage } from './pages/server-down/server-down.page';
+const TB_PAGES = [
+    ServerDownPage
+];
 
 @NgModule({
-    imports: [HttpModule, CookieModule.forRoot()],
-    providers: [TB_SERVICES, TB_GUARDS, CookieService]
+    imports: [
+        TbSharedModule,
+        RouterModule.forChild([
+
+            { path: 'arctic', component: ArcticTheme, outlet: 'theme' },
+            { path: 'borealis', component: BorealisTheme, outlet: 'theme' },
+            { path: 'default', component: DefaultTheme, outlet: 'theme' },
+            { path: 'monochrome', component: MonochromeTheme, outlet: 'theme' },
+            { path: 'infinity', component: InfinityTheme, outlet: 'theme' },
+            { path: 'lake', component: LakeTheme, outlet: 'theme' },
+            { path: 'ocean', component: OceanTheme, outlet: 'theme' },
+            { path: 'purple', component: PurpleTheme, outlet: 'theme' },
+            { path: 'snowflake', component: SnowFlakeTheme, outlet: 'theme' },
+            { path: 'underwater', component: UnderwaterTheme, outlet: 'theme' },
+            { path: 'server-down', component: ServerDownPage },
+
+        ]),
+        HttpModule
+    ],
+    providers: [TB_SERVICES, TB_GUARDS],
+    declarations: [THEME_COMPONENTS, TB_PAGES],
+    exports: [TB_PAGES],
+    entryComponents: [THEME_COMPONENTS]
 })
 export class TbCoreModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: TbCoreModule,
-            providers: [TB_SERVICES, TB_GUARDS, CookieService]
+            providers: [TB_SERVICES, TB_GUARDS]
         };
     }
     constructor( @Optional() @SkipSelf() parentModule: TbCoreModule) {

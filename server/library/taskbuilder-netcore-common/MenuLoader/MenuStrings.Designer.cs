@@ -133,6 +133,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change application date.
+        /// </summary>
+        public static string ChangeApplicationDate {
+            get {
+                return ResourceManager.GetString("ChangeApplicationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change customization context.
         /// </summary>
         public static string ChangeCustomizationContext {
@@ -178,11 +187,47 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear hidden tiles list.
+        /// </summary>
+        public static string ClearHiddenTilesList {
+            get {
+                return ResourceManager.GetString("ClearHiddenTilesList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear most used list.
         /// </summary>
         public static string ClearMostUsedList {
             get {
                 return ResourceManager.GetString("ClearMostUsedList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document name.
+        /// </summary>
+        public static string CloneDialogDocName {
+            get {
+                return ResourceManager.GetString("CloneDialogDocName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document title.
+        /// </summary>
+        public static string CloneDialogDocTitle {
+            get {
+                return ResourceManager.GetString("CloneDialogDocTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating a new document, based on .
+        /// </summary>
+        public static string CloneDialogSubtitle {
+            get {
+                return ResourceManager.GetString("CloneDialogSubtitle", resourceCulture);
             }
         }
         
@@ -385,6 +430,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empty list....
+        /// </summary>
+        public static string EmptyList {
+            get {
+                return ResourceManager.GetString("EmptyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -435,6 +489,24 @@ namespace Microarea.Common.MenuLoader {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hidden tiles.
+        /// </summary>
+        public static string HiddenTilesLabel {
+            get {
+                return ResourceManager.GetString("HiddenTilesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide tile.
+        /// </summary>
+        public static string HideTile {
+            get {
+                return ResourceManager.GetString("HideTile", resourceCulture);
             }
         }
         
@@ -628,6 +700,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -642,6 +723,24 @@ namespace Microarea.Common.MenuLoader {
         public static string PasswordsNotMatching {
             get {
                 return ResourceManager.GetString("PasswordsNotMatching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product info.
+        /// </summary>
+        public static string ProductInfo {
+            get {
+                return ResourceManager.GetString("ProductInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
+        public static string Profile {
+            get {
+                return ResourceManager.GetString("Profile", resourceCulture);
             }
         }
         
@@ -705,6 +804,33 @@ namespace Microarea.Common.MenuLoader {
         public static string SelectedModule {
             get {
                 return ResourceManager.GetString("SelectedModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selections.
+        /// </summary>
+        public static string Selections {
+            get {
+                return ResourceManager.GetString("Selections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select language.
+        /// </summary>
+        public static string SelectLanguage {
+            get {
+                return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select theme.
+        /// </summary>
+        public static string SelectTheme {
+            get {
+                return ResourceManager.GetString("SelectTheme", resourceCulture);
             }
         }
         

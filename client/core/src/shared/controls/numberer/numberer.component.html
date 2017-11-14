@@ -1,13 +1,10 @@
 <div class="tb-control tb-numberer">
     <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
-        <kendo-maskedtextbox [mask]="formatMask" [ngModel]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
-            (ngModelChange)="changeModelValue()" [style.width.px]="width" (keydown)="onKeyDown($event)" (blur)="onBlur($event)">
+        <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
+            (ngModelChange)="changeModelValue($event)" [style.width.px]="width" (keydown)="onKeyDown($event)" (blur)="onBlur($event)">
         </kendo-maskedtextbox>
-        <!-- (change)="onChange($event)" -->
-        <!-- <button (click)='toggleState()' kendoButton [disabled]="!(enableStateInEdit && enableCtrlInEdit)" *ngIf="model?.stateData">
-            <m4-icon icon="{{icon}}"></m4-icon>
-        </button> -->
-        <ng-container #contextMenu></ng-container>
+
+        <tb-context-menu [contextMenu]="numbererContextMenu" *ngIf="popUpMenu"></tb-context-menu>
     </div>
 </div>

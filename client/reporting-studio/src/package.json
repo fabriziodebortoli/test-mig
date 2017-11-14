@@ -44,7 +44,6 @@
         "@progress/kendo-file-saver": "^1.0.4",
         "@progress/kendo-popup-common": "^1.2.2",
         "@progress/kendo-theme-default": "^2.43.1",
-        "ngx-cookie": "^1.0.0",
         "moment": "^2.19.1",
         "bwip-angular2": "^1.0.4"
     }

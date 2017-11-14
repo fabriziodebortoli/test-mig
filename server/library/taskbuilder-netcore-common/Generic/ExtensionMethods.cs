@@ -90,24 +90,46 @@ namespace Microarea.Common.Generic
 		}
 
 		//--------------------------------------------------------------------------------
-		public static int IndexOfNoCase(this string source, string toCheck)
+		public static int IndexOfNoCase(this string source, string toCheck, int startIndex = 0)
 		{
-			return source.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase);
+			return source.IndexOf(toCheck, startIndex, StringComparison.OrdinalIgnoreCase);
 		}
 
-		public static bool ContainsNoCase(this string source, string toCheck)
+		public static bool ContainsNoCase(this string source, string toCheck, int startIndex = 0)
 		{
-			return source.IndexOfNoCase(toCheck) >= 0;
+			return source.IndexOfNoCase(toCheck, startIndex) >= 0;
 		}
 
-		/// <summary>
-		/// Implement  c++ & VB LEFT syntax checking parameters boundary avoiding exception.
-		/// returns the left count character
-		/// </summary>
-		/// <param name="count">number of character. If more than original string size return original string</param>
-		/// <returns></returns>
-		//---------------------------------------------------------------------
-		public static string Left(this string o, int count)
+        //--------------------------------------------------------------------------------
+        public static int IndexOfWord(this string source, string toCheck, int startIndex = 0, bool noCase = true)
+        {
+            while ((startIndex + toCheck.Length) <= source.Length)
+            {
+                int idx = source.IndexOfNoCase(toCheck, startIndex);
+                if (idx < 0)
+                    break;
+
+                startIndex = idx + toCheck.Length;
+
+                if (idx > 0 && char.IsLetterOrDigit(source[idx - 1]))
+                    continue;
+
+                if (startIndex < source.Length && char.IsLetterOrDigit(source[startIndex]))
+                    continue;
+
+                return idx;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Implement  c++ & VB LEFT syntax checking parameters boundary avoiding exception.
+        /// returns the left count character
+        /// </summary>
+        /// <param name="count">number of character. If more than original string size return original string</param>
+        /// <returns></returns>
+        //---------------------------------------------------------------------
+        public static string Left(this string o, int count)
 		{
 			if (count <= 0)
 				return string.Empty;
@@ -815,9 +837,9 @@ namespace Microarea.Common.Generic
         {
             return n.ToString().ToJson(name, bracket, false, false);
         }
-        public static string ToJson(this ushort n, string prefix, string name, bool bracket = false)
+        public static string ToJson(this ushort n, string prefix, string name, bool bracket = false, string postfix = "")
         {
-            return (prefix + n.ToString()).ToJson(name, bracket, false, true);
+            return (prefix + n.ToString() + postfix).ToJson(name, bracket, false, true);
         }
         public static string ToJson(this long n, string name = null, bool bracket = false)
         {
@@ -892,7 +914,7 @@ namespace Microarea.Common.Generic
 
         public static string ToHtml(this Color color)
         {
-            return '#' + color.Name.Right(6);
+            return '#' + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
         }
 
         public static string ToJson(this Color color, string name = null, bool bracket = false)

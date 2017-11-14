@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { TbCoreModule, ComponentService, InfoService, loadConfig } from '@taskbuilder/core';
 
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
+import { BPMModule } from '@taskbuilder/bpm';
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,7 +21,8 @@ import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
         SharedModule,
         routing,
         ReportingStudioModule,
-        TbCoreModule.forRoot()
+        TbCoreModule.forRoot(),
+        BPMModule
     ],
     providers: [
         InfoService,

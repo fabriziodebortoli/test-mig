@@ -12,12 +12,13 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
 {
-	//-----------------------------------------------------------------------------	
-	public class SecurityController : Controller
+    //================================================================================
+    public class SecurityController : Controller
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
@@ -39,8 +40,6 @@ namespace Microarea.AdminServer.Controllers
 
         }
 
-       
-
         // <summary>
         // Provides login token
         // </summary>
@@ -56,27 +55,27 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
+            IInstance instance= this.GetInstance(instanceKey);
 
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
             try
             {
-                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-                IAccount account = Account.GetAccountByName(burgerData, credentials.AccountName);
+                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);                
+                Account account = Account.GetAccountByName(burgerData, credentials.AccountName);
                 // L'account esiste sul db locale
                 if (account!= null)
-                {
-                    // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
 
-                    //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versione onpremise sia comuqnue possibile continuare
+                { 
+                    // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
+                    Task<string> responseData = await gc.VerifyAccountModificationGWAM(new AccountModification(account.AccountName, instanceKey, account.Ticks));
+                    
+                    //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versionesia comuqnue possibile continuare verificando la pendingdate
                   
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
                     {
-                      if(! IsOnPremisesInstance(instanceKey))
-                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                        //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag(instanceKey))
+                        ////imposto il flag pending per capire quanto tempo passa fuori copertura
+                        //if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -86,16 +85,15 @@ namespace Microarea.AdminServer.Controllers
 					{
 						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
 					}
-
-					bool accountIsUpdated = opGWAMRes.Code == 6;
-
-					if (!accountIsUpdated)
+                    
+					if (opGWAMRes.Code == 32)//data to update //cambiare usare enumerativo
 					{
 						AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
 						account = accountIdentityPack.Account;
-						// @@TODO: it would be better to log if Save couldn't execute correctly
-						((Account)account).Save(burgerData);
-					}
+                        OperationResult result = SaveAccountIdentityPack(accountIdentityPack, account);
+                        if (!result.Result)
+                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
+                    }
 
                     // Verifica credenziali su db.
                     LoginReturnCodes res = ((Account)account).VerifyCredential(credentials.Password, burgerData);
@@ -117,97 +115,37 @@ namespace Microarea.AdminServer.Controllers
                 // Se non esiste, richiedi a gwam.
                 if (account == null)
                 {
-                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo(instanceKey), instanceKey);
-
-					// GWAM call could not end correctly: so we check the object
-					if (responseData.Status == TaskStatus.Faulted)
-                    {
-                        if (!IsOnPremisesInstance(instanceKey))
-                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-
-                        // imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag(instanceKey))
-                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                    }
-
+                    Task<string> responseData = await gc.VerifyUserOnGWAM(credentials, instanceKey);
                     OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
+                    // GWAM call could not end correctly, but in this case we need gwam because does not exist the account in the provisioning db
 
-					if (!opGWAMRes.Result)
-					{
-						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
-					}
+                    if (responseData.Status == TaskStatus.Faulted)
+                        return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GWAMCommunicationError + opGWAMRes.Message);
 
-					// @@TODO: optimization?
-					AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+                    if (!opGWAMRes.Result)
+                        return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
 
-					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
-                    {
+                    AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+
+                    if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.UnknownAccountName, Strings.GwamDislikes + accountIdentityPack.Message);
-                    }
-                    else
-                    {
-                        // User has been found.
-                        // Salvataggio in locale.
-                        // Salvo anche l'associazione con le  subscription e  tutti gli URLs.
 
-                        account = accountIdentityPack.Account;
-                        OperationResult result = ((Account)account).Save(burgerData);
+                    account = accountIdentityPack.Account;
 
-						if (!result.Result)
-						{
-							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
-						}
+                    OperationResult result = SaveAccountIdentityPack(accountIdentityPack, account);
+                    if (!result.Result)
+                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
 
-						result = SaveSubscriptions(accountIdentityPack);
+                    // Verifica credenziali.
+                    LoginReturnCodes res = ((Account)account).VerifyCredential(credentials.Password, burgerData);
 
-                        // Fallisce a salvare le subscription associate e  interrompo la login, corretto?
-                        if (!result.Result)
-                        {
-                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
-                        }
-
-						// saving instances
-
-						result = SaveSubscriptionsInstances(accountIdentityPack);
-
-						// Fallisce a salvare le subscription associate e  interrompo la login, corretto?
-						if (!result.Result)
-						{
-							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
-						}
-
-						// salvo le associazioni account - subscriptions
-						result = SaveSubscriptionsAccounts(accountIdentityPack);
-
-						if (!result.Result)
-						{
-							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
-						}
-
-						// salvo le associazioni account - ruoli
-						result = SaveAccountRoles(accountIdentityPack);
-
-						if (!result.Result)
-						{
-							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
-						}
-
-						// Verifica credenziali.
-						LoginReturnCodes res = ((Account)account).VerifyCredential(credentials.Password, burgerData);
-
-                        if (res != LoginReturnCodes.NoError)
-                        {
-                            return SetErrorResponse(bootstrapTokenContainer, (int)res, Strings.OK);
-                        }
-                    }
+                    if (res != LoginReturnCodes.NoError)
+                        return SetErrorResponse(bootstrapTokenContainer, (int)res, Strings.OK);
 
                     // Valorizzo il bootstraptoken per la risposta
                     if (!ValorizeBootstrapToken(account, bootstrapToken, instanceKey))
-                    {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
-                    }
-
-                    return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.LoginOK);              
+                    return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.LoginOK);
                 }
 
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.InvalidUserError, LoginReturnCodes.InvalidUserError.ToString());
@@ -218,32 +156,50 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
-		//-----------------------------------------------------------------------------
-		private OperationResult SaveSubscriptionsInstances(AccountIdentityPack accountIdentityPack)
-		{
-			if (accountIdentityPack == null || accountIdentityPack.Instances == null)
-			{
-				return new OperationResult(false, "Empty Instances", (int)AppReturnCodes.InvalidData);
-			}
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveAccountIdentityPack(AccountIdentityPack accountIdentityPack, Account account)
+        {
+            if (accountIdentityPack == null || account == null) return new OperationResult(true, string.Empty,0);//todo verifica
 
-			OperationResult result = new OperationResult();
+            OperationResult result = ((Account)account).Save(burgerData);
+            if (result.Result && accountIdentityPack.Subscriptions != null)
+                result = SaveSubscriptions(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Instances != null)
+                result = SaveSubscriptionsInstances(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Subscriptions != null)
+                result = SaveSubscriptionsAccounts(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Roles != null)
+                result = SaveAccountRoles(accountIdentityPack);
+           
+            return result;
+        }
 
-			foreach (Instance i in accountIdentityPack.Instances)
-			{
-				result = i.Save(this.burgerData);
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveSubscriptionsInstances(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Instances == null)
+            {
+                return new OperationResult(false, "Empty Instances", (int)AppReturnCodes.InvalidData);
+            }
 
-				if (!result.Result)
-				{
-					return result;
-				}
-			}
+            OperationResult result = new OperationResult();
 
-			result.Result = true;
-			result.Code = (int)AppReturnCodes.OK;
-			result.Message = AppReturnCodes.OK.ToString();
+            foreach (Instance i in accountIdentityPack.Instances)
+            {
+                result = i.Save(this.burgerData);
 
-			return result;
-		}
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+
+            result.Result = true;
+            result.Code = (int)AppReturnCodes.OK;
+            result.Message = AppReturnCodes.OK.ToString();
+
+            return result;
+        }
 
 		// salvo per l'account corrente tutte le subscriptions ad esso associate
 		//-----------------------------------------------------------------------------
@@ -263,8 +219,8 @@ namespace Microarea.AdminServer.Controllers
 				subAccount = new SubscriptionAccount();
 				subAccount.AccountName = accountIdentityPack.Account.AccountName;
 				subAccount.SubscriptionKey = s.SubscriptionKey;
-
-				result = subAccount.Save(this.burgerData);
+                subAccount.Ticks = s.Ticks;
+                result = subAccount.Save(this.burgerData);
 
 				if (!result.Result)
 				{
@@ -310,7 +266,7 @@ namespace Microarea.AdminServer.Controllers
 				};
 				result = accRole.Save(this.burgerData);
 
-				if (!result.Result)
+                if (!result.Result)
 				{
 					return result;
 				}
@@ -322,24 +278,8 @@ namespace Microarea.AdminServer.Controllers
 
 			return result;
 		}
-
-		//-----------------------------------------------------------------------------
-		private void SetPendingFlag(string instanceKey)
-        {
-            // Imposto la nuova data massima di disconnessione, deve arrivare da gwam.
-            IInstance i = GetInstance(instanceKey);
-            i.PendingDate = DateTime.Now.AddMonths(1);//todo deve arrivare dal gwam
-            (i as Instance)?.Save(burgerData);
-        }
-
-        //-----------------------------------------------------------------------------	
-        private bool VerifyPendingFlag(string instanceKey) 
-        {
-            // Verifico che la data attuale sia inferiore alla massima data prevista per la disconnessione.
-            DateTime dt = GetInstancePendingDate(instanceKey);
-            return DateTime.Now < dt;
-        }
-
+        
+       
         // <summary>
         // Provides change password
         // </summary>
@@ -355,25 +295,26 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
+            IInstance instance = this.GetInstance(instanceKey);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
             try
             {
-                IAccount account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
+                Account account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
 
                 // L'account esiste sul db locale
                 if (account != null)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
+                    Task<string> responseData = await gc.VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, instanceKey, account.Ticks));
 
 
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
                     {
-                        if (!IsOnPremisesInstance(instanceKey))
-                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                      
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag(instanceKey))
+                    //    if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -393,14 +334,14 @@ namespace Microarea.AdminServer.Controllers
                         {
                             // Salvo l'Account in locale.
                             account = accountIdentityPack.Account;
-                            ((Account)account).Save(burgerData);
+                            (account).Save(burgerData);
                         }
                     }
                     else
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);
                     }
-                    LoginReturnCodes res = ((Account)account).ChangePassword(passwordInfo, burgerData);
+                    LoginReturnCodes res = (account).ChangePassword(passwordInfo, burgerData);
 
                     if (res != LoginReturnCodes.NoError)
                     { 
@@ -432,17 +373,13 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private string GetInstanceSecurityValue(string instancekey)
         {
-            IRegisteredApp app = new RegisteredApp();
+			IInstance iInstance = this.burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND,
+				new WhereCondition[]
+				{
+					new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false)
+				});
 
-            app = burgerData.GetObject<RegisteredApp, IRegisteredApp>(
-                String.Empty, ModelTables.RegisteredApps, SqlLogicOperators.AND, new WhereCondition[] {
-                        new WhereCondition("AppId", instancekey, QueryComparingOperators.IsEqual, false)
-                });
-
-            if (app == null) 
-                return string.Empty;
-
-            return app.SecurityValue; 
+			return iInstance.SecurityValue;
         }
 
         //-----------------------------------------------------------------------------	
@@ -458,10 +395,12 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private DateTime GetInstancePendingDate(string instancekey)
         {
-            IInstance instance = GetInstance(instancekey);
+            Instance instance = (Instance)GetInstance(instancekey);
             if (instance == null)
                 return DateTime.MinValue;
 
+           if (!instance.VerifyPendingDate())
+                return DateTime.MinValue;
             return instance.PendingDate;
         }
 
@@ -474,7 +413,12 @@ namespace Microarea.AdminServer.Controllers
                     String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
                         new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
             }
-            catch { return null;}
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                //todo log
+                return null;
+            } 
         }
 
         /// <summary>
@@ -512,17 +456,16 @@ namespace Microarea.AdminServer.Controllers
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
+            IInstance instance = this.GetInstance(instanceKey);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
             try
             {
-                Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo(instanceKey));
+                Task<string> responseData = await gc.CheckRecoveryCode(accountName, recoveryCode);
                 // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
-                {
-                    if(! IsOnPremisesInstance(instanceKey))
-                        return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                    
+                {                    
 					//imposto il flag pending per capire quanto tempo passa fuori copertura
-                    if (!VerifyPendingFlag(instanceKey))
+                    //if (!VerifyPendingFlag(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                 }
             }
@@ -530,15 +473,15 @@ namespace Microarea.AdminServer.Controllers
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
         }
 
-		/// <summary>
-		/// This API returns the list of all instances belonging to an account
-		/// Used primarily by the login process in order to pre-select the instance
-		/// where user want to connect. We check only account name existence.
-		/// </summary>
-		[HttpPost("api/listInstances")]
-		//-----------------------------------------------------------------------------	
-		public async Task<ActionResult> ApiListInstances([FromBody]string accountName)
-		{
+        /// <summary>
+        /// This API returns the list of all instances belonging to an account
+        /// Used primarily by the login process in order to pre-select the instance
+        /// where user want to connect. We check only account name existence.
+        /// </summary>
+        [HttpPost("api/listInstances")]
+        //-----------------------------------------------------------------------------	
+        public async Task<ActionResult> ApiListInstances([FromBody]string accountName)
+        {
 			OperationResult opRes = new OperationResult();
 
 			if (String.IsNullOrEmpty(accountName))
@@ -549,20 +492,29 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
-
+            GwamCaller gc = null;
             // this is a pre-login, so only account name existence is verified
-            IAccount account = Account.GetAccountByName(burgerData, accountName);
+            Account account = Account.GetAccountByName(burgerData, accountName);
 
-			if (account != null)
-			{
+            if (account != null)
+            {
                 if (account.Disabled || account.Locked)
                 {
                     //TODO far qualcosa?
                 }
 
-				// TODO: check on GWAM if tables have been updated
-				IInstance[] instancesArray = this.GetInstances(accountName);
-				opRes.Result = true;
+                IInstance[] instancesArray = this.GetInstances(accountName);
+
+
+                opRes = UpdateInstances(instancesArray);
+
+                if (!opRes.Result)
+                {
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
+                
+                opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
 				opRes.Content = instancesArray;
@@ -572,10 +524,10 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
-
-			// account doesn'exist in Admin BackEnd, so we ask the instances list to GWAM
-
-			Task<string> responseData = await GetInstancesListFromGWAM(accountName);
+           
+            // account doesn'exist in Admin BackEnd, so we ask the instances list to GWAM
+            gc = new GwamCaller(_httpHelper, GWAMUrl, null);
+            Task<string> responseData = await gc.GetInstancesListFromGWAM(accountName);
 
 			// GWAM call could not end correctly: so we check the object
 			if (responseData.Status == TaskStatus.Faulted)
@@ -606,40 +558,33 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		//----------------------------------------------------------------------
-		private async Task<Task<string>> GetInstancesListFromGWAM(string accountName)
-		{
-			string url = String.Format("{0}listInstances/{1}", this.GWAMUrl, accountName);
-
-			// call GWAM API 
-			OperationResult opRes = await _httpHelper.PostDataAsync(
-				url, new List<KeyValuePair<string, string>>(), String.Empty);
-
-			if (!opRes.Result)
-			{
-				return Task.FromException<string>(new Exception());
-			}
-
-			return (Task<string>)opRes.Content;
-		}
-
-		//----------------------------------------------------------------------
-		private bool IsOnPremisesInstance(string instanceKey)
+        //----------------------------------------------------------------------
+        private OperationResult UpdateInstances(IInstance[] instancesArray)
         {
-          return String.Compare(GetInstanceOrigin(instanceKey), "ONPREMISES", StringComparison.InvariantCultureIgnoreCase) == 0;
+            OperationResult opRes = new OperationResult();
+            ////qui per ogni istanza verifico se ci sono aggiornamenti sul gwam e nel caso me li salvo in locale
+            foreach (IInstance i in instancesArray)
+            {
+                GwamCaller gc = new GwamCaller(_httpHelper, GWAMUrl, i);
+                opRes = gc.GetInstance();
+                if (opRes.Result && opRes.Code == (int) GwamMessageStrings.GWAMCodes.DataToUpdate)
+                    ((Instance)i).Save(burgerData);
+            }
+            opRes.Result = true;
+            return opRes;
         }
 
         //----------------------------------------------------------------------
         private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
         {
-            bootstrapTokenContainer.SetResult(false, code, message);
+            bootstrapTokenContainer.SetToken(false, code, message);
             return SetResponse(bootstrapTokenContainer, statuscode);
         }
 
         //----------------------------------------------------------------------
         private IActionResult SetSuccessResponse(BootstrapTokenContainer bootstrapTokenContainer, BootstrapToken token, string message)
         {
-            bootstrapTokenContainer.SetResult(true, (int)LoginReturnCodes.NoError, message, token, _settings.SecretsKeys.TokenHashingKey);
+            bootstrapTokenContainer.SetToken(true, (int)LoginReturnCodes.NoError, message, token, _settings.SecretsKeys.TokenHashingKey);
             return SetResponse(bootstrapTokenContainer, 200);
         }
 
@@ -724,7 +669,7 @@ namespace Microarea.AdminServer.Controllers
 		{
 			try
 			{
-				BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+				burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
 				List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
 				{
 					new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
@@ -763,67 +708,7 @@ namespace Microarea.AdminServer.Controllers
 			return result;
         }
 
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, AuthorizationInfo authInfo, string instanceKey)
-        {
-			string authHeader = JsonConvert.SerializeObject(authInfo);
-
-			string url = _settings.ExternalUrls.GWAMUrl + "accounts";
-
-            List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
-            entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
-            entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
-            entries.Add(new KeyValuePair<string, string>("instanceKey", instanceKey));
-
-            OperationResult opRes = await _httpHelper.PostDataAsync(url, entries, authHeader);
-
-			if (!opRes.Result)
-			{
-				return Task.FromException<string>(new Exception());
-			}
-
-			return (Task<string>)opRes.Content;
-        }
-
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> CheckRecoveryCode(string accountName, string recoveryCode, AuthorizationInfo authInfo)
-        {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
-            // call GWAM API // todo onpremises ilaria
-            OperationResult opRes = await _httpHelper.PostDataAsync(
-                this.GWAMUrl + "recoveryCode/" + accountName + "/" + recoveryCode,
-                new List<KeyValuePair<string, string>>(), 
-				authHeader);
-
-            if (!opRes.Result)
-            {
-                return Task.FromException<string>(new Exception());
-            }
-
-            return (Task<string>)opRes.Content;
-        }
-
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod, AuthorizationInfo authInfo)
-        {
-            string authHeader = JsonConvert.SerializeObject(authInfo);
-
-			string url = String.Format(
-				"{0}accounts/{1}/{2}/{3}", 
-				this.GWAMUrl, accMod.AccountName, accMod.InstanceKey, accMod.Ticks);
-
-            // call GWAM API 
-            OperationResult opRes = await _httpHelper.PostDataAsync(
-				url, new List<KeyValuePair<string, string>>(), authHeader);
-
-			if (!opRes.Result)
-			{
-				return Task.FromException<string>(new Exception());
-			}
-
-			return (Task<string>)opRes.Content;
-		}
-
+     
 		/// <summary>
 		/// We create two tokens: one for API and one for Application (M4)
 		/// </summary>

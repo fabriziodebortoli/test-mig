@@ -18,6 +18,7 @@ using System.Xml;
 using Microarea.Common.StringLoader;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microarea.Common.Hotlink
 {
@@ -148,19 +149,37 @@ namespace Microarea.Common.Hotlink
             return true;
         }
 
-        public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "Code", string likeValue = "")
+        public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
-            selection_type.Data = selectionType;
-            filter_value.Data = likeValue + '%';
-
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
 
+            string likeValue = requestQuery["filter"];
+            
+            if (!selectionType.CompareNoCase("direct"))
+                likeValue += "%";
+
+            selection_type.Data = selectionType;
+            filter_value.Data = likeValue != null ? likeValue : "";
+            int page;
+            if (!int.TryParse(requestQuery["page"], out page))
+            {
+              page = 1;
+            }
+            int per_page;
+            if (!int.TryParse(requestQuery["per_page"], out per_page))
+            {
+              per_page = 100;
+            }
+            //TODO RSWEB: considerare i parametri di paginazione nella query
             if (XmlDescription.IsDatafile)
             {
+                // TODO RSWEB: paginazione anche nella lettura dati da xml
                 return LoadDataFile();
             }
+
+            FunctionPrototype args = new FunctionPrototype();
 
             //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
             foreach (IParameter p in XmlDescription.Parameters)
@@ -182,6 +201,10 @@ namespace Microarea.Common.Hotlink
                 }
 
                 SymTable.Add(paramField);
+
+                Parameter param = new Parameter(p.Name, p.TbType);
+                param.ValueString = SoapTypes.To(paramField.Data);
+                args.Parameters.Add(param);
             }
 
             //viene cercato il corpo della query ------------------
@@ -190,9 +213,13 @@ namespace Microarea.Common.Hotlink
             string query = "";
             if (sm == null)
             {
-                if (XmlDescription.SelectionTypeList.Count == 0 && !XmlDescription.ClassType.IsNullOrEmpty())
+                if (!XmlDescription.ClassType.IsNullOrEmpty())
                 {
-                  query = await TbSession.GetHotLinkQuery(Session, Session.Namespace, /*aParams*/"", (int)Hotlink.HklAction.DirectAccess);
+                  query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)Hotlink.HklAction.Code /*TODO*/);
+                  JObject jObject = JObject.Parse(query);
+                  query = jObject.GetValue("query")?.ToString();
+
+                  this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
                 }
                 else
                 {
@@ -201,11 +228,10 @@ namespace Microarea.Common.Hotlink
             }
             else
             {
-                this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
                 query = sm.Body;
+                this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
             }
-
-
+ 
             //------------------------------ 
             if (!this.CurrentQuery.Define(query))
                 return false;
@@ -330,7 +356,17 @@ namespace Microarea.Common.Hotlink
                 return false;
 
             if (XmlDescription.SelectionTypeList.Count == 0)
-                return false;
+            {
+                list = "{\"selections\":[";
+               
+                list += '\"' + "code" + '\"' + ',';
+                list += '\"' + "description" + '\"' + ',';
+                list += '\"' + "combo" + '\"';
+
+                list += "]}";
+
+                return true;
+            }
 
             bool first = true;
             list = "{\"selections\":[";
@@ -429,8 +465,15 @@ namespace Microarea.Common.Hotlink
             //emit json record header (localized title column, column name, datatype column
             records = "{";
 
-            if (XmlDescription != null)
-                records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+            if (XmlDescription != null && columns.Count > 0)
+            {
+                SymField f0 = columns[0] as SymField;
+                int idx = f0.Name.IndexOf('.');
+                if (idx > 0)
+                    records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+                else
+                    records += XmlDescription.DbFieldName.Mid(idx + 1).ToJson("key") + ',';
+            }
 
             records += "\"columns\":[";
             bool first = true;

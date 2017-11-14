@@ -54,14 +54,11 @@ export { baseobj } from './models/baseobj.model';
 export { repeater } from './models/repeater.model';
 export { TemplateItem } from './models/template-item.model';
 
-import { CookieModule, CookieService } from 'ngx-cookie';
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     TbSharedModule,
-    CookieModule.forRoot(),
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
@@ -108,8 +105,7 @@ import { CookieModule, CookieService } from 'ngx-cookie';
   entryComponents:
   [
     ReportingStudioComponent
-  ],
-  providers: [CookieService]
+  ]
 })
 
 export class ReportingStudioModule {

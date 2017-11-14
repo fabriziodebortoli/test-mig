@@ -20,6 +20,7 @@ ul.most-used-list {
     &>span {
         flex: 1;
         font-size: 12px;
+        font-weight: 600;
     }
     &:hover span {
         color: #fff;
@@ -51,7 +52,7 @@ ul.most-used-list {
 
 //stile quando usato nella sidenav
 /// inizio sidenav
-:host-context(.sidenav) {
+.sidenav {
     m4-icon.close {
         color: #646464;
     }
@@ -64,7 +65,7 @@ ul.most-used-list {
 /// fine sidenav
 //stile quando usato nella dashboard
 /// inizio dashboard
-:host-context(.dashboard) {
+.dashboard {
     .most-used-item {
         background: #f1f4f7;
         border: 1px solid #ddd;

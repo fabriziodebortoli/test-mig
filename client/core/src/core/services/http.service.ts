@@ -1,8 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, ErrorObservable } from '../../rxjs.imports';
 
-import { CookieService } from 'ngx-cookie';
+import { Observable, ErrorObservable } from '../../rxjs.imports';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 import { LoginSession } from './../../shared/models/login-session.model';
@@ -19,7 +18,6 @@ export class HttpService {
         public http: Http,
         public utils: UtilsService,
         public logger: Logger,
-        public cookieService: CookieService,
         public infoService: InfoService) {
     }
 
@@ -29,9 +27,26 @@ export class HttpService {
         let message = jObject && jObject.message ? jObject.message : "";
         let messages = jObject && jObject.messages ? jObject.messages : [];
         messages.push(message);
-        return new OperationResult(!ok, messages);
+        let respJson = JSON.parse(res.headers.get('Authorization'));
+        let tbLoaderName = null;
+        if (respJson)
+            tbLoaderName = respJson['tbLoaderName'];
+        return new OperationResult(!ok, messages, tbLoaderName);
     }
 
+    isServerUp(): Observable<boolean> {
+        return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isServerUp/', {}).map(() => true).catch(this.handleError);
+    }
+
+    getTranslations(dictionaryId: string, culture: string): Observable<Array<any>> {
+        let obj = { dictionaryId: dictionaryId, culture: culture };
+        let url = this.infoService.getLocalizationServiceUrl() + 'getTranslations/';
+        return this.postData(url, obj)
+            .map((res: any) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
     isLogged(params: { authtoken: string }): Observable<boolean> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {
@@ -103,13 +118,14 @@ export class HttpService {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
                 return this.createOperationResult(res);
-            })
+            });
     }
 
     postDataWithAllowOrigin(url: string): Observable<OperationResult> {
         let headers = new Headers();
-        headers.append('Access-Control-Allow-Origin', window.location.origin);
-        headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
+        // headers.append('Access-Control-Allow-Origin', window.location.origin);
+        // headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
+        headers.append('Authorization', this.infoService.getAuthorization());
         return this.http.post(url, undefined, { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return this.createOperationResult(res);
@@ -125,17 +141,12 @@ export class HttpService {
 
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
+        // headers.append('Content-Type', 'application/json'); // TODO quando il backend sarà pronto
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Authorization', this.infoService.getAuthorization());
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
             .catch(this.handleError);
-
-        /*obs.map((res: Response) => {
-            let headers: Headers = res.headers;
-            var cookie = headers.getAll('set-cookie');
-        })
-        return obs;*/
     }
-
     handleError(error: any): ErrorObservable {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
@@ -148,7 +159,10 @@ export class HttpService {
     }
 
     getEnumsTable(): Observable<any> {
-        return this.http.get(this.infoService.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true })
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Authorization', this.infoService.getAuthorization());
+        return this.http.get(this.infoService.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
             })
@@ -156,9 +170,11 @@ export class HttpService {
     }
 
     // tslint:disable-next-line:max-line-length
-    getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = '', params: URLSearchParams): Observable<any> {
-        // tslint:disable-next-line:max-line-length
-        return this.http.get(this.infoService.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { search: params, withCredentials: true })
+    getHotlinkData(namespace: string, selectionType: string = 'code', params: URLSearchParams): Observable<any> {
+        let headers = new Headers();
+        headers.append('Authorization', this.infoService.getAuthorization());
+
+        return this.http.get(this.infoService.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType, { search: params, withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
             })
@@ -166,7 +182,10 @@ export class HttpService {
     }
 
     getHotlinkSelectionTypes(namespace: string): Observable<any> {
-        return this.http.get(this.infoService.getDataServiceUrl() + 'getselections/' + namespace + '/', { withCredentials: true })
+        let headers = new Headers();
+        headers.append('Authorization', this.infoService.getAuthorization());
+
+        return this.http.get(this.infoService.getDataServiceUrl() + 'getselections/' + namespace + '/', { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
             })
@@ -193,7 +212,7 @@ export class HttpService {
      */
     getPreferences(): Observable<any> {
         let urlToRun = this.infoService.getMenuServiceUrl() + 'getPreferences/';
-        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company') }
+        let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company') }
 
         return this.postData(urlToRun, obj)
             .map((res: any) => {
@@ -211,7 +230,7 @@ export class HttpService {
      * @returns {Observable<any>} setPreference
      */
     setPreference(referenceName: string, referenceValue: string): Observable<any> {
-        let obj = { name: referenceName, value: referenceValue, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+        let obj = { name: referenceName, value: referenceValue, user: localStorage.getItem('_user'), company: localStorage.getItem('_company') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'setPreference/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -220,12 +239,12 @@ export class HttpService {
     }
 
     /**
-  * API /getThemedSettings
-  * 
-  * @returns {Observable<any>} getThemedSettings
-  */
+    * API /getThemedSettings
+    * 
+    * @returns {Observable<any>} getThemedSettings
+    */
     getThemedSettings(): Observable<any> {
-        let obj = { authtoken: this.cookieService.get('authtoken') };
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {

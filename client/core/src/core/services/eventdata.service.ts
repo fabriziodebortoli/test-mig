@@ -1,11 +1,11 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, OnDestroy } from '@angular/core';
 
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
 import { CommandEventArgs } from './../../shared/models/eventargs.model';
 import { ComponentInfo } from './../../shared/models/component-info.model';
 
 @Injectable()
-export class EventDataService {
+export class EventDataService implements OnDestroy {
 
     public command: EventEmitter<CommandEventArgs> = new EventEmitter();
     public change: EventEmitter<string> = new EventEmitter();
@@ -34,6 +34,10 @@ export class EventDataService {
         evt.commandId = commandId;
         evt.componentId = componentId;
         this.command.emit(evt);
+    }
+
+    ngOnDestroy() {
+        this.change.complete();
     }
 }
 

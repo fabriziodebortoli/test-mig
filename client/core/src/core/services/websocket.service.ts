@@ -1,8 +1,6 @@
 ﻿import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
-import { CookieService } from 'ngx-cookie';
-
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
 import { SocketConnectionStatus } from './../../shared/models/websocket-connection.enum';
 
@@ -36,7 +34,6 @@ export class WebSocketService {
     constructor(
         public infoService: InfoService,
         public httpService: HttpService,
-        public cookieService: CookieService,
         public logger: Logger) {
     }
 
@@ -86,7 +83,7 @@ export class WebSocketService {
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
                         case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
                         case 'Behaviours': $this.behaviours.emit(obj.args); break;
-                        
+
                         default: break;
                     }
                 } catch (ex) {
@@ -104,13 +101,14 @@ export class WebSocketService {
 
         this.connection.onopen = (arg) => {
             this.logger.debug("WebSocket Connected", JSON.stringify(arg));
+
             // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
                 args:
                 {
-                    webSocketName: this.cookieService.get('authtoken'),
-                    tbLoaderName: this.cookieService.get('tbloader-name')
+                    webSocketName: sessionStorage.getItem('authtoken'),
+                    tbLoaderName: localStorage.getItem('tbLoaderName')
                 }
             }));
 

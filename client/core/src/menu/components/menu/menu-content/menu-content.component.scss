@@ -4,6 +4,11 @@
     padding-right: 0.1rem;
 }
 
+.hideButton {
+    cursor: pointer;
+    margin: 2px 13px 0;
+}
+
 p {
     background: red;
 }
@@ -17,9 +22,10 @@ tb-card-content .row {
     flex: 1;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1025px) {
     tb-card-title {
         font-size: 14px;
+        flex-direction: row;
     }
 }
 

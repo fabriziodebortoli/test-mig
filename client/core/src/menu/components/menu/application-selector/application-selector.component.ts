@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
@@ -7,7 +7,8 @@ import { MenuService } from './../../../services/menu.service';
 @Component({
     selector: 'tb-application-selector',
     templateUrl: './application-selector.component.html',
-    styleUrls: ['./application-selector.component.scss']
+    styleUrls: ['./application-selector.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ApplicationSelectorComponent {
 

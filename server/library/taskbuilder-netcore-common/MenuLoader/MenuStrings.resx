@@ -363,4 +363,46 @@
   <data name="ClearMostUsedList" xml:space="preserve">
     <value>Clear most used list</value>
   </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ProductInfo" xml:space="preserve">
+    <value>Product info</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Selections" xml:space="preserve">
+    <value>Selections</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Select language</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Select theme</value>
+  </data>
+  <data name="ChangeApplicationDate" xml:space="preserve">
+    <value>Change application date</value>
+  </data>
+  <data name="ClearHiddenTilesList" xml:space="preserve">
+    <value>Clear hidden tiles list</value>
+  </data>
+  <data name="EmptyList" xml:space="preserve">
+    <value>Empty list...</value>
+  </data>
+  <data name="HiddenTilesLabel" xml:space="preserve">
+    <value>Hidden tiles</value>
+  </data>
+  <data name="HideTile" xml:space="preserve">
+    <value>Hide tile</value>
+  </data>
+  <data name="CloneDialogDocName" xml:space="preserve">
+    <value>Document name</value>
+  </data>
+  <data name="CloneDialogDocTitle" xml:space="preserve">
+    <value>Document title</value>
+  </data>
+  <data name="CloneDialogSubtitle" xml:space="preserve">
+    <value>Creating a new document, based on </value>
+  </data>
 </root>

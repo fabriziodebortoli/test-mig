@@ -16,14 +16,14 @@ namespace Microarea.Common.Hotlink
     //============================================================================
     public class Hotlink
 	{
-		public enum HklAction {Upper = 0,  Lower = 1, Combo = 2, DirectAccess = 3 }
+		public enum HklAction {Code = 0,  Description = 1, Combo = 2, DirectAccess = 3 }
 
 		public List<Expression>				ActualParams = new List<Expression>();
 		public ReferenceObjectsPrototype	Prototype;
 		public string						FieldName = "";
 		public string						QueryString = "";
 		public ArrayList					QueryParams = new ArrayList();
-		public HklAction					CurrentAction = HklAction.Upper;
+		public HklAction					CurrentAction = HklAction.Code;
 
         //----------------------------------------------------------------------------
         private TbSession session = null;
@@ -148,7 +148,7 @@ namespace Microarea.Common.Hotlink
 
             try
             {
-                response = TbSession.GetHotLinkQuery(session, Prototype.FullName, GetActualParamsAsXML(fieldData), (int) CurrentAction).Result;
+                response = TbSession.GetHotLinkQuery(session, GetActualParamsAsXML(fieldData), (int) CurrentAction).Result;
             }
             catch (Exception)
             {
@@ -224,11 +224,11 @@ namespace Microarea.Common.Hotlink
 			
 			Parameter prototypeParamHklSelection = Prototype.Parameters[0];
 			Parameter pInfoHklSelection = new Parameter(prototypeParamHklSelection.Name, prototypeParamHklSelection.Type, prototypeParamHklSelection.Mode);
-			pInfoHklSelection.ValueString = SoapTypes.To(action == HklAction.Upper ? 0 : 1);
+			pInfoHklSelection.ValueString = SoapTypes.To(action == HklAction.Code ? 0 : 1);
 			fi.Parameters.Add(pInfoHklSelection);
 			
 			int index = 2; //array position of "Description" parameter
-			if (action == HklAction.Upper)
+			if (action == HklAction.Code)
 				index = 1; //array position of "Code" parameter
 
 			Parameter prototypeParamHklFilter = Prototype.Parameters[index];

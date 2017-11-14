@@ -13,7 +13,8 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
 } from '@angular/material';
 
 const MATERIAL_MODULES = [
@@ -25,7 +26,8 @@ const MATERIAL_MODULES = [
     MatToolbarModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
 ];
 
 import { TbIconsModule } from '@taskbuilder/icons';
@@ -75,6 +77,7 @@ import { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-
 import { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
 import { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
 import { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+import { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 import { UnsupportedComponent } from './components/unsupported.component';
 import { UnsupportedFactoryComponent } from './components/unsupported.component';
 import { OpenComponent } from './components/explorer/open/open.component';
@@ -82,6 +85,7 @@ import { SaveComponent } from './components/explorer/save/save.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
+import { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
 import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
@@ -116,6 +120,7 @@ export { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-
 export { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
 export { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
 export { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+export { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 export { UnsupportedComponent } from './components/unsupported.component';
 export { UnsupportedFactoryComponent } from './components/unsupported.component';
 export { OpenComponent } from './components/explorer/open/open.component';
@@ -123,6 +128,7 @@ export { SaveComponent } from './components/explorer/save/save.component';
 export { RadarComponent } from './components/radar/radar.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
+export { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
 export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
@@ -130,9 +136,9 @@ export { DiagnosticComponent } from './components/diagnostic/diagnostic.componen
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
+    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent
+    BOComponent, BOSlaveComponent, BOCommonComponent,CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent
 ];
 
 /**
@@ -308,6 +314,8 @@ export { OperationResult } from './models/operation-result.model';
 export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
+export * from './models/store.models';
+export * from './commons/selector';
 
 /**
  * NON ESPORTARE
@@ -322,8 +330,8 @@ const _MODULES = [
 
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
-    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
+    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent],
     exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
-    entryComponents: [UnsupportedComponent, RadarComponent]
+    entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent]
 })
 export class TbSharedModule { }

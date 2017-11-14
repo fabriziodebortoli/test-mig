@@ -1291,7 +1291,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// la login non esiste o la password e' sbagliata
 				if (ex.Number == 18456)
 				{
-					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid + " " + ex.Message, extendedInfo);
 					return false;
 				}
 
@@ -1355,7 +1355,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// la login non esiste o la password e' sbagliata
 				if (ex.Number == 18456)
 				{
-					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid + " " + ex.Message, extendedInfo);
 					return false;
 				}
 
@@ -1368,6 +1368,17 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				}
 
 				Diagnostic.Set(DiagnosticType.Error, ex.Message + "\r\n" + DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "TryToConnect");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.InnerException);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, e.Message + "\r\n" + DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
 			}
 
 			return result;

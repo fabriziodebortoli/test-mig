@@ -1,0 +1,22 @@
+<div class="hiddenTiles">
+    <ul class="hiddenTiles-list">
+        <p *ngIf="menuService.hiddenTilesCount == 0" class="hiddenTiles-empty">{{localizationService?.localizedElements?.EmptyList}}</p>
+
+        <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item" (click)="menuService.removeFromHiddenTiles(tile)">
+            <m4-icon class="type"  icon="tb-uncheckedradiobutton" ></m4-icon>
+            <span class="truncate">{{tile.title}}</span>
+            <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="after" icon="tb-closewindows"></m4-icon>
+        </li>
+
+        <!-- Others -->
+        <!-- <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item">
+                <m4-icon class="type"  icon="tb-uncheckedradiobutton" ></m4-icon>
+                <span class="truncate">{{tile.title}}</span>
+                <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="after" icon="tb-closewindows"></m4-icon>
+            </li> -->
+
+    </ul>
+</div>
+
+
+<!-- ng-if="tile.currentMenuTitle==menuService.selectedMenu.title " -->

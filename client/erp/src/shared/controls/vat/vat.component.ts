@@ -1,8 +1,7 @@
-import { TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
+import { Logger, Store, TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
-import Tax from './tax';
-import { Store } from '../../../core/services/store';
+import JsVat from './jsvat';
 
 @Component({
   selector: 'erp-vat',
@@ -16,28 +15,16 @@ export class VatComponent extends ControlComponent {
   @Input() selector;
   errorMessage: any;
 
-  constructor(layoutService: LayoutService, private eventData: EventDataService,
+  constructor(layoutService: LayoutService, private eventData: EventDataService, private logger: Logger,
     tbComponentService: TbComponentService, private http: ErpHttpService, private store: Store) {
     super(layoutService, tbComponentService);
-  }
-
-  ngOnInit() {
-    this.store
-      .select(this.selector)
-      .selectSlice('Address', 'CompName', 'City')
-      .subscribe(address => console.log('new address or company: ' + JSON.stringify(address)))
-      .add(() => console.log('unsubscribe'));
-    // this.store
-    //   .select(this.selector)
-    //   .select('CompName')
-    //   .subscribe(company => console.log('new company: ' + JSON.stringify(company)))
-    //   .add(() => console.log('unsubscribe'));
   }
 
   ngOnChanges(changes) {
     this.validate();
     if (changes.slice) {
-      console.log('slice ngOnChanges: ' + JSON.stringify(changes.slice));
+      this.logger.debug('SLICE CHANGED ' + (changes.slice.currentValue && changes.slice.currentValue.propertyChangedName) +
+        '\n' + JSON.stringify(changes.slice));
     }
   }
 
@@ -59,7 +46,7 @@ export class VatComponent extends ControlComponent {
   validate() {
     this.errorMessage = '';
     if (!this.model) return;
-    if (!Tax.isValid(this.isoCode, this.model.value))
+    if (!JsVat.isTaxIdValid(this.model.value, this.isoCode))
       this.errorMessage = this._TB('Vat code is not valid');
   }
 

@@ -14,6 +14,8 @@ using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
 using System.IO;
 using TaskBuilderNetCore.Interfaces;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Microarea.Common
 {
@@ -36,8 +38,8 @@ namespace Microarea.Common
 
         private void BeginInvoke(HttpContext context)
         {
-            string c;
-            if (!context.Request.Cookies.TryGetValue(culture_cookie, out c))
+            string c = AutorizationHeaderManager.GetAuthorizationElement(context.Request, culture_cookie);
+            if (string.IsNullOrEmpty(c))
             {
                 c = InstallationData.ServerConnectionInfo.PreferredLanguage;
             }

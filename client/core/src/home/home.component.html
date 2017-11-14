@@ -1,10 +1,12 @@
 <div id="dpi">a</div>
-<mat-sidenav-container (contextmenu)="onContextMenu();">
+<mat-sidenav-container (contextmenu)="onContextMenu();" [ngClass]="themeService.currentTheme">
     <tb-message-dialog></tb-message-dialog>
-    <mat-sidenav mode="over" #sidenav>
-        <tb-home-sidenav></tb-home-sidenav>
+    <mat-sidenav mode="over" #sidenavleft align="start">
+        <tb-home-sidenav-left></tb-home-sidenav-left>
     </mat-sidenav>
-
+    <mat-sidenav mode="over" #sidenavright align="end">
+        <tb-home-sidenav-right></tb-home-sidenav-right>
+    </mat-sidenav>
     <div class="main-content">
         <tb-topbar>
             <div class="topbar-title-content">
@@ -26,7 +28,9 @@
                 <!-- DASHBOARD -->
                 <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop" #dashBoardTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
-                        <m4-icon icon="tb-backfilled"></m4-icon>
+                        <div>
+                            <m4-icon icon="tb-backfilled"></m4-icon>
+                        </div>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
@@ -38,9 +42,9 @@
                 <!-- MENU -->
                 <kendo-tabstrip-tab [selected]="isDesktop" #menuTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
-                        <div (click)="menuService.activateMenu()" class="menu-tab">
+                        <div (click)="menuService.activateMenu()">
                             <m4-icon icon="tb-dashboard"></m4-icon>
-                            <span class="marginLeft">{{localizationService?.localizedElements?.Menu}}</span>
+                            <span>{{localizationService?.localizedElements?.Menu}}</span>
                         </div>
                     </ng-template>
                     <ng-template kendoTabContent>
@@ -49,13 +53,15 @@
                         </div>
                     </ng-template>
                 </kendo-tabstrip-tab>
-                
+
                 <!-- DOCUMENTS AND REPORTS -->
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
                     <ng-template kendoTabTitle>
-                        <m4-icon [icon]="getIcon(info)"></m4-icon>
-                        <span>{{info.document?.getTitle()}}</span>
-                        <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="{{localizationService?.localizedElements?.CloseLabel}}" class='close'></m4-icon>
+                        <div>
+                            <m4-icon [icon]="getIcon(info)"></m4-icon>
+                            <span>{{info.document?.getTitle()}}</span>
+                            <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="{{localizationService?.localizedElements?.CloseLabel}}" class='close'></m4-icon>
+                        </div>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
@@ -70,6 +76,8 @@
         </div>
 
     </div>
+
+
 </mat-sidenav-container>
 <tb-loading></tb-loading>
 <tb-diagnostic></tb-diagnostic>

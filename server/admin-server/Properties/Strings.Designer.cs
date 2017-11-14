@@ -88,11 +88,47 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} instance is not valid. May need to be connect to GWAM. It is not possible to work offline..
+        /// </summary>
+        public static string BurgledInstance {
+            get {
+                return ResourceManager.GetString("BurgledInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database name is empty.
         /// </summary>
         public static string DatabaseNameEmpty {
             get {
                 return ResourceManager.GetString("DatabaseNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data not found.
+        /// </summary>
+        public static string DataNotFound {
+            get {
+                return ResourceManager.GetString("DataNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data to update.
+        /// </summary>
+        public static string DataToUpdate {
+            get {
+                return ResourceManager.GetString("DataToUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data up to date.
+        /// </summary>
+        public static string DataUpToDate {
+            get {
+                return ResourceManager.GetString("DataUpToDate", resourceCulture);
             }
         }
         
@@ -516,15 +552,6 @@ namespace Microarea.AdminServer.Properties {
         public static string UserLocked {
             get {
                 return ResourceManager.GetString("UserLocked", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User up to date.
-        /// </summary>
-        public static string UserUpToDate {
-            get {
-                return ResourceManager.GetString("UserUpToDate", resourceCulture);
             }
         }
         

@@ -1,10 +1,10 @@
-﻿import { AuthService } from './auth.service';
+﻿import { ThemeService } from './theme.service';
+import { AuthService } from './auth.service';
 import { EventManagerService } from './event-manager.service';
 import { DialogService } from '@progress/kendo-angular-dialog';
 import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, BehaviorSubject, Subscription } from '../../rxjs.imports';
-import { CookieService } from 'ngx-cookie';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 
@@ -20,7 +20,7 @@ export class TaskbuilderService {
     errorMessages: string[] = [];
     redirectUrl = this.defaultUrl;
 
-    timeout = 30000;
+    timeout = 50000;
     tbConnection = new BehaviorSubject(false);
     connected: Subject<boolean> = new BehaviorSubject(false);
 
@@ -29,13 +29,13 @@ export class TaskbuilderService {
     constructor(
         public httpService: HttpService,
         public socket: WebSocketService,
-        public cookieService: CookieService,
         public logger: Logger,
         public router: Router,
         public infoService: InfoService,
         public eventManagerService: EventManagerService,
         public diagnosticService: DiagnosticService,
-        public authService: AuthService
+        public authService: AuthService,
+        private themeService: ThemeService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -85,7 +85,7 @@ export class TaskbuilderService {
 
     openTbConnection(): Observable<boolean> {
 
-        let authtoken = this.cookieService.get('authtoken');
+        let authtoken = sessionStorage.getItem('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
         let isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
@@ -96,8 +96,6 @@ export class TaskbuilderService {
                     this.logger.debug("openTBConnection result...", tbRes);
 
                     if (tbRes.error) {
-
-
                         this.stopConnection = true;
 
                         this.logger.debug("error messages:", tbRes.messages);
@@ -108,7 +106,10 @@ export class TaskbuilderService {
                         this.diagnosticService.showDiagnostic(tbRes.messages).subscribe(() => this.authService.logout());
 
                     } else {
-                        this.logger.debug("TbLoader Connected...")
+                        localStorage.setItem('tbLoaderName', tbRes.tbLoaderName);
+                        this.logger.debug("TbLoader Connected...", tbRes.tbLoaderName);
+
+                        this.themeService.loadThemes();
                         this.tbConnection.next(true);
                     }
 
@@ -125,7 +126,7 @@ export class TaskbuilderService {
     }
 
     closeConnection() {
-        let authtoken = this.cookieService.get('authtoken');
+        let authtoken = sessionStorage.getItem('authtoken');
         this.logger.debug("closeTbConnection...", authtoken);
 
         this.httpService.closeTBConnection({ authtoken: authtoken }).subscribe();

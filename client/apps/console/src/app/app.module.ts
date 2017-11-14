@@ -1,4 +1,5 @@
 import { ModelService } from './services/model.service';
+import { BackendService } from './services/backend.service';
 import { AccountComponent } from './components/account/account.component';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
@@ -32,6 +33,8 @@ import { SubscriptionDbHomeComponent } from './components/subscription/subscript
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { TestControlsComponent } from './components/test-controls/test-controls.component';
 import { DatabaseOperationsComponent } from './components/database/database-operations.component';
+import { InstanceRegistrationComponent } from './components/instance/instance-registration.component';
+import { DatabaseUpgradeComponent } from './components/database/database-upgrade.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,9 @@ import { DatabaseOperationsComponent } from './components/database/database-oper
     SubscriptionDbHomeComponent,
     FileUploadComponent,
     TestControlsComponent,
-    DatabaseOperationsComponent
+    DatabaseOperationsComponent,
+    InstanceRegistrationComponent,
+    DatabaseUpgradeComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +71,7 @@ import { DatabaseOperationsComponent } from './components/database/database-oper
     ConsoleModule
     //BrowserAnimationsModule
   ],
-  providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService],
+  providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService, BackendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

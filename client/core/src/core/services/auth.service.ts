@@ -1,35 +1,32 @@
-import { EventManagerService } from './event-manager.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from '../../rxjs.imports';
-
-import { CookieService } from 'ngx-cookie';
 
 import { LoginCompact } from './../../shared/models/login-compact.model';
 import { LoginSession } from './../../shared/models/login-session.model';
 import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { Logger } from './logger.service';
+import { InfoService } from './info.service';
 import { HttpService } from './http.service';
+import { EventManagerService } from './event-manager.service';
 
 @Injectable()
 export class AuthService {
     public redirectUrl: string = '/';
     public loginUrl: string = '/login';
-    public defaultUrl = '/home';
+    public defaultUrl = '/';
     public islogged: boolean = false;
     errorMessage: string = "";
 
     constructor(
         public httpService: HttpService,
+        public infoService: InfoService,
         public logger: Logger,
         public router: Router,
-        public cookieService: CookieService,
         public eventManagerService: EventManagerService
-    ) {
-
-    }
+    ) { }
 
     login(connectionData: LoginSession): Observable<LoginCompact> {
         this.errorMessage = "";
@@ -40,7 +37,7 @@ export class AuthService {
                 this.errorMessage = result.message;
             }
 
-            this.cookieService.put('authtoken', this.islogged ? result.authtoken : null);
+            sessionStorage.setItem('authtoken', this.islogged ? result.authtoken : null);
 
             this.eventManagerService.emitLoggedIn();
 
@@ -49,9 +46,9 @@ export class AuthService {
     }
 
     isLogged(): Observable<boolean> {
-        return this.httpService.isLogged({ authtoken: this.cookieService.get('authtoken') }).map(isLogged => {
+        return this.httpService.isLogged({ authtoken: sessionStorage.getItem('authtoken') }).map(isLogged => {
             if (!isLogged) {
-                this.cookieService.remove('authtoken');
+                localStorage.removeItem('authtoken');
             }
             return isLogged;
         });
@@ -75,14 +72,17 @@ export class AuthService {
     getDefaultUrl(): string {
         return this.defaultUrl;
     }
+    getServerDownPageUrl(): string {
+        return '/server-down';
+    }
 
     logout(): void {
-        let subs = this.httpService.logoff({ authtoken: this.cookieService.get('authtoken') }).subscribe(
+        let subs = this.httpService.logoff({ authtoken: sessionStorage.getItem('authtoken') }).subscribe(
             loggedOut => {
                 if (loggedOut) {
                     this.eventManagerService.emitloggingOff();
                     this.islogged = !loggedOut;
-                    this.cookieService.remove('authtoken');
+                    localStorage.removeItem('authtoken');
 
                     this.router.navigate([this.getLoginUrl()]);
                 }

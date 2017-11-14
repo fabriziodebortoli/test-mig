@@ -1,13 +1,16 @@
-import { TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
+import { TbComponentService, LayoutService, ControlComponent, EventDataService, Store } from '@taskbuilder/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
+import { Component, Input, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 
-import { Component, Input, ViewChild, ViewContainerRef } from '@angular/core';
 @Component({
     selector: "erp-strbinedit",
     templateUrl: './str-bin-edit.component.html',
     styleUrls: ['./str-bin-edit.component.scss']
 })
 export class StrBinEditComponent extends ControlComponent {
+    @Input() slice: any;
+    @Input() selector: any;
+
     mask = '';
     errorMessage = '';
 
@@ -15,19 +18,19 @@ export class StrBinEditComponent extends ControlComponent {
         public eventData: EventDataService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
-        private http: ErpHttpService
+        private http: ErpHttpService,
+        private store: Store
     ) {
         super(layoutService, tbComponentService);
     }
 
     async ngOnChanges(changes) {
-        let slice: any;
-
-        let r = await this.http.checkBinUsesStructure(slice.zone, slice.storage).toPromise();
-        if (r.json()) {
-            this.mask = this.convertMask(slice.formatter, slice.separator, slice.maskChar);
+        if (changes) {
+            let r = await this.http.checkBinUsesStructure(changes.slice.zone, changes.slice.storage).toPromise();
+            if (r.json().UseBinStructure) {
+                this.mask = this.convertMask(changes.slice.formatter, changes.slice.separator, changes.slice.maskChar);
+            }
         }
-        //this.validate();
     }
 
     private convertMask(mask: string, separator: string, maskChar: string): string {
@@ -36,5 +39,13 @@ export class StrBinEditComponent extends ControlComponent {
 
         return mask
             .replace(new RegExp(maskChar, 'g'), 'A');
+    }
+
+    public onBlur() {
+
+    }
+
+    public changeModelValue($event) {
+
     }
 }
