@@ -26,16 +26,16 @@ let webOnlyRoutes = [
     ...appRoutes
 ];
 let allEnvRoutes = [
-    { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' }
+    // { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' }
 ];
 let childrenRoutes = environment.desktop ? [...allEnvRoutes] : [...allEnvRoutes, ...webOnlyRoutes];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
-    { path: 'bpmTG', component: BPMStandaloneComponent, canActivate: [CoreGuard] },
+    // { path: 'bpmTG', component: BPMStandaloneComponent, canActivate: [CoreGuard] },
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
-    { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
+    // { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
     // { path: 'rs/:ns', component: StandaloneReportComponent }, // TODO riabilitare quando risolveremo problemi AOT
     {
         path: 'proxy',
