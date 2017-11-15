@@ -47,8 +47,9 @@ cd %Installation%Standard\web
 
 git pull
 
+cd %Installation%Standard\web\script\
+call ng-clean.bat
 cd %Installation%Standard\web\client\web-form\ 
-call clean.bat
 
 call npm i >> %Installation%1_npm_install.log
 
