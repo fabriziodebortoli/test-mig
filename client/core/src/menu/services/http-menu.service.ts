@@ -56,6 +56,21 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
+    
+    /**
+     * API /canModifyContext
+     * 
+     * @returns {Observable<any>} canModifyContext
+     */
+    canModifyContext(): Observable<any> {
+        let obj = { user: localStorage.getItem('_user') };
+        let url = this.infoService.getDocumentBaseUrl() + 'canModifyContext/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
 
     /**
   * API /setAppAndModule

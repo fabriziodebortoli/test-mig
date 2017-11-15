@@ -136,6 +136,11 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
+    public canModifyContext(){
+        return this.httpMenuService.canModifyContext().map((res: Response) => res.json());
+    }
+
+    //--------------------------------------------------------------------------------
     private extractNamesAllApps(result: Response) {
         if (result == undefined) return;
         this.applications = [];
