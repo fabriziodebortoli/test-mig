@@ -36,6 +36,9 @@ export class MenuService {
 
     public showDescription: boolean = false;
     public clearCachedData = false;
+    runFunctionStarted = new EventEmitter<any>();
+    runFunctionCompleted = new EventEmitter<any>();
+
     get selectedMenu(): any {
         return this._selectedMenu;
     }
@@ -212,6 +215,8 @@ export class MenuService {
     runFunction(object) {
         if (object === undefined)
             return;
+
+        this.runFunctionStarted.emit();
 
         if (this.infoService.isDesktop) {
             this.runObject(object);
