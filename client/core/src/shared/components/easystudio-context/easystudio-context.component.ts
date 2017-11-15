@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { TopbarMenuAppComponent } from './../topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
 import { SettingsService } from './../../../core/services/settings.service';
 import { InfoService } from './../../../core/services/info.service';
@@ -47,7 +48,8 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         public localizationService: LocalizationService,
         public easystudioService: EasystudioService,
         public infoService: InfoService,
-        public settingsService: SettingsService) { }
+        public settingsService: SettingsService,
+        public snackBar : MatSnackBar) { }
 
     //--------------------------------------------------------------------------------
     ngOnInit(): void {
@@ -82,13 +84,22 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     //--------------------------------------------------------------------------------
     public close() {
-        this.opened = false;
-        this.newPairVisible = false;
-        this.easystudioService.closeCustomizationContext();
-        this.applicSelected = undefined;
-        this.moduleSelected = undefined;
-        this.isThisPairDefault = false;
-        this.isDefault = false;
+        this.easystudioService.canModifyContext().subscribe((result) => {
+            if (!result){
+                this.snackBar.open(
+                    this.localizationService.localizedElements.CannotModifyContextMenuES, 
+                    this.localizationService.localizedElements.Ok
+                );
+                return;
+            }
+            this.opened = false;
+            this.newPairVisible = false;
+            this.easystudioService.closeCustomizationContext();
+            this.applicSelected = undefined;
+            this.moduleSelected = undefined;
+            this.isThisPairDefault = false;
+            this.isDefault = false;
+        });
     }
 
     //--------------------------------------------------------------------------------
@@ -99,11 +110,20 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     //--------------------------------------------------------------------------------
     public changeCustomizationContext() {
-        this.opened = !this.opened;
-        if (this.contextIsValid()) {
-            this.setApplic(this.easystudioService.currentApplication);
-            this.setModule(this.easystudioService.currentModule);
-        }
+        this.easystudioService.canModifyContext().subscribe((result) => {
+            if (!result){
+                this.snackBar.open(
+                    this.localizationService.localizedElements.CannotModifyContextMenuES, 
+                    this.localizationService.localizedElements.Ok
+                );
+                return;
+            }
+            this.opened = !this.opened;
+            if (this.contextIsValid()) {
+                this.setApplic(this.easystudioService.currentApplication);
+                this.setModule(this.easystudioService.currentModule);
+            }
+        });
     }
 
     //--------------------------------------------------------------------------------
@@ -153,8 +173,8 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     //--------------------------------------------------------------------------------
     private checkIfIsDefault() {
-        this.isDefault = this.easystudioService.defaultApplication === this.applicSelected 
-         && this.easystudioService.defaultModule === this.moduleSelected;
+        this.isDefault = this.easystudioService.defaultApplication === this.applicSelected
+            && this.easystudioService.defaultModule === this.moduleSelected;
     }
 
     //--------------------------------------------------------------------------------
@@ -221,8 +241,17 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //--------------------------------------------------------------------------------
-    openDefaultContextMethod(): void{
-        this.easystudioService.getDefaultContext(true);
+    openDefaultContextMethod(): void {
+        this.easystudioService.canModifyContext().subscribe((result) => {
+            if (!result){
+                this.snackBar.open(
+                    this.localizationService.localizedElements.CannotModifyContextMenuES, 
+                    this.localizationService.localizedElements.Ok
+                );
+                return;
+            }
+            this.easystudioService.getDefaultContext(true);
+        });
     }
 
 }

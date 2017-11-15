@@ -123,7 +123,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
         this.model.Activated = true;
 
-        this.modelService.setData({}, true, this.activationCode, instanceKey).retry(3).subscribe(
+        this.modelService.setData({}, true, this.activationCode, instanceKey, this.accountName).retry(3).subscribe(
           res => {
 
             this.modelService.getInstances(instanceKey, this.activationCode).subscribe(

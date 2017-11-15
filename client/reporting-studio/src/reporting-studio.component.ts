@@ -115,8 +115,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
-      authtoken: localStorage.getItem('authtoken'),
-      tbLoaderName:  localStorage.getItem('tbLoaderName')
+      authtoken: sessionStorage.getItem('authtoken'),
+      tbLoaderName: sessionStorage.getItem('tbLoaderName')
     };
 
     if (this.args.params.runAtTbLoader) {

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using static SQLHelper;
 using Microarea.Common;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ErpService.Controllers
 {
@@ -26,14 +28,18 @@ namespace ErpService.Controllers
         }
 
         [Route("CheckBinUsesStructure")]
-        public IActionResult CheckBinUsesStructure([FromBody] string value)
+        public IActionResult CheckBinUsesStructure([FromBody] string jsonValue)
         {
+            var result = new JsonResult(new { UseBinStructure = false });
+            if (jsonValue == null) return result;
+
             var ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "no auth" };
 
-            var zone = ((JObject)value)["zone"].Value<string>();
-            var storage = ((JObject)value)["storage"].Value<string>();
+            var json = JObject.Parse(jsonValue);
+            var zone = json.SelectToken("zone")?.Value<string>();
+            var storage = json.SelectToken("storage")?.Value<string>();
 
             var connection = new SqlConnection(ui.CompanyDbConnection);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
@@ -43,7 +49,67 @@ namespace ErpService.Controllers
                 }))
                 if (reader.Read())
                     return new JsonResult(new { UseBinStructure = reader[0] });
-            return new JsonResult(new { UseBinStructure = false });
+            return result;
+        }
+
+        [Route("CheckItemsAutoNumbering")]
+        public IActionResult CheckItemsAutoNumbering()
+        {
+            var ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 401, Content = "no auth" };
+            var connection = new SqlConnection(ui.CompanyDbConnection);
+            using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
+                "select ItemAutoNum from MA_ItemParameters", null))
+            {
+                if (reader.Read())
+                {
+                    bool itemautonum = reader["ItemAutoNum"].ToString() == "1";
+                     
+                    var result = new JsonResult(new { ItemsAutoNumbering = itemautonum });
+                    return result;
+                }
+            }
+            return new JsonResult(new { ItemsAutoNumbering = false });
+        }
+
+        [Route("GetItemsSearchList")]
+        public string GetItemsSearchList([FromBody] string jsonValue)
+        {
+            var result = new Dictionary<string, string>();
+
+            var ui = GetLoginInformation();
+            if (ui == null)
+                return (new ContentResult { StatusCode = 401, Content = "no auth" }).ToString();
+
+            var json = JObject.Parse(jsonValue);
+            var searchType = json.SelectToken("queryType")?.Value<string>();
+            
+            var connection = new SqlConnection(ui.CompanyDbConnection);
+            using (var reader = GetItemsSearchReader(connection, searchType))
+            {
+                if (reader != null)
+                {
+                    while (reader.Read())
+                        result.Add(reader[0].ToString(), reader[1].ToString());
+                }
+            }
+                 
+            return JsonConvert.SerializeObject(result);
+        }
+
+        private SqlDataReader GetItemsSearchReader(SqlConnection connection, string searchType)
+        {
+            switch (searchType)
+            {
+                case "producers":
+                       return ExecuteReader(connection, System.Data.CommandType.Text, "select Producer, CompanyName from MA_Producers ", null);
+                    
+                case "categories":
+                       return ExecuteReader(connection, System.Data.CommandType.Text, "select Category, Description from MA_ProductCtg ", null);
+            }
+
+            return null;
         }
 
         #region helpers

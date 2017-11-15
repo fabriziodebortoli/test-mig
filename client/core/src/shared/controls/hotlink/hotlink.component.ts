@@ -1,7 +1,7 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input, ViewEncapsulation, Type, OnChanges, SimpleChanges, ChangeDetectorRef, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Type, ChangeDetectorRef, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { HttpService } from './../../../core/services/http.service';
 
@@ -10,7 +10,8 @@ import { ControlComponent } from './../control.component';
 @Component({
   selector: 'tb-hotlink',
   templateUrl: './hotlink.component.html',
-  styleUrls: ['./hotlink.component.scss']
+  styleUrls: ['./hotlink.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class HotlinkComponent extends ControlComponent implements OnInit {
@@ -84,14 +85,17 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
     this.showOptions = false;
 
     let p: URLSearchParams = new URLSearchParams(this.args);
-    for (var key in this.args) {
+    if (!this.enableMultiSelection && this.value) {
+      p.set('filter', this.value)
+    }
+    for (let key in this.args) {
       if (this.args.hasOwnProperty(key)) {
-        var element = this.args[key];
+        let element = this.args[key];
         p.set(key, element);
       }
     }
 
-    let subs = this.httpService.getHotlinkData(this.ns, this.selectionType, this.enableMultiSelection ? '' : this.value, p).subscribe((json) => {
+    let subs = this.httpService.getHotlinkData(this.ns, this.selectionType, p).subscribe((json) => {
       this.data = json;
       this.selectionColumn = this.data.key;
       if (this.enableMultiSelection && this.multiSelectedValues.length > 0) {
@@ -219,7 +223,7 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
   // ---------------------------------------------------------------------------------------
   popupStyle() {
     return {
-      'max-width': '50%',
+      'max-width': '700px',
       'font-size': 'small'
     };
   }

@@ -3,9 +3,8 @@
     <div class="group">
         <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
             (ngModelChange)="changeModelValue($event)" [style.width.px]="width" (keydown)="onKeyDown($event)" (blur)="onBlur($event)">
-            <!-- class="numberer"> -->
-
         </kendo-maskedtextbox>
+
         <tb-context-menu [contextMenu]="numbererContextMenu" *ngIf="popUpMenu"></tb-context-menu>
     </div>
 </div>
