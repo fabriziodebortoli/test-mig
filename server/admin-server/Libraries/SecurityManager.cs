@@ -9,6 +9,8 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
+using Microarea.AdminServer.Services.BurgerData;
+using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Libraries
 {
@@ -288,5 +290,11 @@ namespace Microarea.AdminServer.Libraries
            return EncryptString(t.ToUniversalTime().ToString("s"));
         }
 
-    }
+		//---------------------------------------------------------------------
+		public async static Task<string> ValidatePermission(string authHeader, IHttpHelper httpHelper, string gwamURL)
+		{
+			Task<string> responseData = await GwamCaller.ValidateGWAMToken(authHeader, httpHelper, gwamURL);
+			return responseData.Result;
+		}
+	}
 }

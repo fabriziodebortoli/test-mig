@@ -1,6 +1,7 @@
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService } from '@taskbuilder/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
+import { BehaviorSubject } from "../../../rxjs.imports";
 
 @Component({
     selector: "erp-item-edit",
@@ -11,20 +12,33 @@ export class ItemEditComponent extends ControlComponent {
     @Input() slice: any;
     @Input() selector: any;
 
-    usePopUpMenu = false;
+    itemsAutoNumbering = true;
 
     constructor(
         public vcr: ViewContainerRef,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         private store: Store,
-        private http: ErpHttpService
+        private http: ErpHttpService,
+        private changeDetectorRef: ChangeDetectorRef
     ) {
         super(layoutService, tbComponentService);
     }
 
-    funzione(): boolean {
-        return true;
+    ngOnInit() {
+        this.readParams();
+    }
+
+    readParams() {
+        this.http.getItemsSearchList("producers").subscribe(result => {
+            let response = result;
+            console.log(response);
+        })
+
+        this.http.checkItemsAutoNumbering().subscribe(result => {
+            this.itemsAutoNumbering = result.json().itemsAutoNumbering;
+            this.changeDetectorRef.detectChanges();
+        })
     }
 }
 

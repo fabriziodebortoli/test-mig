@@ -6,7 +6,7 @@
         <div class="adminTile half-tile">
           General information
           <div>
-            <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.Description"></admin-input-text>
+            <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
           </div>
           <div class="m30">
             <admin-checkbox [checkText]="'Disabled'" [checkId]="'chkDisabled'" [(checkValue)]="model.Disabled" (inputDataChange)="model.Disabled = $event"></admin-checkbox>
@@ -21,7 +21,8 @@
               [valueField]="'value'" (selectedValueChange)="onProviderValueChange($event)"></admin-dropdown>
           </div>
           <div class="m30">
-            <admin-checkbox [checkText]="'Use Unicode'" [checkId]="'chkIsUnicode'" [(checkValue)]="model.IsUnicode" (inputDataChange)="model.IsUnicode = $event"></admin-checkbox>
+            <admin-checkbox [checkText]="'Use Unicode'" [checkId]="'chkIsUnicode'" [(checkValue)]="model.IsUnicode" [readOnly]=editing
+              (inputDataChange)="model.IsUnicode = $event"></admin-checkbox>
           </div>
         </div>
       </div>
@@ -29,20 +30,20 @@
 
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <app-database-info [isDMS]="false" [subDBModel]="model" [isEditing]="editing"></app-database-info>
+        <app-database-info [isDMS]="false" [subDBModel]="model" [readOnly]="editing"></app-database-info>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <app-database-info [isDMS]="true" [subDBModel]="model" [isEditing]="editing"></app-database-info>
+        <app-database-info [isDMS]="true" [subDBModel]="model" [readOnly]="editing"></app-database-info>
       </div>
     </div>
   </div>
-  
+
   <div class="row adminTile" *ngIf="checkDbIsStarted">
     <admin-list [items]=operationsList [readingData]=checkDbIsRunning [columnNames]="['Message']"></admin-list>
-    <div *ngIf="!checkDbIsRunning" >
-    <admin-button *ngIf="!saveDbIsRunning" [buttonText]="'Return to main data'" (click)="returnToMainData()"></admin-button>
-    <admin-button *ngIf="!checkDbHasErrors && !saveDbIsRunning" [buttonText]="'Confirm'" (click)="submit()"></admin-button>
-  </div>
+    <div *ngIf="!checkDbIsRunning">
+      <admin-button *ngIf="!saveDbIsRunning" [buttonText]="'Return to main data'" (click)="returnToMainData()"></admin-button>
+      <admin-button *ngIf="!checkDbHasErrors && !saveDbIsRunning" [buttonText]="'Confirm'" (click)="submit()"></admin-button>
+    </div>
   </div>
 
   <div *ngIf="!checkDbIsStarted">

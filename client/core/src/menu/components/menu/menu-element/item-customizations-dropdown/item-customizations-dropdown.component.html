@@ -5,7 +5,7 @@
                 {{localizationService?.localizedElements?.OpenEasyStudioNewCustomization}}
             </div>
         </div>
-        <div class="itemSelected" *ngIf="easystudioService.isDesignable && !easystudioService.isEasyStudioDocument(objectM)">
+        <div class="itemSelected" *ngIf="easystudioService.isDesignable && isNotEasyStudioDocument">
             <div (click)="openCloneDialog()" [ngClass]="getNewCustClass()">
                 {{localizationService?.localizedElements?.CloneEasyStudioDocument}}
             </div>

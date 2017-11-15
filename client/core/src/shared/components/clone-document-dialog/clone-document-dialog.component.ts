@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { EasystudioService } from './../../../core/services/easystudio.service';
 import { LocalizationService } from './../../../core/services/localization.service';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, Input } from '@angular/core';
@@ -15,23 +16,27 @@ export class CloneDocumentDialogComponent {
     public docName: string;
     public docTitle: string;
     public openCloneDialog = false;
-  
+
     constructor(
         public localizationService: LocalizationService,
-        public easystudioService: EasystudioService) { }
+        public easystudioService: EasystudioService,
+        public snackBar: MatSnackBar) { }
 
-     cancel(){
+    cancel() {
         this.openCloneDialog = false;
-     }
-     
-     open(){
-          if(!this.easystudioService.isContextActive())
-             return;        
-         this.openCloneDialog = true;
-     }
+    }
 
-     okClone(object: any, docName: string, docTitle:string){
-         this.easystudioService.cloneDocument(object, docName, docTitle);
-     }
+    open() {
+        if (!this.easystudioService.isContextActive())
+            return;
+        this.openCloneDialog = true;
+    }
+
+    okClone(object: any, docName: string, docTitle: string) {
+        this.easystudioService.cloneDocument(object, docName, docTitle);
+        this.cancel();
+        this.snackBar.open(this.localizationService.localizedElements.NewDocumentCreatedwithSuccess, this.localizationService.localizedElements.Ok);
+       
+    }
 
 }

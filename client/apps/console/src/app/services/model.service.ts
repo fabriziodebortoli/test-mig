@@ -170,7 +170,7 @@ export class ModelService {
   }   
 
   //--------------------------------------------------------------------------------------------------------
-  setData(body: Object, goGWAM: boolean, activationCode: string, rowId: string): Observable<OperationResult> {
+  setData(body: Object, goGWAM: boolean, activationCode: string, rowId: string, accountName: string): Observable<OperationResult> {
     
     let authorizationHeader = this.createAuthorizationHeader('app');
 
@@ -192,7 +192,7 @@ export class ModelService {
 
     let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl; 
 
-    return this.http.post(baseUrl + 'setdata/instances/' + rowId + '/activated' + '/1' , {}, options)
+    return this.http.post(baseUrl + 'setdata/instances/' + accountName + '/' + rowId + '/activated' + '/1' , {}, options)
       .map((res: Response) => {
         return res.json();
       })

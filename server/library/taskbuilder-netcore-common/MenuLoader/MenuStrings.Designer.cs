@@ -124,6 +124,16 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It is not possible to change customization context with opened documents.
+        ///Please, close all documents..
+        /// </summary>
+        public static string CannotModifyContextMenuES {
+            get {
+                return ResourceManager.GetString("CannotModifyContextMenuES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change.
         /// </summary>
         public static string Change {
@@ -597,6 +607,15 @@ namespace Microarea.Common.MenuLoader {
         public static string NewApplicationLabel {
             get {
                 return ResourceManager.GetString("NewApplicationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Document Created with Success.
+        /// </summary>
+        public static string NewDocumentCreatedwithSuccess {
+            get {
+                return ResourceManager.GetString("NewDocumentCreatedwithSuccess", resourceCulture);
             }
         }
         

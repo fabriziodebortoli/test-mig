@@ -21,17 +21,17 @@ import { InfoService } from './../../core/services/info.service';
     styleUrls: ['./theme-changer.component.scss']
 })
 export class ThemeChangerComponent {
-   
+
 
     constructor(
-        private httpMenuService: HttpMenuService,
-        private logger: Logger,
-        private diagnosticService: DiagnosticService, 
-        private themeService: ThemeService
+        public httpMenuService: HttpMenuService,
+        public logger: Logger,
+        public diagnosticService: DiagnosticService,
+        public themeService: ThemeService
     ) {
-      
+
     }
-   
+
     //---------------------------------------------------------------------------------------------
     changeTheme(theme) {
         this.themeService.changeTheme(theme);

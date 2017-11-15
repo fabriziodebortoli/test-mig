@@ -33,12 +33,15 @@ export class legend {
 }
 
 export class series {
+
     name: string;
     type: ChartType;
     color: string;
     group: any;
     style: string;
     data: any[] = [];
+    label: boolean;
+    opacity: number;
     constructor(jsonObj: any) {
         this.name = jsonObj.name;
         this.data = jsonObj.data;
@@ -46,5 +49,6 @@ export class series {
         this.style = jsonObj.style;
         this.color = jsonObj.color ? jsonObj.color : '';
         this.group = jsonObj.group ? jsonObj.group : '';
+        this.opacity = jsonObj.transparent ? jsonObj.transparent : 1;
     }
 }
