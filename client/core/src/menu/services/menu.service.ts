@@ -489,18 +489,31 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
         let tempMenus = [];
+        let orderedMenus = [];
         //creo un unico allmenus che contiene tutte le applicazioni sia di environment che di applications
         let temp = root.ApplicationMenu.AppMenu.Application;
         for (var a = 0; a < temp.length; a++) {
-            tempMenus.push(temp[a])
+            if ( temp[a].name.toLowerCase() == "erp")
+                orderedMenus.push(temp[a]);
+            else if (temp[a].name.toLowerCase() == "tbs")
+                orderedMenus.push(temp[a]);
+            else
+                tempMenus.push(temp[a])
         }
 
         temp = root.EnvironmentMenu.AppMenu.Application;
         for (var a = 0; a < temp.length; a++) {
-            tempMenus.push(temp[a])
+            if (temp[a].name.toLowerCase() == "framework")
+                orderedMenus.push(temp[a]);
+            else    
+                tempMenus.push(temp[a]);
+        }
+        
+        for (var a = 0; a < tempMenus.length; a++) {
+            orderedMenus.push(tempMenus[a]);
         }
 
-        this.sanitizeAllMenus(tempMenus);
+        this.sanitizeAllMenus(orderedMenus);
         this.initApplicationAndGroup();
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
@@ -508,8 +521,8 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    sanitizeAllMenus(menus) {
-        menus.forEach(app => {
+    sanitizeAllMenus(allApps) {
+        allApps.forEach(app => {
 
             app.Group = app.Group;
             app.Group.forEach(menu => {
@@ -536,7 +549,7 @@ export class MenuService {
 
         });;
 
-        this.allMenus = menus;
+        this.allMenus = allApps;
     }
 
     //---------------------------------------------------------------------------------------------

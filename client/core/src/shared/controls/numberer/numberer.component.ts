@@ -199,7 +199,6 @@ export class NumbererComponent extends ControlComponent {
             else
                 ret.separator += curChar;
         }
-
         return ret;
     }
 
@@ -266,6 +265,7 @@ export class NumbererComponent extends ControlComponent {
     }
 
     onBlur($event) {
+        if (blur && !blur()) return;
         if (this.eventData.model.FormMode.value === FormMode.FIND && this.paddingEnabled)
             this.doPadding();
     }
