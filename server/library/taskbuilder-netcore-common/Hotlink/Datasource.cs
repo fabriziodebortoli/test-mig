@@ -156,7 +156,26 @@ namespace Microarea.Common.Hotlink
                 return false;
 
             string likeValue = requestQuery["filter"];
+            int pageNum = 0, rowsPerPage = 0;
+
+            bool isHotLink = false;
+            if (!string.IsNullOrEmpty(requestQuery["page"]))
+            {
+                int.TryParse(requestQuery["page"], out pageNum);
+            }
+            else
+            {
+                pageNum = 1;
+                isHotLink = true;
+            }
             
+            if (!string.IsNullOrEmpty(requestQuery["per_page"]))
+            {
+                int.TryParse(requestQuery["page"], out rowsPerPage);
+            }
+            else
+                rowsPerPage = 100;
+
             if (!selectionType.CompareNoCase("direct"))
                 likeValue += "%";
 
@@ -231,7 +250,14 @@ namespace Microarea.Common.Hotlink
                 query = sm.Body;
                 this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
             }
- 
+
+            
+            /*if (isHotLink)
+            {
+                query = query.Trim().Remove(0, "select".Count());
+                query = "select ROW_NUMBER() OVER (ORDER BY (SELECT 100)) AS id," + query + $" OFFSET {(pageNum - 1) * rowsPerPage} ROWS FETCH NEXT {rowsPerPage} ROWS ONLY";
+            } */
+
             //------------------------------ 
             if (!this.CurrentQuery.Define(query))
                 return false;
