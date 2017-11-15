@@ -18,7 +18,7 @@
         </kendo-textbox-container>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton (click)="okClone(object, docName, docTitle)" primary="true" [disabled]="docName === undefined || docTitle === undefined">
+        <button kendoButton (click)="okClone(object, docName, docTitle)" [disabled]="docName === undefined || docTitle === undefined">
                         {{localizationService?.localizedElements?.Ok}}
                     </button>
         <button kendoButton (click)="cancel()">

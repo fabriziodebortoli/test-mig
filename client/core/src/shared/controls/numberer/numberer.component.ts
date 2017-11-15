@@ -25,14 +25,14 @@ export type maskParts = { prefix: string, separator: string, body: string, suffi
 // menu: insert in search - remove from search
 // state button
 // sistemare la posizione del context menu
-// enabled del context menu (legare a enabled della text)
 // estendere la tb-text
 
 export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
     @Input() public hotLink: any = undefined;
-    @Input() automaticNumbering: boolean;
+    //@Input() automaticNumbering: boolean;
     @Input() popUpMenu: boolean = true;
+    @Input() maxLength = -1;
 
     @Input() slice: any;
     @Input() selector: any;
@@ -259,6 +259,12 @@ export class NumbererComponent extends ControlComponent {
     }
 
     onKeyDown($event) {
+        // VERIFICARE SE SI PUO' FARE CON LA MASCHERA
+
+        // if (this.maxLength > -1  && this.value.length >= this.maxLength) {
+        //     $event.preventDefault();
+        // }
+
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
             $event.preventDefault();
         }
