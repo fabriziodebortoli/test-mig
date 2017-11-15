@@ -1,0 +1,20 @@
+.tableHeader {
+    background-color: #0277bd;
+    color: white;
+}
+.searchOptions{
+    padding: 0px 5px;
+}
+
+.selTypeElem {
+    cursor: pointer;
+    padding: 3px;
+}
+
+.selTypeElem:hover {
+    background-color: rgba(202, 230, 247, 0.8);
+}
+
+.elemSelected {
+    background: #bde3f8;
+}
