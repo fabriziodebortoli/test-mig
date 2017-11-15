@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using Microarea.Common;
 using Microarea.Common.Applications;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using static SQLHelper;
-using Microarea.Common;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace ErpService.Controllers
 {
@@ -58,6 +57,7 @@ namespace ErpService.Controllers
             var ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "no auth" };
+
             var connection = new SqlConnection(ui.CompanyDbConnection);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
                 "select ItemAutoNum from MA_ItemParameters", null))
@@ -65,7 +65,7 @@ namespace ErpService.Controllers
                 if (reader.Read())
                 {
                     bool itemautonum = reader["ItemAutoNum"].ToString() == "1";
-                     
+
                     var result = new JsonResult(new { ItemsAutoNumbering = itemautonum });
                     return result;
                 }
@@ -74,19 +74,16 @@ namespace ErpService.Controllers
         }
 
         [Route("GetItemsSearchList")]
-        public string GetItemsSearchList([FromBody] string jsonValue)
+        public IActionResult GetItemsSearchList([FromBody] string queryType)
         {
             var result = new Dictionary<string, string>();
 
             var ui = GetLoginInformation();
             if (ui == null)
-                return (new ContentResult { StatusCode = 401, Content = "no auth" }).ToString();
+                return new ContentResult { StatusCode = 401, Content = "no auth" };
 
-            var json = JObject.Parse(jsonValue);
-            var searchType = json.SelectToken("queryType")?.Value<string>();
-            
             var connection = new SqlConnection(ui.CompanyDbConnection);
-            using (var reader = GetItemsSearchReader(connection, searchType))
+            using (var reader = GetItemsSearchReader(connection, queryType))
             {
                 if (reader != null)
                 {
@@ -94,8 +91,8 @@ namespace ErpService.Controllers
                         result.Add(reader[0].ToString(), reader[1].ToString());
                 }
             }
-                 
-            return JsonConvert.SerializeObject(result);
+
+            return new JsonResult(result);
         }
 
         private SqlDataReader GetItemsSearchReader(SqlConnection connection, string searchType)
@@ -103,17 +100,18 @@ namespace ErpService.Controllers
             switch (searchType)
             {
                 case "producers":
-                       return ExecuteReader(connection, System.Data.CommandType.Text, "select Producer, CompanyName from MA_Producers ", null);
-                    
-                case "categories":
-                       return ExecuteReader(connection, System.Data.CommandType.Text, "select Category, Description from MA_ProductCtg ", null);
-            }
+                    return ExecuteReader(connection, System.Data.CommandType.Text, "select Producer, CompanyName from MA_Producers ", null);
 
-            return null;
+                case "categories":
+                    return ExecuteReader(connection, System.Data.CommandType.Text, "select Category, Description from MA_ProductCtg ", null);
+
+                default:
+                    return null;
+            }
         }
 
         #region helpers
-        UserInfo GetLoginInformation()
+        private UserInfo GetLoginInformation()
         {
             string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
