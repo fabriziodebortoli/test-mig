@@ -4,6 +4,7 @@ In questo documento trovate i principali comandi per git
 * [Clone](#clone)
 * [Sincronizzazione](#sincronizzazione)
 * [Branch](#branch)
+* [Vari](#vari)
 
 Link utile: [GIT - Guida tascabile](http://rogerdudler.github.io/git-guide/index.it.html)
 
@@ -44,6 +45,9 @@ Questo comando crea una directory con il nome del repository e vi scarica il con
 ### Inviare il branch al repo remoto
 ```git push origin nomebranch```
 
+### Importare le modifiche di un branch su un altro senza committare il merge
+```git merge nomebranch_sorgente --no-commit --no-ff```
+
 ### Allineare il branch con il master
 ```git merge master```
 
@@ -53,4 +57,10 @@ git merge nomebranch`
 
 ### Cancellare branch
 ```git branch -d nomebranch```
+
+## Vari
+
+### Reset della HEAD a una commit specifica (utile per revert)
+```git reset --hard IDCOMMIT```
+
 

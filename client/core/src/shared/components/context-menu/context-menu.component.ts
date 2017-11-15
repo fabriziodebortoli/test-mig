@@ -1,5 +1,5 @@
 import { CommandEventArgs } from './../../models/eventargs.model';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, OnInit } from '@angular/core';
 
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
@@ -39,24 +39,29 @@ export class ContextMenuComponent {
     // });
 
     // SCENARIO 2: RIEMPITO DA HTML
-    // this.contextMenu = new Array<ContextMenuItem>();
+    this.contextMenu = new Array<ContextMenuItem>();
 
-    // const subItems_bis = new Array<ContextMenuItem>();
-    // const item4 = new ContextMenuItem('solo questo disable unchecked', 'Id4', false, false);
-    // subItems_bis.push(item4);
+    const subItems_bis = new Array<ContextMenuItem>();
+    const item4 = new ContextMenuItem('solo questo disable unchecked', 'Id4', false, false);
+    subItems_bis.push(item4);
 
-    // const subItems = new Array<ContextMenuItem>();
-    // const item1 = new ContextMenuItem('disabled unchecked', 'Id1', false, false);
-    // const item5 = new ContextMenuItem('enabled checked', 'Id5', true, true);
-    // const item2 = new ContextMenuItem('has one sub item', 'Id2', true, false, subItems_bis);
-    // subItems.push(item1, item5);
+    const subItems = new Array<ContextMenuItem>();
+    const item1 = new ContextMenuItem('disabled unchecked', 'Id1', false, false);
+    const item5 = new ContextMenuItem('enabled checked', 'Id5', true, true);
+    const item2 = new ContextMenuItem('has one sub item', 'Id2', true, false, subItems_bis);
+    subItems.push(item1, item5);
 
-    // const item3 = new ContextMenuItem('has 2 sub items', 'Id3', true, false, subItems);
-    // this.contextMenu.push(item1, item2, item5, item3);
+    const item3 = new ContextMenuItem('has 2 sub items', 'Id3', true, false, subItems);
+    this.contextMenu.push(item1, item2, item5, item3);
 
   }
 
   onOpen() {
+  }
+
+  ngOnInit() {
+    console.log('ngoninit contextmenu');
+    console.log(this.contextMenu);
   }
 
   public doCommand(menuItem: any) {
@@ -78,6 +83,7 @@ export class ContextMenuComponent {
   ///////////////////////////////////////////////////////////////////////////////////
 
   public onToggle(): void {
+    console.log(this.show);
     this.show = !this.show;
     if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
       this.currentItem.showMySub = false;

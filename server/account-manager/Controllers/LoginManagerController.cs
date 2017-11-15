@@ -30,52 +30,71 @@ namespace Microarea.AccountManager.Controllers
         [Route("login-compact")]
         public IActionResult LoginCompact()
         {
-            string user = HttpContext.Request.Form["user"];
-            string password = HttpContext.Request.Form["password"];
-            string company = HttpContext.Request.Form["company"];
-            string askingProcess = HttpContext.Request.Form["askingProcess"];
-            bool overwriteLogin = HttpContext.Request.Form["overwrite"] == "true";
-            int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
-
-
-            string errorMessage = "";
-            if (result != 0)
+            try
             {
-                errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+                string user = HttpContext.Request.Form["user"];
+                string password = HttpContext.Request.Form["password"];
+                string company = HttpContext.Request.Form["company"];
+                string askingProcess = HttpContext.Request.Form["askingProcess"];
+                bool overwriteLogin = HttpContext.Request.Form["overwrite"] == "true";
+                int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
+
+                string errorMessage = "";
+                if (result != 0)
+                {
+                    errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+                }
+                else
+                {
+                    SetCulture(authenticationToken);
+                }
+
+                return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken, Culture = CultureInfo.CurrentUICulture.Name });
             }
-            else
+            catch(Exception e)
             {
-                SetCulture(authenticationToken);
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
-            return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken, Culture = CultureInfo.CurrentUICulture.Name });
         }
-
 
         //-----------------------------------------------------------------------------------------
         [Route("change-password")]
         public IActionResult ChangePassword()
         {
-            string user = HttpContext.Request.Form["user"];
-            string oldPassword = HttpContext.Request.Form["oldPassword"];
-            string newPassword = HttpContext.Request.Form["newPassword"];
-            int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.ChangePassword(user, oldPassword, newPassword);
-            string errorMessage = "";
-            if (result != 0)
+            try
             {
-                errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+                string user = HttpContext.Request.Form["user"];
+                string oldPassword = HttpContext.Request.Form["oldPassword"];
+                string newPassword = HttpContext.Request.Form["newPassword"];
+                int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.ChangePassword(user, oldPassword, newPassword);
+                string errorMessage = "";
+                if (result != 0)
+                {
+                    errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+                }
+                return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result });
             }
-            return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result});
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
         }
-
 
         //-----------------------------------------------------------------------------------------
         [Route("logoff")]
         public IActionResult Logoff()
         {
-            string token = HttpContext.Request.Form["authtoken"];
-            Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(token);
-            var result = new { Success = true, Message = "" };
-            return new JsonResult(result);
+            try
+            {
+                string token = HttpContext.Request.Form["authtoken"];
+                Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(token);
+                var result = new { Success = true, Message = "" };
+                return new JsonResult(result);
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
         }
 
 
@@ -83,62 +102,82 @@ namespace Microarea.AccountManager.Controllers
         [Route("getLoginInformation")]
         public IActionResult GetLoginInformation()
         {
-            string token = HttpContext.Request.Form["authtoken"];
-            string json = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(token);
-            return new ContentResult { Content = json, ContentType = "application/json" };
+            try
+            {
+                string token = HttpContext.Request.Form["authtoken"];
+                string json = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(token);
+                return new ContentResult { Content = json, ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
         }
 
         //-----------------------------------------------------------------------------------------
         [Route("isValidToken")]
         public IActionResult IsValidToken()
         {
-            string token = HttpContext.Request.Form["authtoken"];
-            bool valid = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(token);
-            if (valid)
+            try
             {
-                SetCulture(token);
+                string token = HttpContext.Request.Form["authtoken"];
+                bool valid = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(token);
+                if (valid)
+                {
+                    SetCulture(token);
+                }
+                var result = new { Success = valid, Culture = CultureInfo.CurrentUICulture.Name, Message = "" };
+                return new JsonResult(result);
             }
-            var result = new { Success = valid, Culture = CultureInfo.CurrentUICulture.Name, Message = "" };
-            return new JsonResult(result);
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
         }
 
         //-----------------------------------------------------------------------------------------
         [Route("getCompaniesForUser")]
         public IActionResult GetCompanyForUser()
         {
-            //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-            string user = HttpContext.Request.Form["user"];
-
-            string[] companies = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.EnumCompanies(user);
-
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            JsonWriter jsonWriter = new JsonTextWriter(sw);
-            jsonWriter.Formatting = Formatting.Indented;
-
-            jsonWriter.WriteStartObject();
-            jsonWriter.WritePropertyName("Companies");
-
-            jsonWriter.WriteStartObject();
-            jsonWriter.WritePropertyName("Company");
-
-            jsonWriter.WriteStartArray();
-
-            foreach (string item in companies)
+            try
             {
+                //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+                string user = HttpContext.Request.Form["user"];
+
+                string[] companies = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.EnumCompanies(user);
+
+                StringBuilder sb = new StringBuilder();
+                StringWriter sw = new StringWriter(sb);
+                JsonWriter jsonWriter = new JsonTextWriter(sw);
+                jsonWriter.Formatting = Formatting.Indented;
+
                 jsonWriter.WriteStartObject();
-                jsonWriter.WritePropertyName("name");
-                jsonWriter.WriteValue(item);
+                jsonWriter.WritePropertyName("Companies");
+
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("Company");
+
+                jsonWriter.WriteStartArray();
+
+                foreach (string item in companies)
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("name");
+                    jsonWriter.WriteValue(item);
+                    jsonWriter.WriteEndObject();
+                }
+                jsonWriter.WriteEndArray();
+
                 jsonWriter.WriteEndObject();
+                jsonWriter.WriteEndObject();
+
+                string s = sb.ToString();
+                return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
             }
-            jsonWriter.WriteEndArray();
-
-            jsonWriter.WriteEndObject();
-            jsonWriter.WriteEndObject();
-
-            string s = sb.ToString();
-            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
-
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
         }
 
         //-----------------------------------------------------------------------------------------
@@ -152,22 +191,29 @@ namespace Microarea.AccountManager.Controllers
         [Route("isActivated")]
         public IActionResult IsActivated()
         {
-            //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-            string application = HttpContext.Request.Form["application"];
-            string functionality = HttpContext.Request.Form["functionality"];
+            try
+            {
+                //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+                string application = HttpContext.Request.Form["application"];
+                string functionality = HttpContext.Request.Form["functionality"];
 
-            bool result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsActivated(application, functionality);
+                bool result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsActivated(application, functionality);
 
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            JsonWriter jsonWriter = new JsonTextWriter(sw);
-            jsonWriter.WriteStartObject();
-            jsonWriter.WritePropertyName("result");
-            jsonWriter.WriteValue(result);
-            jsonWriter.WriteEndObject();
+                StringBuilder sb = new StringBuilder();
+                StringWriter sw = new StringWriter(sb);
+                JsonWriter jsonWriter = new JsonTextWriter(sw);
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("result");
+                jsonWriter.WriteValue(result);
+                jsonWriter.WriteEndObject();
 
-            string content = sb.ToString();
-            return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                string content = sb.ToString();
+                return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
         }
     }
 }

@@ -93,16 +93,12 @@ namespace Microarea.Common.Hotlink
         {
             this.Session = new TbSession(ui, "");
          }
- 
-        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "Code")
+ /*
+        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "code")
         {
-            string s = requestQuery["selection_type"];
-            if (s.IsNullOrEmpty() && selectionType.IsNullOrEmpty())
-                return false;
+            selection_type.Data = selectionType;
 
-            selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s).ToLower();
-
-            s = requestQuery["filter_value"];
+            string s = requestQuery["filter_value"];
             filter_value.Data = s != null ? s : "%";
 
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
@@ -146,42 +142,49 @@ namespace Microarea.Common.Hotlink
             if (!this.CurrentQuery.Define(sm.Body))
                 return false;
 
+            //SetPaging(int page, int rows)
             return true;
         }
-
+*/
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
 
+            selection_type.Data = selectionType;
+
             string likeValue = requestQuery["filter"];
-            
+            if (likeValue == null) 
+                likeValue = string.Empty;
             if (!selectionType.CompareNoCase("direct"))
                 likeValue += "%";
+            filter_value.Data = likeValue;
 
-            selection_type.Data = selectionType;
-            filter_value.Data = likeValue != null ? likeValue : "";
-            int page;
-            if (!int.TryParse(requestQuery["page"], out page))
+            //Paging
+            bool isPaged = false;
+            int pageNum = 0, rowsPerPage = 0;
+            if (!string.IsNullOrEmpty(requestQuery["page"]))
             {
-              page = 1;
-            }
-            int per_page;
-            if (!int.TryParse(requestQuery["per_page"], out per_page))
-            {
-              per_page = 100;
-            }
-            //TODO RSWEB: considerare i parametri di paginazione nella query
+                pageNum = 1;
+                int.TryParse(requestQuery["page"], out pageNum);
+                isPaged = true;
+
+                rowsPerPage = 10;
+                if (!string.IsNullOrEmpty(requestQuery["per_page"]))
+                {
+                    int.TryParse(requestQuery["per_page"], out rowsPerPage);
+                }
+            }          
+ 
             if (XmlDescription.IsDatafile)
             {
                 // TODO RSWEB: paginazione anche nella lettura dati da xml
                 return LoadDataFile();
             }
 
-            FunctionPrototype args = new FunctionPrototype();
-
             //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
+            FunctionPrototype args = new FunctionPrototype();
             foreach (IParameter p in XmlDescription.Parameters)
             {
                 SymField paramField = new SymField(p.TbType, p.Name);
@@ -204,22 +207,31 @@ namespace Microarea.Common.Hotlink
 
                 Parameter param = new Parameter(p.Name, p.TbType);
                 param.ValueString = SoapTypes.To(paramField.Data);
+
                 args.Parameters.Add(param);
             }
 
             //viene cercato il corpo della query ------------------
-            string selectionName = selection_type.Data as string;
-            SelectionMode sm = XmlDescription.GetMode(selectionName);
-            string query = "";
+            SelectionMode sm = XmlDescription.GetMode(selectionType);
+            string query = string.Empty;
             if (sm == null)
             {
                 if (!XmlDescription.ClassType.IsNullOrEmpty())
                 {
-                  query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)Hotlink.HklAction.Code /*TODO*/);
-                  JObject jObject = JObject.Parse(query);
-                  query = jObject.GetValue("query")?.ToString();
+                    Hotlink.HklAction hklAction = Hotlink.HklAction.Code;
+                    if (selectionType.CompareNoCase("description"))
+                        hklAction = Hotlink.HklAction.Description;
+                    else if (selectionType.CompareNoCase("combo"))
+                        hklAction = Hotlink.HklAction.Combo;
+                    else if (selectionType.CompareNoCase("direct"))
+                        hklAction = Hotlink.HklAction.DirectAccess;
 
-                  this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
+                    query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction);
+
+                    JObject jObject = JObject.Parse(query);
+                    query = jObject.GetValue("query")?.ToString();
+
+                    this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
                 }
                 else
                 {
@@ -231,10 +243,15 @@ namespace Microarea.Common.Hotlink
                 query = sm.Body;
                 this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
             }
- 
+
             //------------------------------ 
             if (!this.CurrentQuery.Define(query))
                 return false;
+
+            if (isPaged)
+            {
+                this.CurrentQuery.SetPaging(pageNum, rowsPerPage);
+            }
 
             return true;
         }
@@ -447,7 +464,7 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
-        public bool GetCompactJson(out string records)
+        public bool GetRowsJson(out string records)
         {
             records = string.Empty;
 

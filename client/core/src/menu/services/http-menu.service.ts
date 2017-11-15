@@ -56,6 +56,21 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
+    
+    /**
+     * API /canModifyContext
+     * 
+     * @returns {Observable<any>} canModifyContext
+     */
+    canModifyContext(): Observable<any> {
+        let obj = { user: localStorage.getItem('_user') };
+        let url = this.infoService.getDocumentBaseUrl() + 'canModifyContext/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
 
     /**
   * API /setAppAndModule
@@ -111,9 +126,9 @@ export class HttpMenuService {
   */
     runEasyStudio(ns: string, customizationName: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(ns), customization: encodeURIComponent(customizationName) };
-        let url = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/';
-        // if (customizationName != undefined)
-        //     url += "&customization=" + encodeURIComponent(customizationName);
+        let url = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/?ns=' + encodeURIComponent(ns);
+        if (customizationName != undefined)
+            url += "&customization=" + encodeURIComponent(customizationName);
         return this.httpService.postData(url, obj)
             .map((res: any) => {
                 return res;
