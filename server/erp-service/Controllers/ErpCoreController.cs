@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using static SQLHelper;
 using Microarea.Common;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ErpService.Controllers
 {
@@ -62,15 +64,54 @@ namespace ErpService.Controllers
             {
                 if (reader.Read())
                 {
-                    bool itemautonum = reader["ItemAutoNum"].ToString() == ('1').ToString();
-                    //bool itemautonum = bool.Parse(reader["ItemAutoNum"].ToString());
-
+                    bool itemautonum = reader["ItemAutoNum"].ToString() == "1";
+                     
                     var result = new JsonResult(new { ItemsAutoNumbering = itemautonum });
                     return result;
                 }
             }
             return new JsonResult(new { ItemsAutoNumbering = false });
         }
+
+        [Route("GetItemsSearchList")]
+        public string GetItemsSearchList([FromBody] string jsonValue)
+        {
+            var result = new Dictionary<string, string>();
+
+            var ui = GetLoginInformation();
+            if (ui == null)
+                return (new ContentResult { StatusCode = 401, Content = "no auth" }).ToString();
+
+            var json = JObject.Parse(jsonValue);
+            var searchType = json.SelectToken("queryType")?.Value<string>();
+            
+            var connection = new SqlConnection(ui.CompanyDbConnection);
+            using (var reader = GetItemsSearchReader(connection, searchType))
+            {
+                if (reader != null)
+                {
+                    while (reader.Read())
+                        result.Add(reader[0].ToString(), reader[1].ToString());
+                }
+            }
+                 
+            return JsonConvert.SerializeObject(result);
+        }
+
+        private SqlDataReader GetItemsSearchReader(SqlConnection connection, string searchType)
+        {
+            switch (searchType)
+            {
+                case "producers":
+                       return ExecuteReader(connection, System.Data.CommandType.Text, "select Producer, CompanyName from MA_Producers ", null);
+                    
+                case "categories":
+                       return ExecuteReader(connection, System.Data.CommandType.Text, "select Category, Description from MA_ProductCtg ", null);
+            }
+
+            return null;
+        }
+
         #region helpers
         UserInfo GetLoginInformation()
         {
