@@ -33,12 +33,10 @@ export class CloneDocumentDialogComponent {
     }
 
     okClone(object: any, docName: string, docTitle: string) {
-        var response = this.easystudioService.cloneDocument(object, docName, docTitle)
+        this.easystudioService.cloneDocument(object, docName, docTitle);
         this.cancel();
-        if (response)
-            this.snackBar.open(this.localizationService.localizedElements.NewDocumentCreatedwithSuccess, this.localizationService.localizedElements.Ok);
-        else
-            this.snackBar.open(this.localizationService.localizedElements.Error, this.localizationService.localizedElements.CloseLabel);
+        this.snackBar.open(this.localizationService.localizedElements.NewDocumentCreatedwithSuccess, this.localizationService.localizedElements.Ok);
+       
     }
 
 }
