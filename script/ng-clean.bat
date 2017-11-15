@@ -1,4 +1,4 @@
-cd ..\..\client\core
+cd client\core
 del package-lock.json
 call rimraf node_modules
 cd src

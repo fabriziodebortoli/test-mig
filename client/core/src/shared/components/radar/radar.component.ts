@@ -1,6 +1,6 @@
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
 import { GridDataResult, PageChangeEvent, SelectionEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
@@ -39,7 +39,8 @@ export class RadarComponent {
         public dataService: DataService,
         public logger: Logger,
         public eventData: EventDataService,
-        public enumsService: EnumsService) {
+        public enumsService: EnumsService,
+        private changeDetectorRef: ChangeDetectorRef) {
 
     }
 
@@ -60,9 +61,10 @@ export class RadarComponent {
 
         this.logger.info('radar', params);
         let subs = this.dataService.getRadarData(params).subscribe((data) => {
+            subs.unsubscribe();
             this.radarData = data.rows;
             this.load();
-            subs.unsubscribe();
+            this.changeDetectorRef.detectChanges(); 
         });
     }
 
