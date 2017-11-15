@@ -1,4 +1,5 @@
 $bkg-light:rgba(103, 218, 255, 0.75);
+$bkg-light-opacity50: rgba(103, 218, 255, 0.5);
 $bkg-medium:rgba(44, 187, 235, 1);
 $bkg-dark:rgba(0, 139, 184, 0.8);
 $bkg:#FAFAFA;
@@ -82,6 +83,9 @@ $font-size-tooltip: 12px;
     tb-menu-element .menu-element-content {
         font-size: 16px;
     }
+    tb-menu-element .menu-element:hover {
+        background-color: $bkg-light-opacity50;
+    }
     //dimensione del font delle voci di menu
     tb-menu-element .menu-element-content .object-type {
         font-size: 16px;
@@ -102,7 +106,20 @@ $font-size-tooltip: 12px;
     tb-menu-element .menu-element-content .object-type.Function {
         color: $bkg-medium;
     }
-    //
+    //colore della stellina nel menu dei favoriti
+    tb-menu-element .menu-element-content .star {
+        color: $bkg-medium;
+        font-size: 18px;
+        line-height: 22px;
+        margin-right: 3px;
+        &.favorite {
+            color: $bkg-medium;
+        }
+    }
+    tb-menu-element .menu-element-content .star:hover {
+        color: $bkg-dark;
+        cursor: pointer;
+    }
     //colore scrollbar
      ::-webkit-scrollbar-thumb {
         background: $bkg-medium;
@@ -215,6 +232,17 @@ $font-size-tooltip: 12px;
             }
         }
     }
+    .tbcontainer #anchor:hover,
+    .tbcontainer #anchor:focus,
+    .tbcontainer #anchor:visited {
+        outline-color: $bkg-light;
+        outline-style: auto;
+        outline-width: 5px;
+    }
+    /*colore del bottone spinner*/
+    .hideButton {
+        color: $bkg-medium;
+    }
 }
 
 .mat-tooltip {
@@ -226,17 +254,10 @@ $font-size-tooltip: 12px;
 }
 
 
-/*colore del bottone spinner*/
-
-.hideButton {
-    color: $bkg-medium;
-}
-
-
 /* colore del loader*/
 
 .loader {
-    border: 4px solid rgba(103, 218, 255, 0.5);
+    border: 4px solid $bkg-light-opacity50;
     ; // è lo stesso del light con opacità inferiore
     border-top: 4px solid $bkg-dark;
 }
