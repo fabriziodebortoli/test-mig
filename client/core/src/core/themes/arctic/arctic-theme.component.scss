@@ -1,10 +1,10 @@
     $bkg-light:rgba(103, 218, 255, 0.75);
     $bkg-medium:rgba(44, 187, 235, 1);
     $bkg-dark:rgba(0, 139, 184, 0.8);
-    $bkg:#EEEEEE;
+    $bkg:#FAFAFA;
     $text-light: rgb(238, 238, 238);
     $text-medium: #9E9E9E;
-    $text-dark: #616161;
+    $text-dark: #212121;
     $font-size-tooltip: 12px;
     .arctic {
         //toolbar principale, dove si trova anche la "ricerca"
@@ -208,4 +208,9 @@
         color: $text-light !important;
         border-radius: 0px !important;
         padding: 10px 0px 10px 15px;
+    }
+    /*colore del bottone spinner*/
+    
+    .hideButton {
+        color: $bkg-medium;
     }
