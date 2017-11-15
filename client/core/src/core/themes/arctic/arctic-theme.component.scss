@@ -1,7 +1,8 @@
-$bkg-light:rgba(103, 218, 255, 0.75);
+$bkg-light:rgb(103, 218, 255);
 $bkg-light-opacity50: rgba(103, 218, 255, 0.5);
 $bkg-medium:rgba(44, 187, 235, 1);
 $bkg-dark:rgba(0, 139, 184, 0.8);
+$bkg-neutral:#BDBDBD;
 $bkg:#FAFAFA;
 $text-light: rgb(238, 238, 238);
 $text-medium: #9E9E9E;
@@ -126,7 +127,7 @@ $font-size-tooltip: 12px;
     }
     //colore di fondo della sidenav
     .mat-sidenav {
-        background: $bkg-medium;
+        background: $bkg-neutral;
     }
     //colore di fondo della lista applicazioni
     ul.application-list,
@@ -134,14 +135,14 @@ $font-size-tooltip: 12px;
         background: $bkg-light;
         &>li {
             color: $text-dark;
-            background: $bkg-light;
+            background: $bkg-medium;
         }
         &>li:hover {
-            color: $text-light;
-            background: $bkg-dark;
+            color: $text-dark;
+            background: $bkg-light;
         }
         .selected {
-            background: $bkg-dark;
+            background: $bkg-light;
         }
     }
     //tidolo delle voci sidenav
@@ -243,6 +244,12 @@ $font-size-tooltip: 12px;
     .hideButton {
         color: $bkg-medium;
     }
+    /* colore del loader*/
+    .loader {
+        border: 4px solid $bkg-light-opacity50;
+        ; // è lo stesso del light con opacità inferiore
+        border-top: 4px solid $bkg-dark;
+    }
 }
 
 .mat-tooltip {
@@ -251,13 +258,5 @@ $font-size-tooltip: 12px;
     color: $text-light !important;
     border-radius: 0px !important;
     padding: 10px 0px 10px 15px;
-}
-
-
-/* colore del loader*/
-
-.loader {
-    border: 4px solid $bkg-light-opacity50;
-    ; // è lo stesso del light con opacità inferiore
-    border-top: 4px solid $bkg-dark;
+    text-align: center;
 }
