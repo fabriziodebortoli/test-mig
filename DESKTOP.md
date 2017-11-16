@@ -10,12 +10,15 @@ Questo documento descrive come preparare e aggiornare l'ambiente di sviluppo per
 
 ## Prerequisiti
 
-Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.
+Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.  
+Installare i prerequisiti **con privilegi di Amministratore**.
 
 In condizioni normali l'installazione richiede 30' - 45'.
 
 ### [Git](http://git-scm.com)
 Installare la [**GitHub app** per Windows](http://windows.github.com).
+
+Dopo l'installazione, effettuare la login con le proprie credenziali di GitHub aziendali. Se non sono state ancora assegnate, chiederle.
 
 Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/articles/set-up-git).
 
@@ -27,7 +30,8 @@ Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/
   which comes with Node. Depending on your system, you can install Node either from
   source or as a pre-packaged bundle.
   
-  Se lo si ha già, verificare la versione da riga di comando: `node -v`
+  Se lo si ha già, verificare la versione da riga di comando: `node -v`  
+  Verificare anche la versione di NPM con il comando `npm -v`, deve essere superiore alla 5.0.
 
 ### [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) 
 A superset of JavaScript that compiles to clean JavaScript output.
