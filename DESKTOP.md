@@ -42,7 +42,9 @@ $ npm i -g rimraf
 
   * Download and install **.NET Core 2.0 SDK** - [link](https://www.microsoft.com/net/download/core)
 
-* Verificare di avere installato il seguente componente nella sezione "aspnet web development"
+* Aprire l'Installer del Visual Studio 2017 (dalla funzione di ricerca di Windows, cercare "Visual Studio Installer").
+
+Verificare di avere installato il seguente componente nella sezione "aspnet web development"
 ![Prequisiti](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/Prerequisiti.png)
 
 
