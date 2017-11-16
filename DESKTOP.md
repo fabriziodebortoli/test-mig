@@ -1,6 +1,8 @@
 # Sincronizzazione e Build ambiente di sviluppo Desktop
 
-Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il menu nuovo
+Questo documento descrive come preparare e aggiornare l'ambiente di sviluppo per utilizzare il menu web da parte di chi lavora solo in ambiente Desktop.
+
+**ATTENZIONE**: la procedura non vale se sviluppate anche in ambiente web. Con questa procedura vengono cancellati eventuali cadaveri di cartelle legate alla parte web, quindi qualsiasi modifica alla parte web non pushata su git, ***con questo metodo andrà irrimediabilmente persa***. 
 
 * [Prerequisiti](#prerequisiti)
 * [Script](#script)
@@ -8,12 +10,15 @@ Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il m
 
 ## Prerequisiti
 
-Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.
+Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.  
+Installare i prerequisiti **con privilegi di Amministratore**.
 
 In condizioni normali l'installazione richiede 30' - 45'.
 
 ### [Git](http://git-scm.com)
 Installare la [**GitHub app** per Windows](http://windows.github.com).
+
+Dopo l'installazione, effettuare la login con le proprie credenziali di GitHub aziendali. Se non sono state ancora assegnate, chiederle.
 
 Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/articles/set-up-git).
 
@@ -25,7 +30,8 @@ Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/
   which comes with Node. Depending on your system, you can install Node either from
   source or as a pre-packaged bundle.
   
-  Se lo si ha già, verificare la versione da riga di comando: `node -v`
+  Se lo si ha già, verificare la versione da riga di comando: `node -v`  
+  Verificare anche la versione di NPM con il comando `npm -v`, deve essere superiore alla 5.0.
 
 ### [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) 
 A superset of JavaScript that compiles to clean JavaScript output.
@@ -82,48 +88,24 @@ In seguito, aprire una qualsiasi solution Mago o TB, e dal menu Microarea Tools,
 ### (Opzionale) [Visual Studio Code](http://code.visualstudio.com/) 
 Source code editor.
 
-## Script 
+## Script
 
-Scaricare uno degli script seguenti ed eseguire come Amministratore, soprattutto se in ambiente Windows 10.
-Entrambi gli script, alla partenza, vi chiederanno di specificare il path di installazione della vostra cartella di sviluppo (ad esempio “c:\development”)
+Il prerequisito per eseguire la build dell'ambiente web è di avere sincronizzato TaskBuilder, ERP ed ogni altra solution C++ (es.: MDC, ecc.).
 
-### Clone, Install e Build
-Il file **M4-Clone.bat** ha lo scopo di clonare, installare e buildare tutti i componenti provenienti da git.
+Eseguire **COME AMMINISTRATORE** lo script `Standard\TaskBuilder\BuildWebEnvironment.bat`: se vengono riportati degli errori, vedere [**Troubleshooting**](#troubleshooting).
 
-Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Clone.bat?raw=true) (tasto destro del mouse -> Salva con nome)
+La prima volta, se non avete mai fatto accesso a GIT da linea di comando, comparirà una finestra che vi chiede le credenziali, inseritele. Non verranno più richieste successivamente.
 
-Oppure nel repository  in ```<InstallationPath>/Standard/web/docs/script/M4-Client.bat```
+Il lancio dello script va ripetuto ogni volta che si sincronizza TaskBuilder; può essere fatto prima o dopo la compilata delle solution di ERP e di TB.
 
-Questo script come prima cosa cancella eventuali cadaveri di cartelle legate alla parte web, quindi qualsiasi modifica alla parte web non pushata su git, ***con questo script andrà irrimediabilmente persa***.
+### BONUS!! Uso di Mago web
+Facendo quanto sopra potete anche usare il *vero* Mago web.
 
-
-### Sincronizzazione e Build
-Il file **M4-Get-Build.bat** effettua una sincronizzata pulita, più le relative build della parte angular  e netcore.
-
-Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Get-Build.bat?raw=true) (tasto destro del mouse -> Salva con nome)
-
-Oppure nel repository in ```<InstallationPath>/Standard/web/docs/script/M4-Get-Build.bat```
-
-
-
-### Build Completa
-
-Il file **M4-Build-Complete.bat** effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
-
- 1. Pulizia completa della cartella \apps
- 2. Get latest (compreso di tentativo di automerge)  di taskbuilder, erp 
- 3. Build in debug di taskbuilder e erp
- 4. Sincronizzazione da git e compilata dei sorgenti web. (effettua tutte le operazioni presenti nel “M4-Get-Build.bat”
-
-Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat?raw=true) (tasto destro del mouse -> Salva con nome)
-
-Oppure, nel repository in ```<InstallationPath>/Standard/web/docs/script/M4-Build-Complete.bat```
-
-N.B.: nello script è presente, anche se commentato con un “rem” , tutta la parte relativa ad MDC:  se normalmente sincronizzate anche questa applicazione, dovete semplicemente togliere i relativi “rem” dalle righe pertinenti ad mdc
-
-E' utile lanciare questo script tutte le sere, magari anche con una schedulazione di windows, in modo da avere l’intero ambiente pronto all’uso la mattina dopo (ovviamente a meno di errori di compilazione dovuti a checkin infausti)
+Lanciate lo script `Standard\web\client\web-form\run.bat` (da linea di comando o con doppio click da Windows Explorer). Si aprono due command prompt ed un TBLoader. Quando nel command prompt con titolo "@angular/cli" compare la scritta "webpack compiled successfully" aprite il browser su `localhost:4200`.
 
 ## Troubleshooting
 * nell'installazione delle dipendenze con NPM (`npm i`) compaiono moltissimi messaggi contenenti "ENOENT". Cancellare i files `package-lock.json` della sottocartella `standard\web\client\web-form`, e la cartella `C:\Users\[nome utente]\AppData\Roaming\npm-cache`
 
 * nell'installazione delle dipendenze con NPM (`npm i`) compare un messaggio che indica la mancanza di un componente Kendo. Modificare il file `C:\Users\[nome utente]\.npmrc` rimuovendone le righe relative alla licenza Kendo.
+
+* in caso di dubbi di situazione delle cartelle "sporca", provare a cancellare completamente la cartella `standard\web` e ripetere l'operazione.
