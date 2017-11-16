@@ -8,7 +8,7 @@
     </header>
 
     <div class="login-main-content">
-        <div class="login-form tb-card" *ngIf="!loadingService.isLoading">
+        <div class="login-form" *ngIf="!loadingService.isLoading">
             <tb-card>
                 <tb-card-title [title]="localizationService?.localizedElements?.Login"></tb-card-title>
                 <tb-card-content>
@@ -18,8 +18,7 @@
                         <div class="form-control">
                             <p class="floatingLabel">{{localizationService?.localizedElements?.User}}</p>
                             <kendo-textbox-container>
-                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)"
-                                    name="user">
+                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)" name="user">
                             </kendo-textbox-container>
                         </div>
 
@@ -55,8 +54,7 @@
 <tb-loading></tb-loading>
 
 <!-- USER ALREADY LOGGED -->
-<kendo-dialog title="{{localizationService?.localizedElements?.UserAlreadyConnectedTitle}}" *ngIf="userAlreadyConnectedOpened"
-    (close)="userConnectedCancel()">
+<kendo-dialog title="{{localizationService?.localizedElements?.UserAlreadyConnectedTitle}}" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
     <div>
         {{localizationService?.localizedElements?.UserAlreadyConnected}}
     </div>

@@ -36,8 +36,11 @@ export class TbComponentService {
             }
         });
     }
+    public _TB(baseText: string) {
+        return this.translate(this.translations, baseText);
+      }
     public readTranslationsFromServer(dictionaryId: string): Observable<Array<any>> {
-        return this.httpService.getTranslations(dictionaryId, this.infoService.culture.value);
+        return this.httpService.getTranslations('TbCardContentComponent', this.infoService.culture.value);
     }
     public calculateDictionaryId(obj: Object) {
         let dictionaryId = '';
@@ -92,8 +95,8 @@ export class TbComponentService {
         let target = baseText;
         if (translations) {
             translations.some(t => {
-                if (t.base == baseText) {
-                    target = t.target;
+                if (t.b === baseText) {
+                    target = t.t;
                     return true;
                 }
                 return false;

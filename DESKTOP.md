@@ -2,62 +2,85 @@
 
 Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il menu nuovo
 
-* [Prerequisite Software](#prerequisite-software)
-* [Microarea Extension](#microarea-extension)
+* [Prerequisiti](#prerequisiti)
 * [Script](#script)
+* [Troubleshooting](#troubleshooting)
 
-## Prerequisite Software
+## Prerequisiti
 
-Before you can build and test, you must install and configure the following products on your development machine:
+Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.
 
-* [Git](http://git-scm.com) and/or the **GitHub app** (for [Mac](http://mac.github.com) or
-  [Windows](http://windows.github.com)); [GitHub's Guide to Installing
-  Git](https://help.github.com/articles/set-up-git) is a good source of information.
+In condizioni normali l'installazione richiede 30' - 45'.
 
-* [Node.js](http://nodejs.org), (version `>=6.11`) which is used to run a development web server,
+### [Git](http://git-scm.com)
+Installare la [**GitHub app** per Windows](http://windows.github.com).
+
+Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/articles/set-up-git).
+
+### [Node.js](http://nodejs.org), (version `>=6.11`)
+  Installare la 'LTS' (Long Term Support). 
+  
+  Node.js is used to run a development web server,
   run tests, and generate distributable files. We also use Node's Package Manager, `npm`
   which comes with Node. Depending on your system, you can install Node either from
   source or as a pre-packaged bundle.
+  
+  Se lo si ha già, verificare la versione da riga di comando: `node -v`
 
-* [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) a superset of JavaScript that compiles to clean JavaScript output.
+### [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) 
+A superset of JavaScript that compiles to clean JavaScript output.
+
+Per installarlo, da riga di comando
 
 ```shell
 # global installation typescript
 $ npm i -g "typescript@latest"
 ```
 
-* [Angular CLI](https://cli.angular.io/), (version `>= 1.4`) a command line interface for Angular
+Se lo si ha già, verificare la versione da riga di comando: `tsc -v`
+
+### [Angular CLI](https://cli.angular.io/), (version `>= 1.4`)
+A command line interface for Angular
+
+Per installarlo, da riga di comando
+
 ```shell
 # global installation Angular CLI
 $ npm i -g "@angular/cli"
 ```
 
-* [rimraf] - Shortcut to *rm -rf*
+Se lo si ha già, verificare la versione da riga di comando: `ng -v`
+
+### [rimraf]
+A shortcut to *rm -rf*
+
+Per installarlo, da riga di comando
+
 ```shell
 # global installation rimraf
 $ npm i -g rimraf
 ```
 
-* .NET Core
+### .NET Core
 
-  * Download and install **.NET Core 2.0 SDK** - [link](https://www.microsoft.com/net/download/core)
+Scaricare ed installare il [**.NET Core 2.0 SDK**](https://www.microsoft.com/net/download/core)
 
-* Verificare di avere installato il seguente componente nella sezione "aspnet web development"
+### Componenti aggiuntivi di Visual Studio
+Aprire l'Installer del Visual Studio 2017 (dalla funzione di ricerca di Windows, cercare "Visual Studio Installer"). Potrebbe richiedere l'aggiornamento dello stesso Installer o di Visual Studio)
+
+Verificare di avere installato il seguente componente nella sezione "aspnet web development"
 ![Prequisiti](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/Prerequisiti.png)
 
-
-* [Visual Studio Code](http://code.visualstudio.com/) source code editor
-
-* [Visual Studio Typescript Extension](https://www.microsoft.com/en-us/download/details.aspx?id=48593) - Only for VS 2015 users
-
-
-## Microarea Extension
+### Microarea Extension
 
 Scaricare le **MicroareaExtension** per **vs2017** che si trovano online come da screenshots.
 ![Tools -> Extension and Updates](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/microarea-extension-1.png)
 ![Search 'microarea'](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/microarea-extension-2.jpg)
 
-In seguito, dal menu Microarea Tools, scegliere la voce **Create IIS virtual directory**
+In seguito, aprire una qualsiasi solution Mago o TB, e dal menu Microarea Tools, scegliere la voce **Create IIS virtual directory**
+
+### (Opzionale) [Visual Studio Code](http://code.visualstudio.com/) 
+Source code editor.
 
 ## Script 
 
@@ -99,3 +122,10 @@ Oppure, nel repository in ```<InstallationPath>/Standard/web/docs/script/M4-Buil
 N.B.: nello script è presente, anche se commentato con un “rem” , tutta la parte relativa ad MDC:  se normalmente sincronizzate anche questa applicazione, dovete semplicemente togliere i relativi “rem” dalle righe pertinenti ad mdc
 
 E' utile lanciare questo script tutte le sere, magari anche con una schedulazione di windows, in modo da avere l’intero ambiente pronto all’uso la mattina dopo (ovviamente a meno di errori di compilazione dovuti a checkin infausti)
+
+## Troubleshooting
+* messaggio di errore: "Not in a development path: it should contains the 'standard' subfolder". Se si sta lanciando il batch file da windows explorer, il sistema non ha una current directory valida; aprire un prompt e dare un "cd" all'interno della directory di sviluppo, o lanciare il batch da un prompt di comandi.
+
+* nell'installazione delle dipendenze con NPM (`npm i`) compaiono moltissimi messaggi contenenti "ENOENT". Cancellare i files `package-lock.json` della sottocartella `standard\web\client\web-form`, e la cartella `C:\Users\[nome utente]\AppData\Roaming\npm-cache`
+
+* nell'installazione delle dipendenze con NPM (`npm i`) compare un messaggio che indica la mancanza di un componente Kendo. Modificare il file `C:\Users\[nome utente]\.npmrc` rimuovendone le righe relative alla licenza Kendo.
