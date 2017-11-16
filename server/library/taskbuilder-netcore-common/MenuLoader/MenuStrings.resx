@@ -405,4 +405,11 @@
   <data name="CloneDialogSubtitle" xml:space="preserve">
     <value>Creating a new document, based on </value>
   </data>
+  <data name="NewDocumentCreatedwithSuccess" xml:space="preserve">
+    <value>New Document Created with Success</value>
+  </data>
+  <data name="CannotModifyContextMenuES" xml:space="preserve">
+    <value>It is not possible to change customization context with opened documents.
+Please, close all documents.</value>
+  </data>
 </root>

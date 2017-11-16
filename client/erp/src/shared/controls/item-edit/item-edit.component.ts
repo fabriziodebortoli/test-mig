@@ -25,15 +25,16 @@ export class ItemEditComponent extends ControlComponent {
         super(layoutService, tbComponentService);
     }
 
-    // funzione(): boolean {
-    //     return true;
-    // }
-
     ngOnInit() {
         this.readParams();
     }
 
     readParams() {
+        this.http.getItemsSearchList("producers").subscribe(result => {
+            let response = result;
+            console.log(response);
+        })
+
         this.http.checkItemsAutoNumbering().subscribe(result => {
             this.itemsAutoNumbering = result.json().itemsAutoNumbering;
             this.changeDetectorRef.detectChanges();

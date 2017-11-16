@@ -86,14 +86,14 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
 
     let p: URLSearchParams = new URLSearchParams(this.args);
     if (!this.enableMultiSelection && this.value) {
-      p.set("filter", this.value)
+      p.set('filter', this.value)
     }
-    for (var key in this.args) {
+    for (let key in this.args) {
       if (this.args.hasOwnProperty(key)) {
-        var element = this.args[key];
+        let element = this.args[key];
         p.set(key, element);
       }
-    }   
+    }
 
     let subs = this.httpService.getHotlinkData(this.ns, this.selectionType, p).subscribe((json) => {
       this.data = json;

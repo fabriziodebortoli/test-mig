@@ -1,19 +1,12 @@
-<!-- <div class="" [ngClass]="{'brick--width2': objects.length > 10 }"> -->
-<div class="tb-card">
-    <tb-card *ngIf="tile != undefined">
-        <tb-card-title class="tb-card-title" [title]="tile.title" [isCollapsible]="false">
-            <m4-icon [icon]="!pinned ? 'tb-uncheckedradiobutton' : 'tb-uncheckedradiobuttonfilled'" (mouseenter)="pinned = true" (mouseleave)="pinned = false"
-                class="hideButton" (click)="menuService.addToHiddenTiles(menu, tile)" matTooltip="{{localizationService?.localizedElements?.HideTile}}"
-                matTooltipShowDelay="500"></m4-icon>
-        </tb-card-title>
+<tb-card *ngIf="tile != undefined">
+    <tb-card-title class="tb-card-title" [title]="tile.title" [isCollapsible]="false">
+        <m4-icon [icon]="!pinned ? 'tb-uncheckedradiobutton' : 'tb-uncheckedradiobuttonfilled'" (mouseenter)="pinned = true" (mouseleave)="pinned = false" class="hideButton" (click)="menuService.addToHiddenTiles(menu, tile)" matTooltip="{{localizationService?.localizedElements?.HideTile}}"
+            matTooltipShowDelay="500"></m4-icon>
+    </tb-card-title>
 
-
-        <tb-card-content>
-            <div class="row">
-                <!-- <tb-menu-element [object]="object" *ngFor="let object of objects;" class="menu-content col-xs-12" [ngClass]="{'col-md-6': objects.length > 10 , 'col-md-12': objects.length <= 10}"></tb-menu-element> -->
-                <tb-menu-element [object]="object" *ngFor="let object of objects;" class="menu-content col-xs-12"></tb-menu-element>
-            </div>
-        </tb-card-content>
-    </tb-card>
-</div>
-<!-- </div> -->
+    <tb-card-content>
+        <div class="row">
+            <tb-menu-element [object]="object" *ngFor="let object of objects;" class="menu-content col-xs-12"></tb-menu-element>
+        </div>
+    </tb-card-content>
+</tb-card>
