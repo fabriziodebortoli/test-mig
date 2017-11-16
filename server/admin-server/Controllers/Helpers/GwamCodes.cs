@@ -3,12 +3,16 @@
 namespace Microarea.AdminServer.Controllers.Helpers
 {
     /// <summary>
-    /// QUESTI CODICI DEVONO ESSERE ALLINEATI CON QUELLI DELL'ENUMERATIVO GWAMCodes
-    /// DEFINITO NEL GWAM back-end
+    /// CODICI ALLINEATI CON QUELLI DELL'ENUMERATIVO GWAMCodes
+    /// DEFINITO NEL GWAM \gwam-app\Controllers\Helpers\GwamMessageCodes.cs
     /// </summary>
     //================================================================================
     public class GwamMessageStrings
     {
+        // Costante usata se il GWAM non risponde ma si può proseguire.
+        public const int GoOnDespiteGWAM = 999;
+       
+        //-----------------------------------------------------------------------------	
         public enum GWAMCodes
         {
             OK,//0
@@ -44,7 +48,8 @@ namespace Microarea.AdminServer.Controllers.Helpers
             MissingRole,//30
             ValidToken,//31
             DataToUpdate,//32
-            DataNotFound//33
+            DataNotFound//33,
+            
         }
 
         //-----------------------------------------------------------------------------	
