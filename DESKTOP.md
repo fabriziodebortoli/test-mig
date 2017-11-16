@@ -101,7 +101,12 @@ Il lancio dello script va ripetuto ogni volta che si sincronizza TaskBuilder; pu
 ### BONUS!! Uso di Mago web
 Facendo quanto sopra potete anche usare il *vero* Mago web.
 
+Aprite un prompt di comandi e spostatevi nel folder `Standard\web\`.  
+Date il comando: `git checkout master` (cambiate il branch di lavoro di TB web).
+
 Lanciate lo script `Standard\web\client\web-form\run.bat` (da linea di comando o con doppio click da Windows Explorer). Si aprono due command prompt ed un TBLoader. Quando nel command prompt con titolo "@angular/cli" compare la scritta "webpack compiled successfully" aprite il browser su `localhost:4200`.
+
+Per tornare sul branch della 2.x, date il comando `git checkout dev_2_x` (dopo avere chiuso tutti i command prompt aperti dal run).
 
 ## Troubleshooting
 * nell'installazione delle dipendenze con NPM (`npm i`) compaiono moltissimi messaggi contenenti "ENOENT". Cancellare i files `package-lock.json` della sottocartella `standard\web\client\web-form`, e la cartella `C:\Users\[nome utente]\AppData\Roaming\npm-cache`
