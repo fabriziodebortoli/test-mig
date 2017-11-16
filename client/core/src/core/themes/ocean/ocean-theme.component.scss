@@ -1,6 +1,8 @@
-$bkg-light:#2d2d2d;
-$bkg-medium:rgba(44, 187, 235, 1);
-$bkg-dark:rgba(0, 0, 0, 0.8);
+$bkg-light: rgb(193, 214, 232);
+$bkg-light-opacity50:rgba(193, 211, 223, 0.5);
+$bkg-medium:rgb(40, 128, 185);
+$bkg-dark:#005489;
+$bkg-app: rgba(38, 107, 152, 0.4);
 $bkg: #fff;
 $text-light: #fff;
 $text-medium: #8f8f96;
@@ -24,8 +26,8 @@ $font-size-tooltip: 12px;
     }
     //Selettore menu/dashboard/documenti/report, singola tab attiva
     .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
-        background: $bkg-dark;
-        color: $text-light;
+        background: $bkg-light;
+        color: $text-black;
         border-bottom-color: $bkg-medium;
     }
     //colore barra del titolo delle finestre di messaggio modali
@@ -41,8 +43,11 @@ $font-size-tooltip: 12px;
     }
     //colore della toolbar principale della frame
     .toolbar-top {
-        background-color: $bkg-medium;
-        color: $text-light;
+        background-color: $bkg-light;
+        color: $text-dark;
+    }
+    .toolbar-top-item {
+        color: $text-black;
     }
     //colore del tabber del selettore menu
     .menu-page .k-tabstrip-top>.k-tabstrip-items {
@@ -86,6 +91,10 @@ $font-size-tooltip: 12px;
     //dimensione del font delle voci di menu
     tb-menu-element .menu-element-content .object-type {
         font-size: 16px;
+    }
+    //colore mouseover delle voci di menu
+    tb-menu-element .menu-element:hover {
+        background-color: $bkg-light-opacity50;
     }
     //colore scrollbar
      ::-webkit-scrollbar-thumb {
