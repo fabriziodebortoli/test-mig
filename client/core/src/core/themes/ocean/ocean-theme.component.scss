@@ -35,12 +35,15 @@ $font-size-tooltip: 12px;
     .k-dialog-titlebar {
         background-color: $bkg-medium;
     }
-    //colore pulsanti finestre di messaggio modali
-    .k-button.k-primary,
-    .k-slider .k-draghandle,
-    .k-switch-on .k-switch-handle {
-        background-color: $bkg-medium;
-        border-color: $bkg-medium;
+    //titoli finestre di messaggio modali
+    .k-window-title {
+        font-size: 17px;
+        line-height: normal;
+        background-color: $bkg-medium
+    }
+    //pulsanti finestre di messaggio modali
+    .k-button {
+        color: $text-black;
     }
     //colore della toolbar principale della frame
     .toolbar-top {
@@ -126,7 +129,7 @@ $font-size-tooltip: 12px;
     }
     //tidolo delle voci sidenav
     .sidenav-subtitle h4 {
-        color: $text-black;
+        color: $text-light;
     }
     //stile quando usato nella sidenav
     /// inizio sidenav
