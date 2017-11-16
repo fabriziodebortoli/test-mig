@@ -10,6 +10,8 @@ Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il m
 
 Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.
 
+In condizioni normali l'installazione richiede 30' - 45'.
+
 ### [Git](http://git-scm.com)
 Installare la [**GitHub app** per Windows](http://windows.github.com).
 
@@ -123,3 +125,5 @@ E' utile lanciare questo script tutte le sere, magari anche con una schedulazion
 
 ## Troubleshooting
 * messaggio di errore: "Not in a development path: it should contains the 'standard' subfolder". Se si sta lanciando il batch file da windows explorer, il sistema non ha una current directory valida; aprire un prompt e dare un "cd" all'interno della directory di sviluppo, o lanciare il batch da un prompt di comandi.
+
+* nell'installazione delle dipendenze con NPM (`npm i`) compaiono moltissimi messaggi contenenti "ENOENT". Cancellare i files `package-lock.json` della sottocartella `standard\web\client\web-form`, e la cartella `C:\Users\[nome utente]\AppData\Roaming\npm-cache`
