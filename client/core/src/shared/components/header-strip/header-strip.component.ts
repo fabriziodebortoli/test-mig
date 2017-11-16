@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ViewEncapsulation } from '../../../../../web-form/node_modules/@angular/core/src/metadata/view';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'tb-header-strip',
