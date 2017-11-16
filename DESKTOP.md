@@ -96,7 +96,7 @@ Eseguire **COME AMMINISTRATORE** lo script `Standard\TaskBuilder\BuildWebEnviron
 
 La prima volta, se non avete mai fatto accesso a GIT da linea di comando, comparirà una finestra che vi chiede le credenziali, inseritele. Non verranno più richieste successivamente.
 
-Il lancio dello script va ripetuto ogni vlta che si sincronizza TaskBuilder; può essere fatto prima o dopo la compilata delle solution di ERP e di TB.
+Il lancio dello script va ripetuto ogni volta che si sincronizza TaskBuilder; può essere fatto prima o dopo la compilata delle solution di ERP e di TB.
 
 ### BONUS!! Uso di Mago web
 Facendo quanto sopra potete anche usare il *vero* Mago web.
