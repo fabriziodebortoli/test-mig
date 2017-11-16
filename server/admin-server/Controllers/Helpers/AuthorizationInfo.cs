@@ -24,11 +24,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
         public bool IsAppToken { get { return (string.Compare(Type, TypeAppName, StringComparison.CurrentCultureIgnoreCase) == 0); } }
 
         //-----------------------------------------------------------------------------	
-        public AuthorizationInfo()
-        {
-        }
-
-        //-----------------------------------------------------------------------------	
         public AuthorizationInfo(string type, string appId, string securityValue)
         {
             Type = type;

@@ -25,31 +25,31 @@ namespace Microarea.AdminServer.Services.BurgerData
             this.httpHelper = httpHelper;
             this.GWAMUrl = GWAMUrl;
             this.instance = instance == null ? new Instance() : instance;
-            this.authInfo = new AuthorizationInfo(AuthorizationInfo.TypeAppName, instance.InstanceKey, instance.SecurityValue);
+            this.authInfo =  instance.GetAuthorizationInfo();
         }
-        
+
         //----------------------------------------------------------------------
         private OperationResult VerifyPendingFlag(Task<string> res)
         {
             OperationResult opRes = new OperationResult();
-            {               
-                // GWAM call could not end correctly: so we check the object
-                if (res.Status ==TaskStatus.Faulted)
+
+            // GWAM call could not end correctly: so we check the object
+            if (res.Status == TaskStatus.Faulted)
+            {
+                GwamDown = true;
+                //imposto il flag pending per capire quanto tempo passa fuori copertura
+                if (!instance.VerifyPendingDate())
                 {
-                    GwamDown = true;
-                    //imposto il flag pending per capire quanto tempo passa fuori copertura
-                    if (!instance.VerifyPendingDate())
-                    {
-                        // gwam non risponde e non possiamo lavorare offline
-                        opRes.Result = false;
-                        opRes.Code = (int)AppReturnCodes.GWAMCommunicationError;
-                        opRes.Message = Strings.GWAMCommunicationError;
-                        return opRes;
-                    }
+                    // gwam non risponde e non possiamo lavorare offline
+                    opRes.Result = false;
+                    opRes.Code = (int)AppReturnCodes.GWAMCommunicationError;
+                    opRes.Message = Strings.GWAMCommunicationError;
+                    return opRes;
                 }
+                opRes.Result = true;
+                opRes.Code = GwamMessageStrings.GoOnDespiteGWAM; // gwam non risponde ma possiamo lavorare offline
             }
-            opRes.Result = true;
-            opRes.Code = (int)GwamMessageStrings.GWAMCodes.OK; // gwam non risponde ma possiamo lavorare offline
+            opRes = JsonConvert.DeserializeObject<OperationResult>(res.Result as string);
             return opRes;
         }
 
@@ -73,7 +73,22 @@ namespace Microarea.AdminServer.Services.BurgerData
         }
 
         //----------------------------------------------------------------------
-        internal async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
+        internal OperationResult VerifyAccountModificationGWAM(AccountModification accMod)
+        {
+            OperationResult opRes = new OperationResult();
+            if (GwamDown)
+                return opRes;
+
+            Task<string> res = VerifyAccountModificationGWAMAsync(accMod).Result;
+            
+            opRes = VerifyPendingFlag(res);
+
+            return opRes;
+        }
+
+
+        //----------------------------------------------------------------------
+        private async Task<Task<string>> VerifyAccountModificationGWAMAsync(AccountModification accMod)
         {
             string url = String.Format(
                 "{0}accounts/{1}/{2}/{3}",
@@ -87,6 +102,8 @@ namespace Microarea.AdminServer.Services.BurgerData
                 return Task.FromException<string>(new Exception());//FAULTED, POTREBBE NON RISPONDERE
 
             return (Task<string>)opRes.Content;
+
+
         }
 
         //----------------------------------------------------------------------
@@ -135,7 +152,7 @@ namespace Microarea.AdminServer.Services.BurgerData
         }
 
         //----------------------------------------------------------------------
-        public OperationResult GetInstance()
+        internal OperationResult GetInstance()
         {
             OperationResult opRes = new OperationResult();
             if (GwamDown)

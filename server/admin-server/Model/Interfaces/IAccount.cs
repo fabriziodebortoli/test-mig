@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microarea.AdminServer.Libraries;
+using Microarea.AdminServer.Services.BurgerData;
+using System;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
@@ -28,5 +30,6 @@ namespace Microarea.AdminServer.Model.Interfaces
 		string ParentAccount { get; set; }
 		bool Confirmed { get; set; }
 		void ResetPasswordExpirationDate();
+        LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata);
     }
 }

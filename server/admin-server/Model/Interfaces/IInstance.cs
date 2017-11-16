@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microarea.AdminServer.Controllers.Helpers;
+using System;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
@@ -16,5 +17,6 @@ namespace Microarea.AdminServer.Model.Interfaces
         int Ticks { get; set; }
 		string SecurityValue { get; set; }
         bool VerifyPendingDate();
+        AuthorizationInfo GetAuthorizationInfo();
     }
 }
