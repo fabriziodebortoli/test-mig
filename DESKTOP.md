@@ -88,7 +88,7 @@ Source code editor.
 
 Il prerequisito per eseguire la build dell'ambiente web è di avere sincronizzato TaskBuilder, ERP ed ogni altra solution C++ (es.: MDC, ecc.).
 
-Eseguire **COME AMMINISTRATORE** lo script `Standard\TaskBuilder\BuildWebEnvironment.bat`: se vengono riportati degli errori, vedere **Troubleshooting**(#troubleshooting).
+Eseguire **COME AMMINISTRATORE** lo script `Standard\TaskBuilder\BuildWebEnvironment.bat`: se vengono riportati degli errori, vedere [**Troubleshooting**](#troubleshooting).
 
 La prima volta, se non avete mai fatto accesso a GIT da linea di comando, comparirà una finestra che vi chiede le credenziali, inseritele. Non verranno più richieste successivamente.
 
