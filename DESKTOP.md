@@ -2,9 +2,9 @@
 
 Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il menu nuovo
 
-* [Prerequisite Software](#prerequisite-software)
-* [Microarea Extension](#microarea-extension)
+* [Prerequisiti](#Prerequisiti)
 * [Script](#script)
+* [Troubleshooting](#Troubleshooting)
 
 ## Prerequisiti
 
