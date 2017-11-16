@@ -2,9 +2,9 @@
 
 Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il menu nuovo
 
-* [Prerequisiti](#Prerequisiti)
+* [Prerequisiti](#prerequisiti)
 * [Script](#script)
-* [Troubleshooting](#Troubleshooting)
+* [Troubleshooting](#troubleshooting)
 
 ## Prerequisiti
 
@@ -121,5 +121,5 @@ N.B.: nello script è presente, anche se commentato con un “rem” , tutta la 
 
 E' utile lanciare questo script tutte le sere, magari anche con una schedulazione di windows, in modo da avere l’intero ambiente pronto all’uso la mattina dopo (ovviamente a meno di errori di compilazione dovuti a checkin infausti)
 
-### Troubleshooting
+## Troubleshooting
 * messaggio di errore: "Not in a development path: it should contains the 'standard' subfolder". Se si sta lanciando il batch file da windows explorer, il sistema non ha una current directory valida; aprire un prompt e dare un "cd" all'interno della directory di sviluppo, o lanciare il batch da un prompt di comandi.
