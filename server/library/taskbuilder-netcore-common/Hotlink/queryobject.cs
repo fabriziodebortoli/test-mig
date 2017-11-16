@@ -26,7 +26,7 @@ namespace Microarea.Common.Hotlink
 
     public class QueryObject : object, IDisposable
 	{
-		#region Protected Data Member
+		#region Data Member
 
 		private string	queryNameString		= string.Empty ;
 		private string	queryTemplateString	= string.Empty ; //originale, completa dei tag
@@ -39,19 +39,22 @@ namespace Microarea.Common.Hotlink
 
 		//private bool			disposed		= false;//Track whether Dispose has been called.
 		private DBConnection	tbConnection	= null; //m_pSqlSession
-		private DBCommand tbCommand		= null; //m_pSqlTable
+		private DBCommand       tbCommand		= null; //m_pSqlTable
 		private IDataReader		iDataReader		= null; 
 
-		private ArrayList			tagLinkArrayList	= null;
-		private TbSession	session		= null;
-		private QueryObject			parentQuery	= null;
-		private int bindNumber = 0;
+		private ArrayList		tagLinkArrayList	= null;
+		private TbSession	    session		= null;
+		private QueryObject		parentQuery	= null;
+		private int             bindNumber = 0;
 
-        public bool IsQueryRule = false;
+        public  bool            IsQueryRule = false;
 
-        bool isOracle = false;
-        bool isUnicode = false;
-        DBMSType dbType = DBMSType.SQLSERVER;
+        private bool            isOracle = false;
+        private bool            isUnicode = false;
+        private DBMSType        dbType = DBMSType.SQLSERVER;
+
+        private int             pageNumber = 0;
+        private int             rowsForPage = 0;
 
         #endregion
 
@@ -118,10 +121,17 @@ namespace Microarea.Common.Hotlink
 			bindNumber = 0;
 		}
 
-		#endregion
+        #endregion
 
-		//-------------------------------------------------------------------------------
-		public int AddLink (string name, TagType direction, object data, int len, Expression whenExpr, QueryObject expandClause)
+        //-------------------------------------------------------------------------------
+        public void SetPaging(int page, int rows)
+        {
+            pageNumber = page;
+            rowsForPage = rows;
+        }
+
+        //-------------------------------------------------------------------------------
+        public int AddLink (string name, TagType direction, object data, int len, Expression whenExpr, QueryObject expandClause)
 		{
 			return tagLinkArrayList.Add(new TagLink(name, direction, data, len, whenExpr, expandClause));
 		}
@@ -623,10 +633,14 @@ namespace Microarea.Common.Hotlink
 
 			if (TbConnection == null)
 			{
-				TbConnection = new DBConnection(Provider.DBType.SQLSERVER, this.session.CompanyDbConnection /*, TBDatabaseType.GetDBMSType(this.session.Provider) TODO rsweb*/);
+				TbConnection = new DBConnection(Provider.DBType.SQLSERVER, this.session.CompanyDbConnection /*, TBDatabaseType.GetDBMSType(this.session.Provider) TODO RSWEB*/);
 				TbConnection.Open();
 			}
-			tbCommand = new DBCommand(strSql,TbConnection);
+
+            if (this.pageNumber != 0)
+                strSql = BuildPaging(strSql, TbConnection);
+
+            tbCommand = new DBCommand(strSql, TbConnection);
             tbCommand.CommandTimeout = 0;
 
             int bindPos = 0;
@@ -635,8 +649,16 @@ namespace Microarea.Common.Hotlink
 			return true;
 		}
 
-		//------------------------------------------------------------------------------
-		private bool ExpandTemplate (ref string strSql)
+        string BuildPaging(string query, DBConnection dbConn)
+        {
+            //query = query.Trim().Remove(0, "select".Length);
+            //query = "SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS id," + query + $" OFFSET {(this.pageNumber - 1) * this.rowsForPage} ROWS FETCH NEXT {this.rowsForPage} ROWS ONLY";
+            query +=  $" OFFSET {(this.pageNumber - 1) * this.rowsForPage} ROWS FETCH NEXT {this.rowsForPage} ROWS ONLY";
+            return query;
+        }
+
+        //------------------------------------------------------------------------------
+        private bool ExpandTemplate (ref string strSql)
 		{
 			for (int i = 0; i < tagLinkArrayList.Count; i++)
 			{

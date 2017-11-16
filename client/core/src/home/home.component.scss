@@ -101,3 +101,9 @@ mat-sidenav-container,
 .hidden {
     visibility: hidden;
 }
+
+@media screen and (max-width: 768px) {
+    .topbar-title-content>img {
+        display: none
+    }
+}

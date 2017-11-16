@@ -24,6 +24,7 @@ namespace DataService.Controllers
 				dic.dictionaries.Add(new Dictionary(ci.Name, ci.NativeName));
 			return new JsonResult(dic);
 		}
+
 		UserInfo GetLoginInformation()
         {
             string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
@@ -45,8 +46,27 @@ namespace DataService.Controllers
 
             return ui;
         }
+  
         //---------------------------------------------------------------------
+        [Route("getselections/{namespace}")]
+        public IActionResult GetSelectionTypes(string nameSpace)
+        {
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
+            TbSession session = new TbSession(ui, nameSpace);
+
+            Datasource ds = new Datasource(session);
+
+            string list;
+            if (!ds.GetSelectionTypes(out list))
+                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+
+            return new ContentResult { Content = list, ContentType = "application/json" };
+        }
+
+        //---------------------------------------------------------------------
         [Route("getdata/{namespace}/{selectiontype}")]
         public IActionResult GetData(string nameSpace, string selectionType)
         {
@@ -71,75 +91,59 @@ namespace DataService.Controllers
                 session.LoggedToTb = true;
             }
             
-
             Datasource ds = new Datasource(session);
             if (!ds.PrepareQueryAsync(HttpContext.Request.Query, selectionType).Result)
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
 			string records;
-            if (!ds.GetCompactJson(out records))
+            if (!ds.GetRowsJson(out records))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 			
 			//---------------------
 			return new ContentResult { Content = records, ContentType = "application/json" };
         }
 
-        [Route("getcolumns/{namespace}/{selectiontype}")]
-        public IActionResult GetColumns(string nameSpace, string selectionType)
-        {
-            UserInfo ui = GetLoginInformation();
-            if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+        //---------------------------------------------------------------------
+        /*
+                [Route("getcolumns/{namespace}/{selectiontype}")]
+                public IActionResult GetColumns(string nameSpace, string selectionType)
+                {
+                    UserInfo ui = GetLoginInformation();
+                    if (ui == null)
+                        return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            TbSession session = new TbSession(ui, nameSpace);
+                    TbSession session = new TbSession(ui, nameSpace);
 
-            Datasource ds = new Datasource(session);
+                    Datasource ds = new Datasource(session);
 
-            if (!ds.PrepareQuery(HttpContext.Request.Query, selectionType))
-                return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
+                    if (!ds.PrepareQuery(HttpContext.Request.Query, selectionType))
+                        return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
-            string columns;
-            if (!ds.GetColumns(out columns))
-                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+                    string columns;
+                    if (!ds.GetColumns(out columns))
+                        return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
-            return new ContentResult { Content = columns, ContentType = "application/json" };
-        }
+                    return new ContentResult { Content = columns, ContentType = "application/json" };
+                }
 
-        [Route("getselections/{namespace}")]
-        public IActionResult GetSelectionTypes(string nameSpace)
-        {
-            UserInfo ui = GetLoginInformation();
-            if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+               [Route("getparameters/{namespace}")]
+                public IActionResult GetParameters(string nameSpace)
+                {
+                    UserInfo ui = GetLoginInformation();
+                    if (ui == null)
+                        return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            TbSession session = new TbSession(ui, nameSpace);
+                    TbSession session = new TbSession(ui, nameSpace);
 
-            Datasource ds = new Datasource(session);
+                    Datasource ds = new Datasource(session);
 
-            string list;
-            if (!ds.GetSelectionTypes(out list))
-                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+                    string list;
+                    if (!ds.GetParameters(out list))
+                        return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
-            return new ContentResult { Content = list, ContentType = "application/json" };
-        }
-
-        [Route("getparameters/{namespace}")]
-        public IActionResult GetParameters(string nameSpace)
-        {
-            UserInfo ui = GetLoginInformation();
-            if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            TbSession session = new TbSession(ui, nameSpace);
-
-            Datasource ds = new Datasource(session);
-
-            string list;
-            if (!ds.GetParameters(out list))
-                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
-
-            return new ContentResult { Content = list, ContentType = "application/json" };
-        }
+                    return new ContentResult { Content = list, ContentType = "application/json" };
+                }
+        */
 
         //---------------------------------------------------------------------
         [Route("radar")]
@@ -155,7 +159,7 @@ namespace DataService.Controllers
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
             string records;
-            if (!ds.GetCompactJson(out records))
+            if (!ds.GetRowsJson(out records))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------

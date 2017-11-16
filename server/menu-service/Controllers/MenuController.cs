@@ -251,7 +251,7 @@ namespace Microarea.Menu.Controllers
         {
             string fullImagePath = Path.Combine(BasePathFinder.BasePathFinderInstance.GetStandardPath(), imageFile);
             if (!System.IO.File.Exists(fullImagePath))
-                return new ContentResult { Content = "File does not exists " + fullImagePath, ContentType = "application/text" };
+                return new ContentResult { Content = "File does not exists " + fullImagePath, ContentType = "text/plain" };
 
             string ext = System.IO.Path.GetExtension(fullImagePath);
 

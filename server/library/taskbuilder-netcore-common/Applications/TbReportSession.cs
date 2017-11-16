@@ -439,7 +439,7 @@ namespace Microarea.Common.Applications
               <Param name="action" type="integer" mode="in" />
          </Function>
         */
-        public static async Task<string> GetHotLinkQuery(TbSession session, string aParams, /*Hotlink.HklAction*/int action)
+        public static async Task<string> GetHotLinkQuery(TbSession session, string aParams, /*Hotlink.HklAction*/int action, string documentID =  "", string hklName = "")
         {
             string ns = session.Namespace;
            
@@ -458,13 +458,20 @@ namespace Microarea.Common.Applications
 
                     cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbInstanceKey, session.TbInstanceID));
 
-                    var content = new FormUrlEncodedContent(new[]
+                    List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
+
+                    parameters.Add(new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken));
+                    parameters.Add(new KeyValuePair<string, string>("ns", ns));
+                    parameters.Add(new KeyValuePair<string, string>("args", aParams));
+                    parameters.Add(new KeyValuePair<string, string>("action", action.ToString()));
+                   
+                    //se è un hotlink di documento devono essere presenti contemporaneamente l'id del documento e il nome dell'hotlink
+                    if (!String.IsNullOrWhiteSpace(documentID) && !String.IsNullOrWhiteSpace(hklName))
                     {
-                        new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken),
-                        new KeyValuePair<string, string>("ns", ns ),
-                        new KeyValuePair<string, string>("args", aParams),
-                        new KeyValuePair<string, string>("action", action.ToString())
-                   });
+                        parameters.Add(new KeyValuePair<string, string>("cmpId", documentID));
+                        parameters.Add(new KeyValuePair<string, string>("hklName", hklName));
+                    };
+                    var content = new FormUrlEncodedContent(parameters);
 
                     AddAuthorizationHeader(session, client);
                     var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbHotlinkQueryRoute, content);

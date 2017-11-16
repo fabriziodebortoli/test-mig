@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using Microarea.Common;
 using Microarea.Common.Applications;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using static SQLHelper;
-using Microarea.Common;
 
 namespace ErpService.Controllers
 {
@@ -56,14 +57,14 @@ namespace ErpService.Controllers
             var ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "no auth" };
+
             var connection = new SqlConnection(ui.CompanyDbConnection);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
                 "select ItemAutoNum from MA_ItemParameters", null))
             {
                 if (reader.Read())
                 {
-                    bool itemautonum = reader["ItemAutoNum"].ToString() == ('1').ToString();
-                    //bool itemautonum = bool.Parse(reader["ItemAutoNum"].ToString());
+                    bool itemautonum = reader["ItemAutoNum"].ToString() == "1";
 
                     var result = new JsonResult(new { ItemsAutoNumbering = itemautonum });
                     return result;
@@ -71,8 +72,46 @@ namespace ErpService.Controllers
             }
             return new JsonResult(new { ItemsAutoNumbering = false });
         }
+
+        [Route("GetItemsSearchList")]
+        public IActionResult GetItemsSearchList([FromBody] string queryType)
+        {
+            var result = new Dictionary<string, string>();
+
+            var ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 401, Content = "no auth" };
+
+            var connection = new SqlConnection(ui.CompanyDbConnection);
+            using (var reader = GetItemsSearchReader(connection, queryType))
+            {
+                if (reader != null)
+                {
+                    while (reader.Read())
+                        result.Add(reader[0].ToString(), reader[1].ToString());
+                }
+            }
+
+            return new JsonResult(result);
+        }
+
+        private SqlDataReader GetItemsSearchReader(SqlConnection connection, string searchType)
+        {
+            switch (searchType)
+            {
+                case "producers":
+                    return ExecuteReader(connection, System.Data.CommandType.Text, "select Producer, CompanyName from MA_Producers ", null);
+
+                case "categories":
+                    return ExecuteReader(connection, System.Data.CommandType.Text, "select Category, Description from MA_ProductCtg ", null);
+
+                default:
+                    return null;
+            }
+        }
+
         #region helpers
-        UserInfo GetLoginInformation()
+        private UserInfo GetLoginInformation()
         {
             string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))

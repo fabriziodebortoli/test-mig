@@ -10,6 +10,7 @@ ul.application-list {
     flex-wrap: wrap;
     background: #3e3e3e;
     &>li {
+        flex-grow: 1;
         width: 33%;
         cursor: pointer;
         display: flex;
@@ -24,6 +25,7 @@ ul.application-list {
     &>li:hover {
         color: #fff;
         background: #333;
+        transition: opacity 0.1s;
     }
     &>li img {
         max-width: 120px;
