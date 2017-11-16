@@ -12,6 +12,8 @@ export class ItemEditComponent extends ControlComponent {
     @Input() slice: any;
     @Input() selector: any;
 
+    maxLength = 5;
+
     itemsAutoNumbering = true;
 
     constructor(

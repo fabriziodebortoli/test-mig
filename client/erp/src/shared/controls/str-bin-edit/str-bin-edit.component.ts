@@ -41,11 +41,13 @@ export class StrBinEditComponent extends ControlComponent {
             .replace(new RegExp(maskChar, 'g'), 'A');
     }
 
-    public onBlur() {
-
+    changeModelValue(value) {
+        this.model.value = value;
     }
 
-    public changeModelValue($event) {
-
+    onKeyDown($event) {
+        if (($event.keyCode === 63) || ($event.keyCode === 32)) {
+            $event.preventDefault();
+        }
     }
 }
