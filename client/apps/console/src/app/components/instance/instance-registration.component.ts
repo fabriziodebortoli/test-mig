@@ -151,10 +151,16 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
                 // we got the instance, now we pass it to the admin console
 
-                this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
-                  res => { alert('Registration complete');},
-                  err => { alert('Registration Failed'); }
+                // this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
+                //   res => { alert('Registration complete');},
+                //   err => { alert('Registration Failed'); }
+                // )
+
+                this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
+                  res => { alert('Registration Completed'); },
+                  err => { alert('Registratio Failed'); }
                 )
+
               },
               err => {}
             )

@@ -83,7 +83,6 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
                     tbRes.messages.forEach((current) => {
                         this.errorMessage += current.text;
                     })
-                    this.errorMessage;
                 }
             });
 
