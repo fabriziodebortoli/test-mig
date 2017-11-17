@@ -21,7 +21,11 @@
     <div *ngIf="rsExportService.exportpdf">
         <label>Number of copy </label>
         <kendo-numerictextbox [(ngModel)]="copy" [decimals]="0" [format]="'n0'" [min]="1"></kendo-numerictextbox>
-        <!--tb-checkbox  [model]="multiCopy" caption="Multi file"></tb-checkbox-->
+        <!--tb-checkbox [model]="check" caption="Multi file" cmpId="0"></tb-checkbox-->
+        <br>
+        <label>Multi file </label>
+        <input type="checkbox" (change)="setMulticopy()">
+        
     </div>
 
     <kendo-dialog-actions>
