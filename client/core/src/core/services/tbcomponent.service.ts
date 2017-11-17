@@ -20,68 +20,68 @@ export class TbComponentService {
         this.logger = params.logger;
         this.infoService = params.infoService;
         this.httpService = params.httpService;
-        let subs = this.initTranslations(this.dictionaryId).subscribe(ti => {
-            if (subs)
+        let subs = this.readFromLocal(this.dictionaryId).subscribe(ti => {
+            if (subs) {
                 subs.unsubscribe();
+            }
             this.translations = ti.translations;
             this.installationVersion = ti.installationVersion;
 
             if (!this.translations) {
-                let subs = this.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
-                    if (subs)
+                subs = this.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
+                    if (subs) {
                         subs.unsubscribe();
+                    }
                     this.translations = tn;
-                    this.saveTranslations(this.dictionaryId, this.translations);
+                    this.saveToLocal(this.dictionaryId, this.translations);
                 });
             }
         });
     }
     public _TB(baseText: string) {
         return this.translate(this.translations, baseText);
-      }
+    }
     public readTranslationsFromServer(dictionaryId: string): Observable<Array<any>> {
-        return this.httpService.getTranslations('TbCardContentComponent', this.infoService.culture.value);
+        return this.httpService.getTranslations(dictionaryId, this.infoService.culture.value);
     }
     public calculateDictionaryId(obj: Object) {
         let dictionaryId = '';
         let needSeparator = false;
-        while ((obj = Object.getPrototypeOf(obj)) != Object.prototype) {
-            if (needSeparator)
+        while ((obj = Object.getPrototypeOf(obj)) !== Object.prototype) {
+            if (needSeparator) {
                 dictionaryId += '.';
-            else
+            } else {
                 needSeparator = true;
+            }
+            
             dictionaryId += obj.constructor.name;
         }
         return dictionaryId;
     }
-    public saveTranslations(dictionaryId: string, translations: any[]) {
-        let jItem = { translations: translations, installationVersion: this.installationVersion };
+    public saveToLocal(dictionaryId: string, translations: any[]) {
+        const jItem = { translations: translations, installationVersion: this.installationVersion };
         localStorage.setItem(dictionaryId, JSON.stringify(jItem));
     }
-    public readTranslations(dictionaryId: string, installationVersion: string) {
-        let item = localStorage.getItem(dictionaryId);
 
-        if (item) {
-            try {
-                let jItem = JSON.parse(item);
-
-                if (jItem.installationVersion === installationVersion) {
-                    return jItem.translations;
-                }
-            }
-            catch (ex) {
-                console.log(ex);
-            }
-        }
-        return null;
-    }
-    public initTranslations(dictionaryId: string): Observable<TranslationInfo> {
+    public readFromLocal(dictionaryId: string): Observable<TranslationInfo> {
         return Observable.create(observer => {
-            let sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
-                let ti = new TranslationInfo();
-                if (sub)
+            const sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
+                const ti = new TranslationInfo();
+                if (sub){
                     sub.unsubscribe();
-                ti.translations = this.readTranslations(dictionaryId, productInfo.installationVersion);
+                }
+                const item = localStorage.getItem(dictionaryId);
+                if (item) {
+                    try {
+                        const jItem = JSON.parse(item);
+
+                        if (jItem.installationVersion === productInfo.installationVersion) {
+                            ti.translations = jItem.translations;
+                        }
+                    } catch (ex) {
+                        console.log(ex);
+                    }
+                }
                 ti.installationVersion = productInfo.installationVersion;
 
                 observer.next(ti);
@@ -109,5 +109,5 @@ export class TbComponentService {
 
 export class TranslationInfo {
     public installationVersion = '';
-    public translations = [];
+    public translations = null;
 }

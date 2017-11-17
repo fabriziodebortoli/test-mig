@@ -5,7 +5,7 @@ import { Observable } from '../../rxjs.imports';
 
 export abstract class TbComponent implements OnInit {
   @Input()
-  public cmpId: string = '';
+  public cmpId = '';
 
   public dictionaryId = '';
   public installationVersion = '';
@@ -19,23 +19,34 @@ export abstract class TbComponent implements OnInit {
     return this.tbComponentService.translate(this.translations, baseText);
   }
   ngOnInit() {
-    let subs = this.tbComponentService.initTranslations(this.dictionaryId).subscribe(ti => {
-      if (subs)
-        subs.unsubscribe();
-      this.translations = ti.translations;
-      this.installationVersion = ti.installationVersion;
-
-      if (!this.translations)
-        this.readTranslationsFromServer();
+    const ids = this.dictionaryId.split('.');
+    ids.forEach(id=>{
+      const subs = this.tbComponentService.readFromLocal(id).subscribe(ti => {
+        if (subs) {
+          subs.unsubscribe();
+        }
+        this.installationVersion = ti.installationVersion;
+        
+        if (ti.translations) {
+          this.translations = this.translations.concat(ti.translations);
+        } else {
+          this.readTranslationsFromServer(id);
+        }
+      });
     });
+    
   }
 
-  public readTranslationsFromServer() {
-    let subs = this.tbComponentService.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
-      if (subs)
+  public readTranslationsFromServer(dictionaryId: string) {
+    const subs = this.tbComponentService.readTranslationsFromServer(dictionaryId).subscribe(tn => {
+      if (subs) {
         subs.unsubscribe();
+      }
+      if (tn){
+        this.translations = this.translations.concat(tn);
+      }
       this.translations = tn;
-      this.tbComponentService.saveTranslations(this.dictionaryId, this.translations);
+      this.tbComponentService.saveToLocal(this.dictionaryId, this.translations);
     });
   }
 }
