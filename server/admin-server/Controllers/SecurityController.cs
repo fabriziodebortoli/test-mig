@@ -480,16 +480,23 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
+
             GwamCaller gc = null;
-            // this is a pre-login, so only account name existence is verified
             Account account = Account.GetAccountByName(burgerData, accountName);
 
             if (account != null)
             {
                 if (account.Disabled || account.Locked)
                 {
-                    //TODO far qualcosa?
-                }
+					opRes.Result = false;
+					opRes.Code = 0;
+					opRes.Message = String.Format(
+						"Account is {0} {1}",
+						account.Disabled ? "disabled" : String.Empty,
+						account.Locked ? "locked" : String.Empty);
+
+					return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				}
 
                 IInstance[] instancesArray = this.GetInstances(accountName);
 
