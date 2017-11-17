@@ -33,22 +33,23 @@ $font-size-tooltip: 12px;
         border-bottom-color: $bkg-medium;
     }
     //colore pulsanti finestre di messaggio modali
-    // .k-button.k-primary,
-    //.k-button.k-primary,
-    //.k-button.k-primary:visited,
-    //.k-slider .k-draghandle,
-    //.k-switch-on .k-switch-handle {
-    //background-color: $bkg-medium;
-    //border-color: $bkg-medium;
-    //color: $text-dark;
-    //}
-    //.k-button.k-primary:hover,
-    //{
-    //background-color: $bkg-light;
-    //border-color: $bkg-light;
-    //color: $text-dark;
-    //background-image: none;
-    //}
+    .k-button.k-primary,
+    .k-button.k-primary,
+    .k-button.k-primary:visited,
+    .k-slider .k-draghandle,
+    .k-switch-on .k-switch-handle {
+        background-color: $bkg-medium;
+        border-color: $bkg-medium;
+        color: $text-light;
+    }
+    .k-button.k-primary:hover,
+    .k-button.k-secondary:hover,
+    {
+        background-color: $bkg-light;
+        border-color: $bkg-light;
+        color: $text-dark;
+        background-image: none;
+    }
     .k-button {
         color: $text-black;
     }
