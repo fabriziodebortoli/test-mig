@@ -37,4 +37,4 @@ cd ..\..\web-form
 del package-lock.json
 call rimraf node_modules
 
-call npm cache clean --force
+call npm cache verify
