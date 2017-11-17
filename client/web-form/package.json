@@ -12,6 +12,8 @@
         "link-icons": "npm link ../icons/src",
         "link-rs": "npm link ../reporting-studio/src",
         "link-bpm": "npm link ../bpm/src",
+        "unlink-all": "npm unlink @taskbuilder/reporting-studio && npm unlink @taskbuilder/core && npm unlink @taskbuilder/icons && npm unlink @taskbuilder/bpm && npm unlink @taskbuilder/erp",
+        "preinstall": "del package-lock.json && npm run unlink-all",
         "postinstall": "npm run link-core && npm run link-rs && npm run link-icons && npm run link-erp && npm run link-bpm",
         "lint": "tslint \"src/**/*.ts\"",
         "test": "ng test",
