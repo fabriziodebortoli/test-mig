@@ -1,24 +1,21 @@
-$bkg-light:#E0E0E0;
-$bkg-medium:#c0369f;
-$bkg-dark:#8c0070;
-$bkg-light-opacity50: rgba(245, 107, 208, 0.5);
-$bkg-neutral:#EEEEEE;
-$bkg-app: rgba(192, 54, 159, 0.2);
+$bkg-light:#a76a96;
+$bkg-medium:#69345c;
+$bkg-dark:#46123c;
+$bkg-light-opacity50: rgba(167,106,150, 0.5);
+//$bkg-neutral:#EEEEEE;
+$bkg-app: rgba(68,18,56,0.3);
 $bkg: #fff;
 $text-light: #fff;
 $text-medium: #000000;
 $text-dark: #000000;
-$text-black: #000000;
 $text-dark-secondary:#448e88; //#7dc9bf;
 $font-size-tooltip: 12px;
 .purple {
     //toolbar principale, dove si trova anche la "ricerca"
     .mat-toolbar.mat-primary {
         background: $bkg-medium;
-        m4-icon {
-            color: $text-light;
-        }
     }
+
     //Selettore menu/dashboard/documenti/report
     .tabber-container>.k-tabstrip>.k-tabstrip-items {
         background: $bkg-medium;
@@ -36,25 +33,35 @@ $font-size-tooltip: 12px;
         color: $text-dark;
         border-bottom-color: $bkg-medium;
     }
-    //colore pulsanti finestre di messaggio modali
-    .k-button.k-primary,
-    .k-button.k-primary:visited,
-    .k-slider .k-draghandle,
-    .k-switch-on .k-switch-handle {
-        background-color: $bkg-medium;
-        border-color: $bkg-medium;
-        color: $text-light;
-    }
-    .k-button.k-primary:hover,
-    {
-        background-color: $bkg-light;
-        border-color: $bkg-dark;
-        color: $text-dark-secondary;
-        background-image: none;
-    }
+     //colore pulsanti finestre di messaggio modali
+    // .k-button.k-primary,
+    //.k-button.k-primary,
+    //.k-button.k-primary:visited,
+    //.k-slider .k-draghandle,
+    //.k-switch-on .k-switch-handle {
+        //background-color: $bkg-medium;
+        //border-color: $bkg-medium;
+        //color: $text-dark;
+    //}
+    //.k-button.k-primary:hover,
+    //{
+        //background-color: $bkg-light;
+        //border-color: $bkg-light;
+        //color: $text-dark;
+        //background-image: none;
+    //}
+    .k-button {
+        color: $text-dark;
+    }   
     //colore barra del titolo delle finestre di messaggio modali
     .k-dialog-titlebar {
         background-color: $bkg-medium;
+    }
+    //titoli finestre di messaggio modali
+    .k-window-title {
+        font-size: 17px;
+        line-height: normal;
+        background-color: $bkg-medium
     }
     //colore della toolbar principale della frame
     .toolbar-top {
@@ -75,6 +82,11 @@ $font-size-tooltip: 12px;
         color: $text-light;
         background: $bkg-dark;
     }
+    //colore line in headerstrip
+    .header-strip .line{
+        display: block;
+        background: linear-gradient(to right, #5d2b51 0%, #e47ec9, #EEEEEE  100%); 
+    }  
     //tbcard, 
     .tb-card {
         background-color: $bkg;
@@ -87,6 +99,12 @@ $font-size-tooltip: 12px;
         background-color: $bkg-light-opacity50;
         color: $text-dark-secondary;
     }
+
+    //mouseover theme changer
+    .div-theme-carrier:hover {
+        background-color: $bkg-light-opacity50;
+    }
+
     //dimensione del font delle voci di menu
     tb-menu-element .menu-element-content .object-type {
         font-size: 16px;
@@ -121,35 +139,33 @@ $font-size-tooltip: 12px;
         color: $bkg-dark;
         cursor: pointer;
     }
-    //
     //colore scrollbar
      ::-webkit-scrollbar-thumb {
         background: $bkg-medium;
     }
     //colore di fondo della sidenav
     .mat-sidenav {
-        background: $bkg-neutral;
+        background: $bkg-medium;
     }
-    //colore di fondo della lista applicazioni
-    ul.application-list,
-    ul.groups-list {
-        background: $bkg-light;
-        &>li {
-            color: $text-light;
-            background: $bkg-medium;
-        }
-        &>li:hover {
-            color: $text-dark-secondary;
-            background: $bkg-light;
-        }
-        .selected {
-            background: $bkg-light;
-            color: $text-dark;
-        }
-    }
-    //tidolo delle voci sidenav
-    .sidenav-subtitle {
-        background-color: $bkg-dark;
+   //colore di fondo della lista applicazioni
+   ul.application-list,
+   ul.groups-list {
+       background:  $bkg-medium;
+       &>li {
+           color: $text-light;
+           background: $bkg-app;
+       }
+       &>li:hover {
+           color: $text-light;
+           background: $bkg-dark;
+       }
+       .selected {
+           background: $bkg-dark;
+       }
+   }
+     //tidolo delle voci sidenav
+     .sidenav-subtitle {
+        background-color: $bkg-medium;
         h4 {
             color: $text-light;
         }
@@ -158,37 +174,32 @@ $font-size-tooltip: 12px;
     /// inizio sidenav
     .sidenav {
         //recenti, colori 
-        .most-used-item,
-        .favorite-item,
-        .hiddenTiles-item {
+        .most-used-item, .favorite-item, .hiddenTiles-item  {
             color: $text-light;
             background: $bkg-medium;
-            m4-icon {
+            &>span {
+                font-weight: 500;
+            }
+            &:hover {
+                background:  $bkg-dark;
+            }
+            &:hover span {
                 color: $text-light;
-                ;
             }
-        }
-        .most-used-item:hover,
-        .favorite-item:hover,
-        .hiddenTiles-item:hover {
-            background: $bkg-light;
-            span {
-                color: $text-dark-secondary;
-            }
-            m4-icon {
-                color: $text-dark-secondary;
+            m4-icon.close {
+                &:hover {
+                    color: #fff;
+                }          
             }
         }
         //recenti, favoriti , nascosti, lista vuota
-        .most-used-empty,
-        .favorites-empty,
-        .hiddenTiles-empty {
-            color: $text-dark;
-            background-color: $bkg-light;
+        .most-used-empty, .favorites-empty, .hiddenTiles-empty  {
+        color: $text-light;
+        background:  $bkg-medium;
         }
-        .favorites {
-            margin-bottom: 0px;
-        }
+        //.favorites {
+          //  margin-bottom: 0px;
+        //}
     }
     /// fine sidenav
     //stile quando usato nella dashboard
@@ -257,7 +268,6 @@ $font-size-tooltip: 12px;
     font-size: $font-size-tooltip !important;
     background-color: $bkg-dark !important;
     color: $text-light !important;
-    border-radius: 0px !important;
-    padding: 10px 0px 10px 15px;
+    border-radius: 4px !important;
     text-align: center;
 }
