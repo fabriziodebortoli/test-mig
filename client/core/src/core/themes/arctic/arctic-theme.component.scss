@@ -1,9 +1,9 @@
-$bkg-light:rgb(138,185,199);
-$bkg-light-opacity50: rgba(138,185,199, 0.5);
+$bkg-light:rgb(138, 185, 199);
+$bkg-light-opacity50: rgba(138, 185, 199, 0.5);
 $bkg-medium:rgba(34, 101, 119, 1);
 $bkg-dark:rgb(0, 59, 75);
 $bkg-neutral:#BDBDBD;
-$bkg-app: rgba(19,58,68,0.2);
+$bkg-app: rgba(19, 58, 68, 0.2);
 $bkg:#FAFAFA;
 $text-light: rgb(238, 238, 238);
 $text-medium: #9E9E9E;
@@ -38,25 +38,24 @@ $font-size-tooltip: 12px;
     //.k-button.k-primary:visited,
     //.k-slider .k-draghandle,
     //.k-switch-on .k-switch-handle {
-        //background-color: $bkg-medium;
-        //border-color: $bkg-medium;
-        //color: $text-dark;
+    //background-color: $bkg-medium;
+    //border-color: $bkg-medium;
+    //color: $text-dark;
     //}
     //.k-button.k-primary:hover,
     //{
-        //background-color: $bkg-light;
-        //border-color: $bkg-light;
-        //color: $text-dark;
-        //background-image: none;
+    //background-color: $bkg-light;
+    //border-color: $bkg-light;
+    //color: $text-dark;
+    //background-image: none;
     //}
     .k-button {
         color: $text-black;
-    }   
+    }
     //colore barra del titolo delle finestre di messaggio modali
     .k-dialog-titlebar {
         background-color: $bkg-medium;
     }
-
     //titoli finestre di messaggio modali
     .k-window-title {
         font-size: 17px;
@@ -86,9 +85,13 @@ $font-size-tooltip: 12px;
         color: $text-light;
     }
     //colore line in headerstrip
-    .header-strip[_ngcontent-c37] .line[_ngcontent-c37] {
+    .header-strip .line {
         display: block;
-        background: linear-gradient(to right, #226577 0%, #EEF1F5 100%);
+        background: linear-gradient(to right, $bkg-medium 0%, #EEF1F5 100%);
+    }
+    //menupage
+    .menu-page .k-content {
+        background-color: $bkg
     }
     //tbcard, 
     .tb-card {
@@ -98,10 +101,11 @@ $font-size-tooltip: 12px;
     .tb-card-title {
         font-size: 17px;
     }
-    tb-menu-element .menu-element-content {
-        font-size: 16px;
-    }
     tb-menu-element .menu-element:hover {
+        background-color: $bkg-light-opacity50;
+    }
+    //mouseover theme changer
+    .div-theme-carrier:hover {
         background-color: $bkg-light-opacity50;
     }
     //dimensione del font delle voci di menu
@@ -149,7 +153,7 @@ $font-size-tooltip: 12px;
     //colore di fondo della lista applicazioni
     ul.application-list,
     ul.groups-list {
-        background:  $bkg-medium;
+        background: $bkg-medium;
         &>li {
             color: $text-light;
             background: $bkg-app;
@@ -169,22 +173,21 @@ $font-size-tooltip: 12px;
             color: $text-light;
         }
     }
-  //stile quando usato nella sidenav
+    //stile quando usato nella sidenav
     /// inizio sidenav
     .sidenav {
         m4-icon.close {
             color: #ddd;
         }
-        
         //recenti, colori 
-        .most-used-item, .favorite-item, .hiddenTiles-item  {
+        .most-used-item,
+        .favorite-item,
+        .hiddenTiles-item {
             color: $text-light;
             background: $bkg-medium;
-            &>span {
-                font-weight: 500;
-            }
+            font-weight: bold;
             &:hover {
-                background:  $bkg-dark;
+                background: $bkg-dark;
             }
             &:hover span {
                 color: $text-light;
@@ -192,18 +195,18 @@ $font-size-tooltip: 12px;
             m4-icon.close {
                 &:hover {
                     color: #fff;
-                }          
+                }
             }
         }
-
         //recenti, favoriti , nascosti, lista vuota
-        .most-used-empty, .favorites-empty, .hiddenTiles-empty  {
+        .most-used-empty,
+        .favorites-empty,
+        .hiddenTiles-empty {
             color: $text-light;
-            background:  $bkg-medium;
+            background: $bkg-medium;
         }
     }
     /// fine sidenav
-
     //stile quando usato nella dashboard
     /// inizio dashboard
     .dashboard {
@@ -215,36 +218,32 @@ $font-size-tooltip: 12px;
             border: 1px solid #ddd;
             margin: 3px 7px;
             height: 28px;
-            &>span {
-                color: $text-dark;
-                line-height: 29px;
-            }
-            &:hover span {
-                color: $bkg-medium;
-            }
-            .type {
+            color: $bkg-medium;
+            line-height: 29px;
+            m4-icon.type {
                 margin-right: 7px;
-            }
-            .type.Document {
                 color: $bkg-medium;
             }
-            .type.Report,
-            .type.Function {
-                color: $bkg-medium;
-            }
-            .type.Batch {
-                color: $bkg-medium;
-            }
-            m4-icon.close {
-                color: #ddd;
-                &:hover {
+        }
+        .most-used-empty,
+        .favorites-empty,
+        .hiddenTiles-empty {
+            color: $text-dark;
+        }
+        .favorites {
+            ul.favorites-list {
+                .favorite-item {
+                    background: #f1f4f7;
+                    border: 1px solid #ddd;
+                    margin: 3px 7px;
+                    height: 28px;
                     color: $bkg-medium;
+                    line-height: 29px;
+                    m4-icon.type {
+                        margin-right: 7px;
+                        color: $bkg-medium;
+                    }
                 }
-            }
-            .most-used-empty,
-            .favorites-empty,
-            .hiddenTiles-empty {
-                color: $text-dark;
             }
         }
     }
@@ -261,8 +260,7 @@ $font-size-tooltip: 12px;
     }
     /* colore del loader*/
     .loader {
-        border: 4px solid $bkg-light-opacity50;
-        ; // è lo stesso del light con opacità inferiore
+        border: 4px solid $bkg-light-opacity50; // è lo stesso del light con opacità inferiore
         border-top: 4px solid $bkg-dark;
     }
 }
