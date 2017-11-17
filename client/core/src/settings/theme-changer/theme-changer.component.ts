@@ -13,12 +13,14 @@ import { EventDataService } from './../../core/services/eventdata.service';
 
 import { SettingsPageService } from '../settings-page.service';
 import { InfoService } from './../../core/services/info.service';
+import { ViewEncapsulation } from '@angular/core';
 
 
 @Component({
     selector: 'tb-theme-changer',
     templateUrl: './theme-changer.component.html',
-    styleUrls: ['./theme-changer.component.scss']
+    styleUrls: ['./theme-changer.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ThemeChangerComponent {
 

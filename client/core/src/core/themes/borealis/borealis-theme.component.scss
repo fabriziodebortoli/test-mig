@@ -4,7 +4,7 @@ $bkg-medium:#2f6d2f;
 $bkg-dark: #094c12;
 //$bkg-neutral:#BDBDBD;
 $bkg: rgba(92, 105, 95, 0.2);
-$bkg-card: rgba(142, 193, 149, 0.6);
+$bkg-card: rgba(142, 193, 149, 0.3);
 $bkg-app: rgba(27,78,31,0.3);
 $text-light: rgb(238, 238, 238);
 $text-medium: #9E9E9E;
@@ -104,6 +104,10 @@ $font-size-tooltip: 12px;
         font-size: 17px;
     }
     tb-menu-element .menu-element:hover {
+        background-color: $bkg-light-opacity50;
+    }
+    //mouseover theme changer
+    .div-theme-carrier:hover {
         background-color: $bkg-light-opacity50;
     }
     //dimensione del font delle voci di menu
