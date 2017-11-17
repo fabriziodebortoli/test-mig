@@ -31,6 +31,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   offsetTop: any;
   public newName: string;
   public newTitle: string;
+  public isNotEasyStudioDocument : boolean;
 
   @HostListener('window:keyup', ['$event'])
   public keyup(event: KeyboardEvent): void {
@@ -93,6 +94,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   //--------------------------------------------------------------------------------
   initEasyStudio(object, template: TemplateRef<any>) {
     this.easystudioService.initEasyStudioData(object);
+    this.isNotEasyStudioDocument = !this.easystudioService.isEasyStudioDocument(this.objectM);
     this.togglePopup(template);
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit } from '@angular/core';
 
 import { isNumeric } from '../../../rxjs.imports';
 import { ContextMenuItem } from './../../models/context-menu-item.model';
@@ -11,7 +11,7 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Store } from './../../../core/services/store.service';
 
-//import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
+import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
 
 export type maskParts = { prefix: string, separator: string, body: string, suffix: string };
 
@@ -38,7 +38,7 @@ export class NumbererComponent extends ControlComponent {
     @Input() selector: any;
 
     @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-    //@ViewChild('textbox') textbox: MaskedTextBoxComponent;
+    @ViewChild('textbox') textbox: MaskedTextBoxComponent;
 
     tbEditIcon = 'tb-edit';
     tbExecuteIcon = 'tb-execute';
@@ -55,19 +55,25 @@ export class NumbererComponent extends ControlComponent {
     menuItemEnablePadding = new ContextMenuItem('enable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
     menuItemDoPadding = new ContextMenuItem('perform digit padding in front of the number', '', true, false, null, this.doPadding.bind(this));
 
+    // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
+
     mask = '';
     valueWasPadded = false;
     ctrlEnabled = false;
-    //ctrlEnabled = true; // da rimuovere dopo aver implementato lo store
     enableStateInEdit = false;
 
     private currentState: NumbererStateEnum;
 
-    // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
+    ngAfterViewInit() {
+        if (this.maxLength > -1)
+            this.textbox.input.nativeElement.maxLength = this.maxLength;
+    }
 
     ngOnInit() {
         // this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
         // this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
+
+        //console.log(this.textbox.input.nativeElement);
 
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
@@ -268,6 +274,13 @@ export class NumbererComponent extends ControlComponent {
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
             $event.preventDefault();
         }
+        // else if ($event.keyCode >= 97 && $event.keyCode <= 122) {
+        //     $event.keyCode -= 32;
+        // }
+    }
+
+    transformTypedChar(charStr) {
+        return /[a-g]/.test(charStr) ? charStr.toUpperCase() : charStr;
     }
 
     onBlur($event) {
@@ -293,7 +306,7 @@ export class NumbererComponent extends ControlComponent {
         console.log('numberer ngOnChanges: ' + JSON.stringify(changes));
     }
 
-    changeModelValue(value) {
+    changeModelValue(value: string) {
         this.model.value = value;
         this.valueWasPadded = false;
     }

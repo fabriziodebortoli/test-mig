@@ -28,10 +28,15 @@ export class SearchComponent implements OnInit, OnDestroy {
     public localizationService: LocalizationService
 
   ) {
+
+    this.menuService.runFunctionStarted.subscribe(() => {
+      this.selected = undefined;
+      this.myInput.nativeElement.value = "";
+      this.filteredElements = this.inputControl.valueChanges
+        .startWith(null)
+        .map(val => this.filter(val));
+    });
     this.inputControl = new FormControl();
-    this.filteredElements = this.inputControl.valueChanges
-      .startWith(null)
-      .map(name => this.filteredElements(name));
   }
 
   ngOnInit() {
@@ -39,12 +44,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       .startWith(null)
       .map(val => this.filter(val));
 
-
     this.valueChangesSubscription = this.inputControl.valueChanges.subscribe(data => {
       if (this.isObject(data))
         this.onSelect(data);
     });
-
   }
 
   ngOnDestroy() {
@@ -55,14 +58,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     //commentato perchè autocomplete kendo non ritorna l'object selezionato, ma solo la stringa, e con solo il text (ad esempio customers)
     //non ho gli elementi per fare una runfunction sensata
     this.menuService.runFunction(val);
-    this.selected = undefined;
-    this.myInput.nativeElement.value = "";
   }
 
   filter(val: string): string[] {
     if (!val)
       return [];
-
 
     //fino ai 3 caratteri digitati, limito la ricerca a 20 (cablato)
     if (val.length >= 0 && val.length <= 3)

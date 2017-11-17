@@ -101,28 +101,28 @@ $font-size-tooltip: 12px;
         background: $bkg-medium;
     }
     //colore di fondo della sidenav
-    .mat-sidenav{
+    .mat-sidenav,
+    mat-sidenav {
         background: $bkg-medium;
     }
-    
-     //colore di fondo della lista applicazioni
-     ul.application-list,   ul.groups-list {
-        background:  $bkg-light;
-        &>li {
-            color: $text-dark;
-            background: $bkg-light;
-        }
-
-        &>li:hover {
-            color: $text-light;
-            background: $bkg-dark;
-        }
-
-        .selected {
-            background: $bkg-dark;
-        }
+    //colore di fondo della lista applicazioni
+    ul.application-list {
+        background: $bkg-light;
     }
-
+    //colore di fondo della singola voce della list applicazioni
+    ul.application-list>li {
+        color: $text-medium;
+        background: $bkg-light;
+    }
+    //colore di fondo della lista gruppi
+    ul.groups-list {
+        background: $bkg-light;
+    }
+    //colore di fondo della singola voce della list gruppi
+    ul.groups-list>li {
+        background: $bkg-light;
+        color: $text-medium;
+    }
     //tidolo delle voci sidenav
     .sidenav-subtitle h4 {
         color: $text-medium;

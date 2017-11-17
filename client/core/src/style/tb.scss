@@ -46,8 +46,14 @@ body {
 }
 
 h1 {
-    font-size: 22px;
+    font-size: 2em;
     color: #000;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #00578c;
     font-weight: 500;
 }
 
@@ -214,20 +220,30 @@ md-card-title.mat-card-title m4-icon {
     box-shadow: none;
 }
 
-.k-animation-container-fixed>.k-popup {
-    margin-right: 12px;
+.k-animation-container>.arrow-right {
+    box-shadow: none;
 }
 
-.arrow-right:before {
-    content: "";
-    width: 0;
-    height: 0;
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-left: 12px solid #ececec;
-    position: absolute;
-    right: 0;
-    z-index: 9999;
+.k-animation-container-fixed>.k-popup {
+    margin-right: 0;
+    border: none;
+    background: transparent;
+}
+
+.arrow-right {
+    margin-right: 8px;
+    &:before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid #ececec;
+        position: absolute;
+        right: 0;
+        top: 5px;
+        z-index: 9999;
+    }
 }
 
 

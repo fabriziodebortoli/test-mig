@@ -601,4 +601,31 @@ export class ModelService {
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (sendMessage)'));
   }
+
+  //--------------------------------------------------------------------------------------------------------
+  getObjectCluster(modelName: string, itemKey: string, ticks: string, body: Object, activationCode?: string): Observable<OperationResult> {
+    
+        let authorizationHeader = this.createAuthorizationHeader('app');
+    
+        if (authorizationHeader === '' && activationCode === undefined) {
+          return Observable.throw('AuthorizationHeader is missing!');
+        }
+    
+        if (authorizationHeader === '') {
+          authorizationHeader = activationCode;
+        }
+    
+        if (modelName === '') {
+          return Observable.throw('The model name to query is missing!');
+        }
+    
+        let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+        let options = new RequestOptions({ headers: headers });
+    
+        return this.http.post(environment.gwamAPIUrl + 'deepdata/' + modelName + '/' + itemKey + '/' + ticks, body, options)
+          .map((res: Response) => {
+            return res.json();
+          })
+          .catch((error: any) => Observable.throw(error.json().error || 'server error (query)'));
+      }  
 }
