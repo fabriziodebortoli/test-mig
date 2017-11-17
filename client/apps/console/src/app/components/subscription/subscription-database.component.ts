@@ -34,7 +34,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
   checkDbIsStarted: boolean = false;
   checkDbIsRunning: boolean = false;
   checkDbHasErrors: boolean = false;
-  saveDbIsRunning:  boolean = false;
+  saveDbIsRunning: boolean = false;
 
   // dropdown auxiliary variables
   providers: Array<{ name: string, value: string }> = [
@@ -74,26 +74,20 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
     this.editing = true;
     this.databaseService.needsAskCredentials = false;
+    // to initialize the provider in dropdown
+    //this.initProviderValueDropDown();
+  }
 
-    // I load the database information only if Name is filled
+  //--------------------------------------------------------------------------------------------------------
+  ngOnChanges(): void {
+    // to initialize the provider in dropdown
+    this.initProviderValueDropDown();
+  }
 
-    this.modelService.getDatabase(this.model.SubscriptionKey, this.model.Name)
-      .subscribe(
-      res => {
-        let databases: SubscriptionDatabase[] = res['Content'];
-
-        if (databases.length == 0)
-          return;
-
-        // for each field we have to assign the value!
-        this.model.assign(databases[0]);
-        // to initialize the provider in dropdown
-        this.initProviderValueDropDown();
-        // I copy the original model values
-        this.originalModel.assign(this.model);
-      },
-      err => { alert(err); }
-      )
+  //--------------------------------------------------------------------------------------------------------
+  ngAfterContentInit(): void {
+    // to initialize the provider in dropdown
+    this.initProviderValueDropDown();
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -201,7 +195,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
               this.checkDbIsRunning = false;
               this.saveDbIsRunning = false;
-              
+
               if (updateResult.Result) {
                 this.returnToMainData();
                 this.editing = true;
@@ -403,76 +397,76 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
   // vecchio codice con test + check + save
   //--------------------------------------------------------------------------------------------------------
- /* oldSaveDatabaseWithCheck() {
-
-    this.checkDatabaseIsStarted = true;
-    this.elaborationCompletedWithErrors = false;
-
-    let test = this.modelService.testConnection(this.model.SubscriptionKey, this.databaseService.dbCredentials).
-      subscribe(
-      testResult => {
-
-        if (testResult.Result) {
-
-          this.extendedSubDatabase = new ExtendedSubscriptionDatabase(this.databaseService.dbCredentials, this.model);
-
-          let update = this.modelService.checkDatabase(this.model.SubscriptionKey, this.extendedSubDatabase).
-            subscribe(
-            checkResult => {
-
-              if (checkResult.Result) {
-                // se il check va a buon fine procedo con il vero e proprio update
-                let runUpdate = this.modelService.updateDatabase(this.model.SubscriptionKey, this.extendedSubDatabase).
-                  subscribe(
-                  runUpdateResult => {
-
-                    if (!runUpdateResult.Result) {
-                      this.elaborationCompletedWithErrors = true;
-                      // qui dovrei avere una lista di operazioni fallite da visualizzare
-                    }
-
-                    this.msgDialog = this.getMessageDialog(runUpdateResult.Result);
-                    this.openMsgDialog = true;
-
-                    this.checkDatabaseIsStarted = false;
-
-                    runUpdate.unsubscribe();
-                  },
-                  runUpdateError => {
-                    console.log(runUpdateError);
-                    alert(runUpdateError);
-                    runUpdate.unsubscribe();
-                  }
-                  )
-              }
-
-              if (!checkResult.Result) {
-                // se il check ha ritornato degli errori mostro nuovamente i controlli con i dati
-                this.checkDatabaseIsStarted = false;
-                this.elaborationCompletedWithErrors = true;
-              }
-
-              this.operationsList = checkResult['Content'];
-
-              update.unsubscribe();
-            },
-            updateError => {
-              console.log(updateError);
-              alert(updateError);
-              update.unsubscribe();
-            }
-            )
-        }
-        else
-          alert('Unable to connect! ' + testResult.Message);
-
-        test.unsubscribe();
-      },
-      error => {
-        console.log(error);
-        alert(error);
-        test.unsubscribe();
-      }
-      );
-  }*/
+  /* oldSaveDatabaseWithCheck() {
+ 
+     this.checkDatabaseIsStarted = true;
+     this.elaborationCompletedWithErrors = false;
+ 
+     let test = this.modelService.testConnection(this.model.SubscriptionKey, this.databaseService.dbCredentials).
+       subscribe(
+       testResult => {
+ 
+         if (testResult.Result) {
+ 
+           this.extendedSubDatabase = new ExtendedSubscriptionDatabase(this.databaseService.dbCredentials, this.model);
+ 
+           let update = this.modelService.checkDatabase(this.model.SubscriptionKey, this.extendedSubDatabase).
+             subscribe(
+             checkResult => {
+ 
+               if (checkResult.Result) {
+                 // se il check va a buon fine procedo con il vero e proprio update
+                 let runUpdate = this.modelService.updateDatabase(this.model.SubscriptionKey, this.extendedSubDatabase).
+                   subscribe(
+                   runUpdateResult => {
+ 
+                     if (!runUpdateResult.Result) {
+                       this.elaborationCompletedWithErrors = true;
+                       // qui dovrei avere una lista di operazioni fallite da visualizzare
+                     }
+ 
+                     this.msgDialog = this.getMessageDialog(runUpdateResult.Result);
+                     this.openMsgDialog = true;
+ 
+                     this.checkDatabaseIsStarted = false;
+ 
+                     runUpdate.unsubscribe();
+                   },
+                   runUpdateError => {
+                     console.log(runUpdateError);
+                     alert(runUpdateError);
+                     runUpdate.unsubscribe();
+                   }
+                   )
+               }
+ 
+               if (!checkResult.Result) {
+                 // se il check ha ritornato degli errori mostro nuovamente i controlli con i dati
+                 this.checkDatabaseIsStarted = false;
+                 this.elaborationCompletedWithErrors = true;
+               }
+ 
+               this.operationsList = checkResult['Content'];
+ 
+               update.unsubscribe();
+             },
+             updateError => {
+               console.log(updateError);
+               alert(updateError);
+               update.unsubscribe();
+             }
+             )
+         }
+         else
+           alert('Unable to connect! ' + testResult.Message);
+ 
+         test.unsubscribe();
+       },
+       error => {
+         console.log(error);
+         alert(error);
+         test.unsubscribe();
+       }
+       );
+   }*/
 }

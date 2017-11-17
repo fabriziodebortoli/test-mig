@@ -114,3 +114,6 @@ Per tornare sul branch della 2.x, date il comando `git checkout dev_2_x` (dopo a
 * nell'installazione delle dipendenze con NPM (`npm i`) compare un messaggio che indica la mancanza di un componente Kendo. Modificare il file `C:\Users\[nome utente]\.npmrc` rimuovendone le righe relative alla licenza Kendo.
 
 * in caso di dubbi di situazione delle cartelle "sporca", provare a cancellare completamente la cartella `standard\web` e ripetere l'operazione.
+
+* se la versione di Typescript non è quella corretta anche dopo averlo installato, potreste averne una vecchia versione installata da una precedente versione di Visual Studio, e la sua cartella si trova nel PATH *prima* di quella dove lo installa NPM.  
+Modificare il PATH eliminando la cartella che punta al "vecchio" Typescript
