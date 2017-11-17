@@ -215,6 +215,13 @@ gulp.task('rollup:umd', function() {
 });
 
 /**
+ * Copia la cartella fonts e il file style.css nella /dist
+ */
+gulp.task('copy:styles', function() {
+    gulp.src(`${srcFolder}/style/*`).pipe(gulp.dest(`${distFolder}/style/`));
+});
+
+/**
  * 7. Copy all the files from /build to /dist, except .js files. We ignore all .js from /build
  *    because with don't need individual modules anymore, just the Flat ES module generated
  *    on step 5.
@@ -262,6 +269,7 @@ gulp.task('compile', function() {
         'ngc',
         'rollup:fesm',
         'rollup:umd',
+        'copy:styles',
         'copy:build',
         'copy:manifest',
         'copy:readme',
