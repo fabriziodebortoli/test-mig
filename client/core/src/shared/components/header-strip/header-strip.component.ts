@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'tb-header-strip',
   templateUrl: './header-strip.component.html',
-  styleUrls: ['./header-strip.component.scss']
+  styleUrls: ['./header-strip.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HeaderStripComponent implements OnInit {
 

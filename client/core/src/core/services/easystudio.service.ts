@@ -3,6 +3,7 @@ import { SettingsService } from './settings.service';
 import { EsCustomizItem } from './../../shared/models/es-customization-item.model';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable, EventEmitter } from '@angular/core';
+import { Observable } from '../../rxjs.imports';
 
 export class MyObj {
     application: string
@@ -102,16 +103,15 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public cloneDocument(object: any, docName: string, docTitle:string): boolean {
+    public cloneDocument(object: any, docName: string, docTitle: string): boolean {
         if (docName == undefined || !this.isContextActive())
             return;
         if (docTitle == undefined)
             docTitle = docName;
         this.subscriptions.push(this.httpMenuService.cloneAsEasyStudioDocument(object, docName, docTitle, this)
-        .subscribe((result) => 
-        { 
-            return result;
-        }));
+            .subscribe((result) => {
+                return result;
+            }));
     }
 
     //#endregion
@@ -136,7 +136,7 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public canModifyContext(){
+    public canModifyContext(): Observable<any> {
         return this.httpMenuService.canModifyContext().map((res: Response) => res.json());
     }
 
