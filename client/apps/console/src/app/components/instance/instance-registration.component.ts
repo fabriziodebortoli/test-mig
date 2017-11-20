@@ -22,6 +22,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
   password: string;
   activationCode: string;
   securityValue: string;
+  subscriptionKey: string;
   subscriptionSaveInstance: Subscription;
   subscriptionReadSubscriptions: Subscription;
   @Input() subscriptions: Array<SubscriptionAccount>;
@@ -37,6 +38,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
     this.securityValue = '';
     this.accountName = '';
     this.password = '';
+    this.subscriptionKey = '';
   }
 
   //--------------------------------------------------------------------------------
@@ -85,7 +87,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
         
         this.securityValue = res['Content'].securityValue;
 
-        this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: "francesco.ricceri@microarea.it" } }, this.activationCode).subscribe(
+        this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: this.accountName } }, this.activationCode).subscribe(
           res => {
             this.subscriptions = res['Content'];
             this.readingData = false;
@@ -109,6 +111,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
   associateInstanceToSubscription(subAcc) {
 
     let instanceKey: string = this.model.InstanceKey;
+    this.subscriptionKey = subAcc.SubscriptionKey;
 
     if (!confirm('This command will associate the instance ' + instanceKey + ' to this subscription: ' + subAcc.SubscriptionKey + '). Confirm?')) {
       return;
@@ -126,24 +129,38 @@ export class InstanceRegistrationComponent implements OnDestroy {
         this.modelService.setData({}, true, this.activationCode, instanceKey, this.accountName).retry(3).subscribe(
           res => {
 
-            this.modelService.getInstances(instanceKey, this.activationCode).subscribe(
+            let apiQuery = {
+              matchingField : null,
+              likeFields : null,
+              addDependencies : true,
+              accountName : this.accountName,
+              subscriptionKey : this.subscriptionKey
+            }
+
+            this.modelService.getObjectCluster('instances', instanceKey, "0", apiQuery, this.activationCode).subscribe(
               res => {
 
-                let instances:Instance[] = res['Content'];
+                let instanceCluster = res['Content'];
                 
-                if (instances.length == 0) {
+                if (instanceCluster === null || instanceCluster === undefined) {
                   return;
                 }
                 
-                this.model = instances[0];
+                this.model = instanceCluster['instance'];
                 this.model.SecurityValue = this.securityValue;
 
-                //we read the instance, now we pass it to the admin console
+                // we got the instance, now we pass it to the admin console
 
-                this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
-                  res => { alert('Registration complete');},
-                  err => { alert('Registration Failed'); }
+                // this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
+                //   res => { alert('Registration complete');},
+                //   err => { alert('Registration Failed'); }
+                // )
+
+                this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
+                  res => { alert('Registration Completed'); },
+                  err => { alert('Registratio Failed'); }
                 )
+
               },
               err => {}
             )

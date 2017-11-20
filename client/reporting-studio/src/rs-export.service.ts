@@ -16,6 +16,7 @@ export class RsExportService {
     lastPageExport: number;
     numberOfCopy: number;
     incrCopy: number;
+    multiFile: boolean;
     pdfState: PdfType = PdfType.NOPDF;
     svgState: SvgType = SvgType.NOSVG;
     pngState: PngType = PngType.NOPNG;
@@ -67,11 +68,12 @@ export class RsExportService {
     }
 
     //------EXPORT PDF-----------------------------------
-    initializedExport(from: number, to: number, copy: number) {
+    initializedExport(from: number, to: number, copy: number, multiFile: boolean) {
         this.firstPageExport = from;
         this.lastPageExport = to;
         this.numberOfCopy = copy;
         this.incrCopy = 0;
+        this.multiFile = multiFile;
         if (this.exportpdf)
             this.rsExportPdf.emit();
         if (this.exportexcel)
@@ -83,7 +85,6 @@ export class RsExportService {
         this.exportdocx = false;
     }
 
-
     async appendPDF() {
         await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
@@ -93,7 +94,7 @@ export class RsExportService {
 
     async renderPDF() {
         this.incrCopy++;
-        if (this.incrCopy < this.numberOfCopy) {
+        if (this.incrCopy < this.numberOfCopy && !this.multiFile) {
             await drawDOM(document.getElementById(this.layoutId))
                 .then((group: Group) => {
                     this.filePdf.append(group);
@@ -110,13 +111,17 @@ export class RsExportService {
                         multiPage: true
                     });
                 }).then((dataUri) => {
-                    saveAs(dataUri, this.titleReport + '.pdf');
+                    saveAs(dataUri, this.titleReport + '_copy_' + this.incrCopy + '.pdf');
                     this.pdfState = PdfType.NOPDF;
                 }).then(() => {
                     this.eventFirstPage.emit();
                     this.rsService.reset();
                     this.filePdf = new Group();
                 });
+            if (this.incrCopy < this.numberOfCopy && this.multiFile) {
+                this.pdfState = PdfType.PDF;
+                this.eventPageNumber.emit();
+            }
         }
     }
 

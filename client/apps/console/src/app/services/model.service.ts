@@ -10,6 +10,7 @@ import { Observable } from "rxjs/Observable";
 import { OperationResult } from './operationResult';
 import { AccountInfo } from '../authentication/account-info';
 import { MessageData } from './messageData';
+import { retry } from 'rxjs/operator/retry';
 
 @Injectable()
 export class ModelService {
@@ -140,7 +141,7 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   registerInstance(body: Object, activationKey): Observable<OperationResult> {
-    
+
     if (activationKey === '') {
       return Observable.throw('AuthorizationHeader is missing!');
     }
@@ -158,7 +159,7 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   getPermissionToken(body: Object, reason: string): Observable<OperationResult> {
-    
+
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
@@ -167,11 +168,11 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
-  }   
+  }
 
   //--------------------------------------------------------------------------------------------------------
   setData(body: Object, goGWAM: boolean, activationCode: string, rowId: string, accountName: string): Observable<OperationResult> {
-    
+
     let authorizationHeader = this.createAuthorizationHeader('app');
 
     if (authorizationHeader === '' && activationCode === undefined) {
@@ -180,7 +181,7 @@ export class ModelService {
 
     if (authorizationHeader === '') {
       authorizationHeader = activationCode;
-    }    
+    }
 
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
@@ -190,14 +191,14 @@ export class ModelService {
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl; 
+    let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl;
 
-    return this.http.post(baseUrl + 'setdata/instances/' + accountName + '/' + rowId + '/activated' + '/1' , {}, options)
+    return this.http.post(baseUrl + 'setdata/instances/' + accountName + '/' + rowId + '/activated' + '/1', {}, options)
       .map((res: Response) => {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
-  }  
+  }
 
   //--------------------------------------------------------------------------------------------------------
   saveInstance(body: Object, goGWAM: boolean, activationCode: string): Observable<OperationResult> {
@@ -210,7 +211,7 @@ export class ModelService {
 
     if (authorizationHeader === '') {
       authorizationHeader = activationCode;
-    }    
+    }
 
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
@@ -220,7 +221,7 @@ export class ModelService {
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl; 
+    let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl;
 
     return this.http.post(baseUrl + 'instances', body, options)
       .map((res: Response) => {
@@ -233,14 +234,14 @@ export class ModelService {
   getInstances(body: string = '', activationCode?: string): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
-    
+
     if (authorizationHeader === '' && activationCode === undefined) {
       return Observable.throw('AuthorizationHeader is missing!');
     }
 
     if (authorizationHeader === '') {
       authorizationHeader = activationCode;
-    }    
+    }
 
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
@@ -249,7 +250,7 @@ export class ModelService {
     // if body is not empty I add the instancekey
 
     let urlInstanceSegment: string = 'instances';
-    
+
     if (body !== '') {
       urlInstanceSegment += "/" + body;
     }
@@ -334,7 +335,7 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string): Observable<OperationResult> {
-    
+
     let authorizationHeader = "code";
 
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
@@ -344,7 +345,7 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (addAccountSubscriptionAssociation)'));
-  }  
+  }
 
   // returns all databases for the couple instanceKey + subscriptionKey
   //--------------------------------------------------------------------------------------------------------
@@ -523,6 +524,55 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error (checkDatabase)'));
   }
 
+  // check of database structure
+  //--------------------------------------------------------------------------------------------------------
+  checkDatabaseStructure(subscriptionKey: string, body: SubscriptionDatabase): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.adminAPIUrl + 'database/checkstructure/' + subscriptionKey, bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (checkDatabaseStructure)'));
+  }
+
+  // upgrade of database structure
+  //--------------------------------------------------------------------------------------------------------
+  upgradeDatabaseStructure(subscriptionKey: string, configuration: string = '', body: SubscriptionDatabase): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    let url: string = subscriptionKey;
+
+    // if configuration is not empty I add it to url
+    if (configuration != undefined && configuration !== '') {
+      url += "/" + configuration;
+    }
+
+    return this.http.post(environment.adminAPIUrl + 'database/upgradestructure/' + url, bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (upgradestructure)'));
+  }
+
   // send a message via email
   //--------------------------------------------------------------------------------------------------------
   sendMessage(body: MessageData): Observable<OperationResult> {
@@ -551,5 +601,71 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (sendMessage)'));
+  }
+
+    //--------------------------------------------------------------------------------------------------------
+  getObjectCluster(modelName: string, itemKey: string, ticks: string, body: Object, activationCode?: string): Observable<OperationResult> {
+   
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '' && activationCode === undefined) {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (authorizationHeader === '') {
+      authorizationHeader = activationCode;
+    }
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }    
+
+    if (modelName === '') {
+      return Observable.throw('The model name to query is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'cluster/' + modelName + '/' + itemKey + '/' + ticks, body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (query)'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  saveCluster(cluster: object, activationCode: string): Observable<OperationResult> {
+
+    if (activationCode === '' || activationCode === undefined) {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': activationCode });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.adminAPIUrl + 'savecluster', cluster, options)
+      .map((res: Response) => { return res.json; })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
+  }
+
+  // get list of configurations for default/sample data
+  //--------------------------------------------------------------------------------------------------------
+  getConfigurations(subscriptionKey: string, configType: string, iso: string): Observable<Array<{ iso: string, configurations: Array<string>}>> {
+    
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.adminAPIUrl + 'database/configurations/' + subscriptionKey + '/' + configType + '/' + iso, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (getConfigurations)'));
   }
 }

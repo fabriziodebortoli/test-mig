@@ -94,6 +94,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 				case ModelTables.SubscriptionExternalSources:
 					return Queries.ExistSubscriptionExternalSource;
 
+				case ModelTables.SubscriptionInstances:
+					return Queries.ExistSubscriptionInstances;
+
 				case ModelTables.SecurityTokens:
 					return Queries.ExistSecurityToken;
 
@@ -137,6 +140,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 				case ModelTables.SecurityTokens:
 					return Queries.UpdateSecurityToken;
 
+				case ModelTables.SubscriptionInstances:
+					return Queries.UpdateSubscriptionInstances;
+
 				default:
                     return String.Empty;
             }
@@ -176,6 +182,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 
 				case ModelTables.SecurityTokens:
 					return Queries.InsertSecurityToken;
+
+				case ModelTables.SubscriptionInstances:
+					return Queries.InsertSubscriptionInstances;
 
 				default:
                     return String.Empty;

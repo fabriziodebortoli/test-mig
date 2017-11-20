@@ -39,14 +39,15 @@ export class HttpService {
     }
 
     getTranslations(dictionaryId: string, culture: string): Observable<Array<any>> {
-        let obj = { dictionaryId: dictionaryId, culture: culture };
-        let url = this.infoService.getLocalizationServiceUrl() + 'getTranslations/';
-        return this.postData(url, obj)
-            .map((res: any) => {
-                return res.json();
-            })
-            .catch(this.handleError);
+        const headers = new Headers();
+        headers.append('Accept', 'application/json');
+        const url = '/dictionary/' + culture + '/' + dictionaryId + '.json';
+        return this.http.get(url, { withCredentials: true, headers: headers })
+        .map((res: Response) => {
+            return res.json();
+        });
     }
+  
     isLogged(params: { authtoken: string }): Observable<boolean> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {

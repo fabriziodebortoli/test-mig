@@ -1,6 +1,7 @@
+import { check } from './../../models/check.model';
 import { RsExportService } from './../../rs-export.service';
 import { Subscription } from '../../rxjs.imports';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { formatNumber } from '@telerik/kendo-intl';
 
 @Component({
@@ -15,8 +16,10 @@ export class ExportdialogComponent {
     to: number;
     copy: number;
 
-    multicopy: boolean = true;
     inputDisable: boolean = true;
+
+    check: boolean = true;
+    multicopy: boolean = false;
 
     constructor(public rsExportService: RsExportService) {
         this.from = 1;
@@ -37,8 +40,12 @@ export class ExportdialogComponent {
     }
 
     startExport() {
-        this.rsExportService.initializedExport(this.from, this.to, this.copy);
+        this.rsExportService.initializedExport(this.from, this.to, this.copy, this.multicopy);
         this.rsExportService.exportfile = false;
+    }
+
+    setMulticopy(){
+        this.multicopy = !this.multicopy;
     }
 
     setAllPages() {

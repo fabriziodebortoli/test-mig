@@ -13,28 +13,45 @@ export class TbComponentService {
     public infoService: InfoService;
     public httpService: HttpService;
     public dictionaryId = '';
-    public installationVersion = '';
     public translations = [];
     constructor(params: TbComponentServiceParams
     ) {
         this.logger = params.logger;
         this.infoService = params.infoService;
         this.httpService = params.httpService;
-        let subs = this.initTranslations(this.dictionaryId).subscribe(ti => {
-            if (subs)
-                subs.unsubscribe();
-            this.translations = ti.translations;
-            this.installationVersion = ti.installationVersion;
-
-            if (!this.translations) {
-                let subs = this.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
-                    if (subs)
-                        subs.unsubscribe();
-                    this.translations = tn;
-                    this.saveTranslations(this.dictionaryId, this.translations);
-                });
-            }
+        this.dictionaryId = this.calculateDictionaryId(this);
+        const ids = this.dictionaryId.split('.');
+        ids.forEach(id => {
+            let subs = this.readFromLocal(id).subscribe(tn => {
+                if (subs) {
+                    subs.unsubscribe();
+                }
+                if (tn) {
+                    this.translations = this.translations.concat(tn);
+                } else {
+                    subs = this.readTranslationsFromServer(id).subscribe(
+                        tn => {
+                        if (subs) {
+                            subs.unsubscribe();
+                        }
+                        this.translations = this.translations.concat(tn);
+                        this.saveToLocal(id, tn);
+                    }, err =>{
+                        if (subs) {
+                            subs.unsubscribe();
+                        }
+                        //dictionary file may not exist on server
+                        if (err && err.status === 404){
+                            this.saveToLocal(id, []);
+                        }
+                    });
+                }
+            });
         });
+    }
+   
+    public _TB(baseText: string) {
+        return this.translate(this.translations, baseText);
     }
     public readTranslationsFromServer(dictionaryId: string): Observable<Array<any>> {
         return this.httpService.getTranslations(dictionaryId, this.infoService.culture.value);
@@ -42,46 +59,49 @@ export class TbComponentService {
     public calculateDictionaryId(obj: Object) {
         let dictionaryId = '';
         let needSeparator = false;
-        while ((obj = Object.getPrototypeOf(obj)) != Object.prototype) {
-            if (needSeparator)
+        while ((obj = Object.getPrototypeOf(obj)) !== Object.prototype) {
+            if (needSeparator) {
                 dictionaryId += '.';
-            else
+            } else {
                 needSeparator = true;
+            }
+
             dictionaryId += obj.constructor.name;
         }
         return dictionaryId;
     }
-    public saveTranslations(dictionaryId: string, translations: any[]) {
-        let jItem = { translations: translations, installationVersion: this.installationVersion };
-        localStorage.setItem(dictionaryId, JSON.stringify(jItem));
-    }
-    public readTranslations(dictionaryId: string, installationVersion: string) {
-        let item = localStorage.getItem(dictionaryId);
-
-        if (item) {
-            try {
-                let jItem = JSON.parse(item);
-
-                if (jItem.installationVersion === installationVersion) {
-                    return jItem.translations;
-                }
+    public saveToLocal(dictionaryId: string, translations: any[]) {
+        const sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
+            if (sub) {
+                sub.unsubscribe();
             }
-            catch (ex) {
-                console.log(ex);
-            }
-        }
-        return null;
+
+            const jItem = { tn: translations, installationVersion: productInfo.installationVersion };
+            localStorage.setItem(dictionaryId, JSON.stringify(jItem));
+        });
     }
-    public initTranslations(dictionaryId: string): Observable<TranslationInfo> {
+
+    public readFromLocal(dictionaryId: string): Observable<any> {
         return Observable.create(observer => {
-            let sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
-                let ti = new TranslationInfo();
-                if (sub)
+            const sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
+                if (sub) {
                     sub.unsubscribe();
-                ti.translations = this.readTranslations(dictionaryId, productInfo.installationVersion);
-                ti.installationVersion = productInfo.installationVersion;
+                }
+                let tn = null;
+                const item = localStorage.getItem(dictionaryId);
+                if (item) {
+                    try {
+                        const jItem = JSON.parse(item);
 
-                observer.next(ti);
+                        if (jItem.installationVersion === productInfo.installationVersion) {
+                            tn = jItem.tn;
+                        }
+                    } catch (ex) {
+                        console.log(ex);
+                    }
+                }
+
+                observer.next(tn);
                 observer.complete();
             });
 
@@ -92,8 +112,8 @@ export class TbComponentService {
         let target = baseText;
         if (translations) {
             translations.some(t => {
-                if (t.base == baseText) {
-                    target = t.target;
+                if (t.b === baseText) {
+                    target = t.t;
                     return true;
                 }
                 return false;
@@ -102,9 +122,4 @@ export class TbComponentService {
         return target;
     }
 
-}
-
-export class TranslationInfo {
-    public installationVersion = '';
-    public translations = [];
 }

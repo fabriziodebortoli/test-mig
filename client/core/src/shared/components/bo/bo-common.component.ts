@@ -26,7 +26,7 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
         this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
             if (me.cmpId === args.id) {
                 me.translations = args.strings;
-               document.saveTranslations(this.dictionaryId, me.translations);
+               document.saveToLocal(this.dictionaryId, me.translations);
             }
         }));
     }

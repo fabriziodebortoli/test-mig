@@ -226,7 +226,9 @@ namespace Microarea.Common.Hotlink
                     else if (selectionType.CompareNoCase("direct"))
                         hklAction = Hotlink.HklAction.DirectAccess;
 
-                    query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction);
+                    string documentId = requestQuery["documentID"].ToString();
+                    string hklName = requestQuery["hklName"].ToString();
+                    query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction, documentId, hklName);
 
                     JObject jObject = JObject.Parse(query);
                     query = jObject.GetValue("query")?.ToString();

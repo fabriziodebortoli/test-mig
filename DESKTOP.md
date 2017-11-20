@@ -1,101 +1,119 @@
 # Sincronizzazione e Build ambiente di sviluppo Desktop
 
-Questo documento descrive come preparare l'ambiente di sviluppo Desktop con il menu nuovo
+Questo documento descrive come preparare e aggiornare l'ambiente di sviluppo per utilizzare il menu web da parte di chi lavora solo in ambiente Desktop.
 
-* [Prerequisite Software](#prerequisite-software)
-* [Microarea Extension](#microarea-extension)
+**ATTENZIONE**: la procedura non vale se sviluppate anche in ambiente web. Con questa procedura vengono cancellati eventuali cadaveri di cartelle legate alla parte web, quindi qualsiasi modifica alla parte web non pushata su git, ***con questo metodo andrà irrimediabilmente persa***. 
+
+* [Prerequisiti](#prerequisiti)
 * [Script](#script)
+* [Troubleshooting](#troubleshooting)
 
-## Prerequisite Software
+## Prerequisiti
 
-Before you can build and test, you must install and configure the following products on your development machine:
+Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.  
+Installare i prerequisiti **con privilegi di Amministratore**.
 
-* [Git](http://git-scm.com) and/or the **GitHub app** (for [Mac](http://mac.github.com) or
-  [Windows](http://windows.github.com)); [GitHub's Guide to Installing
-  Git](https://help.github.com/articles/set-up-git) is a good source of information.
+In condizioni normali l'installazione richiede 30' - 45'.
 
-* [Node.js](http://nodejs.org), (version `>=6.11`) which is used to run a development web server,
+### [Git](http://git-scm.com)
+Installare la [**GitHub app** per Windows](http://windows.github.com).
+
+Dopo l'installazione, effettuare la login con le proprie credenziali di GitHub aziendali. Se non sono state ancora assegnate, chiederle.
+
+Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/articles/set-up-git).
+
+### [Node.js](http://nodejs.org), (version `>=6.11`)
+  Installare la 'LTS' (Long Term Support). 
+  
+  Node.js is used to run a development web server,
   run tests, and generate distributable files. We also use Node's Package Manager, `npm`
   which comes with Node. Depending on your system, you can install Node either from
   source or as a pre-packaged bundle.
+  
+  Se lo si ha già, verificare la versione da riga di comando: `node -v`  
+  Verificare anche la versione di NPM con il comando `npm -v`, deve essere superiore alla 5.0.
 
-* [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) a superset of JavaScript that compiles to clean JavaScript output.
+### [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) 
+A superset of JavaScript that compiles to clean JavaScript output.
+
+Per installarlo, da riga di comando
 
 ```shell
 # global installation typescript
 $ npm i -g "typescript@latest"
 ```
 
-* [Angular CLI](https://cli.angular.io/), (version `>= 1.4`) a command line interface for Angular
+Se lo si ha già, verificare la versione da riga di comando: `tsc -v`
+
+### [Angular CLI](https://cli.angular.io/), (version `>= 1.4`)
+A command line interface for Angular
+
+Per installarlo, da riga di comando
+
 ```shell
 # global installation Angular CLI
 $ npm i -g "@angular/cli"
 ```
 
-* [rimraf] - Shortcut to *rm -rf*
+Se lo si ha già, verificare la versione da riga di comando: `ng -v`
+
+### [rimraf]
+A shortcut to *rm -rf*
+
+Per installarlo, da riga di comando
+
 ```shell
 # global installation rimraf
 $ npm i -g rimraf
 ```
 
-* .NET Core
+### .NET Core
 
-  * Download and install **.NET Core 2.0 SDK** - [link](https://www.microsoft.com/net/download/core)
+Scaricare ed installare il [**.NET Core 2.0 SDK**](https://www.microsoft.com/net/download/core)
 
-* Verificare di avere installato il seguente componente nella sezione "aspnet web development"
+### Componenti aggiuntivi di Visual Studio
+Aprire l'Installer del Visual Studio 2017 (dalla funzione di ricerca di Windows, cercare "Visual Studio Installer"). Potrebbe richiedere l'aggiornamento dello stesso Installer o di Visual Studio)
+
+Verificare di avere installato il seguente componente nella sezione "aspnet web development"
 ![Prequisiti](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/Prerequisiti.png)
 
+### Microarea Extension
 
-* [Visual Studio Code](http://code.visualstudio.com/) source code editor
-
-* [Visual Studio Typescript Extension](https://www.microsoft.com/en-us/download/details.aspx?id=48593) - Only for VS 2015 users
-
-
-## Microarea Extension
-
-Scaricare le **MicroareaExtension** per **vs2017** che si trovano online come da screenshots.
+Scaricare le **MicroareaExtension** per **VS2017** che si trovano online come da screenshots.
 ![Tools -> Extension and Updates](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/microarea-extension-1.png)
 ![Search 'microarea'](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/microarea-extension-2.jpg)
 
-In seguito, dal menu Microarea Tools, scegliere la voce **Create IIS virtual directory**
+In seguito, aprire una qualsiasi solution Mago o TB, e dal menu Microarea Tools, scegliere la voce **Create IIS virtual directory**
 
-## Script 
+### (Opzionale) [Visual Studio Code](http://code.visualstudio.com/) 
+Source code editor.
 
-Scaricare uno degli script seguenti ed eseguire come Amministratore, soprattutto se in ambiente Windows 10.
-Entrambi gli script, alla partenza, vi chiederanno di specificare il path di installazione della vostra cartella di sviluppo (ad esempio “c:\development”)
+## Script
 
-### Clone, Install e Build
-Il file **M4-Clone.bat** ha lo scopo di clonare, installare e buildare tutti i componenti provenienti da git.
+Il prerequisito per eseguire la build dell'ambiente web è di avere sincronizzato TaskBuilder, ERP ed ogni altra solution C++ (es.: MDC, ecc.).
 
-Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Clone.bat?raw=true) (tasto destro del mouse -> Salva con nome)
+Eseguire **COME AMMINISTRATORE** lo script `Standard\TaskBuilder\BuildWebEnvironment.bat`: se vengono riportati degli errori, vedere [**Troubleshooting**](#troubleshooting).
 
-Oppure nel repository  in ```<InstallationPath>/Standard/web/docs/script/M4-Client.bat```
+La prima volta, se non avete mai fatto accesso a GIT da linea di comando, comparirà una finestra che vi chiede le credenziali, inseritele. Non verranno più richieste successivamente.
 
-Questo script come prima cosa cancella eventuali cadaveri di cartelle legate alla parte web, quindi qualsiasi modifica alla parte web non pushata su git, ***con questo script andrà irrimediabilmente persa***.
+Il lancio dello script va ripetuto ogni volta che si sincronizza TaskBuilder; può essere fatto prima o dopo la compilata delle solution di ERP e di TB.
 
+### BONUS!! Uso di Mago web
+Facendo quanto sopra potete anche usare il *vero* Mago web.
 
-### Sincronizzazione e Build
-Il file **M4-Get-Build.bat** effettua una sincronizzata pulita, più le relative build della parte angular  e netcore.
+Aprite un prompt di comandi e spostatevi nel folder `Standard\web\`.  
+Date il comando: `git checkout master` (cambiate il branch di lavoro di TB web).
 
-Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Get-Build.bat?raw=true) (tasto destro del mouse -> Salva con nome)
+Lanciate lo script `Standard\web\client\web-form\run.bat` (da linea di comando o con doppio click da Windows Explorer). Si aprono due command prompt ed un TBLoader. Quando nel command prompt con titolo "@angular/cli" compare la scritta "webpack compiled successfully" aprite il browser su `localhost:4200`.
 
-Oppure nel repository in ```<InstallationPath>/Standard/web/docs/script/M4-Get-Build.bat```
+Per tornare sul branch della 2.x, date il comando `git checkout dev_2_x` (dopo avere chiuso tutti i command prompt aperti dal run).
 
+## Troubleshooting
+* nell'installazione delle dipendenze con NPM (`npm i`) compaiono moltissimi messaggi contenenti "ENOENT". Cancellare i files `package-lock.json` della sottocartella `standard\web\client\web-form`, e la cartella `C:\Users\[nome utente]\AppData\Roaming\npm-cache`
 
+* nell'installazione delle dipendenze con NPM (`npm i`) compare un messaggio che indica la mancanza di un componente Kendo. Modificare il file `C:\Users\[nome utente]\.npmrc` rimuovendone le righe relative alla licenza Kendo.
 
-### Build Completa
+* in caso di dubbi di situazione delle cartelle "sporca", provare a cancellare completamente la cartella `standard\web` e ripetere l'operazione.
 
-Il file **M4-Build-Complete.bat** effettua invece tutte  le operazioni necessarie a sincronizzare l’intero ambiente di lavoro:
-
- 1. Pulizia completa della cartella \apps
- 2. Get latest (compreso di tentativo di automerge)  di taskbuilder, erp 
- 3. Build in debug di taskbuilder e erp
- 4. Sincronizzazione da git e compilata dei sorgenti web. (effettua tutte le operazioni presenti nel “M4-Get-Build.bat”
-
-Si può scaricare da qui: [download](https://github.com/Microarea/Taskbuilder/blob/master/docs/script/M4-Build-Complete.bat?raw=true) (tasto destro del mouse -> Salva con nome)
-
-Oppure, nel repository in ```<InstallationPath>/Standard/web/docs/script/M4-Build-Complete.bat```
-
-N.B.: nello script è presente, anche se commentato con un “rem” , tutta la parte relativa ad MDC:  se normalmente sincronizzate anche questa applicazione, dovete semplicemente togliere i relativi “rem” dalle righe pertinenti ad mdc
-
-E' utile lanciare questo script tutte le sere, magari anche con una schedulazione di windows, in modo da avere l’intero ambiente pronto all’uso la mattina dopo (ovviamente a meno di errori di compilazione dovuti a checkin infausti)
+* se la versione di Typescript non è quella corretta anche dopo averlo installato, potreste averne una vecchia versione installata da una precedente versione di Visual Studio, e la sua cartella si trova nel PATH *prima* di quella dove lo installa NPM.  
+Modificare il PATH eliminando la cartella che punta al "vecchio" Typescript

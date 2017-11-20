@@ -1,17 +1,53 @@
-<div class="flex-container">
+<mat-toolbar color="primary">
+    <img src="assets/images/logoM4_h40.png" />
+</mat-toolbar>
+
+<div class="ribbon"></div>
+
+<div class="page-content row">
+
+    <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8 ">
+        <div class="card">
+            <h1>Oops! An Error Occurred</h1>
+            <h2>.NET Core Server not responding</h2>
+            <div class="card-content">
+
+                <h4>Most likely causes</h4>
+                <ul>
+                    <li>.NET Core Windows Server Hosting bundle not installed</li>
+                    <li>.NET Core Runtime 2.0.0 just installed (try to Reset IIS with <strong>iisreset</strong> command)</li>
+                    <li>.json MIME types not present</li>
+                </ul>
+                <br>
+
+                <p>Please, check your prerequisites and follow installation instructions from this page: <br>
+                    <a href="http://www.microarea.it/MicroareaHelpCenter/RefGuide-Framework-InstallationGuide40Beta.ashx">Installing and configuring TaskBuilder Studio - Developer Edition Beta for upcoming Mago4 2.0</a>
+                </p>
+                <br>
+
+                <div class="center">
+                    <button kendoButton [primary]="true" routerLink='/login'>Refresh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- <div class="flex-container">
     <div class="centered-content">
         <div class="row center-xs w100">
 
             <div class="col-xs-6" id="content">
-                <img src="assets/images/logoM4_h40_black.png" />
+                
                 <h1>Oops! Server down...</h1>
 
                 <p>Server is down.</p>
 
-                <button kendoButton [primary]="true" routerLink='/login'>Refresh</button>
+                
             </div>
 
 
         </div>
     </div>
-</div>
+</div> -->

@@ -1,16 +1,21 @@
-$bkg-light:rgba(245, 107, 208, 0.8);
-$bkg-medium:rgba(162, 70, 137, 1);
-$bkg-dark:rgba(0, 0, 0, 0.8);
+$bkg-light:#a76a96;
+$bkg-medium:#69345c;
+$bkg-dark:#46123c;
+$bkg-light-opacity50: rgba(167,106,150, 0.5);
+//$bkg-neutral:#EEEEEE;
+$bkg-app: rgba(68,18,56,0.3);
 $bkg: #fff;
 $text-light: #fff;
-$text-medium: #8f8f96;
-$text-dark: #484040;
+$text-medium: #000000;
+$text-dark: #000000;
+$text-dark-secondary:#448e88; //#7dc9bf;
 $font-size-tooltip: 12px;
 .purple {
     //toolbar principale, dove si trova anche la "ricerca"
     .mat-toolbar.mat-primary {
-        background: $bkg-light;
+        background: $bkg-medium;
     }
+
     //Selettore menu/dashboard/documenti/report
     .tabber-container>.k-tabstrip>.k-tabstrip-items {
         background: $bkg-medium;
@@ -18,47 +23,70 @@ $font-size-tooltip: 12px;
     }
     //Selettore menu/dashboard/documenti/report, singola tab
     .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
-        background: $bkg-medium;
+        background: $bkg-dark;
         color: $text-light;
         border-bottom-color: $bkg-medium;
     }
     //Selettore menu/dashboard/documenti/report, singola tab attiva
     .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
-        background: $bkg-dark;
-        color: $text-light;
+        background: $bkg-light;
+        color: $text-dark;
         border-bottom-color: $bkg-medium;
     }
+     //colore pulsanti finestre di messaggio modali
+    // .k-button.k-primary,
+    //.k-button.k-primary,
+    //.k-button.k-primary:visited,
+    //.k-slider .k-draghandle,
+    //.k-switch-on .k-switch-handle {
+        //background-color: $bkg-medium;
+        //border-color: $bkg-medium;
+        //color: $text-dark;
+    //}
+    //.k-button.k-primary:hover,
+    //{
+        //background-color: $bkg-light;
+        //border-color: $bkg-light;
+        //color: $text-dark;
+        //background-image: none;
+    //}
+    .k-button {
+        color: $text-dark;
+    }   
     //colore barra del titolo delle finestre di messaggio modali
     .k-dialog-titlebar {
         background-color: $bkg-medium;
     }
-    //colore pulsanti finestre di messaggio modali
-    .k-button.k-primary,
-    .k-slider .k-draghandle,
-    .k-switch-on .k-switch-handle {
-        background-color: $bkg-medium;
-        border-color: $bkg-medium;
+    //titoli finestre di messaggio modali
+    .k-window-title {
+        font-size: 17px;
+        line-height: normal;
+        background-color: $bkg-medium
     }
     //colore della toolbar principale della frame
     .toolbar-top {
-        background-color: $bkg-medium;
-        color: $text-light;
+        background-color: $bkg-light;
+        color: $text-dark;
     }
     //colore del tabber del selettore menu
     .menu-page .k-tabstrip-top>.k-tabstrip-items {
         background-color: $bkg-light;
-        color: $text-light;
+        color: $text-dark;
     }
     //colore del tabber del selettore menu, singola tab
     .menu-page .k-tabstrip>.k-tabstrip-items .k-item .k-link {
-        color: $text-light;
+        color: $text-dark;
     }
     //colore del tabber del selettore menu, singola tab attiva
     .menu-page .k-tabstrip-top>.k-tabstrip-items .k-item.k-state-active .k-link {
-        color: $bkg-light;
-        background: $bkg-dark;
         color: $text-light;
+        background: $bkg-dark;
     }
+    //colore line in headerstrip
+    .header-strip .line{
+        display: block;
+        background: linear-gradient(to right, #5d2b51 0%, #e47ec9, #EEEEEE  100%); 
+    }  
     //tbcard, 
     .tb-card {
         background-color: $bkg;
@@ -66,6 +94,20 @@ $font-size-tooltip: 12px;
     //titolo della tbcard
     .tb-card-title {
         font-size: 17px;
+    }
+    tb-menu-element .menu-element:hover {
+        background-color: $bkg-light-opacity50;
+        color: $text-dark-secondary;
+    }
+
+    //mouseover theme changer
+    .div-theme-carrier:hover {
+        background-color: $bkg-light-opacity50;
+    }
+
+    //dimensione del font delle voci di menu
+    tb-menu-element .menu-element-content .object-type {
+        font-size: 16px;
     }
     //Colore icone di tipo document
     tb-menu-element .menu-element-content .object-type.Document {
@@ -83,71 +125,81 @@ $font-size-tooltip: 12px;
     tb-menu-element .menu-element-content .object-type.Function {
         color: $bkg-medium;
     }
-    //dimensione del font delle voci di menu
-    tb-menu-element .menu-element-content .object-type {
-        font-size: 16px;
+    //colore della stellina nel menu dei favoriti
+    tb-menu-element .menu-element-content .star {
+        color: $bkg-medium;
+        font-size: 18px;
+        line-height: 22px;
+        margin-right: 3px;
+        &.favorite {
+            color: $bkg-medium;
+        }
+    }
+    tb-menu-element .menu-element-content .star:hover {
+        color: $bkg-dark;
+        cursor: pointer;
     }
     //colore scrollbar
      ::-webkit-scrollbar-thumb {
         background: $bkg-medium;
     }
     //colore di fondo della sidenav
-    .mat-sidenav{
+    .mat-sidenav {
         background: $bkg-medium;
     }
-    
-     //colore di fondo della lista applicazioni
-     ul.application-list,   ul.groups-list {
-        background:  $bkg-light;
-        &>li {
-            color: $text-dark;
-            background: $bkg-light;
-        }
-
-        &>li:hover {
+   //colore di fondo della lista applicazioni
+   ul.application-list,
+   ul.groups-list {
+       background:  $bkg-medium;
+       &>li {
+           color: $text-light;
+           background: $bkg-app;
+       }
+       &>li:hover {
+           color: $text-light;
+           background: $bkg-dark;
+       }
+       .selected {
+           background: $bkg-dark;
+       }
+   }
+     //tidolo delle voci sidenav
+     .sidenav-subtitle {
+        background-color: $bkg-medium;
+        h4 {
             color: $text-light;
-            background: $bkg-dark;
         }
-
-        .selected {
-            background: $bkg-dark;
-        }
-    }
-    
-    //tidolo delle voci sidenav
-    .sidenav-subtitle h4 {
-        color: $text-dark;
     }
     //stile quando usato nella sidenav
     /// inizio sidenav
     .sidenav {
-        m4-icon.close {
-            color: $text-dark;
-        }
         //recenti, colori 
-        .most-used-item,
-        .favorite-item,
-        .hiddenTiles-item {
-            color: $text-dark;
-            background: $bkg-light;
+        .most-used-item, .favorite-item, .hiddenTiles-item  {
+            color: $text-light;
+            background: $bkg-medium;
+            &>span {
+                font-weight: 500;
+            }
             &:hover {
-                background: $bkg-light;
+                background:  $bkg-dark;
             }
             &:hover span {
-                color: $text-dark;
+                color: $text-light;
             }
             m4-icon.close {
                 &:hover {
-                    color: $text-dark;
-                }
+                    color: #fff;
+                }          
             }
         }
         //recenti, favoriti , nascosti, lista vuota
-        .most-used-empty,
-        .favorites-empty,
-        .hiddenTiles-empty {
-            color: $text-dark;
+        .most-used-empty, .favorites-empty, .hiddenTiles-empty  {
+        color: $text-light;
+        background:  $bkg-medium;
         }
+        //.favorites {
+          //  margin-bottom: 0px;
+        //}
     }
     /// fine sidenav
     //stile quando usato nella dashboard
@@ -194,12 +246,28 @@ $font-size-tooltip: 12px;
             }
         }
     }
+    .tbcontainer #anchor:hover,
+    .tbcontainer #anchor:focus,
+    .tbcontainer #anchor:visited {
+        outline-color: $bkg-light;
+        outline-style: auto;
+        outline-width: 5px;
+    }
+    /*colore del bottone spinner*/
+    .hideButton {
+        color: $bkg-medium;
+    }
+    /* colore del loader*/
+    .loader {
+        border: 4px solid $bkg-light-opacity50; // è lo stesso del light con opacità inferiore
+        border-top: 4px solid $bkg-dark;
+    }
 }
 
 .mat-tooltip {
     font-size: $font-size-tooltip !important;
-    background-color: $bkg-light !important;
+    background-color: $bkg-dark !important;
     color: $text-light !important;
-    border-radius: 0px !important;
-    padding: 10px 0px 10px 15px;
+    border-radius: 4px !important;
+    text-align: center;
 }

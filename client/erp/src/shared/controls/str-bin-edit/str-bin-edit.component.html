@@ -1,6 +1,6 @@
 <div class="tb-control erp-strbinedit">
     <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <kendo-maskedtextbox [ngModel]="model?.value" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="changeModelValue($event)"
-        [style.width.px]="width"></kendo-maskedtextbox>
+    <kendo-maskedtextbox [ngModel]="model?.value" required="required" [disabled]="!(model?.enabled)" (ngModelChange)="changeModelValue($event)"
+        (keydown)="onKeyDown($event)" [style.width.px]="width"></kendo-maskedtextbox>
     <div class="has-error">{{errorMessage}}</div>
 </div>

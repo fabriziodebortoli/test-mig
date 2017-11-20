@@ -12,14 +12,12 @@ namespace Microarea.AdminServer.Model
 	{
 		string instanceKey;
 		URLType urlType = URLType.API;
-		bool existsOnDB;
 		string url;
 
 		//---------------------------------------------------------------------
 		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
 		public URLType URLType { get { return this.urlType; } set { this.urlType = value; } }
 		public string URL { get { return this.url; } set { this.url = value; } }
-		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		//---------------------------------------------------------------------
 		public ServerURL()

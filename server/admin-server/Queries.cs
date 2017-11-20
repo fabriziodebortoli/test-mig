@@ -83,6 +83,13 @@ namespace Microarea.AdminServer
 														WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 		public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 
+		// SubscriptionInstance
+		public const string ExistSubscriptionInstances = @"SELECT COUNT(*) FROM MP_SubscriptionInstances WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey";
+		public const string InsertSubscriptionInstances = @"INSERT INTO MP_SubscriptionInstances (SubscriptionKey, InstanceKey) VALUES (@SubscriptionKey, @InstanceKey)";
+		public const string UpdateSubscriptionInstances = @"UPDATE MP_SubscriptionInstances 
+															SET SubscriptionKey = @SubscriptionKey, InstanceKey = @InstanceKey 
+															WHERE SubscriptionKey = @SubscriptionKey AND InstanceKey = @InstanceKey";
+
 		// SubscriptionDatabases (BurgerData)
 		public const string SelectDatabases = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}'";
 		public const string SelectDatabaseByName = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}' AND Name = '{2}'";

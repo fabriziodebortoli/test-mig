@@ -8,6 +8,7 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Hosting;
@@ -799,10 +800,170 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
+
+		[HttpPost("/api/database/checkstructure/{subscriptionKey}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiCheckDatabaseStructure(string subscriptionKey, [FromBody] SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (subDatabase == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// devo controllare il flag UnderMaintenance: se a true devo fare return e segnalare che e' gia' in aggiornamento
+
+			// I set subscription UnderMaintenance = true
+			opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData);
+
+			if (!opRes.Result)
+			{
+				opRes.Message = Strings.OperationKO;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+
+			// TODO: dall'attivazione della Subscription devo sapere se 
+			/*if ((dbManager.StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40)
+			{
+				if (!this.canMigrate)
+				{
+				}
+			}*/
+
+			if (
+				((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+				!dbManager.ContextInfo.HasSlaves)
+				||
+				(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+				(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+				dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY)
+				)
+			{
+				// significa che non e' possibile procedere con l'aggiornamento perche':
+				// - i database sono gia' aggiornati
+				// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
+				opRes.Code = -1;
+			}
+
+			//re-imposto il flag UnderMaintenance a false
+			APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		//---------------------------------------------------------------------
+		private List<OperationResult> GetMessagesList(Diagnostic diagnostic)
+		{
+			List<OperationResult> messagesList = new List<OperationResult>();
+
+			IDiagnosticItems items = diagnostic.AllMessages();
+			if (items == null)
+				return messagesList;
+
+			foreach (IDiagnosticItem item in items)
+				if (!string.IsNullOrEmpty(item.FullExplain))
+					messagesList.Add(new OperationResult() { Message = item.FullExplain });
+
+			return messagesList;
+		}
+
+		[HttpPost("/api/database/upgradestructure/{subscriptionKey}/{configuration?}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiUpgradeDatabaseStructure(string subscriptionKey, string configuration, [FromBody] SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (subDatabase == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// devo controllare il flag UnderMaintenance: se a true devo fare return e segnalare che e' gia' in aggiornamento
+
+			// I set subscription UnderMaintenance = true
+			opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData);
+
+			if (!opRes.Result)
+			{
+				opRes.Message = Strings.OperationKO;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// set Configuration for default data
+			dbManager.ImportSampleData = false;
+			dbManager.ImportDefaultData = false;
+			if (!string.IsNullOrWhiteSpace(configuration))
+			{
+				dbManager.ImportDefaultData = true;
+				dbManager.ImpExpManager.SetDefaultDataConfiguration(configuration);
+			}
+			
+			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+
+			//re-imposto il flag UnderMaintenance a false
+			APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
 	}
 
-	//================================================================================
-	public class ExtendedSubscriptionDatabase
+		//================================================================================
+		public class ExtendedSubscriptionDatabase
 	{
 		public DatabaseCredentials AdminCredentials;
 		public SubscriptionDatabase Database;

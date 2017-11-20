@@ -6,7 +6,6 @@ using Microarea.AdminServer.Services.BurgerData;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Model
 {
@@ -18,7 +17,6 @@ namespace Microarea.AdminServer.Model
         string origin = string.Empty;
         string tags = string.Empty;
         bool disabled = false;
-		bool existsOnDB = false;
         bool underMaintenance = false;
         DateTime pendingDate;
         int ticks = TicksHelper.GetTicks();
@@ -28,8 +26,6 @@ namespace Microarea.AdminServer.Model
         public string InstanceKey { get => this.instanceKey; set => this.instanceKey = value; }
         public string Description { get => this.description;  set => this.description = value; }
 		public bool Disabled { get => this.disabled; set => this.disabled = value; }
-		public bool ExistsOnDB { get  => existsOnDB; set => existsOnDB = value; }
-
         public string Origin { get => origin; set => origin = value; }
         public string Tags { get => tags; set => tags = value; }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
@@ -95,22 +91,21 @@ namespace Microarea.AdminServer.Model
             if (!instance.VerifyPendingDate())
                 throw new Exception(String.Format(Strings.BurgledInstance, instance.InstanceKey));
 
-            //QUI CODICE PER VERIFICARE I TICKS CON IL GWAM
-
             return instance;
         }
 
-        //---------------------------------------------------------------------
-        private bool VerifyTicks()
-        {
-            return true;
-        } 
         //---------------------------------------------------------------------
         public bool VerifyPendingDate()
         {
             return TicksHelper.GetDateHashing(PendingDate) == VerificationCode;
         }
 
+        //---------------------------------------------------------------------
+        public AuthorizationInfo GetAuthorizationInfo()
+        {
+            return new AuthorizationInfo(AuthorizationInfo.TypeAppName, instanceKey, securityValue);
+        }
+       
         //---------------------------------------------------------------------
         public string GetKey()
         {
