@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[MP_Instances] (
 	[PendingDate] [datetime] NULL CONSTRAINT DF_Instances_PendingDate DEFAULT (DateAdd (day , 10 , getdate() )),
 	[VerificationCode] [varchar] (50) NULL CONSTRAINT DF_Instances_VerificationCode DEFAULT (''),
 	[Ticks] [int] NULL CONSTRAINT DF_Instances_Ticks DEFAULT (0),
-	[SecurityValue] [varchar] (70) NULL CONSTRAINT DF_Instances_SecurityValue DEFAULT(''),
+	[SecurityValue] [varchar] (250) NULL CONSTRAINT DF_Instances_SecurityValue DEFAULT(''),
 	CONSTRAINT [PK_MP_Instances] PRIMARY KEY NONCLUSTERED 
 	(
 		[InstanceKey]
