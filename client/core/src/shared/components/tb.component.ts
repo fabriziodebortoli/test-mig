@@ -1,5 +1,5 @@
 import { InfoService } from './../../core/services/info.service';
-import { TbComponentService, TranslationInfo } from './../../core/services/tbcomponent.service';
+import { TbComponentService } from './../../core/services/tbcomponent.service';
 import { Input, OnInit } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
@@ -8,7 +8,6 @@ export abstract class TbComponent implements OnInit {
   public cmpId = '';
 
   public dictionaryId = '';
-  public installationVersion = '';
   public translations = [];
 
   constructor(public tbComponentService: TbComponentService) {
@@ -20,33 +19,42 @@ export abstract class TbComponent implements OnInit {
   }
   ngOnInit() {
     const ids = this.dictionaryId.split('.');
-    ids.forEach(id=>{
-      const subs = this.tbComponentService.readFromLocal(id).subscribe(ti => {
+    ids.forEach(id => {
+      const subs = this.tbComponentService.readFromLocal(id).subscribe(tn => {
         if (subs) {
           subs.unsubscribe();
         }
-        this.installationVersion = ti.installationVersion;
-        
-        if (ti.translations) {
-          this.translations = this.translations.concat(ti.translations);
+
+        if (tn) {
+          this.translations = this.translations.concat(tn);
         } else {
           this.readTranslationsFromServer(id);
         }
       });
     });
-    
+
   }
 
   public readTranslationsFromServer(dictionaryId: string) {
-    const subs = this.tbComponentService.readTranslationsFromServer(dictionaryId).subscribe(tn => {
-      if (subs) {
-        subs.unsubscribe();
-      }
-      if (tn){
-        this.translations = this.translations.concat(tn);
-      }
-      this.translations = tn;
-      this.tbComponentService.saveToLocal(this.dictionaryId, this.translations);
-    });
+    const subs = this.tbComponentService.readTranslationsFromServer(dictionaryId).subscribe(
+      tn => {
+        if (subs) {
+          subs.unsubscribe();
+        }
+        if (tn) {
+          this.translations = this.translations.concat(tn);
+        }
+        this.translations = tn;
+        this.tbComponentService.saveToLocal(dictionaryId, this.translations);
+      },
+      err => {
+        if (subs) {
+          subs.unsubscribe();
+        }
+        //dictionary file may not exist on server
+        if (err && err.status === 404) {
+          this.tbComponentService.saveToLocal(dictionaryId, []);
+        }
+      });
   }
 }

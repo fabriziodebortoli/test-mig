@@ -6,6 +6,7 @@ import { ModelService } from 'app/services/model.service';
 import { AccountInfo } from 'app/authentication/account-info';
 import { DatabaseCredentials, ExtendedSubscriptionDatabase } from '../../authentication/credentials';
 import { OperationResult } from '../../services/operationResult';
+import { DataChannelService } from 'app/services/data-channel.service';
 
 @Component({
   selector: 'app-subscription-db-home',
@@ -23,7 +24,8 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
   constructor(
     private modelService: ModelService,
     private databaseService: DatabaseService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private dataChannelService: DataChannelService) {
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -88,6 +90,9 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
         this.model.assign(databases[0]);
         // I copy the original model values
         this.originalModel.assign(this.model);
+
+        // notify model loaded
+        this.dataChannelService.sendMessage();
       },
       err => { alert(err); }
       )

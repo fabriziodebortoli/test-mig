@@ -13,31 +13,43 @@ export class TbComponentService {
     public infoService: InfoService;
     public httpService: HttpService;
     public dictionaryId = '';
-    public installationVersion = '';
     public translations = [];
     constructor(params: TbComponentServiceParams
     ) {
         this.logger = params.logger;
         this.infoService = params.infoService;
         this.httpService = params.httpService;
-        let subs = this.readFromLocal(this.dictionaryId).subscribe(ti => {
-            if (subs) {
-                subs.unsubscribe();
-            }
-            this.translations = ti.translations;
-            this.installationVersion = ti.installationVersion;
-
-            if (!this.translations) {
-                subs = this.readTranslationsFromServer(this.dictionaryId).subscribe(tn => {
-                    if (subs) {
-                        subs.unsubscribe();
-                    }
-                    this.translations = tn;
-                    this.saveToLocal(this.dictionaryId, this.translations);
-                });
-            }
+        this.dictionaryId = this.calculateDictionaryId(this);
+        const ids = this.dictionaryId.split('.');
+        ids.forEach(id => {
+            let subs = this.readFromLocal(id).subscribe(tn => {
+                if (subs) {
+                    subs.unsubscribe();
+                }
+                if (tn) {
+                    this.translations = this.translations.concat(tn);
+                } else {
+                    subs = this.readTranslationsFromServer(id).subscribe(
+                        tn => {
+                        if (subs) {
+                            subs.unsubscribe();
+                        }
+                        this.translations = this.translations.concat(tn);
+                        this.saveToLocal(id, tn);
+                    }, err =>{
+                        if (subs) {
+                            subs.unsubscribe();
+                        }
+                        //dictionary file may not exist on server
+                        if (err && err.status === 404){
+                            this.saveToLocal(id, []);
+                        }
+                    });
+                }
+            });
         });
     }
+   
     public _TB(baseText: string) {
         return this.translate(this.translations, baseText);
     }
@@ -53,38 +65,43 @@ export class TbComponentService {
             } else {
                 needSeparator = true;
             }
-            
+
             dictionaryId += obj.constructor.name;
         }
         return dictionaryId;
     }
     public saveToLocal(dictionaryId: string, translations: any[]) {
-        const jItem = { translations: translations, installationVersion: this.installationVersion };
-        localStorage.setItem(dictionaryId, JSON.stringify(jItem));
+        const sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
+            if (sub) {
+                sub.unsubscribe();
+            }
+
+            const jItem = { tn: translations, installationVersion: productInfo.installationVersion };
+            localStorage.setItem(dictionaryId, JSON.stringify(jItem));
+        });
     }
 
-    public readFromLocal(dictionaryId: string): Observable<TranslationInfo> {
+    public readFromLocal(dictionaryId: string): Observable<any> {
         return Observable.create(observer => {
             const sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
-                const ti = new TranslationInfo();
-                if (sub){
+                if (sub) {
                     sub.unsubscribe();
                 }
+                let tn = null;
                 const item = localStorage.getItem(dictionaryId);
                 if (item) {
                     try {
                         const jItem = JSON.parse(item);
 
                         if (jItem.installationVersion === productInfo.installationVersion) {
-                            ti.translations = jItem.translations;
+                            tn = jItem.tn;
                         }
                     } catch (ex) {
                         console.log(ex);
                     }
                 }
-                ti.installationVersion = productInfo.installationVersion;
 
-                observer.next(ti);
+                observer.next(tn);
                 observer.complete();
             });
 
@@ -105,9 +122,4 @@ export class TbComponentService {
         return target;
     }
 
-}
-
-export class TranslationInfo {
-    public installationVersion = '';
-    public translations = null;
 }

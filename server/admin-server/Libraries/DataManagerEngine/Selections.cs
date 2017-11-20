@@ -110,7 +110,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			{
 				moduleList = contextInfo.PathFinder.GetModulesList(appName);
 
-				foreach (ModuleInfo modInfo in moduleList)
+				foreach (Common.NameSolver.ModuleInfo modInfo in moduleList)
 				{
 					// skippo il modulo TbOleDb per non considerare la TB_DBMark
 					if (string.Compare(modInfo.Name, DatabaseLayerConsts.TbOleDbModuleName, StringComparison.OrdinalIgnoreCase) != 0)
