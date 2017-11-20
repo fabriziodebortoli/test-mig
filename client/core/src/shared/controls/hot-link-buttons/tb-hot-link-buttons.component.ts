@@ -31,26 +31,12 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   public selectionTypes: any[] = [];
   public selectionType = 'byOrderDate';
 
-  private buttonCount =  5;
+  private buttonCount = 2;
   private info = true;
   private type: 'numeric' | 'input' = 'numeric';
   private pageSizes = false;
   private previousNext = true;
-  private pageSize = 10;
-  private _prevSkip = -1;
-  private _skip = 0;
-  private get skip(): number {
-    return this._skip;
-  }
-  private set skip(value: number) {
-    this._prevSkip = this._skip;
-    this._skip = value;
-  }
-
-  private get pageDirection(): number{
-    if (this._prevSkip === -1) {return this.pageSize; }
-    return this._skip - this._prevSkip;
-  }
+  private pageSize = 2;
 
   showTable = new BehaviorSubject(false);
   showOptions = new BehaviorSubject(false);
@@ -67,10 +53,21 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     private ngZone: NgZone
   ) {
     super(layoutService, tbComponentService);
-    this.paginator.configure(this.pageSize * 5, this.pageSize,
-      (page, size) => this.ngZone.runOutsideAngular(() => this.httpService.getHotlinkTestData(page, size)));
+    this.paginator.configure(this.buttonCount, this.pageSize, (pageNumber, serverPageSize) => this.ngZone.runOutsideAngular(() => {
+        let p: URLSearchParams = new URLSearchParams(this.args);
+        // p.set('ContactCustomer', '0');
+        // p.set('Attivi', '0');
+        // p.set('page', JSON.stringify(page + 1));
+        // p.set('per_page', JSON.stringify(size));
+        p.set('disabled', '0');
+        p.set('page', JSON.stringify(pageNumber + 1));
+        p.set('per_page', JSON.stringify(serverPageSize));
+
+        return this.httpService.getHotlinkData(this.namespace, 'code',  p);
+      }));
     this.subscription = this.paginator.clientData.subscribe((d) => {
       if (d && d.rows && d.rows.length > 0) {
+        this.selectionColumn = d.key;
         this.gridView.next({data: d.rows, total: d.total, columns: d.columns });
         this.columns = d.columns;
         this.showTable.next(true);
@@ -80,14 +77,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   protected async pageChange(event: PageChangeEvent) {
-    if (this.skip === event.skip) { return ; }
-    let steps = this.paginator.getNumberOfClientSteps(this.skip, event.skip);
-    this.skip = event.skip;
-    if (this.pageDirection >= 0) {
-      await this.paginator.nextPage(steps);
-    } else {
-      await this.paginator.prevPage(steps);
-    }
+    await this.paginator.pageChange(event.skip, event.take);
   }
 
   private closePopups() {
@@ -112,12 +102,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       this.showTable.next(false);
       return;
     }
-
-    if (this.pageDirection >= 0) {
-      await this.paginator.nextPage();
-    } else {
-      await this.paginator.prevPage();
-    }
+    await this.paginator.firstPage();
   }
 
   selectionTypeChanged(type: string) {
@@ -125,7 +110,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   selectionChanged(value: any) {
-    let k = this.gridView.value.data[value.index];
+    let k = this.gridView.value.data[this.paginator.getClientPageIndex(value.index)];
     this.value = k[this.selectionColumn];
     if (this.model) {
       this.model.value = this.value;
@@ -146,30 +131,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.showOptions.next(!this.showOptions.value);
   }
 
-  onRowChecked(event, dataItem) {
-    if (dataItem.Selected === undefined) {
-      dataItem.Selected = false;
-    }
-
-    dataItem.Selected = !dataItem.Selected;
-
-    this.value = '';
-    if (this.model) {
-      this.model.value = this.value;
-    }
-  }
-
-  getValue(dataItem: string, column) {
-    if (column.type === 'Enum') {
-      let res = this.enumService.getEnumsItem(dataItem);
-      if (res) {
-        return res.name;
-      }
-      return dataItem;
-    } else if (column.Type === 'Boolean') {
-      return dataItem ? 'Yes' : 'No';
-    }
-    return dataItem;
+  getCellValue(a): any {
+    return a;
   }
 
   popupStyle() {

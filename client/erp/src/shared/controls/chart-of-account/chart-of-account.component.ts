@@ -10,10 +10,9 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartOfAccountComponent extends ControlComponent implements OnInit {
-
   @Input() get hotLink(): { namespace: string, name: string} {
-    return { namespace: 'ERP.SaleOrders.Dbl.DS_LastSaleOrders',
-             name: 'SaleOrders'
+    return { namespace: 'ERP.PaymentTerms.Dbl.PaymentTerms',
+             name: 'Test'
               };
   }
 

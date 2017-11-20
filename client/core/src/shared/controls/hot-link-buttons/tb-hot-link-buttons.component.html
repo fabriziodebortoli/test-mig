@@ -16,7 +16,7 @@
         <kendo-grid [data]="gridView | async" 
                     [pageSize]="pageSize"
                     [selectable]="true" 
-                    [skip]="skip"
+                    [skip]="paginator.skip"
                     [pageable]="{
                         buttonCount: buttonCount,
                         info: info,
@@ -28,8 +28,11 @@
                     (pageChange)="pageChange($event)"
                     (selectionChange)="selectionChanged($event)"
                     style="cursor:pointer">
-            <kendo-grid-column *ngFor="let col of columns" field="{{col.id}}" title="{{col.id}}" 
+            <kendo-grid-column *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" 
             [headerStyle]="{'background-color': '#666','color': '#fff','line-height': '1em'}">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
+                </ng-template>
             </kendo-grid-column>
         </kendo-grid>
     </kendo-popup>

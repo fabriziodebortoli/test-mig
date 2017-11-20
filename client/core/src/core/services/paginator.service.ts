@@ -1,112 +1,183 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs.imports';
 import { Injectable, OnDestroy } from '@angular/core';
 
+export type ClientPage = {key: string, rows: any[], total: number, oldTotal: number, columns: any[]};
+export type ServerPage = {key: string, rows: any[], columns: any[]};
+
 @Injectable()
 export class PaginatorService implements OnDestroy {
-    private _defaultClientData = {rows: [], total: 0, oldTotal: 0, prevServerPage: false, nextServerPage: true, columns: []};
-    private _clientStartStartOffset = 0;
-    private _clientEndOffset = 0;
-    private _isCorrectlyConfigured = false;
-    private _configurationChanged = new BehaviorSubject(false);
-    private _clientData: BehaviorSubject<{rows: any[], total: number,
-        oldTotal: number, nextServerPage: boolean, prevServerPage: boolean, columns: any[]}>;
-    private _subscription: Subscription;
-    private serverPage = 50;
-    private serverData: {rows: any[], columns: any[]};
-    private currentServerPage = 0;
-    private clientPage = 10;
-
-    public get clientData(): Observable<{rows: any[], total: number, columns: any[]}> {
-        return this._clientData;
-    }
-
+    private get defaultClientData() { return {key: '', rows: [], total: 0, oldTotal: 0, columns: []}; }
     private getFreshData: (page: number, rowsPerPage: number) => Observable<any>;
-
-    constructor() {
-        this._clientData = new BehaviorSubject(this._defaultClientData);
+    private clientStartOffset = 0;
+    private clientEndOffset = 0;
+    private isCorrectlyConfigured = false;
+    private configurationChanged = new BehaviorSubject(false);
+    private subscription: Subscription;
+    private displayedServerPages = 2;
+    private get serverPage(): number { return this.clientPage * this.displayedServerPages; }
+    private serverData: ServerPage;
+    private currentServerPage = -1;
+    private clientPage = 10;
+    private lastServerPageRowsLength = -1;
+    private higherServerPage = 0;
+    private _lookAheadServerPageCache: {page: number, data: ServerPage} = {page: -1, data: null};
+    private prevSkip = -1;
+    private _skip = 0;
+    private get skip(): number { return this._skip; }
+    private set skip(value: number) {
+        this.prevSkip = this._skip;
+        this._skip = value;
+    }
+    private  get willChangeServerPage() {
+        return this.clientEndOffset >= this.serverData.rows.length &&
+        (this.lastServerPageRowsLength < 0 ||
+            (this.lastServerPageRowsLength >= 0 && this.currentServerPage < this.higherServerPage));
     }
 
-    public configure(serverPage: number, clientPage: number, f: (page: number, rowsPerPage: number) => Observable<any>) {
-        this._isCorrectlyConfigured = f && (serverPage >= clientPage) && (clientPage > 0);
-        if (!this._isCorrectlyConfigured) { return; }
-        this.serverPage = serverPage;
+    private _clientData: BehaviorSubject<ClientPage>;
+    public get clientData(): Observable<ClientPage> {
+        return this._clientData.asObservable();
+    }
+
+    constructor() { this._clientData = new BehaviorSubject(this.defaultClientData); }
+
+    private isNext(prevSkip: number, skip: number): boolean {
+        if (prevSkip === -1) { return true }
+        return prevSkip < skip;
+      }
+
+    private getNumberOfClientSteps(oldSkip: number, newSkip: number): number {
+        if (oldSkip === newSkip) { return 0 };
+        if (oldSkip === -1) { return 1 };
+        let max = Math.max(oldSkip, newSkip);
+        let min = Math.min(oldSkip, newSkip);
+        return Math.abs(Math.trunc((max - min) / this.clientPage));
+    }
+
+    private async getNewTotal(): Promise<number> {
+        if (this.lastServerPageRowsLength >= 0) {
+            return (this.higherServerPage + 1) * this.serverPage + this.lastServerPageRowsLength;
+        } else {
+            if (this.willChangeServerPage) {
+                let data = await this.loadServerPage(this.currentServerPage + 1, this.serverPage);
+                return (this.higherServerPage + 1) * this.serverPage + data.rows.length;
+            } else {
+                return (this.higherServerPage + 1) * this.serverPage;
+            }
+        }
+    }
+
+    private async loadServerPage(currentServerPage: number, serverPage: number): Promise<ServerPage> {
+        if (currentServerPage === this._lookAheadServerPageCache.page) {
+            return this._lookAheadServerPageCache.data;
+        }
+        let data = await this.getFreshData(currentServerPage, serverPage).toPromise() as ServerPage;
+        this._lookAheadServerPageCache = {page: currentServerPage, data: data};
+        return data;
+    }
+
+    private getServerPage(skip: number): number {
+        if (skip === 0) { return 0; }
+        return Math.trunc(skip / this.serverPage);
+    }
+
+    private async nextPage(prevSkip: number, skip: number, take: number) {
+        if (!this.isCorrectlyConfigured || this.getNumberOfClientSteps(prevSkip, skip) <= 0) { return; }
+        this.clientStartOffset = skip === 0 ? 0 : skip % this.serverPage;
+        this.clientEndOffset = this.clientStartOffset + take;
+        let newServerPage = this.getServerPage(skip);
+        let newServerPageNeeded = this.currentServerPage !== newServerPage;
+        if (newServerPageNeeded) {
+            let data = await this.loadServerPage(newServerPage, this.serverPage);
+            if (!data || !data.rows) { return; }
+            if (data.rows.length > 0) {
+                this.higherServerPage = newServerPage;
+                this.currentServerPage = newServerPage;
+                if (data.rows.length < this.serverPage) {
+                    this.lastServerPageRowsLength = data.rows.length;
+                }
+            }
+
+            this.serverData = data;
+        }
+
+        let newTotal = await this.getNewTotal();
+        this._clientData.next({
+            key: this.serverData.key,
+            rows: this.serverData.rows.slice(this.clientStartOffset, this.clientEndOffset),
+            total: newTotal,
+            oldTotal: this._clientData.value.total,
+            columns: this.serverData.columns});
+    }
+
+    private async prevPage(prevSkip: number, skip: number, take: number) {
+        let clientSteps = this.getNumberOfClientSteps(prevSkip, skip);
+        if (!this.isCorrectlyConfigured || clientSteps <= 0) { return; }
+
+        this.clientStartOffset = skip === 0 ? 0 : skip % this.serverPage;
+        this.clientEndOffset = this.clientStartOffset + take;
+        let newServerPage = this.getServerPage(skip);
+        let newServerPageNeeded = this.currentServerPage !== newServerPage;
+        if (newServerPageNeeded) {
+            let data = await this.loadServerPage(newServerPage, this.serverPage);
+            if (!data || !data.rows || data.rows.length === 0) { return; }
+            this.serverData = data;
+            this.currentServerPage = newServerPage;
+        }
+
+        this._clientData.next({
+            key: this.serverData.key,
+            rows: this.serverData.rows.slice(this.clientStartOffset, this.clientEndOffset),
+            total: this._clientData.value.total,
+            oldTotal: this._clientData.value.total,
+            columns: this.serverData.columns});
+    }
+
+    public configure(displayedClientPages: number, clientPage: number, f: (page: number, rowsPerPage: number) => Observable<any>) {
+        this.isCorrectlyConfigured = f && (displayedClientPages >= 1) && (clientPage > 0);
+        if (!this.isCorrectlyConfigured) { return; }
+        this.displayedServerPages = displayedClientPages;
         this.clientPage = clientPage;
         this.getFreshData = f;
-        this._configurationChanged.next(true);
-        this._subscription = this._configurationChanged.subscribe(c => {
-            this._clientEndOffset = 0;
-            this._clientStartStartOffset = 0;
-            this._clientData.next(this._defaultClientData);
+        this.configurationChanged.next(true);
+        this.subscription = this.configurationChanged.subscribe(c => {
+            this.clientEndOffset = 0;
+            this.clientStartOffset = 0;
+            this._clientData.next(this.defaultClientData);
         });
     }
 
-    private async loadNextServerPage() {
-        let data = await this.getFreshData(this.currentServerPage, this.serverPage).toPromise();
-        this.serverData = data as {rows: any[], columns: any[]};
-        this.currentServerPage += 1;
+    public getClientPageIndex(index: number): number {
+        return index % this.clientPage;
     }
 
-    private async loadPrevServerPage() {
-        let data = await this.getFreshData(this.currentServerPage, this.serverPage).toPromise();
-        this.serverData = data as {rows: any[], columns: any[]};
-        this.currentServerPage -= 1;
+    private reset() {
+        this.currentServerPage = -1;
+        this._lookAheadServerPageCache = { page: -1, data: null };
+        this.higherServerPage = 0;
+        this.lastServerPageRowsLength = -1;
+        this.clientStartOffset = 0;
+        this.clientEndOffset = 0;
+        this.skip = 0;
+        this.prevSkip = -1;
     }
 
-    public async nextPage(steps = 1) {
-        if (!this._isCorrectlyConfigured) { return; }
+    public async firstPage() {
+        this.reset();
+        await this.nextPage(-1, 0, this.clientPage);
+    }
 
-        let serverPageChanged = false;
-        if (this._clientData.value.nextServerPage) {
-            await this.loadNextServerPage();
-            serverPageChanged = true;
-            this._clientEndOffset = this.clientPage * (steps);
-            this._clientStartStartOffset = 0;
+    public async pageChange(skip: number, take: number) {
+        if (this.skip === skip) { return ; }
+        this.skip = skip;
+        if (this.isNext(this.prevSkip, skip)) {
+            await this.nextPage(this.prevSkip, skip, take)
         } else {
-            this._clientEndOffset = this._clientEndOffset + this.clientPage * steps;
-            this._clientStartStartOffset = this._clientStartStartOffset + this.clientPage * (steps);
+            await this.prevPage(this.prevSkip, skip, take)
         }
-
-        let willChangeServerPage = !this.serverData || (this._clientEndOffset >= this.serverData.rows.length);
-        this._clientData.next({
-            rows: this.serverData.rows.slice(this._clientStartStartOffset, this._clientEndOffset),
-            total: willChangeServerPage ? this._clientData.value.total + this.serverData.rows.length :
-            Math.max(this.serverData.rows.length, this._clientData.value.total),
-            oldTotal: this._clientData.value.total,
-            nextServerPage: willChangeServerPage,
-            prevServerPage: serverPageChanged,
-            columns: this.serverData.columns});
-    }
-
-    public async prevPage(steps = 1) {
-        if (!this._isCorrectlyConfigured) { return; }
-
-        let serverPageChanged = false;
-
-        if (this._clientData.value.prevServerPage) {
-            await this.loadNextServerPage();
-            serverPageChanged = true;
-            this._clientEndOffset = this.serverData.rows.length;
-            this._clientStartStartOffset = this.serverData.rows.length - (this.clientPage * steps);
-        } else {
-            this._clientEndOffset = this._clientEndOffset - this.clientPage * (steps);
-            this._clientStartStartOffset = this._clientStartStartOffset - this.clientPage * steps;
-        }
-
-        let willChangeServerPage = !this.serverData || ((this._clientStartStartOffset - this.clientPage)  < 0);
-        this._clientData.next({
-            rows: this.serverData.rows.slice(this._clientStartStartOffset, this._clientEndOffset),
-            total: this._clientData.value.oldTotal,
-            oldTotal: this._clientData.value.total,
-            prevServerPage: willChangeServerPage,
-            nextServerPage: serverPageChanged,
-            columns: this.serverData.columns});
-    }
-
-    public getNumberOfClientSteps(oldSkip: number, newSkip: number): number {
-        return Math.abs(Math.trunc((newSkip - oldSkip) / this.clientPage));
     }
 
     ngOnDestroy() {
-        this._subscription.unsubscribe();
+        this.subscription.unsubscribe();
     }
 }

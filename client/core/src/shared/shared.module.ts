@@ -309,6 +309,11 @@ const TB_DIRECTIVES = [
     TbHotLinkDirective
 ];
 
+import { TbEnumsPipe } from './pipes/enums.pipe';
+export { TbEnumsPipe } from './pipes/enums.pipe';
+
+const TB_PIPES = [ TbEnumsPipe ];
+
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
 export { ControlTypes } from './models/control-types.enum';
@@ -336,7 +341,7 @@ const _MODULES = [
 
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
-    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent],
+    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],
     exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
     entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent]
 })
