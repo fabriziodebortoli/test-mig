@@ -176,7 +176,8 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.ASK:
                     {
                         //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
-                        msg.page = msg.page;
+                       /* if (!int.TryParse(msg.page, out pageNum))
+                            break;  */
                         List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
                                                         : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 

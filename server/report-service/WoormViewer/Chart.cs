@@ -69,7 +69,7 @@ namespace Microarea.RSWeb.Objects
         public string Title;
 
         public EnumChartType SeriesType = EnumChartType.None;
-        public double Transparent = -1;
+        public double Transparent = 1;
         public Color Color = Color.White;
         public bool Colored = false;
         public int Group = 0;   //for grouping stacked column/bar
@@ -94,7 +94,7 @@ namespace Microarea.RSWeb.Objects
 
     class ChartLegend
     {
-        //public AlignType Align = 0;
+        public string Align = "top";
         public bool Hidden = false;
 
         public ChartLegend() { }
@@ -435,15 +435,21 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         bool ParseLegend(WoormParser lex)
         {
-            bool ok = lex.ParseBegin() &&
-                      lex.ParseTag(Token.HIDDEN) &&
-                      lex.ParseBool(out Legend.Hidden);
+            bool ok = lex.ParseBegin();
             if (!ok)
                 return false;
-
-            //ok = lex.ParseAlign(out Legend.Align);
-            //if (!ok)
-            //    return false;
+            AlignType t;
+            ok = lex.ParseAlign(out t);
+            if (!ok)
+                return false;
+            if ((int)t == 1)
+                Legend.Align = "top";
+            if ((int)t == 2)
+                Legend.Align = "bottom";
+            if ((int)t == 3)
+                Legend.Align = "left";
+            if ((int)t == 4)
+                Legend.Align = "right";
 
             return lex.ParseEnd();
         }
@@ -537,7 +543,7 @@ namespace Microarea.RSWeb.Objects
 
             if (!Legend.Hidden)
             {
-                string position = "bottom";
+                string position = Legend.Align;
                 string orientation = "horizontal";
 
                 s += ",\"legend\":{" + position.ToJson("position", false, true) + ',' +
