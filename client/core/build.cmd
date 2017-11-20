@@ -43,7 +43,7 @@ xcopy %corefolder%\dist /y /s /e
 git add .
 
 if NOT "%tag%" == "" (
-    git tag -a %tag% -m "%message%"
+    git tag -a "%tag%" -m "%message%"
 ) else (
     @echo No tag added
 )

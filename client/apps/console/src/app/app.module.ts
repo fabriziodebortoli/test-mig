@@ -35,6 +35,7 @@ import { TestControlsComponent } from './components/test-controls/test-controls.
 import { DatabaseOperationsComponent } from './components/database/database-operations.component';
 import { InstanceRegistrationComponent } from './components/instance/instance-registration.component';
 import { DatabaseUpgradeComponent } from './components/database/database-upgrade.component';
+import { DataChannelService } from 'app/services/data-channel.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { DatabaseUpgradeComponent } from './components/database/database-upgrade
     ConsoleModule
     //BrowserAnimationsModule
   ],
-  providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService, BackendService],
+  providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService, BackendService, DataChannelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
