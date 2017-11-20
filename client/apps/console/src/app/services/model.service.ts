@@ -627,7 +627,7 @@ export class ModelService {
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(environment.gwamAPIUrl + 'deepdata/' + modelName + '/' + itemKey + '/' + ticks, body, options)
+    return this.http.post(environment.gwamAPIUrl + 'cluster/' + modelName + '/' + itemKey + '/' + ticks, body, options)
       .map((res: Response) => {
         return res.json();
       })
