@@ -77,26 +77,18 @@ export class SubscriptionDatabaseComponent implements OnInit {
     this.editing = true;
     this.databaseService.needsAskCredentials = false;
 
+    // to initialize the provider in dropdown
     this.dataChannelService.dataChannel.subscribe(
       (res) => {
         this.initProviderValueDropDown();
       },
       (err) => {}
     );
-    // to initialize the provider in dropdown
-    //this.initProviderValueDropDown();
   }
 
   //--------------------------------------------------------------------------------------------------------
-  ngOnChanges(): void {
-    // to initialize the provider in dropdown
-    this.initProviderValueDropDown();
-  }
-
-  //--------------------------------------------------------------------------------------------------------
-  ngAfterContentInit(): void {
-    // to initialize the provider in dropdown
-    this.initProviderValueDropDown();
+  ngOnDestroy() {
+    this.dataChannelService.dataChannel.unsubscribe();
   }
 
   //--------------------------------------------------------------------------------------------------------
