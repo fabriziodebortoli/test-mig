@@ -23,11 +23,6 @@ export class HttpMenuService {
         this.logger.debug('HttpMenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
-    /**
-     * API /getMenuElements
-     * 
-     * @returns {Observable<any>} getMenuElements
-     */
     getMenuElements(clearCachedData: boolean): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company'), authtoken: sessionStorage.getItem('authtoken'), clearCachedData: clearCachedData }
         let url = this.infoService.getMenuServiceUrl() + 'getMenuElements/';
@@ -38,15 +33,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-   
-
-    /************************************************************** */
-
-    /**
-     * API /getEsAppsAndModules
-     * 
-     * @returns {Observable<any>} getEsAppsAndModules
-     */
     getEsAppsAndModules(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };
         let url = this.infoService.getDocumentBaseUrl() + 'getAllAppsAndModules/';
@@ -56,12 +42,7 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
-    
-    /**
-     * API /canModifyContext
-     * 
-     * @returns {Observable<any>} canModifyContext
-     */
+
     canModifyContext(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };
         let url = this.infoService.getDocumentBaseUrl() + 'canModifyContext/';
@@ -72,11 +53,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-  * API /setAppAndModule
-  * 
-  * @returns {Observable<any>} setAppAndModule
-  */
     setAppAndModule(app: string, mod: string, isThisPairDefault: boolean): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), app: app, mod: mod, def: isThisPairDefault };
         let url = this.infoService.getDocumentBaseUrl() + 'setAppAndModule/';
@@ -87,11 +63,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-  * API /createNewContext
-  * 
-  * @returns {Observable<any>} createNewContext
-  */
     createNewContext(app: string, mod: string, type: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), app: app, mod: mod, type: type };
         let url = this.infoService.getDocumentBaseUrl() + 'createNewContext/';
@@ -102,28 +73,16 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-       /**
-  * API /updateCachedDateAndSave
-  * 
-  * @returns {Observable<any>} updateCachedDateAndSave
-  */
-  updateCachedDateAndSave(): Observable<any> {
-    let obj = { user: sessionStorage.getItem('authtoken') };
-    let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
-    return this.httpService.postData(url, obj)
-        .map((res: any) => {
-           return res;
-        })
-        .catch(this.handleError);
-}
+    updateCachedDateAndSave(): Observable<any> {
+        let obj = { user: sessionStorage.getItem('authtoken') };
+        let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
 
-    
-
-    /**
-  * API /runEasyStudio
-  * 
-  * @returns {Observable<any>} runEasyStudio
-  */
     runEasyStudio(ns: string, customizationName: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(ns), customization: encodeURIComponent(customizationName) };
         let url = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/?ns=' + encodeURIComponent(ns);
@@ -136,11 +95,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-* API /closeCustomizationContext
-* 
-* @returns {Observable<any>} closeCustomizationContext
-*/
     closeCustomizationContext(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };
         let url = this.infoService.getDocumentBaseUrl() + 'closeCustomizationContext/';
@@ -151,11 +105,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-* API /isEasyStudioDocument
-* 
-* @returns {Observable<any>} isEasyStudioDocument
-*/
     isEasyStudioDocument(object): Observable<any> {
         if (object.isEasyStudioDocument != undefined)
             return object.isEasyStudioDocument;
@@ -172,11 +121,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-  * API /getDefaultContext
-  * 
-  * @returns {Observable<any>} getDefaultContext
-  */
     getDefaultContext(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };
         let url = this.infoService.getDocumentBaseUrl() + 'getDefaultContext/';
@@ -187,11 +131,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-    * API /refreshEasyBuilderApps
-    * 
-    * @returns {Observable<any>} refreshEasyBuilderApps
-    */
     refreshEasyBuilderApps(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };
         let url = this.infoService.getDocumentBaseUrl() + 'refreshEasyBuilderApps/';
@@ -202,11 +141,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-* API /getDefaultContext
-* 
-* @returns {Observable<any>} getDefaultContext
-*/
     getCurrentContext(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };
         let url = this.infoService.getDocumentBaseUrl() + 'getCurrentContext/';
@@ -217,11 +151,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-* API /getCustomizationsForDocument
-* 
-* @returns {Observable<any>} getCustomizationsForDocument
-*/
     initEasyStudioData(object): Observable<any> {
         var ns = object.target;
         ns = 'document' + "." + ns;
@@ -233,42 +162,20 @@ export class HttpMenuService {
             }).catch(this.handleError);
     }
 
-    /**
-* API /getDefaultContext
-* 
-* @returns {Observable<any>} getDefaultContext
-*/
-    cloneAsEasyStudioDocument(object: any, docName: string, docTitle:string, esServices: EasystudioService): Observable<any> {
+    cloneAsEasyStudioDocument(object: any, docName: string, docTitle: string, esServices: EasystudioService): Observable<any> {
         var ns = object.target;
         let obj = { user: localStorage.getItem('_user') };
-	    var newNs = esServices.currentApplication + "." + esServices.currentModule + ".DynamicDocuments." + docName;
-	    var objType = object.objectType.toLowerCase();
-	    var urlToRun = this.infoService.getDocumentBaseUrl() + 'cloneEasyStudioDocument/?ns=' + encodeURIComponent(ns);
-	    urlToRun += "&newNamespace=" + encodeURIComponent(newNs);
+        var newNs = esServices.currentApplication + "." + esServices.currentModule + ".DynamicDocuments." + docName;
+        var objType = object.objectType.toLowerCase();
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'cloneEasyStudioDocument/?ns=' + encodeURIComponent(ns);
+        urlToRun += "&newNamespace=" + encodeURIComponent(newNs);
         urlToRun += "&newTitle=" + encodeURIComponent(docTitle);
         return this.httpService.postData(urlToRun, obj)
-        .map((res: any) => {
-            return res;
-        }).catch(this.handleError);
-
-      
+            .map((res: any) => {
+                return res;
+            }).catch(this.handleError);
     }
 
-
-
-    /***************************************************** */
-
-
-
-
-
-
-
-    /**
-     * API /getConnectionInfo
-     * 
-     * @returns {Observable<any>} getConnectionInfo
-     */
     getConnectionInfo(): Observable<any> {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken') };
@@ -279,11 +186,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-   * API /getApplicationDate
-   * 
-   * @returns {Observable<any>} getApplicationDate
-   */
     getApplicationDate(): Observable<any> {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken') };
@@ -294,11 +196,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-   * API /changeApplicationDate
-   * 
-   * @returns {Observable<OperationResult>} changeApplicationDate
-   */
     changeApplicationDate(date: Date): Observable<OperationResult> {
 
         let day = date.getDate();
@@ -312,11 +209,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-     * API /mostUsedClearAll
-     *
-     * @returns {Observable<any>} mostUsedClearAll
-     */
     mostUsedClearAll(): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company') }
         let url = this.infoService.getMenuServiceUrl() + 'clearAllMostUsed/';
@@ -327,11 +219,6 @@ export class HttpMenuService {
 
     };
 
-    /**
-     * API /getMostUsedShowNr
-     * 
-     * @returns {Observable<any>} getMostUsedShowNr
-     */
     getMostUsedShowNr(callback) {
         let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company') }
         let url = this.infoService.getMenuServiceUrl() + 'getMostUsedShowNr/';
@@ -342,11 +229,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-    * API /favoriteObject
-    * 
-    * @returns {Observable<boolean>}
-    */
     updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<boolean> {
         let obj = {
             user: localStorage.getItem('_user'), company: localStorage.getItem('_company'),
@@ -359,11 +241,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-     * API /clearCachedData
-     * 
-     * @returns {Observable<any>} clearCachedData
-     */
     clearCachedData(): Observable<any> {
         var url = this.infoService.getMenuServiceUrl() + 'clearCachedData/';
         return this.httpService.postData(url, undefined)
@@ -373,11 +250,6 @@ export class HttpMenuService {
     }
 
 
-    /**
-    * API /activateViaSMS
-    * 
-    * @returns {Observable<any>} activateViaSMS
-    */
     activateViaSMS(): Observable<any> {
         return this.http.get(this.infoService.getMenuServiceUrl() + 'getPingViaSMSUrl/', { withCredentials: true })
             .map((res: Response) => {
@@ -385,11 +257,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-     * API /goToSite
-     * 
-     * @returns {Observable<any>} goToSite
-     */
     goToSite(): Observable<any> {
 
         return this.http.get(this.infoService.getMenuServiceUrl() + 'getProducerSite/', { withCredentials: true })
@@ -398,11 +265,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-    * API /goToSite
-    * 
-    * @returns {Observable<any>} goToSite
-    */
     callonlineHelpUrl(ns: string, culture: string): Observable<any> {
         let obj = { nameSpace: ns, culture: culture }
         let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl() : this.infoService.getMenuServiceUrl();
@@ -413,11 +275,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-     * API /getThemes
-     * 
-     * @returns {Observable<any>} getThemes
-     */
     getThemes(): Observable<any> {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken') };
@@ -428,12 +285,6 @@ export class HttpMenuService {
             });
     }
 
-
-    /**
-     * API /getThemes
-     * 
-     * @returns {Observable<any>} changeThemes
-     */
     changeThemes(theme: string): Observable<OperationResult> {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken') };
@@ -444,11 +295,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-    * API /addToHiddenTiles
-    * 
-    * @returns {Observable<any>} changeThemes
-    */
     addToHiddenTiles(application: string, group: string, menu: string, tile: string): Observable<OperationResult> {
 
         let obj = {
@@ -468,11 +314,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
-  * API /removeFromHiddenTiles
-  * 
-  * @returns {Observable<any>} removeFromHiddenTiles
-  */
     removeFromHiddenTiles(application: string, group: string, menu: string, tile: string): Observable<OperationResult> {
 
         let obj = {
@@ -492,11 +333,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    /**
- * API /removeAllHiddenTiles
- * 
- * @returns {Observable<any>} removeAllHiddenTiles
- */
     removeAllHiddenTiles(): Observable<OperationResult> {
 
         let obj = {
@@ -512,9 +348,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-
-
-
     /**
      * TODO refactor with custom logger
      */
@@ -526,6 +359,5 @@ export class HttpMenuService {
         console.error(errMsg);
         return Observable.throw(errMsg);
     }
-
 
 }
