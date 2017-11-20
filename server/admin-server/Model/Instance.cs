@@ -105,7 +105,6 @@ namespace Microarea.AdminServer.Model
         {
             return new AuthorizationInfo(AuthorizationInfo.TypeAppName, instanceKey, securityValue);
         }
-
        
         //---------------------------------------------------------------------
         public string GetKey()
