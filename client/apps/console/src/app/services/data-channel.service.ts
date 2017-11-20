@@ -7,7 +7,7 @@ export class DataChannelService {
   dataChannel: BehaviorSubject<any>;
 
   constructor() { 
-
+    this.dataChannel = new BehaviorSubject<any>(null);
   }
 
   sendMessage() {
