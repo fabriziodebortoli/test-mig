@@ -21,7 +21,8 @@ export class DatabaseUpgradeComponent implements OnInit {
 
   // default data variables
   importDefaultData: boolean = true;
-  // lista configurazione dati di default (dovrebbe essere ritornata dall'esterno, in base ai folder presenti nell'installazione)
+  // lista configurazione dati di default (dovrebbe essere ritornata dall'esterno, in base ai folder presenti nell'installazione
+  // per l'ISO stato di attivazione)
   configurations: Array<{ name: string, value: string }> = [
     { name: 'Basic', value: 'Basic' },
     { name: 'Manufacturing-Advanced', value: 'Manufacturing-Advanced' },
@@ -36,16 +37,11 @@ export class DatabaseUpgradeComponent implements OnInit {
 
   //-----------------------------------------------------------------------------	
   ngOnInit() {
-    //alert('DatabaseUpgradeComponent - ngOnInit ' + this.model.DBName);
 
     this.initOperationsList();
+
     // init configuration dropdown
     this.selectedConfiguration = this.configurations[0];
-  }
-
-  //--------------------------------------------------------------------------------------------------------
-  ngAfterContentInit(): void {
-    //alert('DatabaseUpgradeComponent - ngAfterContentInit ' + this.model.DBServer);
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -86,7 +82,7 @@ export class DatabaseUpgradeComponent implements OnInit {
         this.operationsList = checkDbResult['Content'];
 
         // se il Code == -1 significa che:
-				// - i database sono gia' aggiornati
+        // - i database sono gia' aggiornati
         // - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
         // quindi non e' possibile procedere con l'upgrade
         this.canUpdateDb = checkDbResult.Code > -1;
@@ -122,6 +118,8 @@ export class DatabaseUpgradeComponent implements OnInit {
         this.isUpdateDbRunning = false;
         this.canUpdateDb = false;
 
+        // qui dovrei visualizzare il risultato dell'aggiornamento
+        // decidere lato back-end quali dettagli ritornare e mostrare all'utente
         //this.operationsList = updateDbResult['Content'];
 
         updateDb.unsubscribe();
