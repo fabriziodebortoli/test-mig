@@ -23,6 +23,7 @@ using System.Threading;
 using Microarea.Common.Applications;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace Microarea.Common.Applications
 {
@@ -294,35 +295,18 @@ namespace Microarea.Common.Applications
 
                     if (stringResponse != null)
                     {
-                        IEnumerable<string> list;
-                        if (response.Headers.TryGetValues("Set-Cookie", out list))
+                        JObject jObject = null;
+                        if (response.Headers.TryGetValues("Authorization", out IEnumerable<string> values))
                         {
-                            if (list != null)
+                          
+                            if (values != null)
                             {
-                                foreach (string s in list)
-                                {
-                                    if (s.Left(TbSession.TbInstanceKey.Length).CompareNoCase(TbSession.TbInstanceKey))
-                                    {
-                                        string tbinstance = s.Mid(TbSession.TbInstanceKey.Length + 1);
-                                        int end = tbinstance.IndexOf(';');
-                                        tbinstance = tbinstance.Left(end);
+                                jObject = JObject.Parse(values.FirstOrDefault());
+                                session.TbInstanceID = jObject.GetValue(TbSession.TbInstanceKey)?.ToString();
 
-                                        session.TbInstanceID = tbinstance;
-                                        session.LoggedToTb = true;
-                                        break;
-                                    }
-                                }
+                                session.LoggedToTb = !session.TbInstanceID.IsNullOrWhiteSpace();
                             }
                         }
-                        // List<string> values; //= new List<string> ();
-                        //IEnumerable <string> list;
-                        //session.LoggedToTb = response.Headers.TryGetValues(TbSession.TbLoaderCookie, out list);
-
-                        //IEnumerable<string> list2 = response.Headers.GetEnumerator();
-                        //if (list != null)
-                        //{
-                        //    //session.TbName = s;
-                        //}
                     }
                     return session.LoggedToTb;
                 }
@@ -448,15 +432,11 @@ namespace Microarea.Common.Applications
             if (!retLogin)
                 return null;
 
-            var cookieContainer = new CookieContainer();
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
-            using (var client = new HttpClient(handler))
+            using (var client = new HttpClient())
             {
                 try
                 {
                     client.BaseAddress = new Uri(session.TbBaseAddress);
-
-                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbInstanceKey, session.TbInstanceID));
 
                     List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
 
@@ -550,15 +530,11 @@ namespace Microarea.Common.Applications
             if (!retLogin)
                 return false;
 
-            var cookieContainer = new CookieContainer();
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
-            using (var client = new HttpClient(handler))
+            using (var client = new HttpClient())
             {
                 try
                 {
                     client.BaseAddress = new Uri(session.TbBaseAddress);
-
-                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbInstanceKey, session.TbInstanceID));
 
                     var content = new FormUrlEncodedContent(new[]
                     {
