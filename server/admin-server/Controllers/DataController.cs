@@ -116,7 +116,8 @@ namespace Microarea.AdminServer.Controllers
 				case "roles":
 					return jToken.ToObject<Role>();
 
-				case "accountRoles":
+				case "accountRolesForInstance":
+				case "accountRolesForSubscription":
 					return jToken.ToObject<AccountRoles>();
 
 				case "instance":
