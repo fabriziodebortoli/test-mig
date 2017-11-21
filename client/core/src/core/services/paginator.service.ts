@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subscription } from 'rxjs.imports';
+import { BehaviorSubject, Observable, Subscription } from '../../rxjs.imports';
 import { Injectable, OnDestroy } from '@angular/core';
 
 export type ClientPage = {key: string, rows: any[], total: number, oldTotal: number, columns: any[]};
