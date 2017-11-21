@@ -140,7 +140,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  registerInstance(body: Object, activationKey): Observable<OperationResult> {
+  registerInstance(body: Object, accountName: string, activationKey: string): Observable<OperationResult> {
 
     if (activationKey === '') {
       return Observable.throw('AuthorizationHeader is missing!');
@@ -150,7 +150,7 @@ export class ModelService {
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': activationKey });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(environment.gwamAPIUrl + 'instances', body, options)
+    return this.http.put(environment.gwamAPIUrl + 'instances/' + accountName, body, options)
       .map((res: Response) => {
         return res.json();
       })
