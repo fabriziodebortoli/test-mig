@@ -627,13 +627,14 @@ export class ModelService {
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(environment.gwamAPIUrl + 'deepdata/' + modelName + '/' + itemKey + '/' + ticks, body, options)
+    return this.http.post(environment.gwamAPIUrl + 'cluster/' + modelName + '/' + itemKey + '/' + ticks, body, options)
       .map((res: Response) => {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (query)'));
   }
 
+  //--------------------------------------------------------------------------------------------------------
   saveCluster(cluster: object, activationCode: string): Observable<OperationResult> {
 
     if (activationCode === '' || activationCode === undefined) {
@@ -646,5 +647,25 @@ export class ModelService {
     return this.http.post(environment.adminAPIUrl + 'savecluster', cluster, options)
       .map((res: Response) => { return res.json; })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
+  }
+
+  // get list of configurations for default/sample data
+  //--------------------------------------------------------------------------------------------------------
+  getConfigurations(subscriptionKey: string, configType: string, iso: string): Observable<Array<{ iso: string, configurations: Array<string>}>> {
+    
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.adminAPIUrl + 'database/configurations/' + subscriptionKey + '/' + configType + '/' + iso, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (getConfigurations)'));
   }
 }

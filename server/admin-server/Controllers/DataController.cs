@@ -110,6 +110,9 @@ namespace Microarea.AdminServer.Controllers
 		{
 			switch (name)
 			{
+				case "accounts":
+					return jToken.ToObject<Account>();
+
 				case "instance":
 					return jToken.ToObject<Instance>();
 

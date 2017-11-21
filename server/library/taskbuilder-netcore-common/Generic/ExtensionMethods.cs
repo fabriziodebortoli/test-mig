@@ -105,7 +105,7 @@ namespace Microarea.Common.Generic
         {
             while ((startIndex + toCheck.Length) <= source.Length)
             {
-                int idx = source.IndexOfNoCase(toCheck, startIndex);
+                int idx = noCase ? source.IndexOfNoCase(toCheck, startIndex) : source.IndexOf(toCheck, startIndex);
                 if (idx < 0)
                     break;
 
@@ -120,6 +120,18 @@ namespace Microarea.Common.Generic
                 return idx;
             }
             return -1;
+        }
+
+        public static int LastIndexOfWord(this string source, string word, int startIndex = -1, bool noCase = true)
+        {
+            if (startIndex <= 0)
+                startIndex = source.Length - 1;
+
+            startIndex = source.Length - startIndex - 1;
+
+            string src = source.Reverse();
+
+            return src.IndexOfWord(word.Reverse(), startIndex, noCase);
         }
 
         /// <summary>
@@ -261,18 +273,22 @@ namespace Microarea.Common.Generic
         /// </summary>
         /// <param name="c">carattere</param>
         //-------------------------------------------------------------------------
-        public static int CountChar(this string s, char c)
+        public static int CountChars(this string s, char c, int startIndex = 0, int endIndex = -1)
 		{
-			int start = 0; int newl = 0;
-			int nl = 0;
+            if (endIndex == -1) endIndex = s.Length - 1;
+            int start = startIndex;
+            int count = 0; 
+
+            int newl = 0; 
 			while (newl >= 0)
 			{
 				newl = s.IndexOf(c, start);
-				if (newl < 0) return nl;
-				nl++;
+				if (newl < 0) break;
+				count++;
 				start = newl + 1;
+                if (start > endIndex) break;
 			}
-			return nl;
+			return count;
 		}
 
 		/// <summary>

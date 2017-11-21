@@ -45,9 +45,9 @@ export class HttpService {
         return this.http.get(url, { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
-            })
-            .catch(this.handleError);
+            });
     }
+
     isLogged(params: { authtoken: string }): Observable<boolean> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {

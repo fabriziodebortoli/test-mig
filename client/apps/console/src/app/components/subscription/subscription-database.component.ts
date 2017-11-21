@@ -7,6 +7,7 @@ import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
 import { Observable } from 'rxjs';
 import { OperationResult } from '../../services/operationResult';
 import { ExtendedSubscriptionDatabase } from '../../authentication/credentials';
+import { DataChannelService } from 'app/services/data-channel.service';
 
 @Component({
   selector: 'app-subscription-database',
@@ -47,7 +48,8 @@ export class SubscriptionDatabaseComponent implements OnInit {
   constructor(
     private modelService: ModelService,
     private databaseService: DatabaseService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private dataChannelService: DataChannelService) {
     this.step = 1;
   }
 
@@ -74,20 +76,19 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
     this.editing = true;
     this.databaseService.needsAskCredentials = false;
+
     // to initialize the provider in dropdown
-    //this.initProviderValueDropDown();
+    this.dataChannelService.dataChannel.subscribe(
+      (res) => {
+        this.initProviderValueDropDown();
+      },
+      (err) => {}
+    );
   }
 
   //--------------------------------------------------------------------------------------------------------
-  ngOnChanges(): void {
-    // to initialize the provider in dropdown
-    this.initProviderValueDropDown();
-  }
-
-  //--------------------------------------------------------------------------------------------------------
-  ngAfterContentInit(): void {
-    // to initialize the provider in dropdown
-    this.initProviderValueDropDown();
+  ngOnDestroy() {
+    this.dataChannelService.dataChannel.unsubscribe();
   }
 
   //--------------------------------------------------------------------------------------------------------
