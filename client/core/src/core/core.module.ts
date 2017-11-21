@@ -116,8 +116,9 @@ const TB_PAGES = [
 @NgModule({
     imports: [
         TbSharedModule,
-        RouterModule.forChild([
 
+        RouterModule.forChild([
+            // In futuro è possibile fare un refactor creando un modulo per ogni tema caricabile in lazy loading
             { path: 'arctic', component: ArcticTheme, outlet: 'theme' },
             { path: 'borealis', component: BorealisTheme, outlet: 'theme' },
             { path: 'default', component: DefaultTheme, outlet: 'theme' },
@@ -128,8 +129,8 @@ const TB_PAGES = [
             { path: 'purple', component: PurpleTheme, outlet: 'theme' },
             { path: 'snowflake', component: SnowFlakeTheme, outlet: 'theme' },
             { path: 'underwater', component: UnderwaterTheme, outlet: 'theme' },
-            { path: 'server-down', component: ServerDownPage },
 
+            { path: 'server-down', component: ServerDownPage }
         ]),
         HttpModule
     ],
