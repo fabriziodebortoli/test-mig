@@ -30,8 +30,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     constructor(
         public layoutService: LayoutService,
-        public tbComponentService: TbComponentService//,
-        //    public eventData: EventDataService
+        public tbComponentService: TbComponentService
     ) {
         super(tbComponentService);
         this.subscriptions.push(this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; }));
@@ -53,7 +52,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     set width(width: number) {
-        this._width = width * this.widthFactor;
+        this._width = width * this.widthFactor + 20;
     }
 
     get height(): number {

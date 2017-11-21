@@ -6,6 +6,7 @@ using Microarea.Common.NameSolver;
 using System;
 using Microarea.Common.Generic;
 using System.Collections;
+using Newtonsoft.Json.Linq;
 
 namespace Microarea.Menu.Controllers
 {
@@ -16,11 +17,12 @@ namespace Microarea.Menu.Controllers
 
 		//---------------------------------------------------------------------
 		[Route("getTranslations")]
-		public IActionResult GetTranslations()
+		public IActionResult GetTranslations([FromBody] JObject value)
 		{
-			string dictionaryId = HttpContext.Request.Form["dictionaryId"];
-			string culture = HttpContext.Request.Form["culture"];
-			ArrayList list = new ArrayList();
+
+            string dictionaryId = value["dictionaryId"]?.Value<string>(); 
+			string culture = value["culture"]?.Value<string>();
+            ArrayList list = new ArrayList();
 			list.Add(new { Base = "a", Target = "b" });
 			return new JsonResult(list);
 		}
