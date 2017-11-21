@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using System;
 using Microarea.Common;
 using System.Globalization;
+using Newtonsoft.Json.Linq;
+using Microarea.Common.Applications;
 
 namespace Microarea.AccountManager.Controllers
 {
@@ -28,15 +30,16 @@ namespace Microarea.AccountManager.Controllers
         }
         //-----------------------------------------------------------------------------------------
         [Route("login-compact")]
-        public IActionResult LoginCompact()
+        public IActionResult LoginCompact([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string password = HttpContext.Request.Form["password"];
-                string company = HttpContext.Request.Form["company"];
-                string askingProcess = HttpContext.Request.Form["askingProcess"];
-                bool overwriteLogin = HttpContext.Request.Form["overwrite"] == "true";
+                string user = value["user"]?.Value<string>();
+                string password = value["password"]?.Value<string>(); 
+                string company = value["company"]?.Value<string>(); 
+                string askingProcess = value["askingProcess"]?.Value<string>(); 
+                string overwriteLoginString = value["overwrite"]?.Value<string>();
+                bool.TryParse(overwriteLoginString, out bool overwriteLogin);
                 int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
 
                 string errorMessage = "";
@@ -59,13 +62,13 @@ namespace Microarea.AccountManager.Controllers
 
         //-----------------------------------------------------------------------------------------
         [Route("change-password")]
-        public IActionResult ChangePassword()
+        public IActionResult ChangePassword([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string oldPassword = HttpContext.Request.Form["oldPassword"];
-                string newPassword = HttpContext.Request.Form["newPassword"];
+                string user = value["user"]?.Value<string>(); 
+                string oldPassword = value["oldPassword"]?.Value<string>(); 
+                string newPassword = value["newPassword"]?.Value<string>(); 
                 int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.ChangePassword(user, oldPassword, newPassword);
                 string errorMessage = "";
                 if (result != 0)
@@ -82,12 +85,15 @@ namespace Microarea.AccountManager.Controllers
 
         //-----------------------------------------------------------------------------------------
         [Route("logoff")]
-        public IActionResult Logoff()
+        public IActionResult Logoff([FromBody] JObject value)
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(token);
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(authtoken);
                 var result = new { Success = true, Message = "" };
                 return new JsonResult(result);
             }
@@ -104,8 +110,11 @@ namespace Microarea.AccountManager.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                string json = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(token);
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string json = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
                 return new ContentResult { Content = json, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -120,11 +129,15 @@ namespace Microarea.AccountManager.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                bool valid = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(token);
-                if (valid)
+                bool valid = false;
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (!string.IsNullOrEmpty(authtoken))
                 {
-                    SetCulture(token);
+                    valid = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(authtoken);
+                    if (valid)
+                    {
+                        SetCulture(authtoken);
+                    }
                 }
                 var result = new { Success = valid, Culture = CultureInfo.CurrentUICulture.Name, Message = "" };
                 return new JsonResult(result);
@@ -137,13 +150,12 @@ namespace Microarea.AccountManager.Controllers
 
         //-----------------------------------------------------------------------------------------
         [Route("getCompaniesForUser")]
-        public IActionResult GetCompanyForUser()
+        public IActionResult GetCompanyForUser([FromBody] JObject value)
         {
             try
             {
                 //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-                string user = HttpContext.Request.Form["user"];
-
+                string user = value["user"]?.Value<string>();
                 string[] companies = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.EnumCompanies(user);
 
                 StringBuilder sb = new StringBuilder();
@@ -189,13 +201,13 @@ namespace Microarea.AccountManager.Controllers
 
         //-----------------------------------------------------------------------------------------
         [Route("isActivated")]
-        public IActionResult IsActivated()
+        public IActionResult IsActivated([FromBody] JObject value)
         {
             try
             {
                 //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-                string application = HttpContext.Request.Form["application"];
-                string functionality = HttpContext.Request.Form["functionality"];
+                string application = value["application"]?.Value<string>(); 
+                string functionality = value["functionality"]?.Value<string>(); 
 
                 bool result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsActivated(application, functionality);
 

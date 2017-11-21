@@ -85,33 +85,32 @@ namespace Microarea.TbLoaderGate
 
 					using (var client = new HttpClient())
                     {
-
                         string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
 
                         HttpRequestMessage msg = new HttpRequestMessage();
                         msg.Method = ParseMethod(HttpContext.Request.Method);
                         msg.RequestUri = new Uri(url);
 
-                        //copy request headers
-                        foreach (KeyValuePair<string, StringValues> header in HttpContext.Request.Headers)
-                        {
-                            //sometimes some invalid headers arrives!?
-                            if (header.Key == "Content-Length" || header.Key == "Content-Type")
-                                continue;
-                            try
-                            {
-                                msg.Headers.Add(header.Key, header.Value.ToArray()  );
-                            }
-                            catch
-                            {
-                                Debug.WriteLine("Invalid header: " + header.Key);
-                            }
-                        }
-
                         MemoryStream ms = new MemoryStream();
                         HttpContext.Request.Body.CopyTo(ms);
                         ms.Seek(0, SeekOrigin.Begin);
                         msg.Content = new StreamContent(ms);
+
+                        //copy request headers
+                        foreach (KeyValuePair<string, StringValues> header in HttpContext.Request.Headers)
+                        {
+                            //sometimes some invalid headers arrives!?
+                            //if (header.Key == "Content-Length" || header.Key == "Content-Type")
+                            //    continue;
+                            try
+                            {
+                                msg.Content.Headers.Add(header.Key, header.Value.ToArray());
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine("Invalid header: " + header.Key + " message: " + e.Message);
+                            }
+                        }
 
                         HttpResponseMessage resp = await client.SendAsync(msg);
                         
