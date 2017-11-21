@@ -60,7 +60,7 @@
                 <input kendoTextBox #moduleChosen1 [(ngModel)]="moduleSelected" />
             </kendo-textbox-container>
             <m4-icon class="pushB" icon="tb-plusmathfilled" (click)="showNewPair(true)" matTooltip="{{localizationService?.localizedElements?.NewApplicationLabel}}" matTooltipShowDelay="500"></m4-icon>
-            <m4-icon class="pushB" icon="{{isThisPairDefault || isDefault ? 'tb-filledstar' : 'tb-emptystar'}}" (click)="setDefaultContext()"></m4-icon>
+            <m4-icon class="pushB" icon="{{wantSetPairAsDefault || isDefault ? 'tb-filledstar' : 'tb-emptystar'}}" (click)="setDefaultContext()"></m4-icon>
         </div>
         <div *ngIf="newPairVisible" class="pushbutton selected">
             <kendo-textbox-container class="textBoxCentral">
