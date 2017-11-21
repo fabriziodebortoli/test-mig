@@ -74,7 +74,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
     this.readingData = true;
 
-    this.subscriptionSaveInstance = this.modelService.registerInstance(this.model, this.activationCode).subscribe(
+    this.subscriptionSaveInstance = this.modelService.registerInstance(this.model, this.accountName, this.activationCode).subscribe(
       res => {
 
         if (!res.Result) {
@@ -151,19 +151,14 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
                 // we got the instance, now we pass it to the admin console
 
-                // this.modelService.saveInstance(this.model, false, this.activationCode).retry(3).subscribe(
-                //   res => { alert('Registration complete');},
-                //   err => { alert('Registration Failed'); }
-                // )
-
                 this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
                   res => { alert('Registration Completed'); },
                   err => { alert('Registratio Failed'); }
                 )
-
               },
               err => {}
             )
+
           },
           err => { alert('An error occurred while updating the Instance on GWAM');}
         )
