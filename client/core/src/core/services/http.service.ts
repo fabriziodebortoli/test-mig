@@ -250,5 +250,14 @@ export class HttpService {
             });
     }
 
+    getHotlinkTestData(page: number, rows: number): Observable<any> {
+        let headers = new Headers();
+        headers.append('Authorization', this.infoService.getAuthorization());
+        return this.http.get('http://localhost:50419/api/hotlink/' + page + '/' + rows, {withCredentials: true, headers: headers })
+        .map((res: Response) => {
+            return res.json();
+        })
+        .catch(this.handleError);
+    }
 
 }

@@ -49,7 +49,6 @@ export class AccountComponent implements OnInit {
       return;
     }
     
-    this.editing = true;
     let accountName:string = this.route.snapshot.queryParams['accountNameToEdit'];
     this.modelService.getAccounts({ MatchingFields: { AccountName: accountName } })
       .subscribe(
@@ -62,6 +61,7 @@ export class AccountComponent implements OnInit {
           
           // setting the account model
           this.model = accounts[0];
+          this.editing = true;
 
           if (this.model.AccountName == '')
             return;
