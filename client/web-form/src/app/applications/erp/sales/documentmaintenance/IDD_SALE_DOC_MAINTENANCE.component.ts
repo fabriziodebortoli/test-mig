@@ -31,7 +31,7 @@ export class IDD_SALE_DOC_MAINTENANCEComponent extends BOComponent implements On
 }; 
 
         const boService = this.document as BOService;
-		boService.appendToModelStructure({'SalseDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','CustSuppType','CustSupp'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+		boService.appendToModelStructure({'SalseDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','CustSuppType','CustSupp','EIStatus','SOSDone'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

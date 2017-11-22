@@ -67,6 +67,13 @@
          <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33"></tb-label-static>
          <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33"></tb-label-static>
         </tb-status-tile>
+        <tb-status-tile *ngIf="eventData?.activation?.IDD_TS_EI_SALE_DOC">
+         <tb-linear-gauge *ngIf="eventData?.activation?.IDC_CONTROL_GAUGE" cmpId="IDC_CONTROL_GAUGE" width="71"></tb-linear-gauge>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.EIITSalesEIGaugeDescri"></tb-label-static>
+         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.EIITSalesImageEI"></tb-image>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33"></tb-label-static>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33"></tb-label-static>
+        </tb-status-tile>
        </tb-status-tile-panel>
       </ng-template>
      </tb-tilegroup>
@@ -842,6 +849,12 @@ Charges')" columnType="tb-body-edit-column" columnName="IDC_DOC_LINE_DITRIBUTED_
 </div>        </tb-tile>
        </ng-template>
       </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Electronic Invoicing')" icon="erp-invoiceinternet" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_EI">
+       <ng-template>
+        <tb-tile [title]="_TB('Additional Data')" tbTileWide >
+<div class="col col1"></div><div class="col col2"></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
      </tb-tilemanager>
     </tb-view>
    </tb-view-container>
@@ -1362,5 +1375,6 @@ Base UoM')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_C
    <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BARCODE_SCANNER_FORM?.enabled" icon="erp-scanbarcode" [caption]="_TB('Barcode Manager')" cmpId="ID_BARCODE_SCANNER_FORM"></tb-toolbar-bottom-button>
    <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_SELECTSUMMARYLT_BARCODE?.enabled" icon="erp-barcode" [caption]="_TB('Barcode')" cmpId="ID_SELECTSUMMARYLT_BARCODE"></tb-toolbar-bottom-button>
    <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_SELECTSUMMARYLT_CODCUSTSUPP" [disabled]="!eventData?.buttonsState?.ID_SELECTSUMMARYLT_CODCUSTSUPP?.enabled" icon="erp-custsupp" [caption]="_TB('Item as...')" cmpId="ID_SELECTSUMMARYLT_CODCUSTSUPP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_EIMANAGER_BUTTON" [disabled]="!eventData?.buttonsState?.ID_EIMANAGER_BUTTON?.enabled" icon="erp-invoiceinternet" [caption]="_TB('Functions')" cmpId="ID_EIMANAGER_BUTTON"></tb-toolbar-bottom-button>
   </tb-toolbar-bottom>
  </tb-frame>

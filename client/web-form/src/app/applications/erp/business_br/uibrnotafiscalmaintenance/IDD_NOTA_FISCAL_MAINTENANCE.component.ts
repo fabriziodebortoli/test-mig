@@ -13,6 +13,8 @@ import { IDD_NOTA_FISCAL_MAINTENANCEService } from './IDD_NOTA_FISCAL_MAINTENANC
 export class IDD_NOTA_FISCAL_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_NF_CUST_MAINT_NOTA_FISCAL_CODE_validators: any;
 public IDC_NF_SUPP_MAINT_NOTA_FISCAL_CODE_validators: any;
+public IDC_NF_CUST_MAINT_NOTA_FISCAL_STATUS_itemSource: any;
+public IDC_NF_SUPP_MAINT_NOTA_FISCAL_STATUS_itemSource: any;
 
     constructor(document: IDD_NOTA_FISCAL_MAINTENANCEService,
         eventData: EventDataService,
@@ -38,9 +40,17 @@ this.IDC_NF_SUPP_MAINT_NOTA_FISCAL_CODE_validators = [
     "namespace": "Validator.erp.Business_BR.Components.NotaFiscalTypeCombo"
   }
 ]; 
+this.IDC_NF_CUST_MAINT_NOTA_FISCAL_STATUS_itemSource = {
+  "name": "NotaFiscalForCustStatusCombo",
+  "namespace": "MDC.ElectronicInvoicing_BR.AddOnsSales.NotaFiscalForCustStatusCombo"
+}; 
+this.IDC_NF_SUPP_MAINT_NOTA_FISCAL_STATUS_itemSource = {
+  "name": "NotaFiscalForSuppStatusCombo",
+  "namespace": "MDC.ElectronicInvoicing_BR.AddOnsPurchases.NotaFiscalForSuppStatusCombo"
+}; 
 
         const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRNFForCustSaleDocMaintenance':['DocNo','DocumentDate','PostingDate','CustSupp'],'DBTBRNotaFiscalForCustMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLBRNotaFiscalType':['Description','Description'],'HKLCustomer':['CompNameComplete'],'DBTBRNFForSuppPurchDocMaintenance':['DocNo','DocumentDate','PostingDate','Supplier'],'DBTBRNotaFiscalForSuppMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+		boService.appendToModelStructure({'DBTBRNFForCustSaleDocMaintenance':['DocNo','DocumentDate','PostingDate','CustSupp','EIStatus'],'DBTBRNotaFiscalForCustMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLBRNotaFiscalType':['Description','Description'],'HKLCustomer':['CompNameComplete'],'DBTBRNFForSuppPurchDocMaintenance':['DocNo','DocumentDate','PostingDate','Supplier','EIStatus'],'DBTBRNotaFiscalForSuppMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -201,6 +201,10 @@
            </tb-body-edit-column>
            <tb-body-edit-column cmpId="IDC_DETAIL_CS_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_DETAIL_CS_NOTES">
            </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_EI_CUSTBRANCHES_IPACODE" columnName="IPACode" [title]="_TB('EI Office Code')" columnType="tb-text" columnName="IDC_EI_CUSTBRANCHES_IPACODE" *ngIf="eventData?.activation?.IDC_EI_CUSTBRANCHES_IPACODE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_EI_CUSTBRANCHES_ADMINREF" columnName="AdministrationReference" [title]="_TB('Admin.Reference')" columnType="tb-text" columnName="IDC_EI_CUSTBRANCHES_ADMINREF" *ngIf="eventData?.activation?.IDC_EI_CUSTBRANCHES_ADMINREF">
+           </tb-body-edit-column>
           </tb-body-edit>
          </tb-tile>
          <tb-tile tbTileWide  hasTitle="False">
@@ -840,6 +844,31 @@ Fiscal')" columnType="tb-enum-combo" columnName="IDC_DETAIL_CS_PEOPLE_CUST_NOTAF
           </tb-body-edit-column>
          </tb-body-edit>
         </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Digital Communications')" icon="erp-invoiceinternet" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_EI_CUST">
+       <ng-template>
+        <tb-tile [title]="_TB('Digital Communications')" tbTileWide >
+<div class="col col1">         <tb-checkbox cmpId="IDC_EI_CUST_SENDBYEI" width="109" [model]="eventData?.model?.CustomersSuppliers?.ElectronicInvoicing" [caption]="_TB('Manage Electronic Invoicing  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_EI_CUST_SEND_BY_PEC" width="109" [model]="eventData?.model?.CustomersSuppliers?.SendByCertifiedEmail" [caption]="_TB('Send by Certified Email  ')"></tb-checkbox>
+<div class="anchored">         <tb-text [caption]="_TB('EI Office Code')" cmpId="IDC_EI_CUST_IPACODE" width="50" [model]="eventData?.model?.CustomersSuppliers?.IPACode"></tb-text>
+         <tb-caption cmpId="IDC_STATIC_IPACODE" width="98" [caption]="_TB('(IPA code for PA)')"></tb-caption>
+</div>         <tb-text [caption]="_TB('EORI Code')" cmpId="IDC_EI_CUST_EORICODE" width="85" [model]="eventData?.model?.CustomersSuppliers?.EORICode"></tb-text>
+</div><div class="col col2">         <tb-text [caption]="_TB('Administration Reference')" cmpId="IDC_EI_CUST_ADMINREF" width="85" [model]="eventData?.model?.CustomersSuppliers?.AdministrationReference"></tb-text>
+<div class="anchored">         <tb-checkbox cmpId="IDC_EI_CUST_IMMLIKEACC" width="109" [model]="eventData?.model?.CustomersSuppliers?.ImmediateLikeAccompanying" [caption]="_TB('Immediate invoice  ')"></tb-checkbox>
+         <tb-caption cmpId="IDC_STATIC_ACCOMP" width="98" [caption]="_TB('like Accompanying')"></tb-caption>
+</div>         <tb-combo [caption]="_TB('Permanent Branch Code')" cmpId="IDC_EI_CUST_PERM_BRANCH" width="57" [model]="eventData?.model?.CustomersSuppliers?.PermanentBranchCode" [itemSource]="IDC_EI_CUST_PERM_BRANCH_itemSource"></tb-combo>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Fiscal Delegate Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-combo [caption]="_TB('Country ISO Code')" cmpId="IDC_EI_CUST_FD_COD_ISO" width="28" [model]="eventData?.model?.CustomersSuppliers?.FDISOCountryCode"></tb-combo>
+         <tb-checkbox cmpId="IDC_EI_CUST_FD_NAT_PERSON" width="124" [model]="eventData?.model?.CustomersSuppliers?.FDNaturalPerson" [caption]="_TB('Natural Person  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Company Name')" cmpId="IDC_EI_CUST_FD_COMP_NAME" width="154" [model]="eventData?.model?.CustomersSuppliers?.FDCompanyName"></tb-text>
+<div class="anchored">         <tb-text [caption]="_TB('Fiscal Code No.')" cmpId="IDC_EI_CUST_FD_FISCAL_CODE" width="90" [model]="eventData?.model?.CustomersSuppliers?.FDFiscalCode"></tb-text>
+         <tb-button cmpId="IDC_EI_CUST_FD_FISCALCODE_CALCULATE" width="14" [model]="eventData?.model?.EIITCusSupbFDFiscalCodeCalculate"></tb-button>
+</div>         <tb-text [caption]="_TB('Fiscal Code ID')" cmpId="IDC_EI_CUST_FD_COD_FISCAL_ID" width="130" [model]="eventData?.model?.CustomersSuppliers?.FDFiscalCodeID"></tb-text>
+</div><div class="col col2">         <tb-text [caption]="_TB('Last Name')" cmpId="IDC_EI_CUST_FD_LASTNAME" width="154" [model]="eventData?.model?.CustomersSuppliers?.FDLastName"></tb-text>
+         <tb-text [caption]="_TB('Name')" cmpId="IDC_EI_CUST_FD_NAME" width="154" [model]="eventData?.model?.CustomersSuppliers?.FDName"></tb-text>
+</div>        </tb-tile>
        </ng-template>
       </tb-tilegroup>
      </tb-tilemanager>

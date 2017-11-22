@@ -32,6 +32,22 @@
        <tb-tile tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_HEAD_CORRECTION_LETTER_SUPP_CONTENT_DESCRI">
         <tb-label-static cmpId="IDC_BR_CCE_NF_DESCRI" width="313" [model]="eventData?.model?.BRCorrectionLetterForSupp?.CCeNFeDescri"></tb-label-static>
        </tb-tile>
+       <tb-status-tile-panel>
+        <tb-status-tile *ngIf="eventData?.activation?.IDD_TS_CORRECTION_LETTER_FOR_CUST">
+         <tb-linear-gauge *ngIf="eventData?.activation?.IDC_CONTROL_GAUGE" cmpId="IDC_CONTROL_GAUGE" width="71"></tb-linear-gauge>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.EIBRCCeForCust_CCeDescriptionStatus"></tb-label-static>
+         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.EIBRCCeForCust_CCeImageStatus"></tb-image>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33"></tb-label-static>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33"></tb-label-static>
+        </tb-status-tile>
+        <tb-status-tile *ngIf="eventData?.activation?.IDD_TS_CORRECTION_LETTER_FOR_SUPP">
+         <tb-linear-gauge *ngIf="eventData?.activation?.IDC_CONTROL_GAUGE" cmpId="IDC_CONTROL_GAUGE" width="71"></tb-linear-gauge>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.EIBRCCeForSupp_CCeDescriptionStatus"></tb-label-static>
+         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.EIBRCCeForSupp_CCeImageStatus"></tb-image>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33"></tb-label-static>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33"></tb-label-static>
+        </tb-status-tile>
+       </tb-status-tile-panel>
       </ng-template>
      </tb-tilegroup>
      <tb-tilegroup [active]="true" tbLayoutTypeVbox >

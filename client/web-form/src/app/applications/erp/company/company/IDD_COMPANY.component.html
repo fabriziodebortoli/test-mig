@@ -492,6 +492,47 @@ Statist.')" columnType="tb-checkbox" columnName="IDC_COMPANY_STATISTICALVALUE_IN
 </div>        </tb-tile>
        </ng-template>
       </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Digital Communications')" icon="erp-invoiceinternet" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_EI_IT_COMPANY">
+       <ng-template>
+        <tb-tile [title]="_TB('Sender Data')" tbTileWide >
+<div class="col col1">         <tb-combo [caption]="_TB('Country ISO Code')" cmpId="IDC_EICOMPANY_TAB_SENDER_COD_ISO" width="28" [model]="eventData?.model?.EI_ITCompany?.SenderISOCountryCode"></tb-combo>
+         <tb-text [caption]="_TB('Fiscal Code ID')" cmpId="IDC_EICOMPANY_TAB_COD_FISCAL_ID" width="155" [model]="eventData?.model?.EI_ITCompany?.SenderFiscalCodeID"></tb-text>
+         <tb-text [caption]="_TB('Last Send Number')" cmpId="IDC_EICOMPANY_TAB_LASTNO" width="45" [model]="eventData?.model?.EI_ITCompany?.LastSentNo"></tb-text>
+         <tb-combo [caption]="_TB('Permanent Branch Code')" cmpId="IDC_EICOMPANY_TAB_PERM_BRANCH" width="63" [model]="eventData?.model?.EI_ITCompany?.PermanentBranchCode"></tb-combo>
+         <tb-enum-combo [caption]="_TB('Issuer subject')" cmpId="IDC_EICOMPANY_TAB_ISSUER_SUBJECT" width="108" [model]="eventData?.model?.EI_ITCompany?.IssuerSubject"></tb-enum-combo>
+</div><div class="col col2">         <tb-text [caption]="_TB('Fiscal Regime')" cmpId="IDC_EICOMPANY_TAB_EICODE" width="62" [model]="eventData?.model?.EI_ITCompany?.FiscalRegime"></tb-text>
+         <tb-label-static cmpId="IDC_EICOMPANY_TAB_EICODE_DESCRIPTION" width="154" [model]="eventData?.model?.HKLEICodingFiscalRegime?.Description"></tb-label-static>
+         <tb-phone mask [caption]="_TB('Phone')" cmpId="IDC_EICOMPANY_TAB_SENDER_PHONE" width="100" [model]="eventData?.model?.EI_ITCompany?.SenderTelephone"></tb-phone>
+         <tb-email [caption]="_TB('Email')" cmpId="IDC_EICOMPANY_TAB_EMAIL" width="154" [model]="eventData?.model?.EI_ITCompany?.Email"></tb-email>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Fiscal Delegate Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-combo [caption]="_TB('Country ISO Code')" cmpId="IDC_EICOMPANY_TAB_FD_COD_ISO" width="28" [model]="eventData?.model?.EI_ITCompany?.FDISOCountryCode"></tb-combo>
+         <tb-checkbox cmpId="IDC_EICOMPANY_TAB_FD_NAT_PERSON" width="124" [model]="eventData?.model?.EI_ITCompany?.FDNaturalPerson" [caption]="_TB('Natural Person  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Company Name')" cmpId="IDC_EICOMPANY_TAB_FD_NAME_SOC" width="154" [model]="eventData?.model?.EI_ITCompany?.FDCompanyName"></tb-text>
+<div class="anchored">         <tb-text [caption]="_TB('Fiscal Code No.')" cmpId="IDC_EICOMPANY_TAB_FD_COD_FISCAL" width="90" [model]="eventData?.model?.EI_ITCompany?.FDFiscalCode"></tb-text>
+         <tb-button cmpId="IDC_EICOMPANY_TAB_FD_FISCALCODE_CALCULATE" width="14" [model]="eventData?.model?.EIITCompanybFDFiscalCodeCalculate"></tb-button>
+</div>         <tb-text [caption]="_TB('Fiscal Code ID')" cmpId="IDC_EICOMPANY_TAB_FD_COD_FISCAL_ID" width="130" [model]="eventData?.model?.EI_ITCompany?.FDFiscalCodeID"></tb-text>
+</div><div class="col col2">         <tb-text [caption]="_TB('EORI Code')" cmpId="IDC_EICOMPANY_TAB_FD_EORICODE" width="85" [model]="eventData?.model?.EI_ITCompany?.FDEORICode"></tb-text>
+         <tb-combo [caption]="_TB('Title')" cmpId="IDC_EICOMPANY_TAB_FD_TITLECODE" width="61" [model]="eventData?.model?.EI_ITCompany?.FDTitleCode"></tb-combo>
+         <tb-label-static cmpId="IDC_EICOMPANY_TAB_FD_DESCRI_TITLECODE" width="154" [model]="eventData?.model?.HKLTitleCodeFD?.Description"></tb-label-static>
+         <tb-text [caption]="_TB('Last Name')" cmpId="IDC_EICOMPANY_TAB_FD_LASTNAME" width="154" [model]="eventData?.model?.EI_ITCompany?.FDLastName"></tb-text>
+         <tb-text [caption]="_TB('Name')" cmpId="IDC_EICOMPANY_TAB_FD_NAME" width="154" [model]="eventData?.model?.EI_ITCompany?.FDName"></tb-text>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Third Intermediary Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-combo [caption]="_TB('Country ISO Code')" cmpId="IDC_EICOMPANY_TAB_TI_COD_ISO" width="28" [model]="eventData?.model?.EI_ITCompany?.TIISOCountryCode"></tb-combo>
+         <tb-checkbox cmpId="IDC_EICOMPANY_TAB_TI_NAT_PERSON" width="124" [model]="eventData?.model?.EI_ITCompany?.TINaturalPerson" [caption]="_TB('Natural Person  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Company Name')" cmpId="IDC_EICOMPANY_TAB_TI_NAME_SOC" width="154" [model]="eventData?.model?.EI_ITCompany?.TICompanyName"></tb-text>
+<div class="anchored">         <tb-text [caption]="_TB('Fiscal Code No.')" cmpId="IDC_EICOMPANY_TAB_TI_COD_FISCAL" width="90" [model]="eventData?.model?.EI_ITCompany?.TIFiscalCode"></tb-text>
+         <tb-button cmpId="IDC_EICOMPANY_TAB_TI_FISCALCODE_CALCULATE" width="14" [model]="eventData?.model?.EIITCompanybTIFiscalCodeCalculate"></tb-button>
+</div>         <tb-text [caption]="_TB('Fiscal Code ID')" cmpId="IDC_EICOMPANY_TAB_TI_COD_FISCAL_ID" width="130" [model]="eventData?.model?.EI_ITCompany?.TIFiscalCodeID"></tb-text>
+</div><div class="col col2">         <tb-text [caption]="_TB('EORI Code')" cmpId="IDC_EICOMPANY_TAB_TI_EORICODE" width="85" [model]="eventData?.model?.EI_ITCompany?.TIEORICode"></tb-text>
+         <tb-combo [caption]="_TB('Title')" cmpId="IDC_EICOMPANY_TAB_TI_TITLECODE" width="61" [model]="eventData?.model?.EI_ITCompany?.TITitleCode"></tb-combo>
+         <tb-label-static cmpId="IDC_EICOMPANY_TAB_TI_DESCRI_TITLECODE" width="154" [model]="eventData?.model?.HKLTitleCodeTI?.Description"></tb-label-static>
+         <tb-text [caption]="_TB('Last Name')" cmpId="IDC_EICOMPANY_TAB_TI_LASTNAME" width="154" [model]="eventData?.model?.EI_ITCompany?.TILastName"></tb-text>
+         <tb-text [caption]="_TB('Name')" cmpId="IDC_EICOMPANY_TAB_TI_NAME" width="154" [model]="eventData?.model?.EI_ITCompany?.TIName"></tb-text>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
      </tb-tilemanager>
     </tb-view>
    </tb-view-container>

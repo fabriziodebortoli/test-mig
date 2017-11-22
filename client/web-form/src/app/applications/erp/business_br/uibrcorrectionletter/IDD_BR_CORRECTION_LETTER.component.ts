@@ -26,7 +26,7 @@ export class IDD_BR_CORRECTION_LETTERComponent extends BOComponent implements On
         super.ngOnInit();
         
         const boService = this.document as BOService;
-		boService.appendToModelStructure({'BRCorrectionLetterForCust':['ProgressiveNumber','CorrectionLetterDate','CCeNFeDescri','CorrectionLetterText','UseCondition'],'BRCorrectionLetterForSupp':['ProgressiveNumber','CorrectionLetterDate','CCeNFeDescri','CorrectionLetterText','UseCondition'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+		boService.appendToModelStructure({'BRCorrectionLetterForCust':['ProgressiveNumber','CorrectionLetterDate','CCeNFeDescri','CorrectionLetterText','UseCondition'],'BRCorrectionLetterForSupp':['ProgressiveNumber','CorrectionLetterDate','CCeNFeDescri','CorrectionLetterText','UseCondition'],'global':['EIBRCCeForCust_CCeDescriptionStatus','EIBRCCeForCust_CCeImageStatus','EIBRCCeForSupp_CCeDescriptionStatus','EIBRCCeForSupp_CCeImageStatus','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 
