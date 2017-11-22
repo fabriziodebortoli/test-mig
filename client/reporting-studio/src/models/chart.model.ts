@@ -23,11 +23,11 @@ export class chart extends baserect {
 }
 
 export class legend {
-    orientation: string;
+    orientation: string='';
     position: string;
 
     constructor(jsonObj) {
-        this.orientation = jsonObj.oreintation ? jsonObj.oreintation : 'horizontal';
+       // this.orientation = jsonObj.oreintation ? jsonObj.oreintation : 'horizontal';
         this.position = jsonObj.position ? jsonObj.position : 'bottom';
     }
 }

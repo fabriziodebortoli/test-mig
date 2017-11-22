@@ -22,7 +22,7 @@ export class ProductInfoComponent implements OnInit {
   }
 
   ngOnInit() {
-    let sub = this.infoService.getProductInfo().subscribe(result => {
+    let sub = this.infoService.getProductInfo(true).subscribe(result => {
       this.productInfos = result;
       if (sub)
         sub.unsubscribe()

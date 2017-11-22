@@ -5,3 +5,4 @@ export * from './esr/esr.component';
 export * from './auto-search-edit/auto-search-edit.component';
 export * from './item-edit/item-edit.component';
 export * from './str-bin-edit/str-bin-edit.component';
+export * from './chart-of-account/chart-of-account.component';

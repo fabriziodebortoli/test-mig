@@ -122,17 +122,6 @@ export class HttpService {
             });
     }
 
-    postDataWithAllowOrigin(url: string): Observable<OperationResult> {
-        let headers = new Headers();
-        // headers.append('Access-Control-Allow-Origin', window.location.origin);
-        // headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
-        headers.append('Authorization', this.infoService.getAuthorization());
-        return this.http.post(url, undefined, { withCredentials: true, headers: headers })
-            .map((res: Response) => {
-                return this.createOperationResult(res);
-            });
-    }
-
     closeTBConnection(params: { authtoken: string }): Observable<OperationResult> {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'doLogoff/', params)
             .map((res: Response) => {
@@ -141,13 +130,24 @@ export class HttpService {
     }
 
     postData(url: string, data: Object): Observable<Response> {
-        let headers = new Headers();
-        // headers.append('Content-Type', 'application/json'); // TODO quando il backend sarà pronto
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('Authorization', this.infoService.getAuthorization());
-        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': this.infoService.getAuthorization()
+        });
+        return this.http.post(url, data, { withCredentials: true, headers: headers })
             .catch(this.handleError);
     }
+
+    getData(url: string, data: Object): Observable<Response> {
+        const headers = new Headers({
+            'Authorization': this.infoService.getAuthorization()
+        });
+        //qui dobbiamo crare dei params
+        //let dat = this.utils.serializeData(data);
+        return this.http.get(url, { withCredentials: true, headers: headers, params: data})
+            .catch(this.handleError);
+    }
+
     handleError(error: any): ErrorObservable {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
@@ -160,10 +160,7 @@ export class HttpService {
     }
 
     getEnumsTable(): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('Authorization', this.infoService.getAuthorization());
-        return this.http.get(this.infoService.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true, headers: headers })
+        return this.getData(this.infoService.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
@@ -253,5 +250,14 @@ export class HttpService {
             });
     }
 
+    getHotlinkTestData(page: number, rows: number): Observable<any> {
+        let headers = new Headers();
+        headers.append('Authorization', this.infoService.getAuthorization());
+        return this.http.get('http://localhost:50419/api/hotlink/' + page + '/' + rows, {withCredentials: true, headers: headers })
+        .map((res: Response) => {
+            return res.json();
+        })
+        .catch(this.handleError);
+    }
 
 }

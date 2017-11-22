@@ -10,6 +10,7 @@
             { "glob": "**/*", "input": "../node_modules/@taskbuilder/core/dictionary/", "output": "./dictionary" },
             { "glob": "**/*", "input": "../node_modules/@taskbuilder/reporting-studio/dictionary/", "output": "./dictionary" },
             { "glob": "**/*", "input": "../node_modules/@taskbuilder/icons/fonts/", "output": "./assets/m4" },
+            { "glob": "**/*", "input": "../node_modules/@taskbuilder/core/style/fonts/", "output": "./assets/fonts" },
             { "glob": "**/*", "input": "../node_modules/bwip-angular2/fonts/", "output": "./assets/bwipjs-fonts" },
             "assets",
             "dictionary",

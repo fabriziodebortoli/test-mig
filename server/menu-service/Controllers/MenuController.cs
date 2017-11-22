@@ -8,6 +8,9 @@ using System;
 using Microarea.Common.Generic;
 using System.Threading;
 using Microarea.Common.WebServicesWrapper;
+using Newtonsoft.Json.Linq;
+using Microarea.Common;
+using Microarea.Common.Applications;
 
 namespace Microarea.Menu.Controllers
 {
@@ -22,15 +25,16 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("getMenuElements")]
-        public IActionResult GetMenuElements()
+        public IActionResult GetMenuElements([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
-                string authtoken = HttpContext.Request.Form["authtoken"];
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
 
-                string clearCachedData = HttpContext.Request.Form["clearCachedData"];
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>();  
+                string clearCachedData = value["clearCachedData"]?.Value<string>(); 
+
                 bool clearCache = bool.Parse(clearCachedData);
 
                 string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, clearCache);
@@ -44,12 +48,12 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("getPreferences")]
-        public IActionResult GetPreferences()
+        public IActionResult GetPreferences([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>();
 
                 string content = NewMenuLoader.GetPreferencesAsJson(user, company);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
@@ -62,14 +66,14 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("setPreference")]
-        public IActionResult SetPreference()
+        public IActionResult SetPreference([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
-                string preferenceName = HttpContext.Request.Form["name"];
-                string preferenceValue = HttpContext.Request.Form["value"];
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>();
+                string preferenceName = value["name"]?.Value<string>(); 
+                string preferenceValue = value["value"]?.Value<string>(); 
 
                 bool result = NewMenuSaver.SetPreference(preferenceName, preferenceValue, user, company);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
@@ -86,8 +90,11 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                string content = NewMenuLoader.GetJsonMenuSettings(token);
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                
+                string content = NewMenuLoader.GetJsonMenuSettings(authtoken);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -102,8 +109,11 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                string content = NewMenuLoader.GetConnectionInformation(token);
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string content = NewMenuLoader.GetConnectionInformation(authtoken);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -114,12 +124,16 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("clearAllMostUsed")]
-        public IActionResult ClearAllMostUsed()
+        public IActionResult ClearAllMostUsed([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string user = value["user"]?.Value<string>(); 
+                string company = value["company"]?.Value<string>();
                 NewMenuSaver.ClearMostUsed(user, company);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
             }
@@ -131,12 +145,12 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("getMostUsedShowNr")]
-        public IActionResult GetMostUsedShowNr()
+        public IActionResult GetMostUsedShowNr([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>();
                 string content = NewMenuLoader.GetMostUsedShowNrElements(user, company);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
@@ -148,14 +162,18 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("updateAllFavoritesAndMostUsed")]
-        public IActionResult UpdateAllFavoritesAndMostUsed()
+        public IActionResult UpdateAllFavoritesAndMostUsed([FromBody] JObject value)
         {
             try
             {
-                string favorites = HttpContext.Request.Form["favorites"];
-                string mostUsed = HttpContext.Request.Form["mostUsed"];
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>();
+                string favorites = value["favorites"]?.Value<string>();
+                string mostUsed = value["mostUsed"]?.Value<string>(); 
                 NewMenuSaver.UpdateAllFavoritesAndMostUsed(favorites, mostUsed, user, company);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "text/plain" };
             }
@@ -167,11 +185,15 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("clearCachedData")]
-        public IActionResult ClearCachedData()
+        public IActionResult ClearCachedData([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string user = value["user"]?.Value<string>();
                 Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(user);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
             }
@@ -203,8 +225,9 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                string json = NewMenuLoader.GetJsonProductInfo(token);
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+				//potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
+				string json = NewMenuLoader.GetJsonProductInfo(authtoken);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -265,18 +288,17 @@ namespace Microarea.Menu.Controllers
             {
             }
 
-            return new ContentResult { Content = "Cannot access file " + fullImagePath, ContentType = "application/text" };
+            return new ContentResult { Content = "Cannot access file " + fullImagePath, ContentType = "text/plan" };
         }
 
         //---------------------------------------------------------------------
         [Route("getOnlineHelpUrl")]
-        public IActionResult GetOnlineHelpUrl()
+        public IActionResult GetOnlineHelpUrl([FromBody] JObject value)
         {
             try
             {
-                string nameSpace = HttpContext.Request.Form["nameSpace"];
-                string culture = HttpContext.Request.Form["culture"];
-
+                string nameSpace = value["nameSpace"]?.Value<string>(); 
+                string culture = value["culture"]?.Value<string>();
                 string url = HelpManager.GetOnlineHelpUrl(nameSpace, culture);
                 string json = string.Format("{{ \"url\": \"{0}\" }}", url);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
@@ -289,18 +311,20 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("addToHiddenTiles")]
-        public IActionResult AddToHiddenTiles()
+        public IActionResult AddToHiddenTiles([FromBody] JObject value)
         {
-            //NewMenuSaver::AddToHiddenTiles
-
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
-                string appName = HttpContext.Request.Form["application"];
-                string groupName = HttpContext.Request.Form["group"];
-                string menuName = HttpContext.Request.Form["menu"];
-                string tileName = HttpContext.Request.Form["tile"];
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string user = value["user"]?.Value<string>(); 
+                string company = value["company"]?.Value<string>();
+                string appName = value["application"]?.Value<string>();
+                string groupName = value["group"]?.Value<string>(); 
+                string menuName = value["menu"]?.Value<string>(); 
+                string tileName = value["tile"]?.Value<string>(); 
                 NewMenuSaver.AddToHiddenTiles(user, company, appName, groupName, menuName, tileName);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
             }
@@ -312,16 +336,20 @@ namespace Microarea.Menu.Controllers
 
         //---------------------------------------------------------------------
         [Route("removeFromHiddenTiles")]
-        public IActionResult RemoveFromHiddenTiles()
+        public IActionResult RemoveFromHiddenTiles([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
-                string appName = HttpContext.Request.Form["application"];
-                string groupName = HttpContext.Request.Form["group"];
-                string menuName = HttpContext.Request.Form["menu"];
-                string tileName = HttpContext.Request.Form["tile"];
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>();
+                string appName = value["application"]?.Value<string>();
+                string groupName = value["group"]?.Value<string>();
+                string menuName = value["menu"]?.Value<string>();
+                string tileName = value["tile"]?.Value<string>();
                 NewMenuSaver.RemoveFromHiddenTiles(user, company, appName, groupName, menuName, tileName);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
 
@@ -333,12 +361,16 @@ namespace Microarea.Menu.Controllers
         }
         //---------------------------------------------------------------------
         [Route("removeAllHiddenTiles")]
-        public IActionResult RemoveAllHiddenTiles()
+        public IActionResult RemoveAllHiddenTiles([FromBody] JObject value)
         {
             try
             {
-                string user = HttpContext.Request.Form["user"];
-                string company = HttpContext.Request.Form["company"];
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>(); 
                 NewMenuSaver.RemoveAllHiddenTiles(user, company);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
 
@@ -355,16 +387,13 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                //string authtoken = HttpContext.Request.Form["authtoken"];
-                //LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
-                //if (session == null)
-                //    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
-                //BasePathFinder.BasePathFinderInstance.ResetApplicationsInfo();
                 BasePathFinder.BasePathFinderInstance.RefreshEasyBuilderApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);
                 BasePathFinder.BasePathFinderInstance.InstallationVer.UpdateCachedDateAndSave();
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-
             }
             catch (Exception e)
             {

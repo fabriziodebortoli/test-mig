@@ -1,5 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
 // import { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
@@ -29,7 +30,8 @@ const ERP_COMPONENTS = [
     Controls.NoSpacesEditComponent,
     Controls.NumberEditWithFillerComponent,
     Controls.StrBinEditComponent,
-    Controls.VatComponent
+    Controls.VatComponent,
+    Controls.ChartOfAccountComponent
 ];
 
 const ERP_PIPES = [
@@ -37,7 +39,7 @@ const ERP_PIPES = [
 ];
 
 @NgModule({
-    imports: [FormsModule, TaskbuilderCoreModule],
+    imports: [FormsModule, TaskbuilderCoreModule, CommonModule],
     declarations: [ERP_COMPONENTS, ERP_PIPES],
     exports: [ERP_COMPONENTS, ERP_PIPES],
     providers: []

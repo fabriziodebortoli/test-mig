@@ -53,7 +53,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     set width(width: number) {
-        this._width = width * this.widthFactor;
+        this._width = width * this.widthFactor + 20;
     }
 
     get height(): number {

@@ -51,22 +51,12 @@ namespace widgets_service.Controllers
 			return true;
 		}
 
-		// GET api/values
-		[HttpPost]
-		public IEnumerable<string> Get()
-		{
-			string param1 = HttpContext.Request.Form["param"];
-			string param2 = HttpContext.Request.Form["param2"];
-			string param3 = HttpContext.Request.Form["param3"];
-			return new string[] { "value1", "value2" };
-		}
-
         // GET widgets-service/getActiveWidgets
         [Route("getWidget/{namespace}")]
         public IActionResult GetWidget(string nameSpace)
         {
             if (nameSpace.IsNullOrEmpty())
-                return new ContentResult { StatusCode = 500, Content = "Empty file name", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 500, Content = "Empty file name", ContentType = "text/plan" };
 
             string sAuthT =  AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
 
@@ -76,12 +66,12 @@ namespace widgets_service.Controllers
             {
                 if (!CheckAuthentication(sAuthT, out errMessage))
                 {
-                    return new ContentResult { StatusCode = 401, Content = errMessage, ContentType = "application/text" };
+                    return new ContentResult { StatusCode = 401, Content = errMessage, ContentType = "text/plan" };
                 }
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "application/text" };
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plan" };
             }
 
             PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
@@ -89,7 +79,7 @@ namespace widgets_service.Controllers
             string widgetFilename = pathFinder.GetFilename(ns, string.Empty) + ".widget.json";
 
             if (!System.IO.File.Exists(widgetFilename))
-                return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "text/plan" };
 
             try
             {
@@ -100,9 +90,9 @@ namespace widgets_service.Controllers
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 500, Content = e.Message, ContentType = "application/text" };
+                return new ContentResult { StatusCode = 500, Content = e.Message, ContentType = "text/plan" };
             }
-            return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+            return new ContentResult { StatusCode = 200, Content = content, ContentType = "text/plan" };
         }
 
         // GET widgets-service/getActiveWidgets
