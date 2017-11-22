@@ -226,10 +226,8 @@ namespace Microarea.Menu.Controllers
             try
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
-                if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
-
-                string json = NewMenuLoader.GetJsonProductInfo(authtoken);
+				//potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
+				string json = NewMenuLoader.GetJsonProductInfo(authtoken);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)

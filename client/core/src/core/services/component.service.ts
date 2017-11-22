@@ -124,7 +124,7 @@ export class ComponentService {
     this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
       .then(
       success => {
-        this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(success1 => {
+        this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(() => {
           this.currentComponent = undefined;
           this.createNextComponent();
         });

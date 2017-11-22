@@ -691,7 +691,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		public static string GetJsonProductInfo(string authenticationToken)
 		{
-			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+			LoginManagerSession session = string.IsNullOrEmpty(authenticationToken) ? null : LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
 			{
@@ -705,10 +705,13 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WriteValue(LoginManager.LoginManagerInstance.GetInstallationVersion());
 
 				jsonWriter.WritePropertyName("providerDescription");
-				jsonWriter.WriteValue(session.ProviderDescription);
+				jsonWriter.WriteValue(session == null ? "" : session.ProviderDescription);
 
 				jsonWriter.WritePropertyName("edition");
 				jsonWriter.WriteValue(LoginManager.LoginManagerInstance.GetEditionType());
+
+				jsonWriter.WritePropertyName("userLogged");
+				jsonWriter.WriteValue(session != null);
 
 				jsonWriter.WritePropertyName("installationName");
 				jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.Installation); ////jsonWriter.WriteString(_T("installationName"), AfxGetPathFinder()->GetInstallationName());
@@ -722,8 +725,6 @@ namespace Microarea.Common.MenuLoader
 #endif
 				jsonWriter.WritePropertyName("debugState");
 				jsonWriter.WriteValue(debugState);
-
-				
 				
 				jsonWriter.WritePropertyName("Applications");
 				jsonWriter.WriteStartArray();
@@ -746,7 +747,9 @@ namespace Microarea.Common.MenuLoader
 					IBaseModuleInfo firstModule = enumerator.Current as IBaseModuleInfo;
 					if (firstModule == null)
 						continue;
-					string sActive = session.IsActivated(appInfo.Name, firstModule.Name) ? EnumsStateStrings.Licensed : EnumsStateStrings.NotLicensed;
+					string sActive = session != null && session.IsActivated(appInfo.Name, firstModule.Name)
+						? EnumsStateStrings.Licensed 
+						: EnumsStateStrings.NotLicensed;
 					jsonWriter.WriteStartObject();
 					jsonWriter.WritePropertyName("application");
 					jsonWriter.WriteValue(appInfo.Name);  // TODOLUCA manca la versione accanto al name

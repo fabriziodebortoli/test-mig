@@ -39,6 +39,8 @@ export class MenuService {
     runFunctionStarted = new EventEmitter<any>();
     runFunctionCompleted = new EventEmitter<any>();
 
+    public isLoading = false;   //concetto generico di isLoading, per evitare loading multiple
+
     get selectedMenu(): any {
         return this._selectedMenu;
     }
@@ -216,6 +218,9 @@ export class MenuService {
         if (object === undefined)
             return;
 
+        if (this.isLoading)
+            return;
+
         this.runFunctionStarted.emit();
 
         if (this.infoService.isDesktop) {
@@ -227,17 +232,19 @@ export class MenuService {
             }
             else {
                 this.webSocketService.runDocument(object.target, object.args)
-                    .catch(() => { object.isLoading = false; });
+                    .catch(() => { object.isLoading = this.isLoading = false; });
             }
         }
         this.addToMostUsed(object);
-        object.isLoading = true;
+        object.isLoading = this.isLoading = true;
         let subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
-            object.isLoading = false;
+            object.isLoading = this.isLoading = false;
             subs1.unsubscribe();
         });
+
+        //TODOLUCA, leak, se lancio mille documenti con successo, mi rimangono mille componentCreationError senza unsubscribe
         let subs2 = this.componentService.componentCreationError.subscribe(reason => {
-            object.isLoading = false;
+            object.isLoading = this.isLoading = false;
             subs2.unsubscribe();
         });
     }
@@ -247,9 +254,9 @@ export class MenuService {
         let objType = object.objectType.toLowerCase();
         let ns = encodeURIComponent(object.target.toLowerCase());
         let type = object.sub_type ? object.sub_type : '';
-        let app = object.application  ? object.application : '';
+        let app = object.application ? object.application : '';
         let args = object.arguments ? encodeURIComponent(object.arguments) : '';
-        
+
         if (objType == 'document')
             urlToRun = 'runDocument/';
         else if (objType == 'batch')
@@ -264,7 +271,7 @@ export class MenuService {
                 urlToRun = 'runFunction/';
         }
         else if (objType == 'officeitem') {
-            urlToRun = 'runOfficeItem/' ;
+            urlToRun = 'runOfficeItem/';
         }
         let obj = {
             authtoken: sessionStorage.getItem('authtoken'),
@@ -275,7 +282,7 @@ export class MenuService {
             application: app
         }
         let sub = this.httpService.postData(this.infoService.getMenuBaseUrl() + urlToRun, obj).subscribe((res) => {
-            object.isLoading = false;
+            object.isLoading = this.isLoading = false;
             sub.unsubscribe();
         })
         // return typeof (window.event) !== 'undefined' && window.event.ctrlKey ? urlToRun + "&notHooked=true" : urlToRun;

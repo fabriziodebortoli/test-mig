@@ -12,3 +12,5 @@ client/web-form/src/app/applications/*
 !client/web-form/src/app/applications/test/ 
 *.VC.db
 *.bak
+dictionary/
+

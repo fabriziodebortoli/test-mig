@@ -1,10 +1,13 @@
-$bkg-light:rgb(71, 171, 103);
-$bkg-medium:#007b3b;
-$bkg-dark:#004e12;
-$bkg-light-opacity50: rgba(71, 171, 103, 0.322);
-$bkg: rgba(92, 105, 95, 0.2);
-$bkg-card: rgba(142, 193, 149, 0.123);
-$bkg-app: rgba(27, 78, 31, 0.3);
+$bkg-light:rgba(94, 193, 136, 1);
+$bkg-light-opacity50: rgba(94, 193, 136, 0.3);
+$bkg-medium:rgba(40, 144, 91, 1);
+$bkg-dark: rgba(0, 97, 49, 1);
+$bkg-neutral:#BDBDBD;
+$bkg: #FAFAFAFA;
+$bkg-app: rgba(0, 97, 49, 0.2);
+$text-light: rgb(238, 238, 238);
+$text-medium: #9E9E9E;
+$text-dark: #212121;
 $text-black: #000000;
 $text-light: #fff;
 $text-medium:#fff;
@@ -32,11 +35,7 @@ $font-size-tooltip: 12px;
         color: $text-dark;
         border-bottom-color: $bkg-medium;
     }
-    // tb-combo-simple .k-textbox, tb-combo-simple .k-input.k-textbox, tb-combo-simple .k-dateinput-wrap .k-input, tb-combo-simple .k-dropdown-wrap .k-input, tb-combo-simple .k-picker-wrap .k-input, tb-combo-simple .k-numeric-wrap .k-input
-    // {
-    //     bac
-    // }
-    // //colore pulsanti finestre di messaggio modali
+    //colore pulsanti finestre di messaggio modali
     // .k-button.k-primary,
     //.k-button.k-primary,
     //.k-button.k-primary:visited,
@@ -91,15 +90,7 @@ $font-size-tooltip: 12px;
     //colore line in headerstrip
     .header-strip .line {
         display: block;
-        background: linear-gradient(to right, #5ca82f 0%, rgb(247, 208, 78), rgb(255, 152, 57), rgba(238, 238, 238, 0.2) 100%);
-    }
-    //menupage
-    .menu-page .k-content {
-        background-color: $bkg
-    }
-    //tbcard 
-    tb-card {
-        background-color: $bkg-card;
+        background: linear-gradient(to right, rgba(0, 97, 49, 1) 0%, rgba(94, 193, 136, 1), rgba(238, 238, 238, 0.2) 100%);
     }
     //titolo della tbcard
     .tb-card-title {
@@ -191,7 +182,7 @@ $font-size-tooltip: 12px;
             color: $text-light;
             background: $bkg-medium;
             &>span {
-                font-weight: 500;
+                font-weight: 600;
             }
             &:hover {
                 background: $bkg-dark;
