@@ -32,10 +32,12 @@ export class ItemEditComponent extends ControlComponent {
     }
 
     readParams() {
-        this.http.getItemsSearchList("producers").subscribe(result => {
-            let response = result;
-            console.log(response);
-        })
+
+        // this.http.getItemsSearchList("producersByCategory").subscribe(result => {
+        //     let response = result.json();
+        //     console.log(response);
+        // })
+
 
         this.http.checkItemsAutoNumbering().subscribe(result => {
             this.itemsAutoNumbering = result.json().itemsAutoNumbering;
