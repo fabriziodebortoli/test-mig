@@ -21,7 +21,7 @@ $font-size-tooltip: 12px;
     }
     //Selettore menu/dashboard/documenti/report, singola tab
     .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
-        background: $bkg-medium;
+        background: $bkg-dark;
         color: $text-light;
         border-bottom-color: $bkg-medium;
     }
@@ -60,11 +60,13 @@ $font-size-tooltip: 12px;
     }
     //colore del tabber del selettore menu, singola tab
     .menu-page .k-tabstrip>.k-tabstrip-items .k-item .k-link {
-        color: $text-light;
+        color: $text-black;
     }
     //colore del tabber del selettore menu, singola tab attiva
     .menu-page .k-tabstrip-top>.k-tabstrip-items .k-item.k-state-active .k-link {
-        color: $bkg-light;
+        color: $bkg-medium;
+        border-bottom: 1;
+        border-bottom-color: $bkg;
         background: $bkg-dark;
         color: $text-light;
     }
@@ -110,22 +112,20 @@ $font-size-tooltip: 12px;
         background: $bkg-medium;
     }
     //colore di fondo della lista applicazioni
-    ul.application-list {
-        background: $bkg-light;
-    }
-    //colore di fondo della singola voce della list applicazioni
-    ul.application-list>li {
-        color: $text-medium;
-        background: $bkg-light;
-    }
-    //colore di fondo della lista gruppi
+    ul.application-list,
     ul.groups-list {
-        background: $bkg-light;
-    }
-    //colore di fondo della singola voce della list gruppi
-    ul.groups-list>li {
-        background: $bkg-light;
-        color: $text-medium;
+        background: $bkg-medium;
+        &>li {
+            color: $text-light;
+            background: $bkg-app;
+        }
+        &>li:hover {
+            color: $text-light;
+            background: $bkg-dark;
+        }
+        .selected {
+            background: $bkg-dark;
+        }
     }
     //tidolo delle voci sidenav
     .sidenav-subtitle h4 {
@@ -141,10 +141,13 @@ $font-size-tooltip: 12px;
         .most-used-item,
         .favorite-item,
         .hiddenTiles-item {
-            color: $text-dark;
-            background: $bkg-light;
+            color: $text-light;
+            background: $bkg-medium;
+            &>span {
+                font-weight: 600;
+            }
             &:hover {
-                background: $bkg-light;
+                background: $bkg-dark;
             }
             &:hover span {
                 color: $text-light;
@@ -159,7 +162,8 @@ $font-size-tooltip: 12px;
         .most-used-empty,
         .favorites-empty,
         .hiddenTiles-empty {
-            color: $text-dark;
+            color: $text-light;
+            background: $bkg-medium;
         }
     }
     /// fine sidenav
@@ -213,6 +217,6 @@ $font-size-tooltip: 12px;
     font-size: $font-size-tooltip !important;
     background-color: $bkg-light !important;
     color: $text-light !important;
-    border-radius: 0px !important;
-    padding: 10px 0px 10px 15px;
+    border-radius: 4px !important;
+    text-align: center;
 }
