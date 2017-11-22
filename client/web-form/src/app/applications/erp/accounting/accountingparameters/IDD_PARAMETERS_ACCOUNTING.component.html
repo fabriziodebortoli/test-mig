@@ -1,0 +1,167 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-preferences" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Tax')" icon="erp-invoice" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+        </tb-tile>
+        <tb-tile [title]="_TB('Tax Additional Amounts')" tbTileAutoFill  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_PARAMETERS_ACCOUNTING_TAXAMOUNTS">
+         <tb-body-edit cmpId="IDC_TBA_CRDBTAX" width="325" [model]="eventData?.model?.TaxAmount">
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_TBA_LINE" columnName="Line" [title]="_TB('Row')" columnType="tb-numeric-text-box" columnName="IDC_TBA_LINE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TBA_DESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_TBA_DESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_TBA_AMOUNT" columnName="Amount" [title]="_TB('Amount')" columnType="tb-numeric-text-box" columnName="IDC_TBA_AMOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TBA_DEBIT" columnName="ToDebit" [title]="_TB('On Debit')" columnType="tb-checkbox" columnName="IDC_TBA_DEBIT">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Tax Journals References')" tbTileAutoFill >
+         <tb-body-edit cmpId="IDC_TAX_REF_BODYEDIT" width="374" [model]="eventData?.model?.TAXJournalsReferencesDetails">
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TYPE" columnName="SaleRetailType" [title]="_TB('Sales')" columnType="tb-checkbox" columnName="IDC_TAX_REF_TYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TYPE_PURCHASE" columnName="l_TEnhTAXJournalsRefDetail_P3" [title]="_TB('Purchases')" columnType="tb-checkbox" columnName="IDC_TAX_REF_TYPE_PURCHASE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TAXCODE_ALL" columnName="l_TEnhTAXJournalsRefDetail_P1" [title]="_TB('All Code')" columnType="tb-checkbox" columnName="IDC_TAX_REF_TAXCODE_ALL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TAXCODE" columnName="TaxCode" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_TAX_REF_TAXCODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TAXCODE_DESCRI" columnName="l_TEnhTAXJournalsRefDetail_P4" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_TAX_REF_TAXCODE_DESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TEMPLATE_ALL" columnName="l_TEnhTAXJournalsRefDetail_P2" [title]="_TB('All Template')" columnType="tb-checkbox" columnName="IDC_TAX_REF_TEMPLATE_ALL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TEMPLATE" columnName="AccountingTemplate" [title]="_TB('Acc. Template')" columnType="tb-combo" columnName="IDC_TAX_REF_TEMPLATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TEMPLATE_DESCRI" columnName="l_TEnhTAXJournalsRefDetail_P5" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_TAX_REF_TEMPLATE_DESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TAXABLE_COLUMN" columnName="TaxableAmountColumn" [title]="_TB('Taxable Amount Column')" columnType="tb-text" columnName="IDC_TAX_REF_TAXABLE_COLUMN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_TAX_COLUMN" columnName="TaxAmountColumn" [title]="_TB('Tax Amount Column')" columnType="tb-text" columnName="IDC_TAX_REF_TAX_COLUMN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_REF_DESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_TAX_REF_DESCRI">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Declarations')" icon="erp-declaration" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_PARAMETERS_ACCOUNTING_DECLARATIONS">
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False" *ngIf="eventData?.activation?.IDD_TD_PARAMETERS_ACCOUNTING_TAXCOMM">
+        </tb-tile>
+        <tb-tile [title]="_TB('Telematic Files')" tbTileAutoFill  *ngIf="eventData?.activation?.IDD_TD_PARAMETERS_ACCOUNTING_DECLARATIONS">
+         <tb-body-edit cmpId="IDC_ACCPARAMDECL_BODYEDIT" width="325" [model]="eventData?.model?.TelematicDeclarations">
+          <tb-body-edit-column cmpId="IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE" columnName="TelematicDeclarationType" [itemSource]="IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE_itemSource" [title]="_TB('Declaration Type')" columnType="tb-enum-combo" columnName="IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ACCPARAMDECL_DECLARATIONPATH" columnName="DeclarationPath" [title]="_TB('Path')" columnType="tb-text" columnName="IDC_ACCPARAMDECL_DECLARATIONPATH">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Printouts')" icon="tb-print" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+        </tb-tile>
+        <tb-tile [title]="_TB('Customized Reports')" tbTileAutoFill >
+         <tb-body-edit cmpId="IDC_TBA_PRINTS" width="325" [model]="eventData?.model?.CustomizedPrint">
+          <tb-body-edit-column cmpId="IDC_TBA_CODETYPE" columnName="CodeType" [itemSource]="IDC_TBA_CODETYPE_itemSource" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_TBA_CODETYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TBA_FILEPATH" columnName="DescriptiveText" [title]="_TB('Report')" columnType="tb-text" columnName="IDC_TBA_FILEPATH">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Balance Sheets')" icon="erp-accountingreclassification" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_PARAMETERS_ACCOUNTING_BALANCESHEETS">
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+        </tb-tile>
+        <tb-tile [title]="_TB('Accounting Book Customized Reports')" tbTileAutoFill  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT">
+         <tb-body-edit cmpId="IDC_ACCBOOK_BODYEDIT" width="325" [model]="eventData?.model?.AccBookParametersPrint">
+          <tb-body-edit-column cmpId="IDC_ACCBOOKPRINTOUT_REPORTTYPE" columnName="ReportType" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_ACCBOOKPRINTOUT_REPORTTYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ACCBOOKPRINTOUT_REPORTNS" columnName="ReportNamespace" [title]="_TB('Report')" columnType="tb-text" columnName="IDC_ACCBOOKPRINTOUT_REPORTNS">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Export Files')" tbTileAutoFill  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_EXPORTFILES">
+         <tb-body-edit cmpId="IDC_ACCPARAMBALANCES_EXPORTFILES_BODYEDIT" width="325" [model]="eventData?.model?.BalancesExportFiles">
+          <tb-body-edit-column cmpId="IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE" columnName="TelematicDeclarationType" [itemSource]="IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE_itemSource" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ACCPARAMDECL_DECLARATIONPATH" columnName="DeclarationPath" [title]="_TB('Path')" columnType="tb-text" columnName="IDC_ACCPARAMDECL_DECLARATIONPATH">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Publishing')" icon="erp-transportationform" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_PUBLISHINGTAX">
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

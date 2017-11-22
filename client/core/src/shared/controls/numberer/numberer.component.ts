@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
 import { isNumeric } from '../../../rxjs.imports';
 import { ContextMenuItem } from './../../models/context-menu-item.model';
@@ -110,9 +110,10 @@ export class NumbererComponent extends ControlComponent {
         public eventData: EventDataService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef,
         private store: Store
     ) {
-        super(layoutService, tbComponentService);
+        super(layoutService, tbComponentService, changeDetectorRef);
     }
 
     onFormModeChanged(formMode: FormMode) {
@@ -267,9 +268,7 @@ export class NumbererComponent extends ControlComponent {
     onKeyDown($event) {
         // VERIFICARE SE SI PUO' FARE CON LA MASCHERA
 
-        // if (this.maxLength > -1  && this.value.length >= this.maxLength) {
-        //     $event.preventDefault();
-        // }
+        //console.log("KeyDown - " + String.fromCharCode($event.keyCode) + ' - code:' + $event.keyCode.toString());
 
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
             $event.preventDefault();

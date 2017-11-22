@@ -20,11 +20,11 @@ export class ItemEditComponent extends ControlComponent {
         public vcr: ViewContainerRef,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef,
         private store: Store,
-        private http: ErpHttpService,
-        private changeDetectorRef: ChangeDetectorRef
+        private http: ErpHttpService
     ) {
-        super(layoutService, tbComponentService);
+        super(layoutService, tbComponentService, changeDetectorRef);
     }
 
     ngOnInit() {
@@ -32,10 +32,12 @@ export class ItemEditComponent extends ControlComponent {
     }
 
     readParams() {
-        this.http.getItemsSearchList("producers").subscribe(result => {
-            let response = result;
-            console.log(response);
-        })
+
+        // this.http.getItemsSearchList("producersByCategory").subscribe(result => {
+        //     let response = result.json();
+        //     console.log(response);
+        // })
+
 
         this.http.checkItemsAutoNumbering().subscribe(result => {
             this.itemsAutoNumbering = result.json().itemsAutoNumbering;

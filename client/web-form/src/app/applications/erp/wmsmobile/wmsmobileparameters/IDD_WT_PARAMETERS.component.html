@@ -1,0 +1,169 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-preferences" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard >
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Worker\'s Settings')" icon="tb-worker" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard >
+        </tb-tile>
+        <tb-tile tbTileStandard  isCollapsible="False" hasTitle="False">
+         <tb-body-edit cmpId="IDD_WT_PARAMETERS_WORKERS_BE" width="323" [model]="eventData?.model?.WTParameterWorkers">
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_WORKER" [title]="_TB('Worker')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_WORKER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_WORKER_DESCRIPTION" [title]="_TB('Worker')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_WORKER_DESCRIPTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETERBE_WORKER_BE_EDITITEM" [title]="_TB('Edit Item
+in Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETERBE_WORKER_BE_EDITITEM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETERBE_WORKER_BE_EDITUOM" [title]="_TB('Edit UoM
+in Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETERBE_WORKER_BE_EDITUOM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_EDITLOT" [title]="_TB('Edit Lot
+in Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_EDITLOT" *ngIf="eventData?.activation?.IDC_WT_PARAMETER_WORKER_BE_EDITLOT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETERBE_WORKER_BE_EDITPACK" [title]="_TB('Edit Pack
+in Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETERBE_WORKER_BE_EDITPACK" *ngIf="eventData?.activation?.IDC_WT_PARAMETERBE_WORKER_BE_EDITPACK">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_EDITBINPICKING" [title]="_TB('Edit Bin
+in Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_EDITBINPICKING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWMANPUTAWAY" [title]="_TB('Manufacturing
+Putaway')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWMANPUTAWAY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWMANPICKING" [title]="_TB('Manufacturing
+Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWMANPICKING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_INSERTFORDIFFERENCE" [title]="_TB('Automatic
+Creation of TOs')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_INSERTFORDIFFERENCE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_EDITBIN" [title]="_TB('Edit Bin
+in Putaway')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_EDITBIN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETERBE_WORKER_BE_EDITHIGHER" [title]="_TB('Higher
+Qty')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETERBE_WORKER_BE_EDITHIGHER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_SORTBYTONO" [title]="_TB('Sort By
+ TO No')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_SORTBYTONO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_SORTBYTOTYPE" [title]="_TB('Sort By
+ TO Type')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_SORTBYTOTYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWALL" [title]="_TB('Allow All
+Operations')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWALL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWTOAUTOASS" [title]="_TB('TOs
+Autoassignment')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWTOAUTOASS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWSYSANDPARAMSET" [title]="_TB('System And
+Parameter settings')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWSYSANDPARAMSET">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWPRINT" [title]="_TB('Print
+Labels')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWPRINT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWINVENTORY" [title]="_TB('Inventory')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWINVENTORY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWDIFFINVENTORY" [title]="_TB('Stock
+Differences')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWDIFFINVENTORY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWSTOCKLIST" [title]="_TB('Stock
+List')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWSTOCKLIST">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWPICKING" [title]="_TB('Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWPICKING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWQTYMISSINPICK" [title]="_TB('Allow Qty Missing
+in Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWQTYMISSINPICK">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWQTYBROKENINPICK" [title]="_TB('Allow Qty Broken
+in Picking')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWQTYBROKENINPICK">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWINTERNAL" [title]="_TB('Internal Movements
+Confirmation')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWINTERNAL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWSTOCK" [title]="_TB('Stock
+Transfer')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWSTOCK">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWGOODSRECEIPT" [title]="_TB('Goods
+Receipt')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWGOODSRECEIPT" *ngIf="eventData?.activation?.IDC_WT_PARAMETER_WORKER_BE_ALLOWGOODSRECEIPT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_CHECKITEMQTYFORINVENTORY" [title]="_TB('Check Item Qty
+for Inventory')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_CHECKITEMQTYFORINVENTORY" *ngIf="eventData?.activation?.IDC_WT_PARAMETER_WORKER_BE_CHECKITEMQTYFORINVENTORY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWPUTAWAY" [title]="_TB('Putaway')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWPUTAWAY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWPACKING" [title]="_TB('Packing')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWPACKING" *ngIf="eventData?.activation?.IDC_WT_PARAMETER_WORKER_BE_ALLOWPACKING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ALLOWSTOCKCHANGE" [title]="_TB('Special
+Stock Change')" columnType="tb-body-edit-column" columnName="IDC_WT_PARAMETER_WORKER_BE_ALLOWSTOCKCHANGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ITEMSCOUNTER" columnName="ItemsCounter" [title]="_TB('Items Counters')" columnType="tb-checkbox" columnName="IDC_WT_PARAMETER_WORKER_BE_ITEMSCOUNTER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_WT_PARAMETER_WORKER_BE_ITEMSCOUNTERPUTAWAY" columnName="ItemsCounterPutaway" [title]="_TB('Items Counter
+Putaway')" columnType="tb-checkbox" columnName="IDC_WT_PARAMETER_WORKER_BE_ITEMSCOUNTERPUTAWAY">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

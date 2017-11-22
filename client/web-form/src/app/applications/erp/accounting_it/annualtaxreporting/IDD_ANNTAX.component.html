@@ -1,0 +1,85 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="False" showAsTile="True">
+        <tb-tile [title]="_TB('Period')" tbTileMini >
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Tax Year')" cmpId="IDC_TAXCOMMUNICATION_YEAR" width="40" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" isCollapsible="False" showAsTile="True">
+        <tb-tile [title]="_TB('Operations Done')" tbTileStandard >
+<div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Total Credit Operations')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_ACTIVE" width="65" [model]="eventData?.model?.SaleOp"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Total Debit Operations')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_PASSIVE" width="65" [model]="eventData?.model?.PurchOp"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Non Taxable Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_ACTIVE_NI" width="65" [model]="eventData?.model?.NotTaxSaleOp"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Non Taxable Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_PASSIVE_NI" width="65" [model]="eventData?.model?.NotTaxPurchOp"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Exempt Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_ACTIVE_ES" width="65" [model]="eventData?.model?.ExempSaleOp"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Exempt Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_PASSIVE_ES" width="65" [model]="eventData?.model?.ExempPurchOp"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Intra-EU Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_ACTIVE_INTRA" width="65" [model]="eventData?.model?.IntraSaleOp"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Intra-EU Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_PASSIVE_INTRA" width="65" [model]="eventData?.model?.IntraPurchOp"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Fixed Assets Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_ACTIVE_FA" width="65" [model]="eventData?.model?.FixedAssetsSaleOp"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Fixed Assets Prop.')" cmpId="IDC_TAXCOMMUNICATION_OPERATION_PASSIVE_FA" width="65" [model]="eventData?.model?.FixedAssetsPurchOp"></tb-numeric-text-box>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Import')" tbTileMini >
+         <tb-caption cmpId="IDC_STATIC_4" width="80" [caption]="_TB('Gold and Silver Import')"></tb-caption>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Taxable Amount')" cmpId="IDC_TAXCOMMUNICATION_GOLD_AMT" width="63" [model]="eventData?.model?.GoldTaxableAmount"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Tax')" cmpId="IDC_TAXCOMMUNICATION_GOLD_TAX" width="63" [model]="eventData?.model?.GoldTax"></tb-numeric-text-box>
+         <tb-caption cmpId="IDC_STATIC_1" width="80" [caption]="_TB('Scrap Import')"></tb-caption>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Taxable Amount')" cmpId="IDC_TAXCOMMUNICATION_ROTT_AMT" width="63" [model]="eventData?.model?.ScrapTaxableAmount"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Tax')" cmpId="IDC_TAXCOMMUNICATION_ROTT_TAX" width="63" [model]="eventData?.model?.ScrapTaxAmount"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Tax (in EUR Units)')" tbTileMini >
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Tax Payable')" cmpId="IDC_TAXCOMMUNICATION_TAX_EXIGIBLE" width="63" [model]="eventData?.model?.TaxExigibility"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Tax Deducted')" cmpId="IDC_TAXCOMMUNICATION_TAX_DEHANDLE" width="63" [model]="eventData?.model?.DeductableTax"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Tax Due')" cmpId="IDC_TAXCOMMUNICATION_TAX_DOVUTA" width="63" [model]="eventData?.model?.DueTax"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Tax Receivable')" cmpId="IDC_TAXCOMMUNICATION_TAX_CREDIT" width="63" [model]="eventData?.model?.CreditTax"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Company Data')" tbTileStandard >
+         <tb-checkbox cmpId="IDC_TAXCOMMUNICATION_DECL_DIFFERENT" width="159" [model]="eventData?.model?.DifferentDecl" [caption]="_TB('Declarer Different from Taxpayer  ')"></tb-checkbox>
+         <tb-combo [caption]="_TB('Position Code')" cmpId="IDC_TAXCOMMUNICATION_POSITIONCODE" width="30" [model]="eventData?.model?.PositionCode_XML" [itemSource]="IDC_TAXCOMMUNICATION_POSITIONCODE_itemSource"></tb-combo>
+         <tb-text [caption]="_TB('Fiscal Code')" cmpId="IDC_TAXCOMMUNICATION_FISCALCODESOTT" width="80" [model]="eventData?.model?.SubscriberFiscalCode"></tb-text>
+         <tb-text [caption]="_TB('Declaring Company
+Fiscal Code')" cmpId="IDC_TAXCOMMUNICATION_FISCALCODESOTT2" width="80" [model]="eventData?.model?.SubscriberFiscalCode2"></tb-text>
+         <tb-checkbox cmpId="IDC_TAXCOMMUNICATION_SEPARATORCODEAINSTALMENT" width="146" [model]="eventData?.model?.SeparateAccounting" [caption]="_TB('Separate Account')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAXCOMMUNICATION_DECLSOCGRP" width="146" [model]="eventData?.model?.CompanyGroupDecl" [caption]="_TB('Commun. to Group Company')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAXCOMMUNICATION_EXCEPTIONALEVENT" width="146" [model]="eventData?.model?.bExceptionalEvent" [caption]="_TB('Extraordinary Events')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAXCOMMUNICATION_CONFIRM_FC" width="146" [model]="eventData?.model?.ConfirmFC" [caption]="_TB('Confirmation Fiscal Code')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data for Telematic Sending')" tbTileStandard >
+<div class="anchored">         <tb-radio cmpId="IDC_TAXCOMMUNICATION_AMT_CONTR" width="150" [model]="eventData?.model?.TaxPayerReserve" [caption]="_TB('Taxpayer Commitment')"></tb-radio>
+         <tb-checkbox cmpId="IDC_TAXCOMMUNICATION_FLAG_CONFIRM" width="133" [model]="eventData?.model?.ConfirmingFlag" [caption]="_TB('Confirmation Flag (if non conforming)  ')"></tb-checkbox>
+</div><div class="anchored">         <tb-radio cmpId="IDC_TAXCOMMUNICATION_AMT_INTER" width="150" [model]="eventData?.model?.IntermediaryReserve" [caption]="_TB('Sender Commitment')"></tb-radio>
+         <tb-checkbox cmpId="IDC_TAXCOMMUNICATION_SIGNATURE" width="128" [model]="eventData?.model?.Signature" [caption]="_TB('Signed (Intermediary)  ')"></tb-checkbox>
+</div>         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Commitment Date')" cmpId="IDC_TAXCOMMUNICATION_DATE_RESERVE" width="62" [model]="eventData?.model?.ReserveDate"></tb-date-input>
+         <tb-text [caption]="_TB('User Field')" cmpId="IDC_TAXCOMMUNICATION_FIELD_USER" width="201" [model]="eventData?.model?.UserField"></tb-text>
+         <tb-text [caption]="_TB('Space for Commun. Identification')" cmpId="IDC_TAXCOMMUNICATION_ALFREE" width="119" [model]="eventData?.model?.FreeSpace"></tb-text>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('Result')" isCollapsible="False" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Result')" tbTileWide >
+<div class="col col1">         <tb-label-static cmpId="IDC_TAXCOMMUNICATION_TRANSMIT" width="443" [model]="eventData?.model?.Transmit"></tb-label-static>
+</div><div class="col col2"></div>        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

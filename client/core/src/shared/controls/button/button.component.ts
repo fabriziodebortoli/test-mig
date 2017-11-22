@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { ComponentInfoService } from './../../../core/services/component-info.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
@@ -20,9 +20,10 @@ export class ButtonComponent extends ControlComponent {
         public eventData: EventDataService,
         public ciService: ComponentInfoService,
         public layoutService: LayoutService,
-        public tbComponentService: TbComponentService
+        public tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef
     ) {
-        super(layoutService, tbComponentService)
+        super(layoutService, tbComponentService, changeDetectorRef)
     }
 
     onCommand() {

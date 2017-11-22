@@ -7,6 +7,7 @@ import { Instance } from '../../model/instance';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Credentials } from 'app/authentication/credentials';
+import { retry } from 'rxjs/operator/retry';
 
 @Component({
   selector: 'app-instance',
@@ -33,6 +34,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
+    this.activationCode = '';
     this.subscriptions = new Array<SubscriptionAccount>();
     this.currentStep = 1;
     this.securityValue = '';
@@ -113,13 +115,18 @@ export class InstanceRegistrationComponent implements OnDestroy {
     let instanceKey: string = this.model.InstanceKey;
     this.subscriptionKey = subAcc.SubscriptionKey;
 
+    if (this.activationCode === '') {
+      alert('Permission token is missing, please ask one.');
+      return;
+    }
+
     if (!confirm('This command will associate the instance ' + instanceKey + ' to this subscription: ' + subAcc.SubscriptionKey + '). Confirm?')) {
       return;
     }
 
     this.readingData = true;
 
-    this.modelService.addInstanceSubscriptionAssociation(instanceKey, subAcc.SubscriptionKey).subscribe(
+    this.modelService.addInstanceSubscriptionAssociation(instanceKey, subAcc.SubscriptionKey, this.activationCode).subscribe(
       res => {
         alert('Association regularly saved.');
         this.currentStep++;

@@ -1,0 +1,71 @@
+﻿ <tb-frame tbFinder >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide >
+<div class="col col1"><div class="anchored">        <tb-enum-combo [caption]="_TB('Importer')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_IMPORTER" width="80" [model]="eventData?.model?.ImportDeclLoading?.Importer"></tb-enum-combo>
+        <tb-text [caption]="_TB('Code')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_IMPORTER_CODE" width="80" [model]="eventData?.model?.ImportDeclLoading?.ImporterCode"></tb-text>
+</div>        <tb-label-static cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_IMPORTER_CODE_DESCRI" width="154" [model]="eventData?.model?.HKLImporter?.CompNameCompleteWithTaxNumber"></tb-label-static>
+        <tb-text [caption]="_TB('Exporter Code')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_EXPORTER_CODE" width="80" [model]="eventData?.model?.ImportDeclLoading?.ExporterCode"></tb-text>
+        <tb-label-static cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_EXPORTER_CODE_DESCRI" width="154" [model]="eventData?.model?.HKLExporter?.CompNameCompleteWithTaxNumber"></tb-label-static>
+</div><div class="col col2">        <tb-text [caption]="_TB('Number')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_IMPORT_DECL_NO" width="57" [model]="eventData?.model?.ImportDeclLoading?.ImportDeclarationNo"></tb-text>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Date')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_IMPORT_DECL_DATE" width="57" [model]="eventData?.model?.ImportDeclLoading?.RegistrationDate"></tb-date-input>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Customs Clearing Date')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_CUSTOMS_CL_DATE" width="57" [model]="eventData?.model?.ImportDeclLoading?.CustomsDate"></tb-date-input>
+        <tb-enum-combo [caption]="_TB('Intermediation Type')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_INTERM_TYPE" width="80" [model]="eventData?.model?.ImportDeclLoading?.IntermediationType"></tb-enum-combo>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Main Data')" tbTileWide  isCollapsible="True" isCollapsed="True" hasTitle="True">
+<div class="col col1">        <tb-combo [caption]="_TB('Customs State')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_CUSTOMS_STATE" width="57" [model]="eventData?.model?.ImportDeclLoading?.CustomsState"></tb-combo>
+        <tb-text [caption]="_TB('Discharge Place')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DISCHARGE_PLACE" width="154" [model]="eventData?.model?.ImportDeclLoading?.DischargePlace"></tb-text>
+</div><div class="col col2">        <tb-numeric-text-box formatter="Double" [caption]="_TB('Gross Weight')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_WEIGHT_GROSS" width="62" [model]="eventData?.model?.ImportDeclLoading?.GrossWeight"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Double" [caption]="_TB('Net Weight')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_WEIGHT_NET" width="62" [model]="eventData?.model?.ImportDeclLoading?.NetWeight"></tb-numeric-text-box>
+<div class="anchored">        <tb-combo [caption]="_TB('Appearance')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_APPEARANCE" width="80" [model]="eventData?.model?.ImportDeclLoading?.Appearance"></tb-combo>
+        <tb-label-static cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_APPEARANCE_DESCR" width="144" [model]="eventData?.model?.HKLGoodsAppearance?.Description"></tb-label-static>
+</div><div class="anchored">        <tb-combo [caption]="_TB('Transport')" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_TRANSPORT" width="80" [model]="eventData?.model?.ImportDeclLoading?.ModeOfTransport"></tb-combo>
+        <tb-label-static cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_TRANSPORT_DESCRI" width="144" [model]="eventData?.model?.HKLTransport?.Description"></tb-label-static>
+</div></div>       </tb-tile>
+       <tb-tile [title]="_TB('Detail')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BODY" width="325" [model]="eventData?.model?.TBRNFeImportDeclarationDetail">
+         <tb-body-edit-column cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_SELECTED" columnName="TBREnhImportDeclDet_Selected" [title]="_TB('Selected')" columnType="tb-checkbox" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_ADDITION_NO" columnName="AdditionNumber" [title]="_TB('Addition')" columnType="tb-numeric-text-box" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_ADDITION_NO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_SEQ_ADDITION_NO" columnName="SeqAdditionNumber" [title]="_TB('Seq')" columnType="tb-numeric-text-box" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_SEQ_ADDITION_NO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_ITEM" columnName="Item" [title]="_TB('Item')" columnType="tb-text" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_ITEM_DESCRI" [model]="eventData?.model?.HKLItemsBody?.Description" [title]="_TB('Item Description')" columnType="tb-label-static" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_ITEM_DESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_NCM" columnName="NCM" [title]="_TB('NCM')" columnType="tb-text" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_NCM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-combo" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_QTY" columnName="Qty" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_NF_SUPP_LOAD_IMPORTDECL_DETAIL_BE_QTY">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FINDER_STAYALIVE?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Fix')" cmpId="ID_FINDER_STAYALIVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SWITCHTO?.enabled" icon="tb-switchto" [caption]="_TB('Switch to...')" cmpId="ID_EXTDOC_SWITCHTO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Finish')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_LOAD_IMPORTDECL_OPEN_DOC?.enabled" icon="tb-open" [caption]="_TB('Open Document')" cmpId="ID_LOAD_IMPORTDECL_OPEN_DOC"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

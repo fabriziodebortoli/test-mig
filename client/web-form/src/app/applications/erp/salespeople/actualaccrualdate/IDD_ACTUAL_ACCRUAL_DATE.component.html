@@ -1,0 +1,104 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  hasTitle="False">
+        <tb-label-static cmpId="IDC_HEADER_TITLE" width="651" [caption]="_TB('eventData?.model?.HeadTitle')"></tb-label-static>
+       </tb-tile>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Period')" tbTileMini  hasTitle="True">
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_BATEFFDATE_DATE_START" width="57" [model]="eventData?.model?.StartingDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_BATEFFDATE_DATE_END" width="57" [model]="eventData?.model?.EndingDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Salesperson')" tbTileMini  hasTitle="True">
+         <tb-radio cmpId="IDC_BATEFFDATE_ALL" width="58" [model]="eventData?.model?.bAllSalesPeople" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_BATEFFDATE_SELECTION" width="53" [model]="eventData?.model?.bSalesPeopleSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_BATEFFDATE_SALESPERSON_START" width="91" [model]="eventData?.model?.FromSalesperson"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_BATEFFDATE_SALESPERSON_END" width="91" [model]="eventData?.model?.ToSalesperson"></tb-text>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Results')" tbTileAutoFill >
+        <tb-body-edit-column cmpId="IDC_EFFDATE_REFNO" width="450" [model]="eventData?.model?.ActualAccr_DocNo" [title]="_TB('Ref. No.')" columnType="tb-label-static" columnName="IDC_EFFDATE_REFNO">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_SELECTED" [model]="eventData?.model?.ActualAccr_Selected" [title]="_TB('Selected')" columnType="tb-checkbox" columnName="IDC_EFFDATE_SELECTED">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_ADVANCEBALANCE" [model]="eventData?.model?.AdvanceBalance" [title]="_TB('Closed')" columnType="tb-checkbox" columnName="IDC_EFFDATE_ADVANCEBALANCE">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_AREAMANAGER" [model]="eventData?.model?.ActualAccr_AreaManager" [title]="_TB('Area Manager')" columnType="tb-bool-edit" columnName="IDC_EFFDATE_AREAMANAGER">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_CODESALESPERSON" [model]="eventData?.model?.Salesperson" [title]="_TB('Salesperson Code')" columnType="tb-label-static" columnName="IDC_EFFDATE_CODESALESPERSON">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_SALESPERSONDESCRIPTION" [model]="eventData?.model?.ActualAccr_SalespersonDesc" [title]="_TB('Salesperson Description')" columnType="tb-label-static" columnName="IDC_EFFDATE_SALESPERSONDESCRIPTION">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_CUSTCODE" [model]="eventData?.model?.ActualAccr_CustCode" [title]="_TB('Customer Code')" columnType="tb-label-static" columnName="IDC_EFFDATE_CUSTCODE">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_CUSTOMERDESCRIPTION" [model]="eventData?.model?.ActualAccr_CustomerDesc" [title]="_TB('Cust. Comp. Name')" columnType="tb-label-static" columnName="IDC_EFFDATE_CUSTOMERDESCRIPTION">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_INSTALLMENTAMOUNT" [model]="eventData?.model?.InstallmentAmount" [title]="_TB('Installment Amount')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_INSTALLMENTAMOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_COLLAMOUNT" [model]="eventData?.model?.CollAmount" [title]="_TB('Closed Amount')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_COLLAMOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_REMAININGAMOUNT" [model]="eventData?.model?.RemainingAmount" [title]="_TB('Remaining Amount')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_REMAININGAMOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_COMMISSIONTOT" [model]="eventData?.model?.CommissionTot" [title]="_TB('Commission Total')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_COMMISSIONTOT">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" cmpId="IDC_EFFDATE_COMMAMOUNT" [model]="eventData?.model?.Comm" [title]="_TB('Commission Amount')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_COMMAMOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_REMAININGCOMMISSION" [model]="eventData?.model?.RemainingComm" [title]="_TB('Remaining Commission')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_REMAININGCOMMISSION">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_COMMALLOWANCE" [model]="eventData?.model?.CommissionAllowance" [title]="_TB('Commission Allowance')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_COMMALLOWANCE">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_ALLOWANCE" [model]="eventData?.model?.Allowance" [title]="_TB('Allowance')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_ALLOWANCE">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_EFFDATE_EXPECTEDACCRUALDATE" [model]="eventData?.model?.ExpectedAccrualDate" [title]="_TB('Exp. Mat. Date')" columnType="tb-date-input" columnName="IDC_EFFDATE_EXPECTEDACCRUALDATE">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_EFFDATE_ACTUALACCRUALDATE" [model]="eventData?.model?.AccrEffDate" [title]="_TB('Act. Mat. Date')" columnType="tb-date-input" columnName="IDC_EFFDATE_ACTUALACCRUALDATE">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_EFFDATE_BASEAMOUNT" [model]="eventData?.model?.Base" [title]="_TB('Basic Amount')" columnType="tb-numeric-text-box" columnName="IDC_EFFDATE_BASEAMOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_EFFDATE_SUSPENDEDCOMMISSION" [model]="eventData?.model?.Suspended" [title]="_TB('Susp.')" columnType="tb-checkbox" columnName="IDC_EFFDATE_SUSPENDEDCOMMISSION">
+        </tb-body-edit-column>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane [title]="_TB('LegendDockPane')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileMini  hasTitle="False">
+<div class="anchored">         <tb-image [height]="13" [width]="15" cmpId="IDC_ACTACCRDATE_BMP_LEGEND_PYMTSCHED" width="15" [model]="eventData?.model?.LegendPymtSched"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="294" [caption]="_TB('Payment Schedule')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="13" [width]="15" cmpId="IDC_ACTACCRDATE_BMP_LEGEND_PYMTSCHED_NOT_REC" width="15" [model]="eventData?.model?.LegendPymtSchedInstNotRec"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_2" width="294" [caption]="_TB('Payment Schedule Installment not reconcilable with Salesperson Entry')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="13" [width]="15" cmpId="IDC_ACTACCRDATE_BMP_LEGEND_PYMTSCHED_REC" width="15" [model]="eventData?.model?.LegendPymtSchedInstRec"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_3" width="294" [caption]="_TB('Payment Schedule Installment reconcilable with Salesperson Entry')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="13" [width]="15" cmpId="IDC_ACTACCRDATE_BMP_LEGEND_SALESPENTRY" width="15" [model]="eventData?.model?.LegendSalespEntryNotLinked"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_4" width="294" [caption]="_TB('Salesperson Entry not linked to Payment Schedule')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="13" [width]="15" cmpId="IDC_ACTACCRDATE_BMP_LEGEND_ALLOWANCE" width="15" [model]="eventData?.model?.LegendAllowance"></tb-image>
+         <tb-caption cmpId="IDC_STATIC" width="294" [caption]="_TB('Allowance')"></tb-caption>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

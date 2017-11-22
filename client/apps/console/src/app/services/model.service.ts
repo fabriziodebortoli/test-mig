@@ -334,12 +334,17 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string): Observable<OperationResult> {
+  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string, activationCode: string): Observable<OperationResult> {
 
-    let authorizationHeader = "code";
+    let authorizationHeader = activationCode;
 
+    if (authorizationHeader === '' || authorizationHeader === undefined) {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }    
+    
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
+    
     return this.http.post(environment.gwamAPIUrl + 'instanceSubscriptions/' + subscriptionKey + '/' + instanceKey, {}, options)
       .map((res: Response) => {
         return res.json();

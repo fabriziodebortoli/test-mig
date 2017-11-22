@@ -1,0 +1,12 @@
+﻿import { BOServiceParams, BOService, EventDataService  } from '@taskbuilder/core';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class IDD_ITEMS_WAP_TRANSACTIONSService extends BOService {
+	constructor(params: BOServiceParams, eventData: EventDataService) {
+		super(params, eventData);
+
+    }
+
+
+}

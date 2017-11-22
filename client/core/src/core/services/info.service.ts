@@ -70,9 +70,11 @@ export class InfoService {
         });
     }
 
-    public getProductInfo(): Observable<any> {
+    public getProductInfo(ensureIsLogged: boolean): Observable<any> {
+        //posso chiamarla prima della login, allora avrò meno informazioni
+        //se la richiamo a login effettuata mi popola le informazioni mancanti
         return Observable.create(observer => {
-            if (this.productInfo) {
+            if (this.productInfo && (!ensureIsLogged || this.productInfo.userLogged) ) {
                 observer.next(this.productInfo);
                 observer.complete();
             }

@@ -4,7 +4,7 @@ import { AskdialogService } from './../askdialog.service';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 
 import { LayoutService, TbComponentService, RadioComponent } from '@taskbuilder/core';
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation,ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -21,9 +21,10 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
     public rsService: ReportingStudioService,
     public adService: AskdialogService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef
   ) {
-    super(layoutService, tbComponentService)
+    super(layoutService, tbComponentService, changeDetectorRef)
   }
 
   ngOnInit() {

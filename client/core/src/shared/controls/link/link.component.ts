@@ -1,6 +1,6 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -22,9 +22,10 @@ export class LinkComponent extends ControlComponent implements OnInit, OnChanges
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
 
   }
 

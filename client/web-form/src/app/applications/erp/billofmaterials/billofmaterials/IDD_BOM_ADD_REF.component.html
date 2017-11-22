@@ -1,0 +1,23 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileMini  isCollapsible="False">
+        <tb-combo cmpId="IDC_BOM_REFERENCE_OPERATION" width="85" [model]="eventData?.model?.Operation" [itemSource]="IDC_BOM_REFERENCE_OPERATION_itemSource"></tb-combo>
+        <tb-radio cmpId="IDC_BOM_INSERT_BEFORE" width="118" [model]="eventData?.model?.bInsertBefore" [caption]="_TB('Before the current row')"></tb-radio>
+        <tb-radio cmpId="IDC_BOM_INSERT_AFTER" width="117" [model]="eventData?.model?.bInsertAfter" [caption]="_TB('After the current row')"></tb-radio>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_BOM_ADD_REFERENCE_UNDO?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="IDC_BOM_ADD_REFERENCE_UNDO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_BOM_ADD_REFERENCE_OK?.enabled" icon="tb-ok" [caption]="_TB('Ok')" cmpId="IDC_BOM_ADD_REFERENCE_OK"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

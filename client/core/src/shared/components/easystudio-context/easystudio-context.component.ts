@@ -38,7 +38,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     public moduleSelected: string;
     public newApplic: string;
     public newModule: string;
-    public isThisPairDefault = false;
+    public wantSetPairAsDefault = false;
     public type = "Customization";
 
     public newPairVisible = false;
@@ -64,7 +64,6 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             }
         });
         this.easystudioService.initEasyStudioContext();
-        this.easystudioService.getDefaultContext(false);
     }
 
     //--------------------------------------------------------------------------------
@@ -97,7 +96,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             this.easystudioService.closeCustomizationContext();
             this.applicSelected = undefined;
             this.moduleSelected = undefined;
-            this.isThisPairDefault = false;
+            this.wantSetPairAsDefault = false;
             this.isDefault = false;
         });
     }
@@ -110,6 +109,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     //--------------------------------------------------------------------------------
     public changeCustomizationContext() {
+        this.easystudioService.getDefaultContext(false);        
         this.easystudioService.canModifyContext().subscribe((result) => {
             if (!result){
                 this.snackBar.open(
@@ -118,7 +118,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
                 );
                 return;
             }
-            this.opened = !this.opened;
+            this.opened = !this.opened;           
             if (this.contextIsValid()) {
                 this.setApplic(this.easystudioService.currentApplication);
                 this.setModule(this.easystudioService.currentModule);
@@ -139,23 +139,23 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             c => c.application === this.applicSelected && c.module === this.moduleSelected);
         if(elemSearched === undefined) //ora per default, se hanno digitato una coppia che non esista, gliela creo
             this.addNewPair(this.applicSelected, this.moduleSelected);
-        this.easystudioService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault);
+        this.easystudioService.setAppAndModule(this.applicSelected, this.moduleSelected, this.wantSetPairAsDefault);
         this.opened = false;
-        this.isThisPairDefault = false;
+        this.wantSetPairAsDefault = false;
         this.isDefault = false;
     }
 
     //--------------------------------------------------------------------------------
     public setDefaultContext() {
-        this.isThisPairDefault = this.selectionIsValid();
+        this.wantSetPairAsDefault = this.selectionIsValid();
     }
 
     //--------------------------------------------------------------------------------
-    private setApplic(app: string) {
+    public setApplic(app: string) {
         if (this.easystudioService.getApplications().indexOf(app) === -1) return;
         this.applicSelected = app;
         this.moduleSelected = undefined;
-        this.isThisPairDefault = false;
+        this.wantSetPairAsDefault = false;
         this.isDefault = false;
         this.easystudioService.modules = this.easystudioService.getModulesBy(app);
         if (this.easystudioService.modules.length == 1) {
@@ -165,20 +165,20 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //--------------------------------------------------------------------------------
-    private setModule(mod: string) {
+    public setModule(mod: string) {
         if (this.easystudioService.getModules().indexOf(mod) === -1) return;
         this.moduleSelected = mod;
         this.checkIfIsDefault();
     }
 
-    //--------------------------------------------------------------------------------
-    private checkIfIsDefault() {
-        this.isDefault = this.easystudioService.defaultApplication === this.applicSelected
-            && this.easystudioService.defaultModule === this.moduleSelected;
-    }
+   //--------------------------------------------------------------------------------
+   private checkIfIsDefault() {
+    this.isDefault = this.easystudioService.defaultApplication == this.applicSelected
+        && this.easystudioService.defaultModule == this.moduleSelected;
+}
 
     //--------------------------------------------------------------------------------
-    showNewPair(show: boolean) {
+    public showNewPair(show: boolean) {
         this.newPairVisible = show;
         if (show) {
             this.newApplic = this.generateNewApplicationName();
@@ -189,7 +189,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //---------------------------------------------------------------------------------------------
-    addNewPair(newAppName, newModName) {
+    public addNewPair(newAppName, newModName) {
         if (newAppName === undefined || newModName === undefined)
             return;
         if (this.easystudioService.memoryESContext.allApplications.indexOf(newAppName, newModName) === -1) {
@@ -202,7 +202,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //--------------------------------------------------------------------------------
-    generateNewApplicationName(): any {
+    public generateNewApplicationName(): any {
         var i = 0;
         var newName = undefined;
         do {
@@ -215,7 +215,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //--------------------------------------------------------------------------------
-    generateNewModuleName(appName) {
+    public generateNewModuleName(appName) {
         var i = 0;
         var newName = undefined;
         do {
@@ -227,7 +227,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //--------------------------------------------------------------------------------
-    exists(newName: string, newModName: string) {
+    public exists(newName: string, newModName: string) {
         if (newName === undefined)
             return;
         var list = [];
@@ -241,7 +241,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //--------------------------------------------------------------------------------
-    openDefaultContextMethod(): void {
+    public openDefaultContextMethod(): void {
         this.easystudioService.canModifyContext().subscribe((result) => {
             if (!result){
                 this.snackBar.open(

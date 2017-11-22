@@ -48,11 +48,12 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     layoutService: LayoutService,
     public enumService: EnumsService,
     tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef,
     private eventDataService: EventDataService,
     private paginator: PaginatorService,
     private ngZone: NgZone
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
     this.paginator.configure(this.buttonCount, this.pageSize, (pageNumber, serverPageSize) => this.ngZone.runOutsideAngular(() => {
         let p: URLSearchParams = new URLSearchParams(this.args);
         // p.set('ContactCustomer', '0');

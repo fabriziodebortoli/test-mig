@@ -1,0 +1,182 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Type')" tbTileMini >
+         <tb-radio *ngIf="eventData?.activation?.IDC_BILLS_BOMDIV" cmpId="IDC_BILLS_BOMDIV" width="51" [model]="eventData?.model?.AllPymtTerms" [caption]="_TB('All')"></tb-radio>
+         <tb-radio *ngIf="eventData?.activation?.IDC_BILLS_TYPESEL" cmpId="IDC_BILLS_TYPESEL" width="75" [model]="eventData?.model?.TypeSel" [caption]="_TB('Selection')"></tb-radio>
+         <tb-enum-combo cmpId="IDC_BILLS_RIC_CODETYPE" width="113" [model]="eventData?.model?.BillsType"></tb-enum-combo>
+         <tb-checkbox cmpId="IDC_BILLS_FILTER_BILLS" width="148" [model]="eventData?.model?.FilterBills" [caption]="_TB('Exclude Bills')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Due Date')" tbTileMini >
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_BILLS_RIC_FROM_DATE" width="57" [model]="eventData?.model?.FromDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_BILLS_RIC_A_DATE" width="57" [model]="eventData?.model?.ToDate"></tb-date-input>
+         <tb-checkbox cmpId="IDC_BILLS_CREDITNOTE" width="148" [model]="eventData?.model?.CreditNote" [caption]="_TB('Consider Credit Notes')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Customers')" tbTileMini >
+         <tb-radio cmpId="IDC_BILLS_RIC_CUST_RADIO_ALL" width="35" [model]="eventData?.model?.AllCustSupp" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_BILLS_RIC_CUST_RADIO_SEL" width="36" [model]="eventData?.model?.CustSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_BILLS_RIC_FROM_CUST" width="82" [model]="eventData?.model?.FromCustomer"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_BILLS_RIC_A_CUST" width="82" [model]="eventData?.model?.ToCustomer"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Document Date')" tbTileMini >
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_BILLS_FROM_DOCDATE" width="57" [model]="eventData?.model?.FromDocDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_BILLS_A_DOCDATE" width="57" [model]="eventData?.model?.ToDocDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Document No.')" tbTileMini >
+         <tb-text [caption]="_TB('From')" cmpId="IDC_BILLS_FROM_DOCNO" width="55" [model]="eventData?.model?.FromDocNo"></tb-text>
+         <tb-text [caption]="_TB('To')" cmpId="IDC_BILLS_A_DOCNO" width="55" [model]="eventData?.model?.ToDocNo"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Amount installment')" tbTileMini >
+         <tb-checkbox cmpId="IDC_BILLS_FILTER_AMOUNT" width="151" [model]="eventData?.model?.FilterAmount" [caption]="_TB('Filter amount for extraction')"></tb-checkbox>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Max amount')" cmpId="IDC_BILLS_RIC_MINIMUM_AMOUNT" width="68" [model]="eventData?.model?.MinimumAmount"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Installments selection')" tbTileMini >
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Up to Limit Amount')" cmpId="IDC_BILLS_RIC_AMOUNT_LIMIT" width="68" [model]="eventData?.model?.LimitAmount"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Order by')" tbTileMini >
+         <tb-checkbox cmpId="IDC_BILLS_RIC_ORD_CUST" width="69" [model]="eventData?.model?.SaleOrdSel" [caption]="_TB('Customer')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_BILLS_RIC_ORD_DATE" width="69" [model]="eventData?.model?.OrdDateSel" [caption]="_TB('Due Date')"></tb-checkbox>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('Closing Type')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_BILLSPRESENTATION_CLOSINGTYPE">
+         <tb-checkbox cmpId="IDC_BILLS_NORMAL_CLOSING" width="56" [model]="eventData?.model?.NormalClosing" [caption]="_TB('Normal')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_BILLS_ALLOWANCE_CLOSING" width="60" [model]="eventData?.model?.AllowanceClosing" [caption]="_TB('Allowance')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Closing Payment Terms')" tbTileMini >
+         <tb-radio cmpId="IDC_BILLS_PYMTTERM_OPENING" width="78" [model]="eventData?.model?.bNotSelectedPymtTerm" [caption]="_TB('Equal to Opening')"></tb-radio>
+         <tb-radio cmpId="IDC_BILLS_PYMTTERM_SEL" width="77" [model]="eventData?.model?.bSelectedPymtTerm" [caption]="_TB('Selection')"></tb-radio>
+         <tb-enum-combo cmpId="IDC_BILLS_PYMTTERM" width="113" [model]="eventData?.model?.PymtTerm" [itemSource]="IDC_BILLS_PYMTTERM_itemSource"></tb-enum-combo>
+        </tb-tile>
+        <tb-tile [title]="_TB('Closing Cash')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_BILLSPRESENTATION_CLOSINGCASH">
+         <tb-radio cmpId="IDC_BILLS_CASH_EQUALTOOPENING" width="78" [model]="eventData?.model?.bCashOpening" [caption]="_TB('Equal to Opening')"></tb-radio>
+         <tb-radio cmpId="IDC_BILLS_CASH_SELECTION" width="77" [model]="eventData?.model?.bSelectedCash" [caption]="_TB('Selection')"></tb-radio>
+         <tb-combo cmpId="IDC_BILLS_PYMTCASH" width="68" [model]="eventData?.model?.sPymtCash"></tb-combo>
+         <tb-combo [caption]="_TB('Proposed Cash on Closing')" cmpId="IDC_BILLS_NEGALLOWCASH" width="68" [model]="eventData?.model?.NegAllowancePymtCash"></tb-combo>
+         <tb-text [caption]="_TB('Allowance Offset')" cmpId="IDC_BILLS_NEGALLOWACCOUNT" width="68" [model]="eventData?.model?.NegAllowancePymtAccount"></tb-text>
+         <tb-text [caption]="_TB('Interest and Penality Offset')" cmpId="IDC_BILLS_POSROUNDACCOUNT" width="68" [model]="eventData?.model?.PosRoundingPymtAccount"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Post')" tbTileStandard >
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_BILLS_ACCNTNG" cmpId="IDC_BILLS_ACCNTNG" width="78" [model]="eventData?.model?.BatchClosingInAccounting" [caption]="_TB('Post')"></tb-checkbox>
+         <tb-text *ngIf="eventData?.activation?.IDC_BILLS_NO_DOC" [caption]="_TB('Document No.')" cmpId="IDC_BILLS_NO_DOC" width="95" [model]="eventData?.model?.NrDoc"></tb-text>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting Date')" cmpId="IDC_BILLS_RIC_PRESDATE" width="57" [model]="eventData?.model?.PresentationDate"></tb-date-input>
+         <tb-text *ngIf="eventData?.activation?.IDC_BILLS_OFFSET" [caption]="_TB('Offset')" cmpId="IDC_BILLS_OFFSET" width="102" [model]="eventData?.model?.Account"></tb-text>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_BILLS_OFFSETDESCRI" cmpId="IDC_BILLS_OFFSETDESCRI" width="129" [model]="eventData?.model?.HKLAccount?.Description"></tb-label-static>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  hasTitle="False">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="599" [model]="eventData?.model?.Bills">
+         <tb-body-edit-column cmpId="IDC_BILLS_SELECT_EFFECT" columnName="l_TEnhBills_P01" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_BILLS_SELECT_EFFECT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_GROUPED" columnName="l_TEnhBills_P15" [title]="_TB('Grp.')" columnType="tb-checkbox" columnName="IDC_BILLS_GROUPED" *ngIf="eventData?.activation?.IDC_BILLS_GROUPED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_MODDET" columnName="l_TEnhBills_P16" [title]="_TB('Edit')" columnType="tb-checkbox" columnName="IDC_BILLS_MODDET" *ngIf="eventData?.activation?.IDC_BILLS_MODDET">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_MODDET" columnName="OpenedAdmCases" [title]="_TB('Administrative case')" columnType="tb-checkbox" columnName="IDC_BILLS_MODDET" *ngIf="eventData?.activation?.IDC_BILLS_MODDET">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BILLS_NUMBER" columnName="l_TEnhBills_P08" [title]="_TB('No.')" columnType="tb-numeric-text-box" columnName="IDC_BILLS_NUMBER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_PYMTTYPE" columnName="PaymentTerm" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_BILLS_PYMTTYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_CUSTOMER" columnName="CustSupp" [title]="_TB('Customer')" columnType="tb-label-static" columnName="IDC_BILLS_CUSTOMER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_COMPNAME" columnName="l_TEnhBills_P09" [title]="_TB('Company Name')" columnType="tb-label-static" columnName="IDC_BILLS_COMPNAME">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_BRANCH" columnName="l_TEnhBills_P14" [title]="_TB('Branch')" columnType="tb-label-static" columnName="IDC_BILLS_BRANCH" *ngIf="eventData?.activation?.IDC_BILLS_BRANCH">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_CONTRACT_CODE" columnName="l_TEnhBills_P19" [title]="_TB('Contract Code')" columnType="tb-label-static" columnName="IDC_BILLS_CONTRACT_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_PROJECT_CODE" columnName="l_TEnhBills_P20" [title]="_TB('Project Code')" columnType="tb-label-static" columnName="IDC_BILLS_PROJECT_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_BILLS_DATE" columnName="l_TEnhBills_P13" [title]="_TB('Due Date')" columnType="tb-date-input" columnName="IDC_BILLS_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BILLS_OPENINGAMOUNT" columnName="l_TEnhBills_P21" [title]="_TB('Opening Amount')" columnType="tb-numeric-text-box" columnName="IDC_BILLS_OPENINGAMOUNT" *ngIf="eventData?.activation?.IDC_BILLS_OPENINGAMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BILLS_BALANCE" columnName="l_TEnhBills_P25" [title]="_TB('Balance')" columnType="tb-numeric-text-box" columnName="IDC_BILLS_BALANCE" *ngIf="eventData?.activation?.IDC_BILLS_BALANCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_PYMTCASH_BE" columnName="PymtCash" [title]="_TB('Cash')" columnType="tb-combo" columnName="IDC_BILLS_PYMTCASH_BE" *ngIf="eventData?.activation?.IDC_BILLS_PYMTCASH_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_PYMTACCOUNT_BE" columnName="PymtAccount" [title]="_TB('Offset')" columnType="tb-text" columnName="IDC_BILLS_PYMTACCOUNT_BE" *ngIf="eventData?.activation?.IDC_BILLS_PYMTACCOUNT_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_COSTCENTER_BE" columnName="CostCenter" [title]="_TB('Cost Center')" columnType="tb-combo" columnName="IDC_BILLS_COSTCENTER_BE" *ngIf="eventData?.activation?.IDC_BILLS_COSTCENTER_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BILLS_AMOUNT" columnName="Amount" [title]="_TB('Amount')" columnType="tb-numeric-text-box" columnName="IDC_BILLS_AMOUNT" *ngIf="eventData?.activation?.IDC_BILLS_AMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_BILLS_AMOUNT" columnName="Amount" columnType="tb-numeric-text-box" columnName="IDC_BILLS_AMOUNT" *ngIf="eventData?.activation?.IDC_BILLS_AMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_BILLS_ALLOWANCE" columnName="l_TEnhBills_P26" [title]="_TB('Allowance')" columnType="tb-numeric-text-box" columnName="IDC_BILLS_ALLOWANCE" *ngIf="eventData?.activation?.IDC_BILLS_ALLOWANCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_ALLOWCASH" columnName="l_TEnhBills_P22" [title]="_TB('Allowance Cash')" columnType="tb-combo" columnName="IDC_BILLS_ALLOWCASH" *ngIf="eventData?.activation?.IDC_BILLS_ALLOWCASH">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_ALLOWOFFSET" columnName="l_TEnhBills_P23" [title]="_TB('Allowance Offset')" columnType="tb-text" columnName="IDC_BILLS_ALLOWOFFSET" *ngIf="eventData?.activation?.IDC_BILLS_ALLOWOFFSET">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BILLS_INTERESTPENALITY" columnName="l_TEnhBills_P27" [title]="_TB('Interest And Penality')" columnType="tb-numeric-text-box" columnName="IDC_BILLS_INTERESTPENALITY" *ngIf="eventData?.activation?.IDC_BILLS_INTERESTPENALITY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_INTPENOFFSET" columnName="l_TEnhBills_P24" [title]="_TB('Interest and Penality Offset')" columnType="tb-text" columnName="IDC_BILLS_INTPENOFFSET" *ngIf="eventData?.activation?.IDC_BILLS_INTPENOFFSET">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_BOLETONO" columnName="BillNo" [title]="_TB('Boleto Number')" columnType="tb-label-static" columnName="IDC_BILLS_BOLETONO" *ngIf="eventData?.activation?.IDC_BILLS_BOLETONO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_CUSTOMERBANK" columnName="CustSuppBank" [title]="_TB('Cus. Bank')" columnType="tb-combo" columnName="IDC_BILLS_CUSTOMERBANK" *ngIf="eventData?.activation?.IDC_BILLS_CUSTOMERBANK">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_CUSTBANKDESCRIPTION" columnName="l_TEnhBills_P10" [title]="_TB('Customer Bank Description')" columnType="tb-label-static" columnName="IDC_BILLS_CUSTBANKDESCRIPTION" *ngIf="eventData?.activation?.IDC_BILLS_CUSTBANKDESCRIPTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_PRESENTATIONBANK" columnName="PresentationBank" [title]="_TB('Pr. Bank')" columnType="tb-combo" columnName="IDC_BILLS_PRESENTATIONBANK" *ngIf="eventData?.activation?.IDC_BILLS_PRESENTATIONBANK">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_BANKDESCRIPTIONPR" columnName="l_TEnhBills_P11" [title]="_TB('Pres. Bank Description')" columnType="tb-label-static" columnName="IDC_BILLS_BANKDESCRIPTIONPR" *ngIf="eventData?.activation?.IDC_BILLS_BANKDESCRIPTIONPR">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_BANKCAPR" columnName="CA" [title]="_TB('CA No.')" columnType="tb-text" columnName="IDC_BILLS_BANKCAPR" *ngIf="eventData?.activation?.IDC_BILLS_BANKCAPR">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_BILLS_PRESENTATION" columnName="Presentation" [title]="_TB('Presentation')" columnType="tb-enum-combo" columnName="IDC_BILLS_BILLS_PRESENTATION" *ngIf="eventData?.activation?.IDC_BILLS_BILLS_PRESENTATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_DOCDATA" columnName="l_TEnhBills_P04" [title]="_TB('Document Data')" columnType="tb-label-static" columnName="IDC_BILLS_DOCDATA">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_PRESNOTES" columnName="PresentationNotes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_BILLS_PRESNOTES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_EXCEEDED" columnName="l_TEnhBills_P05" [title]="_TB('Over')" columnType="tb-checkbox" columnName="IDC_BILLS_EXCEEDED" *ngIf="eventData?.activation?.IDC_BILLS_EXCEEDED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_ISPRESENTED" columnName="Presented" columnType="tb-checkbox" columnName="IDC_BILLS_ISPRESENTED" *ngIf="eventData?.activation?.IDC_BILLS_ISPRESENTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_NO" columnName="BillNo" [title]="_TB('Number')" columnType="tb-text" columnName="IDC_BILLS_NO" *ngIf="eventData?.activation?.IDC_BILLS_NO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_NOBOM" columnName="Slip" [title]="_TB('Slip')" columnType="tb-label-static" columnName="IDC_BILLS_NOBOM" *ngIf="eventData?.activation?.IDC_BILLS_NOBOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_SEPA_MANDATECODE" columnName="MandateCode" [title]="_TB('Mandate Code')" columnType="tb-label-static" columnName="IDC_BILLS_SEPA_MANDATECODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_BILLS_SEPA_MANDATEDATE" columnName="l_TEnhBills_P18" [title]="_TB('Mandate Date')" columnType="tb-date-input" columnName="IDC_BILLS_SEPA_MANDATEDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BILLS_SEPA_MANDATETYPE" columnName="MandateSequenceType" [title]="_TB('Mandate Type')" columnType="tb-enum-combo" columnName="IDC_BILLS_SEPA_MANDATETYPE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+       <tb-tilepanel [title]="_TB('Totals')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"><div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('eventData?.model?.BillCaptionSel')" cmpId="IDC_BILLS_SEL_TOTALAMOUNT" width="68" [model]="eventData?.model?.ToBePresented"></tb-numeric-text-box>
+         <tb-label-static cmpId="IDC_BILLS_STATUS" width="300" [model]="eventData?.model?.ProcessStatus"></tb-label-static>
+</div>         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_BILLS_BANKS_EFF_TOTALAMOUNT" formatter="Money" disabled="true" [caption]="_TB('Selected with Bank to be Assigned')" cmpId="IDC_BILLS_BANKS_EFF_TOTALAMOUNT" width="68" [model]="eventData?.model?.BillsPresentableTot"></tb-numeric-text-box>
+</div><div class="col col2"></div>        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

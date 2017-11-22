@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input,ChangeDetectorRef } from '@angular/core';
 import { ControlComponent } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { TbComponentService } from '@taskbuilder/core';
 import { LayoutService } from '@taskbuilder/core';
+import { Store } from '@taskbuilder/core';
 
 @Component({
   selector: 'erp-no-spaces',
@@ -12,18 +13,34 @@ import { LayoutService } from '@taskbuilder/core';
 export class NoSpacesEditComponent extends ControlComponent {
   @Input('readonly') readonly: boolean = false;
   @Input() slice: any;
+  @Input() selector: any;
+
   errorMessage = '';
   maxLength = 10;
 
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef,
+    private store: Store
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
-  ngOnChanges(changes) {
-
+  ngOnInit() {
+    // maxLength is an optional parameter, i may not have to use it.
+    // It is also the only parameter, so i have no selector without it
+    if (this.selector) {
+      this.store
+        .select(this.selector)
+        .select('maxLength')
+        .subscribe(
+        (v) => {
+          if (v)
+            this.maxLength = v;
+        }
+        );
+    }
   }
 
   onKeyDown($event) {

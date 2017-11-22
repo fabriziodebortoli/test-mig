@@ -1,0 +1,20 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  hasTitle="False">
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_IMAGO_CHECKLINK_CANCEL?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="IDC_IMAGO_CHECKLINK_CANCEL"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_IMAGO_CHECKLINK_OK?.enabled" icon="tb-search" [caption]="_TB('Search')" cmpId="IDC_IMAGO_CHECKLINK_OK"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

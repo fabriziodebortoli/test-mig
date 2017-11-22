@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
 import { BOCommonComponent } from './bo-common.component';
 
@@ -14,9 +14,10 @@ export class BOSlaveComponent extends BOCommonComponent implements OnInit, OnDes
 
     constructor(
         eventData: EventDataService,
-        ciService: ComponentInfoService
+        ciService: ComponentInfoService,
+        changeDetectorRef : ChangeDetectorRef
     ) {
-        super(null, eventData, ciService);
+        super(null, eventData, ciService, changeDetectorRef);
     }
 
     ngOnInit() {

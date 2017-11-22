@@ -1,7 +1,7 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
-import { Component, Input, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, Input, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
 import { ControlComponent } from './../control.component';
 
@@ -43,9 +43,10 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   getDecimalsOptions(): number {

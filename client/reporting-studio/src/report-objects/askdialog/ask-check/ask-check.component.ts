@@ -2,7 +2,7 @@ import { check } from './../../../models/check.model';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { AskdialogService } from './../askdialog.service';
 import { LayoutService, TbComponentService, CheckBoxComponent } from '@taskbuilder/core';
-import { Component, OnInit, Input, DoCheck } from '@angular/core';
+import { Component, OnInit, Input, DoCheck, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'rs-ask-check',
@@ -16,8 +16,9 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
     public rsService: ReportingStudioService,
     public adService: AskdialogService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-    super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   public oldValue: boolean;

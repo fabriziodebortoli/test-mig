@@ -1,0 +1,21 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Component Filter')" tbTileMini  isCollapsible="False" hasTitle="True">
+        <tb-text [caption]="_TB('Component')" cmpId="IDC_SOST_JOLLY_COMPONENT" width="104" [model]="eventData?.model?.BOMComponentsReplacement"></tb-text>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_SUBST_JOLLY_TOOLBAR_OK?.enabled" icon="tb-ok" [caption]="_TB('OK')" cmpId="IDC_SUBST_JOLLY_TOOLBAR_OK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_SUBST_JOLLY_TOOLBAR_CANCEL?.enabled" icon="tb-undo" [caption]="_TB('Cancel')" cmpId="IDC_SUBST_JOLLY_TOOLBAR_CANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>
