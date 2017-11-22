@@ -1,0 +1,55 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Load files')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tilepanel>
+        <tb-tile [title]="_TB('Options')" tbTileMini >
+         <tb-checkbox cmpId="IDC_MASSIVEARCHIVE_SPLIT_FILE" width="215" [model]="eventData?.model?.bSplitFile" [caption]="_TB('split file using barcode')"></tb-checkbox>
+         <tb-caption cmpId="IDC_STATIC" width="541" [caption]="_TB('selecting this option every .pdf and .tiff file added from now will be splitted in multiple file, one for each barcode found. The operation can take few minutes.')"></tb-caption>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel>
+        <tb-tile [title]="_TB('Add files to attach')" tbTileWide >
+<div class="col col1"></div><div class="col col2"></div>        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Elaboration')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard >
+        <tb-body-edit cmpId="IDC_MASSIVEARCHIVE_ELABORATION_BE_ATTACHMENTS" width="546" [model]="eventData?.model?.DBTArchivedFiles">
+         <tb-body-edit-column cmpId="IDC_MASSIVEARCHIVE_BE_STATUS_BMP" columnName="VResultBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_MASSIVEARCHIVE_BE_STATUS_BMP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MASSIVEARCHIVE_BE_NAME" columnName="VFileName" [title]="_TB('Name')" columnType="tb-label-static" columnName="IDC_MASSIVEARCHIVE_BE_NAME">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MASSIVEARCHIVE_BE_ACTION" columnName="VMassiveAction" [title]="_TB('Action')" columnType="tb-label-static" columnName="IDC_MASSIVEARCHIVE_BE_ACTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Long" disabled="true" cmpId="IDC_MASSIVEARCHIVE_BE_ARCHIVEDDOCID" columnName="VArchivedDocID" [title]="_TB('Archived ID')" columnType="tb-numeric-text-box" columnName="IDC_MASSIVEARCHIVE_BE_ARCHIVEDDOCID">
+         </tb-body-edit-column>
+        </tb-body-edit>
+        <tb-label-static cmpId="IDC_MASSIVEARCHIVE_STATIC_ELAB_MESSAGE" width="545" [model]="eventData?.model?.ElaborationMessage"></tb-label-static>
+        <tb-caption cmpId="IDC_MASSIVEARCHIVE_GAUGE" width="500" [model]="eventData?.model?.nCurrentElement"></tb-caption>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

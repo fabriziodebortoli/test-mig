@@ -1,0 +1,17 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Complete Fiscal Message')" tbTileAutoFill >
+        <tb-text cmpId="IDC_NOTA_FISCAL_FOR_SUPPLIER_COMPLETE_MSG" width="692" [model]="eventData?.model?.CompleteMsg"></tb-text>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+ </tb-frame>

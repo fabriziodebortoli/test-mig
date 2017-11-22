@@ -1,0 +1,53 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard >
+        <tb-label-static [caption]="_TB('Invoice No.')" cmpId="IDC_DISPLAYWEEE_INVOICENUMBER" width="84" [model]="eventData?.model?.CalculationWEEE?.DocNo"></tb-label-static>
+        <tb-label-static [caption]="_TB('Customer')" cmpId="IDC_DISPLAYWEEE_CUSTOMER" width="84" [model]="eventData?.model?.CalculationWEEE?.CustSupp"></tb-label-static>
+       </tb-tile>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="138" [model]="eventData?.model?.DetailWEEE">
+         <tb-body-edit-column cmpId="IDC_DISPLAYWEEE_DETAIL_BE_ITEM" columnName="Item" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_DISPLAYWEEE_DETAIL_BE_ITEM" *ngIf="eventData?.activation?.IDC_DISPLAYWEEE_DETAIL_BE_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DISPLAYWEEE_DETAIL_BE_DESCRI_ITEM" width="400" [model]="eventData?.model?.HKLItems?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_DISPLAYWEEE_DETAIL_BE_DESCRI_ITEM" *ngIf="eventData?.activation?.IDC_DISPLAYWEEE_DETAIL_BE_DESCRI_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DISPLAYWEEE_DETAIL_BE_COMPLETEDESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_DISPLAYWEEE_DETAIL_BE_COMPLETEDESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_DISPLAYWEEE_DETAIL_BE_QTY" width="90" columnName="Qty" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_DISPLAYWEEE_DETAIL_BE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_DISPLAYWEEE_DETAIL_BE_UNIT_VALUE" columnName="UnitValue" [title]="_TB('Unit value')" columnType="tb-numeric-text-box" columnName="IDC_DISPLAYWEEE_DETAIL_BE_UNIT_VALUE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_DISPLAYWEEE_DETAIL_BE_TOT_TAXABLEAMOUNT" columnName="TaxableAmount" [title]="_TB('Taxable Amount')" columnType="tb-numeric-text-box" columnName="IDC_DISPLAYWEEE_DETAIL_BE_TOT_TAXABLEAMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DISPLAYWEEE_DETAIL_BE_COD_TAX" width="150" columnName="TaxCode" [title]="_TB('Tax code')" columnType="tb-combo" columnName="IDC_DISPLAYWEEE_DETAIL_BE_COD_TAX">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DISPLAYWEEE_DETAIL_BE_OFFSET" width="160" columnName="Offset" [title]="_TB('Offset')" columnType="tb-text" columnName="IDC_DISPLAYWEEE_DETAIL_BE_OFFSET" *ngIf="eventData?.activation?.IDC_DISPLAYWEEE_DETAIL_BE_OFFSET">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DISPLAYWEEE_DETAIL_BE_CATEGORY" columnName="WEEECategory" [title]="_TB('WEEE Category')" columnType="tb-label-static" columnName="IDC_DISPLAYWEEE_DETAIL_BE_CATEGORY">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

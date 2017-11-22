@@ -1,0 +1,108 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Base UoM')" tbTileWide >
+<div class="col col1">        <tb-text [caption]="_TB('Base UoM')" cmpId="IDC_UOM_BASEUOM" width="48" [model]="eventData?.model?.UnitsOfMeasure?.BaseUoM"></tb-text>
+        <tb-text [caption]="_TB('Description')" cmpId="IDC_UOM_DESCRIPTION" width="154" [model]="eventData?.model?.UnitsOfMeasure?.Description"></tb-text>
+        <tb-text *ngIf="eventData?.activation?.IDC_UOM_BARCODE_SEGMENT" [caption]="_TB('Barcode Segment')" cmpId="IDC_UOM_BARCODE_SEGMENT" width="105" [model]="eventData?.model?.UnitsOfMeasure?.BarcodeSegment"></tb-text>
+</div><div class="col col2">        <tb-text [caption]="_TB('Symbol')" cmpId="IDC_UOM_SYMBOL" width="104" [model]="eventData?.model?.UnitsOfMeasure?.Symbol"></tb-text>
+        <tb-text [caption]="_TB('Notes')" cmpId="IDC_UOM_NOTES" width="185" [model]="eventData?.model?.UnitsOfMeasure?.Notes"></tb-text>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Comparable UoM')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_BODY_UOM_DERIVED" width="436" [model]="eventData?.model?.ComparableUoM">
+         <tb-body-edit-column cmpId="IDC_UOM_DERIVED_BE" [title]="_TB('Comparable UoM')" columnType="tb-body-edit-column" columnName="IDC_UOM_DERIVED_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_DISABLED_BE" [title]="_TB('Disabled')" columnType="tb-body-edit-column" columnName="IDC_UOM_DISABLED_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_NOOFPACKS_BE" [title]="_TB('Comparable UoM Packs No.')" columnType="tb-body-edit-column" columnName="IDC_UOM_NOOFPACKS_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_QTYINBASE_BE" [title]="_TB('Base UoM Qty')" columnType="tb-body-edit-column" columnName="IDC_UOM_QTYINBASE_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_QTYINDERIVED_BE" [title]="_TB('Comparable UoM Qty')" columnType="tb-body-edit-column" columnName="IDC_UOM_QTYINDERIVED_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_NOTES_BE" [title]="_TB('Notes')" columnType="tb-body-edit-column" columnName="IDC_UOM_NOTES_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_GROSS_WEIGHT_BE" [title]="_TB('Gross Weight')" columnType="tb-body-edit-column" columnName="IDC_UOM_GROSS_WEIGHT_BE" *ngIf="eventData?.activation?.IDC_UOM_GROSS_WEIGHT_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_GROSS_VOLUME_BE" [title]="_TB('GrossVolume')" columnType="tb-body-edit-column" columnName="IDC_UOM_GROSS_VOLUME_BE" *ngIf="eventData?.activation?.IDC_UOM_GROSS_VOLUME_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_PACKAGING_BE" [title]="_TB('Packaging')" columnType="tb-body-edit-column" columnName="IDC_UOM_PACKAGING_BE" *ngIf="eventData?.activation?.IDC_UOM_PACKAGING_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_FACTOR1_BE" [title]="_TB('Coeff. 1')" columnType="tb-body-edit-column" columnName="IDC_UOM_FACTOR1_BE" *ngIf="eventData?.activation?.IDC_UOM_FACTOR1_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_FACTOR2_BE" [title]="_TB('Coeff. 2')" columnType="tb-body-edit-column" columnName="IDC_UOM_FACTOR2_BE" *ngIf="eventData?.activation?.IDC_UOM_FACTOR2_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_FACTOR3_BE" [title]="_TB('Coeff. 3')" columnType="tb-body-edit-column" columnName="IDC_UOM_FACTOR3_BE" *ngIf="eventData?.activation?.IDC_UOM_FACTOR3_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_UOM_FACTOR4_BE" [title]="_TB('Coeff. 4')" columnType="tb-numeric-text-box" columnName="IDC_UOM_FACTOR4_BE" *ngIf="eventData?.activation?.IDC_UOM_FACTOR4_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_DESCRI_FACTOR1_BE" [title]="_TB('Coeff. 1 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_DESCRI_FACTOR1_BE" *ngIf="eventData?.activation?.IDC_UOM_DESCRI_FACTOR1_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_DESCRI_FACTOR2_BE" [title]="_TB('Coeff. 2 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_DESCRI_FACTOR2_BE" *ngIf="eventData?.activation?.IDC_UOM_DESCRI_FACTOR2_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_DESCRI_FACTOR3_BE" [title]="_TB('Coeff. 3 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_DESCRI_FACTOR3_BE" *ngIf="eventData?.activation?.IDC_UOM_DESCRI_FACTOR3_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_UOM_DESCRI_FACTOR4_BE" [title]="_TB('Coeff. 4 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_DESCRI_FACTOR4_BE" *ngIf="eventData?.activation?.IDC_UOM_DESCRI_FACTOR4_BE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

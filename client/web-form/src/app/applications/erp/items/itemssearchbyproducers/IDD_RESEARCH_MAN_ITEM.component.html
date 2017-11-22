@@ -1,0 +1,40 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Tile Group Head')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('Filters')">
+        <tb-tile [title]="_TB('Search by...')" tbTileStandard >
+<div class="anchored">         <tb-radio cmpId="IDC_RESEARCH_ITM_PROD_BTN_PROD" width="158" [model]="eventData?.model?.ItemsSearchbProductSearchByManufacturer" [caption]="_TB('Manufacturer')"></tb-radio>
+         <tb-checkbox cmpId="IDC_RESEARCH_ITM_PROD_CHECK_COD_DESCRI" width="161" [model]="eventData?.model?.ItemsSearchbSearchByCompanyName" [caption]="_TB('Search by Comp. Name or Descr.')"></tb-checkbox>
+</div><div class="anchored">         <tb-radio cmpId="IDC_RESEARCH_ITM_PROD_BTN_CTG" width="158" [model]="eventData?.model?.ItemsSearchbProductSearchByProdCtg" [caption]="_TB('Product Category')"></tb-radio>
+         <tb-checkbox cmpId="IDC_RESEARCH_ITM_PROD_CHECK_SYNC" width="161" [model]="eventData?.model?.ItemsSearchbSyncWithKeyboard" [caption]="_TB('Sync with Keyboard')"></tb-checkbox>
+</div>         <tb-text cmpId="IDC_RESEARCH_ITM_PROD_STRING" width="92" [model]="eventData?.model?.ItemsSearchStrItem"></tb-text>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('Results')">
+        <tb-tile [title]="_TB('Producers')" tbTileMini >
+        </tb-tile>
+        <tb-layoutcontainer tbLayoutTypeVbox >
+         <tb-tile [title]="_TB('Product Category')" tbTileMini >
+         </tb-tile>
+         <tb-tile [title]="_TB('Subcategory')" tbTileMini >
+         </tb-tile>
+        </tb-layoutcontainer>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_ALWAYS_ON_FRONT?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Pin')" cmpId="ID_BSP_ALWAYS_ON_FRONT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_SWITCH_TO_CALLER?.enabled" icon="tb-back" [caption]="_TB('Back')" cmpId="ID_BSP_SWITCH_TO_CALLER"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_RESEARCH_ITM_PROD_RADAR_ITM?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar On Items...')" cmpId="IDC_RESEARCH_ITM_PROD_RADAR_ITM"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_ITM_BOOKSMATCH?.enabled" icon="tb-search" [caption]="_TB('Items Multiselection')" cmpId="IDC_ITM_BOOKSMATCH"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_ITM_CANCEL?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="IDC_ITM_CANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

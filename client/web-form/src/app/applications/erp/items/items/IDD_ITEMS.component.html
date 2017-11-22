@@ -1,0 +1,959 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-inventory" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Main Data')" tbTileStandard >
+<div class="anchored">          <tb-text [caption]="_TB('Item')" cmpId="IDC_ITM_ITEM" width="122" [model]="eventData?.model?.Items?.Item"></tb-text>
+          <tb-checkbox cmpId="IDC_ITM_ISDISABLED" width="103" [model]="eventData?.model?.Items?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>          <tb-text [caption]="_TB('Description')" cmpId="IDC_ITM_ITEMDESCRIPTION" width="220" [model]="eventData?.model?.Items?.Description"></tb-text>
+<div class="anchored">          <tb-checkbox cmpId="IDC_ITM_ISAGOODS" width="109" [model]="eventData?.model?.Items?.IsGood" [caption]="_TB('Goods  ')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_ITM_DRAFT" width="211" [model]="eventData?.model?.Items?.Draft" [caption]="_TB('Draft  ')"></tb-checkbox>
+</div><div class="anchored">          <tb-combo [caption]="_TB('UoM')" cmpId="IDC_ITM_BASEUNITOFMEAS" width="57" [model]="eventData?.model?.Items?.BaseUoM"></tb-combo>
+          <tb-enum-combo [caption]="_TB('Kind')" cmpId="IDC_ITM_NATURE" width="64" [model]="eventData?.model?.Items?.Nature"></tb-enum-combo>
+</div><div class="anchored">          <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Creation Date')" cmpId="IDC_ITM_CREATIONDATE" width="57" [model]="eventData?.model?.Items?.CreationDate"></tb-date-input>
+          <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Last Update')" cmpId="IDC_ITM_MODIFICATIONDATE" width="64" [model]="eventData?.model?.Items?.ModificationDate"></tb-date-input>
+</div>          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('On-hand Start Date')" cmpId="IDC_ITM_AVAILABILITYDATE" width="57" [model]="eventData?.model?.Items?.AvailabilityDate"></tb-date-input>
+          <tb-text [caption]="_TB('Old Item Code')" cmpId="IDC_ITM_OLD_COD_ITM" width="100" [model]="eventData?.model?.Items?.OldItem"></tb-text>
+<div class="anchored">          <tb-checkbox cmpId="IDC_ITM_POSTABLEINJE" width="109" [model]="eventData?.model?.Items?.NotPostable" [caption]="_TB('Item Not Transactable  ')"></tb-checkbox>
+          <tb-checkbox *ngIf="eventData?.activation?.IDC_ITM_MANAGES_SERIALNO" cmpId="IDC_ITM_MANAGES_SERIALNO" width="211" [model]="eventData?.model?.Items?.UseSerialNo" [caption]="_TB('Serial Nos. Management  ')"></tb-checkbox>
+</div>          <tb-checkbox *ngIf="eventData?.activation?.IDC_ITM_ADDITIONALCHARGE" cmpId="IDC_ITM_ADDITIONALCHARGE" width="109" [model]="eventData?.model?.Items?.AdditionalCharge" [caption]="_TB('Additional Charge  ')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('Image')" tbTileStandard >
+          <tb-text [caption]="_TB('Name')" cmpId="IDC_ITM_NAME_PICTURE_ITM" width="221" [model]="eventData?.model?.Items?.Picture"></tb-text>
+          <tb-image [height]="115" [width]="215" cmpId="IDC_FRAME_PICTURE_ITM" width="215" [model]="eventData?.model?.Items?.Picture"></tb-image>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Goods Data')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Min. Stock')" cmpId="IDC_GOODS_MINSTOCK" width="30" [model]="eventData?.model?.GoodsData?.MinimumStock"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Max. Stock')" cmpId="IDC_GOODS_MAXSTOCK" width="30" [model]="eventData?.model?.GoodsData?.MaximumStock"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Reordering Lot (Purchase)')" cmpId="IDC_GOODS_REORDERINGLOTSIZE" width="40" [model]="eventData?.model?.GoodsData?.ReorderingLotSize"></tb-numeric-text-box>
+         <tb-text [caption]="_TB('Preferred Supplier')" cmpId="IDC_GOODS_SUPPPREFERRED" width="80" [model]="eventData?.model?.GoodsData?.Supplier"></tb-text>
+         <tb-label-static cmpId="IDC_GOODS_SUPPLIERDESCRIPREF" width="224" [model]="eventData?.model?.HKLSupplierPreferred?.CompanyName"></tb-label-static>
+<div class="anchored">         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Last Receipt Date')" cmpId="IDC_GOODS_DATE_LAST_ISSUETOPROD" width="57" [model]="eventData?.model?.GoodsData?.LastReceiptDate"></tb-date-input>
+         <tb-label-static cmpId="IDC_GOODS_WEEKDAYNAME_LOADING" width="57" [model]="eventData?.model?.WeekDayNameReceiptDate"></tb-label-static>
+</div>         <tb-text [caption]="_TB('Last Supplier')" cmpId="IDC_GOODS_LASTSUPPLIER" width="80" [model]="eventData?.model?.GoodsData?.LastSupplier"></tb-text>
+         <tb-label-static cmpId="IDC_GOODS_DESCRI_LAST_SUPP" width="224" [model]="eventData?.model?.HKLLastSupplier?.CompanyName"></tb-label-static>
+</div><div class="col col2">         <tb-numeric-text-box formatter="Integer" [caption]="_TB('No. of Packs')" cmpId="IDC_GOODS_NRPACKS" width="30" [model]="eventData?.model?.GoodsData?.NoOfPacks"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Gross Volume')" cmpId="IDC_GOODS_GROSSVOLUME" width="40" [model]="eventData?.model?.GoodsData?.GrossVolume"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Double" [caption]="_TB('Gross Weights')" cmpId="IDC_GOODS_GROSSWEIGHT" width="40" [model]="eventData?.model?.GoodsData?.GrossWeight"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Double" [caption]="_TB('Net Weights')" cmpId="IDC_GOODS_NETWEIGHT" width="40" [model]="eventData?.model?.GoodsData?.NetWeight"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Min Saleable Qty ')" cmpId="IDC_GOODS_MINIMUMSALEQTY" width="40" [model]="eventData?.model?.GoodsData?.MinimumSaleQty"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Unsold Max Months')" cmpId="IDC_GOODS_MAXUNSOLDMONTHS" width="30" [model]="eventData?.model?.GoodsData?.MaxUnsoldMonths"></tb-numeric-text-box>
+         <tb-text [caption]="_TB('Appearance')" cmpId="IDC_GOODS_APPEARANCE" width="80" [model]="eventData?.model?.GoodsData?.Appearance"></tb-text>
+<div class="anchored">         <tb-combo [caption]="_TB('Department')" cmpId="IDC_GOODS_DEPARTMENT" width="62" [model]="eventData?.model?.GoodsData?.Department"></tb-combo>
+         <tb-label-static cmpId="IDC_GOODS_DEPARTMENTDESCRI" width="160" [model]="eventData?.model?.HKLDepartments?.Description"></tb-label-static>
+</div>         <tb-text [caption]="_TB('Location')" cmpId="IDC_GOODS_LOCATION" width="160" [model]="eventData?.model?.GoodsData?.Location"></tb-text>
+<div class="anchored">         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Last Issue Date')" cmpId="IDC_GOODS_DATE_LAST_ISSUE" width="57" [model]="eventData?.model?.GoodsData?.LastIssueDate"></tb-date-input>
+         <tb-label-static cmpId="IDC_GOODS_WEEKDAYNAME_SCA" width="166" [model]="eventData?.model?.WeekDayNameIssueDate"></tb-label-static>
+</div></div>        </tb-tile>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Barcodes Data')" tbTileStandard >
+<div class="anchored">          <tb-text [caption]="_TB('Sales Barcode')" cmpId="IDC_GOODS_BARCODE_SALE" width="105" [model]="eventData?.model?.Items?.SaleBarCode"></tb-text>
+          <tb-button cmpId="IDC_GOODS_BTN_STRIP_VIEW" width="24"></tb-button>
+</div>          <tb-text *ngIf="eventData?.activation?.IDC_ITEMS_BARCODE_SEGMENT" [caption]="_TB('Barcode Segment')" cmpId="IDC_ITEMS_BARCODE_SEGMENT" width="105" [model]="eventData?.model?.Items?.BarcodeSegment"></tb-text>
+          <tb-body-edit cmpId="IDC_BARCODE_PURCHASE_BODY" width="323" [model]="eventData?.model?.PurchaseBarCode" *ngIf="eventData?.activation?.IDC_BARCODE_PURCHASE_BODY">
+           <tb-body-edit-column cmpId="IDC_BARCODE_BARCODE" columnName="BarCode" [title]="_TB('Purchase Barcode')" columnType="tb-text" columnName="IDC_BARCODE_BARCODE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BARCODE_BARCODETYPE" columnName="BarCodeType" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_BARCODE_BARCODETYPE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BARCODE_UOM" columnName="UoM" [itemSource]="IDC_BARCODE_UOM_itemSource" [title]="_TB('UoM')" columnType="tb-combo" columnName="IDC_BARCODE_UOM" *ngIf="eventData?.activation?.IDC_BARCODE_UOM">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BARCODE_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_BARCODE_NOTES">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+         <tb-tile [title]="_TB('Print Item on')" tbTileStandard >
+          <tb-checkbox cmpId="IDC_GOODS_PRINTERONINVENTORYSHEETS" width="109" [model]="eventData?.model?.GoodsData?.OnInventorySheets" [caption]="_TB('Sheets  ')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_GOODS_PRINTERONINVENTORYLEVEL" width="109" [model]="eventData?.model?.GoodsData?.OnInventoryLevel" [caption]="_TB('Stocktaking  ')"></tb-checkbox>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Storage Goods Data')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-body-edit cmpId="IDC_ITEMS_STORAGES_BODY" width="653" [model]="eventData?.model?.DBTItemsStorages">
+          <tb-body-edit-column cmpId="IDC_ITEMS_STORAGES_STORAGE" columnName="Storage" [title]="_TB('Storage')" columnType="tb-combo" columnName="IDC_ITEMS_STORAGES_STORAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ITEMS_STORAGES_DESCRI_STORAGE" columnName="StorageDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_ITEMS_STORAGES_DESCRI_STORAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ITEMS_STORAGES_CODETYPE_SPECIFICATOR" columnName="SpecificatorType" [itemSource]="IDC_ITEMS_STORAGES_CODETYPE_SPECIFICATOR_itemSource" [title]="_TB('Specificator Type')" columnType="tb-enum-combo" columnName="IDC_ITEMS_STORAGES_CODETYPE_SPECIFICATOR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ITEMS_STORAGES_SPECIFICATOR" columnName="Specificator" [title]="_TB('Specificator')" columnType="tb-text" columnName="IDC_ITEMS_STORAGES_SPECIFICATOR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ITEMS_STORAGES_MINIMUMSTOCK" columnName="MinimumStock" [title]="_TB('Minimum Stock')" columnType="tb-numeric-text-box" columnName="IDC_ITEMS_STORAGES_MINIMUMSTOCK">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ITEMS_STORAGES_MAXIMUMSTOCK" columnName="MaximumStock" [title]="_TB('Max. Stock')" columnType="tb-numeric-text-box" columnName="IDC_ITEMS_STORAGES_MAXIMUMSTOCK">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ITEMS_STORAGES_REORDERINGLOTSIZE" columnName="ReorderingLotSize" [title]="_TB('Reordering Lot')" columnType="tb-numeric-text-box" columnName="IDC_ITEMS_STORAGES_REORDERINGLOTSIZE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ITEMS_STORAGES_ROUNDMATHEMATIC" columnName="MathematicRounding" [title]="_TB('Mathematical Rounding')" columnType="tb-checkbox" columnName="IDC_ITEMS_STORAGES_ROUNDMATHEMATIC">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Taxes')" icon="erp-notafiscal" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Main Data')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-text [caption]="_TB('NCM Code')" cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_NCM" width="56" [model]="eventData?.model?.ItemsBRTaxes?.NCM"></tb-text>
+          <tb-label-static cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_NCM_DESCRI" width="155" [model]="eventData?.model?.HKLBRNCM?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-text [caption]="_TB('NVE Code')" cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_NVE" width="56" [model]="eventData?.model?.ItemsBRTaxes?.NVE"></tb-text>
+          <tb-label-static cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_NVE_DESCRI" width="154" [model]="eventData?.model?.HKLBRNVE?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-text [caption]="_TB('CEST Code')" cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_CEST" width="56" [model]="eventData?.model?.ItemsBRTaxes?.CEST"></tb-text>
+          <tb-label-static cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_CEST_DESCRI" width="154" [model]="eventData?.model?.HKLBRCEST?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-text [caption]="_TB('ANP Code')" cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_ANP" width="56" [model]="eventData?.model?.ItemsBRTaxes?.ANP"></tb-text>
+          <tb-label-static cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_ANP_DESCRI" width="154" [model]="eventData?.model?.HKLBRANP?.Description"></tb-label-static>
+</div>          <tb-text [caption]="_TB('FCI Code')" cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_FCI" width="213" [model]="eventData?.model?.ItemsBRTaxes?.FCI"></tb-text>
+<div class="anchored">          <tb-text [caption]="_TB('Service Type')" cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_SERVICE_TYPE" width="56" [model]="eventData?.model?.ItemsBRTaxes?.ServiceTypeCode"></tb-text>
+          <tb-label-static cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_SERVICE_TYPE_DESCRI" width="154" [model]="eventData?.model?.HKLBRServiceType?.Description"></tb-label-static>
+</div>          <tb-enum-combo [caption]="_TB('Item Type for SPED')" cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_ITEM_TYPE_SPED" width="84" [model]="eventData?.model?.ItemsBRTaxes?.ItemType"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Approximated Taxes for Transparency Law')" tbTileStandard  isCollapsible="True">
+          <tb-section-title cmpId="IDC_STATIC_ITEM_IMP_PRODUCT" width="324" [caption]="_TB('Imported Product')"></tb-section-title>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('Federal')" cmpId="IDC_BR_ITEM_APP_CHARGES_IMP_PERC" width="50" [model]="eventData?.model?.ItemsBRTaxes?.ApproxTaxesImportPerc"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('State')" cmpId="IDC_BR_ITEM_APP_CHARGES_STATE_IMP_PERC" width="50" [model]="eventData?.model?.ItemsBRTaxes?.StateApproxTaxesImportPerc"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('Municipatility')" cmpId="IDC_BR_ITEM_APP_CHARGES_MUN_IMP_PERC" width="50" [model]="eventData?.model?.ItemsBRTaxes?.MunApproxTaxesImportPerc"></tb-numeric-text-box>
+          <tb-section-title cmpId="IDC_STATIC_ITEM_DOMESTIC_PRODUCT" width="324" [caption]="_TB('Domestic Product')"></tb-section-title>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('Federal')" cmpId="IDC_BR_ITEM_APP_CHARGES_NAT_PERC" width="50" [model]="eventData?.model?.ItemsBRTaxes?.ApproxTaxesDomesticPerc"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('State')" cmpId="IDC_BR_ITEM_APP_CHARGES_STATE_NAT_PERC" width="50" [model]="eventData?.model?.ItemsBRTaxes?.StateApproxTaxesDomesticPerc"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('Municipatility')" cmpId="IDC_BR_ITEM_APP_CHARGES_MUN_NAT_PERC" width="50" [model]="eventData?.model?.ItemsBRTaxes?.MunApproxTaxesDomesticPerc"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Fiscal Category')" tbTileAutoFill  isCollapsible="True">
+         <tb-body-edit cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_BODY" width="323" [model]="eventData?.model?.BRFiscalCtgItems">
+          <tb-body-edit-column cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_BODY_FISCAL_CTG" columnName="ItemFiscalCtg" [title]="_TB('Fiscal Category')" columnType="tb-text" columnName="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_BODY_FISCAL_CTG">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_BODY_FISCAL_CTG_DESCRI" [model]="eventData?.model?.HKLBRItemFiscalCtg?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BR_ITEM_ADDONSITEM_BR_ADDONSITEM_BODY_FISCAL_CTG_DESCRI">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Fiscal Values')" tbTileAutoFill  isCollapsible="True" isCollapsed="True">
+         <tb-combo [caption]="_TB('UoM')" cmpId="IDC_BR_ITEM_ADDONSITEM_FISCAL_UOM" width="57" [model]="eventData?.model?.Items?.FiscalUoM"></tb-combo>
+         <tb-body-edit cmpId="IDC_BR_ITEM_ADDONSITEM_FISCAL_VALUES_BODY" width="323" [model]="eventData?.model?.ItemsBRFiscalValues">
+          <tb-body-edit-column cmpId="IDC_BR_ITEM_ADDONSITEM_TAX_TYPE" columnName="TaxType" [itemSource]="IDC_BR_ITEM_ADDONSITEM_TAX_TYPE_itemSource" [title]="_TB('Tax Type')" columnType="tb-enum-combo" columnName="IDC_BR_ITEM_ADDONSITEM_TAX_TYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_BR_ITEM_ADDONSITEM_START_DATE" columnName="ValidityStartingDate" [title]="_TB('Validity Start')" columnType="tb-date-input" columnName="IDC_BR_ITEM_ADDONSITEM_START_DATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_BR_ITEM_ADDONSITEM_END_DATE" columnName="ValidityEndingDate" [title]="_TB('Validity End')" columnType="tb-date-input" columnName="IDC_BR_ITEM_ADDONSITEM_END_DATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ITEM_ADDONSITEM_FEDERAL_STATE" columnName="FederalState" [title]="_TB('Federal State')" columnType="tb-combo" columnName="IDC_BR_ITEM_ADDONSITEM_FEDERAL_STATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_BR_ITEM_ADDONSITEM_FISCALVALUE" columnName="FiscalValue" [title]="_TB('Value')" columnType="tb-numeric-text-box" columnName="IDC_BR_ITEM_ADDONSITEM_FISCALVALUE">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Units of Measure')" icon="erp-unitofmeasure" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Default Units of Measure')" tbTileWide >
+<div class="col col1">         <tb-combo [caption]="_TB('Receipt')" cmpId="IDC_GOODS_ISSUE_UOM" width="60" [model]="eventData?.model?.GoodsData?.ReceiptUoM" [itemSource]="IDC_GOODS_ISSUE_UOM_itemSource"></tb-combo>
+         <tb-combo [caption]="_TB('Issue')" cmpId="IDC_GOODS_ISSUEUOM" width="60" [model]="eventData?.model?.GoodsData?.IssueUoM" [itemSource]="IDC_GOODS_ISSUEUOM_itemSource"></tb-combo>
+         <tb-combo [caption]="_TB('in Queries')" cmpId="IDC_GOODS_REPORT_UOM" width="60" [model]="eventData?.model?.GoodsData?.ReportUoM" [itemSource]="IDC_GOODS_REPORT_UOM_itemSource"></tb-combo>
+</div><div class="col col2">         <tb-combo [caption]="_TB('of Packs to be Receipted')" cmpId="IDC_GOODS_PACKSUOMISSUETOPROD" width="60" [model]="eventData?.model?.GoodsData?.PacksReceiptUoM" [itemSource]="IDC_GOODS_PACKSUOMISSUETOPROD_itemSource"></tb-combo>
+         <tb-combo [caption]="_TB('of Packs to be Issued')" cmpId="IDC_GOODS_PACKSUOMISSUE" width="60" [model]="eventData?.model?.GoodsData?.PacksIssueUoM" [itemSource]="IDC_GOODS_PACKSUOMISSUE_itemSource"></tb-combo>
+<div class="anchored">         <tb-checkbox *ngIf="eventData?.activation?.IDC_ITM_DENY_RESEARCH" cmpId="IDC_ITM_DENY_RESEARCH" width="109" [model]="eventData?.model?.Items?.NoUoMSearch" [caption]="_TB('Disable Search  ')"></tb-checkbox>
+         <tb-caption *ngIf="eventData?.activation?.IDC_STATIC_ITM_DENY_RESEARCH" cmpId="IDC_STATIC_ITM_DENY_RESEARCH" width="129" [caption]="_TB('by General UoMs  ')"></tb-caption>
+</div></div>        </tb-tile>
+        <tb-tile [title]="_TB('Alternative Units of Measure')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_ITEMS_UOM_BE">
+<div class="col col1">         <tb-body-edit cmpId="IDC_UOM_COMPARABLE_BODY" width="654" [model]="eventData?.model?.AlternativeUoM">
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_DERIVED" [title]="_TB('UoM')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_DERIVED">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_IS_DISABLED" [title]="_TB('Disabled')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_IS_DISABLED">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_NOOFPACKS" [title]="_TB('Packs')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_NOOFPACKS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_QTYINBASE" [title]="_TB('Qty in Base UoM')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_QTYINBASE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_IDC_UOM_COMPARABLE_QTYINDERIVED" [title]="_TB('Qty in Comparable UoM')" columnType="tb-body-edit-column" columnName="IDC_IDC_UOM_COMPARABLE_QTYINDERIVED">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_GROSSWEIGHT" [title]="_TB('Gross Weight')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_GROSSWEIGHT" *ngIf="eventData?.activation?.IDC_UOM_COMPARABLE_GROSSWEIGHT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_GROSSVOLUME" [title]="_TB('Gross Volume')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_GROSSVOLUME" *ngIf="eventData?.activation?.IDC_UOM_COMPARABLE_GROSSVOLUME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_PACKAGING" [title]="_TB('Packaging')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_PACKAGING" *ngIf="eventData?.activation?.IDC_UOM_COMPARABLE_PACKAGING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_UOM_COMPARABLE_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_FACTOR1" [title]="_TB('Coeff. 1')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_FACTOR1">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_FACTOR2" [title]="_TB('Coeff. 2')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_FACTOR2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_FACTOR3" [title]="_TB('Coeff. 3')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_FACTOR3">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_FACTOR4" [title]="_TB('Coeff. 4')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_FACTOR4">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_DESCRI_FACTOR1" [title]="_TB('Coeff. 1 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_DESCRI_FACTOR1">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_DESCRI_FACTOR2" [title]="_TB('Coeff. 2 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_DESCRI_FACTOR2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_DESCRI_FACTOR3" [title]="_TB('Coeff. 3 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_DESCRI_FACTOR3">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_UOM_COMPARABLE_DESCRI_FACTOR4" [title]="_TB('Coeff. 4 Description')" columnType="tb-body-edit-column" columnName="IDC_UOM_COMPARABLE_DESCRI_FACTOR4">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Sales and Purchase')" icon="erp-saleandpurchase" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Sales and Purchase Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Base Price')" cmpId="IDC_ITM_PRICE_BASE" width="68" [model]="eventData?.model?.Items?.BasePrice"></tb-numeric-text-box>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_ITM_BASE_PRICE_WITH_TAX" cmpId="IDC_ITM_BASE_PRICE_WITH_TAX" width="109" [model]="eventData?.model?.Items?.BasePriceWithTax" [caption]="_TB('With Tax  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Discount %')" cmpId="IDC_ITM_DISCOUNT" width="30" [model]="eventData?.model?.Items?.DiscountFormula"></tb-text>
+         <tb-numeric-text-box formatter="Percent" [caption]="_TB('Markup %')" cmpId="IDC_ITM_MARKUP" width="30" [model]="eventData?.model?.Items?.Markup"></tb-numeric-text-box>
+<div class="anchored">         <tb-checkbox cmpId="IDC_ITM_NO_ADD_DISCOUNTO_IN_SALEDOC" width="109" [model]="eventData?.model?.Items?.NoAddDiscountInSaleDoc" [caption]="_TB('Additional Discount ')"></tb-checkbox>
+         <tb-caption cmpId="IDC_STATIC_ADDITIONAL_DISCOUNT" width="98" [caption]="_TB('must not be applied  ')"></tb-caption>
+</div><div class="anchored">         <tb-combo *ngIf="eventData?.activation?.IDC_ITM_TAXCODE" [caption]="_TB('Tax Code')" cmpId="IDC_ITM_TAXCODE" width="60" [model]="eventData?.model?.Items?.TaxCode"></tb-combo>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_TAXDESCRI" cmpId="IDC_ITM_TAXDESCRI" width="162" [model]="eventData?.model?.HKLTaxCode?.Description"></tb-label-static>
+</div></div><div class="col col2">         <tb-enum-combo *ngIf="eventData?.activation?.IDC_ITM_SALETYPE" [caption]="_TB('Sale Type')" cmpId="IDC_ITM_SALETYPE" width="84" [model]="eventData?.model?.Items?.SaleType"></tb-enum-combo>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_ITM_PURCHASETYPE" [caption]="_TB('Purchase Type')" cmpId="IDC_ITM_PURCHASETYPE" width="84" [model]="eventData?.model?.Items?.PurchaseType"></tb-enum-combo>
+         <tb-checkbox cmpId="IDC_ITM_MANAGEMENTS_CUST" width="109" [model]="eventData?.model?.Items?.HasCustomers" [caption]="_TB('Has Customers  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_ITM_MANAGEMENTS_SUPP" width="109" [model]="eventData?.model?.Items?.HasSuppliers" [caption]="_TB('Has Suppliers  ')"></tb-checkbox>
+         <tb-combo [caption]="_TB('Additional Code')" cmpId="IDC_ITEMS_ITEMSADDCODE" width="84" [model]="eventData?.model?.Items?.ItemCodes"></tb-combo>
+         <tb-label-static cmpId="IDC_ITEMS_ITEMSADDCODE_DESCRI" width="180" [model]="eventData?.model?.HKLItemsCodes?.Description"></tb-label-static>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Weee')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_ITEMS_WEEE">
+<div class="col col1"><div class="anchored">         <tb-combo [caption]="_TB('First WEEE Category')" cmpId="IDC_ITM_WEEECTG" width="60" [model]="eventData?.model?.GoodsData?.WEEECtg"></tb-combo>
+         <tb-label-static cmpId="IDC_ITM_DESCRIWEEE_CTG" width="163" [model]="eventData?.model?.HKLWEEECtg?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-combo [caption]="_TB('Second WEEE Category')" cmpId="IDC_ITM_WEEECTG2" width="60" [model]="eventData?.model?.GoodsData?.WEEECtg2"></tb-combo>
+         <tb-label-static cmpId="IDC_ITM_DESCRIWEEE_CTG2" width="163" [model]="eventData?.model?.HKLWEEECtg2?.Description"></tb-label-static>
+</div></div><div class="col col2"><div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('First amount')" cmpId="IDC_ITM_WEEEAMOUNT" width="84" [model]="eventData?.model?.GoodsData?.WEEEAmount"></tb-numeric-text-box>
+         <tb-caption cmpId="IDC_STATIC_IN_BASE_CURR_1" width="98" [caption]="_TB('in base currency')"></tb-caption>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Second amount')" cmpId="IDC_ITM_WEEEAMOUNT2" width="84" [model]="eventData?.model?.GoodsData?.WEEEAmount2"></tb-numeric-text-box>
+         <tb-caption cmpId="IDC_STATIC_IN_BASE_CURR_2" width="98" [caption]="_TB('in base currency')"></tb-caption>
+</div></div>        </tb-tile>
+        <tb-tile [title]="_TB('Salespeople Data')" tbTileWide  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_ITEMS_SALESPEOPLE">
+<div class="col col1"><div class="anchored">         <tb-combo [caption]="_TB('Commission Category')" cmpId="IDC_ITM_COMMISSIONCTG" width="60" [model]="eventData?.model?.Items?.CommissionCtg"></tb-combo>
+         <tb-label-static cmpId="IDC_ITM_DESCRICOMMISCTG" width="162" [model]="eventData?.model?.HKLCtgCommiss?.Description"></tb-label-static>
+</div></div><div class="col col2">         <tb-numeric-text-box formatter="Percent" [caption]="_TB('Commission %')" cmpId="IDC_ITM_PERCCOMMISS" width="40" [model]="eventData?.model?.Items?.SalespersonComm"></tb-numeric-text-box>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Price List')" tbTileWide >
+<div class="col col1">         <tb-body-edit cmpId="IDC_PRICELISTS_ITM_BODY" width="654" [model]="eventData?.model?.PriceLists">
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_PRICELIST" [title]="_TB('Price List')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_PRICELIST">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_ISDISABLED" [title]="_TB('Disactivated')" columnType="tb-bool-edit" columnName="IDC_PRICELISTS_ITM_ISDISABLED">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITEM_VALID_FROM_DATE" [title]="_TB('Validity Start')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITEM_VALID_FROM_DATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_END_VALIDITY" [title]="_TB('Validity End')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_END_VALIDITY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_UOM" [title]="_TB('UoM')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_UOM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_PRICE" [title]="_TB('Price')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_PRICE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_QTY" [title]="_TB('Qty')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_QTY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_DISCOUNT" [title]="_TB('Discount')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_DISCOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_WITH_TAX" [title]="_TB('Tax')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_WITH_TAX" *ngIf="eventData?.activation?.IDC_PRICELISTS_ITM_WITH_TAX">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_DISCOUNTED" [title]="_TB('Discounted')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_DISCOUNTED">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_SEEALWAYS" [title]="_TB('Display Always')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_SEEALWAYS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_LAST_MODIFY" [title]="_TB('Last Modified')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_LAST_MODIFY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PRICELISTS_ITM_NOTES" [title]="_TB('Notes')" columnType="tb-body-edit-column" columnName="IDC_PRICELISTS_ITM_NOTES">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Administrative Data')" icon="erp-accounting" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tilepanel [title]="_TB('Accounting Data')" isCollapsible="True" showAsTile="True" *ngIf="eventData?.activation?.IDD_PANEL_ITEMSACCOUNTING">
+          <tb-tile [title]="_TB('Accounting Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_ITEMS_ACCOUNTING_DATA">
+<div class="anchored">           <tb-text *ngIf="eventData?.activation?.IDC_ITM_ACCOUNTING_TYPE" [caption]="_TB('Accounting Type')" cmpId="IDC_ITM_ACCOUNTING_TYPE" width="62" [model]="eventData?.model?.Items?.AccountingType"></tb-text>
+           <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_ACCOUNTING_TYPE_DESCRI" cmpId="IDC_ITM_ACCOUNTING_TYPE_DESCRI" width="154" [model]="eventData?.model?.HKLAccountingType?.Description"></tb-label-static>
+</div>           <tb-section-title cmpId="IDC_STATIC_ITEMS_OFFSETS" width="325" [caption]="_TB('Offsets')"></tb-section-title>
+           <tb-text [caption]="_TB('Sales')" cmpId="IDC_ITM_OFFSETFORDISPATCHES" width="104" [model]="eventData?.model?.Items?.SaleOffset"></tb-text>
+           <tb-label-static cmpId="IDC_ITM_SALEOFFSETDESCRI" width="221" [model]="eventData?.model?.HKLSaleOffset?.Description"></tb-label-static>
+           <tb-text [caption]="_TB('Purchases')" cmpId="IDC_ITM_OFFSETFORPURCHASES" width="104" [model]="eventData?.model?.Items?.PurchaseOffset"></tb-text>
+           <tb-label-static cmpId="IDC_ITM_PURCHASEOFFSETDESCRI" width="221" [model]="eventData?.model?.HKLOffsetPurchase?.Description"></tb-label-static>
+           <tb-text *ngIf="eventData?.activation?.IDC_ITM_ACCOUNTDELIVUOMI" [caption]="_TB('Consumption')" cmpId="IDC_ITM_ACCOUNTDELIVUOMI" width="104" [model]="eventData?.model?.Items?.ConsuptionOffset"></tb-text>
+           <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_CONSUPTIONACCOUNTDESCRIPTION" cmpId="IDC_ITM_CONSUPTIONACCOUNTDESCRIPTION" width="221" [model]="eventData?.model?.HKLConsuptionOffset?.Description"></tb-label-static>
+          </tb-tile>
+          <tb-tile tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_ITEMS_WITHHOLDING_TAX">
+           <tb-section-title cmpId="IDC_STATIC_ITEMS_REVERSE_CHARGE" width="325" [caption]="_TB('Withholding Tax')"></tb-section-title>
+           <tb-checkbox cmpId="IDC_ITM_WITHHOLDING_TAX" width="109" [model]="eventData?.model?.Items?.SubjectToWithholdingTax" [caption]="_TB('Subject To Withholding Tax  ')"></tb-checkbox>
+          </tb-tile>
+         </tb-tilepanel>
+         <tb-tilepanel [title]="_TB('Analysis and Controlling Data')" isCollapsible="True" showAsTile="True" *ngIf="eventData?.activation?.IDD_PANEL_ITEMSANALYSISCONTROLLING">
+          <tb-tile tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_ITEMS_ANALYSIS_CONTROLLING_DATA">
+<div class="anchored">           <tb-text *ngIf="eventData?.activation?.IDC_ITM_JOB" [caption]="_TB('Job')" cmpId="IDC_ITM_JOB" width="65" [model]="eventData?.model?.Items?.Job"></tb-text>
+           <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_JOBDESCRI" cmpId="IDC_ITM_JOBDESCRI" width="154" [model]="eventData?.model?.HKLJobs?.Description"></tb-label-static>
+</div><div class="anchored">           <tb-combo *ngIf="eventData?.activation?.IDC_ITM_COSTCENTERS" [caption]="_TB('Cost Center')" cmpId="IDC_ITM_COSTCENTERS" width="65" [model]="eventData?.model?.Items?.CostCenter"></tb-combo>
+           <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_COSTCENTERDESCRI" cmpId="IDC_ITM_COSTCENTERDESCRI" width="154" [model]="eventData?.model?.HKLCostCenters?.Description"></tb-label-static>
+</div><div class="anchored">           <tb-combo *ngIf="eventData?.activation?.IDC_ITM_PRODUCTLINE" [caption]="_TB('Product Line')" cmpId="IDC_ITM_PRODUCTLINE" width="65" [model]="eventData?.model?.Items?.ProductLine"></tb-combo>
+           <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_LINEDESCRI" cmpId="IDC_ITM_LINEDESCRI" width="154" [model]="eventData?.model?.HKLProductLine?.Descriprion"></tb-label-static>
+</div>          </tb-tile>
+          <tb-tile tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_ITEMS_REVERSE_CHARGE">
+           <tb-section-title cmpId="IDC_STATIC_ITEMS_WITHHOLDING_TAX" width="325" [caption]="_TB('Reverse Charge')"></tb-section-title>
+           <tb-checkbox cmpId="IDC_ITEMS_REVERSECHARGE" width="111" [model]="eventData?.model?.Items?.ReverseCharge" [caption]="_TB('Reverse Charge in Purchase  ')"></tb-checkbox>
+<div class="anchored">           <tb-combo [caption]="_TB('Tax Code')" cmpId="IDC_ITEMS_REVERSECHARGE_TAXCODE" width="65" [model]="eventData?.model?.Items?.RCTaxCode"></tb-combo>
+           <tb-label-static *ngIf="eventData?.activation?.IDC_ITEMS_REVERSECHARGE_TAXCODE_DESCR" cmpId="IDC_ITEMS_REVERSECHARGE_TAXCODE_DESCR" width="154" [model]="eventData?.model?.HKLRCTaxCode?.Description"></tb-label-static>
+</div>          </tb-tile>
+         </tb-tilepanel>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Intrastat')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_ITEMS_INTRASTAT">
+<div class="col col1"><div class="anchored">         <tb-text [caption]="_TB('Combined Nomenclature')" cmpId="IDC_INTRASTAT_COMBINEDNOMENCLATURE" width="62" [model]="eventData?.model?.Intrastat?.CombinedNomenclature"></tb-text>
+         <tb-label-static cmpId="IDC_INTRASTAT_COMBINEDNOMENCLATURE_DESCR" width="157" [model]="eventData?.model?.HKLCombinedNomenclature?.Description"></tb-label-static>
+</div>         <tb-combo [caption]="_TB('County of Origin')" cmpId="IDC_INTRASTAT_COUNTYOFORIGIN" width="49" [model]="eventData?.model?.Intrastat?.CountyOfOrigin" [itemSource]="IDC_INTRASTAT_COUNTYOFORIGIN_itemSource"></tb-combo>
+<div class="anchored">         <tb-combo [caption]="_TB('Origin ISO Country')" cmpId="IDC_INTRASTAT_CODEISO" width="48" [model]="eventData?.model?.Intrastat?.ISOOfOrigin"></tb-combo>
+         <tb-label-static cmpId="IDC_INTRASTAT_DESCRI_ISO" width="174" [model]="eventData?.model?.HKLISOCountryCodes?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Double" [caption]="_TB('Specific Weight for Net Mass')" cmpId="IDC_INTRASTAT_WEIGHT_SPEC_MASS_NET" width="104" [model]="eventData?.model?.Intrastat?.SpecWeightNetMass"></tb-numeric-text-box>
+         <tb-caption cmpId="IDC_STATIC_INTRASTAT_WEIGHT_SPEC_MASS_NET" width="98" [caption]="_TB('in Base UoM')"></tb-caption>
+</div>         <tb-numeric-text-box formatter="Double" [caption]="_TB('Qty in Supplementary UoM')" cmpId="IDC_INTRASTAT_WEIGHT_SPEC_MASS_NET_SUPP" width="104" [model]="eventData?.model?.Intrastat?.SuppUnitSpecWeight"></tb-numeric-text-box>
+</div><div class="col col2"><div class="anchored">         <tb-text [caption]="_TB('CPA ')" cmpId="IDC_INTRASTAT_CPA" width="60" [model]="eventData?.model?.Intrastat?.CPACode"></tb-text>
+         <tb-label-static cmpId="IDC_INTRASTAT_CPA_DESCR" width="159" [model]="eventData?.model?.HKLCPA?.Description"></tb-label-static>
+</div>         <tb-enum-combo [caption]="_TB('Supply Type')" cmpId="IDC_INTRASTAT_SUPPLYTYPE" width="87" [model]="eventData?.model?.Intrastat?.IntrastatSupplyType"></tb-enum-combo>
+         <tb-text [caption]="_TB('Description in Supplementary Unit')" cmpId="IDC_INTRASTAT_DESCRI_SUPP_UOM" width="224" [model]="eventData?.model?.Intrastat?.SuppUnitDescription"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_INTRASTAT_PRODCOM" [caption]="_TB('PRODCOM')" cmpId="IDC_INTRASTAT_PRODCOM" width="60" [model]="eventData?.model?.Intrastat?.PRODCOM"></tb-text>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Offsets for Inventory Accounting Transaction')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_ITEMS_OFFSETS">
+<div class="col col1"></div><div class="col col2"></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Other Data')" icon="erp-inventorymore" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Manufacturer')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_ITEMS_MANUFACTURER">
+<div class="col col1">         <tb-text [caption]="_TB('Manufacturer')" cmpId="IDC_ITM_PRODUCER" width="100" [model]="eventData?.model?.Items?.Producer"></tb-text>
+         <tb-label-static cmpId="IDC_ITM_COMPNAME_PRODUCER" width="224" [model]="eventData?.model?.HKLProducers?.CompanyName"></tb-label-static>
+</div><div class="col col2"><div class="anchored">         <tb-text [caption]="_TB('Product Category')" cmpId="IDC_ITM_PRODUCTCTG" width="62" [model]="eventData?.model?.Items?.ProductCtg"></tb-text>
+         <tb-label-static cmpId="IDC_ITM_DESCRI_CTG_PROD" width="160" [model]="eventData?.model?.HKLProductCtg?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-combo [caption]="_TB('Product Subcategory')" cmpId="IDC_ITM_PRODUCTSUBCTG" width="62" [model]="eventData?.model?.Items?.ProductSubCtg"></tb-combo>
+         <tb-label-static cmpId="IDC_ITM_DESCRI_UNDERCTG_PROD" width="160" [model]="eventData?.model?.HKLProductSubCtg?.Description"></tb-label-static>
+</div></div>        </tb-tile>
+        <tb-tile [title]="_TB('Categories')" tbTileWide  isCollapsible="True">
+<div class="col col1"><div class="anchored">         <tb-combo [caption]="_TB('Commodity Category')" cmpId="IDC_ITM_COMMODITYCTG" width="60" [model]="eventData?.model?.Items?.CommodityCtg"></tb-combo>
+         <tb-label-static cmpId="IDC_ITM_DESCRICTGCOMMODITY" width="162" [model]="eventData?.model?.HKLCommodityCtg?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-combo [caption]="_TB('Homogeneous Category')" cmpId="IDC_ITM_HOMOGENEOUSCTG" width="60" [model]="eventData?.model?.Items?.HomogeneousCtg"></tb-combo>
+         <tb-label-static cmpId="IDC_ITM_DESCRIHOMOGCTG" width="162" [model]="eventData?.model?.HKLHomogeneousCtg?.Description"></tb-label-static>
+</div></div><div class="col col2"><div class="anchored">         <tb-combo [caption]="_TB('Item Type')" cmpId="IDC_ITM_ITEMTYPE" width="60" [model]="eventData?.model?.Items?.ItemType"></tb-combo>
+         <tb-label-static cmpId="IDC_ITM_DESCRIITMTYP" width="163" [model]="eventData?.model?.HKLItemType?.Description"></tb-label-static>
+</div>         <tb-section-title *ngIf="eventData?.activation?.IDC_ITM_TS_CHARGE_TYPE_SEPARATOR" cmpId="IDC_ITM_TS_CHARGE_TYPE_SEPARATOR" width="326" [caption]="_TB('Health Card System')"></tb-section-title>
+<div class="anchored">         <tb-combo *ngIf="eventData?.activation?.IDC_ITM_TS_CHARGE_TYPE" [caption]="_TB('Charge Type')" cmpId="IDC_ITM_TS_CHARGE_TYPE" width="60" [model]="eventData?.model?.Items?.TSChargeType" [itemSource]="IDC_ITM_TS_CHARGE_TYPE_itemSource"></tb-combo>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_TS_CHARGE_TYPE_DESCRI" cmpId="IDC_ITM_TS_CHARGE_TYPE_DESCRI" width="163" [model]="eventData?.model?.Items?.TSChargeTypeDescri"></tb-label-static>
+</div><div class="anchored">         <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_TS_CHARGE_TYPE_FLAG" [caption]="_TB('Charge Type Flag')" cmpId="IDC_ITM_TS_CHARGE_TYPE_FLAG" width="60" [model]="eventData?.model?.Items?.TSChargeTypeFlag"></tb-label-static>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_ITM_TS_CHARGE_TYPE_FLAG_DESCRI" cmpId="IDC_ITM_TS_CHARGE_TYPE_FLAG_DESCRI" width="164" [model]="eventData?.model?.Items?.TSChargeTypeFlagDescri"></tb-label-static>
+</div></div>        </tb-tile>
+        <tb-tilepanel [title]="_TB('Notes')" isCollapsible="True" showAsTile="True">
+         <tb-tile [title]="_TB('Notes')" tbTileWide >
+<div class="col col1">          <tb-text [caption]="_TB('Public Note')" cmpId="IDC_ITM_PUBLICNOTE" width="222" [model]="eventData?.model?.Items?.PublicNote"></tb-text>
+          <tb-text [caption]="_TB('Detailed Description Text')" cmpId="IDC_ITM_FILEPATH" width="222" [model]="eventData?.model?.Items?.DescriptionText"></tb-text>
+</div><div class="col col2">          <tb-text [caption]="_TB('Private Note')" cmpId="IDC_ITM_INTERNALNOTE" width="222" [model]="eventData?.model?.Items?.InternalNote"></tb-text>
+          <tb-text *ngIf="eventData?.activation?.IDC_ITM_SHORT_DESCRIPTION" [caption]="_TB('Short Item Description')" cmpId="IDC_ITM_SHORT_DESCRIPTION" width="222" [model]="eventData?.model?.Items?.ShortDescription"></tb-text>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Notes Detail')" tbTileStandard >
+          <tb-body-edit cmpId="IDC_ITMNOTES_BODY_DETAIL" width="325" [model]="eventData?.model?.Notes">
+           <tb-body-edit-column cmpId="IDC_ITEMNOTES_NOTES" [title]="_TB('Notes')" columnType="tb-body-edit-column" columnName="IDC_ITEMNOTES_NOTES">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_ITEMNOTES_SHOWPURCHASES" [title]="_TB('Display in
+Purchase Documents')" columnType="tb-body-edit-column" columnName="IDC_ITEMNOTES_SHOWPURCHASES">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_ITEMNOTES_SHOWSALES" [title]="_TB('Display in
+Sales Documents')" columnType="tb-body-edit-column" columnName="IDC_ITEMNOTES_SHOWSALES">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </tb-tilepanel>
+        <tb-tile [title]="_TB('Languages')" tbTileStandard  isCollapsible="True" isCollapsed="True">
+         <tb-body-edit cmpId="IDC_DESCRI_LANGUAGE_BODY" width="393" [model]="eventData?.model?.__Languages">
+          <tb-body-edit-column cmpId="IDC_DOC_LANGUAGE" columnName="__Language" [title]="_TB('Language')" columnType="tb-combo" columnName="IDC_DOC_LANGUAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_DESCRIPTION" columnName="__Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_DOC_DESCRIPTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_LANG_DOC_NOTES" columnName="__Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_LANG_DOC_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE" columnName="__TextDescri" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE2" columnName="__TextDescri2" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE2">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Quality Inspection')" icon="erp-quality" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_ITEMS_QUALITY">
+       <ng-template>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Manufacturing')" icon="erp-manufacturing" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_ITEMS_MANUFACTURING">
+       <ng-template>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Retail Prices')" icon="erp-cash" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_RETAIL_PRICES">
+       <ng-template>
+        <tb-tile [title]="_TB('Retail Prices')" tbTileAutoFill >
+         <tb-body-edit cmpId="IDC_RETAIL_PRICES_BODY" width="391" [model]="eventData?.model?.RetailPrices">
+          <tb-body-edit-column cmpId="IDC_RETAIL_PRICES_STORAGE" [model]="eventData?.model?.RetailPrices?.Storage" [title]="_TB('Storage')" columnType="tb-text" columnName="IDC_RETAIL_PRICES_STORAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_RETAIL_PRICES_PRICE" [model]="eventData?.model?.RetailPrices?.Price" [title]="_TB('Price')" columnType="tb-numeric-text-box" columnName="IDC_RETAIL_PRICES_PRICE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_RETAIL_PRICES_WITH_TAX" [model]="eventData?.model?.RetailPrices?.PriceWithTax" [title]="_TB('Tax')" columnType="tb-checkbox" columnName="IDC_RETAIL_PRICES_WITH_TAX">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('WMS')" icon="erp-wms" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('WMS data')" tbTileWide >
+<div class="col col1">         <tb-combo [caption]="_TB('WMS Category')" cmpId="IDC_ITEM_WMS_CATEGORY" width="75" [model]="eventData?.model?.WMSItems?.Category"></tb-combo>
+         <tb-label-static cmpId="IDC_ITEM_WMS_CATEGORYWMS_DESCRIPTION" width="223" [model]="eventData?.model?.HKLCategory?.Description"></tb-label-static>
+         <tb-combo [caption]="_TB('Section Category For Putaway')" cmpId="IDC_ITEM_WMS_CATEGORY_PUTAWAY" width="75" [model]="eventData?.model?.WMSItems?.CategoryForPutaway"></tb-combo>
+         <tb-label-static cmpId="IDC_ITEM_WMS_CATEGORYWMSFORPUTAWAY_DESCRIPTION" width="223" [model]="eventData?.model?.HKLCategoryForPutaway?.Description"></tb-label-static>
+         <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_PRESHIPPING_SEPARATOR" cmpId="IDC_STATIC_PRESHIPPING_SEPARATOR" width="325" [caption]="_TB('PreShipping')"></tb-section-title>
+         <tb-combo *ngIf="eventData?.activation?.IDC_ITEM_WMS_SUT_SHIPPING" [caption]="_TB('Storage Unit Type')" cmpId="IDC_ITEM_WMS_SUT_SHIPPING" width="75" [model]="eventData?.model?.WMSItems?.SUTPreShipping"></tb-combo>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_ITEM_WMS_SUTSHIPPING_DESCRIPTION" cmpId="IDC_ITEM_WMS_SUTSHIPPING_DESCRIPTION" width="223" [model]="eventData?.model?.HKLSUTShipping?.Description"></tb-label-static>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_ITEM_WMS_SUT_SHIPPING_QTY" formatter="Integer" [caption]="_TB('Quantity')" cmpId="IDC_ITEM_WMS_SUT_SHIPPING_QTY" width="75" [model]="eventData?.model?.WMSItems?.SUTPreShippingQty"></tb-numeric-text-box>
+         <tb-combo *ngIf="eventData?.activation?.IDC_ITEM_WMS_SUT_SHIPPING_UOM" [caption]="_TB('UoM')" cmpId="IDC_ITEM_WMS_SUT_SHIPPING_UOM" width="110" [model]="eventData?.model?.WMSItems?.SUTPreShippingUoM" [itemSource]="IDC_ITEM_WMS_SUT_SHIPPING_UOM_itemSource"></tb-combo>
+</div><div class="col col2">         <tb-checkbox cmpId="IDC_ITEM_WMS_HAZARDOUS_MATERIAL" width="109" [model]="eventData?.model?.WMSItems?.HazardousMaterial" [caption]="_TB('Hazardous Material  ')"></tb-checkbox>
+<div class="anchored">         <tb-checkbox cmpId="IDC_ITEM_WMS_PRINT_BARCODEINGR" width="109" [model]="eventData?.model?.WMSItems?.PrintBarcodeInGR" [caption]="_TB('Print Barcode Label  ')"></tb-checkbox>
+         <tb-caption cmpId="IDC_STATIC_ITEM_WMS_PRINT_BARCODEINGR" width="98" [caption]="_TB('in Goods Receipt  ')"></tb-caption>
+</div>         <tb-text *ngIf="eventData?.activation?.IDC_ITEM_WMS_CONSIGNMENT_PARTNER" [caption]="_TB('Consignment Partner')" cmpId="IDC_ITEM_WMS_CONSIGNMENT_PARTNER" width="96" [model]="eventData?.model?.WMSItems?.ConsignmentPartner"></tb-text>
+         <tb-label-static cmpId="IDC_ITEM_WMS_CONSIGNMENT_PARTNER_DESCRI" width="224" [model]="eventData?.model?.HKLConsignmentPartner?.CompanyName"></tb-label-static>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_ITEM_WMS_CROSSDOCKING" cmpId="IDC_ITEM_WMS_CROSSDOCKING" width="109" [model]="eventData?.model?.WMSItems?.CrossDocking" [caption]="_TB('Cross Docking  ')"></tb-checkbox>
+         <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_WMS_MOBILE_SEPARATOR" cmpId="IDC_STATIC_WMS_MOBILE_SEPARATOR" width="325" [caption]="_TB('WMS Mobile')"></tb-section-title>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_ITEM_WMS_USED_IN_WMS_MOBILE" cmpId="IDC_ITEM_WMS_USED_IN_WMS_MOBILE" width="109" [model]="eventData?.model?.WMSItems?.UsedInWMSMobile" [caption]="_TB('Used in WMS Mobile  ')"></tb-checkbox>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_ITEM_WMS_SCANITEMINPICK" cmpId="IDC_ITEM_WMS_SCANITEMINPICK" width="109" [model]="eventData?.model?.WMSItems?.ScanItemInPicking" [caption]="_TB('Scan Item In Picking  ')"></tb-checkbox>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_ITEM_WMS_SCANITEMINPUT" cmpId="IDC_ITEM_WMS_SCANITEMINPUT" width="109" [model]="eventData?.model?.WMSItems?.ScanItemInPutaway" [caption]="_TB('Scan Item In Putaway  ')"></tb-checkbox>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('WMS Zones')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_ITEMS_WMS_ZONES">
+<div class="col col1">         <tb-body-edit cmpId="IDC_ITEM_WMS_ZONES_BE" width="440" [model]="eventData?.model?.WMSItemsWMSZones">
+          <tb-body-edit-column cmpId="IDC_ITEM_WMS_ZONES_STORAGE_BE" columnName="Storage" [title]="_TB('Storage')" columnType="tb-combo" columnName="IDC_ITEM_WMS_ZONES_STORAGE_BE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ITEM_WMS_ZONES_ZONE_BE" columnName="Zone" [title]="_TB('Zone')" columnType="tb-combo" columnName="IDC_ITEM_WMS_ZONES_ZONE_BE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ITEM_WMS_ZONES_FIXEDBIN_BE" columnName="FixedBinPicking" [title]="_TB('Fixed Bin
+for Picking')" columnType="tb-text" columnName="IDC_ITEM_WMS_ZONES_FIXEDBIN_BE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ITEM_WMS_ZONES_FIXEDBINPUT_BE" columnName="FixedBinPutaway" [title]="_TB('Fixed Bin
+for Putaway')" columnType="tb-text" columnName="IDC_ITEM_WMS_ZONES_FIXEDBINPUT_BE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ITEM_WMS_ZONES_MINSTOCK_BE" columnName="MinStock" [title]="_TB('Min Stock')" columnType="tb-numeric-text-box" columnName="IDC_ITEM_WMS_ZONES_MINSTOCK_BE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ITEM_WMS_ZONES_MAXSTOCK_BE" columnName="MaxStock" [title]="_TB('Max Stock')" columnType="tb-numeric-text-box" columnName="IDC_ITEM_WMS_ZONES_MAXSTOCK_BE">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane [title]="_TB('LinksPanel')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False" *ngIf="eventData?.activation?.IDD_TD_PNL_LINKSPANEL">
+         <tb-body-edit cmpId="IDC_PNL_BE" width="325" [model]="eventData?.model?.DBTLinksTable">
+          <tb-body-edit-column cmpId="IDC_PNL_BE_IMAGE" columnName="Image" [title]="_TB('Image')" columnType="tb-image" columnName="IDC_PNL_BE_IMAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PNL_BE_DESCR" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_PNL_BE_DESCR">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_ITEM_DATA_MANAGER_DOCK_PANE" [title]="_TB('ItemData')">
+     <tb-view *ngIf="eventData?.activation?.IDD_ITEM_DATA_VIEW">
+      <tb-tilemanager>
+       <tb-tilegroup [title]="_TB('General')" tbLayoutTypeVbox >
+        <ng-template>
+         <tb-tile [title]="_TB('Main Quantities And Values')" tbTileStandard >
+<div class="anchored">          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_CURRENT_STATIC" cmpId="IDC_DATA_ITM_CURRENT_STATIC" width="48" [caption]="_TB('Current')"></tb-caption>
+          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_VARIATION_STATIC" cmpId="IDC_DATA_ITM_VARIATION_STATIC" width="48" [caption]="_TB('Variation')"></tb-caption>
+          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_FINAL_STATIC" cmpId="IDC_DATA_ITM_FINAL_STATIC" width="48" [caption]="_TB('Final')"></tb-caption>
+</div><div class="anchored">          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_VARIATION_STATIC" cmpId="IDC_DATA_ITM_VARIATION_STATIC" width="48" [caption]="_TB('Variation')"></tb-caption>
+          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_FINAL_STATIC" cmpId="IDC_DATA_ITM_FINAL_STATIC" width="48" [caption]="_TB('Final')"></tb-caption>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Book Inventory Qty')" cmpId="IDC_DATA_ITM_BOOKINVENTORY_ACTUAL" width="48" [model]="eventData?.model?.ItemDataBookInventoryActual"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_BOOKINVENTORY_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_BOOKINVENTORY_DELTA" width="48" [model]="eventData?.model?.ItemDataBookInvDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_BOOKINVENTORY_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_BOOKINVENTORY_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalBookInv"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_BOOKINVENTORY_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_BOOKINVENTORY_DELTA" width="48" [model]="eventData?.model?.ItemDataBookInvDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_BOOKINVENTORY_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_BOOKINVENTORY_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalBookInv"></tb-numeric-text-box>
+</div>          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Book Inventory Value')" cmpId="IDC_DATA_ITM_BOOKINVENTORY_VALUE" width="48" [model]="eventData?.model?.ItemDataBookInvValue"></tb-numeric-text-box>
+<div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('On-Hand')" cmpId="IDC_DATA_ITM_ONHAND_ACTUAL" width="48" [model]="eventData?.model?.ItemDataOnHandActual"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ONHAND_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ONHAND_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaOnHand"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ONHAND_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ONHAND_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalOnHand"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ONHAND_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ONHAND_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaOnHand"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ONHAND_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ONHAND_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalOnHand"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Ordered to Suppliers')" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERS_ACTUAL" width="48" [model]="eventData?.model?.ItemDataOrderedSupplierActual"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERS_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERS_DELTA" width="48" [model]="eventData?.model?.ItemDataOrderedSupplierDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERS_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERS_ISFINAL" width="48" [model]="eventData?.model?.ItemDataOrderedSupplierIsFinal"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERS_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERS_DELTA" width="48" [model]="eventData?.model?.ItemDataOrderedSupplierDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERS_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERS_ISFINAL" width="48" [model]="eventData?.model?.ItemDataOrderedSupplierIsFinal"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Quantity in Production')" cmpId="IDC_DATA_ITM_INPRODUCTION_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActInProduction"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_INPRODUCTION_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_INPRODUCTION_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaInProduction"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_INPRODUCTION_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_INPRODUCTION_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinInProduction"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_INPRODUCTION_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_INPRODUCTION_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaInProduction"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_INPRODUCTION_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_INPRODUCTION_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinInProduction"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Reserved by Sales Orders')" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERS_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActCustReserved"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERS_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERS_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaCustReserved"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERS_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERS_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinCustReserved"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERS_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERS_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaCustReserved"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERS_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERS_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinCustReserved"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATED_ACTUAL" formatter="Integer" disabled="true" [caption]="_TB('Allocated By Sales Orders')" cmpId="IDC_DATA_ITM_ALLOCATED_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActualAllocated"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATED_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATED_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaAllocated"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATED_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATED_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalAllocated"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATED_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATED_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaAllocated"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATED_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATED_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalAllocated"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Reserved for Production')" cmpId="IDC_DATA_ITM_RESERVEDBYPROD_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActReservedByProd"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDBYPROD_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDBYPROD_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaReservedByProd"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDBYPROD_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDBYPROD_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinReservedByProd"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDBYPROD_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDBYPROD_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaReservedByProd"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDBYPROD_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDBYPROD_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinReservedByProd"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Availability')" cmpId="IDC_DATA_ITM_AVAILAIBILITY_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActualAvailaibility"></tb-numeric-text-box>
+          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITY_VARIANCE" cmpId="IDC_DATA_ITM_AVAILAIBILITY_VARIANCE" width="48"></tb-caption>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITY_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_AVAILAIBILITY_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalAvailaibility"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITY_VARIANCE" cmpId="IDC_DATA_ITM_AVAILAIBILITY_VARIANCE" width="48"></tb-caption>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITY_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_AVAILAIBILITY_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalAvailaibility"></tb-numeric-text-box>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Item Data')" tbTileStandard >
+          <tb-enum-combo [caption]="_TB('Kind')" cmpId="IDC_DATA_ITM_KIND" width="108" [model]="eventData?.model?.ItemDataKind"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value with')" cmpId="IDC_DATA_ITM_VALUEWITH" width="108" [model]="eventData?.model?.ItemDataValueWith"></tb-enum-combo>
+<div class="anchored">          <tb-numeric-text-box formatter="Double" disabled="true" [caption]="_TB('Net Weight')" cmpId="IDC_DATA_ITM_NETWEIGHT" width="48" [model]="eventData?.model?.ItemDataNetWeight"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Double" disabled="true" [caption]="_TB('Gross Weight')" cmpId="IDC_DATA_GROSSWEIGHT" width="48" [model]="eventData?.model?.ItemDataGrossWeight"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Min. Stock')" cmpId="IDC_DATA_ITM_STOCK_MINIMUM" width="48" [model]="eventData?.model?.ItemDataMinimumStock"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Max. Stock')" cmpId="IDC_DATA_ITM_STOCK_MAX" width="48" [model]="eventData?.model?.ItemDataMaxStock"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Reordering Lot')" cmpId="IDC_DATA_ITM_REORDERINGLOT" width="48" [model]="eventData?.model?.ItemDataReorderingLot"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Production Lot')" cmpId="IDC_DATA_ITM_PRODUCTIONLOT" width="48" [model]="eventData?.model?.ItemDataProductionLot"></tb-numeric-text-box>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Picture')" tbTileStandard >
+          <tb-image [height]="117" [width]="323" cmpId="IDC_DATA_ITM_PICTUREITM" width="323" [model]="eventData?.model?.ItemDataItemPicture"></tb-image>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Storage')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_ITEM_STORAGE">
+        <ng-template>
+         <tb-tile tbTileStandard  hasTitle="False">
+          <tb-combo [caption]="_TB('Storage')" cmpId="IDC_DATA_ITM_STORAGE_EXIT" width="66" [model]="eventData?.model?.ItemDataStorage"></tb-combo>
+<div class="anchored">          <tb-caption cmpId="IDC_DATA_ITM_STORAGE_CURRENT_STATIC" width="48" [caption]="_TB('Current')"></tb-caption>
+          <tb-caption cmpId="IDC_DATA_ITM_STORAGE_VARIATION_STATIC" width="47" [caption]="_TB('Variation')"></tb-caption>
+          <tb-caption cmpId="IDC_DATA_ITM_STORAGE_FINAL_STATIC" width="45" [caption]="_TB('Final')"></tb-caption>
+</div><div class="anchored">          <tb-caption cmpId="IDC_DATA_ITM_STORAGE_VARIATION_STATIC" width="47" [caption]="_TB('Variation')"></tb-caption>
+          <tb-caption cmpId="IDC_DATA_ITM_STORAGE_FINAL_STATIC" width="45" [caption]="_TB('Final')"></tb-caption>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Book Inventory Qty')" cmpId="IDC_DATA_ITM_STORAGE_CURRBIQ" width="48" [model]="eventData?.model?.ItemDataStorageBookInventoryActual"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGE_VARBIQ" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGE_VARBIQ" width="48" [model]="eventData?.model?.ItemDataStorageBookInvDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGE_FINALBIQ" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGE_FINALBIQ" width="48" [model]="eventData?.model?.ItemDataStorageBookInvFinal"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGE_VARBIQ" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGE_VARBIQ" width="48" [model]="eventData?.model?.ItemDataStorageBookInvDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGE_FINALBIQ" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGE_FINALBIQ" width="48" [model]="eventData?.model?.ItemDataStorageBookInvFinal"></tb-numeric-text-box>
+</div>          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Book Inventory Value')" cmpId="IDC_DATA_ITM_STORAGE_BIVALUE" width="48" [model]="eventData?.model?.ItemDataStorageBookInvValue"></tb-numeric-text-box>
+<div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('On-Hand')" cmpId="IDC_DATA_ITM_STORAGEQTY_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActualStorageQty"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGEQTY_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGEQTY_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaStorageQty"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGEQTY_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGEQTY_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalStorageQty"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGEQTY_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGEQTY_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaStorageQty"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_STORAGEQTY_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_STORAGEQTY_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalStorageQty"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Ordered to Suppliers')" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActualSupplierStorageOrdered"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaSupplierStorageOrdered"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalSupplierStorageOrdered"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaSupplierStorageOrdered"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ORDEREDSUPPLIERSSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalSupplierStorageOrdered"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Quantity in Production')" cmpId="IDC_DATA_ITM_PRODUCTIONSTORAGE_ACTUAL" width="48" [model]="eventData?.model?.ItemDataStorageProdInvActual"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_PRODUCTIONSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_PRODUCTIONSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataStorageProdInvDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_PRODUCTIONSTORAGE_FINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_PRODUCTIONSTORAGE_FINAL" width="48" [model]="eventData?.model?.ItemDataStorageProdInvFinal"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_PRODUCTIONSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_PRODUCTIONSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataStorageProdInvDelta"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_PRODUCTIONSTORAGE_FINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_PRODUCTIONSTORAGE_FINAL" width="48" [model]="eventData?.model?.ItemDataStorageProdInvFinal"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Reserved by Sales Orders')" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActCustStorageReserved"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaCustStorageReserved"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinCustStorageReserved"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaCustStorageReserved"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_RESERVEDCUSTOMERSSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinCustStorageReserved"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATEDSTORAGE_ACTUAL" formatter="Integer" disabled="true" [caption]="_TB('Allocated by Sales Orders')" cmpId="IDC_DATA_ITM_ALLOCATEDSTORAGE_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActualStorageAllocated"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATEDSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATEDSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaStorageAllocated"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATEDSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATEDSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalStorageAllocated"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATEDSTORAGE_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATEDSTORAGE_DELTA" width="48" [model]="eventData?.model?.ItemDataDeltaStorageAllocated"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_ALLOCATEDSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_ALLOCATEDSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalStorageAllocated"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Reserved for Production')" cmpId="IDC_DATA_STORAGE_RESERVEDBYPROD_ACTUAL" width="48" [model]="eventData?.model?.ItemDataStorageActReservedByProd"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_STORAGE_RESERVEDBYPROD_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_STORAGE_RESERVEDBYPROD_DELTA" width="48" [model]="eventData?.model?.ItemDataStorageDeltaReservedByProd"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_STORAGE_RESERVEDBYPROD_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_STORAGE_RESERVEDBYPROD_ISFINAL" width="48" [model]="eventData?.model?.ItemDataStorageFinReservedByProd"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_STORAGE_RESERVEDBYPROD_DELTA" formatter="Integer" disabled="true" cmpId="IDC_DATA_STORAGE_RESERVEDBYPROD_DELTA" width="48" [model]="eventData?.model?.ItemDataStorageDeltaReservedByProd"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_STORAGE_RESERVEDBYPROD_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_STORAGE_RESERVEDBYPROD_ISFINAL" width="48" [model]="eventData?.model?.ItemDataStorageFinReservedByProd"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Availability')" cmpId="IDC_DATA_ITM_AVAILAIBILITYSTORAGE_ACTUAL" width="48" [model]="eventData?.model?.ItemDataActualStorageAvailaibility"></tb-numeric-text-box>
+          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITYSTORAGE_VARIATION" cmpId="IDC_DATA_ITM_AVAILAIBILITYSTORAGE_VARIATION" width="48"></tb-caption>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITYSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_AVAILAIBILITYSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalStorageAvailaibility"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-caption *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITYSTORAGE_VARIATION" cmpId="IDC_DATA_ITM_AVAILAIBILITYSTORAGE_VARIATION" width="48"></tb-caption>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITM_AVAILAIBILITYSTORAGE_ISFINAL" formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_AVAILAIBILITYSTORAGE_ISFINAL" width="48" [model]="eventData?.model?.ItemDataFinalStorageAvailaibility"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Minimum inventory')" cmpId="IDC_DATA_ITM_STOCK_MIN_STORAGE" width="48" [model]="eventData?.model?.ItemDataStorageMinimumStock"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Maximum')" cmpId="IDC_DATA_ITM_STOCK_MAX_STORAGE" width="48" [model]="eventData?.model?.ItemDataStorageMaximumStock"></tb-numeric-text-box>
+</div>          <tb-caption cmpId="IDC_STATIC_2" width="161" [caption]="_TB('Note: the combo displays the qty in the Line UoM. The radar displays it in base UoM.')"></tb-caption>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Avail.Prospect')" tbLayoutTypeVbox >
+        <ng-template>
+         <tb-tile tbTileStandard  hasTitle="False">
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('On-Hand')" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_DISP" width="40" [model]="eventData?.model?.ItemDataOnHandActual"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Availability')" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_AVAILAIBILITY" width="40" [model]="eventData?.model?.ItemDataFinalOnHand"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Minimum stock')" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_STOCK_MIN" width="40" [model]="eventData?.model?.ItemDataMinimumStock"></tb-numeric-text-box>
+         </tb-tile>
+         <tb-tile tbTileAutoFill  hasTitle="False">
+          <tb-body-edit cmpId="IDC_DATA_ITEMMAN_BODYEDIT_ONHAND" width="654" [model]="eventData?.model?.AvailabilityAnalysisDetails">
+           <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_DATE" columnName="FromDate" [title]="_TB('Date')" columnType="tb-date-input" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_DATE">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_QTY_PYMT" columnName="IssuedQuantityBaseUoM" [title]="_TB('Receipt
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_QTY_PYMT">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_QTY_PICK" columnName="PickedQuantityBaseUoM" [title]="_TB('Picking
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_QTY_PICK">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_BALANCE" columnName="ProgrBalanceQty" [title]="_TB('Balance
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_BALANCE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_CODETYPE" columnName="CodeType" [title]="_TB('Document
+type')" columnType="tb-enum-combo" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_CODETYPE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_NO_DOC" columnName="DocumentNumber" [title]="_TB('Document
+number')" columnType="tb-text" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_NO_DOC">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_LINE" columnName="Line" [title]="_TB('Line')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_LINE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_CUSTSUPP" columnName="CustSupp" [title]="_TB('Customer
+Subcontractor')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_CUSTSUPP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_COMPNAME" columnName="CompanyName" [title]="_TB('Company
+name')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_COMPNAME">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_COMM_COMM" columnName="Job" [title]="_TB('Commercial 
+job')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_COMM_COMM">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_A_MIS" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_A_MIS">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_QTY_DOC" columnName="DocQty" [title]="_TB('Document quantity')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITEMMAN_ANALYSIS_ONHAND_QTY_DOC">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Lifo-Fifo')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_ITEM_LIFO_FIFO">
+        <ng-template>
+         <tb-tile [title]="_TB('Lifo-Fifo Data')" tbTileAutoFill >
+          <tb-body-edit cmpId="IDC_DATA_ITM_BODYEDIT_LIFOFIFO_HISTORY" width="654" [model]="eventData?.model?.LifoFifoHistory">
+           <tb-body-edit-column formatter="Long" disabled="true" cmpId="IDC_DATA_ITM_LOAD" columnName="ReceiptBatchId" [title]="_TB('Load')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITM_LOAD">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITM_LOAD_STORAGE" columnName="Storage" [title]="_TB('Storage')" columnType="tb-label-static" columnName="IDC_DATA_ITM_LOAD_STORAGE" *ngIf="eventData?.activation?.IDC_DATA_ITM_LOAD_STORAGE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITM_LOAD_ACC_TYPE" columnName="AccountingType" [title]="_TB('Accounting Type')" columnType="tb-label-static" columnName="IDC_DATA_ITM_LOAD_ACC_TYPE" *ngIf="eventData?.activation?.IDC_DATA_ITM_LOAD_ACC_TYPE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITM_LOAD_TRANSACTION_TYPE" columnName="InvEntryType" [title]="_TB('Entry Type')" columnType="tb-enum-combo" columnName="IDC_DATA_ITM_LOAD_TRANSACTION_TYPE">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_DATA_ITM_ENTRYDATE" columnName="PostingDate" [title]="_TB('Entry Date')" columnType="tb-date-input" columnName="IDC_DATA_ITM_ENTRYDATE">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DATA_ITM_QTY" columnName="Qty" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITM_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_DATA_ITM_UNIT_LINE_COST" columnName="LineCost" [title]="_TB('Line Cost')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITM_UNIT_LINE_COST" *ngIf="eventData?.activation?.IDC_DATA_ITM_UNIT_LINE_COST">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+      </tb-tilemanager>
+     </tb-view>
+     <tb-view *ngIf="eventData?.activation?.IDD_MAN_ITEM_DATA_VIEW">
+      <tb-tilemanager>
+       <tb-tilegroup [title]="_TB('General')" tbLayoutTypeVbox >
+        <ng-template>
+         <tb-tile [title]="_TB('BOM/MRP')" tbTileStandard >
+          <tb-section-title cmpId="IDC_STATIC_BOM" width="325" [caption]="_TB('BOM')"></tb-section-title>
+          <tb-label-static [caption]="_TB('Design')" cmpId="IDC_DATA_ITEMMAN_DRAWING" [model]="eventData?.model?.ManItemDataDrawing"></tb-label-static>
+          <tb-bool-edit [caption]="_TB('In production')" cmpId="IDC_DATA_ITEMMAN_BOM_IN_MANUFACTURING" [model]="eventData?.model?.ManItemDataInProcessBOM"></tb-bool-edit>
+          <tb-label-static [caption]="_TB('Notes')" cmpId="IDC_DATA_ITEMMAN_NOTES_BOM" [model]="eventData?.model?.ManItemDataNotes"></tb-label-static>
+          <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_MRP" cmpId="IDC_STATIC_MRP" width="325" [caption]="_TB('MRP Parameters')"></tb-section-title>
+          <tb-enum-combo *ngIf="eventData?.activation?.IDC_DATA_ITEMMAN_POLICY" [caption]="_TB('Policy')" cmpId="IDC_DATA_ITEMMAN_POLICY" [model]="eventData?.model?.ManItemDataMRPPolicy"></tb-enum-combo>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITEMMAN_LEAD_TIME" formatter="Integer" disabled="true" [caption]="_TB('Lead time')" cmpId="IDC_DATA_ITEMMAN_LEAD_TIME" [model]="eventData?.model?.ManItemDataLeadTime"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITEMMAN_DAYS_RELEASE" formatter="Integer" disabled="true" [caption]="_TB('Order issue days')" cmpId="IDC_DATA_ITEMMAN_DAYS_RELEASE" [model]="eventData?.model?.ManItemDataOrderReleaseDays"></tb-numeric-text-box>
+         </tb-tile>
+         <tb-tile [title]="_TB('Costs')" tbTileStandard >
+          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Purchase raw materials')" cmpId="IDC_DATA_ITEMMAN_COST_PURCHASE" [model]="eventData?.model?.ManItemDataRMCost"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_DATA_ITEMMAN_COST_SETUP" formatter="Money" disabled="true" [caption]="_TB('Setup')" cmpId="IDC_DATA_ITEMMAN_COST_SETUP" [model]="eventData?.model?.ManItemDataSetupCost"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('In-House processing')" cmpId="IDC_DATA_ITEMMAN_COST_PROCESSING_INHOUSE" [model]="eventData?.model?.ManItemDataInHouseProcessingCost"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Outsourced processing')" cmpId="IDC_DATA_ITEMMAN_COST_PROCESSING_OUTSOURCED" [model]="eventData?.model?.ManItemDataOutsourcedProcessingCost"></tb-numeric-text-box>
+          <tb-section-title cmpId="IDC_SEPARATOR" width="325"></tb-section-title>
+          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Global production cost')" cmpId="IDC_DATA_ITEMMAN_COST_GLOBAL" [model]="eventData?.model?.ManItemDataProductionCost"></tb-numeric-text-box>
+          <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Last cost calculation date')" cmpId="IDC_DATA_ITEMMAN_DATE_CALCULATION" [model]="eventData?.model?.ManItemDataProductionCostLastChange"></tb-date-input>
+          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Last production cost')" cmpId="IDC_DATA_ITEMMAN_TOT_LAST_COST" [model]="eventData?.model?.ManItemDataItemData_LastCost"></tb-numeric-text-box>
+          <tb-label-static [caption]="_TB('Manufacturing Order')" cmpId="IDC_DATA_ITEMMAN_MO" [model]="eventData?.model?.ManItemDataMO"></tb-label-static>
+          <tb-section-title cmpId="IDC_SEPARATOR_1" width="325"></tb-section-title>
+          <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Standard')" cmpId="IDC_DATA_ITEMMAN_TOT_COST_STD" [model]="eventData?.model?.ManItemDataStandardCost"></tb-numeric-text-box>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('MOs')" tbLayoutTypeVbox >
+        <ng-template>
+         <tb-tile [title]="_TB('Manufacturing')" tbTileAutoFill  hasTitle="False">
+          <tb-body-edit cmpId="IDC_DATA_ITEMMAN_BODYEDIT_MANUFACTURING" width="547" [model]="eventData?.model?.DBTManItemDataManufacturing">
+           <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_DATA_ITEMMAN_MANUFACTURING_DATE" columnName="DeliveryDate" [title]="_TB('Delivery
+date')" columnType="tb-date-input" columnName="IDC_DATA_ITEMMAN_MANUFACTURING_DATE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_MANUFACTURING_MO" columnName="MONo" [title]="_TB('MO')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_MANUFACTURING_MO">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_MANUFACTURING_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_MANUFACTURING_UOM">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DATA_ITEMMAN_MANUFACTURING_QTY" columnName="ProductionQty" [title]="_TB('Quantity
+to produce')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITEMMAN_MANUFACTURING_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_MANUFACTURING_STATUS" columnName="MOStatus" [title]="_TB('Status')" columnType="tb-enum-combo" columnName="IDC_DATA_ITEMMAN_MANUFACTURING_STATUS">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Child MO')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_MAN_DATA_ITEM_CHILD_MO">
+        <ng-template>
+         <tb-tile [title]="_TB('Child MO')" tbTileAutoFill  hasTitle="False">
+          <tb-treeview cmpId="IDC_MO_MOCHILD_TREE" width="654" [model]="eventData?.model?.ManItemDatabTreeView" [caption]="_TB('Static')"></tb-treeview>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Technical Data')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_MAN_DATA_ITEM_TECHNICAL_DATA">
+        <ng-template>
+         <tb-tile [title]="_TB('Technical Data')" tbTileAutoFill  hasTitle="False">
+          <tb-body-edit cmpId="IDC_DATA_ITEMMAN_BODYEDIT_TECHNICAL_DATA" width="654" [model]="eventData?.model?.DBTManItemDataTechnicalData">
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_TECHNICAL_DATA_NAME" columnName="Name" [title]="_TB('Name')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_TECHNICAL_DATA_NAME">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Double" disabled="true" cmpId="IDC_DATA_ITEMMAN_TECHNICAL_DATA_NUMBER_VALUE" columnName="NumberValue" [title]="_TB('Number Value')" columnType="tb-numeric-text-box" columnName="IDC_DATA_ITEMMAN_TECHNICAL_DATA_NUMBER_VALUE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_TECHNICAL_DATA_STRING_VALUE" columnName="StringValue" [title]="_TB('String Value')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_TECHNICAL_DATA_STRING_VALUE">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_DATA_ITEMMAN_TECHNICAL_DATA_DATE_VALUE" columnName="DateValue" [title]="_TB('Date Value')" columnType="tb-date-input" columnName="IDC_DATA_ITEMMAN_TECHNICAL_DATA_DATE_VALUE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_TECHNICAL_DATA_BOOL_VALUE" columnName="BoolValue" [title]="_TB('Bool Value')" columnType="tb-checkbox" columnName="IDC_DATA_ITEMMAN_TECHNICAL_DATA_BOOL_VALUE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_DATA_ITEMMAN_TECHNICAL_DATA_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-label-static" columnName="IDC_DATA_ITEMMAN_TECHNICAL_DATA_NOTES">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+      </tb-tilemanager>
+     </tb-view>
+     <tb-view *ngIf="eventData?.activation?.IDD_STOCK_DATA_VIEW">
+      <tb-tilegroup [active]="true" tbLayoutTypeHbox  *ngIf="eventData?.activation?.IDC_TG_STOCK_DATA_TILE_GROUP_HEAD">
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_STOCK_DATA_ITM_STORAGE" width="72" [model]="eventData?.model?.WMSItemDataStorage"></tb-combo>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilemanager>
+       <tb-tilegroup [title]="_TB('Zone')" tbLayoutTypeVbox >
+        <ng-template>
+         <tb-tile [title]="_TB('Zone')" tbTileAutoFill  hasTitle="False">
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('For Putaway')" cmpId="IDC_STOCK_DATA_ITM_ZONE_FOR_PUTAWAY" width="48" [model]="eventData?.model?.WMSItemDataForPutawayByZone"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('For Picking')" cmpId="IDC_STOCK_DATA_ITM_ZONE_FOR_PICKING" width="48" [model]="eventData?.model?.WMSItemDataForPickingByZone"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Blocked')" cmpId="IDC_STOCK_DATA_ITM_ZONE_BLOCKED" width="48" [model]="eventData?.model?.WMSItemDataBlockedByZone"></tb-numeric-text-box>
+          <tb-body-edit cmpId="IDC_STOCK_DATA_ITM_BODYEDIT_ZONE" width="654" [model]="eventData?.model?.DBTWMSItemDataZone">
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_ZONE" columnName="Zone" [title]="_TB('Zone')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_ZONE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_DESCRI_ZONE" columnName="ZoneDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_DESCRI_ZONE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_CONSPARTNER" columnName="ConsignmentPartner" [title]="_TB('Consignment
+Partner')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_CONSPARTNER" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_ZONE_CONSPARTNER">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_AVAILABLE_QTY" columnName="AvailableQty" [title]="_TB('Available
+Qty')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_AVAILABLE_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_QTY" columnName="SumQtyBaseUoM" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_QTY_RESERVED" columnName="SumQtyReserved" [title]="_TB('Qty
+Reserved')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_QTY_RESERVED">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_QTY_INCOMING" columnName="SumQtyIncoming" [title]="_TB('Qty
+Incoming')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_QTY_INCOMING">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_QTY_MULTILEVEL" columnName="SumQtyIsMultilevelSU" [title]="_TB('Qty To Be
+Unpacked')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_QTY_MULTILEVEL" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_ZONE_QTY_MULTILEVEL">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_FOR_PICKING" columnName="ForPicking" [title]="_TB('For
+Picking')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_FOR_PICKING">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_FOR_PUTAWAY" columnName="ForPutaway" [title]="_TB('For
+Putaway')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_FOR_PUTAWAY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_BLOCKED" columnName="Blocked" [title]="_TB('Blocked')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_BLOCKED">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_ZONE_SPECIAL_STOCK" columnName="SpecialStock" [title]="_TB('Special
+Stock')" columnType="tb-enum-combo" columnName="IDC_STOCK_DATA_ITM_BE_ZONE_SPECIAL_STOCK">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Bin')" tbLayoutTypeVbox >
+        <ng-template>
+         <tb-tile [title]="_TB('Bin')" tbTileStandard  hasTitle="False">
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('For Putaway')" cmpId="IDC_STOCK_DATA_ITM_BIN_FOR_PUTAWAY" width="48" [model]="eventData?.model?.WMSItemDataForPutawayByBin"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('For Picking')" cmpId="IDC_STOCK_DATA_ITM_BIN_FOR_PICKING" width="48" [model]="eventData?.model?.WMSItemDataForPickingByBin"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Blocked')" cmpId="IDC_STOCK_DATA_ITM_BIN_BLOCKED" width="48" [model]="eventData?.model?.WMSItemDataBlockedByBin"></tb-numeric-text-box>
+          <tb-body-edit cmpId="IDC_STOCK_DATA_ITM_BODYEDIT_BIN" width="323" [model]="eventData?.model?.DBTWMSItemDataBin">
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_ZONE" columnName="Zone" [title]="_TB('Zone')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_BIN_ZONE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_DESCRI_ZONE" columnName="ZoneDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_BIN_DESCRI_ZONE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_BIN" columnName="Bin" [title]="_TB('Bin')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_BIN_BIN">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_CONSPARTNER" columnName="ConsignmentPartner" [title]="_TB('Consignment
+Partner')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_BIN_CONSPARTNER" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_BIN_CONSPARTNER">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_BIN_AVAILABLE_QTY" columnName="AvailableQty" [title]="_TB('Available
+Qty')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_BIN_AVAILABLE_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_BIN_QTY" columnName="SumQtyBaseUoM" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_BIN_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_BIN_QTY_RESERVED" columnName="SumQtyReserved" [title]="_TB('Qty
+Reserved')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_BIN_QTY_RESERVED">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_BIN_QTY_INCOMING" columnName="SumQtyIncoming" [title]="_TB('Qty
+Incoming')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_BIN_QTY_INCOMING">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_BIN_QTY_MULTILEVEL" columnName="SumQtyIsMultilevelSU" [title]="_TB('Qty To Be
+Unpacked')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_BIN_QTY_MULTILEVEL" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_BIN_QTY_MULTILEVEL">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_FOR_PICKING" columnName="ForPicking" [title]="_TB('For
+Picking')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_BIN_FOR_PICKING">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_FOR_PUTAWAY" columnName="ForPutaway" [title]="_TB('For
+Putaway')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_BIN_FOR_PUTAWAY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_BLOCKED" columnName="Blocked" [title]="_TB('Blocked')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_BIN_BLOCKED">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_BIN_SPECIAL_STOCK" columnName="SpecialStock" [title]="_TB('Special
+Stock')" columnType="tb-enum-combo" columnName="IDC_STOCK_DATA_ITM_BE_BIN_SPECIAL_STOCK">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Stocks')" tbLayoutTypeVbox >
+        <ng-template>
+         <tb-tile [title]="_TB('Stocks')" tbTileStandard  hasTitle="False">
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('For Putaway')" cmpId="IDC_STOCK_DATA_ITM_STOCKS_FOR_PUTAWAY" width="48" [model]="eventData?.model?.WMSItemDataForPutawayByStock"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('For Picking')" cmpId="IDC_STOCK_DATA_ITM_STOCKS_FOR_PICKING" width="48" [model]="eventData?.model?.WMSItemDataForPickingByStock"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Blocked')" cmpId="IDC_STOCK_DATA_ITM_STOCKS_BLOCKED" width="48" [model]="eventData?.model?.WMSItemDataBlockedByStock"></tb-numeric-text-box>
+          <tb-body-edit cmpId="IDC_STOCK_DATA_ITM_BODYEDIT_STOCKS" width="323" [model]="eventData?.model?.DBTWMSItemDataStocks">
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_ZONE" width="62" columnName="Zone" [title]="_TB('Zone')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_ZONE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_DESCRI_ZONE" width="160" columnName="ZoneDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_DESCRI_ZONE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_BIN" width="160" columnName="Bin" [title]="_TB('Bin')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_BIN">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_LOT" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_STOCKS_LOT">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_LOT_VALDATE" columnName="LotValidTo" [title]="_TB('Lot Expiry Date')" columnType="tb-date-input" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_LOT_VALDATE" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_STOCKS_LOT_VALDATE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_SPECIAL_STOCK" columnName="SpecialStock" [title]="_TB('Special
+Stock')" columnType="tb-enum-combo" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_SPECIAL_STOCK">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_CONSPARTNER" columnName="ConsignmentPartner" [title]="_TB('Consignment
+Partner')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_CONSPARTNER" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_STOCKS_CONSPARTNER">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_AVAILABLE_QTY" columnName="AvailableQty" [title]="_TB('Available
+Qty')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_AVAILABLE_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY" columnName="SumQtyBaseUoM" [title]="_TB('Qty in
+Base UoM')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY_RESERVED" columnName="SumQtyReserved" [title]="_TB('Qty
+Reserved')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY_RESERVED">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY_INCOMING" columnName="SumQtyIncoming" [title]="_TB('Qty
+Incoming')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY_INCOMING">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY_MULTILEVEL" columnName="SumQtyIsMultilevelSU" [title]="_TB('Qty To Be
+Unpacked')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY_MULTILEVEL" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_STOCKS_BASE_UOM_QTY_MULTILEVEL">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_UOM_QTY" columnName="UnitOfMeasure" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_UOM_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_QTY" columnName="SumQty" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_FOR_PICKING" columnName="ForPicking" [title]="_TB('For
+Picking')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_FOR_PICKING">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_FOR_PUTAWAY" columnName="ForPutaway" [title]="_TB('For
+Putaway')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_FOR_PUTAWAY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_STOCKS_BLOCKED" columnName="Blocked" [title]="_TB('Blocked')" columnType="tb-bool-edit" columnName="IDC_STOCK_DATA_ITM_BE_STOCKS_BLOCKED">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+       <tb-tilegroup [title]="_TB('Cross Docking')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_STOCK_DATA_CROSS_DOCKING">
+        <ng-template>
+         <tb-tile [title]="_TB('Cross Docking Requests')" tbTileStandard  hasTitle="False">
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Cross Docking Requests')" cmpId="IDC_STOCK_DATA_ITM_ZONE_CROSSDOCKING_TOTAL" width="48" [model]="eventData?.model?.WMSItemDataCrossDockingTotal"></tb-numeric-text-box>
+          <tb-body-edit cmpId="IDC_STOCK_DATA_ITM_BODYEDIT_CROSSDOCKING" width="323" [model]="eventData?.model?.DBTWMSItemDataCrossDocking">
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_CROSSDOCKING_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_CROSSDOCKING_LOT">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STOCK_DATA_ITM_BE_CROSSDOCKING_CONSPARTNER" columnName="ConsignmentPartner" [title]="_TB('Consignment
+Partner')" columnType="tb-label-static" columnName="IDC_STOCK_DATA_ITM_BE_CROSSDOCKING_CONSPARTNER" *ngIf="eventData?.activation?.IDC_STOCK_DATA_ITM_BE_CROSSDOCKING_CONSPARTNER">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_STOCK_DATA_ITM_BE_CROSSDOCKING_QTY" columnName="QtyBaseUoM" [title]="_TB('Qty in
+Base UoM')" columnType="tb-numeric-text-box" columnName="IDC_STOCK_DATA_ITM_BE_CROSSDOCKING_QTY">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </ng-template>
+       </tb-tilegroup>
+      </tb-tilemanager>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_CODE_SMART" [disabled]="!eventData?.buttonsState?.ID_CODE_SMART?.enabled" icon="erp-smartcode" [caption]="_TB('Smart Code')" cmpId="ID_CODE_SMART"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

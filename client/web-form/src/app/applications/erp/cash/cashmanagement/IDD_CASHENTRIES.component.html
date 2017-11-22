@@ -1,0 +1,133 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-combo *ngIf="eventData?.activation?.IDC_CASHENTRIESOPEN_SESSION" [caption]="_TB('Session')" cmpId="IDC_CASHENTRIESOPEN_SESSION" width="119" [model]="eventData?.model?.RadioSession"></tb-combo>
+        <tb-combo [caption]="_TB('Cash')" cmpId="IDC_CASHENTRIESOPEN_CASH" width="60" [model]="eventData?.model?.CashSessions?.Cash" [itemSource]="IDC_CASHENTRIESOPEN_CASH_itemSource"></tb-combo>
+        <tb-caption [caption]="_TB('Operator')" cmpId="IDC_CASHENTRIESOPEN_USERNAME" width="198" [model]="eventData?.model?.CashSessions?.l_WorkerDesc"></tb-caption>
+        <tb-caption cmpId="IDC_STATIC" width="227" [caption]="_TB('Cash balance')"></tb-caption>
+        <tb-body-edit cmpId="IDC_CASHENTRIES_BALANCELINE_BODY_EDIT" width="311" [model]="eventData?.model?.CashSessionsBalance">
+         <tb-body-edit-column cmpId="IDC_CASHENTRIES_OPENBALANCELINE_CURRENCY" columnName="Currency" [title]="_TB('Currency')" columnType="tb-combo" columnName="IDC_CASHENTRIES_OPENBALANCELINE_CURRENCY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CASHENTRIES_BALANCELINE_SYMBOL" columnName="Symbol" [title]="_TB('Symbol')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_BALANCELINE_SYMBOL">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_CASHENTRIES_OPENBALANCELINE_BALANCE" columnName="OpeningBalance" [title]="_TB('Opening Balance')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_OPENBALANCELINE_BALANCE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-view *ngIf="eventData?.activation?.IDD_CASHENTRIES_WORKINGSESSION_VIEW">
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Session Entries')" tbTileAutoFill >
+         <tb-body-edit cmpId="IDC_CASHENTRIES_LINE_BODY_EDIT" width="652" [model]="eventData?.model?.CashSessionsEntries">
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_BMP" columnName="l_Bmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_CASHENTRIES_LINE_BMP">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="DateTime" [readonly]="true" cmpId="IDC_CASHENTRIES_LINE_POSTINGDATE" columnName="PostingDate" [title]="_TB('Date')" columnType="tb-date-input" columnName="IDC_CASHENTRIES_LINE_POSTINGDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_SESSIONENTRYID" columnName="l_SessionEntryId" [title]="_TB('Number')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_LINE_SESSIONENTRYID">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_SYMBOL" columnName="l_Symbol" [title]="_TB(' ')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_LINE_SYMBOL">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_LINE_AMOUNTPOS" columnName="l_AmountPos" [title]="_TB('+')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_LINE_AMOUNTPOS">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_LINE_AMOUNTNEG" columnName="l_AmountNeg" [title]="_TB('-')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_LINE_AMOUNTNEG">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_LINE_BALANCE" columnName="l_Balance" [title]="_TB('Balance')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_LINE_BALANCE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_LINE_BALANCEEUR" columnName="l_AltBalance" [title]="_TB('Alt. Balance')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_LINE_BALANCEEUR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_NOTES" columnName="Notes" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_LINE_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_REASON" columnName="Reason" [title]="_TB('Reason')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_LINE_REASON">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_STUBBOOK" columnName="CashStubBook" [title]="_TB('Stub Book')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_STUBBOOK">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_DOCNO" columnName="DocNo" [title]="_TB('Document No.')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_LINE_DOCNO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_CUSTSUPP" columnName="CustSupp" [title]="_TB('Customer/Supplier')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_LINE_CUSTSUPP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_CUSTSUPP_DESCRI" columnName="CustSuppDescri" [title]="_TB('Company Name')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_LINE_CUSTSUPP_DESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_LINE_PRINTED" columnName="Printed" [title]="_TB('Printed')" columnType="tb-bool-edit" columnName="IDC_CASHENTRIES_LINE_PRINTED">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Session Data')" tbTileAutoFill >
+<div class="anchored">         <tb-label-static [caption]="_TB('Session')" cmpId="IDC_CASHENTRIES_SESSION" width="60" [model]="eventData?.model?.CashSessions?.SessionNo"></tb-label-static>
+         <tb-checkbox cmpId="IDC_CASHENTRIES_POSTED" width="114" [model]="eventData?.model?.CashSessions?.Posted" [caption]="_TB('Posted')"></tb-checkbox>
+</div>         <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('Opening Date')" cmpId="IDC_CASHENTRIES_OPENINGDATE" width="70" [model]="eventData?.model?.CashSessions?.OpeningDate"></tb-date-input>
+         <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('Closing Date')" cmpId="IDC_CASHENTRIES_CLOSINGDATE" width="70" [model]="eventData?.model?.CashSessions?.ClosingDate"></tb-date-input>
+         <tb-label-static [caption]="_TB('Cash')" cmpId="IDC_CASHENTRIES_CASH" width="50" [model]="eventData?.model?.CashSessions?.Cash"></tb-label-static>
+         <tb-caption [caption]="_TB('Operator')" cmpId="IDC_CASHENTRIES_USERNAME" width="198" [model]="eventData?.model?.CashSessions?.WorkerDesc"></tb-caption>
+         <tb-label-static [caption]="_TB('Preferred Currency')" cmpId="IDC_CASHENTRIES_PREFCURR" width="50" [model]="eventData?.model?.PrefCurrency"></tb-label-static>
+         <tb-label-static [caption]="_TB('Alternative Currency')" cmpId="IDC_CASHENTRIES_ALTCURR" width="50" [model]="eventData?.model?.AltCurrency"></tb-label-static>
+         <tb-caption cmpId="IDC_STATIC" width="227" [caption]="_TB('Cash balance')"></tb-caption>
+         <tb-body-edit cmpId="IDC_CASHENTRIES_BALANCELINE_BODY_EDIT" width="316" [model]="eventData?.model?.CashSessionsBalance">
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_BALANCELINE_CURRENCY" columnName="Currency" [title]="_TB('Currency')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_BALANCELINE_CURRENCY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_CASHENTRIES_BALANCELINE_SYMBOL" columnName="Symbol" [title]="_TB('Symbol')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_BALANCELINE_SYMBOL">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_BALANCELINE_OPBALANCE" columnName="OpeningBalance" [title]="_TB('Opening Balance')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_BALANCELINE_OPBALANCE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_BALANCELINE_CLBALANCE" columnName="ClosingBalance" [title]="_TB('Closing Balance')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_BALANCELINE_CLBALANCE">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide >
+<div class="col col1">        <tb-caption cmpId="IDC_STATIC" width="316" [caption]="_TB('Do you want to close the working session?')"></tb-caption>
+        <tb-radio cmpId="IDC_CASHENTRIESCLOSE_CLOSE_SESSION" width="266" [model]="eventData?.model?.bCloseSession" [caption]="_TB('Yes, the session is definitive closed')"></tb-radio>
+        <tb-checkbox cmpId="IDC_CASHENTRIESCLOSE_PRINT" width="266" [model]="eventData?.model?.bPrint" [caption]="_TB('Print closed session')"></tb-checkbox>
+        <tb-radio cmpId="IDC_CASHENTRIESCLOSE_DONTCLOSE_SESSION" width="266" [model]="eventData?.model?.bDontCloseSession" [caption]="_TB('No, I will work on the session again')"></tb-radio>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Session Data')" tbTileAutoFill >
+<div class="anchored">        <tb-label-static [caption]="_TB('Session')" cmpId="IDC_CASHENTRIES_SESSION" width="60" [model]="eventData?.model?.CashSessions?.SessionNo"></tb-label-static>
+        <tb-checkbox cmpId="IDC_CASHENTRIES_POSTED" width="114" [model]="eventData?.model?.CashSessions?.Posted" [caption]="_TB('Posted')"></tb-checkbox>
+</div>        <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('Opening Date')" cmpId="IDC_CASHENTRIES_OPENINGDATE" width="70" [model]="eventData?.model?.CashSessions?.OpeningDate"></tb-date-input>
+        <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('Closing Date')" cmpId="IDC_CASHENTRIES_CLOSINGDATE" width="70" [model]="eventData?.model?.CashSessions?.ClosingDate"></tb-date-input>
+        <tb-label-static [caption]="_TB('Cash')" cmpId="IDC_CASHENTRIES_CASH" width="50" [model]="eventData?.model?.CashSessions?.Cash"></tb-label-static>
+        <tb-caption [caption]="_TB('Operator')" cmpId="IDC_CASHENTRIES_USERNAME" width="198" [model]="eventData?.model?.CashSessions?.WorkerDesc"></tb-caption>
+        <tb-label-static [caption]="_TB('Preferred Currency')" cmpId="IDC_CASHENTRIES_PREFCURR" width="50" [model]="eventData?.model?.PrefCurrency"></tb-label-static>
+        <tb-label-static [caption]="_TB('Alternative Currency')" cmpId="IDC_CASHENTRIES_ALTCURR" width="50" [model]="eventData?.model?.AltCurrency"></tb-label-static>
+        <tb-caption cmpId="IDC_STATIC" width="227" [caption]="_TB('Cash balance')"></tb-caption>
+        <tb-body-edit cmpId="IDC_CASHENTRIES_BALANCELINE_BODY_EDIT" width="316" [model]="eventData?.model?.CashSessionsBalance">
+         <tb-body-edit-column cmpId="IDC_CASHENTRIES_BALANCELINE_CURRENCY" columnName="Currency" [title]="_TB('Currency')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_BALANCELINE_CURRENCY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CASHENTRIES_BALANCELINE_SYMBOL" columnName="Symbol" [title]="_TB('Symbol')" columnType="tb-label-static" columnName="IDC_CASHENTRIES_BALANCELINE_SYMBOL">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_BALANCELINE_OPBALANCE" columnName="OpeningBalance" [title]="_TB('Opening Balance')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_BALANCELINE_OPBALANCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CASHENTRIES_BALANCELINE_CLBALANCE" columnName="ClosingBalance" [title]="_TB('Closing Balance')" columnType="tb-numeric-text-box" columnName="IDC_CASHENTRIES_BALANCELINE_CLBALANCE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,0 +1,66 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Period')" tbTileMini >
+<div class="anchored">         <tb-radio cmpId="IDC_INTRA_SERVICES_MONTH" width="71" [model]="eventData?.model?.PeriodMonth" [caption]="_TB('Month')"></tb-radio>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_INTRA_SERVICES_PERIOD" width="16" [model]="eventData?.model?.Period"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_INTRA_SERVICES_YEAR" width="26" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+</div>         <tb-radio cmpId="IDC_INTRA_SERVICES_QUARTER" width="71" [model]="eventData?.model?.PeriodQuarter" [caption]="_TB('Quarter')"></tb-radio>
+<div class="anchored">         <tb-numeric-text-box formatter="Integer" cmpId="IDC_INTRA_SERVICES_PERIOD" width="16" [model]="eventData?.model?.Period"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_INTRA_SERVICES_YEAR" width="26" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+</div>         <tb-numeric-text-box formatter="Long" [caption]="_TB('Progressive No.')" cmpId="IDC_INTRA_SERVICES_PROGRESSIVE" width="44" [model]="eventData?.model?.NrRef"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Type')" tbTileMini >
+         <tb-radio cmpId="IDC_INTRA_SERVICES_ONLY_DISPATCHES" width="137" [model]="eventData?.model?.DispatchesSummary" [caption]="_TB('Dispatches')"></tb-radio>
+         <tb-radio cmpId="IDC_INTRA_SERVICES_ONLY_ARRIVALS" width="137" [model]="eventData?.model?.ArrivalsSummary" [caption]="_TB('Arrivals')"></tb-radio>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Header Information')" tbTileStandard >
+         <tb-checkbox cmpId="IDC_INTRA_SERVICES_HEADER" width="137" [model]="eventData?.model?.HeaderData" [caption]="_TB('Create header record')"></tb-checkbox>
+         <tb-text [caption]="_TB('Branch code')" cmpId="IDC_INTRA_SERVICES_BRANCH_CODE" width="19" [model]="eventData?.model?.BranchCode"></tb-text>
+         <tb-numeric-text-box formatter="Long" [caption]="_TB('Daily Prog. No.')" cmpId="IDC_INTRA_SERVICES_PROGR_DAILY" width="19" [model]="eventData?.model?.DailyNo"></tb-numeric-text-box>
+         <tb-label-static [caption]="_TB('Intermediary')" cmpId="IDC_INTRA_SERVICES_INTERMEDIARY" width="80" [model]="eventData?.model?.SuppTaxIdNumber"></tb-label-static>
+        </tb-tile>
+        <tb-tile [title]="_TB('Parameters')" tbTileMini >
+         <tb-radio cmpId="IDC_INTRA_SERVICES_CHECK_NORMAL" width="146" [model]="eventData?.model?.CheckNormal" [caption]="_TB('Normal situation')"></tb-radio>
+         <tb-radio cmpId="IDC_INTRA_SERVICES_CHECK_FIRST" width="146" [model]="eventData?.model?.CheckFirst" [caption]="_TB('First list printout')"></tb-radio>
+         <tb-radio cmpId="IDC_INTRA_SERVICES_CHECK_CHANGE" width="146" [model]="eventData?.model?.CheckChange" [caption]="_TB('Discontinuance or Tax No. Change')"></tb-radio>
+         <tb-radio cmpId="IDC_INTRA_SERVICES_CHECK_BOTH" width="146" [model]="eventData?.model?.CheckBoth" [caption]="_TB('First list printout and Tax No. Change')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Delegate Data')" tbTileMini >
+         <tb-text [caption]="_TB('Tax Number')" cmpId="IDC_INTRA_SERVICES_DELEGATE_TAXID" width="86" [model]="eventData?.model?.DelegTaxIdNo"></tb-text>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  isCollapsible="False" isCollapsed="False">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY" width="599" [model]="eventData?.model?.DBTSummaryDetail">
+         <tb-body-edit-column cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY_LINE" width="60" columnName="l_LineSummaryDescription" columnType="tb-label-static" columnName="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY_LINE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_INTRA_SERVICES_REPORT?.enabled" icon="tb-report" [caption]="_TB('View')" cmpId="ID_INTRA_SERVICES_REPORT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

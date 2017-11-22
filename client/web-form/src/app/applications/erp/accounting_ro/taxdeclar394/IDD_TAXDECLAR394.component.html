@@ -1,0 +1,63 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Period')" tbTileMini >
+         <tb-enum-combo cmpId="IDC_TAXDECLAR394_PERIOD_COMBO" width="86" [model]="eventData?.model?.DeclType"></tb-enum-combo>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Year')" cmpId="IDC_TAXDECLAR394_YEAR" width="40" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Month')" cmpId="IDC_TAXDECLAR394_PERIOD" width="18" [model]="eventData?.model?.Period"></tb-numeric-text-box>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Header Data')" tbTileStandard >
+         <tb-checkbox cmpId="IDC_TAXDECLAR394_OPERATIONS" width="113" [model]="eventData?.model?.bOperation" [caption]="_TB('Operations in the period')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAXDECLAR394_VAT_REFOUND" width="113" [model]="eventData?.model?.VATRefound" [caption]="_TB('VAT Refound')"></tb-checkbox>
+         <tb-text [caption]="_TB('Legal Representative Function')" cmpId="IDC_TAXDECLAR394_FUNCTION" width="190" [model]="eventData?.model?.Function"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Statement Preparer Type')" tbTileMini >
+         <tb-radio cmpId="IDC_TAXDECLAR394_SPLEGAL" width="113" [model]="eventData?.model?.bSPLegalEntity" [caption]="_TB('Legal Entity')"></tb-radio>
+         <tb-radio cmpId="IDC_TAXDECLAR394_SPNATURAL" width="113" [model]="eventData?.model?.bSPNaturalPerson" [caption]="_TB('Natural Person')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Statement Preparer Other Data')" tbTileStandard >
+         <tb-text [caption]="_TB('Fiscal Code')" cmpId="IDC_TAXDECLAR394_SPFISCALCODE" width="80" [model]="eventData?.model?.SPFiscalCode"></tb-text>
+         <tb-text [caption]="_TB('Name and Surname')" cmpId="IDC_TAXDECLAR394_NAME" width="190" [model]="eventData?.model?.SPName"></tb-text>
+         <tb-text [caption]="_TB('Function')" cmpId="IDC_TAXDECLAR394_SPFUNCTION" width="190" [model]="eventData?.model?.SPFunction"></tb-text>
+         <tb-text [caption]="_TB('Other Function (Natural Person)')" cmpId="IDC_TAXDECLAR394_SPOTHER_FUNCTION" width="190" [model]="eventData?.model?.SPOtherFunction"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Other Data')" tbTileStandard >
+         <tb-checkbox cmpId="IDC_TAXDECLAR394_OPTION" width="324" [model]="eventData?.model?.bOption" [caption]="_TB('Option related to access the database with transactions through ANAF applications')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAXDECLAR394_OPTION2" width="324" [model]="eventData?.model?.bOption2" [caption]="_TB('Change of the option related to access the database provided by ANAF, meaning that agrees')"></tb-checkbox>
+         <tb-numeric-text-box formatter="Long" [caption]="_TB('Number of AMEF')" cmpId="IDC_TAXDECLAR394_AMEFNR" width="55" [model]="eventData?.model?.NrAMEF"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Print')" tbTileMini >
+         <tb-radio cmpId="IDC_TAXDECLAR394_RADIO_FILE" width="113" [model]="eventData?.model?.PrintFile" [caption]="_TB('Print on file')"></tb-radio>
+         <tb-radio cmpId="IDC_TAXDECLAR394_RADIO_PAPER" width="113" [model]="eventData?.model?.PrintPaper" [caption]="_TB('Print on paper')"></tb-radio>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileWide >
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TAXDECLAR394_TAXNUMBER_CHECK?.enabled" icon="tb-checkfilled.svg" [caption]="_TB('Tax Number Check')" cmpId="ID_TAXDECLAR394_TAXNUMBER_CHECK"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

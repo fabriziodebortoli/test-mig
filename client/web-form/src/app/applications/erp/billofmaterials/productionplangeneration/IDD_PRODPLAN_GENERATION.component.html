@@ -1,0 +1,112 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('Filters')" isCollapsible="True" showAsTile="True">
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-text cmpId="IDC_HFCUSTOMER_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFCustomer_From"></tb-text>
+         <tb-text [caption]="_TB('To')" cmpId="IDC_HFCUSTOMER_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFCustomer_To"></tb-text>
+         <tb-radio cmpId="IDC_HFCUSTOMER_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFCustomer_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFCUSTOMER_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFCustomer_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_HFCUSTOMER_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFCustomer_From"></tb-text>
+</div>         <tb-text cmpId="IDC_HFVARIANT_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFVariant_From"></tb-text>
+         <tb-text [caption]="_TB('To')" cmpId="IDC_HFVARIANT_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFVariant_To"></tb-text>
+         <tb-radio cmpId="IDC_HFVARIANT_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFVariant_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFVARIANT_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFVariant_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_HFVARIANT_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFVariant_From"></tb-text>
+</div>         <tb-radio cmpId="IDC_HFJOBS_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFJobs_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFJOBS_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFJobs_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_HFJOBS_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFJobs_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_HFJOBS_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFJobs_To"></tb-text>
+         <tb-radio cmpId="IDC_HFCOSTCENTER_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFCostCenter_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFCOSTCENTER_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFCostCenter_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_HFCOSTCENTER_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFCostCenter_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_HFCOSTCENTER_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFCostCenter_To"></tb-text>
+         <tb-radio cmpId="IDC_HFSALEORDER_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFSaleOrder_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFSALEORDER_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFSaleOrder_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_HFSALEORDER_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFSaleOrder_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_HFSALEORDER_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFSaleOrder_To"></tb-text>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_HFPRIORITY_IDC_HFL_RANGE_INT_FROM" [model]="eventData?.model?.HFPriority_From"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('To')" cmpId="IDC_HFPRIORITY_IDC_HFL_RANGE_INT_TO" [model]="eventData?.model?.HFPriority_To"></tb-numeric-text-box>
+         <tb-radio cmpId="IDC_HFPRIORITY_IDC_HFL_RANGE_RADIO_INT_ALL" width="39" [model]="eventData?.model?.HFPriority_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFPRIORITY_IDC_HFL_RANGE_RADIO_INT_RANGE" width="39" [model]="eventData?.model?.HFPriority_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_HFPRIORITY_IDC_HFL_RANGE_INT_FROM" [model]="eventData?.model?.HFPriority_From"></tb-numeric-text-box>
+</div>         <tb-tile [title]="_TB('Consider expiring')" tbTileMini >
+          <tb-radio cmpId="IDC_PRODPLAN_GEN_DATEORD_ALL" width="113" [model]="eventData?.model?.AllDateOrd" [caption]="_TB('All')"></tb-radio>
+          <tb-radio cmpId="IDC_PRODPLAN_GEN_USE_CONFIRMED_DELIVERYDATE" width="115" [model]="eventData?.model?.UseConfirmedDeliveryDate" [caption]="_TB('Use Confirmed Delivery Date')"></tb-radio>
+          <tb-radio cmpId="IDC_PRODPLAN_GEN_USE_EXPECTED_DELIVERYDATE" width="117" [model]="eventData?.model?.UseExpectedDeliveryDate" [caption]="_TB('Use Expected Delivery Date')"></tb-radio>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_PRODPLAN_GEN_DATE_FROM" width="57" [model]="eventData?.model?.StartingDate"></tb-date-input>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_PRODPLAN_GEN_DATE_TO" width="57" [model]="eventData?.model?.EndingDate"></tb-date-input>
+         </tb-tile>
+         <tb-tile [title]="_TB('Storage choices')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PRODPLAN_GEN_STRG">
+          <tb-radio cmpId="IDC_PRODPLAN_GEN_INVENTORY_GENERAL" width="112" [model]="eventData?.model?.GenInvSel" [caption]="_TB('General Inventory')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_PRODPLAN_GEN_STORAGE_SEL" width="78" [model]="eventData?.model?.StorageSel" [caption]="_TB('Storage')"></tb-radio>
+          <tb-text cmpId="IDC_PRODPLAN_GEN_STORAGE" width="67" [model]="eventData?.model?.Storage"></tb-text>
+</div>          <tb-enum-combo [caption]="_TB('Specificator type')" cmpId="IDC_PRODPLAN_GEN_CODETYPE_SPECIFICATOR" width="67" [model]="eventData?.model?.SpecificatorType"></tb-enum-combo>
+          <tb-text [caption]="_TB('Specificator')" cmpId="IDC_PRODPLAN_GEN_SPECIFICATOR" width="66" [model]="eventData?.model?.Specificator"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Inventory choices')" tbTileMini >
+          <tb-checkbox cmpId="IDC_PRODPLAN_GEN_GROUP_ORDERS" width="156" [model]="eventData?.model?.GroupByItem" [caption]="_TB('Group by item')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_PRODPLAN_GEN_ITM_SHORTAGE" width="156" [model]="eventData?.model?.ItemsShortage" [caption]="_TB('Produce also items Shortage/ not Onhand')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_PRODPLAN_GEN_NETTING_INVENTORY" width="156" [model]="eventData?.model?.InventoryNetting" [caption]="_TB('Netting with inventory and production')"></tb-checkbox>
+          <tb-radio *ngIf="eventData?.activation?.IDC_PRODPLAN_GEN_SHORTAGE" cmpId="IDC_PRODPLAN_GEN_SHORTAGE" width="122" [model]="eventData?.model?.Shortage" [caption]="_TB('Shortage')"></tb-radio>
+          <tb-radio *ngIf="eventData?.activation?.IDC_PRODPLAN_GEN_INSUFFICIENCY" cmpId="IDC_PRODPLAN_GEN_INSUFFICIENCY" width="122" [model]="eventData?.model?.Insufficiency" [caption]="_TB('Insufficient')"></tb-radio>
+         </tb-tile>
+         <tb-tile [title]="_TB('BOM choices')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PRODPLAN_GEN_BOM">
+          <tb-numeric-text-box formatter="Integer" [caption]="_TB('BOM Level')" cmpId="IDC_PRODPLAN_GEN_LEVEL" width="30" [model]="eventData?.model?.BOMLevel"></tb-numeric-text-box>
+          <tb-checkbox *ngIf="eventData?.activation?.IDC_PRODPLAN_GEN_ITEMS_NOT_DB" cmpId="IDC_PRODPLAN_GEN_ITEMS_NOT_DB" width="152" [model]="eventData?.model?.AlsoItem" [caption]="_TB('Consider also items not BOM')"></tb-checkbox>
+          <tb-checkbox *ngIf="eventData?.activation?.IDC_PRODPLAN_GEN_ISSUE_COMP" cmpId="IDC_PRODPLAN_GEN_ISSUE_COMP" width="152" [model]="eventData?.model?.IssueComponent" [caption]="_TB('Also BOM with issue components on Sale Document')"></tb-checkbox>
+         </tb-tile>
+         <tb-radio cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFItems_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFItems_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFItems_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFItems_To"></tb-text>
+        </tb-layoutcontainer>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  isCollapsible="True">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="599" [model]="eventData?.model?.ProductionPlanGeneration">
+         <tb-body-edit-column cmpId="IDC_PRODPLAN_GEN_BE_SELECTED" columnName="Selected" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_PRODPLAN_GEN_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PRODPLAN_GEN_BE_BOM" columnName="Item" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_PRODPLAN_GEN_BE_BOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PRODPLAN_GEN_BE_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-label-static" columnName="IDC_PRODPLAN_GEN_BE_VARIANT" *ngIf="eventData?.activation?.IDC_PRODPLAN_GEN_BE_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PRODPLAN_GEN_BE_DESCRI_ITEM" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_PRODPLAN_GEN_BE_DESCRI_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PRODPLAN_GEN_BE_UOM" columnName="BaseUoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_PRODPLAN_GEN_BE_UOM" *ngIf="eventData?.activation?.IDC_PRODPLAN_GEN_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PRODPLAN_GEN_BE_UOM" columnName="UoM" [title]="_TB('BOM UoM')" columnType="tb-label-static" columnName="IDC_PRODPLAN_GEN_BE_UOM" *ngIf="eventData?.activation?.IDC_PRODPLAN_GEN_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_PRODPLAN_GEN_BE_PRODUCTION" columnName="Production" [title]="_TB('Qty
+To Produce')" columnType="tb-numeric-text-box" columnName="IDC_PRODPLAN_GEN_BE_PRODUCTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PRODPLAN_GEN_BE_SALEORDNO" columnName="ReferenceDocNo" [title]="_TB('Customer Order
+No.')" columnType="tb-text" columnName="IDC_PRODPLAN_GEN_BE_SALEORDNO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_PRODPLAN_GEN_BE_POSITION" columnName="Position" [title]="_TB('Position')" columnType="tb-numeric-text-box" columnName="IDC_PRODPLAN_GEN_BE_POSITION">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

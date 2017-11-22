@@ -1,0 +1,81 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="True" showAsTile="True">
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Product')" tbTileMini >
+          <tb-radio cmpId="IDC_ESPLOS_SLIPS_RADIO_EVERYONE" width="35" [model]="eventData?.model?.bBOMSelAll" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_ESPLOS_SLIPS_RADIO_FOR_CODETYPE" width="60" [model]="eventData?.model?.bBOMTypeSel" [caption]="_TB('All of Type')"></tb-radio>
+          <tb-enum-combo cmpId="IDC_ESPLOS_CODETYPE_BOM_FOR_CODETYPE" width="71" [model]="eventData?.model?.BOMTypeByType" [itemSource]="IDC_ESPLOS_CODETYPE_BOM_FOR_CODETYPE_itemSource"></tb-enum-combo>
+</div><div class="anchored">          <tb-radio cmpId="IDC_ESPLOS_SLIPS_RADIO_SEL" width="60" [model]="eventData?.model?.bBOMSel" [caption]="_TB('Type')"></tb-radio>
+          <tb-enum-combo cmpId="IDC_ESPLOS_CODETYPE_BOM_SEL" width="71" [model]="eventData?.model?.BOMTypeSel" [itemSource]="IDC_ESPLOS_CODETYPE_BOM_SEL_itemSource"></tb-enum-combo>
+</div>          <tb-text [caption]="_TB('From')" cmpId="IDC_ESPLOS_FROM_BOM" width="122" [model]="eventData?.model?.FromBOM"></tb-text>
+          <tb-text [caption]="_TB('To')" cmpId="IDC_ESPLOS_TO_BOM" width="122" [model]="eventData?.model?.ToBOM"></tb-text>
+          <tb-radio *ngIf="eventData?.activation?.IDC_ESPLOS_SLIPS_RADIO_NONE" cmpId="IDC_ESPLOS_SLIPS_RADIO_NONE" width="35" [model]="eventData?.model?.bBOMSelNone" [caption]="_TB('None')"></tb-radio>
+         </tb-tile>
+         <tb-tile [title]="_TB('Item Variants')" tbTileMini  *ngIf="eventData?.activation?.IDD_BOMESPLOS_TD_SEL_ITEM_VARIANTS">
+          <tb-radio cmpId="IDC_ESPLOS_ITEMS_RADIO_ALL" [model]="eventData?.model?.bAllItemVariants" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_ESPLOS_ITEMS_RADIO_SEL" width="35" [model]="eventData?.model?.bItemVariantSel" [caption]="_TB('From')"></tb-radio>
+          <tb-text cmpId="IDC_ESPLOS_FROM_ITEM" width="121" [model]="eventData?.model?.FromItem"></tb-text>
+</div>          <tb-text [caption]="_TB('To')" cmpId="IDC_ESPLOS_A_ITEM" width="121" [model]="eventData?.model?.ToItem"></tb-text>
+          <tb-radio cmpId="IDC_ESPLOS_ITEMS_VARIANTS_RADIO_NONE" width="35" [model]="eventData?.model?.bNotExplodeItemVariant" [caption]="_TB('None')"></tb-radio>
+         </tb-tile>
+         <tb-tile [title]="_TB('Variants')" tbTileMini  *ngIf="eventData?.activation?.IDD_BOMESPLOS_TD_SEL_VARIANTS">
+          <tb-radio cmpId="IDC_ESPLOS_VARIANTS_SEL_RADIO_EVERYONE" width="35" [model]="eventData?.model?.bAllVariants" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_ESPLOS_VARIANTS_SEL_RADIO_SEL" width="31" [model]="eventData?.model?.bSelVariant" [caption]="_TB('From')"></tb-radio>
+          <tb-text cmpId="IDC_ESPLOS_FROM_VARIANT" width="121" [model]="eventData?.model?.FromVariant"></tb-text>
+</div>          <tb-text [caption]="_TB('To')" cmpId="IDC_ESPLOS_A_VARIANT" width="121" [model]="eventData?.model?.ToVariant"></tb-text>
+          <tb-radio cmpId="IDC_ESPLOS_VARIANTS_RADIO_NONE" width="35" [model]="eventData?.model?.bNotExplodeVariant" [caption]="_TB('None')"></tb-radio>
+         </tb-tile>
+         <tb-tile [title]="_TB('Options')" tbTileMini >
+          <tb-checkbox cmpId="IDC_ESPLOS_ALSO_ROUTING" width="136" [model]="eventData?.model?.bRoutingsExplosion" [caption]="_TB('eventData?.model?.AlsoRouting')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_ESPLOS_CONSIDER_SFORATI" width="147" [model]="eventData?.model?.bAlsoSemifinished" [caption]="_TB('Consider Also Production intermediates in Extracted BOMs or in BOMs to be Selected')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_ESPLOS_ALSO_DISABLED_BOM" width="136" [model]="eventData?.model?.bAlsoDisabledBOM" [caption]="_TB('Explode Also Disabled BOM')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('ECO')" tbTileMini  *ngIf="eventData?.activation?.IDD_BOMESPLOS_TD_SEL_ECO">
+          <tb-checkbox cmpId="IDC_ESPLOS_ECO_APPLY" width="113" [model]="eventData?.model?.bApplyECO" [caption]="_TB('Apply back all ECO after:')"></tb-checkbox>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('ECO Date')" cmpId="IDC_ESPLOS_ECO_DATE" width="57" [model]="eventData?.model?.ECODate"></tb-date-input>
+          <tb-combo [caption]="_TB('ECO Revision')" cmpId="IDC_ESPLOS_ECOREVISION" width="62" [model]="eventData?.model?.ECORevision"></tb-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Levels')" tbTileMini >
+          <tb-radio cmpId="IDC_ESPLOS_LEVELS_RADIO_ALL" width="35" [model]="eventData?.model?.bLevelSelAll" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_ESPLOS_LEVELS_RADIO_SEL" width="8" [model]="eventData?.model?.bLevelSel"></tb-radio>
+          <tb-numeric-text-box formatter="Integer" cmpId="IDC_ESPLOS_NO_LEVELS" width="68" [model]="eventData?.model?.NrLevels"></tb-numeric-text-box>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Validity Date')" tbTileMini >
+          <tb-radio cmpId="IDC_ESPLOS_DATE_RADIO_EVERYONE" width="35" [model]="eventData?.model?.bDateSelAll" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_ESPLOS_DATE_RADIO_SEL" width="8" [model]="eventData?.model?.bSelData"></tb-radio>
+          <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_ESPLOS_DATE" width="57" [model]="eventData?.model?.Date"></tb-date-input>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  isCollapsible="False" isCollapsed="False">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY" width="599" [model]="eventData?.model?.DBTSummaryDetail">
+         <tb-body-edit-column cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY_LINE" width="60" columnName="l_LineSummaryDescription" columnType="tb-label-static" columnName="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY_LINE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

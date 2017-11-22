@@ -1,0 +1,170 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="tb-master" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Main Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-text [caption]="_TB('Code')" cmpId="IDC_PYMTTERM_PYMTTERM" width="48" [model]="eventData?.model?.PaymentTerms?.Payment"></tb-text>
+         <tb-checkbox cmpId="IDC_PYMTTERM_DISABLED" width="62" [model]="eventData?.model?.PaymentTerms?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Description')" cmpId="IDC_PYMTTERM_DESCRIPTION" width="154" [model]="eventData?.model?.PaymentTerms?.Description"></tb-text>
+         <tb-enum-combo [caption]="_TB('Payment Type')" cmpId="IDC_PYMTTERM_COMBO_INSTALLMENTTYPE" width="130" [model]="eventData?.model?.PaymentTerms?.InstallmentType"></tb-enum-combo>
+         <tb-combo [caption]="_TB('Credit Card Type')" cmpId="IDC_PYMTTERM_CREDITCARD" width="62" [model]="eventData?.model?.PaymentTerms?.CreditCard"></tb-combo>
+         <tb-label-static cmpId="IDC_PYMTTERM_DESCRI_CREDITCARD" width="154" [model]="eventData?.model?.HKLCreditCard?.Description"></tb-label-static>
+         <tb-text [caption]="_TB('Notes')" cmpId="IDC_PYMTTERM_NOTES" width="154" [model]="eventData?.model?.PaymentTerms?.Notes"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_PYMTTERM_OFFSET" [caption]="_TB('Cash Offset')" cmpId="IDC_PYMTTERM_OFFSET" width="104" [model]="eventData?.model?.PaymentTerms?.Offset"></tb-text>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_PYMTTERM_DESCRI_OFFSET" cmpId="IDC_PYMTTERM_DESCRI_OFFSET" width="154" [model]="eventData?.model?.HKLAccount?.Description"></tb-label-static>
+</div><div class="col col2">         <tb-checkbox cmpId="IDC_PYMTTERM_ATSIGHT" width="110" [model]="eventData?.model?.PaymentTerms?.AtSight" [caption]="_TB('At sight  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_PYMTTERM_YEARCOMMERCIAL" width="110" [model]="eventData?.model?.PaymentTerms?.BusinessYear" [caption]="_TB('Business Year  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_PYMTTERM_WORKINGDAYS" width="110" [model]="eventData?.model?.PaymentTerms?.WorkingDays" [caption]="_TB('Use working days  ')"></tb-checkbox>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_PYMTTERM_COMBO_TAXINSTALLMENT" [caption]="_TB('Tax Installment')" cmpId="IDC_PYMTTERM_COMBO_TAXINSTALLMENT" width="84" [model]="eventData?.model?.PaymentTerms?.TaxInstallment"></tb-enum-combo>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Collection Charges')" cmpId="IDC_PYMTTERM_COLLECTIONCHARGES" width="68" [model]="eventData?.model?.PaymentTerms?.CollectionCharges"></tb-numeric-text-box>
+         <tb-text [caption]="_TB('% Discount')" cmpId="IDC_PYMTTERM_DISCOUNT" width="84" [model]="eventData?.model?.PaymentTerms?.DiscountFormula"></tb-text>
+         <tb-combo *ngIf="eventData?.activation?.IDC_PYMTTERM_PYMTCASH" [caption]="_TB('Cash')" cmpId="IDC_PYMTTERM_PYMTCASH" width="62" [model]="eventData?.model?.PaymentTerms?.PymtCash"></tb-combo>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_PYMTTERM_PYMTCASH_DESCRI" cmpId="IDC_PYMTTERM_PYMTCASH_DESCRI" width="154" [model]="eventData?.model?.HKLPymtCash?.Description"></tb-label-static>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_PYMTTERM_COLLECTIONTYPE" [caption]="_TB('Intrastat Collection Type')" cmpId="IDC_PYMTTERM_COLLECTIONTYPE" width="84" [model]="eventData?.model?.PaymentTerms?.IntrastatCollectionType"></tb-enum-combo>
+</div>        </tb-tile>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Settings')" tbTileStandard  isCollapsible="True">
+          <tb-enum-combo [caption]="_TB('Payment Due Date')" cmpId="IDC_PYMTTERM_COMBO_CODETYPEPYMTSCHEDULE" width="150" [model]="eventData?.model?.PaymentTerms?.DueDateType" [itemSource]="IDC_PYMTTERM_COMBO_CODETYPEPYMTSCHEDULE_itemSource"></tb-enum-combo>
+          <tb-numeric-text-box formatter="Integer" [caption]="_TB('Fixed Day')" cmpId="IDC_PYMTTERM_FIXEDDAY" width="20" [model]="eventData?.model?.PaymentTerms?.FixedDay"></tb-numeric-text-box>
+          <tb-enum-combo [caption]="_TB('Fixed Day Round Off')" cmpId="IDC_PYMTTERM_COMBO_ROUNDINGGF" width="72" [model]="eventData?.model?.PaymentTerms?.FixedDayRounding"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('The due date falling in')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-numeric-text-box formatter="Integer" [caption]="_TB('Special months')" cmpId="IDC_PYMTTERM_MONTHISEXCLUDED1" width="20" [model]="eventData?.model?.PaymentTerms?.ExcludedMonth1"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" cmpId="IDC_PYMTTERM_MONTHISEXCLUDED2" width="20" [model]="eventData?.model?.PaymentTerms?.ExcludedMonth2"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" [caption]="_TB('Deferred to this day')" cmpId="IDC_PYMTTERM_GFMONTHISEXCLUDED1" width="20" [model]="eventData?.model?.PaymentTerms?.DeferredDayMonth1"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" cmpId="IDC_PYMTTERM_GFMONTHISEXCLUDED2" width="20" [model]="eventData?.model?.PaymentTerms?.DeferredDayMonth2"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-radio cmpId="IDC_PYMTTERM_MONTHISEXCLUDED1_NEXT" width="109" [model]="eventData?.model?.DeferredDayMonth1Next" [caption]="_TB('of the next month  ')"></tb-radio>
+          <tb-radio cmpId="IDC_PYMTTERM_MONTHISEXCLUDED2_NEXT" width="16" [model]="eventData?.model?.DeferredDayMonth2Next"></tb-radio>
+</div><div class="anchored">          <tb-radio cmpId="IDC_PYMTTERM_MONTHISEXCLUDED1_SAME" width="109" [model]="eventData?.model?.PaymentTerms?.DeferredDayMonth1Same" [caption]="_TB('of the same month  ')"></tb-radio>
+          <tb-radio cmpId="IDC_PYMTTERM_MONTHISEXCLUDED2_SAME" width="16" [model]="eventData?.model?.PaymentTerms?.DeferredDayMonth2Same"></tb-radio>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Installments')" icon="erp-calendarflash" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Fixed Due Dates')" tbTileStandard  isCollapsible="True">
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Number of Installments')" cmpId="IDC_PYMTTERM_NOOFINSTALLMENTS" width="20" [model]="eventData?.model?.PaymentTerms?.NoOfInstallments"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('First Installment Days')" cmpId="IDC_PYMTTERM_NOFIRSTPAYMENTDAYS" width="20" [model]="eventData?.model?.PaymentTerms?.FirstPaymentDays"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Installment Days Gap')" cmpId="IDC_PYMTTERM_DISTANCEINSTALMENTSDAYS" width="20" [model]="eventData?.model?.PaymentTerms?.DaysBetweenInstallments"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Percentage Installments')" tbTileAutoFill  isCollapsible="True">
+         <tb-checkbox cmpId="IDC_PYMTTERM_PERCINSTALLMENT_OK" width="109" [model]="eventData?.model?.PaymentTerms?.PercInstallment" [caption]="_TB('Percentage Installments  ')"></tb-checkbox>
+<div class="anchored">         <tb-checkbox cmpId="IDC_PYMTTERM_SETTINGSONPERCINSTALLMENT" width="109" [model]="eventData?.model?.PaymentTerms?.SettingsOnPercInstallment" [caption]="_TB('Enable settings  ')"></tb-checkbox>
+         <tb-caption cmpId="IDC_STATIC_PYMTTERM_PERC_INSTALL" width="111" [caption]="_TB('(on Percentage Installments)')"></tb-caption>
+</div>         <tb-body-edit cmpId="IDC_PYMTTERM_PERCINSTALLMENT_BODY" width="647" [model]="eventData?.model?.PercInstallment">
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_TITLE_PYMTTERM_INSTALLMNO" columnName="InstallmentNo" [title]="_TB('Installment')" columnType="tb-numeric-text-box" columnName="IDC_TITLE_PYMTTERM_INSTALLMNO">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_TITLE_PYMTTERM_DAYS" columnName="Days" [title]="_TB('At days')" columnType="tb-numeric-text-box" columnName="IDC_TITLE_PYMTTERM_DAYS">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" cmpId="IDC_TITLE_PYMTTERM_PERCENTAGE" columnName="Perc" [title]="_TB('Percentage')" columnType="tb-numeric-text-box" columnName="IDC_TITLE_PYMTTERM_PERCENTAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TITLE_PYMTTERM_INSTALLMENTTYPE" columnName="InstallmentType" [title]="_TB('Installment Type')" columnType="tb-enum-combo" columnName="IDC_TITLE_PYMTTERM_INSTALLMENTTYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TITLE_PYMTTERM_DUEDATETYPE" columnName="DueDateType" [itemSource]="IDC_TITLE_PYMTTERM_DUEDATETYPE_itemSource" [title]="_TB('Payment Due Date')" columnType="tb-enum-combo" columnName="IDC_TITLE_PYMTTERM_DUEDATETYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_TITLE_PYMTTERM_FIXEDDAY" columnName="FixedDay" [title]="_TB('Fixed Day')" columnType="tb-numeric-text-box" columnName="IDC_TITLE_PYMTTERM_FIXEDDAY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TITLE_PYMTTERM_FIXEDDAYROUNDING" columnName="FixedDayRounding" [title]="_TB('Fixed Day Round Off')" columnType="tb-enum-combo" columnName="IDC_TITLE_PYMTTERM_FIXEDDAYROUNDING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TITLE_PYMTTERM_NOTES" columnName="l_TEnhPaymentTermsPercInst_P1" [title]="_TB('Notes')" columnType="tb-label-static" columnName="IDC_TITLE_PYMTTERM_NOTES">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Display Payment Schedules')" tbTileAutoFill  isCollapsible="True">
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Calculate from')" cmpId="IDC_TEST_DATE" width="57" [model]="eventData?.model?.Date"></tb-date-input>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Amount')" cmpId="IDC_TEST_TOTALAMOUNT" width="68" [model]="eventData?.model?.TotalAmount"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_TEST_TAXAMOUNT" formatter="Money" [caption]="_TB('Tax Amount')" cmpId="IDC_TEST_TAXAMOUNT" width="68" [model]="eventData?.model?.TaxAmount"></tb-numeric-text-box>
+         <tb-body-edit cmpId="IDC_TEST_PYMTSCHEDULE" width="647" [model]="eventData?.model?.PymtSchedule">
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_TEST_NO_INSTALMENT" columnName="l_TEnhPymtSchedule_P1" [title]="_TB('Installment No.')" columnType="tb-numeric-text-box" columnName="IDC_TEST_NO_INSTALMENT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TEST_CODETYPE" columnName="l_TEnhPymtSchedule_P2" [title]="_TB('Payment Type')" columnType="tb-enum-combo" columnName="IDC_TEST_CODETYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_TEST_DUEDATETYPE" columnName="l_TEnhPymtSchedule_P3" [title]="_TB('Due Date')" columnType="tb-date-input" columnName="IDC_TEST_DUEDATETYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TEST_DAY" columnName="l_TEnhPymtSchedule_P4" [title]="_TB('Day')" columnType="tb-label-static" columnName="IDC_TEST_DAY">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_TEST_AMOUNT" columnName="l_TEnhPymtSchedule_P5" [title]="_TB('Total Amount of the Installment')" columnType="tb-numeric-text-box" columnName="IDC_TEST_AMOUNT">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Languages')" icon="erp-descrlanguage" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Descriptions in Language')" tbTileStandard >
+         <tb-body-edit cmpId="IDC_DESCRI_LANGUAGE_BODY" width="393" [model]="eventData?.model?.__Languages">
+          <tb-body-edit-column cmpId="IDC_DOC_LANGUAGE" columnName="__Language" [title]="_TB('Language')" columnType="tb-combo" columnName="IDC_DOC_LANGUAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_DESCRIPTION" columnName="__Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_DOC_DESCRIPTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_LANG_DOC_NOTES" columnName="__Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_LANG_DOC_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE" columnName="__TextDescri" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE2" columnName="__TextDescri2" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE2">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PYMTTERM_COPY?.enabled" icon="tb-copy" [caption]="_TB('Copy')" cmpId="ID_PYMTTERM_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

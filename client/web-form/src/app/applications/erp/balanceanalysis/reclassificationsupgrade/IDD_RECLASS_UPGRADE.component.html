@@ -1,0 +1,94 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Balance Type')" tbTileStandard  isCollapsible="False" hasTitle="True">
+        <tb-radio cmpId="IDC_RECLASS_UPGRADE_NORMAL" width="79" [model]="eventData?.model?.Normal" [caption]="_TB('EU - Normal')"></tb-radio>
+        <tb-radio cmpId="IDC_RECLASS_UPGRADE_ABB" width="79" [model]="eventData?.model?.Abbreviated" [caption]="_TB('EU - Abbreviated')"></tb-radio>
+        <tb-radio cmpId="IDC_RECLASS_UPGRADE_BASEL" width="79" [model]="eventData?.model?.BASEL" [caption]="_TB('Basel II')"></tb-radio>
+       </tb-tile>
+       <tb-tile [title]="_TB('Balance Schema Reclassifications')" tbTileStandard  isCollapsible="False" hasTitle="True">
+<div class="anchored">        <tb-section-title cmpId="IDC_STATIC_8" width="65" [caption]="_TB('Old Schema')"></tb-section-title>
+        <tb-section-title cmpId="IDC_STATIC_9" width="60" [caption]="_TB('New Schema')"></tb-section-title>
+</div><div class="anchored">        <tb-combo [caption]="_TB('Assets')" cmpId="IDC_RECLASS_UPGRADE_BASEL_ASS" width="48" [model]="eventData?.model?.Assets"></tb-combo>
+        <tb-text cmpId="IDC_RECLASS_UPGRADE_BASELN_ASS" width="48" [model]="eventData?.model?.New_Assets"></tb-text>
+</div><div class="anchored">        <tb-combo [caption]="_TB('Liabilities')" cmpId="IDC_RECLASS_UPGRADE_BASEL_LIA" width="48" [model]="eventData?.model?.Liabilities"></tb-combo>
+        <tb-text cmpId="IDC_RECLASS_UPGRADE_BASELN_LIA" width="48" [model]="eventData?.model?.New_Liabilities"></tb-text>
+</div><div class="anchored">        <tb-combo [caption]="_TB('Profit and Loss')" cmpId="IDC_RECLASS_UPGRADE_BASEL_PL" width="48" [model]="eventData?.model?.ProfitLoss"></tb-combo>
+        <tb-text cmpId="IDC_RECLASS_UPGRADE_BASELN_PL" width="48" [model]="eventData?.model?.New_ProfitLoss"></tb-text>
+</div><div class="anchored">        <tb-combo [caption]="_TB('Profit and Loss Margin')" cmpId="IDC_RECLASS_UPGRADE_BASEL_PL_PERT" width="48" [model]="eventData?.model?.ProfitLossPert"></tb-combo>
+        <tb-text cmpId="IDC_RECLASS_UPGRADE_BASELN_PL_PERT" width="48" [model]="eventData?.model?.New_ProfitLossPert"></tb-text>
+</div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('No more Reclassified Accounts')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_RECLASS_UPGRADE_BODY_OLD" width="654" [model]="eventData?.model?.SlaveOldDataReclassUpg">
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_OLD_SECTION" columnName="l_TEnhOldDataReclassUpg_P1" [title]="_TB('Balance Section')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_OLD_SECTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_OLD_REFCODE" columnName="l_Old_Code" [title]="_TB('Old Reference Code')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_OLD_REFCODE" *ngIf="eventData?.activation?.IDC_RECLASS_UPGRADE_OLD_REFCODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_OLD_CODE" columnName="l_TEnhOldDataReclassUpg_P2" [title]="_TB('Old Element Code')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_OLD_CODE" *ngIf="eventData?.activation?.IDC_RECLASS_UPGRADE_OLD_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_OLD_DEBIT" columnName="l_TEnhOldDataReclassUpg_P3" [title]="_TB('Debit Account')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_OLD_DEBIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_OLD_CREDIT" columnName="l_TEnhOldDataReclassUpg_P4" [title]="_TB('Credit Account')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_OLD_CREDIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_OLD_DESCRIPTION" columnName="l_TEnhOldDataReclassUpg_P5" [title]="_TB('Account Description')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_OLD_DESCRIPTION">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('New Reclassification elements')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_RECLASS_UPGRADE_BODY_NEW" width="654" [model]="eventData?.model?.SlaveNewDataReclassUpg">
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_SCHEMACODE" columnName="l_TEnhNewDataReclassUpg_P1" [title]="_TB('Schema Code')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_NEW_SCHEMACODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_SECTION" columnName="l_TEnhNewDataReclassUpg_P2" [title]="_TB('Balance Section')" columnType="tb-enum-combo" columnName="IDC_RECLASS_UPGRADE_NEW_SECTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_REFCODE" columnName="l_TEnhNewDataReclassUpg_P3" [title]="_TB('New Reference Code')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_NEW_REFCODE" *ngIf="eventData?.activation?.IDC_RECLASS_UPGRADE_NEW_REFCODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_CODE" columnName="l_TEnhNewDataReclassUpg_P3" [title]="_TB('New Element Code')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_NEW_CODE" *ngIf="eventData?.activation?.IDC_RECLASS_UPGRADE_NEW_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_DEFAULT" columnName="l_TEnhNewDataReclassUpg_P8" [title]="_TB('Default')" columnType="tb-bool-edit" columnName="IDC_RECLASS_UPGRADE_NEW_DEFAULT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_CODEDESCRIPTION" columnName="l_TEnhNewDataReclassUpg_P4" [title]="_TB('Code Description')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_NEW_CODEDESCRIPTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_DEBIT" columnName="l_TEnhNewDataReclassUpg_P5" [title]="_TB('Account Debit Balance')" columnType="tb-text" columnName="IDC_RECLASS_UPGRADE_NEW_DEBIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_CREDIT" columnName="l_TEnhNewDataReclassUpg_P6" [title]="_TB('Account Credit Balance')" columnType="tb-text" columnName="IDC_RECLASS_UPGRADE_NEW_CREDIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RECLASS_UPGRADE_NEW_DESCRIPTION" columnName="l_TEnhNewDataReclassUpg_P7" [title]="_TB('Account Description')" columnType="tb-label-static" columnName="IDC_RECLASS_UPGRADE_NEW_DESCRIPTION">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

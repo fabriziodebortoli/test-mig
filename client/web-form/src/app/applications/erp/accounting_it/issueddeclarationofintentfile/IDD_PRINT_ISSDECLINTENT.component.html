@@ -1,0 +1,71 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Period')" tbTileStandard >
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Year')" cmpId="IDC_ISSDECLINTENT_YEAR" width="35" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From Date')" cmpId="IDC_ISSDECLINTENT_FROM_DATE" width="57" [model]="eventData?.model?.FromMonthDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To Date')" cmpId="IDC_ISSDECLINTENT_TO_DATE" width="57" [model]="eventData?.model?.ToMonthDate"></tb-date-input>
+         <tb-text [caption]="_TB('From Log No.')" cmpId="IDC_ISSDECLINTENT_FROM_LOG" width="55" [model]="eventData?.model?.FromNo"></tb-text>
+         <tb-text [caption]="_TB('To Log No.')" cmpId="IDC_ISSDECLINTENT_TO_LOG" width="55" [model]="eventData?.model?.ToNo"></tb-text>
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_ALSO_PRINT" width="114" [model]="eventData?.model?.Reprint" [caption]="_TB('Also Already Printed')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Options')" tbTileStandard >
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_CORRECTIVE" width="106" [model]="eventData?.model?.Corrective" [caption]="_TB('Supplementary')"></tb-checkbox>
+         <tb-text [caption]="_TB('Telematic Protocol')" cmpId="IDC_ISSDECLINTENT_PROT_TEL" width="78" [model]="eventData?.model?.ProtocolTel"></tb-text>
+         <tb-text [caption]="_TB('Document Protocol')" cmpId="IDC_ISSDECLINTENT_PROT_DOC" width="40" [model]="eventData?.model?.ProtocolDoc"></tb-text>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Frame A')" tbTileStandard >
+<div class="anchored">         <tb-checkbox cmpId="IDC_ISSDECLINTENT_MONTHLY_PLAFOND" width="109" [model]="eventData?.model?.MonthlyPlafond" [caption]="_TB('Floating Plafond')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_EXPORT" width="109" [model]="eventData?.model?.Export" [caption]="_TB('Export')"></tb-checkbox>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_ISSDECLINTENT_DECL_PRES" width="109" [model]="eventData?.model?.YearDeclPresented" [caption]="_TB('Tax Declaration Presented')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_INTRA_SALES" width="109" [model]="eventData?.model?.IntraSales" [caption]="_TB('Intrastat Sales')"></tb-checkbox>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_ISSDECLINTENT_EXTRA_OP" width="109" [model]="eventData?.model?.ExtraOp" [caption]="_TB('Extraordinary Operations')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_SANMARINO_SALES" width="109" [model]="eventData?.model?.SanMarinoSales" [caption]="_TB('San Marino Sales')"></tb-checkbox>
+</div>         <tb-checkbox cmpId="IDC_ISSDECLINTENT_ASS_OP" width="109" [model]="eventData?.model?.AssOp" [caption]="_TB('Assimilated Operations')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Details')" tbTileStandard >
+         <tb-text [caption]="_TB('Good Description')" cmpId="IDC_ISSDECLINTENT_GOOD_DESCRI" width="238" [model]="eventData?.model?.GoodDescri"></tb-text>
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_SEND_MAIL" width="178" [model]="eventData?.model?.EMail" [caption]="_TB('Send Email and Telephone data (not mandatory)')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Company Data')" tbTileStandard >
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_DECL_DIFF" width="151" [model]="eventData?.model?.DeclDiff" [caption]="_TB('Declarer different from Taxpayer')"></tb-checkbox>
+         <tb-combo [caption]="_TB('Position Code')" cmpId="IDC_ISSDECLINTENT_DECL_POSITIONCODE" width="30" [model]="eventData?.model?.PositionCode_XML" [itemSource]="IDC_ISSDECLINTENT_DECL_POSITIONCODE_itemSource"></tb-combo>
+         <tb-text [caption]="_TB('Declaring Company Fiscal Code')" cmpId="IDC_ISSDECLINTENT_DECL_FISCALCODE" width="113" [model]="eventData?.model?.FiscalCodeDecl"></tb-text>
+         <tb-label-static [caption]="_TB('Intermediary Fiscal Code')" cmpId="IDC_ISSDECLINTENT_FC_INTERMEDIARY" width="86" [model]="eventData?.model?.Intermediary"></tb-label-static>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Commitment Date')" cmpId="IDC_ISSDECLINTENT_DATE" width="57" [model]="eventData?.model?.CommitDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('File Data')" tbTileStandard >
+         <tb-text cmpId="IDC_ISSDECLINTENT_FILE" width="304" [model]="eventData?.model?.FileNameComplete"></tb-text>
+         <tb-checkbox cmpId="IDC_ISSDECLINTENT_MORE_FILE" width="301" [model]="eventData?.model?.bOneFileForIssuedIntent" [caption]="_TB('Generate a file for each declaration')"></tb-checkbox>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileWide >
+<div class="col col1">        <tb-label-static cmpId="IDC_ISSDECLINTENT_MESSAGES" width="443" [model]="eventData?.model?.ProcessingState"></tb-label-static>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,0 +1,234 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="tb-master" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Main Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-text [caption]="_TB('Account')" cmpId="IDC_COA_ACCOUNT" width="86" [model]="eventData?.model?.ChartOfAccounts?.Account"></tb-text>
+         <tb-checkbox cmpId="IDC_COA_ISDISABLED" width="65" [model]="eventData?.model?.ChartOfAccounts?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Description')" cmpId="IDC_COA_DESCRIPTION" width="154" [model]="eventData?.model?.ChartOfAccounts?.Description"></tb-text>
+         <tb-text [caption]="_TB('Notes')" cmpId="IDC_COA_NOTES" width="154" [model]="eventData?.model?.ChartOfAccounts?.Notes"></tb-text>
+</div><div class="col col2">         <tb-enum-combo *ngIf="eventData?.activation?.IDC_COA_NATURE_LEDGER" [caption]="_TB('Ledger Type')" cmpId="IDC_COA_NATURE_LEDGER" width="90" [model]="eventData?.model?.Nature"></tb-enum-combo>
+<div class="anchored">         <tb-text *ngIf="eventData?.activation?.IDC_COA_GROUP" [caption]="_TB('Group')" cmpId="IDC_COA_GROUP" width="104" [model]="eventData?.model?.ChartOfAccounts?.Ledger"></tb-text>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_COA_NATURE_LEDGER" cmpId="IDC_COA_NATURE_LEDGER" width="90" [model]="eventData?.model?.Nature"></tb-enum-combo>
+</div>         <tb-enum-combo [caption]="_TB('Account Type')" cmpId="IDC_COA_CODETYPE_ACCOUNT" width="90" [model]="eventData?.model?.ChartOfAccounts?.CodeType"></tb-enum-combo>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_COA_POSTABLEINJE" cmpId="IDC_COA_POSTABLEINJE" width="109" [model]="eventData?.model?.ChartOfAccounts?.PostableInJE" [caption]="_TB('Postable in Accounting  ')"></tb-checkbox>
+         <tb-text *ngIf="eventData?.activation?.IDC_COA_REPORT_CODE" [caption]="_TB('Report Code')" cmpId="IDC_COA_REPORT_CODE" width="154" [model]="eventData?.model?.ChartOfAccounts?.ReportCode"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_COA_EXT_CODE" [caption]="_TB('External Code')" cmpId="IDC_COA_EXT_CODE" width="154" [model]="eventData?.model?.ChartOfAccounts?.ExternalCode"></tb-text>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_COA_POSTABLEINCOSTACC" cmpId="IDC_COA_POSTABLEINCOSTACC" width="109" [model]="eventData?.model?.ChartOfAccounts?.PostableInCostAcc" [caption]="_TB('Postable in Cost Accounting  ')"></tb-checkbox>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_COA_CASH_TYPE" [caption]="_TB('Cash Flow Type')" cmpId="IDC_COA_CASH_TYPE" width="80" [model]="eventData?.model?.ChartOfAccounts?.CashFlowType"></tb-enum-combo>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Currency')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COA_CURRENCIES">
+         <tb-checkbox cmpId="IDC_COA_INCURRENCY" width="109" [model]="eventData?.model?.ChartOfAccounts?.InCurrency" [caption]="_TB('In Foreign Currency  ')"></tb-checkbox>
+<div class="anchored">         <tb-combo [caption]="_TB('Account Currency')" cmpId="IDC_COA_CURRENCY" width="62" [model]="eventData?.model?.ChartOfAccounts?.Currency"></tb-combo>
+         <tb-label-static cmpId="IDC_COA_DESCRI_CURRENCY" width="155" [model]="eventData?.model?.HKLCurrency?.Description"></tb-label-static>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Balances')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COA_BALANCES">
+<div class="col col1">         <tb-combo [caption]="_TB('Fiscal year')" cmpId="IDC_COA_ESBALANCES" width="71" [model]="eventData?.model?.NrFiscalYear"></tb-combo>
+         <tb-combo *ngIf="eventData?.activation?.IDC_COA_CURRENCY_FOR_BALANCES" [caption]="_TB('Currency')" cmpId="IDC_COA_CURRENCY_FOR_BALANCES" width="71" [model]="eventData?.model?.BalanceCurrency" [itemSource]="IDC_COA_CURRENCY_FOR_BALANCES_itemSource"></tb-combo>
+         <tb-section-title cmpId="IDC_STATIC_COA_ACTUAL_BALANCES_SEPARATOR" width="325" [caption]="_TB('Actual Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_COA_TOT_DEBIT" width="68" [model]="eventData?.model?.DebitActTotal"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_COA_TOT_CREDIT" width="68" [model]="eventData?.model?.CreditActTotal"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_COA_BALANCE_DEBIT" width="68" [model]="eventData?.model?.ActualDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_COA_BALANCE_CREDIT" width="68" [model]="eventData?.model?.ActualCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_COA_FORECAST_BALANCES_SEPARATOR" cmpId="IDC_STATIC_COA_FORECAST_BALANCES_SEPARATOR" width="325" [caption]="_TB('Forecast Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOT_BUDGETDEBITREV" formatter="Money" disabled="true" cmpId="IDC_COA_TOT_BUDGETDEBITREV" width="68" [model]="eventData?.model?.DebitForTotal"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOT_BDGCREDITREV" formatter="Money" disabled="true" cmpId="IDC_COA_TOT_BDGCREDITREV" width="68" [model]="eventData?.model?.CreditForTotal"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_BALANCE_BUDGETDEBITREV" formatter="Money" disabled="true" cmpId="IDC_COA_BALANCE_BUDGETDEBITREV" width="68" [model]="eventData?.model?.BudgetDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_BALANCE_BDGCREDITREV" formatter="Money" disabled="true" cmpId="IDC_COA_BALANCE_BDGCREDITREV" width="68" [model]="eventData?.model?.BudgetCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_COA_SIMULATE_BALANCES_SEPARATOR" cmpId="IDC_STATIC_COA_SIMULATE_BALANCES_SEPARATOR" width="325" [caption]="_TB('Simulated Balances')"></tb-section-title>
+<div class="anchored">         <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_COA_SIMULATE_BALANCES" cmpId="IDC_STATIC_COA_SIMULATE_BALANCES" width="98" [caption]="_TB('(Forecast + Actual)')"></tb-section-title>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOT_DEBITDEF" formatter="Money" disabled="true" cmpId="IDC_COA_TOT_DEBITDEF" width="68" [model]="eventData?.model?.DebitTotal"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOT_CREDITDEF" formatter="Money" disabled="true" cmpId="IDC_COA_TOT_CREDITDEF" width="68" [model]="eventData?.model?.CreditTotal"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_BALANCE_DEBITDEF" formatter="Money" disabled="true" cmpId="IDC_COA_BALANCE_DEBITDEF" width="68" [model]="eventData?.model?.DebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_BALANCE_CREDITDEF" formatter="Money" disabled="true" cmpId="IDC_COA_BALANCE_CREDITDEF" width="68" [model]="eventData?.model?.CreditBalance"></tb-numeric-text-box>
+</div></div><div class="col col2">         <tb-body-edit cmpId="IDC_BALANCES_ACCOUNTING" width="400" [model]="eventData?.model?.Balances">
+          <tb-body-edit-column cmpId="IDC_COA_NATURE" [model]="eventData?.model?.Balances?.Nature" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_COA_NATURE" *ngIf="eventData?.activation?.IDC_COA_NATURE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MONTH_YEAR" [model]="eventData?.model?.Balances?.TEnhCOABalancesMonthYear_P1" [title]="_TB('Month/Year')" columnType="tb-label-static" columnName="IDC_MONTH_YEAR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_DEBIT" [model]="eventData?.model?.Balances?.Debit" [title]="_TB('Debit')" columnType="tb-numeric-text-box" columnName="IDC_DEBIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CREDIT" [model]="eventData?.model?.Balances?.Credit" [title]="_TB('Credit')" columnType="tb-numeric-text-box" columnName="IDC_CREDIT">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('AGO')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_AGO_TAB">
+<div class="anchored">         <tb-text [caption]="_TB('Sub-Account')" cmpId="IDC_AGO_TAB_SUBACCOUNT" width="60" [model]="eventData?.model?.ChartOfAccounts?.AGOSubAccount"></tb-text>
+         <tb-label-static cmpId="IDC_AGO_TAB_DESCRIPTION" width="180" [model]="eventData?.model?.HKLAGOSubAccounts?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-text [caption]="_TB('Intra Operation Type')" cmpId="IDC_AGO_TAB_INTRAOP" width="30" [model]="eventData?.model?.ChartOfAccounts?.AGOIntraCode"></tb-text>
+         <tb-label-static cmpId="IDC_AGO_TAB_OPDESCRIPTION" width="180" [model]="eventData?.model?.HKLAGOIntraCodes?.Description"></tb-label-static>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('OMNIA')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_OMNIA_TAB">
+<div class="anchored">         <tb-text [caption]="_TB('Sub-Account')" cmpId="IDC_OMNIA_TAB_SUBACCOUNT" width="48" [model]="eventData?.model?.ChartOfAccounts?.OMNIASubAccount"></tb-text>
+         <tb-label-static cmpId="IDC_OMNIA_TAB_DESCRIPTION" width="180" [model]="eventData?.model?.HKLOMNIASubAccounts?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-text [caption]="_TB('Intra Operation Type')" cmpId="IDC_OMNIA_TAB_INTRAOP" width="30" [model]="eventData?.model?.ChartOfAccounts?.OMNIAIntraCode"></tb-text>
+         <tb-label-static cmpId="IDC_OMNIA_TAB_OPDESCRIPTION" width="180" [model]="eventData?.model?.HKLOMNIAIntraCodes?.Description"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Languages')" icon="erp-descrlanguage" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Descriptions in Language')" tbTileStandard >
+         <tb-body-edit cmpId="IDC_DESCRI_LANGUAGE_BODY" width="393" [model]="eventData?.model?.__Languages">
+          <tb-body-edit-column cmpId="IDC_DOC_LANGUAGE" columnName="__Language" [title]="_TB('Language')" columnType="tb-combo" columnName="IDC_DOC_LANGUAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_DESCRIPTION" columnName="__Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_DOC_DESCRIPTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_LANG_DOC_NOTES" columnName="__Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_LANG_DOC_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE" columnName="__TextDescri" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE2" columnName="__TextDescri2" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE2">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Reclassification Schemas')" icon="erp-accountingreclassification" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_COA_BODY_RECLASS">
+       <ng-template>
+        <tb-tile [title]="_TB('Reclassification Schemas')" tbTileAutoFill >
+         <tb-body-edit cmpId="IDC_COA_RECLASS" width="487" [model]="eventData?.model?.CoAReclass">
+          <tb-body-edit-column cmpId="IDC_COA_RECLASS_SCHEMA" columnName="SchemaCode" [title]="_TB('Schema')" columnType="tb-label-static" columnName="IDC_COA_RECLASS_SCHEMA">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_RECLASS_DESCRI_SCHEMA" [model]="eventData?.model?.HKLBalReclass?.Description" [title]="_TB('Schema Description')" columnType="tb-label-static" columnName="IDC_COA_RECLASS_DESCRI_SCHEMA">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_RECLASS_CODE" columnName="Code" [title]="_TB('Element Code')" columnType="tb-label-static" columnName="IDC_COA_RECLASS_CODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_RECLASS_DESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_COA_RECLASS_DESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_RECLASS_ACCOUNT" columnName="Account" [title]="_TB('Account')" columnType="tb-label-static" columnName="IDC_COA_RECLASS_ACCOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_RECLASS_DESCR_ACCOUNT" [model]="eventData?.model?.HKLChartOfAccounts?.Description" [title]="_TB('Account Description')" columnType="tb-label-static" columnName="IDC_COA_RECLASS_DESCR_ACCOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_RECLASS_SIGN" columnName="DebitCreditSign" [title]="_TB('Sign')" columnType="tb-enum-combo" columnName="IDC_COA_RECLASS_SIGN">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Analytical Templates')" icon="erp-costaccounting" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_COA_TEMPLATES">
+       <ng-template>
+        <tb-tile [title]="_TB('Analytical Templates')" tbTileWide >
+<div class="col col1">         <tb-enum-combo [caption]="_TB('Sign')" cmpId="IDC_COA_DEBITCREDITSIGN_ACCOUNT" width="65" [model]="eventData?.model?.ChartOfAccounts?.DebitCreditSign"></tb-enum-combo>
+         <tb-text [caption]="_TB('UoM')" cmpId="IDC_COA_UOM" width="65" [model]="eventData?.model?.ChartOfAccounts?.UoM"></tb-text>
+         <tb-enum-combo [caption]="_TB('Direct Costing')" cmpId="IDC_COA_COSTDIRECT" width="165" [model]="eventData?.model?.ChartOfAccounts?.DirectCost"></tb-enum-combo>
+         <tb-enum-combo [caption]="_TB('Full Costing')" cmpId="IDC_COA_COSTFULL" width="165" [model]="eventData?.model?.ChartOfAccounts?.FullCost"></tb-enum-combo>
+</div><div class="col col2">         <tb-enum-combo [caption]="_TB('Cost Centers Spreading')" cmpId="IDC_COA_COSTCENTERSDISTRIBUTION" width="165" [model]="eventData?.model?.ChartOfAccounts?.CostCentersDistribution"></tb-enum-combo>
+         <tb-enum-combo [caption]="_TB('Jobs Spreading')" cmpId="IDC_COA_RIPJOBS" width="165" [model]="eventData?.model?.ChartOfAccounts?.JobsDistribution"></tb-enum-combo>
+</div>        </tb-tile>
+        <tb-tile tbTileAutoFill  hasTitle="False">
+         <tb-body-edit cmpId="IDC_COA_TEMPLATES" width="654" [model]="eventData?.model?.CostAccTemplates">
+          <tb-body-edit-column cmpId="IDC_COA_CSTCENTER_DETAIL" columnName="CostCenter" [title]="_TB('Cost Center')" columnType="tb-combo" columnName="IDC_COA_CSTCENTER_DETAIL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_JOB_DETAIL" columnName="Job" [title]="_TB('Job')" columnType="tb-text" columnName="IDC_COA_JOB_DETAIL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_PRODUCTLINE_DETAIL" columnName="ProductLine" [title]="_TB('Product Line')" columnType="tb-combo" columnName="IDC_COA_PRODUCTLINE_DETAIL" *ngIf="eventData?.activation?.IDC_COA_PRODUCTLINE_DETAIL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_DEBITCREDITSIGN" columnName="DebitCreditSign" [title]="_TB('Sign')" columnType="tb-enum-combo" columnName="IDC_COA_DEBITCREDITSIGN">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" cmpId="IDC_COA_PERC" columnName="Perc" [title]="_TB('%')" columnType="tb-numeric-text-box" columnName="IDC_COA_PERC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_DESCRI_CSTCENTER" [model]="eventData?.model?.HKLDetailCstCenter?.Description" [title]="_TB('Center Description')" columnType="tb-label-static" columnName="IDC_COA_DESCRI_CSTCENTER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_DESCRI_JOB" [model]="eventData?.model?.HKLDetailJob?.Description" [title]="_TB('Job Description')" columnType="tb-label-static" columnName="IDC_COA_DESCRI_JOB">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_DESCRI_PRODUCTLINE" [model]="eventData?.model?.HKLDetailProductLine?.Description" [title]="_TB('Line Description')" columnType="tb-label-static" columnName="IDC_COA_DESCRI_PRODUCTLINE" *ngIf="eventData?.activation?.IDC_COA_DESCRI_PRODUCTLINE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COA_TEMPLATES_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_COA_TEMPLATES_NOTES">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Totals')" tbTileStandard >
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_1" width="62" [caption]="_TB('Cost Centers')"></tb-caption>
+         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Debit')" cmpId="IDC_COA_TOTD_COSTCENTERS" width="30" [model]="eventData?.model?.TotalDebitCCTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Credit')" cmpId="IDC_COA_TOTA_COSTCENTERS" width="30" [model]="eventData?.model?.TotalCreditCCTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Debit')" cmpId="IDC_COA_TOTD_COSTCENTERS" width="30" [model]="eventData?.model?.TotalDebitCCTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Credit')" cmpId="IDC_COA_TOTA_COSTCENTERS" width="30" [model]="eventData?.model?.TotalCreditCCTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-caption cmpId="IDC_STATIC_2" width="62" [caption]="_TB('Jobs')"></tb-caption>
+         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Debit')" cmpId="IDC_COA_TOTD_JOBS" width="30" [model]="eventData?.model?.TotalDebitJobTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Credit')" cmpId="IDC_COA_TOTA_JOBS" width="30" [model]="eventData?.model?.TotalCreditJobTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Debit')" cmpId="IDC_COA_TOTD_JOBS" width="30" [model]="eventData?.model?.TotalDebitJobTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Percent" disabled="true" [caption]="_TB('Credit')" cmpId="IDC_COA_TOTA_JOBS" width="30" [model]="eventData?.model?.TotalCreditJobTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-caption *ngIf="eventData?.activation?.IDC_STATIC_3" cmpId="IDC_STATIC_3" width="62" [caption]="_TB('Product Lines')"></tb-caption>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOTD_PRODUCTLINE" formatter="Percent" disabled="true" [caption]="_TB('Debit')" cmpId="IDC_COA_TOTD_PRODUCTLINE" width="30" [model]="eventData?.model?.TotalDebitLineTot"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOTA_PRODUCTLINE" formatter="Percent" disabled="true" [caption]="_TB('Credit')" cmpId="IDC_COA_TOTA_PRODUCTLINE" width="30" [model]="eventData?.model?.TotalCreditLineTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOTD_PRODUCTLINE" formatter="Percent" disabled="true" [caption]="_TB('Debit')" cmpId="IDC_COA_TOTD_PRODUCTLINE" width="30" [model]="eventData?.model?.TotalDebitLineTot"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_COA_TOTA_PRODUCTLINE" formatter="Percent" disabled="true" [caption]="_TB('Credit')" cmpId="IDC_COA_TOTA_PRODUCTLINE" width="30" [model]="eventData?.model?.TotalCreditLineTot"></tb-numeric-text-box>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_PNL_LINKSPANEL_DOCK_PANE" [title]="_TB('LinksPanel')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False" *ngIf="eventData?.activation?.IDD_TD_PNL_LINKSPANEL">
+         <tb-body-edit cmpId="IDC_PNL_BE" width="325" [model]="eventData?.model?.DBTLinksTable">
+          <tb-body-edit-column cmpId="IDC_PNL_BE_IMAGE" columnName="Image" [title]="_TB('Image')" columnType="tb-image" columnName="IDC_PNL_BE_IMAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PNL_BE_DESCR" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_PNL_BE_DESCR">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>
