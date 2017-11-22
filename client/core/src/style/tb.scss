@@ -21,11 +21,6 @@ $series-d: #78d237;
 $series-e: #ff6358;
 $series-f: #aa46be;
 @import "~@progress/kendo-theme-default/scss/all";
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,500,600');
-* {
-    font-family: 'Open Sans', sans-serif;
-}
-
 body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -48,13 +43,13 @@ body {
 h1 {
     font-size: 2em;
     color: #000;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 h2 {
     font-size: 1.5em;
     color: #00578c;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .link,
@@ -102,18 +97,10 @@ tb-root>.k-icon.k-i-loading {
 
 @import '~@angular/material/theming';
 @include mat-core();
-$tb-app-primary: mat-palette($mat-light-blue,
-800,
-600,
-A400);
-$tb-app-accent: mat-palette($mat-green,
-600,
-200,
-800);
+$tb-app-primary: mat-palette($mat-light-blue, 800, 600, A400);
+$tb-app-accent: mat-palette($mat-green, 600, 200, 800);
 $tb-app-warn: mat-palette($mat-red);
-$tb-app-theme: mat-light-theme($tb-app-primary,
-$tb-app-accent,
-$tb-app-warn);
+$tb-app-theme: mat-light-theme($tb-app-primary, $tb-app-accent, $tb-app-warn);
 @include angular-material-theme($tb-app-theme);
 md-card.mat-card {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
@@ -129,7 +116,7 @@ md-card-title.mat-card-title {
     position: relative;
     padding-right: 25px;
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #000;
     font-size: 1rem;
     text-transform: uppercase;
