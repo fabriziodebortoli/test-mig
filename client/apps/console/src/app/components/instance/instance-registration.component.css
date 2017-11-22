@@ -5,3 +5,5 @@ input, textarea, label {
 }
 
 button { width:120px;height:30px;margin-right:14px; margin-left:110px}
+.stepDone {color:#c0c0c0;text-decoration:line-through}
+.stayLine { display: inline; margin-left:15px}
