@@ -20,8 +20,8 @@ public IDC_HEADER_ENTRY_CODETYPE_SPECIFICATOR_RTGSTEP2_itemSource: any;
         resolver: ComponentFactoryResolver,
         private store: Store,
         ciService: ComponentInfoService,
-        private changeDetectorRef: ChangeDetectorRef) {
-        super(document, eventData, resolver, ciService);
+        changeDetectorRef: ChangeDetectorRef) {
+		super(document, eventData, ciService, changeDetectorRef, resolver);
         this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
     }
 

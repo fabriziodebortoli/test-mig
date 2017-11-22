@@ -268,9 +268,7 @@ export class NumbererComponent extends ControlComponent {
     onKeyDown($event) {
         // VERIFICARE SE SI PUO' FARE CON LA MASCHERA
 
-        // if (this.maxLength > -1  && this.value.length >= this.maxLength) {
-        //     $event.preventDefault();
-        // }
+        //console.log("KeyDown - " + String.fromCharCode($event.keyCode) + ' - code:' + $event.keyCode.toString());
 
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
             $event.preventDefault();

@@ -18,8 +18,8 @@ export class IDD_PARAMETERS_PAYABLESRECEIVABLESComponent extends BOComponent imp
         resolver: ComponentFactoryResolver,
         private store: Store,
         ciService: ComponentInfoService,
-        private changeDetectorRef: ChangeDetectorRef) {
-        super(document, eventData, resolver, ciService);
+        changeDetectorRef: ChangeDetectorRef) {
+		super(document, eventData, ciService, changeDetectorRef, resolver);
         this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
     }
 

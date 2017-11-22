@@ -19,8 +19,8 @@ public IDC_CARRIERS_COUNTY_itemSource: any;
         resolver: ComponentFactoryResolver,
         private store: Store,
         ciService: ComponentInfoService,
-        private changeDetectorRef: ChangeDetectorRef) {
-        super(document, eventData, resolver, ciService);
+        changeDetectorRef: ChangeDetectorRef) {
+		super(document, eventData, ciService, changeDetectorRef, resolver);
         this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
     }
 

@@ -17,8 +17,8 @@ export class IDD_PURCHASE_PRICE_POLICIES_PARAMETERSComponent extends BOComponent
         resolver: ComponentFactoryResolver,
         private store: Store,
         ciService: ComponentInfoService,
-        private changeDetectorRef: ChangeDetectorRef) {
-        super(document, eventData, resolver, ciService);
+        changeDetectorRef: ChangeDetectorRef) {
+		super(document, eventData, ciService, changeDetectorRef, resolver);
         this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
     }
 

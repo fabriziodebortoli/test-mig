@@ -17,8 +17,8 @@ export class IDD_WARMAN_INTERIM_CREATE_TOComponent extends BOComponent implement
         resolver: ComponentFactoryResolver,
         private store: Store,
         ciService: ComponentInfoService,
-        private changeDetectorRef: ChangeDetectorRef) {
-        super(document, eventData, resolver, ciService);
+        changeDetectorRef: ChangeDetectorRef) {
+		super(document, eventData, ciService, changeDetectorRef, resolver);
         this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
     }
 

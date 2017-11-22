@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 import { ComponentService, EventDataService, BOSlaveComponent, ControlComponent, ComponentInfoService, BOService  } from '@taskbuilder/core';
 
@@ -9,8 +9,10 @@ import { ComponentService, EventDataService, BOSlaveComponent, ControlComponent,
 })
 export class IDD_MANAGEFILE_WIZARD_MASTERComponent extends BOSlaveComponent implements OnInit, OnDestroy {
      
-    constructor(eventData: EventDataService, ciService: ComponentInfoService) {
-        super(eventData, ciService);
+	constructor(eventData: EventDataService,
+		ciService: ComponentInfoService,
+		changeDetectorRef: ChangeDetectorRef) {
+		super(eventData, ciService, changeDetectorRef);
     }
 
     ngOnInit() {

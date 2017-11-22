@@ -28,7 +28,7 @@ export abstract class TbComponent implements OnInit {
 
         if (tn) {
           this.translations = this.translations.concat(tn);
-          this.changeDetectorRef.markForCheck();
+          this.changeDetectorRef.detectChanges();
         } else {
           this.readTranslationsFromServer(id);
         }
