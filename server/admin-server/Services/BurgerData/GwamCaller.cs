@@ -25,7 +25,7 @@ namespace Microarea.AdminServer.Services.BurgerData
             this.httpHelper = httpHelper;
             this.GWAMUrl = GWAMUrl;
             this.instance = instance == null ? new Instance() : instance;
-            this.authInfo =  instance.GetAuthorizationInfo();
+            this.authInfo =  this.instance.GetAuthorizationInfo();
         }
 
         //----------------------------------------------------------------------
