@@ -90,7 +90,6 @@ namespace Microarea.AdminServer.Controllers
 
 			foreach (var c in ((Newtonsoft.Json.Linq.JObject)dataCluster).Children())
 			{
-				// ((Newtonsoft.Json.Linq.JProperty)r).Value
 				rowName = ((Newtonsoft.Json.Linq.JProperty)c).Name;
 				rowValue = ((Newtonsoft.Json.Linq.JProperty)c).Value;
 				modelList.Add(GetItemByName(rowName, rowValue));

@@ -76,7 +76,7 @@ namespace ErpService.Controllers
         [Route("GetItemsSearchList")]
         public IActionResult GetItemsSearchList([FromBody] string queryType)
         {
-            var result = new Dictionary<string, string>();
+            var result = new List<Dictionary<string, object>>();
 
             var ui = GetLoginInformation();
             if (ui == null)
@@ -88,11 +88,24 @@ namespace ErpService.Controllers
                 if (reader != null)
                 {
                     while (reader.Read())
-                        result.Add(reader[0].ToString(), reader[1].ToString());
+                    {
+                        // define the dictionary
+                        var fieldValues = new Dictionary<string, object>();
+
+                        // fill up each column and values on the dictionary                 
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            fieldValues.Add(reader.GetName(i), reader[i]);
+                        }
+
+                        // add the dictionary on the values list
+                        result.Add(fieldValues);
+                    }
                 }
             }
 
-            return new JsonResult(result);
+            var jr = new JsonResult(result);
+            return jr;
         }
 
         private SqlDataReader GetItemsSearchReader(SqlConnection connection, string searchType)
@@ -104,6 +117,24 @@ namespace ErpService.Controllers
 
                 case "categories":
                     return ExecuteReader(connection, System.Data.CommandType.Text, "select Category, Description from MA_ProductCtg ", null);
+
+                case "producersByCategory":
+                    {
+                        string query = @"   select  MA_ProducersCategories.Producer, MA_Producers.CompanyName, MA_ProducersCategories.Category
+                                            from    MA_ProducersCategories
+	                                            inner join MA_Producers on MA_ProducersCategories.Producer = MA_Producers.Producer";
+
+                        return ExecuteReader(connection, System.Data.CommandType.Text, query, null);
+                    }
+
+                case "categoriesByProducer":
+                    {
+                        string query = @"   select  MA_ProducersCategories.Category, MA_ProductCtg.Description, MA_ProducersCategories.Producer
+                                            from    MA_ProducersCategories
+	                                            inner join MA_ProductCtg on MA_ProducersCategories.Category = MA_ProductCtg.Category";
+
+                        return ExecuteReader(connection, System.Data.CommandType.Text, query, null);
+                    }
 
                 default:
                     return null;
