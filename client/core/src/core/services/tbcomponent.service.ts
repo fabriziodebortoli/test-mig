@@ -71,7 +71,7 @@ export class TbComponentService {
         return dictionaryId;
     }
     public saveToLocal(dictionaryId: string, translations: any[]) {
-        const sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
+        const sub = this.infoService.getProductInfo(false).subscribe((productInfo: any) => {
             if (sub) {
                 sub.unsubscribe();
             }
@@ -83,7 +83,7 @@ export class TbComponentService {
 
     public readFromLocal(dictionaryId: string): Observable<any> {
         return Observable.create(observer => {
-            const sub = this.infoService.getProductInfo().subscribe((productInfo: any) => {
+            const sub = this.infoService.getProductInfo(false).subscribe((productInfo: any) => {
                 if (sub) {
                     sub.unsubscribe();
                 }

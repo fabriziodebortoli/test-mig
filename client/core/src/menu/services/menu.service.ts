@@ -39,6 +39,8 @@ export class MenuService {
     runFunctionStarted = new EventEmitter<any>();
     runFunctionCompleted = new EventEmitter<any>();
 
+    public isLoading = false;   //concetto generico di isLoading, per evitare loading multiple
+
     get selectedMenu(): any {
         return this._selectedMenu;
     }
@@ -216,6 +218,9 @@ export class MenuService {
         if (object === undefined)
             return;
 
+        if (this.isLoading)
+            return;
+
         this.runFunctionStarted.emit();
 
         if (this.infoService.isDesktop) {
@@ -227,17 +232,19 @@ export class MenuService {
             }
             else {
                 this.webSocketService.runDocument(object.target, object.args)
-                    .catch(() => { object.isLoading = false; });
+                    .catch(() => { object.isLoading = this.isLoading = false; });
             }
         }
         this.addToMostUsed(object);
-        object.isLoading = true;
+        object.isLoading = this.isLoading = true;
         let subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
-            object.isLoading = false;
+            object.isLoading = this.isLoading = false;
             subs1.unsubscribe();
         });
+
+        //TODOLUCA, leak, se lancio mille documenti con successo, mi rimangono mille componentCreationError senza unsubscribe
         let subs2 = this.componentService.componentCreationError.subscribe(reason => {
-            object.isLoading = false;
+            object.isLoading = this.isLoading = false;
             subs2.unsubscribe();
         });
     }
@@ -245,36 +252,37 @@ export class MenuService {
     runObject(object: any) {
         let urlToRun = "";
         let objType = object.objectType.toLowerCase();
-        let ns = object.target.toLowerCase();
-        if (objType == 'document') {
-            urlToRun = 'runDocument/?ns=' + encodeURIComponent(ns);
-            if (object.arguments)
-                urlToRun += "&args=" + encodeURIComponent(object.arguments);
-        }
+        let ns = encodeURIComponent(object.target.toLowerCase());
+        let type = object.sub_type ? object.sub_type : '';
+        let app = object.application ? object.application : '';
+        let args = object.arguments ? encodeURIComponent(object.arguments) : '';
+
+        if (objType == 'document')
+            urlToRun = 'runDocument/';
         else if (objType == 'batch')
-            urlToRun = 'runDocument/?ns=' + encodeURIComponent(ns);
+            urlToRun = 'runDocument/';
         else if (objType == 'report') {
-            urlToRun = 'runReport/?ns=' + encodeURIComponent(ns);
-            if (object.arguments)
-                urlToRun += "&args=" + encodeURIComponent(object.arguments);
+            urlToRun = 'runReport/';
         }
         else if (objType == 'function') {
-            var args = object.arguments;
             if (object.isUrl)
-                urlToRun = 'runUrl/?url=' + encodeURIComponent(ns) + '&title=' + object.title;
+                urlToRun = 'runUrl/';
             else
-                urlToRun = 'runFunction/?ns=' + encodeURIComponent(ns) + '&args=' + encodeURIComponent(args);
+                urlToRun = 'runFunction/';
         }
         else if (objType == 'officeitem') {
-            var type = object.sub_type;
-            var app = object.application;
-            urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
+            urlToRun = 'runOfficeItem/';
         }
-
-        let authtoken = sessionStorage.getItem('authtoken');
-        urlToRun += "&authtoken=" + authtoken;
-        let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
-            object.isLoading = false;
+        let obj = {
+            authtoken: sessionStorage.getItem('authtoken'),
+            ns: ns,
+            args: args,
+            title: object.title,
+            subType: type,
+            application: app
+        }
+        let sub = this.httpService.postData(this.infoService.getMenuBaseUrl() + urlToRun, obj).subscribe((res) => {
+            object.isLoading = this.isLoading = false;
             sub.unsubscribe();
         })
         // return typeof (window.event) !== 'undefined' && window.event.ctrlKey ? urlToRun + "&notHooked=true" : urlToRun;
@@ -498,7 +506,7 @@ export class MenuService {
         //creo un unico allmenus che contiene tutte le applicazioni sia di environment che di applications
         let temp = root.ApplicationMenu.AppMenu.Application;
         for (var a = 0; a < temp.length; a++) {
-            if ( temp[a].name.toLowerCase() == "erp")
+            if (temp[a].name.toLowerCase() == "erp")
                 orderedMenus.push(temp[a]);
             else if (temp[a].name.toLowerCase() == "tbs")
                 orderedMenus.push(temp[a]);
@@ -510,10 +518,10 @@ export class MenuService {
         for (var a = 0; a < temp.length; a++) {
             if (temp[a].name.toLowerCase() == "framework")
                 orderedMenus.push(temp[a]);
-            else    
+            else
                 tempMenus.push(temp[a]);
         }
-        
+
         for (var a = 0; a < tempMenus.length; a++) {
             orderedMenus.push(tempMenus[a]);
         }
@@ -534,7 +542,7 @@ export class MenuService {
                 //menu.Menu = this.utilsService.toArray(menu.Menu);
                 menu.Menu = this.utilsService.toArray(menu.Menu).filter(
                     currentMenu => {
-                        return this.utilsService.toArray(currentMenu.Menu).length > 0 || this.utilsService.toArray(currentMenu.Object).length  > 0;
+                        return this.utilsService.toArray(currentMenu.Menu).length > 0 || this.utilsService.toArray(currentMenu.Object).length > 0;
                     });
 
                 //menu orfani a tre livelli

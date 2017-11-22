@@ -55,35 +55,34 @@ namespace Microarea.AdminServer.Controllers
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
+
             IInstance instance= this.GetInstance(instanceKey);
 
             try
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);                
                 Account account = Account.GetAccountByName(burgerData, credentials.AccountName);
+
                 // L'account esiste sul db locale
                 if (account != null)
                 {
                     GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
+
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     OperationResult result = gc.VerifyAccountModificationGWAM(new AccountModification(account.AccountName, instanceKey, account.Ticks));
 
                     if (!result.Result) //Errore, mi devo fermare
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+
                     //l'oggetto potrebbe essere da aggiornare o  no
 
                     if (result.Code == (int)GwamMessageStrings.GWAMCodes.DataToUpdate)
                     {
-                       
-
-                        
-
                         AccountIdentityPack accountIdentityPack =  JsonConvert.DeserializeObject<AccountIdentityPack>(result.Content.ToString());
                         account = accountIdentityPack.Account;
                         result = SaveAccountIdentityPack(accountIdentityPack, account);
                         if (!result.Result)
                             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
-
                     }
 
                     // Verifica credenziali su db.
@@ -137,6 +136,7 @@ namespace Microarea.AdminServer.Controllers
                     // Valorizzo il bootstraptoken per la risposta
                     if (!ValorizeBootstrapToken(account, bootstrapToken, instance))
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
+
                     return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.LoginOK);
                 }
 
