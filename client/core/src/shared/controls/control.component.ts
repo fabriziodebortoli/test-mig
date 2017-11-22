@@ -2,7 +2,7 @@
 import { TbComponentService } from './../../core/services/tbcomponent.service';
 import { Subscription } from '../../rxjs.imports';
 import { LayoutService } from './../../core/services/layout.service';
-import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges } from '@angular/core';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { TbComponent } from "../components/tb.component";
 
 @Component({
@@ -30,10 +30,10 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     constructor(
         public layoutService: LayoutService,
-        public tbComponentService: TbComponentService//,
-        //    public eventData: EventDataService
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef
     ) {
-        super(tbComponentService);
+        super(tbComponentService, changeDetectorRef);
         this.subscriptions.push(this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; }));
         this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));
     }

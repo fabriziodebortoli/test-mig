@@ -20,11 +20,11 @@ export class ItemEditComponent extends ControlComponent {
         public vcr: ViewContainerRef,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef,
         private store: Store,
-        private http: ErpHttpService,
-        private changeDetectorRef: ChangeDetectorRef
+        private http: ErpHttpService
     ) {
-        super(layoutService, tbComponentService);
+        super(layoutService, tbComponentService, changeDetectorRef);
     }
 
     ngOnInit() {

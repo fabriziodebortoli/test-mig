@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
 import { isNumeric } from '../../../rxjs.imports';
 import { ContextMenuItem } from './../../models/context-menu-item.model';
@@ -110,9 +110,10 @@ export class NumbererComponent extends ControlComponent {
         public eventData: EventDataService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef,
         private store: Store
     ) {
-        super(layoutService, tbComponentService);
+        super(layoutService, tbComponentService, changeDetectorRef);
     }
 
     onFormModeChanged(formMode: FormMode) {

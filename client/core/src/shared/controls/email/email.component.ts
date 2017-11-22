@@ -1,6 +1,6 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, Input, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit,ChangeDetectorRef } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -23,8 +23,9 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-    super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(layoutService, tbComponentService,changeDetectorRef);
 
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input,ChangeDetectorRef } from '@angular/core';
 import { ControlComponent } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { TbComponentService } from '@taskbuilder/core';
@@ -18,9 +18,10 @@ export class NoSpacesEditComponent extends ControlComponent {
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
   ngOnChanges(changes) {
 

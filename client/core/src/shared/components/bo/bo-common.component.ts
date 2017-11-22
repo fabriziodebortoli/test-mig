@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
 import { ComponentInfoService } from './../../../core/services/component-info.service';
@@ -18,9 +18,10 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
     constructor(
         document: BOService,
         eventData: EventDataService,
-        ciService: ComponentInfoService
+        ciService: ComponentInfoService,
+        changeDetectorRef: ChangeDetectorRef
     ) {
-        super(document, eventData, ciService);
+        super(document, eventData, ciService, changeDetectorRef);
 
         let me = this;
         this.subscriptions.push(document.windowStrings.subscribe((args: any) => {

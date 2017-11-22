@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -18,8 +18,9 @@ export class ImageComponent extends ControlComponent {
   constructor(
     public infoService: InfoService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-    super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   getStyles() {
