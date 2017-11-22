@@ -693,9 +693,12 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
-			importExportManager.SetDefaultDataConfiguration(configuration);
-			importExportManager.ImportDefaultDataSilentMode(true);
+			if (dbManager.ContextInfo.MakeCompanyConnection(subDatabase))
+			{
+				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
+				importExportManager.SetDefaultDataConfiguration(configuration);
+				importExportManager.ImportDefaultDataSilentMode(true);
+			}
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -745,9 +748,12 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
-			importExportManager.SetSampleDataConfiguration(configuration, iso);
-			importExportManager.ImportSampleDataSilentMode(true);
+			if (dbManager.ContextInfo.MakeCompanyConnection(subDatabase))
+			{
+				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
+				importExportManager.SetSampleDataConfiguration(configuration, iso);
+				importExportManager.ImportSampleDataSilentMode(true);
+			}
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -960,10 +966,77 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
+
+		/// <summary>
+		/// Returns a list of configurations for default/sample data, separated by iso and INTL
+		/// </summary>
+		/// <param name="subscriptionKey">to check AuthorizationHeader</param>
+		/// <param name="configType">admitted values: default / sample</param>
+		/// <param name="iso">country code of subscription</param>
+		/// <returns>"Content": {
+		///     "IT": [
+		///         "Basic",
+		///         "Manufacturing-Advanced",
+		///         "Manufacturing-Basic",
+		///         "Manufacturing-WMS-Adv-Additional-Data",
+		///         "Manufacturing-WMS-Basic-Additional-Data",
+		///         "WMS-Advanced",
+		///         "WMS-Basic"
+		///       ],
+		///       "INTL": [
+		///         "Basic",
+		///         "Manufacturing-Advanced",
+		///         "Manufacturing-Basic",
+		///         "Manufacturing-WMS-Adv-Additional-Data-EN",
+		///         "Manufacturing-WMS-Basic-Additional-Data-EN",
+		///         "WMS-Advanced",
+		///         "WMS-Basic"
+		///        ]
+		///	}
+		///</returns>
+		[HttpGet("/api/database/configurations/{subscriptionKey}/{configType}/{iso}")]
+		[Produces("application/json")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiGetConfigurations(string subscriptionKey, string configType, string iso)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// if configType is empty or not equal to default or sample I return
+			if (string.IsNullOrWhiteSpace(configType) || 
+				(string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) != 0 &&
+				string.Compare(configType, NameSolverStrings.Sample, StringComparison.InvariantCultureIgnoreCase) != 0)
+				)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			PathFinder pathFinder = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa") { Edition = "Professional" };
+			opRes.Content = APIDatabaseHelper.GetConfigurationList(pathFinder, configType, iso);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
 	}
 
-		//================================================================================
-		public class ExtendedSubscriptionDatabase
+	//================================================================================
+	public class ExtendedSubscriptionDatabase
 	{
 		public DatabaseCredentials AdminCredentials;
 		public SubscriptionDatabase Database;
