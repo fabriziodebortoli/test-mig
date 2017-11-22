@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subscription } from '../../rxjs.imports';
+import { BehaviorSubject, Observable } from '../../rxjs.imports';
 import { Injectable, OnDestroy } from '@angular/core';
 
 export type ClientPage = {key: string, rows: any[], total: number, oldTotal: number, columns: any[]};
@@ -12,7 +12,6 @@ export class PaginatorService implements OnDestroy {
     private clientEndOffset = 0;
     private isCorrectlyConfigured = false;
     private configurationChanged = new BehaviorSubject(false);
-    private subscription: Subscription;
     private displayedServerPages = 2;
     private get serverPage(): number { return this.clientPage * this.displayedServerPages; }
     private serverData: ServerPage;
@@ -34,12 +33,18 @@ export class PaginatorService implements OnDestroy {
             (this.lastServerPageRowsLength >= 0 && this.currentServerPage < this.higherServerPage));
     }
 
-    private _clientData: BehaviorSubject<ClientPage>;
+    private _clientData: BehaviorSubject<ClientPage> = new BehaviorSubject(this.defaultClientData);
     public get clientData(): Observable<ClientPage> {
         return this._clientData.asObservable();
     }
 
-    constructor() { this._clientData = new BehaviorSubject(this.defaultClientData); }
+    constructor() {
+        this.configurationChanged.subscribe(c => {
+            this.clientEndOffset = 0;
+            this.clientStartOffset = 0;
+            this._clientData.next(this.defaultClientData);
+        });
+     }
 
     private isNext(prevSkip: number, skip: number): boolean {
         if (prevSkip === -1) { return true }
@@ -140,11 +145,6 @@ export class PaginatorService implements OnDestroy {
         this.clientPage = clientPage;
         this.getFreshData = f;
         this.configurationChanged.next(true);
-        this.subscription = this.configurationChanged.subscribe(c => {
-            this.clientEndOffset = 0;
-            this.clientStartOffset = 0;
-            this._clientData.next(this.defaultClientData);
-        });
     }
 
     public getClientPageIndex(index: number): number {
@@ -178,6 +178,7 @@ export class PaginatorService implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.configurationChanged.complete();
+        this._clientData.complete();
     }
 }
