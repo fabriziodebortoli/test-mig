@@ -1,0 +1,63 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Type')" tbTileMini >
+         <tb-radio cmpId="IDC_STINTRABG_RADIO_SALE" width="137" [model]="eventData?.model?.SaleSummary" [caption]="_TB('Dispatches')"></tb-radio>
+         <tb-radio cmpId="IDC_STINTRABG_RADIO_PURCHASE" width="137" [model]="eventData?.model?.PurchSummary" [caption]="_TB('Arrivals')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Lists')" tbTileMini >
+         <tb-radio cmpId="IDC_STINTRABG_RADIO_NORMAL" width="137" [model]="eventData?.model?.Normal" [caption]="_TB('Normal')"></tb-radio>
+         <tb-radio cmpId="IDC_STINTRABG_RADIO_ADJ" width="137" [model]="eventData?.model?.Adjustment" [caption]="_TB('Adjustments')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Reference period')" tbTileMini >
+<div class="anchored">         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Normal')" cmpId="IDC_STINTRABG_PERIOD" width="16" [model]="eventData?.model?.Period"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_STINTRABG_YEAR" width="26" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Adjustments')" cmpId="IDC_STINTRABG_PERIOD2" width="16" [model]="eventData?.model?.PeriodAdj"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_STINTRABG_YEAR2" width="26" [model]="eventData?.model?.YearAdj"></tb-numeric-text-box>
+</div>        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Third Declaring Party')" tbTileMini >
+         <tb-text [caption]="_TB('Tax Number')" cmpId="IDC_STINTRABG_TAXNUMBER" width="80" [model]="eventData?.model?.DelegTaxIdNo"></tb-text>
+         <tb-text [caption]="_TB('Fiscal code')" cmpId="IDC_STINTRABG_FISCAL_CODE" width="80" [model]="eventData?.model?.DelegFiscalCode"></tb-text>
+         <tb-text [caption]="_TB('Company Name')" cmpId="IDC_STINTRABG_NAME_SOC" width="80" [model]="eventData?.model?.DelegCompanyName"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Person preparing declaration')" tbTileMini >
+         <tb-text [caption]="_TB('Name, Surname')" cmpId="IDC_STINTRABG_FAMILY" width="80" [model]="eventData?.model?.DelegFamily"></tb-text>
+         <tb-text [caption]="_TB('Telephone')" cmpId="IDC_STINTRABG_TELEPHONE" width="80" [model]="eventData?.model?.DelegTelephone"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Controls')" tbTileMini >
+         <tb-checkbox cmpId="IDC_STINTRABG_MESSAGES" width="145" [model]="eventData?.model?.ShowEmptyFields" [caption]="_TB('Show messages for empty fields in file')"></tb-checkbox>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  isCollapsible="False" isCollapsed="False">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY" width="599" [model]="eventData?.model?.DBTSummaryDetail">
+         <tb-body-edit-column cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY_LINE" width="60" columnName="l_LineSummaryDescription" columnType="tb-label-static" columnName="IDC_TB_ACTIVITY_DOCUMENT_GRID_SUMMARY_LINE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

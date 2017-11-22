@@ -1,0 +1,93 @@
+﻿ <tb-frame tbFinder >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Components')" icon="erp-components" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Components')" tbTileStandard  isCollapsible="False" isCollapsed="False">
+         <tb-body-edit cmpId="IDC_LOAD_BOM_SEL_BE_COMPONENTS" width="492" [model]="eventData?.model?.BOMComponentsToCopy">
+          <tb-body-edit-column cmpId="IDC_BOM_SEL_COMPONENTS_SELECT" columnName="Selected" [title]="_TB('Select')" columnType="tb-checkbox" columnName="IDC_BOM_SEL_COMPONENTS_SELECT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_BE_CODETYPE_COMPO" columnName="ComponentType" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_BOM_BE_CODETYPE_COMPO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_BE_DRAWING" columnName="Drawing" [title]="_TB('Drawing')" columnType="tb-label-static" columnName="IDC_BOM_BE_DRAWING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_BE_COMPONENT" columnName="Component" [title]="_TB('Component')" columnType="tb-label-static" columnName="IDC_BOM_BE_COMPONENT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_DETAIL_DESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BOM_DETAIL_DESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_BE_VARIANT_BOM" columnName="Variant" [title]="_TB('Variant')" columnType="tb-label-static" columnName="IDC_BOM_BE_VARIANT_BOM">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BOM_DETAIL_QUANTITY" columnName="Qty" [title]="_TB('Quantity')" columnType="tb-numeric-text-box" columnName="IDC_BOM_DETAIL_QUANTITY">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" disabled="true" cmpId="IDC_BOM_DETAIL_QUANTITY_PERC" columnName="PercQty" [title]="_TB('Perc. Qty')" columnType="tb-numeric-text-box" columnName="IDC_BOM_DETAIL_QUANTITY_PERC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_DETAIL_UNI_MIS" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_BOM_DETAIL_UNI_MIS">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_BOM_DETAIL_QTY_WASTE" columnName="ScrapQty" [title]="_TB('Waste Qty')" columnType="tb-numeric-text-box" columnName="IDC_BOM_DETAIL_QTY_WASTE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_DETAIL_UNI_MIS_WASTE" columnName="ScrapUM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_BOM_DETAIL_UNI_MIS_WASTE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_BOM_DATE_BEG_VAL_COMP" columnName="ValidityStartingDate" [title]="_TB('Validity Start')" columnType="tb-date-input" columnName="IDC_BOM_DATE_BEG_VAL_COMP">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_BOM_DATE_END_VAL_COMP" columnName="ValidityEndingDate" [title]="_TB('Validity End')" columnType="tb-date-input" columnName="IDC_BOM_DATE_END_VAL_COMP">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Operations')" icon="erp-routing" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Routing')" tbTileStandard  isCollapsible="False">
+         <tb-body-edit cmpId="IDC_LOAD_BOM_SEL_BE_ROUTING" width="492" [model]="eventData?.model?.BOMRoutingsToCopy">
+          <tb-body-edit-column cmpId="IDC_BOM_SEL_ROUTING_SELECT" columnName="Sel" [title]="_TB('Select')" columnType="tb-checkbox" columnName="IDC_BOM_SEL_ROUTING_SELECT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BOM_ROUTING_RTGSTEP" columnName="RtgStep" [title]="_TB('Step')" columnType="tb-numeric-text-box" columnName="IDC_BOM_ROUTING_RTGSTEP" *ngIf="eventData?.activation?.IDC_BOM_ROUTING_RTGSTEP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_ALTERNATE" columnName="Alternate" [title]="_TB('Alternate')" columnType="tb-label-static" columnName="IDC_BOM_ROUTING_ALTERNATE" *ngIf="eventData?.activation?.IDC_BOM_ROUTING_ALTERNATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BOM_ROUTING_RTGSTEP_ALTERNATE" columnName="AltRtgStep" [title]="_TB('Alternate Routing Step')" columnType="tb-numeric-text-box" columnName="IDC_BOM_ROUTING_RTGSTEP_ALTERNATE" *ngIf="eventData?.activation?.IDC_BOM_ROUTING_RTGSTEP_ALTERNATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_OPERATION" columnName="Operation" [title]="_TB('Operation')" columnType="tb-text" columnName="IDC_BOM_ROUTING_OPERATION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_WC" columnName="WC" [title]="_TB('Work Center')" columnType="tb-label-static" columnName="IDC_BOM_ROUTING_WC" *ngIf="eventData?.activation?.IDC_BOM_ROUTING_WC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_IS_WC" columnName="IsWC" [title]="_TB('Is WC')" columnType="tb-checkbox" columnName="IDC_BOM_ROUTING_IS_WC" *ngIf="eventData?.activation?.IDC_BOM_ROUTING_IS_WC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_TIME_SETUP" columnName="SetupTime" [title]="_TB('Setup Time')" columnType="tb-body-edit-column" columnName="IDC_BOM_ROUTING_TIME_SETUP" *ngIf="eventData?.activation?.IDC_BOM_ROUTING_TIME_SETUP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_T_PROCESS" columnName="ProcessingTime" [title]="_TB('Proc. Time')" columnType="tb-body-edit-column" columnName="IDC_BOM_ROUTING_T_PROCESS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_TIME_TOTAL" columnName="TotalTime" [title]="_TB('Total Time')" columnType="tb-checkbox" columnName="IDC_BOM_ROUTING_TIME_TOTAL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_TIME_SUMMARY" columnName="QueueTime" [title]="_TB('Additional Time')" columnType="tb-body-edit-column" columnName="IDC_BOM_ROUTING_TIME_SUMMARY" *ngIf="eventData?.activation?.IDC_BOM_ROUTING_TIME_SUMMARY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BOM_ROUTING_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_BOM_ROUTING_NOTES">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FINDER_STAYALIVE?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Fix')" cmpId="ID_FINDER_STAYALIVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SWITCHTO?.enabled" icon="tb-switchto" [caption]="_TB('Switch to...')" cmpId="ID_EXTDOC_SWITCHTO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Finish')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

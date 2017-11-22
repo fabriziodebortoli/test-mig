@@ -1,6 +1,6 @@
 import { LocalizationService } from './../../core/services/localization.service';
 import { ComponentService } from '../../core/services/component.service';
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 import { DocumentComponent } from './../../shared/components/document.component';
 import { DataService } from './../../core/services/data.service';
@@ -21,13 +21,14 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
   isDesktop: boolean;
 
   constructor(
-    public eventData: EventDataService, 
+    eventData: EventDataService, 
     public dataService: DataService, 
-    public settingsService: SettingsPageService, 
+    settingsService: SettingsPageService, 
     public infoService: InfoService,
-    public localizationService: LocalizationService
+    public localizationService: LocalizationService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
-    super(settingsService, eventData, null);
+    super(settingsService, eventData, null, changeDetectorRef);
     this.isDesktop = infoService.isDesktop;
   }
   ngOnInit() {

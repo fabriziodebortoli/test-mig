@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
 import { ControlTypes } from '../../models/control-types.enum';
@@ -26,11 +26,12 @@ export class BOComponent extends BOCommonComponent implements OnInit, AfterConte
 
   constructor(
     public bo: BOService,
-    public eventData: EventDataService,
-    public componentResolver: ComponentFactoryResolver,
-    public ciService: ComponentInfoService
+    eventData: EventDataService,
+    ciService: ComponentInfoService,
+    changeDetectorRef: ChangeDetectorRef,
+    public componentResolver: ComponentFactoryResolver
   ) {
-    super(bo, eventData, ciService);
+    super(bo, eventData, ciService, changeDetectorRef);
 
     this.subscriptions.push(eventData.radarInfos.subscribe((radarInfos: string) => {
       this.radarObj._component.init(radarInfos);

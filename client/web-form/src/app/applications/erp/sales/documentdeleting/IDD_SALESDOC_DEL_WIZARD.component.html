@@ -1,0 +1,102 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Doctype Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Select the document type to be deleted')" tbTileMini >
+        <tb-enum-combo cmpId="IDC_SALESDOC_DEL_DOCTYPE" width="154" [model]="eventData?.model?.DocumentType" [itemSource]="IDC_SALESDOC_DEL_DOCTYPE_itemSource"></tb-enum-combo>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Filters Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  hasTitle="False">
+        <tb-section-title cmpId="IDC_TB_HEADER_ONLY_SUBTITLE_SUBTITLE" width="640" [caption]="_TB('eventData?.model?.HeaderSubTitle')"></tb-section-title>
+       </tb-tile>
+       <tb-layoutcontainer tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('Period')" tbTileMini >
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_RMSALESDOC_DATE_START" width="62" [model]="eventData?.model?.DeleterStartingDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_RMSALESDOC_DATE_END" width="62" [model]="eventData?.model?.DeleterEndingDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Document Number')" tbTileMini >
+         <tb-radio cmpId="IDC_RMSALESDOC_DOCNO_ALL" width="24" [model]="eventData?.model?.DeleterAllDocNo" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RMSALESDOC_DOCNO_SELECTION" width="35" [model]="eventData?.model?.DeleterDocNoSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_RMSALESDOC_DOC_START" width="62" [model]="eventData?.model?.DeleterFromDocNo"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_RMSALESDOC_DOC_END" width="62" [model]="eventData?.model?.DeleterToDocNo"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Issued')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_DELETE_SALESDOC_FILTER_STUB_BOOK">
+         <tb-radio cmpId="IDC_RMSALESDOC_JOURNAL_ALL" width="24" [model]="eventData?.model?.DeleterAllJournal" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RMSALESDOC_JOURNAL_SELECTION" width="35" [model]="eventData?.model?.DeleterSelJournal" [caption]="_TB('From')"></tb-radio>
+         <tb-combo cmpId="IDC_RMSALESDOC_JOURNAL_FROM" width="71" [model]="eventData?.model?.DeleterFromJournal"></tb-combo>
+</div>         <tb-combo [caption]="_TB('To')" cmpId="IDC_RMSALESDOC_JOURNAL_TO" width="71" [model]="eventData?.model?.DeleterToJournal"></tb-combo>
+        </tb-tile>
+        <tb-tile [title]="_TB('Issued')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_DELETE_SALESDOC_FILTER_ISSUED">
+         <tb-radio cmpId="IDC_RMSALESDOC_ALLISSUE" width="59" [model]="eventData?.model?.DeleterAllIssue" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_NOTISSUED" width="67" [model]="eventData?.model?.DeleterNotIssued" [caption]="_TB('Not Issued')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_ISSUED" width="59" [model]="eventData?.model?.DeleterIssued" [caption]="_TB('Issued')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Posted in Inventory')" tbTileMini >
+         <tb-radio cmpId="IDC_RMSALESDOC_ALLINV" width="79" [model]="eventData?.model?.DeleterAllInv" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_NOTININV" width="131" [model]="eventData?.model?.DeleterNotInInv" [caption]="_TB('Not Posted')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_ININV" width="120" [model]="eventData?.model?.DeleterInInv" [caption]="_TB('Posted')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Posted in Accounting')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_DELETE_SALESDOC_FILTER_POST_ACC">
+         <tb-radio cmpId="IDC_RMSALESDOC_ALLACCOUNTING" width="73" [model]="eventData?.model?.DeleterAllAccounting" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_NOTINACCOUNTING" width="82" [model]="eventData?.model?.DeleterNotInAccounting" [caption]="_TB('Not Posted')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_INACCOUNTING" width="93" [model]="eventData?.model?.DeleterInAccounting" [caption]="_TB('Posted')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Summarized')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_DELETE_SALESDOC_FILTER_SUMMARIZED">
+         <tb-radio cmpId="IDC_RMSALESDOC_ALLSUMM" width="104" [model]="eventData?.model?.DeleterSummarizedAll" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_NOTSUMM" width="97" [model]="eventData?.model?.DeleterNotSummarized" [caption]="_TB('Not Summarized')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_SUMM" width="102" [model]="eventData?.model?.DeleterSummarized" [caption]="_TB('Summarized')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Printed')" tbTileMini >
+         <tb-radio cmpId="IDC_RMSALESDOC_ALLPRINTED" width="66" [model]="eventData?.model?.DeleterAllPrinted" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_NOPRINTED" width="71" [model]="eventData?.model?.DeleterNoPrinted" [caption]="_TB('Not Printed')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_PRINTED" width="70" [model]="eventData?.model?.DeleterPrinted" [caption]="_TB('Printed')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Commissions')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_DELETE_SALESDOC_FILTER_COMMISS">
+         <tb-radio cmpId="IDC_RMSALESDOC_ALLGENCOMM" width="85" [model]="eventData?.model?.DeleterAllGenComm" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_NOTGENCOMM" width="102" [model]="eventData?.model?.DeleterNotGenComm" [caption]="_TB('Not Generated')"></tb-radio>
+         <tb-radio cmpId="IDC_RMSALESDOC_GENCOMM" width="104" [model]="eventData?.model?.DeleterGenComm" [caption]="_TB('Generated')"></tb-radio>
+        </tb-tile>
+       </tb-layoutcontainer>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Actions Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  hasTitle="False">
+        <tb-section-title cmpId="IDC_TB_HEADER_ONLY_SUBTITLE_SUBTITLE" width="640" [caption]="_TB('eventData?.model?.HeaderSubTitle')"></tb-section-title>
+       </tb-tile>
+       <tb-tile [title]="_TB('Delete...')" tbTileWide >
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Reverse...')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_DELETE_SALESDOC_ACTION_REVERSE">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tilepanel [title]="_TB('Result')">
+        <tb-tile tbTileWide >
+<div class="col col1">         <tb-section-title cmpId="IDC_RMSALESDOC_GAUGE_STATIC" width="587"></tb-section-title>
+         <tb-caption cmpId="IDC_RMSALESDOC_GAUGE" width="587" [model]="eventData?.model?.nCurrentElement"></tb-caption>
+</div><div class="col col2"></div>        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,0 +1,106 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileAutoFill  hasTitle="False">
+        <tb-caption cmpId="IDC_STATIC" width="445" [caption]="_TB('List of outsourced steps that will be processed')"></tb-caption>
+        <tb-body-edit cmpId="IDD_MO_FROM_CONFIRM_BE" width="325" [model]="eventData?.model?.SubcntBoLMOStepsList">
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SELECTION" columnName="Selection" [title]="_TB(' ')" columnType="tb-radio" columnName="IDC_MO_FROM_CONFIRM_SELECTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_STATUS_BMP" columnName="StateBmp" [title]="_TB('Status')" columnType="tb-image" columnName="IDC_MO_FROM_CONFIRM_STATUS_BMP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_MO" columnName="MONo" [title]="_TB('MO')" columnType="tb-label-static" columnName="IDC_MO_FROM_CONFIRM_MO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_FROM_CONFIRM_RTGSTEP" columnName="RtgStep" [title]="_TB('MO Step')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_RTGSTEP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_ALTERNATE" columnName="Alternate" [title]="_TB('Alternate')" columnType="tb-label-static" columnName="IDC_MO_FROM_CONFIRM_ALTERNATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_FROM_CONFIRM_RTGSTEP_ALTERNATE" columnName="AltRtgStep" [title]="_TB('Alternate
+step')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_RTGSTEP_ALTERNATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_TO_CONFIRM_QTY_TO_PRODUCTION" columnName="ProductionQty" [title]="_TB('Quantity
+to produce')" columnType="tb-numeric-text-box" columnName="IDC_MO_TO_CONFIRM_QTY_TO_PRODUCTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_FROM_CONFIRM_QTY_CONFIRMED" columnName="ProducedQty" [title]="_TB('Total produced
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_QTY_CONFIRMED">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_FROM_CONFIRM_QTY_FROM_CONFIRM" columnName="MOToConfQtyToConfirm" [title]="_TB('Quantity
+ to confirm')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_QTY_FROM_CONFIRM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_MO_FROM_CONFIRM_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_STATUS" columnName="MOStatus" [title]="_TB('Status')" columnType="tb-enum-combo" columnName="IDC_MO_FROM_CONFIRM_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_CONFIRMED" columnName="MOToConfConfirm" [title]="_TB('Close
+step')" columnType="tb-radio" columnName="IDC_MO_FROM_CONFIRM_CONFIRMED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_PRODUCT" columnName="BOM" [title]="_TB('Item')" columnType="tb-text" columnName="IDC_MO_FROM_CONFIRM_PRODUCT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_PRODUCT_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-text" columnName="IDC_MO_FROM_CONFIRM_PRODUCT_VARIANT" *ngIf="eventData?.activation?.IDC_MO_FROM_CONFIRM_PRODUCT_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_MO_FROM_CONFIRM_PRODUCED_QTY" columnName="MOToConfProducedQty" [title]="_TB('Produced
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_PRODUCED_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_STORAGE" columnName="Storage" [title]="_TB('Product
+storage')" columnType="tb-combo" columnName="IDC_MO_FROM_CONFIRM_STORAGE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_CODETYPE_SPECIFICATOR" columnName="MOToConfSpecificatorType" [itemSource]="IDC_MO_FROM_CONFIRM_CODETYPE_SPECIFICATOR_itemSource" [title]="_TB('Specificator
+type')" columnType="tb-enum-combo" columnName="IDC_MO_FROM_CONFIRM_CODETYPE_SPECIFICATOR">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SPECIFICATOR" columnName="MOToConfSpecificator" [title]="_TB('Specificator')" columnType="tb-text" columnName="IDC_MO_FROM_CONFIRM_SPECIFICATOR">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_MO_FROM_CONFIRM_ISSUED_QTY" columnName="ToIssueProductionQuantity" [title]="_TB('Inventory
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_ISSUED_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SECONDRATE" columnName="SecondRate" [title]="_TB('Second rate
+item')" columnType="tb-text" columnName="IDC_MO_FROM_CONFIRM_SECONDRATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SECONDRATE_VARIANT" columnName="SecondRateVariant" [title]="_TB('Second rate
+variant')" columnType="tb-text" columnName="IDC_MO_FROM_CONFIRM_SECONDRATE_VARIANT" *ngIf="eventData?.activation?.IDC_MO_FROM_CONFIRM_SECONDRATE_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SECONDRATE_DESC" [model]="eventData?.model?.HKLSecondRate?.Description" [title]="_TB('Second rate
+description')" columnType="tb-label-static" columnName="IDC_MO_FROM_CONFIRM_SECONDRATE_DESC">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_MO_FROM_CONFIRM_SECONDRATE_QTY" columnName="MOToConfSecondRateQuantity" [title]="_TB('Second rate
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_SECONDRATE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SECONDRATE_STORAGE" columnName="SecondRateStorage" [title]="_TB('Second rate
+storage')" columnType="tb-combo" columnName="IDC_MO_FROM_CONFIRM_SECONDRATE_STORAGE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SCRAP" columnName="Scrap" [title]="_TB('Scrap
+item')" columnType="tb-text" columnName="IDC_MO_FROM_CONFIRM_SCRAP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SCRAP_VARIANT" columnName="ScrapVariant" [title]="_TB('Scrap
+variant')" columnType="tb-text" columnName="IDC_MO_FROM_CONFIRM_SCRAP_VARIANT" *ngIf="eventData?.activation?.IDC_MO_FROM_CONFIRM_SCRAP_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SCRAP_DESC" columnName="MOToConfScrapDescri" [title]="_TB('Scrap
+description')" columnType="tb-label-static" columnName="IDC_MO_FROM_CONFIRM_SCRAP_DESC">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_MO_FROM_CONFIRM_SCRAP_QTY" columnName="MOToConfScrapQuantity" [title]="_TB('Scrap
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_MO_FROM_CONFIRM_SCRAP_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_SCRAP_STORAGE" columnName="ScrapStorage" [title]="_TB('Scrap
+storage')" columnType="tb-combo" columnName="IDC_MO_FROM_CONFIRM_SCRAP_STORAGE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_FROM_CONFIRM_JOB_COMM" columnName="Job" [title]="_TB('Job')" columnType="tb-label-static" columnName="IDC_MO_FROM_CONFIRM_JOB_COMM">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

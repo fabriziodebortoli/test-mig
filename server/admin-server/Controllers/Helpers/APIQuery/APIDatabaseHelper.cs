@@ -7,8 +7,12 @@ using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
@@ -532,6 +536,92 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 		{
 			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa") { Edition = "Professional" };
 			return new DatabaseManager(pf, new Diagnostic("DatabaseController"), (BrandLoader)InstallationData.BrandLoader, DBNetworkType.Large, "IT");
+		}
+
+		/// <summary>
+		/// dato un tipo di configurazione (Default/Sample) restituisce un dictionary con 
+		/// la lista delle possibili configurazioni suddivise per iso stato
+		/// </summary>
+		/// <param name="configList">lista dei nomi delle configurazioni</param>
+		/// <param name="configType">tipo di configurazione (Default oppure Sample)</param>
+		/// <param name="language">iso stato</param>
+		//---------------------------------------------------------------------------
+		public static Dictionary<string, List<string>> GetConfigurationList(PathFinder pf, string configType, string iso)
+		{
+			List<string> isoConfigList = new List<string>();
+			List<string> intlConfigList = new List<string>();
+
+			foreach (string appName in GetApplications(pf))
+			{
+				foreach (Common.NameSolver.ModuleInfo modInfo in pf.GetModulesList(appName))
+				{
+					// skippo il modulo TbOleDb per non considerare la TB_DBMark
+					if (string.Compare(modInfo.Name, DatabaseLayerConsts.TbOleDbModuleName, StringComparison.OrdinalIgnoreCase) != 0)
+					{
+						AddConfiguration(pf, appName, modInfo.Name, ref isoConfigList, configType, iso);
+						// mentre carico le configurazioni dell'isostato scelto, carico anche i dati internazionali
+						AddConfiguration(pf, appName, modInfo.Name, ref intlConfigList, configType, "INTL");
+					}
+				}
+			}
+
+			Dictionary<string, List<string>> dictConfiguration = new Dictionary<string, List<string>>();
+			dictConfiguration.Add(iso, isoConfigList);
+			dictConfiguration.Add("INTL", intlConfigList);
+
+			return dictConfiguration;
+		}
+
+		///<summary>
+		/// Caricamento array applicazioni e moduli dal PathFinder
+		///</summary>
+		//---------------------------------------------------------------------
+		private static List<string> GetApplications(PathFinder pf)
+		{
+			StringCollection applicationsList = new StringCollection();
+			StringCollection supportList = new StringCollection();
+
+			// prima guardo TaskBuilder
+			pf.GetApplicationsList(ApplicationType.TaskBuilder, out supportList);
+			foreach (string appName in supportList)
+				applicationsList.Add(appName);
+
+			// poi guardo le TaskBuilderApplications
+			pf.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
+			for (int i = 0; i < supportList.Count; i++)
+				applicationsList.Add(supportList[i]);
+
+			return applicationsList.Cast<String>().ToList();
+		}
+
+		//---------------------------------------------------------------------------
+		private static void AddConfiguration(PathFinder pf, string appName, string modName, ref List<string> configList, string configType, string iso)
+		{
+			DirectoryInfo standardDir = new DirectoryInfo(
+				(configType.CompareTo(NameSolverStrings.Default) == 0)
+				? pf.GetStandardDataManagerDefaultPath(appName, modName, iso)
+				: pf.GetStandardDataManagerSamplePath(appName, modName, iso));
+
+			// da decidere se la Custom andra' sempre caricata
+			DirectoryInfo customDir = new DirectoryInfo(
+				(configType.CompareTo(NameSolverStrings.Default) == 0)
+				? pf.GetCustomDataManagerDefaultPath(appName, modName, iso)
+				: pf.GetCustomDataManagerSamplePath(appName, modName, iso));
+
+			StringCollection tempList = new StringCollection();
+
+			if (customDir.Exists)
+				foreach (DirectoryInfo dir in customDir.GetDirectories())
+					tempList.Add(dir.Name);
+
+			if (standardDir.Exists)
+				foreach (DirectoryInfo dir in standardDir.GetDirectories())
+					if (!tempList.Contains(dir.Name))
+						tempList.Add(dir.Name);
+
+			foreach (string dirName in tempList)
+				if (!configList.Contains(dirName))
+					configList.Add(dirName);
 		}
 	}
 }

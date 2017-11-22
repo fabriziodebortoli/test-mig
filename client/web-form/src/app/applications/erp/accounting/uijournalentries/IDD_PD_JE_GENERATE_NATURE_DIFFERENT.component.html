@@ -1,0 +1,60 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1">        <tb-caption cmpId="IDC_STATIC" width="645" [caption]="_TB('A new entry will be generated with the following settings:')"></tb-caption>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-layoutcontainer tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('New Nature')" tbTileMini >
+         <tb-checkbox cmpId="IDC_GENNATDIFF_EXPECTED" width="97" [model]="eventData?.model?.ForecastEdit" [caption]="_TB('Forecast')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_GENNATDIFF_DEF" width="97" [model]="eventData?.model?.DefinitiveEdit" [caption]="_TB('Actual')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_GENNATDIFF_REVERSE" width="97" [model]="eventData?.model?.ReverseEdit" [caption]="_TB('Reverse Amounts')"></tb-checkbox>
+         <tb-combo [caption]="_TB('Simulation Code')" cmpId="IDC_GENNATDIFF_SIMULATIONCODE" width="71" [model]="eventData?.model?.Simulation"></tb-combo>
+        </tb-tile>
+        <tb-tile [title]="_TB('Create Payment Schedule')" tbTileMini >
+         <tb-checkbox cmpId="IDC_GENNATDIFF_CREATEPART_AUTO" width="97" [model]="eventData?.model?.GenPybleRcvbleAutoEdit" [caption]="_TB('Automatic')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_GENNATDIFF_CREATEPART_AREQUEST" width="97" [model]="eventData?.model?.GenPybleRcvbleARequestEdit" [caption]="_TB('On Request')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_GENNATDIFF_CREATEPART_NOTGENERATE" width="97" [model]="eventData?.model?.NotGenPybleRcvbleEdit" [caption]="_TB('Do not Create')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Creating Cost Accounting')" tbTileMini >
+         <tb-checkbox cmpId="IDC_GENNATDIFF_CREATEMASTERS_AUTO" width="97" [model]="eventData?.model?.GenerateCostAccountingAutomatic" [caption]="_TB('Automatic')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_GENNATDIFF_CREATEMASTERS_NOTGENERATE" width="97" [model]="eventData?.model?.NotGenerateCostAccounting" [caption]="_TB('Do not Create')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Document Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_JE_GENNATDIFF_DOCDATA">
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting Date')" cmpId="IDC_GENNATDIFF_POSTDATE" width="62" [model]="eventData?.model?.PostDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Accrual Date')" cmpId="IDC_GENNATDIFF_ACCRUALDATE" width="62" [model]="eventData?.model?.AccrualDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Document Date')" cmpId="IDC_GENNATDIFF_DOCDATE" width="62" [model]="eventData?.model?.DocDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Value Date')" cmpId="IDC_GENNATDIFF_VALIDITYDATE" width="62" [model]="eventData?.model?.ValueDate"></tb-date-input>
+         <tb-text *ngIf="eventData?.activation?.IDC_GENNATDIFF_DOCNO" [caption]="_TB('Document No.')" cmpId="IDC_GENNATDIFF_DOCNO" width="123" [model]="eventData?.model?.DocNo"></tb-text>
+        </tb-tile>
+        <tb-layoutcontainer tbLayoutTypeColumn  *ngIf="eventData?.activation?.IDC_CONTAINER_GENERATE_NATURE_DIFFERENT">
+         <tb-tile [title]="_TB('Document Data')" tbTileStandard >
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting Date')" cmpId="IDC_GENNATDIFF_POSTDATE" width="62" [model]="eventData?.model?.PostDate"></tb-date-input>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Accrual Date')" cmpId="IDC_GENNATDIFF_ACCRUALDATE" width="62" [model]="eventData?.model?.AccrualDate"></tb-date-input>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Document Date')" cmpId="IDC_GENNATDIFF_DOCDATE" width="62" [model]="eventData?.model?.DocDate"></tb-date-input>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Value Date')" cmpId="IDC_GENNATDIFF_VALIDITYDATE" width="62" [model]="eventData?.model?.ValueDate"></tb-date-input>
+          <tb-text *ngIf="eventData?.activation?.IDC_GENNATDIFF_DOCNO" [caption]="_TB('Document No.')" cmpId="IDC_GENNATDIFF_DOCNO" width="123" [model]="eventData?.model?.DocNo"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Tax Data')" tbTileStandard >
+          <tb-combo [caption]="_TB('Tax Journal')" cmpId="IDC_GENNATDIFF_TAXJOURN" width="71" [model]="eventData?.model?.TaxJournal"></tb-combo>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Tax Accrual Date')" cmpId="IDC_GENNATDIFF_ACCRUALDATETAX" width="62" [model]="eventData?.model?.TaxAccrualDate"></tb-date-input>
+          <tb-date-input *ngIf="eventData?.activation?.IDC_GENNATDIFF_PLAFONDACCRUALDATETAX" formatter="Date" [readonly]="false" [caption]="_TB('Plafond Accrual Date')" cmpId="IDC_GENNATDIFF_PLAFONDACCRUALDATETAX" width="62" [model]="eventData?.model?.PlafondAccrualDate"></tb-date-input>
+          <tb-combo *ngIf="eventData?.activation?.IDC_GENNATDIV_EUTAXJOURNAL" [caption]="_TB('Sale Note Tax Journal')" cmpId="IDC_GENNATDIV_EUTAXJOURNAL" width="71" [model]="eventData?.model?.EUTaxJournal"></tb-combo>
+         </tb-tile>
+        </tb-layoutcontainer>
+       </tb-layoutcontainer>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PD_JE_GENERATE_NATURE_DIFFERENT_TOOLBAR_OK?.enabled" icon="tb-ok" [caption]="_TB('Ok')" cmpId="ID_PD_JE_GENERATE_NATURE_DIFFERENT_TOOLBAR_OK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PD_JE_GENERATE_NATURE_DIFFERENT_TOOLBAR_CANCEL?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="ID_PD_JE_GENERATE_NATURE_DIFFERENT_TOOLBAR_CANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

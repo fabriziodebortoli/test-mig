@@ -1,0 +1,125 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Customers')" tbTileMini >
+         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_CUSTOMER_ALL" width="53" [model]="eventData?.model?.bAllCustomer" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_CUSTOMER_SELECTION" width="53" [model]="eventData?.model?.bCustomerSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_SALEORD_DEALLOCATION_CUSTOMER_START" width="91" [model]="eventData?.model?.CustomerStart"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_SALEORD_DEALLOCATION_CUSTOMER_END" width="91" [model]="eventData?.model?.CustomerEnd"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Order Number')" tbTileMini  hasTitle="True">
+         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_ORDNO_ALL" width="53" [model]="eventData?.model?.bAllOrdNo" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_ORDNO_SELECTION" width="53" [model]="eventData?.model?.bOrdNoSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_SALEORD_DEALLOCATION_ORDNO_START" width="91" [model]="eventData?.model?.FromOrdNo"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_SALEORD_DEALLOCATION_ORDNO_END" width="91" [model]="eventData?.model?.ToOrdNo"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Date')" tbTileMini  hasTitle="True">
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_SALEORD_DEALLOCATION_FROM_DATE" width="57" [model]="eventData?.model?.FromDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_SALEORD_DEALLOCATION_TO_DATE" width="57" [model]="eventData?.model?.EndingDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Expected Delivery Date')" tbTileMini  hasTitle="True">
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_SALEORD_DEALLOCATION_FROM_EXPECTED_DELIVERYDATE" width="57" [model]="eventData?.model?.FromExpectedDeliveryDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_SALEORD_DEALLOCATION_TO_EXPECTED_DELIVERYDATE" width="57" [model]="eventData?.model?.EndingExpectedDeliveryDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Priority')" tbTileMini  hasTitle="True">
+         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_PRIORITY_ALL" width="53" [model]="eventData?.model?.AllPriority" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_PRIORITY_SELECTION" width="53" [model]="eventData?.model?.PrioritySel" [caption]="_TB('From')"></tb-radio>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_SALEORD_DEALLOCATION_PRIORITY_START" width="34" [model]="eventData?.model?.FromPriority"></tb-numeric-text-box>
+</div>         <tb-numeric-text-box formatter="Integer" [caption]="_TB('To')" cmpId="IDC_SALEORD_DEALLOCATION_PRIORITY_END" width="34" [model]="eventData?.model?.ToPriority"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Allocation Area')" tbTileMini  hasTitle="True">
+         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_AREA_ALL" width="53" [model]="eventData?.model?.bAllAllocationArea" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_AREA_SELECTION" width="53" [model]="eventData?.model?.bAllocationAreaSel" [caption]="_TB('From')"></tb-radio>
+         <tb-combo cmpId="IDC_SALEORD_DEALLOCATION_AREA_START" width="71" [model]="eventData?.model?.AllocationAreaStart"></tb-combo>
+</div>         <tb-combo [caption]="_TB('To')" cmpId="IDC_SALEORD_DEALLOCATION_AREA_END" width="71" [model]="eventData?.model?.AllocationAreaEnd"></tb-combo>
+        </tb-tile>
+        <tb-tile [title]="_TB('Storage')" tbTileMini  hasTitle="True">
+<div class="anchored">         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_STORAGE_ALL" width="50" [model]="eventData?.model?.bAllStorage" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_STORAGE_SELECTION" width="15" [model]="eventData?.model?.bStorageSel"></tb-radio>
+         <tb-combo cmpId="IDC_SALEORD_DEALLOCATION_STORAGE_START" width="78" [model]="eventData?.model?.Storage"></tb-combo>
+</div><div class="anchored">         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_STORAGE_SELECTION" width="15" [model]="eventData?.model?.bStorageSel"></tb-radio>
+         <tb-combo cmpId="IDC_SALEORD_DEALLOCATION_STORAGE_START" width="78" [model]="eventData?.model?.Storage"></tb-combo>
+</div>         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_SALEORD_DEALLOCATION_TYPE_SPECIFICATOR" width="78" [model]="eventData?.model?.SpecificatorType"></tb-enum-combo>
+         <tb-text [caption]="_TB('Specificator')" cmpId="IDC_SALEORD_DEALLOCATION_SPECIFICATOR" width="78" [model]="eventData?.model?.Specificator"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Item')" tbTileMini  hasTitle="True">
+         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_ITEM_ALL" width="53" [model]="eventData?.model?.bAllItem" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_SALEORD_DEALLOCATION_ITEM_SELECTION" width="53" [model]="eventData?.model?.bItemSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_SALEORD_DEALLOCATION_ITEM_START" width="91" [model]="eventData?.model?.ItemStart"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_SALEORD_DEALLOCATION_ITEM_END" width="91" [model]="eventData?.model?.ItemEnd"></tb-text>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Results')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="138" [model]="eventData?.model?.SaleOrdersDeallocation">
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_STATUS_BMP" columnName="StatusBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_SALEORD_DEALLOCATION_BE_STATUS_BMP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_SELECTED" columnName="IsSelected" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_SALEORD_DEALLOCATION_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_ITEM" columnName="Item" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_ITEM_DESCRI" columnName="ItemDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_ITEM_DESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_SALEORD_DEALLOCATION_BE_QTY" columnName="Qty" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_SALEORD_DEALLOCATION_BE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_SALEORD_DEALLOCATION_BE_QTY_ALLOCATED" columnName="AllocatedQty" [title]="_TB('Allocated')" columnType="tb-numeric-text-box" columnName="IDC_SALEORD_DEALLOCATION_BE_QTY_ALLOCATED">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_SALEORD_DEALLOCATION_BE_QTY_DELIVERED" columnName="DeliveredQty" [title]="_TB('Delivered')" columnType="tb-numeric-text-box" columnName="IDC_SALEORD_DEALLOCATION_BE_QTY_DELIVERED">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_SALEORD_DEALLOCATION_BE_QTY_TO_DEALLOCATE" columnName="QtyToDeallocate" [title]="_TB('Qty to be
+Deallocated')" columnType="tb-numeric-text-box" columnName="IDC_SALEORD_DEALLOCATION_BE_QTY_TO_DEALLOCATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_AREA" columnName="AllocationArea" [title]="_TB('Area')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_AREA">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_SALEORD_DEALLOCATION_BE_CONFIRMED_DELIVERY_DATE" columnName="ConfirmedDeliveryDate" [title]="_TB('Confirmed
+Delivery Date')" columnType="tb-date-input" columnName="IDC_SALEORD_DEALLOCATION_BE_CONFIRMED_DELIVERY_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_INTERNAL_NO" columnName="InternalOrdNo" [title]="_TB('Internal No')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_INTERNAL_NO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_SALEORD_DEALLOCATION_BE_ORDER_DATE" columnName="OrderDate" [title]="_TB('Order Date')" columnType="tb-date-input" columnName="IDC_SALEORD_DEALLOCATION_BE_ORDER_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_SALEORD_DEALLOCATION_BE_EXPECTED_DELIVERY_DATE" columnName="ExpectedDeliveryDate" [title]="_TB('Expected
+Delivery Date')" columnType="tb-date-input" columnName="IDC_SALEORD_DEALLOCATION_BE_EXPECTED_DELIVERY_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_STORAGE" columnName="StoragePhase1" [title]="_TB('Storage')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_STORAGE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_SPECIFICATOR_TYPE" columnName="Specificator1Type" [title]="_TB('Specificator
+Type')" columnType="tb-enum-combo" columnName="IDC_SALEORD_DEALLOCATION_BE_SPECIFICATOR_TYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_SPECIFICATOR" columnName="SpecificatorPhase1" [title]="_TB('Specificator')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_SPECIFICATOR">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_CUSTOMER" columnName="Customer" [title]="_TB('Customer')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_CUSTOMER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_COMPNAME" columnName="CustomerDescri" [title]="_TB('Company
+Name')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_COMPNAME">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SALEORD_DEALLOCATION_BE_NOTES" columnName="Note" [title]="_TB('Notes')" columnType="tb-label-static" columnName="IDC_SALEORD_DEALLOCATION_BE_NOTES">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

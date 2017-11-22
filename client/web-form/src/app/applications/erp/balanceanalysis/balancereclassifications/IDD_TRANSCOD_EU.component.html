@@ -1,0 +1,137 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Main Data')" tbTileWide >
+<div class="col col1"><div class="anchored">        <tb-text [caption]="_TB('Code')" cmpId="IDC_SECTION" width="82" [model]="eventData?.model?.ReclassificationSchema?.SchemaCode"></tb-text>
+        <tb-checkbox cmpId="IDC_RICLASS_COA_DISABLED" width="59" [model]="eventData?.model?.ReclassificationSchema?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>        <tb-text [caption]="_TB('Description')" cmpId="IDC_DESCRI_SECTION" width="154" [model]="eventData?.model?.ReclassificationSchema?.Description"></tb-text>
+<div class="anchored">        <tb-checkbox cmpId="IDC_TABEU_PREDEFINED" width="109" [model]="eventData?.model?.ReclassificationSchema?.Predefined" [caption]="_TB('Default  ')"></tb-checkbox>
+        <tb-checkbox *ngIf="eventData?.activation?.IDC_TABEU_BEO" cmpId="IDC_TABEU_BEO" width="109" [model]="eventData?.model?.ReclassificationSchema?.IsBeO" [caption]="_TB('Is B&amp;&amp;O Schema  ')"></tb-checkbox>
+</div>        <tb-checkbox *ngIf="eventData?.activation?.IDC_RICLASS_TABEU_ISXBRL" cmpId="IDC_RICLASS_TABEU_ISXBRL" width="109" [model]="eventData?.model?.ReclassificationSchema?.IsXbrl" [caption]="_TB('Is XBRL Schema  ')"></tb-checkbox>
+</div><div class="col col2"><div class="anchored">        <tb-combo [caption]="_TB('Balance Currency')" cmpId="IDC_TABEU_BALANCECURRENCY" width="62" [model]="eventData?.model?.ReclassificationSchema?.Currency"></tb-combo>
+        <tb-label-static cmpId="IDC_TABEU_BALANCECURRENCY_DESCRI" width="136" [model]="eventData?.model?.HKLCurrencies?.Description"></tb-label-static>
+</div>        <tb-section-title *ngIf="eventData?.activation?.IDC_RICLASS_COA_ROUND_SEPARATOR" cmpId="IDC_RICLASS_COA_ROUND_SEPARATOR" width="322" [caption]="_TB('Rounding code')"></tb-section-title>
+        <tb-text *ngIf="eventData?.activation?.IDC_RICLASS_COA_POSROUND" [caption]="_TB('Positive')" cmpId="IDC_RICLASS_COA_POSROUND" width="74" [model]="eventData?.model?.ReclassificationSchema?.PositiveRoundingCode"></tb-text>
+        <tb-text *ngIf="eventData?.activation?.IDC_RICLASS_COA_NEGROUND" [caption]="_TB('Negative')" cmpId="IDC_RICLASS_COA_NEGROUND" width="74" [model]="eventData?.model?.ReclassificationSchema?.NegativeRoundingCode"></tb-text>
+</div>       </tb-tile>
+       <tb-tile tbTileAutoFill  hasTitle="False">
+        <tb-body-edit cmpId="IDC_RICLASS_COA_EU_BODYEDIT" width="654" [model]="eventData?.model?.Detail">
+         <tb-body-edit-column cmpId="IDC_RICLASS_COA_COD_EU" columnName="Code" [title]="_TB('Element Code')" columnType="tb-text" columnName="IDC_RICLASS_COA_COD_EU">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_RICLASS_REF_BALANCE_LINE" columnName="Line" [title]="_TB('Line')" columnType="tb-numeric-text-box" columnName="IDC_RICLASS_REF_BALANCE_LINE" *ngIf="eventData?.activation?.IDC_RICLASS_REF_BALANCE_LINE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_REF_BALANCE_SEC" columnName="BalanceSection" [title]="_TB('Balance Section')" columnType="tb-enum-combo" columnName="IDC_RICLASS_REF_BALANCE_SEC" *ngIf="eventData?.activation?.IDC_RICLASS_REF_BALANCE_SEC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_REF_SCHEMA_EU" columnName="ReferenceSchemaCode" [title]="_TB('Ref. Schema')" columnType="tb-label-static" columnName="IDC_RICLASS_REF_SCHEMA_EU" *ngIf="eventData?.activation?.IDC_RICLASS_REF_SCHEMA_EU">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_COA_REF_COD_EU" columnName="ReferenceCode" [title]="_TB('Ref. Code')" columnType="tb-text" columnName="IDC_RICLASS_COA_REF_COD_EU" *ngIf="eventData?.activation?.IDC_RICLASS_COA_REF_COD_EU">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_COA_DESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_RICLASS_COA_DESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_PDC_LINENO" columnName="LineNoCol" [title]="_TB('Line No.')" columnType="tb-text" columnName="IDC_RICLASS_PDC_LINENO" *ngIf="eventData?.activation?.IDC_RICLASS_PDC_LINENO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_PDC_LINETYPE" columnName="LineType" [title]="_TB('Line Type')" columnType="tb-enum-combo" columnName="IDC_RICLASS_PDC_LINETYPE" *ngIf="eventData?.activation?.IDC_RICLASS_PDC_LINETYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_PDC_LINETYPE" columnName="LineType" [title]="_TB('Line Type')" columnType="tb-enum-combo" columnName="IDC_RICLASS_PDC_LINETYPE" *ngIf="eventData?.activation?.IDC_RICLASS_PDC_LINETYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_PDC_BALANCESIGN" columnName="BalanceSign" [title]="_TB('Action')" columnType="tb-enum-combo" columnName="IDC_RICLASS_PDC_BALANCESIGN">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_PDC_BALANCETYPE" columnName="BalanceType" [title]="_TB('Balance Type')" columnType="tb-enum-combo" columnName="IDC_RICLASS_PDC_BALANCETYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_BDY_ACCOUNT_FOR_BALANCE_DEBIT" columnName="l_TEnhBalanceReclassDetail_P2" [title]="_TB('Account Debit Balance')" columnType="tb-text" columnName="IDC_RICLASS_BDY_ACCOUNT_FOR_BALANCE_DEBIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_BDY_ACCOUNT_FOR_BALANCE_CREDIT" columnName="l_TEnhBalanceReclassDetail_P3" [title]="_TB('Account Credit Balance')" columnType="tb-text" columnName="IDC_RICLASS_BDY_ACCOUNT_FOR_BALANCE_CREDIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_COA_DESCRI_GRP_ACCOUNT" columnName="l_TEnhBalanceReclassDetail_P1" [title]="_TB('Account Description')" columnType="tb-label-static" columnName="IDC_RICLASS_COA_DESCRI_GRP_ACCOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_BDY_OFFSET" columnName="OffsetAccount" [title]="_TB('Offset Account')" columnType="tb-text" columnName="IDC_RICLASS_BDY_OFFSET">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_COA_CASHTYPE" columnName="OffsetCashType" [title]="_TB('Cash Flow Type')" columnType="tb-enum-combo" columnName="IDC_RICLASS_COA_CASHTYPE" *ngIf="eventData?.activation?.IDC_RICLASS_COA_CASHTYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_BDY_OFFSETCUSTSUPP" columnName="OffsetCustSupp" [title]="_TB('Customer/Supplier')" columnType="tb-text" columnName="IDC_RICLASS_BDY_OFFSETCUSTSUPP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_IGNORE_BALANCE_DEBITCREDITSIGN_DIFFERENT" columnName="IgnoreDifferentSign" [title]="_TB('Ignore Different Sign')" columnType="tb-checkbox" columnName="IDC_IGNORE_BALANCE_DEBITCREDITSIGN_DIFFERENT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_COA_ACCOUNT_ALLNATURE" columnName="AllKind" [title]="_TB('All Types')" columnType="tb-checkbox" columnName="IDC_RICLASS_COA_ACCOUNT_ALLNATURE" *ngIf="eventData?.activation?.IDC_RICLASS_COA_ACCOUNT_ALLNATURE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RICLASS_COA_ACCOUNT_NATURE" columnName="Nature" [title]="_TB('Balance Nature')" columnType="tb-enum-combo" columnName="IDC_RICLASS_COA_ACCOUNT_NATURE" *ngIf="eventData?.activation?.IDC_RICLASS_COA_ACCOUNT_NATURE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+       <tb-tile [title]="_TB('Mapping Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_RECLASS_MAPPING_DATA_DLG">
+        <tb-enum-combo [caption]="_TB('Balance type')" cmpId="IDC_RECLASS_MAP_BALANCE_TYPE" width="150" [model]="eventData?.model?.ReclassificationSchema?.XbrlBalanceType"></tb-enum-combo>
+        <tb-text [caption]="_TB('Mapping file')" cmpId="IDC_RECLASS_MAP_NAME" width="217" [model]="eventData?.model?.ReclassificationSchema?.XbrlMap"></tb-text>
+       </tb-tile>
+       <tb-tile [title]="_TB('Mapping Data')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_RECLASS_XBRL_DATA_DLG">
+<div class="col col1">        <tb-enum-combo [caption]="_TB('Balance type')" cmpId="IDC_RECLASS_XBRLSCHEMA" width="150" [model]="eventData?.model?.ReclassificationSchema?.XbrlBalanceType"></tb-enum-combo>
+        <tb-text [caption]="_TB('Mapping file')" cmpId="IDC_RECLASS_XBRLMAP" width="217" [model]="eventData?.model?.ReclassificationSchema?.XbrlMap"></tb-text>
+</div><div class="col col2">        <tb-section-title cmpId="IDC_RECLASS_ROUND_SEPARATOR" width="287" [caption]="_TB('Rounding code')"></tb-section-title>
+<div class="anchored">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Financial Statement')" cmpId="IDC_RECLASS_ROUNDINGFINSTAT" width="28" [model]="eventData?.model?.RoundXbrlRoundingFinStat"></tb-numeric-text-box>
+        <tb-label-static cmpId="IDC_RECLASS_ROUNDINGFINSTAT_DESC" width="66" [model]="eventData?.model?.ReclassificationSchema?.XbrlRoundingFinStat"></tb-label-static>
+</div><div class="anchored">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Profit Loss Positive')" cmpId="IDC_RECLASS_ROUNDINGPROFIT" width="28" [model]="eventData?.model?.RoundXbrlRoundingProfit"></tb-numeric-text-box>
+        <tb-label-static cmpId="IDC_RECLASS_ROUNDINGPROFIT_DESC" width="66" [model]="eventData?.model?.ReclassificationSchema?.XbrlRoundingProfit"></tb-label-static>
+</div><div class="anchored">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Profit Loss Negative')" cmpId="IDC_RECLASS_ROUNDINGLOSS" width="28" [model]="eventData?.model?.RoundXbrlRoundingLoss"></tb-numeric-text-box>
+        <tb-label-static cmpId="IDC_RECLASS_ROUNDINGLOSS_DESC" width="66" [model]="eventData?.model?.ReclassificationSchema?.XbrlRoundingLoss"></tb-label-static>
+</div></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_RICLASS_COA_COPY?.enabled" icon="tb-copy" [caption]="_TB('Copy')" cmpId="ID_RICLASS_COA_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_RECLASS_BTN_IMPORT" [disabled]="!eventData?.buttonsState?.ID_RECLASS_BTN_IMPORT?.enabled" icon="erp-importline" [caption]="_TB('Import Data')" cmpId="ID_RECLASS_BTN_IMPORT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

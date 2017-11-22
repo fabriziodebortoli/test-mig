@@ -334,12 +334,17 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string): Observable<OperationResult> {
+  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string, activationCode: string): Observable<OperationResult> {
 
-    let authorizationHeader = "code";
+    let authorizationHeader = activationCode;
 
+    if (authorizationHeader === '' || authorizationHeader === undefined) {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }    
+    
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
+    
     return this.http.post(environment.gwamAPIUrl + 'instanceSubscriptions/' + subscriptionKey + '/' + instanceKey, {}, options)
       .map((res: Response) => {
         return res.json();
@@ -603,9 +608,9 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error (sendMessage)'));
   }
 
-    //--------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------------
   getObjectCluster(modelName: string, itemKey: string, ticks: string, body: Object, activationCode?: string): Observable<OperationResult> {
-   
+
     let authorizationHeader = this.createAuthorizationHeader('app');
 
     if (authorizationHeader === '' && activationCode === undefined) {
@@ -618,7 +623,7 @@ export class ModelService {
 
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
-    }    
+    }
 
     if (modelName === '') {
       return Observable.throw('The model name to query is missing!');
@@ -649,10 +654,10 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
   }
 
-  // get list of configurations for default/sample data
+  // get list of configurations for default/sample data (INTL data are added in any case)
   //--------------------------------------------------------------------------------------------------------
-  getConfigurations(subscriptionKey: string, configType: string, iso: string): Observable<Array<{ iso: string, configurations: Array<string>}>> {
-    
+  getConfigurations(subscriptionKey: string, configType: string, iso: string): Observable<Array<{ iso: string, configurations: Array<string> }>> {
+
     let authorizationHeader = this.createAuthorizationHeader('jwt');
 
     if (authorizationHeader === '') {
@@ -667,5 +672,27 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (getConfigurations)'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  importData(subscriptionKey: string, importDefault: boolean, configuration: string, iso: string, body: SubscriptionDatabase): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    let urlPrefix = environment.adminAPIUrl + 'database/import/' + (importDefault ? 'default/' : 'sample/');
+
+    return this.http.post(urlPrefix + subscriptionKey + '/' + iso + '/' + configuration, bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (importDefaultData)'));
   }
 }

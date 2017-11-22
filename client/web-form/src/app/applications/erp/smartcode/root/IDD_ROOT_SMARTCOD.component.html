@@ -1,0 +1,150 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-inventory" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Main Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <erp-no-spaces [caption]="_TB('Root')" cmpId="IDC_ROOT_SMARTCOD" width="48" [model]="eventData?.model?.Root?.Root"></erp-no-spaces>
+         <tb-checkbox cmpId="IDC_ROOT_DISABLED" width="84" [model]="eventData?.model?.Root?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Description')" cmpId="IDC_ROOT_DESCRI" width="221" [model]="eventData?.model?.Root?.Description"></tb-text>
+         <tb-text [caption]="_TB('Base UoM')" cmpId="IDC_RADOTHERS_UOM" width="25" [model]="eventData?.model?.Root?.BaseUoM"></tb-text>
+<div class="anchored">         <tb-combo *ngIf="eventData?.activation?.IDC_RADOTHERS_TAXCODE" [caption]="_TB('Tax Code')" cmpId="IDC_RADOTHERS_TAXCODE" width="50" [model]="eventData?.model?.Root?.TaxCode"></tb-combo>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_RADOTHERS_TAXDESCRI" cmpId="IDC_RADOTHERS_TAXDESCRI" width="168" [model]="eventData?.model?.HKLTaxCode?.Description"></tb-label-static>
+</div></div><div class="col col2"><div class="anchored">         <tb-combo [caption]="_TB('Commodity Category')" cmpId="IDC_RADOTHERS_COMMCTG" width="50" [model]="eventData?.model?.Root?.CommodityCtg"></tb-combo>
+         <tb-label-static cmpId="IDC_RADOTHERS_DESCRICTGCOMMODITY" width="170" [model]="eventData?.model?.HKLCommodityCtg?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-combo [caption]="_TB('Homogeneous Category')" cmpId="IDC_RADOTHERS_HOMOGENEOUSCTG" width="50" [model]="eventData?.model?.Root?.HomogeneousCtg"></tb-combo>
+         <tb-label-static cmpId="IDC_RADOTHERS_DESCRIHOMOGCTG" width="170" [model]="eventData?.model?.HKLHomogeneousCtg?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_RADOTHERS_CUSTCPRICE" width="109" [model]="eventData?.model?.Root?.CalculatePrice" [caption]="_TB('Calculate Price  ')"></tb-checkbox>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Base Price')" cmpId="IDC_RADOTHERS_PRICE" width="52" [model]="eventData?.model?.Root?.Price"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_RADOTHERS_CUSTCWEIGHT" width="109" [model]="eventData?.model?.Root?.CalculateWeight" [caption]="_TB('Calculate Weight  ')"></tb-checkbox>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Basic Weight')" cmpId="IDC_RADOTHERS_WEIGHT" width="52" [model]="eventData?.model?.Root?.Weight"></tb-numeric-text-box>
+</div></div>        </tb-tile>
+        <tb-tile [title]="_TB('Other Data')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-section-title cmpId="IDC_STATIC_OFFSETS" width="327" [caption]="_TB('Offsets')"></tb-section-title>
+         <tb-text *ngIf="eventData?.activation?.IDC_RADOTHERS_OFFSETITMDISPATC" [caption]="_TB('Sales')" cmpId="IDC_RADOTHERS_OFFSETITMDISPATC" width="86" [model]="eventData?.model?.Root?.SaleOffset"></tb-text>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_RADOTHERS_SALEOFFSETDESCRI" cmpId="IDC_RADOTHERS_SALEOFFSETDESCRI" width="222" [model]="eventData?.model?.HKLOffsetFixAssets?.Description"></tb-label-static>
+         <tb-text *ngIf="eventData?.activation?.IDC_RADOTHERS_OFFSETTOITEMCQ" [caption]="_TB('Purchases')" cmpId="IDC_RADOTHERS_OFFSETTOITEMCQ" width="86" [model]="eventData?.model?.Root?.PurchaseOffset"></tb-text>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_RADOTHERS_PURCHASEOFFSETDESCRI" cmpId="IDC_RADOTHERS_PURCHASEOFFSETDESCRI" width="222" [model]="eventData?.model?.HKLOffsetPurchase?.Description"></tb-label-static>
+         <tb-text [caption]="_TB('Notes')" cmpId="IDC_ROOT_NOTES" width="222" [model]="eventData?.model?.Root?.Notes"></tb-text>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_COEFFICIENT" width="327" [caption]="_TB('Coefficient')"></tb-section-title>
+         <tb-enum-combo [caption]="_TB('Number')" cmpId="IDC_RADOTHERS_NO_COEFFICIENT" width="50" [model]="eventData?.model?.Root?.FactorNo"></tb-enum-combo>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Value')" cmpId="IDC_RADOTHERS_VALUE_COEFFICIENT" width="53" [model]="eventData?.model?.Root?.FactorValue"></tb-numeric-text-box>
+         <tb-text [caption]="_TB('Description')" cmpId="IDC_RADOTHERS_DESCRIPTION_COEFFICIENT" width="222" [model]="eventData?.model?.Root?.FactorDescription"></tb-text>
+         <tb-section-title cmpId="IDC_STATIC_LBL_COMPARABLE_UOM" width="327" [caption]="_TB('Comparable UoM')"></tb-section-title>
+         <tb-checkbox cmpId="IDC_RADOTHERS_CREATE_UOM_DERIVED" width="109" [model]="eventData?.model?.Root?.GenerateComparableUoM" [caption]="_TB('Create Comparable UoM  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_RADOTHERS_TAXAMOUNT_DONERE_CONVERSION" width="109" [model]="eventData?.model?.Root?.SetConversionFactor" [caption]="_TB('Set conversion factor  ')"></tb-checkbox>
+         <tb-text [caption]="_TB('Comparable UoM')" cmpId="IDC_RADOTHERS_UOM_DERIVED" width="25" [model]="eventData?.model?.Root?.ComparableUoM"></tb-text>
+         <tb-text [caption]="_TB('Coefficients UoM')" cmpId="IDC_RADOTHERS_REFERENCE_UOM_CALCVALUE" width="25" [model]="eventData?.model?.Root?.ReferenceUoMCalculatedValue"></tb-text>
+         <tb-text [caption]="_TB('Convert coefficients in UoM...')" cmpId="IDC_RADOTHERS_CONVERT_COEFFICIENTS_IN_UOM" width="25" [model]="eventData?.model?.Root?.ConvertCoefficientsInUoM"></tb-text>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Languages')" tbTileAutoFill  isCollapsible="True">
+         <tb-body-edit cmpId="IDC_SMARTCOD_BE_STATUS" width="654" [model]="eventData?.model?.Language">
+          <tb-body-edit-column cmpId="IDC_RADSTATUS_STATUS" [title]="_TB('ISO Country')" columnType="tb-body-edit-column" columnName="IDC_RADSTATUS_STATUS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_RADSTATUS_DESCRI_ISOCOUNTRYCODE" [title]="_TB('Description')" columnType="tb-body-edit-column" columnName="IDC_RADSTATUS_DESCRI_ISOCOUNTRYCODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_RADSTATUS_DESCRI_STATUS" [title]="_TB('Description in Language')" columnType="tb-body-edit-column" columnName="IDC_RADSTATUS_DESCRI_STATUS" *ngIf="eventData?.activation?.IDC_RADSTATUS_DESCRI_STATUS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_RADSTATUS_CURRENCY" [title]="_TB('Currency')" columnType="tb-body-edit-column" columnName="IDC_RADSTATUS_CURRENCY" *ngIf="eventData?.activation?.IDC_RADSTATUS_CURRENCY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_RADSTATUS_LANGUAGE" [title]="_TB('Language')" columnType="tb-body-edit-column" columnName="IDC_RADSTATUS_LANGUAGE" *ngIf="eventData?.activation?.IDC_RADSTATUS_LANGUAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_RADSTATUS_PRICE" [title]="_TB('Price in Foreign Currency')" columnType="tb-body-edit-column" columnName="IDC_RADSTATUS_PRICE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_RADSTATUS_NOTES" width="250" [title]="_TB('Notes')" columnType="tb-body-edit-column" columnName="IDC_RADSTATUS_NOTES">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Structure')" icon="erp-smartcode" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tilepanel [title]="_TB('Structure')" showAsTile="True">
+         <tb-tile tbTileWide >
+<div class="col col1">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Total Length')" cmpId="IDC_RADSTRUCT_LENTOT" width="16" [model]="eventData?.model?.Root?.Length"></tb-numeric-text-box>
+          <tb-section-title cmpId="IDC_STATIC_ROOT" width="327" [caption]="_TB('Root')"></tb-section-title>
+          <tb-text [caption]="_TB('Separator')" cmpId="IDC_RADSTRUCT_SEPARATORCODE_ROOT" width="13" [model]="eventData?.model?.Root?.SeparatorCode"></tb-text>
+</div><div class="col col2">          <tb-section-title cmpId="IDC_STATIC_SEGMENTS" width="327" [caption]="_TB('Segments')"></tb-section-title>
+<div class="anchored">          <erp-no-spaces [caption]="_TB('Separator')" cmpId="IDC_RADSTRUCT_SEPARATORCODE_SEGM" width="13" [model]="eventData?.model?.Root?.SegmentSeparator"></erp-no-spaces>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('No.')" cmpId="IDC_RADSTRUCT_NO_SEGMENTS" width="16" [model]="eventData?.model?.Root?.NoOfSegments"></tb-numeric-text-box>
+</div>          <tb-section-title cmpId="IDC_STATIC_DESCRIPTION" width="327" [caption]="_TB('Description')"></tb-section-title>
+<div class="anchored">          <tb-text [caption]="_TB('Separator')" cmpId="IDC_RADSTRUCT_DESCRIPTIONSEPARATOR" width="13" [model]="eventData?.model?.DescriptionSeparator"></tb-text>
+          <tb-text [caption]="_TB('Delimiter')" cmpId="IDC_RADSTRUCT_DESCRIPTIONDELIMITER" width="11" [model]="eventData?.model?.Root?.DescriptionDelimiter"></tb-text>
+</div></div>         </tb-tile>
+         <tb-tile tbTileAutoFill >
+          <tb-body-edit cmpId="IDC_SMARTCOD_BE_STRUCTURE" width="628" [model]="eventData?.model?.Structure">
+           <tb-body-edit-column cmpId="IDC_RADSTRUCT_POS" [title]="_TB('Position')" columnType="tb-body-edit-column" columnName="IDC_RADSTRUCT_POS">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_RADSTRUCT_SEGMENT" [title]="_TB('Segment')" columnType="tb-body-edit-column" columnName="IDC_RADSTRUCT_SEGMENT">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_RADSTRUCT_LEN" [title]="_TB('Length')" columnType="tb-body-edit-column" columnName="IDC_RADSTRUCT_LEN">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_RADSTRUCT_DESCRI_SEGMENT" [title]="_TB('Description')" columnType="tb-body-edit-column" columnName="IDC_RADSTRUCT_DESCRI_SEGMENT">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_RADSTRUCT_NO_COEFFICIENT" [title]="_TB('Coefficent Nr.')" columnType="tb-body-edit-column" columnName="IDC_RADSTRUCT_NO_COEFFICIENT">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_RADSTRUCT_GRAPHICS" [title]="_TB('Structure')" columnType="tb-body-edit-column" columnName="IDC_RADSTRUCT_GRAPHICS">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </tb-tilepanel>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

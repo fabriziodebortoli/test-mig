@@ -1,0 +1,443 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeColumn >
+      <ng-template>
+       <tb-tile tbTileWide  *ngIf="eventData?.activation?.IDD_TD_JE_HEADER">
+<div class="col col1"><div class="anchored">        <tb-combo [caption]="_TB('Template')" cmpId="IDC_JE_TEMPLATE" width="62" [model]="eventData?.model?.JournalEntries?.AccTpl"></tb-combo>
+        <tb-label-static cmpId="IDC_JE_TPLDESCRI" width="212" [model]="eventData?.model?.HKLAccTpl?.Description"></tb-label-static>
+</div></div><div class="col col2"><div class="anchored">        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting/Accrual Date')" cmpId="IDC_JE_POSTDATE" width="57" [model]="eventData?.model?.JournalEntries?.PostingDate"></tb-date-input>
+        <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_JE_ACCRUALDATE" width="57" [model]="eventData?.model?.JournalEntries?.AccrualDate"></tb-date-input>
+</div></div>       </tb-tile>
+       <tb-tile tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_JE_TAX_HEADER">
+<div class="anchored">        <tb-combo [caption]="_TB('Template')" cmpId="IDC_JE_TEMPLATE" width="62" [model]="eventData?.model?.JESlave?.AccTpl"></tb-combo>
+        <tb-label-static cmpId="IDC_JE_TPLDESCRI" width="212" [model]="eventData?.model?.HKLAccTpl?.Description"></tb-label-static>
+</div><div class="anchored">        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting/Accrual Date')" cmpId="IDC_JE_POSTDATE" width="57" [model]="eventData?.model?.JESlave?.PostingDate"></tb-date-input>
+        <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_JE_ACCRUALDATE" width="57" [model]="eventData?.model?.JESlave?.AccrualDate"></tb-date-input>
+</div>        <tb-date-input *ngIf="eventData?.activation?.IDC_JE_DEPARTUREDATE_TAX" formatter="Date" [readonly]="false" [caption]="_TB('Departure Date')" cmpId="IDC_JE_DEPARTUREDATE_TAX" width="57" [model]="eventData?.model?.JournalEntriesTax?.DepartureDate"></tb-date-input>
+       </tb-tile>
+       <tb-tile tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_JE_TAX_ISSUED_HEADER">
+<div class="anchored">        <tb-text [caption]="_TB('Customer')" cmpId="IDC_JE_CUSTSUPP" width="80" [model]="eventData?.model?.JournalEntriesTax?.CustSupp"></tb-text>
+        <tb-label-static cmpId="IDC_JE_CUSTSUPPDESCRIPTION" width="139" [model]="eventData?.model?.CustSuppDescription"></tb-label-static>
+</div>       </tb-tile>
+       <tb-tile tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_JE_TAX_RECEIVED_HEADER">
+<div class="anchored">        <tb-text [caption]="_TB('Supplier')" cmpId="IDC_JE_CUSTSUPP" width="80" [model]="eventData?.model?.JournalEntriesTax?.CustSupp"></tb-text>
+        <tb-label-static cmpId="IDC_JE_CUSTSUPPDESCRIPTION" width="139" [model]="eventData?.model?.CustSuppDescription"></tb-label-static>
+</div><div class="anchored">        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Document Date/Number')" cmpId="IDC_JE_DOCDATE" width="57" [model]="eventData?.model?.JESlave?.DocumentDate"></tb-date-input>
+        <tb-text cmpId="IDC_JE_DOCNO" width="100" [model]="eventData?.model?.JESlave?.DocNo"></tb-text>
+</div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_JE_BODY">
+      <ng-template>
+       <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('Entry Data')" tbTileStandard  isCollapsible="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Group/Reference No.')" cmpId="IDC_JE_GROUP_CODE" width="34" [model]="eventData?.model?.JournalEntries?.GroupCode"></tb-combo>
+         <tb-text cmpId="IDC_JE_REFNO" width="55" [model]="eventData?.model?.JournalEntries?.RefNo"></tb-text>
+</div><div class="anchored">         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Document Date/No.')" cmpId="IDC_JE_DOCDATE" width="57" [model]="eventData?.model?.JournalEntries?.DocumentDate"></tb-date-input>
+         <tb-text cmpId="IDC_JE_DOCNO" width="100" [model]="eventData?.model?.JournalEntries?.DocNo"></tb-text>
+</div>         <tb-numeric-text-box formatter="Money" [caption]="_TB('Document Total')" cmpId="IDC_JE_DOCTOT" width="84" [model]="eventData?.model?.__JE?.TotalAmount"></tb-numeric-text-box>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Value Date')" cmpId="IDC_JE_VALUEDATE" width="57" [model]="eventData?.model?.JournalEntries?.ValueDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Currency')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_JE_CURRENCY">
+<div class="anchored">         <tb-combo [caption]="_TB('Currency')" cmpId="IDC_JE_CURRENCY" width="62" [model]="eventData?.model?.__JE?.Currency"></tb-combo>
+         <tb-label-static cmpId="IDC_JE_CURRENCYDESCRI" width="157" [model]="eventData?.model?.HKLCurrenciesCurrObj?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Fixing Date/ Value')" cmpId="IDC_JE_FIXINGDATE" width="57" [model]="eventData?.model?.__JE?.FixingDate"></tb-date-input>
+         <tb-text cmpId="IDC_JE_FIXING" width="84" [model]="eventData?.model?.__JE?.Fixing"></tb-text>
+         <tb-label-static cmpId="IDC_JE_FIXING_EURO" width="77" [model]="eventData?.model?.FixingDescri"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_JE_FIXING" width="84" [model]="eventData?.model?.__JE?.Fixing"></tb-text>
+         <tb-label-static cmpId="IDC_JE_FIXING_EURO" width="77" [model]="eventData?.model?.FixingDescri"></tb-label-static>
+</div>         <tb-numeric-text-box formatter="Money" [caption]="_TB('Total')" cmpId="IDC_JE_DOCTOTINCURRENCY" width="84" [model]="eventData?.model?.__JE?.TotalAmountDocCurr"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Forecast Data')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_JE_FORECAST">
+<div class="col col1">         <tb-checkbox cmpId="IDC_JE_FORECAST_ISAUTOMATIC" width="109" [model]="eventData?.model?.ForecastData?.Automatic" [caption]="_TB('Generated Automatically  ')"></tb-checkbox>
+<div class="anchored">         <tb-combo [caption]="_TB('Simulation')" cmpId="IDC_JE_FORECAST_CODSIMUL" width="82" [model]="eventData?.model?.ForecastData?.Simulation"></tb-combo>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('on')" cmpId="IDC_JE_FORECAST_DATESIMUL" width="57" [model]="eventData?.model?.ForecastData?.SimulationDate"></tb-date-input>
+</div>         <tb-button [caption]="_TB('Review')" cmpId="IDC_JE_FORECAST_SIMUREVIEW" width="16" [model]="eventData?.model?.SimulationReview"></tb-button>
+         <tb-text [caption]="_TB('Notes')" cmpId="IDC_JE_FORECAST_NOTES" width="154" [model]="eventData?.model?.ForecastData?.Notes"></tb-text>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_DEFDATA_SEPARATOR" width="324" [caption]="_TB('Definitive Transformation Data')"></tb-section-title>
+<div class="anchored">         <tb-checkbox cmpId="IDC_JE_FORECAST_DEBITGINDEF" width="109" [model]="eventData?.model?.ForecastData?.FinalPosting" [caption]="_TB('To be Posted  ')"></tb-checkbox>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Expected Posting Date')" cmpId="IDC_JE_FORECAST_DATEEXPECTEDREGDEF" width="57" [model]="eventData?.model?.ForecastData?.FinalExpectedDate"></tb-date-input>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_JE_FORECAST_REGINDEF" width="109" [model]="eventData?.model?.ForecastData?.FinalPosted" [caption]="_TB('Posted  ')"></tb-checkbox>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Definitive Posting Date')" cmpId="IDC_JE_FORECAST_DATEEFFECTREGDEF" width="57" [model]="eventData?.model?.ForecastData?.FinalPostingDate"></tb-date-input>
+</div>         <tb-button [caption]="_TB('Review')" cmpId="IDC_JE_FORECAST_REVIEW" width="16" [model]="eventData?.model?.Review"></tb-button>
+</div>        </tb-tile>
+       </tb-layoutcontainer>
+       <tb-tile [title]="_TB('GL Journal')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_JE_DETAIL_BOOK_JOURNAL" width="654" [model]="eventData?.model?.GLJournal">
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_BMP_PRNOPERATIONIG" columnName="l_TEnhJEGLDetail_P13" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_BDY_JEGL_BMP_PRNOPERATIONIG" *ngIf="eventData?.activation?.IDC_BDY_JEGL_BMP_PRNOPERATIONIG">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_CODETYPE_ACCOUNT" columnName="l_AccountType" [title]="_TB('Type')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CODETYPE_ACCOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_CUSTSUPP" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CUSTSUPP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_ACCOUNT" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_ACCOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_ACCOUNTDESCRI" columnName="l_TEnhJEGLDetail_P04" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BDY_JEGL_ACCOUNTDESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_CURRENCY" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CURRENCY" *ngIf="eventData?.activation?.IDC_BDY_JEGL_CURRENCY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_SBLCURRENCY" [title]="_TB('Currency')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_SBLCURRENCY" *ngIf="eventData?.activation?.IDC_BDY_JEGL_SBLCURRENCY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_AMOUNTDOCCURR" [title]="_TB('Foreign Currency')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_AMOUNTDOCCURR" *ngIf="eventData?.activation?.IDC_BDY_JEGL_AMOUNTDOCCURR">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_JEGL_AMOUNTDOCCURRDEBIT" columnName="l_DebitDocCurrAmount" [title]="_TB('Foreign Curr. Debit')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_AMOUNTDOCCURRDEBIT" *ngIf="eventData?.activation?.IDC_BDY_JEGL_AMOUNTDOCCURRDEBIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_JEGL_AMOUNTDOCCURRCREDIT" columnName="l_CrediDocCurrAmount" [title]="_TB('Foreign Curr. Credit')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_AMOUNTDOCCURRCREDIT" *ngIf="eventData?.activation?.IDC_BDY_JEGL_AMOUNTDOCCURRCREDIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_FIXINGDATE" [title]="_TB('Fixing Date')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_FIXINGDATE" *ngIf="eventData?.activation?.IDC_BDY_JEGL_FIXINGDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_FIXING" [title]="_TB('Fixing')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_FIXING" *ngIf="eventData?.activation?.IDC_BDY_JEGL_FIXING">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_DEBITAMOUNT" [title]="_TB('Debit')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_DEBITAMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_CREDITAMOUNT" [title]="_TB('Credit')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CREDITAMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_REASON" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_REASON">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_DESCRI_REASON" [title]="_TB('Reason Description')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_DESCRI_REASON">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_NOTES" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_NOTES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_ADJACCOUNT" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_ADJACCOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_ADJACCOUNTDESCRI" [model]="eventData?.model?.HKLAdjAccount?.Description" [title]="_TB('Description')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_ADJACCOUNTDESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BDY_JEGL_BALANCE" columnName="l_TEnhJEGLDetail_P10" [title]="_TB('Balance')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_BALANCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_JEGL_VALUEDATE" columnType="tb-body-edit-column" columnName="IDC_JEGL_VALUEDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_BANKCHECKED" [title]="_TB('Checked')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_BANKCHECKED">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_JEGL_FISCALAMOUNT" columnName="FiscalAmount" [title]="_TB('Fiscal Amount')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_FISCALAMOUNT" *ngIf="eventData?.activation?.IDC_BDY_JEGL_FISCALAMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_OFFSETGROUPNO" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_OFFSETGROUPNO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_CODETYPE_AMOUNT" [title]="_TB('Amount Type')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CODETYPE_AMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DETAIL_JEGL_MANAGED_IN_ISAUTOMATIC" [title]="_TB('Autom.')" columnType="tb-body-edit-column" columnName="IDC_DETAIL_JEGL_MANAGED_IN_ISAUTOMATIC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BDY_JEGL_IN_CALCULATION_TAX" [title]="_TB('In Tax')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_IN_CALCULATION_TAX" *ngIf="eventData?.activation?.IDC_BDY_JEGL_IN_CALCULATION_TAX">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilemanager *ngIf="eventData?.activation?.IDC_TM_JE_BODY">
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-accounting" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Tax Data')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-combo [caption]="_TB('Tax Journal')" cmpId="IDC_JE_JOURNAL_TAX" width="62" [model]="eventData?.model?.JournalEntriesTax?.TaxJournal"></tb-combo>
+          <tb-label-static cmpId="IDC_JE_TAXJOURNALDESCRI" width="157" [model]="eventData?.model?.HKLTaxJournal?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-date-input *ngIf="eventData?.activation?.IDC_JE_DOCDATE" formatter="Date" [readonly]="false" [caption]="_TB('Document Date/Number')" cmpId="IDC_JE_DOCDATE" width="57" [model]="eventData?.model?.JESlave?.DocumentDate"></tb-date-input>
+          <tb-text *ngIf="eventData?.activation?.IDC_JE_DOCNO" cmpId="IDC_JE_DOCNO" width="100" [model]="eventData?.model?.JESlave?.DocNo"></tb-text>
+</div>          <tb-text [caption]="_TB('Log Number')" cmpId="IDC_JE_LOGNO" width="62" [model]="eventData?.model?.JournalEntriesTax?.LogNo"></tb-text>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Document Total')" cmpId="IDC_JE_DOCTOT" width="84" [model]="eventData?.model?.JESlave?.TotalAmount"></tb-numeric-text-box>
+<div class="anchored">          <tb-checkbox *ngIf="eventData?.activation?.IDC_JE_TAXDATA_NOTEXIGIBLEINISSUE" cmpId="IDC_JE_TAXDATA_NOTEXIGIBLEINISSUE" width="109" [model]="eventData?.model?.JournalEntriesTax?.NotExigible" [caption]="_TB('Different Tax Exigibility  ')"></tb-checkbox>
+          <tb-date-input *ngIf="eventData?.activation?.IDC_JE_EXIGIBILITYDATE" formatter="Date" [readonly]="false" cmpId="IDC_JE_EXIGIBILITYDATE" width="57" [model]="eventData?.model?.JournalEntriesTax?.ExigibilityDate"></tb-date-input>
+          <tb-caption *ngIf="eventData?.activation?.IDC_JE_STATIC_EXIGIBILITYDATE" cmpId="IDC_JE_STATIC_EXIGIBILITYDATE" width="147" [caption]="_TB('(Delivery Note End of Month)')"></tb-caption>
+</div><div class="anchored">          <tb-date-input *ngIf="eventData?.activation?.IDC_JE_EXIGIBILITYDATE" formatter="Date" [readonly]="false" cmpId="IDC_JE_EXIGIBILITYDATE" width="57" [model]="eventData?.model?.JournalEntriesTax?.ExigibilityDate"></tb-date-input>
+          <tb-caption *ngIf="eventData?.activation?.IDC_JE_STATIC_EXIGIBILITYDATE" cmpId="IDC_JE_STATIC_EXIGIBILITYDATE" width="147" [caption]="_TB('(Delivery Note End of Month)')"></tb-caption>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Currency')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_JE_CURRENCY">
+<div class="anchored">          <tb-combo [caption]="_TB('Currency')" cmpId="IDC_JE_CURRENCY" width="62" [model]="eventData?.model?.__JE?.Currency"></tb-combo>
+          <tb-label-static cmpId="IDC_JE_CURRENCYDESCRI" width="157" [model]="eventData?.model?.HKLCurrenciesCurrObj?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Fixing Date/ Value')" cmpId="IDC_JE_FIXINGDATE" width="57" [model]="eventData?.model?.__JE?.FixingDate"></tb-date-input>
+          <tb-text cmpId="IDC_JE_FIXING" width="84" [model]="eventData?.model?.__JE?.Fixing"></tb-text>
+          <tb-label-static cmpId="IDC_JE_FIXING_EURO" width="77" [model]="eventData?.model?.FixingDescri"></tb-label-static>
+</div><div class="anchored">          <tb-text cmpId="IDC_JE_FIXING" width="84" [model]="eventData?.model?.__JE?.Fixing"></tb-text>
+          <tb-label-static cmpId="IDC_JE_FIXING_EURO" width="77" [model]="eventData?.model?.FixingDescri"></tb-label-static>
+</div>          <tb-numeric-text-box formatter="Money" [caption]="_TB('Total')" cmpId="IDC_JE_DOCTOTINCURRENCY" width="84" [model]="eventData?.model?.__JE?.TotalAmountDocCurr"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeVbox >
+         <tb-tile [title]="_TB('Tax Summary in Foreign Currency')" tbTileAutoFill  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_JE_TAX_SUMMARYINCURRENCY">
+          <tb-body-edit cmpId="IDC_JE_TAX_SUMMARY_IN_CURRENCY_BE" width="654" [model]="eventData?.model?.TaxSummary">
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_TAXCODE_CURRENCY" columnName="TaxCode" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_BDY_PRNORI_TAXCODE_CURRENCY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_TAXCODEDESCRI" [model]="eventData?.model?.HKLTaxCode?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BDY_PRNORI_TAXCODEDESCRI">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TAXABLEAMOUNT_INCURRENCY" columnName="TaxableAmountDocCurr" [title]="_TB('Taxable Amount')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TAXABLEAMOUNT_INCURRENCY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TAXAMOUNT_INCURRENCY" columnName="TaxAmountDocCurr" [title]="_TB('Tax')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TAXAMOUNT_INCURRENCY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TOTALAMOUNT_INCURRENCY" columnName="TotalAmountDocCurr" [title]="_TB('Total')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TOTALAMOUNT_INCURRENCY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BDY_PRNORI_UNDEDUCTIBLEAMOUNT_INCURRENCY" columnName="UndeductibleAmountDocCurr" [title]="_TB('Nondeductible')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_UNDEDUCTIBLEAMOUNT_INCURRENCY" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_UNDEDUCTIBLEAMOUNT_INCURRENCY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_BDY_PRNORI_NOTES" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_NOTES">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+         <tb-tile [title]="_TB('Tax Summary')" tbTileAutoFill >
+          <tb-body-edit cmpId="IDC_JE_TAX_SUMMARY_BE" width="654" [model]="eventData?.model?.TaxSummary">
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_TAXCODE" columnName="TaxCode" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_BDY_PRNORI_TAXCODE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_TAXCODEDESCRI" [model]="eventData?.model?.HKLTaxCode?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BDY_PRNORI_TAXCODEDESCRI">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_CURRENCY_TAX" columnName="TaxableAmountDocCurr" [title]="_TB('Foreign Currency')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_CURRENCY_TAX" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_CURRENCY_TAX">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TAXABLEAMOUNT" columnName="TaxableAmount" [title]="_TB('Taxable Amount')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TAXABLEAMOUNT">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TAXAMOUNT" columnName="TaxAmount" [title]="_TB('Tax')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TAXAMOUNT">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_ADDTAXAMOUNT" columnName="AdditionalTaxAmount" [title]="_TB('Additional Tax')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_ADDTAXAMOUNT" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_ADDTAXAMOUNT">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TOTALAMOUNT" columnName="TotalAmount" [title]="_TB('Total')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TOTALAMOUNT">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BDY_PRNORI_UNDEDUCTIBLEAMOUNT" columnName="UndeductibleAmount" [title]="_TB('Nondeductible')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_UNDEDUCTIBLEAMOUNT" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_UNDEDUCTIBLEAMOUNT">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_REVERSECHARGE" columnName="NotInReverseCharge" [title]="_TB('Not In Reverse Charge')" columnType="tb-checkbox" columnName="IDC_BDY_PRNORI_REVERSECHARGE" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_REVERSECHARGE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_BDY_PRNORI_NOTES" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_NOTES">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TAXABLEAMOUNTFISCAL" columnName="FiscalTaxableAmt" [title]="_TB('Fiscal Taxable Amount')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TAXABLEAMOUNTFISCAL" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_TAXABLEAMOUNTFISCAL">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_IMPOSFISCAL" columnName="FiscalTaxAmt" [title]="_TB('Fiscal Tax')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_IMPOSFISCAL" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_IMPOSFISCAL">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TOTFISCAL" columnName="FiscalTotalAmt" [title]="_TB('Fiscal Total')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TOTFISCAL" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_TOTFISCAL">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_INDETFISCAL" columnName="FiscalUndeductible" [title]="_TB('Fiscal Nondeductible')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_INDETFISCAL" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_INDETFISCAL">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_BDY_PRNORI_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_BDY_PRNORI_NOTES" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_NOTES">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TAXABLEAMOUNTFISCAL" columnName="FiscalTaxableAmt" [title]="_TB('Fiscal Taxable Amount')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TAXABLEAMOUNTFISCAL" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_TAXABLEAMOUNTFISCAL">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_IMPOSFISCAL" columnName="FiscalTaxAmt" [title]="_TB('Fiscal Tax')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_IMPOSFISCAL" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_IMPOSFISCAL">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_PRNORI_TOTFISCAL" columnName="FiscalTotalAmt" [title]="_TB('Fiscal Total')" columnType="tb-numeric-text-box" columnName="IDC_BDY_PRNORI_TOTFISCAL" *ngIf="eventData?.activation?.IDC_BDY_PRNORI_TOTFISCAL">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('GL Journal')" tbTileAutoFill  isCollapsible="True">
+         <tb-body-edit cmpId="IDC_JE_DETAIL_BOOK_JOURNAL" width="654" [model]="eventData?.model?.GLJournal">
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_BMP_PRNOPERATIONIG" columnName="l_TEnhJEGLDetail_P13" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_BDY_JEGL_BMP_PRNOPERATIONIG" *ngIf="eventData?.activation?.IDC_BDY_JEGL_BMP_PRNOPERATIONIG">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_CODETYPE_ACCOUNT" columnName="l_AccountType" [title]="_TB('Type')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CODETYPE_ACCOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_CUSTSUPP" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CUSTSUPP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_ACCOUNT" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_ACCOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_ACCOUNTDESCRI" columnName="l_TEnhJEGLDetail_P04" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BDY_JEGL_ACCOUNTDESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_CURRENCY" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CURRENCY" *ngIf="eventData?.activation?.IDC_BDY_JEGL_CURRENCY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_SBLCURRENCY" [title]="_TB('Currency')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_SBLCURRENCY" *ngIf="eventData?.activation?.IDC_BDY_JEGL_SBLCURRENCY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_AMOUNTDOCCURR" [title]="_TB('Foreign Currency')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_AMOUNTDOCCURR" *ngIf="eventData?.activation?.IDC_BDY_JEGL_AMOUNTDOCCURR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_JEGL_AMOUNTDOCCURRDEBIT" columnName="l_DebitDocCurrAmount" [title]="_TB('Foreign Curr. Debit')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_AMOUNTDOCCURRDEBIT" *ngIf="eventData?.activation?.IDC_BDY_JEGL_AMOUNTDOCCURRDEBIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_JEGL_AMOUNTDOCCURRCREDIT" columnName="l_CrediDocCurrAmount" [title]="_TB('Foreign Curr. Credit')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_AMOUNTDOCCURRCREDIT" *ngIf="eventData?.activation?.IDC_BDY_JEGL_AMOUNTDOCCURRCREDIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_FIXINGDATE" [title]="_TB('Fixing Date')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_FIXINGDATE" *ngIf="eventData?.activation?.IDC_BDY_JEGL_FIXINGDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_FIXING" [title]="_TB('Fixing')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_FIXING" *ngIf="eventData?.activation?.IDC_BDY_JEGL_FIXING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_DEBITAMOUNT" [title]="_TB('Debit')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_DEBITAMOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_CREDITAMOUNT" [title]="_TB('Credit')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CREDITAMOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_REASON" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_REASON">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_DESCRI_REASON" [title]="_TB('Reason Description')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_DESCRI_REASON">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_NOTES" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_ADJACCOUNT" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_ADJACCOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_ADJACCOUNTDESCRI" [model]="eventData?.model?.HKLAdjAccount?.Description" [title]="_TB('Description')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_ADJACCOUNTDESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_BDY_JEGL_BALANCE" columnName="l_TEnhJEGLDetail_P10" [title]="_TB('Balance')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_BALANCE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_JEGL_VALUEDATE" columnType="tb-body-edit-column" columnName="IDC_JEGL_VALUEDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_BANKCHECKED" [title]="_TB('Checked')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_BANKCHECKED">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_BDY_JEGL_FISCALAMOUNT" columnName="FiscalAmount" [title]="_TB('Fiscal Amount')" columnType="tb-numeric-text-box" columnName="IDC_BDY_JEGL_FISCALAMOUNT" *ngIf="eventData?.activation?.IDC_BDY_JEGL_FISCALAMOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_OFFSETGROUPNO" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_OFFSETGROUPNO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_CODETYPE_AMOUNT" [title]="_TB('Amount Type')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_CODETYPE_AMOUNT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DETAIL_JEGL_MANAGED_IN_ISAUTOMATIC" [title]="_TB('Autom.')" columnType="tb-body-edit-column" columnName="IDC_DETAIL_JEGL_MANAGED_IN_ISAUTOMATIC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BDY_JEGL_IN_CALCULATION_TAX" [title]="_TB('In Tax')" columnType="tb-body-edit-column" columnName="IDC_BDY_JEGL_IN_CALCULATION_TAX" *ngIf="eventData?.activation?.IDC_BDY_JEGL_IN_CALCULATION_TAX">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Other Data')" icon="erp-accountingmore" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Entry Data')" tbTileWide  isCollapsible="True">
+<div class="col col1"><div class="anchored">         <tb-combo [caption]="_TB('Group/Reference No.')" cmpId="IDC_JE_GROUP_CODE" width="34" [model]="eventData?.model?.JESlave?.GroupCode"></tb-combo>
+         <tb-text cmpId="IDC_JE_REFNO" width="55" [model]="eventData?.model?.JESlave?.RefNo"></tb-text>
+</div></div><div class="col col2">         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Value Date')" cmpId="IDC_JE_VALUEDATE" width="57" [model]="eventData?.model?.JESlave?.ValueDate"></tb-date-input>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Other Tax Data')" tbTileWide >
+<div class="col col1">         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Tax Accrual Date')" cmpId="IDC_JE_ACCRUALDATE_TAX" width="57" [model]="eventData?.model?.JournalEntriesTax?.TaxAccrualDate"></tb-date-input>
+         <tb-date-input *ngIf="eventData?.activation?.IDC_JETAX_PLAFONDACCRUALDATE" formatter="Date" [readonly]="false" [caption]="_TB('Plafond Accrual Date')" cmpId="IDC_JETAX_PLAFONDACCRUALDATE" width="57" [model]="eventData?.model?.JournalEntriesTax?.PlafondAccrualDate"></tb-date-input>
+</div><div class="col col2">         <tb-text [caption]="_TB('Notes')" cmpId="IDC_JE_NOTES_TAX" width="154" [model]="eventData?.model?.JournalEntriesTax?.Notes"></tb-text>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Multipurpose Communication')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_JE_TAX_BLACKLIST">
+<div class="col col1"><div class="anchored">         <tb-text [caption]="_TB('Customer/Supplier')" cmpId="IDC_JE_BLACKLIST_CODE" width="80" [model]="eventData?.model?.JournalEntriesTax?.BlackListCustSupp"></tb-text>
+         <tb-label-static cmpId="IDC_JE_BLACKLIST_CODE_DESCRI" width="140" [model]="eventData?.model?.HKLBlackListCustSupp?.CompanyName"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_STATIC_JE_BLACKLIST_CODE" width="98" [caption]="_TB('(for Black List)')"></tb-section-title>
+<div class="anchored">         <tb-checkbox cmpId="IDC_JETAX_CREDITNOTE" width="109" [model]="eventData?.model?.JournalEntriesTax?.CreditNotePreviousPeriod" [caption]="_TB('Previous Year  ')"></tb-checkbox>
+         <tb-section-title cmpId="IDC_STATIC_JETAX_CREDITNOTE" width="124" [caption]="_TB('(Credit Note related to an invoice of the previous year)')"></tb-section-title>
+</div></div><div class="col col2">         <tb-text *ngIf="eventData?.activation?.IDC_JE_BLACKLIST_GROUP" [caption]="_TB('Grouping Code')" cmpId="IDC_JE_BLACKLIST_GROUP" width="80" [model]="eventData?.model?.JournalEntriesTax?.TaxCommunicationGroup"></tb-text>
+<div class="anchored">         <tb-enum-combo *ngIf="eventData?.activation?.IDC_JE_BLACKLIST_OPERATION" [caption]="_TB('Operation type')" cmpId="IDC_JE_BLACKLIST_OPERATION" width="101" [model]="eventData?.model?.JournalEntriesTax?.TaxCommunicationOperation"></tb-enum-combo>
+         <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_OPERATIONCODE2" cmpId="IDC_STATIC_OPERATIONCODE2" width="130" [caption]="_TB('Indicates as this operation must be considered
+for Tax Communication')"></tb-section-title>
+</div></div>        </tb-tile>
+        <tb-tile [title]="_TB('Forecast Data')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_JE_FORECAST">
+<div class="col col1">         <tb-checkbox cmpId="IDC_JE_FORECAST_ISAUTOMATIC" width="109" [model]="eventData?.model?.ForecastData?.Automatic" [caption]="_TB('Generated Automatically  ')"></tb-checkbox>
+<div class="anchored">         <tb-combo [caption]="_TB('Simulation')" cmpId="IDC_JE_FORECAST_CODSIMUL" width="82" [model]="eventData?.model?.ForecastData?.Simulation"></tb-combo>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('on')" cmpId="IDC_JE_FORECAST_DATESIMUL" width="57" [model]="eventData?.model?.ForecastData?.SimulationDate"></tb-date-input>
+</div>         <tb-button [caption]="_TB('Review')" cmpId="IDC_JE_FORECAST_SIMUREVIEW" width="16" [model]="eventData?.model?.SimulationReview"></tb-button>
+         <tb-text [caption]="_TB('Notes')" cmpId="IDC_JE_FORECAST_NOTES" width="154" [model]="eventData?.model?.ForecastData?.Notes"></tb-text>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_DEFDATA_SEPARATOR" width="324" [caption]="_TB('Definitive Transformation Data')"></tb-section-title>
+<div class="anchored">         <tb-checkbox cmpId="IDC_JE_FORECAST_DEBITGINDEF" width="109" [model]="eventData?.model?.ForecastData?.FinalPosting" [caption]="_TB('To be Posted  ')"></tb-checkbox>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Expected Posting Date')" cmpId="IDC_JE_FORECAST_DATEEXPECTEDREGDEF" width="57" [model]="eventData?.model?.ForecastData?.FinalExpectedDate"></tb-date-input>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_JE_FORECAST_REGINDEF" width="109" [model]="eventData?.model?.ForecastData?.FinalPosted" [caption]="_TB('Posted  ')"></tb-checkbox>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Definitive Posting Date')" cmpId="IDC_JE_FORECAST_DATEEFFECTREGDEF" width="57" [model]="eventData?.model?.ForecastData?.FinalPostingDate"></tb-date-input>
+</div>         <tb-button [caption]="_TB('Review')" cmpId="IDC_JE_FORECAST_REVIEW" width="16" [model]="eventData?.model?.Review"></tb-button>
+</div>        </tb-tile>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Sales Records')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_JE_TAX_SALESREC">
+<div class="anchored">          <tb-combo [caption]="_TB('Tax Journal')" cmpId="IDC_PRNOIT_RECEIVED_JOURNAL_TAX_INTRA" width="62" [model]="eventData?.model?.EUAnnotations?.TaxJournal"></tb-combo>
+          <tb-label-static cmpId="IDC_PRNOIT_RECEIVED_DESTAXJOURNALINTRA" width="141" [model]="eventData?.model?.HKLJournalIntrastatTax?.Description"></tb-label-static>
+          <tb-button cmpId="IDC_PRNOIT_BMP_JOURNAL_TAX" width="16" [model]="eventData?.model?.JournalTaxButton"></tb-button>
+</div><div class="anchored">          <tb-label-static cmpId="IDC_PRNOIT_RECEIVED_DESTAXJOURNALINTRA" width="141" [model]="eventData?.model?.HKLJournalIntrastatTax?.Description"></tb-label-static>
+          <tb-button cmpId="IDC_PRNOIT_BMP_JOURNAL_TAX" width="16" [model]="eventData?.model?.JournalTaxButton"></tb-button>
+</div><div class="anchored">          <tb-text [caption]="_TB('Document No.')" cmpId="IDC_PRNOIT_RECEIVED_DOCNO" width="100" [model]="eventData?.model?.EUAnnotations?.DocNo"></tb-text>
+          <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('on')" cmpId="IDC_PRNOIT_RECEIVED_DOCDATE" width="57" [model]="eventData?.model?.JESlave?.PostingDate"></tb-date-input>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('EU Notes Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_JE_TAX_EUNOTES">
+          <tb-text *ngIf="eventData?.activation?.IDC_PRNOIT_RECEIVED_SBLCURRENCY" [caption]="_TB('Currency')" cmpId="IDC_PRNOIT_RECEIVED_SBLCURRENCY" width="68" [model]="eventData?.model?.EUAnnotations?.Currency"></tb-text>
+<div class="anchored">          <tb-combo *ngIf="eventData?.activation?.IDC_PRNOIT_RECEIVED_CURRENCY" [caption]="_TB('Currency')" cmpId="IDC_PRNOIT_RECEIVED_CURRENCY" width="65" [model]="eventData?.model?.EUAnnotations?.Currency"></tb-combo>
+          <tb-label-static *ngIf="eventData?.activation?.IDC_PRNOIT_RECEIVED_DESCURRENCY" cmpId="IDC_PRNOIT_RECEIVED_DESCURRENCY" width="154" [model]="eventData?.model?.HKLCurrDescriptionIntra?.Description"></tb-label-static>
+</div>          <tb-numeric-text-box formatter="Money" [caption]="_TB('Fixing')" cmpId="IDC_PRNOIT_RECEIVED_FIXING" width="68" [model]="eventData?.model?.EUAnnotations?.Fixing"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Total in Foreign Currency')" cmpId="IDC_PRNOIT_RECEIVED_TOTALAMOUNTINCURR" width="68" [model]="eventData?.model?.EUAnnotations?.TotalAmountDocCurr"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('394 Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_JOURNALENTRIES_D394">
+         <tb-numeric-text-box formatter="Long" [caption]="_TB('Number of receipt')" cmpId="IDC_JOURNALENTRIES_D394_RECEIPTNO" width="50" [model]="eventData?.model?.JournalEntriesTax?.D394ReceiptNo"></tb-numeric-text-box>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane [title]="_TB('LinksPanel')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False" *ngIf="eventData?.activation?.IDD_TD_PNL_LINKSPANEL">
+         <tb-body-edit cmpId="IDC_PNL_BE" width="325" [model]="eventData?.model?.DBTLinksTable">
+          <tb-body-edit-column cmpId="IDC_PNL_BE_IMAGE" columnName="Image" [title]="_TB('Image')" columnType="tb-image" columnName="IDC_PNL_BE_IMAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PNL_BE_DESCR" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_PNL_BE_DESCR">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_CROSSREFERENCES_VIEWER_DOCK_PANE" [title]="_TB('CrossReferencesViewer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+         <tb-treeview cmpId="IDC_CROSSREFERENCES_TREEVIEW" width="214" [caption]="_TB('Static')" border="True"></tb-treeview>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane [title]="_TB('SessionData')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Total Inserted Entries')" tbTileStandard >
+         <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Number of Entries')" cmpId="IDC_PRNODS_NO_POSTED" width="40" [model]="eventData?.model?.TotalsNoPostedProgressive"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Debit Total')" cmpId="IDC_PRNODS_TOT_DEBIT" width="68" [model]="eventData?.model?.TotalsDebitTotProgressive"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Credit Total')" cmpId="IDC_PRNODS_TOT_CREDIT" width="68" [model]="eventData?.model?.TotalsCreditTotProgressive"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Last Entry')" tbTileStandard >
+         <tb-label-static [caption]="_TB('Status')" cmpId="IDC_PRNODS_STATUS_OPERATION" width="57" [model]="eventData?.model?.DataJEPrevStrStatusOperation"></tb-label-static>
+         <tb-label-static [caption]="_TB('Template')" cmpId="IDC_PRNODS_TEMPLATE" width="57" [model]="eventData?.model?.DataJEPrevTemplate"></tb-label-static>
+         <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Posting Date')" cmpId="IDC_PRNODS_DATE_REG" width="57" [model]="eventData?.model?.DataJEPrevPostDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Accrual Date')" cmpId="IDC_PRNODS_DATE_ACCRUAL" width="57" [model]="eventData?.model?.DataJEPrevAccrualDate"></tb-date-input>
+         <tb-date-input *ngIf="eventData?.activation?.IDC_PRNODS_DATE_ACCRUAL_TAX" formatter="Date" [readonly]="true" [caption]="_TB('Tax Accrual Date')" cmpId="IDC_PRNODS_DATE_ACCRUAL_TAX" width="57" [model]="eventData?.model?.DataJEPrevAccrualDateTAX"></tb-date-input>
+         <tb-label-static [caption]="_TB('Reference No.')" cmpId="IDC_PRNODS_NO_REF" width="57" [model]="eventData?.model?.DataJEPrevNoReference"></tb-label-static>
+         <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Document Date')" cmpId="IDC_PRNODS_DATE_DOC" width="57" [model]="eventData?.model?.DataJEPrevDocDate"></tb-date-input>
+         <tb-label-static [caption]="_TB('Document No.')" cmpId="IDC_PRNODS_NO_DOC" width="105" [model]="eventData?.model?.DataJEPrevDocNo"></tb-label-static>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Document Total')" cmpId="IDC_PRNODS_TOT_DOC" width="68" [model]="eventData?.model?.DataJEPrevDocTot"></tb-numeric-text-box>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_PRNODS_NO_LOG" [caption]="_TB('Log No.')" cmpId="IDC_PRNODS_NO_LOG" width="57" [model]="eventData?.model?.DataJEPrevLogNo"></tb-label-static>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_JE_AUX_SAVE_TEMPLATE" [disabled]="!eventData?.buttonsState?.ID_JE_AUX_SAVE_TEMPLATE?.enabled" icon="erp-savetemplate" [caption]="_TB('Save Template')" cmpId="ID_JE_AUX_SAVE_TEMPLATE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_JE_AUX_GENERATE_DIFFERENT_NATURE" [disabled]="!eventData?.buttonsState?.ID_JE_AUX_GENERATE_DIFFERENT_NATURE?.enabled" icon="erp-documenttextadd" [caption]="_TB('Generate New Type')" cmpId="ID_JE_AUX_GENERATE_DIFFERENT_NATURE"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

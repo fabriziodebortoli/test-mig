@@ -1,5 +1,5 @@
 import { ComponentService, DocumentComponent, EventDataService, LayoutService } from '@taskbuilder/core';
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams, Http, Response } from '@angular/http';
 
 import { BPMService } from './../bpm.service';
@@ -12,8 +12,11 @@ import { BPMService } from './../bpm.service';
 })
 export class BPMPageComponent extends DocumentComponent implements OnInit {
 
-    constructor(public bpmService: BPMService, eventData: EventDataService) {
-        super(bpmService, eventData, null);
+    constructor(
+        public bpmService: BPMService,
+         eventData: EventDataService,
+         changeDetectorRef:ChangeDetectorRef) {
+        super(bpmService, eventData, null, changeDetectorRef);
     }
 
     ngOnInit() {

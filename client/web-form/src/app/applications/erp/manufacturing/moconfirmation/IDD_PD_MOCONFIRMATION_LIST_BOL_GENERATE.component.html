@@ -1,0 +1,24 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  isCollapsible="False" hasTitle="False">
+        <tb-text [caption]="_TB('Document number')" cmpId="IDC_MOCONFIRMATION_PREPRINTDOCNO_DOCNO" width="62" [model]="eventData?.model?.NrDoc"></tb-text>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Document date')" cmpId="IDC_MOCONFIRMATION_PREPRINTDOCNO_DOCDATE" width="62" [model]="eventData?.model?.DocDate"></tb-date-input>
+        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Returned quantity')" cmpId="IDC_MOCONFIRMATION_LIST_BOL_QTY_FROM_PRODDOC" width="62" [model]="eventData?.model?.DocQty"></tb-numeric-text-box>
+        <tb-enum-combo [caption]="_TB('Item type')" cmpId="IDC_MOCONFIRMATION_PREPRINTDOCNO_REG_CODETYPE_ITEM" width="80" [model]="eventData?.model?.ItemType" [itemSource]="IDC_MOCONFIRMATION_PREPRINTDOCNO_REG_CODETYPE_ITEM_itemSource"></tb-enum-combo>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_MOCONFIRMATION_LIST_BOL_GENERATE_UNDO?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="IDC_MOCONFIRMATION_LIST_BOL_GENERATE_UNDO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_MOCONFIRMATION_LIST_BOL_GENERATE_OK?.enabled" icon="tb-search" [caption]="_TB('Ok')" cmpId="IDC_MOCONFIRMATION_LIST_BOL_GENERATE_OK"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

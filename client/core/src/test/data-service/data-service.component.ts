@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams, Http, Response } from '@angular/http';
 
 import { TestService } from './../test.service';
@@ -31,8 +31,9 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   constructor(public eventData: EventDataService,
     public dataService: DataService,
     public http: Http,
-    public testService: TestService) {
-    super(testService, eventData, null);
+    public testService: TestService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(testService, eventData, null, changeDetectorRef);
   }
 
   ngOnInit() {

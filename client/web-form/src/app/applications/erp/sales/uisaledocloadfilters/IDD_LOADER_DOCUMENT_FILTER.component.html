@@ -1,0 +1,21 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeColumn >
+      <ng-template>
+       <tb-tile [title]="_TB('Filter for Return from Customer')" tbTileMini  hasTitle="True">
+        <tb-text [caption]="_TB('Document No.')" cmpId="IDC_DOC_SELECTIONS_NUMBER_RFC" width="57" [model]="eventData?.model?.RFCFilter"></tb-text>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDOK?.enabled" icon="tb-search" [caption]="_TB('Search')" cmpId="IDOK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDCANCEL?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="IDCANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

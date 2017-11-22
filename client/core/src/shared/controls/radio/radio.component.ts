@@ -1,7 +1,7 @@
 ﻿import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from '../control.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input,ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -15,8 +15,9 @@ export class RadioComponent extends ControlComponent {
 
     constructor(
         layoutService:LayoutService,
-        tbComponentService: TbComponentService
+        tbComponentService: TbComponentService,
+        changeDetectorRef:ChangeDetectorRef
     ) {
-        super(layoutService, tbComponentService)
+        super(layoutService, tbComponentService,changeDetectorRef)
     }
 }

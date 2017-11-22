@@ -1,0 +1,118 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('Filters')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Previous Process')" tbTileMini >
+<div class="anchored">          <tb-radio cmpId="IDC_INVENTORYCORRECTIONENTRY_BACKUP" width="60" [model]="eventData?.model?.Restore" [caption]="_TB('Restore')"></tb-radio>
+          <tb-checkbox cmpId="IDC_INVENTORYCORRECTIONENTRY_SAVE_SETTINGS" width="88" [model]="eventData?.model?.bSaveSettings" [caption]="_TB('Save Processing')"></tb-checkbox>
+</div>          <tb-radio cmpId="IDC_INVENTORYCORRECTIONENTRY_INTEGRATE" width="60" [model]="eventData?.model?.Integrate" [caption]="_TB('Integrate')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_INVENTORYCORRECTIONENTRY_OVERWRITES" width="59" [model]="eventData?.model?.Overwrites" [caption]="_TB('Overwrite')"></tb-radio>
+          <tb-caption cmpId="IDC_STATIC" width="40" [caption]="_TB('Lines saved')"></tb-caption>
+          <tb-numeric-text-box formatter="Long" disabled="true" cmpId="IDC_INVENTORYCORRECTIONENTRY_COUNTER" width="48" [model]="eventData?.model?.LinesSaved"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC" width="40" [caption]="_TB('Lines saved')"></tb-caption>
+          <tb-numeric-text-box formatter="Long" disabled="true" cmpId="IDC_INVENTORYCORRECTIONENTRY_COUNTER" width="48" [model]="eventData?.model?.LinesSaved"></tb-numeric-text-box>
+</div>          <tb-checkbox cmpId="IDC_INVENTORYCORRECTIONENTRY_DISCARD_ITEMS_ALREADY_PRESENT" width="143" [model]="eventData?.model?.bOverwriteItemsAlreadyPresent" [caption]="_TB('Overwrite items already present')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('Restore Lines')" tbTileMini >
+          <tb-checkbox cmpId="IDC_INVENTORYCORRECTIONENTRY_PROCESS_ALL_LINES" width="103" [model]="eventData?.model?.bAllLines" [caption]="_TB('Restore all lines')"></tb-checkbox>
+          <tb-numeric-text-box formatter="Long" [caption]="_TB('From')" cmpId="IDC_INVENTORYCORRECTIONENTRY_FROM_LINE" width="76" [model]="eventData?.model?.FromLine"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Long" [caption]="_TB('To')" cmpId="IDC_INVENTORYCORRECTIONENTRY_TO_LINE" width="76" [model]="eventData?.model?.ToLine"></tb-numeric-text-box>
+         </tb-tile>
+         <tb-tile [title]="_TB('Analyze...')" tbTileMini >
+          <tb-radio cmpId="IDC_INVENTORYCORRECTIONENTRY_ANALYZE_BOOKINVENZE" width="112" [model]="eventData?.model?.bBookInvAnalysis" [caption]="_TB('Book Inventory')"></tb-radio>
+          <tb-radio cmpId="IDC_INVENTORYCORRECTIONENTRY_ANALYZE_ONHAND" width="111" [model]="eventData?.model?.bOnhandAnalysis" [caption]="_TB('On-Hand')"></tb-radio>
+          <tb-checkbox cmpId="IDC_INVENTORYCORRECTIONENTRY_CHECK_EXISTENCE_TO_DATE" width="148" [model]="eventData?.model?.bExistenceToDateCheck" [caption]="_TB('Avalaibility calculation to date...')"></tb-checkbox>
+          <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_INVENTORYCORRECTIONENTRY_EXISTENCE_TO_DATE" width="62" [model]="eventData?.model?.ExistenceToDate"></tb-date-input>
+         </tb-tile>
+         <tb-tile [title]="_TB('Storage')" tbTileMini >
+          <tb-combo [caption]="_TB('Storage')" cmpId="IDC_INVENTORYCORRECTIONENTRY_STORAGE" width="87" [model]="eventData?.model?.Storage"></tb-combo>
+          <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_INVENTORYCORRECTIONENTRY_CODETYPE_SPECIFICATOR" width="72" [model]="eventData?.model?.SpecificatorType" [itemSource]="IDC_INVENTORYCORRECTIONENTRY_CODETYPE_SPECIFICATOR_itemSource"></tb-enum-combo>
+          <tb-text [caption]="_TB('Specificator')" cmpId="IDC_INVENTORYCORRECTIONENTRY_SPECIFICATOR" width="67" [model]="eventData?.model?.Specificator"></tb-text>
+          <tb-checkbox cmpId="IDC_INVENTORYCORRECTIONENTRY_DISPLAY_ONLY_ITEMS_AVALAILABLE" width="160" [model]="eventData?.model?.bDisplayItemsAvailable" [caption]="_TB('Display only items with a positive availability ')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('Lot')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_INV_ADJ_LOT">
+          <tb-radio cmpId="IDC_INVENTORYCORRECTIONENTRY_ALL_LOT" width="65" [model]="eventData?.model?.bAllLot" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_INVENTORYCORRECTIONENTRY_SEL_LOT" width="8" [model]="eventData?.model?.bSelLot"></tb-radio>
+          <tb-text cmpId="IDC_INVENTORYCORRECTIONENTRY_LOT" width="78" [model]="eventData?.model?.Lot"></tb-text>
+</div>         </tb-tile>
+         <tb-radio cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFItems_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFItems_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFItems_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFItems_To"></tb-text>
+        </tb-layoutcontainer>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('Actions')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Operation Data')" tbTileMini >
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Date')" cmpId="IDC_INVENTORYCORRECTIONENTRY_DATE" width="62" [model]="eventData?.model?.OperationDate"></tb-date-input>
+         <tb-checkbox cmpId="IDC_INVENTORYCORRECTIONENTRY_START_REPORT" width="124" [model]="eventData?.model?.bStartReport" [caption]="_TB('Start Report ')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Reasons')" tbTileStandard >
+         <tb-text [caption]="_TB('Negative')" cmpId="IDC_INVENTORYCORRECTIONENTRY_REASON_NEGATIVE" width="78" [model]="eventData?.model?.NegInvRsn"></tb-text>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE" [caption]="_TB('Proposed Unit Value')" cmpId="IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE" width="120" [model]="eventData?.model?.ProposedValue" [itemSource]="IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_itemSource"></tb-enum-combo>
+         <tb-text [caption]="_TB('Positive')" cmpId="IDC_INVENTORYCORRECTIONENTRY_REASON_POSITTAX" width="78" [model]="eventData?.model?.PosInvRsn"></tb-text>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE" [caption]="_TB('Proposed Unit Value')" cmpId="IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE" width="120" [model]="eventData?.model?.ProposedValuePositive" [itemSource]="IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE_itemSource"></tb-enum-combo>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  isCollapsed="False">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="138" [model]="eventData?.model?.InventoryAdjustment">
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_SELECTED" columnName="IsSelected" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_INVENTORYCORRECTIONENTRY_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Long" disabled="true" cmpId="IDC_INVENTORYCORRECTIONENTRY_LINE" columnName="Line" [title]="_TB('Line')" columnType="tb-numeric-text-box" columnName="IDC_INVENTORYCORRECTIONENTRY_LINE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_BITMAP_NOT_EXISTING_ITEM" columnName="InvAdj_NotExistingItemBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_INVENTORYCORRECTIONENTRY_BITMAP_NOT_EXISTING_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_CODE" columnName="Item" [title]="_TB('Item')" columnType="tb-body-edit-column" columnName="IDC_INVENTORYCORRECTIONENTRY_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_DESCRIPTION" [model]="eventData?.model?.HKLItemsBE?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_INVENTORYCORRECTIONENTRY_DESCRIPTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-label-static" columnName="IDC_INVENTORYCORRECTIONENTRY_LOT" *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_LOT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-label-static" columnName="IDC_INVENTORYCORRECTIONENTRY_VARIANT" *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_UNITSOFMEASURE" columnName="BaseUoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_INVENTORYCORRECTIONENTRY_UNITSOFMEASURE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_INVENTORYCORRECTIONENTRY_RESULTQTY" columnName="PreviousQty" [title]="_TB('Resulting Qty')" columnType="tb-numeric-text-box" columnName="IDC_INVENTORYCORRECTIONENTRY_RESULTQTY" *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_RESULTQTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_INVENTORYCORRECTIONENTRY_REALQTY" columnName="ActualQty" [title]="_TB('Actual Qty')" columnType="tb-numeric-text-box" columnName="IDC_INVENTORYCORRECTIONENTRY_REALQTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_INVENTORYCORRECTIONENTRY_DIFFERENCE" columnName="Difference" [title]="_TB('Difference')" columnType="tb-numeric-text-box" columnName="IDC_INVENTORYCORRECTIONENTRY_DIFFERENCE" *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_DIFFERENCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_INVENTORYCORRECTIONENTRY_BITMAPRESULT" columnName="InvAdj_DifferenceBmp" [title]="_TB('+/-')" columnType="tb-image" columnName="IDC_INVENTORYCORRECTIONENTRY_BITMAPRESULT" *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_BITMAPRESULT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_INVENTORYCORRECTIONENTRY_PROPOSED_VALUE" columnName="ProposedValue" [title]="_TB('Unit Value')" columnType="tb-numeric-text-box" columnName="IDC_INVENTORYCORRECTIONENTRY_PROPOSED_VALUE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_INVENTORYCORRECTIONENTRY_PREVIOUS_VALUE" columnName="PreviousValue" [title]="_TB('Resulting Value')" columnType="tb-numeric-text-box" columnName="IDC_INVENTORYCORRECTIONENTRY_PREVIOUS_VALUE" *ngIf="eventData?.activation?.IDC_INVENTORYCORRECTIONENTRY_PREVIOUS_VALUE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_INVENTORYCORRECTIONENTRY_ACTUAL_VALUE" columnName="ActualValue" [title]="_TB('Actual Value')" columnType="tb-numeric-text-box" columnName="IDC_INVENTORYCORRECTIONENTRY_ACTUAL_VALUE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_INVENTORYCORRECTIONENTRY_SAVE_PROCESSING?.enabled" icon="tb-save" [caption]="_TB('Save Processing')" cmpId="ID_INVENTORYCORRECTIONENTRY_SAVE_PROCESSING"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_INVENTORYCORRECTIONENTRY_DELETE_PROCESSING?.enabled" icon="tb-delete" [caption]="_TB('Delete Processing')" cmpId="ID_INVENTORYCORRECTIONENTRY_DELETE_PROCESSING"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_AMTEXPDETAILDOC_ITEMS" [disabled]="!eventData?.buttonsState?.ID_AMTEXPDETAILDOC_ITEMS?.enabled" icon="erp-importline" [caption]="_TB('Import')" cmpId="ID_AMTEXPDETAILDOC_ITEMS"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_CASH_AND_CARRY_IMPORT_FROM_MOBILE?.enabled" icon="erp-mobile" [caption]="_TB('Import Items From Mobile')" cmpId="ID_CASH_AND_CARRY_IMPORT_FROM_MOBILE"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -8,7 +8,7 @@ import { ReportingStudioService } from './../../../reporting-studio.service';
 import { ComboSimpleComponent, TbComponentService } from '@taskbuilder/core';
 
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'rs-ask-dropdownlist',
@@ -23,9 +23,10 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
     public rsService: ReportingStudioService,
     public adService: AskdialogService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
 

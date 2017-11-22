@@ -1,0 +1,24 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileMini  hasTitle="False">
+        <tb-label-static cmpId="IDC_SEPARATOR" width="100"></tb-label-static>
+        <tb-caption cmpId="IDC_STATIC" width="140" [caption]="_TB('An additional charge recalculation
+ is required!
+Select one of the available options')"></tb-caption>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ADD_CH_UPDATEBOX_AUTO?.enabled" icon="tb-execute" [caption]="_TB('Automatic')" cmpId="ID_ADD_CH_UPDATEBOX_AUTO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ADD_CH_UPDATEBOX_MAN?.enabled" icon="tb-edit" [caption]="_TB('Manual')" cmpId="ID_ADD_CH_UPDATEBOX_MAN"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

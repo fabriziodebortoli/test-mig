@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input,ChangeDetectorRef } from '@angular/core';
 import { ControlComponent } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { TbComponentService } from '@taskbuilder/core';
@@ -22,9 +22,10 @@ export class NoSpacesEditComponent extends ControlComponent {
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef,
     private store: Store
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
   ngOnInit() {
     // maxLength is an optional parameter, i may not have to use it.

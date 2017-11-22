@@ -1,0 +1,35 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeColumn >
+      <ng-template>
+       <tb-tile [title]="_TB('Zone')" tbTileMini  isCollapsible="False" hasTitle="True">
+        <tb-radio cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ZONEALL" width="30" [model]="eventData?.model?.bAllZone" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">        <tb-radio cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ZONESELECTION" width="35" [model]="eventData?.model?.bSelZone" [caption]="_TB('From')"></tb-radio>
+        <tb-combo cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ZONEFROM" width="71" [model]="eventData?.model?.FromZone"></tb-combo>
+</div>        <tb-combo [caption]="_TB('To')" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ZONETO" width="71" [model]="eventData?.model?.ToZone"></tb-combo>
+        <tb-checkbox cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ISZONEDATE" width="154" [model]="eventData?.model?.bOnlyZoneNotInventoriedFrom" [caption]="_TB('Only Zones not inventoried since')"></tb-checkbox>
+        <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ZONEDATE" width="57" [model]="eventData?.model?.ZoneNotInventoriedFromDate"></tb-date-input>
+       </tb-tile>
+       <tb-tile [title]="_TB('Bin')" tbTileMini  isCollapsible="False" hasTitle="True">
+        <tb-radio cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_BINALL" width="30" [model]="eventData?.model?.bAllBin" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">        <tb-radio cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_BINSELECTION" width="35" [model]="eventData?.model?.bSelBin" [caption]="_TB('From')"></tb-radio>
+        <tb-text cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_BINFROM" width="71" [model]="eventData?.model?.FromBin"></tb-text>
+</div>        <tb-text [caption]="_TB('To')" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_BINTO" width="71" [model]="eventData?.model?.ToBin"></tb-text>
+        <tb-checkbox cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ONLYSUSPECTBIN" width="127" [model]="eventData?.model?.bOnlySuspectBin" [caption]="_TB('Only Suspect Bins')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_ISBIN" width="142" [model]="eventData?.model?.bOnlyBinNotInventoriedFrom" [caption]="_TB('Only Bins not inventoried since')"></tb-checkbox>
+        <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_BINDATE" width="57" [model]="eventData?.model?.BinNotInventoriedFromDate"></tb-date-input>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_FILTER?.enabled" icon="tb-select" [caption]="_TB('Select')" cmpId="ID_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_FILTER"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_END?.enabled" icon="tb-cancel" [caption]="_TB('Cancel')" cmpId="ID_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTION_END"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

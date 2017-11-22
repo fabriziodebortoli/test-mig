@@ -1,0 +1,35 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Session Data')" tbTileWide >
+<div class="col col1">        <tb-combo [caption]="_TB('Cash')" cmpId="IDC_PURCH_DOC_CASH_CASH" width="60" [model]="eventData?.model?.Cash" [itemSource]="IDC_PURCH_DOC_CASH_CASH_itemSource"></tb-combo>
+        <tb-label-static [caption]="_TB('Session')" cmpId="IDC_PURCH_DOC_CASH_SESSION" width="60" [model]="eventData?.model?.SessionNo"></tb-label-static>
+        <tb-label-static [caption]="_TB('Reason')" cmpId="IDC_PURCH_DOC_CASH_REASON" width="50" [model]="eventData?.model?.CashReason"></tb-label-static>
+</div><div class="col col2">        <tb-combo [caption]="_TB('Stub Book')" cmpId="IDC_PURCH_DOC_CASH_STUBBOOK" width="60" [model]="eventData?.model?.CashStubBook" [itemSource]="IDC_PURCH_DOC_CASH_STUBBOOK_itemSource"></tb-combo>
+        <tb-text [caption]="_TB('Document No.')" cmpId="IDC_PURCH_DOC_CASH_DOCNO" width="69" [model]="eventData?.model?.CashDocNo"></tb-text>
+        <tb-checkbox cmpId="IDC_PURCH_DOC_CASH_PRINT" width="109" [model]="eventData?.model?.bAutoPrint" [caption]="_TB('Print  ')"></tb-checkbox>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Payment Data')" tbTileWide >
+<div class="col col1">        <tb-label-static [caption]="_TB('Currency')" cmpId="IDC_PURCH_DOC_CASH_CURRENCY" width="50" [model]="eventData?.model?.CashCurrency"></tb-label-static>
+        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total to Be Paid')" cmpId="IDC_PURCH_DOC_CASH_TOTAL" width="84" [model]="eventData?.model?.CashTotal"></tb-numeric-text-box>
+        <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_PURCH_DOC_CASH_TOTAL_ROUNDED" formatter="Money" disabled="true" [caption]="_TB('Total to Be Paid Rounded')" cmpId="IDC_PURCH_DOC_CASH_TOTAL_ROUNDED" width="84" [model]="eventData?.model?.CashTotalRounded"></tb-numeric-text-box>
+</div><div class="col col2"><div class="anchored">        <tb-numeric-text-box formatter="Money" [caption]="_TB('Paid Amount')" cmpId="IDC_PURCH_DOC_CASH_AMOUNT" width="84" [model]="eventData?.model?.CashAmount"></tb-numeric-text-box>
+        <tb-checkbox cmpId="IDC_PURCH_DOC_CASH_CLOSED" width="84" [model]="eventData?.model?.CashClosed" [caption]="_TB('Closed  ')"></tb-checkbox>
+</div><div class="anchored">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Change')" cmpId="IDC_PURCH_DOC_CASH_CHANGE" width="84" [model]="eventData?.model?.CashChange"></tb-numeric-text-box>
+        <tb-checkbox cmpId="IDC_PURCH_DOC_CASH_ROUND_CHANGE" width="84" [model]="eventData?.model?.CashRoundChange" [caption]="_TB('Rounding Up  ')"></tb-checkbox>
+</div></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PD_PURCH_DOC_CASH_TOOLBAR_OK?.enabled" icon="tb-ok" [caption]="_TB('Ok')" cmpId="ID_PD_PURCH_DOC_CASH_TOOLBAR_OK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PD_PURCH_DOC_CASH_TOOLBAR_CANCEL?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="ID_PD_PURCH_DOC_CASH_TOOLBAR_CANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

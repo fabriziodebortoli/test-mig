@@ -1,0 +1,42 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Import / Export Items')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_IMPORTEXPORT_DETAILDOC_ITEMS_FILE_NAME">
+       <ng-template>
+        <tb-tile [title]="_TB('Import / Export Items')" tbTileStandard  hasTitle="False">
+         <tb-text [caption]="_TB('File name')" cmpId="IDC_IMPORTEXPORT_DETAILDOC_NAME_FILE" width="219" [model]="eventData?.model?.ImportExportFileName"></tb-text>
+         <tb-caption cmpId="IDC_IMPORTEXPORT_DETAILDOC_PROGRESS" width="587" [model]="eventData?.model?.ImportExportnCurrentElement"></tb-caption>
+         <tb-section-title cmpId="IDC_IMPORTEXPORT_DETAILDOC_STATUS" width="587"></tb-section-title>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Parameters')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_IMPORTEXPORT_DETAILDOC_ITEMS_PARAMETERS">
+       <ng-template>
+        <tb-tile [title]="_TB('Parameters')" tbTileStandard  hasTitle="False">
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Import Notes')" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_IMPORTEXPORT_DETAILDOC_NOTES_FILE_NAME">
+       <ng-template>
+        <tb-tile [title]="_TB('Import / Export Notes')" tbTileStandard  hasTitle="False">
+         <tb-text [caption]="_TB('File name')" cmpId="IDC_IMPORTEXPORT_DETAILDOC_NAME_FILE" width="219" [model]="eventData?.model?.ImportExportNotesFileName"></tb-text>
+         <tb-caption cmpId="IDC_IMPORTEXPORT_DETAILDOC_PROGRESS" width="587" [model]="eventData?.model?.ImportExportnCurrentElement"></tb-caption>
+         <tb-section-title cmpId="IDC_IMPORTEXPORT_DETAILDOC_STATUS" width="587"></tb-section-title>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_ALWAYS_ON_FRONT?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Pin')" cmpId="ID_BSP_ALWAYS_ON_FRONT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_SWITCH_TO_CALLER?.enabled" icon="tb-back" [caption]="_TB('Back')" cmpId="ID_BSP_SWITCH_TO_CALLER"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_IMPORTEXPORT_DETAILDOC_IMPORT?.enabled" icon="erp-importline" [caption]="_TB('Import')" cmpId="ID_IMPORTEXPORT_DETAILDOC_IMPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_IMPORTEXPORT_DETAILDOC_EXPORT?.enabled" icon="erp-exportline" [caption]="_TB('Export')" cmpId="ID_IMPORTEXPORT_DETAILDOC_EXPORT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

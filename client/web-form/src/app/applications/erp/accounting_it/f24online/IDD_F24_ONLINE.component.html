@@ -1,0 +1,307 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Choose an option')" tbTileWide >
+<div class="col col1">        <tb-radio cmpId="IDC_F24_ONLINE_FIRST_NEW" width="90" [model]="eventData?.model?.New" [caption]="_TB('Create a new F24')"></tb-radio>
+        <tb-checkbox *ngIf="eventData?.activation?.IDC_F24_ONLINE_FIRST_FEES" cmpId="IDC_F24_ONLINE_FIRST_FEES" width="210" [model]="eventData?.model?.ExtractFees" [caption]="_TB('Extract data from fees')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_FIRST_PRINT_TAX" width="210" [model]="eventData?.model?.Activate_Tax" [caption]="_TB('Print the TAX Section')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_FIRST_PRINT_INPS" width="210" [model]="eventData?.model?.Activate_INPS" [caption]="_TB('Print the INPS Section')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_FIRST_PRINT_DISTRICT" [model]="eventData?.model?.Activate_District" [caption]="_TB('Print the REGION Section')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_FIRST_PRINT_IMU" width="210" [model]="eventData?.model?.Activate_IMU" [caption]="_TB('Print the IMU Section')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_FIRST_PRINT_INAIL" width="210" [model]="eventData?.model?.Activate_INAIL" [caption]="_TB('Print the INAIL Section')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_FIRST_PRINT_OTHER" width="210" [model]="eventData?.model?.Activate_Other" [caption]="_TB('Print the OTHER Section')"></tb-checkbox>
+        <tb-radio cmpId="IDC_F24_ONLINE_FIRST_SEARCH" width="90" [model]="eventData?.model?.Search" [caption]="_TB('Open an old F24')"></tb-radio>
+        <tb-checkbox *ngIf="eventData?.activation?.IDC_F24_ONLINE_FIRST_FEES2" cmpId="IDC_F24_ONLINE_FIRST_FEES2" width="210" [model]="eventData?.model?.ExtractFees2" [caption]="_TB('Extract data from fees (if re-extract the data)')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_FIRST_CBI" width="210" [model]="eventData?.model?.ReadCBI" [caption]="_TB('Read a CBI file')"></tb-checkbox>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeColumn >
+      <ng-template>
+       <tb-tile [title]="_TB('General data')" tbTileStandard >
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Payment Date')" cmpId="IDC_F24_ONLINE_DATE_RESERVE" width="57" [model]="eventData?.model?.PaymentDate"></tb-date-input>
+<div class="anchored">        <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Accrual month')" cmpId="IDC_F24_ONLINE_MONTH" width="21" [model]="eventData?.model?.AccrualMonth"></tb-numeric-text-box>
+        <tb-label-static cmpId="IDC_F24_ONLINE_MONTHDESCRI" width="75" [model]="eventData?.model?.AccrualMonthDescri"></tb-label-static>
+</div>        <tb-text [caption]="_TB('User Field')" cmpId="IDC_F24_ONLINE_FIELD_USER" width="130" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P49"></tb-text>
+        <tb-text *ngIf="eventData?.activation?.IDC_F24_ONLINE_BANKINTERNET" [caption]="_TB('Internet address')" cmpId="IDC_F24_ONLINE_BANKINTERNET" width="190" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P40"></tb-text>
+        <tb-text [caption]="_TB('Second debtor code')" cmpId="IDC_F24_ONLINE_BANK_SECOND_TYPE" width="26" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P50"></tb-text>
+<div class="anchored">        <tb-text [caption]="_TB('Second debtor Fiscal Code')" cmpId="IDC_F24_ONLINE_BANK_SECOND_FC" width="86" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P51"></tb-text>
+        <tb-section-title cmpId="IDC_STATIC_HEIR" width="96" [caption]="_TB('(Heir/Liquidator)')"></tb-section-title>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Bank')" tbTileStandard >
+        <tb-caption cmpId="IDC_STATIC_1" width="320" [caption]="_TB('Bank data are not necessary if F24 is sent using the finance site.')"></tb-caption>
+        <tb-caption cmpId="IDC_STATIC_2" width="320" [caption]="_TB('All bank data are necessary if the F24 is sent using the Bank site (CBI).')"></tb-caption>
+        <tb-combo [caption]="_TB('Company Bank for payment (passive bank)')" cmpId="IDC_F24_ONLINE_BANK" width="62" [model]="eventData?.model?.CompanyBank"></tb-combo>
+        <tb-label-static cmpId="IDC_F24_ONLINE_BANKDESCRI" width="190" [model]="eventData?.model?.HKLCompanyBank?.Description"></tb-label-static>
+        <tb-text [caption]="_TB('Payments CAs')" cmpId="IDC_F24_ONLINE_BANKCAS" width="93" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P47"></tb-text>
+<div class="anchored">        <tb-text [caption]="_TB('Transmitter Code')" cmpId="IDC_F24_ONLINE_VEICOLATORE" width="37" [model]="eventData?.model?.Veicolatore"></tb-text>
+        <tb-section-title cmpId="IDC_STATIC_VEICOLATORE" width="134" [caption]="_TB('(only if required by the bank)')"></tb-section-title>
+</div><div class="anchored">        <tb-combo [caption]="_TB('Proposing Bank')" cmpId="IDC_F24_ONLINE_BANK_ACTIVE" width="62" [model]="eventData?.model?.CompanyBankActive"></tb-combo>
+        <tb-section-title cmpId="IDC_STATIC_BANK" width="134" [caption]="_TB('(only if different from passive bank)')"></tb-section-title>
+</div>        <tb-label-static cmpId="IDC_F24_ONLINE_BANKDESCRI_ACTIVE" width="190" [model]="eventData?.model?.HKLCompanyBankActive?.Description"></tb-label-static>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Supplier')" tbTileWide >
+<div class="col col1">        <tb-label-static [caption]="_TB('Supplier Type')" cmpId="IDC_F24_ONLINE_SUPP_TYPE" width="31" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P01"></tb-label-static>
+        <tb-label-static [caption]="_TB('Fiscal Code')" cmpId="IDC_F24_ONLINE_SUPP_FISCALCODE" width="86" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P02"></tb-label-static>
+        <tb-section-title cmpId="IDC_STATIC_LINE_F24_SUP_COMPANY" width="327" [caption]="_TB('Data for company')"></tb-section-title>
+        <tb-label-static [caption]="_TB('Company Name')" cmpId="IDC_F24_ONLINE_SUPP_COMPANYNAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P13"></tb-label-static>
+        <tb-label-static [caption]="_TB('Address')" cmpId="IDC_F24_ONLINE_SUPP_STREET_SF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P16"></tb-label-static>
+        <tb-label-static [caption]="_TB('Municipality')" cmpId="IDC_F24_ONLINE_SUPP_MUNICIPALITY_SF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P14"></tb-label-static>
+        <tb-label-static [caption]="_TB('County')" cmpId="IDC_F24_ONLINE_SUPP_COUNTY_SF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P15"></tb-label-static>
+        <tb-label-static [caption]="_TB('ZIP Code')" cmpId="IDC_F24_ONLINE_SUPP_ZIPCODE_SF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P17"></tb-label-static>
+</div><div class="col col2">        <tb-section-title cmpId="IDC_STATIC_LINE_F24_SUP_PERSON" width="327" [caption]="_TB('Data for natural person')"></tb-section-title>
+        <tb-label-static [caption]="_TB('Surname')" cmpId="IDC_F24_ONLINE_SUPP_LASTNAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P03"></tb-label-static>
+        <tb-label-static [caption]="_TB('Name')" cmpId="IDC_F24_ONLINE_SUPP_NAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P04"></tb-label-static>
+        <tb-label-static [caption]="_TB('Municipality of Birth')" cmpId="IDC_F24_ONLINE_SUPP_MUNICIPALITY_BIRTH" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P07"></tb-label-static>
+        <tb-label-static [caption]="_TB('County')" cmpId="IDC_F24_ONLINE_SUPP_COUNTY_BIRTH" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P08"></tb-label-static>
+        <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Date of Birth')" cmpId="IDC_F24_ONLINE_SUPP_DATE_BIRTH" width="57" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P06"></tb-date-input>
+        <tb-label-static [caption]="_TB('Gender')" cmpId="IDC_F24_ONLINE_SUPP_GENDER" width="20" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P05"></tb-label-static>
+        <tb-label-static [caption]="_TB('Address')" cmpId="IDC_F24_ONLINE_SUPP_STREET_DF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P11"></tb-label-static>
+        <tb-label-static [caption]="_TB('Municipality')" cmpId="IDC_F24_ONLINE_SUPP_MUNICIPALITY_DF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P09"></tb-label-static>
+        <tb-label-static [caption]="_TB('County')" cmpId="IDC_F24_ONLINE_SUPP_COUNTY_DF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P10"></tb-label-static>
+        <tb-label-static [caption]="_TB('ZIP Code')" cmpId="IDC_F24_ONLINE_SUPP_ZIPCODE_DF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P12"></tb-label-static>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Taxpayer')" tbTileWide >
+<div class="col col1">        <tb-label-static [caption]="_TB('Fiscal Code')" cmpId="IDC_F24_ONLINE_TAXP_FISCALCODE" width="86" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P60"></tb-label-static>
+        <tb-label-static [caption]="_TB('Phone, prefix and number')" cmpId="IDC_F24_ONLINE_TAXP_PHONE" width="86" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P73"></tb-label-static>
+        <tb-label-static [caption]="_TB('Address')" cmpId="IDC_F24_ONLINE_TAXP_STREET_DF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P71"></tb-label-static>
+        <tb-label-static [caption]="_TB('Municipality')" cmpId="IDC_F24_ONLINE_TAXP_MUNICIPALITY_DF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P69"></tb-label-static>
+        <tb-label-static [caption]="_TB('County')" cmpId="IDC_F24_ONLINE_TAXP_COUNTY_DF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P70"></tb-label-static>
+        <tb-label-static [caption]="_TB('ZIP Code')" cmpId="IDC_F24_ONLINE_TAXP_ZIPCODE_DF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P72"></tb-label-static>
+        <tb-section-title cmpId="IDC_STATIC_LINE_F24_TAX_COMPANY" width="327" [caption]="_TB('Data for company')"></tb-section-title>
+        <tb-label-static [caption]="_TB('Company Name')" cmpId="IDC_F24_ONLINE_TAXP_COMPANYNAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P62"></tb-label-static>
+</div><div class="col col2">        <tb-section-title cmpId="IDC_STATIC_LINE_F24_TAX_PERSON" width="327" [caption]="_TB('Data for natural person')"></tb-section-title>
+        <tb-label-static [caption]="_TB('Surname')" cmpId="IDC_F24_ONLINE_TAXP_LASTNAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P63"></tb-label-static>
+        <tb-label-static [caption]="_TB('Name')" cmpId="IDC_F24_ONLINE_TAXP_NAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P64"></tb-label-static>
+        <tb-label-static [caption]="_TB('Municipality of Birth')" cmpId="IDC_F24_ONLINE_TAXP_MUNICIPALITY_BIRTH" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P65"></tb-label-static>
+        <tb-label-static [caption]="_TB('County')" cmpId="IDC_F24_ONLINE_TAXP_COUNTY_BIRTH" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P66"></tb-label-static>
+        <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Date of Birth')" cmpId="IDC_F24_ONLINE_TAXP_DATE_BIRTH" width="57" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P67"></tb-date-input>
+        <tb-label-static [caption]="_TB('Gender')" cmpId="IDC_F24_ONLINE_TAXP_GENDER" width="20" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P68"></tb-label-static>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Signer, if different from Taxpayer')" tbTileWide >
+<div class="col col1">        <tb-label-static [caption]="_TB('Fiscal Code')" cmpId="IDC_F24_ONLINE_SIGN_FISCALCODE" width="86" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P21"></tb-label-static>
+        <tb-label-static [caption]="_TB('Surname')" cmpId="IDC_F24_ONLINE_SIGN_LASTNAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P23"></tb-label-static>
+        <tb-label-static [caption]="_TB('Name')" cmpId="IDC_F24_ONLINE_SIGN_NAME" width="170" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P22"></tb-label-static>
+        <tb-label-static [caption]="_TB('Municipality of Birth')" cmpId="IDC_F24_ONLINE_SIGN_MUNICIPALITY_BIRTH" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P24"></tb-label-static>
+        <tb-label-static [caption]="_TB('County')" cmpId="IDC_F24_ONLINE_SIGN_COUNTY_BIRTH" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P25"></tb-label-static>
+        <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Date of Birth')" cmpId="IDC_F24_ONLINE_SIGN_DATE_BIRTH" width="57" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P26"></tb-date-input>
+</div><div class="col col2">        <tb-label-static [caption]="_TB('Gender')" cmpId="IDC_F24_ONLINE_SIGN_GENDER" width="20" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P27"></tb-label-static>
+        <tb-label-static [caption]="_TB('Address')" cmpId="IDC_F24_ONLINE_SIGN_STREET_DF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P30"></tb-label-static>
+        <tb-label-static [caption]="_TB('Municipality')" cmpId="IDC_F24_ONLINE_SIGN_MUNICIPALITY_DF" width="210" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P28"></tb-label-static>
+        <tb-label-static [caption]="_TB('County')" cmpId="IDC_F24_ONLINE_SIGN_COUNTY_DF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P29"></tb-label-static>
+        <tb-label-static [caption]="_TB('ZIP Code')" cmpId="IDC_F24_ONLINE_SIGN_ZIPCODE_DF" width="40" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P31"></tb-label-static>
+</div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Withholding Tax and Tax Section')" tbTileWide >
+<div class="col col1">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Balance')" cmpId="IDC_F24_ONLINE_TAX_BALANCE" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P80"></tb-numeric-text-box>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_F24_ONLINE_TAX_BODY" width="399" [model]="eventData?.model?.TaxDetail">
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_TAX_CODE" columnName="l_TEnhTAX_P01" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_F24_ONLINE_TAX_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_TAX_INST" columnName="l_TEnhTAX_P02" [title]="_TB('Instalments')" columnType="tb-text" columnName="IDC_F24_ONLINE_TAX_INST">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_F24_ONLINE_TAX_YEAR" columnName="l_TEnhTAX_P03" [title]="_TB('Year YYYY')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_TAX_YEAR">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_TAX_D" columnName="l_TEnhTAX_P06" [title]="_TB('Debit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_TAX_D">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_TAX_C" columnName="l_TEnhTAX_P07" [title]="_TB('Credit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_TAX_C">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_TAX_OFF" columnName="l_TEnhTAX_P04" [title]="_TB('Office Code')" columnType="tb-text" columnName="IDC_F24_ONLINE_TAX_OFF">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_TAX_ACT" columnName="l_TEnhTAX_P05" [title]="_TB('Act Code')" columnType="tb-text" columnName="IDC_F24_ONLINE_TAX_ACT">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('INPS Section')" tbTileWide >
+<div class="col col1">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Balance')" cmpId="IDC_F24_ONLINE_INPS_BALANCE" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P83"></tb-numeric-text-box>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_F24_ONLINE_INPS_BODY" width="399" [model]="eventData?.model?.INPSDetail">
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INPS_INPS" columnName="l_TEnhINPS_P01" [title]="_TB('Branch')" columnType="tb-text" columnName="IDC_F24_ONLINE_INPS_INPS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INPS_CODE" columnName="l_TEnhINPS_P02" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_F24_ONLINE_INPS_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INPS_MATRIC" columnName="l_TEnhINPS_P03" [title]="_TB('Matricula')" columnType="tb-text" columnName="IDC_F24_ONLINE_INPS_MATRIC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INPS_FROM" columnName="l_TEnhINPS_P04" [title]="_TB('From MMYYYY')" columnType="tb-text" columnName="IDC_F24_ONLINE_INPS_FROM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INPS_TO" columnName="l_TEnhINPS_P05" [title]="_TB('To MMYYYY')" columnType="tb-text" columnName="IDC_F24_ONLINE_INPS_TO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_INPS_D" columnName="l_TEnhINPS_P06" [title]="_TB('Debit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_INPS_D">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_INPS_C" columnName="l_TEnhINPS_P07" [title]="_TB('Credit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_INPS_C">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Regions Section')" tbTileWide >
+<div class="col col1">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Balance')" cmpId="IDC_F24_ONLINE_DISTRICTS_BALANCE" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P86"></tb-numeric-text-box>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_F24_ONLINE_DISTRICTS_BODY" width="399" [model]="eventData?.model?.DistrictsDetail">
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_DISTRICTS_DIST" columnName="l_TEnhDISTRICTS_P01" [title]="_TB('Region')" columnType="tb-text" columnName="IDC_F24_ONLINE_DISTRICTS_DIST">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_DISTRICTS_CODE" columnName="l_TEnhDISTRICTS_P02" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_F24_ONLINE_DISTRICTS_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_DISTRICTS_INST" columnName="l_TEnhDISTRICTS_P03" [title]="_TB('Instalments')" columnType="tb-text" columnName="IDC_F24_ONLINE_DISTRICTS_INST">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_F24_ONLINE_DISTRICTS_YEAR" columnName="l_TEnhDISTRICTS_P04" [title]="_TB('Year YYYY')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_DISTRICTS_YEAR">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_DISTRICTS_D" columnName="l_TEnhDISTRICTS_P05" [title]="_TB('Debit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_DISTRICTS_D">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_DISTRICTS_C" columnName="l_TEnhDISTRICTS_P06" [title]="_TB('Credit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_DISTRICTS_C">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('IMU Section')" tbTileWide >
+<div class="col col1">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Balance')" cmpId="IDC_F24_ONLINE_IMU_BALANCE" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P89"></tb-numeric-text-box>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_F24_ONLINE_IMU_BODY" width="399" [model]="eventData?.model?.IMUDetail">
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_COUNTY" columnName="l_TEnhICI_P01" [title]="_TB('Municipality')" columnType="tb-text" columnName="IDC_F24_ONLINE_IMU_COUNTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_FR" columnName="l_TEnhICI_P02" [title]="_TB('Renunciation')" columnType="tb-checkbox" columnName="IDC_F24_ONLINE_IMU_FR">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_FI" columnName="l_TEnhICI_P03" [title]="_TB('Variation')" columnType="tb-checkbox" columnName="IDC_F24_ONLINE_IMU_FI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_FA" columnName="l_TEnhICI_P04" [title]="_TB('Advance')" columnType="tb-checkbox" columnName="IDC_F24_ONLINE_IMU_FA">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_FS" columnName="l_TEnhICI_P05" [title]="_TB('Balance')" columnType="tb-checkbox" columnName="IDC_F24_ONLINE_IMU_FS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_NUMBER" columnName="l_TEnhICI_P06" [title]="_TB('No. Buildings')" columnType="tb-text" columnName="IDC_F24_ONLINE_IMU_NUMBER">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_IMU_DEDUCTION" columnName="l_TEnhICI_P07" [title]="_TB('Deduction')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_IMU_DEDUCTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_CODE" columnName="l_TEnhICI_P08" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_F24_ONLINE_IMU_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_INST" columnName="l_TEnhICI_P09" [title]="_TB('Instalments')" columnType="tb-text" columnName="IDC_F24_ONLINE_IMU_INST">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_F24_ONLINE_IMU_YEAR" columnName="l_TEnhICI_P10" [title]="_TB('Year YYYY')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_IMU_YEAR">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_IMU_D" columnName="l_TEnhICI_P11" [title]="_TB('Debit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_IMU_D">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_IMU_C" columnName="l_TEnhICI_P12" [title]="_TB('Credit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_IMU_C">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_IMU_OPERATIONID" columnName="l_TEnhICI_P13" [title]="_TB('Operation Id')" columnType="tb-text" columnName="IDC_F24_ONLINE_IMU_OPERATIONID">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('INAIL Section')" tbTileWide >
+<div class="col col1">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Balance')" cmpId="IDC_F24_ONLINE_INAIL_BALANCE" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P92"></tb-numeric-text-box>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_F24_ONLINE_INAIL_BODY" width="399" [model]="eventData?.model?.INAILDetail">
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INAIL_INAIL" columnName="l_TEnhINAIL_P01" [title]="_TB('Office Code')" columnType="tb-text" columnName="IDC_F24_ONLINE_INAIL_INAIL">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INAIL_POS" columnName="l_TEnhINAIL_P02" [title]="_TB('Company code')" columnType="tb-text" columnName="IDC_F24_ONLINE_INAIL_POS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INAIL_PA" columnName="l_TEnhINAIL_P03" [title]="_TB('Code C.')" columnType="tb-text" columnName="IDC_F24_ONLINE_INAIL_PA">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INAIL_NUMBER" columnName="l_TEnhINAIL_P04" [title]="_TB('Ref.Number')" columnType="tb-text" columnName="IDC_F24_ONLINE_INAIL_NUMBER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_INAIL_REASON" columnName="l_TEnhINAIL_P05" [title]="_TB('Reason')" columnType="tb-text" columnName="IDC_F24_ONLINE_INAIL_REASON">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_INAIL_D" columnName="l_TEnhINAIL_P06" [title]="_TB('Debit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_INAIL_D">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_INAIL_C" columnName="l_TEnhINAIL_P07" [title]="_TB('Credit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_INAIL_C">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Other Government body Section')" tbTileWide >
+<div class="col col1">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Balance')" cmpId="IDC_F24_ONLINE_OTHER_BALANCE" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P95"></tb-numeric-text-box>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_F24_ONLINE_OTHER_BODY" width="399" [model]="eventData?.model?.OtherDetail">
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_OTHER_OTHER" columnName="l_TEnhOTHER_P01" [title]="_TB('Other Government')" columnType="tb-text" columnName="IDC_F24_ONLINE_OTHER_OTHER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_OTHER_OFFICE" columnName="l_TEnhOTHER_P02" [title]="_TB('Branch Code')" columnType="tb-text" columnName="IDC_F24_ONLINE_OTHER_OFFICE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_OTHER_CODE" columnName="l_TEnhOTHER_P03" [title]="_TB('Tax Code')" columnType="tb-combo" columnName="IDC_F24_ONLINE_OTHER_CODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_OTHER_PA" columnName="l_TEnhOTHER_P04" [title]="_TB('Code AP')" columnType="tb-text" columnName="IDC_F24_ONLINE_OTHER_PA">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_OTHER_FROM" columnName="l_TEnhOTHER_P05" [title]="_TB('From MMYYYY')" columnType="tb-text" columnName="IDC_F24_ONLINE_OTHER_FROM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_F24_ONLINE_OTHER_TO" columnName="l_TEnhOTHER_P06" [title]="_TB('To MMYYYY')" columnType="tb-text" columnName="IDC_F24_ONLINE_OTHER_TO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_OTHER_D" columnName="l_TEnhOTHER_P07" [title]="_TB('Debit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_OTHER_D">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_F24_ONLINE_OTHER_C" columnName="l_TEnhOTHER_P08" [title]="_TB('Credit Amount')" columnType="tb-numeric-text-box" columnName="IDC_F24_ONLINE_OTHER_C">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Totals of all F24 forms')" tbTileWide >
+<div class="col col1">        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total of TAX section')" cmpId="IDC_F24_ONLINE_TOTAL_TAX" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P80"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total of INPS section')" cmpId="IDC_F24_ONLINE_TOTAL_INPS" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P83"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total of Regions section')" cmpId="IDC_F24_ONLINE_TOTAL_DISTRICTS" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P86"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total of IMU section')" cmpId="IDC_F24_ONLINE_TOTAL_IMU" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P89"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total of INAIL  section')" cmpId="IDC_F24_ONLINE_TOTAL_INAIL" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P92"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total of Other section')" cmpId="IDC_F24_ONLINE_TOTAL_ENPALS" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P95"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total amount due')" cmpId="IDC_F24_ONLINE_TOTAL_DUE" width="84" [model]="eventData?.model?.PersonalData?.l_TEnhPersonalData_P98"></tb-numeric-text-box>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Fees')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_F24_ONLINE_LAST_FEES">
+<div class="col col1">        <tb-checkbox cmpId="IDC_F24_ONLINE_TOTAL_FEES" width="120" [model]="eventData?.model?.UpdateFees" [caption]="_TB('Update fees  ')"></tb-checkbox>
+        <tb-text [caption]="_TB('Payment method')" cmpId="IDC_F24_ONLINE_TOTALS_FEESDESCR" width="201" [model]="eventData?.model?.UpdateFeesDescri"></tb-text>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('File')" tbTileWide >
+<div class="col col1">        <tb-text [caption]="_TB('Filename')" cmpId="IDC_F24_ONLINE_TOTAL_FILE" width="225" [model]="eventData?.model?.FileName"></tb-text>
+        <tb-checkbox cmpId="IDC_F24_ONLINE_TOTAL_CBI" width="120" [model]="eventData?.model?.WriteCBI" [caption]="_TB('Save using the CBI format  ')"></tb-checkbox>
+        <tb-text [caption]="_TB('CBI format filename')" cmpId="IDC_F24_ONLINE_TOTAL_MEDIUM" width="104" [model]="eventData?.model?.MediumName"></tb-text>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_F24_ONLINE_WIZARD_OPEN_INTERNET?.enabled" icon="erp-internet" [caption]="_TB('Revenue Agency site')" cmpId="ID_F24_ONLINE_WIZARD_OPEN_INTERNET"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_F24_ONLINE_WIZARD_OPEN_BANK?.enabled" icon="erp-internet" [caption]="_TB('Bank site')" cmpId="ID_F24_ONLINE_WIZARD_OPEN_BANK"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

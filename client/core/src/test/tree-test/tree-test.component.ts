@@ -2,7 +2,7 @@ import { TestService } from './../test.service';
 import { EventDataService } from './../../core/services/eventdata.service';
 import { DocumentComponent } from './../../shared/components/document.component';
 import { ComponentService } from './../../core/services/component.service';
-import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'tb-tree-test',
@@ -15,8 +15,11 @@ export class TreeTestComponent extends DocumentComponent implements OnInit {
 
   model: any;
   public nodes = [];
-  constructor(public eventData: EventDataService, public testService: TestService) {
-    super(testService, eventData, null);
+  constructor(
+    public eventData: EventDataService, 
+    public testService: TestService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(testService, eventData, null, changeDetectorRef);
   }
 
   ngOnInit() {

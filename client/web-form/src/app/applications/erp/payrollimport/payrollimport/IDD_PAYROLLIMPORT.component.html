@@ -1,0 +1,59 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"><div class="anchored">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Month')" cmpId="IDC_PRIP_IMPORTMONTH" width="22" [model]="eventData?.model?.ImportMonth"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Year')" cmpId="IDC_PRIP_IMPORTYEAR" width="33" [model]="eventData?.model?.ImportYear"></tb-numeric-text-box>
+</div>        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Document Date')" cmpId="IDC_PRIP_DOCDATE" width="57" [model]="eventData?.model?.JEDocDate"></tb-date-input>
+        <tb-text [caption]="_TB('File Name')" cmpId="IDC_PRIP_PATHFILE" width="348" [model]="eventData?.model?.ImportPathFile"></tb-text>
+        <tb-combo [caption]="_TB('File Layout Type')" cmpId="ID_PRIP_FILE_LAYOUT" width="77" [model]="eventData?.model?.strFileLayout"></tb-combo>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"><div class="anchored">        <tb-button cmpId="ID_PRIP_IMPORT_REASONS" width="20" [model]="eventData?.model?.bReasonImportButton"></tb-button>
+        <tb-caption [caption]="_TB('Import File Reasons')" cmpId="IDC_PRIP_IMPORT_REASONS_GAUGE" width="348" [model]="eventData?.model?.nCurrentElement"></tb-caption>
+</div>        <tb-label-static [caption]="_TB('Processing status')" cmpId="IDC_PRIP_STATUS" width="348" [model]="eventData?.model?.Status"></tb-label-static>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Result')" tbTileStandard  isCollapsible="False" isCollapsed="False" hasTitle="False">
+        <tb-caption cmpId="IDC_TB_ACTIVITY_DOCUMENT_PROGRESS" width="587" [model]="eventData?.model?.nCurrentElement"></tb-caption>
+        <tb-label-static cmpId="IDC_TB_ACTIVITY_DOCUMENT_PROGRESS_STATIC" width="587" [model]="eventData?.model?.GaugeDescription"></tb-label-static>
+       </tb-tile>
+       <tb-tile [title]="_TB('List of documents generated')" tbTileWide >
+<div class="col col1">        <tb-body-edit cmpId="IDC_PROGRESSVIEWER_BE" width="654" [model]="eventData?.model?.ProgressViewer">
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_STATUS" columnName="TEnhProgressViewer_P1" [title]="_TB('  ')" columnType="tb-image" columnName="IDC_PROGRESS_VIEWER_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_COLUMN1" columnName="TEnhProgressViewer_P2" [title]="_TB('eventData?.model?.PrgViewerColumn1')" columnType="tb-label-static" columnName="IDC_PROGRESS_VIEWER_COLUMN1">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_COLUMN2" columnName="TEnhProgressViewer_P3" [title]="_TB('eventData?.model?.PrgViewerColumn2')" columnType="tb-label-static" columnName="IDC_PROGRESS_VIEWER_COLUMN2">
+         </tb-body-edit-column>
+        </tb-body-edit>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PRIP_CHECK_FILE?.enabled" icon="erp-documentok" [caption]="_TB('Check File')" cmpId="ID_PRIP_CHECK_FILE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PRIP_SHOW_TRIAL_BALANCE?.enabled" icon="erp-accountingreclassification" [caption]="_TB('View Trial Balance')" cmpId="ID_PRIP_SHOW_TRIAL_BALANCE"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

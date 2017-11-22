@@ -64,7 +64,6 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
             }
         });
         this.easystudioService.initEasyStudioContext();
-        this.easystudioService.getDefaultContext(false);
     }
 
     //--------------------------------------------------------------------------------
@@ -110,6 +109,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     //--------------------------------------------------------------------------------
     public changeCustomizationContext() {
+        this.easystudioService.getDefaultContext(false);        
         this.easystudioService.canModifyContext().subscribe((result) => {
             if (!result){
                 this.snackBar.open(
@@ -118,7 +118,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
                 );
                 return;
             }
-            this.opened = !this.opened;
+            this.opened = !this.opened;           
             if (this.contextIsValid()) {
                 this.setApplic(this.easystudioService.currentApplication);
                 this.setModule(this.easystudioService.currentModule);

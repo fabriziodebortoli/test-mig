@@ -1,0 +1,65 @@
+﻿ <tb-frame tbFinder >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-layoutcontainer tbLayoutTypeHbox >
+        <tb-tile [title]="_TB('Document Data')" tbTileStandard >
+         <tb-text [caption]="_TB('Inspection Order No.')" cmpId="IDC_INSPNOTES_LOAD_INSPORDER_INSPORDERNO" width="80" [model]="eventData?.model?.InspectionOrderLoading?.InspectionOrderNo"></tb-text>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_INSPNOTES_LOAD_INSPORDER_INSPORDERDATE" width="57" [model]="eventData?.model?.InspectionOrderLoading?.InspectionOrderDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Expected result on')" cmpId="IDC_INSPNOTES_LOAD_INSPORDER_EXPECTEDRESULT" width="57" [model]="eventData?.model?.InspectionOrderLoading?.ExpectedInspectionDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Supplier Data')" tbTileStandard >
+         <tb-text [caption]="_TB('Supplier')" cmpId="IDC_INSPNOTES_LOAD_INSPORDER_SUPPLIER" width="80" [model]="eventData?.model?.InspectionOrderLoading?.Supplier"></tb-text>
+         <tb-label-static cmpId="IDC_INSPNOTES_LOAD_INSPORDER_SUPPLIERDESCRI" width="224" [model]="eventData?.model?.HKLMasterSupplier?.CompNameComplete"></tb-label-static>
+        </tb-tile>
+       </tb-layoutcontainer>
+       <tb-tile [title]="_TB('Detail')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_INSPNOTES_LOAD_INSPORDER_DETAIL_BODY" width="325" [model]="eventData?.model?.InspectionOrderDetailLoading">
+         <tb-body-edit-column cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_SELECTED" columnName="Selected" [title]="_TB('Selected')" columnType="tb-checkbox" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_ITEM" columnName="Item" [title]="_TB('Item')" columnType="tb-text" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_COMPLETEDESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_COMPLETEDESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-text" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_QTY" columnName="ConformingQty" [title]="_TB('Conforming')" columnType="tb-numeric-text-box" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_QTY_TO_BE_RETURNED" columnName="ToBeReturnedQty" [title]="_TB('To be Returned')" columnType="tb-numeric-text-box" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_QTY_TO_BE_RETURNED">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_QTY_SCRAP" columnName="ScrapQty" [title]="_TB('Scrap')" columnType="tb-numeric-text-box" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_QTY_SCRAP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_NOTPRINT" columnName="NoPrint" [title]="_TB('No Print')" columnType="tb-bool-edit" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_NOTPRINT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_NOTININSPNOTES" columnName="NoRiepOnInspNotes" [title]="_TB('Not in Insp.Notes')" columnType="tb-bool-edit" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_NOTININSPNOTES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INSPORDER_DETAIL_BE_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-label-static" columnName="IDC_LOAD_INSPORDER_DETAIL_BE_LOT">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FINDER_STAYALIVE?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Fix')" cmpId="ID_FINDER_STAYALIVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SWITCHTO?.enabled" icon="tb-switchto" [caption]="_TB('Switch to...')" cmpId="ID_EXTDOC_SWITCHTO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Finish')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_LOAD_INSPORDER_OPEN_DOC?.enabled" icon="tb-open" [caption]="_TB('Open Document')" cmpId="ID_LOAD_INSPORDER_OPEN_DOC"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

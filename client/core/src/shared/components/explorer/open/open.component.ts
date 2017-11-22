@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Response, URLSearchParams, Http } from '@angular/http';
 import { Observable, Subscription } from '../../../../rxjs.imports';
 import { ErrorObservable } from '../../../../rxjs.imports';
@@ -37,8 +37,9 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     public imageService: ImageService,
     public menuService: MenuService,
     public utilsService: UtilsService,
-    public http: Http, ) {
-    super(explorerService, eventData, null);
+    public http: Http, 
+    changeDetectorRef: ChangeDetectorRef) {
+    super(explorerService, eventData, null, changeDetectorRef);
   }
 
   ngOnDestroy() {

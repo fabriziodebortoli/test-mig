@@ -1,0 +1,88 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Slip')" tbTileMini >
+         <tb-combo [caption]="_TB('Slip No.')" cmpId="IDC_SLIPS_BOM" width="72" [model]="eventData?.model?.BOM"></tb-combo>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('Presentation Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Date')" cmpId="IDC_SLIPS_DATE_PRESENTATION" width="57" [model]="eventData?.model?.PresDate"></tb-date-input>
+         <tb-combo [caption]="_TB('Bank')" cmpId="IDC_SLIPS_BANK" width="68" [model]="eventData?.model?.Bank"></tb-combo>
+         <tb-label-static cmpId="IDC_SLIPS_DESCRI_BANK" width="300" [model]="eventData?.model?.HKLBank?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-text [caption]="_TB('CA')" cmpId="IDC_SLIPS_CA_BILLS" width="95" [model]="eventData?.model?.CA"></tb-text>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_SLIPS_CODETYPE_PRESENTATION" cmpId="IDC_SLIPS_CODETYPE_PRESENTATION" width="90" [model]="eventData?.model?.Presentation"></tb-label-static>
+</div></div><div class="col col2"></div>        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="599" [model]="eventData?.model?.Detail">
+         <tb-body-edit-column cmpId="IDC_SLIPS_SELECT" columnName="l_TEnhSlipsDetail_P01" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_SLIPS_SELECT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_NUM" columnName="BillNo" [title]="_TB('Number')" columnType="tb-text" columnName="IDC_SLIPS_NUM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_PYMTTYPE" columnName="PaymentTerm" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_SLIPS_PYMTTYPE" *ngIf="eventData?.activation?.IDC_SLIPS_PYMTTYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_PYMTTYPE" columnName="PaymentTerm" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_SLIPS_PYMTTYPE" *ngIf="eventData?.activation?.IDC_SLIPS_PYMTTYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_CUSTOMER" columnName="CustSupp" columnType="tb-label-static" columnName="IDC_SLIPS_CUSTOMER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_COMPNAME" columnName="l_TEnhSlipsDetail_P02" [title]="_TB('Company Name')" columnType="tb-label-static" columnName="IDC_SLIPS_COMPNAME">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_SLIPS_DATE_PYMTSCHEDULE" columnName="InstallmentDate" [title]="_TB('Due Date')" columnType="tb-date-input" columnName="IDC_SLIPS_DATE_PYMTSCHEDULE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_SLIPS_DATE_CURRENCY" columnName="ValueDate" [title]="_TB('Value Date')" columnType="tb-date-input" columnName="IDC_SLIPS_DATE_CURRENCY" *ngIf="eventData?.activation?.IDC_SLIPS_DATE_CURRENCY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_CURRSBL" columnName="l_TEnhSlipsDetail_P06" [title]="_TB('Curr.')" columnType="tb-label-static" columnName="IDC_SLIPS_CURRSBL" *ngIf="eventData?.activation?.IDC_SLIPS_CURRSBL">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_SLIPS_CURRAMOUNT" columnName="l_TEnhSlipsDetail_P07" [title]="_TB('Curr. Amount')" columnType="tb-numeric-text-box" columnName="IDC_SLIPS_CURRAMOUNT" *ngIf="eventData?.activation?.IDC_SLIPS_CURRAMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_SLIPS_AMOUNT" columnName="Amount" [title]="_TB('Amount')" columnType="tb-numeric-text-box" columnName="IDC_SLIPS_AMOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_ADVANCED" columnName="Approved" [title]="_TB('Adv.')" columnType="tb-checkbox" columnName="IDC_SLIPS_ADVANCED" *ngIf="eventData?.activation?.IDC_SLIPS_ADVANCED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_COLLECTED" columnName="Collected" columnType="tb-checkbox" columnName="IDC_SLIPS_COLLECTED" *ngIf="eventData?.activation?.IDC_SLIPS_COLLECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_DATA_DOC" columnName="l_TEnhSlipsDetail_P03" [title]="_TB('Document Data')" columnType="tb-label-static" columnName="IDC_SLIPS_DATA_DOC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_SLIPS_PRESNOTES" columnName="PresentationNotes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_SLIPS_PRESNOTES">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+       <tb-tilepanel [title]="_TB('Totals')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('Totals')" tbTileWide  hasTitle="False">
+<div class="col col1"><div class="anchored">         <tb-label-static [caption]="_TB('Type')" cmpId="IDC_SLIPS_CODETYPE_BILLS" width="100" [model]="eventData?.model?.BillsTypes"></tb-label-static>
+         <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Number')" cmpId="IDC_SLIPS_NUMBER" width="31" [model]="eventData?.model?.NrBills"></tb-numeric-text-box>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_SLIPS_CURRENCY" [caption]="_TB('Currency')" cmpId="IDC_SLIPS_CURRENCY" width="44" [model]="eventData?.model?.Currency"></tb-label-static>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Slip Total')" cmpId="IDC_SLIPS_TOTALAMOUNT" width="68" [model]="eventData?.model?.TotalAmount"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_SLIPS_NUMBERCOLL" formatter="Integer" disabled="true" [caption]="_TB('Collected Prop.')" cmpId="IDC_SLIPS_NUMBERCOLL" width="31" [model]="eventData?.model?.NrCollected"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_SLIPS_TOTALAMOUNTCOLL" formatter="Money" disabled="true" [caption]="_TB('Collected Prop.')" cmpId="IDC_SLIPS_TOTALAMOUNTCOLL" width="68" [model]="eventData?.model?.TotColl"></tb-numeric-text-box>
+</div></div><div class="col col2"></div>        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_SLIPS_DELETE_BOM?.enabled" icon="tb-cancel" [caption]="_TB('Delete Slip')" cmpId="ID_SLIPS_DELETE_BOM"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_SLIPS_POST?.enabled" icon="erp-documentdelete" [caption]="_TB('Delete from Slip')" cmpId="ID_SLIPS_POST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_SLIPS_MODIFY?.enabled" icon="tb-refresh" [caption]="_TB('Save Data')" cmpId="ID_SLIPS_MODIFY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

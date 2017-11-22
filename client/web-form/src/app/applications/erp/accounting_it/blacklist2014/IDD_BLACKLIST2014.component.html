@@ -1,0 +1,62 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Period')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_BLACKLIST2014_PERIOD">
+<div class="col col1">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Year')" cmpId="IDC_BLACKLIST2014_YEAR" width="35" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+<div class="anchored">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Month/Quarter')" cmpId="IDC_BLACKLIST2014_MONTH" width="16" [model]="eventData?.model?.Month"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Integer" cmpId="IDC_BLACKLIST2014_QUARTER" width="16" [model]="eventData?.model?.Quarter"></tb-numeric-text-box>
+</div>        <tb-numeric-text-box formatter="Money" [caption]="_TB('Limit Amount')" cmpId="IDC_BLACKLIST2014_LIMIT" width="68" [model]="eventData?.model?.LimitBlackList"></tb-numeric-text-box>
+        <tb-text [caption]="_TB('Complete pathname of the file')" cmpId="IDC_BLACKLIST2014_FILE" width="224" [model]="eventData?.model?.FileNameComplete"></tb-text>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Period')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_BLACKLIST2014_PERIOD_SM">
+<div class="col col1">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Year')" cmpId="IDC_BLACKLIST2014_YEAR" width="35" [model]="eventData?.model?.Year"></tb-numeric-text-box>
+        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Month')" cmpId="IDC_BLACKLIST2014_MONTH" width="16" [model]="eventData?.model?.Month"></tb-numeric-text-box>
+        <tb-checkbox cmpId="IDC_BLACKLIST2014_REVERSE_CHARGE" width="109" [model]="eventData?.model?.SM_RevCharge" [caption]="_TB('Include Reverse-Charge documents only  ')"></tb-checkbox>
+        <tb-text [caption]="_TB('Complete pathname of the file')" cmpId="IDC_BLACKLIST2014_FILE" width="224" [model]="eventData?.model?.FileNameComplete"></tb-text>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Intermediary data')" tbTileWide >
+<div class="col col1">        <tb-label-static [caption]="_TB('Intermediary Fiscal Code')" cmpId="IDC_BLACKLIST2014_FC_INTERMEDIARY" width="86" [model]="eventData?.model?.Intermediary"></tb-label-static>
+        <tb-label-static [caption]="_TB('Tax Center ID')" cmpId="IDC_BLACKLIST2014_NUMBER_CAF" width="46" [model]="eventData?.model?.CAF"></tb-label-static>
+</div><div class="col col2">        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Commitment Date')" cmpId="IDC_BLACKLIST2014_DATE" width="57" [model]="eventData?.model?.CommitDate"></tb-date-input>
+        <tb-checkbox cmpId="IDC_BLACKLIST2014_MADE_TAXPAYER" width="109" [model]="eventData?.model?.MadeTaxpayer" [caption]="_TB('Communication made by the taxpayer  ')"></tb-checkbox>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Heir - Liquidator - Incorporating (From Company Main Data)')" tbTileWide >
+<div class="col col1">        <tb-label-static [caption]="_TB('Fiscal Code')" cmpId="IDC_BLACKLIST2014_HEIR_FC" width="86" [model]="eventData?.model?.Heir_FiscalCode"></tb-label-static>
+        <tb-combo [caption]="_TB('Position Code')" cmpId="IDC_BLACKLIST2014_HEIR_CODE" width="30" [model]="eventData?.model?.Heir_Code_XML" [itemSource]="IDC_BLACKLIST2014_HEIR_CODE_itemSource"></tb-combo>
+</div><div class="col col2"><div class="anchored">        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Start procedure date')" cmpId="IDC_BLACKLIST2014_HEIR_FROMDATE" width="57" [model]="eventData?.model?.Heir_From"></tb-date-input>
+        <tb-section-title cmpId="IDC_STATIC_DEATH" width="65" [caption]="_TB('(or death)')"></tb-section-title>
+</div>        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('End procedure date')" cmpId="IDC_BLACKLIST2014_HEIR_TODATE" width="57" [model]="eventData?.model?.Heir_To"></tb-date-input>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Sending type')" tbTileWide >
+<div class="col col1">        <tb-checkbox cmpId="IDC_BLACKLIST2014_SOSTITUTIVE" width="109" [model]="eventData?.model?.Sostitutive" [caption]="_TB('Sostitutive  ')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_BLACKLIST2014_CANCELLATION" width="109" [model]="eventData?.model?.Cancellation" [caption]="_TB('Cancellation  ')"></tb-checkbox>
+        <tb-section-title cmpId="IDC_BLACKLIST2014_GAUGE_STATIC" width="225"></tb-section-title>
+        <tb-caption cmpId="IDC_BLACKLIST2014_GAUGE" width="225" [model]="eventData?.model?.nCurrentElement"></tb-caption>
+</div><div class="col col2">        <tb-text [caption]="_TB('Telematic Protocol')" cmpId="IDC_BLACKLIST2014_PROT_TEL" width="88" [model]="eventData?.model?.ProtocolTel"></tb-text>
+        <tb-text [caption]="_TB('Document Protocol')" cmpId="IDC_BLACKLIST2014_PROT_DOC" width="40" [model]="eventData?.model?.ProtocolDoc"></tb-text>
+</div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BLACKLIST2014_GENERATE_DATA?.enabled" icon="tb-batch" [caption]="_TB('Data Generation')" cmpId="ID_BLACKLIST2014_GENERATE_DATA"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

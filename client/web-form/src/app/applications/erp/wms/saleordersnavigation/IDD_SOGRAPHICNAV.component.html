@@ -1,0 +1,101 @@
+﻿ <tb-frame tbActivity >
+  <tb-view>
+   <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+    <ng-template>
+     <tb-tilepanel [title]="_TB('Filters')" isCollapsible="True" showAsTile="True">
+      <tb-tile [title]="_TB('Customer')" tbTileMini  isCollapsible="False" hasTitle="True">
+       <tb-radio cmpId="IDC_SOGRAPHICNAV_CUSTOMER_ALL" width="52" [model]="eventData?.model?.bAllCustomer" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">       <tb-radio cmpId="IDC_SOGRAPHICNAV_CUSTOMER_SELECT" width="8" [model]="eventData?.model?.bSelectCustomer"></tb-radio>
+       <tb-text cmpId="IDC_SOGRAPHICNAV_CUSTOMER" width="91" [model]="eventData?.model?.Customer"></tb-text>
+</div>      </tb-tile>
+      <tb-tile [title]="_TB('Sales Order Number')" tbTileMini  isCollapsible="False" hasTitle="True">
+       <tb-radio cmpId="IDC_SOGRAPHICNAV_ALL" width="52" [model]="eventData?.model?.bAllNumbers" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">       <tb-radio cmpId="IDC_SOGRAPHICNAV_SELECT" width="53" [model]="eventData?.model?.bSelectNumber" [caption]="_TB('From')"></tb-radio>
+       <tb-text cmpId="IDC_SOGRAPHICNAV_SO_NUMBER_FROM" width="92" [model]="eventData?.model?.SONumberFrom"></tb-text>
+</div>       <tb-text [caption]="_TB('To')" cmpId="IDC_SOGRAPHICNAV_SO_NUMBER_TO" width="92" [model]="eventData?.model?.SONumberTo"></tb-text>
+      </tb-tile>
+      <tb-tile [title]="_TB('Sales Order Expected Delivery Date')" tbTileMini  isCollapsible="False" hasTitle="True">
+       <tb-radio cmpId="IDC_SOGRAPHICNAV_DATE_ALL" width="52" [model]="eventData?.model?.bAllDates" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">       <tb-radio cmpId="IDC_SOGRAPHICNAV_DATE_SELECT" width="53" [model]="eventData?.model?.bSelectDate" [caption]="_TB('From')"></tb-radio>
+       <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_SOGRAPHICNAV_DATE_FROM" width="57" [model]="eventData?.model?.DateFrom"></tb-date-input>
+</div>       <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_SOGRAPHICNAV_DATE_TO" width="57" [model]="eventData?.model?.DateTo"></tb-date-input>
+      </tb-tile>
+     </tb-tilepanel>
+     <tb-tile tbTileAutoFill  hasTitle="False">
+      <tb-treeview cmpId="IDC_TB_BASE_NAVIGATION_TREE" width="499" border="True" hScroll="True" disableDragDrop="True" hasButtons="True" hasLines="True" linesAtRoot="True" alwaysShowSelection="True"></tb-treeview>
+     </tb-tile>
+    </ng-template>
+   </tb-tilegroup>
+  </tb-view>
+  <tb-view>
+   <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+    <ng-template>
+     <tb-tile [title]="_TB('Detail')" tbTileAutoFill  isCollapsible="False" isCollapsed="False" hasTitle="False">
+      <tb-body-edit cmpId="IDC_TB_BASE_NAVIGATION_GRID_DETAIL" width="599" [model]="eventData?.model?.DBTNodeDetail">
+       <tb-body-edit-column cmpId="IDC_TB_BASE_NAVIGATION_GRID_COL_VALUE" columnName="l_FieldValue" [title]="_TB('  ')" columnType="tb-label-static" columnName="IDC_TB_BASE_NAVIGATION_GRID_COL_VALUE">
+       </tb-body-edit-column>
+       <tb-body-edit-column cmpId="IDC_TB_BASE_NAVIGATION_GRID_COL_NAME" columnName="l_FieldName" [title]="_TB(' ')" columnType="tb-label-static" columnName="IDC_TB_BASE_NAVIGATION_GRID_COL_NAME">
+       </tb-body-edit-column>
+      </tb-body-edit>
+     </tb-tile>
+    </ng-template>
+   </tb-tilegroup>
+  </tb-view>
+  <tb-frame-content>
+   <tb-view-container>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane [title]="_TB('PreferencesDockPane')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane [title]="_TB('LegendDockPane')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileMini  hasTitle="False">
+<div class="anchored">         <tb-image [height]="12" [width]="16" cmpId="IDC_PACKING_INSERTED_STATUS_IMG" width="16" [model]="eventData?.model?.LegendIsertedStatus"></tb-image>
+         <tb-label-static cmpId="IDC_STATIC" width="256" [caption]="_TB('Inserted Status')"></tb-label-static>
+</div><div class="anchored">         <tb-image [height]="12" [width]="16" cmpId="IDC_PACKING_ALLOCATED_STATUS_IMG" width="16" [model]="eventData?.model?.LegendAllocatedStatus"></tb-image>
+         <tb-label-static cmpId="IDC_STATIC_2" width="256" [caption]="_TB('Allocated Status')"></tb-label-static>
+</div><div class="anchored">         <tb-image [height]="12" [width]="16" cmpId="IDC_PACKING_CANCELLED_STATUS_IMG" width="16" [model]="eventData?.model?.LegendCancelledStatus"></tb-image>
+         <tb-label-static cmpId="IDC_STATIC_3" width="256" [caption]="_TB('Cancelled Status')"></tb-label-static>
+</div><div class="anchored">         <tb-image [height]="12" [width]="16" cmpId="IDC_PACKING_DELIVERY_STATUS_IMG" width="16" [model]="eventData?.model?.LegendDeliveryStatus"></tb-image>
+         <tb-label-static cmpId="IDC_STATIC_4" width="256" [caption]="_TB('Delivery Status')"></tb-label-static>
+</div><div class="anchored">         <tb-image [height]="12" [width]="16" cmpId="IDC_PACKING_INVOICED_STATUS_IMG" width="16" [model]="eventData?.model?.LegendInvoicedStatus"></tb-image>
+         <tb-label-static cmpId="IDC_STATIC_5" width="256" [caption]="_TB('Invoiced Status')"></tb-label-static>
+</div><div class="anchored">         <tb-image [height]="12" [width]="16" cmpId="IDC_PACKING_IN_PRESH_STATUS_IMG" width="16" [model]="eventData?.model?.LegendInPreshStatus"></tb-image>
+         <tb-label-static cmpId="IDC_STATIC_6" width="256" [caption]="_TB('In Preshipping Status')"></tb-label-static>
+</div><div class="anchored">         <tb-image [height]="12" [width]="16" cmpId="IDC_PACKING_BLOCKED_STATUS_IMG" width="16" [model]="eventData?.model?.LegendBlockedStatus"></tb-image>
+         <tb-label-static cmpId="IDC_STATIC_7" width="256" [caption]="_TB('Blocked Status')"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_TB_BASE_NAVIGATION_ACTIONS" [disabled]="!eventData?.buttonsState?.ID_TB_BASE_NAVIGATION_ACTIONS?.enabled" icon="tb-execute" [caption]="_TB('Actions')" cmpId="ID_TB_BASE_NAVIGATION_ACTIONS"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_BASE_NAVIGATION_EXPAND_COLLAPSE?.enabled" icon="tb-tree" [caption]="_TB('Expand/Collapse')" cmpId="ID_TB_BASE_NAVIGATION_EXPAND_COLLAPSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_TB_BASE_NAVIGATION_FIND" [disabled]="!eventData?.buttonsState?.ID_TB_BASE_NAVIGATION_FIND?.enabled" icon="tb-search" [caption]="_TB('Find')" cmpId="ID_TB_BASE_NAVIGATION_FIND"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_BASE_NAVIGATION_SHOW_DETAILS?.enabled" icon="framework.tbframeworkimages.images.25x25.details.png" [caption]="_TB('Details')" cmpId="ID_TB_BASE_NAVIGATION_SHOW_DETAILS"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

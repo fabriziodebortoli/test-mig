@@ -268,7 +268,7 @@ export class HttpMenuService {
     callonlineHelpUrl(ns: string, culture: string): Observable<any> {
         let obj = { nameSpace: ns, culture: culture }
         let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl() : this.infoService.getMenuServiceUrl();
-        url += + 'getOnlineHelpUrl/';
+        url = url + 'getOnlineHelpUrl/';
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
                 return res.json();

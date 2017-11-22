@@ -1,0 +1,76 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('Filters')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Provider and Documents')" tbTileMini >
+         <tb-combo cmpId="IDC_DATAVALIDATION_PROVIDER_COMBO" width="157" [model]="eventData?.model?.ProviderName"></tb-combo>
+         <tb-combo cmpId="IDC_DATAVALIDATION_NAMESPACE_COMBO" width="157" [model]="eventData?.model?.DocNamespace"></tb-combo>
+        </tb-tile>
+        <tb-tile [title]="_TB('Validation Date')" tbTileMini  *ngIf="eventData?.activation?.IDD_DATAVALIDATION_MONITOR_FILTER_BY_DATE">
+         <tb-radio cmpId="IDC_DATAVALIDATION_MONITOR_ALL_DATE" width="46" [model]="eventData?.model?.bAllDate" [caption]="_TB('All')"></tb-radio>
+         <tb-radio cmpId="IDC_DATAVALIDATION_MONITOR_SEL_DATE" width="31" [model]="eventData?.model?.bSelectionDate" [caption]="_TB('From')"></tb-radio>
+         <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_DATAVALIDATION_MONITOR_FROM_DATE" width="57" [model]="eventData?.model?.DateFrom"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_DATAVALIDATION_MONITOR_TO_DATE" width="57" [model]="eventData?.model?.DateTo"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC" width="20" [caption]="_TB('To')"></tb-caption>
+        </tb-tile>
+        <tb-tile [title]="_TB('Other')" tbTileMini >
+         <tb-checkbox cmpId="IDC_DATAVALIDATION_AUTO_REFRESH" width="122" [model]="eventData?.model?.bAutoRefresh" [caption]="_TB('Enable Automatic Refresh')"></tb-checkbox>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Advancement status')" tbTileStandard  isCollapsible="False">
+        <tb-image [height]="12" [width]="23" cmpId="IDC_DATASYNCHRO_MONITOR_STATUS_PICTURE" width="23" [model]="eventData?.model?.PictureStatus"></tb-image>
+        <tb-caption cmpId="IDC_DATASYNCHRO_MONITOR_STATUS_GAUGE" width="587" [model]="eventData?.model?.nValueGauge"></tb-caption>
+        <tb-section-title cmpId="IDC_DATASYNCHRO_MONITOR_STATUS_DESCRIPTION" width="560" [model]="eventData?.model?.GaugeDescription"></tb-section-title>
+       </tb-tile>
+       <tb-tilepanel [title]="_TB('Report Errors')" isCollapsible="True" isCollapsed="False">
+        <tb-tile [title]="_TB('Summary')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-body-edit cmpId="IDC_DATAVALIDATION_SUMMARY_BE" width="500" [model]="eventData?.model?.ValidationMonitorDocSummary">
+          <tb-body-edit-column cmpId="IDC_DATAVALIDATION_SUMMARY_BE_DOC_NAMESPACE" [model]="eventData?.model?.ValidationMonitorDocSummary?.DocNamespace" [title]="_TB('Document Namespace')" columnType="tb-label-static" columnName="IDC_DATAVALIDATION_SUMMARY_BE_DOC_NAMESPACE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DATAVALIDATION_SUMMARY_BE_NO_ERRORS" [model]="eventData?.model?.ValidationMonitorDocSummary?.NoErrors" [title]="_TB('Number of errors')" columnType="tb-label-static" columnName="IDC_DATAVALIDATION_SUMMARY_BE_NO_ERRORS">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Detail')" tbTileAutoFill  isCollapsible="True" isCollapsed="False">
+         <tb-body-edit cmpId="IDC_DS_MONITOR_BE" width="325" [model]="eventData?.model?.ValidationInfoMonitor">
+          <tb-body-edit-column cmpId="IDC_BE_VALIDATION_MONITOR_DOC_CODE" width="120" [model]="eventData?.model?.ValidationInfoMonitor?.TEnhDS_Valid_Code" [title]="_TB('Code')" columnType="tb-label-static" columnName="IDC_BE_VALIDATION_MONITOR_DOC_CODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BE_VALIDATION_MONITOR_DOC_DESCRI" width="240" [model]="eventData?.model?.ValidationInfoMonitor?.TEnhDS_Valid_Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BE_VALIDATION_MONITOR_DOC_DESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BE_VALIDATION_MONITOR_DOC_NAMESPACE" width="512" [model]="eventData?.model?.ValidationInfoMonitor?.DocNamespace" [title]="_TB('Document Namespace')" columnType="tb-label-static" columnName="IDC_BE_VALIDATION_MONITOR_DOC_NAMESPACE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BE_VALIDATION_MONITOR_FORMATTED_MSG_ERROR" width="1000" [model]="eventData?.model?.ValidationInfoMonitor?.TEnhDS_Valid_FormattedMsgError" [title]="_TB('Message Error')" columnType="tb-label-static" columnName="IDC_BE_VALIDATION_MONITOR_FORMATTED_MSG_ERROR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="DateTime" [readonly]="true" cmpId="IDC_BE_VALIDATION_MONITOR_VALIDATION_DATE" [model]="eventData?.model?.ValidationInfoMonitor?.ValidationDate" [title]="_TB('Validation Date')" columnType="tb-date-input" columnName="IDC_BE_VALIDATION_MONITOR_VALIDATION_DATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column [readonly]="true" cmpId="IDC_BE_VALIDATION_MONITOR_WORKER" [model]="eventData?.model?.ValidationInfoMonitor?.DocTBGuid" [title]="_TB('TBGuid')" columnType="tb-text" columnName="IDC_BE_VALIDATION_MONITOR_WORKER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BE_VALIDATION_MONITOR_ACTION_NAME" [model]="eventData?.model?.ValidationInfoMonitor?.ActionName" [title]="_TB('Action Name')" columnType="tb-label-static" columnName="IDC_BE_VALIDATION_MONITOR_ACTION_NAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BE_VALIDATION_MONITOR_FK_ERROR" [model]="eventData?.model?.ValidationInfoMonitor?.FKError" [title]="_TB('FK Error')" columnType="tb-checkbox" columnName="IDC_BE_VALIDATION_MONITOR_FK_ERROR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BE_VALIDATION_MONITOR_XSD_ERROR" [model]="eventData?.model?.ValidationInfoMonitor?.XSDError" [title]="_TB('XSD Error')" columnType="tb-checkbox" columnName="IDC_BE_VALIDATION_MONITOR_XSD_ERROR">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_DS_MONITOR_REFRESH?.enabled" icon="tb-refresh" [caption]="_TB('Refresh')" cmpId="ID_DS_MONITOR_REFRESH"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

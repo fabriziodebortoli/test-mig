@@ -1,0 +1,89 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  isCollapsible="True" isCollapsed="False">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="599" [model]="eventData?.model?.DBTLoadComposition">
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_SELECTED" columnName="IsSelected" [title]="_TB('Select')" columnType="tb-checkbox" columnName="IDC_DET_ISSUETOPROD_BE_SELECTED" *ngIf="eventData?.activation?.IDC_DET_ISSUETOPROD_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_MO" columnName="MONo" [title]="_TB('MO')" columnType="tb-text" columnName="IDC_DET_ISSUETOPROD_BE_MO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DET_ISSUETOPROD_BE_STEP" columnName="RtgStep" [title]="_TB('Step')" columnType="tb-numeric-text-box" columnName="IDC_DET_ISSUETOPROD_BE_STEP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_MACHINE_DESTINATION" columnName="MachineAlternate" [title]="_TB('New machine')" columnType="tb-text" columnName="IDC_DET_ISSUETOPROD_BE_MACHINE_DESTINATION" *ngIf="eventData?.activation?.IDC_DET_ISSUETOPROD_BE_MACHINE_DESTINATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_MACHINE_SIM" columnName="WC" [title]="_TB('WC')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_MACHINE_SIM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="DateTime" [readonly]="false" cmpId="IDC_DET_LOAD_BE_NEW_DATEINI" columnName="SimStartDate" [title]="_TB('Simulation
+New Start Date')" columnType="tb-date-input" columnName="IDC_DET_LOAD_BE_NEW_DATEINI" *ngIf="eventData?.activation?.IDC_DET_LOAD_BE_NEW_DATEINI">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="DateTime" [readonly]="true" cmpId="IDC_DET_LOAD_BE_DATAINI" columnName="OldSimStartDate" [title]="_TB('Simulation
+Start Date')" columnType="tb-date-input" columnName="IDC_DET_LOAD_BE_DATAINI">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="DateTime" [readonly]="true" cmpId="IDC_DET_ISSUETOPROD_BE_ENDINGDATE" columnName="OldSimEndDate" [title]="_TB('Simulation
+End Date')" columnType="tb-date-input" columnName="IDC_DET_ISSUETOPROD_BE_ENDINGDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Double" disabled="true" cmpId="IDC_DET_ISSUETOPROD_HOURS_INTHE_DAY" columnName="HoursInTheDay" [title]="_TB('Hours')" columnType="tb-numeric-text-box" columnName="IDC_DET_ISSUETOPROD_HOURS_INTHE_DAY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_SETUP" columnName="Setup" [title]="_TB('Setup')" columnType="tb-checkbox" columnName="IDC_DET_ISSUETOPROD_SETUP">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Percent" disabled="true" cmpId="IDC_DET_ISSUETOPROD_PERC_INCIDENCE" columnName="IncidenceOnTotalAmount" [title]="_TB('% incidence')" columnType="tb-numeric-text-box" columnName="IDC_DET_ISSUETOPROD_PERC_INCIDENCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DET_ISSUETOPROD_BE_RTGSTEP" columnName="RtgStep" [title]="_TB('Phase')" columnType="tb-numeric-text-box" columnName="IDC_DET_ISSUETOPROD_BE_RTGSTEP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_ALTERNATE" columnName="Alternate" [title]="_TB('Alternate')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_ALTERNATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DET_ISSUETOPROD_BE_ALTSTEP" columnName="AltRtgStep" [title]="_TB('Alternate
+Rtg Step')" columnType="tb-numeric-text-box" columnName="IDC_DET_ISSUETOPROD_BE_ALTSTEP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_OPERATION" columnName="Operation" [title]="_TB('Operation')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_OPERATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_DESCRIPTOPERATION" columnName="DescriptOperation" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_DESCRIPTOPERATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_CUSTOMER" columnName="Customer" [title]="_TB('Customer')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_CUSTOMER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_DESCR_CUSTOMER" columnName="DescriptCust" [title]="_TB('Company Name')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_DESCR_CUSTOMER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_JOB" columnName="Job" [title]="_TB('Job')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_JOB">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_PRODUCT" columnName="Product" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_PRODUCT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_DESCRIPT_PRODUCT" columnName="DescriptItm" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_DESCRIPT_PRODUCT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_UOM" columnName="UoM" [title]="_TB('UOM')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_DET_ISSUETOPROD_BE_QTY" columnName="QtyToProduce" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_DET_ISSUETOPROD_BE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_STATUS" columnName="StatusDecod" [title]="_TB('Status')" columnType="tb-label-static" columnName="IDC_DET_ISSUETOPROD_BE_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_PROCESSTIME" columnName="ProcessTimeSIM" [title]="_TB('Processing
+Time')" columnType="tb-body-edit-column" columnName="IDC_DET_ISSUETOPROD_BE_PROCESSTIME">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DET_ISSUETOPROD_BE_SETUPTIME" columnName="EstimatedSetupTime" [title]="_TB('Setup
+Time')" columnType="tb-body-edit-column" columnName="IDC_DET_ISSUETOPROD_BE_SETUPTIME">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>
