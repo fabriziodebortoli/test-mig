@@ -1,7 +1,6 @@
 import { InfoService } from './../../core/services/info.service';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
-import { Input, OnInit } from '@angular/core';
-import { Observable } from '../../rxjs.imports';
+import { Input, OnInit, ChangeDetectorRef } from '@angular/core';
 
 export abstract class TbComponent implements OnInit {
   @Input()
@@ -10,7 +9,9 @@ export abstract class TbComponent implements OnInit {
   public dictionaryId = '';
   public translations = [];
 
-  constructor(public tbComponentService: TbComponentService) {
+  constructor(
+    public tbComponentService: TbComponentService, 
+    protected changeDetectorRef: ChangeDetectorRef) {
     this.dictionaryId = tbComponentService.calculateDictionaryId(this);
   }
 
@@ -27,6 +28,7 @@ export abstract class TbComponent implements OnInit {
 
         if (tn) {
           this.translations = this.translations.concat(tn);
+          this.changeDetectorRef.detectChanges();
         } else {
           this.readTranslationsFromServer(id);
         }
@@ -43,6 +45,7 @@ export abstract class TbComponent implements OnInit {
         }
         if (tn) {
           this.translations = this.translations.concat(tn);
+          this.changeDetectorRef.detectChanges();
         }
         this.translations = tn;
         this.tbComponentService.saveToLocal(dictionaryId, this.translations);

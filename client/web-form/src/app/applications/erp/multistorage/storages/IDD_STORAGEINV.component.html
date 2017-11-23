@@ -1,0 +1,255 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-inventory" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB(' Main Data')" tbTileStandard >
+<div class="anchored">          <tb-text [caption]="_TB('Storage')" cmpId="IDC_STORAGEINV_STORAGEINV" width="48" [model]="eventData?.model?.Storages?.Storage"></tb-text>
+          <tb-checkbox cmpId="IDC_STORAGEINV_ISDISABLED" width="170" [model]="eventData?.model?.Storages?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>          <tb-text [caption]="_TB('Description')" cmpId="IDC_STORAGEINV_DESCRIPTION" width="222" [model]="eventData?.model?.Storages?.Description"></tb-text>
+<div class="anchored">          <tb-combo [caption]="_TB('Grouping')" cmpId="IDC_STORAGEINV_GROUPS" width="60" [model]="eventData?.model?.Storages?.GroupCode"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRINAMESTORAGE" width="160" [model]="eventData?.model?.HKLGroups?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-checkbox cmpId="IDC_STORAGEINV_OWNEDGOODS" width="109" [model]="eventData?.model?.Storages?.OwnedGoods" [caption]="_TB('Goods Owned  ')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_STORAGEINV_WMS" width="206" [model]="eventData?.model?.Storages?.WMS" [caption]="_TB('WMS  ')"></tb-checkbox>
+</div>          <tb-checkbox cmpId="IDC_STORAGEINV_EXCLUDE_FROM_ONHAND" width="109" [model]="eventData?.model?.Storages?.ExcludeFromOnHand" [caption]="_TB('Exclude from On-Hand')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_STORAGEINV_EXCLUDE_FROM_VALUATION" width="109" [model]="eventData?.model?.Storages?.ExcludeFromValuation" [caption]="_TB('Exclude from Book Inventory')"></tb-checkbox>
+          <tb-text [caption]="_TB('Notes')" cmpId="IDC_STORAGEINV_NOTES" width="221" [model]="eventData?.model?.Storages?.Notes"></tb-text>
+          <tb-enum-combo [caption]="_TB('Storage Type')" cmpId="IDC_STORAGEINV_STORAGETYPE" width="84" [model]="eventData?.model?.Storages?.CodeType"></tb-enum-combo>
+          <tb-enum-combo *ngIf="eventData?.activation?.IDC_STORAGEINV_WAP_TRANSFER_BETW_STORAGES" [caption]="_TB('Weighted Average of Period')" cmpId="IDC_STORAGEINV_WAP_TRANSFER_BETW_STORAGES" width="100" [model]="eventData?.model?.Storages?.WAPTransferBetweenStorages"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB(' Address Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_STORAGEINV_ADDRESS_BR">
+<div class="anchored">          <tb-combo [caption]="_TB('ISO Country')" cmpId="IDC_STORAGEINV_ISOCODE" width="48" [model]="eventData?.model?.Storages?.ISOCountryCode"></tb-combo>
+          <tb-text [caption]="_TB('ZIP Code')" cmpId="IDC_STORAGEINV_ZIPCODE_BR" width="72" [model]="eventData?.model?.Storages?.ZIPCode"></tb-text>
+</div>          <tb-textarea [readonly]="true" height="24" width="210" [caption]="_TB('Address')" cmpId="IDC_STORAGEINV_ADDRESS" width="210" [model]="eventData?.model?.Storages?.Address"></tb-textarea>
+          <tb-text [caption]="_TB('Additional Address')" cmpId="IDC_STORAGEINV_ADDRESS2" width="210" [model]="eventData?.model?.Storages?.Address2"></tb-text>
+<div class="anchored">          <tb-text [caption]="_TB('Street No.')" cmpId="IDC_STORAGEINV_STREETNO" width="40" [model]="eventData?.model?.Storages?.StreetNo"></tb-text>
+          <tb-combo [caption]="_TB('Federal State')" cmpId="IDC_STORAGEINV_FEDERALSTATE" width="40" [model]="eventData?.model?.Storages?.FederalState"></tb-combo>
+</div>          <tb-combo [caption]="_TB('Municipality')" cmpId="IDC_STORAGEINV_CITY" width="210" [model]="eventData?.model?.Storages?.City"></tb-combo>
+          <tb-text [caption]="_TB('District')" cmpId="IDC_STORAGEINV_DISTRICT" width="210" [model]="eventData?.model?.Storages?.District"></tb-text>
+          <tb-section-title cmpId="IDC_STATIC_CONTACTS" width="325" [caption]="_TB('Contacts')"></tb-section-title>
+<div class="anchored">          <tb-phone mask [caption]="_TB('Phone 1')" cmpId="IDC_STORAGEINV_TELEPHONE1" width="72" [model]="eventData?.model?.Storages?.Telephone1"></tb-phone>
+          <tb-phone mask [caption]="_TB('Phone 2')" cmpId="IDC_STORAGEINV_TELEPHONE2" width="72" [model]="eventData?.model?.Storages?.Telephone2"></tb-phone>
+</div>          <tb-text [caption]="_TB('Fax')" cmpId="IDC_STORAGEINV_FAX" width="72" [model]="eventData?.model?.Storages?.Fax"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB(' Address Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_STORAGEINV_ADDRESS">
+          <tb-combo [caption]="_TB('ISO Country')" cmpId="IDC_STORAGEINV_ISOCODE" width="48" [model]="eventData?.model?.Storages?.ISOCountryCode"></tb-combo>
+          <tb-textarea [readonly]="true" height="24" width="210" [caption]="_TB('Address')" cmpId="IDC_STORAGEINV_ADDRESS" width="210" [model]="eventData?.model?.Storages?.Address"></tb-textarea>
+          <tb-text [caption]="_TB('Additional Address')" cmpId="IDC_STORAGEINV_ADDRESS2" width="210" [model]="eventData?.model?.Storages?.Address2"></tb-text>
+          <tb-combo [caption]="_TB('Municipality')" cmpId="IDC_STORAGEINV_CITY" width="210" [model]="eventData?.model?.Storages?.City"></tb-combo>
+<div class="anchored">          <tb-text [caption]="_TB('ZIP Code')" cmpId="IDC_STORAGEINV_ZIPCODE" width="40" [model]="eventData?.model?.Storages?.ZIPCode"></tb-text>
+          <tb-combo *ngIf="eventData?.activation?.IDC_STORAGEINV_COUNTY" [caption]="_TB('County')" cmpId="IDC_STORAGEINV_COUNTY" width="40" [model]="eventData?.model?.Storages?.County" [itemSource]="IDC_STORAGEINV_COUNTY_itemSource"></tb-combo>
+</div>          <tb-combo [caption]="_TB('Country')" cmpId="IDC_STORAGEINV_STATUS" width="210" [model]="eventData?.model?.Storages?.Country" [itemSource]="IDC_STORAGEINV_STATUS_itemSource"></tb-combo>
+          <tb-section-title cmpId="IDC_STATIC_CONTACTS" width="325" [caption]="_TB('Contacts')"></tb-section-title>
+<div class="anchored">          <tb-phone mask [caption]="_TB('Phone')" cmpId="IDC_STORAGEINV_TELEPHONE1" width="72" [model]="eventData?.model?.Storages?.Telephone1"></tb-phone>
+          <tb-phone mask cmpId="IDC_STORAGEINV_TELEPHONE2" width="72" [model]="eventData?.model?.Storages?.Telephone2"></tb-phone>
+</div>          <tb-text [caption]="_TB('Fax')" cmpId="IDC_STORAGEINV_FAX" width="72" [model]="eventData?.model?.Storages?.Fax"></tb-text>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB(' Stub Books')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-combo [caption]="_TB('Sales')" cmpId="IDC_STORAGEINV_STUB_BOOK_SALES" width="62" [model]="eventData?.model?.Storages?.StubBookSales"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_STUB_BOOK_SALES" width="157" [model]="eventData?.model?.HKLStubBookSales?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-combo [caption]="_TB('Purchases')" cmpId="IDC_STORAGEINV_STUB_BOOK_PURCHASES" width="62" [model]="eventData?.model?.Storages?.StubBookPurchases"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_STUB_BOOK_PURCHASES" width="157" [model]="eventData?.model?.HKLStubBookPurchases?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-combo [caption]="_TB('Stub Book Adjustments')" cmpId="IDC_STORAGEINV_STUB_BOOK_ADJUSTMENTS" width="62" [model]="eventData?.model?.Storages?.StubBookAdjustment"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_STUB_BOOK_ADJUSTMENTS" width="157" [model]="eventData?.model?.HKLStubBookAdjustment?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-combo [caption]="_TB('InterStorage IN')" cmpId="IDC_STORAGEINV_STUB_BOOK_INTERSTORAGEIN" width="62" [model]="eventData?.model?.Storages?.StubBookInterStorageIN"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_STUB_BOOK_INTERSTORAGEIN" width="157" [model]="eventData?.model?.HKLStubBookInterStorageIN?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-combo [caption]="_TB('InterStorage OUT')" cmpId="IDC_STORAGEINV_STUB_BOOK_INTERSTORAGEOUT" width="62" [model]="eventData?.model?.Storages?.StubBookInterStorageOUT"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_STUB_BOOK_INTERSTORAGEOUT" width="157" [model]="eventData?.model?.HKLStubBookInterStorageOUT?.Description"></tb-label-static>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB(' Journals')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_STORAGEINV_JOURNALS">
+<div class="anchored">          <tb-combo [caption]="_TB('Sales')" cmpId="IDC_STORAGEINV_JOURNAL_TAX_SALES" width="62" [model]="eventData?.model?.Storages?.TaxJournalSales"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_JOURNAL_TAX_SALES" width="155" [model]="eventData?.model?.HKLTaxJournalSales?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-combo [caption]="_TB('Purchases')" cmpId="IDC_STORAGEINV_JOURNAL_TAX_PURCHASES" width="62" [model]="eventData?.model?.Storages?.TaxJournalPurchases"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_JOURNAL_TAX_PURCHASES" width="155" [model]="eventData?.model?.HKLTaxJournalPurchases?.Description"></tb-label-static>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB(' Warnings')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-section-title cmpId="IDC_STATIC_SALES_DOC" width="325" [caption]="_TB('Sales Documents')"></tb-section-title>
+         <tb-enum-combo [caption]="_TB('Item Shortage')" cmpId="IDC_STORAGEINV_UNDERSALEEP" width="114" [model]="eventData?.model?.Storages?.SalesShortageCheckType"></tb-enum-combo>
+         <tb-enum-combo [caption]="_TB('Item Scarcity')" cmpId="IDC_STORAGEINV_UNDERSALEEP_SCARCITY" width="114" [model]="eventData?.model?.Storages?.SalesScarcityCheckType"></tb-enum-combo>
+         <tb-section-title cmpId="IDC_STATIC_SALES_ORDERS" width="325" [caption]="_TB('Sales Orders')"></tb-section-title>
+         <tb-enum-combo [caption]="_TB('Item Theoretical Availability ')" cmpId="IDC_STORAGEINV_SOTTOORDSTORAGE" width="114" [model]="eventData?.model?.Storages?.SalesOrdersShortageCheckType"></tb-enum-combo>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_INVENTORY_ENTRIES" width="325" [caption]="_TB('Inventory Entries')"></tb-section-title>
+         <tb-enum-combo [caption]="_TB('Item Shortage')" cmpId="IDC_STORAGEINV_UNDERINV_STORAGE" width="114" [model]="eventData?.model?.Storages?.InventoryShortageCheckType"></tb-enum-combo>
+         <tb-enum-combo [caption]="_TB('Item Scarcity')" cmpId="IDC_STORAGEINV_UNDERINV_STORAGE_SCARCITY" width="114" [model]="eventData?.model?.Storages?.InventoryScarcityCheckType"></tb-enum-combo>
+</div>        </tb-tile>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB(' Manufacturing')" tbTileStandard  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_STORAGEINV_MANUFACTURING">
+          <tb-numeric-text-box formatter="Integer" [caption]="_TB('Priority')" cmpId="IDC_STORAGEINV_PRIORITY" width="25" [model]="eventData?.model?.Storages?.Priority"></tb-numeric-text-box>
+          <tb-section-title cmpId="IDC_STATIC_ENABLE_PICK" width="325" [caption]="_TB('Enable Picking from this storage for')"></tb-section-title>
+          <tb-checkbox cmpId="IDC_STORAGEINV_OF_MANUFACTURING" width="109" [model]="eventData?.model?.Storages?.UsedByProduction" [caption]="_TB('Production  ')"></tb-checkbox>
+          <tb-checkbox *ngIf="eventData?.activation?.IDC_STORAGEINV_OF_MRP" cmpId="IDC_STORAGEINV_OF_MRP" width="109" [model]="eventData?.model?.Storages?.UsedByMRP" [caption]="_TB('MRP  ')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB(' Retail')" tbTileStandard  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_STORAGEINV_RETAIL">
+          <tb-checkbox cmpId="IDC_STORAGEINV_RETAIL" width="109" [model]="eventData?.model?.Storages?.UsedForRetail" [caption]="_TB('Contains Goods for Retail  ')"></tb-checkbox>
+          <tb-section-title cmpId="IDC_STATIC_REPLENISHMENT" width="323" [caption]="_TB('Replenishment Data')"></tb-section-title>
+<div class="anchored">          <tb-combo [caption]="_TB('Storage')" cmpId="IDC_STORAGEINV_STORAGE_REPLENISHMENT" width="58" [model]="eventData?.model?.Storages?.StorageReplenishment"></tb-combo>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_STORAGE_REPLENISHMENT" width="161" [model]="eventData?.model?.HKLStorageReplenishment?.Description"></tb-label-static>
+</div>          <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_STORAGEINV_SPEC_TYPE_REPLENISHMENT" width="58" [model]="eventData?.model?.Storages?.SpecTypeReplenishment"></tb-enum-combo>
+<div class="anchored">          <tb-text [caption]="_TB('Specificator')" cmpId="IDC_STORAGEINV_SPEC_REPLENISHMENT" width="58" [model]="eventData?.model?.Storages?.SpecificatorReplenishment"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGEINV_DESCRI_SPEC_REPLENISHMENT" width="160" [model]="eventData?.model?.HKLSpecificatorReplenishment?.CompanyName"></tb-label-static>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Linked WMS Storages')" tbTileWide  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_MLTSTRG_STORAGES_LINK">
+<div class="col col1">          <tb-body-edit cmpId="IDC_CD_MLTSTRG_STORAGES_BE" width="465" [model]="eventData?.model?.StoragesManWMS">
+           <tb-body-edit-column cmpId="IDC_CD_MLTSTRG_STORAGES_BE_STORAGE" width="100" columnName="StorageChild" [title]="_TB('Storage')" columnType="tb-text" columnName="IDC_CD_MLTSTRG_STORAGES_BE_STORAGE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_CD_MLTSTRG_STORAGES_BE_STORAGEDESC" width="250" [model]="eventData?.model?.HKLStorages?.Description" [title]="_TB('Storage
+description')" columnType="tb-label-static" columnName="IDC_CD_MLTSTRG_STORAGES_BE_STORAGEDESC">
+           </tb-body-edit-column>
+          </tb-body-edit>
+</div><div class="col col2"></div>         </tb-tile>
+         <tb-tile [title]="_TB('Manufacturing Zones')" tbTileWide  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_MLTSTRG_STORAGES_MAN_ZONES">
+<div class="col col1">          <tb-combo [caption]="_TB('Issue Zone for Picking')" cmpId="IDC_WMS_MANISSUEZONE_PICKING" width="89" [model]="eventData?.model?.Storages?.ManufacturingIssuePickZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_MANISSUEZONE_PICKING_DESC" width="135" [model]="eventData?.model?.HKLMIPZone?.Description"></tb-label-static>
+          <tb-combo [caption]="_TB('Issue Zone')" cmpId="IDC_WMS_MANISSUEZONE" width="89" [model]="eventData?.model?.Storages?.ManufacturingIssueZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_MANISSUEZONE_DESC" width="135" [model]="eventData?.model?.HKLMIZone?.Description"></tb-label-static>
+</div><div class="col col2">          <tb-checkbox cmpId="IDC_WMS_MANTWOSTEPSPUTAWAY" width="110" [model]="eventData?.model?.Storages?.ManTwoStepsPutaway" [caption]="_TB('Two Steps Putaway  ')"></tb-checkbox>
+          <tb-combo [caption]="_TB('Receipt Zone')" cmpId="IDC_WMS_MANRECEIPTZONE" width="89" [model]="eventData?.model?.Storages?.ManufacturingReceiptZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_MANRECEIPTZONE_DESC" width="135" [model]="eventData?.model?.HKLMRZone?.Description"></tb-label-static>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('WMS')" icon="erp-wms" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDD_TG_WMS">
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Main Data')" tbTileWide  isCollapsible="False" hasTitle="True">
+<div class="col col1"><div class="anchored">          <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Activation Date')" cmpId="IDC_WMS_ACTIVATION_DATE" width="57" [model]="eventData?.model?.Storages?.WMSActivationDate"></tb-date-input>
+          <tb-date-input *ngIf="eventData?.activation?.IDC_WMS_MAN_ACTIVATION_DATE" formatter="Date" [readonly]="true" [caption]="_TB('Manufacturing')" cmpId="IDC_WMS_MAN_ACTIVATION_DATE" width="57" [model]="eventData?.model?.Storages?.WMSManActivationDate"></tb-date-input>
+</div>          <tb-checkbox *ngIf="eventData?.activation?.IDC_WMS_CONSIGNMENT_STOCK" cmpId="IDC_WMS_CONSIGNMENT_STOCK" width="109" [model]="eventData?.model?.Storages?.ConsignmentStock" [caption]="_TB('Consignment Stock  ')"></tb-checkbox>
+          <tb-text *ngIf="eventData?.activation?.IDC_WMS_BARCODE_PREFIX" [caption]="_TB('Barcode Prefix')" cmpId="IDC_WMS_BARCODE_PREFIX" width="24" [model]="eventData?.model?.Storages?.StorageBarcodePrefix"></tb-text>
+          <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('Last Certified Snapshot Date')" cmpId="IDC_WMS_LAST_SNAPSHOT_CERTIFIED_DATE" width="57" [model]="eventData?.model?.Storages?.LastSnapshotCertifiedDate"></tb-date-input>
+</div><div class="col col2">          <tb-section-title cmpId="IDC_STATIC_SEARCH_STRATEGIES" width="327" [caption]="_TB('Search Strategies')"></tb-section-title>
+          <tb-combo [caption]="_TB('Putaway Zone')" cmpId="IDC_WMS_SZSPUTAWAY" width="102" [model]="eventData?.model?.Storages?.SearchZoneStrategyPutaway"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_SZSPUTAWAY_DESC" width="224" [model]="eventData?.model?.HKLSearchZonePutaway?.Description"></tb-label-static>
+          <tb-combo [caption]="_TB('Picking Zone')" cmpId="IDC_WMS_SZSPICKING" width="102" [model]="eventData?.model?.Storages?.SearchZoneStrategyPicking"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_SZSPICKING_DESC" width="224" [model]="eventData?.model?.HKLSearchZonePicking?.Description"></tb-label-static>
+          <tb-enum-combo [caption]="_TB('Stock Return')" cmpId="IDC_WMS_STOCKRETURNSTRATEGY" width="224" [model]="eventData?.model?.Storages?.StockReturnStrategy"></tb-enum-combo>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Zones')" tbTileWide  isCollapsible="True" hasTitle="True">
+<div class="col col1">          <tb-checkbox cmpId="IDC_WMS_TWOSTEPSPUTAWAY" width="109" [model]="eventData?.model?.Storages?.TwoStepsPutaway" [caption]="_TB('Two Steps Putaway  ')"></tb-checkbox>
+          <tb-combo [caption]="_TB('Goods Receipt Zone')" cmpId="IDC_WMS_GOODSRECEIPTZONE" width="102" [model]="eventData?.model?.Storages?.GoodsReceiptZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_GOODSRECEIPTZONE_DESC" width="154" [model]="eventData?.model?.HKLGRZone?.Description"></tb-label-static>
+          <tb-combo [caption]="_TB('Goods Issue Zone')" cmpId="IDC_WMS_GOODSISSUEZONE" width="102" [model]="eventData?.model?.Storages?.GoodsIssueZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_GOODSISSUEZONE_DESC" width="154" [model]="eventData?.model?.HKLGIZone?.Description"></tb-label-static>
+          <tb-combo [caption]="_TB('Return Zone')" cmpId="IDC_WMS_RETURNZONE" width="102" [model]="eventData?.model?.Storages?.ReturnZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_RETURNZONE_DESC" width="154" [model]="eventData?.model?.HKLReturnZone?.Description"></tb-label-static>
+</div><div class="col col2">          <tb-combo [caption]="_TB('Scrap Zone')" cmpId="IDC_WMS_SCRAPZONE" width="102" [model]="eventData?.model?.Storages?.ScrapZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_SCRAPZONE_DESC" width="154" [model]="eventData?.model?.HKLScrapZone?.Description"></tb-label-static>
+          <tb-combo [caption]="_TB('Inspection Zone')" cmpId="IDC_WMS_INSPECTIONZONE" width="102" [model]="eventData?.model?.Storages?.InspectionZone"></tb-combo>
+          <tb-label-static cmpId="IDC_WMS_INSPECTIONZONE_DESC" width="154" [model]="eventData?.model?.HKLInspectionZone?.Description"></tb-label-static>
+          <tb-section-title cmpId="IDC_STATIC_CROSS_DOCK" width="327" [caption]="_TB('Cross Docking')"></tb-section-title>
+          <tb-checkbox *ngIf="eventData?.activation?.IDC_WMS_ENABLECROSSDOCKING" cmpId="IDC_WMS_ENABLECROSSDOCKING" width="109" [model]="eventData?.model?.Storages?.CrossDocking" [caption]="_TB('Enable  ')"></tb-checkbox>
+          <tb-combo *ngIf="eventData?.activation?.IDC_WMS_CROSSDOCKINGZONE" [caption]="_TB('Zone')" cmpId="IDC_WMS_CROSSDOCKINGZONE" width="102" [model]="eventData?.model?.Storages?.CrossDockingZone"></tb-combo>
+          <tb-label-static *ngIf="eventData?.activation?.IDC_WMS_CROSSDOCKINGZONEDESCRI" cmpId="IDC_WMS_CROSSDOCKINGZONEDESCRI" width="154" [model]="eventData?.model?.HKLCrossDocking?.Description"></tb-label-static>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Administrative
+Data')" icon="erp-accounting" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Offsets')" tbTileWide  isCollapsible="True">
+<div class="col col1">          <tb-section-title cmpId="IDC_STATIC_STORAGES_OFFSETS_ITEMS" width="325" [caption]="_TB('Items')"></tb-section-title>
+          <tb-text [caption]="_TB('Purchases (ITMPOFS)')" cmpId="IDC_STORAGE_PURCHASEOFFSET" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.PurchaseOffset"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_PURCHASEOFFSET_DESCRI" width="225" [model]="eventData?.model?.HKLPurchaseOffset?.Description"></tb-label-static>
+          <tb-text [caption]="_TB('Sales (ITMSOFS)')" cmpId="IDC_STORAGE_SALEOFFSET" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.SaleOffset"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_SALEOFFSET_DESCRI" width="225" [model]="eventData?.model?.HKLSaleOffset?.Description"></tb-label-static>
+          <tb-text [caption]="_TB('Consumption (ITMCOFS)')" cmpId="IDC_STORAGE_CONSUMPTIONOFFSET" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.ConsumptionOffset"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_CONSUMPTIONOFFSET_DESCRI" width="225" [model]="eventData?.model?.HKLConsumptionOffset?.Description"></tb-label-static>
+</div><div class="col col2">          <tb-section-title cmpId="IDC_STATIC_STORAGES_CUSTOMERS" width="325" [caption]="_TB('Customers')"></tb-section-title>
+          <tb-text [caption]="_TB('Account Root (CUSTACC)')" cmpId="IDC_STORAGE_CUST_ACC_ROOT" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.CustomerAccountRoot"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_CUST_ACC_ROOT_DESCRI" width="210" [model]="eventData?.model?.HKLCustomerAccountRoot?.Description"></tb-label-static>
+          <tb-text [caption]="_TB('Sales Goods (CUSGOFS)')" cmpId="IDC_STORAGE_SALES_GOOD_OFF" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.SalesGoodsOffset"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_SALES_GOOD_OFF_DESCRI" width="210" [model]="eventData?.model?.HKLSalesGoodsOffset?.Description"></tb-label-static>
+          <tb-text [caption]="_TB('Services Sales (CUSSOFS)')" cmpId="IDC_STORAGE_SERV_SALES_OFF" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.ServicesSalesOffset"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_SERV_SALES_OFF_DESCRI" width="210" [model]="eventData?.model?.HKLServicesSalesOffset?.Description"></tb-label-static>
+          <tb-section-title cmpId="IDC_STATIC_STORAGES_SUPPLIERS" width="325" [caption]="_TB('Suppliers')"></tb-section-title>
+          <tb-text [caption]="_TB('Account Root (SUPPACC)')" cmpId="IDC_STORAGE_SUPP_ACC_ROOT" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.SupplierAccountRoot"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_SUPP_ACC_ROOT_DESCRI" width="210" [model]="eventData?.model?.HKLSupplierAccountRoot?.Description"></tb-label-static>
+          <tb-text [caption]="_TB('Purchases Goods (SUPGOFS)')" cmpId="IDC_STORAGE_PURC_GOOD_OFF" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.PurchasesGoodsOffset"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_PURC_GOOD_OFF_DESCRI" width="210" [model]="eventData?.model?.HKLPurchasesGoodsOffset?.Description"></tb-label-static>
+          <tb-text [caption]="_TB('Services Purchases (SUPSOFS)')" cmpId="IDC_STORAGE_SERV_PURC_OFF" width="104" [model]="eventData?.model?.OffsetsStoragesHead?.ServicesPurchasesOffset"></tb-text>
+          <tb-label-static cmpId="IDC_STORAGE_SERV_PURC_OFF_DESCRI" width="210" [model]="eventData?.model?.HKLServicesPurchasesOffset?.Description"></tb-label-static>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Other Offsets')" tbTileAutoFill  isCollapsible="True">
+          <tb-body-edit cmpId="IDC_STORAGES_BODY_OFFSET" width="365" [model]="eventData?.model?.Offsets">
+           <tb-body-edit-column cmpId="IDC_STORAGE_OFFSETS_SYMBOL" columnName="OffsetSymbol" [itemSource]="IDC_STORAGE_OFFSETS_SYMBOL_itemSource" [title]="_TB('Symbol')" columnType="tb-combo" columnName="IDC_STORAGE_OFFSETS_SYMBOL">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STORAGE_OFFSETS_SYMBOL_DESCRI" columnName="OffsetSymbolDescription" [title]="_TB('Symbol Description')" columnType="tb-label-static" columnName="IDC_STORAGE_OFFSETS_SYMBOL_DESCRI">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STORAGES_OFFSETS_OFFSET" columnName="Offset" [title]="_TB('Offset')" columnType="tb-text" columnName="IDC_STORAGES_OFFSETS_OFFSET">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_STORAGES_OFFSETS_OFFSET_DESCRI" [model]="eventData?.model?.HKLAccount?.Description" [title]="_TB('Offset Description')" columnType="tb-label-static" columnName="IDC_STORAGES_OFFSETS_OFFSET_DESCRI">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </tb-layoutcontainer>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,0 +1,26 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PRINT_PARAMETERS">
+        <tb-checkbox cmpId="IDC_PRINTER_WITH_PRINTPREVIEW" width="157" [model]="eventData?.model?.UpdateManagerbPrinterWithPrintPreview" [caption]="_TB('Print Preview')"></tb-checkbox>
+        <tb-label-static cmpId="IDC_FINCTGO_STANDARD" width="157" [model]="eventData?.model?.UpdateManagerReportTitle" [caption]="_TB('STANDARD TEMPLATE')"></tb-label-static>
+       </tb-tile>
+       <tb-tile tbTileMini  *ngIf="eventData?.activation?.IDD_TD_CHOOSE_REPORTTEMPLATE">
+        <tb-caption cmpId="IDC_STATIC" width="80" [caption]="_TB('Print Template')"></tb-caption>
+        <tb-label-static cmpId="IDC_CHOOSEREPORTTEMPLATE_TEMPLATE_STANDARD" width="193" [model]="eventData?.model?.UpdateManagerReportTitle" [caption]="_TB('STANDARD TEMPLATE')"></tb-label-static>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PARAMETERS_PRINTER_FIND_REPORT?.enabled" icon="tb-search" [caption]="_TB('Find Template')" cmpId="ID_PARAMETERS_PRINTER_FIND_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_PARAMETERS_PRINTER_OK?.enabled" icon="tb-ok" [caption]="_TB('End')" cmpId="ID_PARAMETERS_PRINTER_OK"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

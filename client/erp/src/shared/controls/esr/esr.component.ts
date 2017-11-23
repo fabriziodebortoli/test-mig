@@ -1,5 +1,5 @@
 import { TbComponentService, LayoutService, EventDataService, ControlComponent } from '@taskbuilder/core';
-import { Component, Input } from '@angular/core';
+import { Component, Input,ChangeDetectorRef } from '@angular/core';
 import Esr from './esr';
 import * as u from '../../../core/u/helpers';
 
@@ -15,8 +15,9 @@ export class EsrComponent extends ControlComponent {
 
   constructor( public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-      super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef) {
+      super(layoutService, tbComponentService,changeDetectorRef);
       this.minLen = 0;
      }
 

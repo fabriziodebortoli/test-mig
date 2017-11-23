@@ -7,6 +7,7 @@ import { Instance } from '../../model/instance';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Credentials } from 'app/authentication/credentials';
+import { retry } from 'rxjs/operator/retry';
 
 @Component({
   selector: 'app-instance',
@@ -29,16 +30,21 @@ export class InstanceRegistrationComponent implements OnDestroy {
   
   currentStep: number;
   readingData: boolean;
+  clusterStep: number;
+  busy: boolean;
 
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
+    this.activationCode = '';
     this.subscriptions = new Array<SubscriptionAccount>();
     this.currentStep = 1;
     this.securityValue = '';
     this.accountName = '';
     this.password = '';
     this.subscriptionKey = '';
+    this.clusterStep = 0;
+    this.busy = false;
   }
 
   //--------------------------------------------------------------------------------
@@ -52,13 +58,17 @@ export class InstanceRegistrationComponent implements OnDestroy {
     credentials.accountName = this.accountName;
     credentials.password = this.password;
 
+    this.busy = true;
+
     this.modelService.getPermissionToken(credentials, "newinstance").subscribe(
       res => {
         this.activationCode = res['Content'];
+        this.busy = false;
       },
       err => {
         alert('Cannot get a permission :(');
         this.activationCode = '';
+        this.busy = false;
       }
     )
 
@@ -73,16 +83,18 @@ export class InstanceRegistrationComponent implements OnDestroy {
     }
 
     this.readingData = true;
+    this.busy = true;
 
     this.subscriptionSaveInstance = this.modelService.registerInstance(this.model, this.accountName, this.activationCode).subscribe(
       res => {
 
         if (!res.Result) {
           alert(res.Message);
+          this.readingData = false;
+          this.busy = false;
           return;
         }
 
-        alert('Instance has been registered.');
         this.currentStep++;
         
         this.securityValue = res['Content'].securityValue;
@@ -91,10 +103,12 @@ export class InstanceRegistrationComponent implements OnDestroy {
           res => {
             this.subscriptions = res['Content'];
             this.readingData = false;
+            this.busy = false;
           },
           err => {
             alert(err);
             this.readingData = false;
+            this.busy = false;
           }
         );
 
@@ -102,6 +116,7 @@ export class InstanceRegistrationComponent implements OnDestroy {
       err => {
         alert(err);
         this.readingData = false;
+        this.busy = false;
       }
     );
 
@@ -113,18 +128,22 @@ export class InstanceRegistrationComponent implements OnDestroy {
     let instanceKey: string = this.model.InstanceKey;
     this.subscriptionKey = subAcc.SubscriptionKey;
 
+    if (this.activationCode === '') {
+      alert('Permission token is missing, please ask one.');
+      return;
+    }
+
     if (!confirm('This command will associate the instance ' + instanceKey + ' to this subscription: ' + subAcc.SubscriptionKey + '). Confirm?')) {
       return;
     }
 
     this.readingData = true;
 
-    this.modelService.addInstanceSubscriptionAssociation(instanceKey, subAcc.SubscriptionKey).subscribe(
+    this.modelService.addInstanceSubscriptionAssociation(instanceKey, subAcc.SubscriptionKey, this.activationCode).subscribe(
       res => {
-        alert('Association regularly saved.');
         this.currentStep++;
-
         this.model.Activated = true;
+        this.busy = true;
 
         this.modelService.setData({}, true, this.activationCode, instanceKey, this.accountName).retry(3).subscribe(
           res => {
@@ -137,12 +156,16 @@ export class InstanceRegistrationComponent implements OnDestroy {
               subscriptionKey : this.subscriptionKey
             }
 
+            this.clusterStep = 1;
+
             this.modelService.getObjectCluster('instances', instanceKey, "0", apiQuery, this.activationCode).subscribe(
               res => {
 
                 let instanceCluster = res['Content'];
                 
                 if (instanceCluster === null || instanceCluster === undefined) {
+                  this.clusterStep = 0;
+                  this.busy = false;
                   return;
                 }
                 
@@ -151,22 +174,40 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
                 // we got the instance, now we pass it to the admin console
 
+                this.clusterStep = 2;
+
                 this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
-                  res => { alert('Registration Completed'); },
-                  err => { alert('Registratio Failed'); }
+                  res => { 
+                    this.clusterStep = 3;
+                    this.busy = false;
+                  },
+                  err => { 
+                    alert('Registration Failed'); 
+                    this.clusterStep = 0;
+                    this.busy = false;
+                  }
                 )
               },
-              err => {}
+              err => { 
+                this.clusterStep = 0; 
+                this.busy = false;
+              }
             )
 
           },
-          err => { alert('An error occurred while updating the Instance on GWAM');}
+          err => { 
+            alert('An error occurred while updating the Instance on GWAM');
+            this.clusterStep = 0;
+            this.busy = false;
+          }
         )
         
       },
       err => {
         alert('Oops, something went wrong with your request: ' + err);
+        this.clusterStep = 0;
         this.readingData = false;
+        this.busy = false;
       }
     );
   }

@@ -221,7 +221,20 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
-                        if (!int.TryParse(msg.page, out pageNum))
+                        int pos = msg.page.IndexOf(',');
+                        if (pos > -1)
+                        {
+                            string[] split = msg.page.Split(',');
+                            string pagNumber = split[0];
+                            string copyNum = split[1];
+                            int copies = 1;
+                            if (!int.TryParse(pagNumber, out pageNum))
+                                break;
+                            if (!int.TryParse(copyNum, out copies))
+                                break;
+                            //TODO RSWEB set copies number into symbol table
+                        }
+                        else if (!int.TryParse(msg.page, out pageNum))
                             break;
 
                         if (pagesSnapshot != null)

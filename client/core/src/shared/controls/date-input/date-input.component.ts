@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnChanges, AfterViewInit, SimpleChanges } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, AfterViewInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { formatDate } from '@telerik/kendo-intl';
@@ -25,8 +25,9 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-    super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   onChange(changes) {

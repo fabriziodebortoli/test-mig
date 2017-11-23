@@ -1,0 +1,21 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Spreading Template')" tbTileMini  hasTitle="True">
+<div class="anchored">        <tb-combo cmpId="IDC_AC_PAR_SPREADINGTEMPLATE" width="65" [model]="eventData?.model?.AddChgParamSpreadingTemplate" [itemSource]="IDC_AC_PAR_SPREADINGTEMPLATE_itemSource"></tb-combo>
+        <tb-label-static cmpId="IDC_AC_PAR_SPREADINGTEMPLATE_DESCRI" width="105"></tb-label-static>
+</div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACP_END?.enabled" icon="tb-ok" [caption]="_TB('End')" cmpId="ID_ACP_END"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

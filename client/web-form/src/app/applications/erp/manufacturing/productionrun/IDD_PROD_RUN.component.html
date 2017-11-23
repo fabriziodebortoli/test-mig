@@ -1,0 +1,242 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Filters')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-layoutcontainer tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('Input Selections')" tbTileMini >
+         <tb-checkbox cmpId="IDC_RUN_PROD_EVERYONE_DATE" width="85" [model]="eventData?.model?.bAllDates" [caption]="_TB('Without date limit  ')"></tb-checkbox>
+         <tb-date-input formatter="DateTime" [readonly]="false" [caption]="_TB('Delivery date until')" cmpId="IDC_RUN_PROD_DATE_ARRIVAL" width="62" [model]="eventData?.model?.DateTo"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('MO')" tbTileMini >
+         <tb-radio cmpId="IDC_RUN_PROD_ALL_ORD" width="82" [model]="eventData?.model?.bAllMO" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_SELECTION_ORD" width="30" [model]="eventData?.model?.bOrdSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_RUN_PROD_ORD_FROM" width="62" [model]="eventData?.model?.FromOrd"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_RUN_PROD_ORD_TO" width="62" [model]="eventData?.model?.ToOrd"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Delivery Date')" tbTileMini >
+         <tb-radio cmpId="IDC_RUN_PROD_EVERYONE_DATE_DELIV" width="39" [model]="eventData?.model?.bAllDeliveryDates" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_SELECTION_DATE" width="28" [model]="eventData?.model?.bSelData" [caption]="_TB('From')"></tb-radio>
+         <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_RUN_PROD_DELIVERYDATE_FROM" width="57" [model]="eventData?.model?.FromMODate"></tb-date-input>
+</div>         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_RUN_PROD_DELIVERYDATE_TO" width="57" [model]="eventData?.model?.ToMODate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Run Date')" tbTileMini >
+         <tb-radio cmpId="IDC_RUN_PROD_RUNDATE_ALL" width="39" [model]="eventData?.model?.bRunDateAll" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_RUNDATE_SEL" width="28" [model]="eventData?.model?.bRunDateSel" [caption]="_TB('From')"></tb-radio>
+         <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_RUN_PROD_RUNDATE_FROM" width="57" [model]="eventData?.model?.dRunDateFrom"></tb-date-input>
+</div>         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_RUN_PROD_RUNDATE_TO" width="57" [model]="eventData?.model?.dRunDateTo"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Job')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_FILTER_JOB">
+         <tb-radio cmpId="IDC_RUN_PROD_EVERYONE_COMM" width="40" [model]="eventData?.model?.bAllJobs" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_SELECTION_COMM" width="32" [model]="eventData?.model?.bJobSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_RUN_PROD_COMM_FROM" width="62" [model]="eventData?.model?.FromJob"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_RUN_PROD_COMM_TO" width="62" [model]="eventData?.model?.ToJob"></tb-text>
+        </tb-tile>
+        <tb-radio cmpId="IDC_HFCOSTCENTERS_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFCostCenters_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">        <tb-radio cmpId="IDC_HFCOSTCENTERS_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFCostCenters_Range" [caption]="_TB('From')"></tb-radio>
+        <tb-text cmpId="IDC_HFCOSTCENTERS_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFCostCenters_From"></tb-text>
+</div>        <tb-text [caption]="_TB('To')" cmpId="IDC_HFCOSTCENTERS_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFCostCenters_To"></tb-text>
+        <tb-tile [title]="_TB('Item')" tbTileMini >
+         <tb-radio cmpId="IDC_RUN_PROD_ALL_PROD" width="32" [model]="eventData?.model?.bAllProd" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_SELECTION_PROD" width="28" [model]="eventData?.model?.bProdSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_RUN_PROD_PROD_FROM" width="122" [model]="eventData?.model?.FromProd"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_RUN_PROD_PROD_TO" width="122" [model]="eventData?.model?.ToProd"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Variant')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_FILTER_VARIANT">
+         <tb-radio cmpId="IDC_RUN_PROD_EVERYONE_VARIANTS" width="46" [model]="eventData?.model?.bAllVariants" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_SELECTION_VARIANTS" width="32" [model]="eventData?.model?.bVariantsSel" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_RUN_PROD_VARIANTS_FROM" width="122" [model]="eventData?.model?.FromVariant"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_RUN_PROD_VARIANTS_TO" width="122" [model]="eventData?.model?.ToVariant"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Alternate Steps')" tbTileMini >
+         <tb-radio cmpId="IDC_RUN_PROD_CHOOSE_ALT_AUTO" width="128" [model]="eventData?.model?.ChooseAlternateAuto" [caption]="_TB('Automatic extraction according to...')"></tb-radio>
+         <tb-radio cmpId="IDC_RUN_PROD_CHOOSE_ALT_AUTO_PREFER" width="113" [model]="eventData?.model?.ChoosePreferredAlternate" [caption]="_TB('Preferential Routing')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_CHOOSE_ALT_AUTO_CODE" width="79" [model]="eventData?.model?.ChooseCodeAlternate" [caption]="_TB('Specific alternate')"></tb-radio>
+         <tb-text cmpId="IDC_RUN_PROD_CODE_ALTERNATE" width="62" [model]="eventData?.model?.AlternateCode"></tb-text>
+</div>         <tb-radio cmpId="IDC_RUN_PROD_CHOOSE_ALT_MANUAL" width="127" [model]="eventData?.model?.ChooseAlternateManual" [caption]="_TB('Next manual selection')"></tb-radio>
+         <tb-checkbox cmpId="IDC_RUN_PROD_CHOOSE_ALT_EXACT_MATCH" width="122" [model]="eventData?.model?.bOnlyExactMatch" [caption]="_TB('Only exact match')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('MRP Confirmation Rank')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_FILTERS_MRP">
+         <tb-radio cmpId="IDC_RUN_PROD_ALL_MRP_RANKS" width="37" [model]="eventData?.model?.bAllMRPRanks" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_RUN_PROD_SELECTION_MRP_RANKS" width="33" [model]="eventData?.model?.bMRPRanksSel" [caption]="_TB('From')"></tb-radio>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_RUN_PROD_FROM_MRP_RANK" width="62" [model]="eventData?.model?.FromMRPRank"></tb-numeric-text-box>
+</div>         <tb-numeric-text-box formatter="Integer" [caption]="_TB('To')" cmpId="IDC_RUN_PROD_TO_MRP_RANK" width="62" [model]="eventData?.model?.ToMRPRank"></tb-numeric-text-box>
+        </tb-tile>
+       </tb-layoutcontainer>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Alternate Step')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Alternative Step')" tbTileAutoFill  hasTitle="False">
+        <tb-body-edit cmpId="IDC_PROD_RUN_ALTERNATE_STEP" width="325" [model]="eventData?.model?.ChooseAlternate">
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_BE_SELECTED" columnName="Selection" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_RUN_PROD_CHOOSE_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_NO_ORDER" columnName="MONo" [title]="_TB('MO')" columnType="tb-text" columnName="IDC_RUN_PROD_CHOOSE_NO_ORDER">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_RUN_PROD_CHOOSE_RTGSTEP" columnName="RtgStep" [title]="_TB('Step')" columnType="tb-numeric-text-box" columnName="IDC_RUN_PROD_CHOOSE_RTGSTEP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_BOM" columnName="BOM" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_RUN_PROD_CHOOSE_BOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-label-static" columnName="IDC_RUN_PROD_CHOOSE_VARIANT" *ngIf="eventData?.activation?.IDC_RUN_PROD_CHOOSE_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_ALTERNATE" columnName="Alternate" [title]="_TB('Alternate')" columnType="tb-label-static" columnName="IDC_RUN_PROD_CHOOSE_ALTERNATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_RUN_PROD_CHOOSE_RTGSTEP_ALT" columnName="AltRtgStep" [title]="_TB('Alternate routing step')" columnType="tb-numeric-text-box" columnName="IDC_RUN_PROD_CHOOSE_RTGSTEP_ALT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_OPERATION" columnName="Operation" [title]="_TB('Operation')" columnType="tb-text" columnName="IDC_RUN_PROD_CHOOSE_OPERATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_WC" columnName="WC" [title]="_TB('WC')" columnType="tb-label-static" columnName="IDC_RUN_PROD_CHOOSE_WC">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Step Selection')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Steps')" tbTileAutoFill  hasTitle="False">
+        <tb-body-edit cmpId="IDC_PROD_RUN_STEP" width="654" [model]="eventData?.model?.PhaseDetail">
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_BE_BMP" columnName="StateBmp" [title]="_TB('Status')" columnType="tb-image" columnName="IDC_RUN_PROD_BE_BMP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_BE_SELECTED" columnName="Selection" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_RUN_PROD_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_NO_ORDER" columnName="MONo" [title]="_TB('MO')" columnType="tb-text" columnName="IDC_RUN_PROD_NO_ORDER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_WC" columnName="WC" [title]="_TB('WC')" columnType="tb-label-static" columnName="IDC_RUN_PROD_WC">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_RUN_PROD_RTGSTEP" columnName="RtgStep" [title]="_TB('Step')" columnType="tb-numeric-text-box" columnName="IDC_RUN_PROD_RTGSTEP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_ALTERNATE" columnName="Alternate" [title]="_TB('Alternate')" columnType="tb-label-static" columnName="IDC_RUN_PROD_ALTERNATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_RUN_PROD_RTGSTEP_ALT" columnName="AltRtgStep" [title]="_TB('Alternate routing step')" columnType="tb-numeric-text-box" columnName="IDC_RUN_PROD_RTGSTEP_ALT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_BOM" columnName="BOM" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_RUN_PROD_BOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-label-static" columnName="IDC_RUN_PROD_VARIANT" *ngIf="eventData?.activation?.IDC_RUN_PROD_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_OPERATION" columnName="Operation" [title]="_TB('Operation')" columnType="tb-text" columnName="IDC_RUN_PROD_OPERATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_CHOOSE_SUPP" columnName="Supplier" [title]="_TB('Subcontractor')" columnType="tb-text" columnName="IDC_RUN_PROD_CHOOSE_SUPP">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_RUN_PROD_QUANTITY" columnName="ProductionQty" [title]="_TB('Quantity
+to produce')" columnType="tb-numeric-text-box" columnName="IDC_RUN_PROD_QUANTITY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_RUN_PROD_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_DESCRIPTION" columnName="BOMDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_RUN_PROD_DESCRIPTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_RUN_PROD_DATE_DELIVERY" columnName="StepDeliveryDate" [title]="_TB('Delivery
+date')" columnType="tb-date-input" columnName="IDC_RUN_PROD_DATE_DELIVERY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_RUN_PROD_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-combo" columnName="IDC_RUN_PROD_LOT" *ngIf="eventData?.activation?.IDC_RUN_PROD_LOT">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Actions')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Materials from In-House processing will be picked from...')" tbTileWide  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_ACTIONS_IN_HOUSE">
+<div class="col col1">        <tb-radio cmpId="IDC_RUN_PROD_RESEARCH_INT_STORAGE_PROD" width="645" [model]="eventData?.model?.bInHouseStepsSearchProductionStorages" [caption]="_TB('Search for materials available in manufacturing storages and shortages in default storages')"></tb-radio>
+        <tb-radio cmpId="IDC_RUN_PROD_RESEARCH_INT_STORAGE_DEF" width="645" [model]="eventData?.model?.bInHouseStepsSearchDefaultStorage" [caption]="_TB('Search for all materials in the default storage only')"></tb-radio>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Materials from Outsourced processing will be picked from...')" tbTileWide  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_ACTIONS_OUTSOURCED">
+<div class="col col1">        <tb-radio cmpId="IDC_RUN_PROD_RESEARCH_OUTSRC_STORAGE_PROD" width="648" [model]="eventData?.model?.bOutsourcedStepsSearchProductionStorages" [caption]="_TB('Search for materials available in manufacturing storages and shortages in default storages')"></tb-radio>
+        <tb-radio cmpId="IDC_RUN_PROD_RESEARCH_OUTSRC_STORAGE_DEF" width="646" [model]="eventData?.model?.bOutsourcedStepsSearchDefaultStorage" [caption]="_TB('Search for all materials in the default storage only')"></tb-radio>
+        <tb-radio cmpId="IDC_RUN_PROD_RESEARCH_OUTSRC_STORAGE_SUPP_DEF" width="645" [model]="eventData?.model?.bOutsourcedStepsSearchDefaultSubnctStorage" [caption]="_TB('Search for materials available in the Subcontractor storage and shortages in the default storage')"></tb-radio>
+        <tb-radio cmpId="IDC_RUN_PROD_RESEARCH_OUTSRC_STORAGE_SUPP" width="646" [model]="eventData?.model?.bOutsourcedStepsSearchSubcntStorage" [caption]="_TB('Search for all materials in the Subcontractor storage')"></tb-radio>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Additional documents to generate...')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_ACTIONS_ADDITIONAL_DOC">
+<div class="col col1">        <tb-checkbox cmpId="IDC_RUN_PROD_GENERATE_SUBCONTRACTINGORDER" width="494" [model]="eventData?.model?.bCreateSubcntOrd" [caption]="_TB('Generation of purchase orders for outsourced processing')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_RUN_PROD_GENERATE_SEPARATEORDER" width="379" [model]="eventData?.model?.bSeparateOrderForMO" [caption]="_TB('Separated order for each MO')"></tb-checkbox>
+        <tb-checkbox *ngIf="eventData?.activation?.IDC_RUN_PROD_GENERATE_DN" cmpId="IDC_RUN_PROD_GENERATE_DN" width="506" [model]="eventData?.model?.bCreateSubcntDN" [caption]="_TB('DN generation for Outsourced processing')"></tb-checkbox>
+        <tb-checkbox *ngIf="eventData?.activation?.IDC_RUN_PROD_GENERATE_FROM_SUBCNTRDN" cmpId="IDC_RUN_PROD_GENERATE_FROM_SUBCNTRDN" width="492" [model]="eventData?.model?.bOutsourcedStepsTakeStorageLotsFromDN" [caption]="_TB('If subcontractor DN has already been generated, use same storages and lots')"></tb-checkbox>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Group routing steps on Job Ticket...')" tbTileWide  isCollapsible="True">
+<div class="col col1">        <tb-enum-combo cmpId="IDC_RUN_PROD_CODETYPE_DN_PROCESSING" width="154" [model]="eventData?.model?.JobTicketType"></tb-enum-combo>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Storages...')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_ACTIONS_STORAGE">
+<div class="col col1">        <tb-combo [caption]="_TB('Pick raw materials from')" cmpId="IDC_RUN_PROD_STORAGE_PICKING" width="62" [model]="eventData?.model?.Storage"></tb-combo>
+        <tb-combo [caption]="_TB('Pick semifinished from')" cmpId="IDC_RUN_PROD_STORAGE_PICKING_SEMIFINISHED" width="62" [model]="eventData?.model?.StorageSemifinished"></tb-combo>
+        <tb-checkbox cmpId="IDC_RUN_PROD_CONFIRM_PICKINGLISTS" width="466" [model]="eventData?.model?.bPickMOComponents" [caption]="_TB('Materials picking  ')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_RUN_PROD_AMT_REQUIREMENTS" width="402" [model]="eventData?.model?.bPickRequiredMaterials" [caption]="_TB('Pick also missing materials')"></tb-checkbox>
+</div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Tools...')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_PROD_RUN_ACTIONS_TOOLS">
+<div class="col col1">        <tb-checkbox cmpId="IDC_RUN_PROD_TOOLS_OVERLOAD" width="312" [model]="eventData?.model?.bOverloadTool" [caption]="_TB('If some tools haven\'t enough capacity continue overloading tools')"></tb-checkbox>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Result')" tbTileStandard  isCollapsible="False" isCollapsed="False" hasTitle="False">
+        <tb-caption cmpId="IDC_TB_ACTIVITY_DOCUMENT_PROGRESS" width="587" [model]="eventData?.model?.nCurrentElement"></tb-caption>
+        <tb-label-static cmpId="IDC_TB_ACTIVITY_DOCUMENT_PROGRESS_STATIC" width="587" [model]="eventData?.model?.GaugeDescription"></tb-label-static>
+       </tb-tile>
+       <tb-tile [title]="_TB('List of documents generated')" tbTileWide >
+<div class="col col1">        <tb-body-edit cmpId="IDC_PROGRESSVIEWER_BE" width="654" [model]="eventData?.model?.ProgressViewer">
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_STATUS" columnName="TEnhProgressViewer_P1" [title]="_TB('  ')" columnType="tb-image" columnName="IDC_PROGRESS_VIEWER_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_COLUMN1" columnName="TEnhProgressViewer_P2" [title]="_TB('eventData?.model?.PrgViewerColumn1')" columnType="tb-label-static" columnName="IDC_PROGRESS_VIEWER_COLUMN1">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_COLUMN2" columnName="TEnhProgressViewer_P3" [title]="_TB('eventData?.model?.PrgViewerColumn2')" columnType="tb-label-static" columnName="IDC_PROGRESS_VIEWER_COLUMN2">
+         </tb-body-edit-column>
+        </tb-body-edit>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_CROSSREFERENCES_VIEWER_DOCK_PANE" [title]="_TB('CrossReferencesViewer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+         <tb-treeview cmpId="IDC_CROSSREFERENCES_TREEVIEW" width="214" [caption]="_TB('Static')" border="True"></tb-treeview>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane [title]="_TB('LegendDockPane')">
+     <tb-view>
+      <tb-tilegroup [active]="true" [title]="_TB('Legend')" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Legend')" tbTileStandard >
+<div class="anchored">         <tb-image [height]="10" [width]="13" cmpId="IDC_PROD_RUN_INCREATED" width="13" [model]="eventData?.model?.InCreatedPic"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="145" [caption]="_TB('In-House Created')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="12" [width]="11" cmpId="IDC_PROD_RUN_INRELEASED" width="11" [model]="eventData?.model?.InReleasedPic"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_2" width="140" [caption]="_TB('In-House Released')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="10" [width]="13" cmpId="IDC_PROD_RUN_INPROCESSING" width="13" [model]="eventData?.model?.InProcessingPic"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_3" width="147" [caption]="_TB('In-House Processing')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="10" [width]="13" cmpId="IDC_PROD_RUN_OUTCREATED" width="13" [model]="eventData?.model?.OutCreatedPic"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_4" width="136" [caption]="_TB('Outsourced Created')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="10" [width]="13" cmpId="IDC_PROD_RUN_OUTRELEASED" width="13" [model]="eventData?.model?.OutReleasedPic"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_5" width="143" [caption]="_TB('Outsourced Released')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="10" [width]="13" cmpId="IDC_PROD_RUN_OUTPROCESSING" width="13" [model]="eventData?.model?.OutProcessingPic"></tb-image>
+         <tb-caption cmpId="IDC_STATIC" width="140" [caption]="_TB('Outsourced Processing')"></tb-caption>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

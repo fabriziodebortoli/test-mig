@@ -1,7 +1,7 @@
 <div class="container">
   <h2 class="componentTitle">New Instance Registration</h2>
 
-  <div class="row center-xs end-sm end-lg">
+  <div *ngIf="activationCode === ''" class="row center-xs end-sm end-lg">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div>
         <admin-input-text [inputLabel]="'Account'" [textType]="'text'" [(inputData)]="accountName"></admin-input-text>
@@ -18,7 +18,8 @@
   <div *ngIf="currentStep == 1">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h2>Step 1: Instance Information</h2>
+        <h2 class="stayLine">Step 1: Instance Information</h2><img class="stayLine" *ngIf="busy" src="assets/ajax-loader.gif" />
+        <br><br>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="adminTile tileNormal">
@@ -50,8 +51,9 @@
   <div *ngIf="currentStep == 2">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2 class="stepDone">Step 1: Instance Information</h2>
         <h2>Step 2: Select a Subscription</h2>
-        <h3>Which subscription this Instance will belong to?</h3>
+        <h3>This Instance will be associated to this subscription:</h3>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="adminTile tileNormal">
@@ -69,11 +71,16 @@
   <div *ngIf="currentStep == 3">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h2>Step 3: Registration done</h2>
+        <h2 class="stepDone">Step 1: Instance Information</h2>
+        <h2 class="stepDone">Step 2: Select a Subscription</h2>
+        <h2 class="stayLine">Step 3: Completing the registration</h2><img class="stayLine" *ngIf="busy" src="assets/ajax-loader.gif" />
+        <br><br>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="adminTile tileNormal">
-          Registration of the new istance has been completed succesfully.
+          <h3 [ngClass]="(clusterStep > 0) ? 'stepDone' : ''">Downloading data from GWAM..</h3>
+          <h3 [ngClass]="(clusterStep > 1) ? 'stepDone' : ''">Replicating data cluster on Provisioning..</h3>
+          <h3 *ngIf="clusterStep > 2"><admin-icon style="color: #4CAF50" [iconSignature]="'done'"></admin-icon>Registration of the new istance has been completed succesfully.</h3>
         </div>
       </div>
     </div>

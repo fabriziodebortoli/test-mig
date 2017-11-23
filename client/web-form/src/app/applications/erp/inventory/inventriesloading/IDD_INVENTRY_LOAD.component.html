@@ -1,0 +1,67 @@
+﻿ <tb-frame tbFinder >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-layoutcontainer tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('Reason')" tbTileStandard >
+<div class="anchored">         <tb-combo [caption]="_TB('Reason')" cmpId="IDC_LOAD_INVENTRIES_ENTRY_REASON" width="62" [model]="eventData?.model?.InvEntriesLoading?.InvRsn"></tb-combo>
+         <tb-label-static cmpId="IDC_LOAD_INVENTRIES_ENTRY_DECOD_REASON" width="154" [model]="eventData?.model?.HKLInvRsn?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_LOAD_INVENTRIES_ENTRY_CODETYPE_CUSTSUPP" width="62" [model]="eventData?.model?.InvEntriesLoading?.CustSuppType"></tb-enum-combo>
+         <tb-text cmpId="IDC_LOAD_INVENTRIES_ENTRY_CUSTSUPP" width="90" [model]="eventData?.model?.InvEntriesLoading?.CustSupp"></tb-text>
+</div>         <tb-label-static cmpId="IDC_LOAD_INVENTRIES_ENTRY_DECOD_CUSTSUPP" width="222" [model]="eventData?.model?.HKLCustSupp?.CompanyName"></tb-label-static>
+        </tb-tile>
+        <tb-tile [title]="_TB('Other Data')" tbTileStandard >
+         <tb-text [caption]="_TB('Document No.')" cmpId="IDC_LOAD_INVENTRIES_ENTRY_NO_FISCALDATA_DN" width="105" [model]="eventData?.model?.InvEntriesLoading?.PreprintedDocNo"></tb-text>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Document Date')" cmpId="IDC_LOAD_INVENTRIES_ENTRY_DATE_DOCUMENT" width="58" [model]="eventData?.model?.InvEntriesLoading?.DocumentDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting Date')" cmpId="IDC_LOAD_INVENTRIES_ENTRY_DATE_REGISTRATION" width="58" [model]="eventData?.model?.InvEntriesLoading?.PostingDate"></tb-date-input>
+         <tb-text [caption]="_TB('Log No.')" cmpId="IDC_LOAD_INVENTRIES_ENTRY_NO_DOCUMENT" width="62" [model]="eventData?.model?.InvEntriesLoading?.DocNo"></tb-text>
+<div class="anchored">         <tb-combo *ngIf="eventData?.activation?.IDC_LOAD_INVENTRIES_ENTRY_CURRENCY" [caption]="_TB('Currency')" cmpId="IDC_LOAD_INVENTRIES_ENTRY_CURRENCY" width="62" [model]="eventData?.model?.InvEntriesLoading?.Currency"></tb-combo>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_LOAD_INVENTRIES_ENTRY_DECOD_CURRENCY" cmpId="IDC_LOAD_INVENTRIES_ENTRY_DECOD_CURRENCY" width="154" [model]="eventData?.model?.HKLCurrencies?.Description"></tb-label-static>
+</div>        </tb-tile>
+       </tb-layoutcontainer>
+       <tb-tile [title]="_TB('Detail')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_LOAD_INVENTRIES_BODYEDIT_DETAIL" width="474" [model]="eventData?.model?.InvEntriesDetailLoading">
+         <tb-body-edit-column cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_SELECTED" columnName="Selected" [title]="_TB('Selected')" columnType="tb-checkbox" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_ITEM" columnName="Item" [title]="_TB('Item')" columnType="tb-text" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_DESCR_ITEM" [model]="eventData?.model?.HKLItems?.Description" [title]="_TB('Item Description')" columnType="tb-label-static" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_DESCR_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-text" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_VARIANT" *ngIf="eventData?.activation?.IDC_LOAD_INVENTRY_DETAIL_BE_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_COMPLETEDESCRI" columnName="Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_COMPLETEDESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-text" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_QUANTITY" columnName="Qty" [title]="_TB('Quantity')" columnType="tb-numeric-text-box" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_QUANTITY">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_LOAD_INVENTRY_DETAIL_BE_VAL_UNIT" columnName="UnitValue" [title]="_TB('Unit Value')" columnType="tb-numeric-text-box" columnName="IDC_LOAD_INVENTRY_DETAIL_BE_VAL_UNIT">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FINDER_STAYALIVE?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Fix')" cmpId="ID_FINDER_STAYALIVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SWITCHTO?.enabled" icon="tb-switchto" [caption]="_TB('Switch to...')" cmpId="ID_EXTDOC_SWITCHTO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Finish')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_LOAD_INVENTRIES_OPEN_DOC?.enabled" icon="tb-open" [caption]="_TB('Open Document')" cmpId="ID_LOAD_INVENTRIES_OPEN_DOC"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

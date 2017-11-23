@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService } from '@taskbuilder/core';
@@ -60,11 +60,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
     eventData: EventDataService,
+    changeDetectorRef:ChangeDetectorRef,
     public infoService: InfoService,
 
     public componentService: ComponentService,
     public tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
-    super(rsService, eventData, null);
+    super(rsService, eventData, null, changeDetectorRef);
 
     this.id = this.rsService.generateId();
     this.rsExportService.layoutId = this.id
@@ -333,14 +334,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   PageNumber() {
+    let increment = 1;
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: this.rsExportService.firstPageExport
+      page: this.rsExportService.firstPageExport + "," + increment
     };
 
-    this.rsService.pageNum = message.page;
+    this.rsService.pageNum = this.rsExportService.firstPageExport;
     this.rsService.doSend(JSON.stringify(message));
+    increment++;
   }
 
   // -----------------------------------------------

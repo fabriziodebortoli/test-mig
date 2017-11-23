@@ -14,7 +14,9 @@ export class AccountsHomeComponent implements OnInit {
   accounts: Account[];
   readingData:boolean;
 
-  constructor(private modelService: ModelService, private router: Router) {}
+  constructor(private modelService: ModelService, private router: Router) {
+    this.accounts = [];
+  }
 
   ngOnInit() {
 

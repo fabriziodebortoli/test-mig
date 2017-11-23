@@ -38,7 +38,7 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
     tbComponentService: TbComponentService,
     public cd: ChangeDetectorRef
   ) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, cd);
   }
 
   // ---------------------------------------------------------------------------------------

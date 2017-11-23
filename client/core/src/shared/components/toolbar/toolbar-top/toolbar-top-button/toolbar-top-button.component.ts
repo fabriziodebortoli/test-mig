@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { ComponentInfoService } from './../../../../../core/services/component-info.service';
 import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
@@ -26,9 +26,10 @@ export class ToolbarTopButtonComponent extends TbComponent {
     public eventData: EventDataService,
     public infoService: InfoService,
     public ciService: ComponentInfoService,
-    public tbComponentService: TbComponentService
+    public tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
-    super(tbComponentService);
+    super(tbComponentService, changeDetectorRef);
     //this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
   }
   onCommand() {

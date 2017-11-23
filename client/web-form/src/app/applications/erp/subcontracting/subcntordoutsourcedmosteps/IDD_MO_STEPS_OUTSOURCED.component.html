@@ -1,0 +1,84 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="True" showAsTile="True">
+        <tb-tile [title]="_TB('Outsourced MO steps')" tbTileMini >
+         <tb-radio cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_TST_EVERYONE_LE_RTGSTEPS" width="69" [model]="eventData?.model?.bAllSteps" [caption]="_TB('All processings  ')"></tb-radio>
+         <tb-text [caption]="_TB('Subcontractor')" cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_TST_SUPPLIER" width="62" [model]="eventData?.model?.Supplier"></tb-text>
+         <tb-label-static cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_TST_COMPNAME" width="154" [model]="eventData?.model?.SupplierCompanyName"></tb-label-static>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Results')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="138" [model]="eventData?.model?.SubcontactorOrdMOSteps">
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_STATUS_BMP" columnName="StateBmp" [title]="_TB('Status')" columnType="tb-image" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_STATUS_BMP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_SELECTION" columnName="Selection" [title]="_TB('Sel.')" columnType="tb-radio" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_SELECTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_MONO" columnName="MONo" [title]="_TB('MO')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_MONO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_RTGSTEP" columnName="RtgStep" [title]="_TB('MO Step')" columnType="tb-numeric-text-box" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_RTGSTEP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_ALTERNATE" columnName="Alternate" [title]="_TB('Alternate')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_ALTERNATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_RTGSTEP_ALT" columnName="AltRtgStep" [title]="_TB('Alternate
+step')" columnType="tb-numeric-text-box" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_RTGSTEP_ALT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_PRODUCT" columnName="BOM" [title]="_TB('Item
+MO')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_PRODUCT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_UOM" columnName="UoM" [title]="_TB('UOM')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_QTY_TO_PRODUCTION" columnName="ProductionQty" [title]="_TB('Quantity
+to produce')" columnType="tb-numeric-text-box" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_QTY_TO_PRODUCTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_QTY_FROM_PROCESSORARE" columnName="SubcontractorOrderQuantity" [title]="_TB('Quantity
+ordered')" columnType="tb-numeric-text-box" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_QTY_FROM_PROCESSORARE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_QTY_FROM_TOORDER" columnName="QtyToOrder" [title]="_TB('Quantity
+to be ordered')" columnType="tb-numeric-text-box" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_QTY_FROM_TOORDER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_SUPPLIER" columnName="Supplier" [title]="_TB('Subcontractor')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_SUPPLIER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_OPERATION" columnName="Operation" [title]="_TB('Operation')" columnType="tb-text" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_OPERATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_NAME_SOCIAL" columnName="SupplierCompanyName" [title]="_TB('Company
+name')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_NAME_SOCIAL">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_DESCRI_BOM" columnName="BOMDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_DESCRI_BOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_STATUS" columnName="MOStatus" [title]="_TB('Status')" columnType="tb-enum-combo" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_JOB_COMM" columnName="Job" [title]="_TB('Job')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_JOB_COMM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_CUSTOMER" columnName="Customer" [title]="_TB('Customer')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_CUSTOMER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MO_RTGSTEPS_OUTSOURCED_SALEORDNO" columnName="SaleOrdNo" [title]="_TB('Order no.
+customer')" columnType="tb-label-static" columnName="IDC_MO_RTGSTEPS_OUTSOURCED_SALEORDNO">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_MO_RTGSTEPS_OUTSOURCED_CONFIRM_QUANTITY?.enabled" icon="erp-quantities" [caption]="_TB('Accept quantities on selected lines')" cmpId="ID_MO_RTGSTEPS_OUTSOURCED_CONFIRM_QUANTITY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

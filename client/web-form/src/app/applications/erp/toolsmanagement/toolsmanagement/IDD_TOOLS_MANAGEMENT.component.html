@@ -1,0 +1,209 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Filters')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-layoutcontainer tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('Select an option')" tbTileStandard >
+         <tb-radio cmpId="IDC_SELECT_ACTION_GENERATE_TOOL" width="122" [model]="eventData?.model?.bGenerateTools" [caption]="_TB('Generate new tools')"></tb-radio>
+         <tb-caption cmpId="IDC_STATIC_1" width="160" [caption]="_TB('Generation of new tools linked to an item code')"></tb-caption>
+         <tb-radio cmpId="IDC_SELECT_ACTION_SUBSTITUTE_TOOL" width="29" [model]="eventData?.model?.bSubstituteTools" [caption]="_TB('Substitute tools')"></tb-radio>
+         <tb-caption cmpId="IDC_STATIC_2" width="211" [caption]="_TB('Substitution of tools in Operations, BOMs, MOs and families')"></tb-caption>
+         <tb-radio cmpId="IDC_SELECT_ACTION_DELETE_TOOL" width="29" [model]="eventData?.model?.bDisableTools" [caption]="_TB('Delete or disable tools')"></tb-radio>
+         <tb-caption cmpId="IDC_STATIC_3" width="145" [caption]="_TB('Selection of tools to be deleted or disabled')"></tb-caption>
+        </tb-tile>
+       </tb-layoutcontainer>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Filters')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-layoutcontainer tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('Item')" tbTileMini  isCollapsible="False" *ngIf="eventData?.activation?.IDD_TOOLS_MANAGEMENT_FILTER_ITEM">
+         <tb-radio cmpId="IDC_TOOLS_ALL_ITEM" width="75" [model]="eventData?.model?.bAllItems" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_TOOLS_SEL_ITEM" width="29" [model]="eventData?.model?.bSelItems" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_TOOLS_FROM_ITEM" width="63" [model]="eventData?.model?.FromItem"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_TOOLS_TO_ITEM" width="63" [model]="eventData?.model?.ToItem"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Options')" tbTileMini  *ngIf="eventData?.activation?.IDD_TOOLS_MANAGEMENT_FILTER_ITEM_OPTIONS">
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_COPY_ITEM_IN_FAMILIES" width="100" [model]="eventData?.model?.bCopyInFamilies" [caption]="_TB('Copy in families')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_NEW_DISABLED" width="100" [model]="eventData?.model?.bSetNewDisabled" [caption]="_TB('Set new tools disabled')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Tool')" tbTileMini  isCollapsible="False" *ngIf="eventData?.activation?.IDD_TD_TOOLS_FILTER_TOOL">
+         <tb-radio cmpId="IDC_TOOLS_ALL_TOOL" width="75" [model]="eventData?.model?.bAllTools" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_TOOLS_SEL_TOOL" width="29" [model]="eventData?.model?.bSelTools" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_TOOLS_FROM_TOOL" width="63" [model]="eventData?.model?.FromTool"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_TOOLS_TO_TOOL" width="63" [model]="eventData?.model?.ToTool"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Tool Family')" tbTileMini  isCollapsible="False" *ngIf="eventData?.activation?.IDD_TD_TOOLS_FILTER_TOOL_FAMILY">
+         <tb-radio cmpId="IDC_TOOLS_ALL_FAMILY" width="75" [model]="eventData?.model?.bAllFamilies" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_TOOLS_SEL_FAMILY" width="29" [model]="eventData?.model?.bSelFamilies" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_TOOLS_FROM_FAMILY" width="63" [model]="eventData?.model?.FromFamily"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_TOOLS_TO_FAMILY" width="63" [model]="eventData?.model?.ToFamily"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Options')" tbTileMini  *ngIf="eventData?.activation?.IDD_TOOLS_MANAGEMENT_FILTER_OPTIONS">
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_ONLY_DISABLED" width="100" [model]="eventData?.model?.bOnlyDisabled" [caption]="_TB('Only disabled')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_ONLY_EXHAUSTED" width="100" [model]="eventData?.model?.bOnlyExhausted" [caption]="_TB('Only exhausted')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_ONLY_OUTOFORDER" width="100" [model]="eventData?.model?.bOnlyOutOfOrder" [caption]="_TB('Only Out of order')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Substitute in')" tbTileMini  *ngIf="eventData?.activation?.IDD_TOOLS_MANAGEMENT_FILTER_SUBSTITUTE">
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_OPERATIONS" width="100" [model]="eventData?.model?.bOperations" [caption]="_TB('Operations')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_BOM" width="100" [model]="eventData?.model?.bBOMs" [caption]="_TB('BOMs')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_MO" width="100" [model]="eventData?.model?.bMOs" [caption]="_TB('MOs')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_FAMILY" width="100" [model]="eventData?.model?.bFamilies" [caption]="_TB('Families')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_DISABLE_SUBSTITUTED_TOOL" width="100" [model]="eventData?.model?.bDisableSubstitutedTool" [caption]="_TB('Disable tools after substitution')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Operation')" tbTileMini  isCollapsible="False" *ngIf="eventData?.activation?.IDD_TOOLS_MANAGEMENT_FILTER_OPERATION">
+         <tb-radio cmpId="IDC_TOOLS_MANAGEMENT_DELETE" width="75" [model]="eventData?.model?.bOperationDelete" [caption]="_TB('Delete')"></tb-radio>
+         <tb-radio cmpId="IDC_TOOLS_MANAGEMENT_DISABLE" width="29" [model]="eventData?.model?.bOperationDisable" [caption]="_TB('Disable')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('From')" tbTileMini  *ngIf="eventData?.activation?.IDD_TOOLS_MANAGEMENT_FILTER_DELETE_DISABLE_FROM">
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_OPERATIONS" width="100" [model]="eventData?.model?.bOperations" [caption]="_TB('Operations')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_BOM" width="100" [model]="eventData?.model?.bBOMs" [caption]="_TB('BOMs')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_MO" width="100" [model]="eventData?.model?.bMOs" [caption]="_TB('MOs')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TOOLS_MANAGEMENT_FAMILY" width="100" [model]="eventData?.model?.bFamilies" [caption]="_TB('Families')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Unloaded Inventory Reason')" tbTileMini  isCollapsible="False" *ngIf="eventData?.activation?.IDD_TOOLS_MANAGEMENT_FILTER_UNLOAD_IR">
+         <tb-combo cmpId="IDC_TOOLS_MANAGEMENT_UNLOAD_IE" width="100" [model]="eventData?.model?.sUnloadIR"></tb-combo>
+        </tb-tile>
+       </tb-layoutcontainer>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Select Row')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Result')" tbTileStandard >
+        <tb-body-edit cmpId="IDC_TOOLS_MANAGEMENT_RESULT_FIRST" width="493" [model]="eventData?.model?.ToolsManagement">
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_BMP_STATUS_BE" columnName="LocalBmpStatus" [title]="_TB('  ')" columnType="tb-image" columnName="IDC_TOOLS_MANAGEMENT_BMP_STATUS_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_SELECTED_BE" columnName="LocalSelected" [title]="_TB('Selected')" columnType="tb-checkbox" columnName="IDC_TOOLS_MANAGEMENT_SELECTED_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ITEM_BE" columnName="LocalItem" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ITEM_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ITEM_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ITEM_DESCRIPTION_BE" [model]="eventData?.model?.HKLItemBE?.Description" [title]="_TB('Item
+Description')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ITEM_DESCRIPTION_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ITEM_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_TOOLS_MANAGEMENT_ITEM_ONHAND_BE" columnName="LocalItemOnHand" [title]="_TB('Item
+OnHand')" columnType="tb-numeric-text-box" columnName="IDC_TOOLS_MANAGEMENT_ITEM_ONHAND_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ITEM_ONHAND_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_TOOLS_MANAGEMENT_NO_TOOLS_FROM_ITEM_BE" columnName="LocalNoToolsFromItem" [title]="_TB('No. tools
+from item')" columnType="tb-numeric-text-box" columnName="IDC_TOOLS_MANAGEMENT_NO_TOOLS_FROM_ITEM_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_NO_TOOLS_FROM_ITEM_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ROOT_CODE_BE" columnName="LocalRootCode" [title]="_TB('Root Code')" columnType="tb-text" columnName="IDC_TOOLS_MANAGEMENT_ROOT_CODE_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ROOT_CODE_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_TOOLS_MANAGEMENT_NO_TOOLS_TO_GENERATE_BE" columnName="LocalNoToolsToGenerate" [title]="_TB('No. tools
+to generate')" columnType="tb-numeric-text-box" columnName="IDC_TOOLS_MANAGEMENT_NO_TOOLS_TO_GENERATE_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_NO_TOOLS_TO_GENERATE_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE" columnName="LocalOriginalTool" [title]="_TB('Copy from
+tool')" columnType="tb-text" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE" columnName="LocalOriginalTool" [title]="_TB('Copy from
+tool')" columnType="tb-text" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE" columnName="LocalOriginalToolDescription" [title]="_TB('Tool
+Description')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE" columnName="LocalOriginalTool" [title]="_TB('Original
+tool')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE" columnName="LocalOriginalToolDescription" [title]="_TB('Original tool
+description')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_STATUS" columnName="LocalOriginalToolStatus" [title]="_TB('Status')" columnType="tb-enum-combo" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_STATUS" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DISABLED" columnName="LocalOriginalToolDisabled" [title]="_TB('Disabled')" columnType="tb-checkbox" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DISABLED" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DISABLED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DISABLED" columnName="LocalOriginalToolDisabled" [title]="_TB('Disabled')" columnType="tb-checkbox" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DISABLED" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DISABLED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_NEW_TOOL_BE" columnName="LocalNewTool" [title]="_TB('Replace with')" columnType="tb-text" columnName="IDC_TOOLS_MANAGEMENT_NEW_TOOL_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_NEW_TOOL_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_NEW_TOOL_DESCRIPTION_BE" [model]="eventData?.model?.HKLNewToolBE?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_NEW_TOOL_DESCRIPTION_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_NEW_TOOL_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ITEM_BE" columnName="LocalItem" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ITEM_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ITEM_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ITEM_DESCRIPTION_BE" [model]="eventData?.model?.HKLItemBE?.Description" [title]="_TB('Item
+Description')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ITEM_DESCRIPTION_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_ITEM_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_DELETE_TOOL_IE_BE" columnName="LocalUnloadToolIE" [title]="_TB('Unload
+Item')" columnType="tb-checkbox" columnName="IDC_TOOLS_MANAGEMENT_DELETE_TOOL_IE_BE" *ngIf="eventData?.activation?.IDC_TOOLS_MANAGEMENT_DELETE_TOOL_IE_BE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Result')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Result')" tbTileStandard >
+        <tb-body-edit cmpId="IDC_TOOLS_MANAGEMENT_RESULT_SECOND" width="493" [model]="eventData?.model?.ToolsToGenerate">
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_BMP_STATUS_BE" columnName="LocalBmpStatus" [title]="_TB('  ')" columnType="tb-image" columnName="IDC_TOOLS_MANAGEMENT_BMP_STATUS_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_SELECTED_BE" columnName="LocalSelected" [title]="_TB('Selected')" columnType="tb-checkbox" columnName="IDC_TOOLS_MANAGEMENT_SELECTED_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ITEM_BE" columnName="LocalItem" [title]="_TB('Original Item')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ITEM_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE" columnName="LocalOriginalTool" [title]="_TB('Original
+tool')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_NEW_TOOL_BE" columnName="LocalNewTool" [title]="_TB('Tool')" columnType="tb-text" columnName="IDC_TOOLS_MANAGEMENT_NEW_TOOL_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE" [model]="eventData?.model?.HKLToolByItemBE?.Description" [title]="_TB('Tool
+Description')" columnType="tb-text" columnName="IDC_TOOLS_MANAGEMENT_ORIGINAL_TOOL_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_TOOLS_MANAGEMENT_ERROR_WARNING_BE" columnName="LocalMessages" [title]="_TB('Messages')" columnType="tb-label-static" columnName="IDC_TOOLS_MANAGEMENT_ERROR_WARNING_BE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane [title]="">
+     <tb-view>
+      <tb-tilegroup [active]="true" [title]="_TB('Legend')" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Tools')" tbTileStandard >
+<div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_AVAILABLE" width="14"></tb-button>
+         <tb-caption [caption]="_TB('Available')" cmpId="IDC_STATIC_1" width="141" [caption]="_TB('Available')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_TO_BE_INSPECTED" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_2" width="141" [caption]="_TB('To be inspected')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_UNDER_INSPECTION" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_4" width="141" [caption]="_TB('Under inspection')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_TO_RECONDITIONED" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_3" width="141" [caption]="_TB('To be reconditioned')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_UNDER_MAINTENANCE" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_8" width="141" [caption]="_TB('Under maintenance')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_EXHAUSTED" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_9" width="141" [caption]="_TB('Exhausted')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_OUT_OF_ORDER" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_5" width="141" [caption]="_TB('Out of order')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_NOT_FOUND" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_6" width="141" [caption]="_TB('Not available')"></tb-caption>
+</div><div class="anchored">         <tb-button cmpId="IDC_TOOLS_BMP_WITH_ERRORS" width="14"></tb-button>
+         <tb-caption cmpId="IDC_STATIC_7" width="141" [caption]="_TB('Disabled or Generic error')"></tb-caption>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,0 +1,322 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Filters')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-layoutcontainer tbLayoutTypeColumn >
+        <tb-tile [title]="_TB('Execute')" tbTileMini >
+         <tb-radio cmpId="IDC_BOM_PROD_EXECUTE_RUN" width="37" [model]="eventData?.model?.bExecuteRun" [caption]="_TB('Run')"></tb-radio>
+         <tb-radio cmpId="IDC_BOM_PROD_EXECUTE_CONFIRMATION" width="150" [model]="eventData?.model?.bExecuteConf" [caption]="_TB('Confirmation')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Produce')" tbTileMini >
+<div class="anchored">         <tb-radio cmpId="IDC_BOM_PROD_PRODUCE_PLAN" width="66" [model]="eventData?.model?.bProducePlan" [caption]="_TB('Production Plan')"></tb-radio>
+         <tb-text cmpId="IDC_BOM_PROD_PRODUCE_PLAN_NO" width="62" [model]="eventData?.model?.sPlanNo"></tb-text>
+</div>         <tb-radio cmpId="IDC_BOM_PROD_PRODUCE_BOM" width="112" [model]="eventData?.model?.bProduceBOM" [caption]="_TB('Bill of Materials')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Netting Calculation')" tbTileMini >
+         <tb-radio cmpId="IDC_BOM_PROD_NET_PRODUCT_SF" width="128" [model]="eventData?.model?.bProduceSemiFinished" [caption]="_TB('Produce All Semifinished')"></tb-radio>
+         <tb-radio cmpId="IDC_BOM_PROD_NET_NETTIN_SF" width="141" [model]="eventData?.model?.bSemiFinishedNetting" [caption]="_TB('Use Semifinished in the
+Inventory and Produce Missing Ones')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Options')" tbTileMini >
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_BOM_PROD_OPT_SAVE" cmpId="IDC_BOM_PROD_OPT_SAVE" width="146" [model]="eventData?.model?.bSavePlan" [caption]="_TB('Save Produced BOMs to Plan')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_BOM_PROD_OPT_SEMIFIN_AS_MAT" width="152" [model]="eventData?.model?.bUseSemifinishedAsMaterials" [caption]="_TB('Do not expand production intermediates')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Other')" tbTileMini >
+<div class="anchored">         <tb-caption cmpId="IDC_BOM_PROD_RUNDATE_STATIC" width="76" [caption]="_TB('Run date')"></tb-caption>
+         <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_BOM_PROD_RUNDATE" width="57" [model]="eventData?.model?.RunDate"></tb-date-input>
+</div>        </tb-tile>
+       </tb-layoutcontainer>
+       <tb-tile [title]="_TB('BOM to Produce')" tbTileStandard  isCollapsible="True" isCollapsed="eventData?.model?.bProducePlan">
+        <tb-body-edit cmpId="IDC_BOM_PROD_BOM_BE" width="654" [model]="eventData?.model?.BOMProductionDetails">
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BOM_PROD_BOM_BE_LINE" columnName="Line" [title]="_TB('Line')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_BOM_BE_LINE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_BOM" columnName="BOM" [title]="_TB('Item')" columnType="tb-body-edit-column" columnName="IDC_BOM_PROD_BOM_BE_BOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_COMPLETEDESCRI" [model]="eventData?.model?.HKLBOMItem?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BOM_PROD_BOM_BE_COMPLETEDESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-text" columnName="IDC_BOM_PROD_BOM_BE_VARIANT" *ngIf="eventData?.activation?.IDC_BOM_PROD_BOM_BE_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_BOM_PROD_BOM_BE_QTY" columnName="ProductionQty" [title]="_TB('Quantity')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_BOM_BE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_BOM_PROD_BOM_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_ALLLEVELS" columnName="LocAllLevels" [title]="_TB('All Levels')" columnType="tb-checkbox" columnName="IDC_BOM_PROD_BOM_BE_ALLLEVELS">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_BOM_PROD_BOM_BE_LEVEL" columnName="BOMLevel" [title]="_TB('Level')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_BOM_BE_LEVEL">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_VALUATE_DEFAULT" columnName="UseDefaultValue" [title]="_TB('Def. Val.')" columnType="tb-checkbox" columnName="IDC_BOM_PROD_BOM_BE_VALUATE_DEFAULT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_VALUATE_DETAIL" columnName="InventoryValueCriteria" [itemSource]="IDC_BOM_PROD_BOM_BE_VALUATE_DETAIL_itemSource" [title]="_TB('Valuation')" columnType="tb-enum-combo" columnName="IDC_BOM_PROD_BOM_BE_VALUATE_DETAIL">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_USE_BY_LOT" columnName="EvaluateByLot" [title]="_TB('Evaluate by Lot')" columnType="tb-checkbox" columnName="IDC_BOM_PROD_BOM_BE_USE_BY_LOT" *ngIf="eventData?.activation?.IDC_BOM_PROD_BOM_BE_USE_BY_LOT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-text" columnName="IDC_BOM_PROD_BOM_BE_LOT" *ngIf="eventData?.activation?.IDC_BOM_PROD_BOM_BE_LOT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_CSTCENTER" columnName="CostCenter" [title]="_TB('Cost Center')" columnType="tb-combo" columnName="IDC_BOM_PROD_BOM_BE_CSTCENTER" *ngIf="eventData?.activation?.IDC_BOM_PROD_BOM_BE_CSTCENTER">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_JOB" columnName="Job" [title]="_TB('Job')" columnType="tb-text" columnName="IDC_BOM_PROD_BOM_BE_JOB" *ngIf="eventData?.activation?.IDC_BOM_PROD_BOM_BE_JOB">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_BOM_BE_NOTES_DETAIL" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_BOM_PROD_BOM_BE_NOTES_DETAIL">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Components')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Variable Components')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_BOM_PROD_COMP_BE" width="599" [model]="eventData?.model?.DBTBOMProductionCompDetails">
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_SEL" columnName="Selected" [title]="_TB('Sel')" columnType="tb-checkbox" columnName="IDC_BOM_PROD_COMP_BE_SEL">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_BOM" columnName="BOM" [title]="_TB('BOM')" columnType="tb-label-static" columnName="IDC_BOM_PROD_COMP_BE_BOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_SUBBOM" columnName="BreakingBOM" [title]="_TB('Sub
+Bill')" columnType="tb-label-static" columnName="IDC_BOM_PROD_COMP_BE_SUBBOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_TYPE" columnName="CodeType" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_BOM_PROD_COMP_BE_TYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_COMP" columnName="Component" [title]="_TB('Component')" columnType="tb-combo" columnName="IDC_BOM_PROD_COMP_BE_COMP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_DESC" columnName="ComponentDescription" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BOM_PROD_COMP_BE_DESC">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_BOM_PROD_COMP_BE_QTY" columnName="Qty" [title]="_TB('Quantity')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_COMP_BE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_UOM" columnName="UoM" [itemSource]="IDC_BOM_PROD_COMP_BE_UOM_itemSource" [title]="_TB('UoM')" columnType="tb-combo" columnName="IDC_BOM_PROD_COMP_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BOM_PROD_COMP_BE_QTY_SUM" columnName="SummaryQty" [title]="_TB('Summarized
+Quantity')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_COMP_BE_QTY_SUM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_UOM_SUM" columnName="BaseUoM" [itemSource]="IDC_BOM_PROD_COMP_BE_UOM_SUM_itemSource" [title]="_TB('Summarized
+UoM')" columnType="tb-combo" columnName="IDC_BOM_PROD_COMP_BE_UOM_SUM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_BOM_PROD_COMP_BE_QTY_WASTE" columnName="ScrapQty" [title]="_TB('Waste
+Qty')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_COMP_BE_QTY_WASTE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_COMP_BE_UOM_WASTE" columnName="ScrapUM" [itemSource]="IDC_BOM_PROD_COMP_BE_UOM_WASTE_itemSource" [title]="_TB('Waste
+UoM')" columnType="tb-combo" columnName="IDC_BOM_PROD_COMP_BE_UOM_WASTE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BOM_PROD_COMP_BE_QTY_WASTE_SUM" columnName="SummaryWasteQty" [title]="_TB('Summarized
+Waste Quantity')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_COMP_BE_QTY_WASTE_SUM">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Lot')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Lot Components')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_BOM_PROD_LOT_BE" width="599" [model]="eventData?.model?.DBTBOMLotComponentsDetail">
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_LOT_BE_COMP" columnName="Component" [title]="_TB('Component')" columnType="tb-text" columnName="IDC_BOM_PROD_LOT_BE_COMP">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_LOT_BE_COMP_DES" columnName="ComponentDescription" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_BOM_PROD_LOT_BE_COMP_DES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_LOT_BE_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_BOM_PROD_LOT_BE_UOM">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_BOM_PROD_LOT_BE_QTY" columnName="SummaryQty" [title]="_TB('Quantity')" columnType="tb-numeric-text-box" columnName="IDC_BOM_PROD_LOT_BE_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_BOM_PROD_LOT_BE_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-combo" columnName="IDC_BOM_PROD_LOT_BE_LOT">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Other')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Value set...')" tbTileStandard >
+        <tb-radio cmpId="IDC_BOM_PROD_VAL_PLAN" width="121" [model]="eventData?.model?.bValPlan" [caption]="_TB('In Plan Line Number')"></tb-radio>
+        <tb-radio cmpId="IDC_BOM_PROD_VAL_BOM" width="121" [model]="eventData?.model?.bValBOM" [caption]="_TB('In BOM Parameters')"></tb-radio>
+        <tb-radio cmpId="IDC_BOM_PROD_VAL_COMP" width="121" [model]="eventData?.model?.bValComp" [caption]="_TB('In Component Master Data')"></tb-radio>
+<div class="anchored">        <tb-radio cmpId="IDC_BOM_PROD_VAL_OTHER" width="121" [model]="eventData?.model?.bValCustom" [caption]="_TB('As Follows')"></tb-radio>
+        <tb-enum-combo cmpId="IDC_BOM_PROD_VAL_VALUATE" width="86" [model]="eventData?.model?.eValType" [itemSource]="IDC_BOM_PROD_VAL_VALUATE_itemSource"></tb-enum-combo>
+        <tb-checkbox *ngIf="eventData?.activation?.IDC_BOM_PROD_VAL_BY_LOT" cmpId="IDC_BOM_PROD_VAL_BY_LOT" width="48" [model]="eventData?.model?.bEvaluateByLot" [caption]="_TB('By Lot')"></tb-checkbox>
+</div><div class="anchored">        <tb-enum-combo cmpId="IDC_BOM_PROD_VAL_VALUATE" width="86" [model]="eventData?.model?.eValType" [itemSource]="IDC_BOM_PROD_VAL_VALUATE_itemSource"></tb-enum-combo>
+        <tb-checkbox *ngIf="eventData?.activation?.IDC_BOM_PROD_VAL_BY_LOT" cmpId="IDC_BOM_PROD_VAL_BY_LOT" width="48" [model]="eventData?.model?.bEvaluateByLot" [caption]="_TB('By Lot')"></tb-checkbox>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Note')" tbTileStandard >
+        <tb-text [caption]="_TB('Note')" cmpId="IDC_BOM_PROD_NOTE" width="154" [model]="eventData?.model?.sNotes"></tb-text>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Result')" tbTileStandard  isCollapsible="False" isCollapsed="False" hasTitle="False">
+        <tb-caption cmpId="IDC_TB_ACTIVITY_DOCUMENT_PROGRESS" width="587" [model]="eventData?.model?.nCurrentElement"></tb-caption>
+        <tb-label-static cmpId="IDC_TB_ACTIVITY_DOCUMENT_PROGRESS_STATIC" width="587" [model]="eventData?.model?.GaugeDescription"></tb-label-static>
+       </tb-tile>
+       <tb-tile [title]="_TB('List of documents generated')" tbTileWide >
+<div class="col col1">        <tb-body-edit cmpId="IDC_PROGRESSVIEWER_BE" width="654" [model]="eventData?.model?.ProgressViewer">
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_STATUS" columnName="TEnhProgressViewer_P1" [title]="_TB('  ')" columnType="tb-image" columnName="IDC_PROGRESS_VIEWER_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_COLUMN1" columnName="TEnhProgressViewer_P2" [title]="_TB('eventData?.model?.PrgViewerColumn1')" columnType="tb-label-static" columnName="IDC_PROGRESS_VIEWER_COLUMN1">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_PROGRESS_VIEWER_COLUMN2" columnName="TEnhProgressViewer_P3" [title]="_TB('eventData?.model?.PrgViewerColumn2')" columnType="tb-label-static" columnName="IDC_PROGRESS_VIEWER_COLUMN2">
+         </tb-body-edit-column>
+        </tb-body-edit>
+</div><div class="col col2"></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane [title]="_TB('RunWst')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Same Item')" tbTileStandard  isCollapsible="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Inventory reason')" cmpId="IDC_BOM_PROD_RSN_WST_SAME_RSN" width="62" [model]="eventData?.model?.WstSameReason"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_SAME_RSN_DESC" width="154" [model]="eventData?.model?.HKLWstSameReason?.Description"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_WST_SAME_F1" width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_WST_SAME_STRG_F1" width="62" [model]="eventData?.model?.WstSameStrgF1"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_SAME_STRG_F1_DESC" width="154" [model]="eventData?.model?.HKLWstSameStrgF1?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_WST_SAME_TYPE_F1" width="62" [model]="eventData?.model?.WstSameTypeF1" [itemSource]="IDC_BOM_PROD_RSN_WST_SAME_TYPE_F1_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F1" width="62" [model]="eventData?.model?.WstSameSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLWstSameSpecF1?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F1" width="62" [model]="eventData?.model?.WstSameSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLWstSameSpecF1?.CompanyName"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_WST_SAME_F2" width="302" [caption]="_TB('Phase 2')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_WST_SAME_STRG_F2" width="62" [model]="eventData?.model?.WstSameStrgF2"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_SAME_STRG_F2_DESC" width="154" [model]="eventData?.model?.HKLWstSameStrgF2?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_WST_SAME_TYPE_F2" width="62" [model]="eventData?.model?.WstSameTypeF2" [itemSource]="IDC_BOM_PROD_RSN_WST_SAME_TYPE_F2_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F2" width="62" [model]="eventData?.model?.WstSameSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLWstSameSpecF2?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F2" width="62" [model]="eventData?.model?.WstSameSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_SAME_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLWstSameSpecF2?.CompanyName"></tb-label-static>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Different Item')" tbTileStandard  isCollapsible="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Inventory reason')" cmpId="IDC_BOM_PROD_RSN_WST_DIFF_RSN" width="62" [model]="eventData?.model?.WstDiffReason"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_DIFF_RSN_DESC" width="154" [model]="eventData?.model?.HKLWstDiffReason?.Description"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_WST_DIFF_F1" width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_WST_DIFF_STRG_F1" width="62" [model]="eventData?.model?.WstDiffStrgF1"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_DIFF_STRG_F1_DESC" width="154" [model]="eventData?.model?.HKLWstDiffStrgF1?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_WST_DIFF_TYPE_F1" width="62" [model]="eventData?.model?.WstDiffTypeF1" [itemSource]="IDC_BOM_PROD_RSN_WST_DIFF_TYPE_F1_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F1" width="62" [model]="eventData?.model?.WstDiffSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLWstDiffSpecF1?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F1" width="62" [model]="eventData?.model?.WstDiffSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLWstDiffSpecF1?.CompanyName"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_WST_DIFF_F2" width="302" [caption]="_TB('Phase 2')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_WST_DIFF_STRG_F2" width="62" [model]="eventData?.model?.WstDiffStrgF2"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_DIFF_STRG_F2_DESC" width="154" [model]="eventData?.model?.HKLWstDiffStrgF2?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_WST_DIFF_TYPE_F2" width="62" [model]="eventData?.model?.WstDiffTypeF2" [itemSource]="IDC_BOM_PROD_RSN_WST_DIFF_TYPE_F2_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F2" width="62" [model]="eventData?.model?.WstDiffSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLWstDiffSpecF2?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F2" width="62" [model]="eventData?.model?.WstDiffSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_WST_DIFF_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLWstDiffSpecF2?.CompanyName"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane [title]="_TB('RunRet')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Unload Raw Materials from Production')" tbTileStandard  isCollapsible="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Inventory reason')" cmpId="IDC_BOM_PROD_RSN_RET_UNLD_RSN" width="62" [model]="eventData?.model?.RetUnldReason"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_UNLD_RSN_DESC" width="154" [model]="eventData?.model?.HKLRetUnldReason?.Description"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_RET_UNLD_F1" width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RET_UNLD_STRG_F1" width="62" [model]="eventData?.model?.RetUnldStrgF1"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_UNLD_STRG_F1_DESC" width="154" [model]="eventData?.model?.HKLRetUnldStrgF1?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RET_UNLD_TYPE_F1" width="62" [model]="eventData?.model?.RetLoadTypeF1" [itemSource]="IDC_BOM_PROD_RSN_RET_UNLD_TYPE_F1_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F1" width="62" [model]="eventData?.model?.RetUnldSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRetUnldSpecF1?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F1" width="62" [model]="eventData?.model?.RetUnldSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRetUnldSpecF1?.CompanyName"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_RET_UNLD_F2" width="302" [caption]="_TB('Phase 2')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RET_UNLD_STRG_F2" width="62" [model]="eventData?.model?.RetUnldStrgF2"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_UNLD_STRG_F2_DESC" width="154" [model]="eventData?.model?.HKLRetUnldStrgF2?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RET_UNLD_TYPE_F2" width="62" [model]="eventData?.model?.RetUnldTypeF2" [itemSource]="IDC_BOM_PROD_RSN_RET_UNLD_TYPE_F2_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F2" width="62" [model]="eventData?.model?.RetUnldSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRetUnldSpecF2?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F2" width="62" [model]="eventData?.model?.RetUnldSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_UNLD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRetUnldSpecF2?.CompanyName"></tb-label-static>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Load Finished Products to Inventory')" tbTileStandard  isCollapsible="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Inventory reason')" cmpId="IDC_BOM_PROD_RSN_RET_LOAD_RSN" width="62" [model]="eventData?.model?.RetLoadReason"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_LOAD_RSN_DESC" width="154" [model]="eventData?.model?.HKLRetLoadReason?.Description"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_RET_LOAD_F1" width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RET_LOAD_STRG_F1" width="62" [model]="eventData?.model?.RetLoadStrgF1"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_LOAD_STRG_F1_DESC" width="154" [model]="eventData?.model?.HKLRetLoadStrgF1?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RET_LOAD_TYPE_F1" width="62" [model]="eventData?.model?.RetLoadTypeF1" [itemSource]="IDC_BOM_PROD_RSN_RET_LOAD_TYPE_F1_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F1" width="62" [model]="eventData?.model?.RetLoadSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRetLoadSpecF1?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F1" width="62" [model]="eventData?.model?.RetLoadSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRetLoadSpecF1?.CompanyName"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_RET_LOAD_F2" width="302" [caption]="_TB('Phase 2')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RET_LOAD_STRG_F2" width="62" [model]="eventData?.model?.RetLoadStrgF2"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_LOAD_STRG_F2_DESC" width="154" [model]="eventData?.model?.HKLRetLoadStrgF2?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RET_LOAD_TYPE_F2" width="62" [model]="eventData?.model?.RetLoadTypeF2" [itemSource]="IDC_BOM_PROD_RSN_RET_LOAD_TYPE_F2_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F2" width="62" [model]="eventData?.model?.RetLoadSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRetLoadSpecF2?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F2" width="62" [model]="eventData?.model?.RetLoadSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RET_LOAD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRetLoadSpecF2?.CompanyName"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane [title]="_TB('RunRsn')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Unload Raw Materials from Inventory')" tbTileStandard  isCollapsible="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Inventory reason')" cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_RSN" width="62" [model]="eventData?.model?.RunUnldReason"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_RSN_DESC" width="154" [model]="eventData?.model?.HKLRunUnldReason?.Description"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_F1" width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_STRG_F1" width="62" [model]="eventData?.model?.RunUnldStrgF1"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_STRG_F1_DESC" width="154" [model]="eventData?.model?.HKLRunUnldStrgF1?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_TYPE_F1" width="62" [model]="eventData?.model?.RunUnldTypeF1" [itemSource]="IDC_BOM_PROD_RSN_RUN_UNLD_TYPE_F1_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F1" width="62" [model]="eventData?.model?.RunUnldSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRunUnldSpecF1?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F1" width="62" [model]="eventData?.model?.RunUnldSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRunUnldSpecF1?.CompanyName"></tb-label-static>
+</div>         <tb-section-title cmpId=" IDC_BOM_PROD_RSN_RUN_UNLD_F2 " width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_STRG_F2" width="62" [model]="eventData?.model?.RunUnldStrgF2"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_STRG_F2_DESC" width="154" [model]="eventData?.model?.HKLRunUnldStrgF2?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_TYPE_F2" width="62" [model]="eventData?.model?.RunUnldTypeF2" [itemSource]="IDC_BOM_PROD_RSN_RUN_UNLD_TYPE_F2_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F2" width="62" [model]="eventData?.model?.RunUnldSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRunUnldSpecF2?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F2" width="62" [model]="eventData?.model?.RunUnldSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_UNLD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRunUnldSpecF2?.CompanyName"></tb-label-static>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Load Finished Products to Production')" tbTileStandard  isCollapsible="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Inventory reason')" cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_RSN" width="62" [model]="eventData?.model?.RunLoadReason"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_RSN_DESC" width="154" [model]="eventData?.model?.HKLRunLoadReason?.Description"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_F1" width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_STRG_F1" width="62" [model]="eventData?.model?.RunLoadStrgF1"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_STRG_F1_DESC" width="154" [model]="eventData?.model?.HKLRunLoadStrgF1?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_TYPE_F1" width="62" [model]="eventData?.model?.RunLoadTypeF1" [itemSource]="IDC_BOM_PROD_RSN_RUN_LOAD_TYPE_F1_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F1" width="62" [model]="eventData?.model?.RunLoadSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRunLoadSpecF1?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F1" width="62" [model]="eventData?.model?.RunLoadSpecF1"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F1_DESC" width="90" [model]="eventData?.model?.HKLRunLoadSpecF1?.CompanyName"></tb-label-static>
+</div>         <tb-section-title cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_F2" width="302" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_STRG_F2" width="62" [model]="eventData?.model?.RunLoadStrgF2"></tb-combo>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_STRG_F2_DESC" width="154" [model]="eventData?.model?.HKLRunLoadStrgF2?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_TYPE_F2" width="62" [model]="eventData?.model?.RunLoadTypeF2" [itemSource]="IDC_BOM_PROD_RSN_RUN_LOAD_TYPE_F2_itemSource"></tb-enum-combo>
+         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F2" width="62" [model]="eventData?.model?.RunLoadSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRunLoadSpecF2?.CompanyName"></tb-label-static>
+</div><div class="anchored">         <tb-text cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F2" width="62" [model]="eventData?.model?.RunLoadSpecF2"></tb-text>
+         <tb-label-static cmpId="IDC_BOM_PROD_RSN_RUN_LOAD_SPEC_F2_DESC" width="90" [model]="eventData?.model?.HKLRunLoadSpecF2?.CompanyName"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,5 +1,5 @@
 import { Logger, Store, TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
 import JsVat from './jsvat';
 
@@ -15,9 +15,14 @@ export class VatComponent extends ControlComponent {
   @Input() selector;
   errorMessage: any;
 
-  constructor(layoutService: LayoutService, private eventData: EventDataService, private logger: Logger,
-    tbComponentService: TbComponentService, private http: ErpHttpService, private store: Store) {
-    super(layoutService, tbComponentService);
+  constructor(layoutService: LayoutService, 
+    private eventData: EventDataService, 
+    private logger: Logger,
+    tbComponentService: TbComponentService, 
+    private http: ErpHttpService, 
+    changeDetectorRef:ChangeDetectorRef,
+    private store: Store) {
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   ngOnChanges(changes) {

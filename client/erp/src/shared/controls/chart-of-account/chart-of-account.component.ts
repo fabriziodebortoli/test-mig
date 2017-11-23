@@ -1,5 +1,5 @@
 import { TbComponentService, LayoutService, EventDataService, ControlComponent } from '@taskbuilder/core';
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import * as u from '../../../core/u/helpers';
 import * as _ from 'lodash';
 
@@ -13,10 +13,12 @@ export class ChartOfAccountComponent extends ControlComponent implements OnInit 
   @Input() hotLink: { namespace: string, name: string};
   public errorMessage = '';
 
-  constructor( public eventData: EventDataService,
+  constructor( 
+    public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-      super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef) {
+      super(layoutService, tbComponentService, changeDetectorRef);
     }
 
     ngOnInit() {

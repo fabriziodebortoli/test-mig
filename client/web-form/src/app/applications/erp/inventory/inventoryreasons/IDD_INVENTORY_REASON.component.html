@@ -1,0 +1,434 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-inventory" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Main Data')" tbTileWide >
+<div class="col col1"><div class="anchored">         <tb-text [caption]="_TB('Reason')" cmpId="IDC_INVRSN_REASON" width="49" [model]="eventData?.model?.InventoryReasons?.Reason"></tb-text>
+         <tb-checkbox cmpId="IDC_INVRSN_DEFAULT" width="78" [model]="eventData?.model?.InventoryReasons?.DefaultReason" [caption]="_TB('Default  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_ISDISABLED" width="47" [model]="eventData?.model?.InventoryReasons?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Description')" cmpId="IDC_INVRSN_DESCRIPTION" width="224" [model]="eventData?.model?.InventoryReasons?.Description"></tb-text>
+         <tb-enum-combo [caption]="_TB('Request Code')" cmpId="IDC_INVRSN_ASK_TYPE" width="53" [model]="eventData?.model?.InventoryReasons?.CustSuppType"></tb-enum-combo>
+<div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_NUMBERING_FISCALDATA" width="109" [model]="eventData?.model?.InventoryReasons?.FiscalNumbering" [caption]="_TB('Fiscal Numbering  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_NOT_ON_FISCAL_PRINT" width="109" [model]="eventData?.model?.InventoryReasons?.NonFiscal" [caption]="_TB('Not on Fiscal Lists  ')"></tb-checkbox>
+</div><div class="anchored">         <tb-combo [caption]="_TB('Transport Reason')" cmpId="IDC_INVRSN_REASON_OF_MODEOFTRANSPORT" width="80" [model]="eventData?.model?.InventoryReasons?.ShippingReason"></tb-combo>
+         <tb-label-static cmpId="IDC_INVRSN_REASON_OF_MODEOFTRANSPORT_DESCRIPTION" width="142" [model]="eventData?.model?.HKLShippingReasons?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-combo [caption]="_TB('Stub Book')" cmpId="IDC_INVRSN_STUBBOOK" width="48" [model]="eventData?.model?.InventoryReasons?.StubBook"></tb-combo>
+         <tb-checkbox cmpId="IDC_INVRSN_STUB_BOOK_EDITABLE" width="69" [model]="eventData?.model?.InventoryReasons?.EditableStubBook" [caption]="_TB('Editable  ')"></tb-checkbox>
+</div>         <tb-label-static cmpId="IDC_INVRSN_STUBBOOKDESCRI" width="120" [model]="eventData?.model?.HKLStubBook?.Description"></tb-label-static>
+<div class="anchored">         <tb-enum-combo [caption]="_TB('Proposed Unit Value')" cmpId="IDC_INVRSN_VALUE_PROPOSAL" width="120" [model]="eventData?.model?.InventoryReasons?.ProposedValue"></tb-enum-combo>
+         <tb-checkbox cmpId="IDC_INVRSN_UNIT_VALUE_EDITABLE" width="69" [model]="eventData?.model?.InventoryReasons?.EditableUnitValue" [caption]="_TB('Editable  ')"></tb-checkbox>
+</div>         <tb-section-title cmpId="IDC_STATIC_INVRSN_MANDATORY_DATA" width="325" [caption]="_TB('Mandatory Data')"></tb-section-title>
+<div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_DATA_DOC_MANDATORY" width="109" [model]="eventData?.model?.OptionalData" [caption]="_TB('Log No. and Date  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_NO_DOC_MANDATORY" width="109" [model]="eventData?.model?.DocNoIsMand" [caption]="_TB('Document No.  ')"></tb-checkbox>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_QTY_MANDATORY" width="109" [model]="eventData?.model?.MandatoryQty" [caption]="_TB('Quantity  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_VAL_MANDATORY" width="109" [model]="eventData?.model?.MandatoryValue" [caption]="_TB('Value  ')"></tb-checkbox>
+</div></div><div class="col col2"><div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_IS_STORAGE_TRANSFER" width="109" [model]="eventData?.model?.InventoryReasons?.IsStorageTransfer" [caption]="_TB('Storage Transfer  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_IS_INVENTORY_ADJUSTMENT" width="126" [model]="eventData?.model?.InventoryReasons?.IsInventoryAdjustement" [caption]="_TB('Inventory Adjustment  ')"></tb-checkbox>
+</div>         <tb-checkbox *ngIf="eventData?.activation?.IDC_INVRSN_ALIGNSPECIFICATORWITHCUSTSUPP" cmpId="IDC_INVRSN_ALIGNSPECIFICATORWITHCUSTSUPP" width="109" [model]="eventData?.model?.InventoryReasons?.AlignSpecificator" [caption]="_TB('Align Specificator  ')"></tb-checkbox>
+<div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_ENABLE_NOT_MODIF_EXIGIB_INV" width="109" [model]="eventData?.model?.InventoryReasons?.NoChangeExigibility" [caption]="_TB('Do not Change  ')"></tb-checkbox>
+         <tb-caption cmpId="IDC_STATIC_INVRSN_NOT_MODIF_EXIGIB_INV" width="129" [caption]="_TB('Invoice Payability ')"></tb-caption>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_SEARCHFORBARCODE" width="109" [model]="eventData?.model?.InventoryReasons?.SearchForBarCode" [caption]="_TB('Set Search by Barcode  ')"></tb-checkbox>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_INVRSN_ENABLE_GEN_SERIALNOS" cmpId="IDC_INVRSN_ENABLE_GEN_SERIALNOS" width="126" [model]="eventData?.model?.InventoryReasons?.GenerateSerialNo" [caption]="_TB('Enable ID# generation  ')"></tb-checkbox>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_INBASECURRENCY" width="109" [model]="eventData?.model?.InventoryReasons?.InBaseCurrency" [caption]="_TB('In Base Currency  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_ENABLE_SEGUE_INV" width="126" [model]="eventData?.model?.InventoryReasons?.InvoiceFollows" [caption]="_TB('Invoice will follow  ')"></tb-checkbox>
+</div>         <tb-section-title cmpId="IDC_STATIC_INVRSN_USE" width="325" [caption]="_TB('Use')"></tb-section-title>
+         <tb-checkbox cmpId="IDC_INVRSN_USE_EVERYWHERE" width="109" [model]="eventData?.model?.InventoryReasons?.UsedEverywhere" [caption]="_TB('Everywhere  ')"></tb-checkbox>
+<div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_USE_PURCHASES" width="109" [model]="eventData?.model?.InventoryReasons?.UsedInPurchases" [caption]="_TB('Purchases  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_USE_INVENTORY" width="126" [model]="eventData?.model?.InventoryReasons?.UsedInInventory" [caption]="_TB('Inventory  ')"></tb-checkbox>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_INVRSN_USE_SALES" width="109" [model]="eventData?.model?.InventoryReasons?.UsedInSales" [caption]="_TB('Sales  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_USE_MANUFACTURING" width="126" [model]="eventData?.model?.InventoryReasons?.UsedInManufacturing" [caption]="_TB('Manufacturing  ')"></tb-checkbox>
+</div>         <tb-section-title *ngIf="eventData?.activation?.IDC_STATIC_INVRSN_COST_ACCOUNTING" cmpId="IDC_STATIC_INVRSN_COST_ACCOUNTING" width="325" [caption]="_TB('Cost Accounting')"></tb-section-title>
+<div class="anchored">         <tb-enum-combo *ngIf="eventData?.activation?.IDC_INVRSN_COSTACCTYPE" [caption]="_TB('Type')" cmpId="IDC_INVRSN_COSTACCTYPE" width="53" [model]="eventData?.model?.InventoryReasons?.CostAccounting"></tb-enum-combo>
+         <tb-enum-combo *ngIf="eventData?.activation?.IDC_INVRSN_COSTACCDEBITCREDIT" [caption]="_TB('Debit/Credit')" cmpId="IDC_INVRSN_COSTACCDEBITCREDIT" width="53" [model]="eventData?.model?.InventoryReasons?.DebitCreditSign"></tb-enum-combo>
+</div>         <tb-enum-combo *ngIf="eventData?.activation?.IDC_INVRSN_COSTACCSIGN" [caption]="_TB('Sign')" cmpId="IDC_INVRSN_COSTACCSIGN" width="53" [model]="eventData?.model?.InventoryReasons?.CostAccSign"></tb-enum-combo>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Goods Data')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-checkbox cmpId="IDC_INVRSN_DM_IN_ACCUSTOMED" width="109" [model]="eventData?.model?.InventoryReasons?.UseGoodsData" [caption]="_TB('In Use  ')"></tb-checkbox>
+         <tb-enum-combo [caption]="_TB('Last Issue Date')" cmpId="IDC_INVRSN_DM_DATE_LAST_ISSUE" width="62" [model]="eventData?.model?.GoodsData_LastIssueDate" [itemSource]="IDC_INVRSN_DM_DATE_LAST_ISSUE_itemSource"></tb-enum-combo>
+</div><div class="col col2">         <tb-enum-combo [caption]="_TB('Last Supplier')" cmpId="IDC_INVRSN_DM_LAST_SUPP" width="62" [model]="eventData?.model?.GoodsData_LastSupplier" [itemSource]="IDC_INVRSN_DM_LAST_SUPP_itemSource"></tb-enum-combo>
+         <tb-enum-combo [caption]="_TB('Last Receipt Date')" cmpId="IDC_INVRSN_DM_DATE_LAST_ISSUETOPROD" width="62" [model]="eventData?.model?.GoodsData_LastReceiptDate" [itemSource]="IDC_INVRSN_DM_DATE_LAST_ISSUETOPROD_itemSource"></tb-enum-combo>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Phases')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-section-title cmpId="IDC_STATIC_INVRSN_PHASE1" width="326" [caption]="_TB('Phase 1')"></tb-section-title>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_INVRSN_STORAGE_RTGSTEP1" width="62" [model]="eventData?.model?.InventoryReasons?.StoragePhase1"></tb-combo>
+         <tb-label-static cmpId="IDC_INVRSN_STORAGEDESCRIRTGSTEP1" width="154" [model]="eventData?.model?.HKLStoragesRtgStep1?.Description"></tb-label-static>
+</div>         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_INVRSN_CODETYPE_SPECIFICATOR_RTGSTEP1" width="62" [model]="eventData?.model?.InventoryReasons?.Specificator1Type" [itemSource]="IDC_INVRSN_CODETYPE_SPECIFICATOR_RTGSTEP1_itemSource"></tb-enum-combo>
+<div class="anchored">         <tb-text [caption]="_TB('Specificator')" cmpId="IDC_INVRSN_SPECIFICATOR_RTGSTEP1" width="62" [model]="eventData?.model?.InventoryReasons?.SpecificatorPhase1"></tb-text>
+         <tb-label-static cmpId="IDC_INVRSN_DESCRISPECRTGSTEP1" width="154" [model]="eventData?.model?.HKLSpec1?.CompanyName"></tb-label-static>
+</div>         <tb-label-static cmpId="IDC_STATIC_INVRSN_IN_ENTRIES_1" width="10" [caption]="_TB('In Entries')"></tb-label-static>
+         <tb-checkbox cmpId="IDC_INVRSN_ASK_STORAGE_RTGSTEP1" width="109" [model]="eventData?.model?.InventoryReasons?.UseStorage1" [caption]="_TB(' Editable Storage  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_ASK_SPECIFICATOR_RTGSTEP1" width="109" [model]="eventData?.model?.InventoryReasons?.UseSpecificator1" [caption]="_TB('Editable Specificator  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_OBBL_SPECIFICATOR_RTGSTEP1" width="109" [model]="eventData?.model?.InventoryReasons?.Specificator1IsMand" [caption]="_TB('Mandatory Specificator  ')"></tb-checkbox>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_INVRSN_PHASE2" width="327" [caption]="_TB('Phase 2')"></tb-section-title>
+         <tb-checkbox cmpId="IDC_INVRSN_RTGSTEP2_QUALIFY" width="109" [model]="eventData?.model?.InventoryReasons?.UsePhase2" [caption]="_TB('Enabled  ')"></tb-checkbox>
+<div class="anchored">         <tb-combo [caption]="_TB('Storage')" cmpId="IDC_INVRSN_STORAGE_RTGSTEP2" width="62" [model]="eventData?.model?.InventoryReasons?.StoragePhase2"></tb-combo>
+         <tb-label-static cmpId="IDC_INVRSN_STORAGEDESCRIRTGSTEP2" width="154" [model]="eventData?.model?.HKLStoragesRtgStep2?.Description"></tb-label-static>
+</div>         <tb-enum-combo [caption]="_TB('Specificator Type')" cmpId="IDC_INVRSN_CODETYPE_SPECIFICATOR_RTGSTEP2" width="62" [model]="eventData?.model?.InventoryReasons?.Specificator2Type" [itemSource]="IDC_INVRSN_CODETYPE_SPECIFICATOR_RTGSTEP2_itemSource"></tb-enum-combo>
+<div class="anchored">         <tb-text [caption]="_TB('Specificator')" cmpId="IDC_INVRSN_SPECIFICATOR_RTGSTEP2" width="62" [model]="eventData?.model?.InventoryReasons?.SpecificatorPhase2"></tb-text>
+         <tb-label-static cmpId="IDC_INVRSN_DESCRISPECRTGSTEP2" width="154" [model]="eventData?.model?.HKLSpec2?.CompanyName"></tb-label-static>
+</div>         <tb-label-static cmpId="IDC_STATIC_INVRSN_IN_ENTRIES_2" width="10" [caption]="_TB('In Entries')"></tb-label-static>
+         <tb-checkbox cmpId="IDC_INVRSN_ASK_STORAGE_RTGSTEP2" width="109" [model]="eventData?.model?.InventoryReasons?.UseStorage2" [caption]="_TB('Editable Storage  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_ASK_SPECIFICATOR_RTGSTEP2" width="109" [model]="eventData?.model?.InventoryReasons?.UseSpecificator2" [caption]="_TB('Editable Specificator  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_INVRSN_OBBL_SPECIFICATOR_RTGSTEP2" width="109" [model]="eventData?.model?.InventoryReasons?.Specificator2IsMand" [caption]="_TB('Mandatory Specificator  ')"></tb-checkbox>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Balances Phase 1')" icon="erp-quantities" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Main Quantities and Values')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_1" width="62" [caption]="_TB('Initial')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_2" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Book Inventory')" cmpId="IDC_INVRSN_ADF_BOOKINV_INI" width="62" [model]="eventData?.model?.Balances_Phase1_InitialBookInv" [itemSource]="IDC_INVRSN_ADF_BOOKINV_INI_itemSource"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_BOOKINV_FIN" width="62" [model]="eventData?.model?.Balances_Phase1_FinalBookInv" [itemSource]="IDC_INVRSN_ADF_BOOKINV_FIN_itemSource"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Book Inventory Value')" cmpId="IDC_INVRSN_ADF_VAL_BOOKINV_INI" width="62" [model]="eventData?.model?.Balances_Phase1_BookInvInValue"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_BOOKINV_FIN" width="62" [model]="eventData?.model?.Balances_Phase1_FinalBookInvValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('On-hand')" cmpId="IDC_INVRSN_ADF_DISP_INI" width="62" [model]="eventData?.model?.Balances_Phase1_InitialOnHand" [itemSource]="IDC_INVRSN_ADF_DISP_INI_itemSource"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_DISP_FIN" width="62" [model]="eventData?.model?.Balances_Phase1_FinalOnHand" [itemSource]="IDC_INVRSN_ADF_DISP_FIN_itemSource"></tb-enum-combo>
+</div>          <tb-enum-combo [caption]="_TB('Last Cost')" cmpId="IDC_INVRSN_ADF_LAST_COST" width="62" [model]="eventData?.model?.Balances_Phase1_LastCost"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Other Quantities and Values')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_1" width="62" [caption]="_TB('Quantity')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_2" width="62" [caption]="_TB('Value')"></tb-caption>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Purchased')" cmpId="IDC_INVRSN_ADF_QTY_PURCHASED" width="62" [model]="eventData?.model?.Balances_Phase1_PurchasedQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_PURCHASED" width="62" [model]="eventData?.model?.Balances_Phase1_PurchaseValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Sold')" cmpId="IDC_INVRSN_ADF_QTY_SALES" width="62" [model]="eventData?.model?.Balances_Phase1_SalesQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_SOLD" width="62" [model]="eventData?.model?.Balances_Phase1_SentValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Scrap')" cmpId="IDC_INVRSN_ADF_QTY_DISCARDS" width="62" [model]="eventData?.model?.Balances_Phase1_ScrapQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_DISCARDS" width="62" [model]="eventData?.model?.Balances_Phase1_ScrapValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Receipt')" cmpId="IDC_INVRSN_ADF_QTY_RECEIPTED" width="62" [model]="eventData?.model?.Balances_Phase1_ReceivedQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_ENTERED" width="62" [model]="eventData?.model?.Balances_Phase1_ReceiptValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Output')" cmpId="IDC_INVRSN_ADF_QTY_EXIT" width="62" [model]="eventData?.model?.Balances_Phase1_IssuedQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_ISSUED" width="62" [model]="eventData?.model?.Balances_Phase1_IssuedValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC" width="98" [caption]="_TB('Cost of issued goods')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_CIG" width="62" [model]="eventData?.model?.Balances_Phase1_CIGValue"></tb-enum-combo>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Other Quantities')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_2" width="62" [caption]="_TB('Initial')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_3" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Return ')" cmpId="IDC_INVRSN_ADF_RETURN_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_InReturn"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_RETURN" width="62" [model]="eventData?.model?.Balances_Phase1_Return"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Under Repair')" cmpId="IDC_INVRSN_ADF_IN_RIPARACTION_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_InitialForRepairing"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_IN_RIPARACTION" width="62" [model]="eventData?.model?.Balances_Phase1_ForRepairing"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Sample Goods')" cmpId="IDC_INVRSN_ADF_SAMPLE_GOODS_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_InitialSampleGoods"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_SAMPLE_GOODS" width="62" [model]="eventData?.model?.Balances_Phase1_SampleGoods"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Sample Book')" cmpId="IDC_INVRSN_ADF_SAMPLING_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_InitialSampling"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_SAMPLING" width="62" [model]="eventData?.model?.Balances_Phase1_Sampling"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Bailment Goods')" cmpId="IDC_INVRSN_ADF_JOBODATUM_ACCUSTOMED_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_InitialBailment"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_JOBODATUM_ACCUSTOMED" width="62" [model]="eventData?.model?.Balances_Phase1_Bailment"></tb-enum-combo>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Manufacturing Other Quantities and Values')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_1" width="62" [caption]="_TB('Initial')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_2" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC_8" width="98" [caption]="_TB('Product Quantity')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_QTY_CONFIRMED" width="62" [model]="eventData?.model?.Balances_Phase1_ReturnedFromProdQty"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC_7" width="98" [caption]="_TB('Product Value')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_PRODUCT" width="62" [model]="eventData?.model?.Balances_Phase1_ReturnFromProdValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Used In Production Qty')" cmpId="IDC_INVRSN_ADF_PROFITZ_MANUFACTURING_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_UsedInInProduction"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_PROFITZ_MANUFACTURING" width="62" [model]="eventData?.model?.Balances_Phase1_UsedInProduction"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Used In Production Value')" cmpId="IDC_INVRSN_ADF_USED_IN_PROD_VAL_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_UsedInInProductionValue"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_USED_IN_PROD_VAL" width="62" [model]="eventData?.model?.Balances_Phase1_UsedInProductionValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC" width="98" [caption]="_TB('Production Picking')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_PICKED_FOR_PROD_VAL" width="62" [model]="eventData?.model?.Balances_Phase1_PickingValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('In-Subcontracting')" cmpId="IDC_INVRSN_ADF_ACCOUNT_PROCESSING_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_InitialSubcontracting"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_ACCOUNT_PROCESSING" width="62" [model]="eventData?.model?.Balances_Phase1_Subcontracting"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Out-Subcontracting')" cmpId="IDC_INVRSN_ADF_ACCOUNT_THIRD_INITIAL" width="62" [model]="eventData?.model?.Balances_Phase1_InitialForSubcontracting"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_ACCOUNT_THIRD" width="62" [model]="eventData?.model?.Balances_Phase1_ForSubcontracting"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC_9" width="98" [caption]="_TB('In Production')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_IN_MANUFACTURING" width="62" [model]="eventData?.model?.Balances_Phase1_InProduction"></tb-enum-combo>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Custom Quantities')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-label-static [caption]="_TB('Custom 1')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL1" width="154" [model]="eventData?.model?.FreeValQty1Descri"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_1" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_2" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL1" width="62" [model]="eventData?.model?.Balances_Phase1_InitialQtyValFree1"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL1" width="62" [model]="eventData?.model?.Balances_Phase1_QtyValFree1"></tb-enum-combo>
+</div>         <tb-label-static [caption]="_TB('Custom 2')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL2" width="154" [model]="eventData?.model?.FreeValQty2Descri"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_3" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_4" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL2" width="62" [model]="eventData?.model?.Balances_Phase1_InitialQtyValFree2"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL2" width="62" [model]="eventData?.model?.Balances_Phase1_QtyValFree2"></tb-enum-combo>
+</div>         <tb-label-static [caption]="_TB('Custom 3')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL3" width="154" [model]="eventData?.model?.FreeValQty3Descri"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_9" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_10" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL3" width="62" [model]="eventData?.model?.Balances_Phase1_InitialQtyValFree3"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL3" width="62" [model]="eventData?.model?.Balances_Phase1_QtyValFree3"></tb-enum-combo>
+</div></div><div class="col col2">         <tb-label-static [caption]="_TB('Custom 4')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL4" width="154" [model]="eventData?.model?.FreeValQty4Descri"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_11" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_12" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL4" width="62" [model]="eventData?.model?.Balances_Phase1_InitialQtyValFree4"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL4" width="62" [model]="eventData?.model?.Balances_Phase1_QtyValFree4"></tb-enum-combo>
+</div>         <tb-label-static [caption]="_TB('Custom 5')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL5" width="154" [model]="eventData?.model?.FreeValQty5Descri"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_14" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL5" width="62" [model]="eventData?.model?.Balances_Phase1_InitialQtyValFree5"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL5" width="62" [model]="eventData?.model?.Balances_Phase1_QtyValFree5"></tb-enum-combo>
+</div></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Balances Phase 2')" icon="erp-quantities" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Main Quantities and Values')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_2" width="57" [caption]="_TB('Initial')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_3" width="58" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Book Inventory')" cmpId="IDC_INVRSN_ADF_BOOKINV_INI_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialBookInv" [itemSource]="IDC_INVRSN_ADF_BOOKINV_INI_PHASE_2_itemSource"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_BOOKINV_FIN_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_FinalBookInv" [itemSource]="IDC_INVRSN_ADF_BOOKINV_FIN_PHASE_2_itemSource"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Book Inventory Value')" cmpId="IDC_INVRSN_ADF_VAL_BOOKINV_INI_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_BookInvInValue"></tb-enum-combo>
+          <tb-enum-combo *ngIf="eventData?.activation?.IDC_INVRSN_ADF_VAL_BOOKINV_FIN_PHASE_2" cmpId="IDC_INVRSN_ADF_VAL_BOOKINV_FIN_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_FinalBookInvValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('On-Hand')" cmpId="IDC_INVRSN_ADF_DISP_INI_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialOnHand" [itemSource]="IDC_INVRSN_ADF_DISP_INI_PHASE_2_itemSource"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_DISP_FIN_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_FinalOnHand" [itemSource]="IDC_INVRSN_ADF_DISP_FIN_PHASE_2_itemSource"></tb-enum-combo>
+</div>          <tb-enum-combo [caption]="_TB('Last Cost')" cmpId="IDC_INVRSN_ADF_LAST_COST_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_LastCost"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Other Quantities and Values')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_1" width="62" [caption]="_TB('Quantity')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_2" width="61" [caption]="_TB('Value')"></tb-caption>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Purchased')" cmpId="IDC_INVRSN_ADF_QTY_PURCHASED_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_PurchasedQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_PURCHASED_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_PurchaseValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Sold')" cmpId="IDC_INVRSN_ADF_QTY_SALES_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_SalesQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_SOLD_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_SentValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Scrap')" cmpId="IDC_INVRSN_ADF_QTY_DISCARDS_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ScrapQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_DISCARDS_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ScrapValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Receipt')" cmpId="IDC_INVRSN_ADF_QTY_RECEIPTED_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ReceivedQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_ENTERED_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ReceiptValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Output')" cmpId="IDC_INVRSN_ADF_QTY_EXIT_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_IssuedQty"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_ISSUED_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_IssuedValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC" width="98" [caption]="_TB('Cost of issued goods')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_CIG_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_CIGValue"></tb-enum-combo>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Other Quantities')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_1" width="57" [caption]="_TB('Initial')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_2" width="57" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Return ')" cmpId="IDC_INVRSN_ADF_RETURN_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InReturn"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_RETURN_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_Return"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Under Repair')" cmpId="IDC_INVRSN_ADF_IN_RIPARACTION_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialForRepairing"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_IN_RIPARACTION_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ForRepairing"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Sample Goods')" cmpId="IDC_INVRSN_ADF_SAMPLE_GOODS_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialSampleGoods"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_SAMPLE_GOODS_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_SampleGoods"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Sample Book')" cmpId="IDC_INVRSN_ADF_SAMPLING_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialSampling"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_SAMPLING_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_Sampling"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Bailment Goods')" cmpId="IDC_INVRSN_ADF_JOBODATUM_ACCUSTOMED_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialBailment"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_JOBODATUM_ACCUSTOMED_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_Bailment"></tb-enum-combo>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Manufacturing Other Quantities and Values')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-caption cmpId="IDC_STATIC_1" width="57" [caption]="_TB('Initial')"></tb-caption>
+          <tb-caption cmpId="IDC_STATIC_2" width="57" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC_3" width="98" [caption]="_TB('Product Quantity')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_QTY_CONFIRMED_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ReturnedFromProdQty"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC_4" width="98" [caption]="_TB('Product Value')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_VAL_PRODUCT_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ReturnFromProdValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Used In Production Qty')" cmpId="IDC_INVRSN_ADF_PROFITZ_MANUFACTURING_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_UsedInInProduction"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_PROFITZ_MANUFACTURING_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_UsedInProduction"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Used In Production Value')" cmpId="IDC_INVRSN_ADF_USED_IN_PROD_VAL_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_UsedInInProductionValue"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_USED_IN_PROD_VAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_UsedInProductionValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC" width="98" [caption]="_TB('Production Picking')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_PICKED_FOR_PROD_VAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_PickingValue"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('In-Subcontracting')" cmpId="IDC_INVRSN_ADF_ACCOUNT_PROCESSING_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialSubcontracting"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_ACCOUNT_PROCESSING_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_Subcontracting"></tb-enum-combo>
+</div><div class="anchored">          <tb-enum-combo [caption]="_TB('Out-Subcontracting')" cmpId="IDC_INVRSN_ADF_ACCOUNT_THIRD_INITIAL_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialForSubcontracting"></tb-enum-combo>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_ACCOUNT_THIRD_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_ForSubcontracting"></tb-enum-combo>
+</div><div class="anchored">          <tb-caption cmpId="IDC_STATIC_9" width="98" [caption]="_TB('In Production')"></tb-caption>
+          <tb-enum-combo cmpId="IDC_INVRSN_ADF_IN_MANUFACTURING_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InProduction"></tb-enum-combo>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Custom Quantities')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-label-static [caption]="_TB('Custom 1')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL1_PHASE_2" width="154" [model]="eventData?.model?.FreeValQty1DescriPhase2"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_6" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_7" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL1_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialQtyValFree1"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL1_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_QtyValFree1"></tb-enum-combo>
+</div>         <tb-label-static [caption]="_TB('Custom 2')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL2_PHASE_2" width="154" [model]="eventData?.model?.FreeValQty2DescriPhase2"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_8" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_9" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL2_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialQtyValFree2"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL2_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_QtyValFree2"></tb-enum-combo>
+</div>         <tb-label-static [caption]="_TB('Custom 3')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL3_PHASE_2" width="154" [model]="eventData?.model?.FreeValQty3DescriPhase2"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_10" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_11" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL3_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialQtyValFree3"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL3_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_QtyValFree3"></tb-enum-combo>
+</div></div><div class="col col2">         <tb-label-static [caption]="_TB('Custom 4')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL4_PHASE_2" width="154" [model]="eventData?.model?.FreeValQty4DescriPhase2"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_12" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC_13" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL4_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialQtyValFree4"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL4_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_QtyValFree4"></tb-enum-combo>
+</div>         <tb-label-static [caption]="_TB('Custom 5')" cmpId="IDC_INVRSN_AC_DESCRI_QTYVAL5_PHASE_2" width="154" [model]="eventData?.model?.FreeValQty5DescriPhase2"></tb-label-static>
+<div class="anchored">         <tb-caption cmpId="IDC_STATIC_14" width="62" [caption]="_TB('Initial')"></tb-caption>
+         <tb-caption cmpId="IDC_STATIC" width="62" [caption]="_TB('Current')"></tb-caption>
+</div><div class="anchored">         <tb-enum-combo cmpId="IDC_INVRSN_AC_INI_QTYVAL5_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_InitialQtyValFree5"></tb-enum-combo>
+         <tb-enum-combo cmpId="IDC_INVRSN_AC_QTYVAL5_PHASE_2" width="62" [model]="eventData?.model?.Balances_Phase2_QtyValFree5"></tb-enum-combo>
+</div></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Other Data')" icon="erp-inventorymore" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Extended actions')" tbTileStandard  isCollapsible="True">
+          <tb-enum-combo [caption]="_TB('Action')" cmpId="IDC_INVENTORY_REASON_LIFOFIFO_ACTION" width="140" [model]="eventData?.model?.InventoryReasons?.ActionOnLifoFifo" [itemSource]="IDC_INVENTORY_REASON_LIFOFIFO_ACTION_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('CIG is calculated as')" cmpId="IDC_INVENTORY_REASON_LINE_COST" width="140" [model]="eventData?.model?.InventoryReasons?.LineCostOrigin"></tb-enum-combo>
+          <tb-enum-combo *ngIf="eventData?.activation?.IDC_INVENTORY_REASON_LIFOFIFO_LINESOURCE" [caption]="_TB('Action Type')" cmpId="IDC_INVENTORY_REASON_LIFOFIFO_LINESOURCE" width="140" [model]="eventData?.model?.InventoryReasons?.LifoFifo_LineSource"></tb-enum-combo>
+<div class="anchored">          <tb-checkbox *ngIf="eventData?.activation?.IDC_INVENTORY_REASON_CIG_CORR" cmpId="IDC_INVENTORY_REASON_CIG_CORR" width="109" [model]="eventData?.model?.InventoryReasons?.NeedCIGCorrection" [caption]="_TB('Generate corrections  ')"></tb-checkbox>
+          <tb-caption *ngIf="eventData?.activation?.IDC_STATIC_INVRSN_FOR_CIG" cmpId="IDC_STATIC_INVRSN_FOR_CIG" width="129" [caption]="_TB('for CIG')"></tb-caption>
+</div><div class="anchored">          <tb-combo *ngIf="eventData?.activation?.IDC_INVENTORY_REASON_CIGCORR" [caption]="_TB('Inventory Reason for CIG')" cmpId="IDC_INVENTORY_REASON_CIGCORR" width="48" [model]="eventData?.model?.InventoryReasons?.CIGCorrInvReason"></tb-combo>
+          <tb-label-static *ngIf="eventData?.activation?.IDC_INVENTORY_REASON_CIGCORRDESCRI" cmpId="IDC_INVENTORY_REASON_CIGCORRDESCRI" width="172" [model]="eventData?.model?.HKLRsnInvCIG?.Description"></tb-label-static>
+</div><div class="anchored">          <tb-combo *ngIf="eventData?.activation?.IDC_INVENTORY_REASON_EXTACCTEMPL" [caption]="_TB('Extended Accounting Template')" cmpId="IDC_INVENTORY_REASON_EXTACCTEMPL" width="48" [model]="eventData?.model?.InventoryReasons?.ExtAccountingTemplate"></tb-combo>
+          <tb-label-static *ngIf="eventData?.activation?.IDC_INVENTORY_REASON_EXTACCTEMPL_DESCRI" cmpId="IDC_INVENTORY_REASON_EXTACCTEMPL_DESCRI" width="172" [model]="eventData?.model?.HKLExtAccTempl?.Description"></tb-label-static>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Lots')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_INVRSN_LOTS">
+          <tb-enum-combo [caption]="_TB('Receipt Data')" cmpId="IDC_INVRSN_AL_DATA_ISSUETOPROD" width="62" [model]="eventData?.model?.Lots_ReceiptData" [itemSource]="IDC_INVRSN_AL_DATA_ISSUETOPROD_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Produced Internally')" cmpId="IDC_INVRSN_AL_PRODUCT_INTERNALLY" width="62" [model]="eventData?.model?.Lots_InternallyProduced" [itemSource]="IDC_INVRSN_AL_PRODUCT_INTERNALLY_itemSource"></tb-enum-combo>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Item Customer')" tbTileStandard  isCollapsible="True">
+          <tb-checkbox cmpId="IDC_INVRSN_CA_IN_ACCUSTOMED" width="109" [model]="eventData?.model?.InventoryReasons?.UseItemCustomers" [caption]="_TB('In Use  ')"></tb-checkbox>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_SALE" width="325" [caption]="_TB('Last Sale')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_FA_DATE_LAST_SALE" width="62" [model]="eventData?.model?.ItemCustomers_LastSaleDocDate" [itemSource]="IDC_INVRSN_FA_DATE_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Number')" cmpId="IDC_INVRSN_FA_NO_LAST_SALE" width="62" [model]="eventData?.model?.ItemCustomers_LastSaleNo" [itemSource]="IDC_INVRSN_FA_NO_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_FA_QTY_LAST_SALE" width="62" [model]="eventData?.model?.ItemCustomers_LastSaleQuant" [itemSource]="IDC_INVRSN_FA_QTY_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Price')" cmpId="IDC_INVRSN_FA_LAST_PRICE_SALE" width="62" [model]="eventData?.model?.ItemCustomers_LastPrice" [itemSource]="IDC_INVRSN_FA_LAST_PRICE_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Discount')" cmpId="IDC_INVRSN_FA_LAST_DISCOUNT_SALE" width="62" [model]="eventData?.model?.ItemCustomers_LastDiscount" [itemSource]="IDC_INVRSN_FA_LAST_DISCOUNT_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_FA_VAL_LAST_SALE" width="62" [model]="eventData?.model?.ItemCustomers_LastSaleValue" [itemSource]="IDC_INVRSN_FA_VAL_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_RETURN" width="325" [caption]="_TB('Last Return')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Delivery Note No.')" cmpId="IDC_INVRSN_CA_NO_DN_RETURN" width="62" [model]="eventData?.model?.ItemCustomers_LastRMANo" [itemSource]="IDC_INVRSN_CA_NO_DN_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_CA_DATE_LAST_RETURN" width="62" [model]="eventData?.model?.ItemCustomers_LastRMADocDate" [itemSource]="IDC_INVRSN_CA_DATE_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_CA_QTY_LAST_RETURN" width="62" [model]="eventData?.model?.ItemCustomers_LastRMAQty" [itemSource]="IDC_INVRSN_CA_QTY_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_CA_VAL_LAST_RETURN" width="62" [model]="eventData?.model?.ItemCustomers_LastReturnValue" [itemSource]="IDC_INVRSN_CA_VAL_LAST_RETURN_itemSource"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Item Supplier')" tbTileStandard  isCollapsible="True">
+          <tb-checkbox cmpId="IDC_INVRSN_FA_IN_USE" width="109" [model]="eventData?.model?.InventoryReasons?.UseItemSuppliers" [caption]="_TB('In Use  ')"></tb-checkbox>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_PURCHASE" width="325" [caption]="_TB('Last Purchase')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_FA_DATE_LAST_PURCHASE" width="62" [model]="eventData?.model?.ItemSupp_LastPurchaseDocDate" [itemSource]="IDC_INVRSN_FA_DATE_LAST_PURCHASE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Number')" cmpId="IDC_INVRSN_FA_NO_LAST_PURCHASE" width="62" [model]="eventData?.model?.ItemSupp_LastPurchaseNo" [itemSource]="IDC_INVRSN_FA_NO_LAST_PURCHASE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_FA_QTY_LAST_PURCHASE" width="62" [model]="eventData?.model?.ItemSupp_LastPurchaseQty" [itemSource]="IDC_INVRSN_FA_QTY_LAST_PURCHASE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Price')" cmpId="IDC_INVRSN_FA_LAST_PRICE" width="62" [model]="eventData?.model?.ItemSupp_LastPrice"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Discount')" cmpId="IDC_INVRSN_FA_LAST_DISCOUNT" width="62" [model]="eventData?.model?.ItemSupp_LastDiscount" [itemSource]="IDC_INVRSN_FA_LAST_DISCOUNT_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_FA_VAL_LAST_PURCHASE" width="62" [model]="eventData?.model?.ItemSupp_LastPurchaseValue"></tb-enum-combo>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_RETURN" width="325" [caption]="_TB('Last Return')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Delivery Note No.')" cmpId="IDC_INVRSN_FA_NO_DN_RETURN" width="62" [model]="eventData?.model?.ItemSupp_LastRMANo" [itemSource]="IDC_INVRSN_FA_NO_DN_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_FA_DATE_LAST_RETURN" width="62" [model]="eventData?.model?.ItemSupp_LastRMADocDate" [itemSource]="IDC_INVRSN_FA_DATE_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_FA_QTY_LAST_RETURN" width="62" [model]="eventData?.model?.ItemSupp_LastRMAQty" [itemSource]="IDC_INVRSN_FA_QTY_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_FA_VAL_LAST_RETURN" width="62" [model]="eventData?.model?.ItemSupp_LastReturnValue"></tb-enum-combo>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Commodity Category Customers')" tbTileStandard  isCollapsible="True">
+          <tb-checkbox cmpId="IDC_INVRSN_CCM_IN_ACCUSTOMED" width="109" [model]="eventData?.model?.InventoryReasons?.UseCommCtgCustomers" [caption]="_TB('In Use  ')"></tb-checkbox>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_SALE_CUST" width="323" [caption]="_TB('Last Sale')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_FCM_DATE_LAST_SALE" width="62" [model]="eventData?.model?.CustCommCtg_LastSaleDocDate" [itemSource]="IDC_INVRSN_FCM_DATE_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Number')" cmpId="IDC_INVRSN_FCM_NO_LAST_SALE" width="62" [model]="eventData?.model?.CustCommCtg_LastSaleNo" [itemSource]="IDC_INVRSN_FCM_NO_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_FCM_QTY_LAST_SALE" width="62" [model]="eventData?.model?.CustCommCtg_LastSaleQuant" [itemSource]="IDC_INVRSN_FCM_QTY_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Discount')" cmpId="IDC_INVRSN_FCM_LAST_DISCOUNT_SALE" width="62" [model]="eventData?.model?.CustCommCtg_LastDiscount" [itemSource]="IDC_INVRSN_FCM_LAST_DISCOUNT_SALE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_FCM_VAL_LAST_SALE" width="62" [model]="eventData?.model?.CustCommCtg_LastSaleValue" [itemSource]="IDC_INVRSN_FCM_VAL_LAST_SALE_itemSource"></tb-enum-combo>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_RETURN_CUST" width="324" [caption]="_TB('Last Return')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Delivery Note No.')" cmpId="IDC_INVRSN_CCM_NO_DN_RETURN" width="62" [model]="eventData?.model?.CustCommCtg_LastRMANo" [itemSource]="IDC_INVRSN_CCM_NO_DN_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_CCM_DATE_LAST_RETURN" width="62" [model]="eventData?.model?.CustCommCtg_LastRMADocDate" [itemSource]="IDC_INVRSN_CCM_DATE_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_CCM_QTY_LAST_RETURN" width="62" [model]="eventData?.model?.CustCommCtg_LastRMAQty" [itemSource]="IDC_INVRSN_CCM_QTY_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_CCM_VAL_LAST_RETURN" width="62" [model]="eventData?.model?.CustCommCtg_LastReturnValue" [itemSource]="IDC_INVRSN_CCM_VAL_LAST_RETURN_itemSource"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Commodity Category Suppliers')" tbTileStandard  isCollapsible="True">
+          <tb-checkbox cmpId="IDC_INVRSN_FCM_IN_USE" width="109" [model]="eventData?.model?.InventoryReasons?.UseCommCtgSuppliers" [caption]="_TB('In Use  ')"></tb-checkbox>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_PURCHASE_SUPP" width="323" [caption]="_TB('Last Purchase')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_FCM_DATE_LAST_PURCHASE" width="62" [model]="eventData?.model?.SuppCommCtg_LastPurchaseDocDate" [itemSource]="IDC_INVRSN_FCM_DATE_LAST_PURCHASE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Number')" cmpId="IDC_INVRSN_FCM_NO_LAST_PURCHASE" width="62" [model]="eventData?.model?.SuppCommCtg_LastPurchaseNo" [itemSource]="IDC_INVRSN_FCM_NO_LAST_PURCHASE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_FCM_QTY_LAST_PURCHASE" width="62" [model]="eventData?.model?.SuppCommCtg_LastPurchaseQty" [itemSource]="IDC_INVRSN_FCM_QTY_LAST_PURCHASE_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Discount')" cmpId="IDC_INVRSN_FCM_LAST_DISCOUNT" width="62" [model]="eventData?.model?.SuppCommCtg_LastDiscount" [itemSource]="IDC_INVRSN_FCM_LAST_DISCOUNT_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_FCM_VAL_LAST_PURCHASE" width="62" [model]="eventData?.model?.SuppCommCtg_LastPurchaseValue" [itemSource]="IDC_INVRSN_FCM_VAL_LAST_PURCHASE_itemSource"></tb-enum-combo>
+          <tb-section-title cmpId="IDC_STATIC_INVRSN_LAST_RETURN_SUP" width="323" [caption]="_TB('Last Return')"></tb-section-title>
+          <tb-enum-combo [caption]="_TB('Delivery Note No.')" cmpId="IDC_INVRSN_FCM_NO_DN_RETURN" width="62" [model]="eventData?.model?.SuppCommCtg_LastRMANo" [itemSource]="IDC_INVRSN_FCM_NO_DN_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Date')" cmpId="IDC_INVRSN_FCM_DATE_LAST_RETURN" width="62" [model]="eventData?.model?.SuppCommCtg_LastRMADocDate" [itemSource]="IDC_INVRSN_FCM_DATE_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Quantity')" cmpId="IDC_INVRSN_FCM_QTY_LAST_RETURN" width="62" [model]="eventData?.model?.SuppCommCtg_LastRMAQty" [itemSource]="IDC_INVRSN_FCM_QTY_LAST_RETURN_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Value')" cmpId="IDC_INVRSN_FCM_VAL_LAST_RETURN" width="62" [model]="eventData?.model?.SuppCommCtg_LastReturnValue" [itemSource]="IDC_INVRSN_FCM_VAL_LAST_RETURN_itemSource"></tb-enum-combo>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('FIFO')" tbTileStandard  isCollapsible="True">
+          <tb-checkbox cmpId="IDC_INVRSN_ACT_FIFO_IN_USE" width="109" [model]="eventData?.model?.InventoryReasons?.UseFIFOAction" [caption]="_TB('In Use  ')"></tb-checkbox>
+          <tb-enum-combo [caption]="_TB('Book Inventory Value')" cmpId="IDC_INVRSN_ACT_FIFO_BOOK_INV_VALUE" width="62" [model]="eventData?.model?.FIFO_BookInvValue" [itemSource]="IDC_INVRSN_ACT_FIFO_BOOK_INV_VALUE_itemSource"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('LIFO')" tbTileStandard  isCollapsible="True">
+          <tb-checkbox cmpId="IDC_INVRSN_ACT_LIFO_IN_USE" width="109" [model]="eventData?.model?.InventoryReasons?.UseLIFOAction" [caption]="_TB('In Use')"></tb-checkbox>
+          <tb-enum-combo [caption]="_TB('Book Inventory Value')" cmpId="IDC_INVRSN_ACT_LIFO_BOOK_INV_VALUE" width="62" [model]="eventData?.model?.LIFO_BookInvValue" [itemSource]="IDC_INVRSN_ACT_LIFO_BOOK_INV_VALUE_itemSource"></tb-enum-combo>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Languages')" tbTileStandard  isCollapsible="True" isCollapsed="True">
+         <tb-body-edit cmpId="IDC_DESCRI_LANGUAGE_BODY" width="393" [model]="eventData?.model?.__Languages">
+          <tb-body-edit-column cmpId="IDC_DOC_LANGUAGE" columnName="__Language" [title]="_TB('Language')" columnType="tb-combo" columnName="IDC_DOC_LANGUAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_DESCRIPTION" columnName="__Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_DOC_DESCRIPTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_LANG_DOC_NOTES" columnName="__Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_LANG_DOC_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE" columnName="__TextDescri" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE2" columnName="__TextDescri2" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE2">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_LINK_REASON_COPY?.enabled" icon="tb-copy" [caption]="_TB('Copy')" cmpId="ID_LINK_REASON_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

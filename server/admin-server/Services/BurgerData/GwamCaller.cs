@@ -1,4 +1,5 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Controllers.Helpers.All;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
@@ -25,7 +26,7 @@ namespace Microarea.AdminServer.Services.BurgerData
             this.httpHelper = httpHelper;
             this.GWAMUrl = GWAMUrl;
             this.instance = instance == null ? new Instance() : instance;
-            this.authInfo =  instance.GetAuthorizationInfo();
+            this.authInfo =  this.instance.GetAuthorizationInfo();
         }
 
         //----------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver,ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { TestService } from './../test.service';
@@ -16,8 +16,13 @@ import { ExplorerService } from './../../core/services/explorer.service';
 })
 export class ExplorerComponent extends DocumentComponent implements OnInit {
 
-  constructor(public eventData: EventDataService, public explorerService: ExplorerService, public http: Http, public testService: TestService) {
-    super(testService, eventData, null);
+  constructor(
+    public eventData: EventDataService, 
+    public explorerService: ExplorerService, 
+    public http: Http, 
+    public testService: TestService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(testService, eventData, null,changeDetectorRef);
   }
 
   ngOnInit() {

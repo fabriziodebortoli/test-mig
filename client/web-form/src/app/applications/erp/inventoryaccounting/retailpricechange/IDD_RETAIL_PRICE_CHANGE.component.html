@@ -1,0 +1,99 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('Filters')" isCollapsible="True" showAsTile="True">
+        <tb-tile [title]="_TB('Retail Storage')" tbTileMini  isCollapsible="False" hasTitle="True" *ngIf="eventData?.activation?.IDD_TD_RETAIL_PRICE_CHANGE_STORAGE">
+         <tb-combo cmpId="IDC_WIZ_STORAGE" width="62" [model]="eventData?.model?.SelectedStorage"></tb-combo>
+         <tb-label-static cmpId="IDC_WIZ_STORAGE_DESCRI" width="154" [model]="eventData?.model?.HKLRetailStorages?.Description"></tb-label-static>
+        </tb-tile>
+        <tb-radio cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFItems_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">        <tb-radio cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFItems_Range" [caption]="_TB('From')"></tb-radio>
+        <tb-text cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFItems_From"></tb-text>
+</div>        <tb-text [caption]="_TB('To')" cmpId="IDD_HFL_ITEM_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFItems_To"></tb-text>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('Actions')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('Price Variations')" tbTileMini  isCollapsible="False" hasTitle="True">
+         <tb-numeric-text-box formatter="Percent" [caption]="_TB('% Price Variation')" cmpId="IDC_WIZ_RETAIL_PRICE_DPRICE" width="31" [model]="eventData?.model?.DeltaPrice"></tb-numeric-text-box>
+         <tb-numeric-text-box [caption]="_TB('Rounding to…')" cmpId="IDC_WIZ_RETAIL_PRICE_ROUNDING" width="47" [model]="eventData?.model?.Rounding"></tb-numeric-text-box>
+         <tb-enum-combo [caption]="_TB('Rounding Type')" cmpId="IDC_WIZ_RETAIL_PRICE_COMBO_ROUNDINFOFF" width="65" [model]="eventData?.model?.RoundType"></tb-enum-combo>
+        </tb-tile>
+        <tb-tile [title]="_TB('Apply to')" tbTileMini  isCollapsible="False" hasTitle="True">
+         <tb-radio cmpId="IDC_WIZ_RETAIL_APPLY_CURRENTPRICE" width="150" [model]="eventData?.model?.ApplyCurrentPrice" [caption]="_TB('Current Price')"></tb-radio>
+         <tb-radio cmpId="IDC_WIZ_RETAIL_APPLY_LASTCOST" width="150" [model]="eventData?.model?.ApplyLastCost" [caption]="_TB('Last Cost')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Accounting posting')" tbTileStandard  isCollapsible="False" hasTitle="True">
+<div class="anchored">         <tb-combo [caption]="_TB('Accounting Template')" cmpId="IDC_WIZ_ACC_TEMPLATE" width="62" [model]="eventData?.model?.AccTemplate"></tb-combo>
+         <tb-label-static cmpId="IDC_WIZ_ACC_TEMPLATE_DESCRI" width="154" [model]="eventData?.model?.HKLAccTpl?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-combo [caption]="_TB('Accounting Reason')" cmpId="IDC_WIZ_ACC_REASON" width="61" [model]="eventData?.model?.AccReason"></tb-combo>
+         <tb-label-static cmpId="IDC_WIZ_ACC_REASON_DESCRI" width="154" [model]="eventData?.model?.HKLAccRsn?.Description"></tb-label-static>
+</div>         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting and Accrual Date')" cmpId="IDC_WIZ_POSTDATE" width="61" [model]="eventData?.model?.PostingDate"></tb-date-input>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill  isCollapsible="False" hasTitle="True">
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="325" [model]="eventData?.model?.AssignPrices">
+         <tb-body-edit-column cmpId="IDC_WIZ_RETAIL_PRICE_SELECTED" columnName="Selected" [title]="_TB('Selected')" columnType="tb-checkbox" columnName="IDC_WIZ_RETAIL_PRICE_SELECTED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZ_RETAIL_PRICE_ITEM" columnName="Item" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_WIZ_RETAIL_PRICE_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZ_RETAIL_PRICE_DESCRIPTION" columnName="ItemDescription" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_WIZ_RETAIL_PRICE_DESCRIPTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_WIZ_RETAIL_PRICE_CURRENT" columnName="Price" [title]="_TB('Current Price')" columnType="tb-numeric-text-box" columnName="IDC_WIZ_RETAIL_PRICE_CURRENT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_WIZ_RETAIL_LASTCOST" columnName="LastCost" [title]="_TB('Last Cost')" columnType="tb-numeric-text-box" columnName="IDC_WIZ_RETAIL_LASTCOST">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZ_RETAIL_PRICE_TAX" columnName="PriceWithTax" [title]="_TB('With Tax')" columnType="tb-bool-edit" columnName="IDC_WIZ_RETAIL_PRICE_TAX">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_WIZ_RETAIL_PRICE_NEW" columnName="NewPrice" [title]="_TB('New Price')" columnType="tb-numeric-text-box" columnName="IDC_WIZ_RETAIL_PRICE_NEW">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_WIZ_BOOK_QTY" columnName="BookInvQty" [title]="_TB('Book Inv. Qty')" columnType="tb-numeric-text-box" columnName="IDC_WIZ_BOOK_QTY">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_WIZ_NET_PRICE_DIFF" columnName="NetPriceDiff" [title]="_TB('Net Price Diff.')" columnType="tb-numeric-text-box" columnName="IDC_WIZ_NET_PRICE_DIFF">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_WIZ_VAT_DIFF" columnName="VATDiff" [title]="_TB('VAT Diff.')" columnType="tb-numeric-text-box" columnName="IDC_WIZ_VAT_DIFF">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_WIZ_TOT_DIFF" columnName="TotDiff" [title]="_TB('Total Diff.')" columnType="tb-numeric-text-box" columnName="IDC_WIZ_TOT_DIFF">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+       <tb-tilepanel [title]="_TB('Total Differences')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('Accounting posting')" tbTileStandard  isCollapsible="False" hasTitle="False">
+<div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Net Price')" cmpId="IDC_WIZ_RETAIL_TOT_NET_PRICE_DIFF" width="54" [model]="eventData?.model?.TotNetPriceDiff"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_WIZ_RETAIL_GRAND_TOT_DIFF" width="55" [model]="eventData?.model?.GrandTotDiff"></tb-numeric-text-box>
+</div>         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('VAT')" cmpId="IDC_WIZ_RETAIL_TOT_VAT_DIFF" width="54" [model]="eventData?.model?.TotVATDiff"></tb-numeric-text-box>
+        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane [title]="_TB('CrossReferencesViewer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+         <tb-treeview cmpId="IDC_CROSSREFERENCES_TREEVIEW" width="214" [caption]="_TB('Static')" border="True"></tb-treeview>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

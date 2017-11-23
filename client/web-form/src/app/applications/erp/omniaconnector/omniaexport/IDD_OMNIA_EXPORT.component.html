@@ -1,0 +1,133 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Filters')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Company Data')" tbTileMini >
+        <tb-text [caption]="_TB('Company Code')" cmpId="IDC_WIZARD_OMNIAEXPORT_COMPANYCODE" width="34" [model]="eventData?.model?.CompanyCode"></tb-text>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Last Date Export')" cmpId="IDC_WIZARD_OMNIAEXPORT_LASTDATEEXP" width="57" [model]="eventData?.model?.DateDocLastExport"></tb-date-input>
+       </tb-tile>
+       <tb-tile [title]="_TB('Period')" tbTileMini >
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_WIZARD_OMNIAEXPORT_DOCDATE_FROM" width="57" [model]="eventData?.model?.DateDocFrom"></tb-date-input>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_WIZARD_OMNIAEXPORT_DOCDATE_TO" width="57" [model]="eventData?.model?.DateDocTo"></tb-date-input>
+        <tb-checkbox cmpId="IDC_WIZARD_OMNIAEXPORT_ALREADYEXP" width="105" [model]="eventData?.model?.bAlreadyExported" [caption]="_TB('Also exported')"></tb-checkbox>
+       </tb-tile>
+       <tb-tile [title]="_TB('Type')" tbTileMini >
+        <tb-checkbox cmpId="IDC_WIZARD_OMNIA_EXPORT_PUREJE" width="143" [model]="eventData?.model?.bExportPureJE" [caption]="_TB('Pure Accounting Entries')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_WIZARD_OMNIA_EXPORT_DOCISSUED" width="143" [model]="eventData?.model?.bExportDocIssued" [caption]="_TB('Issued Document')"></tb-checkbox>
+        <tb-checkbox cmpId="IDC_WIZARD_OMNIA_EXPORT_DOCRECV" width="143" [model]="eventData?.model?.bExportDocRecvd" [caption]="_TB('Received Document')"></tb-checkbox>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Error log')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_WIZARD_ERROR_BODYEDIT" width="649" [model]="eventData?.model?.ExportLog">
+         <tb-body-edit-column cmpId="IDC_WIZARD_ERROR_BE_TRANSACTIONTYPE" columnName="l_LogExport_TransactionType" [title]="_TB('Transaction Type')" columnType="tb-enum-combo" columnName="IDC_WIZARD_ERROR_BE_TRANSACTIONTYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_WIZARD_ERROR_BE_POSTDATE" columnName="l_LogExport_PostingDate" [title]="_TB('Posting Date')" columnType="tb-date-input" columnName="IDC_WIZARD_ERROR_BE_POSTDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_ERROR_BE_DOCNO" columnName="l_LogExport_DocNo" [title]="_TB('Document No')" columnType="tb-label-static" columnName="IDC_WIZARD_ERROR_BE_DOCNO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_ERROR_BE_ACCTPL" columnName="l_LogExport_AccTpl" [title]="_TB('Accounting Template')" columnType="tb-label-static" columnName="IDC_WIZARD_ERROR_BE_ACCTPL">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_ERROR_BE_OMNIABLOCK" columnName="l_LogExport_OMNIATag" [title]="_TB('OMNIA Entity')" columnType="tb-label-static" columnName="IDC_WIZARD_ERROR_BE_OMNIABLOCK">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_ERROR_BE_NOTES" columnName="l_LogExport_Notes" [title]="_TB('Notes')" columnType="tb-label-static" columnName="IDC_WIZARD_ERROR_BE_NOTES">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('SubAccounts Link')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_WIZARD_SUBACC_BODYEDIT" width="321" [model]="eventData?.model?.OMNIASubAccountLink">
+         <tb-body-edit-column cmpId="IDC_WIZARD_SUBACC_BE_MAGOACCOUNT" columnName="Account" [title]="_TB('Account')" columnType="tb-label-static" columnName="IDC_WIZARD_SUBACC_BE_MAGOACCOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_SUBACC_BE_MAGOACCOUNT_DESC" columnName="Description" [title]="_TB('Account Description')" columnType="tb-label-static" columnName="IDC_WIZARD_SUBACC_BE_MAGOACCOUNT_DESC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_SUBACC_BE_OMNIAACCOUNT" columnName="OMNIASubAccount" [title]="_TB('OMNIA SubAccount')" columnType="tb-text" columnName="IDC_WIZARD_SUBACC_BE_OMNIAACCOUNT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_SUBACC_BE_OMNIAACCOUNT_DESC" [model]="eventData?.model?.HKLOMNIASubAccounts?.Description" [title]="_TB('OMNIA SubAccount Description')" columnType="tb-label-static" columnName="IDC_WIZARD_SUBACC_BE_OMNIAACCOUNT_DESC">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Accounting Reasons Link')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_WIZARD_ACCREASONS_BODYEDIT" width="321" [model]="eventData?.model?.OMNIAAccReasonsLink">
+         <tb-body-edit-column cmpId="IDC_WIZARD_ACCREASONS_BE_MAGOACCRSN" columnName="Reason" [title]="_TB('Accounting Reason')" columnType="tb-label-static" columnName="IDC_WIZARD_ACCREASONS_BE_MAGOACCRSN">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_ACCREASONS_BE_MAGOACCRSN_DESC" columnName="Description" [title]="_TB('Accounting Reason Description')" columnType="tb-label-static" columnName="IDC_WIZARD_ACCREASONS_BE_MAGOACCRSN_DESC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_ACCREASONS_BE_OMNIAACCRSN" columnName="OMNIAAccReason" [title]="_TB('OMNIA Accounting Reason')" columnType="tb-text" columnName="IDC_WIZARD_ACCREASONS_BE_OMNIAACCRSN">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_ACCREASONS_BE_OMNIAACCRSN_DESC" [model]="eventData?.model?.HKLOMNIAAccReasons?.Description" [title]="_TB('OMNIA Accounting Reason Description')" columnType="tb-label-static" columnName="IDC_WIZARD_ACCREASONS_BE_OMNIAACCRSN_DESC">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Tax Codes Link')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_WIZARD_TAXCODE_BODYEDIT" width="321" [model]="eventData?.model?.OMNIATaxCodesLink">
+         <tb-body-edit-column cmpId="IDC_WIZARD_TAXCODE_BE_MAGOTAXCODE" columnName="TaxCode" [title]="_TB('Tax Code')" columnType="tb-label-static" columnName="IDC_WIZARD_TAXCODE_BE_MAGOTAXCODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_TAXCODE_BE_MAGOTAXCODE_DESC" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_WIZARD_TAXCODE_BE_MAGOTAXCODE_DESC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_TAXCODE_BE_OMNIALAWCODE" columnName="OMNIALawCode" [title]="_TB('OMNIA Law Code')" columnType="tb-text" columnName="IDC_WIZARD_TAXCODE_BE_OMNIALAWCODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_TAXCODE_BE_OMNIALAWCODE_DESC" [model]="eventData?.model?.HKLOMNIALawCodes?.Description" [title]="_TB('OMNIA Law Code Description')" columnType="tb-label-static" columnName="IDC_WIZARD_TAXCODE_BE_OMNIALAWCODE_DESC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_TAXCODE_BE_OMNIATAXCODE" columnName="OMNIATaxCode" [title]="_TB('OMNIA Tax Code')" columnType="tb-text" columnName="IDC_WIZARD_TAXCODE_BE_OMNIATAXCODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_WIZARD_TAXCODE_BE_OMNIATAXCODE_DESC" [model]="eventData?.model?.HKLOMNIATaxCodes?.Description" [title]="_TB('OMNIA Tax Code Description')" columnType="tb-label-static" columnName="IDC_WIZARD_TAXCODE_BE_OMNIATAXCODE_DESC">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Export Data')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileAutoFill >
+<div class="anchored">        <tb-text [caption]="_TB('Company Code')" cmpId="IDC_WIZARD_OMNIAEXPORT_COMPANYCODE2" width="34" [model]="eventData?.model?.CompanyCode"></tb-text>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Last Date Export')" cmpId="IDC_WIZARD_OMNIAEXPORT_LASTDATEEXP2" width="57" [model]="eventData?.model?.DateDocLastExport"></tb-date-input>
+</div>        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Export file No.')" cmpId="IDC_WIZARD_OMNIAEXPORT_LASTEXPNO" width="12" [model]="eventData?.model?.DocLastExportNo"></tb-numeric-text-box>
+        <tb-text [caption]="_TB('File Path')" cmpId="IDC_WIZARD_OMNIAEXPORT_FILEPATH" width="191" [model]="eventData?.model?.FilePathExport"></tb-text>
+        <tb-text [caption]="_TB('File Name')" cmpId="IDC_WIZARD_OMNIAEXPORT_FILENAME" width="80" [model]="eventData?.model?.FileNameExport"></tb-text>
+        <tb-label-static cmpId="IDC_WIZARD_OMNIAEXPORT_OUTPUT" width="301" [model]="eventData?.model?.strOutput"></tb-label-static>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

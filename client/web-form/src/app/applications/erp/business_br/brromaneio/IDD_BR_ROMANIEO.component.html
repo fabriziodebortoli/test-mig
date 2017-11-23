@@ -1,0 +1,217 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeColumn >
+      <ng-template>
+       <tb-tile [title]="_TB('Main Data')" tbTileMini  isCollapsible="False" hasTitle="False">
+        <tb-text [caption]="_TB('Number')" cmpId="IDC_BR_ROMANEIO_NUMBER" width="57" [model]="eventData?.model?.DBTBRRomaneio?.RomaneioNo"></tb-text>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_BR_ROMANEIO_DATE" width="57" [model]="eventData?.model?.DBTBRRomaneio?.RomaneioDate"></tb-date-input>
+       </tb-tile>
+       <tb-tile [title]="_TB('Other Data')" tbTileStandard  isCollapsible="False" hasTitle="False">
+<div class="anchored">        <tb-combo [caption]="_TB('Driver')" cmpId="IDC_BR_ROMANEIO_DRIVER" width="57" [model]="eventData?.model?.DBTBRRomaneio?.Driver"></tb-combo>
+        <tb-label-static cmpId="IDC_BR_ROMANEIO_DRIVER_DESCRI" width="156" [model]="eventData?.model?.HKLWorkers?.NameComplete"></tb-label-static>
+</div>        <tb-enum-combo [caption]="_TB('Status')" cmpId="IDC_BR_ROMANEIO_STATUS" width="57" [model]="eventData?.model?.DBTBRRomaneio?.Status"></tb-enum-combo>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-sales" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Vehicles')" tbTileStandard  isCollapsible="True" hasTitle="True">
+          <tb-section-title cmpId="IDC_BR_ROMANEIO_TRACTOR_STATIC" width="325" [caption]="_TB('Tractor')"></tb-section-title>
+          <tb-text [caption]="_TB('Code')" cmpId="IDC_BR_ROMANEIO_TRACTOR" width="67" [model]="eventData?.model?.DBTBRRomaneio?.Tractor"></tb-text>
+          <tb-label-static [caption]="_TB('License Plate')" cmpId="IDC_BR_ROMANEIO_TRACTOR_LICENSE_PLATE" width="67" [model]="eventData?.model?.DBTBRRomaneio?.TractorLicensePlate"></tb-label-static>
+          <tb-enum-combo [caption]="_TB('Fuel Type')" cmpId="IDC_BR_ROMANEIO_TRACTOR_FUEL_TYPE" width="67" [model]="eventData?.model?.DBTBRRomaneio?.TractorFuelType"></tb-enum-combo>
+          <tb-section-title cmpId="IDC_BR_ROMANEIO_TRAILER_STATIC" width="325" [caption]="_TB('Trailer')"></tb-section-title>
+          <tb-text [caption]="_TB('Code')" cmpId="IDC_BR_ROMANEIO_TRAILER" width="67" [model]="eventData?.model?.DBTBRRomaneio?.Trailer"></tb-text>
+          <tb-label-static [caption]="_TB('License Plate')" cmpId="IDC_BR_ROMANEIO_TRAILER_LICENSE_PLATE" width="67" [model]="eventData?.model?.DBTBRRomaneio?.trailerLicensePlate"></tb-label-static>
+          <tb-enum-combo [caption]="_TB('Fuel Type')" cmpId="IDC_BR_ROMANEIO_TRAILER_FUEL_TYPE" width="67" [model]="eventData?.model?.DBTBRRomaneio?.trailerFuelType"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Time')" tbTileStandard  isCollapsible="True" hasTitle="True">
+          <tb-section-title cmpId="IDC_BR_ROMANEIO_DEPARTURE_STATIC" width="325" [caption]="_TB('Departure')"></tb-section-title>
+          <tb-date-input formatter="DateTime" [readonly]="false" [caption]="_TB('Date')" cmpId="IDC_BR_ROMANEIO_DEPARTURE_DATE" width="80" [model]="eventData?.model?.DBTBRRomaneio?.DepartureDate"></tb-date-input>
+          <tb-numeric-text-box formatter="Long" [caption]="_TB('Km')" cmpId="IDC_BR_ROMANEIO_DEPARTURE_KM" width="68" [model]="eventData?.model?.DBTBRRomaneio?.DepartureKm"></tb-numeric-text-box>
+          <tb-section-title cmpId="IDC_BR_ROMANEIO_ARRIVAL_STATIC" width="325" [caption]="_TB('Arrival')"></tb-section-title>
+          <tb-date-input formatter="DateTime" [readonly]="false" [caption]="_TB('Date')" cmpId="IDC_BR_ROMANEIO_ARRIVAL_DATE" width="80" [model]="eventData?.model?.DBTBRRomaneio?.ArrivalDate"></tb-date-input>
+          <tb-numeric-text-box formatter="Long" [caption]="_TB('Km')" cmpId="IDC_BR_ROMANEIO_ARRIVAL_KM" width="68" [model]="eventData?.model?.DBTBRRomaneio?.ArrivalKm"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Detail')" tbTileAutoFill  isCollapsible="False" hasTitle="True">
+         <tb-body-edit cmpId="IDC_BR_ROMANEIO_DETAIL_BODY_EDIT" width="325" [model]="eventData?.model?.BRRomaneioDetail">
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_BR_ROMANEIO_DETAIL_DELLIVERY_ORD" columnName="DeliveryOrder" [title]="_TB('Delivery Order')" columnType="tb-numeric-text-box" columnName="IDC_BR_ROMANEIO_DETAIL_DELLIVERY_ORD">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="DateTime" [readonly]="false" cmpId="IDC_BR_ROMANEIO_DETAIL_ARRIVAL_TIME" columnName="ArrivalTime" [title]="_TB('Arrival Time')" columnType="tb-date-input" columnName="IDC_BR_ROMANEIO_DETAIL_ARRIVAL_TIME">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="DateTime" [readonly]="false" cmpId="IDC_BR_ROMANEIO_DETAIL_REDEPARTURE_TIME" columnName="DepartureTime" [title]="_TB('New Departure Time')" columnType="tb-date-input" columnName="IDC_BR_ROMANEIO_DETAIL_REDEPARTURE_TIME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_SERIES" columnName="Series" [title]="_TB('Series')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_SERIES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_MODEL" columnName="Model" [title]="_TB('Model')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_MODEL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_NOTA_FISCAL_NO" columnName="DocNo" [title]="_TB('Document No.')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_NOTA_FISCAL_NO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_TYPE" columnName="CustSuppType" [title]="_TB('Cust/Supp Type')" columnType="tb-enum-combo" columnName="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_TYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP" columnName="CustSupp" [title]="_TB('Cust/Supp')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_COMPANY_NAME" columnName="CustSuppCompanyName" [title]="_TB('Company Name')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_COMPANY_NAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_FED_STATE" columnName="CustSuppFederalState" [title]="_TB('State')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_FED_STATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_CITY" columnName="CustSuppCity" [title]="_TB('Municipality')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_CUST_SUPP_CITY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_DELIVERY_TO_COMPANY_NAME" columnName="DeliveryToCompanyName" [title]="_TB('Delivery To Company Name')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_DELIVERY_TO_COMPANY_NAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_DELIVERY_TO_FED_STATE" columnName="DeliveryToFederalState" [title]="_TB('State')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_DELIVERY_TO_FED_STATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_DELIVERY_TO_CITY" columnName="DeliveryToCity" [title]="_TB('Municipality')" columnType="tb-label-static" columnName="IDC_BR_ROMANEIO_DETAIL_DELIVERY_TO_CITY">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Double" disabled="true" cmpId="IDC_BR_ROMANEIO_DETAIL_GROSS_WEIGHT" columnName="GrossWeight" [title]="_TB('Gross Weight')" columnType="tb-numeric-text-box" columnName="IDC_BR_ROMANEIO_DETAIL_GROSS_WEIGHT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Double" disabled="true" cmpId="IDC_BR_ROMANEIO_DETAIL_NET_WEIGHT" columnName="NetWeight" [title]="_TB('Net Weight')" columnType="tb-numeric-text-box" columnName="IDC_BR_ROMANEIO_DETAIL_NET_WEIGHT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_BR_ROMANEIO_DETAIL_NO_OF_PACKS" columnName="NoOfPacks" [title]="_TB('No. Of Packs')" columnType="tb-numeric-text-box" columnName="IDC_BR_ROMANEIO_DETAIL_NO_OF_PACKS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_DETAIL_EVENT" columnName="Event" [title]="_TB('Event')" columnType="tb-text" columnName="IDC_BR_ROMANEIO_DETAIL_EVENT">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Summary')" icon="erp-deliverynote" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Weight')" tbTileStandard  isCollapsible="True" hasTitle="True">
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Outbound Net')" cmpId="IDC_BR_ROMANEIO_SUM_WEIG_OUT_NET" width="68" [model]="eventData?.model?.BRRomaneioSummary?.OutboundNetWeight"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Inbound Net')" cmpId="IDC_BR_ROMANEIO_SUM_WEIG_IN_NET" width="68" [model]="eventData?.model?.BRRomaneioSummary?.InboundNetWeight"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Theoretical Total')" cmpId="IDC_BR_ROMANEIO_SUM_WEIG_TEO_TOTAL" width="68" [model]="eventData?.model?.BRRomaneioSummary?.TheoreticalTotWeight"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Effective Total')" cmpId="IDC_BR_ROMANEIO_SUM_WEIG_TOTAL" width="68" [model]="eventData?.model?.BRRomaneioSummary?.TotWeight"></tb-numeric-text-box>
+         </tb-tile>
+         <tb-tile [title]="_TB('Other Totals')" tbTileStandard  isCollapsible="True" hasTitle="True">
+          <tb-numeric-text-box formatter="Integer" [caption]="_TB('No. of Packs')" cmpId="IDC_BR_ROMANEIO_SUM_OTH_TOT_NO_PACKS" width="40" [model]="eventData?.model?.BRRomaneioSummary?.TotNoOfPacks"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Volume in Cubic Meters')" cmpId="IDC_BR_ROMANEIO_SUM_OTH_TOT_VOL_M3" width="68" [model]="eventData?.model?.BRRomaneioSummary?.TotVolumM3"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Long" [caption]="_TB('Kilometers')" cmpId="IDC_BR_ROMANEIO_SUM_OTH_TOT_KM" width="68" [model]="eventData?.model?.BRRomaneioSummary?.TotalKm"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Shipping')" tbTileStandard  isCollapsible="True" hasTitle="True">
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Outward Voyage')" cmpId="IDC_BR_ROMANEIO_SUM_SHIP_OUT_VOYAGE" width="68" [model]="eventData?.model?.BRRomaneioSummary?.ShipOutwardVoyage"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Way Back')" cmpId="IDC_BR_ROMANEIO_SUM_SHIP_WAY_BACK" width="68" [model]="eventData?.model?.BRRomaneioSummary?.ShipBackWay"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Total Charges')" cmpId="IDC_BR_ROMANEIO_SUM_SHIP_TOTAL_CHAR" width="68" [model]="eventData?.model?.BRRomaneioSummary?.ShipTotCharges"></tb-numeric-text-box>
+         </tb-tile>
+         <tb-tile [title]="_TB('Time')" tbTileStandard  isCollapsible="True" hasTitle="True">
+          <tb-text [caption]="_TB('Gross')" cmpId="IDC_BR_ROMANEIO_SUM_TIME_GROSS" width="40" [model]="eventData?.model?.BRRomaneioSummary?.GrossTime"></tb-text>
+          <tb-text [caption]="_TB('Net')" cmpId="IDC_BR_ROMANEIO_SUM_TIME_NET" width="40" [model]="eventData?.model?.BRRomaneioSummary?.NetTime"></tb-text>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Pauses')" tbTileAutoFill  isCollapsible="True" hasTitle="True">
+         <tb-body-edit cmpId="IDC_BR_ROMANEIO_PAUSES_DETAIL_BODY_EDIT" width="325" [model]="eventData?.model?.BRRomaneioPausesDetail">
+          <tb-body-edit-column formatter="DateTime" [readonly]="false" cmpId="IDC_BR_ROMANEIO_PAUSES_DETAIL_START_TIME" columnName="StartTime" [title]="_TB('Start Time')" columnType="tb-date-input" columnName="IDC_BR_ROMANEIO_PAUSES_DETAIL_START_TIME">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="DateTime" [readonly]="false" cmpId="IDC_BR_ROMANEIO_PAUSES_DETAIL_END_TIME" columnName="EndTime" [title]="_TB('End Time')" columnType="tb-date-input" columnName="IDC_BR_ROMANEIO_PAUSES_DETAIL_END_TIME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_PAUSES_DETAIL_TOT_TIME" columnName="TotalPauseTime" [title]="_TB('Total Pause Time')" columnType="tb-body-edit-column" columnName="IDC_BR_ROMANEIO_PAUSES_DETAIL_TOT_TIME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_BR_ROMANEIO_PAUSES_DETAIL_REASON" columnName="Reason" [title]="_TB('Reason')" columnType="tb-text" columnName="IDC_BR_ROMANEIO_PAUSES_DETAIL_REASON">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Notes')" tbTileStandard  isCollapsible="True" isCollapsed="True" hasTitle="True">
+         <tb-text [caption]="_TB('Memo')" cmpId="IDC_BR_ROMANEIO_NOTES" width="219" [model]="eventData?.model?.BRRomaneioNotes?.Notes"></tb-text>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Expenses')" icon="erp-money" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Expenses')" tbTileStandard  isCollapsible="False" hasTitle="True">
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Tolls')" cmpId="IDC_BR_ROMANEIO_EXP_CHARGES_TOLL" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.Tolls"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Meals')" cmpId="IDC_BR_ROMANEIO_EXP_CHARGES_MEAL" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.Meals"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Overnight')" cmpId="IDC_BR_ROMANEIO_EXP_CHARGES_OVERNIGHT" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.Overnight"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Maintenance')" cmpId="IDC_BR_ROMANEIO_EXP_CHARGES_MAINT" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.Mainteinance"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Fuel')" cmpId="IDC_BR_ROMANEIO_EXP_CHARGES_FUEL" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.Fuel"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Integer" [caption]="_TB('Fuel Refuelling Liters')" cmpId="IDC_BR_ROMANEIO_EXP_TOT_REF_LITERS" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.TotalRefLiters"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Other Expenses')" cmpId="IDC_BR_ROMANEIO_EXP_CHARGES_OTHER" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.OtherCharges"></tb-numeric-text-box>
+         </tb-tile>
+         <tb-tile [title]="_TB('Balance')" tbTileStandard  isCollapsible="False" hasTitle="True">
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Starting Cash')" cmpId="IDC_BR_ROMANEIO_EXP_BAL_CASH_START" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.StartingCash"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Ending Cash')" cmpId="IDC_BR_ROMANEIO_EXP_BAL_CASH_END" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.EndingCash"></tb-numeric-text-box>
+          <tb-text cmpId="IDC_SEPARATOR1" width="100"></tb-text>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Estimated Value')" cmpId="IDC_BR_ROMANEIO_EXP_ESTIMATED_VALUE" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.EstimatedValue"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Money" [caption]="_TB('Actual Value')" cmpId="IDC_BR_ROMANEIO_EXP_ACTUAL_VALUE" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.ActualValue"></tb-numeric-text-box>
+          <tb-text cmpId="IDC_SEPARATOR2" width="100"></tb-text>
+          <tb-numeric-text-box formatter="Double" [caption]="_TB('Variation')" cmpId="IDC_BR_ROMANEIO_EXP_VARIATION" width="68" [model]="eventData?.model?.BRRomaneioExpenses?.Variation"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_CROSSREFERENCES_VIEWER_DOCK_PANE" [title]="_TB('CrossReferencesViewer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+         <tb-treeview cmpId="IDC_CROSSREFERENCES_TREEVIEW" width="214" [caption]="_TB('Static')" border="True"></tb-treeview>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BR_ROMANEIO_ACTIONS?.enabled" icon="erp-loaddocument" [caption]="_TB('Load')" cmpId="ID_BR_ROMANEIO_ACTIONS"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

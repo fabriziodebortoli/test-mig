@@ -22,7 +22,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   @ViewChild(GridComponent) grid;
 
   constructor(public cdr: ChangeDetectorRef, public layoutService: LayoutService, public tbComponentService: TbComponentService) {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, cdr);
   }
 
   ngAfterContentInit() {

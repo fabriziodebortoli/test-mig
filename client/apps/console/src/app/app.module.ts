@@ -36,6 +36,7 @@ import { DatabaseOperationsComponent } from './components/database/database-oper
 import { InstanceRegistrationComponent } from './components/instance/instance-registration.component';
 import { DatabaseUpgradeComponent } from './components/database/database-upgrade.component';
 import { DataChannelService } from 'app/services/data-channel.service';
+import { ImportDataComponent } from './components/database/import-data.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { DataChannelService } from 'app/services/data-channel.service';
     TestControlsComponent,
     DatabaseOperationsComponent,
     InstanceRegistrationComponent,
-    DatabaseUpgradeComponent
+    DatabaseUpgradeComponent,
+    ImportDataComponent
   ],
   imports: [
     BrowserModule,

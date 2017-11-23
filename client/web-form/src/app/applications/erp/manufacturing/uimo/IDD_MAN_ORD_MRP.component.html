@@ -1,0 +1,698 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeHbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Main')" tbTileLarge >
+<div class="anchored">        <tb-text [caption]="_TB('MO')" cmpId="IDC_MAN_ORD_NO_ORDER" width="55" [model]="eventData?.model?.MO?.MONo"></tb-text>
+        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Quantity')" cmpId="IDC_MAN_ORD_QTY_TO_PRODUCTION" width="40" [model]="eventData?.model?.MO?.ProductionQty"></tb-numeric-text-box>
+        <tb-combo cmpId="IDC_MAN_ORD_A_MIS" width="48" [model]="eventData?.model?.MO?.UoM" [itemSource]="IDC_MAN_ORD_A_MIS_itemSource"></tb-combo>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Delivery date')" cmpId="IDC_MAN_ORD_DATE_DELIVERY" width="57" [model]="eventData?.model?.MO?.DeliveryDate"></tb-date-input>
+</div><div class="anchored">        <tb-text [caption]="_TB('Item')" cmpId="IDC_MAN_ORD_PRODUCT" width="122" [model]="eventData?.model?.MO?.BOM"></tb-text>
+        <tb-label-static cmpId="IDC_MAN_ORD_DESCRI_PRODUCT" width="150" [model]="eventData?.model?.HKLItem?.Description"></tb-label-static>
+</div>        <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_VARIANT" [caption]="_TB('Variant')" cmpId="IDC_MAN_ORD_VARIANT" width="122" [model]="eventData?.model?.MO?.Variant"></tb-text>
+<div class="anchored">        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Quantity')" cmpId="IDC_MAN_ORD_QTY_TO_PRODUCTION" width="40" [model]="eventData?.model?.MO?.ProductionQty"></tb-numeric-text-box>
+        <tb-combo cmpId="IDC_MAN_ORD_A_MIS" width="48" [model]="eventData?.model?.MO?.UoM" [itemSource]="IDC_MAN_ORD_A_MIS_itemSource"></tb-combo>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Delivery date')" cmpId="IDC_MAN_ORD_DATE_DELIVERY" width="57" [model]="eventData?.model?.MO?.DeliveryDate"></tb-date-input>
+</div><div class="anchored">        <tb-combo cmpId="IDC_MAN_ORD_A_MIS" width="48" [model]="eventData?.model?.MO?.UoM" [itemSource]="IDC_MAN_ORD_A_MIS_itemSource"></tb-combo>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Delivery date')" cmpId="IDC_MAN_ORD_DATE_DELIVERY" width="57" [model]="eventData?.model?.MO?.DeliveryDate"></tb-date-input>
+</div>       </tb-tile>
+       <tb-status-tile-panel>
+        <tb-status-tile>
+         <tb-linear-gauge cmpId="IDC_CONTROL_GAUGE" width="71" [model]="eventData?.model?.nMOStatusMax"></tb-linear-gauge>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.MOStatusDescription"></tb-label-static>
+         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.ImageStatusMO"></tb-image>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33"></tb-label-static>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33"></tb-label-static>
+        </tb-status-tile>
+        <tb-status-tile>
+         <tb-linear-gauge *ngIf="eventData?.activation?.IDC_CONTROL_GAUGE" cmpId="IDC_CONTROL_GAUGE" width="71"></tb-linear-gauge>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.MOProdDescription"></tb-label-static>
+         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.ProdImage"></tb-image>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33" [model]="eventData?.model?.LeftProducedDescription"></tb-label-static>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33" [model]="eventData?.model?.RightProducedDescription"></tb-label-static>
+        </tb-status-tile>
+        <tb-status-tile *ngIf="eventData?.activation?.IDD_TS_MAN_ORD_SECOND_RATE_STATUS">
+         <tb-linear-gauge *ngIf="eventData?.activation?.IDC_CONTROL_GAUGE" cmpId="IDC_CONTROL_GAUGE" width="71"></tb-linear-gauge>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.MOSRDescription"></tb-label-static>
+         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.SRImage"></tb-image>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33" [model]="eventData?.model?.LeftSecondRateDescription"></tb-label-static>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33" [model]="eventData?.model?.RightSecondRateDescription"></tb-label-static>
+        </tb-status-tile>
+        <tb-status-tile>
+         <tb-linear-gauge *ngIf="eventData?.activation?.IDC_CONTROL_GAUGE" cmpId="IDC_CONTROL_GAUGE" width="71"></tb-linear-gauge>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.MOScrapDescription"></tb-label-static>
+         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.ScrapImage"></tb-image>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33" [model]="eventData?.model?.LeftScrapDescription"></tb-label-static>
+         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33" [model]="eventData?.model?.RightScrapDescription"></tb-label-static>
+        </tb-status-tile>
+       </tb-status-tile-panel>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-manufacturing" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_MAN_ORD_MAIN_DATA">
+       <ng-template>
+        <tb-tile [title]="_TB('Components')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-body-edit cmpId="IDC_MAN_ORD_BE_MATERIALS" width="324" [model]="eventData?.model?.MOComponents">
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_LINENO" width="25" columnName="StringLine" [title]="_TB(' ')" columnType="tb-label-static" columnName="IDC_ORD_RTGSTEPS_MOCOMP_LINENO" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_LINENO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_BMP_PRIMARY" width="25" columnName="BmpProperty" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_ORD_RTGSTEPS_MOCOMP_BMP_PRIMARY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_DRAWING" columnName="Drawing" [title]="_TB('Drawing')" columnType="tb-text" columnName="IDC_ORD_RTGSTEPS_MOCOMP_DRAWING" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_DRAWING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_COMPO" columnName="Component" [title]="_TB('Component')" columnType="tb-combo" columnName="IDC_ORD_RTGSTEPS_MOCOMP_COMPO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_DESCRI_COMPO" [model]="eventData?.model?.HKLItemMOCOMP?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_ORD_RTGSTEPS_MOCOMP_DESCRI_COMPO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-text" columnName="IDC_ORD_RTGSTEPS_MOCOMP_VARIANT" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_VARIANT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_NATURE_COMPO" width="80" columnName="ComponentNature" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_ORD_RTGSTEPS_MOCOMP_NATURE_COMPO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_NO_ENTRY" width="80" columnName="NotEnter" [title]="_TB('Do not
+transact')" columnType="tb-checkbox" columnName="IDC_ORD_RTGSTEPS_MOCOMP_NO_ENTRY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_UOM" columnName="UoM" [itemSource]="IDC_ORD_RTGSTEPS_MOCOMP_UOM_itemSource" [title]="_TB('UoM')" columnType="tb-combo" columnName="IDC_ORD_RTGSTEPS_MOCOMP_UOM">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ORD_RTGSTEPS_MOCOMP_QTY" columnName="NeededQty" [title]="_TB('Necessary
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_ORD_RTGSTEPS_MOCOMP_QTY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_FIXEDQTY" columnName="FixedQty" [title]="_TB('Fixed
+quantity')" columnType="tb-checkbox" columnName="IDC_ORD_RTGSTEPS_MOCOMP_FIXEDQTY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_VALORIZE" columnName="Valorize" [title]="_TB('Valorize')" columnType="tb-checkbox" columnName="IDC_ORD_RTGSTEPS_MOCOMP_VALORIZE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_ORD_RTGSTEPS_MOCOMP_QTY_PICK" columnName="PickedQuantity" [title]="_TB('Picked
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_ORD_RTGSTEPS_MOCOMP_QTY_PICK" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_QTY_PICK">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_RTGSTEP_SENT" columnName="DNRtgStep" [itemSource]="IDC_ORD_RTGSTEPS_MOCOMP_RTGSTEP_SENT_itemSource" [title]="_TB('Use
+in step')" columnType="tb-combo" columnName="IDC_ORD_RTGSTEPS_MOCOMP_RTGSTEP_SENT" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_RTGSTEP_SENT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_TECHNICAL_DATA" columnName="TechnicalData" [title]="_TB('Technical
+data')" columnType="tb-label-static" columnName="IDC_ORD_RTGSTEPS_MOCOMP_TECHNICAL_DATA" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_TECHNICAL_DATA">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_ACCOUNTINGTYPE" columnName="AccountingType" [title]="_TB('Accounting Type')" columnType="tb-text" columnName="IDC_ORD_RTGSTEPS_MOCOMP_ACCOUNTINGTYPE" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_ACCOUNTINGTYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_WASTE" columnName="Waste" [title]="_TB('Waste')" columnType="tb-combo" columnName="IDC_ORD_RTGSTEPS_MOCOMP_WASTE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_WASTEDESP" [model]="eventData?.model?.HKLWasteBE?.Description" [title]="_TB('Waste Description')" columnType="tb-label-static" columnName="IDC_ORD_RTGSTEPS_MOCOMP_WASTEDESP">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ORD_RTGSTEPS_MOCOMP_DETAIL_QTY_WASTE" columnName="WasteQuantity" [title]="_TB('Waste Qty')" columnType="tb-numeric-text-box" columnName="IDC_ORD_RTGSTEPS_MOCOMP_DETAIL_QTY_WASTE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_ORD_RTGSTEPS_MOCOMP_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_ORD_RTGSTEPS_MOCOMP_QTYSENDTA" columnName="DNQuantity" [title]="_TB('Sent
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_ORD_RTGSTEPS_MOCOMP_QTYSENDTA">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_ORD_RTGSTEPS_MATERIALS_COST" columnName="ActualCost" [title]="_TB('Actual
+cost')" columnType="tb-numeric-text-box" columnName="IDC_ORD_RTGSTEPS_MATERIALS_COST">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_WASTEUOM" columnName="WasteUoM" [title]="_TB('Waste UoM')" columnType="tb-label-static" columnName="IDC_ORD_RTGSTEPS_MOCOMP_WASTEUOM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_ORD_RTGSTEPS_MOCOMP_LOT" columnName="Lot" [title]="_TB('Lot')" columnType="tb-combo" columnName="IDC_ORD_RTGSTEPS_MOCOMP_LOT" *ngIf="eventData?.activation?.IDC_ORD_RTGSTEPS_MOCOMP_LOT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MO_DETAIL_FROMKANBAN" columnName="FromKanban" [title]="_TB('From Kanban')" columnType="tb-checkbox" columnName="IDC_MO_DETAIL_FROMKANBAN" *ngIf="eventData?.activation?.IDC_MO_DETAIL_FROMKANBAN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MO_DETAIL_PARENT_VAR" columnName="ParentBOM" [title]="_TB('Parent
+BOM')" columnType="tb-label-static" columnName="IDC_MO_DETAIL_PARENT_VAR" *ngIf="eventData?.activation?.IDC_MO_DETAIL_PARENT_VAR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MO_DETAIL_PARENT_VAR" columnName="ParentVar" [title]="_TB('Parent
+Variant')" columnType="tb-label-static" columnName="IDC_MO_DETAIL_PARENT_VAR" *ngIf="eventData?.activation?.IDC_MO_DETAIL_PARENT_VAR">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+        <tb-tilepanel [title]="_TB('Operations')" isCollapsible="True" showAsTile="True" *ngIf="eventData?.activation?.IDD_TP_MAN_ORD_STEP_OPERATION">
+         <tb-tile tbTileWide >
+<div class="col col1"><div class="anchored">          <tb-radio cmpId="IDC_MO_OPERATION_INTERNAL" width="109" [model]="eventData?.model?.Internal" [caption]="_TB('In-house  ')"></tb-radio>
+          <tb-radio cmpId="IDC_MO_OPERATION_OUTSOURCED" width="109" [model]="eventData?.model?.Outsourced" [caption]="_TB('Outsourced  ')"></tb-radio>
+</div></div><div class="col col2"><div class="anchored">          <tb-text [caption]="_TB('Subcontractor')" cmpId="IDC_MO_SUPPLIER_OPERATION" width="80" [model]="eventData?.model?.Supplier"></tb-text>
+          <tb-label-static cmpId="IDC_MO_COMPNAME_SUPPLIER_OPERATION" width="150" [model]="eventData?.model?.HKLSupplier?.CompanyName"></tb-label-static>
+</div></div>         </tb-tile>
+         <tb-tile [title]="_TB('eventData?.model?.sRtgStepsTitle')" tbTileAutoFill  isCollapsible="eventData?.model?.bUseMultiStepRouting">
+          <tb-body-edit cmpId="IDC_MAN_ORD_BE_RTGSTEPS" width="324" [model]="eventData?.model?.MOSteps">
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_BMP_STATUS_RTGSTEP" columnName="StateBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_MAN_ORD_BMP_STATUS_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_BMP_STATUS_RTGSTEP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_STATUS_RTGSTEP" [title]="_TB('Status')" columnType="tb-enum-combo" columnName="IDC_MAN_ORD_STATUS_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_STATUS_RTGSTEP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_RTGSTEP" [title]="_TB('Routing
+Step')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_RTGSTEP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_ALTERNATE" [title]="_TB('Alternate')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_ALTERNATE" *ngIf="eventData?.activation?.IDC_MAN_ORD_ALTERNATE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_ALTROUTINGSTEP" [title]="_TB('Alternative
+Routing Step')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_ALTROUTINGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_ALTROUTINGSTEP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_OPERATION" [title]="_TB('Operation')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_OPERATION">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DESCRI_OPERATION" [title]="_TB('Description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DESCRI_OPERATION">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_IS_WC" [title]="_TB('IsWC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_IS_WC" *ngIf="eventData?.activation?.IDC_MAN_ORD_IS_WC">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_WC" [title]="_TB('WC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_WC" *ngIf="eventData?.activation?.IDC_MAN_ORD_WC">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_WCDELIV" [title]="_TB('Actual
+WC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_WCDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_WCDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_IS_WC_OUTSRC" [title]="_TB('Outsourced')" columnType="tb-checkbox" columnName="IDC_MAN_ORD_IS_WC_OUTSRC" *ngIf="eventData?.activation?.IDC_MAN_ORD_IS_WC_OUTSRC">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_SETUP" columnName="SetupTime" [title]="_TB('Setup
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_TIME_SETUP" *ngIf="eventData?.activation?.IDC_MAN_ORD_TIME_SETUP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_COST_SETUPCOST" [title]="_TB('Hourly SetUp Cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_COST_SETUPCOST" *ngIf="eventData?.activation?.IDC_MAN_ORD_COST_SETUPCOST">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_COST_WORKINGTIME" [title]="_TB('Hourly Cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_COST_WORKINGTIME" *ngIf="eventData?.activation?.IDC_MAN_ORD_COST_WORKINGTIME">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_PROCESSING" [title]="_TB('Processing
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_TIME_PROCESSING">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_TOTAL" [title]="_TB('Total
+time')" columnType="tb-checkbox" columnName="IDC_MAN_ORD_TIME_TOTAL">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_ROUTING_QTY" [title]="_TB('Quantity')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_ROUTING_QTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MAN_ORD_DETAIL_QTYSCRAP" columnName="ScrapQuantity" [title]="_TB('Scrap
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_MAN_ORD_DETAIL_QTYSCRAP" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYSCRAP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_SUMMARY" [title]="_TB('Additional
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_TIME_SUMMARY" *ngIf="eventData?.activation?.IDC_MAN_ORD_TIME_SUMMARY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_UOM" [title]="_TB('UoM')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_UOM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_UOM">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DESCRI_WC" [title]="_TB('WC
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DESCRI_WC" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DESCRI_WC">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_QTYSENDTA" [title]="_TB('Sent
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_QTYSENDTA" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYSENDTA">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NOTSUBCNTDNGENERATION" [title]="_TB('Do not generate
+DN')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_NOTSUBCNTDNGENERATION" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_NOTSUBCNTDNGENERATION">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_QTYFROMPROD" [title]="_TB('Quantity
+to produce')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_QTYFROMPROD" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYFROMPROD">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_PRODQTY" [title]="_TB('Quantity
+nproduced')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_PRODQTY" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_PRODQTY">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_QTYSECRATE" [title]="_TB('Second Rate
+quantity')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_QTYSECRATE" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYSECRATE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NO_RUN_RTGSTEP" [title]="_TB('Manufacturing
+start no.')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_NO_RUN_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_NO_RUN_RTGSTEP">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NODN" [title]="_TB('JT')" columnType="tb-label-static" columnName="IDC_MAN_ORD_DETAIL_NODN" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_NODN">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DESCRI_WCDELIV" [title]="_TB('Final WC
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DESCRI_WCDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DESCRI_WCDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEBEGDELIV" [title]="_TB('Final
+start')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEBEGDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEBEGDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEENDDELIV" [title]="_TB('Final
+end')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEENDDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEENDDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_TMPPROCESSDELIV" [title]="_TB('Final processing
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_TMPPROCESSDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_TMPPROCESSDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_TMPSETUPDELIV" [title]="_TB('Final setup
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_TMPSETUPDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_TMPSETUPDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_SETUPACTUALCOST" [title]="_TB('Final setup
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_SETUPACTUALCOST" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_SETUPACTUALCOST">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_PROCESSINGACTUALCOST" [title]="_TB('Final processing
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_PROCESSINGACTUALCOST" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_PROCESSINGACTUALCOST">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_LABOURDELIV" [title]="_TB('Final labor
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_LABOURDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_LABOURDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_SIMWC" [title]="_TB('Expected
+WC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_SIMWC" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_SIMWC">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DESCRI_SIMWC" [title]="_TB('Expected WC
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DESCRI_SIMWC" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DESCRI_SIMWC">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATERUN" [title]="_TB('Start
+date')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATERUN" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATERUN">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEDELIV" [title]="_TB('Delivery
+date')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEDELIV">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATESIMSTARTDATE" [title]="_TB('Expected
+start')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATESIMSTARTDATE" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATESIMSTARTDATE">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEEND" [title]="_TB('Expected
+end')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEEND" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEEND">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_COSTOFSETUPSIM" [title]="_TB('Expected setup
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_COSTOFSETUPSIM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_COSTOFSETUPSIM">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_COSTPROCESSSIM" [title]="_TB('Expected processing 
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_COSTPROCESSSIM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_COSTPROCESSSIM">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_LABOURSIM" [title]="_TB('Expected labor
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_LABOURSIM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_LABOURSIM">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_SUPPLIER" columnName="Supplier" [title]="_TB('Subcontractor')" columnType="tb-label-static" columnName="IDC_MAN_ORD_SUPPLIER" *ngIf="eventData?.activation?.IDC_MAN_ORD_SUPPLIER">
+           </tb-body-edit-column>
+           <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NOTES_RTGSTEP" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_MAN_ORD_DETAIL_NOTES_RTGSTEP">
+           </tb-body-edit-column>
+          </tb-body-edit>
+         </tb-tile>
+        </tb-tilepanel>
+        <tb-tile [title]="_TB('eventData?.model?.sRtgStepsTitle')" tbTileAutoFill  isCollapsible="eventData?.model?.bUseMultiStepRouting" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_MAIN_BE_RTGSTEPS">
+         <tb-body-edit cmpId="IDC_MAN_ORD_BE_RTGSTEPS" width="324" [model]="eventData?.model?.MOSteps">
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_BMP_STATUS_RTGSTEP" columnName="StateBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_MAN_ORD_BMP_STATUS_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_BMP_STATUS_RTGSTEP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_STATUS_RTGSTEP" [title]="_TB('Status')" columnType="tb-enum-combo" columnName="IDC_MAN_ORD_STATUS_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_STATUS_RTGSTEP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_RTGSTEP" [title]="_TB('Routing
+Step')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_RTGSTEP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_ALTERNATE" [title]="_TB('Alternate')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_ALTERNATE" *ngIf="eventData?.activation?.IDC_MAN_ORD_ALTERNATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_ALTROUTINGSTEP" [title]="_TB('Alternative
+Routing Step')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_ALTROUTINGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_ALTROUTINGSTEP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_OPERATION" [title]="_TB('Operation')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_OPERATION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DESCRI_OPERATION" [title]="_TB('Description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DESCRI_OPERATION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_IS_WC" [title]="_TB('IsWC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_IS_WC" *ngIf="eventData?.activation?.IDC_MAN_ORD_IS_WC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_WC" [title]="_TB('WC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_WC" *ngIf="eventData?.activation?.IDC_MAN_ORD_WC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_WCDELIV" [title]="_TB('Actual
+WC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_WCDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_WCDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_IS_WC_OUTSRC" [title]="_TB('Outsourced')" columnType="tb-checkbox" columnName="IDC_MAN_ORD_IS_WC_OUTSRC" *ngIf="eventData?.activation?.IDC_MAN_ORD_IS_WC_OUTSRC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_SETUP" columnName="SetupTime" [title]="_TB('Setup
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_TIME_SETUP" *ngIf="eventData?.activation?.IDC_MAN_ORD_TIME_SETUP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_COST_SETUPCOST" [title]="_TB('Hourly SetUp Cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_COST_SETUPCOST" *ngIf="eventData?.activation?.IDC_MAN_ORD_COST_SETUPCOST">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_COST_WORKINGTIME" [title]="_TB('Hourly Cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_COST_WORKINGTIME" *ngIf="eventData?.activation?.IDC_MAN_ORD_COST_WORKINGTIME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_PROCESSING" [title]="_TB('Processing
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_TIME_PROCESSING">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_TOTAL" [title]="_TB('Total
+time')" columnType="tb-checkbox" columnName="IDC_MAN_ORD_TIME_TOTAL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_ROUTING_QTY" [title]="_TB('Quantity')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_ROUTING_QTY">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MAN_ORD_DETAIL_QTYSCRAP" columnName="ScrapQuantity" [title]="_TB('Scrap
+quantity')" columnType="tb-numeric-text-box" columnName="IDC_MAN_ORD_DETAIL_QTYSCRAP" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYSCRAP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_TIME_SUMMARY" [title]="_TB('Additional
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_TIME_SUMMARY" *ngIf="eventData?.activation?.IDC_MAN_ORD_TIME_SUMMARY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_UOM" [title]="_TB('UoM')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_UOM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_UOM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DESCRI_WC" [title]="_TB('WC
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DESCRI_WC" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DESCRI_WC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_QTYSENDTA" [title]="_TB('Sent
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_QTYSENDTA" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYSENDTA">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NOTSUBCNTDNGENERATION" [title]="_TB('Do not generate
+DN')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_NOTSUBCNTDNGENERATION" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_NOTSUBCNTDNGENERATION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_QTYFROMPROD" [title]="_TB('Quantity
+to produce')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_QTYFROMPROD" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYFROMPROD">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_PRODQTY" [title]="_TB('Quantity
+nproduced')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_PRODQTY" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_PRODQTY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_QTYSECRATE" [title]="_TB('Second Rate
+quantity')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_QTYSECRATE" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_QTYSECRATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NO_RUN_RTGSTEP" [title]="_TB('Manufacturing
+start no.')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_NO_RUN_RTGSTEP" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_NO_RUN_RTGSTEP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NODN" [title]="_TB('JT')" columnType="tb-label-static" columnName="IDC_MAN_ORD_DETAIL_NODN" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_NODN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DESCRI_WCDELIV" [title]="_TB('Final WC
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DESCRI_WCDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DESCRI_WCDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEBEGDELIV" [title]="_TB('Final
+start')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEBEGDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEBEGDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEENDDELIV" [title]="_TB('Final
+end')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEENDDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEENDDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_TMPPROCESSDELIV" [title]="_TB('Final processing
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_TMPPROCESSDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_TMPPROCESSDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_TMPSETUPDELIV" [title]="_TB('Final setup
+time')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_TMPSETUPDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_TMPSETUPDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_SETUPACTUALCOST" [title]="_TB('Final setup
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_SETUPACTUALCOST" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_SETUPACTUALCOST">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_PROCESSINGACTUALCOST" [title]="_TB('Final processing
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_PROCESSINGACTUALCOST" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_PROCESSINGACTUALCOST">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_LABOURDELIV" [title]="_TB('Final labor
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_LABOURDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_LABOURDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_SIMWC" [title]="_TB('Expected
+WC')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_SIMWC" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_SIMWC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DESCRI_SIMWC" [title]="_TB('Expected WC
+description')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DESCRI_SIMWC" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DESCRI_SIMWC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATERUN" [title]="_TB('Start
+date')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATERUN" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATERUN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEDELIV" [title]="_TB('Delivery
+date')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEDELIV" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEDELIV">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATESIMSTARTDATE" [title]="_TB('Expected
+start')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATESIMSTARTDATE" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATESIMSTARTDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_DATEEND" [title]="_TB('Expected
+end')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_DATEEND" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_DATEEND">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_COSTOFSETUPSIM" [title]="_TB('Expected setup
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_COSTOFSETUPSIM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_COSTOFSETUPSIM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_COSTPROCESSSIM" [title]="_TB('Expected processing 
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_COSTPROCESSSIM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_COSTPROCESSSIM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_LABOURSIM" [title]="_TB('Expected labor
+cost')" columnType="tb-body-edit-column" columnName="IDC_MAN_ORD_DETAIL_LABOURSIM" *ngIf="eventData?.activation?.IDC_MAN_ORD_DETAIL_LABOURSIM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_SUPPLIER" columnName="Supplier" [title]="_TB('Subcontractor')" columnType="tb-label-static" columnName="IDC_MAN_ORD_SUPPLIER" *ngIf="eventData?.activation?.IDC_MAN_ORD_SUPPLIER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_DETAIL_NOTES_RTGSTEP" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_MAN_ORD_DETAIL_NOTES_RTGSTEP">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('eventData?.model?.sTileGrpTitle')" icon="eventdata?.model?.stilegrpimage" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn  *ngIf="eventData?.activation?.IDC_CONTAINER_MAN_ORD_MRP">
+         <tb-tile [title]="_TB('MRP')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-numeric-text-box formatter="Integer" [caption]="_TB('MRP Confirmation Rank')" cmpId="IDC_MAN_ORD_CONF_RANK" width="42" [model]="eventData?.model?.MO?.MRPConfirmationRank"></tb-numeric-text-box>
+          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_SIM" [caption]="_TB('Simulation')" cmpId="IDC_MAN_ORD_SIM" width="83" [model]="eventData?.model?.MO?.Simulation"></tb-text>
+</div>          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_GROUPSF" [caption]="_TB('MRP Group')" cmpId="IDC_MAN_ORD_GROUPSF" width="83" [model]="eventData?.model?.MO?.GroupSF"></tb-text>
+          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_CONFIRMATIONLEVELDESCR" [caption]="_TB('Confirmation level')" cmpId="IDC_MAN_ORD_CONFIRMATIONLEVELDESCR" width="154" [model]="eventData?.model?.MO?.TMO_ConfirmationLevelDescr"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Production Plan')" tbTileStandard  isCollapsible="True">
+          <tb-text [caption]="_TB('Number')" cmpId="IDC_MAN_ORD_SCHEMA" width="70" [model]="eventData?.model?.NrSchema"></tb-text>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Line')" cmpId="IDC_MAN_ORD_LINE_SCHEMA" width="70" [model]="eventData?.model?.MO?.ProductionPlanLine"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Production Data')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-text [caption]="_TB('Job')" cmpId="IDC_MAN_ORD_JOB_COMM" width="62" [model]="eventData?.model?.MO?.Job"></tb-text>
+          <tb-combo *ngIf="eventData?.activation?.IDC_MAN_ORD_NO_LOT_PROD" [caption]="_TB('Lot number')" cmpId="IDC_MAN_ORD_NO_LOT_PROD" width="97" [model]="eventData?.model?.MO?.ProductionLotNumber"></tb-combo>
+</div><div class="anchored">          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_CSTCENTER_COST" [caption]="_TB('Cost center')" cmpId="IDC_MAN_ORD_CSTCENTER_COST" width="62" [model]="eventData?.model?.MO?.CostCenter"></tb-text>
+          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_DRAWING" [caption]="_TB('Drawing')" cmpId="IDC_MAN_ORD_DRAWING" width="105" [model]="eventData?.model?.MO?.Drawing"></tb-text>
+</div><div class="anchored">          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_ACCOUNTINGTYPE" [caption]="_TB('Accounting Type')" cmpId="IDC_MAN_ORD_ACCOUNTINGTYPE" width="62" [model]="eventData?.model?.MO?.AccountingType"></tb-text>
+          <tb-label-static *ngIf="eventData?.activation?.IDC_MAN_ORD_ACCOUNTINGTYPE_DESCRI" cmpId="IDC_MAN_ORD_ACCOUNTINGTYPE_DESCRI" width="135" [model]="eventData?.model?.HKLAccountingType?.Description"></tb-label-static>
+</div>         </tb-tile>
+         <tb-tile [title]="_TB('Quantities')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Produced')" cmpId="IDC_MAN_ORD_QTY_CONFIRMED" width="40" [model]="eventData?.model?.MO?.ProducedQty"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_ORD_PROD_QTA_SCRAP" formatter="Integer" disabled="true" [caption]="_TB('Scrap')" cmpId="IDC_ORD_PROD_QTA_SCRAP" width="40" [model]="eventData?.model?.MO?.ScrapQuantity"></tb-numeric-text-box>
+</div>          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Second rate')" cmpId="IDC_MAN_ORD_QTY_2_CHOOSE" width="40" [model]="eventData?.model?.MO?.SecondRateQuantity"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Generics')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_OTHER_GENERICS_FOR_MRP">
+          <tb-enum-combo [caption]="_TB('Criticality')" cmpId="IDC_MAN_ORD_FEASIBILITY" width="80" [model]="eventData?.model?.MO?.Feasibility"></tb-enum-combo>
+          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_BARCODE_SEGMENT" [caption]="_TB('Barcode segment')" cmpId="IDC_MAN_ORD_BARCODE_SEGMENT" width="55" [model]="eventData?.model?.MO?.BarcodeSegment"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Generics')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_OTHER_GENERICS">
+<div class="anchored">          <tb-label-static *ngIf="eventData?.activation?.IDC_MAN_ORD_PICKINGLISTNO" [caption]="_TB('Picking list')" cmpId="IDC_MAN_ORD_PICKINGLISTNO" width="55" [model]="eventData?.model?.MO?.TMO_PickingListNo"></tb-label-static>
+          <tb-enum-combo *ngIf="eventData?.activation?.IDC_MAN_ORD_FEASIBILITY" [caption]="_TB('Criticality')" cmpId="IDC_MAN_ORD_FEASIBILITY" width="80" [model]="eventData?.model?.MO?.Feasibility"></tb-enum-combo>
+</div>          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_BARCODE_SEGMENT" [caption]="_TB('Barcode segment')" cmpId="IDC_MAN_ORD_BARCODE_SEGMENT" width="55" [model]="eventData?.model?.MO?.BarcodeSegment"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Dates')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_OTHER_DATES">
+<div class="anchored">          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Creation')" cmpId="IDC_MAN_ORD_DATE_CREATION" width="57" [model]="eventData?.model?.MO?.CreationDate"></tb-date-input>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Last edit')" cmpId="IDC_MAN_ORD_DATE_LAST_MODIF" width="57" [model]="eventData?.model?.MO?.LastModificationDate"></tb-date-input>
+</div><div class="anchored">          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Run')" cmpId="IDC_MAN_ORD_DATE_RUN" width="57" [model]="eventData?.model?.MO?.RunDate"></tb-date-input>
+          <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Last costs calculation')" cmpId="IDC_MAN_ORD_DATE_COSTS_CALCULATION" width="55" [model]="eventData?.model?.MO?.CostsCalculationLastDate"></tb-date-input>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn  *ngIf="eventData?.activation?.IDC_CONTAINER_MAN_ORD_OTHER_MRP">
+         <tb-tile [title]="_TB('MRP')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_OTHER_MRP">
+<div class="anchored">          <tb-numeric-text-box formatter="Integer" [caption]="_TB('MRP Confirmation Rank')" cmpId="IDC_MAN_ORD_CONF_RANK" width="42" [model]="eventData?.model?.MO?.MRPConfirmationRank"></tb-numeric-text-box>
+          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_SIM" [caption]="_TB('Simulation')" cmpId="IDC_MAN_ORD_SIM" width="83" [model]="eventData?.model?.MO?.Simulation"></tb-text>
+</div>          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_GROUPSF" [caption]="_TB('MRP Group')" cmpId="IDC_MAN_ORD_GROUPSF" width="83" [model]="eventData?.model?.MO?.GroupSF"></tb-text>
+          <tb-text *ngIf="eventData?.activation?.IDC_MAN_ORD_CONFIRMATIONLEVELDESCR" [caption]="_TB('Confirmation level')" cmpId="IDC_MAN_ORD_CONFIRMATIONLEVELDESCR" width="154" [model]="eventData?.model?.MO?.TMO_ConfirmationLevelDescr"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Production Plan')" tbTileStandard  isCollapsible="True">
+          <tb-text [caption]="_TB('Number')" cmpId="IDC_MAN_ORD_SCHEMA" width="70" [model]="eventData?.model?.NrSchema"></tb-text>
+          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Line')" cmpId="IDC_MAN_ORD_LINE_SCHEMA" width="70" [model]="eventData?.model?.MO?.ProductionPlanLine"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Print')" tbTileStandard  isCollapsible="True">
+          <tb-checkbox cmpId="IDC_MAN_ORD_PRINTED" width="109" [model]="eventData?.model?.MO?.Printed" [caption]="_TB('Printed  ')"></tb-checkbox>
+          <tb-date-input formatter="DateTime" [readonly]="false" [caption]="_TB('Date')" cmpId="IDC_MAN_ORD_PRINT_DATE" width="57" [model]="eventData?.model?.MO?.PrintDate"></tb-date-input>
+          <tb-text [caption]="_TB('Notes')" cmpId="IDC_MAN_ORD_NOTES" width="221" [model]="eventData?.model?.MO?.Notes"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Sale Orders')" tbTileStandard  isCollapsible="True">
+<div class="anchored">          <tb-label-static [caption]="_TB('Customer')" cmpId="IDC_MAN_ORD_CUSTOMER" width="64" [model]="eventData?.model?.MO?.Customer"></tb-label-static>
+          <tb-label-static cmpId="IDC_MAN_ORD_DESCRI_CUSTOMER" width="145" [model]="eventData?.model?.HKLCustomer?.CompNameComplete"></tb-label-static>
+</div><div class="anchored">          <tb-text [caption]="_TB('Order no.')" cmpId="IDC_MAN_ORD_SALEORDNO" width="64" [model]="eventData?.model?.MO?.InternalOrdNo"></tb-text>
+          <tb-numeric-text-box formatter="Integer" [caption]="_TB('Position')" cmpId="IDC_MAN_ORD_POSITION_ORDER" width="40" [model]="eventData?.model?.MO?.Position"></tb-numeric-text-box>
+</div><div class="anchored">          <tb-numeric-text-box formatter="Integer" disabled="true" [caption]="_TB('Quantity')" cmpId="IDC_MAN_ORD_QTY_SORTTA" width="64" [model]="eventData?.model?.SaleOrdQty"></tb-numeric-text-box>
+          <tb-label-static cmpId="IDC_MAN_ORD_UOM" width="29" [model]="eventData?.model?.SaleOrdUoM"></tb-label-static>
+</div>          <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Delivery Date')" cmpId="IDC_MAN_ORD_SALESORDER_DATE" width="64" [model]="eventData?.model?.CustOrdDate"></tb-date-input>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('ECO')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_OTHER_ECO">
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('ECO Date')" cmpId="IDC_MAN_ORD_ECODATE" width="57" [model]="eventData?.model?.MO?.ECODate"></tb-date-input>
+         <tb-combo [caption]="_TB('ECO Revision')" cmpId="IDC_MAN_ORD_ECOREVISION" width="62" [model]="eventData?.model?.MO?.ECORevision"></tb-combo>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Times and Costs')" icon="erp-costs" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_MAN_ORD_TIME_COSTS">
+       <ng-template>
+        <tb-tile [title]="_TB('Costs')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_TIMECOSTS_COSTS">
+<div class="col col1">         <tb-section-title cmpId="IDC_STATIC_TIMECOSTS_COSTS_ESTIMATE" width="327" [caption]="_TB('Estimated')"></tb-section-title>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Material')" cmpId="IDC_MAN_ORD_COST_COMPEXPECTED" width="68" [model]="eventData?.model?.ExpectedMaterialCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Processing')" cmpId="IDC_MAN_ORD_COST_PROCESSEXPECTED" width="68" [model]="eventData?.model?.MO?.ProcessingBudgetCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_MAN_ORD_COST_TOTALEXPECTED" width="68" [model]="eventData?.model?.CostTotExpected"></tb-numeric-text-box>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_TIMECOSTS_COSTS_ACTUAL" width="320" [caption]="_TB('Actual')"></tb-section-title>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Material')" cmpId="IDC_MAN_ORD_COST_COMPDELIV" width="68" [model]="eventData?.model?.ActualMaterialCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Processing')" cmpId="IDC_MAN_ORD_COST_PROCESSDELIV" width="68" [model]="eventData?.model?.MO?.ProcessingActualCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_MAN_ORD_COST_TOTALDELIV" width="68" [model]="eventData?.model?.CostTotDeliv"></tb-numeric-text-box>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Costs')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_TIMECOSTS_COSTS_MULTISTEP">
+<div class="col col1">         <tb-section-title cmpId="IDC_STATIC_TIMECOSTS_COSTS_ESTIMATE" width="327" [caption]="_TB('Estimated')"></tb-section-title>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Material')" cmpId="IDC_MAN_ORD_COST_COMPEXPECTED" width="68" [model]="eventData?.model?.ExpectedMaterialCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Processing')" cmpId="IDC_MAN_ORD_COST_PROCESSEXPECTED" width="68" [model]="eventData?.model?.MO?.ProcessingBudgetCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Setup')" cmpId="IDC_MAN_ORD_COST_SETUPEXPECTED" width="68" [model]="eventData?.model?.MO?.SetupBudgetCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Labour')" cmpId="IDC_MAN_ORD_COST_LABOUREXPECTED" width="68" [model]="eventData?.model?.MO?.LabourBudgetCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_MAN_ORD_COST_TOTALEXPECTED" width="68" [model]="eventData?.model?.CostTotExpected"></tb-numeric-text-box>
+         <tb-section-title *ngIf="eventData?.activation?.IDC_KANBAN_SEPARATOR_EST_COST" cmpId="IDC_KANBAN_SEPARATOR_EST_COST" width="327" [caption]="_TB('Kanban')"></tb-section-title>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_KANBAN_COST_COMPK_EXPECTED" formatter="Money" disabled="true" [caption]="_TB('Material Kanban')" cmpId="IDC_KANBAN_COST_COMPK_EXPECTED" width="68" [model]="eventData?.model?.MO?.EstimatedMaterialCostkanban"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_KANBAN_COST_PROCK_EXPECTED" formatter="Money" disabled="true" [caption]="_TB('Processing Kanban')" cmpId="IDC_KANBAN_COST_PROCK_EXPECTED" width="68" [model]="eventData?.model?.MO?.EstimatedProcCostkanban"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_KANBAN_COST_TOTALEXPECTED_KANBAN" formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_KANBAN_COST_TOTALEXPECTED_KANBAN" width="68" [model]="eventData?.model?.CostTotExpectedKanban"></tb-numeric-text-box>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_TIMECOSTS_COSTS_ACTUAL" width="326" [caption]="_TB('Actual')"></tb-section-title>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Material')" cmpId="IDC_MAN_ORD_COST_COMPDELIV" width="68" [model]="eventData?.model?.ActualMaterialCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Processing')" cmpId="IDC_MAN_ORD_COST_PROCESSDELIV" width="68" [model]="eventData?.model?.MO?.ProcessingActualCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Setup')" cmpId="IDC_MAN_ORD_COST_SETUPDELIV" width="68" [model]="eventData?.model?.MO?.SetupActualCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Labour')" cmpId="IDC_MAN_ORD_COST_LABOURDELIV" width="68" [model]="eventData?.model?.MO?.LabourActualCost"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_MAN_ORD_COST_TOTALDELIV" width="68" [model]="eventData?.model?.CostTotDeliv"></tb-numeric-text-box>
+         <tb-section-title *ngIf="eventData?.activation?.IDC_KANBAN_SEPARATOR_ACTUAL_COST" cmpId="IDC_KANBAN_SEPARATOR_ACTUAL_COST" width="326" [caption]="_TB('Kanban')"></tb-section-title>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_KANBAN_COST_COMPK_DELIV" formatter="Money" disabled="true" [caption]="_TB('Material Kanban')" cmpId="IDC_KANBAN_COST_COMPK_DELIV" width="68" [model]="eventData?.model?.MO?.ActualMaterialCostkanban"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_KANBAN_COST_PROCK_DELIV" formatter="Money" disabled="true" [caption]="_TB('Processing Kanban')" cmpId="IDC_KANBAN_COST_PROCK_DELIV" width="68" [model]="eventData?.model?.MO?.ActualProcCostkanban"></tb-numeric-text-box>
+         <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_KANBAN_COST_TOTALDELIV_KANBAN" formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_KANBAN_COST_TOTALDELIV_KANBAN" width="68" [model]="eventData?.model?.CostTotDelivKanban"></tb-numeric-text-box>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Times')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-section-title cmpId="IDC_STATIC_TIMECOSTS_TIMES_ESTIMATE" width="327" [caption]="_TB('Estimated')"></tb-section-title>
+         <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('Start date')" cmpId="IDC_MAN_ORD_DATE_START_SIM" width="60" [model]="eventData?.model?.MO?.SimStartDate"></tb-date-input>
+         <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('End date')" cmpId="IDC_MAN_ORD_DATE_END_SIM" width="60" [model]="eventData?.model?.MO?.SimEndDate"></tb-date-input>
+         <tb-caption [caption]="_TB('Total Processing')" cmpId="IDC_MAN_ORD_TOT_HOURS_PROCESSING" width="60" [model]="eventData?.model?.MO?.EstimatedProcessingTime"></tb-caption>
+         <tb-caption *ngIf="eventData?.activation?.IDC_MAN_ORD_TOT_HOURS_SETUP" [caption]="_TB('Total Setup')" cmpId="IDC_MAN_ORD_TOT_HOURS_SETUP" width="60" [model]="eventData?.model?.MO?.EstimatedSetupTime"></tb-caption>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_TIMECOSTS_TIME_ACTUAL" width="326" [caption]="_TB('Actual')"></tb-section-title>
+         <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('Start date')" cmpId="IDC_MAN_ORD_DATE_START_DELIV" width="60" [model]="eventData?.model?.MO?.StartingDate"></tb-date-input>
+         <tb-date-input formatter="DateTime" [readonly]="true" [caption]="_TB('End date')" cmpId="IDC_MAN_ORD_DATE_END_DELIV" width="60" [model]="eventData?.model?.MO?.EndingDate"></tb-date-input>
+         <tb-caption [caption]="_TB('Total Processing')" cmpId="IDC_MAN_ORD_TOT_HOURS_PROCESS_DELIV" width="60" [model]="eventData?.model?.MO?.ActualProcessingTime"></tb-caption>
+         <tb-caption *ngIf="eventData?.activation?.IDC_MAN_ORD_TOT_HOURS_SETUP_DELIV" [caption]="_TB('Total Setup')" cmpId="IDC_MAN_ORD_TOT_HOURS_SETUP_DELIV" width="60" [model]="eventData?.model?.MO?.ActualSetupTime"></tb-caption>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('References')" icon="erp-references" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Shop papers for outsourced processing')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_REFERENCES_BE_SUBCONTRACTING">
+<div class="col col1">         <tb-body-edit cmpId="IDC_MAN_ORD_BE_SUBCONTRACTING" width="654" [model]="eventData?.model?.MOProcessing">
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_SUBCONTRACTING_BMP_DOC" columnName="BmpDoc" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_MAN_ORD_SUBCONTRACTING_BMP_DOC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_SUBCONTRACTING_CODETYPE_DOC" columnName="BOMSubcontracting" [title]="_TB('Document
+type')" columnType="tb-label-static" columnName="IDC_MAN_ORD_SUBCONTRACTING_CODETYPE_DOC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_SUBCONTRACTING_NO_DOC" columnName="DocumentNumber" [title]="_TB('Document
+number')" columnType="tb-label-static" columnName="IDC_MAN_ORD_SUBCONTRACTING_NO_DOC">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_MAN_ORD_SUBCONTRACTING_DATE_DOC" columnName="DocumentDate" [title]="_TB('Document
+date')" columnType="tb-date-input" columnName="IDC_MAN_ORD_SUBCONTRACTING_DATE_DOC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_SUBCONTRACTING_SUPPLIER" columnName="Supplier" [title]="_TB('Subcontractor')" columnType="tb-label-static" columnName="IDC_MAN_ORD_SUBCONTRACTING_SUPPLIER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_SUBCONTRACTING_DES_SUPPLIER" [model]="eventData?.model?.HKLSubcontractor?.CompanyName" [title]="_TB('Company
+name')" columnType="tb-label-static" columnName="IDC_MAN_ORD_SUBCONTRACTING_DES_SUPPLIER">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+        <tb-tile [title]="_TB('Semifinished product used by the following MOs')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-body-edit cmpId="IDC_MAN_ORD_BE_FP" width="654" [model]="eventData?.model?.MOHierarchies">
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_PARENTMO" columnName="ParentMO" [title]="_TB('Parent
+MO')" columnType="tb-text" columnName="IDC_MAN_ORD_FP_PARENTMO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_PRODUCT" columnName="Item" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_PRODUCT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_VARIANT" *ngIf="eventData?.activation?.IDC_MAN_ORD_FP_VARIANT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_ITEMDESCRI" [model]="eventData?.model?.HKLItemsByGoodType?.Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_ITEMDESCRI">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MAN_ORD_FP_QTY" columnName="Qty" [title]="_TB('Quantity')" columnType="tb-numeric-text-box" columnName="IDC_MAN_ORD_FP_QTY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_UOM" columnName="UoM" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_UOM">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_MAN_ORD_FP_DATEPARENTMO" columnName="MODate" [title]="_TB('MO
+Date')" columnType="tb-date-input" columnName="IDC_MAN_ORD_FP_DATEPARENTMO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_SALEJOB" columnName="JobNo" [title]="_TB('Job')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_SALEJOB">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_SALEORDNO" columnName="SaleOrdNo" [title]="_TB('Customer
+order')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_SALEORDNO">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_MAN_ORD_FP_SALEORDPOS" columnName="SaleOrdPos" [title]="_TB('Order 
+position')" columnType="tb-numeric-text-box" columnName="IDC_MAN_ORD_FP_SALEORDPOS">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_MAN_ORD_FP_CUSTORDDATE" columnName="CustomerOrdDate" [title]="_TB('Order
+date')" columnType="tb-date-input" columnName="IDC_MAN_ORD_FP_CUSTORDDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_CUSTOMER" columnName="Customer" [title]="_TB('Customer')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_CUSTOMER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_FP_CUSTOMERCOMPANYNAME" columnName="CompanyName" [title]="_TB('Company
+name')" columnType="tb-label-static" columnName="IDC_MAN_ORD_FP_CUSTOMERCOMPANYNAME">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+        <tb-tile [title]="_TB('Inventory Entries')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_MAN_ORD_REFERENCES_BE_INVENTORY">
+<div class="col col1">         <tb-body-edit cmpId="IDC_MAN_ORD_BE_INVENTORY" width="652" [model]="eventData?.model?.MOInventoryEntries">
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_BMP" width="24" columnName="IEBitmap" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_BMP">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_TYPE" width="240" columnName="ManufacturingEntryType" [title]="_TB('Entry
+type')" columnType="tb-enum-combo" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_TYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_OUTSOURCED" width="80" columnName="ManufacturingOutsrcRtgStep" [title]="_TB('Outsourced')" columnType="tb-checkbox" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_OUTSOURCED">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_REASON" width="80" columnName="InvRsn" [title]="_TB('Inventory
+reason')" columnType="tb-label-static" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_REASON">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_REASON_DES" width="80" columnName="IEDescription" [title]="_TB('
+Description')" columnType="tb-label-static" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_REASON_DES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_LOG_NUMBER" width="80" columnName="DocNo" [title]="_TB('Log
+number')" columnType="tb-label-static" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_LOG_NUMBER">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_DATE" width="80" columnName="PostingDate" [title]="_TB('Posting
+date')" columnType="tb-date-input" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_DATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_STORAGE_1" width="80" columnName="StoragePhase1" [title]="_TB('Phase 1
+Storage')" columnType="tb-label-static" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_STORAGE_1">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_SPECIFICATOR_1" width="80" columnName="SpecificatorPhase1" [title]="_TB('Phase 1
+Specificator')" columnType="tb-label-static" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_SPECIFICATOR_1">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_STORAGE_2" width="80" columnName="StoragePhase2" [title]="_TB('Phase 2
+Storage')" columnType="tb-label-static" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_STORAGE_2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_SPECIFICATOR_2" width="80" columnName="SpecificatorPhase2" [title]="_TB('Phase 2
+Specificator')" columnType="tb-label-static" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_SPECIFICATOR_2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_INVENTORY_ENTRIES_CORRECTION" width="80" columnName="IECorrection" [title]="_TB('
+Correction')" columnType="tb-checkbox" columnName="IDC_MAN_ORD_INVENTORY_ENTRIES_CORRECTION">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div><div class="col col2"></div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Lots')" icon="erp-inventory" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_MAN_ORD_LOTS">
+       <ng-template>
+        <tb-tile [title]="_TB('Lots')" tbTileAutoFill >
+         <tb-body-edit cmpId="IDC_MAN_ORD_BE_LOTS" width="496" [model]="eventData?.model?.MOLots">
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_LOTS_ITEM" columnName="Item" [title]="_TB('
+Item')" columnType="tb-label-static" columnName="IDC_MAN_ORD_LOTS_ITEM">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_LOTS_LOT" columnName="Lot" [title]="_TB('
+Lot')" columnType="tb-label-static" columnName="IDC_MAN_ORD_LOTS_LOT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_LOTS_INTERNAL_LOT" columnName="SupplierLotNo" [title]="_TB('Internal
+lot')" columnType="tb-label-static" columnName="IDC_MAN_ORD_LOTS_INTERNAL_LOT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_MAN_ORD_LOTS_LOT_VALIDITY_START" columnName="ValidFrom" [title]="_TB('Validity
+start')" columnType="tb-date-input" columnName="IDC_MAN_ORD_LOTS_LOT_VALIDITY_START">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_MAN_ORD_LOTS_LOT_DES" columnName="Description" [title]="_TB('
+Description')" columnType="tb-label-static" columnName="IDC_MAN_ORD_LOTS_LOT_DES">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

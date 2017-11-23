@@ -1,0 +1,31 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeColumn >
+      <ng-template>
+       <tb-tile [title]="_TB('Filter on Inventory Data')" tbTileMini >
+        <tb-checkbox cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_LOAD_VARIATION" width="157" [model]="eventData?.model?.bLoadInvEntryForLoadVariation" [caption]="_TB('It is a load variation due to...')"></tb-checkbox>
+        <tb-combo [caption]="_TB('Reason')" cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_REASON" width="62" [model]="eventData?.model?.Reason"></tb-combo>
+        <tb-combo [caption]="_TB('Storage Phase 1')" cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_STRG_PH1" width="62" [model]="eventData?.model?.StoragePhase1"></tb-combo>
+        <tb-combo [caption]="_TB('Storage Phase 2')" cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_STRG_PH2" width="62" [model]="eventData?.model?.StoragePhase2"></tb-combo>
+       </tb-tile>
+       <tb-tile [title]="_TB('Filter on Document Data')" tbTileMini >
+        <tb-enum-combo [caption]="_TB('Request Code')" cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_CODETYPE_CUSTSUPP" width="75" [model]="eventData?.model?.CustSuppTypeFD"></tb-enum-combo>
+        <tb-text cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_CUSTSUPP" width="75" [model]="eventData?.model?.CustSupp"></tb-text>
+        <tb-text [caption]="_TB('Doc. No.')" cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_NO_FISCALDATA" width="75" [model]="eventData?.model?.FiscalDNNo"></tb-text>
+        <tb-text [caption]="_TB('Log No.')" cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_NO_DOCUMENT" width="57" [model]="eventData?.model?.DocumentNoDoc"></tb-text>
+        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Doc. Date')" cmpId="IDC_INVENTRY_SELECTIONS_LOADINVENT_DOCUMENTDATE" width="57" [model]="eventData?.model?.DocumentDate"></tb-date-input>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_OK?.enabled" icon="tb-search" [caption]="_TB('Search')" cmpId="ID_OK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_CANCEL?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="ID_CANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

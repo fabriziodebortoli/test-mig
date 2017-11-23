@@ -20,14 +20,30 @@ export class EasystudioService {
     public isDesignable: boolean;
     public subscriptions = [];
     public currentModule: string;                      //current module selected by ESContext
-    public currentApplication: string;                 //current applic selected by ESContext
-    public defaultModule: string;                      //default module read from prferences
-    public defaultApplication: string;                 //default applic read from prferences
+    public currentApplication: string;                 //current applic selected by ESContext          
     public modules: any[];                             //list of modules in the file system
     public applications: any[];                      //list of applics in the file system
     public customizations: EsCustomizItem[];    //list of customization in the file system, each knows its owners
     public memoryESContext: { allApplications: MyObj[] };
     public memoryCustsList: { Customizations: EsCustomizItem[] };
+
+    //--------------------------------------------------------------------------------  
+    private _defaultApplication:string; //default applic read from preferences
+    get defaultApplication():string {
+        return this._defaultApplication;
+    }
+    set defaultApplication(theBar:string) {
+        this._defaultApplication = theBar;
+    }
+
+    //--------------------------------------------------------------------------------
+    private _defaultModule:string;//default module read from preferences
+    get defaultModule():string {
+        return this._defaultModule;
+    }
+    set defaultModule(theBar:string) {
+        this._defaultModule = theBar;
+    }
 
     //#region both
     //--------------------------------------------------------------------------------
@@ -166,7 +182,7 @@ export class EasystudioService {
             if (result) {
                 let array = this.extractCouple(result);
                 if (array !== null && array !== undefined) {
-                    this.defaultApplication = array[0];
+                    this.defaultApplication = array[0].toString();
                     this.defaultModule = array[1];
                     if (setAsCurrent) {
                         this.setAppAndModule(this.defaultApplication, this.defaultModule, true);
@@ -196,6 +212,10 @@ export class EasystudioService {
         this.subscriptions.push(this.httpMenuService.setAppAndModule(applicSelected, moduleSelected, isThisPairDefault).subscribe((result) => {
             this.currentApplication = applicSelected;
             this.currentModule = moduleSelected;
+            if(isThisPairDefault){ //getDefaultContext(true)
+                this.defaultApplication = applicSelected;
+                this.defaultModule =  moduleSelected;
+            }
         }));
     }
 

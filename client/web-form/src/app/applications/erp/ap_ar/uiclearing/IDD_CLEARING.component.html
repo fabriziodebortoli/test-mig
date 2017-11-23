@@ -1,0 +1,173 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" isCollapsible="True" isCollapsed="False" showAsTile="True">
+        <tb-tile [title]="_TB('Installments')" tbTileMini >
+         <tb-text [caption]="_TB('Customer/Supplier')" cmpId="IDC_CLEARING_CUSTSUPP" width="83" [model]="eventData?.model?.CustSupp"></tb-text>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Due Date')" cmpId="IDC_CLEARING_DATE" width="57" [model]="eventData?.model?.SelectionDate"></tb-date-input>
+         <tb-combo *ngIf="eventData?.activation?.IDC_CLEARING_CURRENCY" [caption]="_TB('Currency')" cmpId="IDC_CLEARING_CURRENCY" width="57" [model]="eventData?.model?.Currency"></tb-combo>
+         <tb-checkbox cmpId="IDC_CLEARING_FILTER" width="150" [model]="eventData?.model?.Filter"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Document Date')" tbTileMini >
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('From')" cmpId="IDC_CLEARING_FROMDOCDATE" width="57" [model]="eventData?.model?.FromDocDate"></tb-date-input>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_CLEARING_TODOCDATE" width="57" [model]="eventData?.model?.ToDocDate"></tb-date-input>
+        </tb-tile>
+        <tb-tile [title]="_TB('Doc.No./Log.No.')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_CLEARING_DOCLOGNO">
+         <tb-radio cmpId="IDC_CLEARING_ALLNO" width="35" [model]="eventData?.model?.AllNo" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_CLEARING_SELNO" width="35" [model]="eventData?.model?.SelNo" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_CLEARING_FROMNO" width="100" [model]="eventData?.model?.FromNo"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_CLEARING_TONO" width="100" [model]="eventData?.model?.ToNo"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Supplier Doc. No.')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_CLEARING_SUPPLIERDOCNO">
+         <tb-radio cmpId="IDC_CLEARING_ALLSUPPNO" width="35" [model]="eventData?.model?.AllSuppNo" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_CLEARING_SELSUPPNO" width="35" [model]="eventData?.model?.SelSuppNo" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_CLEARING_FROMSUPPNO" width="100" [model]="eventData?.model?.FromSuppNo"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_CLEARING_TOSUPPNO" width="100" [model]="eventData?.model?.ToSuppNo"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Contract/Project')" tbTileMini >
+         <tb-combo [caption]="_TB('Contract')" cmpId="IDC_CLEARING_CONTRACTCODE" width="72" [model]="eventData?.model?.ContractCode"></tb-combo>
+         <tb-combo [caption]="_TB('Project')" cmpId="IDC_CLEARING_PROJECTCODE" width="89" [model]="eventData?.model?.ProjectCode"></tb-combo>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('Installments selection')" tbTileMini >
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Select up to
+Amount of')" cmpId="IDC_CLEARING_AMOUNT" width="68" [model]="eventData?.model?.Amount"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" [caption]="_TB('Equivalent')" cmpId="IDC_CLEARING_EQUIVAMOUNT" width="68" [model]="eventData?.model?.EquivalentAmount"></tb-numeric-text-box>
+        </tb-tile>
+        <tb-tile [title]="_TB('Closing payment term')" tbTileMini >
+         <tb-radio cmpId="IDC_CLEARING_PYMTTERM_OPENING" width="78" [model]="eventData?.model?.bNotSelectedPymtTerm" [caption]="_TB('Equal to Opening')"></tb-radio>
+         <tb-radio cmpId="IDC_CLEARING_PYMTTERM_SEL" width="77" [model]="eventData?.model?.bSelectedPymtTerm" [caption]="_TB('Selection')"></tb-radio>
+         <tb-enum-combo cmpId="IDC_CLEARING_PYMTTERM" width="120" [model]="eventData?.model?.PymtTerm"></tb-enum-combo>
+        </tb-tile>
+        <tb-tile [title]="_TB('Closing fixing')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_CLEARING_FIXING">
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Date')" cmpId="IDC_CLEARING_FIXINGDATE" width="57" [model]="eventData?.model?.LastFixingDate"></tb-date-input>
+         <tb-text [caption]="_TB('Value')" cmpId="IDC_CLEARING_FIXING" width="84" [model]="eventData?.model?.LastFixing"></tb-text>
+        </tb-tile>
+        <tb-tile tbTileMini  *ngIf="eventData?.activation?.IDD_TD_CLEARING_POSTING">
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_CLEARING_JE_CLOSING" cmpId="IDC_CLEARING_JE_CLOSING" width="72" [model]="eventData?.model?.JEClosing" [caption]="_TB('Post')"></tb-checkbox>
+         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Posting Date')" cmpId="IDC_CLEARING_JE_POSTDATE" width="57" [model]="eventData?.model?.PostDateDoc"></tb-date-input>
+         <tb-date-input *ngIf="eventData?.activation?.IDC_CLEARING_JE_DOCDATE" formatter="Date" [readonly]="false" [caption]="_TB('Document Date')" cmpId="IDC_CLEARING_JE_DOCDATE" width="57" [model]="eventData?.model?.JEDocDate"></tb-date-input>
+         <tb-text *ngIf="eventData?.activation?.IDC_CLEARING_JE_DOCNO" [caption]="_TB('Document No.')" cmpId="IDC_CLEARING_JE_DOCNO" width="90" [model]="eventData?.model?.JEDocNo"></tb-text>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="599" [model]="eventData?.model?.Clearing">
+         <tb-body-edit-column cmpId="IDC_CLEARING_BLOCKED" columnName="l_TEnhClearing_P03" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_CLEARING_BLOCKED" *ngIf="eventData?.activation?.IDC_CLEARING_BLOCKED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LITIGATION" columnName="l_TEnhClearing_P28" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_CLEARING_LITIGATION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_SELECT" columnName="l_TEnhClearing_P01" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_CLEARING_SELECT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_NEW" columnName="l_TEnhClearing_P02" [title]="_TB('To be post.')" columnType="tb-checkbox" columnName="IDC_CLEARING_LINE_NEW">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_ISCN" columnName="l_TEnhClearing_P15" [title]="_TB('Credit Note')" columnType="tb-checkbox" columnName="IDC_CLEARING_LINE_ISCN">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_ISADVANCE" columnName="Advance" [title]="_TB('Advance')" columnType="tb-checkbox" columnName="IDC_CLEARING_LINE_ISADVANCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_DOCNO" columnName="l_TEnhClearing_P22" [title]="_TB('Doc. No.')" columnType="tb-label-static" columnName="IDC_CLEARING_DOCNO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LOGNO" columnName="l_TEnhClearing_P23" [title]="_TB('Log No.')" columnType="tb-label-static" columnName="IDC_CLEARING_LOGNO" *ngIf="eventData?.activation?.IDC_CLEARING_LOGNO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_CLEARING_DOCDATE" columnName="l_TEnhClearing_P24" [title]="_TB('Doc. Date')" columnType="tb-date-input" columnName="IDC_CLEARING_DOCDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_INSTALLMENTTYPE" columnName="l_TEnhClearing_P21" [title]="_TB('Type')" columnType="tb-label-static" columnName="IDC_CLEARING_INSTALLMENTTYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CLEARING_INSTALLMNO" columnName="InstallmentNo" [title]="_TB('Installment')" columnType="tb-numeric-text-box" columnName="IDC_CLEARING_INSTALLMNO">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_CLEARING_LINE_DATE" columnName="InstallmentDate" [title]="_TB('Exp/Paym.')" columnType="tb-date-input" columnName="IDC_CLEARING_LINE_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_PAYMENT" columnName="PaymentTerm" [title]="_TB('Payment')" columnType="tb-enum-combo" columnName="IDC_CLEARING_LINE_PAYMENT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_CLEARING_LINE_DEBIT" columnName="l_TEnhClearing_P08" [title]="_TB('Debit')" columnType="tb-numeric-text-box" columnName="IDC_CLEARING_LINE_DEBIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_CLEARING_LINE_CREDIT" columnName="l_TEnhClearing_P09" [title]="_TB('Credit')" columnType="tb-numeric-text-box" columnName="IDC_CLEARING_LINE_CREDIT">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CLEARING_LINE_BALANCE" columnName="Amount" [title]="_TB('Balance')" columnType="tb-numeric-text-box" columnName="IDC_CLEARING_LINE_BALANCE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CLEARING_LINE_BALANCE_SIGN" columnName="l_TEnhClearing_P31" [title]="_TB('Balance With Sign')" columnType="tb-numeric-text-box" columnName="IDC_CLEARING_LINE_BALANCE_SIGN">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_ISCLOSED" columnName="Closed" [title]="_TB('Closed')" columnType="tb-checkbox" columnName="IDC_CLEARING_LINE_ISCLOSED">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_SALESPERSON" columnName="Salesperson" [title]="_TB('Salesperson')" columnType="tb-label-static" columnName="IDC_CLEARING_SALESPERSON" *ngIf="eventData?.activation?.IDC_CLEARING_SALESPERSON">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_CURRENCY" columnName="Currency" [title]="_TB('Currency')" columnType="tb-label-static" columnName="IDC_CLEARING_LINE_CURRENCY" *ngIf="eventData?.activation?.IDC_CLEARING_LINE_CURRENCY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_FIXINGISMANUAL" columnName="FixingIsManual" [title]="_TB('Man.')" columnType="tb-checkbox" columnName="IDC_CLEARING_FIXINGISMANUAL" *ngIf="eventData?.activation?.IDC_CLEARING_FIXINGISMANUAL">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_CLEARING_LINE_FIXINGDATE" columnName="FixingDate" [title]="_TB('Fixing Date')" columnType="tb-date-input" columnName="IDC_CLEARING_LINE_FIXINGDATE" *ngIf="eventData?.activation?.IDC_CLEARING_LINE_FIXINGDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_CLEARING_LINE_FIXING" columnName="Fixing" [title]="_TB('Fixing')" columnType="tb-numeric-text-box" columnName="IDC_CLEARING_LINE_FIXING" *ngIf="eventData?.activation?.IDC_CLEARING_LINE_FIXING">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Money" cmpId="IDC_CLEARING_LINE_PAYABLEAMOUNTINBASECURR" columnName="PayableAmountInBaseCurr" [title]="_TB('Equivalent')" columnType="tb-numeric-text-box" columnName="IDC_CLEARING_LINE_PAYABLEAMOUNTINBASECURR" *ngIf="eventData?.activation?.IDC_CLEARING_LINE_PAYABLEAMOUNTINBASECURR">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_CLEARING_LINE_NOTES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_OFFSET" columnName="l_TEnhClearing_P13" [title]="_TB('Offset')" columnType="tb-text" columnName="IDC_CLEARING_LINE_OFFSET">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_OFFSETDESCRI" columnName="l_TEnhClearing_P14" [title]="_TB('Offset Description')" columnType="tb-label-static" columnName="IDC_CLEARING_LINE_OFFSETDESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_CONTRACTCODE" columnName="l_TEnhClearing_P29" [title]="_TB('Contract Code')" columnType="tb-label-static" columnName="IDC_CLEARING_LINE_CONTRACTCODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CLEARING_LINE_PROJECTCODE" columnName="l_TEnhClearing_P30" [title]="_TB('Project Code')" columnType="tb-label-static" columnName="IDC_CLEARING_LINE_PROJECTCODE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+       <tb-tilepanel [title]="_TB('Totals')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('Base currency installments')" tbTileStandard >
+<div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Extracted')" cmpId="IDC_CLEARING_EXTRACTINBASECURR" width="68" [model]="eventData?.model?.TotInBaseCurr"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Selected')" cmpId="IDC_CLEARING_TOTALAMOUNT" width="68" [model]="eventData?.model?.TotalAmount"></tb-numeric-text-box>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('In currency installments')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_CLEARING_TOTINCURR">
+<div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Extracted')" cmpId="IDC_CLEARING_EXTRACTINCURRENCY" width="68" [model]="eventData?.model?.TotInDocCurr"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Selected')" cmpId="IDC_CLEARING_TOTALINCURR" width="68" [model]="eventData?.model?.TotalInCurr"></tb-numeric-text-box>
+</div>        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane [title]="_TB('LegendDockPane')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileMini  hasTitle="False">
+<div class="anchored">         <tb-image [height]="14" [width]="15" cmpId="IDC_BLOCKEDLITIGATION_LEGEND_BLOCKED" width="15" [model]="eventData?.model?.BlockedImage"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="82" [caption]="_TB('Blocked')"></tb-caption>
+</div><div class="anchored">         <tb-image [height]="14" [width]="15" cmpId="IDC_BLOCKEDLITIGATION_LEGEND_LITIGATION" width="15" [model]="eventData?.model?.LitigationImage"></tb-image>
+         <tb-caption cmpId="IDC_STATIC" width="82" [caption]="_TB('In litigation')"></tb-caption>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_CLEARING_PARAMETERS_DOCKPANE" [title]="_TB('ParametersDockPane')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

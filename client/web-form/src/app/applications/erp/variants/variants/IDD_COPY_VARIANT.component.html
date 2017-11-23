@@ -1,0 +1,23 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Filter for copy Variant')" tbTileMini  isCollapsible="False">
+        <tb-text [caption]="_TB('Item')" cmpId="IDC_VARIANT_CRITERIA_ITM_FOR_COPY" width="122" [model]="eventData?.model?.FromItemToCopy"></tb-text>
+        <tb-label-static cmpId="IDC_VARIANT_CRITERIA_DESCRI_ITM_FOR_COPY" width="103" [model]="eventData?.model?.HKLItemBOMVariants?.Description"></tb-label-static>
+        <tb-text [caption]="_TB('Variant')" cmpId="IDC_VARIANT_CRITERIA_VAR_FOR_COPY" width="122" [model]="eventData?.model?.VariantToCopy"></tb-text>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_SCHEMA_SELECTIONS_COPY_UNDO?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="IDC_SCHEMA_SELECTIONS_COPY_UNDO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_VARIANT_COPY_SEARCH?.enabled" icon="tb-search" [caption]="_TB('Search')" cmpId="IDC_VARIANT_COPY_SEARCH"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

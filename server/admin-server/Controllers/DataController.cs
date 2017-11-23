@@ -1,8 +1,8 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Controllers.Helpers.All;
+using Microarea.AdminServer.Controllers.Helpers.DataController;
 using Microarea.AdminServer.Libraries;
-using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
-using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Services.PostMan;
@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -57,83 +56,31 @@ namespace Microarea.AdminServer.Controllers
         {
 			// now we check authorization
 
-			OperationResult opRes = new OperationResult();
-
 			string authHeader = HttpContext.Request.Headers["Authorization"];
+			OperationResult opRes = AuthorizationHelper.VerifyPermissionOnGWAM(authHeader, this.httpHelper, this.GWAMUrl);
 
-			Task<string> responseData = SecurityManager.ValidatePermission(authHeader, this.httpHelper, this.GWAMUrl);
-
-			if (responseData.Status == TaskStatus.Faulted)
+			if (!opRes.Result)
 			{
-				opRes.Result = false;
-				opRes.Message = "Permission token cannot be verified, operation aborted.";
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			OperationResult validateRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
+			// now we produce the list of items that belong to the data cluster, and save it
 
-			if (!validateRes.Result)
-			{
-				opRes.Result = false;
-				opRes.Message = "Invalid permission token, operation aborted.";
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+			List<IModelObject> modelList = DataControllerHelper.GetModelListFromCluster(dataCluster);
 
-			// authorization ok
-
-			string rowName;
-			JToken rowValue;
-
-			List<IModelObject> modelList = new List<IModelObject>();
-
-			foreach (var c in ((Newtonsoft.Json.Linq.JObject)dataCluster).Children())
-			{
-				rowName = ((Newtonsoft.Json.Linq.JProperty)c).Name;
-				rowValue = ((Newtonsoft.Json.Linq.JProperty)c).Value;
-				modelList.Add(GetItemByName(rowName, rowValue));
-			}
+			OperationResult saveResult = new OperationResult();
+			Dictionary<string, bool> saveLog = new Dictionary<string, bool>();
 
 			modelList.ForEach(modelItem =>
 			{
-				modelItem.Save(this.burgerData);
+				saveResult = modelItem.Save(this.burgerData);
+				saveLog.Add(modelItem.GetHashCode() + ": " + saveResult.Message, saveResult.Result);
 			});
 
-			jsonHelper.AddJsonCouple<string>("res", "save cluster API is active");
+			jsonHelper.AddJsonCouple<string>("result", "API.savecluster completed");
+			jsonHelper.AddJsonCouple<Dictionary<string, bool>>("operationLog", saveLog);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
         }
-
-		//--------------------------------------------------------------------------------
-		IModelObject GetItemByName(string name, JToken jToken)
-		{
-			switch (name)
-			{
-				case "accounts":
-					return jToken.ToObject<Account>();
-
-				case "roles":
-					return jToken.ToObject<Role>();
-
-				case "accountRolesForInstance":
-				case "accountRolesForSubscription":
-					return jToken.ToObject<AccountRoles>();
-
-				case "instance":
-					return jToken.ToObject<Instance>();
-
-				case "subscriptionAccount":
-					return jToken.ToObject<SubscriptionAccount>();
-
-				case "subscriptionInstances":
-					return jToken.ToObject<SubscriptionInstance>();
-
-				case "subscriptions":
-					return jToken.ToObject<Subscription>();
-
-				default:
-					return null;
-			}
-		}
     }
 }

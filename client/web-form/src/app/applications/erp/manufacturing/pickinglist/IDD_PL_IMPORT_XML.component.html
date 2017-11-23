@@ -1,0 +1,23 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Import XML')" tbTileStandard  isCollapsible="False" hasTitle="False">
+        <tb-text [caption]="_TB('Import/Export file name')" cmpId="IDC_PICKING_MATERIALS_IMPORT_FILENAME" width="200" [model]="eventData?.model?.ImportFileName"></tb-text>
+        <tb-text [caption]="_TB('Log file name')" cmpId="IDC_PICKING_MATERIALS_LOG_FILENAME" width="200" [model]="eventData?.model?.LogFileName"></tb-text>
+        <tb-checkbox cmpId="IDC_PICKING_MATERIALS_PARAM_SAVE" width="105" [model]="eventData?.model?.bParam" [caption]="_TB('Save parameters  ')"></tb-checkbox>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_PICKING_MATERIALS_IMPORT_BTN?.enabled" icon="tb-importxml" [caption]="_TB('Importing')" cmpId="IDC_PICKING_MATERIALS_IMPORT_BTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_PICKING_MATERIALS_EXPORT_BTN?.enabled" icon="tb-exportxml" [caption]="_TB('Exporting')" cmpId="IDC_PICKING_MATERIALS_EXPORT_BTN"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

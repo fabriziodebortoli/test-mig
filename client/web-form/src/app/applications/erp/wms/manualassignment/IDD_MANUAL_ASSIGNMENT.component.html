@@ -1,0 +1,83 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_MANUAL_ASSIGNMENT_DETAIL_BODY" width="325" [model]="eventData?.model?.DBTBinStocksManualAssign">
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_SEL_BE" columnName="BinStocksM_Selected" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_MANUAL_ASSIGNMENT_SEL_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_FROM_ZONE_BE" columnName="Zone" [title]="_TB('From
+Zone')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_FROM_ZONE_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_FROM_ZONE_DESCRIPTION_BE" columnName="BinStocksM_ZoneDesctiption" [title]="_TB('From Zone
+Description')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_FROM_ZONE_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_FROM_BIN_BE" columnName="Bin" [title]="_TB('From
+Bin')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_FROM_BIN_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Long" disabled="true" cmpId="IDC_MANUAL_ASSIGNMENT_STOCK_NUMBER_BE" columnName="StockNumber" [title]="_TB('Stock
+Number')" columnType="tb-numeric-text-box" columnName="IDC_MANUAL_ASSIGNMENT_STOCK_NUMBER_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_ITEM_BE" columnName="Item" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_ITEM_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_ITEM_DESC_BE" columnName="BinStocksM_ItemDescription" [title]="_TB('Item
+Description')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_ITEM_DESC_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_LOT_BE" columnName="Lot" [title]="_TB('Lot')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_LOT_BE" *ngIf="eventData?.activation?.IDC_MANUAL_ASSIGNMENT_LOT_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_INTERNALID_BE" columnName="InternalIdNo" [title]="_TB('Internal
+Serial No.')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_INTERNALID_BE" *ngIf="eventData?.activation?.IDC_MANUAL_ASSIGNMENT_INTERNALID_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_UOM_BE" columnName="UnitOfMeasure" [title]="_TB('UoM')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_UOM_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" cmpId="IDC_MANUAL_ASSIGNMENT_QTY_BE" columnName="BinStocksM_QtyOnHand" [title]="_TB('Qty')" columnType="tb-numeric-text-box" columnName="IDC_MANUAL_ASSIGNMENT_QTY_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_STORAGE_UNIT_BE" columnName="StorageUnit" [title]="_TB('Storage
+Unit')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_STORAGE_UNIT_BE" *ngIf="eventData?.activation?.IDC_MANUAL_ASSIGNMENT_STORAGE_UNIT_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_STORAGE_UNIT_TYPE_BE" columnName="BinStocksM_SUTypeDescr" [title]="_TB('Storage
+Unit Type')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_STORAGE_UNIT_TYPE_BE" *ngIf="eventData?.activation?.IDC_MANUAL_ASSIGNMENT_STORAGE_UNIT_TYPE_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_TO_STORAGE_BE" columnName="BinStocksM_NewStorage" [title]="_TB('To Storage')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_TO_STORAGE_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_TO_ZONE_BE" columnName="BinStocksM_NewZone" [title]="_TB('To Zone')" columnType="tb-text" columnName="IDC_MANUAL_ASSIGNMENT_TO_ZONE_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_TO_ZONE_DESCRIPTION_BE" columnName="BinStocksM_NewZoneDescri" [title]="_TB('To Zone
+Description')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_TO_ZONE_DESCRIPTION_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_TO_BIN_BE" columnName="BinStocksM_NewBin" [title]="_TB('To Bin')" columnType="tb-text" columnName="IDC_MANUAL_ASSIGNMENT_TO_BIN_BE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_MANUAL_ASSIGNMENT_CONSIGNMENT_PARTNER_BE" columnName="ConsignmentPartner" [title]="_TB('Consignment
+Partner')" columnType="tb-label-static" columnName="IDC_MANUAL_ASSIGNMENT_CONSIGNMENT_PARTNER_BE" *ngIf="eventData?.activation?.IDC_MANUAL_ASSIGNMENT_CONSIGNMENT_PARTNER_BE">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane [title]="_TB('CrossReferencesViewer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False">
+         <tb-treeview cmpId="IDC_CROSSREFERENCES_TREEVIEW" width="214" [caption]="_TB('Static')" border="True"></tb-treeview>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

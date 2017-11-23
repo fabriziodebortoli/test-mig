@@ -1,0 +1,522 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="tb-master" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Main Data')" tbTileWide >
+<div class="col col1">         <tb-combo *ngIf="eventData?.activation?.IDC_COMPANY_LEGALNATURE_COMBO" [caption]="_TB('Legal Nature volto lunga vediamo se va a capo e cosa succede')" cmpId="IDC_COMPANY_LEGALNATURE_COMBO" width="25" [model]="eventData?.model?.Company?.LegalNature" [itemSource]="IDC_COMPANY_LEGALNATURE_COMBO_itemSource"></tb-combo>
+         <tb-text [caption]="_TB('Legal Nature olto lunga vediamo cosa succede')" cmpId="IDC_COMPANY_LEGALE_NATURE" width="23" [model]="eventData?.model?.Company?.LegalNature"></tb-text>
+         <tb-text cmpId="IDC_MPARSEDEDIT" width="100"></tb-text>
+</div><div class="col col2"></div>        </tb-tile>
+        <tb-tile [title]="_TB('Register Data')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_COMPANY_REGISTER">
+<div class="col col1">         <tb-text [caption]="_TB('Federal State Register')" cmpId="IDC_COMPANY_FEDSTATEREG" width="86" [model]="eventData?.model?.Company?.FedStateReg"></tb-text>
+         <tb-text [caption]="_TB('Municipality Register')" cmpId="IDC_COMPANY_CITYREG" width="86" [model]="eventData?.model?.Company?.MunicipalityReg"></tb-text>
+         <tb-text [caption]="_TB('SUFRAMA')" cmpId="IDC_COMPANY_SUFRAMA" width="50" [model]="eventData?.model?.Company?.SUFRAMA"></tb-text>
+</div><div class="col col2">         <tb-text [caption]="_TB('General Register')" cmpId="IDC_COMPANY_GENREGNO" width="86" [model]="eventData?.model?.Company?.GenRegNo"></tb-text>
+         <tb-text [caption]="_TB('General Register Entity')" cmpId="IDC_COMPANY_GENREGEN" width="50" [model]="eventData?.model?.Company?.GenRegEntity"></tb-text>
+</div>        </tb-tile>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Address Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_COMPANY_ADDRESS">
+          <tb-textarea [readonly]="true" height="24" width="210" [caption]="_TB('Address')" cmpId="IDC_COMPANY_ADDRESS" width="210" [model]="eventData?.model?.Company?.Address"></tb-textarea>
+          <tb-text [caption]="_TB('Additional Address')" cmpId="IDC_COMPANY_ADDRESS2" width="210" [model]="eventData?.model?.Company?.Address2"></tb-text>
+          <tb-combo [caption]="_TB('Municipality')" cmpId="IDC_COMPANY_CITY" width="210" [model]="eventData?.model?.Company?.City"></tb-combo>
+          <tb-text [caption]="_TB('ZIP Code')" cmpId="IDC_COMPANY_ZIPCODE" width="40" [model]="eventData?.model?.Company?.ZIPCode"></tb-text>
+          <tb-combo *ngIf="eventData?.activation?.IDC_COMPANY_COMMISS" [caption]="_TB('County')" cmpId="IDC_COMPANY_COMMISS" width="40" [model]="eventData?.model?.Company?.County" [itemSource]="IDC_COMPANY_COMMISS_itemSource"></tb-combo>
+          <tb-combo [caption]="_TB('Country')" cmpId="IDC_COMPANY_STATUS" width="210" [model]="eventData?.model?.Company?.Country" [itemSource]="IDC_COMPANY_STATUS_itemSource"></tb-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Address Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_COMPANY_ADDRESS_BR">
+          <tb-text [caption]="_TB('ZIP Code')" cmpId="IDC_COMPANY_ZIPCODE_BR" width="72" [model]="eventData?.model?.Company?.ZIPCode"></tb-text>
+          <tb-textarea [readonly]="true" height="24" width="210" [caption]="_TB('Address')" cmpId="IDC_COMPANY_ADDRESS" width="210" [model]="eventData?.model?.Company?.Address"></tb-textarea>
+          <tb-text [caption]="_TB('Street No.')" cmpId="IDC_COMPANY_STREETNO" width="40" [model]="eventData?.model?.Company?.StreetNo"></tb-text>
+          <tb-text [caption]="_TB('Additional Address')" cmpId="IDC_COMPANY_ADDRESS2" width="210" [model]="eventData?.model?.Company?.Address2"></tb-text>
+          <tb-text [caption]="_TB('District')" cmpId="IDC_COMPANY_DISTRICT" width="210" [model]="eventData?.model?.Company?.District"></tb-text>
+          <tb-combo [caption]="_TB('Federal State')" cmpId="IDC_COMPANY_FEDERALSTATE" width="40" [model]="eventData?.model?.Company?.FederalState"></tb-combo>
+          <tb-combo [caption]="_TB('Municipality')" cmpId="IDC_COMPANY_CITY" width="210" [model]="eventData?.model?.Company?.City"></tb-combo>
+          <tb-combo [caption]="_TB('Country')" cmpId="IDC_COMPANY_STATUS" width="210" [model]="eventData?.model?.Company?.Country" [itemSource]="IDC_COMPANY_STATUS_itemSource"></tb-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Contacts')" tbTileStandard >
+<div class="anchored">          <tb-phone mask [caption]="_TB('Phone')" cmpId="IDC_COMPANY_TEL1" width="86" [model]="eventData?.model?.Company?.Telephone1"></tb-phone>
+          <tb-phone mask cmpId="IDC_COMPANY_TEL2" width="86" [model]="eventData?.model?.Company?.Telephone2"></tb-phone>
+</div>          <tb-text [caption]="_TB('Telex')" cmpId="IDC_COMPANY_TELEX" width="86" [model]="eventData?.model?.Company?.Telex"></tb-text>
+          <tb-text [caption]="_TB('Fax')" cmpId="IDC_COMPANY_FAX" width="86" [model]="eventData?.model?.Company?.Fax"></tb-text>
+          <tb-email [caption]="_TB('Email')" cmpId="IDC_COMPANY_EMAIL" width="154" [model]="eventData?.model?.Company?.EMail"></tb-email>
+          <tb-email [caption]="_TB('Certified Email')" cmpId="IDC_COMPANY_PEC" width="173" [model]="eventData?.model?.Company?.CertifiedEMail"></tb-email>
+          <tb-link [caption]="_TB('Internet')" cmpId="IDC_COMPANY_INTERNET" width="173" [model]="eventData?.model?.Company?.Internet"></tb-link>
+         </tb-tile>
+        </tb-layoutcontainer>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Other Branches References')" icon="erp-factorycustomer" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Other Branches')" tbTileAutoFill  isCollapsible="True">
+         <tb-body-edit cmpId="IDC_COMPANY_BODY_ADDRESSES" width="365" [model]="eventData?.model?.Branches">
+          <tb-body-edit-column cmpId="IDC_COMPANY_COD_BRANCH" columnName="Branch" [title]="_TB('Branch')" columnType="tb-text" columnName="IDC_COMPANY_COD_BRANCH">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_TITLECODE_BE" columnName="TitleCode" [title]="_TB('Title')" columnType="tb-combo" columnName="IDC_COMPANY_TITLECODE_BE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_COMBO_BRANCH" columnName="BranchType" [title]="_TB('Branch Type')" columnType="tb-enum-combo" columnName="IDC_COMPANY_COMBO_BRANCH">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_NAME_SOC" columnName="CompanyName" [title]="_TB('Company Name')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_NAME_SOC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_FANTASY_NAME" columnName="FantasyName" [title]="_TB('Fantasy Name')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_FANTASY_NAME" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_FANTASY_NAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_BRANCHES_ISOCOUNTRYCODE" columnName="ISOCountryCode" [title]="_TB('ISO Country')" columnType="tb-combo" columnName="IDC_COMPANY_BRANCHES_ISOCOUNTRYCODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_PTAX" columnName="TaxIdNumber" [title]="_TB('Tax Number')" columnType="tb-body-edit-column" columnName="IDC_COMPANY_ADDRESSES_PTAX">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_FEDERALSTATE" columnName="FederalState" [title]="_TB('Federal State')" columnType="tb-combo" columnName="IDC_COMPANY_ADDRESSES_FEDERALSTATE" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_FEDERALSTATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_ZIPCODE_BR" columnName="ZIPCode" [title]="_TB('ZIP Code')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_ZIPCODE_BR" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_ZIPCODE_BR">
+          </tb-body-edit-column>
+          <tb-body-edit-column [readonly]="true" height width cmpId="IDC_COMPANY_ADDRESSES_ADDRESS" columnName="Address" [title]="_TB('Address')" columnType="tb-textarea" columnName="IDC_COMPANY_ADDRESSES_ADDRESS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_STREETNO" columnName="StreetNo" [title]="_TB('Street No.')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_STREETNO" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_STREETNO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_ADDRESS2" columnName="Address2" [title]="_TB('Additional Address')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_ADDRESS2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_DISTRICT" columnName="District" [title]="_TB('District')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_DISTRICT" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_DISTRICT">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_CITY" columnName="City" [title]="_TB('Municipality')" columnType="tb-body-edit-column" columnName="IDC_COMPANY_ADDRESSES_CITY" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_CITY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_DETAIL_CITY" columnName="City" [title]="_TB('Municipality')" columnType="tb-combo" columnName="IDC_COMPANY_ADDRESSES_DETAIL_CITY" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_DETAIL_CITY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_ZIPCODE" columnName="ZIPCode" [title]="_TB('ZIP Code')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_ZIPCODE" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_ZIPCODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_COMMISS" columnName="County" [itemSource]="IDC_COMPANY_ADDRESSES_COMMISS_itemSource" [title]="_TB('County')" columnType="tb-combo" columnName="IDC_COMPANY_ADDRESSES_COMMISS" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_COMMISS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_STATUS" columnName="Country" [itemSource]="IDC_COMPANY_ADDRESSES_STATUS_itemSource" [title]="_TB('Country')" columnType="tb-combo" columnName="IDC_COMPANY_ADDRESSES_STATUS" *ngIf="eventData?.activation?.IDC_COMPANY_ADDRESSES_STATUS">
+          </tb-body-edit-column>
+          <tb-body-edit-column mask cmpId="IDC_COMPANY_ADDRESSES_TEL1" columnName="Telephone1" [title]="_TB('Telephone 1')" columnType="tb-phone" columnName="IDC_COMPANY_ADDRESSES_TEL1">
+          </tb-body-edit-column>
+          <tb-body-edit-column mask cmpId="IDC_COMPANY_ADDRESSES_TEL2" columnName="Telephone2" [title]="_TB('Telephone 2')" columnType="tb-phone" columnName="IDC_COMPANY_ADDRESSES_TEL2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_TELEX" columnName="Telex" [title]="_TB('Telex')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_TELEX">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_FAX" columnName="Fax" [title]="_TB('Fax')" columnType="tb-text" columnName="IDC_COMPANY_ADDRESSES_FAX">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_INTERNET" columnName="Internet" [title]="_TB('Internet')" columnType="tb-link" columnName="IDC_COMPANY_ADDRESSES_INTERNET">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_ADDRESSES_EMAIL" columnName="EMail" [title]="_TB('Email')" columnType="tb-email" columnName="IDC_COMPANY_ADDRESSES_EMAIL">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('References')" tbTileAutoFill  isCollapsible="True" isCollapsed="False">
+         <tb-body-edit cmpId="IDC_COMPANY_BODY_PEOPLE" width="365" [model]="eventData?.model?.People">
+          <tb-body-edit-column cmpId="IDC_COMPANY_PERSON" columnName="Person" [itemSource]="IDC_COMPANY_PERSON_itemSource" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_COMPANY_PERSON">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_DETAILPERSON_TITLECODE" columnName="TitleCode" [title]="_TB('Title')" columnType="tb-combo" columnName="IDC_COMPANY_DETAILPERSON_TITLECODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_LASTNAME" columnName="LastName" [title]="_TB('Last Name')" columnType="tb-text" columnName="IDC_COMPANY_LASTNAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_NAME" columnName="Name" [title]="_TB('Name')" columnType="tb-text" columnName="IDC_COMPANY_NAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_FISCALCODE" columnName="DomicileFC" [title]="_TB('Fiscal Code')" columnType="tb-text" columnName="IDC_COMPANY_FISCALCODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_GENDER" columnName="Gender" [title]="_TB('Gender')" columnType="tb-enum-combo" columnName="IDC_COMPANY_GENDER">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATEN" columnName="DateOfBirth" [title]="_TB('Birth Date')" columnType="tb-date-input" columnName="IDC_COMPANY_DATEN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PROVINCEN_BR" columnName="CountyOfBirth" [title]="_TB('Birth Federal State')" columnType="tb-combo" columnName="IDC_COMPANY_PROVINCEN_BR" *ngIf="eventData?.activation?.IDC_COMPANY_PROVINCEN_BR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_MUNICIPALITYN_BR" columnName="CityOfBirth" [title]="_TB('Birth Municipality')" columnType="tb-combo" columnName="IDC_COMPANY_MUNICIPALITYN_BR" *ngIf="eventData?.activation?.IDC_COMPANY_MUNICIPALITYN_BR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_ZIPCODE_BR" columnName="DomicileZip" [title]="_TB('ZIP Code')" columnType="tb-text" columnName="IDC_COMPANY_PEOPLE_ZIPCODE_BR" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_ZIPCODE_BR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_COUNTY_BR" columnName="DomicileCounty" [title]="_TB('Federal State')" columnType="tb-combo" columnName="IDC_COMPANY_PEOPLE_COUNTY_BR" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_COUNTY_BR">
+          </tb-body-edit-column>
+          <tb-body-edit-column [readonly]="true" height width cmpId="IDC_COMPANY_PEOPLE_STREET_BR" columnName="DomicileAddress" [title]="_TB('Address')" columnType="tb-textarea" columnName="IDC_COMPANY_PEOPLE_STREET_BR" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_STREET_BR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_MUNICIPALITY_BR" columnName="DomicileCity" [title]="_TB('Municipality')" columnType="tb-combo" columnName="IDC_COMPANY_PEOPLE_MUNICIPALITY_BR" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_MUNICIPALITY_BR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_ISOCODEOFBIRTH" columnName="ISOCountryCodeOfBirth" [title]="_TB('ISO Country Code of Birth')" columnType="tb-combo" columnName="IDC_COMPANY_PEOPLE_ISOCODEOFBIRTH" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_ISOCODEOFBIRTH">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_MUNICIPALITYN" columnName="CityOfBirth" [title]="_TB('Municipality of Birth')" columnType="tb-body-edit-column" columnName="IDC_COMPANY_MUNICIPALITYN" *ngIf="eventData?.activation?.IDC_COMPANY_MUNICIPALITYN">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PROVINCEN" columnName="CountyOfBirth" [itemSource]="IDC_COMPANY_PROVINCEN_itemSource" [title]="_TB('Birth County')" columnType="tb-combo" columnName="IDC_COMPANY_PROVINCEN" *ngIf="eventData?.activation?.IDC_COMPANY_PROVINCEN">
+          </tb-body-edit-column>
+          <tb-body-edit-column [readonly]="true" height width cmpId="IDC_COMPANY_PEOPLE_STREET" columnName="DomicileAddress" [title]="_TB('Address')" columnType="tb-textarea" columnName="IDC_COMPANY_PEOPLE_STREET" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_STREET">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_MUNICIPALITY" columnName="DomicileCity" [title]="_TB('Municipality')" columnType="tb-body-edit-column" columnName="IDC_COMPANY_PEOPLE_MUNICIPALITY" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_MUNICIPALITY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_ZIPCODE" columnName="DomicileZip" [title]="_TB('ZIP Code')" columnType="tb-text" columnName="IDC_COMPANY_PEOPLE_ZIPCODE" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_ZIPCODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_COUNTY" columnName="DomicileCounty" [itemSource]="IDC_COMPANY_PEOPLE_COUNTY_itemSource" [title]="_TB('County')" columnType="tb-combo" columnName="IDC_COMPANY_PEOPLE_COUNTY" *ngIf="eventData?.activation?.IDC_COMPANY_PEOPLE_COUNTY">
+          </tb-body-edit-column>
+          <tb-body-edit-column mask cmpId="IDC_COMPANY_PEOPLE_TELEPHONE1" columnName="Telephone1" [title]="_TB('Telephone 1')" columnType="tb-phone" columnName="IDC_COMPANY_PEOPLE_TELEPHONE1">
+          </tb-body-edit-column>
+          <tb-body-edit-column mask cmpId="IDC_COMPANY_PEOPLE_TELEPHONE2" columnName="Telephone2" [title]="_TB('Telephone 2')" columnType="tb-phone" columnName="IDC_COMPANY_PEOPLE_TELEPHONE2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_FAX" columnName="Fax" [title]="_TB('Fax')" columnType="tb-text" columnName="IDC_COMPANY_PEOPLE_FAX">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_PEOPLE_EMAIL" columnName="EMail" [title]="_TB('EMail')" columnType="tb-email" columnName="IDC_COMPANY_PEOPLE_EMAIL">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Other Data')" icon="tb-mastermore" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_COMPANY_OTHERDATA">
+       <ng-template>
+        <tb-tile [title]="_TB('Activity')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-text [caption]="_TB('Activity Code')" cmpId="IDC_COMPANY_COD_BUSINESSKIND_ACTIVITY" width="71" [model]="eventData?.model?.Company?.ActivityCode"></tb-text>
+         <tb-label-static cmpId="IDC_COMPANY_COD_BUSINESSKIND_ACTIVITY_DESC" width="220" [model]="eventData?.model?.HKLActivityCodes?.Description"></tb-label-static>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_ARTISAN" cmpId="IDC_COMPANY_CHECK_ARTISAN" width="109" [model]="eventData?.model?.Company?.Artisan" [caption]="_TB('Artisanal Business  ')"></tb-checkbox>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_SEASONALBUSINESS" cmpId="IDC_COMPANY_CHECK_SEASONALBUSINESS" width="109" [model]="eventData?.model?.Company?.SeasonalBusiness" [caption]="_TB('Seasonal Business  ')"></tb-checkbox>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_PLACES" cmpId="IDC_COMPANY_CHECK_PLACES" width="109" [model]="eventData?.model?.Company?.BusinessInMoreLocations" [caption]="_TB('Business in Several Locations  ')"></tb-checkbox>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_CAPACITY" cmpId="IDC_COMPANY_CHECK_CAPACITY" width="109" [model]="eventData?.model?.Company?.PartialBookKeeping" [caption]="_TB('Partial Book-keeping  ')"></tb-checkbox>
+         <tb-section-title *ngIf="eventData?.activation?.IDC_COMPANY_TS_OWNER_SEPARATOR" cmpId="IDC_COMPANY_TS_OWNER_SEPARATOR" width="325" [caption]="_TB('Health Card System')"></tb-section-title>
+<div class="anchored">         <tb-combo *ngIf="eventData?.activation?.IDC_COMPANY_TS_OWNER_TYPE" [caption]="_TB('Owner Type')" cmpId="IDC_COMPANY_TS_OWNER_TYPE" width="60" [model]="eventData?.model?.Company?.TSOwnerType" [itemSource]="IDC_COMPANY_TS_OWNER_TYPE_itemSource"></tb-combo>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_COMPANY_TS_OWNER_TYPE_DESCRI" cmpId="IDC_COMPANY_TS_OWNER_TYPE_DESCRI" width="300" [model]="eventData?.model?.Company?.TSOwnerTypeDescri"></tb-label-static>
+</div></div><div class="col col2">         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_CHAMBOFCOMMAREA" [caption]="_TB('Ch. of Commerce')" cmpId="IDC_COMPANY_CHAMBOFCOMMAREA" width="110" [model]="eventData?.model?.Company?.ChambOfCommRegistrNo"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_LOCALTA_CHAMBOFCOMMAREA" [caption]="_TB('Ch.o.C. Registration Location')" cmpId="IDC_COMPANY_LOCALTA_CHAMBOFCOMMAREA" width="154" [model]="eventData?.model?.Company?.ChambOfCommArea"></tb-text>
+         <tb-combo *ngIf="eventData?.activation?.IDC_COMPANY_CHAMBOFCOMMCOUNTY" [caption]="_TB('Ch. Of Commerce County')" cmpId="IDC_COMPANY_CHAMBOFCOMMCOUNTY" width="33" [model]="eventData?.model?.Company?.ChambOfCommCounty" [itemSource]="IDC_COMPANY_CHAMBOFCOMMCOUNTY_itemSource"></tb-combo>
+         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_COMP_REG" [caption]="_TB('Register of Companies')" cmpId="IDC_COMPANY_COMP_REG" width="55" [model]="eventData?.model?.Company?.CompanyRegistrNo"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_REC" [caption]="_TB('Commercial Register')" cmpId="IDC_COMPANY_REC" width="66" [model]="eventData?.model?.Company?.CommRegisetrRegistrNo"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_ISCRI_COURT" [caption]="_TB('Court Register')" cmpId="IDC_COMPANY_ISCRI_COURT" width="90" [model]="eventData?.model?.Company?.CourtRegistrationId"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_IMPEXP_LICENCE" [caption]="_TB('Import/Export Licence')" cmpId="IDC_COMPANY_IMPEXP_LICENCE" width="55" [model]="eventData?.model?.Company?.ImportExportLicence"></tb-text>
+</div>        </tb-tile>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Register Inscriptions')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_REGISTERINSCRIPTIONS">
+          <tb-text [caption]="_TB('Register of Cooperatives')" cmpId="IDC_COMPANY_COOP_REG" width="55" [model]="eventData?.model?.Company?.CooperativeRegistrNo"></tb-text>
+          <tb-text [caption]="_TB('Register of Artisans')" cmpId="IDC_COMPANY_ALBO" width="66" [model]="eventData?.model?.Company?.ArtisanRegistrNo"></tb-text>
+          <tb-text [caption]="_TB('Reg. of Artisans Location')" cmpId="IDC_COMPANY_ARTISAN_RESORTI" width="154" [model]="eventData?.model?.Company?.ArtisanArea"></tb-text>
+          <tb-section-title cmpId="IDC_STATIC_PROFESSIONALREGISTER_SEPARATOR" width="325" [caption]="_TB('Professional Register')"></tb-section-title>
+          <tb-text [caption]="_TB('Name')" cmpId="IDC_COMPANY_PROFESSIONALREGISTERNAME" width="154" [model]="eventData?.model?.Company?.ProfessionalRegisterName"></tb-text>
+          <tb-combo [caption]="_TB('County')" cmpId="IDC_COMPANY_PROFESSIONALREGISTERCOUNTY" width="38" [model]="eventData?.model?.Company?.ProfessionalRegisterCounty" [itemSource]="IDC_COMPANY_PROFESSIONALREGISTERCOUNTY_itemSource"></tb-combo>
+          <tb-text [caption]="_TB('Subscription Number')" cmpId="IDC_COMPANY_PROFESSIONALREGISTERNO" width="164" [model]="eventData?.model?.Company?.ProfessionalRegisterNo"></tb-text>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Subscription Date')" cmpId="IDC_COMPANY_PROFESSIONALREGISTERDATE" width="57" [model]="eventData?.model?.Company?.ProfessionalRegisterDate"></tb-date-input>
+          <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_EICODE_PROFESSIONALCASHTYPE" [caption]="_TB('Professional Cash Type')" cmpId="IDC_COMPANY_EICODE_PROFESSIONALCASHTYPE" width="45" [model]="eventData?.model?.Company?.ProfessionalCashType"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Fiscal Data')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_FISCALDATA">
+          <tb-text [caption]="_TB('Collector\'s Office')" cmpId="IDC_COMPANY_COLLECTORSOFFICE" width="145" [model]="eventData?.model?.Company?.CollectorsOffice"></tb-text>
+          <tb-text [caption]="_TB('Tax CA No.')" cmpId="IDC_COMPANY_CA_FISCALDATA" width="104" [model]="eventData?.model?.Company?.TaxCANo"></tb-text>
+          <tb-text [caption]="_TB('Court')" cmpId="IDC_COMPANY_COURT" width="86" [model]="eventData?.model?.Company?.Court"></tb-text>
+          <tb-enum-combo [caption]="_TB('Region')" cmpId="IDC_COMPANY_TERRITORYTYPE" width="86" [model]="eventData?.model?.Company?.TerritoryType"></tb-enum-combo>
+          <tb-section-title cmpId="IDC_STATIC_CODES_SEPARATOR" width="325" [caption]="_TB('Codes')"></tb-section-title>
+          <tb-text [caption]="_TB('Taxpayer')" cmpId="IDC_COMPANY_COD_TAXPAYER" width="62" [model]="eventData?.model?.Company?.TaxPayerCode"></tb-text>
+          <tb-text [caption]="_TB('Authorization')" cmpId="IDC_COMPANY_COD_AUTHORIZATION" width="34" [model]="eventData?.model?.Company?.AuthorizationCode"></tb-text>
+          <tb-section-title cmpId="IDC_STATIC_LICENCE_SEPARATOR" width="325" [caption]="_TB('Licence Data')"></tb-section-title>
+          <tb-combo [caption]="_TB('County Revenue Office')" cmpId="IDC_COMPANY_COMMISS_INTENDANCY" width="83" [model]="eventData?.model?.Company?.RevenueOfficeCounty" [itemSource]="IDC_COMPANY_COMMISS_INTENDANCY_itemSource"></tb-combo>
+<div class="anchored">          <tb-text [caption]="_TB('Number/Date')" cmpId="IDC_COMPANY_NO_AUTHORIZATIONACTION" width="60" [model]="eventData?.model?.Company?.LicenceNumber"></tb-text>
+          <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_AUTHORIZATIONACTION" width="57" [model]="eventData?.model?.Company?.LicenceDate"></tb-date-input>
+</div>         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Balance Data')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_BALANCEDATA">
+<div class="col col1">         <tb-checkbox cmpId="IDC_COMPANY_INLIQUIDATION" width="109" [model]="eventData?.model?.Company?.InLiquidation" [caption]="_TB('Company in Liquidation  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_COMPANY_SOLESHAREHOLDER" width="109" [model]="eventData?.model?.Company?.SoleShareholder" [caption]="_TB('Company with Sole Shareholder  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_COMPANY_SUBCOORDINATION" width="109" [model]="eventData?.model?.Company?.SubmittedToCoordination" [caption]="_TB('Company submitted to direction and coordination (art. 2497-bis)   ')"></tb-checkbox>
+         <tb-text [caption]="_TB('Coordinator Company Name')" cmpId="IDC_COMPANY_COORDINATORNAME" width="154" [model]="eventData?.model?.Company?.CoordinatorName"></tb-text>
+</div><div class="col col2">         <tb-checkbox cmpId="IDC_COMPANY_BELONGTOGROUP" width="109" [model]="eventData?.model?.Company?.BelongToGroup" [caption]="_TB('Company belonging to a Group  ')"></tb-checkbox>
+         <tb-text [caption]="_TB('Controller Company Name')" cmpId="IDC_COMPANY_GROUPNAME" width="154" [model]="eventData?.model?.Company?.GroupName"></tb-text>
+         <tb-text [caption]="_TB('Controller Country')" cmpId="IDC_COMPANY_GROUPCOUNTRY" width="154" [model]="eventData?.model?.Company?.GroupCountry"></tb-text>
+</div>        </tb-tile>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Other Data')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_OTHERDATA">
+          <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_EORICODE" [caption]="_TB('EORI Code')" cmpId="IDC_COMPANY_EORICODE" width="80" [model]="eventData?.model?.Company?.EORICode"></tb-text>
+          <tb-date-input *ngIf="eventData?.activation?.IDC_COMPANY_DATE_AUTHORIZATION_RO" formatter="Date" [readonly]="false" [caption]="_TB('Tax payer from...')" cmpId="IDC_COMPANY_DATE_AUTHORIZATION_RO" width="57" [model]="eventData?.model?.Company?.LicenceDate"></tb-date-input>
+         </tb-tile>
+         <tb-tile [title]="_TB('Bank Data')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_BANKDATA">
+          <tb-text [caption]="_TB('SIA Code')" cmpId="IDC_COMPANY_COD_SIA" width="29" [model]="eventData?.model?.Company?.SIACode"></tb-text>
+          <tb-text [caption]="_TB('Creditor Identifier')" cmpId="IDC_COMPANY_CREDITOR_ID" width="139" [model]="eventData?.model?.Company?.CreditorIdentifier"></tb-text>
+          <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_CBI_CODE" [caption]="_TB('CBI Code')" cmpId="IDC_COMPANY_CBI_CODE" width="45" [model]="eventData?.model?.Company?.CBICode"></tb-text>
+         </tb-tile>
+        </tb-layoutcontainer>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Fiscal Years and Tax')" icon="tb-calendar" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Fiscal Years')" tbTileAutoFill  isCollapsible="True">
+         <tb-body-edit cmpId="IDC_COMPANY_BODY_FISCALYEARS" width="364" [model]="eventData?.model?.FiscalYears">
+          <tb-body-edit-column cmpId="IDC_COMPANY_DESCRI_ES" columnName="TEnhCompanyFiscalYears_P1" [title]="_TB('Fiscal Year')" columnType="tb-label-static" columnName="IDC_COMPANY_DESCRI_ES">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_OPEN" columnName="OpeningDate" [title]="_TB('Opening Date')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_OPEN">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_CLOSURE" columnName="ClosingDate" [title]="_TB('Closing Date')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_CLOSURE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CHECK_FISCALYEAR" columnName="TEnhCompanyFiscalYears_P2" [title]="_TB('Used')" columnType="tb-checkbox" columnName="IDC_COMPANY_CHECK_FISCALYEAR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_REGDEPR" columnName="DepreciationDate" [title]="_TB('Depreciation Posting')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_REGDEPR" *ngIf="eventData?.activation?.IDC_COMPANY_DATE_REGDEPR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_APDEF" columnName="FinalOpeningDate" [title]="_TB('Definitive Opening')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_APDEF" *ngIf="eventData?.activation?.IDC_COMPANY_DATE_APDEF">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_CHTACCOUNTS" columnName="TemporaryClosingDate" [title]="_TB('Temp. Closing of Accounts')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_CHTACCOUNTS" *ngIf="eventData?.activation?.IDC_COMPANY_DATE_CHTACCOUNTS">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_CHTCUSTSUPP" columnName="TemporaryClosingCustSupp" [title]="_TB('Temp. Closing of Customers/Suppliers')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_CHTCUSTSUPP" *ngIf="eventData?.activation?.IDC_COMPANY_DATE_CHTCUSTSUPP">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_CHPL" columnName="ProfitLossClosingDate" [title]="_TB('PL Account Closing')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_CHPL" *ngIf="eventData?.activation?.IDC_COMPANY_DATE_CHPL">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_CHDEF" columnName="FinalClosingDate" [title]="_TB('Definitive Closing')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_CHDEF" *ngIf="eventData?.activation?.IDC_COMPANY_DATE_CHDEF">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CHECK_JE" columnName="BlockAccountingPosting" [title]="_TB('Block Accounting Posting')" columnType="tb-checkbox" columnName="IDC_COMPANY_CHECK_JE" *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_JE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CHECK_COSTACC" columnName="BlockCostAccPosting" [title]="_TB('Block Cost Accounting Posting')" columnType="tb-checkbox" columnName="IDC_COMPANY_CHECK_COSTACC" *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_COSTACC">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CHECK_FA" columnName="BlockFixedAssetsPosting" [title]="_TB('Block Fixed Assets Posting')" columnType="tb-checkbox" columnName="IDC_COMPANY_CHECK_FA" *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_FA">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_BLOCK_ALL_INV_ENTRY" columnName="BlockInventoryPosting" [title]="_TB('Block Inventory Entries')" columnType="tb-checkbox" columnName="IDC_COMPANY_BLOCK_ALL_INV_ENTRY" *ngIf="eventData?.activation?.IDC_COMPANY_BLOCK_ALL_INV_ENTRY">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_DATE_BLOCK_INVENTORY" columnName="BlockInventoryPostingDate" [title]="_TB('Block Inventory Posting Date')" columnType="tb-date-input" columnName="IDC_COMPANY_DATE_BLOCK_INVENTORY" *ngIf="eventData?.activation?.IDC_COMPANY_DATE_BLOCK_INVENTORY">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_COMPANY_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CHECK_EVENTS" columnName="ExceptionalEvents" [title]="_TB('Exceptional Events')" columnType="tb-checkbox" columnName="IDC_COMPANY_CHECK_EVENTS">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_USE_ITEM_DEFAULT_VALUATION" columnName="UseItemDefaultValuation" [title]="_TB('Item default valuation type')" columnType="tb-checkbox" columnName="IDC_COMPANY_USE_ITEM_DEFAULT_VALUATION" *ngIf="eventData?.activation?.IDC_COMPANY_USE_ITEM_DEFAULT_VALUATION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CLOSEDS_INV_INITIAL_BALANCES" columnName="InitialInventoryBalances" [title]="_TB('Initial data aligned with previous fiscal year')" columnType="tb-checkbox" columnName="IDC_COMPANY_CLOSEDS_INV_INITIAL_BALANCES" *ngIf="eventData?.activation?.IDC_COMPANY_CLOSEDS_INV_INITIAL_BALANCES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CONV_FROM_MAGONET" columnName="FromMagoNet" [title]="_TB('From MagoNet')" columnType="tb-checkbox" columnName="IDC_COMPANY_CONV_FROM_MAGONET" *ngIf="eventData?.activation?.IDC_COMPANY_CONV_FROM_MAGONET">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Tax')" tbTileAutoFill  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_YEARS">
+         <tb-body-edit cmpId="IDC_COMPANY_BODY_YEARS" width="365" [model]="eventData?.model?.Years">
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_COMPANY_YEAR" columnName="BalanceYear" [title]="_TB('Year')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_YEAR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_MIXEDREGIME" columnName="MixedRegime" [title]="_TB('Mixed Regime')" columnType="tb-checkbox" columnName="IDC_COMPANY_MIXEDREGIME" *ngIf="eventData?.activation?.IDC_COMPANY_MIXEDREGIME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_COMBO_TAXREGULATIONS" columnName="TaxRegulations" [title]="_TB('Tax Regulations')" columnType="tb-enum-combo" columnName="IDC_COMPANY_COMBO_TAXREGULATIONS" *ngIf="eventData?.activation?.IDC_COMPANY_COMBO_TAXREGULATIONS">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" cmpId="IDC_COMPANY_SALESTAXPERC" columnName="SalesTaxPerc" [title]="_TB('% Sales Tax')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_SALESTAXPERC" *ngIf="eventData?.activation?.IDC_COMPANY_SALESTAXPERC">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" cmpId="IDC_COMPANY_SALESTAXPERC_2" columnName="SalesTaxPerc2" [title]="_TB('Second % Sales Tax')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_SALESTAXPERC_2" *ngIf="eventData?.activation?.IDC_COMPANY_SALESTAXPERC_2">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CHECK_DECLIAR" columnName="QuarterlyTaxSettlement" [title]="_TB('Quarterly Report
+')" columnType="tb-checkbox" columnName="IDC_COMPANY_CHECK_DECLIAR" *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_DECLIAR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_QUARTERLYTAXOPTION" columnName="QuarterlyTaxOption" [title]="_TB('Quarterly Tax
+Option')" columnType="tb-checkbox" columnName="IDC_COMPANY_QUARTERLYTAXOPTION" *ngIf="eventData?.activation?.IDC_COMPANY_QUARTERLYTAXOPTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_CHECK_DISTRIL" columnName="UseTaxDistribution" [title]="_TB('Tax Distribution')" columnType="tb-checkbox" columnName="IDC_COMPANY_CHECK_DISTRIL" *ngIf="eventData?.activation?.IDC_COMPANY_CHECK_DISTRIL">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_TAX_EXIGIBILITY_ON_COLLECTION" columnName="TAXExigibilityOnCollection" [title]="_TB('TAX Exigibility
+On Collection')" columnType="tb-checkbox" columnName="IDC_COMPANY_TAX_EXIGIBILITY_ON_COLLECTION" *ngIf="eventData?.activation?.IDC_COMPANY_TAX_EXIGIBILITY_ON_COLLECTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_TAX_EXIGIBILITY_CASH" columnName="TAXExigibilityCashRegime" [title]="_TB('Cash TAX')" columnType="tb-checkbox" columnName="IDC_COMPANY_TAX_EXIGIBILITY_CASH" *ngIf="eventData?.activation?.IDC_COMPANY_TAX_EXIGIBILITY_CASH">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_COMPANY_TAX_EXIGIBILITY_CASH_FROM" columnName="TAXExigibilityCashRegimeFrom" [title]="_TB('Cash TAX
+From month')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_TAX_EXIGIBILITY_CASH_FROM" *ngIf="eventData?.activation?.IDC_COMPANY_TAX_EXIGIBILITY_CASH_FROM">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" cmpId="IDC_COMPANY_TAX_EXIGIBILITY_CASH_TO" columnName="TAXExigibilityCashRegimeTo" [title]="_TB('Cash TAX
+To month')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_TAX_EXIGIBILITY_CASH_TO" *ngIf="eventData?.activation?.IDC_COMPANY_TAX_EXIGIBILITY_CASH_TO">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_FARMERTAX" columnName="FarmerTax" [title]="_TB('Farming Tax')" columnType="tb-checkbox" columnName="IDC_COMPANY_FARMERTAX" *ngIf="eventData?.activation?.IDC_COMPANY_FARMERTAX">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" cmpId="IDC_COMPANY_PERCTEMPORARYPRORATA" columnName="TemporaryProRataPerc" [title]="_TB(' % Non Deduct. Pro-rata
+Temporary')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_PERCTEMPORARYPRORATA" *ngIf="eventData?.activation?.IDC_COMPANY_PERCTEMPORARYPRORATA">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" cmpId="IDC_COMPANY_PERCPRORATADEF" columnName="FinalProRataPercc" [title]="_TB(' % Non Deduct. Pro-rata
+Final')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_PERCPRORATADEF" *ngIf="eventData?.activation?.IDC_COMPANY_PERCPRORATADEF">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_COMPANY_PRORATADIFF" columnName="FinalProRataDiff" [title]="_TB('Pro-rata
+Final Difference')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_PRORATADIFF" *ngIf="eventData?.activation?.IDC_COMPANY_PRORATADIFF">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_COMPANY_PLAFOND" columnName="Plafond" [title]="_TB('Available
+Plafond')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_PLAFOND" *ngIf="eventData?.activation?.IDC_COMPANY_PLAFOND">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_COMPANY_VOLUMEBUSINESS" columnName="PreviousYearTurnover" [title]="_TB('Turnover
+Previous Year')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_VOLUMEBUSINESS" *ngIf="eventData?.activation?.IDC_COMPANY_VOLUMEBUSINESS">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_COMPANY_SALES" columnName="PreviousYearExport" [title]="_TB('Previous Year
+Exports')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_SALES" *ngIf="eventData?.activation?.IDC_COMPANY_SALES">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_INTRASTAT_PDATE" columnName="IntrastatPurchasesChangeDate" [title]="_TB('Intra Purchases
+Period Change')" columnType="tb-date-input" columnName="IDC_COMPANY_INTRASTAT_PDATE" *ngIf="eventData?.activation?.IDC_COMPANY_INTRASTAT_PDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_COMBO_INT_PURCHASE" columnName="IntrastatPurchases" [title]="_TB('Intra
+Purchases')" columnType="tb-enum-combo" columnName="IDC_COMPANY_COMBO_INT_PURCHASE" *ngIf="eventData?.activation?.IDC_COMPANY_COMBO_INT_PURCHASE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_INTRASTAT_SDATE" columnName="IntrastatSalesChangeDate" [title]="_TB('Intra Sales
+Period Change')" columnType="tb-date-input" columnName="IDC_COMPANY_INTRASTAT_SDATE" *ngIf="eventData?.activation?.IDC_COMPANY_INTRASTAT_SDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_COMBO_INT_SALE" columnName="IntrastatSales" [title]="_TB('Intra
+Sales')" columnType="tb-enum-combo" columnName="IDC_COMPANY_COMBO_INT_SALE" *ngIf="eventData?.activation?.IDC_COMPANY_COMBO_INT_SALE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_STATISTICALVALUE_INT_PURCHASE" columnName="PurchasesStatisticalValue" [title]="_TB('Purchases
+Statist.')" columnType="tb-checkbox" columnName="IDC_COMPANY_STATISTICALVALUE_INT_PURCHASE" *ngIf="eventData?.activation?.IDC_COMPANY_STATISTICALVALUE_INT_PURCHASE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_STATISTICALVALUE_INT_SALE" columnName="SalesStatisticalValue" [title]="_TB('Sales
+Statist.')" columnType="tb-checkbox" columnName="IDC_COMPANY_STATISTICALVALUE_INT_SALE" *ngIf="eventData?.activation?.IDC_COMPANY_STATISTICALVALUE_INT_SALE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Percent" cmpId="IDC_COMPANY_FACTOR" columnName="Factor" [title]="_TB('Factor')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_FACTOR" *ngIf="eventData?.activation?.IDC_COMPANY_FACTOR">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_BLACKLIST" columnName="QuarterlyBlackList" [title]="_TB('Quarterly Black List')" columnType="tb-checkbox" columnName="IDC_COMPANY_BLACKLIST" *ngIf="eventData?.activation?.IDC_COMPANY_BLACKLIST">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" cmpId="IDC_COMPANY_TAXADVANCE" columnName="TaxAdvance" [title]="_TB('Tax Advance')" columnType="tb-numeric-text-box" columnName="IDC_COMPANY_TAXADVANCE" *ngIf="eventData?.activation?.IDC_COMPANY_TAXADVANCE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_TAXADVANCE_DESCRI" columnName="TaxAdvanceDescri" [title]="_TB('Tax Advance Description')" columnType="tb-text" columnName="IDC_COMPANY_TAXADVANCE_DESCRI" *ngIf="eventData?.activation?.IDC_COMPANY_TAXADVANCE_DESCRI">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Tax')" tbTileAutoFill  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_BRTAX">
+<div class="anchored">         <tb-checkbox cmpId="IDC_COMPANY_BR_DETAIL_USE_TARIFF_ICMS" width="109" [model]="eventData?.model?.Company?.UseTariffValueICMS" [caption]="_TB('Always Use Tariff Value')"></tb-checkbox>
+         <tb-caption cmpId="IDC_STATIC" width="98" [caption]="_TB('for ICMS')"></tb-caption>
+</div>         <tb-body-edit cmpId="IDC_COMPANY_BRTAX_BODY_EDIT" width="325" [model]="eventData?.model?.Tax">
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_BRTAX_FROMDATE" columnName="FromDate" [title]="_TB('From Date')" columnType="tb-date-input" columnName="IDC_COMPANY_BRTAX_FROMDATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_COMPANY_BRTAX_TODATE" columnName="ToDate" [title]="_TB('To Date')" columnType="tb-date-input" columnName="IDC_COMPANY_BRTAX_TODATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_BRTAX_TAXTYPE" columnName="TaxType" [title]="_TB('Tax Type')" columnType="tb-enum-combo" columnName="IDC_COMPANY_BRTAX_TAXTYPE">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Declarations')" icon="erp-declaration" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_COMPANY_DECLARATIONS">
+       <ng-template>
+        <tb-tile [title]="_TB('EU Data')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_EUDATA">
+<div class="col col1">         <tb-text [caption]="_TB('User Code')" cmpId="IDC_COMPANY_INTRASTAT_USER" width="34" [model]="eventData?.model?.Company?.IntrastatUserCode"></tb-text>
+         <tb-text [caption]="_TB('Customs Section Code')" cmpId="IDC_COMPANY_INTRASTAT_CUSTOMSCODE" width="50" [model]="eventData?.model?.Company?.CustomsSectionCode"></tb-text>
+</div><div class="col col2">         <tb-text [caption]="_TB('Customs Broker Code')" cmpId="IDC_COMPANY_INTRASTAT_CUSTOMSTAXID" width="66" [model]="eventData?.model?.Company?.CustomsTaxIdNumber"></tb-text>
+         <tb-numeric-text-box formatter="Long" [caption]="_TB('Progressive No.')" cmpId="IDC_COMPANY_INTRASTAT_PROGNO" width="50" [model]="eventData?.model?.Company?.IntrastatProgNo"></tb-numeric-text-box>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Identification Numbers')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_SERIALNOS">
+<div class="col col1">         <tb-section-title cmpId="IDC_STATIC_INPS_SEPARATOR" width="325" [caption]="_TB('INPS')"></tb-section-title>
+         <tb-text [caption]="_TB('Head Office Code')" cmpId="IDC_SERIALNOS_BRANCH_INPS" width="30" [model]="eventData?.model?.Company?.SocialSecurityCode"></tb-text>
+         <tb-text [caption]="_TB('ID No.')" cmpId="IDC_COMPANY_SOCIALSECURITYID" width="80" [model]="eventData?.model?.Company?.SocialSecurityId"></tb-text>
+         <tb-section-title cmpId="IDC_STATIC_INAIL_SEPARATOR" width="325" [caption]="_TB('INAIL')"></tb-section-title>
+         <tb-text [caption]="_TB('Head Office Code')" cmpId="IDC_SERIALNOS_SOCIALINSURANCEBRANCH" width="50" [model]="eventData?.model?.Company?.SocialInsuranceBranch"></tb-text>
+         <tb-text [caption]="_TB('Insurance')" cmpId="IDC_SERIALNOS_SOCIALINSURANCEID" width="90" [model]="eventData?.model?.Company?.SocialInsuranceId"></tb-text>
+         <tb-section-title cmpId="IDC_STATIC_DISTRICT_SEPARATOR" width="325" [caption]="_TB('Region')"></tb-section-title>
+         <tb-text [caption]="_TB('Code')" cmpId="IDC_SERIALNOS_CODTERRITORYTYPE" width="30" [model]="eventData?.model?.Company?.RegionCode"></tb-text>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_STATIC_ENPALSINPDAI_SEPARATOR" width="325" [caption]="_TB('Other Government Bodies')"></tb-section-title>
+         <tb-text [caption]="_TB('Agency Code')" cmpId="IDC_SERIALNOS_ENTITY_INPDAIENPALS" width="30" [model]="eventData?.model?.Company?.INPDAIENPALSEntity"></tb-text>
+         <tb-text [caption]="_TB('Head Office Code')" cmpId="IDC_SERIALNOS_BRANCH_INPDAIENPALS" width="30" [model]="eventData?.model?.Company?.INPDAIENPALSBranch"></tb-text>
+         <tb-text [caption]="_TB('Position Code')" cmpId="IDC_SERIALNOS_CODE_INPDAIENPALS" width="90" [model]="eventData?.model?.Company?.INPDAIENPALSCode"></tb-text>
+         <tb-section-title cmpId="IDC_STATIC_ENASARCO_SEPARATOR" width="325" [caption]="_TB('ENASARCO')"></tb-section-title>
+         <tb-text [caption]="_TB('ID No.')" cmpId="IDC_SERIALNOS_ISCRI_ENASARCO" width="90" [model]="eventData?.model?.Company?.ENASARCORegistrationId"></tb-text>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Declarer data if different from Taxpayer')" tbTileStandard  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_DATAFORTELEMATICSENDING">
+         <tb-combo [caption]="_TB('Position Code')" cmpId="IDC_COMPANY_SOTT_COD_LOAD" width="30" [model]="eventData?.model?.SubscriberChargeCode_XML" [itemSource]="IDC_COMPANY_SOTT_COD_LOAD_itemSource"></tb-combo>
+         <tb-text [caption]="_TB('Fiscal Code')" cmpId="IDC_COMPANY_SOTT_CODFIS" width="86" [model]="eventData?.model?.Company?.SubscriberFiscalCode"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Supplier data for Telematic Sending')" tbTileAutoFill  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_DATAFORTELEMATICSENDING_BODYEDIT">
+         <tb-body-edit cmpId="IDC_COMPANY_BODY_DATAFORTELEMATICSENDING" width="325" [model]="eventData?.model?.TaxDeclaration">
+          <tb-body-edit-column cmpId="IDC_TAXP_DECLARATIONTYPE" columnName="TelematicDeclarationType" [itemSource]="IDC_TAXP_DECLARATIONTYPE_itemSource" [title]="_TB('Declaration Type')" columnType="tb-enum-combo" columnName="IDC_TAXP_DECLARATIONTYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_PUT_REC_A" columnName="ExtactData" [title]="_TB('Supplier Different from Taxpayer')" columnType="tb-checkbox" columnName="IDC_TAXP_PUT_REC_A">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_FISCALCODE" columnName="FiscalCode" [title]="_TB('Fiscal Code')" columnType="tb-text" columnName="IDC_TAXP_FISCALCODE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_TAXNUMBER" columnName="TaxIdNumber" [title]="_TB('Tax Number')" columnType="tb-text" columnName="IDC_TAXP_TAXNUMBER">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_NUMBER_CAF" columnName="CAFRegistrationNo" [title]="_TB('Tax Center ID')" columnType="tb-text" columnName="IDC_TAXP_NUMBER_CAF">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_NATURAL_PERSON" columnName="NaturalPerson" [title]="_TB('Natural Person')" columnType="tb-checkbox" columnName="IDC_TAXP_NATURAL_PERSON">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_LASTNAME" columnName="LastName" [title]="_TB('Surname or Company Name')" columnType="tb-text" columnName="IDC_TAXP_LASTNAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_NAME" columnName="Name" [title]="_TB('Name')" columnType="tb-text" columnName="IDC_TAXP_NAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_GENDER" columnName="Gender" [title]="_TB('Gender')" columnType="tb-enum-combo" columnName="IDC_TAXP_GENDER">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Date" [readonly]="false" cmpId="IDC_TAXP_DATE_BIRTH" columnName="DateOfBirth" [title]="_TB('Date of Birth')" columnType="tb-date-input" columnName="IDC_TAXP_DATE_BIRTH">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_ISOCOUNTRYBIRTH" columnName="ISOCountryCodeOfBirth" [title]="_TB('ISO Country Of Birth')" columnType="tb-combo" columnName="IDC_TAXP_ISOCOUNTRYBIRTH">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_MUNICIPALITY_BIRTH" columnName="CityOfBirth" [title]="_TB('Municipality of Birth')" columnType="tb-body-edit-column" columnName="IDC_TAXP_MUNICIPALITY_BIRTH">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_COUNTY_BIRTH" columnName="CountyOfBirth" [itemSource]="IDC_TAXP_COUNTY_BIRTH_itemSource" [title]="_TB('County')" columnType="tb-combo" columnName="IDC_TAXP_COUNTY_BIRTH">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_MUNICIPALITY_DF" columnName="FiscalDomicileCity" [title]="_TB('Fiscal Domicile Municipality')" columnType="tb-body-edit-column" columnName="IDC_TAXP_MUNICIPALITY_DF">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_COUNTY_DF" columnName="FiscalDomicileCounty" [itemSource]="IDC_TAXP_COUNTY_DF_itemSource" [title]="_TB('County')" columnType="tb-combo" columnName="IDC_TAXP_COUNTY_DF">
+          </tb-body-edit-column>
+          <tb-body-edit-column [readonly]="true" height width cmpId="IDC_TAXP_STREET_DF" columnName="FiscalDomicileAddress" [title]="_TB('Address')" columnType="tb-textarea" columnName="IDC_TAXP_STREET_DF">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_ZIPCODE_DF" columnName="FiscalDomicileZip" [title]="_TB('ZIP Code')" columnType="tb-text" columnName="IDC_TAXP_ZIPCODE_DF">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_MUNICIPALITY_SF" columnName="RegisteredOfficeCity" [title]="_TB('Registered Office Municipality')" columnType="tb-body-edit-column" columnName="IDC_TAXP_MUNICIPALITY_SF">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_COUNTY_SF" columnName="RegisteredOfficeCounty" [itemSource]="IDC_TAXP_COUNTY_SF_itemSource" [title]="_TB('County')" columnType="tb-combo" columnName="IDC_TAXP_COUNTY_SF">
+          </tb-body-edit-column>
+          <tb-body-edit-column [readonly]="true" height width cmpId="IDC_TAXP_STREET_SF" columnName="RegisteredOfficeAddress" [title]="_TB('Address')" columnType="tb-textarea" columnName="IDC_TAXP_STREET_SF">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAXP_ZIPCODE_SF" columnName="RegisteredOfficeZip" [title]="_TB('ZIP Code')" columnType="tb-text" columnName="IDC_TAXP_ZIPCODE_SF">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Documents Data')" icon="erp-transportationform" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_COMPANY_SPECIALDOC">
+       <ng-template>
+        <tb-tile [title]="_TB('Transportation Form')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_TRANSPORTATION_FORM">
+<div class="col col1">         <tb-combo [caption]="_TB('Loading Place')" cmpId="IDC_COMPANY_LOADING_PLACE" width="62" [model]="eventData?.model?.Company?.LoadingPlace"></tb-combo>
+         <tb-label-static cmpId="IDC_COMPANY_LOADING_PLACE_DESCRI" width="154" [model]="eventData?.model?.LoadingPlaceDescri"></tb-label-static>
+</div><div class="col col2"><div class="anchored">         <tb-enum-combo [caption]="_TB('Loader Data')" cmpId="IDC_COMPANY_LOADER_TYPE" width="78" [model]="eventData?.model?.Company?.LoaderType"></tb-enum-combo>
+         <tb-text cmpId="IDC_COMPANY_LOADER_CODE" width="87" [model]="eventData?.model?.Company?.LoaderCode"></tb-text>
+</div>         <tb-label-static cmpId="IDC_COMPANY_LOADER_DESCRI" width="166" [model]="eventData?.model?.LoaderDescri"></tb-label-static>
+         <tb-combo [caption]="_TB('Branch')" cmpId="IDC_COMPANY_LOADER_BRANCH" width="62" [model]="eventData?.model?.Company?.LoaderBranch"></tb-combo>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Fiscal Note Data')" tbTileWide  isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_COMPANY_FISCALNOTEDATA">
+<div class="col col1">         <tb-text [caption]="_TB('Fantasy Name')" cmpId="IDC_COMPANY_MASTER_FANTASY_NAME" width="180" [model]="eventData?.model?.Company?.FantasyName"></tb-text>
+         <tb-text [caption]="_TB('Goods Activity')" cmpId="IDC_COMPANY_GOODSACTIVITYCODES_CODE" width="66" [model]="eventData?.model?.Company?.GoodsActivity"></tb-text>
+         <tb-label-static cmpId="IDC_COMPANY_GOODSACTIVITYCODES_DESCRI" width="154" [model]="eventData?.model?.HKLGoodsActivityCode?.Description"></tb-label-static>
+         <tb-text [caption]="_TB('Services Activity')" cmpId="IDC_COMPANY_SERVICESACTIVITYCODES_CODE" width="66" [model]="eventData?.model?.Company?.ServicesActivity"></tb-text>
+         <tb-label-static cmpId="IDC_COMPANY_SERVICESACTIVITYCODES_DESCRI" width="154" [model]="eventData?.model?.HKLServicesActivityCode?.Description"></tb-label-static>
+</div><div class="col col2">         <tb-body-edit cmpId="IDC_COMPANY_BODY_FEDREGST" width="322" [model]="eventData?.model?.CompanyFedStateReg">
+          <tb-body-edit-column cmpId="IDC_COMPANY_FEDREGST_FEDERALSTATE" columnName="FederalState" [title]="_TB('Federal State')" columnType="tb-combo" columnName="IDC_COMPANY_FEDREGST_FEDERALSTATE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_COMPANY_FEDREGST_FEDERALSTATEREG" columnName="FedStateReg" [title]="_TB('Federal State Register')" columnType="tb-text" columnName="IDC_COMPANY_FEDREGST_FEDERALSTATEREG">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>
