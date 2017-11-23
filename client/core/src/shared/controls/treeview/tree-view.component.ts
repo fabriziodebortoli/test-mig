@@ -1,7 +1,7 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ITreeNode, ITreeOptions } from "angular-tree-component/dist/defs/api";
 import { TreeComponent, TreeModel, TreeNode } from "angular-tree-component";
 
@@ -28,8 +28,11 @@ export class TreeViewComponent extends ControlComponent implements OnInit {
 
 
 
-  constructor(layoutService: LayoutService, tbComponentService:TbComponentService) {
-    super(layoutService, tbComponentService);
+  constructor(
+    layoutService: LayoutService, 
+    tbComponentService:TbComponentService,
+    changeDetectorRef : ChangeDetectorRef) {
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   ngOnInit() {

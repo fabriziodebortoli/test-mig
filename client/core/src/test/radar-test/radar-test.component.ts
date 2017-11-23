@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { TestService } from './../test.service';
@@ -20,8 +20,13 @@ export class RadarTestComponent extends DocumentComponent implements OnInit {
 
   @ViewChild('radar') radar: RadarComponent;
 
-  constructor(public eventData: EventDataService, public dataService: DataService, public http: Http, public testService: TestService) {
-    super(testService, eventData, null);
+  constructor(
+    eventData: EventDataService, 
+    public dataService: DataService, 
+    testService: TestService,
+    changeDetectorRef: ChangeDetectorRef, 
+    public http: Http) {
+    super(testService, eventData, null, changeDetectorRef);
   }
 
   ngOnInit() {

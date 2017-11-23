@@ -1,0 +1,46 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Edit Line')" tbTileWide  isCollapsible="False" hasTitle="True">
+<div class="col col1"><div class="anchored">        <tb-label-static cmpId="IDC_STATIC" width="85" [caption]="_TB('Current Value')"></tb-label-static>
+        <tb-label-static cmpId="IDC_STATIC_1" width="85" [caption]="_TB('New Value')"></tb-label-static>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Source Zone')" cmpId="IDC_TOMANAGEMENT_CHANGES_ZONE_OLD_VALUE" width="84" [model]="eventData?.model?.LineOriginalSourceZone"></tb-label-static>
+        <tb-combo cmpId="IDC_TOMANAGEMENT_CHANGES_ZONE_NEW_VALUE" width="84" [model]="eventData?.model?.LineNewSourceZone"></tb-combo>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Destination Zone')" cmpId="IDC_TOMANAGEMENT_CHANGES_ZONE_DESTINATION_OLD_VALUE" width="84" [model]="eventData?.model?.LineOriginalDestinationZone"></tb-label-static>
+        <tb-combo cmpId="IDC_TOMANAGEMENT_CHANGES_ZONE_DESTINATION_NEW_VALUE" width="84" [model]="eventData?.model?.LineNewDestinationZone"></tb-combo>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Source Bin')" cmpId="IDC_TOMANAGEMENT_CHANGES_BIN_OLD_VALUE" width="84" [model]="eventData?.model?.LineOriginalSourceBin"></tb-label-static>
+        <tb-text cmpId="IDC_TOMANAGEMENT_CHANGES_BIN_NEW_VALUE" width="84" [model]="eventData?.model?.LineNewSourceBin"></tb-text>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Destination Bin')" cmpId="IDC_TOMANAGEMENT_CHANGES_BIN_DESTINATION_OLD_VALUE" width="84" [model]="eventData?.model?.LineOriginalDestinationBin"></tb-label-static>
+        <tb-text cmpId="IDC_TOMANAGEMENT_CHANGES_BIN_DESTINATION_NEW_VALUE" width="84" [model]="eventData?.model?.LineNewDestinationBin"></tb-text>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Team')" cmpId="IDC_TOMANAGEMENT_OLD_TEAM_NAME" width="84" [model]="eventData?.model?.LineOriginalTeamName"></tb-label-static>
+        <tb-combo cmpId="IDC_TOMANAGEMENT_NEW_TEAM" width="84" [model]="eventData?.model?.LineNewTeam"></tb-combo>
+</div>        <tb-label-static cmpId="IDC_TOMANAGEMENT_NEW_TEAM_DESCRIPTION" width="84" [model]="eventData?.model?.LineNewTeamDescription"></tb-label-static>
+<div class="anchored">        <tb-label-static [caption]="_TB('Worker')" cmpId="IDC_TOMANAGEMENT_OLD_FULL_NAME" width="84" [model]="eventData?.model?.LineOriginalFullName"></tb-label-static>
+        <tb-combo cmpId="IDC_TOMANAGEMENT_NEW_RESOURCE" width="84" [model]="eventData?.model?.LineNewResource"></tb-combo>
+</div>        <tb-label-static cmpId="IDC_TOMANAGEMENT_NEW_FULL_NAME" width="84" [model]="eventData?.model?.LineNewFullName"></tb-label-static>
+</div><div class="col col2"><div class="anchored">        <tb-label-static cmpId="IDC_STATIC_2" width="85" [caption]="_TB('Current Value')"></tb-label-static>
+        <tb-label-static cmpId="IDC_STATIC_3" width="85" [caption]="_TB('New Value')"></tb-label-static>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Item')" cmpId="IDC_TOMANAGEMENT_CHANGES_CURRITEM" width="84" [model]="eventData?.model?.LineOldItem"></tb-label-static>
+        <tb-text cmpId="IDC_TOMANAGEMENT_CHANGES_ITEMNEW" width="84" [model]="eventData?.model?.LineNewItem"></tb-text>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Lot')" cmpId="IDC_TOMANAGEMENT_CHANGES_LOT_OLD_VALUE" width="84" [model]="eventData?.model?.LineOriginalLot"></tb-label-static>
+        <tb-combo cmpId="IDC_TOMANAGEMENT_CHANGES_LOT_NEW_VALUE" width="84" [model]="eventData?.model?.LineNewLot"></tb-combo>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Source Storage Unit')" cmpId="IDC_TOMANAGEMENT_CHANGES_CURRSOURCESTORAGEUNIT" width="84" [model]="eventData?.model?.LineOldSourceStorageUnit"></tb-label-static>
+        <tb-text cmpId="IDC_TOMANAGEMENT_CHANGES_NEWSOURCESTORAGEUNIT" width="84" [model]="eventData?.model?.LineNewSourceStorageUnit"></tb-text>
+</div><div class="anchored">        <tb-label-static [caption]="_TB('Internal ID Number')" cmpId="IDC_TOMANAGEMENT_CHANGES_IDNO_OLD_VALUE" width="84" [model]="eventData?.model?.LineOriginalInternalIdNo"></tb-label-static>
+        <tb-text cmpId="IDC_TOMANAGEMENT_CHANGES_IDNO_NEW_VALUE" width="84" [model]="eventData?.model?.LineNewInternalIdNo"></tb-text>
+</div></div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TOMANAGEMENT_CHANGES_OK?.enabled" icon="tb-ok" [caption]="_TB('Ok')" cmpId="ID_TOMANAGEMENT_CHANGES_OK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TOMANAGEMENT_CHANGES_CANCEL?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="ID_TOMANAGEMENT_CHANGES_CANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

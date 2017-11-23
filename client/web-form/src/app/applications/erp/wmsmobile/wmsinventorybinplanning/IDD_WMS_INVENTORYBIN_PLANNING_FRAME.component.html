@@ -1,0 +1,114 @@
+﻿ <tb-frame tbWizard >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Doctype Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tile [title]="_TB('Select the operation you want to perform')" tbTileStandard  isCollapsible="False" hasTitle="True">
+        <tb-radio cmpId="IDC_WMS_INVENTORYBIN_PLANNING_NEW" width="295" [model]="eventData?.model?.bNewInventory" [caption]="_TB('New Inventory with Bin Assignment')"></tb-radio>
+        <tb-radio cmpId="IDC_WMS_INVENTORYBIN_PLANNING_EDIT" width="310" [model]="eventData?.model?.bEditInventory" [caption]="_TB('Open an already existent Inventory document')"></tb-radio>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Doctype Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  hasTitle="False">
+        <tb-section-title cmpId="IDC_TB_HEADER_ONLY_SUBTITLE_SUBTITLE" width="640" [caption]="_TB('eventData?.model?.HeaderSubTitle')"></tb-section-title>
+       </tb-tile>
+       <tb-tile [title]="_TB('Select the operation you want to perform')" tbTileStandard  isCollapsible="False" hasTitle="True">
+<div class="anchored">        <tb-caption cmpId="IDC_STATIC" width="80" [caption]="_TB('Number')"></tb-caption>
+        <tb-text *ngIf="eventData?.activation?.IDC_WMS_INVENTORYBIN_PLANNING_NO" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_NO" width="69" [model]="eventData?.model?.Number"></tb-text>
+</div><div class="anchored">        <tb-caption cmpId="IDC_STATIC_1" width="80" [caption]="_TB('Inventory Description')"></tb-caption>
+        <tb-text cmpId="IDC_WMS_INVENTORYBIN_PLANNING_INVENTORYDESCRIPTION" width="154" [model]="eventData?.model?.InventoryDescription"></tb-text>
+</div>        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Inventory Date')" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_DATE" width="62" [model]="eventData?.model?.Date"></tb-date-input>
+<div class="anchored">        <tb-combo [caption]="_TB('Storage')" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_STORAGE" width="62" [model]="eventData?.model?.Storage"></tb-combo>
+        <tb-label-static cmpId="IDC_WMS_INVENTORYBIN_PLANNING_STORAGE_DESCRI" width="150" [model]="eventData?.model?.HKLStorage?.Description"></tb-label-static>
+</div>       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Doctype Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  hasTitle="False">
+        <tb-section-title cmpId="IDC_TB_HEADER_ONLY_SUBTITLE_SUBTITLE" width="640" [caption]="_TB('eventData?.model?.HeaderSubTitle')"></tb-section-title>
+       </tb-tile>
+       <tb-tile [title]="_TB('Select the operation you want to perform')" tbTileStandard  isCollapsible="False" hasTitle="True">
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_BMPZONE" [model]="eventData?.model?.ExpandBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_BMPZONE">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_SELECTED" [model]="eventData?.model?.Selected" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_SELECTED">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_TREE" [model]="eventData?.model?.TreeDescri" [title]="_TB('Zone/Bin')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_TREE">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_ZONEDESCRIPTION" [model]="eventData?.model?.Descri" [title]="_TB('Zone Description')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_ZONEDESCRIPTION">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_BINNO" [model]="eventData?.model?.BinZoneDescri" [title]="_TB('Bin Sel.')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_BINNO">
+        </tb-body-edit-column>
+        <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_INVENTORYDATE" [model]="eventData?.model?.LastInventory" [title]="_TB('Last Inventory Date')" columnType="tb-date-input" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEZONEBIN_INVENTORYDATE">
+        </tb-body-edit-column>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+     <tb-tilegroup [active]="true" [title]="_TB('Doctype Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileStandard  hasTitle="False">
+        <tb-section-title cmpId="IDC_TB_HEADER_ONLY_SUBTITLE_SUBTITLE" width="640" [caption]="_TB('eventData?.model?.HeaderSubTitle')"></tb-section-title>
+       </tb-tile>
+       <tb-tile [title]="_TB('Select the operation you want to perform')" tbTileStandard  isCollapsible="False" hasTitle="True">
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_HANDHELDSTATUS" [model]="eventData?.model?.HandheldStatusBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_HANDHELDSTATUS">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_HANDHELDOTHERCOUNTSTATUS" [model]="eventData?.model?.HandheldStatusOtherCountBmp" [title]="_TB(' ')" columnType="tb-image" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_HANDHELDOTHERCOUNTSTATUS">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_SELECTED" [model]="eventData?.model?.Selected" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_SELECTED">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TREE" [model]="eventData?.model?.TreeDescri" [title]="_TB('Zone/Bin')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TREE">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_ZONEDESCRIPTION" [model]="eventData?.model?.Descri" [title]="_TB('Zone Description')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_ZONEDESCRIPTION">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_BINNO" [model]="eventData?.model?.BinZoneDescri" [title]="_TB('No of Bins assigned
+1&#176; Count')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_BINNO">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAM" [model]="eventData?.model?.Team" [title]="_TB('Team')" columnType="tb-combo" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAM">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKER" [model]="eventData?.model?.Worker" [title]="_TB('Worker')" columnType="tb-combo" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKER">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAM_DESCRI" [model]="eventData?.model?.TeamDescription" [title]="_TB('Team Description')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAM_DESCRI">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKER_DESCRI" [model]="eventData?.model?.FullName" [title]="_TB('Worker Name')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKER_DESCRI">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_BINNOOTHERCOUNT" [model]="eventData?.model?.BinZoneDescriOtherCount" [title]="_TB('No of Bins assigned
+2&#176; Count')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_BINNOOTHERCOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAMOTHERCOUNT" [model]="eventData?.model?.TeamOtherCount" [title]="_TB('Team 2&#176; Count')" columnType="tb-combo" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAMOTHERCOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKEROTHERCOUNT" [model]="eventData?.model?.WorkerOtherCount" [title]="_TB('Worker 2&#176; Count')" columnType="tb-combo" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKEROTHERCOUNT">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAMOTHERCOUNT_DESCRI" [model]="eventData?.model?.TeamOtherCountDescription" [title]="_TB('Team Second Count Description')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_TEAMOTHERCOUNT_DESCRI">
+        </tb-body-edit-column>
+        <tb-body-edit-column cmpId="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKEROTHERCOUNT_DESCRI" [model]="eventData?.model?.FullNameOtherCount" [title]="_TB('Worker Second Count Name')" columnType="tb-label-static" columnName="IDC_WMS_INVENTORYBIN_PLANNING_BEASSRES_WORKEROTHERCOUNT_DESCRI">
+        </tb-body-edit-column>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_BACK?.enabled" icon="tb-prev" [caption]="_TB('Back')" cmpId="IDC_WIZARD_BACK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_WIZARD_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="IDC_WIZARD_NEXT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-stop" [caption]="_TB('Stop')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WIZARD_RESTART?.enabled" icon="tb-first" [caption]="_TB('Restart')" cmpId="ID_WIZARD_RESTART"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WMS_INVENTORYBIN_PLANNING_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_WMS_INVENTORYBIN_PLANNING_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WMS_INVENTORYBIN_PLANNING_UNDO?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_WMS_INVENTORYBIN_PLANNING_UNDO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WMS_INVENTORYBIN_PLANNING_ASSIGN?.enabled" icon="erp-outsourced" [caption]="_TB('Assign')" cmpId="ID_WMS_INVENTORYBIN_PLANNING_ASSIGN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WMS_INVENTORYBIN_PLANNING_UNASSIGN?.enabled" icon="erp-outsourced" [caption]="_TB('UnAssign')" cmpId="ID_WMS_INVENTORYBIN_PLANNING_UNASSIGN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_WMS_INVENTORYBIN_PLANNING_MOBILE?.enabled" icon="erp-mobile" [caption]="_TB('Mobile')" cmpId="ID_WMS_INVENTORYBIN_PLANNING_MOBILE"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

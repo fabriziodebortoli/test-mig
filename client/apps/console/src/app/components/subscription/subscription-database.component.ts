@@ -88,7 +88,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
   //--------------------------------------------------------------------------------------------------------
   ngOnDestroy() {
-    this.dataChannelService.dataChannel.unsubscribe();
+    //this.dataChannelService.dataChannel.unsubscribe();
   }
 
   //--------------------------------------------------------------------------------------------------------

@@ -1,0 +1,21 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileAutoFill >
+        <tb-treeview cmpId="IDC_TB_BASE_NAVIGATION_TREE" width="499" border="True" hScroll="True" disableDragDrop="True" hasButtons="True" hasLines="True" linesAtRoot="True" alwaysShowSelection="True"></tb-treeview>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_ALWAYS_ON_FRONT?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Pin')" cmpId="ID_BSP_ALWAYS_ON_FRONT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_SWITCH_TO_CALLER?.enabled" icon="tb-back" [caption]="_TB('Back')" cmpId="ID_BSP_SWITCH_TO_CALLER"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

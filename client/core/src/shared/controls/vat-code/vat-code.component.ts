@@ -4,7 +4,7 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Logger } from './../../../core/services/logger.service';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { ControlComponent } from './../control.component';
 
@@ -27,10 +27,11 @@ export class VATCodeComponent extends ControlComponent {
         public tbComponentService: TbComponentService,
         public eventDataService: EventDataService,
         public httpService: HttpService,
-        public infoService: InfoService
+        public infoService: InfoService,
+        changeDetectorRef:ChangeDetectorRef
     ) {
         // super(layoutService, tbComponentService, eventDataService);
-        super(layoutService, tbComponentService);
+        super(layoutService, tbComponentService, changeDetectorRef);
 
         this.eventDataService.change.subscribe(cmpId => {
             this.logger.info("model modificato", cmpId)

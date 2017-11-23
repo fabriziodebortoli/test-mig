@@ -1,6 +1,6 @@
 import { LayoutService } from './../../../core/services/layout.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { ControlComponent } from './../control.component';
 
@@ -11,8 +11,8 @@ import { ControlComponent } from './../control.component';
 })
 export class CaptionComponent extends ControlComponent {
   @Input() for: string;
-  constructor(layoutService: LayoutService, tbComponentService:TbComponentService)
+  constructor(layoutService: LayoutService, tbComponentService:TbComponentService, changeDetectorRef:ChangeDetectorRef)
   {
-    super(layoutService, tbComponentService);
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 }

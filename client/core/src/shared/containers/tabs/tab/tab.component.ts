@@ -1,5 +1,5 @@
 import { TbComponentService } from './../../../../core/services/tbcomponent.service';
-import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from '../../../../rxjs.imports';
 
 import { LayoutService } from './../../../../core/services/layout.service';
@@ -24,7 +24,12 @@ export class TabComponent extends TbComponent implements OnInit, OnDestroy {
   public viewHeightSubscription: Subscription;
   viewHeight: number;
 
-  constructor(public layoutService: LayoutService, public tbComponentService: TbComponentService) { super(tbComponentService); }
+  constructor(
+    public layoutService: LayoutService,
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef) {
+    super(tbComponentService, changeDetectorRef);
+  }
 
   ngOnInit() {
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);

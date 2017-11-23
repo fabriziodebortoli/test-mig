@@ -1,0 +1,133 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('Filters')" isCollapsible="True" showAsTile="True">
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Horizon')" tbTileMini >
+          <tb-numeric-text-box formatter="Integer" [caption]="_TB('Month')" cmpId="IDC_CRP_HORIZON" width="57" [model]="eventData?.model?.nHorizon"></tb-numeric-text-box>
+          <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Start date')" cmpId="IDC_CRP_DATE_RUN" width="57" [model]="eventData?.model?.dRunDate"></tb-date-input>
+          <tb-checkbox cmpId="IDC_CRP_MANTIENI_MOD_PREV" width="135" [model]="eventData?.model?.bMaintainModify" [caption]="_TB('Maintain prev. edits on MO')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('Times')" tbTileMini >
+          <tb-enum-combo [caption]="_TB('Origin')" cmpId="IDC_CRP_ORIGIN_TIME_SUMMARY" width="80" [model]="eventData?.model?.QueueTimeOrigin"></tb-enum-combo>
+          <tb-text [caption]="_TB('General')" cmpId="IDC_CRP_TIME_SUMMARY" width="82" [model]="eventData?.model?.nQueueHours"></tb-text>
+          <tb-checkbox cmpId="IDC_CRP_STOCKS_TREND" width="159" [model]="eventData?.model?.bStocksTrend" [caption]="_TB('Forecasted stocks trend')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_CRP_DURATIONS_MO" width="159" [model]="eventData?.model?.bDurationsFromMO" [caption]="_TB('Get durations from MO')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('MO Selection')" tbTileMini >
+          <tb-checkbox cmpId="IDC_CRP_ALSO_MO_SIM" width="135" [model]="eventData?.model?.bAlsoSimulatedMO" [caption]="_TB('Existing')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_CRP_ONLY_MO_NOT_SIM" width="135" [model]="eventData?.model?.bOnlyMONotSim" [caption]="_TB('Existing not simulated')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_CRP_ONLY_MO_PROPOSED" width="156" [model]="eventData?.model?.bOnlyMRPMO" [caption]="_TB('Proposed by MRP')"></tb-checkbox>
+          <tb-text [caption]="_TB('Simulation')" cmpId="IDC_CRP_SIM_MRP" width="57" [model]="eventData?.model?.sSimulation"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Alternate steps')" tbTileMini >
+<div class="anchored">          <tb-radio cmpId="IDC_CRP_CHOOSE_ALT_ROUTING" width="60" [model]="eventData?.model?.bRoutingChoose" [caption]="_TB('Entire cycle')"></tb-radio>
+          <tb-enum-combo cmpId="IDC_CRP_RTGSTEPS_ALT_ROUTING" width="90" [model]="eventData?.model?.eCriteriaRoutingStep"></tb-enum-combo>
+</div><div class="anchored">          <tb-radio cmpId="IDC_CRP_CHOOSE_ALT_RTGSTEP" width="60" [model]="eventData?.model?.bChooseForEveryStep" [caption]="_TB('Step by step')"></tb-radio>
+          <tb-enum-combo cmpId="IDC_CRP_RTGSTEPS_ALTERNATIVE" width="90" [model]="eventData?.model?.eCriteriaAlternateRoutingStep"></tb-enum-combo>
+</div>          <tb-text [caption]="_TB('Alternate code')" cmpId="IDC_CRP_ALTERN_CUSTOM" width="90" [model]="eventData?.model?.sCustomAlternate"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('WC management')" tbTileMini  *ngIf="eventData?.activation?.IDD_CRP_PARAMETERS_WC_MANAGEMENT">
+          <tb-caption cmpId="IDC_CRP_LABEL" width="156" [caption]="_TB('Daily capacity (in conformity with  calendar shift)')"></tb-caption>
+          <tb-enum-combo [caption]="_TB('Criteria')" cmpId="IDC_CRP_WC_FAMILES_CRITERION" width="102" [model]="eventData?.model?.eWCFamCriterion"></tb-enum-combo>
+         </tb-tile>
+         <tb-radio cmpId="IDC_HFMOJOB_IDC_HF_MRP_JOB_ALL" width="39" [model]="eventData?.model?.HFMOJob_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFMOJOB_IDC_HF_MRP_JOB_RANGE" width="37" [model]="eventData?.model?.HFMOJob_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_HFMOJOB_IDC_HF_MRP_JOB_FROM" width="110" [model]="eventData?.model?.HFMOJob_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_HFMOJOB_IDC_HF_MRP_JOB_TO" width="110" [model]="eventData?.model?.HFMOJob_To"></tb-text>
+         <tb-checkbox cmpId="IDC_HFMOJOB_IDC_HF_MRP_JOB_NOT_LINKED" width="120" [model]="eventData?.model?.HFMOJob_AlsoEmpty" [caption]="_TB('Also lines with job blank')"></tb-checkbox>
+         <tb-radio cmpId="IDC_HFRANK_IDC_HFL_RANGE_RADIO_INT_ALL" width="39" [model]="eventData?.model?.HFRank_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFRANK_IDC_HFL_RANGE_RADIO_INT_RANGE" width="39" [model]="eventData?.model?.HFRank_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_HFRANK_IDC_HFL_RANGE_INT_FROM" [model]="eventData?.model?.HFRank_From"></tb-numeric-text-box>
+</div>         <tb-numeric-text-box formatter="Integer" [caption]="_TB('To')" cmpId="IDC_HFRANK_IDC_HFL_RANGE_INT_TO" [model]="eventData?.model?.HFRank_To"></tb-numeric-text-box>
+         <tb-text cmpId="IDD_HF_MRP_CUSTOMER_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFCustomer_From"></tb-text>
+         <tb-text [caption]="_TB('To')" cmpId="IDD_HF_MRP_CUSTOMER_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFCustomer_To"></tb-text>
+         <tb-radio cmpId="IDD_HF_MRP_CUSTOMER_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFCustomer_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDD_HF_MRP_CUSTOMER_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFCustomer_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDD_HF_MRP_CUSTOMER_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFCustomer_From"></tb-text>
+</div>         <tb-tile [title]="_TB('MO')" tbTileMini >
+          <tb-radio cmpId="IDC_CRP_PARAMETERS_MOSTATUS_ALL" width="35" [model]="eventData?.model?.bMOAll" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">          <tb-radio cmpId="IDC_CRP_PARAMETERS_MOSTATUS_RANGE" width="33" [model]="eventData?.model?.bMORange" [caption]="_TB('From')"></tb-radio>
+          <tb-text cmpId="IDC_CRP_PARAMETERS_MOSTATUS_FROM" width="110" [model]="eventData?.model?.sMOFrom"></tb-text>
+</div>          <tb-text [caption]="_TB('To')" cmpId="IDC_CRP_PARAMETERS_MOSTATUS_TO" width="110" [model]="eventData?.model?.sMOTo"></tb-text>
+          <tb-enum-combo [caption]="_TB('Status')" cmpId="IDC_CRP_PARAMETERS_MOSTATUS_STATUS" width="124" [model]="eventData?.model?.eOrderStatus"></tb-enum-combo>
+         </tb-tile>
+         <tb-radio cmpId="IDC_HFMODELIVERYDATE_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFMODeliveryDate_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFMODELIVERYDATE_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFMODeliveryDate_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-date-input formatter="Date" [readonly]="false" cmpId="IDC_HFMODELIVERYDATE_IDC_HFL_RANGE_EDIT_FROM" [model]="eventData?.model?.HFMODeliveryDate_From"></tb-date-input>
+</div>         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('To')" cmpId="IDC_HFMODELIVERYDATE_IDC_HFL_RANGE_EDIT_TO" [model]="eventData?.model?.HFMODeliveryDate_To"></tb-date-input>
+         <tb-radio cmpId="IDC_HFITEMBYKIND_IDC_HF_MOITEM_KIND_ALL" width="35" [model]="eventData?.model?.HFItemByKind_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="IDC_HFITEMBYKIND_IDC_HF_MOITEM_KIND_RANGE" width="32" [model]="eventData?.model?.HFItemByKind_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="IDC_HFITEMBYKIND_IDC_HF_MOITEM_KIND_FROM" width="110" [model]="eventData?.model?.HFItemByKind_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="IDC_HFITEMBYKIND_IDC_HF_MOITEM_KIND_TO" width="110" [model]="eventData?.model?.HFItemByKind_To"></tb-text>
+         <tb-enum-combo [caption]="_TB('Kind')" cmpId="IDC_HFITEMBYKIND_IDC_HF_MOITEM_KIND" width="114" [model]="eventData?.model?.HFItemByKind_Status"></tb-enum-combo>
+         <tb-checkbox cmpId="IDC_HFITEMBYKIND_IDC_HF_MOITEM_KIND_MAKE_OR_BUY" width="156" [model]="eventData?.model?.HFItemByKind_MakeOrBuy" [caption]="_TB('Items make or buy managed only')"></tb-checkbox>
+         <tb-radio cmpId="_IDC_HFL_RANGE_RADIO_ALL" width="39" [model]="eventData?.model?.HFVariant_All" [caption]="_TB('All')"></tb-radio>
+<div class="anchored">         <tb-radio cmpId="_IDC_HFL_RANGE_RADIO_RANGE" width="39" [model]="eventData?.model?.HFVariant_Range" [caption]="_TB('From')"></tb-radio>
+         <tb-text cmpId="_IDC_HFL_RANGE_EDIT_FROM" width="110" [model]="eventData?.model?.HFVariant_From"></tb-text>
+</div>         <tb-text [caption]="_TB('To')" cmpId="_IDC_HFL_RANGE_EDIT_TO" width="110" [model]="eventData?.model?.HFVariant_To"></tb-text>
+        </tb-layoutcontainer>
+       </tb-tilepanel>
+       <tb-tile [title]="_TB('Result')" tbTileAutoFill >
+        <tb-body-edit cmpId="IDC_TB_ACTIVITY_DOCUMENT_GRID" width="599" [model]="eventData?.model?.CRP">
+         <tb-body-edit-column cmpId="IDC_CRP_BE_SELECT" columnName="TMO_Selection" [title]="_TB('Sel.')" columnType="tb-checkbox" columnName="IDC_CRP_BE_SELECT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_MONO" columnName="MONo" [title]="_TB('MO')" columnType="tb-text" columnName="IDC_CRP_BE_MONO">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_CONF_LEVEL" columnName="TMO_ConfirmationLevelDescr" [title]="_TB('Confirmation
+Level')" columnType="tb-label-static" columnName="IDC_CRP_BE_CONF_LEVEL" *ngIf="eventData?.activation?.IDC_CRP_BE_CONF_LEVEL">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CRP_BE_CONF_RANK" columnName="MRPConfirmationRank" [title]="_TB('Confirmation
+Rank')" columnType="tb-numeric-text-box" columnName="IDC_CRP_BE_CONF_RANK">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_ITEM" columnName="BOM" [title]="_TB('Item')" columnType="tb-label-static" columnName="IDC_CRP_BE_ITEM">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_VARIANT" columnName="Variant" [title]="_TB('Variant')" columnType="tb-label-static" columnName="IDC_CRP_BE_VARIANT" *ngIf="eventData?.activation?.IDC_CRP_BE_VARIANT">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_DESCRIPTION" columnName="TMO_BOMDescri" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_CRP_BE_DESCRIPTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_CRP_BE_RUNDATE" columnName="RunDate" [title]="_TB('Run date')" columnType="tb-date-input" columnName="IDC_CRP_BE_RUNDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Date" [readonly]="true" cmpId="IDC_CRP_BE_DELIVERYDATE" columnName="DeliveryDate" [title]="_TB('Delivery
+date')" columnType="tb-date-input" columnName="IDC_CRP_BE_DELIVERYDATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CRP_BE_QUANTITY" columnName="ProductionQty" [title]="_TB('Qty
+To Produce')" columnType="tb-numeric-text-box" columnName="IDC_CRP_BE_QUANTITY">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_STATUS" columnName="MOStatus" [title]="_TB('Status')" columnType="tb-enum-combo" columnName="IDC_CRP_BE_STATUS">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_JOB" columnName="Job" [title]="_TB('Job')" columnType="tb-label-static" columnName="IDC_CRP_BE_JOB" *ngIf="eventData?.activation?.IDC_CRP_BE_JOB">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_CRP_BE_CUSTOMER" columnName="Customer" [title]="_TB('Customer')" columnType="tb-label-static" columnName="IDC_CRP_BE_CUSTOMER">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+       <tb-tilepanel [title]="_TB('Actions')" isCollapsible="True" isCollapsed="True" showAsTile="True">
+        <tb-tile [title]="_TB('MO Confirmation')" tbTileMini >
+         <tb-checkbox cmpId="IDC_CRP_DELETE_SIM" width="156" [model]="eventData?.model?.bDeleteSim" [caption]="_TB('Delete other simulations')"></tb-checkbox>
+        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

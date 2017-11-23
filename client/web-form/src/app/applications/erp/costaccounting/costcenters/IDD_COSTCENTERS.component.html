@@ -1,0 +1,170 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="erp-costaccounting" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Cost Center')" tbTileWide >
+<div class="col col1">         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_MAIN_DATA" width="325" [caption]="_TB('Main Data')"></tb-section-title>
+<div class="anchored">         <tb-text [caption]="_TB('Code')" cmpId="IDC_CSTCENTER" width="48" [model]="eventData?.model?.CostCenters?.CostCenter"></tb-text>
+         <tb-checkbox cmpId="IDC_CSTCENTER_ISDISABLED" width="104" [model]="eventData?.model?.CostCenters?.Disabled" [caption]="_TB('Disabled')"></tb-checkbox>
+</div>         <tb-text [caption]="_TB('Description')" cmpId="IDC_CSTCENTER_DESCRI" width="154" [model]="eventData?.model?.CostCenters?.Description"></tb-text>
+         <tb-combo [caption]="_TB('Group')" cmpId="IDC_CSTCENTER_GROUPCODE" width="70" [model]="eventData?.model?.CostCenters?.GroupCode"></tb-combo>
+         <tb-label-static cmpId="IDC_CSTCENTER_DESCRI_GROUPCODE" width="154" [model]="eventData?.model?.HKLGroupCode?.Description"></tb-label-static>
+         <tb-enum-combo [caption]="_TB('Type')" cmpId="IDC_CSTCENTER_CODETYPE" width="59" [model]="eventData?.model?.CostCenters?.CodeType"></tb-enum-combo>
+         <tb-enum-combo [caption]="_TB('Nature')" cmpId="IDC_CSTCENTER_NATURE" width="59" [model]="eventData?.model?.CostCenters?.Nature"></tb-enum-combo>
+         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_SPREADING_DATA" width="325" [caption]="_TB('Spreading Data')"></tb-section-title>
+         <tb-numeric-text-box formatter="Double" [caption]="_TB('Sq.m. occupied area')" cmpId="IDC_CSTCENTER_SQMTSURFACEAREA" width="59" [model]="eventData?.model?.CostCenters?.SqMtSurfaceArea"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Double" [caption]="_TB('No. of Direct Employees')" cmpId="IDC_CSTCENTER_EMPLDIR" width="30" [model]="eventData?.model?.CostCenters?.DirectEmployeesNo"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Double" [caption]="_TB('No. of Indirect Employees')" cmpId="IDC_CSTCENTER_EMPLADR" width="30" [model]="eventData?.model?.CostCenters?.IndirectEmployeesNo"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Percent" [caption]="_TB('Depreciation Spreading %')" cmpId="IDC_CSTCENTER_DEPPERC" width="30" [model]="eventData?.model?.CostCenters?.DepreciationPerc"></tb-numeric-text-box>
+</div><div class="col col2">         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_OTHER_DATA" width="325" [caption]="_TB('Other Data')"></tb-section-title>
+         <tb-checkbox cmpId="IDC_CSTCENTER_DUMMYCOSTCENTER" width="109" [model]="eventData?.model?.CostCenters?.DummyCostCenter" [caption]="_TB('Dummy Cost Center  ')"></tb-checkbox>
+         <tb-text [caption]="_TB('Center Manager')" cmpId="IDC_CSTCENTER_HEAD" width="154" [model]="eventData?.model?.CostCenters?.CostCenterManager"></tb-text>
+         <tb-text [caption]="_TB('Notes')" cmpId="IDC_CSTCENTER_NOTES" width="154" [model]="eventData?.model?.CostCenters?.Notes"></tb-text>
+         <tb-text [caption]="_TB('Barcode segment')" cmpId="IDC_CSTCENTER_BARCODE_SEGMENT" width="48" [model]="eventData?.model?.CostCenters?.BarcodeSegment"></tb-text>
+         <tb-section-title *ngIf="eventData?.activation?.IDC_CSTCENTER_STATIC_AUTOMATIC_TRANSFER" cmpId="IDC_CSTCENTER_STATIC_AUTOMATIC_TRANSFER" width="325" [caption]="_TB('Automatic Transfers')"></tb-section-title>
+         <tb-text *ngIf="eventData?.activation?.IDC_CSTCENTER_ACCOUNT" [caption]="_TB('Analytical Account')" cmpId="IDC_CSTCENTER_ACCOUNT" width="93" [model]="eventData?.model?.CostCenters?.Account"></tb-text>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_CSTCENTER_ACCOUNT_DESCRI" cmpId="IDC_CSTCENTER_ACCOUNT_DESCRI" width="154" [model]="eventData?.model?.HKLAccount?.Description"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Balances')" icon="erp-accountingreclassification" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_CSTCENTER_BALANCES">
+       <ng-template>
+        <tb-tile [title]="_TB('Balances')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_BUDGET_BALANCES" width="325" [caption]="_TB('Budget Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_BUDGETDEBIT" width="68" [model]="eventData?.model?.DebitBudTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_BDGCREDIT" width="68" [model]="eventData?.model?.CreditBudTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_BUDGETDEBIT" width="68" [model]="eventData?.model?.BudgetDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_BDGCREDIT" width="68" [model]="eventData?.model?.BudgetCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_ACTUAL_BALANCES" width="325" [caption]="_TB('Actual Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_DEBIT" width="68" [model]="eventData?.model?.DebitActTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_CREDIT" width="68" [model]="eventData?.model?.CreditActTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_DEBIT" width="68" [model]="eventData?.model?.ActualDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_CREDIT" width="68" [model]="eventData?.model?.ActualCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_FORECAST_BALANCES" width="325" [caption]="_TB('Forecast Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_FORECASTDEBIT" width="68" [model]="eventData?.model?.DebitForTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_FCCREDIT" width="68" [model]="eventData?.model?.CreditForTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_FORECASTDEBIT" width="68" [model]="eventData?.model?.ForecastDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_FCCREDIT" width="68" [model]="eventData?.model?.ForecastCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_SIMULATED_BALANCES_SEP" width="325" [caption]="_TB('Simulated Balances')"></tb-section-title>
+<div class="anchored">         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_SIMULATED_BALANCES" width="98" [caption]="_TB('(Forecast + Actual)')"></tb-section-title>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_DEBITDEF" width="68" [model]="eventData?.model?.DebitSimTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_TOT_CREDITDEF" width="68" [model]="eventData?.model?.CreditSimTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_DEBITDEF" width="68" [model]="eventData?.model?.SimDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BALANCE_CREDITDEF" width="68" [model]="eventData?.model?.SimCreditBalance"></tb-numeric-text-box>
+</div></div><div class="col col2">         <tb-body-edit cmpId="IDC_BALANCES_COSTCENTERS" width="400" [model]="eventData?.model?.CostCentersBalances">
+          <tb-body-edit-column cmpId="IDC_CSTCENTER_MONTH_YEAR" columnName="l_TCostCentersBalancesEnh_P01" [title]="_TB('Period')" columnType="tb-label-static" columnName="IDC_CSTCENTER_MONTH_YEAR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BUDGETDEBIT" columnName="l_TCostCentersBalancesEnh_P02" [title]="_TB('Budget Debit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_BUDGETDEBIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_BDGCREDIT" columnName="l_TCostCentersBalancesEnh_P03" [title]="_TB('Budget Credit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_BDGCREDIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_DEBIT" columnName="l_TCostCentersBalancesEnh_P04" [title]="_TB('Actual Debit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_DEBIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_CREDIT" columnName="l_TCostCentersBalancesEnh_P05" [title]="_TB('Actual Credit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_CREDIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_FORECASTDEBIT" columnName="l_TCostCentersBalancesEnh_P06" [title]="_TB('Forecast Debit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_FORECASTDEBIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_CSTCENTER_FCCREDIT" columnName="l_TCostCentersBalancesEnh_P07" [title]="_TB('Forecast Credit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_FCCREDIT">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Quantity Balances')" tbTileWide  isCollapsible="True">
+<div class="col col1">         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_BUDGET_BALANCES_QTY" width="325" [caption]="_TB('Budget Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_BUDGETDEBIT" width="68" [model]="eventData?.model?.QtyDebitBudTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_BDGCREDIT" width="68" [model]="eventData?.model?.QtyCreditBudTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_BUDGETDEBIT" width="68" [model]="eventData?.model?.QtyBudgetDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_BDGCREDIT" width="68" [model]="eventData?.model?.QtyBudgetCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_ACTUAL_BALANCES_QTY" width="325" [caption]="_TB('Actual Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_DEBIT" width="68" [model]="eventData?.model?.QtyDebitActTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_CREDIT" width="68" [model]="eventData?.model?.QtyCreditActTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_DEBIT" width="68" [model]="eventData?.model?.QtyActualDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_CREDIT" width="68" [model]="eventData?.model?.QtyActualCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_FORECAST_BALANCES_QTY" width="325" [caption]="_TB('Forecast Balances')"></tb-section-title>
+<div class="anchored">         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_FORECASTDEBIT" width="68" [model]="eventData?.model?.QtyDebitForTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_FCCREDIT" width="68" [model]="eventData?.model?.QtyCreditFortTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_FORECASTDEBIT" width="68" [model]="eventData?.model?.QtyForecastDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_FCCREDIT" width="68" [model]="eventData?.model?.QtyForecastCreditBalance"></tb-numeric-text-box>
+</div>         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_SIMULATED_BALANCES_QTY_SEP" width="325" [caption]="_TB('Simulated Balances')"></tb-section-title>
+<div class="anchored">         <tb-section-title cmpId="IDC_CSTCENTER_STATIC_SIMULATED_BALANCES_QTY" width="98" [caption]="_TB('(Forecast + Actual)')"></tb-section-title>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_DEBITDEF" width="68" [model]="eventData?.model?.QtyDebitSimTot"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_TOTQTY_CREDITDEF" width="68" [model]="eventData?.model?.QtyCreditSimTot"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_DEBITDEF" width="68" [model]="eventData?.model?.QtySimDebitBalance"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_BALANCEQTY_CREDITDEF" width="68" [model]="eventData?.model?.QtySimCreditBalance"></tb-numeric-text-box>
+</div></div><div class="col col2">         <tb-body-edit cmpId="IDC_BALANCES_QTY_COSTCENTERS" width="400" [model]="eventData?.model?.CostCentersBalances">
+          <tb-body-edit-column cmpId="IDC_CSTCENTER_MONTH_YEAR" columnName="l_TCostCentersBalancesEnh_P01" [title]="_TB('Period')" columnType="tb-label-static" columnName="IDC_CSTCENTER_MONTH_YEAR">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_QDEBITP" columnName="l_TCostCentersBalancesEnh_P08" [title]="_TB('Budget Debit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_QDEBITP">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_QCREDIT_P" columnName="l_TCostCentersBalancesEnh_P09" [title]="_TB('Budget Credit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_QCREDIT_P">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_QDEBIT" columnName="l_TCostCentersBalancesEnh_P10" [title]="_TB('Actual Debit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_QDEBIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_QCREDIT" columnName="l_TCostCentersBalancesEnh_P11" [title]="_TB('Actual Credit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_QCREDIT">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_QDEBITPL" columnName="l_TCostCentersBalancesEnh_P12" [title]="_TB('Forecast Debit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_QDEBITPL">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_CSTCENTER_QCCREDITPL" columnName="l_TCostCentersBalancesEnh_P13" [title]="_TB('Forecast Credit')" columnType="tb-numeric-text-box" columnName="IDC_CSTCENTER_QCCREDITPL">
+          </tb-body-edit-column>
+         </tb-body-edit>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

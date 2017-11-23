@@ -1,0 +1,34 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile tbTileWide  hasTitle="False">
+<div class="col col1"></div><div class="col col2"></div>       </tb-tile>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" isCollapsible="False" showAsTile="True">
+        <tb-tile [title]="_TB('Copy from')" tbTileStandard >
+         <tb-enum-combo [caption]="_TB('Type')" cmpId="IDC_COPYCF_CODETYPE" width="72" [model]="eventData?.model?.CustSuppType"></tb-enum-combo>
+         <tb-text [caption]="_TB('Code')" cmpId="IDC_COPYCF_CF" width="85" [model]="eventData?.model?.CustSupp"></tb-text>
+         <tb-checkbox cmpId="IDC_COPYCF_BUDGET" width="109" [model]="eventData?.model?.Budget" [caption]="_TB('Also Fiscal year Budget Data  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_COPYCF_ITEMSDATA" width="109" [model]="eventData?.model?.ItemsData" [caption]="_TB('Also Items Data  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_COPYCF_COPYACQDATE" width="109" [model]="eventData?.model?.CopyAcqDate" [caption]="_TB('Copy Acquired on date  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_COPYCF_MAXVALUES" width="109" [model]="eventData?.model?.MaxValues" [caption]="_TB('Also Credit Limit Data  ')"></tb-checkbox>
+        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

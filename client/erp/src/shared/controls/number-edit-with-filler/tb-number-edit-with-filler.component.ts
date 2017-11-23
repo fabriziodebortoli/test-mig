@@ -1,5 +1,5 @@
 import { TbComponentService, LayoutService, EventDataService, ControlComponent } from '@taskbuilder/core';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import * as u from '../../../core/u/helpers';
 
 @Component({
@@ -17,8 +17,9 @@ export class NumberEditWithFillerComponent extends ControlComponent {
 
   constructor( public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-      super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService, 
+    changeDetectorRef:ChangeDetectorRef) {
+      super(layoutService, tbComponentService, changeDetectorRef);
      }
 
   onPasting(e: ClipboardEvent) {

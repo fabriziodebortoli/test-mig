@@ -1,0 +1,26 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Quantity to produce')" tbTileMini  isCollapsible="False" hasTitle="True">
+        <tb-label-static [caption]="_TB('MO')" cmpId="IDC_TR_RUN_MO" width="50" [model]="eventData?.model?.DlgMO"></tb-label-static>
+        <tb-label-static [caption]="_TB('BOM')" cmpId="IDC_TR_RUN_BOM" width="110" [model]="eventData?.model?.DlgBOM"></tb-label-static>
+        <tb-label-static [caption]="_TB('Sale Order')" cmpId="IDC_TR_RUN_SALE_ORDER" width="50" [model]="eventData?.model?.DlgSaleOrder"></tb-label-static>
+        <tb-label-static [caption]="_TB('Customer')" cmpId="IDC_TR_RUN_CUSTOMER" width="110" [model]="eventData?.model?.DlgCustomer"></tb-label-static>
+        <tb-label-static *ngIf="eventData?.activation?.IDC_TR_RUN_JOB" [caption]="_TB('Job')" cmpId="IDC_TR_RUN_JOB" width="50" [model]="eventData?.model?.DlgJob"></tb-label-static>
+        <tb-numeric-text-box formatter="Integer" [caption]="_TB('Quantity to produce')" cmpId="IDC_TR_RUN_QTY_TO_PROD" width="74" [model]="eventData?.model?.DlgQtyToProd"></tb-numeric-text-box>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_RUN_QTY_TO_PROD_TOOLBAR_OK?.enabled" icon="tb-ok" [caption]="_TB('OK')" cmpId="IDC_RUN_QTY_TO_PROD_TOOLBAR_OK"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_RUN_QTY_TO_PROD_TOOLBAR_CANCEL?.enabled" icon="tb-undo" [caption]="_TB('Cancel')" cmpId="IDC_RUN_QTY_TO_PROD_TOOLBAR_CANCEL"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

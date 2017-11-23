@@ -1,0 +1,225 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilemanager>
+      <tb-tilegroup [title]="_TB('Main Data')" icon="tb-master" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Main Data')" tbTileStandard >
+<div class="anchored">          <tb-text [caption]="_TB('Code')" cmpId="IDC_TAX_TAXCODE" width="30" [model]="eventData?.model?.TaxCode?.TaxCode"></tb-text>
+          <tb-checkbox cmpId="IDC_TAX_ISDISABLED" width="76" [model]="eventData?.model?.TaxCode?.Disabled" [caption]="_TB('Disabled  ')"></tb-checkbox>
+</div>          <tb-text [caption]="_TB('Description')" cmpId="IDC_TAX_DESCRIPTION" width="154" [model]="eventData?.model?.TaxCode?.Description"></tb-text>
+          <tb-text [caption]="_TB('Notes')" cmpId="IDC_TAX_NOTES" width="154" [model]="eventData?.model?.TaxCode?.Notes"></tb-text>
+          <tb-checkbox cmpId="IDC_TAX_NOTSPLIT" width="109" [model]="eventData?.model?.TaxCode?.NoChargesDistribution" [caption]="_TB('Not spread charges/discounts  ')"></tb-checkbox>
+          <tb-checkbox *ngIf="eventData?.activation?.IDC_TAX_FOR_DISTRIBUTION" cmpId="IDC_TAX_FOR_DISTRIBUTION" width="109" [model]="eventData?.model?.TaxCode?.DistributionPerc" [caption]="_TB('Tax Distribution  ')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('Rate')" tbTileStandard >
+          <tb-checkbox cmpId="IDC_TAX_INVOICEEXEMPT" width="109" [model]="eventData?.model?.TaxCode?.ExemptInvoice" [caption]="_TB('Tax Exempt Invoice  ')"></tb-checkbox>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('Rate %')" cmpId="IDC_TAX_PERCENTAGE" width="30" [model]="eventData?.model?.TaxCode?.Perc"></tb-numeric-text-box>
+          <tb-numeric-text-box formatter="Percent" [caption]="_TB('Non-Deductible %')" cmpId="IDC_TAX_UNDEDUCTIBLE_PERC" width="30" [model]="eventData?.model?.TaxCode?.UndeductiblePerc"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_TAX_FARMER" formatter="Percent" [caption]="_TB('Farming Tax Deduction %')" cmpId="IDC_TAX_FARMER" width="30" [model]="eventData?.model?.TaxCode?.FarmerTaxPerc"></tb-numeric-text-box>
+          <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_TAX_ADDITIONAL" formatter="Percent" [caption]="_TB('Additional Rate %')" cmpId="IDC_TAX_ADDITIONAL" width="30" [model]="eventData?.model?.TaxCode?.AdditionalPerc"></tb-numeric-text-box>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-layoutcontainer tbLayoutTypeColumn  *ngIf="eventData?.activation?.IDC_CONTAINER_TAX_MAIN">
+         <tb-tile [title]="_TB('Lump Sum Regime')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_TAX_LUMPSUM">
+          <tb-radio cmpId="IDC_TAX_FIRST_RATE" width="109" [model]="eventData?.model?.UseFirstLumpSumRate" [caption]="_TB('Use the first Company rate  ')"></tb-radio>
+          <tb-radio cmpId="IDC_TAX_SECOND_RATE" width="109" [model]="eventData?.model?.TaxCode?.UseSecondLumpSumRate" [caption]="_TB('Use the second Company rate  ')"></tb-radio>
+         </tb-tile>
+         <tb-tile [title]="_TB('Paragon Fiscal Printer')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_TAX_PARAGON">
+          <tb-text [caption]="_TB('Letter')" cmpId="IDC_TAX_LETTER_FOR_FISCAL_PRINTER" width="17" [model]="eventData?.model?.TaxCode?.LetterForFiscalPrinter"></tb-text>
+         </tb-tile>
+         <tb-tile [title]="_TB('Plafond')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_TAX_PLAFOND">
+          <tb-checkbox cmpId="IDC_TAX_FOR_EXPORT_PLAFOND" width="109" [model]="eventData?.model?.TaxCode?.InExportPlafond" [caption]="_TB('Included in Export  ')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_TAX_FOR_TURNOVER_PLAFOND" width="109" [model]="eventData?.model?.TaxCode?.InPlafondTurnover" [caption]="_TB('Included in Turnover  ')"></tb-checkbox>
+          <tb-enum-combo [caption]="_TB('Type of Plafond used')" cmpId="IDC_TAX_PLAFONDTYPE" width="128" [model]="eventData?.model?.TaxCode?.PlafondType"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Pro-rata')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_TAX_PRORATA">
+          <tb-checkbox cmpId="IDC_TAX_PRORATAEXEMPT" width="109" [model]="eventData?.model?.TaxCode?.ProRataExempt" [caption]="_TB('Exempt for Pro-rata  ')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_TAX_FOR_TURNOVER_PRORATA" width="109" [model]="eventData?.model?.TaxCode?.InProRataTurnover" [caption]="_TB('Included in Turnover  ')"></tb-checkbox>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Travel Agency')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_TAX_TRAVEL">
+         <tb-checkbox cmpId="IDC_TAX_TRAVEL_AGENCY" width="109" [model]="eventData?.model?.TaxCode?.TravelAgencyVAT" [caption]="_TB('Subjected to the Regime  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_TRAVEL_EXTRA_UE" width="109" [model]="eventData?.model?.TaxCode?.TravelExtraUE" [caption]="_TB('Travels Extra EU  ')"></tb-checkbox>
+        </tb-tile>
+        <tb-layoutcontainer tbLayoutTypeColumn  *ngIf="eventData?.activation?.IDC_CONTAINER_TAX_RO">
+         <tb-tile [title]="_TB('Purchases')" tbTileStandard >
+          <tb-enum-combo [caption]="_TB('Type')" cmpId="IDC_TAX_PURCHASE_TYPE" width="183" [model]="eventData?.model?.TaxCode?.PurchaseType"></tb-enum-combo>
+          <tb-checkbox cmpId="IDC_TAX_OBLIGED_TO_PAY" width="109" [model]="eventData?.model?.TaxCode?.BuyerObligedToPayTax" [caption]="_TB('The buyer is obliged to pay tax on goods and services  ')"></tb-checkbox>
+         </tb-tile>
+         <tb-tile [title]="_TB('Reverse Charge')" tbTileStandard >
+          <tb-checkbox cmpId="IDC_TAX_REVERSE_CHARGE" width="109" [model]="eventData?.model?.TaxCode?.ReverseCharge" [caption]="_TB('On Sales  ')"></tb-checkbox>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Tax Declaration Data')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_TAX_ES_DECLARATION">
+         <tb-enum-combo [caption]="_TB('Purchase Type')" cmpId="IDC_TAX_PURCHASE_TYPE" width="183" [model]="eventData?.model?.TaxCode?.PurchaseType"></tb-enum-combo>
+         <tb-checkbox cmpId="IDC_TAX_EXPORTS" width="109" [model]="eventData?.model?.TaxCode?.InExportPlafond" [caption]="_TB('Exports and Similar Operations  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_NOTSUBJECT" width="109" [model]="eventData?.model?.TaxCode?.NoTaxableAmount" [caption]="_TB('Not Subjected Operations  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_REVERSECHARGE" width="109" [model]="eventData?.model?.TaxCode?.ReverseCharge" [caption]="_TB('Reverse Charge on Sales Operations  ')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('394 Data')" tbTileWide >
+<div class="col col1">         <tb-text [caption]="_TB('Good code')" cmpId="IDC_TAXCODES_D394_GOODCODE" width="65" [model]="eventData?.model?.TaxCode?.D394GoodCode"></tb-text>
+</div><div class="col col2">         <tb-text [caption]="_TB('Activity code')" cmpId="IDC_TAXCODES_D394_ACTIVITYCODE" width="40" [model]="eventData?.model?.TaxCode?.D394ActivityCode"></tb-text>
+         <tb-radio cmpId="IDC_TAXCODES_D394_TYPE_GOODS" width="109" [model]="eventData?.model?.D394Goods" [caption]="_TB('Goods  ')"></tb-radio>
+         <tb-radio cmpId="IDC_TAXCODES_D394_TYPE_SERVICES" width="109" [model]="eventData?.model?.TaxCode?.D394TransactionType" [caption]="_TB('Services  ')"></tb-radio>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('AGO')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_AGO_TAX_TAB">
+<div class="anchored">         <tb-text [caption]="_TB('Law Code')" cmpId="IDC_AGO_TAB_AGOLAWCODE" width="30" [model]="eventData?.model?.TaxCode?.AGOLawCode"></tb-text>
+         <tb-label-static cmpId="IDC_AGO_TAB_AGOLAWCODE_DESCRIPTION" width="180" [model]="eventData?.model?.HKLAGOLawCodes?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-text [caption]="_TB('Tax Code')" cmpId="IDC_AGO_TAB_AGOTAXCODE" width="30" [model]="eventData?.model?.TaxCode?.AGOTaxCode"></tb-text>
+         <tb-label-static cmpId="IDC_AGO_TAB_AGOTAXCODE_DESCRIPTION" width="180" [model]="eventData?.model?.HKLAGOTaxCodes?.Description"></tb-label-static>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('OMNIA')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_OMNIA_TAX_TAB">
+<div class="anchored">         <tb-text [caption]="_TB('Law Code')" cmpId="IDC_OMNIA_TAB_OMNIALAWCODE" width="30" [model]="eventData?.model?.TaxCode?.OMNIALawCode"></tb-text>
+         <tb-label-static cmpId="IDC_OMNIA_TAB_OMNIALAWCODE_DESCRIPTION" width="180" [model]="eventData?.model?.HKLOMNIALawCodes?.Description"></tb-label-static>
+</div><div class="anchored">         <tb-text [caption]="_TB('Tax Code')" cmpId="IDC_OMNIA_TAB_OMNIATAXCODE" width="30" [model]="eventData?.model?.TaxCode?.OMNIATaxCode"></tb-text>
+         <tb-label-static cmpId="IDC_OMNIA_TAB_OMNIATAXCODE_DESCRIPTION" width="180" [model]="eventData?.model?.HKLOMNIATaxCodes?.Description"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Languages')" icon="erp-descrlanguage" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Descriptions in Language')" tbTileStandard >
+         <tb-body-edit cmpId="IDC_DESCRI_LANGUAGE_BODY" width="393" [model]="eventData?.model?.__Languages">
+          <tb-body-edit-column cmpId="IDC_DOC_LANGUAGE" columnName="__Language" [title]="_TB('Language')" columnType="tb-combo" columnName="IDC_DOC_LANGUAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_DESCRIPTION" columnName="__Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_DOC_DESCRIPTION">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_LANG_DOC_NOTES" columnName="__Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_LANG_DOC_NOTES">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE" columnName="__TextDescri" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_DOC_FILEDESCRITTIVE2" columnName="__TextDescri2" [title]="_TB('Description Text')" columnType="tb-text" columnName="IDC_DOC_FILEDESCRITTIVE2">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Declarations')" icon="erp-declaration" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+         <tb-tile [title]="_TB('Tax Communication')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+          <tb-enum-combo [caption]="_TB('Customers operation type ')" cmpId="IDC_TAX_CUSTOMERS_LIST" width="135" [model]="eventData?.model?.TaxCodesLists?.CustListType" [itemSource]="IDC_TAX_CUSTOMERS_LIST_itemSource"></tb-enum-combo>
+          <tb-enum-combo [caption]="_TB('Suppliers operation type ')" cmpId="IDC_TAX_SUPPLIERS_LIST" width="135" [model]="eventData?.model?.TaxCodesLists?.SuppListType"></tb-enum-combo>
+         </tb-tile>
+         <tb-tile [title]="_TB('Black List')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+          <tb-checkbox cmpId="IDC_TAX_BLACKLIST_EXEMPT" width="109" [model]="eventData?.model?.TaxCode?.BlackListExempt" [caption]="_TB('Exempt  ')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_TAX_BLACKLIST_NONTAXABLE" width="109" [model]="eventData?.model?.TaxCode?.BlackListNonTaxable" [caption]="_TB('Not Taxable  ')"></tb-checkbox>
+          <tb-checkbox cmpId="IDC_TAX_BLACKLIST_NOT_IN_BLACKLIST" width="109" [model]="eventData?.model?.TaxCode?.NotInBlackList" [caption]="_TB('Not in Black List  ')"></tb-checkbox>
+         </tb-tile>
+        </tb-layoutcontainer>
+        <tb-tile [title]="_TB('Tax Declaration')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-combo [caption]="_TB('Year')" cmpId="IDC_TAX_DECLARATION_YEAR" width="62" [model]="eventData?.model?.CDTaxYear"></tb-combo>
+         <tb-body-edit cmpId="IDC_TAX_DECLARATION" width="487" [model]="eventData?.model?.TaxDeclaration">
+          <tb-body-edit-column cmpId="IDC_TAX_DECLARATION_FRAME" columnName="Frame" [title]="_TB('Frame')" columnType="tb-label-static" columnName="IDC_TAX_DECLARATION_FRAME">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_TAX_DECLARATION_ORDER" columnName="PrintOrder" [title]="_TB('Order')" columnType="tb-numeric-text-box" columnName="IDC_TAX_DECLARATION_ORDER">
+          </tb-body-edit-column>
+          <tb-body-edit-column formatter="Integer" disabled="true" cmpId="IDC_TAX_DECLARATION_LINE" columnName="Line" [title]="_TB('Row')" columnType="tb-numeric-text-box" columnName="IDC_TAX_DECLARATION_LINE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_DECLARATION_DATATYPE" columnName="DataType" [title]="_TB('Data Type')" columnType="tb-enum-combo" columnName="IDC_TAX_DECLARATION_DATATYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_DECLARATION_COLUMN_TYPE" columnName="ColumnType" [title]="_TB('Column Type')" columnType="tb-enum-combo" columnName="IDC_TAX_DECLARATION_COLUMN_TYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_DECLARATION_AMOUNT_TYPE" columnName="AmountType" [title]="_TB('Amount Type')" columnType="tb-enum-combo" columnName="IDC_TAX_DECLARATION_AMOUNT_TYPE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_TAX_DECLARATION_ACTION_ON_TOTAL" columnName="ActionOnTotal" [title]="_TB('Action On Totals')" columnType="tb-enum-combo" columnName="IDC_TAX_DECLARATION_ACTION_ON_TOTAL">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+        <tb-tile [title]="_TB('Annual Reporting')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-section-title cmpId="IDC_TAX_STATIC_CD1" width="325" [caption]="_TB('(CD1-CD2)')"></tb-section-title>
+         <tb-checkbox cmpId="IDC_TAX_NOTAXABLEAMOUNT" width="109" [model]="eventData?.model?.TaxCode?.NoTaxableAmount" [caption]="_TB('Excluded From Taxable Operations  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_NOINTRASTAT" width="109" [model]="eventData?.model?.TaxCode?.NoIntrastat" [caption]="_TB('Excluded from Intra-EU Operations  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_COD_EXEMPT" width="109" [model]="eventData?.model?.TaxCode?.Exempt" [caption]="_TB('Exempt Operations  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_COD_NOT_TAXABLE" width="109" [model]="eventData?.model?.TaxCode?.NonTaxable" [caption]="_TB('Non Taxable Operations  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_COD_FIXEDASSETS" width="109" [model]="eventData?.model?.TaxCode?.FixedAssets" [caption]="_TB('Fixed Assets  ')"></tb-checkbox>
+         <tb-section-title cmpId="IDC_TAX_STATIC_CD3" width="325" [caption]="_TB('(CD3)')"></tb-section-title>
+         <tb-checkbox cmpId="IDC_TAX_GOLD" width="109" [model]="eventData?.model?.TaxCode?.Gold" [caption]="_TB('Gold and Silver Import  ')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_TAX_SCRAP" width="109" [model]="eventData?.model?.TaxCode?.Scrap" [caption]="_TB('Scrap Import  ')"></tb-checkbox>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+      <tb-tilegroup [title]="_TB('Digital Communications')" icon="erp-invoiceinternet" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_TAXCODE_EI">
+       <ng-template>
+        <tb-tile [title]="_TB('Digital Communications')" tbTileStandard >
+<div class="anchored">         <tb-text [caption]="_TB('Tax Nature')" cmpId="IDD_EI_TAXCODE_TABEICODE" width="48" [model]="eventData?.model?.TaxCode?.EICODE"></tb-text>
+         <tb-label-static cmpId="IDD_EI_TAXCODE_TABEICODE_DESCRIPTION" width="170" [model]="eventData?.model?.HKLEICoding?.Description"></tb-label-static>
+</div>        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-tilemanager>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_PNL_LINKSPANEL_DOCK_PANE" [title]="_TB('LinksPanel')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile tbTileStandard  hasTitle="False" *ngIf="eventData?.activation?.IDD_TD_PNL_LINKSPANEL">
+         <tb-body-edit cmpId="IDC_PNL_BE" width="325" [model]="eventData?.model?.DBTLinksTable">
+          <tb-body-edit-column cmpId="IDC_PNL_BE_IMAGE" columnName="Image" [title]="_TB('Image')" columnType="tb-image" columnName="IDC_PNL_BE_IMAGE">
+          </tb-body-edit-column>
+          <tb-body-edit-column cmpId="IDC_PNL_BE_DESCR" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static" columnName="IDC_PNL_BE_DESCR">
+          </tb-body-edit-column>
+         </tb-body-edit>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TAX_COPY?.enabled" icon="tb-copy" [caption]="_TB('Copy')" cmpId="ID_TAX_COPY"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,0 +1,125 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-toolbar-top>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIRST?.enabled" icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_PREV?.enabled" icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEXT?.enabled" icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_LAST?.enabled" icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXEC_QUERY?.enabled" icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+   <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+   <tb-toolbar-top-button *ngIf="eventData?.activation?.ID_INSPECT" [disabled]="!eventData?.buttonsState?.ID_INSPECT?.enabled" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+  </tb-toolbar-top>
+	<ng-container #radar></ng-container>
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('WC Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn >
+        <tb-tile [title]="_TB(' Main Data')" tbTileStandard >
+         <tb-text [caption]="_TB('Drawing')" cmpId="IDC_DRAWING_DRAWING" width="105" [model]="eventData?.model?.Drawings?.Drawing"></tb-text>
+         <tb-text [caption]="_TB('Description')" cmpId="IDC_DRAWING_DESCRI_DRAWING" width="154" [model]="eventData?.model?.Drawings?.Description"></tb-text>
+         <tb-text [caption]="_TB('Original Drawing')" cmpId="IDC_DRAWING_DERWITHTAX_FROM" width="122" [model]="eventData?.model?.Drawings?.DerivedFrom"></tb-text>
+         <tb-label-static [caption]="_TB('Description')" cmpId="IDC_DRAWING_DESCRI_DERWITHTAX_FROM" width="154" [model]="eventData?.model?.HKLDrawings?.Description"></tb-label-static>
+        </tb-tile>
+        <tb-tile [title]="_TB(' Other Data')" tbTileStandard >
+         <tb-text [caption]="_TB('Note')" cmpId="IDC_DRAWING_NOTES" width="154" [model]="eventData?.model?.Drawings?.Notes"></tb-text>
+         <tb-text *ngIf="eventData?.activation?.IDC_DRAWING_ITEM_ALIAS" [caption]="_TB('Item Alias')" cmpId="IDC_DRAWING_ITEM_ALIAS" width="122" [model]="eventData?.model?.Drawings?.Item"></tb-text>
+         <tb-label-static *ngIf="eventData?.activation?.IDC_DRAWING_DESCRI_ITEM_ALIAS" [caption]="_TB('Description')" cmpId="IDC_DRAWING_DESCRI_ITEM_ALIAS" width="154" [model]="eventData?.model?.HKLItems?.Description"></tb-label-static>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_DRAWING_PREFERRED" cmpId="IDC_DRAWING_PREFERRED" width="109" [model]="eventData?.model?.Drawings?.PreferredDrawing" [caption]="_TB('Preferred  ')"></tb-checkbox>
+        </tb-tile>
+       </tb-layoutcontainer>
+       <tb-tile [title]="_TB(' General')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_DRAWING_GENERAL">
+<div class="col col1">        <tb-text [caption]="_TB('Revision')" cmpId="IDC_DRAWING_REVISION" width="48" [model]="eventData?.model?.Drawings?.Revision"></tb-text>
+        <tb-text [caption]="_TB('Archive')" cmpId="IDC_DRAWING_FILEPATH" width="154" [model]="eventData?.model?.Drawings?.FilePath"></tb-text>
+</div><div class="col col2">        <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Execution Date')" cmpId="IDC_DRAWING_DATE_ESEC" width="57" [model]="eventData?.model?.Drawings?.DateOfSignature"></tb-date-input>
+        <tb-text [caption]="_TB('Signature')" cmpId="IDC_DRAWING_SIGNATURE" width="154" [model]="eventData?.model?.Drawings?.ApprovalSignature"></tb-text>
+<div class="anchored">        <tb-text [caption]="_TB('BarCode')" cmpId="IDC_DRAWING_BARCODE" width="83" [model]="eventData?.model?.Drawings?.BarCode"></tb-text>
+        <tb-button cmpId="IDC_DRAWING_BTN_STRIP_VIEW" width="22"></tb-button>
+</div></div>       </tb-tile>
+       <tb-tile [title]="_TB(' Revisions')" tbTileAutoFill  isCollapsible="True">
+        <tb-body-edit cmpId="IDC_DRAWING_BODY_REVISIONS" width="357" [model]="eventData?.model?.DrawingsRevisions">
+         <tb-body-edit-column cmpId="IDC_DRAWING_REVISION" [title]="_TB('Revision')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_REVISION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_REVISION_DESCRI" [title]="_TB('Description')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_REVISION_DESCRI">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_EXECUTION_SIGNATURE" [title]="_TB('Execution Signature')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_EXECUTION_SIGNATURE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_EXECUTION_SIGNATURE_DES" [title]="_TB('Name')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_EXECUTION_SIGNATURE_DES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_EXECUTION_DATE" [title]="_TB('Date')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_EXECUTION_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_CHECK_SIGNATURE" [title]="_TB('Check Signature')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_CHECK_SIGNATURE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_CHECK_SIGNATURE_DES" [title]="_TB('Name')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_CHECK_SIGNATURE_DES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_CHECK_DATE" [title]="_TB('Date')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_CHECK_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_APPROVAL_SIGNATURE" [title]="_TB('Approval Signature')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_APPROVAL_SIGNATURE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_APPROVAL_SIGNATURE_DES" [title]="_TB('Name')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_APPROVAL_SIGNATURE_DES">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_APPROVAL_DATE" [title]="_TB('Date')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_APPROVAL_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_PATH" [title]="_TB('Drawing Path')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_PATH">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_BARCODE" [title]="_TB('BarCode')" columnType="tb-body-edit-column" columnName="IDC_DRAWING_BARCODE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_NOTES" columnName="Notes" [title]="_TB('Notes')" columnType="tb-text" columnName="IDC_DRAWING_NOTES">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+       <tb-tile [title]="_TB(' Description')" tbTileAutoFill  isCollapsible="True" isCollapsed="True">
+        <tb-body-edit cmpId="IDC_DRAWING_BODY_DESCRIPTIONS" width="358" [model]="eventData?.model?.DrawingsDescription">
+         <tb-body-edit-column cmpId="IDC_DRAWING_LANGUAGE" columnName="Language" [title]="_TB('Language')" columnType="tb-combo" columnName="IDC_DRAWING_LANGUAGE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_DRAWING_LANGUAGE_DES" columnName="Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_DRAWING_LANGUAGE_DES">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+    <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('DataSynchronizer')">
+     <tb-view>
+      <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+       <ng-template>
+        <tb-tile [title]="_TB('Data Validation Status')" tbTileStandard  isCollapsible="True" isCollapsed="False">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" width="16" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+         <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" width="287" [model]="eventData?.model?.ValidationStatus"></tb-text>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Technical Details')" tbTileStandard  isCollapsible="True">
+         <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" width="16" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+         <tb-caption cmpId="IDC_STATIC_1" width="48" [caption]="_TB('Time')"></tb-caption>
+         <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" width="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+         <tb-caption cmpId="IDC_STATIC_3" width="48" [caption]="_TB('Direction')"></tb-caption>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" width="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+         <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" width="268" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+        <tb-tile [title]="_TB('Data Synchronization Status')" tbTileStandard  isCollapsible="True">
+         <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" width="268" [model]="eventData?.model?.SynchMsg"></tb-text>
+         <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" width="41" [caption]="_TB('Copy Msg')"></tb-button>
+        </tb-tile>
+       </ng-template>
+      </tb-tilegroup>
+     </tb-view>
+    </tb-dockpane>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

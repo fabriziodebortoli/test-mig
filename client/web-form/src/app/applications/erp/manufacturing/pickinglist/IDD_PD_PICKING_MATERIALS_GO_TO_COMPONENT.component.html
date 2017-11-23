@@ -1,0 +1,21 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Component code')" tbTileMini  isCollapsible="False" hasTitle="True">
+        <tb-text cmpId="IDC_PICKING_MATERIALS_GO_TO_COMPONENT" width="110" [model]="eventData?.model?.ComponentSearch"></tb-text>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_PICKING_MATERIALS_GO_TO_COMPONENT_UNDO?.enabled" icon="tb-escape" [caption]="_TB('Cancel')" cmpId="IDC_PICKING_MATERIALS_GO_TO_COMPONENT_UNDO"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.IDC_PICKING_MATERIALS_GO_TO_COMPONENT_OK?.enabled" icon="tb-search" [caption]="_TB('Search')" cmpId="IDC_PICKING_MATERIALS_GO_TO_COMPONENT_OK"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

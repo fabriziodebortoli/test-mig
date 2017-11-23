@@ -1,0 +1,34 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Event Viewer')" tbTileAutoFill  isCollapsible="False" hasTitle="True">
+        <tb-body-edit cmpId="IDC_EVENTVIEWER_BE" width="654" [model]="eventData?.model?.DBTEventViewer">
+         <tb-body-edit-column formatter="DateTime" [readonly]="false" cmpId="IDC_EIMANAGER_EVENT_DATE" columnName="EventDate" [title]="_TB('Date')" columnType="tb-date-input" columnName="IDC_EIMANAGER_EVENT_DATE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_EIMANAGER_EVENT_TYPE" columnName="Event_Type" [title]="_TB('Type')" columnType="tb-enum-combo" columnName="IDC_EIMANAGER_EVENT_TYPE">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_EIMANAGER_EVENT_DESCRIPTION" columnName="Event_Description" [title]="_TB('Description')" columnType="tb-text" columnName="IDC_EIMANAGER_EVENT_DESCRIPTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_EIMANAGER_EVENT_XML" columnName="Event_XML" [title]="_TB('XML')" columnType="tb-text" columnName="IDC_EIMANAGER_EVENT_XML" *ngIf="eventData?.activation?.IDC_EIMANAGER_EVENT_XML">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_EIMANAGER_EVENT_NREC" columnName="Event_String1" [title]="_TB('String1')" columnType="tb-text" columnName="IDC_EIMANAGER_EVENT_NREC" *ngIf="eventData?.activation?.IDC_EIMANAGER_EVENT_NREC">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_EIMANAGER_EVENT_STAT" columnName="Event_String2" [title]="_TB('Msg Code')" columnType="tb-text" columnName="IDC_EIMANAGER_EVENT_STAT" *ngIf="eventData?.activation?.IDC_EIMANAGER_EVENT_STAT">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_ALWAYS_ON_FRONT?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Pin')" cmpId="ID_BSP_ALWAYS_ON_FRONT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_SWITCH_TO_CALLER?.enabled" icon="tb-back" [caption]="_TB('Back')" cmpId="ID_BSP_SWITCH_TO_CALLER"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

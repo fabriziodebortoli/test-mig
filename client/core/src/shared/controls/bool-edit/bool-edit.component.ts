@@ -1,6 +1,6 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -16,8 +16,12 @@ export class BoolEditComponent extends ControlComponent {
   @Input() yesText: string;
   @Input() noText: string;
 
-  constructor(public eventData: EventDataService, public layoutService: LayoutService, public tbComponentService: TbComponentService) {
-    super(layoutService, tbComponentService);
+  constructor(
+    public eventData: EventDataService, 
+    public layoutService: LayoutService, 
+    public tbComponentService: TbComponentService,
+    changeDetectorRef : ChangeDetectorRef) {
+    super(layoutService, tbComponentService, changeDetectorRef);
 
     if (
       this.yesText == null ||

@@ -1,0 +1,67 @@
+﻿ <tb-frame tbBatch >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tilepanel [title]="_TB('eventData?.model?.FiltersPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Period')" tbTileMini >
+<div class="anchored">         <tb-numeric-text-box formatter="Integer" [caption]="_TB('From')" cmpId="IDC_STBOOK_FROMMONTH" width="18" [model]="eventData?.model?.FromMonth"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_STBOOK_FROMYEAR" width="28" [model]="eventData?.model?.FromYear"></tb-numeric-text-box>
+</div><div class="anchored">         <tb-numeric-text-box formatter="Integer" [caption]="_TB('To')" cmpId="IDC_STBOOK_TOMONTH" width="18" [model]="eventData?.model?.ToMonth"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Integer" cmpId="IDC_STBOOK_TOYEAR" width="28" [model]="eventData?.model?.ToYear"></tb-numeric-text-box>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Detail')" tbTileMini >
+         <tb-numeric-text-box formatter="Long" [caption]="_TB('From Sequential No.')" cmpId="IDC_STBOOK_FROM_NUMBER" width="38" [model]="eventData?.model?.FromPostDate"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Long" [caption]="_TB('To Sequential No.')" cmpId="IDC_STBOOK_A_NUMBER" width="38" [model]="eventData?.model?.ToPostDate"></tb-numeric-text-box>
+        </tb-tile>
+       </tb-tilepanel>
+       <tb-tilepanel [title]="_TB('eventData?.model?.ActionsPanelText')" showAsTile="True">
+        <tb-tile [title]="_TB('Print Data')" tbTileMini >
+         <tb-checkbox cmpId="IDC_STBOOK_TAXJOURNAL" width="139" [model]="eventData?.model?.DefinitivelyPrinted" [caption]="_TB('Definitive Print')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_STBOOK_SOS" width="139" [model]="eventData?.model?.bPrepareForSOS" [caption]="_TB('Prepare document for SOS')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Print Layout Settings')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PRBOOK_SETTINGS">
+         <tb-checkbox cmpId="IDC_STBOOK_REASON" width="143" [model]="eventData?.model?.PrintAccRsn" [caption]="_TB('Print Reason Description in Notes')"></tb-checkbox>
+         <tb-checkbox *ngIf="eventData?.activation?.IDC_STBOOK_DIFFREF" cmpId="IDC_STBOOK_DIFFREF" width="148" [model]="eventData?.model?.DiffRef" [caption]="_TB('Report Currency References in Notes')"></tb-checkbox>
+        </tb-tile>
+        <tb-tile [title]="_TB('Dot Matrix Print')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_PRBOOK_DOTMATRIXPRINT">
+<div class="anchored">         <tb-checkbox cmpId="IDC_STBOOK_DOTMATRIXPRINTER" width="133" [model]="eventData?.model?.DotMatrixPrinter" [caption]="_TB('Dot Matrix Print')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_STBOOK_TOTPYMT" width="140" [model]="eventData?.model?.PageTotals" [caption]="_TB('Page Totals')"></tb-checkbox>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_STBOOK_80COL" width="133" [model]="eventData?.model?.DotMatrixPrinter80Col" [caption]="_TB('Print on 80 Columns')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_STBOOK_TOTGEN" width="136" [model]="eventData?.model?.GeneralTotals" [caption]="_TB('General Totals')"></tb-checkbox>
+</div><div class="anchored">         <tb-checkbox cmpId="IDC_STBOOK_BRING_CODCUSTSUPP" width="142" [model]="eventData?.model?.PrintCustSupp" [caption]="_TB('Copy Customer/Supplier Code')"></tb-checkbox>
+         <tb-checkbox cmpId="IDC_STBOOK_RIPPREV" width="143" [model]="eventData?.model?.PreviousPosting" [caption]="_TB('Previous c/f (Numbering, D/C Balances, and Previous Totals)')"></tb-checkbox>
+</div>        </tb-tile>
+        <tb-tile [title]="_TB('Order')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PRBOOK_ORDERBY">
+         <tb-radio cmpId="IDC_STBOOK_BYPOSTDATE" width="95" [model]="eventData?.model?.bByPostDate" [caption]="_TB('By posting date')"></tb-radio>
+         <tb-radio cmpId="IDC_STBOOK_BYACCRDATE" width="95" [model]="eventData?.model?.bByAccrDate" [caption]="_TB('By accrual date')"></tb-radio>
+        </tb-tile>
+        <tb-tile [title]="_TB('Endorsement')" tbTileMini  *ngIf="eventData?.activation?.IDD_TD_PRBOOK_ENDORSEMENT">
+         <tb-checkbox cmpId="IDC_STBOOK_HEADING" width="146" [model]="eventData?.model?.ContextualHeading" [caption]="_TB('Use Contextual Endorsement')"></tb-checkbox>
+         <tb-numeric-text-box formatter="Integer" [caption]="_TB('Page No. Prefix (Year)')" cmpId="IDC_STBOOK_NOPREFIX" width="34" [model]="eventData?.model?.NoPrefix"></tb-numeric-text-box>
+         <tb-numeric-text-box formatter="Long" [caption]="_TB('Starting Page No.')" cmpId="IDC_STBOOK_PAGE" width="34" [model]="eventData?.model?.Page"></tb-numeric-text-box>
+        </tb-tile>
+       </tb-tilepanel>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN?.enabled" icon="tb-start" [caption]="_TB('Start')" cmpId="ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN?.enabled" icon="framework.tbframeworkimages.images.25x25.resume.png" [caption]="_TB('Pause')" cmpId="ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXIT?.enabled" icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_CUSTOMIZE?.enabled" icon="tb-customize" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_ACTIONS_COPY?.enabled" icon="tb-socialshare" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_DATA?.enabled" icon="framework.tbframeworkimages.images.25x25.extract.png" [caption]="_TB('Extract')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_DATA"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION?.enabled" icon="tb-undo" [caption]="_TB('Undo')" cmpId="ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_STOP?.enabled" icon="framework.tbframeworkimages.images.25x25.stopextract.png" [caption]="_TB('Stop')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_STOP"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_PAUSE?.enabled" icon="framework.tbframeworkimages.images.25x25.processpause.png" [caption]="_TB('Pause')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_PAUSE"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_TB_ACTIVITY_FRAME_LOAD_RESUME?.enabled" icon="framework.tbframeworkimages.images.25x25.processrun.png" [caption]="_TB('Resume')" cmpId="ID_TB_ACTIVITY_FRAME_LOAD_RESUME"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_STBOOK_REPORT?.enabled" icon="tb-report" [caption]="_TB('View')" cmpId="ID_STBOOK_REPORT"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

@@ -1,6 +1,6 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnChanges, AfterViewInit, Input } from '@angular/core';
+import { Component, OnChanges, AfterViewInit, Input, ChangeDetectorRef } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -19,8 +19,9 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
-    tbComponentService: TbComponentService) {
-    super(layoutService, tbComponentService);
+    tbComponentService: TbComponentService,
+    changeDetectorRef:ChangeDetectorRef) {
+    super(layoutService, tbComponentService,changeDetectorRef);
   }
 
   public onChange(val: any) {
