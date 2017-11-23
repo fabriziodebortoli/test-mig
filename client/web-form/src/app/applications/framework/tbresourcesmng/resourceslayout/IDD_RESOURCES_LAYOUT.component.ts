@@ -10,7 +10,7 @@ import { IDD_RESOURCES_LAYOUTService } from './IDD_RESOURCES_LAYOUT.service';
     providers: [IDD_RESOURCES_LAYOUTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RESOURCES_LAYOUTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RESOURCES_LAYOUTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RESOURCES_LAYOUTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_RESOURCES_LAYOUTComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

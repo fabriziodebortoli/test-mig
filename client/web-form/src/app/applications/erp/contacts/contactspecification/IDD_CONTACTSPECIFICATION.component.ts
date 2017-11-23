@@ -10,7 +10,7 @@ import { IDD_CONTACTSPECIFICATIONService } from './IDD_CONTACTSPECIFICATION.serv
     providers: [IDD_CONTACTSPECIFICATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONTACTSPECIFICATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONTACTSPECIFICATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CONTACTSPECIFICATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CONTACTSPECIFICATIONComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

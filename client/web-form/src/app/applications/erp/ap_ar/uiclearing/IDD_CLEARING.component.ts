@@ -10,7 +10,7 @@ import { IDD_CLEARINGService } from './IDD_CLEARING.service';
     providers: [IDD_CLEARINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CLEARINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CLEARINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CLEARINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CLEARINGComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

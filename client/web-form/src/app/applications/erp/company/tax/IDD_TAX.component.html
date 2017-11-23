@@ -156,14 +156,6 @@
         </tb-tile>
        </ng-template>
       </tb-tilegroup>
-      <tb-tilegroup [title]="_TB('Digital Communications')" icon="erp-invoiceinternet" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_TAXCODE_EI">
-       <ng-template>
-        <tb-tile [title]="_TB('Digital Communications')" tbTileStandard >
-<div class="anchored">         <tb-text [caption]="_TB('Tax Nature')" cmpId="IDD_EI_TAXCODE_TABEICODE" width="48" [model]="eventData?.model?.TaxCode?.EICODE"></tb-text>
-         <tb-label-static cmpId="IDD_EI_TAXCODE_TABEICODE_DESCRIPTION" width="170" [model]="eventData?.model?.HKLEICoding?.Description"></tb-label-static>
-</div>        </tb-tile>
-       </ng-template>
-      </tb-tilegroup>
      </tb-tilemanager>
     </tb-view>
    </tb-view-container>

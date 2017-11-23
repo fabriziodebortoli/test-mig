@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_CASHService } from './IDD_PARAMETERS_CASH.service';
     providers: [IDD_PARAMETERS_CASHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_CASHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_CASHComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PARAMETERS_CASHService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PARAMETERS_CASHComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_LEAD_TIME_CALCService } from './IDD_LEAD_TIME_CALC.service';
     providers: [IDD_LEAD_TIME_CALCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LEAD_TIME_CALCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LEAD_TIME_CALCComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LEAD_TIME_CALCService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LEAD_TIME_CALCComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

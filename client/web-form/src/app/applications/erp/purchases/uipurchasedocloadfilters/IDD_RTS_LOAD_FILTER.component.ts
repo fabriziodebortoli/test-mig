@@ -10,7 +10,7 @@ import { IDD_RTS_LOAD_FILTERService } from './IDD_RTS_LOAD_FILTER.service';
     providers: [IDD_RTS_LOAD_FILTERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RTS_LOAD_FILTERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RTS_LOAD_FILTERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RTS_LOAD_FILTERService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_RTS_LOAD_FILTERComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

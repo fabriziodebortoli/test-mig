@@ -10,7 +10,7 @@ import { IDD_MANAGPYMTORDService } from './IDD_MANAGPYMTORD.service';
     providers: [IDD_MANAGPYMTORDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MANAGPYMTORDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MANAGPYMTORDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MANAGPYMTORDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_MANAGPYMTORDComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

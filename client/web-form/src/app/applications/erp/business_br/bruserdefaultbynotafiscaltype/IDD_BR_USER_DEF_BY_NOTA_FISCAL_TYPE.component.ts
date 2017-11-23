@@ -10,7 +10,7 @@ import { IDD_BR_USER_DEF_BY_NOTA_FISCAL_TYPEService } from './IDD_BR_USER_DEF_BY
     providers: [IDD_BR_USER_DEF_BY_NOTA_FISCAL_TYPEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_USER_DEF_BY_NOTA_FISCAL_TYPEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_USER_DEF_BY_NOTA_FISCAL_TYPEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_USER_DEF_BY_NOTA_FISCAL_TYPEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BR_USER_DEF_BY_NOTA_FISCAL_TYPEComponent extends BOComponent im
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

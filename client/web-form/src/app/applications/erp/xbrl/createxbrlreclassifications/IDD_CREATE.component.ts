@@ -10,7 +10,7 @@ import { IDD_CREATEService } from './IDD_CREATE.service';
     providers: [IDD_CREATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CREATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CREATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CREATEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CREATEComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

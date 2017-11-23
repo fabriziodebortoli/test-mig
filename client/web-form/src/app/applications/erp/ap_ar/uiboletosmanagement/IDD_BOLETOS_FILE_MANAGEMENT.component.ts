@@ -10,7 +10,7 @@ import { IDD_BOLETOS_FILE_MANAGEMENTService } from './IDD_BOLETOS_FILE_MANAGEMEN
     providers: [IDD_BOLETOS_FILE_MANAGEMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOLETOS_FILE_MANAGEMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOLETOS_FILE_MANAGEMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BOLETOS_FILE_MANAGEMENTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BOLETOS_FILE_MANAGEMENTComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

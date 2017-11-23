@@ -10,7 +10,7 @@ import { IDD_ACTUAL_ACCRUAL_DATEService } from './IDD_ACTUAL_ACCRUAL_DATE.servic
     providers: [IDD_ACTUAL_ACCRUAL_DATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACTUAL_ACCRUAL_DATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACTUAL_ACCRUAL_DATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACTUAL_ACCRUAL_DATEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ACTUAL_ACCRUAL_DATEComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

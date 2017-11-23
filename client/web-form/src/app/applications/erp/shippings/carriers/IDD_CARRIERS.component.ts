@@ -10,7 +10,7 @@ import { IDD_CARRIERSService } from './IDD_CARRIERS.service';
     providers: [IDD_CARRIERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CARRIERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CARRIERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CARRIERS_STATUS_itemSource: any;
 public IDC_CARRIERS_COUNTY_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_CARRIERS_COUNTY_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

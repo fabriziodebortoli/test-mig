@@ -10,7 +10,7 @@ import { IDD_LOADER_PLService } from './IDD_LOADER_PL.service';
     providers: [IDD_LOADER_PLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOADER_PLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOADER_PLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOADER_PLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LOADER_PLComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

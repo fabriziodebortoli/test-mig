@@ -10,7 +10,7 @@ import { IDD_SLAVE_FRAMEService } from './IDD_SLAVE_FRAME.service';
     providers: [IDD_SLAVE_FRAMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SLAVE_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SLAVE_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SLAVE_FRAMEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SLAVE_FRAMEComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

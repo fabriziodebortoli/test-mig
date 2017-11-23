@@ -10,7 +10,7 @@ import { IDD_CHECKS_RECEIVINGISSUINGService } from './IDD_CHECKS_RECEIVINGISSUIN
     providers: [IDD_CHECKS_RECEIVINGISSUINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CHECKS_RECEIVINGISSUINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CHECKS_RECEIVINGISSUINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CHECKS_RECEIVINGISSUINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CHECKS_RECEIVINGISSUINGComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

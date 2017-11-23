@@ -10,7 +10,7 @@ import { IDD_CHECK_ITEMS_FISCAL_YEARService } from './IDD_CHECK_ITEMS_FISCAL_YEA
     providers: [IDD_CHECK_ITEMS_FISCAL_YEARService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CHECK_ITEMS_FISCAL_YEARComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CHECK_ITEMS_FISCAL_YEARComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CHECK_ITEMS_FISCAL_YEARService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CHECK_ITEMS_FISCAL_YEARComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

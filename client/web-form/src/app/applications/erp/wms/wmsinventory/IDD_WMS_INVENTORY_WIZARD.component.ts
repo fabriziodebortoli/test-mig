@@ -10,7 +10,7 @@ import { IDD_WMS_INVENTORY_WIZARDService } from './IDD_WMS_INVENTORY_WIZARD.serv
     providers: [IDD_WMS_INVENTORY_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WMS_INVENTORY_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WMS_INVENTORY_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_WMS_INVENTORY_PROPOSED_UNIT_VALUE_itemSource: any;
 public IDC_WMS_INVENTORY_BE_UOM_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_WMS_INVENTORY_BE_UOM_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

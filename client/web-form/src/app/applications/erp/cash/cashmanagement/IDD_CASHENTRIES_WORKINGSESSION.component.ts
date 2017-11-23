@@ -10,7 +10,7 @@ import { IDD_CASHENTRIES_WORKINGSESSIONService } from './IDD_CASHENTRIES_WORKING
     providers: [IDD_CASHENTRIES_WORKINGSESSIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CASHENTRIES_WORKINGSESSIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CASHENTRIES_WORKINGSESSIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CASHENTRIES_WORKINGSESSIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CASHENTRIES_WORKINGSESSIONComponent extends BOComponent impleme
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

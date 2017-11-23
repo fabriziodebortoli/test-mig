@@ -10,7 +10,7 @@ import { IDD_WIZ_POSTING_NFC_MAINService } from './IDD_WIZ_POSTING_NFC_MAIN.serv
     providers: [IDD_WIZ_POSTING_NFC_MAINService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WIZ_POSTING_NFC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WIZ_POSTING_NFC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_NFC_POSTDOC_STATUS_NFE_itemSource: any;
 
     constructor(document: IDD_WIZ_POSTING_NFC_MAINService,
@@ -20,7 +20,7 @@ export class IDD_WIZ_POSTING_NFC_MAINComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

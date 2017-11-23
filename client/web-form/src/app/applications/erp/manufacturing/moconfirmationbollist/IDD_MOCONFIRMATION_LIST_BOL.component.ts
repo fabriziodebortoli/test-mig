@@ -10,7 +10,7 @@ import { IDD_MOCONFIRMATION_LIST_BOLService } from './IDD_MOCONFIRMATION_LIST_BO
     providers: [IDD_MOCONFIRMATION_LIST_BOLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MOCONFIRMATION_LIST_BOLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MOCONFIRMATION_LIST_BOLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MOCONFIRMATION_LIST_BOL_CODETYPE_ITM_itemSource: any;
 
     constructor(document: IDD_MOCONFIRMATION_LIST_BOLService,
@@ -20,7 +20,7 @@ export class IDD_MOCONFIRMATION_LIST_BOLComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

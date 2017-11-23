@@ -10,7 +10,7 @@ import { IDD_PARAMETERSService } from './IDD_PARAMETERS.service';
     providers: [IDD_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PARAMETERS_PRINTS_TYPE_itemSource: any;
 
     constructor(document: IDD_PARAMETERSService,
@@ -20,7 +20,7 @@ export class IDD_PARAMETERSComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

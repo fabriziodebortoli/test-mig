@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_WMS_TOS_TRANSFERService } from './IDD_PARAMETERS_WMS_TOS
     providers: [IDD_PARAMETERS_WMS_TOS_TRANSFERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_WMS_TOS_TRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_WMS_TOS_TRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PARAMETERS_WMS_TOS_TRANSFERService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PARAMETERS_WMS_TOS_TRANSFERComponent extends BOComponent implem
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_MODIFY_LOTSService } from './IDD_MODIFY_LOTS.service';
     providers: [IDD_MODIFY_LOTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MODIFY_LOTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MODIFY_LOTSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MODIFY_LOTS_CODETYPE_SPEC_itemSource: any;
 
     constructor(document: IDD_MODIFY_LOTSService,
@@ -20,7 +20,7 @@ export class IDD_MODIFY_LOTSComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_PURCHASEREQService } from './IDD_PURCHASEREQ.service';
     providers: [IDD_PURCHASEREQService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCHASEREQComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCHASEREQComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PURCHASEREQService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PURCHASEREQComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

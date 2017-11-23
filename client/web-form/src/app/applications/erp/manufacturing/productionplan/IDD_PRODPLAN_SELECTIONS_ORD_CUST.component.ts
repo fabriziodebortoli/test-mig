@@ -10,7 +10,7 @@ import { IDD_PRODPLAN_SELECTIONS_ORD_CUSTService } from './IDD_PRODPLAN_SELECTIO
     providers: [IDD_PRODPLAN_SELECTIONS_ORD_CUSTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRODPLAN_SELECTIONS_ORD_CUSTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRODPLAN_SELECTIONS_ORD_CUSTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRODPLAN_SELECTIONS_ORD_CUSTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PRODPLAN_SELECTIONS_ORD_CUSTComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

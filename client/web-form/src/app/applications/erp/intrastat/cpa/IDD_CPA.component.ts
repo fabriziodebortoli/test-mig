@@ -10,7 +10,7 @@ import { IDD_CPAService } from './IDD_CPA.service';
     providers: [IDD_CPAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CPAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CPAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CPAService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CPAComponent extends BOComponent implements OnInit, OnDestroy {
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

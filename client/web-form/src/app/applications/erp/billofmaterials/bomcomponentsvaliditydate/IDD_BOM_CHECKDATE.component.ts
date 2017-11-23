@@ -10,7 +10,7 @@ import { IDD_BOM_CHECKDATEService } from './IDD_BOM_CHECKDATE.service';
     providers: [IDD_BOM_CHECKDATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOM_CHECKDATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOM_CHECKDATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BOM_CHECKDATEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BOM_CHECKDATEComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

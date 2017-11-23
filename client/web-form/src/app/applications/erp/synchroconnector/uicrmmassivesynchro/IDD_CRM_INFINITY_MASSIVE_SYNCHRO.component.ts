@@ -10,7 +10,7 @@ import { IDD_CRM_INFINITY_MASSIVE_SYNCHROService } from './IDD_CRM_INFINITY_MASS
     providers: [IDD_CRM_INFINITY_MASSIVE_SYNCHROService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CRM_INFINITY_MASSIVE_SYNCHROComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CRM_INFINITY_MASSIVE_SYNCHROComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CRM_INFINITY_MASSIVE_SYNCHROService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CRM_INFINITY_MASSIVE_SYNCHROComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

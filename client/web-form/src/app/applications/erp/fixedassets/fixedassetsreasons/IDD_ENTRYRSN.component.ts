@@ -10,7 +10,7 @@ import { IDD_ENTRYRSNService } from './IDD_ENTRYRSN.service';
     providers: [IDD_ENTRYRSNService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ENTRYRSNComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ENTRYRSNComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ENTRYRSN_QTY_itemSource: any;
 public IDC_ENTRYRSN_DATAPURCHASE_itemSource: any;
 public IDC_ENTRYRSN_PURCHCOST_itemSource: any;
@@ -74,7 +74,7 @@ public IDC_ENTRYRSN_BALANCE_WINDFLOSS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

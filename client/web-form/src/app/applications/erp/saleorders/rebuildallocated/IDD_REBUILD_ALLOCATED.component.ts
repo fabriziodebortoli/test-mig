@@ -10,7 +10,7 @@ import { IDD_REBUILD_ALLOCATEDService } from './IDD_REBUILD_ALLOCATED.service';
     providers: [IDD_REBUILD_ALLOCATEDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_REBUILD_ALLOCATEDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_REBUILD_ALLOCATEDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_REBUILD_ALLOCATEDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_REBUILD_ALLOCATEDComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

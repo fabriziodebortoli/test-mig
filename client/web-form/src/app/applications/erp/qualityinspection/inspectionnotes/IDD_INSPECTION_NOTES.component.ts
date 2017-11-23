@@ -10,7 +10,7 @@ import { IDD_INSPECTION_NOTESService } from './IDD_INSPECTION_NOTES.service';
     providers: [IDD_INSPECTION_NOTESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INSPECTION_NOTESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INSPECTION_NOTESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INSPECTION_NOTESService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_INSPECTION_NOTESComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

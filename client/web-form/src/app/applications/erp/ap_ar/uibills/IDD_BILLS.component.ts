@@ -10,7 +10,7 @@ import { IDD_BILLSService } from './IDD_BILLS.service';
     providers: [IDD_BILLSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BILLSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BILLSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BILLS_BILLSTATUS_itemSource: any;
 
     constructor(document: IDD_BILLSService,
@@ -20,7 +20,7 @@ export class IDD_BILLSComponent extends BOComponent implements OnInit, OnDestroy
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

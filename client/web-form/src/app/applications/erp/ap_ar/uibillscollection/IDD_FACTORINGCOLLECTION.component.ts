@@ -10,7 +10,7 @@ import { IDD_FACTORINGCOLLECTIONService } from './IDD_FACTORINGCOLLECTION.servic
     providers: [IDD_FACTORINGCOLLECTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FACTORINGCOLLECTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FACTORINGCOLLECTIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FACTORINGCOLLECTIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_FACTORINGCOLLECTIONComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_MAN_ORDService } from './IDD_MAN_ORD.service';
     providers: [IDD_MAN_ORDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MAN_ORDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MAN_ORDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MAN_ORD_A_MIS_itemSource: any;
 public IDC_ORD_RTGSTEPS_MOCOMP_UOM_itemSource: any;
 public IDC_ORD_RTGSTEPS_MOCOMP_RTGSTEP_SENT_itemSource: any;
@@ -26,7 +26,7 @@ public IDC_TOOLS_MAN_RTGSTEP_ALT_RTGSTEP_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

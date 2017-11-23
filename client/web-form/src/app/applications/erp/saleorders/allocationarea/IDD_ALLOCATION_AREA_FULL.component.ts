@@ -10,7 +10,7 @@ import { IDD_ALLOCATION_AREA_FULLService } from './IDD_ALLOCATION_AREA_FULL.serv
     providers: [IDD_ALLOCATION_AREA_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ALLOCATION_AREA_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ALLOCATION_AREA_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ALLOCATION_AREA_FULLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ALLOCATION_AREA_FULLComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

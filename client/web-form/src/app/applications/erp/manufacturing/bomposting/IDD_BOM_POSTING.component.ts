@@ -10,7 +10,7 @@ import { IDD_BOM_POSTINGService } from './IDD_BOM_POSTING.service';
     providers: [IDD_BOM_POSTINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOM_POSTINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOM_POSTINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BOM_POSTING_COMPONENT_TYPE_itemSource: any;
 public IDC_BOM_POSTING_BE_CODETYPE_SPECIFICATOR_itemSource: any;
 public IDC_BOM_POSTING_BE_CODETYPEVALUATE_itemSource: any;
@@ -27,7 +27,7 @@ public IDC_BOM_POSTING_CODETYPE_SPEC_ISSUE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_FDLService } from './IDD_FDL.service';
     providers: [IDD_FDLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FDLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FDLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_FDL_PROVIDER_itemSource: any;
 
     constructor(document: IDD_FDLService,
@@ -20,7 +20,7 @@ export class IDD_FDLComponent extends BOComponent implements OnInit, OnDestroy {
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

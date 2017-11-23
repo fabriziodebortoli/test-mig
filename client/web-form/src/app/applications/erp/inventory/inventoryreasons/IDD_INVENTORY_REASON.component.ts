@@ -10,7 +10,7 @@ import { IDD_INVENTORY_REASONService } from './IDD_INVENTORY_REASON.service';
     providers: [IDD_INVENTORY_REASONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVENTORY_REASONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVENTORY_REASONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INVRSN_DM_DATE_LAST_ISSUE_itemSource: any;
 public IDC_INVRSN_DM_LAST_SUPP_itemSource: any;
 public IDC_INVRSN_DM_DATE_LAST_ISSUETOPROD_itemSource: any;
@@ -72,7 +72,7 @@ public IDC_INVRSN_ACT_LIFO_BOOK_INV_VALUE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

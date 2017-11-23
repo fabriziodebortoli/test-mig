@@ -10,7 +10,7 @@ import { IDD_SDDMANDATEService } from './IDD_SDDMANDATE.service';
     providers: [IDD_SDDMANDATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SDDMANDATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SDDMANDATEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SDDMANDATE_TYPE_itemSource: any;
 
     constructor(document: IDD_SDDMANDATEService,
@@ -20,7 +20,7 @@ export class IDD_SDDMANDATEComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_GOODS_APPEARANCEService } from './IDD_GOODS_APPEARANCE.service';
     providers: [IDD_GOODS_APPEARANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_GOODS_APPEARANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_GOODS_APPEARANCEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_GOODS_APPEARANCEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_GOODS_APPEARANCEComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

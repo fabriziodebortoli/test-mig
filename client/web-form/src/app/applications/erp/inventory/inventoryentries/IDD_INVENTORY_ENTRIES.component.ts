@@ -10,7 +10,7 @@ import { IDD_INVENTORY_ENTRIESService } from './IDD_INVENTORY_ENTRIES.service';
     providers: [IDD_INVENTORY_ENTRIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVENTORY_ENTRIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVENTORY_ENTRIESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_HEADER_ENTRY_REASON_validators: any;
 public IDC_HEADER_ENTRY_CODETYPE_SPECIFICATOR_RTGSTEP1_itemSource: any;
 public IDC_HEADER_ENTRY_CODETYPE_SPECIFICATOR_RTGSTEP2_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_HEADER_ENTRY_CODETYPE_SPECIFICATOR_RTGSTEP2_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

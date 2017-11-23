@@ -10,7 +10,7 @@ import { IDD_INIWMS_WMSService } from './IDD_INIWMS_WMS.service';
     providers: [IDD_INIWMS_WMSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INIWMS_WMSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INIWMS_WMSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INIWMS_WMSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_INIWMS_WMSComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

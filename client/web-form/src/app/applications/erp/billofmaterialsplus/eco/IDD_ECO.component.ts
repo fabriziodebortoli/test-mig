@@ -10,7 +10,7 @@ import { IDD_ECOService } from './IDD_ECO.service';
     providers: [IDD_ECOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ECOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ECOComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ECO_ROW_TYPE_PROD_COMPONENT_itemSource: any;
 public IDC_ECO_ROW_UOM_itemSource: any;
 public IDC_ECO_ROW_STEP_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

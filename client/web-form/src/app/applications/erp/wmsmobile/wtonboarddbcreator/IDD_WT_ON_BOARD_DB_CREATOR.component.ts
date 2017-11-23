@@ -10,7 +10,7 @@ import { IDD_WT_ON_BOARD_DB_CREATORService } from './IDD_WT_ON_BOARD_DB_CREATOR.
     providers: [IDD_WT_ON_BOARD_DB_CREATORService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WT_ON_BOARD_DB_CREATORComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WT_ON_BOARD_DB_CREATORComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WT_ON_BOARD_DB_CREATORService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_WT_ON_BOARD_DB_CREATORComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

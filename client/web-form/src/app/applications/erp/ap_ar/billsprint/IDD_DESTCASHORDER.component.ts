@@ -10,7 +10,7 @@ import { IDD_DESTCASHORDERService } from './IDD_DESTCASHORDER.service';
     providers: [IDD_DESTCASHORDERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DESTCASHORDERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DESTCASHORDERComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PRINTCASHORDER_CODETYPE_itemSource: any;
 
     constructor(document: IDD_DESTCASHORDERService,
@@ -20,7 +20,7 @@ export class IDD_DESTCASHORDERComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

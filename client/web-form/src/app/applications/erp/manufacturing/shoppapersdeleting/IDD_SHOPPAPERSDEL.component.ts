@@ -10,7 +10,7 @@ import { IDD_SHOPPAPERSDELService } from './IDD_SHOPPAPERSDEL.service';
     providers: [IDD_SHOPPAPERSDELService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SHOPPAPERSDELComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SHOPPAPERSDELComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SHOPPAPERSDEL_SELECTION_itemSource: any;
 public IDC_SHOPPAPERSDEL_MO_STATUS_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_SHOPPAPERSDEL_MO_STATUS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

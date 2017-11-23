@@ -10,7 +10,7 @@ import { IDD_BOMIMPLOSIONService } from './IDD_BOMIMPLOSION.service';
     providers: [IDD_BOMIMPLOSIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOMIMPLOSIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOMIMPLOSIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_IMPLOS_CODETYPE_COMP_itemSource: any;
 
     constructor(document: IDD_BOMIMPLOSIONService,
@@ -20,7 +20,7 @@ export class IDD_BOMIMPLOSIONComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

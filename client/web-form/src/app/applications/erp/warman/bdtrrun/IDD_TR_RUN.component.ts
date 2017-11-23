@@ -10,7 +10,7 @@ import { IDD_TR_RUNService } from './IDD_TR_RUN.service';
     providers: [IDD_TR_RUNService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TR_RUNComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TR_RUNComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TR_RUN_SEL_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_TR_RUNService,
@@ -20,7 +20,7 @@ export class IDD_TR_RUNComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

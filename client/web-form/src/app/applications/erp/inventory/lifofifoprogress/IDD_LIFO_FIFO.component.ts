@@ -10,7 +10,7 @@ import { IDD_LIFO_FIFOService } from './IDD_LIFO_FIFO.service';
     providers: [IDD_LIFO_FIFOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LIFO_FIFOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LIFO_FIFOComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LIFO_FIFOService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LIFO_FIFOComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

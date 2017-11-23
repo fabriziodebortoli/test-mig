@@ -10,7 +10,7 @@ import { IDD_TO_FROM_PSHService } from './IDD_TO_FROM_PSH.service';
     providers: [IDD_TO_FROM_PSHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TO_FROM_PSHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TO_FROM_PSHComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TO_FROM_PRESHIPPING_TYPE_itemSource: any;
 
     constructor(document: IDD_TO_FROM_PSHService,
@@ -20,7 +20,7 @@ export class IDD_TO_FROM_PSHComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

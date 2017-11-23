@@ -10,7 +10,7 @@ import { IDD_CATEGORY_CROSS_SUTService } from './IDD_CATEGORY_CROSS_SUT.service'
     providers: [IDD_CATEGORY_CROSS_SUTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CATEGORY_CROSS_SUTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CATEGORY_CROSS_SUTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CATEGORY_CROSS_SUTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CATEGORY_CROSS_SUTComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

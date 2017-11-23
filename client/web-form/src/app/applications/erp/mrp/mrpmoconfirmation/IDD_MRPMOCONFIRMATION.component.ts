@@ -10,7 +10,7 @@ import { IDD_MRPMOCONFIRMATIONService } from './IDD_MRPMOCONFIRMATION.service';
     providers: [IDD_MRPMOCONFIRMATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MRPMOCONFIRMATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MRPMOCONFIRMATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MRPMOCONFIRMATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_MRPMOCONFIRMATIONComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

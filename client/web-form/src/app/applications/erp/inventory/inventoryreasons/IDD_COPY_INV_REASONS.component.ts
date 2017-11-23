@@ -10,7 +10,7 @@ import { IDD_COPY_INV_REASONSService } from './IDD_COPY_INV_REASONS.service';
     providers: [IDD_COPY_INV_REASONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COPY_INV_REASONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COPY_INV_REASONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COPY_INV_REASONSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_COPY_INV_REASONSComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

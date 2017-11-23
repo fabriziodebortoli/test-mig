@@ -10,7 +10,7 @@ import { IDD_RECALCULATIONS_EXIGIBILIETAXService } from './IDD_RECALCULATIONS_EX
     providers: [IDD_RECALCULATIONS_EXIGIBILIETAXService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RECALCULATIONS_EXIGIBILIETAXComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RECALCULATIONS_EXIGIBILIETAXComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RECALCULATIONS_EXIGIBILIETAXService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_RECALCULATIONS_EXIGIBILIETAXComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

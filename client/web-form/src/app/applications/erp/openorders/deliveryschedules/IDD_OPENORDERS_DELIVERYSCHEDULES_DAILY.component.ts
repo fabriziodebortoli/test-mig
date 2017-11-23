@@ -10,7 +10,7 @@ import { IDD_OPENORDERS_DELIVERYSCHEDULES_DAILYService } from './IDD_OPENORDERS_
     providers: [IDD_OPENORDERS_DELIVERYSCHEDULES_DAILYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OPENORDERS_DELIVERYSCHEDULES_DAILYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OPENORDERS_DELIVERYSCHEDULES_DAILYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_OPENORDERS_DELIVERYSCHEDULES_DAILYService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_OPENORDERS_DELIVERYSCHEDULES_DAILYComponent extends BOComponent
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

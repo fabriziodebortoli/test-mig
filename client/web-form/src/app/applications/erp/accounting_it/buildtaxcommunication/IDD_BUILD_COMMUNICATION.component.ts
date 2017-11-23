@@ -10,7 +10,7 @@ import { IDD_BUILD_COMMUNICATIONService } from './IDD_BUILD_COMMUNICATION.servic
     providers: [IDD_BUILD_COMMUNICATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BUILD_COMMUNICATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BUILD_COMMUNICATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BUILD_COMMUNICATION_HEIR_CODE_itemSource: any;
 
     constructor(document: IDD_BUILD_COMMUNICATIONService,
@@ -20,7 +20,7 @@ export class IDD_BUILD_COMMUNICATIONComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

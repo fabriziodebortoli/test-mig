@@ -10,7 +10,7 @@ import { IDD_COSTACCENTRIESFROMINVENTORYService } from './IDD_COSTACCENTRIESFROM
     providers: [IDD_COSTACCENTRIESFROMINVENTORYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCENTRIESFROMINVENTORYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCENTRIESFROMINVENTORYComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BATCH_CA_MM_REASON_itemSource: any;
 public IDC_BATCH_CA_MM_VALUE_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_BATCH_CA_MM_VALUE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_PD_JE_GENERATE_PAYABLESRECEIVABLESService } from './IDD_PD_JE_GENER
     providers: [IDD_PD_JE_GENERATE_PAYABLESRECEIVABLESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PD_JE_GENERATE_PAYABLESRECEIVABLESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PD_JE_GENERATE_PAYABLESRECEIVABLESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PD_JE_GENERATE_PAYABLESRECEIVABLESService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PD_JE_GENERATE_PAYABLESRECEIVABLESComponent extends BOComponent
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

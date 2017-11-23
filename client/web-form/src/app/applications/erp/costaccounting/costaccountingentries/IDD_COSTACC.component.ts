@@ -10,7 +10,7 @@ import { IDD_COSTACCService } from './IDD_COSTACC.service';
     providers: [IDD_COSTACCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COSTACC_ENTRYTYPE_itemSource: any;
 
     constructor(document: IDD_COSTACCService,
@@ -20,7 +20,7 @@ export class IDD_COSTACCComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

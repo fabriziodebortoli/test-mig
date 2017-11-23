@@ -10,7 +10,7 @@ import { IDD_PURCHASESDOC_DEL_WIZARDService } from './IDD_PURCHASESDOC_DEL_WIZAR
     providers: [IDD_PURCHASESDOC_DEL_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCHASESDOC_DEL_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCHASESDOC_DEL_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DELETE_PURCHASESDOC_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_PURCHASESDOC_DEL_WIZARDService,
@@ -20,7 +20,7 @@ export class IDD_PURCHASESDOC_DEL_WIZARDComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_DIRECTDEBIT_SEPAService } from './IDD_DIRECTDEBIT_SEPA.service';
     providers: [IDD_DIRECTDEBIT_SEPAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DIRECTDEBIT_SEPAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DIRECTDEBIT_SEPAComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SEPA_DD_SDD_TYPE_itemSource: any;
 
     constructor(document: IDD_DIRECTDEBIT_SEPAService,
@@ -20,7 +20,7 @@ export class IDD_DIRECTDEBIT_SEPAComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

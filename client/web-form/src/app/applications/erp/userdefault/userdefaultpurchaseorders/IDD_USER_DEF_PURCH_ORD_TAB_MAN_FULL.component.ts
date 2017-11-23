@@ -10,7 +10,7 @@ import { IDD_USER_DEF_PURCH_ORD_TAB_MAN_FULLService } from './IDD_USER_DEF_PURCH
     providers: [IDD_USER_DEF_PURCH_ORD_TAB_MAN_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_USER_DEF_PURCH_ORD_TAB_MAN_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_USER_DEF_PURCH_ORD_TAB_MAN_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_USER_DEF_PURCH_ORD_TAB_MAN_FULLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_USER_DEF_PURCH_ORD_TAB_MAN_FULLComponent extends BOComponent im
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

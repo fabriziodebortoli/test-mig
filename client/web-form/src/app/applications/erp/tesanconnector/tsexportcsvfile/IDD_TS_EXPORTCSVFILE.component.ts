@@ -10,7 +10,7 @@ import { IDD_TS_EXPORTCSVFILEService } from './IDD_TS_EXPORTCSVFILE.service';
     providers: [IDD_TS_EXPORTCSVFILEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TS_EXPORTCSVFILEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TS_EXPORTCSVFILEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TS_EXPORT_CSV_DOCTYPE_itemSource: any;
 public IDC_TS_EXPORT_CSV_FILE_BE_OPERATION_TYPE_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_TS_EXPORT_CSV_FILE_BE_OPERATION_TYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

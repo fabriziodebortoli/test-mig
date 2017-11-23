@@ -10,7 +10,7 @@ import { IDD_MRP_SIMULATION_SMALLService } from './IDD_MRP_SIMULATION_SMALL.serv
     providers: [IDD_MRP_SIMULATION_SMALLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MRP_SIMULATION_SMALLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MRP_SIMULATION_SMALLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MRP_SIMULATION_SMALLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_MRP_SIMULATION_SMALLComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

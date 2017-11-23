@@ -10,7 +10,7 @@ import { IDD_INVOICE_CORRECTION_LOAD_FILTERService } from './IDD_INVOICE_CORRECT
     providers: [IDD_INVOICE_CORRECTION_LOAD_FILTERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVOICE_CORRECTION_LOAD_FILTERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVOICE_CORRECTION_LOAD_FILTERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INVOICE_CORRECTION_LOAD_FILTERService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_INVOICE_CORRECTION_LOAD_FILTERComponent extends BOComponent imp
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

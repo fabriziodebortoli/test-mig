@@ -10,7 +10,7 @@ import { IDD_STORAGEINVService } from './IDD_STORAGEINV.service';
     providers: [IDD_STORAGEINVService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STORAGEINVComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STORAGEINVComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_STORAGEINV_COUNTY_itemSource: any;
 public IDC_STORAGEINV_STATUS_itemSource: any;
 public IDC_STORAGE_OFFSETS_SYMBOL_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_STORAGE_OFFSETS_SYMBOL_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

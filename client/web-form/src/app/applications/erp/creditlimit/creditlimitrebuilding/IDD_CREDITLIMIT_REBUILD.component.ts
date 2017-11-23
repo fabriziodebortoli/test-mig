@@ -10,7 +10,7 @@ import { IDD_CREDITLIMIT_REBUILDService } from './IDD_CREDITLIMIT_REBUILD.servic
     providers: [IDD_CREDITLIMIT_REBUILDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CREDITLIMIT_REBUILDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CREDITLIMIT_REBUILDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CREDITLIMIT_REBUILDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CREDITLIMIT_REBUILDComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

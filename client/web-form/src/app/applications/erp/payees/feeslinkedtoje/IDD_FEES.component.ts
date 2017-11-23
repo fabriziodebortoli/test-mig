@@ -10,7 +10,7 @@ import { IDD_FEESService } from './IDD_FEES.service';
     providers: [IDD_FEESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FEESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FEESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_FEES_CALCULATION_itemSource: any;
 public IDC_FEES_PERCENTAGE_itemSource: any;
 public IDC_FEES_DATA_MODALITARA_itemSource: any;
@@ -25,7 +25,7 @@ public IDC_FEES_DATA_LETTER770_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

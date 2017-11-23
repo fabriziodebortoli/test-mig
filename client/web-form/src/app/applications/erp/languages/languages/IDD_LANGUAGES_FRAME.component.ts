@@ -10,7 +10,7 @@ import { IDD_LANGUAGES_FRAMEService } from './IDD_LANGUAGES_FRAME.service';
     providers: [IDD_LANGUAGES_FRAMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LANGUAGES_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LANGUAGES_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LANGUAGES_CULTURE_itemSource: any;
 
     constructor(document: IDD_LANGUAGES_FRAMEService,
@@ -20,7 +20,7 @@ export class IDD_LANGUAGES_FRAMEComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

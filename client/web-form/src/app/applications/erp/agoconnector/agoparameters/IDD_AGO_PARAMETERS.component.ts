@@ -10,7 +10,7 @@ import { IDD_AGO_PARAMETERSService } from './IDD_AGO_PARAMETERS.service';
     providers: [IDD_AGO_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_AGO_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_AGO_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_AGO_PARAMETERSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_AGO_PARAMETERSComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

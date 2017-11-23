@@ -10,7 +10,7 @@ import { IDD_RETAIL_PRICE_CHANGEService } from './IDD_RETAIL_PRICE_CHANGE.servic
     providers: [IDD_RETAIL_PRICE_CHANGEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RETAIL_PRICE_CHANGEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RETAIL_PRICE_CHANGEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RETAIL_PRICE_CHANGEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_RETAIL_PRICE_CHANGEComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

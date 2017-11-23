@@ -10,7 +10,7 @@ import { IDD_CATEGORIESService } from './IDD_CATEGORIES.service';
     providers: [IDD_CATEGORIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CATEGORIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CATEGORIESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CATEGORY_METHOD_itemSource: any;
 
     constructor(document: IDD_CATEGORIESService,
@@ -20,7 +20,7 @@ export class IDD_CATEGORIESComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_SUBCNTDNGENERATIONService } from './IDD_SUBCNTDNGENERATION.service'
     providers: [IDD_SUBCNTDNGENERATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUBCNTDNGENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUBCNTDNGENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DNGENERATION_LE_BE_CODETYPE_SPEC_itemSource: any;
 
     constructor(document: IDD_SUBCNTDNGENERATIONService,
@@ -20,7 +20,7 @@ export class IDD_SUBCNTDNGENERATIONComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

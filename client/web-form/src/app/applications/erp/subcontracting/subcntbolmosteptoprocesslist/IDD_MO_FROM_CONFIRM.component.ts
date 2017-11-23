@@ -10,7 +10,7 @@ import { IDD_MO_FROM_CONFIRMService } from './IDD_MO_FROM_CONFIRM.service';
     providers: [IDD_MO_FROM_CONFIRMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MO_FROM_CONFIRMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MO_FROM_CONFIRMComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MO_FROM_CONFIRM_CODETYPE_SPECIFICATOR_itemSource: any;
 
     constructor(document: IDD_MO_FROM_CONFIRMService,
@@ -20,7 +20,7 @@ export class IDD_MO_FROM_CONFIRMComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

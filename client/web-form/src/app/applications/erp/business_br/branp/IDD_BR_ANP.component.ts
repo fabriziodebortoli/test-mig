@@ -10,7 +10,7 @@ import { IDD_BR_ANPService } from './IDD_BR_ANP.service';
     providers: [IDD_BR_ANPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_ANPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_ANPComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_ANPService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BR_ANPComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

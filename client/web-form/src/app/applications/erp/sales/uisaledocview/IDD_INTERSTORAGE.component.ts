@@ -10,7 +10,7 @@ import { IDD_INTERSTORAGEService } from './IDD_INTERSTORAGE.service';
     providers: [IDD_INTERSTORAGEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTERSTORAGEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTERSTORAGEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DOC_INTERSTORAGE_DOCUMENT_TYPE_itemSource: any;
 public IDC_DOC_CODETYPE_SPECIFICATOR_1_itemSource: any;
 public IDC_DOC_CODETYPE_SPECIFICATOR_2_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_DOC_CODETYPE_SPECIFICATOR_2_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

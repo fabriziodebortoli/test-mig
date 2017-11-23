@@ -10,7 +10,7 @@ import { IDD_PRODUCTLINESService } from './IDD_PRODUCTLINES.service';
     providers: [IDD_PRODUCTLINESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRODUCTLINESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRODUCTLINESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRODUCTLINESService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PRODUCTLINESComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

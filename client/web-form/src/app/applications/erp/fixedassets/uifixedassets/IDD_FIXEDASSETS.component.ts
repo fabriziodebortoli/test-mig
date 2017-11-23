@@ -10,7 +10,7 @@ import { IDD_FIXEDASSETSService } from './IDD_FIXEDASSETS.service';
     providers: [IDD_FIXEDASSETSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FIXEDASSETSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FIXEDASSETSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_FIXEDASSET_CTGMETHOD_itemSource: any;
 public IDC_FIXEDASSET_METHOD_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_FIXEDASSET_METHOD_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

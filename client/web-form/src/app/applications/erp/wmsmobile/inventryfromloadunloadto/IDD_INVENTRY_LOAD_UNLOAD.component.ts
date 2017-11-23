@@ -10,7 +10,7 @@ import { IDD_INVENTRY_LOAD_UNLOADService } from './IDD_INVENTRY_LOAD_UNLOAD.serv
     providers: [IDD_INVENTRY_LOAD_UNLOADService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVENTRY_LOAD_UNLOADComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVENTRY_LOAD_UNLOADComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INVENTRYFROMLOADUNLOADTO_LOAD_SPEC_TYPE_itemSource: any;
 public IDC_INVENTRYFROMLOADUNLOADTO_PROPOSED_LOAD_UNIT_VALUE_itemSource: any;
 public IDC_INVENTRYFROMLOADUNLOADTO_UNLOAD_SPEC_TYPE_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_INVENTRYFROMLOADUNLOADTO_PROPOSED_UNLOAD_UNIT_VALUE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

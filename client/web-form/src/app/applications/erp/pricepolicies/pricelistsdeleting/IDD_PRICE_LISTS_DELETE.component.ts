@@ -10,7 +10,7 @@ import { IDD_PRICE_LISTS_DELETEService } from './IDD_PRICE_LISTS_DELETE.service'
     providers: [IDD_PRICE_LISTS_DELETEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRICE_LISTS_DELETEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRICE_LISTS_DELETEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRICE_LISTS_DELETEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PRICE_LISTS_DELETEComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

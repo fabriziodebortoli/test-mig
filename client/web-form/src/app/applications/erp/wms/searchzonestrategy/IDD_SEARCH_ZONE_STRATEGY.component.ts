@@ -10,7 +10,7 @@ import { IDD_SEARCH_ZONE_STRATEGYService } from './IDD_SEARCH_ZONE_STRATEGY.serv
     providers: [IDD_SEARCH_ZONE_STRATEGYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SEARCH_ZONE_STRATEGYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SEARCH_ZONE_STRATEGYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SEARCH_ZONE_STRATEGYService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SEARCH_ZONE_STRATEGYComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_INTRA_PURCHASEService } from './IDD_INTRA_PURCHASE.service';
     providers: [IDD_INTRA_PURCHASEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTRA_PURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTRA_PURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INTRAT_PURCHASE_NATUREOFTRANSACTION_itemSource: any;
 
     constructor(document: IDD_INTRA_PURCHASEService,
@@ -20,7 +20,7 @@ export class IDD_INTRA_PURCHASEComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

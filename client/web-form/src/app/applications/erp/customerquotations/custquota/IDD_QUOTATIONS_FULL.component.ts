@@ -10,7 +10,7 @@ import { IDD_QUOTATIONS_FULLService } from './IDD_QUOTATIONS_FULL.service';
     providers: [IDD_QUOTATIONS_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_QUOTATIONS_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_QUOTATIONS_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_QUOTATIONS_FULLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_QUOTATIONS_FULLComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

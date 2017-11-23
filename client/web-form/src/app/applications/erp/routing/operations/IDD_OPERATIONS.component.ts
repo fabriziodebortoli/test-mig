@@ -10,7 +10,7 @@ import { IDD_OPERATIONSService } from './IDD_OPERATIONS.service';
     providers: [IDD_OPERATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OPERATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OPERATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
 public IDC_TOOLS_MAN_RTGSTEP_itemSource: any;
 public IDC_TOOLS_MAN_ALT_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_TOOLS_MAN_RTGSTEP_ALT_RTGSTEP_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

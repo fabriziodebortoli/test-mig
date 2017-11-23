@@ -10,7 +10,7 @@ import { IDD_SUPPLIERCLASSIFICATIONService } from './IDD_SUPPLIERCLASSIFICATION.
     providers: [IDD_SUPPLIERCLASSIFICATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUPPLIERCLASSIFICATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUPPLIERCLASSIFICATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SUPPLIERCLASSIFICATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SUPPLIERCLASSIFICATIONComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

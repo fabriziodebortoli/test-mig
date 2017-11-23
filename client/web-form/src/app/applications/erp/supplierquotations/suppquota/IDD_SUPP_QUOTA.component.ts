@@ -10,7 +10,7 @@ import { IDD_SUPP_QUOTAService } from './IDD_SUPP_QUOTA.service';
     providers: [IDD_SUPP_QUOTAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUPP_QUOTAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUPP_QUOTAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SUPP_QUOTAService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SUPP_QUOTAComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

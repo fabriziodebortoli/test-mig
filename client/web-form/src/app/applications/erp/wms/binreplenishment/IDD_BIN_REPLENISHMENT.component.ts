@@ -10,7 +10,7 @@ import { IDD_BIN_REPLENISHMENTService } from './IDD_BIN_REPLENISHMENT.service';
     providers: [IDD_BIN_REPLENISHMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BIN_REPLENISHMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BIN_REPLENISHMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BIN_REPLENISHMENTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BIN_REPLENISHMENTComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

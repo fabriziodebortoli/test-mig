@@ -10,7 +10,7 @@ import { IDD_BANKTRANSFER_SEPAService } from './IDD_BANKTRANSFER_SEPA.service';
     providers: [IDD_BANKTRANSFER_SEPAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BANKTRANSFER_SEPAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BANKTRANSFER_SEPAComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SEPA_BANKTRANSFERTYPE_itemSource: any;
 
     constructor(document: IDD_BANKTRANSFER_SEPAService,
@@ -20,7 +20,7 @@ export class IDD_BANKTRANSFER_SEPAComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

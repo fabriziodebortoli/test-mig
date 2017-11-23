@@ -10,7 +10,7 @@ import { IDD_DMS_SETTINGSService } from './IDD_DMS_SETTINGS.service';
     providers: [IDD_DMS_SETTINGSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DMS_SETTINGSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DMS_SETTINGSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DMS_SETTINGSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_DMS_SETTINGSComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

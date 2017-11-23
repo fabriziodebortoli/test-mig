@@ -10,7 +10,7 @@ import { IDD_BR_TAXRULESService } from './IDD_BR_TAXRULES.service';
     providers: [IDD_BR_TAXRULESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_TAXRULESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_TAXRULESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_TAXRULES_OPERATION_TYPE_itemSource: any;
 public IDC_BR_TAXRULES_MOV_TYPE_itemSource: any;
 public IDC_BR_TAXRULES_GOODS_ORIGIN_itemSource: any;
@@ -25,7 +25,7 @@ public IDC_BR_TAXRULES_ICMSST_MOD_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

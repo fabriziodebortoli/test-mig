@@ -10,7 +10,7 @@ import { IDD_TCOMBINEDNOMENCLATUREService } from './IDD_TCOMBINEDNOMENCLATURE.se
     providers: [IDD_TCOMBINEDNOMENCLATUREService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TCOMBINEDNOMENCLATUREComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TCOMBINEDNOMENCLATUREComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TCOMBINEDNOMENCLATUREService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_TCOMBINEDNOMENCLATUREComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

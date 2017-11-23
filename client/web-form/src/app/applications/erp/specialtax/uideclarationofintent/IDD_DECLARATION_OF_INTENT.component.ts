@@ -10,7 +10,7 @@ import { IDD_DECLARATION_OF_INTENTService } from './IDD_DECLARATION_OF_INTENT.se
     providers: [IDD_DECLARATION_OF_INTENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DECLARATION_OF_INTENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DECLARATION_OF_INTENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DECLARATION_OF_INTENTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_DECLARATION_OF_INTENTComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

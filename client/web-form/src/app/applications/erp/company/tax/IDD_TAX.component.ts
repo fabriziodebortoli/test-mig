@@ -10,7 +10,7 @@ import { IDD_TAXService } from './IDD_TAX.service';
     providers: [IDD_TAXService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TAX_CUSTOMERS_LIST_itemSource: any;
 
     constructor(document: IDD_TAXService,
@@ -20,7 +20,7 @@ export class IDD_TAXComponent extends BOComponent implements OnInit, OnDestroy {
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,7 +31,7 @@ export class IDD_TAXComponent extends BOComponent implements OnInit, OnDestroy {
 }; 
 
         const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxCode':['TaxCode','Disabled','Description','Notes','NoChargesDistribution','DistributionPerc','ExemptInvoice','Perc','UndeductiblePerc','FarmerTaxPerc','AdditionalPerc','UseSecondLumpSumRate','LetterForFiscalPrinter','InExportPlafond','InPlafondTurnover','PlafondType','ProRataExempt','InProRataTurnover','TravelAgencyVAT','TravelExtraUE','PurchaseType','BuyerObligedToPayTax','ReverseCharge','PurchaseType','InExportPlafond','NoTaxableAmount','ReverseCharge','D394GoodCode','D394ActivityCode','D394TransactionType','AGOLawCode','AGOTaxCode','OMNIALawCode','OMNIATaxCode','BlackListExempt','BlackListNonTaxable','NotInBlackList','NoTaxableAmount','NoIntrastat','Exempt','NonTaxable','FixedAssets','Gold','Scrap','EICODE'],'global':['UseFirstLumpSumRate','D394Goods','__Languages','CDTaxYear','TaxDeclaration','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'HKLAGOLawCodes':['Description'],'HKLAGOTaxCodes':['Description'],'HKLOMNIALawCodes':['Description'],'HKLOMNIATaxCodes':['Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2'],'TaxCodesLists':['CustListType','SuppListType'],'TaxDeclaration':['Frame','PrintOrder','Line','DataType','ColumnType','AmountType','ActionOnTotal'],'HKLEICoding':['Description'],'DBTLinksTable':['Image','Description']});
+		boService.appendToModelStructure({'TaxCode':['TaxCode','Disabled','Description','Notes','NoChargesDistribution','DistributionPerc','ExemptInvoice','Perc','UndeductiblePerc','FarmerTaxPerc','AdditionalPerc','UseSecondLumpSumRate','LetterForFiscalPrinter','InExportPlafond','InPlafondTurnover','PlafondType','ProRataExempt','InProRataTurnover','TravelAgencyVAT','TravelExtraUE','PurchaseType','BuyerObligedToPayTax','ReverseCharge','PurchaseType','InExportPlafond','NoTaxableAmount','ReverseCharge','D394GoodCode','D394ActivityCode','D394TransactionType','AGOLawCode','AGOTaxCode','OMNIALawCode','OMNIATaxCode','BlackListExempt','BlackListNonTaxable','NotInBlackList','NoTaxableAmount','NoIntrastat','Exempt','NonTaxable','FixedAssets','Gold','Scrap'],'global':['UseFirstLumpSumRate','D394Goods','__Languages','CDTaxYear','TaxDeclaration','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'HKLAGOLawCodes':['Description'],'HKLAGOTaxCodes':['Description'],'HKLOMNIALawCodes':['Description'],'HKLOMNIATaxCodes':['Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2'],'TaxCodesLists':['CustListType','SuppListType'],'TaxDeclaration':['Frame','PrintOrder','Line','DataType','ColumnType','AmountType','ActionOnTotal'],'DBTLinksTable':['Image','Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ECO_REFERENCEService } from './IDD_ECO_REFERENCE.service';
     providers: [IDD_ECO_REFERENCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ECO_REFERENCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ECO_REFERENCEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ECO_REFERENCE_USE_IN_STEP_itemSource: any;
 
     constructor(document: IDD_ECO_REFERENCEService,
@@ -20,7 +20,7 @@ export class IDD_ECO_REFERENCEComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

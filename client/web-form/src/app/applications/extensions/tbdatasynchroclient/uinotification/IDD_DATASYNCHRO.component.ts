@@ -10,7 +10,7 @@ import { IDD_DATASYNCHROService } from './IDD_DATASYNCHRO.service';
     providers: [IDD_DATASYNCHROService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DATASYNCHROComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DATASYNCHROComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DATASYNCHROService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_DATASYNCHROComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

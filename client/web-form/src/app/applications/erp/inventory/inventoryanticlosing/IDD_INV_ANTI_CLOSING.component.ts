@@ -10,7 +10,7 @@ import { IDD_INV_ANTI_CLOSINGService } from './IDD_INV_ANTI_CLOSING.service';
     providers: [IDD_INV_ANTI_CLOSINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INV_ANTI_CLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INV_ANTI_CLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INV_ANTI_CLOSINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_INV_ANTI_CLOSINGComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

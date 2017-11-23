@@ -10,7 +10,7 @@ import { IDD_UNLOAD_IEService } from './IDD_UNLOAD_IE.service';
     providers: [IDD_UNLOAD_IEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_UNLOAD_IEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_UNLOAD_IEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_UNLOAD_IE_SPECIFICATOR_TYPE_BE_itemSource: any;
 
     constructor(document: IDD_UNLOAD_IEService,
@@ -20,7 +20,7 @@ export class IDD_UNLOAD_IEComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

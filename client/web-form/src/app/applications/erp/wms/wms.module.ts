@@ -48,6 +48,7 @@ import { IDD_BINTYPEComponent, IDD_BINTYPEFactoryComponent } from './bintype/IDD
 import { IDD_DWMBINSTRUCTComponent, IDD_DWMBINSTRUCTFactoryComponent } from './binstruct/IDD_DWMBINSTRUCT.component';
 import { IDD_BIN_REPLENISHMENTComponent, IDD_BIN_REPLENISHMENTFactoryComponent } from './binreplenishment/IDD_BIN_REPLENISHMENT.component';
 import { IDD_BIN_GENERATIONComponent, IDD_BIN_GENERATIONFactoryComponent } from './bingeneration/IDD_BIN_GENERATION.component';
+import { IDD_BINComponent, IDD_BINFactoryComponent } from './bin/IDD_BIN.component';
 import { IDD_INIWMS_WMSComponent, IDD_INIWMS_WMSFactoryComponent } from './uiwmssettings/IDD_INIWMS_WMS.component';
 import { IDD_TOMANAGEMENTComponent, IDD_TOMANAGEMENTFactoryComponent } from './uitomanagement/IDD_TOMANAGEMENT.component';
 import { IDD_TOCONFIRMATIONComponent, IDD_TOCONFIRMATIONFactoryComponent } from './uitomanagement/IDD_TOCONFIRMATION.component';
@@ -118,6 +119,7 @@ import { SharedModule } from './../../../shared/shared.module';
             { path: 'IDD_DWMBINSTRUCT', component: IDD_DWMBINSTRUCTFactoryComponent },
             { path: 'IDD_BIN_REPLENISHMENT', component: IDD_BIN_REPLENISHMENTFactoryComponent },
             { path: 'IDD_BIN_GENERATION', component: IDD_BIN_GENERATIONFactoryComponent },
+            { path: 'IDD_BIN', component: IDD_BINFactoryComponent },
             { path: 'IDD_INIWMS_WMS', component: IDD_INIWMS_WMSFactoryComponent },
             { path: 'IDD_TOMANAGEMENT', component: IDD_TOMANAGEMENTFactoryComponent },
             { path: 'IDD_TOCONFIRMATION', component: IDD_TOCONFIRMATIONFactoryComponent },
@@ -180,6 +182,7 @@ import { SharedModule } from './../../../shared/shared.module';
             IDD_DWMBINSTRUCTComponent, IDD_DWMBINSTRUCTFactoryComponent,
             IDD_BIN_REPLENISHMENTComponent, IDD_BIN_REPLENISHMENTFactoryComponent,
             IDD_BIN_GENERATIONComponent, IDD_BIN_GENERATIONFactoryComponent,
+            IDD_BINComponent, IDD_BINFactoryComponent,
             IDD_INIWMS_WMSComponent, IDD_INIWMS_WMSFactoryComponent,
             IDD_TOMANAGEMENTComponent, IDD_TOMANAGEMENTFactoryComponent,
             IDD_TOCONFIRMATIONComponent, IDD_TOCONFIRMATIONFactoryComponent,
@@ -242,6 +245,7 @@ import { SharedModule } from './../../../shared/shared.module';
             IDD_DWMBINSTRUCTFactoryComponent,
             IDD_BIN_REPLENISHMENTFactoryComponent,
             IDD_BIN_GENERATIONFactoryComponent,
+            IDD_BINFactoryComponent,
             IDD_INIWMS_WMSFactoryComponent,
             IDD_TOMANAGEMENTFactoryComponent,
             IDD_TOCONFIRMATIONFactoryComponent,
@@ -304,6 +308,7 @@ import { SharedModule } from './../../../shared/shared.module';
             IDD_DWMBINSTRUCTComponent,
             IDD_BIN_REPLENISHMENTComponent,
             IDD_BIN_GENERATIONComponent,
+            IDD_BINComponent,
             IDD_INIWMS_WMSComponent,
             IDD_TOMANAGEMENTComponent,
             IDD_TOCONFIRMATIONComponent,

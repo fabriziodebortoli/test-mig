@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_CUSTOMERSSUPPLIERSService } from './IDD_PARAMETERS_CUSTO
     providers: [IDD_PARAMETERS_CUSTOMERSSUPPLIERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_CUSTOMERSSUPPLIERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_CUSTOMERSSUPPLIERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PARAM_CUSTSUPP_PRINTS_TYPE_itemSource: any;
 
     constructor(document: IDD_PARAMETERS_CUSTOMERSSUPPLIERSService,
@@ -20,7 +20,7 @@ export class IDD_PARAMETERS_CUSTOMERSSUPPLIERSComponent extends BOComponent impl
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

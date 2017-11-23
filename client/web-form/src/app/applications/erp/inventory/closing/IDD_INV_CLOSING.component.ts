@@ -10,7 +10,7 @@ import { IDD_INV_CLOSINGService } from './IDD_INV_CLOSING.service';
     providers: [IDD_INV_CLOSINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INV_CLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INV_CLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CLOSEDINV_CODETYPE_COST_itemSource: any;
 
     constructor(document: IDD_INV_CLOSINGService,
@@ -20,7 +20,7 @@ export class IDD_INV_CLOSINGComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

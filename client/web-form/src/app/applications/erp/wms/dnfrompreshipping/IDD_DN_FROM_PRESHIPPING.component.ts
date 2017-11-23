@@ -10,7 +10,7 @@ import { IDD_DN_FROM_PRESHIPPINGService } from './IDD_DN_FROM_PRESHIPPING.servic
     providers: [IDD_DN_FROM_PRESHIPPINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DN_FROM_PRESHIPPINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DN_FROM_PRESHIPPINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DN_FROM_PRESHIPPING_TYPE_itemSource: any;
 
     constructor(document: IDD_DN_FROM_PRESHIPPINGService,
@@ -20,7 +20,7 @@ export class IDD_DN_FROM_PRESHIPPINGComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

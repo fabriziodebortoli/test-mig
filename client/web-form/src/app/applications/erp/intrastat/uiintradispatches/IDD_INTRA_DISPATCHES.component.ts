@@ -10,7 +10,7 @@ import { IDD_INTRA_DISPATCHESService } from './IDD_INTRA_DISPATCHES.service';
     providers: [IDD_INTRA_DISPATCHESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTRA_DISPATCHESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTRA_DISPATCHESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INTRAT_DISPATCHES_NATUREOFTRANSACTION_itemSource: any;
 
     constructor(document: IDD_INTRA_DISPATCHESService,
@@ -20,7 +20,7 @@ export class IDD_INTRA_DISPATCHESComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

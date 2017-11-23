@@ -389,10 +389,6 @@ Sales Documents')" columnType="tb-body-edit-column" columnName="IDC_ITEMNOTES_SH
           </tb-body-edit-column>
          </tb-body-edit>
         </tb-tile>
-        <tb-tile [title]="_TB('Type for Electronic Invoicing')" tbTileWide  isCollapsible="True" isCollapsed="True" *ngIf="eventData?.activation?.IDD_TD_EIIT_ITEMS">
-<div class="col col1">         <tb-text [caption]="_TB('Type Code')" cmpId="IDC_ITM_FE_EITYPECODE" width="175" [model]="eventData?.model?.Items?.EITypeCode"></tb-text>
-</div><div class="col col2">         <tb-text [caption]="_TB('Value Code')" cmpId="IDC_ITM_FE_EITVALUECODE" width="175" [model]="eventData?.model?.Items?.EIValueCode"></tb-text>
-</div>        </tb-tile>
        </ng-template>
       </tb-tilegroup>
       <tb-tilegroup [title]="_TB('Quality Inspection')" icon="erp-quality" tbLayoutTypeVbox  *ngIf="eventData?.activation?.IDC_TG_ITEMS_QUALITY">

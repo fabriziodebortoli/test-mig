@@ -10,7 +10,7 @@ import { IDD_OMNIA_EXPORTService } from './IDD_OMNIA_EXPORT.service';
     providers: [IDD_OMNIA_EXPORTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OMNIA_EXPORTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OMNIA_EXPORTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_OMNIA_EXPORTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_OMNIA_EXPORTComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

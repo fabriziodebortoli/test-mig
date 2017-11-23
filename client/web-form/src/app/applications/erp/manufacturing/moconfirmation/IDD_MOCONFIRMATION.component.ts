@@ -10,7 +10,7 @@ import { IDD_MOCONFIRMATIONService } from './IDD_MOCONFIRMATION.service';
     providers: [IDD_MOCONFIRMATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MOCONFIRMATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MOCONFIRMATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
 
     constructor(document: IDD_MOCONFIRMATIONService,
@@ -20,7 +20,7 @@ export class IDD_MOCONFIRMATIONComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

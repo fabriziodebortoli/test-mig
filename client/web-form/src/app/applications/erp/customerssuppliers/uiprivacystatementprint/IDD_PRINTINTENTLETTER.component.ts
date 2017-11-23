@@ -10,7 +10,7 @@ import { IDD_PRINTINTENTLETTERService } from './IDD_PRINTINTENTLETTER.service';
     providers: [IDD_PRINTINTENTLETTERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINTINTENTLETTERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINTINTENTLETTERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRINTINTENTLETTERService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PRINTINTENTLETTERComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

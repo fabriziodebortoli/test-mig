@@ -10,7 +10,7 @@ import { IDD_PLAN_ACCOUNTSService } from './IDD_PLAN_ACCOUNTS.service';
     providers: [IDD_PLAN_ACCOUNTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PLAN_ACCOUNTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PLAN_ACCOUNTSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COA_CURRENCY_FOR_BALANCES_itemSource: any;
 
     constructor(document: IDD_PLAN_ACCOUNTSService,
@@ -20,7 +20,7 @@ export class IDD_PLAN_ACCOUNTSComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

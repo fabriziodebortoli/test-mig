@@ -10,7 +10,7 @@ import { IDD_BOMService } from './IDD_BOM.service';
     providers: [IDD_BOMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOMComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BOM_CODETYPE_BOM_itemSource: any;
 public IDC_BOM_DISPLAY_PROD_itemSource: any;
 public IDC_BOM_UNIMIS_itemSource: any;
@@ -29,7 +29,7 @@ public IDC_TOOLS_MAN_RTGSTEP_ALT_RTGSTEP_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

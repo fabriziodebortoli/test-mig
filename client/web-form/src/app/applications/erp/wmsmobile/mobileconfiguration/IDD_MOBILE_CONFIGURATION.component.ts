@@ -10,7 +10,7 @@ import { IDD_MOBILE_CONFIGURATIONService } from './IDD_MOBILE_CONFIGURATION.serv
     providers: [IDD_MOBILE_CONFIGURATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MOBILE_CONFIGURATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MOBILE_CONFIGURATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MOBILE_CONFIGURATION_NAMESPACE_itemSource: any;
 
     constructor(document: IDD_MOBILE_CONFIGURATIONService,
@@ -20,7 +20,7 @@ export class IDD_MOBILE_CONFIGURATIONComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

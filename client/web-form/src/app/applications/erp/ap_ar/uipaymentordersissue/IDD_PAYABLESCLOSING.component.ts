@@ -10,7 +10,7 @@ import { IDD_PAYABLESCLOSINGService } from './IDD_PAYABLESCLOSING.service';
     providers: [IDD_PAYABLESCLOSINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PAYABLESCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PAYABLESCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PYMTORD_PYMTTERM_itemSource: any;
 
     constructor(document: IDD_PAYABLESCLOSINGService,
@@ -20,7 +20,7 @@ export class IDD_PAYABLESCLOSINGComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

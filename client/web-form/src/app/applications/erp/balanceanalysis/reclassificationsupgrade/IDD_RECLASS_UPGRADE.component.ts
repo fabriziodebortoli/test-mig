@@ -10,7 +10,7 @@ import { IDD_RECLASS_UPGRADEService } from './IDD_RECLASS_UPGRADE.service';
     providers: [IDD_RECLASS_UPGRADEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RECLASS_UPGRADEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RECLASS_UPGRADEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RECLASS_UPGRADEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_RECLASS_UPGRADEComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

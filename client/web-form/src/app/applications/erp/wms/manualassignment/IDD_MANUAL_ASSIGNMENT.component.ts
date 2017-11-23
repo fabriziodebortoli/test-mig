@@ -10,7 +10,7 @@ import { IDD_MANUAL_ASSIGNMENTService } from './IDD_MANUAL_ASSIGNMENT.service';
     providers: [IDD_MANUAL_ASSIGNMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MANUAL_ASSIGNMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MANUAL_ASSIGNMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MANUAL_ASSIGNMENTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_MANUAL_ASSIGNMENTComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_TAXJOURN_RANGEService } from './IDD_TAXJOURN_RANGE.service';
     providers: [IDD_TAXJOURN_RANGEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXJOURN_RANGEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXJOURN_RANGEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TAXJOURN_RANGEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_TAXJOURN_RANGEComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

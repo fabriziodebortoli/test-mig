@@ -10,7 +10,7 @@ import { IDD_SUBCONTRACTOR_BOLService } from './IDD_SUBCONTRACTOR_BOL.service';
     providers: [IDD_SUBCONTRACTOR_BOLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUBCONTRACTOR_BOLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUBCONTRACTOR_BOLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PURCH_DOC_NATURE_TRANSACTION_itemSource: any;
 public IDC_PURCH_DOC_CODETYPE_SPECIFICATOR_1_itemSource: any;
 public IDC_PURCH_DOC_CODETYPE_SPECIFICATOR_2_itemSource: any;
@@ -28,7 +28,7 @@ public IDC_PURCH_DOC_SPEC_PHASE_2_ORDCOL_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

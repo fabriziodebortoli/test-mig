@@ -10,7 +10,7 @@ import { IDD_CHECKS_RECEIVINGISSUING_OUTSTANDINGService } from './IDD_CHECKS_REC
     providers: [IDD_CHECKS_RECEIVINGISSUING_OUTSTANDINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CHECKS_RECEIVINGISSUING_OUTSTANDINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CHECKS_RECEIVINGISSUING_OUTSTANDINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CHECKS_RECEIVINGISSUING_OUTSTANDINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CHECKS_RECEIVINGISSUING_OUTSTANDINGComponent extends BOComponen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

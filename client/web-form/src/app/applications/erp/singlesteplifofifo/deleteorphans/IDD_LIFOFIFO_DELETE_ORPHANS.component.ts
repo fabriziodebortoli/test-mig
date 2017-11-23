@@ -10,7 +10,7 @@ import { IDD_LIFOFIFO_DELETE_ORPHANSService } from './IDD_LIFOFIFO_DELETE_ORPHAN
     providers: [IDD_LIFOFIFO_DELETE_ORPHANSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LIFOFIFO_DELETE_ORPHANSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LIFOFIFO_DELETE_ORPHANSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LIFOFIFO_DELETE_ORPHANSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LIFOFIFO_DELETE_ORPHANSComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

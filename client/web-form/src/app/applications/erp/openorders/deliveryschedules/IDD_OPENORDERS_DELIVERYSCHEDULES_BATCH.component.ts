@@ -10,7 +10,7 @@ import { IDD_OPENORDERS_DELIVERYSCHEDULES_BATCHService } from './IDD_OPENORDERS_
     providers: [IDD_OPENORDERS_DELIVERYSCHEDULES_BATCHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OPENORDERS_DELIVERYSCHEDULES_BATCHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OPENORDERS_DELIVERYSCHEDULES_BATCHComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_OPENORDERS_DELIVERYSCHEDULES_UOM_itemSource: any;
 
     constructor(document: IDD_OPENORDERS_DELIVERYSCHEDULES_BATCHService,
@@ -20,7 +20,7 @@ export class IDD_OPENORDERS_DELIVERYSCHEDULES_BATCHComponent extends BOComponent
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

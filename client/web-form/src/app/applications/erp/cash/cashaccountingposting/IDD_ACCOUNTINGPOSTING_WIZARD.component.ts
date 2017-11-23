@@ -10,7 +10,7 @@ import { IDD_ACCOUNTINGPOSTING_WIZARDService } from './IDD_ACCOUNTINGPOSTING_WIZ
     providers: [IDD_ACCOUNTINGPOSTING_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACCOUNTINGPOSTING_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACCOUNTINGPOSTING_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACCOUNTINGPOSTING_WIZARDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ACCOUNTINGPOSTING_WIZARDComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

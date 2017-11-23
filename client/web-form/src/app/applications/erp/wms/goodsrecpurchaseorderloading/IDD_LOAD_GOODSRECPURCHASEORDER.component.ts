@@ -10,7 +10,7 @@ import { IDD_LOAD_GOODSRECPURCHASEORDERService } from './IDD_LOAD_GOODSRECPURCHA
     providers: [IDD_LOAD_GOODSRECPURCHASEORDERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_GOODSRECPURCHASEORDERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_GOODSRECPURCHASEORDERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_GOODSRECPURCHASEORDERService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LOAD_GOODSRECPURCHASEORDERComponent extends BOComponent impleme
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

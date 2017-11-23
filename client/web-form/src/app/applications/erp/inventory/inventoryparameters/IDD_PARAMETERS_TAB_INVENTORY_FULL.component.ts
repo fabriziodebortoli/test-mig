@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_TAB_INVENTORY_FULLService } from './IDD_PARAMETERS_TAB_I
     providers: [IDD_PARAMETERS_TAB_INVENTORY_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_TAB_INVENTORY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_TAB_INVENTORY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PARAMETERS_TAB_INVENTORY_FULLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PARAMETERS_TAB_INVENTORY_FULLComponent extends BOComponent impl
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_IMPORT_SCHEMA_RECLASSIFIED_COAService } from './IDD_IMPORT_SCHEMA_R
     providers: [IDD_IMPORT_SCHEMA_RECLASSIFIED_COAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_IMPORT_SCHEMA_RECLASSIFIED_COAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_IMPORT_SCHEMA_RECLASSIFIED_COAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_IMPORT_SCHEMA_RECLASSIFIED_COAService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_IMPORT_SCHEMA_RECLASSIFIED_COAComponent extends BOComponent imp
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

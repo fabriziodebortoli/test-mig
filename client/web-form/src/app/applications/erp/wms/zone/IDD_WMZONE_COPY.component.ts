@@ -10,7 +10,7 @@ import { IDD_WMZONE_COPYService } from './IDD_WMZONE_COPY.service';
     providers: [IDD_WMZONE_COPYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WMZONE_COPYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WMZONE_COPYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WMZONE_COPYService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_WMZONE_COPYComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

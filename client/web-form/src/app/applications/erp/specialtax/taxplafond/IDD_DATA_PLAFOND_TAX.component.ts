@@ -10,7 +10,7 @@ import { IDD_DATA_PLAFOND_TAXService } from './IDD_DATA_PLAFOND_TAX.service';
     providers: [IDD_DATA_PLAFOND_TAXService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DATA_PLAFOND_TAXComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DATA_PLAFOND_TAXComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DATA_PLAFOND_TAXService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_DATA_PLAFOND_TAXComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

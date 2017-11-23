@@ -10,7 +10,7 @@ import { IDD_ITEMSUPP_FULLService } from './IDD_ITEMSUPP_FULL.service';
     providers: [IDD_ITEMSUPP_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMSUPP_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMSUPP_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CUSTSUPITEM_UOM_itemSource: any;
 public IDC_CUSTSUPITEM_QTY_UOM_itemSource: any;
 public IDC_CUSTSUPITEM_UOM_LASTPURCHASE_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_CUSTSUPITEM_UOM_LASTPURCHASE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

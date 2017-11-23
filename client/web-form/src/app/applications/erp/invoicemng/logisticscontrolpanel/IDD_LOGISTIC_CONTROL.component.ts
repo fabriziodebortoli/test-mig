@@ -10,7 +10,7 @@ import { IDD_LOGISTIC_CONTROLService } from './IDD_LOGISTIC_CONTROL.service';
     providers: [IDD_LOGISTIC_CONTROLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOGISTIC_CONTROLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOGISTIC_CONTROLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LOGISTICS_CONTROL_PANEL_DOCUMENT_TYPE_itemSource: any;
 
     constructor(document: IDD_LOGISTIC_CONTROLService,
@@ -20,7 +20,7 @@ export class IDD_LOGISTIC_CONTROLComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

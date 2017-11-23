@@ -10,7 +10,7 @@ import { IDD_MO_COMP_REPLService } from './IDD_MO_COMP_REPL.service';
     providers: [IDD_MO_COMP_REPLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MO_COMP_REPLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MO_COMP_REPLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SOST_JOLLY_UNIT_OF_MISURE_itemSource: any;
 
     constructor(document: IDD_MO_COMP_REPLService,
@@ -20,7 +20,7 @@ export class IDD_MO_COMP_REPLComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

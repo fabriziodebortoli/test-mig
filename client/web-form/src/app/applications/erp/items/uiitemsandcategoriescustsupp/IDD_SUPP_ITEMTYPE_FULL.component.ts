@@ -10,7 +10,7 @@ import { IDD_SUPP_ITEMTYPE_FULLService } from './IDD_SUPP_ITEMTYPE_FULL.service'
     providers: [IDD_SUPP_ITEMTYPE_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUPP_ITEMTYPE_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUPP_ITEMTYPE_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SUPP_ITEMTYPE_FULLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SUPP_ITEMTYPE_FULLComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

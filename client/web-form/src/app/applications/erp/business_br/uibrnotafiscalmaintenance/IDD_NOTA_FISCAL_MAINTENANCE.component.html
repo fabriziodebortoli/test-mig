@@ -53,14 +53,12 @@
         <tb-checkbox cmpId="IDC_NF_CUST_MAINT_NOTA_FISCAL_POSTED_TO_ROMANEIO" width="115" [model]="eventData?.model?.DBTBRNotaFiscalForCustMaintenance?.PostedToRomaneio" [caption]="_TB('Posted to Romaneio')"></tb-checkbox>
 </div>        <tb-text [caption]="_TB('Number')" cmpId="IDC_NF_CUST_MAINT_DOC_NO_NF_SERVICES" width="84" [model]="eventData?.model?.DBTBRNotaFiscalForCustMaintenance?.DocNoNFServices"></tb-text>
         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_NF_CUST_MAINT_DOC_DATE_NF_SERVICES" width="57" [model]="eventData?.model?.DBTBRNotaFiscalForCustMaintenance?.DocDateNFServices"></tb-date-input>
-        <tb-enum-combo [caption]="_TB('Status')" cmpId="IDC_NF_CUST_MAINT_NOTA_FISCAL_STATUS" width="111" [model]="eventData?.model?.DBTBRNFForCustSaleDocMaintenance?.EIStatus" [itemSource]="IDC_NF_CUST_MAINT_NOTA_FISCAL_STATUS_itemSource"></tb-enum-combo>
        </tb-tile>
        <tb-tile [title]="_TB('Status')" tbTileStandard  *ngIf="eventData?.activation?.IDD_TD_NOTA_FISCAL_SUPP_STATUS_DATA">
 <div class="anchored">        <tb-text [caption]="_TB('Key')" cmpId="IDC_NF_SUPP_MAINT_NOTA_FISCAL_KEY" width="183" [model]="eventData?.model?.DBTBRNotaFiscalForSuppMaintenance?.ChNFe"></tb-text>
         <tb-checkbox cmpId="IDC_NF_SUPP_MAINT_NOTA_FISCAL_POSTED_TO_ROMANEIO" width="105" [model]="eventData?.model?.DBTBRNotaFiscalForSuppMaintenance?.PostedToRomaneio" [caption]="_TB('Posted to Romaneio')"></tb-checkbox>
 </div>        <tb-text [caption]="_TB('Number')" cmpId="IDC_NF_SUPP_MAINT_DOC_NO_NF_SERVICES" width="84" [model]="eventData?.model?.DBTBRNotaFiscalForSuppMaintenance?.DocNoNFServices"></tb-text>
         <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_NF_SUPP_MAINT_DOC_DATE_NF_SERVICES" width="57" [model]="eventData?.model?.DBTBRNotaFiscalForSuppMaintenance?.DocDateNFServices"></tb-date-input>
-        <tb-enum-combo [caption]="_TB('Status')" cmpId="IDC_NF_SUPP_MAINT_NOTA_FISCAL_STATUS" width="111" [model]="eventData?.model?.DBTBRNFForSuppPurchDocMaintenance?.EIStatus" [itemSource]="IDC_NF_SUPP_MAINT_NOTA_FISCAL_STATUS_itemSource"></tb-enum-combo>
        </tb-tile>
       </ng-template>
      </tb-tilegroup>

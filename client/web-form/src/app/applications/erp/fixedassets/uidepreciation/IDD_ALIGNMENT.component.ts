@@ -10,7 +10,7 @@ import { IDD_ALIGNMENTService } from './IDD_ALIGNMENT.service';
     providers: [IDD_ALIGNMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ALIGNMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ALIGNMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ALIGNMENTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ALIGNMENTComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

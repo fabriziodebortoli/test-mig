@@ -10,7 +10,7 @@ import { IDD_CHECK_WMS_INVService } from './IDD_CHECK_WMS_INV.service';
     providers: [IDD_CHECK_WMS_INVService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CHECK_WMS_INVComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CHECK_WMS_INVComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CHECKWMSINVENTORY_PROPOSED_UNIT_VALUE_itemSource: any;
 
     constructor(document: IDD_CHECK_WMS_INVService,
@@ -20,7 +20,7 @@ export class IDD_CHECK_WMS_INVComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

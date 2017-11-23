@@ -10,7 +10,7 @@ import { IDD_PICKED_REBUILDINGService } from './IDD_PICKED_REBUILDING.service';
     providers: [IDD_PICKED_REBUILDINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PICKED_REBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PICKED_REBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PICKED_REBUILDINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PICKED_REBUILDINGComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

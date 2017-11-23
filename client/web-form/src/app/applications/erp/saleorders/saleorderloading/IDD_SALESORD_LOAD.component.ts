@@ -10,7 +10,7 @@ import { IDD_SALESORD_LOADService } from './IDD_SALESORD_LOAD.service';
     providers: [IDD_SALESORD_LOADService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALESORD_LOADComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALESORD_LOADComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALESORD_LOADService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SALESORD_LOADComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

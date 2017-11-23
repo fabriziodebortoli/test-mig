@@ -10,7 +10,7 @@ import { IDD_PROJECT_CODESService } from './IDD_PROJECT_CODES.service';
     providers: [IDD_PROJECT_CODESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PROJECT_CODESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PROJECT_CODESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PROJECT_CODESService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PROJECT_CODESComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

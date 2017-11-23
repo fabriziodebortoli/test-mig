@@ -10,7 +10,7 @@ import { IDD_FEETEMPLATESService } from './IDD_FEETEMPLATES.service';
     providers: [IDD_FEETEMPLATESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FEETEMPLATESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FEETEMPLATESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_FEETEMPLATES_HELP_ON_METHODS_itemSource: any;
 public IDC_FEETEMPLATES_PERCENTAGE_ENASARCOFIRM_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_FEETEMPLATES_PERCENTAGE_ENASARCOFIRM_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

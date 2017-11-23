@@ -10,7 +10,7 @@ import { IDD_LOTS_SUPP_ADD_ON_FLYService } from './IDD_LOTS_SUPP_ADD_ON_FLY.serv
     providers: [IDD_LOTS_SUPP_ADD_ON_FLYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOTS_SUPP_ADD_ON_FLYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOTS_SUPP_ADD_ON_FLYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOTS_SUPP_ADD_ON_FLYService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LOTS_SUPP_ADD_ON_FLYComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

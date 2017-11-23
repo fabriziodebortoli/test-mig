@@ -10,7 +10,7 @@ import { IDD_MRPWIZService } from './IDD_MRPWIZ.service';
     providers: [IDD_MRPWIZService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MRPWIZComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MRPWIZComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MRP_SIM_INPUT_LT_FINISHED_itemSource: any;
 public IDC_MRP_SIM_INPUT_LT_PURC_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_MRP_SIM_INPUT_LT_PURC_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

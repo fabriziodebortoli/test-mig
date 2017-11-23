@@ -10,7 +10,7 @@ import { IDD_ACQUISITION_FROM_DEVICEService } from './IDD_ACQUISITION_FROM_DEVIC
     providers: [IDD_ACQUISITION_FROM_DEVICEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACQUISITION_FROM_DEVICEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACQUISITION_FROM_DEVICEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DEVICE_COMBO_EXTENSIONS_itemSource: any;
 
     constructor(document: IDD_ACQUISITION_FROM_DEVICEService,
@@ -20,7 +20,7 @@ export class IDD_ACQUISITION_FROM_DEVICEComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

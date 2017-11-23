@@ -10,7 +10,7 @@ import { IDD_SALE_DOC_MAINTENANCEService } from './IDD_SALE_DOC_MAINTENANCE.serv
     providers: [IDD_SALE_DOC_MAINTENANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALE_DOC_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALE_DOC_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SALEDOC_MAINT_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_SALE_DOC_MAINTENANCEService,
@@ -20,7 +20,7 @@ export class IDD_SALE_DOC_MAINTENANCEComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,7 +31,7 @@ export class IDD_SALE_DOC_MAINTENANCEComponent extends BOComponent implements On
 }; 
 
         const boService = this.document as BOService;
-		boService.appendToModelStructure({'SalseDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','CustSuppType','CustSupp','EIStatus','SOSDone'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+		boService.appendToModelStructure({'SalseDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','CustSuppType','CustSupp'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

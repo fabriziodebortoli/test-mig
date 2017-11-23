@@ -10,7 +10,7 @@ import { IDD_WT_MNG_WIZARDService } from './IDD_WT_MNG_WIZARD.service';
     providers: [IDD_WT_MNG_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WT_MNG_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WT_MNG_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WT_MNG_WIZARDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_WT_MNG_WIZARDComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

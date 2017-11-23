@@ -10,7 +10,7 @@ import { IDD_UPDATE_SALESPEOPLEService } from './IDD_UPDATE_SALESPEOPLE.service'
     providers: [IDD_UPDATE_SALESPEOPLEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_UPDATE_SALESPEOPLEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_UPDATE_SALESPEOPLEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_UPDATE_SALESPEOPLE_COUNTY_itemSource: any;
 
     constructor(document: IDD_UPDATE_SALESPEOPLEService,
@@ -20,7 +20,7 @@ export class IDD_UPDATE_SALESPEOPLEComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_COSTACCOUNTINGBALANCESHEETService } from './IDD_COSTACCOUNTINGBALAN
     providers: [IDD_COSTACCOUNTINGBALANCESHEETService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCOUNTINGBALANCESHEETComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCOUNTINGBALANCESHEETComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COSTACCOUNTINGBALANCESHEETService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_COSTACCOUNTINGBALANCESHEETComponent extends BOComponent impleme
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

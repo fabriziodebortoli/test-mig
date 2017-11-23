@@ -10,7 +10,7 @@ import { IDD_BALANCEVALUESRESUMEService } from './IDD_BALANCEVALUESRESUME.servic
     providers: [IDD_BALANCEVALUESRESUMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BALANCEVALUESRESUMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BALANCEVALUESRESUMEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BALANCEVALUESRESUMEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BALANCEVALUESRESUMEComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

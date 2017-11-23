@@ -10,7 +10,7 @@ import { IDD_WEEEENTRY_FULLService } from './IDD_WEEEENTRY_FULL.service';
     providers: [IDD_WEEEENTRY_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WEEEENTRY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WEEEENTRY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_WEEEENTRY_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_WEEEENTRY_FULLService,
@@ -20,7 +20,7 @@ export class IDD_WEEEENTRY_FULLComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

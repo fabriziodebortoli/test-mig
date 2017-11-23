@@ -10,7 +10,7 @@ import { IDD_INVOICE_DOCUMENTService } from './IDD_INVOICE_DOCUMENT.service';
     providers: [IDD_INVOICE_DOCUMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVOICE_DOCUMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVOICE_DOCUMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INVOICE_DOCUMENTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_INVOICE_DOCUMENTComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

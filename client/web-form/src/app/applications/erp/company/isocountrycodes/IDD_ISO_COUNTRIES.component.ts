@@ -10,7 +10,7 @@ import { IDD_ISO_COUNTRIESService } from './IDD_ISO_COUNTRIES.service';
     providers: [IDD_ISO_COUNTRIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ISO_COUNTRIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ISO_COUNTRIESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ISO_COUNTRIESService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ISO_COUNTRIESComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

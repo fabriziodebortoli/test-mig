@@ -10,7 +10,7 @@ import { IDD_ROLLBACKService } from './IDD_ROLLBACK.service';
     providers: [IDD_ROLLBACKService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ROLLBACKComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ROLLBACKComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ROLLBACK_MOSTATUS_itemSource: any;
 public IDC_ROLLBACK_BE_STATUS_itemSource: any;
 public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

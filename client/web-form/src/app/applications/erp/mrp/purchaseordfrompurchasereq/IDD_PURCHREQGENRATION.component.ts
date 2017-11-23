@@ -10,7 +10,7 @@ import { IDD_PURCHREQGENRATIONService } from './IDD_PURCHREQGENRATION.service';
     providers: [IDD_PURCHREQGENRATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCHREQGENRATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCHREQGENRATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PURCHREQGENRATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PURCHREQGENRATIONComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

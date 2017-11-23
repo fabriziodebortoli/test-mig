@@ -10,7 +10,7 @@ import { IDD_DEFCLOSINGService } from './IDD_DEFCLOSING.service';
     providers: [IDD_DEFCLOSINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DEFCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DEFCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DEFCLOSINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_DEFCLOSINGComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

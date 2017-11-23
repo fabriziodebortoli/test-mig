@@ -10,7 +10,7 @@ import { IDD_ABCService } from './IDD_ABC.service';
     providers: [IDD_ABCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ABCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ABCComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ABC_CODETYPE_COST_itemSource: any;
 
     constructor(document: IDD_ABCService,
@@ -20,7 +20,7 @@ export class IDD_ABCComponent extends BOComponent implements OnInit, OnDestroy {
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

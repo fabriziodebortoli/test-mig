@@ -10,7 +10,7 @@ import { IDD_ITEMS_BALANCES_NAVIGATIONService } from './IDD_ITEMS_BALANCES_NAVIG
     providers: [IDD_ITEMS_BALANCES_NAVIGATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMS_BALANCES_NAVIGATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMS_BALANCES_NAVIGATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMS_BALANCES_NAVIGATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ITEMS_BALANCES_NAVIGATIONComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

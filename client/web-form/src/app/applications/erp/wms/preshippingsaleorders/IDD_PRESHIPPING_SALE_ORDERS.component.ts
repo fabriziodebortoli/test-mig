@@ -10,7 +10,7 @@ import { IDD_PRESHIPPING_SALE_ORDERSService } from './IDD_PRESHIPPING_SALE_ORDER
     providers: [IDD_PRESHIPPING_SALE_ORDERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRESHIPPING_SALE_ORDERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRESHIPPING_SALE_ORDERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRESHIPPING_SALE_ORDERSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PRESHIPPING_SALE_ORDERSComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_COSTINGService } from './IDD_COSTING.service';
     providers: [IDD_COSTINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COSTING_COMBO_VALUATION_itemSource: any;
 
     constructor(document: IDD_COSTINGService,
@@ -20,7 +20,7 @@ export class IDD_COSTINGComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

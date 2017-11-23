@@ -10,7 +10,7 @@ import { IDD_POSTING_DELETIONService } from './IDD_POSTING_DELETION.service';
     providers: [IDD_POSTING_DELETIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_POSTING_DELETIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_POSTING_DELETIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_POSTING_DELETIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_POSTING_DELETIONComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

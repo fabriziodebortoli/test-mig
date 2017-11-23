@@ -10,7 +10,7 @@ import { IDD_CHANGE_ZONE_BIN_LOTService } from './IDD_CHANGE_ZONE_BIN_LOT.servic
     providers: [IDD_CHANGE_ZONE_BIN_LOTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CHANGE_ZONE_BIN_LOTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CHANGE_ZONE_BIN_LOTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CHANGE_ZONE_BIN_LOTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CHANGE_ZONE_BIN_LOTComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_WIZARD_FRAMEService } from './IDD_WIZARD_FRAME.service';
     providers: [IDD_WIZARD_FRAMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WIZARD_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WIZARD_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WIZARD_FRAMEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_WIZARD_FRAMEComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

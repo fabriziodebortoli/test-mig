@@ -10,7 +10,7 @@ import { IDD_DMSREPOSITORY_BROWSERService } from './IDD_DMSREPOSITORY_BROWSER.se
     providers: [IDD_DMSREPOSITORY_BROWSERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DMSREPOSITORY_BROWSERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DMSREPOSITORY_BROWSERComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DMSREPOSITORY_FILEEXTENSION_itemSource: any;
 public IDC_DMSREPOSITORY_ADVSEL_COLLECTIONS_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_DMSREPOSITORY_ADVSEL_COLLECTIONS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

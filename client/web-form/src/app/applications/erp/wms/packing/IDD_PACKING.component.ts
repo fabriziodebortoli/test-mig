@@ -10,7 +10,7 @@ import { IDD_PACKINGService } from './IDD_PACKING.service';
     providers: [IDD_PACKINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PACKINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PACKINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PACKINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PACKINGComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

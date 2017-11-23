@@ -10,7 +10,7 @@ import { IDD_LF_CLOSING_TO_DATEService } from './IDD_LF_CLOSING_TO_DATE.service'
     providers: [IDD_LF_CLOSING_TO_DATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LF_CLOSING_TO_DATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LF_CLOSING_TO_DATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LF_CLOSING_TO_DATEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LF_CLOSING_TO_DATEComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

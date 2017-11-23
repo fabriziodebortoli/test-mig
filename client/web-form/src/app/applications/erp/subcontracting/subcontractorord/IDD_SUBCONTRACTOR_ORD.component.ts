@@ -10,7 +10,7 @@ import { IDD_SUBCONTRACTOR_ORDService } from './IDD_SUBCONTRACTOR_ORD.service';
     providers: [IDD_SUBCONTRACTOR_ORDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUBCONTRACTOR_ORDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUBCONTRACTOR_ORDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SUBCONTRACTOR_ORDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SUBCONTRACTOR_ORDComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

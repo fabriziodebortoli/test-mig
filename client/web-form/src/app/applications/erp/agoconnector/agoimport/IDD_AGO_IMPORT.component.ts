@@ -10,7 +10,7 @@ import { IDD_AGO_IMPORTService } from './IDD_AGO_IMPORT.service';
     providers: [IDD_AGO_IMPORTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_AGO_IMPORTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_AGO_IMPORTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_AGO_IMPORTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_AGO_IMPORTComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

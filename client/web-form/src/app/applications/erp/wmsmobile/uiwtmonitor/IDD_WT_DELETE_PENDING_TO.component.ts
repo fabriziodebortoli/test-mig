@@ -10,7 +10,7 @@ import { IDD_WT_DELETE_PENDING_TOService } from './IDD_WT_DELETE_PENDING_TO.serv
     providers: [IDD_WT_DELETE_PENDING_TOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WT_DELETE_PENDING_TOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WT_DELETE_PENDING_TOComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WT_DELETE_PENDING_TOService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_WT_DELETE_PENDING_TOComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

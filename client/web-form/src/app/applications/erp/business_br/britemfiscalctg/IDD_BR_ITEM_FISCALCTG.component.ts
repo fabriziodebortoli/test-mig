@@ -10,7 +10,7 @@ import { IDD_BR_ITEM_FISCALCTGService } from './IDD_BR_ITEM_FISCALCTG.service';
     providers: [IDD_BR_ITEM_FISCALCTGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_ITEM_FISCALCTGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_ITEM_FISCALCTGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_ITEM_FISCALCTGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BR_ITEM_FISCALCTGComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

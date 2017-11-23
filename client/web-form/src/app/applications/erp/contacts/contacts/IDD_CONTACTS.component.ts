@@ -10,7 +10,7 @@ import { IDD_CONTACTSService } from './IDD_CONTACTS.service';
     providers: [IDD_CONTACTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONTACTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONTACTSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CONTACTS_STATUS_itemSource: any;
 public IDC_CONTACTS_REGION_itemSource: any;
 public IDC_CONTACTS_BRANCHES_COUNTY_itemSource: any;
@@ -27,7 +27,7 @@ public IDC_CONTACTS_PYMTBRANCH_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

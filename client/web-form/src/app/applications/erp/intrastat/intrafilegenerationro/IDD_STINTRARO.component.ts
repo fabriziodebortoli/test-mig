@@ -10,7 +10,7 @@ import { IDD_STINTRAROService } from './IDD_STINTRARO.service';
     providers: [IDD_STINTRAROService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STINTRAROComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STINTRAROComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_STINTRAROService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_STINTRAROComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

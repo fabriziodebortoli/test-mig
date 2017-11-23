@@ -10,7 +10,7 @@ import { IDD_DATAVALIDATION_MONITORService } from './IDD_DATAVALIDATION_MONITOR.
     providers: [IDD_DATAVALIDATION_MONITORService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DATAVALIDATION_MONITORComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DATAVALIDATION_MONITORComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DATAVALIDATION_MONITORService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_DATAVALIDATION_MONITORComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

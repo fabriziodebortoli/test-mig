@@ -10,7 +10,7 @@ import { IDD_BR_NCMService } from './IDD_BR_NCM.service';
     providers: [IDD_BR_NCMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_NCMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_NCMComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_NCMService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BR_NCMComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

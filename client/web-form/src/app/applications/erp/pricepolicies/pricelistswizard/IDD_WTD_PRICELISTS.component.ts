@@ -10,7 +10,7 @@ import { IDD_WTD_PRICELISTSService } from './IDD_WTD_PRICELISTS.service';
     providers: [IDD_WTD_PRICELISTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WTD_PRICELISTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WTD_PRICELISTSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_WIZ_RECPRLIST_COMBO_TOPRICELIST_itemSource: any;
 public IDC_WIZ_JOBLIS_COMBO_LISTPART_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_WIZ_JOBLIS_COMBO_LISTPART_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

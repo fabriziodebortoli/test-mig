@@ -10,7 +10,7 @@ import { IDD_ACCTPLService } from './IDD_ACCTPL.service';
     providers: [IDD_ACCTPLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACCTPLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACCTPLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ACCTPL_CODETYPE_OPERATION_itemSource: any;
 
     constructor(document: IDD_ACCTPLService,
@@ -20,7 +20,7 @@ export class IDD_ACCTPLComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,7 +31,7 @@ export class IDD_ACCTPLComponent extends BOComponent implements OnInit, OnDestro
 }; 
 
         const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccountingTemplates':['Template','Disabled','Description','Operation','DocDateIsMand','DocNoIsMand','CodeType','PaymentScheduleAction','PaymentScheduleCreditNote','AccrualDeferral','GroupCode','Currency','ExcludedFromSAC','AGOAccReason','TaxJournal','CustSupp','Suspension','IntrastatOperation','ReverseChargeType','EUTaxJournal','TypeOfTaxDocument','TypeOfTaxDocumentAnn','TypeOfReverseCharge','EICode'],'global':['GLDetail','TaxDetail','RetailDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'GLDetail':['TEnhAccTemplatesGLDetail_P4'],'HKLAGOAccReasons':['Description'],'HKLTaxJournals':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLJournalIntrastatTax':['Description'],'TaxDetail':['TaxCode','TaxableAmount','TaxAmount','TotalAmount','UndeductibleAmount','Notes'],'HKLTaxCode':['Description'],'RetailDetail':['TaxCode','DebitAccount','CreditAccount'],'HKLRtlTaxCode':['Description'],'HKLDebitAccount':['Description'],'HKLCreditAccount':['Description'],'HKLEICoding':['Description']});
+		boService.appendToModelStructure({'AccountingTemplates':['Template','Disabled','Description','Operation','DocDateIsMand','DocNoIsMand','CodeType','PaymentScheduleAction','PaymentScheduleCreditNote','AccrualDeferral','GroupCode','Currency','ExcludedFromSAC','AGOAccReason','TaxJournal','CustSupp','Suspension','IntrastatOperation','ReverseChargeType','EUTaxJournal','TypeOfTaxDocument','TypeOfTaxDocumentAnn','TypeOfReverseCharge'],'global':['GLDetail','TaxDetail','RetailDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'GLDetail':['TEnhAccTemplatesGLDetail_P4'],'HKLAGOAccReasons':['Description'],'HKLTaxJournals':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLJournalIntrastatTax':['Description'],'TaxDetail':['TaxCode','TaxableAmount','TaxAmount','TotalAmount','UndeductibleAmount','Notes'],'HKLTaxCode':['Description'],'RetailDetail':['TaxCode','DebitAccount','CreditAccount'],'HKLRtlTaxCode':['Description'],'HKLDebitAccount':['Description'],'HKLCreditAccount':['Description']});
 
     }
 

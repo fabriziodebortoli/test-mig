@@ -10,7 +10,7 @@ import { IDD_SACTOTService } from './IDD_SACTOT.service';
     providers: [IDD_SACTOTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SACTOTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SACTOTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SACTOTService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SACTOTComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

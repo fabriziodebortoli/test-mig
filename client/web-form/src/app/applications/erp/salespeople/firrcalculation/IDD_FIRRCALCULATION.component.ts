@@ -10,7 +10,7 @@ import { IDD_FIRRCALCULATIONService } from './IDD_FIRRCALCULATION.service';
     providers: [IDD_FIRRCALCULATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FIRRCALCULATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FIRRCALCULATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FIRRCALCULATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_FIRRCALCULATIONComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_FA_PERIODDATAService } from './IDD_FA_PERIODDATA.service';
     providers: [IDD_FA_PERIODDATAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FA_PERIODDATAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FA_PERIODDATAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FA_PERIODDATAService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_FA_PERIODDATAComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

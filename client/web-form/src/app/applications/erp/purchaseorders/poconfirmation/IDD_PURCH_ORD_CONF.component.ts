@@ -10,7 +10,7 @@ import { IDD_PURCH_ORD_CONFService } from './IDD_PURCH_ORD_CONF.service';
     providers: [IDD_PURCH_ORD_CONFService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCH_ORD_CONFComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCH_ORD_CONFComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PURCH_ORD_CONFService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PURCH_ORD_CONFComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

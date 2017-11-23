@@ -10,7 +10,7 @@ import { IDD_TS_DELETINGService } from './IDD_TS_DELETING.service';
     providers: [IDD_TS_DELETINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TS_DELETINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TS_DELETINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TS_CLEAR_TRNSM_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_TS_DELETINGService,
@@ -20,7 +20,7 @@ export class IDD_TS_DELETINGComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

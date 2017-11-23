@@ -10,7 +10,7 @@ import { IDD_WMZONEService } from './IDD_WMZONE.service';
     providers: [IDD_WMZONEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WMZONEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WMZONEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_WMZONE_BLOCK_REASON_itemSource: any;
 public IDC_WMZONE_PICKINGSTRATEGY_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_WMZONE_PICKINGSTRATEGY_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

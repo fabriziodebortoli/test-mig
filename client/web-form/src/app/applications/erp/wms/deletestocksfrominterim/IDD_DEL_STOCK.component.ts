@@ -10,7 +10,7 @@ import { IDD_DEL_STOCKService } from './IDD_DEL_STOCK.service';
     providers: [IDD_DEL_STOCKService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DEL_STOCKComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DEL_STOCKComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DEL_STOCKService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_DEL_STOCKComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

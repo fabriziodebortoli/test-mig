@@ -10,7 +10,7 @@ import { IDD_CREDIT_LIMIT_VIEWERService } from './IDD_CREDIT_LIMIT_VIEWER.servic
     providers: [IDD_CREDIT_LIMIT_VIEWERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CREDIT_LIMIT_VIEWERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CREDIT_LIMIT_VIEWERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CREDIT_LIMIT_VIEWERService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CREDIT_LIMIT_VIEWERComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

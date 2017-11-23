@@ -10,7 +10,7 @@ import { IDD_JE_NOTES_SELECTIONService } from './IDD_JE_NOTES_SELECTION.service'
     providers: [IDD_JE_NOTES_SELECTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_JE_NOTES_SELECTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_JE_NOTES_SELECTIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_JE_NOTES_SELECTIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_JE_NOTES_SELECTIONComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

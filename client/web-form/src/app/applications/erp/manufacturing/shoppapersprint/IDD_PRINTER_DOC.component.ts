@@ -10,7 +10,7 @@ import { IDD_PRINTER_DOCService } from './IDD_PRINTER_DOC.service';
     providers: [IDD_PRINTER_DOCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINTER_DOCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINTER_DOCComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PRINTER_DOC_PROD_ORDSTATUS_itemSource: any;
 
     constructor(document: IDD_PRINTER_DOCService,
@@ -20,7 +20,7 @@ export class IDD_PRINTER_DOCComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

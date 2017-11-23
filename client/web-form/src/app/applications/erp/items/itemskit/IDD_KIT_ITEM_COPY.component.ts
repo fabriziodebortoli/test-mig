@@ -10,7 +10,7 @@ import { IDD_KIT_ITEM_COPYService } from './IDD_KIT_ITEM_COPY.service';
     providers: [IDD_KIT_ITEM_COPYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_KIT_ITEM_COPYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_KIT_ITEM_COPYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_KIT_ITEM_COPYService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_KIT_ITEM_COPYComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_PICKING_MATERIALSService } from './IDD_PICKING_MATERIALS.service';
     providers: [IDD_PICKING_MATERIALSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PICKING_MATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PICKING_MATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PICKING_MATERIALS_CODETYPE_SPEC_itemSource: any;
 
     constructor(document: IDD_PICKING_MATERIALSService,
@@ -20,7 +20,7 @@ export class IDD_PICKING_MATERIALSComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

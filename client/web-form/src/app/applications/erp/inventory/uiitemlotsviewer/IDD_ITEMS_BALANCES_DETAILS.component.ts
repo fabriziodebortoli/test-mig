@@ -10,7 +10,7 @@ import { IDD_ITEMS_BALANCES_DETAILSService } from './IDD_ITEMS_BALANCES_DETAILS.
     providers: [IDD_ITEMS_BALANCES_DETAILSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMS_BALANCES_DETAILSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMS_BALANCES_DETAILSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMS_BALANCES_DETAILSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ITEMS_BALANCES_DETAILSComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

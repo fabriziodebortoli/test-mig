@@ -10,7 +10,7 @@ import { IDD_KIT_ITEMService } from './IDD_KIT_ITEM.service';
     providers: [IDD_KIT_ITEMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_KIT_ITEMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_KIT_ITEMComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_KIT_ITEMService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_KIT_ITEMComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

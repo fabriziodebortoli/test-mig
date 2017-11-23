@@ -10,7 +10,7 @@ import { IDD_PYMTCASHESService } from './IDD_PYMTCASHES.service';
     providers: [IDD_PYMTCASHESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PYMTCASHESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PYMTCASHESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PYMTCASHESService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PYMTCASHESComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

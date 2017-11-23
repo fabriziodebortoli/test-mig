@@ -10,7 +10,7 @@ import { IDD_SUBST_JOLLY_COMPONENTSService } from './IDD_SUBST_JOLLY_COMPONENTS.
     providers: [IDD_SUBST_JOLLY_COMPONENTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUBST_JOLLY_COMPONENTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUBST_JOLLY_COMPONENTSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SUBST_JOLLY_COMPONENTSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SUBST_JOLLY_COMPONENTSComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

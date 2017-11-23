@@ -10,7 +10,7 @@ import { IDD_BR_IMPORT_TAXRULESService } from './IDD_BR_IMPORT_TAXRULES.service'
     providers: [IDD_BR_IMPORT_TAXRULESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_IMPORT_TAXRULESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_IMPORT_TAXRULESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_IMPORT_TAXRULESService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BR_IMPORT_TAXRULESComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

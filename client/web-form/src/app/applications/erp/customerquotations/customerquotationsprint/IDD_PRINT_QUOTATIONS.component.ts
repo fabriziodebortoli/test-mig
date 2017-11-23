@@ -10,7 +10,7 @@ import { IDD_PRINT_QUOTATIONSService } from './IDD_PRINT_QUOTATIONS.service';
     providers: [IDD_PRINT_QUOTATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINT_QUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINT_QUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRINT_QUOTATIONSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PRINT_QUOTATIONSComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

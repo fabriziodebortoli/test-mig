@@ -10,7 +10,7 @@ import { IDD_MRPService } from './IDD_MRP.service';
     providers: [IDD_MRPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MRPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MRPComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MRP_HORIZON_TYPE_itemSource: any;
 public IDC_MRP_FINISHED_LEAD_TIME_itemSource: any;
 public IDC_MRP_PURCHASE_LEAD_TIME_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_MRP_PURCHASE_LEAD_TIME_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

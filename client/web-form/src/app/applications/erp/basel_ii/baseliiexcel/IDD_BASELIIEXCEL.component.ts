@@ -10,7 +10,7 @@ import { IDD_BASELIIEXCELService } from './IDD_BASELIIEXCEL.service';
     providers: [IDD_BASELIIEXCELService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BASELIIEXCELComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BASELIIEXCELComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BASELIIEXCEL_CALCSHEETID_itemSource: any;
 
     constructor(document: IDD_BASELIIEXCELService,
@@ -20,7 +20,7 @@ export class IDD_BASELIIEXCELComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

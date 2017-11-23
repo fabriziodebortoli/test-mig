@@ -10,7 +10,7 @@ import { IDD_REORDER_MATERIALSService } from './IDD_REORDER_MATERIALS.service';
     providers: [IDD_REORDER_MATERIALSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_REORDER_MATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_REORDER_MATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_REORDER_MATERIALSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_REORDER_MATERIALSComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

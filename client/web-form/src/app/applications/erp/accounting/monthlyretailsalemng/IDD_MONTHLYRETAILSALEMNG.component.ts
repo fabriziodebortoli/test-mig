@@ -10,7 +10,7 @@ import { IDD_MONTHLYRETAILSALEMNGService } from './IDD_MONTHLYRETAILSALEMNG.serv
     providers: [IDD_MONTHLYRETAILSALEMNGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MONTHLYRETAILSALEMNGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MONTHLYRETAILSALEMNGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MONTHLYRETAILSALEMNGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_MONTHLYRETAILSALEMNGComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

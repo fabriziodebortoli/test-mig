@@ -10,7 +10,7 @@ import { IDD_JE_SAVETEMPLATEService } from './IDD_JE_SAVETEMPLATE.service';
     providers: [IDD_JE_SAVETEMPLATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_JE_SAVETEMPLATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_JE_SAVETEMPLATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_JE_SAVETEMPLATEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_JE_SAVETEMPLATEComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

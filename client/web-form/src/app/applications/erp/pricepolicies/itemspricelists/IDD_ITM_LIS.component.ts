@@ -10,7 +10,7 @@ import { IDD_ITM_LISService } from './IDD_ITM_LIS.service';
     providers: [IDD_ITM_LISService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITM_LISComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITM_LISComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ITM_LIS_UOM_PRICELIST_itemSource: any;
 
     constructor(document: IDD_ITM_LISService,
@@ -20,7 +20,7 @@ export class IDD_ITM_LISComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

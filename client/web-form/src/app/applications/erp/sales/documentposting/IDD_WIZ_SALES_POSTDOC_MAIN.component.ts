@@ -10,7 +10,7 @@ import { IDD_WIZ_SALES_POSTDOC_MAINService } from './IDD_WIZ_SALES_POSTDOC_MAIN.
     providers: [IDD_WIZ_SALES_POSTDOC_MAINService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WIZ_SALES_POSTDOC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WIZ_SALES_POSTDOC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SALES_POSTDOC_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_WIZ_SALES_POSTDOC_MAINService,
@@ -20,7 +20,7 @@ export class IDD_WIZ_SALES_POSTDOC_MAINComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

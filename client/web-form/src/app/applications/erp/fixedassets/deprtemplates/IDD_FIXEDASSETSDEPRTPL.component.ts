@@ -10,7 +10,7 @@ import { IDD_FIXEDASSETSDEPRTPLService } from './IDD_FIXEDASSETSDEPRTPL.service'
     providers: [IDD_FIXEDASSETSDEPRTPLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FIXEDASSETSDEPRTPLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FIXEDASSETSDEPRTPLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FIXEDASSETSDEPRTPLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_FIXEDASSETSDEPRTPLComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

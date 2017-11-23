@@ -10,7 +10,7 @@ import { IDD_TD_MONITOR_GRService } from './IDD_TD_MONITOR_GR.service';
     providers: [IDD_TD_MONITOR_GRService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TD_MONITOR_GRComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TD_MONITOR_GRComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MONITORGR_BOLNO_itemSource: any;
 public IDC_MONITORGR_BOLNO_validators: any;
 
@@ -21,7 +21,7 @@ public IDC_MONITORGR_BOLNO_validators: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

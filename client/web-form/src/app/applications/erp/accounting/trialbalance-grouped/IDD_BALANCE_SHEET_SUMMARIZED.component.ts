@@ -10,7 +10,7 @@ import { IDD_BALANCE_SHEET_SUMMARIZEDService } from './IDD_BALANCE_SHEET_SUMMARI
     providers: [IDD_BALANCE_SHEET_SUMMARIZEDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BALANCE_SHEET_SUMMARIZEDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BALANCE_SHEET_SUMMARIZEDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BALANCE_SHEET_SUMMARIZEDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BALANCE_SHEET_SUMMARIZEDComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_COSTACCENTRIESFROMPURCHASEService } from './IDD_COSTACCENTRIESFROMP
     providers: [IDD_COSTACCENTRIESFROMPURCHASEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCENTRIESFROMPURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCENTRIESFROMPURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COSTACCENTRIESFROMPURCHASEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_COSTACCENTRIESFROMPURCHASEComponent extends BOComponent impleme
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

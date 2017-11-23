@@ -10,7 +10,7 @@ import { IDD_TOOLS_INSPECTION_SET_DATAService } from './IDD_TOOLS_INSPECTION_SET
     providers: [IDD_TOOLS_INSPECTION_SET_DATAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLS_INSPECTION_SET_DATAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLS_INSPECTION_SET_DATAComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MPARSEDCOMBO_itemSource: any;
 
     constructor(document: IDD_TOOLS_INSPECTION_SET_DATAService,
@@ -20,7 +20,7 @@ export class IDD_TOOLS_INSPECTION_SET_DATAComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

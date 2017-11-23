@@ -10,7 +10,7 @@ import { IDD_CUSTCTG_COMMODITYCTG_FULLService } from './IDD_CUSTCTG_COMMODITYCTG
     providers: [IDD_CUSTCTG_COMMODITYCTG_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CUSTCTG_COMMODITYCTG_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CUSTCTG_COMMODITYCTG_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CUSTCTG_COMMODITYCTG_FULLService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CUSTCTG_COMMODITYCTG_FULLComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_EDIT_VALUE_TYPEService } from './IDD_EDIT_VALUE_TYPE.service';
     providers: [IDD_EDIT_VALUE_TYPEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_EDIT_VALUE_TYPEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_EDIT_VALUE_TYPEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MOD_VALUE_TYPE_NEW_VALUE_TYPE_itemSource: any;
 
     constructor(document: IDD_EDIT_VALUE_TYPEService,
@@ -20,7 +20,7 @@ export class IDD_EDIT_VALUE_TYPEComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

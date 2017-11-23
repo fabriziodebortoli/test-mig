@@ -10,7 +10,7 @@ import { IDD_MBPROD_REORDService } from './IDD_MBPROD_REORD.service';
     providers: [IDD_MBPROD_REORDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MBPROD_REORDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MBPROD_REORDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MBPROD_REORDService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_MBPROD_REORDComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

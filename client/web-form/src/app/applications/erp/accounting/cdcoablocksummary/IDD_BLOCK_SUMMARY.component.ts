@@ -10,7 +10,7 @@ import { IDD_BLOCK_SUMMARYService } from './IDD_BLOCK_SUMMARY.service';
     providers: [IDD_BLOCK_SUMMARYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BLOCK_SUMMARYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BLOCK_SUMMARYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BLOCK_SUMMARYService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BLOCK_SUMMARYComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

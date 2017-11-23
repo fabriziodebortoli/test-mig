@@ -10,7 +10,7 @@ import { IDD_ROOT_SMARTCODService } from './IDD_ROOT_SMARTCOD.service';
     providers: [IDD_ROOT_SMARTCODService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ROOT_SMARTCODComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ROOT_SMARTCODComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ROOT_SMARTCODService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ROOT_SMARTCODComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

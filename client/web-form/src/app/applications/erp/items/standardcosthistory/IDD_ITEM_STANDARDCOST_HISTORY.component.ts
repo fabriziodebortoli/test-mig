@@ -10,7 +10,7 @@ import { IDD_ITEM_STANDARDCOST_HISTORYService } from './IDD_ITEM_STANDARDCOST_HI
     providers: [IDD_ITEM_STANDARDCOST_HISTORYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEM_STANDARDCOST_HISTORYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEM_STANDARDCOST_HISTORYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEM_STANDARDCOST_HISTORYService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ITEM_STANDARDCOST_HISTORYComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

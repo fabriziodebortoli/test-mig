@@ -10,7 +10,7 @@ import { IDD_FIXASSGRAPHService } from './IDD_FIXASSGRAPH.service';
     providers: [IDD_FIXASSGRAPHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FIXASSGRAPHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FIXASSGRAPHComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FIXASSGRAPHService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_FIXASSGRAPHComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

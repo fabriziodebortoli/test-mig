@@ -10,7 +10,7 @@ import { IDD_LOTS_MNG_SETTINGSService } from './IDD_LOTS_MNG_SETTINGS.service';
     providers: [IDD_LOTS_MNG_SETTINGSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOTS_MNG_SETTINGSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOTS_MNG_SETTINGSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOTS_MNG_SETTINGSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_LOTS_MNG_SETTINGSComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

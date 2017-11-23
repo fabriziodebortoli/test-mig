@@ -10,7 +10,7 @@ import { IDD_STOCK_TRANSFERService } from './IDD_STOCK_TRANSFER.service';
     providers: [IDD_STOCK_TRANSFERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STOCK_TRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STOCK_TRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_STOCK_TRANSFER_SPEC_TYPE_FROM_itemSource: any;
 public IDC_STOCK_TRANSFER_SPEC_TYPE_TO_itemSource: any;
 public IDC_STOCK_TRANSFER_CONSPARTNER_BE_hotLink: any;
@@ -22,7 +22,7 @@ public IDC_STOCK_TRANSFER_CONSPARTNER_BE_hotLink: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

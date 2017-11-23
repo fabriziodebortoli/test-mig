@@ -10,7 +10,7 @@ import { IDD_SPEC_STOCK_MNGService } from './IDD_SPEC_STOCK_MNG.service';
     providers: [IDD_SPEC_STOCK_MNGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SPEC_STOCK_MNGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SPEC_STOCK_MNGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SPEC_STOCK_MNGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SPEC_STOCK_MNGComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

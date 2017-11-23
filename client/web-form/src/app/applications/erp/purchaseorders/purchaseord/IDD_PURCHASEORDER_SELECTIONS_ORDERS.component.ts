@@ -10,7 +10,7 @@ import { IDD_PURCHASEORDER_SELECTIONS_ORDERSService } from './IDD_PURCHASEORDER_
     providers: [IDD_PURCHASEORDER_SELECTIONS_ORDERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCHASEORDER_SELECTIONS_ORDERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCHASEORDER_SELECTIONS_ORDERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PURCHASEORDER_SELECTIONS_ORDERSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PURCHASEORDER_SELECTIONS_ORDERSComponent extends BOComponent im
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

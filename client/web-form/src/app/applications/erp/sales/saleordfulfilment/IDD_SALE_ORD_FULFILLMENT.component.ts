@@ -10,7 +10,7 @@ import { IDD_SALE_ORD_FULFILLMENTService } from './IDD_SALE_ORD_FULFILLMENT.serv
     providers: [IDD_SALE_ORD_FULFILLMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALE_ORD_FULFILLMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALE_ORD_FULFILLMENTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ELABSALEORD_DOCTYPE_itemSource: any;
 public IDC_ELABSALEORD_CODETYPE_SPECIFICATOR_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_ELABSALEORD_CODETYPE_SPECIFICATOR_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

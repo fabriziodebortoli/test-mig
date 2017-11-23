@@ -10,7 +10,7 @@ import { IDD_MO_MAINTENANCEService } from './IDD_MO_MAINTENANCE.service';
     providers: [IDD_MO_MAINTENANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MO_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MO_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MO_MAINTENANCE_OPERATION_itemSource: any;
 public IDC_MO_MAINTENANCE_BE_STATUS_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_MO_MAINTENANCE_BE_STATUS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

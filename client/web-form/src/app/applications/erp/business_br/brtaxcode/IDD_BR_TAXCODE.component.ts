@@ -10,7 +10,7 @@ import { IDD_BR_TAXCODEService } from './IDD_BR_TAXCODE.service';
     providers: [IDD_BR_TAXCODEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_TAXCODEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_TAXCODEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_TAXCODE_BR_TAXTYPE_itemSource: any;
 
     constructor(document: IDD_BR_TAXCODEService,
@@ -20,7 +20,7 @@ export class IDD_BR_TAXCODEComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

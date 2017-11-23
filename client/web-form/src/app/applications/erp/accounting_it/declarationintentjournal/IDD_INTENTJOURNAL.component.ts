@@ -10,7 +10,7 @@ import { IDD_INTENTJOURNALService } from './IDD_INTENTJOURNAL.service';
     providers: [IDD_INTENTJOURNALService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTENTJOURNALComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTENTJOURNALComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INTENTJOURNALService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_INTENTJOURNALComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

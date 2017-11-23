@@ -10,7 +10,7 @@ import { IDD_ENTRIESDELETINGService } from './IDD_ENTRIESDELETING.service';
     providers: [IDD_ENTRIESDELETINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ENTRIESDELETINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ENTRIESDELETINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_RMCOSTACC_ENTRYTYPE_itemSource: any;
 
     constructor(document: IDD_ENTRIESDELETINGService,
@@ -20,7 +20,7 @@ export class IDD_ENTRIESDELETINGComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

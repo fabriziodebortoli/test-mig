@@ -10,7 +10,7 @@ import { IDD_STORAGE_UNIT_TYPEService } from './IDD_STORAGE_UNIT_TYPE.service';
     providers: [IDD_STORAGE_UNIT_TYPEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STORAGE_UNIT_TYPEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STORAGE_UNIT_TYPEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_STORAGE_UNIT_TYPEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_STORAGE_UNIT_TYPEComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

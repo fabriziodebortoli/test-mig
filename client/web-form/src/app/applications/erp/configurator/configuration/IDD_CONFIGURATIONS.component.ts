@@ -10,7 +10,7 @@ import { IDD_CONFIGURATIONSService } from './IDD_CONFIGURATIONS.service';
     providers: [IDD_CONFIGURATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONFIGURATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONFIGURATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CONFIGQUESTIONSANSWER_ANSWERNO_itemSource: any;
 
     constructor(document: IDD_CONFIGURATIONSService,
@@ -20,7 +20,7 @@ export class IDD_CONFIGURATIONSComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

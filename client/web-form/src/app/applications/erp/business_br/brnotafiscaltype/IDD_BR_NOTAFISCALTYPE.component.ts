@@ -10,7 +10,7 @@ import { IDD_BR_NOTAFISCALTYPEService } from './IDD_BR_NOTAFISCALTYPE.service';
     providers: [IDD_BR_NOTAFISCALTYPEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_NOTAFISCALTYPEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_NOTAFISCALTYPEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_NOTA_FISCAL_TYPE_MOV_TYPE_itemSource: any;
 public IDC_BR_NOTA_FISCAL_TYPE_CUST_SUPP_TYPE_itemSource: any;
 public IDC_BR_NOTA_FISCAL_TYPE_OPERATION_TYPE_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_BR_NOTA_FISCAL_TYPE_TRANS_DATA_DANFE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

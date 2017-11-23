@@ -10,7 +10,7 @@ import { IDD_INTRASTAT_PARAMETERSService } from './IDD_INTRASTAT_PARAMETERS.serv
     providers: [IDD_INTRASTAT_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTRASTAT_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTRASTAT_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INTRASTAT_PARAMETERSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_INTRASTAT_PARAMETERSComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_ORDERED_PROD_CALCULATIONService } from './IDD_ORDERED_PROD_CALCULAT
     providers: [IDD_ORDERED_PROD_CALCULATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ORDERED_PROD_CALCULATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ORDERED_PROD_CALCULATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ORDERED_PROD_CALCULATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ORDERED_PROD_CALCULATIONComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

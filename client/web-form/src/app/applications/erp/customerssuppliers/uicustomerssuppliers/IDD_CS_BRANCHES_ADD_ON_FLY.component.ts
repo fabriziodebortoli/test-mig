@@ -10,7 +10,7 @@ import { IDD_CS_BRANCHES_ADD_ON_FLYService } from './IDD_CS_BRANCHES_ADD_ON_FLY.
     providers: [IDD_CS_BRANCHES_ADD_ON_FLYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CS_BRANCHES_ADD_ON_FLYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CS_BRANCHES_ADD_ON_FLYComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BE_CS_REGION_itemSource: any;
 public IDC_BE_CS_STATUS_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_BE_CS_STATUS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

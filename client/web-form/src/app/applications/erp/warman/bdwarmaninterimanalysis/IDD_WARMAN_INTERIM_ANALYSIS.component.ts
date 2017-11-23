@@ -10,7 +10,7 @@ import { IDD_WARMAN_INTERIM_ANALYSISService } from './IDD_WARMAN_INTERIM_ANALYSI
     providers: [IDD_WARMAN_INTERIM_ANALYSISService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WARMAN_INTERIM_ANALYSISComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WARMAN_INTERIM_ANALYSISComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WARMAN_INTERIM_ANALYSISService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_WARMAN_INTERIM_ANALYSISComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

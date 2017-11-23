@@ -10,7 +10,7 @@ import { IDD_PURCH_POSTDOC_WIZARDService } from './IDD_PURCH_POSTDOC_WIZARD.serv
     providers: [IDD_PURCH_POSTDOC_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCH_POSTDOC_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCH_POSTDOC_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PURCH_POSTDOC_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_PURCH_POSTDOC_WIZARDService,
@@ -20,7 +20,7 @@ export class IDD_PURCH_POSTDOC_WIZARDComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

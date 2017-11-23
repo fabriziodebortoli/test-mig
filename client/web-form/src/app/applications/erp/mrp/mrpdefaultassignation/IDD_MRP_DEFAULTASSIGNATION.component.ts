@@ -10,7 +10,7 @@ import { IDD_MRP_DEFAULTASSIGNATIONService } from './IDD_MRP_DEFAULTASSIGNATION.
     providers: [IDD_MRP_DEFAULTASSIGNATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MRP_DEFAULTASSIGNATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MRP_DEFAULTASSIGNATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MRP_DEFAULTASSIGNATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_MRP_DEFAULTASSIGNATIONComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

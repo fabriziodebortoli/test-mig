@@ -10,7 +10,7 @@ import { IDD_STORAGEUNIT_VIEWERBUTTONService } from './IDD_STORAGEUNIT_VIEWERBUT
     providers: [IDD_STORAGEUNIT_VIEWERBUTTONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STORAGEUNIT_VIEWERBUTTONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STORAGEUNIT_VIEWERBUTTONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_STORAGEUNIT_VIEWERBUTTONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_STORAGEUNIT_VIEWERBUTTONComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

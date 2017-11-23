@@ -10,7 +10,7 @@ import { IDD_770ONFILEService } from './IDD_770ONFILE.service';
     providers: [IDD_770ONFILEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_770ONFILEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_770ONFILEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CU_HEIR_CODE_itemSource: any;
 
     constructor(document: IDD_770ONFILEService,
@@ -20,7 +20,7 @@ export class IDD_770ONFILEComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

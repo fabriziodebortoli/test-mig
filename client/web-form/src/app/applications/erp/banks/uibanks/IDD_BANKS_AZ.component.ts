@@ -10,7 +10,7 @@ import { IDD_BANKS_AZService } from './IDD_BANKS_AZ.service';
     providers: [IDD_BANKS_AZService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BANKS_AZComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BANKS_AZComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BANKS_STATUS_itemSource: any;
 public IDC_BANKS_COUNTY_itemSource: any;
 public IDC_BE_BILLSCAS_PRESENTATION_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_BE_BILLSCAS_PRESENTATION_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

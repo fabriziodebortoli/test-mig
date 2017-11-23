@@ -10,7 +10,7 @@ import { IDD_PICK_MISSINGSService } from './IDD_PICK_MISSINGS.service';
     providers: [IDD_PICK_MISSINGSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PICK_MISSINGSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PICK_MISSINGSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PICK_MISSINGSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_PICK_MISSINGSComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

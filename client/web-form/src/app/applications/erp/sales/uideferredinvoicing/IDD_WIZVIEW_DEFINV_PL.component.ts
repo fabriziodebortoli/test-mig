@@ -10,7 +10,7 @@ import { IDD_WIZVIEW_DEFINV_PLService } from './IDD_WIZVIEW_DEFINV_PL.service';
     providers: [IDD_WIZVIEW_DEFINV_PLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WIZVIEW_DEFINV_PLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WIZVIEW_DEFINV_PLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DEFINV_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_WIZVIEW_DEFINV_PLService,
@@ -20,7 +20,7 @@ export class IDD_WIZVIEW_DEFINV_PLComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

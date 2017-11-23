@@ -10,7 +10,7 @@ import { IDD_ITEMS_GRAPHIC_NAVIGService } from './IDD_ITEMS_GRAPHIC_NAVIG.servic
     providers: [IDD_ITEMS_GRAPHIC_NAVIGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMS_GRAPHIC_NAVIGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMS_GRAPHIC_NAVIGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMS_GRAPHIC_NAVIGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_ITEMS_GRAPHIC_NAVIGComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

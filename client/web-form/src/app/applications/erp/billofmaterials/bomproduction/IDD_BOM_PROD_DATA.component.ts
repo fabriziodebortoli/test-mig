@@ -10,7 +10,7 @@ import { IDD_BOM_PROD_DATAService } from './IDD_BOM_PROD_DATA.service';
     providers: [IDD_BOM_PROD_DATAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOM_PROD_DATAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOM_PROD_DATAComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BOM_PROD_BOM_BE_VALUATE_DETAIL_itemSource: any;
 public IDC_BOM_PROD_COMP_BE_UOM_itemSource: any;
 public IDC_BOM_PROD_COMP_BE_UOM_SUM_itemSource: any;
@@ -36,7 +36,7 @@ public IDC_BOM_PROD_RSN_RUN_LOAD_TYPE_F2_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_TO_GENERATIONService } from './IDD_TO_GENERATION.service';
     providers: [IDD_TO_GENERATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TO_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TO_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TO_GENERATION_SEL_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_TO_GENERATIONService,
@@ -20,7 +20,7 @@ export class IDD_TO_GENERATIONComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

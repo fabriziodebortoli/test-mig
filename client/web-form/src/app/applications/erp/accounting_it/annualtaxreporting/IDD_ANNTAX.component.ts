@@ -10,7 +10,7 @@ import { IDD_ANNTAXService } from './IDD_ANNTAX.service';
     providers: [IDD_ANNTAXService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ANNTAXComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ANNTAXComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TAXCOMMUNICATION_POSITIONCODE_itemSource: any;
 
     constructor(document: IDD_ANNTAXService,
@@ -20,7 +20,7 @@ export class IDD_ANNTAXComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

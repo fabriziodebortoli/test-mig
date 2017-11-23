@@ -10,7 +10,7 @@ import { IDD_CASH_STUBBOOK_NUMERATORService } from './IDD_CASH_STUBBOOK_NUMERATO
     providers: [IDD_CASH_STUBBOOK_NUMERATORService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CASH_STUBBOOK_NUMERATORComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CASH_STUBBOOK_NUMERATORComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CASH_STUBBOOK_NUMERATORService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_CASH_STUBBOOK_NUMERATORComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

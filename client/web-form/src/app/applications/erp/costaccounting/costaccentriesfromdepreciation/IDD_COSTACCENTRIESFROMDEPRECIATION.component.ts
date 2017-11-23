@@ -10,7 +10,7 @@ import { IDD_COSTACCENTRIESFROMDEPRECIATIONService } from './IDD_COSTACCENTRIESF
     providers: [IDD_COSTACCENTRIESFROMDEPRECIATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCENTRIESFROMDEPRECIATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCENTRIESFROMDEPRECIATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BATCH_CA_DEPR_NATURE_itemSource: any;
 
     constructor(document: IDD_COSTACCENTRIESFROMDEPRECIATIONService,
@@ -20,7 +20,7 @@ export class IDD_COSTACCENTRIESFROMDEPRECIATIONComponent extends BOComponent imp
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

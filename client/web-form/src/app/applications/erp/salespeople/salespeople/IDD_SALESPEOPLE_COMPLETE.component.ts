@@ -10,7 +10,7 @@ import { IDD_SALESPEOPLE_COMPLETEService } from './IDD_SALESPEOPLE_COMPLETE.serv
     providers: [IDD_SALESPEOPLE_COMPLETEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALESPEOPLE_COMPLETEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALESPEOPLE_COMPLETEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SALESPEOPLEADDONFLY_HEAD_AREA_PRIMARY_itemSource: any;
 
     constructor(document: IDD_SALESPEOPLE_COMPLETEService,
@@ -20,7 +20,7 @@ export class IDD_SALESPEOPLE_COMPLETEComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

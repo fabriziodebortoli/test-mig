@@ -47,13 +47,6 @@
          <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33"></tb-label-static>
          <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33"></tb-label-static>
         </tb-status-tile>
-        <tb-status-tile>
-         <tb-linear-gauge *ngIf="eventData?.activation?.IDC_CONTROL_GAUGE" cmpId="IDC_CONTROL_GAUGE" width="71"></tb-linear-gauge>
-         <tb-label-static cmpId="IDC_CONTROL_STATIC_UP" width="0" [model]="eventData?.model?.EIBRNFeForCust_DescriptionStatus"></tb-label-static>
-         <tb-image [height]="11" [width]="12" cmpId="IDC_CONTROL_IMAGE" width="12" [model]="eventData?.model?.EIBRNFeForCust_ImageStatus"></tb-image>
-         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_LEFT" width="33"></tb-label-static>
-         <tb-label-static cmpId="IDC_CONTROL_STATIC_DOWN_RIGHT" width="33"></tb-label-static>
-        </tb-status-tile>
        </tb-status-tile-panel>
       </ng-template>
      </tb-tilegroup>

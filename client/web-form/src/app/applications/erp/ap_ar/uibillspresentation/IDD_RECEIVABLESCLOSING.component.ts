@@ -10,7 +10,7 @@ import { IDD_RECEIVABLESCLOSINGService } from './IDD_RECEIVABLESCLOSING.service'
     providers: [IDD_RECEIVABLESCLOSINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RECEIVABLESCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RECEIVABLESCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BILLS_PYMTTERM_itemSource: any;
 
     constructor(document: IDD_RECEIVABLESCLOSINGService,
@@ -20,7 +20,7 @@ export class IDD_RECEIVABLESCLOSINGComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

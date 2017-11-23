@@ -10,7 +10,7 @@ import { IDD_REASONService } from './IDD_REASON.service';
     providers: [IDD_REASONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_REASONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_REASONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_REASONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_REASONComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

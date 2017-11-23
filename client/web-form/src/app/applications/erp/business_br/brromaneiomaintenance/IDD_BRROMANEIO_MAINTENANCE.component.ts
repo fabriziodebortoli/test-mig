@@ -10,7 +10,7 @@ import { IDD_BRROMANEIO_MAINTENANCEService } from './IDD_BRROMANEIO_MAINTENANCE.
     providers: [IDD_BRROMANEIO_MAINTENANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BRROMANEIO_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BRROMANEIO_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BRROMANEIO_MAINTENANCEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_BRROMANEIO_MAINTENANCEComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_WEBSERVICESLISTService } from './IDD_WEBSERVICESLIST.service';
     providers: [IDD_WEBSERVICESLISTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WEBSERVICESLISTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WEBSERVICESLISTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_WEBSERVICES_BODYEDIT_NAMESPACE_COL_itemSource: any;
 
     constructor(document: IDD_WEBSERVICESLISTService,
@@ -20,7 +20,7 @@ export class IDD_WEBSERVICESLISTComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

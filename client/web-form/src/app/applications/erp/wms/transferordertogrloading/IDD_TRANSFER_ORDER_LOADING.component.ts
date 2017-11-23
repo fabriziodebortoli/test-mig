@@ -10,7 +10,7 @@ import { IDD_TRANSFER_ORDER_LOADINGService } from './IDD_TRANSFER_ORDER_LOADING.
     providers: [IDD_TRANSFER_ORDER_LOADINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TRANSFER_ORDER_LOADINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TRANSFER_ORDER_LOADINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TRANSFER_ORDER_LOADINGService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_TRANSFER_ORDER_LOADINGComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

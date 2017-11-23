@@ -10,7 +10,7 @@ import { IDD_INV_ADJService } from './IDD_INV_ADJ.service';
     providers: [IDD_INV_ADJService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INV_ADJComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INV_ADJComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INVENTORYCORRECTIONENTRY_CODETYPE_SPECIFICATOR_itemSource: any;
 public IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_itemSource: any;
 public IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE_itemSource: any
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

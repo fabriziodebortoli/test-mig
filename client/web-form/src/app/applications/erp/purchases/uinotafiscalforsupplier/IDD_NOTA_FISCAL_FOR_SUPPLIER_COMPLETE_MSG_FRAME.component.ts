@@ -10,7 +10,7 @@ import { IDD_NOTA_FISCAL_FOR_SUPPLIER_COMPLETE_MSG_FRAMEService } from './IDD_NO
     providers: [IDD_NOTA_FISCAL_FOR_SUPPLIER_COMPLETE_MSG_FRAMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_NOTA_FISCAL_FOR_SUPPLIER_COMPLETE_MSG_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_NOTA_FISCAL_FOR_SUPPLIER_COMPLETE_MSG_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_NOTA_FISCAL_FOR_SUPPLIER_COMPLETE_MSG_FRAMEService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_NOTA_FISCAL_FOR_SUPPLIER_COMPLETE_MSG_FRAMEComponent extends BO
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

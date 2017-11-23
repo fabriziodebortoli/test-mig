@@ -10,7 +10,7 @@ import { IDD_IMAGO_CHECKLINKService } from './IDD_IMAGO_CHECKLINK.service';
     providers: [IDD_IMAGO_CHECKLINKService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_IMAGO_CHECKLINKComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_IMAGO_CHECKLINKComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_IMAGO_CHECKLINKService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_IMAGO_CHECKLINKComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_SINGLE_ORDER_ALLOCATIONService } from './IDD_SINGLE_ORDER_ALLOCATIO
     providers: [IDD_SINGLE_ORDER_ALLOCATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SINGLE_ORDER_ALLOCATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SINGLE_ORDER_ALLOCATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SINGLE_ORDER_ALLOCATIONService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SINGLE_ORDER_ALLOCATIONComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

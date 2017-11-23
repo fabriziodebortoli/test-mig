@@ -10,7 +10,7 @@ import { IDD_BOLService } from './IDD_BOL.service';
     providers: [IDD_BOLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BOL_RSN_SPECIFICATOR_TYPE_1_itemSource: any;
 public IDC_BOL_RSN_SPECIFICATOR_TYPE_2_itemSource: any;
 public IDC_BOL_DETAIL_BE_UOM_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_BOL_DETAIL_BE_UOM_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_FIXEDASSETSJOURNALService } from './IDD_FIXEDASSETSJOURNAL.service'
     providers: [IDD_FIXEDASSETSJOURNALService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FIXEDASSETSJOURNALComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FIXEDASSETSJOURNALComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FIXEDASSETSJOURNALService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_FIXEDASSETSJOURNALComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

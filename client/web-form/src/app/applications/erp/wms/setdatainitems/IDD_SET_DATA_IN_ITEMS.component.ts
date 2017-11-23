@@ -10,7 +10,7 @@ import { IDD_SET_DATA_IN_ITEMSService } from './IDD_SET_DATA_IN_ITEMS.service';
     providers: [IDD_SET_DATA_IN_ITEMSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SET_DATA_IN_ITEMSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SET_DATA_IN_ITEMSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SET_DATA_IN_ITEMSService,
         eventData: EventDataService,
@@ -19,7 +19,7 @@ export class IDD_SET_DATA_IN_ITEMSComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

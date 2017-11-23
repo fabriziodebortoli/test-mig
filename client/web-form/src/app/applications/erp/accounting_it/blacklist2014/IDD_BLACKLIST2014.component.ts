@@ -10,7 +10,7 @@ import { IDD_BLACKLIST2014Service } from './IDD_BLACKLIST2014.service';
     providers: [IDD_BLACKLIST2014Service, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BLACKLIST2014Component extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BLACKLIST2014Component extends BOComponent implements OnInit, OnDestroy {
      public IDC_BLACKLIST2014_HEIR_CODE_itemSource: any;
 
     constructor(document: IDD_BLACKLIST2014Service,
@@ -20,7 +20,7 @@ export class IDD_BLACKLIST2014Component extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

@@ -10,7 +10,7 @@ import { IDD_PROSPSUPPService } from './IDD_PROSPSUPP.service';
     providers: [IDD_PROSPSUPPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PROSPSUPPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PROSPSUPPComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PROSPSUPP_STATUS_itemSource: any;
 public IDC_PROSPSUPP_REGION_itemSource: any;
 public IDC_PROSPSUPP_BRANCHES_COUNTY_itemSource: any;
@@ -25,7 +25,7 @@ public IDC_PROSPSUPP_PYMTBRANCH_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {

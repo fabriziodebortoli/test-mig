@@ -10,7 +10,7 @@ import { IDD_BOMCOSTSIMULATIONSService } from './IDD_BOMCOSTSIMULATIONS.service'
     providers: [IDD_BOMCOSTSIMULATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOMCOSTSIMULATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOMCOSTSIMULATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COSTING_COMBO_VALUATION_itemSource: any;
 
     constructor(document: IDD_BOMCOSTSIMULATIONSService,
@@ -20,7 +20,7 @@ export class IDD_BOMCOSTSIMULATIONSComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
