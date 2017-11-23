@@ -25,8 +25,7 @@ import { IDD_RECEIPTS_FILEService } from './IDD_RECEIPTS_FILE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ReceiptFileImportFileName']});
+        		this.bo.appendToModelStructure({'global':['ReceiptFileImportFileName']});
 
     }
 

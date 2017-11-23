@@ -25,8 +25,7 @@ import { IDD_TAXCODESUPDATEService } from './IDD_TAXCODESUPDATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TaxCodesUpdate','bUpdateDefaultCode','bUpdateAccTpl','bUpdateCust','bUpdateSupp','bUpdateContact','bUpdateProspSupp','bUpdateFeeTpl','bUpdateProformaFees','ProformaFeesDate','bUpdateSuppQuotas','SuppQuotaDate','bUpdateSuppOrders','SuppOrdDate','bUpdateSuppDocuments','SuppDocDate','bUpdateCustQuotas','CustQuotaDate','bUpdateCustOrders','CustOrdDate','bUpdateCustDN','CustDNDate','bUpdateCustDNCharge','CustDNChargeDate','bUpdateCustProforma','CustProformaDate','bUpdateCustPick','CustPickDate','bUpdateItems','bUpdateCustCtg','bUpdateSmartCode','bUpdateConai','bUpdateWEEE','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription','ProgressViewer'],'TaxCodesUpdate':['TaxCode','TEnhTaxCodes_P1'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['TaxCodesUpdate','bUpdateDefaultCode','bUpdateAccTpl','bUpdateCust','bUpdateSupp','bUpdateContact','bUpdateProspSupp','bUpdateFeeTpl','bUpdateProformaFees','ProformaFeesDate','bUpdateSuppQuotas','SuppQuotaDate','bUpdateSuppOrders','SuppOrdDate','bUpdateSuppDocuments','SuppDocDate','bUpdateCustQuotas','CustQuotaDate','bUpdateCustOrders','CustOrdDate','bUpdateCustDN','CustDNDate','bUpdateCustDNCharge','CustDNChargeDate','bUpdateCustProforma','CustProformaDate','bUpdateCustPick','CustPickDate','bUpdateItems','bUpdateCustCtg','bUpdateSmartCode','bUpdateConai','bUpdateWEEE','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription','ProgressViewer'],'TaxCodesUpdate':['TaxCode','TEnhTaxCodes_P1'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

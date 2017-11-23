@@ -30,8 +30,7 @@ import { IDD_OPENORDERS_DELIVERYSCHEDULES_BATCHService } from './IDD_OPENORDERS_
   "namespace": "ERP.OpenOrders.Documents.UnitsOfMeasureDeliveryScheduleComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Contract','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DeliverySchedules','DailyDelivery'],'HKLCustContractsByType':['Description'],'DeliverySchedules':['BitmapBasket','Item','ItemDescr','UoM','Address','DeliveryPlaceDescr'],'DailyDelivery':['DeliveryDate','DayDate','DailyQty','Notes']});
+        		this.bo.appendToModelStructure({'global':['Contract','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DeliverySchedules','DailyDelivery'],'HKLCustContractsByType':['Description'],'DeliverySchedules':['BitmapBasket','Item','ItemDescr','UoM','Address','DeliveryPlaceDescr'],'DailyDelivery':['DeliveryDate','DayDate','DailyQty','Notes']});
 
     }
 

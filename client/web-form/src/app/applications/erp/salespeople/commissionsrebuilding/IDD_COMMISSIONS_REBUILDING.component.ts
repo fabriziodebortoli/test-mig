@@ -25,8 +25,7 @@ import { IDD_COMMISSIONS_REBUILDINGService } from './IDD_COMMISSIONS_REBUILDING.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','bUpdatePolicies','bUpdateSalesPeopleData','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','bUpdatePolicies','bUpdateSalesPeopleData','nCurrentElement','GaugeDescription']});
 
     }
 

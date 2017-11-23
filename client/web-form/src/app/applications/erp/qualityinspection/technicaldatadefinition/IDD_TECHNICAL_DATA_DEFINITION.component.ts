@@ -25,8 +25,7 @@ import { IDD_TECHNICAL_DATA_DEFINITIONService } from './IDD_TECHNICAL_DATA_DEFIN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommodityCategories':['Category','Description'],'global':['TechnicalDataDefinition','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CommodityCategories':['Category','Description'],'global':['TechnicalDataDefinition','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

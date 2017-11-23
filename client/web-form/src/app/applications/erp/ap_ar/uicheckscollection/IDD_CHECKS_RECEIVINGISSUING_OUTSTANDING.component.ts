@@ -25,8 +25,7 @@ import { IDD_CHECKS_RECEIVINGISSUING_OUTSTANDINGService } from './IDD_CHECKS_REC
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CheckCode','CompanyName','Type','ReopenDate','ReturnReason','ReopenPymtTerm','ReopenDueDate','ReopenSuppPymtTerm','ReopenSuppDueDate','PostingDate','DocDate','NrDoc','ReopenDate','ReopenPymtTerm','ReopenDueDate'],'HKLChecksForReturn':['IssuerBank','IssuerBankCA','FiscalNo','BillType','Customer','Supplier','Amount','DueDate','BillStatus'],'HKLCheckReturnReason':['Description']});
+        		this.bo.appendToModelStructure({'global':['CheckCode','CompanyName','Type','ReopenDate','ReturnReason','ReopenPymtTerm','ReopenDueDate','ReopenSuppPymtTerm','ReopenSuppDueDate','PostingDate','DocDate','NrDoc','ReopenDate','ReopenPymtTerm','ReopenDueDate'],'HKLChecksForReturn':['IssuerBank','IssuerBankCA','FiscalNo','BillType','Customer','Supplier','Amount','DueDate','BillStatus'],'HKLCheckReturnReason':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_UPDATE_MANAGERService } from './IDD_UPDATE_MANAGER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

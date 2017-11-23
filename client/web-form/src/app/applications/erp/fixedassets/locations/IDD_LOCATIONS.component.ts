@@ -25,8 +25,7 @@ import { IDD_LOCATIONSService } from './IDD_LOCATIONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Location':['Location','Description','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Location':['Location','Description','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_BALANCEGENERATIONService } from './IDD_BALANCEGENERATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllKind','Forecast','BalanceNew','BalanceRegenerate','BalanceSchema','Notes','OwnerCompany','Language','Template','Suffix','CompanyId','Currency','FixingDate','Fixing','nCurrentElement','GaugeDescription'],'HKLOwnerCompany':['CompanyName'],'HKLLanguages':['Description'],'HKLConsolidTemplates':['Description'],'HKLCurrenciesCurrObj':['Description']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllKind','Forecast','BalanceNew','BalanceRegenerate','BalanceSchema','Notes','OwnerCompany','Language','Template','Suffix','CompanyId','Currency','FixingDate','Fixing','nCurrentElement','GaugeDescription'],'HKLOwnerCompany':['CompanyName'],'HKLLanguages':['Description'],'HKLConsolidTemplates':['Description'],'HKLCurrenciesCurrObj':['Description']});
 
     }
 

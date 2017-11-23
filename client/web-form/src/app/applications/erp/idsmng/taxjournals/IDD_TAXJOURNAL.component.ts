@@ -30,8 +30,7 @@ import { IDD_TAXJOURNALService } from './IDD_TAXJOURNAL.service';
   "namespace": "ERP.IdsMng.Documents.TypeJournalEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxJournals':['TaxJournal','Disabled','Description','CodeType','Notes','ExcludedFromVAT','SpecialPrint','IsTravelAgencyJournal','InTravelAgencyCalculation','ExcludedFromProRata','EUAnnotation','MarginTAX','AutomaticNumbering','IsAProtocol','BranchNumber','D394Serie','AGOSection','OMNIASection'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxJournals':['TaxJournal','Disabled','Description','CodeType','Notes','ExcludedFromVAT','SpecialPrint','IsTravelAgencyJournal','InTravelAgencyCalculation','ExcludedFromProRata','EUAnnotation','MarginTAX','AutomaticNumbering','IsAProtocol','BranchNumber','D394Serie','AGOSection','OMNIASection'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_MAGIXEXPORTService } from './IDD_MAGIXEXPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Date','ExportFile','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Date','ExportFile','nCurrentElement','GaugeDescription']});
 
     }
 

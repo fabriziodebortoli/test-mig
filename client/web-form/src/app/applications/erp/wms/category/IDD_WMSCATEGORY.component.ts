@@ -25,8 +25,7 @@ import { IDD_WMSCATEGORYService } from './IDD_WMSCATEGORY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTCategory':['Category','Description'],'global':['DBTCategoryDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTCategoryDetails':['Storage','SearchZoneStrategyPutaway','SearchZoneStrategyPicking','StockReturnStrategy'],'HKLStorage':['Description'],'HKLSearchZonePutaway':['Description'],'HKLSearchZonePicking':['Description']});
+        		this.bo.appendToModelStructure({'DBTCategory':['Category','Description'],'global':['DBTCategoryDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTCategoryDetails':['Storage','SearchZoneStrategyPutaway','SearchZoneStrategyPicking','StockReturnStrategy'],'HKLStorage':['Description'],'HKLSearchZonePutaway':['Description'],'HKLSearchZonePicking':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_POSTING_DELETIONService } from './IDD_POSTING_DELETION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllBOMNo','BOMNoSel','FromBOMPostingNo','ToBOMPostingNo','AllBOMDate','BOMDateSel','FromDocDate','ToDocDate','AllItem','SelItem','FromItem','ToItem','AllVariant','SelVariant','FromVariant','ToVariant','AllJob','SelJob','FromJob','ToJob','DBTBOMPostingDeletion'],'DBTBOMPostingDeletion':['TEnhPostingDeletionSelection','BOMPostingNo','DocumentNo','DocumentDate','PostingDate','BOM','Variant','Job','Notes']});
+        		this.bo.appendToModelStructure({'global':['AllBOMNo','BOMNoSel','FromBOMPostingNo','ToBOMPostingNo','AllBOMDate','BOMDateSel','FromDocDate','ToDocDate','AllItem','SelItem','FromItem','ToItem','AllVariant','SelVariant','FromVariant','ToVariant','AllJob','SelJob','FromJob','ToJob','DBTBOMPostingDeletion'],'DBTBOMPostingDeletion':['TEnhPostingDeletionSelection','BOMPostingNo','DocumentNo','DocumentDate','PostingDate','BOM','Variant','Job','Notes']});
 
     }
 

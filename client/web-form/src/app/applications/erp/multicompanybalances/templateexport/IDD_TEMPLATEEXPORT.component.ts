@@ -25,8 +25,7 @@ import { IDD_TEMPLATEEXPORTService } from './IDD_TEMPLATEEXPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Template','FileName','nCurrentElement','GaugeDescription'],'HKLTemplate':['Description']});
+        		this.bo.appendToModelStructure({'global':['Template','FileName','nCurrentElement','GaugeDescription'],'HKLTemplate':['Description']});
 
     }
 

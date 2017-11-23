@@ -25,8 +25,7 @@ import { IDD_BALANCEVALUESRESUMEService } from './IDD_BALANCEVALUESRESUME.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','AllFA','FASel','FromFA','ToFA','ToTDeprRsn','AccDeprRsn','bAccAccumDeprs','bEntriesDelete','Process']});
+        		this.bo.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','AllFA','FASel','FromFA','ToFA','ToTDeprRsn','AccDeprRsn','bAccAccumDeprs','bEntriesDelete','Process']});
 
     }
 

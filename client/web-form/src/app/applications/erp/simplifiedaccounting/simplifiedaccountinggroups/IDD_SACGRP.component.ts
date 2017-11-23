@@ -25,8 +25,7 @@ import { IDD_SACGRPService } from './IDD_SACGRP.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SimplifiedAccountingGroups','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SimplifiedAccountingGroups':['ColumnCode','l_TEnhSimplifiedAccGroups_P2','l_TEnhSimplifiedAccGroups_P3','l_TEnhSimplifiedAccGroups_P1','IgnoreDifferentSign']});
+        		this.bo.appendToModelStructure({'global':['SimplifiedAccountingGroups','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SimplifiedAccountingGroups':['ColumnCode','l_TEnhSimplifiedAccGroups_P2','l_TEnhSimplifiedAccGroups_P3','l_TEnhSimplifiedAccGroups_P1','IgnoreDifferentSign']});
 
     }
 

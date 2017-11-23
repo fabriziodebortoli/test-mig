@@ -25,8 +25,7 @@ import { IDD_RETURNREASONService } from './IDD_RETURNREASON.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ReturnReason':['ReturnReason','Description','Purchases','Sales'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ReturnReason':['ReturnReason','Description','Purchases','Sales'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

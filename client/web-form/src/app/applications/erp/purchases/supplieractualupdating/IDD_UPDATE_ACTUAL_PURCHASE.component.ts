@@ -25,8 +25,7 @@ import { IDD_UPDATE_ACTUAL_PURCHASEService } from './IDD_UPDATE_ACTUAL_PURCHASE.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SelectiveStartingDate','SelectiveEndingDate','SelectiveAllSupp','SelectiveSuppsSel','SelectiveSuppStart','SelectiveSuppEnd','ActualClear','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['SelectiveStartingDate','SelectiveEndingDate','SelectiveAllSupp','SelectiveSuppsSel','SelectiveSuppStart','SelectiveSuppEnd','ActualClear','nCurrentElement','GaugeDescription']});
 
     }
 

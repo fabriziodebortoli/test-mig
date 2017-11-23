@@ -42,8 +42,7 @@ this.IDC_EXTACCTEMPL_BODY_ACCOUNT_itemSource = {
   "useProductLanguage": true
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ExtAccountingTemplate':['Template','Description','AccountingTemplate','DocDateFormula','SwitchCreditDebit','GroupRepeatedLines','UseBaseCurrency'],'HKLAccountingTemplate':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Repeat','AccountingReason','LineType','CustSuppFormula','AccountFormula','DebitCredit','AmountFormula','AmountType','OffsetGroupNo','StorageNo']});
+        		this.bo.appendToModelStructure({'ExtAccountingTemplate':['Template','Description','AccountingTemplate','DocDateFormula','SwitchCreditDebit','GroupRepeatedLines','UseBaseCurrency'],'HKLAccountingTemplate':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Repeat','AccountingReason','LineType','CustSuppFormula','AccountFormula','DebitCredit','AmountFormula','AmountType','OffsetGroupNo','StorageNo']});
 
     }
 

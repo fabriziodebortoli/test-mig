@@ -25,8 +25,7 @@ import { IDD_QUESTIONS_CRITERIA_COPYService } from './IDD_QUESTIONS_CRITERIA_COP
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NrQuestionToCopy']});
+        		this.bo.appendToModelStructure({'global':['NrQuestionToCopy']});
 
     }
 

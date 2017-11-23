@@ -25,8 +25,7 @@ import { IDD_PACKINGService } from './IDD_PACKING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','Bin','Item','bOnlyStocks','StorageUnit','NewStorageUnit','NewSUTCode','NewZone','NewBin','DBTPackingDetail','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU'],'DBTPackingDetail':['PackingDet_FieldName','PackingDet_FieldKey','PackingDet_FieldDescription','PackingDet_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','Bin','Item','bOnlyStocks','StorageUnit','NewStorageUnit','NewSUTCode','NewZone','NewBin','DBTPackingDetail','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU'],'DBTPackingDetail':['PackingDet_FieldName','PackingDet_FieldKey','PackingDet_FieldDescription','PackingDet_FieldValue']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_BOECOLLECTIONService } from './IDD_BOECOLLECTION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DueDate','Customer','FiscalNo','PresentationDate','Bank','CA','PostingDate','DocDate','NrDoc','Charges','Bills','TotalAmount'],'Bills':['l_P1','FiscalNo','Supplier','Customer','l_P2','DueDate','BillType','BillStatus','Amount','l_P5','l_P6','l_P3','Supplier','l_P7','l_P8','l_P4']});
+        		this.bo.appendToModelStructure({'global':['DueDate','Customer','FiscalNo','PresentationDate','Bank','CA','PostingDate','DocDate','NrDoc','Charges','Bills','TotalAmount'],'Bills':['l_P1','FiscalNo','Supplier','Customer','l_P2','DueDate','BillType','BillStatus','Amount','l_P5','l_P6','l_P3','Supplier','l_P7','l_P8','l_P4']});
 
     }
 

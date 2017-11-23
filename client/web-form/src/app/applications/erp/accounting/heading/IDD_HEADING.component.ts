@@ -25,8 +25,7 @@ import { IDD_HEADINGService } from './IDD_HEADING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','FirstPageNo','PageNoTot','Description','DotMatrixPrinter','DotMatrixPrinter80Col']});
+        		this.bo.appendToModelStructure({'global':['Year','FirstPageNo','PageNoTot','Description','DotMatrixPrinter','DotMatrixPrinter80Col']});
 
     }
 

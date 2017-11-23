@@ -37,8 +37,7 @@ this.IDC_CARRIERS_COUNTY_itemSource = {
   "parameter": "DataFile.ERP.Company.County"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Carriers':['Carrier','Disabled','CompanyName','TitleCode','ISOCountryCode','FiscalCode','TaxIdNumber','Currency','EORICode','Notes','NaturalPerson','Name','LastName','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','FedStateReg','Address','Address2','City','ZIPCode','County','Telephone1','Telephone2','Telex','Fax','EMail','TaxOffice','CompanyRegistrNo','TransportationForm','RoadHaulageContractorRegister','PackCharges','ShippingCharges','ChargesPercOnTotAmt','Allowed','InsuredGood'],'HKLTitles':['Description'],'HKLCurrencies':['Description'],'HKLISOCountryCodes':['Description','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Carriers':['Carrier','Disabled','CompanyName','TitleCode','ISOCountryCode','FiscalCode','TaxIdNumber','Currency','EORICode','Notes','NaturalPerson','Name','LastName','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','FedStateReg','Address','Address2','City','ZIPCode','County','Telephone1','Telephone2','Telex','Fax','EMail','TaxOffice','CompanyRegistrNo','TransportationForm','RoadHaulageContractorRegister','PackCharges','ShippingCharges','ChargesPercOnTotAmt','Allowed','InsuredGood'],'HKLTitles':['Description'],'HKLCurrencies':['Description'],'HKLISOCountryCodes':['Description','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

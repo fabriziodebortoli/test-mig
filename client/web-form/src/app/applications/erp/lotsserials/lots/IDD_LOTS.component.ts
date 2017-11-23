@@ -25,8 +25,7 @@ import { IDD_LOTSService } from './IDD_LOTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Items':['Item','Description'],'GoodsData':['UseLots','TraceabilityCritical','UseSupplierLotAsNewLotNumber','LotPreexpiringDays','LotValidityDays'],'global':['Lots','ValidLotNo','DisabledLotNo','NotExpiredLotNo','TotallyConsumedLotNo','ExpiredLotNo','Numbering','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'Lots':['PurchaseDate','DescriptionText'],'Numbering':['P1','LastLotNo'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'Items':['Item','Description'],'GoodsData':['UseLots','TraceabilityCritical','UseSupplierLotAsNewLotNumber','LotPreexpiringDays','LotValidityDays'],'global':['Lots','ValidLotNo','DisabledLotNo','NotExpiredLotNo','TotallyConsumedLotNo','ExpiredLotNo','Numbering','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'Lots':['PurchaseDate','DescriptionText'],'Numbering':['P1','LastLotNo'],'DBTLinksTable':['Image','Description']});
 
     }
 

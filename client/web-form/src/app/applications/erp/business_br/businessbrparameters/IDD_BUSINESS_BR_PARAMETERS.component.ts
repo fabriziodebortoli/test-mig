@@ -25,8 +25,7 @@ import { IDD_BUSINESS_BR_PARAMETERSService } from './IDD_BUSINESS_BR_PARAMETERS.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BusinessBRParametersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BusinessBRParametersDetails':['ISOCountryCode','NaturalPerson','FiscalCode','TaxIdNumber','Name']});
+        		this.bo.appendToModelStructure({'global':['BusinessBRParametersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BusinessBRParametersDetails':['ISOCountryCode','NaturalPerson','FiscalCode','TaxIdNumber','Name']});
 
     }
 

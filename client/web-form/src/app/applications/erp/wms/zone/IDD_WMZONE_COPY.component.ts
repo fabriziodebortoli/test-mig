@@ -25,8 +25,7 @@ import { IDD_WMZONE_COPYService } from './IDD_WMZONE_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_KIT_ITEM_COPYService } from './IDD_KIT_ITEM_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Item']});
+        		this.bo.appendToModelStructure({'global':['Item']});
 
     }
 

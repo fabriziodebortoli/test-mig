@@ -25,8 +25,7 @@ import { IDD_BUDGETANALYSISService } from './IDD_BUDGETANALYSIS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['strBalanceType','strType','AllRadio','RadioSel','FromCode','ToCode','strBalanceBy','AllRadio','RadioSel','FromCode','ToCode','AllNatureRadio','NatureRadioSel','CostCenterNature','OnDate','bFromCreationDate','bEveryone','PeriodNature','FiscalYear','OnDate','bEveryone','PeriodNature','strReportLayout','strScale']});
+        		this.bo.appendToModelStructure({'global':['strBalanceType','strType','AllRadio','RadioSel','FromCode','ToCode','strBalanceBy','AllRadio','RadioSel','FromCode','ToCode','AllNatureRadio','NatureRadioSel','CostCenterNature','OnDate','bFromCreationDate','bEveryone','PeriodNature','FiscalYear','OnDate','bEveryone','PeriodNature','strReportLayout','strScale']});
 
     }
 

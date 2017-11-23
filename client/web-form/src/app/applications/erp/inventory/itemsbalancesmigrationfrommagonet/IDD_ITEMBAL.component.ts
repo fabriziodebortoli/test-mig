@@ -25,8 +25,7 @@ import { IDD_ITEMBALService } from './IDD_ITEMBAL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllFiscalYear','bSelFiscalYear','FromFiscalYear','ToFiscalYear','bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','bUseLotsBalances','bUseVariantsBalances','bMigrateAlsoStorageQtyLower','bMigrateAlsoStorageQtyGreater','DBTItemBalMigrStorages','nCurrentElement','GaugeDescription'],'DBTItemBalMigrStorages':['IsMainStorage','Storage','Description']});
+        		this.bo.appendToModelStructure({'global':['bAllFiscalYear','bSelFiscalYear','FromFiscalYear','ToFiscalYear','bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','bUseLotsBalances','bUseVariantsBalances','bMigrateAlsoStorageQtyLower','bMigrateAlsoStorageQtyGreater','DBTItemBalMigrStorages','nCurrentElement','GaugeDescription'],'DBTItemBalMigrStorages':['IsMainStorage','Storage','Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_SACRENUMBERService } from './IDD_SACRENUMBER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','Month','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Year','Month','nCurrentElement','GaugeDescription']});
 
     }
 

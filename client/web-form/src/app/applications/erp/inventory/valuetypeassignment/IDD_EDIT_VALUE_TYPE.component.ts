@@ -30,8 +30,7 @@ import { IDD_EDIT_VALUE_TYPEService } from './IDD_EDIT_VALUE_TYPE.service';
   "namespace": "itemsource.erp.company.components.valuationinventorycombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ValueType','bEvaluateByLot','ForceValueTypeModified','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ValueType','bEvaluateByLot','ForceValueTypeModified','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_TOOLS_ANALISYSService } from './IDD_TOOLS_ANALISYS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bMOALL','bMOSel','sMOFrom','sMOTo','bChooseAlternateAll','bChooseAlternatePreferred','bChooseAlternateSpecific','sChooseAlternateCode','bAlsoHints','bAlsoWarnings','bAlsoErrors','bAllToolStatus','bSelToolStatus','eToolStatus','ToolsAnalysis'],'ToolsAnalysis':['Type','BmpStatus','Status','_IsFamily','Tool','ToolType','Exclusive','NeededQty','NeededTime','MONo','RtgStep','Alternate','AltRtgStep','Message'],'HKLSelectorTools':['Description']});
+        		this.bo.appendToModelStructure({'global':['bMOALL','bMOSel','sMOFrom','sMOTo','bChooseAlternateAll','bChooseAlternatePreferred','bChooseAlternateSpecific','sChooseAlternateCode','bAlsoHints','bAlsoWarnings','bAlsoErrors','bAllToolStatus','bSelToolStatus','eToolStatus','ToolsAnalysis'],'ToolsAnalysis':['Type','BmpStatus','Status','_IsFamily','Tool','ToolType','Exclusive','NeededQty','NeededTime','MONo','RtgStep','Alternate','AltRtgStep','Message'],'HKLSelectorTools':['Description']});
 
     }
 

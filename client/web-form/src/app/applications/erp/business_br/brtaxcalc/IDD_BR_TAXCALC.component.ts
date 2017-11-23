@@ -32,8 +32,7 @@ import { IDD_BR_TAXCALCService } from './IDD_BR_TAXCALC.service';
   "useProductLanguage": false
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRTaxCalc':['TaxCalcCode','Description','TaxType','ValidityStartingDate','ValidityEndingDate','TaxCode','TaxRateCode','ReducTaxRateCode','TaxFormulaCode'],'HKLBRTaxCode':['Description'],'HKLBRTaxRateCode':['Description'],'HKLBRReducTaxRateCode':['Description'],'HKLBRTaxFormulaCode':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRTaxCalc':['TaxCalcCode','Description','TaxType','ValidityStartingDate','ValidityEndingDate','TaxCode','TaxRateCode','ReducTaxRateCode','TaxFormulaCode'],'HKLBRTaxCode':['Description'],'HKLBRTaxRateCode':['Description'],'HKLBRReducTaxRateCode':['Description'],'HKLBRTaxFormulaCode':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

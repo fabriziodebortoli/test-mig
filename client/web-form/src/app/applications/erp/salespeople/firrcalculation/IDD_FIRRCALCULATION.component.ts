@@ -25,8 +25,7 @@ import { IDD_FIRRCALCULATIONService } from './IDD_FIRRCALCULATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromFees','FromComm','FromAcquired','BigStateProc','LittleStateProc','AccrualFeeDate','MovementCounter']});
+        		this.bo.appendToModelStructure({'global':['FromFees','FromComm','FromAcquired','BigStateProc','LittleStateProc','AccrualFeeDate','MovementCounter']});
 
     }
 

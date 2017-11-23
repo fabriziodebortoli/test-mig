@@ -25,8 +25,7 @@ import { IDD_DEFAULTService } from './IDD_DEFAULT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PurchasesTaxAccounts','SalesTaxAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PurchasesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLPurchasesTaxCode':['Description'],'HKLPurchasesTaxAccounts':['Description'],'HKLPurchasesSuspendedTaxAccounts':['Description'],'SalesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLSalesTaxCode':['Description'],'HKLSalesTaxAccounts':['Description'],'HKLSalesSuspendedTaxAccounts':['Description']});
+        		this.bo.appendToModelStructure({'global':['PurchasesTaxAccounts','SalesTaxAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PurchasesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLPurchasesTaxCode':['Description'],'HKLPurchasesTaxAccounts':['Description'],'HKLPurchasesSuspendedTaxAccounts':['Description'],'SalesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLSalesTaxCode':['Description'],'HKLSalesTaxAccounts':['Description'],'HKLSalesSuspendedTaxAccounts':['Description']});
 
     }
 

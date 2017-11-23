@@ -25,8 +25,7 @@ import { IDD_ACCOUNTINGSIMULATIONSSELECTIONService } from './IDD_ACCOUNTINGSIMUL
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromPostDate','ToPostDate','FromSimulation','ToSimulation','bIncludeEmpty','AccountingSimulationsSelection'],'AccountingSimulationsSelection':['l_Selected','Simulation','Description','PostingDate']});
+        		this.bo.appendToModelStructure({'global':['FromPostDate','ToPostDate','FromSimulation','ToSimulation','bIncludeEmpty','AccountingSimulationsSelection'],'AccountingSimulationsSelection':['l_Selected','Simulation','Description','PostingDate']});
 
     }
 

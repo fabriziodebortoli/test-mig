@@ -30,8 +30,7 @@ import { IDD_BOMIMPLOSIONService } from './IDD_BOMIMPLOSION.service';
   "namespace": "{{ItemSourcesNamespace}}"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ComponentType','Component','bNotExplodeVariant','bVariantSelAll','bVariantSel','Variant','bLevelsSelAll','bLevelSel','NrLevel','AllDate','SelDate','Date','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['ComponentType','Component','bNotExplodeVariant','bVariantSelAll','bVariantSel','Variant','bLevelsSelAll','bLevelSel','NrLevel','AllDate','SelDate','Date','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

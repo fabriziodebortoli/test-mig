@@ -25,8 +25,7 @@ import { IDD_DATAVALIDATION_MONITORService } from './IDD_DATAVALIDATION_MONITOR.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ProviderName','DocNamespace','bAllDate','bSelectionDate','DateFrom','DateTo','bAutoRefresh','PictureStatus','nValueGauge','GaugeDescription','ValidationMonitorDocSummary','ValidationInfoMonitor'],'ValidationMonitorDocSummary':['DocNamespace','NoErrors'],'ValidationInfoMonitor':['TEnhDS_Valid_Code','TEnhDS_Valid_Description','DocNamespace','TEnhDS_Valid_FormattedMsgError','ValidationDate','DocTBGuid','ActionName','FKError','XSDError']});
+        		this.bo.appendToModelStructure({'global':['ProviderName','DocNamespace','bAllDate','bSelectionDate','DateFrom','DateTo','bAutoRefresh','PictureStatus','nValueGauge','GaugeDescription','ValidationMonitorDocSummary','ValidationInfoMonitor'],'ValidationMonitorDocSummary':['DocNamespace','NoErrors'],'ValidationInfoMonitor':['TEnhDS_Valid_Code','TEnhDS_Valid_Description','DocNamespace','TEnhDS_Valid_FormattedMsgError','ValidationDate','DocTBGuid','ActionName','FKError','XSDError']});
 
     }
 

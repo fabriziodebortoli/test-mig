@@ -25,8 +25,7 @@ import { IDD_CHANGE_ZONE_BIN_LOTService } from './IDD_CHANGE_ZONE_BIN_LOT.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['LineOriginalSourceZone','LineNewSourceZone','LineOriginalDestinationZone','LineNewDestinationZone','LineOriginalSourceBin','LineNewSourceBin','LineOriginalDestinationBin','LineNewDestinationBin','LineOriginalTeamName','LineNewTeam','LineNewTeamDescription','LineOriginalFullName','LineNewResource','LineNewFullName','LineOldItem','LineNewItem','LineOriginalLot','LineNewLot','LineOldSourceStorageUnit','LineNewSourceStorageUnit','LineOriginalInternalIdNo','LineNewInternalIdNo']});
+        		this.bo.appendToModelStructure({'global':['LineOriginalSourceZone','LineNewSourceZone','LineOriginalDestinationZone','LineNewDestinationZone','LineOriginalSourceBin','LineNewSourceBin','LineOriginalDestinationBin','LineNewDestinationBin','LineOriginalTeamName','LineNewTeam','LineNewTeamDescription','LineOriginalFullName','LineNewResource','LineNewFullName','LineOldItem','LineNewItem','LineOriginalLot','LineNewLot','LineOldSourceStorageUnit','LineNewSourceStorageUnit','LineOriginalInternalIdNo','LineNewInternalIdNo']});
 
     }
 

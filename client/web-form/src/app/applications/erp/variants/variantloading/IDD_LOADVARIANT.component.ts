@@ -25,8 +25,7 @@ import { IDD_LOADVARIANTService } from './IDD_LOADVARIANT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ComponentsVariantToCopy','RoutingVariantToCopy'],'ComponentsVariantToCopy':['Sel','SubstType','Component','Description','ComponentVariant','Qty','UoM','FixedComponent','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate','DNRtgStep'],'RoutingVariantToCopy':['Sel','SubstType','RtgStep','Alternate','AltRtgStep','Operation','WC','SetupTime','ProcessingTime','TotalTime','Quantity','QueueTime']});
+        		this.bo.appendToModelStructure({'global':['ComponentsVariantToCopy','RoutingVariantToCopy'],'ComponentsVariantToCopy':['Sel','SubstType','Component','Description','ComponentVariant','Qty','UoM','FixedComponent','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate','DNRtgStep'],'RoutingVariantToCopy':['Sel','SubstType','RtgStep','Alternate','AltRtgStep','Operation','WC','SetupTime','ProcessingTime','TotalTime','Quantity','QueueTime']});
 
     }
 

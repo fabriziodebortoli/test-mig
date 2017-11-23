@@ -25,8 +25,7 @@ import { IDD_BOLETOSEXPORTINGTOFILEService } from './IDD_BOLETOSEXPORTINGTOFILE.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BankCode','BankCondition','FromDueDate','ToDueDate','bReprint','FromIssuingDate','ToIssuingDate','ExportFilePath','bDefPrint'],'HKLBanks':['Description']});
+        		this.bo.appendToModelStructure({'global':['BankCode','BankCondition','FromDueDate','ToDueDate','bReprint','FromIssuingDate','ToIssuingDate','ExportFilePath','bDefPrint'],'HKLBanks':['Description']});
 
     }
 

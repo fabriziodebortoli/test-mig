@@ -25,8 +25,7 @@ import { IDD_RECALCULATE_UNITService } from './IDD_RECALCULATE_UNIT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

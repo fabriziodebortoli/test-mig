@@ -25,8 +25,7 @@ import { IDD_ITEMS_WAP_TRANSACTIONS_DELETINGService } from './IDD_ITEMS_WAP_TRAN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

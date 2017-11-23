@@ -25,8 +25,7 @@ import { IDD_ALF_MANAGEMENTSService } from './IDD_ALF_MANAGEMENTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SupplierPricesAdj'],'SupplierPricesAdj':['Select','Item','Description','SupplierPr_ValueType','ExpectedPrice','UnitValue','SupplierPr_DiscountType','ExpectedDiscount','DiscountFormula','DocumentDate']});
+        		this.bo.appendToModelStructure({'global':['SupplierPricesAdj'],'SupplierPricesAdj':['Select','Item','Description','SupplierPr_ValueType','ExpectedPrice','UnitValue','SupplierPr_DiscountType','ExpectedDiscount','DiscountFormula','DocumentDate']});
 
     }
 

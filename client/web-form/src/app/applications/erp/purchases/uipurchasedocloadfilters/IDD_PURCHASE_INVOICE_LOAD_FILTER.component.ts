@@ -25,8 +25,7 @@ import { IDD_PURCHASE_INVOICE_LOAD_FILTERService } from './IDD_PURCHASE_INVOICE_
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PurchaseInvoice','CorrectionPurchaseInvoice','SuppInvoiceFilter','InvoiceFilter']});
+        		this.bo.appendToModelStructure({'global':['PurchaseInvoice','CorrectionPurchaseInvoice','SuppInvoiceFilter','InvoiceFilter']});
 
     }
 

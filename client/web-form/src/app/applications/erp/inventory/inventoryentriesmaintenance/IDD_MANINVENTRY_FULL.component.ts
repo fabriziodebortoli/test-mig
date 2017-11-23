@@ -25,8 +25,7 @@ import { IDD_MANINVENTRY_FULLService } from './IDD_MANINVENTRY_FULL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'InventoryEntriesMaintenance':['InvRsn','CustSuppType','CustSupp','DocNo','DocumentDate','PostingDate','PostedToCostAccounting'],'HKLReason':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['bEATGenerated','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'InventoryEntriesMaintenance':['InvRsn','CustSuppType','CustSupp','DocNo','DocumentDate','PostingDate','PostedToCostAccounting'],'HKLReason':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['bEATGenerated','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

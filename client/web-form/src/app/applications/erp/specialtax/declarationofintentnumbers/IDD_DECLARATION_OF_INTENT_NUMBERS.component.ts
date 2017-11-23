@@ -25,8 +25,7 @@ import { IDD_DECLARATION_OF_INTENT_NUMBERSService } from './IDD_DECLARATION_OF_I
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DeclarationOfIntentNumbers':['Received','LastDate','LastLogNo','Suffix','LastPrintingDate','DefinitivelyPrinted'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DeclarationOfIntentNumbers':['Received','LastDate','LastLogNo','Suffix','LastPrintingDate','DefinitivelyPrinted'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

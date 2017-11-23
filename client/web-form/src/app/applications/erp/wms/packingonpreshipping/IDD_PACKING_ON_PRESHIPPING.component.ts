@@ -25,8 +25,7 @@ import { IDD_PACKING_ON_PRESHIPPINGService } from './IDD_PACKING_ON_PRESHIPPING.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NewStorageUnit','NewSUTCode','DBTPackingOnPreShippingDetail','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU'],'DBTPackingOnPreShippingDetail':['PackingOnP_FieldName','PackingOnP_FieldKey','PackingOnP_FieldDescription','PackingOnP_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['NewStorageUnit','NewSUTCode','DBTPackingOnPreShippingDetail','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU'],'DBTPackingOnPreShippingDetail':['PackingOnP_FieldName','PackingOnP_FieldKey','PackingOnP_FieldDescription','PackingOnP_FieldValue']});
 
     }
 

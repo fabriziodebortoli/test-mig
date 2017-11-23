@@ -25,8 +25,7 @@ import { IDD_CONTACTSPECIFICATIONService } from './IDD_CONTACTSPECIFICATION.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ContactSpecification':['ContactSpecification','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ContactSpecification':['ContactSpecification','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

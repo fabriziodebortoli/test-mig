@@ -30,8 +30,7 @@ import { IDD_SALE_DOC_MAINTENANCEService } from './IDD_SALE_DOC_MAINTENANCE.serv
   "namespace": "ERP.Sales.Services.SalesDocEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SalseDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','CustSuppType','CustSupp'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'SalseDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','CustSuppType','CustSupp'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

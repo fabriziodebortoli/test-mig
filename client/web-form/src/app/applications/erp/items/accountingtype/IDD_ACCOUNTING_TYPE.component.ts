@@ -25,8 +25,7 @@ import { IDD_ACCOUNTING_TYPEService } from './IDD_ACCOUNTING_TYPE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTAccountingType':['AccountingType','Description','PurchaseOffset','SalesOffset','ConsumptionOffset'],'HKLPurchaseOffset':['Description'],'HKLSaleOffset':['Description'],'HKLConsumptionOffset':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTAccountingType':['AccountingType','Description','PurchaseOffset','SalesOffset','ConsumptionOffset'],'HKLPurchaseOffset':['Description'],'HKLSaleOffset':['Description'],'HKLConsumptionOffset':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

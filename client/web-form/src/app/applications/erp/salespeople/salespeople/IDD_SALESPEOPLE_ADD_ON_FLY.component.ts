@@ -30,8 +30,7 @@ import { IDD_SALESPEOPLE_ADD_ON_FLYService } from './IDD_SALESPEOPLE_ADD_ON_FLY.
   "namespace": "ERP.SalesPeople.Documents.AreaCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SalesPeople':['Salesperson','Supplier','Name','IsAnEmployee','Disabled','Policy','IsAnAreaManager','AreaManager','Enasarco','HiringDate','IsACompany','IsACorporation','OneFirmOnly'],'HKLAreaManager':['Name'],'global':['ENASARCONo','bSalespersonMulti','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'SalesPeople':['Salesperson','Supplier','Name','IsAnEmployee','Disabled','Policy','IsAnAreaManager','AreaManager','Enasarco','HiringDate','IsACompany','IsACorporation','OneFirmOnly'],'HKLAreaManager':['Name'],'global':['ENASARCONo','bSalespersonMulti','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

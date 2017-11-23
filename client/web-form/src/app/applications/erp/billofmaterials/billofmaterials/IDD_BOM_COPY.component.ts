@@ -25,8 +25,7 @@ import { IDD_BOM_COPYService } from './IDD_BOM_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMFromToCopy','bBOMComponentToCopy'],'HKLBOMForCopy':['Description']});
+        		this.bo.appendToModelStructure({'global':['BOMFromToCopy','bBOMComponentToCopy'],'HKLBOMForCopy':['Description']});
 
     }
 

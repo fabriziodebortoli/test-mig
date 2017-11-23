@@ -25,8 +25,7 @@ import { IDD_MO_STEPS_OUTSOURCEDService } from './IDD_MO_STEPS_OUTSOURCED.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllSteps','Supplier','SupplierCompanyName','SubcontactorOrdMOSteps'],'SubcontactorOrdMOSteps':['StateBmp','Selection','MONo','RtgStep','Alternate','AltRtgStep','BOM','UoM','ProductionQty','SubcontractorOrderQuantity','QtyToOrder','Supplier','Operation','SupplierCompanyName','BOMDescri','MOStatus','Job','Customer','SaleOrdNo']});
+        		this.bo.appendToModelStructure({'global':['bAllSteps','Supplier','SupplierCompanyName','SubcontactorOrdMOSteps'],'SubcontactorOrdMOSteps':['StateBmp','Selection','MONo','RtgStep','Alternate','AltRtgStep','BOM','UoM','ProductionQty','SubcontractorOrderQuantity','QtyToOrder','Supplier','Operation','SupplierCompanyName','BOMDescri','MOStatus','Job','Customer','SaleOrdNo']});
 
     }
 

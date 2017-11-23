@@ -25,8 +25,7 @@ import { IDD_PRESHIPPING_SELECTIONS_LOADING_PURCHASE_DOCService } from './IDD_PR
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FilterForBillOfLading','FilterForPurchaseInvoices','PurchaseDocNo']});
+        		this.bo.appendToModelStructure({'global':['FilterForBillOfLading','FilterForPurchaseInvoices','PurchaseDocNo']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_JE_NOTES_SELECTIONService } from './IDD_JE_NOTES_SELECTION.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

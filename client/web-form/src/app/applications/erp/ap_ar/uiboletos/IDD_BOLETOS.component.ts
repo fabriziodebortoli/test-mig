@@ -25,8 +25,7 @@ import { IDD_BOLETOSService } from './IDD_BOLETOS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Boletos':['BoletoNo','Cancelled','IssuerBank','BarCode','OurNumber','PrintedOurNumber','Amount','DueDate','IssuingDate','ConditionCode','InterestRate','PenalityRate','DiscountRate','ProtestDays','Instruction','PrintedOnPaper','PrintedOnFile','UpdateNo','OriginalAmount','Customer','Collected','CollectionDate','CollectedAmount','InterestPenality'],'HKLIssuerBank':['Description'],'HKLCustomers':['CompanyName'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'Boletos':['BoletoNo','Cancelled','IssuerBank','BarCode','OurNumber','PrintedOurNumber','Amount','DueDate','IssuingDate','ConditionCode','InterestRate','PenalityRate','DiscountRate','ProtestDays','Instruction','PrintedOnPaper','PrintedOnFile','UpdateNo','OriginalAmount','Customer','Collected','CollectionDate','CollectedAmount','InterestPenality'],'HKLIssuerBank':['Description'],'HKLCustomers':['CompanyName'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_BR_TAXFORMULA_COPYService } from './IDD_BR_TAXFORMULA_COPY.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TaxFormula']});
+        		this.bo.appendToModelStructure({'global':['TaxFormula']});
 
     }
 

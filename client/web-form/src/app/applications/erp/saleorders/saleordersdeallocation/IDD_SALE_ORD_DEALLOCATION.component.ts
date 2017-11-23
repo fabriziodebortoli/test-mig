@@ -25,8 +25,7 @@ import { IDD_SALE_ORD_DEALLOCATIONService } from './IDD_SALE_ORD_DEALLOCATION.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllCustomer','bCustomerSel','CustomerStart','CustomerEnd','bAllOrdNo','bOrdNoSel','FromOrdNo','ToOrdNo','FromDate','EndingDate','FromExpectedDeliveryDate','EndingExpectedDeliveryDate','AllPriority','PrioritySel','FromPriority','ToPriority','bAllAllocationArea','bAllocationAreaSel','AllocationAreaStart','AllocationAreaEnd','bAllStorage','bStorageSel','Storage','bStorageSel','Storage','SpecificatorType','Specificator','bAllItem','bItemSel','ItemStart','ItemEnd','SaleOrdersDeallocation'],'SaleOrdersDeallocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Qty','AllocatedQty','DeliveredQty','QtyToDeallocate','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate','StoragePhase1','Specificator1Type','SpecificatorPhase1','Customer','CustomerDescri','Note']});
+        		this.bo.appendToModelStructure({'global':['bAllCustomer','bCustomerSel','CustomerStart','CustomerEnd','bAllOrdNo','bOrdNoSel','FromOrdNo','ToOrdNo','FromDate','EndingDate','FromExpectedDeliveryDate','EndingExpectedDeliveryDate','AllPriority','PrioritySel','FromPriority','ToPriority','bAllAllocationArea','bAllocationAreaSel','AllocationAreaStart','AllocationAreaEnd','bAllStorage','bStorageSel','Storage','bStorageSel','Storage','SpecificatorType','Specificator','bAllItem','bItemSel','ItemStart','ItemEnd','SaleOrdersDeallocation'],'SaleOrdersDeallocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Qty','AllocatedQty','DeliveredQty','QtyToDeallocate','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate','StoragePhase1','Specificator1Type','SpecificatorPhase1','Customer','CustomerDescri','Note']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_CRM_INFINITY_MASSIVE_SYNCHROService } from './IDD_CRM_INFINITY_MASS
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bDelta','bItems','bCustomers','bSuppliers','bContacts','bProspSuppliers','bAttachments','bCurrencies','bLanguages','bISOCountryCode','bPaymentTerm','bBanks','bBanksCompany','bBanksCustSupp','bIntrastat','bIntrastatCPA','bIntrastatNomecl','bGeneralUoM','bItemCtg','bCommodityCtg','bItemType','bHomogeneousCtg','bProductCtg','bSalesPeople','bSalesPeopleMaster','bSalesPeopleAreas','bTransport','bCarriers','bTaxCodes','bPriceLists','bStorages','bTitles','bCustCategories','bCustClassifications','bProducers','bCustCommCtg','bSuppClassification','bSuppCategories','bInvoices','bCustorder','bSuppOrder','bAccountPayable','bAccountReceivable','bDDT','bBillLanding','bCreditNote','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'global':['bDelta','bItems','bCustomers','bSuppliers','bContacts','bProspSuppliers','bAttachments','bCurrencies','bLanguages','bISOCountryCode','bPaymentTerm','bBanks','bBanksCompany','bBanksCustSupp','bIntrastat','bIntrastatCPA','bIntrastatNomecl','bGeneralUoM','bItemCtg','bCommodityCtg','bItemType','bHomogeneousCtg','bProductCtg','bSalesPeople','bSalesPeopleMaster','bSalesPeopleAreas','bTransport','bCarriers','bTaxCodes','bPriceLists','bStorages','bTitles','bCustCategories','bCustClassifications','bProducers','bCustCommCtg','bSuppClassification','bSuppCategories','bInvoices','bCustorder','bSuppOrder','bAccountPayable','bAccountReceivable','bDDT','bBillLanding','bCreditNote','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

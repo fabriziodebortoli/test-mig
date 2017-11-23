@@ -37,8 +37,7 @@ this.IDC_BARCODESTRUCTURE_DETAIL_DATA_itemSource = {
   "namespace": "ERP.Barcode.Documents.BarCodeDataEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBarcodeStructure':['Code','Disabled','Description','Prefix','BarcodeType'],'global':['DBTBarcodeStructureDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBarcodeStructureDetails':['Data','InitialSeparator','Prefix','FinalSeparator','Length','Position']});
+        		this.bo.appendToModelStructure({'DBTBarcodeStructure':['Code','Disabled','Description','Prefix','BarcodeType'],'global':['DBTBarcodeStructureDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBarcodeStructureDetails':['Data','InitialSeparator','Prefix','FinalSeparator','Length','Position']});
 
     }
 

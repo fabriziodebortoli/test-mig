@@ -25,8 +25,7 @@ import { IDD_DOC_SUBCONTRACTING_COMPService } from './IDD_DOC_SUBCONTRACTING_COM
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bMOOnly','bAll','bReturnedMaterialReceipt','SubcntBoLMOComponentsList'],'SubcntBoLMOComponentsList':['Selection','Component','ComponentsDes','UoM','CompQty','CompBoLQty','NeededQty','PickedQuantity']});
+        		this.bo.appendToModelStructure({'global':['bMOOnly','bAll','bReturnedMaterialReceipt','SubcntBoLMOComponentsList'],'SubcntBoLMOComponentsList':['Selection','Component','ComponentsDes','UoM','CompQty','CompBoLQty','NeededQty','PickedQuantity']});
 
     }
 

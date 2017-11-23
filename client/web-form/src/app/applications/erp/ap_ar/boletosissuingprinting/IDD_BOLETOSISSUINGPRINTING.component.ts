@@ -25,8 +25,7 @@ import { IDD_BOLETOSISSUINGPRINTINGService } from './IDD_BOLETOSISSUINGPRINTING.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OperationType','bReprint','AllCustomers','SelCustomer','FromCust','ToCust','bAlsoBlockedCust','FromDueDate','ToDueDate','FromDocNo','ToDocNo','FromIssuingDate','ToIssuingDate','FromNo','ToNo','IssuingDate','BankCode','Instruction','BankCondition','InterestRate','PenalityRate','DiscountRate','ProtestDays','bPrintPreview','bDefPrint','bEMail','bPrintMail'],'HKLBanks':['Description']});
+        		this.bo.appendToModelStructure({'global':['OperationType','bReprint','AllCustomers','SelCustomer','FromCust','ToCust','bAlsoBlockedCust','FromDueDate','ToDueDate','FromDocNo','ToDocNo','FromIssuingDate','ToIssuingDate','FromNo','ToNo','IssuingDate','BankCode','Instruction','BankCondition','InterestRate','PenalityRate','DiscountRate','ProtestDays','bPrintPreview','bDefPrint','bEMail','bPrintMail'],'HKLBanks':['Description']});
 
     }
 

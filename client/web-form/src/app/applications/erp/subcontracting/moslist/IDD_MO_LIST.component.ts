@@ -25,8 +25,7 @@ import { IDD_MO_LISTService } from './IDD_MO_LIST.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['MOComponentsToPick'],'MOComponentsToPick':['MOSelected','Line','Item','LineDescri','UoM','BoLMOQty','BoLMONeededQty','BoLMOProgQty','BoLMOProgNeededQty','Qty','BoLMORemainingQty','BoLMORemainingNeededQty','Lot','MONo','DeliveryDateForMO','Job','DocNo','BoLMOBmpOutsourced']});
+        		this.bo.appendToModelStructure({'global':['MOComponentsToPick'],'MOComponentsToPick':['MOSelected','Line','Item','LineDescri','UoM','BoLMOQty','BoLMONeededQty','BoLMOProgQty','BoLMOProgNeededQty','Qty','BoLMORemainingQty','BoLMORemainingNeededQty','Lot','MONo','DeliveryDateForMO','Job','DocNo','BoLMOBmpOutsourced']});
 
     }
 

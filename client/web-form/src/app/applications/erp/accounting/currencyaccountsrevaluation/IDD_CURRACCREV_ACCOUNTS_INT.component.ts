@@ -25,8 +25,7 @@ import { IDD_CURRACCREV_ACCOUNTS_INTService } from './IDD_CURRACCREV_ACCOUNTS_IN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Currency','FixingDate','Fixing','FixingDescri','bAll','bSelection','From','To','PostDate','AccrualDate','Nature','bOneJEForCustSupp','Profit','Loss','Detail'],'Detail':['l_TEnhCurrencyAccountsRev_P01','l_TEnhCurrencyAccountsRev_P10','CustSuppType','Account','l_TEnhCurrencyAccountsRev_P04','l_TEnhCurrencyAccountsRev_P05','l_TEnhCurrencyAccountsRev_P06','l_TEnhCurrencyAccountsRev_P09','DocCurrAmount','FixingDate','Amount','Fixing','l_TEnhCurrencyAccountsRev_P02','l_TEnhCurrencyAccountsRev_P03']});
+        		this.bo.appendToModelStructure({'global':['Currency','FixingDate','Fixing','FixingDescri','bAll','bSelection','From','To','PostDate','AccrualDate','Nature','bOneJEForCustSupp','Profit','Loss','Detail'],'Detail':['l_TEnhCurrencyAccountsRev_P01','l_TEnhCurrencyAccountsRev_P10','CustSuppType','Account','l_TEnhCurrencyAccountsRev_P04','l_TEnhCurrencyAccountsRev_P05','l_TEnhCurrencyAccountsRev_P06','l_TEnhCurrencyAccountsRev_P09','DocCurrAmount','FixingDate','Amount','Fixing','l_TEnhCurrencyAccountsRev_P02','l_TEnhCurrencyAccountsRev_P03']});
 
     }
 

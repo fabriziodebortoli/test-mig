@@ -25,8 +25,7 @@ import { IDD_COMPENSATIONService } from './IDD_COMPENSATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Customer','strCompensation','CompensationNo','FromDueDate','ToDueDate','Currency','bCompensationPrintPreview','bCompensationPrint','bCompensationSendByMail','bCompensationNothing','bCompensationSendByPostaLite','CompensationPLDeliveryType','CompensationPLPrintType','PostingDate','FixingDate','Fixing','Schedule','DebitTotal','CreditTotal','DifferenceTotal','BlockedImage','LitigationImage'],'Schedule':['l_BlockedBmp','l_LitegationBmp','l_Selected','OpeningDate','l_DebitBalance','l_CreditBalance','l_WithholdingTaxBalance','l_DebitCompensation','l_CreditCompensation','l_DocDate','l_DocNo','l_LogNo','PaymentTerm','InstallmentNo']});
+        		this.bo.appendToModelStructure({'global':['Customer','strCompensation','CompensationNo','FromDueDate','ToDueDate','Currency','bCompensationPrintPreview','bCompensationPrint','bCompensationSendByMail','bCompensationNothing','bCompensationSendByPostaLite','CompensationPLDeliveryType','CompensationPLPrintType','PostingDate','FixingDate','Fixing','Schedule','DebitTotal','CreditTotal','DifferenceTotal','BlockedImage','LitigationImage'],'Schedule':['l_BlockedBmp','l_LitegationBmp','l_Selected','OpeningDate','l_DebitBalance','l_CreditBalance','l_WithholdingTaxBalance','l_DebitCompensation','l_CreditCompensation','l_DocDate','l_DocNo','l_LogNo','PaymentTerm','InstallmentNo']});
 
     }
 

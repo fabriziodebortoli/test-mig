@@ -30,8 +30,7 @@ import { IDD_CONFIGURATIONSService } from './IDD_CONFIGURATIONS.service';
   "namespace": "ERP.Configurator.Documents.AnswersToQuestionComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Configuration':['Configuration','Price','Item','Customer'],'HKLItem':['Description'],'HKLCustomer':['CompanyName'],'global':['ConfigQuestionsAnswer','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ConfigQuestionsAnswer':['QuestionNo','Question','AnswerNo','l_Answer','DeleteComponent','l_DeleteDes']});
+        		this.bo.appendToModelStructure({'Configuration':['Configuration','Price','Item','Customer'],'HKLItem':['Description'],'HKLCustomer':['CompanyName'],'global':['ConfigQuestionsAnswer','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ConfigQuestionsAnswer':['QuestionNo','Question','AnswerNo','l_Answer','DeleteComponent','l_DeleteDes']});
 
     }
 

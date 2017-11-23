@@ -25,8 +25,7 @@ import { IDD_TAXJOURN_RANGEService } from './IDD_TAXJOURN_RANGE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxJournalsRange':['TaxJournal','FirstRangeNo','LastRangeNo','LastAssignedNo'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxJournalsRange':['TaxJournal','FirstRangeNo','LastRangeNo','LastAssignedNo'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

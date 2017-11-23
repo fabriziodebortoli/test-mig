@@ -25,8 +25,7 @@ import { IDD_SALESAREA_FULLService } from './IDD_SALESAREA_FULL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Areas':['Area','Description','Notes','AreaManager'],'HKLAreaManager':['Name'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Areas':['Area','Description','Notes','AreaManager'],'HKLAreaManager':['Name'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

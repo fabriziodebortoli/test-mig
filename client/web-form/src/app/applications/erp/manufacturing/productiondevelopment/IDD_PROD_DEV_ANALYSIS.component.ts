@@ -25,8 +25,7 @@ import { IDD_PROD_DEV_ANALYSISService } from './IDD_PROD_DEV_ANALYSIS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bCreateSubcntOrd','bSeparateOrderForMO','bCreateSubcntDN']});
+        		this.bo.appendToModelStructure({'global':['bCreateSubcntOrd','bSeparateOrderForMO','bCreateSubcntDN']});
 
     }
 

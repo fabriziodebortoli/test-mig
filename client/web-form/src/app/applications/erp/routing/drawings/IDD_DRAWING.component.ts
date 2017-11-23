@@ -25,8 +25,7 @@ import { IDD_DRAWINGService } from './IDD_DRAWING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Drawings':['Drawing','Description','DerivedFrom','Notes','Item','PreferredDrawing','Revision','FilePath','DateOfSignature','ApprovalSignature','BarCode'],'HKLDrawings':['Description'],'HKLItems':['Description'],'global':['DrawingsRevisions','DrawingsDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DrawingsRevisions':['Notes'],'DrawingsDescription':['Language','Description']});
+        		this.bo.appendToModelStructure({'Drawings':['Drawing','Description','DerivedFrom','Notes','Item','PreferredDrawing','Revision','FilePath','DateOfSignature','ApprovalSignature','BarCode'],'HKLDrawings':['Description'],'HKLItems':['Description'],'global':['DrawingsRevisions','DrawingsDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DrawingsRevisions':['Notes'],'DrawingsDescription':['Language','Description']});
 
     }
 

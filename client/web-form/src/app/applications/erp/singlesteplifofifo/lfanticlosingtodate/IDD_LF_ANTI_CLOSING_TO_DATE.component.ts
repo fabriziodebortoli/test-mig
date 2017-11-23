@@ -25,8 +25,7 @@ import { IDD_LF_ANTI_CLOSING_TO_DATEService } from './IDD_LF_ANTI_CLOSING_TO_DAT
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','StartingDate','OpeningDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','StartingDate','OpeningDate','nCurrentElement','GaugeDescription']});
 
     }
 

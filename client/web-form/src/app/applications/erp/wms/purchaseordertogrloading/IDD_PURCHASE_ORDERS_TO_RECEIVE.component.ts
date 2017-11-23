@@ -25,8 +25,7 @@ import { IDD_PURCHASE_ORDERS_TO_RECEIVEService } from './IDD_PURCHASE_ORDERS_TO_
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PurchaseOrderTOGRLoading'],'PurchaseOrderTOGRLoading':['Sel','DocNo','OrderDate','Item','GRLoading_SupplierCode02','Description','UoM','QtyToRecInGR']});
+        		this.bo.appendToModelStructure({'global':['PurchaseOrderTOGRLoading'],'PurchaseOrderTOGRLoading':['Sel','DocNo','OrderDate','Item','GRLoading_SupplierCode02','Description','UoM','QtyToRecInGR']});
 
     }
 

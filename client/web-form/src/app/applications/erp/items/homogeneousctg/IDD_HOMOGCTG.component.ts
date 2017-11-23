@@ -25,8 +25,7 @@ import { IDD_HOMOGCTGService } from './IDD_HOMOGCTG.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'HomogeneousCategories':['Category','Description','Notes'],'global':['HomogeneousCtgBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'HomogeneousCategories':['Category','Description','Notes'],'global':['HomogeneousCtgBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

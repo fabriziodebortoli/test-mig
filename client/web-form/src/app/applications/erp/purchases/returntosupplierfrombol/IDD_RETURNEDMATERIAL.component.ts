@@ -25,8 +25,7 @@ import { IDD_RETURNEDMATERIALService } from './IDD_RETURNEDMATERIAL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllItems','ItemsSel','FromItem','ToItem','Group','Reason','Detail'],'Detail':['l_BoLDetail_Selected','Supplier','DocNo','DocumentDate','Item','UoM','Qty','ReturnReason','l_BoLDetail_Generated','Description'],'HKLReturnReason':['Description']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllItems','ItemsSel','FromItem','ToItem','Group','Reason','Detail'],'Detail':['l_BoLDetail_Selected','Supplier','DocNo','DocumentDate','Item','UoM','Qty','ReturnReason','l_BoLDetail_Generated','Description'],'HKLReturnReason':['Description']});
 
     }
 

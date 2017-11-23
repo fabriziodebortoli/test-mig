@@ -25,8 +25,7 @@ import { IDD_SALE_PRICE_POLICIES_PARAMETERSService } from './IDD_SALE_PRICE_POLI
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SalePolicy','SaleDiscountPolicy','SaleIncompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SalePolicy':['Priority','CodeType','DiscountType','NotPrompt','Notes'],'SaleDiscountPolicy':['Priority','CodeType','NotPrompt','Notes'],'SaleIncompatibility':['ValueType','DiscountType']});
+        		this.bo.appendToModelStructure({'global':['SalePolicy','SaleDiscountPolicy','SaleIncompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SalePolicy':['Priority','CodeType','DiscountType','NotPrompt','Notes'],'SaleDiscountPolicy':['Priority','CodeType','NotPrompt','Notes'],'SaleIncompatibility':['ValueType','DiscountType']});
 
     }
 

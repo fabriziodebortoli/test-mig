@@ -30,8 +30,7 @@ import { IDD_DOCUMENT_COPYService } from './IDD_DOCUMENT_COPY.service';
   "namespace": "{{sNSCopyOn}}"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CopyDoc']});
+        		this.bo.appendToModelStructure({'global':['CopyDoc']});
 
     }
 

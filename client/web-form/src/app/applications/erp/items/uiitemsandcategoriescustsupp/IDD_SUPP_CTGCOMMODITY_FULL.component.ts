@@ -25,8 +25,7 @@ import { IDD_SUPP_CTGCOMMODITY_FULLService } from './IDD_SUPP_CTGCOMMODITY_FULL.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommodityCtgSuppliers':['Category','Disabled','Supplier','Notes','MinOrderQty','DaysForDelivery','ShippingCost','DiscountFormula','AdditionalCharges','PurchaseOffset','LastPurchaseDocType','LastPurchaseDocNo','LastPurchaseDocDate','LastPaymentTerm','LastPurchaseQty','LastDiscountFormula','LastPurchaseValue','LastRMADocNo','LastRMADocDate','LastRMAQty','LastRMAValue'],'HKLCtgCommodity':['Description','DiscountFormula'],'HKLSuppCtgCommodity':['CompanyName'],'HKLPurchaseOffset':['Description'],'HKLPymtTerm':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CommodityCtgSuppliers':['Category','Disabled','Supplier','Notes','MinOrderQty','DaysForDelivery','ShippingCost','DiscountFormula','AdditionalCharges','PurchaseOffset','LastPurchaseDocType','LastPurchaseDocNo','LastPurchaseDocDate','LastPaymentTerm','LastPurchaseQty','LastDiscountFormula','LastPurchaseValue','LastRMADocNo','LastRMADocDate','LastRMAQty','LastRMAValue'],'HKLCtgCommodity':['Description','DiscountFormula'],'HKLSuppCtgCommodity':['CompanyName'],'HKLPurchaseOffset':['Description'],'HKLPymtTerm':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -34,8 +34,7 @@ this.IDC_SEPA_BANKTRANSFERTYPE_itemSource = {
   "namespace": "ERP.AP_AR.Documents.EnumComboForeignSCT"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllType','OneType','BankTransferType','AllSel1','SlipSel','SlipNo','BankTransferType','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','ExecutionDate','GenerateSlipByDueDate','Urgency','Success','Transmit'],'HKLBank':['Description']});
+        		this.bo.appendToModelStructure({'global':['AllType','OneType','BankTransferType','AllSel1','SlipSel','SlipNo','BankTransferType','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','ExecutionDate','GenerateSlipByDueDate','Urgency','Success','Transmit'],'HKLBank':['Description']});
 
     }
 

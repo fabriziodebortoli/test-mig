@@ -25,8 +25,7 @@ import { IDD_ACCTPL_COPYService } from './IDD_ACCTPL_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Code']});
+        		this.bo.appendToModelStructure({'global':['Code']});
 
     }
 

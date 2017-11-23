@@ -25,8 +25,7 @@ import { IDD_TAX_CODE_ASSIGNService } from './IDD_TAX_CODE_ASSIGN.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','NewTaxCode','OldTaxCode','nCurrentElement','GaugeDescription'],'HKLTaxCode':['Description'],'HKLOldTaxCode':['Description']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','NewTaxCode','OldTaxCode','nCurrentElement','GaugeDescription'],'HKLTaxCode':['Description'],'HKLOldTaxCode':['Description']});
 
     }
 

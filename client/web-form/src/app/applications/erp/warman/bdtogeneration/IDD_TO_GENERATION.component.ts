@@ -27,8 +27,7 @@ import { IDD_TO_GENERATIONService } from './IDD_TO_GENERATION.service';
         super.ngOnInit();
         this.IDC_TO_GENERATION_SEL_DOCTYPE_itemSource = {}; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bTRAll','bTRSel','sTRFrom','sTRTo','bDateAll','bDateSel','dDateFrom','dDateTo','bDocTypeAll','bDocTypeSel','eDocType','bMOAll','bMOSel','sMOFrom','sMOTo','bItemAll','bItemSel','sItemFrom','sItemTo','DBTTOGeneration'],'DBTTOGeneration':['Selected','StatusBmp','RequiredDate','TRNumber','TRStatus','MONo','DocumentType','DocumentNumber','Item','Storage','Lot','UoM','RequiredQty','ReleasedQty','ProcessedQty','ConfirmedTOQty'],'HKLItemsBE':['Description'],'HKLStorages':['Description']});
+        		this.bo.appendToModelStructure({'global':['bTRAll','bTRSel','sTRFrom','sTRTo','bDateAll','bDateSel','dDateFrom','dDateTo','bDocTypeAll','bDocTypeSel','eDocType','bMOAll','bMOSel','sMOFrom','sMOTo','bItemAll','bItemSel','sItemFrom','sItemTo','DBTTOGeneration'],'DBTTOGeneration':['Selected','StatusBmp','RequiredDate','TRNumber','TRStatus','MONo','DocumentType','DocumentNumber','Item','Storage','Lot','UoM','RequiredQty','ReleasedQty','ProcessedQty','ConfirmedTOQty'],'HKLItemsBE':['Description'],'HKLStorages':['Description']});
 
     }
 

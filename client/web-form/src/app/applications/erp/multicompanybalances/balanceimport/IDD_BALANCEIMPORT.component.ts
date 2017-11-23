@@ -25,8 +25,7 @@ import { IDD_BALANCEIMPORTService } from './IDD_BALANCEIMPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OwnedCompany','FileName','OnlyCheck','GenerateAccountsNotInMaster','JEDate','AccrualDate','DocDate','nCurrentElement','GaugeDescription'],'HKLOwnedCompanies':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['OwnedCompany','FileName','OnlyCheck','GenerateAccountsNotInMaster','JEDate','AccrualDate','DocDate','nCurrentElement','GaugeDescription'],'HKLOwnedCompanies':['CompanyName']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_TEMPLATESCONSOLIDService } from './IDD_TEMPLATESCONSOLID.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ConsolidationTemplates':['Template','Description','Suffix','CompanyIdentifier','Mask'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Description','l_DebitBalanceAccount','l_CreditBalanceAccount']});
+        		this.bo.appendToModelStructure({'ConsolidationTemplates':['Template','Description','Suffix','CompanyIdentifier','Mask'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Description','l_DebitBalanceAccount','l_CreditBalanceAccount']});
 
     }
 

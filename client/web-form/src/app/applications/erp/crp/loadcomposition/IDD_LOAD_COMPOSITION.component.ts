@@ -25,8 +25,7 @@ import { IDD_LOAD_COMPOSITIONService } from './IDD_LOAD_COMPOSITION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DBTLoadComposition'],'DBTLoadComposition':['IsSelected','MONo','RtgStep','MachineAlternate','WC','SimStartDate','OldSimStartDate','OldSimEndDate','HoursInTheDay','Setup','IncidenceOnTotalAmount','RtgStep','Alternate','AltRtgStep','Operation','DescriptOperation','Customer','DescriptCust','Job','Product','DescriptItm','UoM','QtyToProduce','StatusDecod','ProcessTimeSIM','EstimatedSetupTime']});
+        		this.bo.appendToModelStructure({'global':['DBTLoadComposition'],'DBTLoadComposition':['IsSelected','MONo','RtgStep','MachineAlternate','WC','SimStartDate','OldSimStartDate','OldSimEndDate','HoursInTheDay','Setup','IncidenceOnTotalAmount','RtgStep','Alternate','AltRtgStep','Operation','DescriptOperation','Customer','DescriptCust','Job','Product','DescriptItm','UoM','QtyToProduce','StatusDecod','ProcessTimeSIM','EstimatedSetupTime']});
 
     }
 

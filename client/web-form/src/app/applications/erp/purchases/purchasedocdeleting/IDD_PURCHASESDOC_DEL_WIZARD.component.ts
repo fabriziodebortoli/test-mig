@@ -30,8 +30,7 @@ import { IDD_PURCHASESDOC_DEL_WIZARDService } from './IDD_PURCHASESDOC_DEL_WIZAR
   "namespace": "ERP.Purchases.Services.PurchaseDocTypeForPurchDocDeletingCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DocumentType','DeleterStartingDate','DeleterEndingDate','DeleterAllDocNo','DeleterDocNoSel','DeleterStartNoDoc','DeleterEndNoDoc','DeleterAllSuppliers','DeleterSelectSupplier','DeleterSupplierFrom','DeleterSupplierTo','DeleterInvRsn','DeleterConformingStorage1','DeleterJournal','DeleterAllPrinted','DeleterNoPrinted','DeleterPrinted','DeleterAllInv','DeleterNotInInv','DeleterInInv','DeleterAllAccounting','DeleterNotInAccounting','DeleterInAccounting','DeleterAllIssue','DeleterNotIssued','DeleterIssued','DeleterSummarizedAll','DeleterNotSummarized','DeleterSummarized','nCurrentElement']});
+        		this.bo.appendToModelStructure({'global':['DocumentType','DeleterStartingDate','DeleterEndingDate','DeleterAllDocNo','DeleterDocNoSel','DeleterStartNoDoc','DeleterEndNoDoc','DeleterAllSuppliers','DeleterSelectSupplier','DeleterSupplierFrom','DeleterSupplierTo','DeleterInvRsn','DeleterConformingStorage1','DeleterJournal','DeleterAllPrinted','DeleterNoPrinted','DeleterPrinted','DeleterAllInv','DeleterNotInInv','DeleterInInv','DeleterAllAccounting','DeleterNotInAccounting','DeleterInAccounting','DeleterAllIssue','DeleterNotIssued','DeleterIssued','DeleterSummarizedAll','DeleterNotSummarized','DeleterSummarized','nCurrentElement']});
 
     }
 

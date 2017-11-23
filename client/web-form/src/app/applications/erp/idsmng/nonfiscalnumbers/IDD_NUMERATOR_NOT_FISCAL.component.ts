@@ -30,8 +30,7 @@ import { IDD_NUMERATOR_NOT_FISCALService } from './IDD_NUMERATOR_NOT_FISCAL.serv
   "namespace": "ERP.IdsMng.Services.TypeNoPrefixEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'NonFiscalNumbers':['CodeType','DisableManualMod','LastDocDate','LastDocNo','PrefixFormat','Separators','Suffix','SuffixChars','PrefixWithSiteCode'],'global':['ExtendedNo','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'NonFiscalNumbers':['CodeType','DisableManualMod','LastDocDate','LastDocNo','PrefixFormat','Separators','Suffix','SuffixChars','PrefixWithSiteCode'],'global':['ExtendedNo','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

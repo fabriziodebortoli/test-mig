@@ -25,8 +25,7 @@ import { IDD_CHECK_ITEMS_FISCAL_YEARService } from './IDD_CHECK_ITEMS_FISCAL_YEA
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','bAllItems','bItemSel','FromItem','ToItem','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','bAllItems','bItemSel','FromItem','ToItem','nCurrentElement','GaugeDescription']});
 
     }
 

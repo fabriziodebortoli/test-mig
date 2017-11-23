@@ -25,8 +25,7 @@ import { IDD_ANALYSISPARAMETERSService } from './IDD_ANALYSISPARAMETERS.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Parameters':['Parameter','Description','UoM','AnalysisArea','AnalysisMethod'],'HKLMethod':['Description'],'global':['ParametersResults','ParametersDesc','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ParametersResults':['Result'],'HKLResult':['Description'],'ParametersDesc':['Language','Description']});
+        		this.bo.appendToModelStructure({'Parameters':['Parameter','Description','UoM','AnalysisArea','AnalysisMethod'],'HKLMethod':['Description'],'global':['ParametersResults','ParametersDesc','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ParametersResults':['Result'],'HKLResult':['Description'],'ParametersDesc':['Language','Description']});
 
     }
 

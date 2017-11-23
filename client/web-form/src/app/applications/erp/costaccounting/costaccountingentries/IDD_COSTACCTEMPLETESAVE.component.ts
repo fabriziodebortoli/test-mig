@@ -25,8 +25,7 @@ import { IDD_COSTACCTEMPLETESAVEService } from './IDD_COSTACCTEMPLETESAVE.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Account'],'HKLAccount':['Description']});
+        		this.bo.appendToModelStructure({'global':['Account'],'HKLAccount':['Description']});
 
     }
 

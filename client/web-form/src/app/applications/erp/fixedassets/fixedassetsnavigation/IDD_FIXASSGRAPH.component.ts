@@ -25,8 +25,7 @@ import { IDD_FIXASSGRAPHService } from './IDD_FIXASSGRAPH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','bDisabled','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','bDisabled','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

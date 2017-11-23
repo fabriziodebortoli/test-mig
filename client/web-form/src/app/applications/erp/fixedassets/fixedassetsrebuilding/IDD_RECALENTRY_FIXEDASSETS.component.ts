@@ -25,8 +25,7 @@ import { IDD_RECALENTRY_FIXEDASSETSService } from './IDD_RECALENTRY_FIXEDASSETS.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAnyFA','bSelFA','Type','FixedAsset','Type','FixedAsset','RecalculateInital','PurchaseFiscalYear','BigStateProc'],'HKLFixedAsset':['Description']});
+        		this.bo.appendToModelStructure({'global':['bAnyFA','bSelFA','Type','FixedAsset','Type','FixedAsset','RecalculateInital','PurchaseFiscalYear','BigStateProc'],'HKLFixedAsset':['Description']});
 
     }
 

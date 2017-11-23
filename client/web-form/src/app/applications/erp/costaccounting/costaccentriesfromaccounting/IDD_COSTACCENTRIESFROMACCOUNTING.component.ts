@@ -25,8 +25,7 @@ import { IDD_COSTACCENTRIESFROMACCOUNTINGService } from './IDD_COSTACCENTRIESFRO
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AccFromPostDate','AccToPostDate','AllJE','JESel','PureJE','SaleJE','PurchaseJE','AllKind','Forecast','AllTemplates','SelTemplates','FromTemplate','ToTemplate','AccDateEqualDocDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['AccFromPostDate','AccToPostDate','AllJE','JESel','PureJE','SaleJE','PurchaseJE','AllKind','Forecast','AllTemplates','SelTemplates','FromTemplate','ToTemplate','AccDateEqualDocDate','nCurrentElement','GaugeDescription']});
 
     }
 

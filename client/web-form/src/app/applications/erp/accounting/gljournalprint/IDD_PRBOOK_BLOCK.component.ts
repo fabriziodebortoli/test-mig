@@ -25,8 +25,7 @@ import { IDD_PRBOOK_BLOCKService } from './IDD_PRBOOK_BLOCK.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Month']});
+        		this.bo.appendToModelStructure({'global':['Month']});
 
     }
 

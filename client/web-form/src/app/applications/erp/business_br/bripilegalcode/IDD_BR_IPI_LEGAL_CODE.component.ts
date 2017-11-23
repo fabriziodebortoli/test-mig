@@ -25,8 +25,7 @@ import { IDD_BR_IPI_LEGAL_CODEService } from './IDD_BR_IPI_LEGAL_CODE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRIPILegalCode':['IPILegalCode','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRIPILegalCode':['IPILegalCode','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

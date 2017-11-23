@@ -30,8 +30,7 @@ import { IDD_MO_COMP_REPLService } from './IDD_MO_COMP_REPL.service';
   "namespace": "ERP.Manufacturing.Documents.UnitsOfMeasureJollyComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllMO','bMOSel','FromMO','ToMO','bAllComponents','bMOComponentsSel','FromComponent','ToComponent','bAllDate','bDateSel','FromDate','ToDate','bMOComponentsOnly','ComponentsDetail'],'ComponentsDetail':['Selection','MONo','Component','ComponentsDes','UoM','NeededQty','DeliveryDate']});
+        		this.bo.appendToModelStructure({'global':['bAllMO','bMOSel','FromMO','ToMO','bAllComponents','bMOComponentsSel','FromComponent','ToComponent','bAllDate','bDateSel','FromDate','ToDate','bMOComponentsOnly','ComponentsDetail'],'ComponentsDetail':['Selection','MONo','Component','ComponentsDes','UoM','NeededQty','DeliveryDate']});
 
     }
 

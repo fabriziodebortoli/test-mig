@@ -25,8 +25,7 @@ import { IDD_DEFCLOSINGService } from './IDD_DEFCLOSING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ClosingBalance','ClosingBalDescription','FiscalYearProfit','YearProfitDescri','FiscalYearLoss','YearLossDescri','OpeningBalance','OpenBalDescription','PrevFiscalYearProfit','PrevYearProfitDescri','PrevFiscalYearLoss','PrevYearLossDescri','PostDate','AccrualDate','OpeningPostingDate','OpeningAccrualDate','ResultTransfer','bAccBookAttach','TaxData','TaxDeclData','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['ClosingBalance','ClosingBalDescription','FiscalYearProfit','YearProfitDescri','FiscalYearLoss','YearLossDescri','OpeningBalance','OpenBalDescription','PrevFiscalYearProfit','PrevYearProfitDescri','PrevFiscalYearLoss','PrevYearLossDescri','PostDate','AccrualDate','OpeningPostingDate','OpeningAccrualDate','ResultTransfer','bAccBookAttach','TaxData','TaxDeclData','nCurrentElement','GaugeDescription']});
 
     }
 

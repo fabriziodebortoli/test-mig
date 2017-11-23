@@ -25,8 +25,7 @@ import { IDD_OPENORDERS_CONF_LEVELSService } from './IDD_OPENORDERS_CONF_LEVELS.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ConfirmationLevels':['ConfirmationLevel','Description','BackgroundColour','TextColour','PrintSymbol'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ConfirmationLevels':['ConfirmationLevel','Description','BackgroundColour','TextColour','PrintSymbol'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

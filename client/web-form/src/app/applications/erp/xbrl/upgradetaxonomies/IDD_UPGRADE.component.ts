@@ -25,8 +25,7 @@ import { IDD_UPGRADEService } from './IDD_UPGRADE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TaxDetail'],'TaxDetail':['l_TEnhPersonalDataXBRL_P1','l_TEnhPersonalDataXBRL_P2','l_TEnhPersonalDataXBRL_P4','l_TEnhPersonalDataXBRL_P5','l_TEnhPersonalDataXBRL_P3']});
+        		this.bo.appendToModelStructure({'global':['TaxDetail'],'TaxDetail':['l_TEnhPersonalDataXBRL_P1','l_TEnhPersonalDataXBRL_P2','l_TEnhPersonalDataXBRL_P4','l_TEnhPersonalDataXBRL_P5','l_TEnhPersonalDataXBRL_P3']});
 
     }
 

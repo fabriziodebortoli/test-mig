@@ -30,8 +30,7 @@ import { IDD_ITM_LISService } from './IDD_ITM_LIS.service';
   "namespace": "ERP.PricePolicies.Documents.UnitsOfMeasureFromItmLisDocComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ItemsPriceLists':['PriceList','Disabled','Item','Price','DiscountFormula','PriceListUoM','Qty','WithTax','Discounted','ValidityStartingDate','ValidityEndingDate','LastModificationDate'],'HKLPriceLists':['Description'],'HKLItems':['Description'],'global':['ItemBasePrice','ItemDiscountFormula','ItemBaseUoM','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ItemsPriceLists':['PriceList','Disabled','Item','Price','DiscountFormula','PriceListUoM','Qty','WithTax','Discounted','ValidityStartingDate','ValidityEndingDate','LastModificationDate'],'HKLPriceLists':['Description'],'HKLItems':['Description'],'global':['ItemBasePrice','ItemDiscountFormula','ItemBaseUoM','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

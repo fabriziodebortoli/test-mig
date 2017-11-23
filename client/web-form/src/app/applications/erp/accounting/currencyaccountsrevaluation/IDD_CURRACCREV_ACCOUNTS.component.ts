@@ -25,8 +25,7 @@ import { IDD_CURRACCREV_ACCOUNTSService } from './IDD_CURRACCREV_ACCOUNTS.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Currency','FixingDate','Fixing','FixingDescri','PostDate','AccrualDate','Nature','bOneJEForCustSupp','ProfitAccount','ProfitAccountDescri','LossAccount','LossAccountDescri']});
+        		this.bo.appendToModelStructure({'global':['Currency','FixingDate','Fixing','FixingDescri','PostDate','AccrualDate','Nature','bOneJEForCustSupp','ProfitAccount','ProfitAccountDescri','LossAccount','LossAccountDescri']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_DELETE_QUALITYINSPECTIONService } from './IDD_DELETE_QUALITYINSPECT
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['InspectionOrder','InspectionNotes','StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllNo','NoSel','FromNo','ToNo','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['InspectionOrder','InspectionNotes','StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllNo','NoSel','FromNo','ToNo','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
 
     }
 

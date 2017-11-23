@@ -25,8 +25,7 @@ import { IDD_TAXFORMULAMNGService } from './IDD_TAXFORMULAMNG.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SymbolTaxFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolTaxFormula':['VTaxFormulaSymbol_p1','VTaxFormulaSymbol_p2']});
+        		this.bo.appendToModelStructure({'global':['SymbolTaxFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolTaxFormula':['VTaxFormulaSymbol_p1','VTaxFormulaSymbol_p2']});
 
     }
 

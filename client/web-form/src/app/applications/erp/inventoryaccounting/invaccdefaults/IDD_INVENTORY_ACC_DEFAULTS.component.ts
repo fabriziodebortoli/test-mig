@@ -32,8 +32,7 @@ import { IDD_INVENTORY_ACC_DEFAULTSService } from './IDD_INVENTORY_ACC_DEFAULTS.
   "useProductLanguage": true
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['OffsetSymbol','OffsetSymbolDescription','Offset'],'HKLOffsetDetail':['Description']});
+        		this.bo.appendToModelStructure({'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['OffsetSymbol','OffsetSymbolDescription','Offset'],'HKLOffsetDetail':['Description']});
 
     }
 

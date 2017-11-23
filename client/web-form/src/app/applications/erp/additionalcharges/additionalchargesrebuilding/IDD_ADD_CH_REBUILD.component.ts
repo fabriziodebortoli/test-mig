@@ -25,8 +25,7 @@ import { IDD_ADD_CH_REBUILDService } from './IDD_ADD_CH_REBUILD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromDate','ToDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['FromDate','ToDate','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -30,8 +30,7 @@ import { IDD_ABCService } from './IDD_ABC.service';
   "namespace": "ERP.Inventory.Components.AbcAnalysisValuationTypeCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','CostType','Limit','ABCCalc','UpdateItems','NotPurch','DisableItems','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','CostType','Limit','ABCCalc','UpdateItems','NotPurch','DisableItems','nCurrentElement','GaugeDescription']});
 
     }
 

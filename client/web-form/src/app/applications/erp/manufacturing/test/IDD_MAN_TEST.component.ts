@@ -25,8 +25,7 @@ import { IDD_MAN_TESTService } from './IDD_MAN_TEST.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['sBom','QtyBom','sComponent','sComponent2','QtyComp','QtyComp2','sLot','sLot2','sSaleOrder','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['sBom','QtyBom','sComponent','sComponent2','QtyComp','QtyComp2','sLot','sLot2','sSaleOrder','nCurrentElement','GaugeDescription']});
 
     }
 

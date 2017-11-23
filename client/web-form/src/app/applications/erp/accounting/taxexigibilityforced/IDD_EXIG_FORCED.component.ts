@@ -25,8 +25,7 @@ import { IDD_EXIG_FORCEDService } from './IDD_EXIG_FORCED.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Sales','Purchases','FromDate','ToDate','AllCustSupp','SelCustSupp','FromCustSupp','ToCustSupp','Template','Reason','GlobalDate','SelectionBody'],'SelectionBody':['l_TEnhTaxExigibilityF_P01','l_TEnhTaxExigibilityF_P02','l_TEnhTaxExigibilityF_P06','l_TEnhTaxExigibilityF_P07','l_TEnhTaxExigibilityF_P08','l_TEnhTaxExigibilityF_P10','l_TEnhTaxExigibilityF_P05','DocNo','LogNo','DocumentDate','PostingDate','l_TEnhTaxExigibilityF_P03','l_TEnhTaxExigibilityF_P04','TaxJournal','l_TEnhTaxExigibilityF_P09']});
+        		this.bo.appendToModelStructure({'global':['Sales','Purchases','FromDate','ToDate','AllCustSupp','SelCustSupp','FromCustSupp','ToCustSupp','Template','Reason','GlobalDate','SelectionBody'],'SelectionBody':['l_TEnhTaxExigibilityF_P01','l_TEnhTaxExigibilityF_P02','l_TEnhTaxExigibilityF_P06','l_TEnhTaxExigibilityF_P07','l_TEnhTaxExigibilityF_P08','l_TEnhTaxExigibilityF_P10','l_TEnhTaxExigibilityF_P05','DocNo','LogNo','DocumentDate','PostingDate','l_TEnhTaxExigibilityF_P03','l_TEnhTaxExigibilityF_P04','TaxJournal','l_TEnhTaxExigibilityF_P09']});
 
     }
 

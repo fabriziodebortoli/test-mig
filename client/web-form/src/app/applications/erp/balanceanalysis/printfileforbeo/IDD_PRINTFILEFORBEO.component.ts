@@ -25,8 +25,7 @@ import { IDD_PRINTFILEFORBEOService } from './IDD_PRINTFILEFORBEO.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','Month','Schema','FileName','AskNature','AllNatureChoose','NatureSelection'],'HKLSchema':['Description']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','Month','Schema','FileName','AskNature','AllNatureChoose','NatureSelection'],'HKLSchema':['Description']});
 
     }
 

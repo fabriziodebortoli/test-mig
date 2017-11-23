@@ -37,8 +37,7 @@ this.IDC_BE_CS_STATUS_itemSource = {
   "parameter": "DataFile.ERP.Company.State"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'OtherBranches':['Branch','Disabled','CompanyName','ISOCountryCode','FiscalCode','TaxIdNumber','TaxOffice','SIACode','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingTime','EMail','MailSendingType','SkypeID','Internet','Notes','Language'],'HKLBranchLanguage':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'OtherBranches':['Branch','Disabled','CompanyName','ISOCountryCode','FiscalCode','TaxIdNumber','TaxOffice','SIACode','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingTime','EMail','MailSendingType','SkypeID','Internet','Notes','Language'],'HKLBranchLanguage':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

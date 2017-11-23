@@ -25,8 +25,7 @@ import { IDD_ANALYSISAREAService } from './IDD_ANALYSISAREA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AnalysisArea':['AnalysisArea','Description','ExternalArea','Supplier'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'AnalysisArea':['AnalysisArea','Description','ExternalArea','Supplier'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

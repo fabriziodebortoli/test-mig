@@ -25,8 +25,7 @@ import { IDD_TOTSGLTAXJOURNALService } from './IDD_TOTSGLTAXJOURNAL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxJournalTotals':['TaxJournal','BalanceYear','BalanceMonth','LastPrintingDate','DefinitivelyPrinted','Updated','NoOfPrintedLines','LastPage','TotalAmount','TaxAmount','UndeductibleAmount'],'HKLTaxJournals':['Description'],'global':['Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxJournalTotals':['TaxJournal','BalanceYear','BalanceMonth','LastPrintingDate','DefinitivelyPrinted','Updated','NoOfPrintedLines','LastPage','TotalAmount','TaxAmount','UndeductibleAmount'],'HKLTaxJournals':['Description'],'global':['Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

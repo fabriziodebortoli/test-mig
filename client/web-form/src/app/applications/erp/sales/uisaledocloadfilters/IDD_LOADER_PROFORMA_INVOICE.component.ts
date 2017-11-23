@@ -25,8 +25,7 @@ import { IDD_LOADER_PROFORMA_INVOICEService } from './IDD_LOADER_PROFORMA_INVOIC
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ProFormaInvoiceFilter']});
+        		this.bo.appendToModelStructure({'global':['ProFormaInvoiceFilter']});
 
     }
 

@@ -30,8 +30,7 @@ import { IDD_PURCHASEDOC_MAINTENANCEService } from './IDD_PURCHASEDOC_MAINTENANC
   "namespace": "ERP.Purchases.Services.PurchasesDocEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PurcDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','Supplier'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'PurcDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','Supplier'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

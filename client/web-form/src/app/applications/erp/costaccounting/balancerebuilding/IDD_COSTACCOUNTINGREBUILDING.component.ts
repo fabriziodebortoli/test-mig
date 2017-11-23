@@ -40,8 +40,7 @@ this.IDC_RICALCOSTACC_PRODUCTLINE_CODETYPE_itemSource = {
   "namespace": "ERP.CostAccounting.Components.EntryTypeForecastEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CostCenters','CostCentersFromMonth','FromYearCostCenters','CostCentersToMonth','ToYearCostCenters','AllCostCenters','CostCentersSel','CostCentersType','Jobs','JobsFromMonth','FromYearJobs','JobsToMonth','ToYearJobs','AllJob','JobSell','JobsType','ProductLine','LineFromMonth','FromYearLines','AllLine','FromYearLines','AllLine','LineToMonth','ToYearLines','LineSel','LineType','ToYearLines','LineSel','LineType','LineSel','LineType','CostCentersProcess','JobsProcess','LineProcess']});
+        		this.bo.appendToModelStructure({'global':['CostCenters','CostCentersFromMonth','FromYearCostCenters','CostCentersToMonth','ToYearCostCenters','AllCostCenters','CostCentersSel','CostCentersType','Jobs','JobsFromMonth','FromYearJobs','JobsToMonth','ToYearJobs','AllJob','JobSell','JobsType','ProductLine','LineFromMonth','FromYearLines','AllLine','FromYearLines','AllLine','LineToMonth','ToYearLines','LineSel','LineType','ToYearLines','LineSel','LineType','LineSel','LineType','CostCentersProcess','JobsProcess','LineProcess']});
 
     }
 

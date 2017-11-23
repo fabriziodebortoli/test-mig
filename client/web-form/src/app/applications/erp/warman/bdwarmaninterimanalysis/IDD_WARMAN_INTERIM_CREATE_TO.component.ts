@@ -25,8 +25,7 @@ import { IDD_WARMAN_INTERIM_CREATE_TOService } from './IDD_WARMAN_INTERIM_CREATE
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TOItem','TOUoM','TOQuantity','TOLot','SourceZone','SourceBin','DestZone','DestBin','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['TOItem','TOUoM','TOQuantity','TOLot','SourceZone','SourceBin','DestZone','DestBin','nCurrentElement','GaugeDescription']});
 
     }
 

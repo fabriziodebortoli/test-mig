@@ -25,8 +25,7 @@ import { IDD_ACCINVENTORYBOOKPRINTService } from './IDD_ACCINVENTORYBOOKPRINT.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','bFinancialStat','bProfitLoss','bStandardView','bPrevious','bAccInventoryFinStat','bAccInventoryProfitLoss','bCustSuppTrialBalByCode','bCustSuppTrialBalByAccGroup','bDocumentToBeIssRecPrint','bEUBALSheetFinStat','bEUBALSheetFinStatCasc','bEUBALSheetFinStatAbbr','bEUBALSheetProfitLoss','bEUBALSheetMemorandum','bBaselIIFinStat','bBaselIIFinStatCasc','bBaselIIProfitLoss','bFixedAssetsFiscal','bFixedAssetsBalReg','bFixedAssetsNoteFiscal','bFixedAssetsNoteBalReg','bPrintAttachments','bPrintSubscription','bSOSConnector','ContextualHeading','NoPrefix','VideoPage']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','bFinancialStat','bProfitLoss','bStandardView','bPrevious','bAccInventoryFinStat','bAccInventoryProfitLoss','bCustSuppTrialBalByCode','bCustSuppTrialBalByAccGroup','bDocumentToBeIssRecPrint','bEUBALSheetFinStat','bEUBALSheetFinStatCasc','bEUBALSheetFinStatAbbr','bEUBALSheetProfitLoss','bEUBALSheetMemorandum','bBaselIIFinStat','bBaselIIFinStatCasc','bBaselIIProfitLoss','bFixedAssetsFiscal','bFixedAssetsBalReg','bFixedAssetsNoteFiscal','bFixedAssetsNoteBalReg','bPrintAttachments','bPrintSubscription','bSOSConnector','ContextualHeading','NoPrefix','VideoPage']});
 
     }
 

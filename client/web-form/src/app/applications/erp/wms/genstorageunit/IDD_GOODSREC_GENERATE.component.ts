@@ -25,8 +25,7 @@ import { IDD_GOODSREC_GENERATEService } from './IDD_GOODSREC_GENERATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SUToGenerate','StorageUnitType','bPrintLabelSU','nCurrentElement','GaugeDescription'],'HKLWMStorageUnitType':['Description']});
+        		this.bo.appendToModelStructure({'global':['SUToGenerate','StorageUnitType','bPrintLabelSU','nCurrentElement','GaugeDescription'],'HKLWMStorageUnitType':['Description']});
 
     }
 

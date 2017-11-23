@@ -25,8 +25,7 @@ import { IDD_DEPRECIATIONService } from './IDD_DEPRECIATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Twelfth','FiscalYearDescri','AllCtgs','CtgSel','FromCtg','ToCtg','Posted','PostDate','Block','FixedCalc','TwelfthCalc','TwelfthCaption','DaysCalc','DaysCaption','Accntng','AccPostingDate','AccrualDate','NrDoc','Values','Process']});
+        		this.bo.appendToModelStructure({'global':['Twelfth','FiscalYearDescri','AllCtgs','CtgSel','FromCtg','ToCtg','Posted','PostDate','Block','FixedCalc','TwelfthCalc','TwelfthCaption','DaysCalc','DaysCaption','Accntng','AccPostingDate','AccrualDate','NrDoc','Values','Process']});
 
     }
 

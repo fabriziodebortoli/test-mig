@@ -25,8 +25,7 @@ import { IDD_PURCHASE_PRICE_POLICIES_PARAMETERSService } from './IDD_PURCHASE_PR
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PurchasePolicy','PurchaseDiscountPolicy','PurchaseIncompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PurchasePolicy':['Priority','CodeType','DiscountType','NotPrompt','Notes'],'PurchaseDiscountPolicy':['Priority','CodeType','NotPrompt','Notes'],'PurchaseIncompatibility':['ValueType','DiscountType']});
+        		this.bo.appendToModelStructure({'global':['PurchasePolicy','PurchaseDiscountPolicy','PurchaseIncompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PurchasePolicy':['Priority','CodeType','DiscountType','NotPrompt','Notes'],'PurchaseDiscountPolicy':['Priority','CodeType','NotPrompt','Notes'],'PurchaseIncompatibility':['ValueType','DiscountType']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_ALLOWANCECALCULATIONService } from './IDD_ALLOWANCECALCULATION.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','FromComm','FromAcquired','Process','SalespersonProcess']});
+        		this.bo.appendToModelStructure({'global':['bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','FromComm','FromAcquired','Process','SalespersonProcess']});
 
     }
 

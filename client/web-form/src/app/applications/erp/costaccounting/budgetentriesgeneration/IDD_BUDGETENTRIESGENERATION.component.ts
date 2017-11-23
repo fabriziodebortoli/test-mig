@@ -25,8 +25,7 @@ import { IDD_BUDGETENTRIESGENERATIONService } from './IDD_BUDGETENTRIESGENERATIO
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
 
     }
 

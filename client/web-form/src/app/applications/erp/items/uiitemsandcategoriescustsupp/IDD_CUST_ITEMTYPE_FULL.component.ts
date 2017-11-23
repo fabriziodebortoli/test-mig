@@ -25,8 +25,7 @@ import { IDD_CUST_ITEMTYPE_FULLService } from './IDD_CUST_ITEMTYPE_FULL.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ItemTypeCustomers':['ItemType','Customer','DiscountFormula'],'HKLItemType':['Description','DiscountFormula'],'HKLCustomersItemType':['CompanyName'],'global':['Budget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Budget':['BudgetYear','BudgetMonth','SaleQty','SaleValue']});
+        		this.bo.appendToModelStructure({'ItemTypeCustomers':['ItemType','Customer','DiscountFormula'],'HKLItemType':['Description','DiscountFormula'],'HKLCustomersItemType':['CompanyName'],'global':['Budget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Budget':['BudgetYear','BudgetMonth','SaleQty','SaleValue']});
 
     }
 

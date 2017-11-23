@@ -25,8 +25,7 @@ import { IDD_GEN_NOPICKINGLISTSService } from './IDD_GEN_NOPICKINGLISTS.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllMO','bManOrdSel','FromMONo','ToMONo','bAllJT','bJTSel','FromBoLNo','ToBoLNo','bJOBALL','bJOBSel','FromJOB','ToJOB','bAllDate','bSelData','DateFrom','DateTo','Storage','StorageSemifinished','PickingListDetails'],'PickingListDetails':['Selection','Component','ComponentsDes','Variant','UoM','NeededQty','EstimatedUseDate','MONo','JobTicketNo','NotFoundQty','Updated']});
+        		this.bo.appendToModelStructure({'global':['bAllMO','bManOrdSel','FromMONo','ToMONo','bAllJT','bJTSel','FromBoLNo','ToBoLNo','bJOBALL','bJOBSel','FromJOB','ToJOB','bAllDate','bSelData','DateFrom','DateTo','Storage','StorageSemifinished','PickingListDetails'],'PickingListDetails':['Selection','Component','ComponentsDes','Variant','UoM','NeededQty','EstimatedUseDate','MONo','JobTicketNo','NotFoundQty','Updated']});
 
     }
 

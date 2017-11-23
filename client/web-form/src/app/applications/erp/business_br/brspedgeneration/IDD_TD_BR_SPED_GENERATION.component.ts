@@ -30,8 +30,7 @@ import { IDD_TD_BR_SPED_GENERATIONService } from './IDD_TD_BR_SPED_GENERATION.se
   "namespace": "ERP.Business_BR.Documents.SPEDFileTypeComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartDate','EndDate','FileType','ICMSPaymentDate','ICMSSTPaymentDate','bIncludeInvData','InvDate','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['StartDate','EndDate','FileType','ICMSPaymentDate','ICMSSTPaymentDate','bIncludeInvData','InvDate','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

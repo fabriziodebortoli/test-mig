@@ -25,8 +25,7 @@ import { IDD_BIN_GENERATIONService } from './IDD_BIN_GENERATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','Section','MaxWeight','TotalCapacity','MaxStorageUnit','bForPicking','bForPutaway','BinType','BinType','GenerationBinRange','BinGenerationDetail'],'HKLBinType':['Description','Description'],'GenerationBinRange':['Position','Description','RangeStart','RangeEnd','Increment'],'BinGenerationDetail':['Selection','Bin','BarcodeSegment','ForPicking','ForPutaway','BinType','MaxWeight','TotalCapacity','MaxStorageUnit']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','Section','MaxWeight','TotalCapacity','MaxStorageUnit','bForPicking','bForPutaway','BinType','BinType','GenerationBinRange','BinGenerationDetail'],'HKLBinType':['Description','Description'],'GenerationBinRange':['Position','Description','RangeStart','RangeEnd','Increment'],'BinGenerationDetail':['Selection','Bin','BarcodeSegment','ForPicking','ForPutaway','BinType','MaxWeight','TotalCapacity','MaxStorageUnit']});
 
     }
 

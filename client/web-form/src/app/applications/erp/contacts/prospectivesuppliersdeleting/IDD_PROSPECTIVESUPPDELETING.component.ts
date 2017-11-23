@@ -25,8 +25,7 @@ import { IDD_PROSPECTIVESUPPDELETINGService } from './IDD_PROSPECTIVESUPPDELETIN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllProspSupp','ProspSuppSel','FromProspSupp','ToProspSupp','AllConv','NotConv','Conv','AllConversionDate','ConversionDateSel','FromConversionDate','ToConversionDate','Enabled','Disabled','Both','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['AllProspSupp','ProspSuppSel','FromProspSupp','ToProspSupp','AllConv','NotConv','Conv','AllConversionDate','ConversionDateSel','FromConversionDate','ToConversionDate','Enabled','Disabled','Both','nCurrentElement','GaugeDescription']});
 
     }
 

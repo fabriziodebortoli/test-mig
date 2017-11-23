@@ -40,8 +40,7 @@ this.IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE_itemSource = {
   "namespace": "ERP.Inventory.Components.ProposedValuePositiveEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Restore','bSaveSettings','Integrate','Overwrites','LinesSaved','LinesSaved','bOverwriteItemsAlreadyPresent','bAllLines','FromLine','ToLine','bBookInvAnalysis','bOnhandAnalysis','bExistenceToDateCheck','ExistenceToDate','Storage','SpecificatorType','Specificator','bDisplayItemsAvailable','bAllLot','bSelLot','Lot','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','OperationDate','bStartReport','NegInvRsn','ProposedValue','PosInvRsn','ProposedValuePositive','InventoryAdjustment'],'InventoryAdjustment':['IsSelected','Line','InvAdj_NotExistingItemBmp','Item','Lot','Variant','BaseUoM','PreviousQty','ActualQty','Difference','InvAdj_DifferenceBmp','ProposedValue','PreviousValue','ActualValue'],'HKLItemsBE':['Description']});
+        		this.bo.appendToModelStructure({'global':['Restore','bSaveSettings','Integrate','Overwrites','LinesSaved','LinesSaved','bOverwriteItemsAlreadyPresent','bAllLines','FromLine','ToLine','bBookInvAnalysis','bOnhandAnalysis','bExistenceToDateCheck','ExistenceToDate','Storage','SpecificatorType','Specificator','bDisplayItemsAvailable','bAllLot','bSelLot','Lot','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','OperationDate','bStartReport','NegInvRsn','ProposedValue','PosInvRsn','ProposedValuePositive','InventoryAdjustment'],'InventoryAdjustment':['IsSelected','Line','InvAdj_NotExistingItemBmp','Item','Lot','Variant','BaseUoM','PreviousQty','ActualQty','Difference','InvAdj_DifferenceBmp','ProposedValue','PreviousValue','ActualValue'],'HKLItemsBE':['Description']});
 
     }
 

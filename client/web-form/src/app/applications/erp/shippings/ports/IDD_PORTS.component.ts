@@ -31,8 +31,7 @@ import { IDD_PORTSService } from './IDD_PORTS.service';
   "parameter": "DataFile.ERP.Shippings.Incoterm"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Ports':['Port','Disabled','Description','Incoterm','IntraArrivalsDeliveryTerm','IntraDispatchesDeliveryTerm'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'Ports':['Port','Disabled','Description','Incoterm','IntraArrivalsDeliveryTerm','IntraDispatchesDeliveryTerm'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_ACCRUALSDEFERRALSService } from './IDD_ACCRUALSDEFERRALS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromDate','ToDate','OrderByAccount','AlreadyAcc','AllEntry','Nature','PostingDate','AccrualDate','SimulationCode','IntialDeferrals','IntialAccruals','OpeningPostingDate','OpeningAccrualDate','Detail'],'Detail':['l_TEnhAccrualsDeferrals_P01','l_TEnhAccrualsDeferrals_P13','AccrualDate','l_TEnhAccrualsDeferrals_P16','l_TEnhAccrualsDeferrals_P17','l_TEnhAccrualsDeferrals_P18','l_TEnhAccrualsDeferrals_P19','l_TEnhAccrualsDeferrals_P20','CustSuppType','CustSupp','l_TEnhAccrualsDeferrals_P21','l_TEnhAccrualsDeferrals_P09','l_TEnhAccrualsDeferrals_P03','StartingOfUseDate','EndingOfUseDate','l_TEnhAccrualsDeferrals_P05','l_TEnhAccrualsDeferrals_P07','l_TEnhAccrualsDeferrals_P06','l_TEnhAccrualsDeferrals_P08','AccrualDeferralTot','l_TEnhAccrualsDeferrals_P04','l_TEnhAccrualsDeferrals_P10','l_TEnhAccrualsDeferrals_P11','Nature']});
+        		this.bo.appendToModelStructure({'global':['FromDate','ToDate','OrderByAccount','AlreadyAcc','AllEntry','Nature','PostingDate','AccrualDate','SimulationCode','IntialDeferrals','IntialAccruals','OpeningPostingDate','OpeningAccrualDate','Detail'],'Detail':['l_TEnhAccrualsDeferrals_P01','l_TEnhAccrualsDeferrals_P13','AccrualDate','l_TEnhAccrualsDeferrals_P16','l_TEnhAccrualsDeferrals_P17','l_TEnhAccrualsDeferrals_P18','l_TEnhAccrualsDeferrals_P19','l_TEnhAccrualsDeferrals_P20','CustSuppType','CustSupp','l_TEnhAccrualsDeferrals_P21','l_TEnhAccrualsDeferrals_P09','l_TEnhAccrualsDeferrals_P03','StartingOfUseDate','EndingOfUseDate','l_TEnhAccrualsDeferrals_P05','l_TEnhAccrualsDeferrals_P07','l_TEnhAccrualsDeferrals_P06','l_TEnhAccrualsDeferrals_P08','AccrualDeferralTot','l_TEnhAccrualsDeferrals_P04','l_TEnhAccrualsDeferrals_P10','l_TEnhAccrualsDeferrals_P11','Nature']});
 
     }
 

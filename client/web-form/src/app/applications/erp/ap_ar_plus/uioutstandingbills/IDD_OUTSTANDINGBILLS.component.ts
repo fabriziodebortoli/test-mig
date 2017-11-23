@@ -30,8 +30,7 @@ import { IDD_OUTSTANDINGBILLSService } from './IDD_OUTSTANDINGBILLS.service';
   "namespace": "ERP.AP_AR_Plus.Documents.ActionAmountAdmCasesCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Bank','NrBillsCAs','Presentation','CustDataSel','BillNoSel','NrEffect','MandateCodeSel','MandateCode','StartingDate','EndingDate','Customer','WithOutstanding','Collected','NotCollected','Both','bOrderByNo','bOrderByCustomer','PostingDate','DocDate','NrDoc','Charges','ReopenAll','Block','Bills','TotalAmount'],'Bills':['l_TEnhOutstandingBills_P01','BillNo','MandateCode','CustSupp','l_TEnhOutstandingBills_P02','l_TEnhOutstandingBills_P11','PaymentTerm','Collected','Outstanding','OpenedAdmCases','PayableAmountInBaseCurr','PresentationAmountBaseCurr','l_TEnhOutstandingBills_P06','l_TEnhOutstandingBills_P10','l_TEnhOutstandingBills_P09','OutstandingAmountBaseCurr','l_TEnhOutstandingBills_P08','l_TEnhOutstandingBills_P07','l_TEnhOutstandingBills_P03']});
+        		this.bo.appendToModelStructure({'global':['Bank','NrBillsCAs','Presentation','CustDataSel','BillNoSel','NrEffect','MandateCodeSel','MandateCode','StartingDate','EndingDate','Customer','WithOutstanding','Collected','NotCollected','Both','bOrderByNo','bOrderByCustomer','PostingDate','DocDate','NrDoc','Charges','ReopenAll','Block','Bills','TotalAmount'],'Bills':['l_TEnhOutstandingBills_P01','BillNo','MandateCode','CustSupp','l_TEnhOutstandingBills_P02','l_TEnhOutstandingBills_P11','PaymentTerm','Collected','Outstanding','OpenedAdmCases','PayableAmountInBaseCurr','PresentationAmountBaseCurr','l_TEnhOutstandingBills_P06','l_TEnhOutstandingBills_P10','l_TEnhOutstandingBills_P09','OutstandingAmountBaseCurr','l_TEnhOutstandingBills_P08','l_TEnhOutstandingBills_P07','l_TEnhOutstandingBills_P03']});
 
     }
 

@@ -30,8 +30,7 @@ import { IDD_SALESDOC_DEL_WIZARDService } from './IDD_SALESDOC_DEL_WIZARD.servic
   "namespace": "ERP.Sales.Components.SaleDocTypeForSaleDocDeletingCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DocumentType','DeleterStartingDate','DeleterEndingDate','DeleterAllDocNo','DeleterDocNoSel','DeleterFromDocNo','DeleterToDocNo','DeleterAllJournal','DeleterSelJournal','DeleterFromJournal','DeleterToJournal','DeleterAllIssue','DeleterNotIssued','DeleterIssued','DeleterAllInv','DeleterNotInInv','DeleterInInv','DeleterAllAccounting','DeleterNotInAccounting','DeleterInAccounting','DeleterSummarizedAll','DeleterNotSummarized','DeleterSummarized','DeleterAllPrinted','DeleterNoPrinted','DeleterPrinted','DeleterAllGenComm','DeleterNotGenComm','DeleterGenComm','nCurrentElement']});
+        		this.bo.appendToModelStructure({'global':['DocumentType','DeleterStartingDate','DeleterEndingDate','DeleterAllDocNo','DeleterDocNoSel','DeleterFromDocNo','DeleterToDocNo','DeleterAllJournal','DeleterSelJournal','DeleterFromJournal','DeleterToJournal','DeleterAllIssue','DeleterNotIssued','DeleterIssued','DeleterAllInv','DeleterNotInInv','DeleterInInv','DeleterAllAccounting','DeleterNotInAccounting','DeleterInAccounting','DeleterSummarizedAll','DeleterNotSummarized','DeleterSummarized','DeleterAllPrinted','DeleterNoPrinted','DeleterPrinted','DeleterAllGenComm','DeleterNotGenComm','DeleterGenComm','nCurrentElement']});
 
     }
 

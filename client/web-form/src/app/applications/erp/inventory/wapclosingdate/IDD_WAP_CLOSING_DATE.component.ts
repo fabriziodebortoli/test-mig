@@ -25,8 +25,7 @@ import { IDD_WAP_CLOSING_DATEService } from './IDD_WAP_CLOSING_DATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ClosingDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['ClosingDate','nCurrentElement','GaugeDescription']});
 
     }
 

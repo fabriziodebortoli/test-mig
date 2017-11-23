@@ -25,8 +25,7 @@ import { IDD_PD_GENERATE_COSTACCOUNTINGService } from './IDD_PD_GENERATE_COSTACC
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

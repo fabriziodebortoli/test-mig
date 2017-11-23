@@ -25,8 +25,7 @@ import { IDD_PRODPLAN_SELECTIONS_ORD_CUSTService } from './IDD_PRODPLAN_SELECTIO
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllNo','FromOrdNo','ToOrdNo','bAllItms','FromItem','ToItem','bAllDates','FromDeliveryDateLine','ToDeliveryDateLine','bAllJobs','FromJob','ToJob','AlsoEmptyJobs','bAllCust','FromCustomer','ToCustomer']});
+        		this.bo.appendToModelStructure({'global':['bAllNo','FromOrdNo','ToOrdNo','bAllItms','FromItem','ToItem','bAllDates','FromDeliveryDateLine','ToDeliveryDateLine','bAllJobs','FromJob','ToJob','AlsoEmptyJobs','bAllCust','FromCustomer','ToCustomer']});
 
     }
 

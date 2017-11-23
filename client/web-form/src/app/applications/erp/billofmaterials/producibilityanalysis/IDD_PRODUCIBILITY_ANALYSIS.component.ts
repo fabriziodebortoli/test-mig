@@ -25,8 +25,7 @@ import { IDD_PRODUCIBILITY_ANALYSISService } from './IDD_PRODUCIBILITY_ANALYSIS.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Plan','DBTSummaryDetail'],'HKLPlan':['Description'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['Plan','DBTSummaryDetail'],'HKLPlan':['Description'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

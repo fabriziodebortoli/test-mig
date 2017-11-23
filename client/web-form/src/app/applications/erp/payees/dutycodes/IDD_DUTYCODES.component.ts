@@ -31,8 +31,7 @@ import { IDD_DUTYCODESService } from './IDD_DUTYCODES.service';
   "parameter": "DataFile.ERP.Payees.ReasonCU"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ContributionRsn':['DutyType','Reason','Description','WithholdingTaxDebitForDuty','Form770Letter','NeedMonth'],'HKLPdWithholdingTaxDebit':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ContributionRsn':['DutyType','Reason','Description','WithholdingTaxDebitForDuty','Form770Letter','NeedMonth'],'HKLPdWithholdingTaxDebit':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

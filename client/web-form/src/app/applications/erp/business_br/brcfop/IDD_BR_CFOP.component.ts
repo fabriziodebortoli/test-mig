@@ -39,8 +39,7 @@ this.IDC_BR_CFOP_TRANS_TYPE_itemSource = {
   "useProductLanguage": false
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRCFOP':['CFOP','ShortDescription','Description','ValidityStartingDate','ValidityEndingDate','CFOPGroup','OperationDescription','ExcludeFromTot','MovementType','MoveTypeDescri','TransactionType','TransTypeDescri'],'HKLBRCFOPGroup':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRCFOP':['CFOP','ShortDescription','Description','ValidityStartingDate','ValidityEndingDate','CFOPGroup','OperationDescription','ExcludeFromTot','MovementType','MoveTypeDescri','TransactionType','TransTypeDescri'],'HKLBRCFOPGroup':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

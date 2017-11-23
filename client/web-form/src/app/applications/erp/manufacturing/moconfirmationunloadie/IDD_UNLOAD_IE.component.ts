@@ -30,8 +30,7 @@ import { IDD_UNLOAD_IEService } from './IDD_UNLOAD_IE.service';
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['RefNumber','Comp','Variant','PickedQuantity','NeededQty','UnloadedQty','AdjustmentQty','FinalQty','AvailabilityQty','Storage','SpecificatorType','Specificator','Lot'],'HKLItem':['Description']});
+        		this.bo.appendToModelStructure({'global':['RefNumber','Comp','Variant','PickedQuantity','NeededQty','UnloadedQty','AdjustmentQty','FinalQty','AvailabilityQty','Storage','SpecificatorType','Specificator','Lot'],'HKLItem':['Description']});
 
     }
 

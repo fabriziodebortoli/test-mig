@@ -45,8 +45,7 @@ this.IDC_SOSDOCSENDER_FISCALYEAR_COMBO_itemSource = {
   "namespace": "Extensions.EasyAttachment.TbDMS.SOSFiscalYearItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bSendDocToSOS','bExcludeDocFromSOS','DocumentClass','DocumentType','TaxJournal','FiscalYear','bOnlyMainDoc','bDocIdle','bDocToResend','SOSStartingDate','SOSEndingDate','SOSAllCustSupp','SOSCustSuppSel','SOSFromCustSupp','SOSToCustSupp','SOSAllDocNo','SOSDocNoSel','SOSFromDocNo','SOSToDocNo','DBTSOSDocuments','DBTSOSElaboration','ElaborationMessage','nCurrentElement'],'DBTSOSDocuments':['VIsSelected','VFileName','VDocumentType','VDescriptionKeys','VDocumentStatus','VAttachmentID'],'DBTSOSElaboration':['VMsgBmp','VMessage']});
+        		this.bo.appendToModelStructure({'global':['bSendDocToSOS','bExcludeDocFromSOS','DocumentClass','DocumentType','TaxJournal','FiscalYear','bOnlyMainDoc','bDocIdle','bDocToResend','SOSStartingDate','SOSEndingDate','SOSAllCustSupp','SOSCustSuppSel','SOSFromCustSupp','SOSToCustSupp','SOSAllDocNo','SOSDocNoSel','SOSFromDocNo','SOSToDocNo','DBTSOSDocuments','DBTSOSElaboration','ElaborationMessage','nCurrentElement'],'DBTSOSDocuments':['VIsSelected','VFileName','VDocumentType','VDescriptionKeys','VDocumentStatus','VAttachmentID'],'DBTSOSElaboration':['VMsgBmp','VMessage']});
 
     }
 

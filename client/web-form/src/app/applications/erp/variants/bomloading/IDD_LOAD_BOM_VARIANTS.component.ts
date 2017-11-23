@@ -25,8 +25,7 @@ import { IDD_LOAD_BOM_VARIANTSService } from './IDD_LOAD_BOM_VARIANTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMLoadingComponents','BOMLoadingRouting'],'BOMLoadingComponents':['Selected','Line','ComponentType','Component','Description','Qty','FixedQty','SetFixedQtyOnMO','UoM','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMLoadingRouting':['Selected','RtgStep','Alternate','AltRtgStep','Operation','Notes','WC','ProcessingTime','Qty','LineTypeInDN']});
+        		this.bo.appendToModelStructure({'global':['BOMLoadingComponents','BOMLoadingRouting'],'BOMLoadingComponents':['Selected','Line','ComponentType','Component','Description','Qty','FixedQty','SetFixedQtyOnMO','UoM','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMLoadingRouting':['Selected','RtgStep','Alternate','AltRtgStep','Operation','Notes','WC','ProcessingTime','Qty','LineTypeInDN']});
 
     }
 

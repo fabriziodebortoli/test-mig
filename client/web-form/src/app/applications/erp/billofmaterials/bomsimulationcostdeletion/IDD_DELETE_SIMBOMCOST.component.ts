@@ -25,8 +25,7 @@ import { IDD_DELETE_SIMBOMCOSTService } from './IDD_DELETE_SIMBOMCOST.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bBOMSimCostSelAll','bBOMSimCostSel','FromBOMSimCost','ToBOMSimCost','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bBOMSimCostSelAll','bBOMSimCostSel','FromBOMSimCost','ToBOMSimCost','nCurrentElement','GaugeDescription']});
 
     }
 

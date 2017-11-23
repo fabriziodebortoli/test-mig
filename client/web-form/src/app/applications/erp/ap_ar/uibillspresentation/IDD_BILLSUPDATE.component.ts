@@ -25,8 +25,7 @@ import { IDD_BILLSUPDATEService } from './IDD_BILLSUPDATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Bills','TotalAmount'],'Bills':['l_TEnhBills_P01','l_TEnhBills_P08','l_TEnhBills_P13','Amount','l_TEnhBills_P04']});
+        		this.bo.appendToModelStructure({'global':['Bills','TotalAmount'],'Bills':['l_TEnhBills_P01','l_TEnhBills_P08','l_TEnhBills_P13','Amount','l_TEnhBills_P04']});
 
     }
 

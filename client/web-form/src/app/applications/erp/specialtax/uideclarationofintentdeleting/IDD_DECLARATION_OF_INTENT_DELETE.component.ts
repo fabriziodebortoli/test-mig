@@ -25,8 +25,7 @@ import { IDD_DECLARATION_OF_INTENT_DELETEService } from './IDD_DECLARATION_OF_IN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAll','bCustSuppSel','CustSuppSel','Description','FromDate','LimitDate','FromDocNo','ToDocNo','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['bAll','bCustSuppSel','CustSuppSel','Description','FromDate','LimitDate','FromDocNo','ToDocNo','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

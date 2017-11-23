@@ -30,8 +30,7 @@ import { IDD_BR_TAXCODEService } from './IDD_BR_TAXCODE.service';
   "namespace": "ERP.Business_BR.Components.BRTaxTypeEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRTaxCode':['TaxCode','Description','TaxType','Receipt','Issue','ValidityStartingDate','ValidityEndingDate'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRTaxCode':['TaxCode','Description','TaxType','Receipt','Issue','ValidityStartingDate','ValidityEndingDate'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

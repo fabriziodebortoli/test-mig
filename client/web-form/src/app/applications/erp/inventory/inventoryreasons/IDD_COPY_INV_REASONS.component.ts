@@ -25,8 +25,7 @@ import { IDD_COPY_INV_REASONSService } from './IDD_COPY_INV_REASONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Reason']});
+        		this.bo.appendToModelStructure({'global':['Reason']});
 
     }
 

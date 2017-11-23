@@ -25,8 +25,7 @@ import { IDD_394PARAMETERSService } from './IDD_394PARAMETERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['D394ParametersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'D394ParametersDetails':['DeclType','DeclCode'],'HKLAccTemplates':['Description']});
+        		this.bo.appendToModelStructure({'global':['D394ParametersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'D394ParametersDetails':['DeclType','DeclCode'],'HKLAccTemplates':['Description']});
 
     }
 

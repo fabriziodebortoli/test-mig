@@ -25,8 +25,7 @@ import { IDD_AGO_IMPORTService } from './IDD_AGO_IMPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DateLastImport','FilePathImport','bEnableImportAccount','AGOSubAccountsCount','bEnableImportReasons','AGOAccReasonsCount','bEnableImportTaxCode','AGOTaxCodesCount','bEnableImportLawCode','AGOLawCodesCount','bEnableImportIntraOpCode','AGOIntraCodesCount','strOutput']});
+        		this.bo.appendToModelStructure({'global':['DateLastImport','FilePathImport','bEnableImportAccount','AGOSubAccountsCount','bEnableImportReasons','AGOAccReasonsCount','bEnableImportTaxCode','AGOTaxCodesCount','bEnableImportLawCode','AGOLawCodesCount','bEnableImportIntraOpCode','AGOIntraCodesCount','strOutput']});
 
     }
 

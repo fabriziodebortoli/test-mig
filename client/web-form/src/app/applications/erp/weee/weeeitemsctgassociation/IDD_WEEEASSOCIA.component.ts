@@ -25,8 +25,7 @@ import { IDD_WEEEASSOCIAService } from './IDD_WEEEASSOCIA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Equal','WEEECtg','WEEECtg2','nCurrentElement','GaugeDescription'],'HKLWEEECtg':['Description'],'HKLWEEECtg2':['Description']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Equal','WEEECtg','WEEECtg2','nCurrentElement','GaugeDescription'],'HKLWEEECtg':['Description'],'HKLWEEECtg2':['Description']});
 
     }
 

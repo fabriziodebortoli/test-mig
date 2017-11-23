@@ -25,8 +25,7 @@ import { IDD_WT_ON_BOARD_DB_CREATORService } from './IDD_WT_ON_BOARD_DB_CREATOR.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DBPathName']});
+        		this.bo.appendToModelStructure({'global':['DBPathName']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_INTRA_LOG_NUMBERService } from './IDD_INTRA_LOG_NUMBER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['IntraLogNumberDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IntraLogNumberDetails':['BalanceYear','BalanceMonth','Dispatches','LogNo','SendingDate','TEnhIntraLogNumberDetail_P1']});
+        		this.bo.appendToModelStructure({'global':['IntraLogNumberDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IntraLogNumberDetails':['BalanceYear','BalanceMonth','Dispatches','LogNo','SendingDate','TEnhIntraLogNumberDetail_P1']});
 
     }
 

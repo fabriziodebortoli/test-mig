@@ -25,8 +25,7 @@ import { IDD_CUST_PRICE_UPDATEService } from './IDD_CUST_PRICE_UPDATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCustomer','CustomerSel','FromCustomer','ToCustomer','OldPriceList','NewPriceList','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['AllCustomer','CustomerSel','FromCustomer','ToCustomer','OldPriceList','NewPriceList','nCurrentElement','GaugeDescription']});
 
     }
 

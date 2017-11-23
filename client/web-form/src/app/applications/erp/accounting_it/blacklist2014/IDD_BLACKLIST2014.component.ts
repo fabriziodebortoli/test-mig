@@ -31,8 +31,7 @@ import { IDD_BLACKLIST2014Service } from './IDD_BLACKLIST2014.service';
   "parameter": "DataFile.ERP.Payees.PositionCode"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','Month','Quarter','LimitBlackList','FileNameComplete','Year','Month','SM_RevCharge','FileNameComplete','Intermediary','CAF','CommitDate','MadeTaxpayer','Heir_FiscalCode','Heir_Code_XML','Heir_From','Heir_To','Sostitutive','Cancellation','nCurrentElement','ProtocolTel','ProtocolDoc']});
+        		this.bo.appendToModelStructure({'global':['Year','Month','Quarter','LimitBlackList','FileNameComplete','Year','Month','SM_RevCharge','FileNameComplete','Intermediary','CAF','CommitDate','MadeTaxpayer','Heir_FiscalCode','Heir_Code_XML','Heir_From','Heir_To','Sostitutive','Cancellation','nCurrentElement','ProtocolTel','ProtocolDoc']});
 
     }
 

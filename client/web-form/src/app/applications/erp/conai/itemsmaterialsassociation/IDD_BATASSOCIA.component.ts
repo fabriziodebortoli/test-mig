@@ -25,8 +25,7 @@ import { IDD_BATASSOCIAService } from './IDD_BATASSOCIA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Material','Type','PrimaryPackage','ConsiderAsImporter','UseWeight','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Material','Type','PrimaryPackage','ConsiderAsImporter','UseWeight','nCurrentElement','GaugeDescription']});
 
     }
 

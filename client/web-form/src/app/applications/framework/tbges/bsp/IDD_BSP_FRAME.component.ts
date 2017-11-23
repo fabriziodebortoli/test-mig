@@ -25,8 +25,7 @@ import { IDD_BSP_FRAMEService } from './IDD_BSP_FRAME.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

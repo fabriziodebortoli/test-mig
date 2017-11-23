@@ -25,8 +25,7 @@ import { IDD_CASH_STUBBOOK_NUMERATORService } from './IDD_CASH_STUBBOOK_NUMERATO
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'StubBookNumbers':['BalanceYear','CashStubBook','Suffix','LastDocDate','LastDocNo'],'HKLStubBook':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'StubBookNumbers':['BalanceYear','CashStubBook','Suffix','LastDocDate','LastDocNo'],'HKLStubBook':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

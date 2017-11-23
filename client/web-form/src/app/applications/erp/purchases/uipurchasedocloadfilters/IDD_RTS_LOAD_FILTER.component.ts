@@ -25,8 +25,7 @@ import { IDD_RTS_LOAD_FILTERService } from './IDD_RTS_LOAD_FILTER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['RTSFilter']});
+        		this.bo.appendToModelStructure({'global':['RTSFilter']});
 
     }
 

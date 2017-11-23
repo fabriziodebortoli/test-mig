@@ -25,8 +25,7 @@ import { IDD_DOC_COMPLETE_MSG_FRAME_NOTA_FISCALService } from './IDD_DOC_COMPLET
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CompleteMsg']});
+        		this.bo.appendToModelStructure({'global':['CompleteMsg']});
 
     }
 

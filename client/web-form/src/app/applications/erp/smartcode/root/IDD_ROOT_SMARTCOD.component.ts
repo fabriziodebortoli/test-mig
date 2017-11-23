@@ -25,8 +25,7 @@ import { IDD_ROOT_SMARTCODService } from './IDD_ROOT_SMARTCOD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Root':['Root','Disabled','Description','BaseUoM','TaxCode','CommodityCtg','HomogeneousCtg','CalculatePrice','Price','CalculateWeight','Weight','SaleOffset','PurchaseOffset','Notes','FactorNo','FactorValue','FactorDescription','GenerateComparableUoM','SetConversionFactor','ComparableUoM','ReferenceUoMCalculatedValue','ConvertCoefficientsInUoM','Length','SeparatorCode','SegmentSeparator','NoOfSegments','DescriptionDelimiter'],'HKLTaxCode':['Description'],'HKLCommodityCtg':['Description'],'HKLHomogeneousCtg':['Description'],'HKLOffsetFixAssets':['Description'],'HKLOffsetPurchase':['Description'],'global':['Language','DescriptionSeparator','Structure','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Root':['Root','Disabled','Description','BaseUoM','TaxCode','CommodityCtg','HomogeneousCtg','CalculatePrice','Price','CalculateWeight','Weight','SaleOffset','PurchaseOffset','Notes','FactorNo','FactorValue','FactorDescription','GenerateComparableUoM','SetConversionFactor','ComparableUoM','ReferenceUoMCalculatedValue','ConvertCoefficientsInUoM','Length','SeparatorCode','SegmentSeparator','NoOfSegments','DescriptionDelimiter'],'HKLTaxCode':['Description'],'HKLCommodityCtg':['Description'],'HKLHomogeneousCtg':['Description'],'HKLOffsetFixAssets':['Description'],'HKLOffsetPurchase':['Description'],'global':['Language','DescriptionSeparator','Structure','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

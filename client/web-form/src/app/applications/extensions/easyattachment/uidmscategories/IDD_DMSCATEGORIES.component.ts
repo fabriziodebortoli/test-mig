@@ -25,8 +25,7 @@ import { IDD_DMSCATEGORIESService } from './IDD_DMSCATEGORIES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bTreeView','Name','Description','bDisabled','Values','CategoryInUseMsg','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Values':['VValue','VIsDefault']});
+        		this.bo.appendToModelStructure({'global':['bTreeView','Name','Description','bDisabled','Values','CategoryInUseMsg','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Values':['VValue','VIsDefault']});
 
     }
 

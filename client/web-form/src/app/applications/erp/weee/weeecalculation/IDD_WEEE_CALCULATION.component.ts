@@ -25,8 +25,7 @@ import { IDD_WEEE_CALCULATIONService } from './IDD_WEEE_CALCULATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CalculationWEEE':['DocNo','CustSupp'],'global':['DetailWEEE'],'DetailWEEE':['Item','Description','Qty','UnitValue','TaxableAmount','TaxCode','Offset','WEEECategory'],'HKLItems':['Description']});
+        		this.bo.appendToModelStructure({'CalculationWEEE':['DocNo','CustSupp'],'global':['DetailWEEE'],'DetailWEEE':['Item','Description','Qty','UnitValue','TaxableAmount','TaxCode','Offset','WEEECategory'],'HKLItems':['Description']});
 
     }
 

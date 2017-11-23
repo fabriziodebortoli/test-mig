@@ -25,8 +25,7 @@ import { IDD_SALEFORECASTSService } from './IDD_SALEFORECASTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DBTSaleForecasts','DBTWeekly','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTSaleForecasts':['Year','Month','Quantity','SaleQuantity','Job','CostCenter'],'DBTWeekly':['Week','WeekDescr','Quantity']});
+        		this.bo.appendToModelStructure({'global':['DBTSaleForecasts','DBTWeekly','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTSaleForecasts':['Year','Month','Quantity','SaleQuantity','Job','CostCenter'],'DBTWeekly':['Week','WeekDescr','Quantity']});
 
     }
 

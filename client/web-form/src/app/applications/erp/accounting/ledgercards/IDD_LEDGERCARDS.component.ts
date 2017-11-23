@@ -25,8 +25,7 @@ import { IDD_LEDGERCARDSService } from './IDD_LEDGERCARDS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['strByAccountCustSupp','Account','Description','CustSupp','bByPostDate','bByAccrDate','StartingDate','EndingDate','AllEntry','Nature','LedgerCards','OpenBalance','FinalBalance'],'LedgerCards':['l_TEnhLedgerCards_P01','PostingDate','AccrualDate','Nature','l_TEnhLedgerCards_P02','l_TEnhLedgerCards_P03','l_TEnhLedgerCards_P04','l_TEnhLedgerCards_P05','l_TEnhLedgerCards_P08','Currency','DocCurrAmount','l_TEnhLedgerCards_P06','l_TEnhLedgerCards_P07','l_TEnhLedgerCards_P11','AccRsn','l_TEnhLedgerCards_P10','Notes','l_TEnhLedgerCards_P09']});
+        		this.bo.appendToModelStructure({'global':['strByAccountCustSupp','Account','Description','CustSupp','bByPostDate','bByAccrDate','StartingDate','EndingDate','AllEntry','Nature','LedgerCards','OpenBalance','FinalBalance'],'LedgerCards':['l_TEnhLedgerCards_P01','PostingDate','AccrualDate','Nature','l_TEnhLedgerCards_P02','l_TEnhLedgerCards_P03','l_TEnhLedgerCards_P04','l_TEnhLedgerCards_P05','l_TEnhLedgerCards_P08','Currency','DocCurrAmount','l_TEnhLedgerCards_P06','l_TEnhLedgerCards_P07','l_TEnhLedgerCards_P11','AccRsn','l_TEnhLedgerCards_P10','Notes','l_TEnhLedgerCards_P09']});
 
     }
 

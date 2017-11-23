@@ -25,8 +25,7 @@ import { IDD_LOAD_INSPECTION_ORDERService } from './IDD_LOAD_INSPECTION_ORDER.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'InspectionOrderLoading':['InspectionOrderNo','InspectionOrderDate','ExpectedInspectionDate','Supplier'],'HKLMasterSupplier':['CompNameComplete'],'global':['InspectionOrderDetailLoading'],'InspectionOrderDetailLoading':['Selected','Item','Description','UoM','ConformingQty','ToBeReturnedQty','ScrapQty','NoPrint','NoRiepOnInspNotes','Lot']});
+        		this.bo.appendToModelStructure({'InspectionOrderLoading':['InspectionOrderNo','InspectionOrderDate','ExpectedInspectionDate','Supplier'],'HKLMasterSupplier':['CompNameComplete'],'global':['InspectionOrderDetailLoading'],'InspectionOrderDetailLoading':['Selected','Item','Description','UoM','ConformingQty','ToBeReturnedQty','ScrapQty','NoPrint','NoRiepOnInspNotes','Lot']});
 
     }
 

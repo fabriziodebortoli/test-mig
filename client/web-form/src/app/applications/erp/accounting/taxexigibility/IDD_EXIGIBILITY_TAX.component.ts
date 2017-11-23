@@ -25,8 +25,7 @@ import { IDD_EXIGIBILITY_TAXService } from './IDD_EXIGIBILITY_TAX.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxExigibility':['IsManual','TaxJournal','PostingDate','DocumentDate','DocNo','LogNo','SplitPayment','Exigible','ExigibilityDate','TotalAmount','TaxableAmount','TaxAmount','UndeductibleAmount','TaxCode','TEnhTaxExigibility_P6','TEnhTaxExigibility_P1','TEnhTaxExigibility_P4'],'HKLTaxJournals':['Description'],'HKLTAX':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['ID_Link_Tax_Document','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxExigibility':['IsManual','TaxJournal','PostingDate','DocumentDate','DocNo','LogNo','SplitPayment','Exigible','ExigibilityDate','TotalAmount','TaxableAmount','TaxAmount','UndeductibleAmount','TaxCode','TEnhTaxExigibility_P6','TEnhTaxExigibility_P1','TEnhTaxExigibility_P4'],'HKLTaxJournals':['Description'],'HKLTAX':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['ID_Link_Tax_Document','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

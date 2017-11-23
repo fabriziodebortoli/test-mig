@@ -25,8 +25,7 @@ import { IDD_CHANGERETAILDATAService } from './IDD_CHANGERETAILDATA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTChangeRetailData':['ChangeRetailDataNo','ChangeRetailDataDate','PostingDate','AccReason','AccTemplate','ForValue','ForTaxChange','TotNetPriceDiff','TotVATDiff','GrandTotDiff','Storage'],'HKLAccRsn':['Description'],'HKLAccTpl':['Description'],'HKLStorage':['Description'],'global':['DBTChangeRetailDataDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTChangeRetailDataDetail':['Item','CurrentPrice','NewPrice','Qty','BaseUoM','VATDiff','TotDiff'],'HKLItem':['Description']});
+        		this.bo.appendToModelStructure({'DBTChangeRetailData':['ChangeRetailDataNo','ChangeRetailDataDate','PostingDate','AccReason','AccTemplate','ForValue','ForTaxChange','TotNetPriceDiff','TotVATDiff','GrandTotDiff','Storage'],'HKLAccRsn':['Description'],'HKLAccTpl':['Description'],'HKLStorage':['Description'],'global':['DBTChangeRetailDataDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTChangeRetailDataDetail':['Item','CurrentPrice','NewPrice','Qty','BaseUoM','VATDiff','TotDiff'],'HKLItem':['Description']});
 
     }
 

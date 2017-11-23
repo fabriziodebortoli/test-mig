@@ -25,8 +25,7 @@ import { IDD_MIGRATION_40Service } from './IDD_MIGRATION_40.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_WHOLDINGPAY_FEESService } from './IDD_WHOLDINGPAY_FEES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PaymentDate','EffectiveDate','Method','BigStateProc','TaxAmount']});
+        		this.bo.appendToModelStructure({'global':['PaymentDate','EffectiveDate','Method','BigStateProc','TaxAmount']});
 
     }
 

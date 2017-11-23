@@ -25,8 +25,7 @@ import { IDD_STORAGEUNIT_VIEWERBUTTONService } from './IDD_STORAGEUNIT_VIEWERBUT
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

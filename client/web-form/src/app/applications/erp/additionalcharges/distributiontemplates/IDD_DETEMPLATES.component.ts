@@ -25,8 +25,7 @@ import { IDD_DETEMPLATESService } from './IDD_DETEMPLATES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DistributionTemplates':['DistributionTemplate','Description','DistributionBase','InvRsn','InvRsnNeg'],'HKLInvRsn':['Description'],'HKLInvRsnNeg':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['ChargeCategory','Description','ChargePerc']});
+        		this.bo.appendToModelStructure({'DistributionTemplates':['DistributionTemplate','Description','DistributionBase','InvRsn','InvRsnNeg'],'HKLInvRsn':['Description'],'HKLInvRsnNeg':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['ChargeCategory','Description','ChargePerc']});
 
     }
 

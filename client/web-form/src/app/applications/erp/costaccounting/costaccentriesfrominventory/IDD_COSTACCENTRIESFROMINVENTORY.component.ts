@@ -35,8 +35,7 @@ this.IDC_BATCH_CA_MM_VALUE_itemSource = {
   "namespace": "ERP.Company.Components.ValuationInventoryCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['InvEntryFromPostDate','InvEntryToPostDate','InvEntryProcessed','InvEntryRsnAll','InvEntryRsnSel','InvEntryRsnType','ReasonFrom','ReasonTo','InvEntryInvValue','InvEntryInvLineCost','InvEntryValueCalc','InvEntryValue','InvEntryInputDate','InvEntryCostAccPostDate','InvEntryDocPostDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['InvEntryFromPostDate','InvEntryToPostDate','InvEntryProcessed','InvEntryRsnAll','InvEntryRsnSel','InvEntryRsnType','ReasonFrom','ReasonTo','InvEntryInvValue','InvEntryInvLineCost','InvEntryValueCalc','InvEntryValue','InvEntryInputDate','InvEntryCostAccPostDate','InvEntryDocPostDate','nCurrentElement','GaugeDescription']});
 
     }
 

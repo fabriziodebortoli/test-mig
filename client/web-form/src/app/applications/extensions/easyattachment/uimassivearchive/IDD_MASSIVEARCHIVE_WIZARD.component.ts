@@ -25,8 +25,7 @@ import { IDD_MASSIVEARCHIVE_WIZARDService } from './IDD_MASSIVEARCHIVE_WIZARD.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bSplitFile','DBTArchivedFiles','ElaborationMessage','nCurrentElement'],'DBTArchivedFiles':['VResultBmp','VFileName','VMassiveAction','VArchivedDocID']});
+        		this.bo.appendToModelStructure({'global':['bSplitFile','DBTArchivedFiles','ElaborationMessage','nCurrentElement'],'DBTArchivedFiles':['VResultBmp','VFileName','VMassiveAction','VArchivedDocID']});
 
     }
 

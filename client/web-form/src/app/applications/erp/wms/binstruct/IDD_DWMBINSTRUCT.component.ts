@@ -31,8 +31,7 @@ import { IDD_DWMBINSTRUCTService } from './IDD_DWMBINSTRUCT.service';
   "parameter": "DataFile.ERP.WMS.Separators"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTWMBinStruct':['BinStructure','Description','Separator'],'global':['Structure','DBTWMBinStructDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTWMBinStruct':['BinStructure','Description','Separator'],'global':['Structure','DBTWMBinStructDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

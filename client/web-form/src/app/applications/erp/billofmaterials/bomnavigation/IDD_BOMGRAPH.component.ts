@@ -25,8 +25,7 @@ import { IDD_BOMGRAPHService } from './IDD_BOMGRAPH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOM','Variant','NrLevels','DateValid','ECODate','ECORevision','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['BOM','Variant','NrLevels','DateValid','ECODate','ECORevision','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

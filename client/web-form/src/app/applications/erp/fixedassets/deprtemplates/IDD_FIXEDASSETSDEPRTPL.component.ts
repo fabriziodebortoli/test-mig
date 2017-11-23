@@ -25,8 +25,7 @@ import { IDD_FIXEDASSETSDEPRTPLService } from './IDD_FIXEDASSETSDEPRTPL.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DeprTemplate':['Template','Description','DepreciationMethod','LifePeriod','Step'],'global':['Coeff','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Coeff':['FromPeriod','ToPeriod','RegrCoeff','Perc']});
+        		this.bo.appendToModelStructure({'DeprTemplate':['Template','Description','DepreciationMethod','LifePeriod','Step'],'global':['Coeff','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Coeff':['FromPeriod','ToPeriod','RegrCoeff','Perc']});
 
     }
 

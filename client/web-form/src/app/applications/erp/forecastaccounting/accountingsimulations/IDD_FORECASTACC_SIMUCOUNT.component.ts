@@ -25,8 +25,7 @@ import { IDD_FORECASTACC_SIMUCOUNTService } from './IDD_FORECASTACC_SIMUCOUNT.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccountingSimulations':['Simulation','Description','PostingDate','ValidityEndingDate','OperatorID','Operator','l_OperatorDesc','Signature','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'AccountingSimulations':['Simulation','Description','PostingDate','ValidityEndingDate','OperatorID','Operator','l_OperatorDesc','Signature','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

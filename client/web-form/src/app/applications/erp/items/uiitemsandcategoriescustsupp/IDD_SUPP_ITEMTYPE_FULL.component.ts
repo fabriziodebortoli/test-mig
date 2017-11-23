@@ -25,8 +25,7 @@ import { IDD_SUPP_ITEMTYPE_FULLService } from './IDD_SUPP_ITEMTYPE_FULL.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ItemTypeSuppliers':['ItemType','Supplier','DiscountFormula'],'HKLItemType':['Description','DiscountFormula'],'HKLSuppItemType':['CompanyName'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ItemTypeSuppliers':['ItemType','Supplier','DiscountFormula'],'HKLItemType':['Description','DiscountFormula'],'HKLSuppItemType':['CompanyName'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

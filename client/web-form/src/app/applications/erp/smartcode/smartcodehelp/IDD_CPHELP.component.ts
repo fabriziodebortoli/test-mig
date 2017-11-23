@@ -30,8 +30,7 @@ import { IDD_CPHELPService } from './IDD_CPHELP.service';
   "namespace": "ERP.SmartCode.Components.CombinationCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SmartCodeHelpRoot','SmartCodeHelpRootDescri','SmartCodeSegment','SmartCodeHelpSmartCodeGraphic','SmartCodeHelpSmartCodeDescription'],'SmartCodeSegment':['VSmartCodeSegment_p1','VSmartCodeSegment_p2']});
+        		this.bo.appendToModelStructure({'global':['SmartCodeHelpRoot','SmartCodeHelpRootDescri','SmartCodeSegment','SmartCodeHelpSmartCodeGraphic','SmartCodeHelpSmartCodeDescription'],'SmartCodeSegment':['VSmartCodeSegment_p1','VSmartCodeSegment_p2']});
 
     }
 

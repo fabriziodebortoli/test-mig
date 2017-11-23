@@ -25,8 +25,7 @@ import { IDD_MOMATERIALREQUIREMENTSService } from './IDD_MOMATERIALREQUIREMENTS.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NrSchema','bUseRoutingForCalculationLifePeriodMO','bUseLeadTimeForCalculationLifePeriodMO','MOMaterialRequirements'],'HKLSchema':['Description'],'MOMaterialRequirements':['PurchaseOrdGeneration','CodeType','Component','ComponentVariant','ComponentDescription','UoM','ProductionPlanQty','InducedRequirements','ReservedQty','MOOnHandStorageQty','IncomingQty','MinimumStock','ReorderProposed','QtyToOrder','Availaibility','ReorderingLotSize','DeliveryDate']});
+        		this.bo.appendToModelStructure({'global':['NrSchema','bUseRoutingForCalculationLifePeriodMO','bUseLeadTimeForCalculationLifePeriodMO','MOMaterialRequirements'],'HKLSchema':['Description'],'MOMaterialRequirements':['PurchaseOrdGeneration','CodeType','Component','ComponentVariant','ComponentDescription','UoM','ProductionPlanQty','InducedRequirements','ReservedQty','MOOnHandStorageQty','IncomingQty','MinimumStock','ReorderProposed','QtyToOrder','Availaibility','ReorderingLotSize','DeliveryDate']});
 
     }
 

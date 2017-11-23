@@ -25,8 +25,7 @@ import { IDD_SOS_CONFIGURATIONService } from './IDD_SOS_CONFIGURATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SOSDocClasses','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SOSDocClasses':['VCode','VDescription']});
+        		this.bo.appendToModelStructure({'global':['SOSDocClasses','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SOSDocClasses':['VCode','VDescription']});
 
     }
 

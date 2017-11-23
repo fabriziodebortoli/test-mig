@@ -25,8 +25,7 @@ import { IDD_COPY_CUST_CONFIRMService } from './IDD_COPY_CUST_CONFIRM.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Code']});
+        		this.bo.appendToModelStructure({'global':['Code']});
 
     }
 

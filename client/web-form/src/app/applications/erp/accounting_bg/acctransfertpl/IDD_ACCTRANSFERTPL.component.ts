@@ -25,8 +25,7 @@ import { IDD_ACCTRANSFERTPLService } from './IDD_ACCTRANSFERTPL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccTransferTpl':['Template','Description','Priority','ValidityStartingDate','ValidityEndingDate'],'global':['AccTransferTplOrigin','AccTransferTplDest','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AccTransferTplOrigin':['Account','BalanceSide','BalanceType','IgnoreDifferentSign'],'HKLOriginAccount':['Description'],'AccTransferTplDest':['Account','TransferPerc'],'HKLDestAccount':['Description']});
+        		this.bo.appendToModelStructure({'AccTransferTpl':['Template','Description','Priority','ValidityStartingDate','ValidityEndingDate'],'global':['AccTransferTplOrigin','AccTransferTplDest','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AccTransferTplOrigin':['Account','BalanceSide','BalanceType','IgnoreDifferentSign'],'HKLOriginAccount':['Description'],'AccTransferTplDest':['Account','TransferPerc'],'HKLDestAccount':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_LOTS_SUPP_ADD_ON_FLYService } from './IDD_LOTS_SUPP_ADD_ON_FLY.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'LotsAddOnFly':['Lot','Disabled','Description','ValidFrom','ValidTo','MinimumStock','TotallyConsumed','OutOfStockDate','InternallyProduced','BarcodeSegment','Notes','LoadDate','Storage','Supplier','PurchaseOrdNo','NoOfPacks','ReceiptDocNo','SupplierLotNo','ParentLotNo','AnalysisRefNo','AnalysisPerson','AnalysisDate','AnalysisStatus'],'HKLStorage':['Description'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'LotsAddOnFly':['Lot','Disabled','Description','ValidFrom','ValidTo','MinimumStock','TotallyConsumed','OutOfStockDate','InternallyProduced','BarcodeSegment','Notes','LoadDate','Storage','Supplier','PurchaseOrdNo','NoOfPacks','ReceiptDocNo','SupplierLotNo','ParentLotNo','AnalysisRefNo','AnalysisPerson','AnalysisDate','AnalysisStatus'],'HKLStorage':['Description'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

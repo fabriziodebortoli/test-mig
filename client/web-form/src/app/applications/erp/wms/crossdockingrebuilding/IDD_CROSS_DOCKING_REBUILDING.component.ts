@@ -25,8 +25,7 @@ import { IDD_CROSS_DOCKING_REBUILDINGService } from './IDD_CROSS_DOCKING_REBUILD
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
 
     }
 

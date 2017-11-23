@@ -25,8 +25,7 @@ import { IDD_LOTSTRACING_REBUILDINGService } from './IDD_LOTSTRACING_REBUILDING.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAll','bSel','Item','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAll','bSel','Item','nCurrentElement','GaugeDescription']});
 
     }
 

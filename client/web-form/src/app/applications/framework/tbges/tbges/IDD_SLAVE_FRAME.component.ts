@@ -25,8 +25,7 @@ import { IDD_SLAVE_FRAMEService } from './IDD_SLAVE_FRAME.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

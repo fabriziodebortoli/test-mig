@@ -25,8 +25,7 @@ import { IDD_ACCOUNTINGPOSTING_WIZARDService } from './IDD_ACCOUNTINGPOSTING_WIZ
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Session','Cash','WorkerDesc','OpeningDate','ClosingDate','PostingDate','DocDate','CashAccountingPosting','Session','OpeningDate','ClosingDate','Cash','WorkerDesc'],'CashAccountingPosting':['l_TEnhCashSessionsEntries_P01','PostingDate','l_SessionEntryId','l_Symbol','l_AmountPos','l_AmountNeg','Notes','CustSupp','l_TEnhCashSessionsEntries_P10','l_TEnhCashSessionsEntries_P06','l_TEnhCashSessionsEntries_P08','CostCenter','Job'],'HKLAccount':['Description'],'HKLAccRsn':['Description']});
+        		this.bo.appendToModelStructure({'global':['Session','Cash','WorkerDesc','OpeningDate','ClosingDate','PostingDate','DocDate','CashAccountingPosting','Session','OpeningDate','ClosingDate','Cash','WorkerDesc'],'CashAccountingPosting':['l_TEnhCashSessionsEntries_P01','PostingDate','l_SessionEntryId','l_Symbol','l_AmountPos','l_AmountNeg','Notes','CustSupp','l_TEnhCashSessionsEntries_P10','l_TEnhCashSessionsEntries_P06','l_TEnhCashSessionsEntries_P08','CostCenter','Job'],'HKLAccount':['Description'],'HKLAccRsn':['Description']});
 
     }
 

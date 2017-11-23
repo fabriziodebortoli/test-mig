@@ -25,8 +25,7 @@ import { IDD_RUN_QTY_TO_PRODService } from './IDD_RUN_QTY_TO_PROD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DlgMO','DlgBOM','DlgSaleOrder','DlgCustomer','DlgJob','DlgQtyToProd']});
+        		this.bo.appendToModelStructure({'global':['DlgMO','DlgBOM','DlgSaleOrder','DlgCustomer','DlgJob','DlgQtyToProd']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_SUPPLIERSPECIFICATIONService } from './IDD_SUPPLIERSPECIFICATION.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SupplierSpecification':['SupplierSpecification','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'SupplierSpecification':['SupplierSpecification','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -31,8 +31,7 @@ import { IDD_WEBSERVICESLISTService } from './IDD_WEBSERVICESLIST.service';
   "parameter": "DataFile.ERP.WMSMOBILE.WebServicesNamespaces"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTDummy':['Enabled'],'global':['DBTWMMobileWebServicesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTWMMobileWebServicesDetails':['Namespace','Enabled','SkipIfOffline','URL']});
+        		this.bo.appendToModelStructure({'DBTDummy':['Enabled'],'global':['DBTWMMobileWebServicesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTWMMobileWebServicesDetails':['Namespace','Enabled','SkipIfOffline','URL']});
 
     }
 

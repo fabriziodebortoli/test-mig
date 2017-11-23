@@ -25,8 +25,7 @@ import { IDD_CALC_FISCALCODEService } from './IDD_CALC_FISCALCODE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['LastName','Name','Gender','DateOfBirth','ISOCountryCode','CityOfBirth','CadastralCode','FiscalCode','FiscalCodeCalculate']});
+        		this.bo.appendToModelStructure({'global':['LastName','Name','Gender','DateOfBirth','ISOCountryCode','CityOfBirth','CadastralCode','FiscalCode','FiscalCodeCalculate']});
 
     }
 

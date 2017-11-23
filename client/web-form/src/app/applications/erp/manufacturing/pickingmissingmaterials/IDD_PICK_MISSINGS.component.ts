@@ -25,8 +25,7 @@ import { IDD_PICK_MISSINGSService } from './IDD_PICK_MISSINGS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllMO','bManOrdSel','FromMONo','ToMONo','bAllJT','bJTSel','FromBoLNo','ToBoLNo','bAllDate','bSelData','DateFrom','DateTo','Storage','StorageSemifinished','PickingListDetails'],'PickingListDetails':['Selection','Component','ComponentsDes','Variant','UoM','NeededQty','EstimatedUseDate','MONo','JobTicketNo','NotFoundQty','Updated']});
+        		this.bo.appendToModelStructure({'global':['bAllMO','bManOrdSel','FromMONo','ToMONo','bAllJT','bJTSel','FromBoLNo','ToBoLNo','bAllDate','bSelData','DateFrom','DateTo','Storage','StorageSemifinished','PickingListDetails'],'PickingListDetails':['Selection','Component','ComponentsDes','Variant','UoM','NeededQty','EstimatedUseDate','MONo','JobTicketNo','NotFoundQty','Updated']});
 
     }
 

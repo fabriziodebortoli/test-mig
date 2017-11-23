@@ -25,8 +25,7 @@ import { IDD_FIXASSETSREASONSService } from './IDD_FIXASSETSREASONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Reason']});
+        		this.bo.appendToModelStructure({'global':['Reason']});
 
     }
 

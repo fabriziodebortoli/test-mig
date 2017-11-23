@@ -40,8 +40,7 @@ this.IDC_MRP_PURCHASE_LEAD_TIME_itemSource = {
   "namespace": "ERP.MRP.Documents.LeadTimeOrginItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTMRP':['ProdPlan','SaleOrdersOnly','HrzType','HrzEndDate','Horizon','ExplodeAllBOMLevels','SelectBOMLevel','MaxLevelBOMExplosion','FinishedLeadTimeOrigin','PurchaseLeadTimeOrigin','NetFirstLevelOnJobPolicy','NetOtherLevelsOnJobPolicy','NetFirstLevelOnLotPolicy','NetOtherLevelsOnLotPolicy','NetFirstLevelOnDayReqPolicy','NetOtherLevelsOnDayReqPolicy','UseMinStock','SkipNotWorkingDays','GroupLotsByDate','UseSimulatedEndDate'],'HKLProductionPlan':['Description'],'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTResult','nCurrentElement','GaugeDescription','ProgressViewer'],'DBTResult':['Selection','Item','Description','Nature','BOM','Variant','BaseUoM'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'DBTMRP':['ProdPlan','SaleOrdersOnly','HrzType','HrzEndDate','Horizon','ExplodeAllBOMLevels','SelectBOMLevel','MaxLevelBOMExplosion','FinishedLeadTimeOrigin','PurchaseLeadTimeOrigin','NetFirstLevelOnJobPolicy','NetOtherLevelsOnJobPolicy','NetFirstLevelOnLotPolicy','NetOtherLevelsOnLotPolicy','NetFirstLevelOnDayReqPolicy','NetOtherLevelsOnDayReqPolicy','UseMinStock','SkipNotWorkingDays','GroupLotsByDate','UseSimulatedEndDate'],'HKLProductionPlan':['Description'],'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTResult','nCurrentElement','GaugeDescription','ProgressViewer'],'DBTResult':['Selection','Item','Description','Nature','BOM','Variant','BaseUoM'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

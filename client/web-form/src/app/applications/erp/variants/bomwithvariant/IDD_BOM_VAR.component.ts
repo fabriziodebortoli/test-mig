@@ -30,8 +30,7 @@ import { IDD_BOM_VARService } from './IDD_BOM_VAR.service';
   "namespace": "ERP.Routing.Components.LabourLabourTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMComponentsWithVariant','BOMRoutingWithVariant','__DBTLabour'],'BOMComponentsWithVariant':['ComponentType','Component','Description','Qty','UoM','FixedQty','SetFixedQtyOnMO','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMRoutingWithVariant':['RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','ProcessingTime','TotalTime','Qty','QueueTime','LineTypeInDN'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources']});
+        		this.bo.appendToModelStructure({'global':['BOMComponentsWithVariant','BOMRoutingWithVariant','__DBTLabour'],'BOMComponentsWithVariant':['ComponentType','Component','Description','Qty','UoM','FixedQty','SetFixedQtyOnMO','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMRoutingWithVariant':['RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','ProcessingTime','TotalTime','Qty','QueueTime','LineTypeInDN'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources']});
 
     }
 

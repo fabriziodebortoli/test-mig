@@ -25,8 +25,7 @@ import { IDD_PARAMETERS_SALESPEOPLEService } from './IDD_PARAMETERS_SALESPEOPLE.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ENASARCOParameters','FIRROneFirm','FIRRMultiFirm','CustomerAllowance','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ENASARCOParameters':['FromAmount','ToAmount','Perc','PercSalePerson','Amount','Description'],'FIRROneFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'FIRRMultiFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'CustomerAllowance':['FromYear','ToYear','Perc','P1','MaxValue']});
+        		this.bo.appendToModelStructure({'global':['ENASARCOParameters','FIRROneFirm','FIRRMultiFirm','CustomerAllowance','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ENASARCOParameters':['FromAmount','ToAmount','Perc','PercSalePerson','Amount','Description'],'FIRROneFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'FIRRMultiFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'CustomerAllowance':['FromYear','ToYear','Perc','P1','MaxValue']});
 
     }
 

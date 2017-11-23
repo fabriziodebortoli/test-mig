@@ -25,8 +25,7 @@ import { IDD_TEMPLATEIMPORTService } from './IDD_TEMPLATEIMPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FileName','Template','nCurrentElement','GaugeDescription'],'HKLTemplate':['Description']});
+        		this.bo.appendToModelStructure({'global':['FileName','Template','nCurrentElement','GaugeDescription'],'HKLTemplate':['Description']});
 
     }
 

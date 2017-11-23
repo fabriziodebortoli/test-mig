@@ -25,8 +25,7 @@ import { IDD_BR_ITEM_FISCALCTGService } from './IDD_BR_ITEM_FISCALCTG.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRItemFiscalCtg':['ItemFiscalCtg','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRItemFiscalCtg':['ItemFiscalCtg','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

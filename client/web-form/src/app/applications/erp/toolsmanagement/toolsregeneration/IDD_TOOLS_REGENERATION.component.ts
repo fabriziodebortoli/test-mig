@@ -30,8 +30,7 @@ import { IDD_TOOLS_REGENERATIONService } from './IDD_TOOLS_REGENERATION.service'
   "namespace": "ERP.ToolsManagement.Documents.RegenerationStatusItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','ToolType','bToBeReconditioned','bUnderMaintenance','ToolsRegeneration'],'ToolsRegeneration':['LocalBmpStatus','Selected','Tool','ActualStatus','UsedQuantity','UsedTime','MaxQuantity','MaxTime','Reconditioning','MaxReconditioning','LocalRemarks','MaintenanceWorker','ReconditioningStartDate','ReconditioningDuration','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','ToolType','bToBeReconditioned','bUnderMaintenance','ToolsRegeneration'],'ToolsRegeneration':['LocalBmpStatus','Selected','Tool','ActualStatus','UsedQuantity','UsedTime','MaxQuantity','MaxTime','Reconditioning','MaxReconditioning','LocalRemarks','MaintenanceWorker','ReconditioningStartDate','ReconditioningDuration','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
 
     }
 

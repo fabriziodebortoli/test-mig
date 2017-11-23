@@ -25,8 +25,7 @@ import { IDD_PD_PICKING_MATERIALS_GO_TO_COMPONENTService } from './IDD_PD_PICKIN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ComponentSearch']});
+        		this.bo.appendToModelStructure({'global':['ComponentSearch']});
 
     }
 

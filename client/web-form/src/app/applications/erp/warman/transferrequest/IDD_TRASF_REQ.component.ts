@@ -35,8 +35,7 @@ this.IDC_TRASF_REQ_STATUS_itemSource = {
   "namespace": "ERP.WarMan.Documents.MOStatusItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TransferRequest':['TRID','MONo','TRNumber','DocumentType','DocumentNumber','CreationDate','RequiredDate','TRStatus','Item','Lot','UoM','RequiredQty','ReleasedQty','ProcessedQty','ConfirmedTOQty','PickedQty','DeliveredQty','Storage','Notes'],'HKLItem':['Description'],'HKLStorages':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TransferRequest':['TRID','MONo','TRNumber','DocumentType','DocumentNumber','CreationDate','RequiredDate','TRStatus','Item','Lot','UoM','RequiredQty','ReleasedQty','ProcessedQty','ConfirmedTOQty','PickedQty','DeliveredQty','Storage','Notes'],'HKLItem':['Description'],'HKLStorages':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_ACTUAL_ACCRUAL_DATEService } from './IDD_ACTUAL_ACCRUAL_DATE.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','ActualAccr_DocNo','ActualAccr_Selected','AdvanceBalance','ActualAccr_AreaManager','Salesperson','ActualAccr_SalespersonDesc','ActualAccr_CustCode','ActualAccr_CustomerDesc','InstallmentAmount','CollAmount','RemainingAmount','CommissionTot','Comm','RemainingComm','CommissionAllowance','Allowance','ExpectedAccrualDate','AccrEffDate','Base','Suspended','LegendPymtSched','LegendPymtSchedInstNotRec','LegendPymtSchedInstRec','LegendSalespEntryNotLinked','LegendAllowance']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','ActualAccr_DocNo','ActualAccr_Selected','AdvanceBalance','ActualAccr_AreaManager','Salesperson','ActualAccr_SalespersonDesc','ActualAccr_CustCode','ActualAccr_CustomerDesc','InstallmentAmount','CollAmount','RemainingAmount','CommissionTot','Comm','RemainingComm','CommissionAllowance','Allowance','ExpectedAccrualDate','AccrEffDate','Base','Suspended','LegendPymtSched','LegendPymtSchedInstNotRec','LegendPymtSchedInstRec','LegendSalespEntryNotLinked','LegendAllowance']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_TOOLS_COPYService } from './IDD_TOOLS_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OldTool','NewTool','bCopyInFamilies','bSetNewDisabled','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['OldTool','NewTool','bCopyInFamilies','bSetNewDisabled','nCurrentElement','GaugeDescription']});
 
     }
 

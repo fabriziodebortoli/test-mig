@@ -25,8 +25,7 @@ import { IDD_BARCODE_PARAMETERSService } from './IDD_BARCODE_PARAMETERS.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'WMSBarcodeParameters':['BarcodeVariableDataEnabled'],'global':['BarcodeParametersVar','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'WMSBarcodeParameters':['BarcodeVariableDataEnabled'],'global':['BarcodeParametersVar','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

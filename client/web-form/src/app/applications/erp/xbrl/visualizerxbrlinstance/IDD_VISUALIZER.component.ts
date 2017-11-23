@@ -25,8 +25,7 @@ import { IDD_VISUALIZERService } from './IDD_VISUALIZER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Path','SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLVis_P3','l_TEnhPersonalDataXBRLVis_P2','l_TEnhPersonalDataXBRLVis_P1','l_TEnhPersonalDataXBRLVis_P4']});
+        		this.bo.appendToModelStructure({'global':['Path','SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLVis_P3','l_TEnhPersonalDataXBRLVis_P2','l_TEnhPersonalDataXBRLVis_P1','l_TEnhPersonalDataXBRLVis_P4']});
 
     }
 

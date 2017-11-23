@@ -25,8 +25,7 @@ import { IDD_LOAD_QUESTIONService } from './IDD_LOAD_QUESTION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AnswersToCopy','IncompatibilityToCopy','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AnswersToCopy':['l_bSelected','AnswerNo','Answer','Notes'],'IncompatibilityToCopy':['l_bSelected','AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
+        		this.bo.appendToModelStructure({'global':['AnswersToCopy','IncompatibilityToCopy','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AnswersToCopy':['l_bSelected','AnswerNo','Answer','Notes'],'IncompatibilityToCopy':['l_bSelected','AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
 
     }
 

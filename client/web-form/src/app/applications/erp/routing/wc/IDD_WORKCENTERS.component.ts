@@ -25,8 +25,7 @@ import { IDD_WORKCENTERSService } from './IDD_WORKCENTERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'WC':['WC','Description','AverageCapacity','ResourceNo','Calendar','Notes','WorkType','ManagerID','Outsourced','Supplier','HourlyCost','UnitCost','AdditionalCost','Template','Make','PurchaseDate','PlacedInServiceDate'],'HKLWorkersManager':['NameComplete'],'HKLSuppliers':['CompanyName'],'global':['BreakdownWC','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'WC':['WC','Description','AverageCapacity','ResourceNo','Calendar','Notes','WorkType','ManagerID','Outsourced','Supplier','HourlyCost','UnitCost','AdditionalCost','Template','Make','PurchaseDate','PlacedInServiceDate'],'HKLWorkersManager':['NameComplete'],'HKLSuppliers':['CompanyName'],'global':['BreakdownWC','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

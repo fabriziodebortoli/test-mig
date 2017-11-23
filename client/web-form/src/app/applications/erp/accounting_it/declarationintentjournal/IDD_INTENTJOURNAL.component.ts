@@ -25,8 +25,7 @@ import { IDD_INTENTJOURNALService } from './IDD_INTENTJOURNAL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','FromDate','ToDate','Issued','Received','PrintDate','DefinitivelyPrinted','ContextualHeading','NoPrefix','StartingPage']});
+        		this.bo.appendToModelStructure({'global':['Year','FromDate','ToDate','Issued','Received','PrintDate','DefinitivelyPrinted','ContextualHeading','NoPrefix','StartingPage']});
 
     }
 

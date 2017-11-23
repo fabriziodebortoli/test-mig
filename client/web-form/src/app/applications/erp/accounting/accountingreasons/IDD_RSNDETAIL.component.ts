@@ -25,8 +25,7 @@ import { IDD_RSNDETAILService } from './IDD_RSNDETAIL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccountingReasons':['Reason','Description','UseForPureEntry','UseForSaleEntry','UseForPurchaseEntry','UseForRetailSaleEntry','AGOAccReason','OMNIAAccReason'],'global':['Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Notes':['Notes'],'HKLAGOAccReasons':['Description'],'HKLOMNIAAccReasons':['Description']});
+        		this.bo.appendToModelStructure({'AccountingReasons':['Reason','Description','UseForPureEntry','UseForSaleEntry','UseForPurchaseEntry','UseForRetailSaleEntry','AGOAccReason','OMNIAAccReason'],'global':['Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Notes':['Notes'],'HKLAGOAccReasons':['Description'],'HKLOMNIAAccReasons':['Description']});
 
     }
 

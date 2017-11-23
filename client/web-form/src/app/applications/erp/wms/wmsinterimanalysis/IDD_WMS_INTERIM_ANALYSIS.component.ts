@@ -25,8 +25,7 @@ import { IDD_WMS_INTERIM_ANALYSISService } from './IDD_WMS_INTERIM_ANALYSIS.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','bInterimIN','bInterimOUT','bDisplayOnlySuspectTO','DateAll','DateSelection','DateFrom','DateTo','ItemAll','ItemSelection','ItemFrom','ItemTo','LegendTO','LegendInvEntry','LegendDocIn','LegendDocOut']});
+        		this.bo.appendToModelStructure({'global':['Storage','bInterimIN','bInterimOUT','bDisplayOnlySuspectTO','DateAll','DateSelection','DateFrom','DateTo','ItemAll','ItemSelection','ItemFrom','ItemTo','LegendTO','LegendInvEntry','LegendDocIn','LegendDocOut']});
 
     }
 

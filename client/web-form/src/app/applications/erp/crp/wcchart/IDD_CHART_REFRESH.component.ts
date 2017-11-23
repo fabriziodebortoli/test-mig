@@ -25,8 +25,7 @@ import { IDD_CHART_REFRESHService } from './IDD_CHART_REFRESH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nGridStep']});
+        		this.bo.appendToModelStructure({'global':['nGridStep']});
 
     }
 

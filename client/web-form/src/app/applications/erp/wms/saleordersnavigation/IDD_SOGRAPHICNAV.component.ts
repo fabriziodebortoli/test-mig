@@ -25,8 +25,7 @@ import { IDD_SOGRAPHICNAVService } from './IDD_SOGRAPHICNAV.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllCustomer','bSelectCustomer','Customer','bAllNumbers','bSelectNumber','SONumberFrom','SONumberTo','bAllDates','bSelectDate','DateFrom','DateTo','DBTNodeDetail','LegendIsertedStatus','LegendAllocatedStatus','LegendCancelledStatus','LegendDeliveryStatus','LegendInvoicedStatus','LegendInPreshStatus','LegendBlockedStatus'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
+        		this.bo.appendToModelStructure({'global':['bAllCustomer','bSelectCustomer','Customer','bAllNumbers','bSelectNumber','SONumberFrom','SONumberTo','bAllDates','bSelectDate','DateFrom','DateTo','DBTNodeDetail','LegendIsertedStatus','LegendAllocatedStatus','LegendCancelledStatus','LegendDeliveryStatus','LegendInvoicedStatus','LegendInPreshStatus','LegendBlockedStatus'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
 
     }
 

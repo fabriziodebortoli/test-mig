@@ -25,8 +25,7 @@ import { IDD_MASTER_FRAMEService } from './IDD_MASTER_FRAME.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

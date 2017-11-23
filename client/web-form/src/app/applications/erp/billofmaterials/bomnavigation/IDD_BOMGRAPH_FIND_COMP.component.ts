@@ -25,8 +25,7 @@ import { IDD_BOMGRAPH_FIND_COMPService } from './IDD_BOMGRAPH_FIND_COMP.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FindComponent']});
+        		this.bo.appendToModelStructure({'global':['FindComponent']});
 
     }
 

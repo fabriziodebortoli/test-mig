@@ -25,8 +25,7 @@ import { IDD_CTGCOMMODITYService } from './IDD_CTGCOMMODITY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommodityCategories':['Category','Description','DiscountFormula','PerishablesType','HasCustomers','HasSuppliers','Notes','SaleOffset','PurchaseOffset','ConsumptionOffset','ReverseCharge','RCTaxCode'],'HKLSaleOffset':['Description'],'HKLPurchaseOffset':['Description'],'HKLConsumptionOffset':['Description'],'HKLRCTaxCode':['Description'],'global':['CommodityCtgBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'CommodityCategories':['Category','Description','DiscountFormula','PerishablesType','HasCustomers','HasSuppliers','Notes','SaleOffset','PurchaseOffset','ConsumptionOffset','ReverseCharge','RCTaxCode'],'HKLSaleOffset':['Description'],'HKLPurchaseOffset':['Description'],'HKLConsumptionOffset':['Description'],'HKLRCTaxCode':['Description'],'global':['CommodityCtgBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

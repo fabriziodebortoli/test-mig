@@ -25,8 +25,7 @@ import { IDD_IMPORT_EXPORT_DETAIL_DOCUMENTService } from './IDD_IMPORT_EXPORT_DE
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ImportExportFileName','ImportExportnCurrentElement','ImportExportNotesFileName','ImportExportnCurrentElement']});
+        		this.bo.appendToModelStructure({'global':['ImportExportFileName','ImportExportnCurrentElement','ImportExportNotesFileName','ImportExportnCurrentElement']});
 
     }
 

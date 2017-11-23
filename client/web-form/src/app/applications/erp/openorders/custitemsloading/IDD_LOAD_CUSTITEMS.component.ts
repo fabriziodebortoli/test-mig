@@ -25,8 +25,7 @@ import { IDD_LOAD_CUSTITEMSService } from './IDD_LOAD_CUSTITEMS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustItemsLoading':['CustSupp','CompanyName'],'global':['CustContrLinesLoading'],'CustContrLinesLoading':['Selected','ArtType','Item','ArtDescri']});
+        		this.bo.appendToModelStructure({'CustItemsLoading':['CustSupp','CompanyName'],'global':['CustContrLinesLoading'],'CustContrLinesLoading':['Selected','ArtType','Item','ArtDescri']});
 
     }
 

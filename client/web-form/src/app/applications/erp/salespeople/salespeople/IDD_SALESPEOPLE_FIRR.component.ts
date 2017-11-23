@@ -25,8 +25,7 @@ import { IDD_SALESPEOPLE_FIRRService } from './IDD_SALESPEOPLE_FIRR.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'FIRR':['IsManual','BalanceYear','CodeType','Base','AccruedAmount','PaymentDate']});
+        		this.bo.appendToModelStructure({'FIRR':['IsManual','BalanceYear','CodeType','Base','AccruedAmount','PaymentDate']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_GENERATEDETAILService } from './IDD_GENERATEDETAIL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NoDetailDoc','DaysNoDoc','AccrualDateType','YearCommercialDoc','EndMonthDoc']});
+        		this.bo.appendToModelStructure({'global':['NoDetailDoc','DaysNoDoc','AccrualDateType','YearCommercialDoc','EndMonthDoc']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_TB_BASE_NAVIGATION_FRAMEService } from './IDD_TB_BASE_NAVIGATION_FR
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

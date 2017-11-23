@@ -25,8 +25,7 @@ import { IDD_TRANSFER_ORDER_LOADINGService } from './IDD_TRANSFER_ORDER_LOADING.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['WTTransferOrderTOGRLoading'],'WTTransferOrderTOGRLoading':['Sel','CustSupp','ConsignmentPartner','CustSupp','CompanyName','BillOfLadingNumber','BillOfLadingDate','BillOfLadingNumber','BillOfLadingDate','ReferenceDocType','ReferenceDocNo','ToResource','WorkerName','MacAddress']});
+        		this.bo.appendToModelStructure({'global':['WTTransferOrderTOGRLoading'],'WTTransferOrderTOGRLoading':['Sel','CustSupp','ConsignmentPartner','CustSupp','CompanyName','BillOfLadingNumber','BillOfLadingDate','BillOfLadingNumber','BillOfLadingDate','ReferenceDocType','ReferenceDocNo','ToResource','WorkerName','MacAddress']});
 
     }
 

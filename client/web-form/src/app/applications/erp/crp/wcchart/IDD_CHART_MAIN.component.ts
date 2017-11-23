@@ -25,8 +25,7 @@ import { IDD_CHART_MAINService } from './IDD_CHART_MAIN.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['dDateFrom','dDateTo','bAllWC','bWCSel','sFromWC','sToWC','eWCType','WCChart'],'WCChart':['Selected','WC','CodeType','Outsourced','Supplier','CompanyName'],'HKLWC':['Description']});
+        		this.bo.appendToModelStructure({'global':['dDateFrom','dDateTo','bAllWC','bWCSel','sFromWC','sToWC','eWCType','WCChart'],'WCChart':['Selected','WC','CodeType','Outsourced','Supplier','CompanyName'],'HKLWC':['Description']});
 
     }
 

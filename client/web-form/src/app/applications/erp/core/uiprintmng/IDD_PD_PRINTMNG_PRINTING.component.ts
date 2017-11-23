@@ -25,8 +25,7 @@ import { IDD_PD_PRINTMNG_PRINTINGService } from './IDD_PD_PRINTMNG_PRINTING.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeviceName','PageFmtName','ReportName']});
+        		this.bo.appendToModelStructure({'global':['DeviceName','PageFmtName','ReportName']});
 
     }
 

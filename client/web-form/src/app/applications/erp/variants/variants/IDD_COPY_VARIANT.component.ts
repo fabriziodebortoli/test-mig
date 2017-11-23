@@ -25,8 +25,7 @@ import { IDD_COPY_VARIANTService } from './IDD_COPY_VARIANT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromItemToCopy','VariantToCopy'],'HKLItemBOMVariants':['Description']});
+        		this.bo.appendToModelStructure({'global':['FromItemToCopy','VariantToCopy'],'HKLItemBOMVariants':['Description']});
 
     }
 

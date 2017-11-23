@@ -25,8 +25,7 @@ import { IDD_CUSTSUPPCOPYService } from './IDD_CUSTSUPPCOPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustSuppType','CustSupp','Budget','ItemsData','CopyAcqDate','MaxValues']});
+        		this.bo.appendToModelStructure({'global':['CustSuppType','CustSupp','Budget','ItemsData','CopyAcqDate','MaxValues']});
 
     }
 

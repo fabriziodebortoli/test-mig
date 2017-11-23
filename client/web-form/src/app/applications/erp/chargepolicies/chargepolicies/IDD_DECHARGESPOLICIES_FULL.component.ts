@@ -25,8 +25,7 @@ import { IDD_DECHARGESPOLICIES_FULLService } from './IDD_DECHARGESPOLICIES_FULL.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCustomers','Shipping','Package','Areas','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Formula':['Customer','ShippingFormula','ShippingRounding','ShippingRoundingType','PackageFormula','PackageRounding','PackageRoundingType'],'HKLCustSupp':['CompNameComplete']});
+        		this.bo.appendToModelStructure({'global':['AllCustomers','Shipping','Package','Areas','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Formula':['Customer','ShippingFormula','ShippingRounding','ShippingRoundingType','PackageFormula','PackageRounding','PackageRoundingType'],'HKLCustSupp':['CompNameComplete']});
 
     }
 

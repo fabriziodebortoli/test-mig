@@ -25,8 +25,7 @@ import { IDD_PRODPLAN_COPYService } from './IDD_PRODPLAN_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllProdPlans','NrPlan']});
+        		this.bo.appendToModelStructure({'global':['bAllProdPlans','NrPlan']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_INVENTORYJOURNAL_FULLService } from './IDD_INVENTORYJOURNAL_FULL.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'InventoryJournal':['FiscalYear','BalanceYear','MonthBalance','LastPrintingDate','NoOfPrintedLines','NoOfPrintedPages','DefinitivelyPrinted'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'InventoryJournal':['FiscalYear','BalanceYear','MonthBalance','LastPrintingDate','NoOfPrintedLines','NoOfPrintedPages','DefinitivelyPrinted'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

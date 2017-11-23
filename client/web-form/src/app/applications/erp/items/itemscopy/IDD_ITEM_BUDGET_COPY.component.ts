@@ -25,8 +25,7 @@ import { IDD_ITEM_BUDGET_COPYService } from './IDD_ITEM_BUDGET_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAll','bSelect','FromCode','ToCode','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAll','bSelect','FromCode','ToCode','nCurrentElement','GaugeDescription']});
 
     }
 

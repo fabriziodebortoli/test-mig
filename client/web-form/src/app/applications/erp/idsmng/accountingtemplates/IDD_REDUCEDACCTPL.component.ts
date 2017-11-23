@@ -30,8 +30,7 @@ import { IDD_REDUCEDACCTPLService } from './IDD_REDUCEDACCTPL.service';
   "namespace": "ERP.IdsMng.Components.OperationEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccountingTemplates':['Template','Disabled','Description','Operation','DocDateIsMand','DocNoIsMand','CodeType','PaymentScheduleAction','PaymentScheduleCreditNote','AccrualDeferral','GroupCode','Currency','ExcludedFromSAC','TaxJournal','CustSupp','Suspension','IntrastatOperation','ReverseChargeType','EUTaxJournal','TypeOfTaxDocument','TypeOfTaxDocumentAnn','TypeOfReverseCharge'],'HKLTaxJournals':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLJournalIntrastatTax':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'AccountingTemplates':['Template','Disabled','Description','Operation','DocDateIsMand','DocNoIsMand','CodeType','PaymentScheduleAction','PaymentScheduleCreditNote','AccrualDeferral','GroupCode','Currency','ExcludedFromSAC','TaxJournal','CustSupp','Suspension','IntrastatOperation','ReverseChargeType','EUTaxJournal','TypeOfTaxDocument','TypeOfTaxDocumentAnn','TypeOfReverseCharge'],'HKLTaxJournals':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLJournalIntrastatTax':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

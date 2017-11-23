@@ -25,8 +25,7 @@ import { IDD_CASHService } from './IDD_CASH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Cash':['Cash','Description','WorkerID','CashStubBook','PreferredCurrency','AlternativeCurrency'],'HKLWorkers':['NameComplete'],'HKLStubBook':['Description'],'global':['CashAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CashAccounts':['Currency','Account'],'HKLAccount':['Description']});
+        		this.bo.appendToModelStructure({'Cash':['Cash','Description','WorkerID','CashStubBook','PreferredCurrency','AlternativeCurrency'],'HKLWorkers':['NameComplete'],'HKLStubBook':['Description'],'global':['CashAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CashAccounts':['Currency','Account'],'HKLAccount':['Description']});
 
     }
 

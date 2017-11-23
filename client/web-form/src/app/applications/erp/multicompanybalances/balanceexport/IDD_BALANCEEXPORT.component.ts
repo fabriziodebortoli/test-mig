@@ -25,8 +25,7 @@ import { IDD_BALANCEEXPORTService } from './IDD_BALANCEEXPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BalanceSchema','FileName','Definitive','nCurrentElement','GaugeDescription'],'HKLBalances':['Notes']});
+        		this.bo.appendToModelStructure({'global':['BalanceSchema','FileName','Definitive','nCurrentElement','GaugeDescription'],'HKLBalances':['Notes']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_COPYCONTACTService } from './IDD_COPYCONTACT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustSupp','CustSupp']});
+        		this.bo.appendToModelStructure({'global':['CustSupp','CustSupp']});
 
     }
 

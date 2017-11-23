@@ -25,8 +25,7 @@ import { IDD_IMAGO_LINKSService } from './IDD_IMAGO_LINKS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['IMagoLinks','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IMagoLinks':['Namespace','LinkName','InfinityLink']});
+        		this.bo.appendToModelStructure({'global':['IMagoLinks','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IMagoLinks':['Namespace','LinkName','InfinityLink']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTIONService } from './IDD
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllZone','bSelZone','FromZone','ToZone','bOnlyZoneNotInventoriedFrom','ZoneNotInventoriedFromDate','bAllBin','bSelBin','FromBin','ToBin','bOnlySuspectBin','bOnlyBinNotInventoriedFrom','BinNotInventoriedFromDate']});
+        		this.bo.appendToModelStructure({'global':['bAllZone','bSelZone','FromZone','ToZone','bOnlyZoneNotInventoriedFrom','ZoneNotInventoriedFromDate','bAllBin','bSelBin','FromBin','ToBin','bOnlySuspectBin','bOnlyBinNotInventoriedFrom','BinNotInventoriedFromDate']});
 
     }
 

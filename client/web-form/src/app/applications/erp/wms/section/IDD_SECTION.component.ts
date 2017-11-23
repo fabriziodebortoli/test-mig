@@ -25,8 +25,7 @@ import { IDD_SECTIONService } from './IDD_SECTION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTSection':['Section','Disabled','Description'],'DBTSectionCategories':['ValidForAllMAterials','SectionCategory','Description','ValidForAllMAterials'],'global':['DBTSectionCategories','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTSection':['Section','Disabled','Description'],'DBTSectionCategories':['ValidForAllMAterials','SectionCategory','Description','ValidForAllMAterials'],'global':['DBTSectionCategories','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

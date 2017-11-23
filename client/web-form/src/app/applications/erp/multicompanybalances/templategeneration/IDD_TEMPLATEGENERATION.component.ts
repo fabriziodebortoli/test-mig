@@ -25,8 +25,7 @@ import { IDD_TEMPLATEGENERATIONService } from './IDD_TEMPLATEGENERATION.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Template','Description','AllAccount','AcconuntsSel','FromAccount','ToAccount','Level','CodeCopy','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Template','Description','AllAccount','AcconuntsSel','FromAccount','ToAccount','Level','CodeCopy','nCurrentElement','GaugeDescription']});
 
     }
 

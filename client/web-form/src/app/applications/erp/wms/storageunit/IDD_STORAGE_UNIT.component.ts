@@ -25,8 +25,7 @@ import { IDD_STORAGE_UNITService } from './IDD_STORAGE_UNIT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTStorageUnit':['SUNumber','SUTCode','BarcodeSegment','UsedInWarehouse','UsedInPreShipping','MaximumWeight','MaximumVolume','FixedGrossVolume','GrossWeight','GrossVolume','Dimensions'],'HKLWMSUnitType':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTStorageUnit':['SUNumber','SUTCode','BarcodeSegment','UsedInWarehouse','UsedInPreShipping','MaximumWeight','MaximumVolume','FixedGrossVolume','GrossWeight','GrossVolume','Dimensions'],'HKLWMSUnitType':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

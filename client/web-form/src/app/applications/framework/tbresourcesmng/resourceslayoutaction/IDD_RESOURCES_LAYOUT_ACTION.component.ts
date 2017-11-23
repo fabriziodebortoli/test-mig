@@ -25,8 +25,7 @@ import { IDD_RESOURCES_LAYOUT_ACTIONService } from './IDD_RESOURCES_LAYOUT_ACTIO
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['sActionMessage']});
+        		this.bo.appendToModelStructure({'global':['sActionMessage']});
 
     }
 

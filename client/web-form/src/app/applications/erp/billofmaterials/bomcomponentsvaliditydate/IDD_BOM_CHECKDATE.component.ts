@@ -25,8 +25,7 @@ import { IDD_BOM_CHECKDATEService } from './IDD_BOM_CHECKDATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CheckOnly','SetStart','SetBoth','StartDate','EndDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['CheckOnly','SetStart','SetBoth','StartDate','EndDate','nCurrentElement','GaugeDescription']});
 
     }
 

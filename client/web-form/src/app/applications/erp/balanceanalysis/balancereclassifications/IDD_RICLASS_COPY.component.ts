@@ -25,8 +25,7 @@ import { IDD_RICLASS_COPYService } from './IDD_RICLASS_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Schema','bNotCopyAccounts']});
+        		this.bo.appendToModelStructure({'global':['Schema','bNotCopyAccounts']});
 
     }
 

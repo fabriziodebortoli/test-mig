@@ -25,8 +25,7 @@ import { IDD_ACCOUNTINGGROUPSService } from './IDD_ACCOUNTINGGROUPS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccountingGroups':['GroupCode','Description','GroupPrefix'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'AccountingGroups':['GroupCode','Description','GroupPrefix'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

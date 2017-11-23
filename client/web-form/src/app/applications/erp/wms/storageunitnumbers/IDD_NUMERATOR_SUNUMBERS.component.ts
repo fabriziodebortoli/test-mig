@@ -30,8 +30,7 @@ import { IDD_NUMERATOR_SUNUMBERSService } from './IDD_NUMERATOR_SUNUMBERS.servic
   "namespace": "ERP.WMS.Components.SorageUnitPrefixEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'StorageUnitNumbers':['LastSUNo','LastSUDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'StorageUnitNumbers':['LastSUNo','LastSUDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

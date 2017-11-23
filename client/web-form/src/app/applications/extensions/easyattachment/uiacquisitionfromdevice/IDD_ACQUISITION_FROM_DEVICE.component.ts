@@ -30,8 +30,7 @@ import { IDD_ACQUISITION_FROM_DEVICEService } from './IDD_ACQUISITION_FROM_DEVIC
   "namespace": "Extensions.EasyAttachment.TbDMS.ExtensionsToScanItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['sSource','sFile','sExtension','bSeparateFiles','bSplitPage','bSplitBarcode']});
+        		this.bo.appendToModelStructure({'global':['sSource','sFile','sExtension','bSeparateFiles','bSplitPage','bSplitBarcode']});
 
     }
 

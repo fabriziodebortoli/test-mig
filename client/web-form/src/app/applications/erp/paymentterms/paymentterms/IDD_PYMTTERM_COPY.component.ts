@@ -25,8 +25,7 @@ import { IDD_PYMTTERM_COPYService } from './IDD_PYMTTERM_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Code']});
+        		this.bo.appendToModelStructure({'global':['Code']});
 
     }
 

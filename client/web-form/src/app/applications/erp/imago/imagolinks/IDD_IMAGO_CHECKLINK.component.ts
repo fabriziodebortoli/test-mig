@@ -25,8 +25,7 @@ import { IDD_IMAGO_CHECKLINKService } from './IDD_IMAGO_CHECKLINK.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

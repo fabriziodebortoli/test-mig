@@ -35,8 +35,7 @@ this.IDC_FEETEMPLATES_PERCENTAGE_ENASARCOFIRM_itemSource = {
   "namespace": "ERP.Payees.Components.PercentualEnasarcoItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'FeeTemplates':['FeeTpl','Description','TaxPerc','WithholdingTaxPerc','WithholdingTaxBasePerc','Duty','Form770Frame','DirectorRemuneration','INPSCalculationType','ENASARCOPerc','ENASARCOPercSalesPerson','ENASARCOAssPerc','ENASARCOAssPercSP'],'global':['ComboWT','Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLDutyCodes':['Description'],'HKLINPSParameters':['INPSMethodDescri'],'Detail':['Description','Amount','Tax','WithholdingTax','ENASARCO','INPS','WithholdingTaxExcluded','IsAnAdvanceExpense','CPA']});
+        		this.bo.appendToModelStructure({'FeeTemplates':['FeeTpl','Description','TaxPerc','WithholdingTaxPerc','WithholdingTaxBasePerc','Duty','Form770Frame','DirectorRemuneration','INPSCalculationType','ENASARCOPerc','ENASARCOPercSalesPerson','ENASARCOAssPerc','ENASARCOAssPercSP'],'global':['ComboWT','Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLDutyCodes':['Description'],'HKLINPSParameters':['INPSMethodDescri'],'Detail':['Description','Amount','Tax','WithholdingTax','ENASARCO','INPS','WithholdingTaxExcluded','IsAnAdvanceExpense','CPA']});
 
     }
 

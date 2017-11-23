@@ -25,8 +25,7 @@ import { IDD_LOAD_PRODPLANService } from './IDD_LOAD_PRODPLAN.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'LoadProdPlan':['ProductionPlanNo','Description','Notes'],'global':['LoadProdPlanDetails'],'LoadProdPlanDetails':['Selected','Line','BOM','Variant','BoMDes','LocalUoM','ProductionQty','ExpectedDeliveryDate']});
+        		this.bo.appendToModelStructure({'LoadProdPlan':['ProductionPlanNo','Description','Notes'],'global':['LoadProdPlanDetails'],'LoadProdPlanDetails':['Selected','Line','BOM','Variant','BoMDes','LocalUoM','ProductionQty','ExpectedDeliveryDate']});
 
     }
 

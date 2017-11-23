@@ -25,8 +25,7 @@ import { IDD_USER_DEF_PURCH_CODES_PURCHASESService } from './IDD_USER_DEF_PURCH_
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllBranches','bAllWorkers','UserDefaultPurchasesByDocType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultPurchases':['Branch','BranchDesc','WorkerID','WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllBranches','bAllWorkers','UserDefaultPurchasesByDocType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultPurchases':['Branch','BranchDesc','WorkerID','WorkerDesc']});
 
     }
 

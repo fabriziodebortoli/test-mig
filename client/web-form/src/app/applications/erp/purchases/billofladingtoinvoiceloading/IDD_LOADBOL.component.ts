@@ -25,8 +25,7 @@ import { IDD_LOADBOLService } from './IDD_LOADBOL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BillOfLadingToInvoiceLoading'],'BillOfLadingToInvoiceLoading':['Sel','SupplierDocNo','SupplierDocDate','DocNo','DocumentDate','Currency','Payment','TaxJournal','StubBook','ConfInvRsn']});
+        		this.bo.appendToModelStructure({'global':['BillOfLadingToInvoiceLoading'],'BillOfLadingToInvoiceLoading':['Sel','SupplierDocNo','SupplierDocDate','DocNo','DocumentDate','Currency','Payment','TaxJournal','StubBook','ConfInvRsn']});
 
     }
 

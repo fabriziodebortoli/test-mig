@@ -25,8 +25,7 @@ import { IDD_PD_JE_GENERATE_NATURE_DIFFERENTService } from './IDD_PD_JE_GENERATE
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ForecastEdit','DefinitiveEdit','ReverseEdit','Simulation','GenPybleRcvbleAutoEdit','GenPybleRcvbleARequestEdit','NotGenPybleRcvbleEdit','GenerateCostAccountingAutomatic','NotGenerateCostAccounting','PostDate','AccrualDate','DocDate','ValueDate','DocNo','PostDate','AccrualDate','DocDate','ValueDate','DocNo','TaxJournal','TaxAccrualDate','PlafondAccrualDate','EUTaxJournal']});
+        		this.bo.appendToModelStructure({'global':['ForecastEdit','DefinitiveEdit','ReverseEdit','Simulation','GenPybleRcvbleAutoEdit','GenPybleRcvbleARequestEdit','NotGenPybleRcvbleEdit','GenerateCostAccountingAutomatic','NotGenerateCostAccounting','PostDate','AccrualDate','DocDate','ValueDate','DocNo','PostDate','AccrualDate','DocDate','ValueDate','DocNo','TaxJournal','TaxAccrualDate','PlafondAccrualDate','EUTaxJournal']});
 
     }
 

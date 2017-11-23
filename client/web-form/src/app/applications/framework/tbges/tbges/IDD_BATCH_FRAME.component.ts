@@ -25,8 +25,7 @@ import { IDD_BATCH_FRAMEService } from './IDD_BATCH_FRAME.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

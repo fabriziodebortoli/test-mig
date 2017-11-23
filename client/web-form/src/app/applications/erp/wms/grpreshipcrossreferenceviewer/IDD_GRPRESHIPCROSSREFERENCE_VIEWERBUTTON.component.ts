@@ -25,8 +25,7 @@ import { IDD_GRPRESHIPCROSSREFERENCE_VIEWERBUTTONService } from './IDD_GRPRESHIP
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

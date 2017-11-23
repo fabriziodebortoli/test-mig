@@ -25,8 +25,7 @@ import { IDD_ITEM_CHOOSE_IMPORTService } from './IDD_ITEM_CHOOSE_IMPORT.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ItemsBookForImport'],'ItemsBookForImport':['Selected','Items','Description','QtyToImport']});
+        		this.bo.appendToModelStructure({'global':['ItemsBookForImport'],'ItemsBookForImport':['Selected','Items','Description','QtyToImport']});
 
     }
 

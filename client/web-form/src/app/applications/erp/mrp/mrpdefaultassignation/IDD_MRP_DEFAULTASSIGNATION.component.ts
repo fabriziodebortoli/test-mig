@@ -25,8 +25,7 @@ import { IDD_MRP_DEFAULTASSIGNATIONService } from './IDD_MRP_DEFAULTASSIGNATION.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bStockLevelHorizon','nStockLevelHorizon','bMinimumQty','nMinimumQty','bMRPPolicy','eMRPPolicy','bEOQ','nEOQ','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bStockLevelHorizon','nStockLevelHorizon','bMinimumQty','nMinimumQty','bMRPPolicy','eMRPPolicy','bEOQ','nEOQ','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_DETYPOLOGY_FULLService } from './IDD_DETYPOLOGY_FULL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Materials':['Material','Offset','Disabled','Offset','Disabled','Description'],'global':['PackageTypes','UnitValue','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Materials':['Material','Offset','Disabled','Offset','Disabled','Description'],'global':['PackageTypes','UnitValue','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

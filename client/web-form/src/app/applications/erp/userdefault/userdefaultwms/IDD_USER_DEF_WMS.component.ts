@@ -25,8 +25,7 @@ import { IDD_USER_DEF_WMSService } from './IDD_USER_DEF_WMS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllBranches','bAllWorkers','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultWMS':['Branch','BranchDesc','WorkerID','WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllBranches','bAllWorkers','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultWMS':['Branch','BranchDesc','WorkerID','WorkerDesc']});
 
     }
 

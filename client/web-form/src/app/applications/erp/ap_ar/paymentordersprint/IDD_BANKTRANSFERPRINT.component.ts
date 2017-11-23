@@ -30,8 +30,7 @@ import { IDD_BANKTRANSFERPRINTService } from './IDD_BANKTRANSFERPRINT.service';
   "namespace": "ERP.AP_AR.Documents.EnumComboBankTransfer"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BankTransferType','AllSel1','SlipSel','SlipNo','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','bPrintIBAN','bUseOneDateForForeign','bNewRecordP9','SupporttName','Transmit'],'HKLBank':['Description']});
+        		this.bo.appendToModelStructure({'global':['BankTransferType','AllSel1','SlipSel','SlipNo','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','bPrintIBAN','bUseOneDateForForeign','bNewRecordP9','SupporttName','Transmit'],'HKLBank':['Description']});
 
     }
 

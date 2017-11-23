@@ -25,8 +25,7 @@ import { IDD_ACCBOOKATTACHMENTSService } from './IDD_ACCBOOKATTACHMENTS.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccBookAttachments':['AttachCode','Disabled','Description','PrintOrder','IsAReport','ReportNamespace','TableTitle','PrintOnlyColDescri','PrintSignColumn','PrintTotal','PrintAccountColumns'],'global':['AccBookAttachmentsDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AccBookAttachmentsDetail':['Description','LineType','Amount','Account'],'HKLAccount':['Description']});
+        		this.bo.appendToModelStructure({'AccBookAttachments':['AttachCode','Disabled','Description','PrintOrder','IsAReport','ReportNamespace','TableTitle','PrintOnlyColDescri','PrintSignColumn','PrintTotal','PrintAccountColumns'],'global':['AccBookAttachmentsDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AccBookAttachmentsDetail':['Description','LineType','Amount','Account'],'HKLAccount':['Description']});
 
     }
 

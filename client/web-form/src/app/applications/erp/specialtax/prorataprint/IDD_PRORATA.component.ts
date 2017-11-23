@@ -25,8 +25,7 @@ import { IDD_PRORATAService } from './IDD_PRORATA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromPeriod','ToPeriod','DebitCredit','Amount','LastTaxPymt','ProvProRataUndeductible','ProvProRataDeductible','UpdateTaxData']});
+        		this.bo.appendToModelStructure({'global':['FromPeriod','ToPeriod','DebitCredit','Amount','LastTaxPymt','ProvProRataUndeductible','ProvProRataDeductible','UpdateTaxData']});
 
     }
 

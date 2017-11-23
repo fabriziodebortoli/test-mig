@@ -25,8 +25,7 @@ import { IDD_BIN_MAINTENANCEService } from './IDD_BIN_MAINTENANCE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','bAllBin','bSelBin','FromBin','ToBin','bBlocked','bUnBlocked','bEnable','bDisable','bBinMainCancel','DBTEnhBinMaintenance'],'DBTEnhBinMaintenance':['l_Selection','Bin','Storage','Zone','Section','Disabled','Blocked']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','bAllBin','bSelBin','FromBin','ToBin','bBlocked','bUnBlocked','bEnable','bDisable','bBinMainCancel','DBTEnhBinMaintenance'],'DBTEnhBinMaintenance':['l_Selection','Bin','Storage','Zone','Section','Disabled','Blocked']});
 
     }
 

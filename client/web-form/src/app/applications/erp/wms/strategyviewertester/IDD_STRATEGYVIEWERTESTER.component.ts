@@ -25,8 +25,7 @@ import { IDD_STRATEGYVIEWERTESTERService } from './IDD_STRATEGYVIEWERTESTER.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

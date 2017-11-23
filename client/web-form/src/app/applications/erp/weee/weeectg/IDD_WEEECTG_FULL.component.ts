@@ -25,8 +25,7 @@ import { IDD_WEEECTG_FULLService } from './IDD_WEEECTG_FULL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'WEEECategories':['Category','Description','TaxCode','Offset'],'HKLTaxCode':['Description'],'HKLCoAOffset':['Description'],'global':['WEEEAmount','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WEEEAmount':['StartingValidityDate','EndingValidityDate','Amount']});
+        		this.bo.appendToModelStructure({'WEEECategories':['Category','Description','TaxCode','Offset'],'HKLTaxCode':['Description'],'HKLCoAOffset':['Description'],'global':['WEEEAmount','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WEEEAmount':['StartingValidityDate','EndingValidityDate','Amount']});
 
     }
 

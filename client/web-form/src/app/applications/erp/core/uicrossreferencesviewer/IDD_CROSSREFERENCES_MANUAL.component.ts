@@ -30,8 +30,7 @@ import { IDD_CROSSREFERENCES_MANUALService } from './IDD_CROSSREFERENCES_MANUAL.
   "namespace": "ERP.Core.Components.CrossReferencesEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CRViewerManualDocumentType','CRViewerHKLDoc','CRViewerNoteForEdit']});
+        		this.bo.appendToModelStructure({'global':['CRViewerManualDocumentType','CRViewerHKLDoc','CRViewerNoteForEdit']});
 
     }
 

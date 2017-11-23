@@ -25,8 +25,7 @@ import { IDD_COSTACCENTRIESFROMPURCHASEService } from './IDD_COSTACCENTRIESFROMP
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PurchasesFromPostDate','PurchasesToPostDate','Purchased','AllTaxJournalRadio','TaxJournalRadioSel','TaxJournalFrom','TaxJournalFrom','TaxJournalTo','PurchasesInputDate','PurchasesCostAccPostDate','PurchasesDocPostDate','PurchasesDocDate','PurchasesAccrualEqualToPosting','nCurrentElement','GaugeDescription'],'HKLTaxJournalFrom':['Description','Description'],'HKLTaxJournalTo':['Description']});
+        		this.bo.appendToModelStructure({'global':['PurchasesFromPostDate','PurchasesToPostDate','Purchased','AllTaxJournalRadio','TaxJournalRadioSel','TaxJournalFrom','TaxJournalFrom','TaxJournalTo','PurchasesInputDate','PurchasesCostAccPostDate','PurchasesDocPostDate','PurchasesDocDate','PurchasesAccrualEqualToPosting','nCurrentElement','GaugeDescription'],'HKLTaxJournalFrom':['Description','Description'],'HKLTaxJournalTo':['Description']});
 
     }
 

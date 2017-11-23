@@ -37,8 +37,7 @@ this.IDC_PRODUCERS_STATUS_itemSource = {
   "parameter": "DataFile.ERP.Company.State"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Producers':['Producer','Disabled','CompanyName','ISOCountryCode','Notes','Address','Address2','StreetNo','District','City','ZIPCode','FederalState','Country','Address','Address2','City','ZIPCode','County','Country','Telephone1','Telephone2','Fax','ContactPerson','WorkingTime','EMail','Internet'],'global':['ProductCategory','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProductCategory':['Category'],'HKLProductCtg':['Description']});
+        		this.bo.appendToModelStructure({'Producers':['Producer','Disabled','CompanyName','ISOCountryCode','Notes','Address','Address2','StreetNo','District','City','ZIPCode','FederalState','Country','Address','Address2','City','ZIPCode','County','Country','Telephone1','Telephone2','Fax','ContactPerson','WorkingTime','EMail','Internet'],'global':['ProductCategory','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProductCategory':['Category'],'HKLProductCtg':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_CONSOLIDATIONService } from './IDD_CONSOLIDATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','ConsolidationDate','DataEnd','EntryID','EntryIDFrom','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','ConsolidationDate','DataEnd','EntryID','EntryIDFrom','nCurrentElement','GaugeDescription']});
 
     }
 

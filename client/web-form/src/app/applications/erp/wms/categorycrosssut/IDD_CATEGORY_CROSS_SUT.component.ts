@@ -25,8 +25,7 @@ import { IDD_CATEGORY_CROSS_SUTService } from './IDD_CATEGORY_CROSS_SUT.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CategoryCrossSUT':['Category','SUT'],'HKLWMCategory':['Description'],'HKLWMSUnitType':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CategoryCrossSUT':['Category','SUT'],'HKLWMCategory':['Description'],'HKLWMSUnitType':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -35,8 +35,7 @@ this.IDC_TS_EXPORT_CSV_FILE_BE_OPERATION_TYPE_itemSource = {
   "namespace": "ERP.TESANConnector.Components.TSOperationTypeCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','bDocTypeAll','bDocTypeSel','DocType','bDocDateAll','bDocDateSel','FromDocDate','ToDocDate','bDocNoAll','bDocNoSel','FromDocNo','ToDocNo','bJobAll','bJobSel','FromJob','ToJob','TSExportCsvFileDetail'],'TSExportCsvFileDetail':['TEnhTSExp_bSelected','SaleDocId','DocumentType','DocumentDate','DocNo','TEnhTSExp_Year','TEnhTSExp_TSChargeType','TEnhTSExp_TSChargeTypeDesc','TEnhTSExp_TSChargeTypeFlag','TEnhTSExp_TSChargeTypeFlagDesc','TEnhTSExp_AmountToTransfer','TEnhTSExp_TransferredAmount','TEnhTSExp_OperationType','TEnhTSExp_InstallmentDate']});
+        		this.bo.appendToModelStructure({'global':['Year','bDocTypeAll','bDocTypeSel','DocType','bDocDateAll','bDocDateSel','FromDocDate','ToDocDate','bDocNoAll','bDocNoSel','FromDocNo','ToDocNo','bJobAll','bJobSel','FromJob','ToJob','TSExportCsvFileDetail'],'TSExportCsvFileDetail':['TEnhTSExp_bSelected','SaleDocId','DocumentType','DocumentDate','DocNo','TEnhTSExp_Year','TEnhTSExp_TSChargeType','TEnhTSExp_TSChargeTypeDesc','TEnhTSExp_TSChargeTypeFlag','TEnhTSExp_TSChargeTypeFlagDesc','TEnhTSExp_AmountToTransfer','TEnhTSExp_TransferredAmount','TEnhTSExp_OperationType','TEnhTSExp_InstallmentDate']});
 
     }
 

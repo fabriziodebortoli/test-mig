@@ -25,8 +25,7 @@ import { IDD_PICKING_MATERIALS_QTY_CLOSUREService } from './IDD_PICKING_MATERIAL
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ProductionQty','bAssignLotStorageOnPicking','bPLPickAlsoMissingMOComponents','bProductionQtyAllSteps','bProductionQtyUntilStep','bProductionQtyOnlyStep','ProductionQtyStep']});
+        		this.bo.appendToModelStructure({'global':['ProductionQty','bAssignLotStorageOnPicking','bPLPickAlsoMissingMOComponents','bProductionQtyAllSteps','bProductionQtyUntilStep','bProductionQtyOnlyStep','ProductionQtyStep']});
 
     }
 

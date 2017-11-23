@@ -25,8 +25,7 @@ import { IDD_CRP_CONFIRMATIONService } from './IDD_CRP_CONFIRMATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bMoMrp','CRPMOSelection'],'CRPMOSelection':['TMO_Selection','MONo','BOM','Variant','Job','Customer','InternalOrdNo','DeliveryDate'],'HKLBOM':['Description'],'HKLJob':['Description'],'HKLCustomer':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['bMoMrp','CRPMOSelection'],'CRPMOSelection':['TMO_Selection','MONo','BOM','Variant','Job','Customer','InternalOrdNo','DeliveryDate'],'HKLBOM':['Description'],'HKLJob':['Description'],'HKLCustomer':['CompanyName']});
 
     }
 

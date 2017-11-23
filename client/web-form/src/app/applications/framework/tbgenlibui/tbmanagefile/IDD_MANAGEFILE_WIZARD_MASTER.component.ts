@@ -19,8 +19,7 @@ export class IDD_MANAGEFILE_WIZARD_MASTERComponent extends BOSlaveComponent impl
 
     ngOnInit() {
         super.ngOnInit();
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
     ngOnDestroy() {

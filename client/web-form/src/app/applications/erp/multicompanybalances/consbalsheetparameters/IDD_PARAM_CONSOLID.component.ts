@@ -25,8 +25,7 @@ import { IDD_PARAM_CONSOLIDService } from './IDD_PARAM_CONSOLID.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AccountRootToSkip','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AccountRootToSkip':['ConsolidationAccount'],'HKLBodyAccount':['Description']});
+        		this.bo.appendToModelStructure({'global':['AccountRootToSkip','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AccountRootToSkip':['ConsolidationAccount'],'HKLBodyAccount':['Description']});
 
     }
 

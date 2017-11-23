@@ -25,8 +25,7 @@ import { IDD_SALE_ORD_EDITService } from './IDD_SALE_ORD_EDIT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SaleOrdFulfilmentEditing':['InternalOrdNo','Customer'],'global':['SaleOrdFulfilmentDetailEditing'],'SaleOrdFulfilmentDetailEditing':['l_Sel','Position','CloseSaleOrdPos','LineType','ExpectedDeliveryDate','Item','Description','UoM','Qty','UnitValue','TaxCode','DiscountFormula','DiscountAmount','TaxableAmount','TotalAmount']});
+        		this.bo.appendToModelStructure({'SaleOrdFulfilmentEditing':['InternalOrdNo','Customer'],'global':['SaleOrdFulfilmentDetailEditing'],'SaleOrdFulfilmentDetailEditing':['l_Sel','Position','CloseSaleOrdPos','LineType','ExpectedDeliveryDate','Item','Description','UoM','Qty','UnitValue','TaxCode','DiscountFormula','DiscountAmount','TaxableAmount','TotalAmount']});
 
     }
 

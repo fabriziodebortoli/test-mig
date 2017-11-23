@@ -31,8 +31,7 @@ import { IDD_LANGUAGES_FRAMEService } from './IDD_LANGUAGES_FRAME.service';
   "parameter": "DataFile.ERP.Languages.Culture"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Languages':['Language','Description','Culture'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Languages':['Language','Description','Culture'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

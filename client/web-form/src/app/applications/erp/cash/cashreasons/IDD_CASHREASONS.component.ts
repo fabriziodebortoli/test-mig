@@ -25,8 +25,7 @@ import { IDD_CASHREASONSService } from './IDD_CASHREASONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CashReasons':['Reason','Description','OperationType','DocNoIsMand','AutoNumbering','AutoPrint','Account','AccTpl','AccRsn','CostCenter','Job'],'HKLAccount':['Description'],'HKLAccTpl':['Description'],'HKLAccRsn':['Description'],'HKLCostCenters':['Description'],'HKLJobs':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CashReasons':['Reason','Description','OperationType','DocNoIsMand','AutoNumbering','AutoPrint','Account','AccTpl','AccRsn','CostCenter','Job'],'HKLAccount':['Description'],'HKLAccTpl':['Description'],'HKLAccRsn':['Description'],'HKLCostCenters':['Description'],'HKLJobs':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

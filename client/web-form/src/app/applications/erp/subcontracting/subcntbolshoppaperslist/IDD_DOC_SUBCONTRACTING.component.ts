@@ -25,8 +25,7 @@ import { IDD_DOC_SUBCONTRACTINGService } from './IDD_DOC_SUBCONTRACTING.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bPurchaseOrder','bSubcntDN','bAll','bAlsoDescriptionLines','SubcntBoLShopPapersList'],'SubcntBoLShopPapersList':['Selection','BOMSubcontracting','DocumentNumber','Position','BOM','Variant','BOMDescri','Operation','OperationDescri','UoM','DocQty','ConfirmedQty','DocBoLQty','MONo','RtgStep','Alternate','AltRtgStep','Job','Customer','SaleOrdNo']});
+        		this.bo.appendToModelStructure({'global':['bPurchaseOrder','bSubcntDN','bAll','bAlsoDescriptionLines','SubcntBoLShopPapersList'],'SubcntBoLShopPapersList':['Selection','BOMSubcontracting','DocumentNumber','Position','BOM','Variant','BOMDescri','Operation','OperationDescri','UoM','DocQty','ConfirmedQty','DocBoLQty','MONo','RtgStep','Alternate','AltRtgStep','Job','Customer','SaleOrdNo']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_LIFOFIFO_DELETE_ORPHANSService } from './IDD_LIFOFIFO_DELETE_ORPHAN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bDeleteLoadsWithoutLinkedInvEntries','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bDeleteLoadsWithoutLinkedInvEntries','nCurrentElement','GaugeDescription']});
 
     }
 

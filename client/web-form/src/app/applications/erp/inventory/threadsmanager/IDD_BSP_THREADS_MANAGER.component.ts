@@ -25,8 +25,7 @@ import { IDD_BSP_THREADS_MANAGERService } from './IDD_BSP_THREADS_MANAGER.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

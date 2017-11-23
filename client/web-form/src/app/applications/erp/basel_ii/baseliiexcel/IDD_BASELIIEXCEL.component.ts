@@ -30,8 +30,7 @@ import { IDD_BASELIIEXCELService } from './IDD_BASELIIEXCEL.service';
   "namespace": "ERP.Basel_II.Documents.CalcSheetMapItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','Month','bRounding','CalcSheetId','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','Month','bRounding','CalcSheetId','nCurrentElement','GaugeDescription']});
 
     }
 

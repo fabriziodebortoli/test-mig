@@ -25,8 +25,7 @@ import { IDD_PRINTINTENTLETTERService } from './IDD_PRINTINTENTLETTER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','LogNo','Reprint','CustSuppAll','CustSuppSel','FromCode','CustSuppSel','FromCode','FromCode','ToCode','TaxCode','ISOCode','IssueDate','DeclType','LimitAmount','FromDate','ToDate','LongDescri','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['Year','LogNo','Reprint','CustSuppAll','CustSuppSel','FromCode','CustSuppSel','FromCode','FromCode','ToCode','TaxCode','ISOCode','IssueDate','DeclType','LimitAmount','FromDate','ToDate','LongDescri','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
 
     }
 

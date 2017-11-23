@@ -25,8 +25,7 @@ import { IDD_DATA_PLAFOND_TAXService } from './IDD_DATA_PLAFOND_TAX.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxPlafondData':['BalanceYear','BalanceMonth','Inside','Importing','EUPurchases','ForecastInside','ForecastImporting','ForecastEUPurchases'],'global':['Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxPlafondData':['BalanceYear','BalanceMonth','Inside','Importing','EUPurchases','ForecastInside','ForecastImporting','ForecastEUPurchases'],'global':['Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

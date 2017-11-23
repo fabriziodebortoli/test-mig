@@ -35,8 +35,7 @@ this.IDC_ESPLOS_CODETYPE_BOM_SEL_itemSource = {
   "namespace": "ERP.BillOfMaterials.Components.TypeBillOfMaterialsItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bBOMSelAll','bBOMTypeSel','BOMTypeByType','bBOMSel','BOMTypeSel','FromBOM','ToBOM','bBOMSelNone','bAllItemVariants','bItemVariantSel','FromItem','ToItem','bNotExplodeItemVariant','bAllVariants','bSelVariant','FromVariant','ToVariant','bNotExplodeVariant','bRoutingsExplosion','bAlsoSemifinished','bAlsoDisabledBOM','bApplyECO','ECODate','ECORevision','bLevelSelAll','bLevelSel','NrLevels','bDateSelAll','bSelData','Date','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['bBOMSelAll','bBOMTypeSel','BOMTypeByType','bBOMSel','BOMTypeSel','FromBOM','ToBOM','bBOMSelNone','bAllItemVariants','bItemVariantSel','FromItem','ToItem','bNotExplodeItemVariant','bAllVariants','bSelVariant','FromVariant','ToVariant','bNotExplodeVariant','bRoutingsExplosion','bAlsoSemifinished','bAlsoDisabledBOM','bApplyECO','ECODate','ECORevision','bLevelSelAll','bLevelSel','NrLevels','bDateSelAll','bSelData','Date','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

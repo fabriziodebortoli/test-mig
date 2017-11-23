@@ -25,8 +25,7 @@ import { IDD_ISO_COUNTRIESService } from './IDD_ISO_COUNTRIES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ISOCountryCodes':['ISOCountryCode','Disabled','Description','TelephonePrefix','CountryCode','BlackList','EUCountry','SimplifiedIntrastat','NumberFormat','DateFormat','TimeFormat','Language','Currency'],'HKLLanguages':['Description'],'HKLCurrencies':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ISOCountryCodes':['ISOCountryCode','Disabled','Description','TelephonePrefix','CountryCode','BlackList','EUCountry','SimplifiedIntrastat','NumberFormat','DateFormat','TimeFormat','Language','Currency'],'HKLLanguages':['Description'],'HKLCurrencies':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

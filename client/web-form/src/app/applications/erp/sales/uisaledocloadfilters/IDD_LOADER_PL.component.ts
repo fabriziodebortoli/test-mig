@@ -25,8 +25,7 @@ import { IDD_LOADER_PLService } from './IDD_LOADER_PL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DNFilter']});
+        		this.bo.appendToModelStructure({'global':['DNFilter']});
 
     }
 

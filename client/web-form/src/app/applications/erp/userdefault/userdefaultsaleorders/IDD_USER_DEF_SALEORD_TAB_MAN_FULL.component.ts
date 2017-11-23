@@ -25,8 +25,7 @@ import { IDD_USER_DEF_SALEORD_TAB_MAN_FULLService } from './IDD_USER_DEF_SALEORD
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllBranches','bAllWorkers','UserDefaultSaleOrdersByDocType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultSaleOrders':['Branch','BranchDesc','WorkerID','WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllBranches','bAllWorkers','UserDefaultSaleOrdersByDocType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultSaleOrders':['Branch','BranchDesc','WorkerID','WorkerDesc']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_INITIALVALUESPOSTINGService } from './IDD_INITIALVALUESPOSTING.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','AllFA','FASel','FromFA','ToFA','Process']});
+        		this.bo.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','AllFA','FASel','FromFA','ToFA','Process']});
 
     }
 

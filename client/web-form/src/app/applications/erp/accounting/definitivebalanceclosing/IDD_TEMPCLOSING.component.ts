@@ -25,8 +25,7 @@ import { IDD_TEMPCLOSINGService } from './IDD_TEMPCLOSING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Accounts','CustSupp','ForecastBalances','Block','bAccBookAttach','TaxData','TaxDeclData','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Accounts','CustSupp','ForecastBalances','Block','bAccBookAttach','TaxData','TaxDeclData','nCurrentElement','GaugeDescription']});
 
     }
 

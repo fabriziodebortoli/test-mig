@@ -25,8 +25,7 @@ import { IDD_UPDATE_ACTUALService } from './IDD_UPDATE_ACTUAL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SelectorStartingDate','SelectorEndingDate','SelectorAllCustomer','SelectorCustomerSel','SelectorFromCustomer','SelectorToCustomer','ActualClear','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['SelectorStartingDate','SelectorEndingDate','SelectorAllCustomer','SelectorCustomerSel','SelectorFromCustomer','SelectorToCustomer','ActualClear','nCurrentElement','GaugeDescription']});
 
     }
 

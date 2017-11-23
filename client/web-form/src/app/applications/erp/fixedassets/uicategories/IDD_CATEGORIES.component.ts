@@ -30,8 +30,7 @@ import { IDD_CATEGORIESService } from './IDD_CATEGORIES.service';
   "namespace": "ERP.FixedAssets.Documents.CtgFiscalDepreciationEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Categories':['Category','Description','PartDeprPerc','PartDeprLimit','ChargesNoOfyears','ChargesPerc','LifePeriod','DepreciationMethod','MinLifePeriod','MaxLifePeriod','OfficialPerc','FirstFiscalYearPerc','MinimumPerc','AcceleratedPerc','AcceleratedDisabled','AcceleratedNoOfYears','OfficialPerc','DepreciateByLifePeriod','LifePeriod','BalancePerc','CategoryAccount','DeprAccount','AccumDeprAccount','AcceleratedDeprAccount','AcceleratedAccumDeprAccount'],'global':['CategoryType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLCoAAccountCategoryAccount':['Description'],'HKLCoAAccountAccountDepr':['Description'],'HKLCoAAccountAccountFDepr':['Description'],'HKLCoAAccountAccountDeprAnt':['Description'],'HKLCoAAccountAccountFDeprAnt':['Description']});
+        		this.bo.appendToModelStructure({'Categories':['Category','Description','PartDeprPerc','PartDeprLimit','ChargesNoOfyears','ChargesPerc','LifePeriod','DepreciationMethod','MinLifePeriod','MaxLifePeriod','OfficialPerc','FirstFiscalYearPerc','MinimumPerc','AcceleratedPerc','AcceleratedDisabled','AcceleratedNoOfYears','OfficialPerc','DepreciateByLifePeriod','LifePeriod','BalancePerc','CategoryAccount','DeprAccount','AccumDeprAccount','AcceleratedDeprAccount','AcceleratedAccumDeprAccount'],'global':['CategoryType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLCoAAccountCategoryAccount':['Description'],'HKLCoAAccountAccountDepr':['Description'],'HKLCoAAccountAccountFDepr':['Description'],'HKLCoAAccountAccountDeprAnt':['Description'],'HKLCoAAccountAccountFDeprAnt':['Description']});
 
     }
 

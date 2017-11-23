@@ -30,8 +30,7 @@ import { IDD_WEEEENTRY_FULLService } from './IDD_WEEEENTRY_FULL.service';
   "namespace": "ERP.WEEE.Documents.DocTypeWEEEEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'WEEEEntries':['EntryDate','Customer','Item','Category','CombinedNomenclature','PRODCOM','Qty','TotalContributionAmount','DocumentType','DocumentLine','DocumentNumber','DocumentDate'],'HKLCustomer':['CompNameComplete'],'HKLItem':['Description'],'HKLWEEECtg':['Description'],'global':['UnitaryContributionAmount','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'WEEEEntries':['EntryDate','Customer','Item','Category','CombinedNomenclature','PRODCOM','Qty','TotalContributionAmount','DocumentType','DocumentLine','DocumentNumber','DocumentDate'],'HKLCustomer':['CompNameComplete'],'HKLItem':['Description'],'HKLWEEECtg':['Description'],'global':['UnitaryContributionAmount','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

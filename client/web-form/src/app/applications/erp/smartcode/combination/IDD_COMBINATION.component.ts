@@ -25,8 +25,7 @@ import { IDD_COMBINATIONService } from './IDD_COMBINATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SegmentsComb':['Segment','Combination'],'HKLSegments':['Description'],'HKLSegmentsComb':['Description'],'global':['SegmentsCombState','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SegmentsCombState':['ISOCountryCode','Description','Currency','Language','Price','Notes'],'HKLISOCountryCode':['Description']});
+        		this.bo.appendToModelStructure({'SegmentsComb':['Segment','Combination'],'HKLSegments':['Description'],'HKLSegmentsComb':['Description'],'global':['SegmentsCombState','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SegmentsCombState':['ISOCountryCode','Description','Currency','Language','Price','Notes'],'HKLISOCountryCode':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_LIFO_FIFO_REVService } from './IDD_LIFO_FIFO_REV.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bFIFORevaluate','bLIFORevaluate','OperationDate','RevaluateInvRsn','FIFOLIFORevaluation'],'FIFOLIFORevaluation':['IsSelected','Item','Description','BaseUoM','FinalBookInv','BookInvValue','UnitValue','RevaluateBookInvValue','Note']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bFIFORevaluate','bLIFORevaluate','OperationDate','RevaluateInvRsn','FIFOLIFORevaluation'],'FIFOLIFORevaluation':['IsSelected','Item','Description','BaseUoM','FinalBookInv','BookInvValue','UnitValue','RevaluateBookInvValue','Note']});
 
     }
 

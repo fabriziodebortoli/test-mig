@@ -25,8 +25,7 @@ import { IDD_LOAD_CUSTCONTRService } from './IDD_LOAD_CUSTCONTR.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustContrLoading':['ContractNo','StartValidityDate','EndValidityDate','Customer','FixingDate','Fixing'],'HKLCustSupp':['CustSuppType','CompanyName','Currency'],'HKLCurrency':['Description'],'global':['CustContrLinesLoading','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContrLinesLoading':['Select','LineType','Item','Description','UoM','Quantity','UnitValue']});
+        		this.bo.appendToModelStructure({'CustContrLoading':['ContractNo','StartValidityDate','EndValidityDate','Customer','FixingDate','Fixing'],'HKLCustSupp':['CustSuppType','CompanyName','Currency'],'HKLCurrency':['Description'],'global':['CustContrLinesLoading','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContrLinesLoading':['Select','LineType','Item','Description','UoM','Quantity','UnitValue']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_STD_COST_UPDService } from './IDD_STD_COST_UPD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','UpdateStandardCost','UpdateBasePrice','ValidityDate','Standard','Average','Last','LIFO','FIFO','BasePrice','CostSel','DeltaCost','BasePriceIncludesTax','Rounding','RoundType','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','UpdateStandardCost','UpdateBasePrice','ValidityDate','Standard','Average','Last','LIFO','FIFO','BasePrice','CostSel','DeltaCost','BasePriceIncludesTax','Rounding','RoundType','nCurrentElement','GaugeDescription']});
 
     }
 

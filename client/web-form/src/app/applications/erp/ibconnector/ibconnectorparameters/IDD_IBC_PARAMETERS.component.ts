@@ -30,8 +30,7 @@ import { IDD_IBC_PARAMETERSService } from './IDD_IBC_PARAMETERS.service';
   "namespace": "ERP.IBConnector.Services.IBCDocTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'IBCConfigurations':['Configuration','DateType','StartDate','EndDate','Days'],'global':['IBCDocuments','IBCCustCollected','IBCCustExpired','IBCCustCollected','IBCSuppCollected','IBCCustCollected','IBCCustCollected','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IBCDocuments':['DocumentType','DocumentClass','DocumentCycle','ValueSign','CostSign','CommissionSign','QuantitySign'],'IBCCustCollected':['AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription'],'IBCCustExpired':['AgingPeriod','AgingPeriodDescription'],'IBCSuppCollected':['AgingPeriod','AgingPeriodDescription']});
+        		this.bo.appendToModelStructure({'IBCConfigurations':['Configuration','DateType','StartDate','EndDate','Days'],'global':['IBCDocuments','IBCCustCollected','IBCCustExpired','IBCCustCollected','IBCSuppCollected','IBCCustCollected','IBCCustCollected','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IBCDocuments':['DocumentType','DocumentClass','DocumentCycle','ValueSign','CostSign','CommissionSign','QuantitySign'],'IBCCustCollected':['AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription'],'IBCCustExpired':['AgingPeriod','AgingPeriodDescription'],'IBCSuppCollected':['AgingPeriod','AgingPeriodDescription']});
 
     }
 

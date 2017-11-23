@@ -25,8 +25,7 @@ import { IDD_PYMNTORDERSPRINTService } from './IDD_PYMNTORDERSPRINT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','NoticeOfPayments'],'HKLBank':['Description']});
+        		this.bo.appendToModelStructure({'global':['AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','NoticeOfPayments'],'HKLBank':['Description']});
 
     }
 

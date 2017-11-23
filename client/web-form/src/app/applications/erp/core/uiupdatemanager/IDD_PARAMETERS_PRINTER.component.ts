@@ -25,8 +25,7 @@ import { IDD_PARAMETERS_PRINTERService } from './IDD_PARAMETERS_PRINTER.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UpdateManagerbPrinterWithPrintPreview','UpdateManagerReportTitle','UpdateManagerReportTitle']});
+        		this.bo.appendToModelStructure({'global':['UpdateManagerbPrinterWithPrintPreview','UpdateManagerReportTitle','UpdateManagerReportTitle']});
 
     }
 

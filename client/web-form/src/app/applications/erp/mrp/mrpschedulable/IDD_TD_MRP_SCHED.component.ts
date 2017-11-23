@@ -25,8 +25,7 @@ import { IDD_TD_MRP_SCHEDService } from './IDD_TD_MRP_SCHED.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Simulation','Description','RunDate','Status','NumMO','NumRDA']});
+        		this.bo.appendToModelStructure({'global':['Simulation','Description','RunDate','Status','NumMO','NumRDA']});
 
     }
 

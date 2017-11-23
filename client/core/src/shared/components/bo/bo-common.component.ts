@@ -13,7 +13,7 @@ import { DocumentComponent } from './../document.component';
     styles: []
 })
 export class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
-    subscriptions: Subscription[] = [];
+    protected subscriptions: Subscription[] = [];
 
     constructor(
         document: BOService,

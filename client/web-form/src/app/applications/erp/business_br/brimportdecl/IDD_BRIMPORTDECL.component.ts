@@ -25,8 +25,7 @@ import { IDD_BRIMPORTDECLService } from './IDD_BRIMPORTDECL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRImportDecl':['Importer','ImporterCode','ExporterCode','ImportDeclarationNo','RegistrationDate','CustomsDate','IntermediationType','CustomsState','DischargePlace','InNotaFiscal','GrossWeight','NetWeight','Appearance','ModeOfTransport'],'HKLImporter':['CompNameCompleteWithTaxNumber'],'HKLExporter':['CompNameCompleteWithTaxNumber'],'HKLGoodsAppearance':['Description'],'HKLTransport':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRImportDecl':['Importer','ImporterCode','ExporterCode','ImportDeclarationNo','RegistrationDate','CustomsDate','IntermediationType','CustomsState','DischargePlace','InNotaFiscal','GrossWeight','NetWeight','Appearance','ModeOfTransport'],'HKLImporter':['CompNameCompleteWithTaxNumber'],'HKLExporter':['CompNameCompleteWithTaxNumber'],'HKLGoodsAppearance':['Description'],'HKLTransport':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

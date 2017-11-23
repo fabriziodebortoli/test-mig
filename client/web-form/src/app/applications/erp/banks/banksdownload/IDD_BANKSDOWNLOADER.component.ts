@@ -25,8 +25,7 @@ import { IDD_BANKSDOWNLOADERService } from './IDD_BANKSDOWNLOADER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromABI','ToABI','FromCAB','ToCAB','DownloadType','UpdateDate','bNewBanksFromUpdateFile','bCancelledBanks','bUpdateBanks','bAbsorbedBanks','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['FromABI','ToABI','FromCAB','ToCAB','DownloadType','UpdateDate','bNewBanksFromUpdateFile','bCancelledBanks','bUpdateBanks','bAbsorbedBanks','nCurrentElement','GaugeDescription']});
 
     }
 

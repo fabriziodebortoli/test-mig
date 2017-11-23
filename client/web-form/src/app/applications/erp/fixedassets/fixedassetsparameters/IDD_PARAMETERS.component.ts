@@ -30,8 +30,7 @@ import { IDD_PARAMETERSService } from './IDD_PARAMETERS.service';
   "namespace": "ERP.Accounting.Components.FiscalPrintoutsEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ParametersCoeff','CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ParametersCoeff':['FromPeriod','ToPeriod','RegrCoeff'],'CustomizedPrint':['CodeType','DescriptiveText']});
+        		this.bo.appendToModelStructure({'global':['ParametersCoeff','CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ParametersCoeff':['FromPeriod','ToPeriod','RegrCoeff'],'CustomizedPrint':['CodeType','DescriptiveText']});
 
     }
 

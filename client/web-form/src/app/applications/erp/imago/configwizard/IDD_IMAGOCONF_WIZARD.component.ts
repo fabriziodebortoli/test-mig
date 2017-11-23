@@ -25,8 +25,7 @@ import { IDD_IMAGOCONF_WIZARDService } from './IDD_IMAGOCONF_WIZARD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['InfinityURL','InfinityUserName','InfinityPassword','SkipCertificateValidation','InfinityCheckBtn','AppUsername','AppPassword','InfinityCompanies','IAFModules']});
+        		this.bo.appendToModelStructure({'global':['InfinityURL','InfinityUserName','InfinityPassword','SkipCertificateValidation','InfinityCheckBtn','AppUsername','AppPassword','InfinityCompanies','IAFModules']});
 
     }
 

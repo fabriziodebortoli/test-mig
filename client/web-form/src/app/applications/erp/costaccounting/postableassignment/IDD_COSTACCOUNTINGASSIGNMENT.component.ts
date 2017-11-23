@@ -25,8 +25,7 @@ import { IDD_COSTACCOUNTINGASSIGNMENTService } from './IDD_COSTACCOUNTINGASSIGNM
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllKind','bSelKind','Nature','AccountType','bAllAccount','bSelAccount','FromRoot','FromRoot','ToRoot','nCurrentElement','GaugeDescription'],'HKLFromAccount':['Description','Description'],'HKLToAccount':['Description']});
+        		this.bo.appendToModelStructure({'global':['bAllKind','bSelKind','Nature','AccountType','bAllAccount','bSelAccount','FromRoot','FromRoot','ToRoot','nCurrentElement','GaugeDescription'],'HKLFromAccount':['Description','Description'],'HKLToAccount':['Description']});
 
     }
 

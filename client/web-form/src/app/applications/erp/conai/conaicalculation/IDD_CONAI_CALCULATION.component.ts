@@ -25,8 +25,7 @@ import { IDD_CONAI_CALCULATIONService } from './IDD_CONAI_CALCULATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Detail'],'Detail':['Item','Material','PackageType','Description','Qty','ExemptQty','SubjectedQty','UnitValue','TaxableAmount','ExemptionPerc','TaxCode','Offset'],'HKLItems':['Description'],'HKLMaterials':['Description'],'HKLPackageTypes':['PackageTypeDescription']});
+        		this.bo.appendToModelStructure({'global':['Detail'],'Detail':['Item','Material','PackageType','Description','Qty','ExemptQty','SubjectedQty','UnitValue','TaxableAmount','ExemptionPerc','TaxCode','Offset'],'HKLItems':['Description'],'HKLMaterials':['Description'],'HKLPackageTypes':['PackageTypeDescription']});
 
     }
 

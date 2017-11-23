@@ -25,8 +25,7 @@ import { IDD_PLCLOSINGService } from './IDD_PLCLOSING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ProfitLoss','PLDescri','FiscalYearProfit','YearProfitDescri','FiscalYearLoss','YearLossDescri','PostDate','AccrualDate','DocNumberCost','DocNumberRevenue','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['ProfitLoss','PLDescri','FiscalYearProfit','YearProfitDescri','FiscalYearLoss','YearLossDescri','PostDate','AccrualDate','DocNumberCost','DocNumberRevenue','nCurrentElement','GaugeDescription']});
 
     }
 

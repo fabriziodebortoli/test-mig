@@ -25,8 +25,7 @@ import { IDD_INVENTRY_LOAD_FILTERService } from './IDD_INVENTRY_LOAD_FILTER.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bLoadInvEntryForLoadVariation','Reason','StoragePhase1','StoragePhase2','CustSuppTypeFD','CustSupp','FiscalDNNo','DocumentNoDoc','DocumentDate']});
+        		this.bo.appendToModelStructure({'global':['bLoadInvEntryForLoadVariation','Reason','StoragePhase1','StoragePhase2','CustSuppTypeFD','CustSupp','FiscalDNNo','DocumentNoDoc','DocumentDate']});
 
     }
 

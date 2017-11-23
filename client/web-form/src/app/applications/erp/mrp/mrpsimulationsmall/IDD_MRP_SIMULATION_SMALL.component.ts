@@ -25,8 +25,7 @@ import { IDD_MRP_SIMULATION_SMALLService } from './IDD_MRP_SIMULATION_SMALL.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTMRPSimulation':['Simulation','Description','RunDate'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTMRPSimulation':['Simulation','Description','RunDate'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

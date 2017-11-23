@@ -25,8 +25,7 @@ import { IDD_BLOCK_SUMMARYService } from './IDD_BLOCK_SUMMARY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Date','Template','TemplateDescr','Reason','ReasonDescr','AccountSummary','AccountSummaryDescr','AccountChild','AccountChildDescr']});
+        		this.bo.appendToModelStructure({'global':['Date','Template','TemplateDescr','Reason','ReasonDescr','AccountSummary','AccountSummaryDescr','AccountChild','AccountChildDescr']});
 
     }
 

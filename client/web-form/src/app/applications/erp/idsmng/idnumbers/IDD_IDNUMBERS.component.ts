@@ -30,8 +30,7 @@ import { IDD_IDNUMBERSService } from './IDD_IDNUMBERS.service';
   "namespace": "ERP.IdsMng.Services.NatureEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'IDNumbers':['CodeType','LastId'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'IDNumbers':['CodeType','LastId'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

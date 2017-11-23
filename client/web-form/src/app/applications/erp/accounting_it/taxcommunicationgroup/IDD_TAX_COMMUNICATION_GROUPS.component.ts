@@ -25,8 +25,7 @@ import { IDD_TAX_COMMUNICATION_GROUPSService } from './IDD_TAX_COMMUNICATION_GRO
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxCommunicationGroup':['TaxCommunicationGroup','Description','Notes','TaxableAmount','CustSuppType','CustSupp'],'global':['ComboStr','CompName','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxCommunicationGroup':['TaxCommunicationGroup','Description','Notes','TaxableAmount','CustSuppType','CustSupp'],'global':['ComboStr','CompName','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

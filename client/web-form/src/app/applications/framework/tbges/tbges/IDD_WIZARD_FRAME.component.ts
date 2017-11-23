@@ -25,8 +25,7 @@ import { IDD_WIZARD_FRAMEService } from './IDD_WIZARD_FRAME.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

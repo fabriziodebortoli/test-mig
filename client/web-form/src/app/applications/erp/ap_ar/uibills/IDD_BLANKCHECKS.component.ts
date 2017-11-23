@@ -25,8 +25,7 @@ import { IDD_BLANKCHECKSService } from './IDD_BLANKCHECKS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CompanyBank','CompanyBankCA','BillType','CheckNoFrom','Notes','CheckNoTo','ProcessStatus']});
+        		this.bo.appendToModelStructure({'global':['CompanyBank','CompanyBankCA','BillType','CheckNoFrom','Notes','CheckNoTo','ProcessStatus']});
 
     }
 

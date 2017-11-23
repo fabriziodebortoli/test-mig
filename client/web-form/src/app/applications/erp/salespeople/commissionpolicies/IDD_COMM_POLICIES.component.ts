@@ -40,8 +40,7 @@ this.IDC_DESALEPERSONPOLICIES_DETAIL_BE_CROSSINGCODETYPE2_itemSource = {
   "namespace": "ERP.SalesPeople.Documents.CrossingCodeTypeCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommissionPolicy':['Policy','CommissionOnLines','Description','CommissionFormula','DiscountsDetail','AccrualType','AccrualPercAtInvoiceDate','CommissionType','FinalDiscountIncluded'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['AllCodes','_PolicyCommType','_CrossingCodeType','CrossingCode','_CrossingCodeType2','CrossingCode2','CrossingValue','SalespersonCommPerc','AreaManagerCommPerc','StartingFrom','CommissionType','FinalDiscountIncluded','Disabled']});
+        		this.bo.appendToModelStructure({'CommissionPolicy':['Policy','CommissionOnLines','Description','CommissionFormula','DiscountsDetail','AccrualType','AccrualPercAtInvoiceDate','CommissionType','FinalDiscountIncluded'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['AllCodes','_PolicyCommType','_CrossingCodeType','CrossingCode','_CrossingCodeType2','CrossingCode2','CrossingValue','SalespersonCommPerc','AreaManagerCommPerc','StartingFrom','CommissionType','FinalDiscountIncluded','Disabled']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_WT_PARAMETERSService } from './IDD_WT_PARAMETERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['WTParameterWorkers','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WTParameterWorkers':['ItemsCounter','ItemsCounterPutaway']});
+        		this.bo.appendToModelStructure({'global':['WTParameterWorkers','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WTParameterWorkers':['ItemsCounter','ItemsCounterPutaway']});
 
     }
 

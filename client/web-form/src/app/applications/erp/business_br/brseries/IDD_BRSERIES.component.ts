@@ -25,8 +25,7 @@ import { IDD_BRSERIESService } from './IDD_BRSERIES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRSeries':['Series','Disabled','Description','Model'],'global':['DBTBRSeriesUnusedNumbersDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRSeriesUnusedNumbersDetail':['FromNumber','ToNumber','OperationDate','ElabDate','AuthProtocol','AnswerStatus','AnswerStatusDescri','InutReason','MagoUserID']});
+        		this.bo.appendToModelStructure({'DBTBRSeries':['Series','Disabled','Description','Model'],'global':['DBTBRSeriesUnusedNumbersDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRSeriesUnusedNumbersDetail':['FromNumber','ToNumber','OperationDate','ElabDate','AuthProtocol','AnswerStatus','AnswerStatusDescri','InutReason','MagoUserID']});
 
     }
 

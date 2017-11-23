@@ -25,8 +25,7 @@ import { IDD_DELETE_CONTACTSService } from './IDD_DELETE_CONTACTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllContact','ContactSel','FromContact','ToContact','AllConv','NotConv','Conv','AllConversionDate','ConversionDateSel','FromConversionDate','ToConversionDate','Enabled','Disabled','Both','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['AllContact','ContactSel','FromContact','ToContact','AllConv','NotConv','Conv','AllConversionDate','ConversionDateSel','FromConversionDate','ToConversionDate','Enabled','Disabled','Both','nCurrentElement','GaugeDescription']});
 
     }
 

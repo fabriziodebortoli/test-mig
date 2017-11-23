@@ -25,8 +25,7 @@ import { IDD_OWNERCOMPANIESService } from './IDD_OWNERCOMPANIES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'OwnerCompanies':['Company','CompanyName','Currency','Language','ExpectedConsolidDayMonth','DefaultTemplate','Notes'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'HKLConsolidTemplates':['Description'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Template','Notes'],'HKLConsolidTemplatesSendings':['Description']});
+        		this.bo.appendToModelStructure({'OwnerCompanies':['Company','CompanyName','Currency','Language','ExpectedConsolidDayMonth','DefaultTemplate','Notes'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'HKLConsolidTemplates':['Description'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Template','Notes'],'HKLConsolidTemplatesSendings':['Description']});
 
     }
 

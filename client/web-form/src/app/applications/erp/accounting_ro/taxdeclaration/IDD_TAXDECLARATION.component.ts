@@ -25,8 +25,7 @@ import { IDD_TAXDECLARATIONService } from './IDD_TAXDECLARATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeclType','Year','Period','PrintFile','PrintPaper','Name','Surname','Function','ProcessStatus']});
+        		this.bo.appendToModelStructure({'global':['DeclType','Year','Period','PrintFile','PrintPaper','Name','Surname','Function','ProcessStatus']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_NUMERATOR_TAXJOURNALSService } from './IDD_NUMERATOR_TAXJOURNALS.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxJournalNumbers':['TaxJournal','LastDocDate','LastDocNo','Suffix','FirstNo','LastNo'],'HKLTaxJournals':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxJournalNumbers':['TaxJournal','LastDocDate','LastDocNo','Suffix','FirstNo','LastNo'],'HKLTaxJournals':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

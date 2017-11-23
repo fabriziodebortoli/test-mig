@@ -25,8 +25,7 @@ import { IDD_PYMTCASHTRANSFERSService } from './IDD_PYMTCASHTRANSFERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PaymentCashTransfers':['TransferDate','TransferAmount','SourcePymtCash','DestinationPymtCash','Notes'],'HKLPymtSourceCash':['Description'],'HKLPymtDestinationCash':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'PaymentCashTransfers':['TransferDate','TransferAmount','SourcePymtCash','DestinationPymtCash','Notes'],'HKLPymtSourceCash':['Description'],'HKLPymtDestinationCash':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

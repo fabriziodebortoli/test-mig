@@ -25,8 +25,7 @@ import { IDD_BARCODE_LABELService } from './IDD_BARCODE_LABEL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBarcodeLabel':['NamespaceReport','BarcodeStructureCode','BarcodeStructureCodeAlt1','BarcodeStructureCodeAlt2'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBarcodeLabel':['NamespaceReport','BarcodeStructureCode','BarcodeStructureCodeAlt1','BarcodeStructureCodeAlt2'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -30,8 +30,7 @@ import { IDD_BR_SERVICE_TYPESService } from './IDD_BR_SERVICE_TYPES.service';
   "namespace": "ERP.Business_BR.Components.BRServiceTypesEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRServiceTypes':['ServiceTypeCode','Description','Disabled'],'global':['DBTBRServiceTypesDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRServiceTypesDetail':['TaxRateType','TaxRateCode'],'HKLBRTaxRate':['Description']});
+        		this.bo.appendToModelStructure({'DBTBRServiceTypes':['ServiceTypeCode','Description','Disabled'],'global':['DBTBRServiceTypesDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRServiceTypesDetail':['TaxRateType','TaxRateCode'],'HKLBRTaxRate':['Description']});
 
     }
 

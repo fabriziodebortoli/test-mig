@@ -25,8 +25,7 @@ import { IDD_ACTION_SNAPSHOT_CREATEService } from './IDD_ACTION_SNAPSHOT_CREATE.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllStorage','bSelectionStorage','SelectedStorage','bAllZone','bSelectionZone','SelectedZone','bAllBins','bSelectBins','BinFrom','BinTo','bAllItems','bSelectItems','ItemFrom','ItemTo','bCertify','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllStorage','bSelectionStorage','SelectedStorage','bAllZone','bSelectionZone','SelectedZone','bAllBins','bSelectBins','BinFrom','BinTo','bAllItems','bSelectItems','ItemFrom','ItemTo','bCertify','nCurrentElement','GaugeDescription']});
 
     }
 

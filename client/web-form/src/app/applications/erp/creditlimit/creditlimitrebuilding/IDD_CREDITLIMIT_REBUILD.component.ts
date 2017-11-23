@@ -25,8 +25,7 @@ import { IDD_CREDITLIMIT_REBUILDService } from './IDD_CREDITLIMIT_REBUILD.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bOrdersNotDelivered','bDeliveryDocuments','bInvoices','AllCustomer','CustomerSel','FromCustomer','ToCustomer','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bOrdersNotDelivered','bDeliveryDocuments','bInvoices','AllCustomer','CustomerSel','FromCustomer','ToCustomer','nCurrentElement','GaugeDescription']});
 
     }
 

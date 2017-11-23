@@ -25,8 +25,7 @@ import { IDD_WMS_INVENTORYBIN_PLANNING_FRAMEService } from './IDD_WMS_INVENTORYB
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bNewInventory','bEditInventory','Number','InventoryDescription','Date','Storage','ExpandBmp','Selected','TreeDescri','Descri','BinZoneDescri','LastInventory','HandheldStatusBmp','HandheldStatusOtherCountBmp','Selected','TreeDescri','Descri','BinZoneDescri','Team','Worker','TeamDescription','FullName','BinZoneDescriOtherCount','TeamOtherCount','WorkerOtherCount','TeamOtherCountDescription','FullNameOtherCount'],'HKLStorage':['Description']});
+        		this.bo.appendToModelStructure({'global':['bNewInventory','bEditInventory','Number','InventoryDescription','Date','Storage','ExpandBmp','Selected','TreeDescri','Descri','BinZoneDescri','LastInventory','HandheldStatusBmp','HandheldStatusOtherCountBmp','Selected','TreeDescri','Descri','BinZoneDescri','Team','Worker','TeamDescription','FullName','BinZoneDescriOtherCount','TeamOtherCount','WorkerOtherCount','TeamOtherCountDescription','FullNameOtherCount'],'HKLStorage':['Description']});
 
     }
 

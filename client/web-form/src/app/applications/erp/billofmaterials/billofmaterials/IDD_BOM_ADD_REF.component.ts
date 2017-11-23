@@ -30,8 +30,7 @@ import { IDD_BOM_ADD_REFService } from './IDD_BOM_ADD_REF.service';
   "namespace": "ERP.BillOfMaterials.Documents.UseInOperationComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Operation','bInsertBefore','bInsertAfter']});
+        		this.bo.appendToModelStructure({'global':['Operation','bInsertBefore','bInsertAfter']});
 
     }
 

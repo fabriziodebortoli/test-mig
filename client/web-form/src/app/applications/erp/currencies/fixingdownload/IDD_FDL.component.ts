@@ -30,8 +30,7 @@ import { IDD_FDLService } from './IDD_FDL.service';
   "namespace": "ERP.Currencies.BatchDocuments.FixingProviderCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['strComboProvider','RequestedDate','DownloadedFixingDate','BaseCurrency','BaseCurrencyDescri','FixingDownload'],'FixingDownload':['l_Selected','ReferredCurrency','l_ReferredCurrencyDescription','FixingDate','FixingDate','l_InternationalCode','Fixing','l_NewFixing']});
+        		this.bo.appendToModelStructure({'global':['strComboProvider','RequestedDate','DownloadedFixingDate','BaseCurrency','BaseCurrencyDescri','FixingDownload'],'FixingDownload':['l_Selected','ReferredCurrency','l_ReferredCurrencyDescription','FixingDate','FixingDate','l_InternationalCode','Fixing','l_NewFixing']});
 
     }
 

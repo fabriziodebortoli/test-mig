@@ -25,8 +25,7 @@ import { IDD_UOM_HEADERService } from './IDD_UOM_HEADER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'UnitsOfMeasure':['BaseUoM','Description','BarcodeSegment','Symbol','Notes'],'global':['ComparableUoM','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'UnitsOfMeasure':['BaseUoM','Description','BarcodeSegment','Symbol','Notes'],'global':['ComparableUoM','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

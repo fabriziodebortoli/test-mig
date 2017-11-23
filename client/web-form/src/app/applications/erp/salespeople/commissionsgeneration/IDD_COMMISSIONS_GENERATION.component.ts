@@ -25,8 +25,7 @@ import { IDD_COMMISSIONS_GENERATIONService } from './IDD_COMMISSIONS_GENERATION.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','ToOutstandingDate','FromOutstandingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','bOutstandingProcess','bCommProcess','bCommRecalculation','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','ToOutstandingDate','FromOutstandingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','bOutstandingProcess','bCommProcess','bCommRecalculation','nCurrentElement','GaugeDescription']});
 
     }
 

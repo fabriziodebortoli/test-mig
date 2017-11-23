@@ -31,8 +31,7 @@ import { IDD_770ONFILEService } from './IDD_770ONFILE.service';
   "parameter": "DataFile.ERP.Payees.PositionCode"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromPaymentDateFee','ToPaymentDateFee','FromSupplier','CustSuppDescription','CU_Intermediary','CU_CommitDate','MadeTaxpayer','ExtraordinaryEvents','INPS_FiscalCode','Progressive','DeclarationType','SubstituteFiscalCode','Software','Heir_FiscalCode','Heir_Code_XML','CU_SubstituteFiscalCode','CU_Ordinary','CU_ProtocolTel','CU_Sostitutive','CU_Cancellation','CU_ProtocolDoc','FileNameComplete','bOneFileForCertification','bOneReportForCertification','b770AllRecord','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['FromPaymentDateFee','ToPaymentDateFee','FromSupplier','CustSuppDescription','CU_Intermediary','CU_CommitDate','MadeTaxpayer','ExtraordinaryEvents','INPS_FiscalCode','Progressive','DeclarationType','SubstituteFiscalCode','Software','Heir_FiscalCode','Heir_Code_XML','CU_SubstituteFiscalCode','CU_Ordinary','CU_ProtocolTel','CU_Sostitutive','CU_Cancellation','CU_ProtocolDoc','FileNameComplete','bOneFileForCertification','bOneReportForCertification','b770AllRecord','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

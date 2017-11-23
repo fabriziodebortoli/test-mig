@@ -25,8 +25,7 @@ import { IDD_PRINT_SUPPQUOTATIONSService } from './IDD_PRINT_SUPPQUOTATIONS.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','NotClosed','OnlyClosed','AllClosed','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','NotClosed','OnlyClosed','AllClosed','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
 
     }
 

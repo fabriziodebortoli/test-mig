@@ -25,8 +25,7 @@ import { IDD_LOAD_GOODSRECPURCHASEORDERService } from './IDD_LOAD_GOODSRECPURCHA
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'GoodsRecPurchaseOrderLoading':['InternalOrdNo','OrderDate','ExpectedDeliveryDate','Supplier','Payment','Currency','OurReference','YourReference','Notes'],'HKLSuppGoodsRecPurchaseOrder':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['Detail'],'Detail':['PurchaseOr_Selected','Position','LineType','Item','SupplierCode','Description','Qty','QtyToReceipt','ReceiptQty','PaidQty','UoM','UnitValue','ExpectedDeliveryDate','ConfirmedDeliveryDate','Delivered','Paid','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoDN','NoInvoice','Lot','Job'],'PurchaseOrdSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'GoodsRecPurchaseOrderLoading':['InternalOrdNo','OrderDate','ExpectedDeliveryDate','Supplier','Payment','Currency','OurReference','YourReference','Notes'],'HKLSuppGoodsRecPurchaseOrder':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['Detail'],'Detail':['PurchaseOr_Selected','Position','LineType','Item','SupplierCode','Description','Qty','QtyToReceipt','ReceiptQty','PaidQty','UoM','UnitValue','ExpectedDeliveryDate','ConfirmedDeliveryDate','Delivered','Paid','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoDN','NoInvoice','Lot','Job'],'PurchaseOrdSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_DMS_SETTINGSService } from './IDD_DMS_SETTINGS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DMSExtensions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DMSExtensions':['VExtension','VMaxSize']});
+        		this.bo.appendToModelStructure({'global':['DMSExtensions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DMSExtensions':['VExtension','VMaxSize']});
 
     }
 

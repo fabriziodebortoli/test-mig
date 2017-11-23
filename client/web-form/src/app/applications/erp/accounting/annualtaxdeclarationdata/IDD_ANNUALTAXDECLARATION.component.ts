@@ -25,8 +25,7 @@ import { IDD_ANNUALTAXDECLARATIONService } from './IDD_ANNUALTAXDECLARATION.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','FromPeriod','ToPeriod','Purchases','Sales','RetailSales','RetailSalesDistributed','FromFrame','ToFrame','FromTaxCode','ToTaxCode','Intra','NotIntra','AllIntra','Distrib','NotDistrib']});
+        		this.bo.appendToModelStructure({'global':['Year','FromPeriod','ToPeriod','Purchases','Sales','RetailSales','RetailSalesDistributed','FromFrame','ToFrame','FromTaxCode','ToTaxCode','Intra','NotIntra','AllIntra','Distrib','NotDistrib']});
 
     }
 

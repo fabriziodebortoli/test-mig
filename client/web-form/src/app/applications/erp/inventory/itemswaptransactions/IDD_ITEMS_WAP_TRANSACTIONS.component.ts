@@ -25,8 +25,7 @@ import { IDD_ITEMS_WAP_TRANSACTIONSService } from './IDD_ITEMS_WAP_TRANSACTIONS.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Items':['Item','Description','BaseUoM','IsGood'],'global':['ItemsWAPTransactions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ItemsWAPTransactions':['StartingPeriodDate']});
+        		this.bo.appendToModelStructure({'Items':['Item','Description','BaseUoM','IsGood'],'global':['ItemsWAPTransactions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ItemsWAPTransactions':['StartingPeriodDate']});
 
     }
 

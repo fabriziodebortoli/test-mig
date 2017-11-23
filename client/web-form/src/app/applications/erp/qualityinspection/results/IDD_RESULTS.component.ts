@@ -25,8 +25,7 @@ import { IDD_RESULTSService } from './IDD_RESULTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Results':['Result','Description'],'global':['ResultsDesc','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ResultsDesc':['Language','Description']});
+        		this.bo.appendToModelStructure({'Results':['Result','Description'],'global':['ResultsDesc','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ResultsDesc':['Language','Description']});
 
     }
 

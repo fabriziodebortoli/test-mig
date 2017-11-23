@@ -30,8 +30,7 @@ import { IDD_PAYROLLTEMPLATESService } from './IDD_PAYROLLTEMPLATES.service';
   "namespace": "ERP.PayrollImport.Documents.StrReasonCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PayrollTemplates':['Template','Description','AccTpl','ValidityStartingDate','ValidityEndingDate','Priority','Nature'],'HKLAccTpl':['Description'],'global':['PayrollTemplatesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PayrollTemplatesDetails':['Line','Reason','AccRsn'],'HKLBodyReason':['Description'],'HKLBodyAccRsn':['Description']});
+        		this.bo.appendToModelStructure({'PayrollTemplates':['Template','Description','AccTpl','ValidityStartingDate','ValidityEndingDate','Priority','Nature'],'HKLAccTpl':['Description'],'global':['PayrollTemplatesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PayrollTemplatesDetails':['Line','Reason','AccRsn'],'HKLBodyReason':['Description'],'HKLBodyAccRsn':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_WAP_VALUATION_DATA_UPDATEService } from './IDD_WAP_VALUATION_DATA_U
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','nCurrentElement','GaugeDescription']});
 
     }
 

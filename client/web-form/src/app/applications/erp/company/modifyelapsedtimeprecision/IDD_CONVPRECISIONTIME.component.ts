@@ -35,8 +35,7 @@ this.IDC_CONVPRECISIONTIME_NEW_itemSource = {
   "namespace": "ERP.Company.Services.PrecisionSecondParamCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['lCurrentPrecision','lNewPrecision','bMatRoundSel','bCuttSel','bSupSel','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['lCurrentPrecision','lNewPrecision','bMatRoundSel','bCuttSel','bSupSel','nCurrentElement','GaugeDescription']});
 
     }
 

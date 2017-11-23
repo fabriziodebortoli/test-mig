@@ -25,8 +25,7 @@ import { IDD_DS_PROVIDERSService } from './IDD_DS_PROVIDERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Providers':['Name','Description','Disabled','SkipCrtValidation','ProviderUrl','ProviderUser','ProviderPassword'],'global':['ProvidersParameters','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProvidersParameters':['l_VName','l_VDescription','l_VValue']});
+        		this.bo.appendToModelStructure({'Providers':['Name','Description','Disabled','SkipCrtValidation','ProviderUrl','ProviderUser','ProviderPassword'],'global':['ProvidersParameters','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProvidersParameters':['l_VName','l_VDescription','l_VValue']});
 
     }
 

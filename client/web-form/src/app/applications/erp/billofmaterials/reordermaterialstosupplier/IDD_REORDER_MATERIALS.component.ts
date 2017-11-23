@@ -25,8 +25,7 @@ import { IDD_REORDER_MATERIALSService } from './IDD_REORDER_MATERIALS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NrPlan','bSplitForJob','bSplitForCostCnt','bSplitForSaleOrder','ReorderMaterialsToSupplier'],'HKLPlan':['Description'],'ReorderMaterialsToSupplier':['PrepareSubcntOrd','CodeType','Component','ComponentDescription','UoM','RequProductionPlanQty','RequInducedRequirements','RequReservedQty','OnHandStorageQty','RequIncomingQty','RequMinimumStock','RequQtyToOrder','RequAvailaibility','Supplier','MinOrderQty','RequReorderingLotSize','Job','CostCenter','SaleOrdNo']});
+        		this.bo.appendToModelStructure({'global':['NrPlan','bSplitForJob','bSplitForCostCnt','bSplitForSaleOrder','ReorderMaterialsToSupplier'],'HKLPlan':['Description'],'ReorderMaterialsToSupplier':['PrepareSubcntOrd','CodeType','Component','ComponentDescription','UoM','RequProductionPlanQty','RequInducedRequirements','RequReservedQty','OnHandStorageQty','RequIncomingQty','RequMinimumStock','RequQtyToOrder','RequAvailaibility','Supplier','MinOrderQty','RequReorderingLotSize','Job','CostCenter','SaleOrdNo']});
 
     }
 

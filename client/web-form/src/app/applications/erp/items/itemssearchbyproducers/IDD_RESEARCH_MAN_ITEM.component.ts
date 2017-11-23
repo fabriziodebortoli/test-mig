@@ -25,8 +25,7 @@ import { IDD_RESEARCH_MAN_ITEMService } from './IDD_RESEARCH_MAN_ITEM.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ItemsSearchbProductSearchByManufacturer','ItemsSearchbSearchByCompanyName','ItemsSearchbProductSearchByProdCtg','ItemsSearchbSyncWithKeyboard','ItemsSearchStrItem']});
+        		this.bo.appendToModelStructure({'global':['ItemsSearchbProductSearchByManufacturer','ItemsSearchbSearchByCompanyName','ItemsSearchbProductSearchByProdCtg','ItemsSearchbSyncWithKeyboard','ItemsSearchStrItem']});
 
     }
 

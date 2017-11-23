@@ -25,8 +25,7 @@ import { IDD_PD_JE_GENERATE_PAYABLESRECEIVABLESService } from './IDD_PD_JE_GENER
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['InstallmentCalcFrom','Currency','AmountOpenPayableReceivable','AmountTaxAmountPayableReceivable','ClosingAmountPayableReceivable','CustSuppDescri','PymtTerm','PymtTermDescri','CustSuppBank','CustSuppCA','Job','ContractCode','ProjectCode','ESRReferenceNumber','ESRCheckDigit','ESRNotes']});
+        		this.bo.appendToModelStructure({'global':['InstallmentCalcFrom','Currency','AmountOpenPayableReceivable','AmountTaxAmountPayableReceivable','ClosingAmountPayableReceivable','CustSuppDescri','PymtTerm','PymtTermDescri','CustSuppBank','CustSuppCA','Job','ContractCode','ProjectCode','ESRReferenceNumber','ESRCheckDigit','ESRNotes']});
 
     }
 

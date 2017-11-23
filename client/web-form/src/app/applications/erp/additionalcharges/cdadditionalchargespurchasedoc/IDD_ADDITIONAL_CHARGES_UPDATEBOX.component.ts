@@ -25,8 +25,7 @@ import { IDD_ADDITIONAL_CHARGES_UPDATEBOXService } from './IDD_ADDITIONAL_CHARGE
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_ADDITIONAL_CHARGES_LOADService } from './IDD_ADDITIONAL_CHARGES_LOA
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SuppDocNoFilter','SuppFilter']});
+        		this.bo.appendToModelStructure({'global':['SuppDocNoFilter','SuppFilter']});
 
     }
 

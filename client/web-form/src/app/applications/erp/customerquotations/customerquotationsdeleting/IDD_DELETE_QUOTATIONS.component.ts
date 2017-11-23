@@ -25,8 +25,7 @@ import { IDD_DELETE_QUOTATIONSService } from './IDD_DELETE_QUOTATIONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllContact','ContactSel','FromContact','ToContact','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllContact','ContactSel','FromContact','ToContact','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -30,8 +30,7 @@ import { IDD_PARAMETERS_CUSTOMERSSUPPLIERSService } from './IDD_PARAMETERS_CUSTO
   "namespace": "ERP.Accounting.Components.FiscalPrintoutsEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustomizedPrint':['CodeType','DescriptiveText']});
+        		this.bo.appendToModelStructure({'global':['CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustomizedPrint':['CodeType','DescriptiveText']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_PURCH_ORD_CONFService } from './IDD_PURCH_ORD_CONF.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Supplier','bAllPO','bSelectedPO','POFrom','POTo','bAllDates','bSelectedDates','PODateFrom','PODateTo','EmptyConfirmNum','EmptyConfirmDate','Job','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ConfirmationNum','ConfirmationDate','POConfirmations'],'HKLSupplier':['CompanyName'],'POConfirmations':['POConfirma_Selected','InternalPurchOrdNo','Position','PurchOrdDate','ConfirmationNum','Item','UoM','Supplier','Job','Qty','DeliveredQty','QtyToConfirm','Notes','ExtendedNotes','ExpectedDeliveryDate','ConfirmedDeliveryDate','PreviousConfirmedDeliveryDate'],'HKLItemBody':['Description']});
+        		this.bo.appendToModelStructure({'global':['Supplier','bAllPO','bSelectedPO','POFrom','POTo','bAllDates','bSelectedDates','PODateFrom','PODateTo','EmptyConfirmNum','EmptyConfirmDate','Job','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ConfirmationNum','ConfirmationDate','POConfirmations'],'HKLSupplier':['CompanyName'],'POConfirmations':['POConfirma_Selected','InternalPurchOrdNo','Position','PurchOrdDate','ConfirmationNum','Item','UoM','Supplier','Job','Qty','DeliveredQty','QtyToConfirm','Notes','ExtendedNotes','ExpectedDeliveryDate','ConfirmedDeliveryDate','PreviousConfirmedDeliveryDate'],'HKLItemBody':['Description']});
 
     }
 

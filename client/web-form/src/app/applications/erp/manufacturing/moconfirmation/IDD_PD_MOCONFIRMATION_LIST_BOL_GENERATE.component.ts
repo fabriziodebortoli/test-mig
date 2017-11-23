@@ -30,8 +30,7 @@ import { IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEService } from './IDD_PD_MOCONFI
   "namespace": "ERP.Manufacturing.Documents.ItmTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NrDoc','DocDate','DocQty','ItemType']});
+        		this.bo.appendToModelStructure({'global':['NrDoc','DocDate','DocQty','ItemType']});
 
     }
 

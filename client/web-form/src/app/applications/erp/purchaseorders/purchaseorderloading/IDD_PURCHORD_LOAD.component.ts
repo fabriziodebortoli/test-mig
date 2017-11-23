@@ -25,8 +25,7 @@ import { IDD_PURCHORD_LOADService } from './IDD_PURCHORD_LOAD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PurchaseOrderLoading':['InternalOrdNo','OrderDate','ExpectedDeliveryDate','Supplier','Payment','Currency','OurReference','YourReference','Notes'],'HKLSupplier':['CompNameCompleteWithTaxNumber'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['PurchaseOrdDetailLoading'],'PurchaseOrdDetailLoading':['LineType','Drawing','Item','PurchaseOr_SupplierCode02','Description','UoM','QtyToDelivery','UnitValue','ExpectedDeliveryDate','Qty','DeliveredQty','Lot','DiscountFormula','TaxableAmount','SaleOrdNo','SaleOrdPos','CostCenter','Job'],'PurchaseOrdSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'PurchaseOrderLoading':['InternalOrdNo','OrderDate','ExpectedDeliveryDate','Supplier','Payment','Currency','OurReference','YourReference','Notes'],'HKLSupplier':['CompNameCompleteWithTaxNumber'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['PurchaseOrdDetailLoading'],'PurchaseOrdDetailLoading':['LineType','Drawing','Item','PurchaseOr_SupplierCode02','Description','UoM','QtyToDelivery','UnitValue','ExpectedDeliveryDate','Qty','DeliveredQty','Lot','DiscountFormula','TaxableAmount','SaleOrdNo','SaleOrdPos','CostCenter','Job'],'PurchaseOrdSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

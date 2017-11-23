@@ -35,8 +35,7 @@ this.IDC_DMSREPOSITORY_ADVSEL_COLLECTIONS_itemSource = {
   "namespace": "Extensions.EasyAttachment.TbDMS.CollectionsItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllExtractedDoc','bFirstExtractedDoc','nTopNrDocuments','FromDate','ToDate','sFileExtension','FreeText','bFileNameAndDescription','bTags','bBarcode','bBookmarks','bDocumentContent','bSelectWorkers','bShowDisabledWorkers','bAllRepository','bOnlyCollection','DocNamespace','DBTSearchFieldsConditions','DBTArchivedDocuments'],'DBTSearchFieldsConditions':['VFieldDescription','VFormattedValue'],'DBTArchivedDocuments':['VIsSelected','VArchivedDocId','VIsAttachmentBmp','VIsWoormReportBmp','VCheckOutWorkerBmp','VName','VDescription','VWorker','VCreationDate','VModifiedDate']});
+        		this.bo.appendToModelStructure({'global':['bAllExtractedDoc','bFirstExtractedDoc','nTopNrDocuments','FromDate','ToDate','sFileExtension','FreeText','bFileNameAndDescription','bTags','bBarcode','bBookmarks','bDocumentContent','bSelectWorkers','bShowDisabledWorkers','bAllRepository','bOnlyCollection','DocNamespace','DBTSearchFieldsConditions','DBTArchivedDocuments'],'DBTSearchFieldsConditions':['VFieldDescription','VFormattedValue'],'DBTArchivedDocuments':['VIsSelected','VArchivedDocId','VIsAttachmentBmp','VIsWoormReportBmp','VCheckOutWorkerBmp','VName','VDescription','VWorker','VCreationDate','VModifiedDate']});
 
     }
 

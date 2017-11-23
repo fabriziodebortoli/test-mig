@@ -25,8 +25,7 @@ import { IDD_CUSTCTG_COMMODITYCTG_FULLService } from './IDD_CUSTCTG_COMMODITYCTG
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommodityCtgCustomersCtg':['CommodityCtg','Disabled','CustomerCtg','DiscountFormula','SaleOffset','ReverseCharge','TaxCode','Notes'],'HKLCtgCommodity':['Description'],'HKLCustomersCtg':['Description'],'HKLSaleOffset':['Description'],'HKLTaxCode':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CommodityCtgCustomersCtg':['CommodityCtg','Disabled','CustomerCtg','DiscountFormula','SaleOffset','ReverseCharge','TaxCode','Notes'],'HKLCtgCommodity':['Description'],'HKLCustomersCtg':['Description'],'HKLSaleOffset':['Description'],'HKLTaxCode':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

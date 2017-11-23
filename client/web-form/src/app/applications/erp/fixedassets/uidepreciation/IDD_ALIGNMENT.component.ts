@@ -25,8 +25,7 @@ import { IDD_ALIGNMENTService } from './IDD_ALIGNMENT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','bEntriesDelete','Process']});
+        		this.bo.appendToModelStructure({'global':['AllCtgs','CtgSel','FromCtg','ToCtg','bEntriesDelete','Process']});
 
     }
 

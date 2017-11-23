@@ -30,8 +30,7 @@ import { IDD_BR_TAXRATEService } from './IDD_BR_TAXRATE.service';
   "namespace": "ERP.Business_BR.Components.BRTaxRateEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRTaxRate':['TaxRateCode','Description','TaxType','TaxRate','NotTaxable','Thresold','ValidityStartingDate','ValidityEndingDate'],'global':['DBTBRTaxRateDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRTaxRateDetail':['MinAmount','MaxAmount','TaxRate']});
+        		this.bo.appendToModelStructure({'DBTBRTaxRate':['TaxRateCode','Description','TaxType','TaxRate','NotTaxable','Thresold','ValidityStartingDate','ValidityEndingDate'],'global':['DBTBRTaxRateDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRTaxRateDetail':['MinAmount','MaxAmount','TaxRate']});
 
     }
 

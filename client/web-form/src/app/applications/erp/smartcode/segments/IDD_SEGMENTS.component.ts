@@ -25,8 +25,7 @@ import { IDD_SEGMENTSService } from './IDD_SEGMENTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Segments':['Segment','Description','Length','Notes'],'global':['Combination','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Segments':['Segment','Description','Length','Notes'],'global':['Combination','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_WORKER_WINDOWService } from './IDD_WORKER_WINDOW.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CreatedWorkerDes','CreatedDate','CreatedWorkerEmail','CreatedWorkerOfficePhone','CreatedWorkerPicture','ModifiedWorkerDes','ModifiedDate','ModifiedWorkerEmail','ModifiedWorkerOfficePhone','ModifiedWorkerPicture']});
+        		this.bo.appendToModelStructure({'global':['CreatedWorkerDes','CreatedDate','CreatedWorkerEmail','CreatedWorkerOfficePhone','CreatedWorkerPicture','ModifiedWorkerDes','ModifiedDate','ModifiedWorkerEmail','ModifiedWorkerOfficePhone','ModifiedWorkerPicture']});
 
     }
 

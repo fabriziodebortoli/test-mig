@@ -25,8 +25,7 @@ import { IDD_WORKERSService } from './IDD_WORKERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Workers':['DomicilyAddress','Address2','DomicilyCity','DomicilyZip','DomicilyCounty','DomicilyCountry','Latitude','Longitude','Telephone4','Telephone2','Telephone3','Telephone1','SkypeID','Email','URL','Notes'],'global':['WorkersArrangements','WorkersAbsences','WorkersFields','WorkersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WorkersArrangements':['Arrangement','BasicPay','TotalPay','FromDate','ToDate','Notes'],'Arrangements':['ArrangementLevel'],'WorkersAbsences':['Reason','Manager','ManagerDesc','StartingDate','EndingDate','Notes'],'WorkersFields':['FieldName','FieldValue','HideOnLayout','Notes'],'WorkersDetails':['IsWorker','ChildResourceType','ChildResourceCode','ChildWorkerID','WorkerDesc','ManagerDesc']});
+        		this.bo.appendToModelStructure({'Workers':['DomicilyAddress','Address2','DomicilyCity','DomicilyZip','DomicilyCounty','DomicilyCountry','Latitude','Longitude','Telephone4','Telephone2','Telephone3','Telephone1','SkypeID','Email','URL','Notes'],'global':['WorkersArrangements','WorkersAbsences','WorkersFields','WorkersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WorkersArrangements':['Arrangement','BasicPay','TotalPay','FromDate','ToDate','Notes'],'Arrangements':['ArrangementLevel'],'WorkersAbsences':['Reason','Manager','ManagerDesc','StartingDate','EndingDate','Notes'],'WorkersFields':['FieldName','FieldValue','HideOnLayout','Notes'],'WorkersDetails':['IsWorker','ChildResourceType','ChildResourceCode','ChildWorkerID','WorkerDesc','ManagerDesc']});
 
     }
 

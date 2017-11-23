@@ -25,8 +25,7 @@ import { IDD_DELETE_SUPPQUOTATIONSService } from './IDD_DELETE_SUPPQUOTATIONS.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllClosed','NotClosed','OnlyClosed','AllPrinted','NoPrinted','Printed','OnlyExpired','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllClosed','NotClosed','OnlyClosed','AllPrinted','NoPrinted','Printed','OnlyExpired','nCurrentElement','GaugeDescription']});
 
     }
 

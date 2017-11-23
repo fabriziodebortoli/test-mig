@@ -25,8 +25,7 @@ import { IDD_OMNIA_IMPORTService } from './IDD_OMNIA_IMPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bEnableMaster','DateLastImportMaster','bEnableImportAccount','OMNIASubAccountsCount','bUseOMNIACoA','bEnableImportReasons','OMNIAAccReasonsCount','FilePathImport','FileNameImport','bEnableCodes','DateLastImportCodes','bEnableImportTaxCode','OMNIATaxCodesCount','bEnableImportLawCode','OMNIALawCodesCount','bEnableImportIntraOpCode','OMNIAIntraCodesCount','FilePathImportCodes','FileNameImportCodes','strOutput']});
+        		this.bo.appendToModelStructure({'global':['bEnableMaster','DateLastImportMaster','bEnableImportAccount','OMNIASubAccountsCount','bUseOMNIACoA','bEnableImportReasons','OMNIAAccReasonsCount','FilePathImport','FileNameImport','bEnableCodes','DateLastImportCodes','bEnableImportTaxCode','OMNIATaxCodesCount','bEnableImportLawCode','OMNIALawCodesCount','bEnableImportIntraOpCode','OMNIAIntraCodesCount','FilePathImportCodes','FileNameImportCodes','strOutput']});
 
     }
 

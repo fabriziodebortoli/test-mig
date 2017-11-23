@@ -31,8 +31,7 @@ import { IDD_UPDATE_SALESPEOPLEService } from './IDD_UPDATE_SALESPEOPLE.service'
   "parameter": "DataFile.ERP.Company.County"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllSaleAreas','bSelectSaleAreas','SaleAreas','bAllCounty','bSelectCounty','County','SalesPeopleOld','SalesPeopleNew','bSalesPerson','bAlsoBranches','bAreaManager','UpdateSalesPeople'],'HKLSalesPeopleOld':['Name'],'HKLSalesPeopleNew':['Name'],'UpdateSalesPeople':['Selection','CustSupp','CompanyName','Address','ZIPCode','City','Country','Area','Salesperson','AreaManager','NaturalPerson','TaxIdNumber','FiscalCode','Telephone1','Telephone2','EMail','SkypeID','Branches']});
+        		this.bo.appendToModelStructure({'global':['bAllSaleAreas','bSelectSaleAreas','SaleAreas','bAllCounty','bSelectCounty','County','SalesPeopleOld','SalesPeopleNew','bSalesPerson','bAlsoBranches','bAreaManager','UpdateSalesPeople'],'HKLSalesPeopleOld':['Name'],'HKLSalesPeopleNew':['Name'],'UpdateSalesPeople':['Selection','CustSupp','CompanyName','Address','ZIPCode','City','Country','Area','Salesperson','AreaManager','NaturalPerson','TaxIdNumber','FiscalCode','Telephone1','Telephone2','EMail','SkypeID','Branches']});
 
     }
 

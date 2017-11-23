@@ -25,8 +25,7 @@ import { IDD_NUMERATOR_BILLSService } from './IDD_NUMERATOR_BILLS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'StubBookNumbers':['BalanceYear','StubBook','Suffix','LastDocDate','LastDocNo'],'HKLStubBook':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'StubBookNumbers':['BalanceYear','StubBook','Suffix','LastDocDate','LastDocNo'],'HKLStubBook':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_JE_SAVETEMPLATEService } from './IDD_JE_SAVETEMPLATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NameTemplateFromToSave','TemplateDescriFromToSave','bSaveGroup','bSaveCurrency','bSaveGLDetail','bSaveAmountsGLJournal','bSaveCustSuppGLJournal','bSaveTaxJournal','bSaveCustSuppHeader','bSaveTaxDetail','bSaveAmountsTaxJournals']});
+        		this.bo.appendToModelStructure({'global':['NameTemplateFromToSave','TemplateDescriFromToSave','bSaveGroup','bSaveCurrency','bSaveGLDetail','bSaveAmountsGLJournal','bSaveCustSuppGLJournal','bSaveTaxJournal','bSaveCustSuppHeader','bSaveTaxDetail','bSaveAmountsTaxJournals']});
 
     }
 

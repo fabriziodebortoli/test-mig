@@ -30,8 +30,7 @@ import { IDD_MOCONFIRMATION_LIST_BOLService } from './IDD_MOCONFIRMATION_LIST_BO
   "namespace": "ERP.Manufacturing.Documents.ItmTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ProductionQty','PreprintedDocDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PreprintedDocDetail':['BillOfLadingNo','PreprintedDocNo','PostingDate','ProducedQty','ItemType','PostedToInventory']});
+        		this.bo.appendToModelStructure({'global':['ProductionQty','PreprintedDocDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PreprintedDocDetail':['BillOfLadingNo','PreprintedDocNo','PostingDate','ProducedQty','ItemType','PostedToInventory']});
 
     }
 

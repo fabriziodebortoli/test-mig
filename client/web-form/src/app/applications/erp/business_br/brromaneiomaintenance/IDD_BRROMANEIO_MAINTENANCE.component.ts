@@ -25,8 +25,7 @@ import { IDD_BRROMANEIO_MAINTENANCEService } from './IDD_BRROMANEIO_MAINTENANCE.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRRomaneioMaintenance':['RomaneioNo','RomaneioDate','Driver','Status','DepartureDate','DepartureKm','ArrivalDate','ArrivalKm','Tractor','TractorLicensePlate','TractorFuelType','Trailer','trailerLicensePlate','trailerFuelType'],'HKLWorkers':['NameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRRomaneioMaintenance':['RomaneioNo','RomaneioDate','Driver','Status','DepartureDate','DepartureKm','ArrivalDate','ArrivalKm','Tractor','TractorLicensePlate','TractorFuelType','Trailer','trailerLicensePlate','trailerFuelType'],'HKLWorkers':['NameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

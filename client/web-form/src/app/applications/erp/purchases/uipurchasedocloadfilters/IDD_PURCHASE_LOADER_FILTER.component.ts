@@ -25,8 +25,7 @@ import { IDD_PURCHASE_LOADER_FILTERService } from './IDD_PURCHASE_LOADER_FILTER.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OrdNoFilter','PurchaseOrdNoFilter','OrdPosFilter','ExcludeFulffilledLines','ExcludeNotes','QtyToInvoiceAsDelivered','ItemFilter','ShowOnlyItemLine']});
+        		this.bo.appendToModelStructure({'global':['OrdNoFilter','PurchaseOrdNoFilter','OrdPosFilter','ExcludeFulffilledLines','ExcludeNotes','QtyToInvoiceAsDelivered','ItemFilter','ShowOnlyItemLine']});
 
     }
 

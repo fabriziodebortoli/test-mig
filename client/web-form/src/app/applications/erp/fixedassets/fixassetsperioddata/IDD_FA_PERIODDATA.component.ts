@@ -25,8 +25,7 @@ import { IDD_FA_PERIODDATAService } from './IDD_FA_PERIODDATA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['YearDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'FixAssetsPeriodData':['BalanceYear','BalanceMonth','BlockFixedAssetsPosting']});
+        		this.bo.appendToModelStructure({'global':['YearDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'FixAssetsPeriodData':['BalanceYear','BalanceMonth','BlockFixedAssetsPosting']});
 
     }
 

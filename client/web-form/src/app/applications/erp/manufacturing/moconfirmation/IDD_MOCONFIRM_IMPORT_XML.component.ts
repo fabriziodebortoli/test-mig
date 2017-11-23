@@ -25,8 +25,7 @@ import { IDD_MOCONFIRM_IMPORT_XMLService } from './IDD_MOCONFIRM_IMPORT_XML.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ImportFileName','LogFileName','bParam']});
+        		this.bo.appendToModelStructure({'global':['ImportFileName','LogFileName','bParam']});
 
     }
 

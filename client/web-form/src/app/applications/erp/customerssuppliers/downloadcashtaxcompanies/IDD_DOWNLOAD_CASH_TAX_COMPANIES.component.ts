@@ -25,8 +25,7 @@ import { IDD_DOWNLOAD_CASH_TAX_COMPANIESService } from './IDD_DOWNLOAD_CASH_TAX_
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['strFileType','LastUpdateDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['strFileType','LastUpdateDate','nCurrentElement','GaugeDescription']});
 
     }
 

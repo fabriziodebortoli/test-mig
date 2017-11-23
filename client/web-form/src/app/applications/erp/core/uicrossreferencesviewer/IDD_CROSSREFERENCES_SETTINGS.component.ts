@@ -25,8 +25,7 @@ import { IDD_CROSSREFERENCES_SETTINGSService } from './IDD_CROSSREFERENCES_SETTI
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

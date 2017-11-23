@@ -31,8 +31,7 @@ import { IDD_PRINT_ISSDECLINTENTService } from './IDD_PRINT_ISSDECLINTENT.servic
   "parameter": "DataFile.ERP.Payees.PositionCode"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','FromMonthDate','ToMonthDate','FromNo','ToNo','Reprint','Corrective','ProtocolTel','ProtocolDoc','MonthlyPlafond','Export','YearDeclPresented','IntraSales','ExtraOp','SanMarinoSales','AssOp','GoodDescri','EMail','DeclDiff','PositionCode_XML','FiscalCodeDecl','Intermediary','CommitDate','FileNameComplete','bOneFileForIssuedIntent','ProcessingState']});
+        		this.bo.appendToModelStructure({'global':['Year','FromMonthDate','ToMonthDate','FromNo','ToNo','Reprint','Corrective','ProtocolTel','ProtocolDoc','MonthlyPlafond','Export','YearDeclPresented','IntraSales','ExtraOp','SanMarinoSales','AssOp','GoodDescri','EMail','DeclDiff','PositionCode_XML','FiscalCodeDecl','Intermediary','CommitDate','FileNameComplete','bOneFileForIssuedIntent','ProcessingState']});
 
     }
 

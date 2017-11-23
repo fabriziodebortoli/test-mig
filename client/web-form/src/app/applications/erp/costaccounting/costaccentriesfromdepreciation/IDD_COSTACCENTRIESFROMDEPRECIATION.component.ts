@@ -30,8 +30,7 @@ import { IDD_COSTACCENTRIESFROMDEPRECIATIONService } from './IDD_COSTACCENTRIESF
   "namespace": "ERP.CostAccounting.Components.EntryTypeNoBudgetEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Twelfth','SimulationDate','strCalcType','TwelfthCalc','TwelfthCaption','DaysCalc','DaysCaption','Nature','PostDateDepr','AccrualDateDepr','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Twelfth','SimulationDate','strCalcType','TwelfthCalc','TwelfthCaption','DaysCalc','DaysCaption','Nature','PostDateDepr','AccrualDateDepr','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_COSTACCFROMSALESService } from './IDD_COSTACCFROMSALES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SaleFromPostDate','SaleToPostDate','SalePosted','AllTaxJournalRadio','TaxJournalRadioSel','TaxJournalFrom','TaxJournalFrom','TaxJournalTo','SaleInputPostDate','SalePostDateInCostAcc','SaleDocPostDate','nCurrentElement','GaugeDescription'],'HKLTaxJournalFrom':['Description','Description'],'HKLTaxJournalTo':['Description']});
+        		this.bo.appendToModelStructure({'global':['SaleFromPostDate','SaleToPostDate','SalePosted','AllTaxJournalRadio','TaxJournalRadioSel','TaxJournalFrom','TaxJournalFrom','TaxJournalTo','SaleInputPostDate','SalePostDateInCostAcc','SaleDocPostDate','nCurrentElement','GaugeDescription'],'HKLTaxJournalFrom':['Description','Description'],'HKLTaxJournalTo':['Description']});
 
     }
 

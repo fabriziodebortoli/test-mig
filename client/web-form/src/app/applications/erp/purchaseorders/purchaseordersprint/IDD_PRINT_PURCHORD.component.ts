@@ -25,8 +25,7 @@ import { IDD_PRINT_PURCHORDService } from './IDD_PRINT_PURCHORD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','NotPayed','Payed','AllPayed','bNotDelivered','bDelivered','bAllDelivered','NotCancelled','Cancelled','AllCancelled','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','NotPayed','Payed','AllPayed','bNotDelivered','bDelivered','bAllDelivered','NotCancelled','Cancelled','AllCancelled','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
 
     }
 

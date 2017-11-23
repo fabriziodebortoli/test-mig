@@ -32,8 +32,7 @@ import { IDD_CUSTCONTRSALEService } from './IDD_CUSTCONTRSALE.service';
   "useProductLanguage": false
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustContr':['ContractType','ContractNo','Description','Customer','StartValidityDate','EndValidityDate','Disabled','Payment','Notes','FixingDate','Fixing'],'HKLCustomer':['CompanyName','PriceList','Currency'],'HKLPaymentTerms':['Description'],'HKLPriceList':['Description'],'HKLCurrency':['Description'],'global':['CustContrLines','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContrLines':['LineType','Item','Description','UoM','MinimumQty','Quantity','UnitValue','DiscountFormula','Price','BudgetQty','BudgetValue','Notes']});
+        		this.bo.appendToModelStructure({'CustContr':['ContractType','ContractNo','Description','Customer','StartValidityDate','EndValidityDate','Disabled','Payment','Notes','FixingDate','Fixing'],'HKLCustomer':['CompanyName','PriceList','Currency'],'HKLPaymentTerms':['Description'],'HKLPriceList':['Description'],'HKLCurrency':['Description'],'global':['CustContrLines','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContrLines':['LineType','Item','Description','UoM','MinimumQty','Quantity','UnitValue','DiscountFormula','Price','BudgetQty','BudgetValue','Notes']});
 
     }
 

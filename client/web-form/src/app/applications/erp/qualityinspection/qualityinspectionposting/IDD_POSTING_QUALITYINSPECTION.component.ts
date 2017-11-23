@@ -25,8 +25,7 @@ import { IDD_POSTING_QUALITYINSPECTIONService } from './IDD_POSTING_QUALITYINSPE
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['InspectionOrder','InspectionNotes','StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllNo','NoSel','FromNo','ToNo','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['InspectionOrder','InspectionNotes','StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllNo','NoSel','FromNo','ToNo','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
 
     }
 

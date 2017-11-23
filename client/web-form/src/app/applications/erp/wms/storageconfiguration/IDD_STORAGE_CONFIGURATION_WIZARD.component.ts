@@ -25,8 +25,7 @@ import { IDD_STORAGE_CONFIGURATION_WIZARDService } from './IDD_STORAGE_CONFIGURA
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','ActivationDate','TwoStepsPutaway','UniqueBinManagement','ConsignmentStock','Int_In','Int_In_Descri','Int_Out','Int_Out_Descri','Int_Diff','Int_Diff_Descri','StockZone','StockZoneDescri','GRZone','GRZoneDescri','GIZone','GIZoneDescri','ReturnZone','ReturnZoneDescri','ScrapZone','ScrapZoneDescri','InspectionZone','InspectionZoneDescri','CrossDocking','CrossDockingDescri','ManStorageConfigIntMan_In','ManStorageConfigIntMan_In_Descri','ManStorageConfigIntMan_Out','ManStorageConfigIntMan_Out_Descri','ManStorageConfigIntMan_Diff','ManStorageConfigIntMan_Diff_Descri','ManStorageConfigMIPickingZone','ManStorageConfigMIPickingZoneDescri','ManStorageConfigManActivationDate','ManStorageConfigManTwoStepsPutaway','ManStorageConfigMRZone','ManStorageConfigMRZoneDescri','ManStorageConfigMIZone','ManStorageConfigMIZoneDescri']});
+        		this.bo.appendToModelStructure({'global':['Storage','ActivationDate','TwoStepsPutaway','UniqueBinManagement','ConsignmentStock','Int_In','Int_In_Descri','Int_Out','Int_Out_Descri','Int_Diff','Int_Diff_Descri','StockZone','StockZoneDescri','GRZone','GRZoneDescri','GIZone','GIZoneDescri','ReturnZone','ReturnZoneDescri','ScrapZone','ScrapZoneDescri','InspectionZone','InspectionZoneDescri','CrossDocking','CrossDockingDescri','ManStorageConfigIntMan_In','ManStorageConfigIntMan_In_Descri','ManStorageConfigIntMan_Out','ManStorageConfigIntMan_Out_Descri','ManStorageConfigIntMan_Diff','ManStorageConfigIntMan_Diff_Descri','ManStorageConfigMIPickingZone','ManStorageConfigMIPickingZoneDescri','ManStorageConfigManActivationDate','ManStorageConfigManTwoStepsPutaway','ManStorageConfigMRZone','ManStorageConfigMRZoneDescri','ManStorageConfigMIZone','ManStorageConfigMIZoneDescri']});
 
     }
 

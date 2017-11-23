@@ -25,8 +25,7 @@ import { IDD_BARCODE_STRUCTURE_COPYService } from './IDD_BARCODE_STRUCTURE_COPY.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Code']});
+        		this.bo.appendToModelStructure({'global':['Code']});
 
     }
 

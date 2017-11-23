@@ -25,8 +25,7 @@ import { IDD_DICTAXService } from './IDD_DICTAX.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxDeclarationFrame':['BalanceYear','Frame','Description'],'global':['TaxDeclaration','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxDeclarationFrame':['BalanceYear','Frame','Description'],'global':['TaxDeclaration','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

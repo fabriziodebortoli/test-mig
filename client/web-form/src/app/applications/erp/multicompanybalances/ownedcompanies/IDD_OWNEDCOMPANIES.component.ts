@@ -25,8 +25,7 @@ import { IDD_OWNEDCOMPANIESService } from './IDD_OWNEDCOMPANIES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'OwnedCompanies':['Company','CompanyName','ExpectedConsolidDayMonth','CompanyIdentifier','Notes'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Notes']});
+        		this.bo.appendToModelStructure({'OwnedCompanies':['Company','CompanyName','ExpectedConsolidDayMonth','CompanyIdentifier','Notes'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Notes']});
 
     }
 

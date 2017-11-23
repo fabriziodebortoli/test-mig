@@ -25,8 +25,7 @@ import { IDD_ITEMFY_ITEMService } from './IDD_ITEMFY_ITEM.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','nCurrentElement','GaugeDescription']});
 
     }
 

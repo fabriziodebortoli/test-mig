@@ -31,8 +31,7 @@ import { IDD_CURRENCIESService } from './IDD_CURRENCIES.service';
   "parameter": "DataFile.ERP.Currencies.Currencies"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Currencies':['Currency','Disabled','Description','Symbol','InternationalCode','IsEUCurrency','AmountRoundingType','AmountRoundingDigit','TaxAmountRoundingType','TaxAmountRoundingDigit','NoOfDecimals','Notes'],'global':['Fixing','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Fixing':['ReferredCurrency','FixingDate','Fixing','SaleFixing','PurchaseFixing','Notes'],'HKLCurrencies':['Description']});
+        		this.bo.appendToModelStructure({'Currencies':['Currency','Disabled','Description','Symbol','InternationalCode','IsEUCurrency','AmountRoundingType','AmountRoundingDigit','TaxAmountRoundingType','TaxAmountRoundingDigit','NoOfDecimals','Notes'],'global':['Fixing','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Fixing':['ReferredCurrency','FixingDate','Fixing','SaleFixing','PurchaseFixing','Notes'],'HKLCurrencies':['Description']});
 
     }
 

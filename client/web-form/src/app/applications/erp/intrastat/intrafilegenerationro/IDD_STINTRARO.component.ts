@@ -25,8 +25,7 @@ import { IDD_STINTRAROService } from './IDD_STINTRARO.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SaleSummary','PurchSummary','Normal','Adjustment','Period','Year','PeriodAdj','YearAdj','ContactPosition','ContactTelephone','ContactName','ContactFAX','ContactSurname','ContactEMail','DelegUse','DelegTaxIdNo','DelegName','DelegStreet','DelegNr','DelegBl','DelegEntr','DelegAp','DelegCounty','DelegZipCode','DelegCity','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['SaleSummary','PurchSummary','Normal','Adjustment','Period','Year','PeriodAdj','YearAdj','ContactPosition','ContactTelephone','ContactName','ContactFAX','ContactSurname','ContactEMail','DelegUse','DelegTaxIdNo','DelegName','DelegStreet','DelegNr','DelegBl','DelegEntr','DelegAp','DelegCounty','DelegZipCode','DelegCity','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

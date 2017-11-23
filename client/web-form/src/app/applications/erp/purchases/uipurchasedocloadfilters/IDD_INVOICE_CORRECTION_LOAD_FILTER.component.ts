@@ -25,8 +25,7 @@ import { IDD_INVOICE_CORRECTION_LOAD_FILTERService } from './IDD_INVOICE_CORRECT
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['InvoiceFilter','CorrectionForReturn','CorrectionForChangeValue']});
+        		this.bo.appendToModelStructure({'global':['InvoiceFilter','CorrectionForReturn','CorrectionForChangeValue']});
 
     }
 

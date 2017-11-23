@@ -25,8 +25,7 @@ import { IDD_INVENTRY_LOADService } from './IDD_INVENTRY_LOAD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'InvEntriesLoading':['InvRsn','CustSuppType','CustSupp','PreprintedDocNo','DocumentDate','PostingDate','DocNo','Currency'],'HKLInvRsn':['Description'],'HKLCustSupp':['CompanyName'],'HKLCurrencies':['Description'],'global':['InvEntriesDetailLoading'],'InvEntriesDetailLoading':['Selected','Item','Variant','Description','UoM','Qty','UnitValue'],'HKLItems':['Description']});
+        		this.bo.appendToModelStructure({'InvEntriesLoading':['InvRsn','CustSuppType','CustSupp','PreprintedDocNo','DocumentDate','PostingDate','DocNo','Currency'],'HKLInvRsn':['Description'],'HKLCustSupp':['CompanyName'],'HKLCurrencies':['Description'],'global':['InvEntriesDetailLoading'],'InvEntriesDetailLoading':['Selected','Item','Variant','Description','UoM','Qty','UnitValue'],'HKLItems':['Description']});
 
     }
 

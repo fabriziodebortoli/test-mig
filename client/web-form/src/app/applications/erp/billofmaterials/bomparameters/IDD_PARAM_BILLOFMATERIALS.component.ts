@@ -30,8 +30,7 @@ import { IDD_PARAM_BILLOFMATERIALSService } from './IDD_PARAM_BILLOFMATERIALS.se
   "namespace": "ERP.BillOfMaterials.Services.SalesDocEnumComboBOM"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMDocumentsParametersDBT','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BOMDocumentsParametersDBT':['DocumentType','ExpandFirstLevelOnly','GenerateShortInvEntriesSet','RMClearingInvRsn','FPIssueToProdInvRsn','RMClearingProdInvRsn','RMReceiptInvRsn','WasteInvRsn','WasteDifferentItemInvRsn']});
+        		this.bo.appendToModelStructure({'global':['BOMDocumentsParametersDBT','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BOMDocumentsParametersDBT':['DocumentType','ExpandFirstLevelOnly','GenerateShortInvEntriesSet','RMClearingInvRsn','FPIssueToProdInvRsn','RMClearingProdInvRsn','RMReceiptInvRsn','WasteInvRsn','WasteDifferentItemInvRsn']});
 
     }
 

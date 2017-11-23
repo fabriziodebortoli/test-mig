@@ -25,8 +25,7 @@ import { IDD_BR_UPDATE_ITEMS_FISCAL_VALUESService } from './IDD_BR_UPDATE_ITEMS_
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
 
     }
 

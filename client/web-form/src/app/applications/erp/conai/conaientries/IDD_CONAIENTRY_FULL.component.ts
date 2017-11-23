@@ -25,8 +25,7 @@ import { IDD_CONAIENTRY_FULLService } from './IDD_CONAIENTRY_FULL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ConaiEntries':['EntryId','EntryDate','Customer','ExemptionPerc','Item','PrimaryPackage','Material','PackageType','PackageTypeDescription','UnitContribution','TotalContributionAmount','Qty','ExemptQty','SubjectedQty','PrimaryPackageQty','SecondaryTertiaryPackageQty','DocumentType','DocumentLine','DocumentNumber','DocumentDate'],'HKLCustomer':['CompNameComplete'],'HKLMaterials':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ConaiEntries':['EntryId','EntryDate','Customer','ExemptionPerc','Item','PrimaryPackage','Material','PackageType','PackageTypeDescription','UnitContribution','TotalContributionAmount','Qty','ExemptQty','SubjectedQty','PrimaryPackageQty','SecondaryTertiaryPackageQty','DocumentType','DocumentLine','DocumentNumber','DocumentDate'],'HKLCustomer':['CompNameComplete'],'HKLMaterials':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

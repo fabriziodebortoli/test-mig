@@ -25,8 +25,7 @@ import { IDD_USER_DEFAULT_COPYService } from './IDD_USER_DEFAULT_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UsrDftCpyBranch','UsrDftCpyWorkerID']});
+        		this.bo.appendToModelStructure({'global':['UsrDftCpyBranch','UsrDftCpyWorkerID']});
 
     }
 

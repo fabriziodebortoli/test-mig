@@ -30,8 +30,7 @@ import { IDD_DIRECTDEBIT_SEPAService } from './IDD_DIRECTDEBIT_SEPA.service';
   "namespace": "ERP.AP_AR.Components.TypeEnumComboSDD"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BillsType','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','PresDate','PresBank','DefPrint','ExecutionDate','GenerateSlipByMandTypeDueDate','nCurrentElement','GaugeDescription'],'HKLBank':['Description']});
+        		this.bo.appendToModelStructure({'global':['BillsType','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','PresDate','PresBank','DefPrint','ExecutionDate','GenerateSlipByMandTypeDueDate','nCurrentElement','GaugeDescription'],'HKLBank':['Description']});
 
     }
 

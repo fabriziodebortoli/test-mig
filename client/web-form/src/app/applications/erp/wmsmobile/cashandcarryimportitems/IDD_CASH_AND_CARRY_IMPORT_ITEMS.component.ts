@@ -30,8 +30,7 @@ import { IDD_CASH_AND_CARRY_IMPORT_ITEMSService } from './IDD_CASH_AND_CARRY_IMP
   "namespace": "ERP.WMSMobile.Components.WorkerItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CashAndCarryImportItems_sWorker']});
+        		this.bo.appendToModelStructure({'global':['CashAndCarryImportItems_sWorker']});
 
     }
 

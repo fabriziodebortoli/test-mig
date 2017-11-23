@@ -25,8 +25,7 @@ import { IDD_ARRANGEMENTSService } from './IDD_ARRANGEMENTS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Arrangements':['Arrangement','Description','ArrangementLevel','WorkingHours','BasicPay','TotalPay','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Arrangements':['Arrangement','Description','ArrangementLevel','WorkingHours','BasicPay','TotalPay','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

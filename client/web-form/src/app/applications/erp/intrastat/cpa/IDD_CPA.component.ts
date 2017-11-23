@@ -25,8 +25,7 @@ import { IDD_CPAService } from './IDD_CPA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CPA':['CPACode','Description','IntraSales','IntraPurchases'],'global':['CPACountries','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CPACountries':['ISOCountryCode','IntraSales']});
+        		this.bo.appendToModelStructure({'CPA':['CPACode','Description','IntraSales','IntraPurchases'],'global':['CPACountries','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CPACountries':['ISOCountryCode','IntraSales']});
 
     }
 

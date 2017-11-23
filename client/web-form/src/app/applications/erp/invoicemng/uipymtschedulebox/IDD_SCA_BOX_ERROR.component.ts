@@ -25,8 +25,7 @@ import { IDD_SCA_BOX_ERRORService } from './IDD_SCA_BOX_ERROR.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

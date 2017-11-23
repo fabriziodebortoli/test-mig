@@ -25,8 +25,7 @@ import { IDD_IDNUMBERService } from './IDD_IDNUMBER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'IDNumber':['InternalIdNo','Item','Lot','OutOfStock','ExternalIdNo','BarcodeSegment'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'IDNumber':['InternalIdNo','Item','Lot','OutOfStock','ExternalIdNo','BarcodeSegment'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_TRAVELAGENCY_TAXService } from './IDD_TRAVELAGENCY_TAX.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TravelAgencyTaxData':['BalanceYear','BalanceMonth','PeriodRevenue','PeriodCost','ActualPeriodCreditCost'],'global':['PreviousPeriodCost','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TravelAgencyTaxData':['BalanceYear','BalanceMonth','PeriodRevenue','PeriodCost','ActualPeriodCreditCost'],'global':['PreviousPeriodCost','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_CIRCULARLETTERTEMPLATESService } from './IDD_CIRCULARLETTERTEMPLATE
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CircularLetterTemplates':['Template','Disabled','Description','Subject','FileNamespace','ReportNamespace','PrintAuthSect','PLDeliveryType','PLPrintType'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'CircularLetterTemplates':['Template','Disabled','Description','Subject','FileNamespace','ReportNamespace','PrintAuthSect','PLDeliveryType','PLPrintType'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

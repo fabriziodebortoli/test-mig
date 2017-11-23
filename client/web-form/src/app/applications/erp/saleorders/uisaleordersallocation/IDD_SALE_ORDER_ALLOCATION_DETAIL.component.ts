@@ -25,8 +25,7 @@ import { IDD_SALE_ORDER_ALLOCATION_DETAILService } from './IDD_SALE_ORDER_ALLOCA
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SaleOrdNo','SaleOrdersAllocation'],'SaleOrdersAllocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Lot','Qty','AllocableQty','AllocatedQty','DeliveredQty','BaseUoM','AvailableQty','ProgressiveAvailableQty','AreaQty','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate']});
+        		this.bo.appendToModelStructure({'global':['SaleOrdNo','SaleOrdersAllocation'],'SaleOrdersAllocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Lot','Qty','AllocableQty','AllocatedQty','DeliveredQty','BaseUoM','AvailableQty','ProgressiveAvailableQty','AreaQty','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate']});
 
     }
 

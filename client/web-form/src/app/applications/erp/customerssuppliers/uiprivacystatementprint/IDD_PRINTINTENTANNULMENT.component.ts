@@ -25,8 +25,7 @@ import { IDD_PRINTINTENTANNULMENTService } from './IDD_PRINTINTENTANNULMENT.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','LogNo','Reprint','CustSuppAll','CustSuppSel','FromCode','CustSuppSel','FromCode','FromCode','ToCode','TaxCode','ISOCode','FromDate','ToDate','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['Year','LogNo','Reprint','CustSuppAll','CustSuppSel','FromCode','CustSuppSel','FromCode','FromCode','ToCode','TaxCode','ISOCode','FromDate','ToDate','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
 
     }
 

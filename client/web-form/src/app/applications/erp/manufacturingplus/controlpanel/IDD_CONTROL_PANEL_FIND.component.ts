@@ -30,8 +30,7 @@ import { IDD_CONTROL_PANEL_FINDService } from './IDD_CONTROL_PANEL_FIND.service'
   "namespace": "ERP.ManufacturingPlus.Documents.ControlPanelFindItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FindType','FindValue']});
+        		this.bo.appendToModelStructure({'global':['FindType','FindValue']});
 
     }
 

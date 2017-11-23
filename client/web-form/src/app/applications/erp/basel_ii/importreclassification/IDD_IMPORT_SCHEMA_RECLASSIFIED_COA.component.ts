@@ -25,8 +25,7 @@ import { IDD_IMPORT_SCHEMA_RECLASSIFIED_COAService } from './IDD_IMPORT_SCHEMA_R
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Schema']});
+        		this.bo.appendToModelStructure({'global':['Schema']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_INROMANEIOLOADINGService } from './IDD_INROMANEIOLOADING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllDocumentDate','bSelDocumentDate','FromDocumentDate','ToDocumentDate','bAllDocType','bDocTypeNFCust','bDocTypeNFSupp','bAllCustSupp','bSelCustSupp','FromCustSupp','ToCustSupp','bAllDocumentNo','bSelDocumentNo','FromDocumentNo','ToDocumentNo','bAllVehicle','bSelVehicle','SelectedVehicleCode','SelectedVehicleLicensePlate','NFInRomaneioLoading'],'NFInRomaneioLoading':['TEnhNFInRo_Select','TEnhNFInRo_Series','TEnhNFInRo_Model','TEnhNFInRo_DocNo','TEnhNFInRo_DocDate','TEnhNFInRo_CustSuppType','TEnhNFInRo_CustSupp','TEnhNFInRo_CustSuppCompanyName','TEnhNFInRo_CustSuppFederalState','TEnhNFInRo_CustSuppCity','TEnhNFInRo_DeliveryToCompanyName','TEnhNFInRo_DeliveryToFederalState','TEnhNFInRo_DeliveryToCity','TEnhNFInRo_Currency']});
+        		this.bo.appendToModelStructure({'global':['bAllDocumentDate','bSelDocumentDate','FromDocumentDate','ToDocumentDate','bAllDocType','bDocTypeNFCust','bDocTypeNFSupp','bAllCustSupp','bSelCustSupp','FromCustSupp','ToCustSupp','bAllDocumentNo','bSelDocumentNo','FromDocumentNo','ToDocumentNo','bAllVehicle','bSelVehicle','SelectedVehicleCode','SelectedVehicleLicensePlate','NFInRomaneioLoading'],'NFInRomaneioLoading':['TEnhNFInRo_Select','TEnhNFInRo_Series','TEnhNFInRo_Model','TEnhNFInRo_DocNo','TEnhNFInRo_DocDate','TEnhNFInRo_CustSuppType','TEnhNFInRo_CustSupp','TEnhNFInRo_CustSuppCompanyName','TEnhNFInRo_CustSuppFederalState','TEnhNFInRo_CustSuppCity','TEnhNFInRo_DeliveryToCompanyName','TEnhNFInRo_DeliveryToFederalState','TEnhNFInRo_DeliveryToCity','TEnhNFInRo_Currency']});
 
     }
 

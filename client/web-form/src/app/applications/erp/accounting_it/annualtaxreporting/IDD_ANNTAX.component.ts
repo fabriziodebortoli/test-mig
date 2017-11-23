@@ -31,8 +31,7 @@ import { IDD_ANNTAXService } from './IDD_ANNTAX.service';
   "parameter": "DataFile.ERP.Payees.PositionCode"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','SaleOp','PurchOp','NotTaxSaleOp','NotTaxPurchOp','ExempSaleOp','ExempPurchOp','IntraSaleOp','IntraPurchOp','FixedAssetsSaleOp','FixedAssetsPurchOp','GoldTaxableAmount','GoldTax','ScrapTaxableAmount','ScrapTaxAmount','TaxExigibility','DeductableTax','DueTax','CreditTax','DifferentDecl','PositionCode_XML','SubscriberFiscalCode','SubscriberFiscalCode2','SeparateAccounting','CompanyGroupDecl','bExceptionalEvent','ConfirmFC','TaxPayerReserve','ConfirmingFlag','IntermediaryReserve','Signature','ReserveDate','UserField','FreeSpace','Transmit']});
+        		this.bo.appendToModelStructure({'global':['Year','SaleOp','PurchOp','NotTaxSaleOp','NotTaxPurchOp','ExempSaleOp','ExempPurchOp','IntraSaleOp','IntraPurchOp','FixedAssetsSaleOp','FixedAssetsPurchOp','GoldTaxableAmount','GoldTax','ScrapTaxableAmount','ScrapTaxAmount','TaxExigibility','DeductableTax','DueTax','CreditTax','DifferentDecl','PositionCode_XML','SubscriberFiscalCode','SubscriberFiscalCode2','SeparateAccounting','CompanyGroupDecl','bExceptionalEvent','ConfirmFC','TaxPayerReserve','ConfirmingFlag','IntermediaryReserve','Signature','ReserveDate','UserField','FreeSpace','Transmit']});
 
     }
 

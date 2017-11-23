@@ -25,8 +25,7 @@ import { IDD_TAXJOURNALSService } from './IDD_TAXJOURNALS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','Month','MonthTo','bSelWithinDate','WithinDate','TaxJournalType','AllJournalRadio','JournalRadioSel','FromTaxJournal','FromTaxJournal','ToTaxJournal','DisabledFilter','MarginTAX','FromPostDate','bSelFromDate','FromDate','PrevYearCredit','LastTaxPymt','DefinitivelyPrinted','bPrepareForSOS','TotForDoc','DistributionPosting','ClosedPeriod','DotMatrixPrinter','DotMatrixPrinter80Col','ContextualHeading','NoPrefix','VideoPage'],'HKLFromTaxJournal':['Description','Description'],'HKLToTaxJournal':['Description']});
+        		this.bo.appendToModelStructure({'global':['Year','Month','MonthTo','bSelWithinDate','WithinDate','TaxJournalType','AllJournalRadio','JournalRadioSel','FromTaxJournal','FromTaxJournal','ToTaxJournal','DisabledFilter','MarginTAX','FromPostDate','bSelFromDate','FromDate','PrevYearCredit','LastTaxPymt','DefinitivelyPrinted','bPrepareForSOS','TotForDoc','DistributionPosting','ClosedPeriod','DotMatrixPrinter','DotMatrixPrinter80Col','ContextualHeading','NoPrefix','VideoPage'],'HKLFromTaxJournal':['Description','Description'],'HKLToTaxJournal':['Description']});
 
     }
 

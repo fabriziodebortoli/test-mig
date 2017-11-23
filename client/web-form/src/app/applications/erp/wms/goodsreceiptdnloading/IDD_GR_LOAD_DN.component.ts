@@ -25,8 +25,7 @@ import { IDD_GR_LOAD_DNService } from './IDD_GR_LOAD_DN.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DNLoading':['DocNo','DocumentDate','PostingDate','CustSupp','Payment','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['DNDetailLoading'],'DNDetailLoading':['DocDetDNGR_Selected','Invoiced','LineType','Item','Description','UoM','DocDetDNGR_QtaToIssue','Qty','InvoicedQty','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'DNSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'DNLoading':['DocNo','DocumentDate','PostingDate','CustSupp','Payment','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['DNDetailLoading'],'DNDetailLoading':['DocDetDNGR_Selected','Invoiced','LineType','Item','Description','UoM','DocDetDNGR_QtaToIssue','Qty','InvoicedQty','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'DNSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

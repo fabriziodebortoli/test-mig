@@ -25,8 +25,7 @@ import { IDD_BR_NOTAFISCALTYPE_COPY_NFService } from './IDD_BR_NOTAFISCALTYPE_CO
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NotaFiscalType']});
+        		this.bo.appendToModelStructure({'global':['NotaFiscalType']});
 
     }
 

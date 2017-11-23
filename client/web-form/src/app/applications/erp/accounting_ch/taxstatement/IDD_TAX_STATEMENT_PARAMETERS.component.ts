@@ -25,8 +25,7 @@ import { IDD_TAX_STATEMENT_PARAMETERSService } from './IDD_TAX_STATEMENT_PARAMET
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TaxRegimeDescription','TaxStatementDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'TaxStatement':['AmountWithTax'],'TaxStatementDetails':['TaxStatementCode','TaxCode'],'HKLBdyStatement':['Description']});
+        		this.bo.appendToModelStructure({'global':['TaxRegimeDescription','TaxStatementDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'TaxStatement':['AmountWithTax'],'TaxStatementDetails':['TaxStatementCode','TaxCode'],'HKLBdyStatement':['Description']});
 
     }
 

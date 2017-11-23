@@ -30,8 +30,7 @@ import { IDD_DESTCASHORDERService } from './IDD_DESTCASHORDER.service';
   "namespace": "ERP.AP_AR.Documents.TypeEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BillsType','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','PresDate','SupportBank','DefPrint','bPrintIBAN','SupporttName','Signature','nCurrentElement','GaugeDescription'],'HKLBank':['Description']});
+        		this.bo.appendToModelStructure({'global':['BillsType','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','PresDate','SupportBank','DefPrint','bPrintIBAN','SupporttName','Signature','nCurrentElement','GaugeDescription'],'HKLBank':['Description']});
 
     }
 

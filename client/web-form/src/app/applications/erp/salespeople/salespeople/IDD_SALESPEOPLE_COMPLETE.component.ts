@@ -30,8 +30,7 @@ import { IDD_SALESPEOPLE_COMPLETEService } from './IDD_SALESPEOPLE_COMPLETE.serv
   "namespace": "ERP.SalesPeople.Documents.AreaCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SalesPeople':['Salesperson','Supplier','Name','IsAnEmployee','Disabled','NoCommissionEdit','Policy','MonthlyFixedAmount','BaseCommission','IsAnAreaManager','AreaManager','BaseAreaMngCommission','Enasarco','HiringDate','FiringDate','IsACompany','IsACorporation','OneFirmOnly','AgencyChangeDate'],'HKLAreaManager':['Name'],'global':['Balances','ENASARCONo','bSalespersonMulti','FIRR','Allowance','SalesPeoplePartners','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'FIRR':['BalanceYear','CodeType','Base','AccruedAmount','PaymentDate','IsManual'],'Allowance':['BalanceYear','Base','Accrued','PaymentDate','IsManual']});
+        		this.bo.appendToModelStructure({'SalesPeople':['Salesperson','Supplier','Name','IsAnEmployee','Disabled','NoCommissionEdit','Policy','MonthlyFixedAmount','BaseCommission','IsAnAreaManager','AreaManager','BaseAreaMngCommission','Enasarco','HiringDate','FiringDate','IsACompany','IsACorporation','OneFirmOnly','AgencyChangeDate'],'HKLAreaManager':['Name'],'global':['Balances','ENASARCONo','bSalespersonMulti','FIRR','Allowance','SalesPeoplePartners','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'FIRR':['BalanceYear','CodeType','Base','AccruedAmount','PaymentDate','IsManual'],'Allowance':['BalanceYear','Base','Accrued','PaymentDate','IsManual']});
 
     }
 

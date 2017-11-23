@@ -25,8 +25,7 @@ import { IDD_COPYTAXService } from './IDD_COPYTAX.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Tax']});
+        		this.bo.appendToModelStructure({'global':['Tax']});
 
     }
 

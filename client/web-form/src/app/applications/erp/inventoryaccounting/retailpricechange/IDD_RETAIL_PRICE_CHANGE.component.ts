@@ -25,8 +25,7 @@ import { IDD_RETAIL_PRICE_CHANGEService } from './IDD_RETAIL_PRICE_CHANGE.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SelectedStorage','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DeltaPrice','Rounding','RoundType','ApplyCurrentPrice','ApplyLastCost','AccTemplate','AccReason','PostingDate','AssignPrices','TotNetPriceDiff','GrandTotDiff','TotVATDiff'],'HKLRetailStorages':['Description'],'HKLAccTpl':['Description'],'HKLAccRsn':['Description'],'AssignPrices':['Selected','Item','ItemDescription','Price','LastCost','PriceWithTax','NewPrice','BookInvQty','NetPriceDiff','VATDiff','TotDiff']});
+        		this.bo.appendToModelStructure({'global':['SelectedStorage','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DeltaPrice','Rounding','RoundType','ApplyCurrentPrice','ApplyLastCost','AccTemplate','AccReason','PostingDate','AssignPrices','TotNetPriceDiff','GrandTotDiff','TotVATDiff'],'HKLRetailStorages':['Description'],'HKLAccTpl':['Description'],'HKLAccRsn':['Description'],'AssignPrices':['Selected','Item','ItemDescription','Price','LastCost','PriceWithTax','NewPrice','BookInvQty','NetPriceDiff','VATDiff','TotDiff']});
 
     }
 

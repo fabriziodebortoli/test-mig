@@ -25,8 +25,7 @@ import { IDD_EXTACCFORMULAMNGService } from './IDD_EXTACCFORMULAMNG.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SymbolExtAccountingFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolExtAccountingFormula':['VExtAccFormulaSymbol_p1']});
+        		this.bo.appendToModelStructure({'global':['SymbolExtAccountingFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolExtAccountingFormula':['VExtAccFormulaSymbol_p1']});
 
     }
 

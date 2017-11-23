@@ -25,8 +25,7 @@ import { IDD_CUSTCTGService } from './IDD_CUSTCTG.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustomersCategories':['Category','Description','Notes'],'global':['Form','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Form':['DocumentNamespace','ReportNamespace','ReportDescription']});
+        		this.bo.appendToModelStructure({'CustomersCategories':['Category','Description','Notes'],'global':['Form','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Form':['DocumentNamespace','ReportNamespace','ReportDescription']});
 
     }
 

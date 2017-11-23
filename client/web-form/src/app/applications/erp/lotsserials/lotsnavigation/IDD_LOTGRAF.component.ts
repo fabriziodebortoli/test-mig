@@ -25,8 +25,7 @@ import { IDD_LOTGRAFService } from './IDD_LOTGRAF.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Item','Lot','CriticalItems','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['Item','Lot','CriticalItems','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

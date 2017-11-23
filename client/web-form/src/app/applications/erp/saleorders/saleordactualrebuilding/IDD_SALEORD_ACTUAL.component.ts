@@ -25,8 +25,7 @@ import { IDD_SALEORD_ACTUALService } from './IDD_SALEORD_ACTUAL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','ActualClear','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','ActualClear','nCurrentElement','GaugeDescription']});
 
     }
 

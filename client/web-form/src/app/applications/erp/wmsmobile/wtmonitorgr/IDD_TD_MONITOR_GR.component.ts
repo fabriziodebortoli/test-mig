@@ -37,8 +37,7 @@ this.IDC_MONITORGR_BOLNO_validators = [
   }
 ]; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BoLNumber','BoLDate','Supplier','Detail'],'HKLSupplier':['CompanyName'],'Detail':['SyncStatusBmp','DestStorageUnit','Item','ItemDescription','UoM','QtyMoved','Lot','SupplierLotNo','SupplierLotExpiryDate','InternalIdNo','ItemStatus']});
+        		this.bo.appendToModelStructure({'global':['BoLNumber','BoLDate','Supplier','Detail'],'HKLSupplier':['CompanyName'],'Detail':['SyncStatusBmp','DestStorageUnit','Item','ItemDescription','UoM','QtyMoved','Lot','SupplierLotNo','SupplierLotExpiryDate','InternalIdNo','ItemStatus']});
 
     }
 

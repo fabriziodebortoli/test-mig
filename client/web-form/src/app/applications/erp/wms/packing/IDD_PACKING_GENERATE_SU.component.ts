@@ -25,8 +25,7 @@ import { IDD_PACKING_GENERATE_SUService } from './IDD_PACKING_GENERATE_SU.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SUToGenerate','StorageUnitType','bPrintLabelSU'],'HKLWMStorageUnitType':['Description']});
+        		this.bo.appendToModelStructure({'global':['SUToGenerate','StorageUnitType','bPrintLabelSU'],'HKLWMStorageUnitType':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_INV3X_MIGRATION_REASONSService } from './IDD_INV3X_MIGRATION_REASON
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllReasons','bReasonSel','FromReason','ToReason','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllReasons','bReasonSel','FromReason','ToReason','nCurrentElement','GaugeDescription']});
 
     }
 

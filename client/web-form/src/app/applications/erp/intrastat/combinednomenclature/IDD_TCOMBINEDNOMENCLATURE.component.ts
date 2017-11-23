@@ -25,8 +25,7 @@ import { IDD_TCOMBINEDNOMENCLATUREService } from './IDD_TCOMBINEDNOMENCLATURE.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CombinedNomenclature':['CombinedNomenclature','Disabled','Description','SuppUnitCode'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CombinedNomenclature':['CombinedNomenclature','Disabled','Description','SuppUnitCode'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

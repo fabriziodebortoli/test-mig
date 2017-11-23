@@ -25,8 +25,7 @@ import { IDD_PARAMETERS_PAYEESService } from './IDD_PARAMETERS_PAYEES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['INPS','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'INPS':['Line','FromAmount','ToAmount','Perc','BasePerc','Description']});
+        		this.bo.appendToModelStructure({'global':['INPS','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'INPS':['Line','FromAmount','ToAmount','Perc','BasePerc','Description']});
 
     }
 

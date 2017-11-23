@@ -30,8 +30,7 @@ import { IDD_WIZ_POSTING_NFC_MAINService } from './IDD_WIZ_POSTING_NFC_MAIN.serv
   "namespace": "ERP.Business_BR.Components.BRNFeStatusForRecalculationCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorStatusNFe','ElaboratorAllCustomer','ElaboratorCustomerSel','ElaboratorFromCustomer','ElaboratorToCustomer','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllSalesPeople','ElaboratorSalesPeopleSel','ElaboratorFromSalesperson','ElaboratorToSalesperson','SaleOrdFulfilmentDetail','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['DocGeneration','CustSupp','CustomerCompanyName','Salesperson','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorStatusNFe','ElaboratorAllCustomer','ElaboratorCustomerSel','ElaboratorFromCustomer','ElaboratorToCustomer','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllSalesPeople','ElaboratorSalesPeopleSel','ElaboratorFromSalesperson','ElaboratorToSalesperson','SaleOrdFulfilmentDetail','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['DocGeneration','CustSupp','CustomerCompanyName','Salesperson','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

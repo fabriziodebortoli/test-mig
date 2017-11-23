@@ -25,8 +25,7 @@ import { IDD_SMARTCODEService } from './IDD_SMARTCODE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Root':['Root'],'HKLRoot':['Description'],'global':['Segment','Combination','DescriCombination','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Root':['Root'],'HKLRoot':['Description'],'global':['Segment','Combination','DescriCombination','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -30,8 +30,7 @@ import { IDD_TOOL_INSPECTIONService } from './IDD_TOOL_INSPECTION.service';
   "namespace": "ERP.ToolsManagement.Documents.InspectionStatusItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','bToInspect','bUnderInspection','ToolsInspection'],'ToolsInspection':['LocalBmpStatus','Selected','Tool','LastInspectionDate','LocalRemarks','MaintenanceWorker','InspectionStartDate','InspectionDuration','InspectionDuration','InspectionValidityDays','NextInspectionDate','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','bToInspect','bUnderInspection','ToolsInspection'],'ToolsInspection':['LocalBmpStatus','Selected','Tool','LastInspectionDate','LocalRemarks','MaintenanceWorker','InspectionStartDate','InspectionDuration','InspectionDuration','InspectionValidityDays','NextInspectionDate','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
 
     }
 

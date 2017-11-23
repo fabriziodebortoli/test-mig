@@ -25,8 +25,7 @@ import { IDD_LEAD_TIME_CALCService } from './IDD_LEAD_TIME_CALC.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllItems','ItemsSel','FromItem','ToItem','AverageDelivery','AverageQtyDeliverd','LastDelivery','MinUsed','MaxUsed','LeadTimeCalculation'],'LeadTimeCalculation':['l_Selected','Supplier','Item','DaysForDelivery','l_RealLeadTime','l_Updated']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllItems','ItemsSel','FromItem','ToItem','AverageDelivery','AverageQtyDeliverd','LastDelivery','MinUsed','MaxUsed','LeadTimeCalculation'],'LeadTimeCalculation':['l_Selected','Supplier','Item','DaysForDelivery','l_RealLeadTime','l_Updated']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_COSTACCGRAPHService } from './IDD_COSTACCGRAPH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllGroups','GroupSel','FromGroup','ToGroup','bDisabled','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['AllGroups','GroupSel','FromGroup','ToGroup','bDisabled','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

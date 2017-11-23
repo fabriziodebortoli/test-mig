@@ -25,8 +25,7 @@ import { IDD_LOAD_BOMService } from './IDD_LOAD_BOM.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMComponentsToCopy','BOMRoutingsToCopy'],'BOMComponentsToCopy':['Selected','ComponentType','Drawing','Component','Description','Variant','Qty','PercQty','UoM','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate'],'BOMRoutingsToCopy':['Sel','RtgStep','Alternate','AltRtgStep','Operation','WC','IsWC','SetupTime','ProcessingTime','TotalTime','QueueTime','Notes']});
+        		this.bo.appendToModelStructure({'global':['BOMComponentsToCopy','BOMRoutingsToCopy'],'BOMComponentsToCopy':['Selected','ComponentType','Drawing','Component','Description','Variant','Qty','PercQty','UoM','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate'],'BOMRoutingsToCopy':['Sel','RtgStep','Alternate','AltRtgStep','Operation','WC','IsWC','SetupTime','ProcessingTime','TotalTime','QueueTime','Notes']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_LOADER_SALE_ORDService } from './IDD_LOADER_SALE_ORD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OrdNoFilter','OrdPosFilter','ExcludeFulffilledLines','ExcludeNotes','QtyToInvoiceAsDelivered','ItemFilter','ShowOnlyItemLine','bUseFilterForStorageForOrderFilter','StoragePhase1ForOrderFilter','StoragePhase2ForOrderFilter','bUseCurrentDNStorages']});
+        		this.bo.appendToModelStructure({'global':['OrdNoFilter','OrdPosFilter','ExcludeFulffilledLines','ExcludeNotes','QtyToInvoiceAsDelivered','ItemFilter','ShowOnlyItemLine','bUseFilterForStorageForOrderFilter','StoragePhase1ForOrderFilter','StoragePhase2ForOrderFilter','bUseCurrentDNStorages']});
 
     }
 

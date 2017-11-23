@@ -25,8 +25,7 @@ import { IDD_PAYROLLPARAMETERSService } from './IDD_PAYROLLPARAMETERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ExcludedReasons','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ExcludedReasons':['Reason'],'HKLBodyReason':['Description']});
+        		this.bo.appendToModelStructure({'global':['ExcludedReasons','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ExcludedReasons':['Reason'],'HKLBodyReason':['Description']});
 
     }
 

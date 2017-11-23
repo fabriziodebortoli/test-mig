@@ -25,8 +25,7 @@ import { IDD_STINTRABGService } from './IDD_STINTRABG.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SaleSummary','PurchSummary','Normal','Adjustment','Period','Year','PeriodAdj','YearAdj','DelegTaxIdNo','DelegFiscalCode','DelegCompanyName','DelegFamily','DelegTelephone','ShowEmptyFields','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['SaleSummary','PurchSummary','Normal','Adjustment','Period','Year','PeriodAdj','YearAdj','DelegTaxIdNo','DelegFiscalCode','DelegCompanyName','DelegFamily','DelegTelephone','ShowEmptyFields','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

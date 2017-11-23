@@ -25,8 +25,7 @@ import { IDD_BR_TAXFORMULAService } from './IDD_BR_TAXFORMULA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRTaxFormula':['TaxFormulaCode','Description','TaxType','ValidityStartingDate','ValidityEndingDate','TaxableAmountFormula','TaxAmountFormula'],'global':['bTaxableAmountEnable','bTaxEnable','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRTaxFormula':['TaxFormulaCode','Description','TaxType','ValidityStartingDate','ValidityEndingDate','TaxableAmountFormula','TaxAmountFormula'],'global':['bTaxableAmountEnable','bTaxEnable','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

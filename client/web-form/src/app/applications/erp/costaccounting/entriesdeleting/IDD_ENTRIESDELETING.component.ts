@@ -30,8 +30,7 @@ import { IDD_ENTRIESDELETINGService } from './IDD_ENTRIESDELETING.service';
   "namespace": "ERP.CostAccounting.Components.EntryTypeForecastEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','bResetPostedInCostAccounting','All','TypeSel','EntryType','SelGen','strPostingType','ExtraSel','AllGen','JEAll','JESel','Pure','Issue','Received','Everyone','Nature','DeletedNo','NrRef','PostDate','Account','AccountDescri']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','bResetPostedInCostAccounting','All','TypeSel','EntryType','SelGen','strPostingType','ExtraSel','AllGen','JEAll','JESel','Pure','Issue','Received','Everyone','Nature','DeletedNo','NrRef','PostDate','Account','AccountDescri']});
 
     }
 

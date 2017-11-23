@@ -25,8 +25,7 @@ import { IDD_DEASSOCIATIONSService } from './IDD_DEASSOCIATIONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ItemToCtgAssociations':['Item','DistributionTemplate','ChargeCategory'],'HKLItem':['Description'],'HKLDistribTemplates':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ItemToCtgAssociations':['Item','DistributionTemplate','ChargeCategory'],'HKLItem':['Description'],'HKLDistribTemplates':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

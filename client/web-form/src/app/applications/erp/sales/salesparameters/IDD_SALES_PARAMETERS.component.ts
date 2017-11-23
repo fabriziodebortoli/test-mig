@@ -25,8 +25,7 @@ import { IDD_SALES_PARAMETERSService } from './IDD_SALES_PARAMETERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Main':['PrintParagonOnFiscalPrinter'],'global':['ParametersParagon','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ParametersParagon':['ComputerName','ExecutableProgram','COMPortNo']});
+        		this.bo.appendToModelStructure({'Main':['PrintParagonOnFiscalPrinter'],'global':['ParametersParagon','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ParametersParagon':['ComputerName','ExecutableProgram','COMPortNo']});
 
     }
 

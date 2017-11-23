@@ -25,8 +25,7 @@ import { IDD_BR_NF_NUMBERSService } from './IDD_BR_NF_NUMBERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'BRNotaFiscalNumbers':['Model','Series','LastNo','LastDate'],'HKLBRSeries':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'BRNotaFiscalNumbers':['Model','Series','LastNo','LastDate'],'HKLBRSeries':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_ACCTRANSFERService } from './IDD_ACCTRANSFER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartDate','EndDate','PostingDate','AccrualDate','Detail'],'Detail':['l_TEnhAccTransfer_P01','l_TEnhAccTransfer_P02','l_TEnhAccTransfer_P04','l_TEnhAccTransfer_P03','l_TEnhAccTransfer_P06','Account','l_TEnhAccTransfer_P05','DebitCreditSign','Amount']});
+        		this.bo.appendToModelStructure({'global':['StartDate','EndDate','PostingDate','AccrualDate','Detail'],'Detail':['l_TEnhAccTransfer_P01','l_TEnhAccTransfer_P02','l_TEnhAccTransfer_P04','l_TEnhAccTransfer_P03','l_TEnhAccTransfer_P06','Account','l_TEnhAccTransfer_P05','DebitCreditSign','Amount']});
 
     }
 

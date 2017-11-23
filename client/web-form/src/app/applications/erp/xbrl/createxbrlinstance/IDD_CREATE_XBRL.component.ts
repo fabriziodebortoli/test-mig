@@ -25,8 +25,7 @@ import { IDD_CREATE_XBRLService } from './IDD_CREATE_XBRL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Branch','Liquidation','SoleShareholder','UnderCoord','Coordinator','BelongToGroup','GroupLeader','GroupCountry','SlaveDataXBRL','SlaveDataXBRLErrors','Year','Month','DateStart','DateEnd','DateStartPrev','DateEndPrev','FileNameComplete'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLCrea_P9','l_TEnhPersonalDataXBRLCrea_P1','l_TEnhPersonalDataXBRLCrea_P2','l_TEnhPersonalDataXBRLCrea_P8'],'SlaveDataXBRLErrors':['l_TEnhPersonalDataXBRLCErr_P1']});
+        		this.bo.appendToModelStructure({'global':['Branch','Liquidation','SoleShareholder','UnderCoord','Coordinator','BelongToGroup','GroupLeader','GroupCountry','SlaveDataXBRL','SlaveDataXBRLErrors','Year','Month','DateStart','DateEnd','DateStartPrev','DateEndPrev','FileNameComplete'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLCrea_P9','l_TEnhPersonalDataXBRLCrea_P1','l_TEnhPersonalDataXBRLCrea_P2','l_TEnhPersonalDataXBRLCrea_P8'],'SlaveDataXBRLErrors':['l_TEnhPersonalDataXBRLCErr_P1']});
 
     }
 

@@ -30,8 +30,7 @@ import { IDD_MOBILE_CONFIGURATIONService } from './IDD_MOBILE_CONFIGURATION.serv
   "namespace": "ERP.WMSMobile.Services.NamespacesCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Namespace','MobileConfigurationFields','bMoveRight','MobileConfigurationAvailableFields','bMoveLeft'],'MobileConfigurationFields':['l_FieldDescription','l_WidthGraphic','l_FixedField','l_EditField','l_MandatoryField'],'MobileConfigurationAvailableFields':['l_FieldDescription']});
+        		this.bo.appendToModelStructure({'global':['Namespace','MobileConfigurationFields','bMoveRight','MobileConfigurationAvailableFields','bMoveLeft'],'MobileConfigurationFields':['l_FieldDescription','l_WidthGraphic','l_FixedField','l_EditField','l_MandatoryField'],'MobileConfigurationAvailableFields':['l_FieldDescription']});
 
     }
 

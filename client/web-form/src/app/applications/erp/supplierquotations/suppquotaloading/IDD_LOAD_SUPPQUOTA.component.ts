@@ -25,8 +25,7 @@ import { IDD_LOAD_SUPPQUOTAService } from './IDD_LOAD_SUPPQUOTA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SuppQuotaLoading':['QuotationNo','QuotationDate','SupplierDocNo','Supplier','ProspectiveSupplier','Payment','Currency','ExpectedDeliveryDate','ValidityEndingDate','OurReference','YourReference','Notes'],'global':['SupplierDescri','SuppQuotaDetailLoading'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'SuppQuotaDetailLoading':['Selected','ExpectedDeliveryDate','LineType','Item','SupplierCode','Description','UoM','QtyToReceipt','UnitValue','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoCopyOnOrder'],'SuppQuotaSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'SuppQuotaLoading':['QuotationNo','QuotationDate','SupplierDocNo','Supplier','ProspectiveSupplier','Payment','Currency','ExpectedDeliveryDate','ValidityEndingDate','OurReference','YourReference','Notes'],'global':['SupplierDescri','SuppQuotaDetailLoading'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'SuppQuotaDetailLoading':['Selected','ExpectedDeliveryDate','LineType','Item','SupplierCode','Description','UoM','QtyToReceipt','UnitValue','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoCopyOnOrder'],'SuppQuotaSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

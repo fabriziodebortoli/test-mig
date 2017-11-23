@@ -25,8 +25,7 @@ import { IDD_PAYMENTORDERSService } from './IDD_PAYMENTORDERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Bank','CA','BOM','IssueDate','LimitDate','AllCurrency','SelCurrency','RefCurrency','PostingDate','Group','DocDate','PyntOrdCharges','NrDoc','RefCurrency','RefFixingDate','RefFixing','PymtOrders','TotalAmount','BlockedImage','LitigationImage'],'HKLBank':['Description'],'PymtOrders':['l_TEnhPaymentOrders_P06','l_TEnhPaymentOrders_P01','BillNo','l_TEnhPaymentOrders_P11','CustSupp','l_TEnhPaymentOrders_P02','InstallmentDate','PaymentTerm','l_TEnhPaymentOrders_P08','l_TEnhPaymentOrders_P09','PayableAmountInBaseCurr','l_TEnhPaymentOrders_P10','PresentationAmountBaseCurr','l_TEnhPaymentOrders_P03','CustSuppBank']});
+        		this.bo.appendToModelStructure({'global':['Bank','CA','BOM','IssueDate','LimitDate','AllCurrency','SelCurrency','RefCurrency','PostingDate','Group','DocDate','PyntOrdCharges','NrDoc','RefCurrency','RefFixingDate','RefFixing','PymtOrders','TotalAmount','BlockedImage','LitigationImage'],'HKLBank':['Description'],'PymtOrders':['l_TEnhPaymentOrders_P06','l_TEnhPaymentOrders_P01','BillNo','l_TEnhPaymentOrders_P11','CustSupp','l_TEnhPaymentOrders_P02','InstallmentDate','PaymentTerm','l_TEnhPaymentOrders_P08','l_TEnhPaymentOrders_P09','PayableAmountInBaseCurr','l_TEnhPaymentOrders_P10','PresentationAmountBaseCurr','l_TEnhPaymentOrders_P03','CustSuppBank']});
 
     }
 

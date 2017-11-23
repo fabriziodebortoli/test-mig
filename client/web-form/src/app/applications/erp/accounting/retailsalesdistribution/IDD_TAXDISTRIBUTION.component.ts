@@ -25,8 +25,7 @@ import { IDD_TAXDISTRIBUTIONService } from './IDD_TAXDISTRIBUTION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UseTaxDistribution','ReDistribution','FromPeriod','ToPeriod','AllPurchase','PurchaseSel','FromPurchaseTaxJournal','ToPurchaseTaxJournal','AllRetail','RetailSel','FromRetailSaleTaxJournal','ToRetailSaleTaxJournal','UpdateSummary','Preview','DotMatrixPrinter','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['UseTaxDistribution','ReDistribution','FromPeriod','ToPeriod','AllPurchase','PurchaseSel','FromPurchaseTaxJournal','ToPurchaseTaxJournal','AllRetail','RetailSel','FromRetailSaleTaxJournal','ToRetailSaleTaxJournal','UpdateSummary','Preview','DotMatrixPrinter','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

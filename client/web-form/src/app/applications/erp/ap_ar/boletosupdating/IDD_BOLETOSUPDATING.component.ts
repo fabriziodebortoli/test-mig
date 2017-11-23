@@ -25,8 +25,7 @@ import { IDD_BOLETOSUPDATINGService } from './IDD_BOLETOSUPDATING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromDocNo','CompanyName','IssuingDate','bAlsoBlockedCust','bGenerate','bGenAndPrint','bPrintPreview','bDefPrint','bEMail','bPrintMail'],'HKLBoletos':['IssuerBank','ConditionCode','Customer','Amount','DueDate']});
+        		this.bo.appendToModelStructure({'global':['FromDocNo','CompanyName','IssuingDate','bAlsoBlockedCust','bGenerate','bGenAndPrint','bPrintPreview','bDefPrint','bEMail','bPrintMail'],'HKLBoletos':['IssuerBank','ConditionCode','Customer','Amount','DueDate']});
 
     }
 

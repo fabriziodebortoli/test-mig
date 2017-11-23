@@ -25,8 +25,7 @@ import { IDD_RESOURCES_LAYOUTService } from './IDD_RESOURCES_LAYOUT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ResourceType','Resource','AllResources','SelectResource','DisabledToo','DetailImage','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['ResourceType','Resource','AllResources','SelectResource','DisabledToo','DetailImage','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

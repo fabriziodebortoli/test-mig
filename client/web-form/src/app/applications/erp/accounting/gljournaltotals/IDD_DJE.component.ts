@@ -25,8 +25,7 @@ import { IDD_DJEService } from './IDD_DJE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['YearDescription','Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'GLJournalTotals':['BalanceYear','BalanceMonth','LastPrintingDate','DefinitivelyPrinted','Updated','NoOfPrintedLines','LastPage','Debit','Credit']});
+        		this.bo.appendToModelStructure({'global':['YearDescription','Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'GLJournalTotals':['BalanceYear','BalanceMonth','LastPrintingDate','DefinitivelyPrinted','Updated','NoOfPrintedLines','LastPage','Debit','Credit']});
 
     }
 

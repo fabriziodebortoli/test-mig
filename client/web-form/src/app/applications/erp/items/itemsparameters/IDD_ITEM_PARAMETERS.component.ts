@@ -25,8 +25,7 @@ import { IDD_ITEM_PARAMETERSService } from './IDD_ITEM_PARAMETERS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ProductSubCtg','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProductSubCtg':['SubCategory','Description']});
+        		this.bo.appendToModelStructure({'global':['ProductSubCtg','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProductSubCtg':['SubCategory','Description']});
 
     }
 

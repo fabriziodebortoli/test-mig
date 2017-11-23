@@ -30,8 +30,7 @@ import { IDD_NUMERATOR_SERIALNOS_FULLService } from './IDD_NUMERATOR_SERIALNOS_F
   "namespace": "ERP.LotsSerials.Components.LotsSerialsPrefixEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SerialNumbers':['LastDocNo','LastDocDate','NoPrefix','PrefixFormat','BalanceYear','SeparatorCode','Suffix','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'SerialNumbers':['LastDocNo','LastDocDate','NoPrefix','PrefixFormat','BalanceYear','SeparatorCode','Suffix','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

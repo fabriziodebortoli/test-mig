@@ -30,8 +30,7 @@ import { IDD_MODIFY_LOTSService } from './IDD_MODIFY_LOTS.service';
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ProductionLotEditDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProductionLotEditDetail':['BmpProperty','Component','Variant','ComponentNature','UoM','NeededQty','PickedQuantity','Storage','SpecificatorType','Specificator','Lot'],'HKLItem':['Description']});
+        		this.bo.appendToModelStructure({'global':['ProductionLotEditDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ProductionLotEditDetail':['BmpProperty','Component','Variant','ComponentNature','UoM','NeededQty','PickedQuantity','Storage','SpecificatorType','Specificator','Lot'],'HKLItem':['Description']});
 
     }
 

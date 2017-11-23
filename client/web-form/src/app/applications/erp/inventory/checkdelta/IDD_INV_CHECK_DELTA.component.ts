@@ -25,8 +25,7 @@ import { IDD_INV_CHECK_DELTAService } from './IDD_INV_CHECK_DELTA.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','RefDecimali','bCheckFinalData','bCheckInitialData','RefDecimali','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','RefDecimali','bCheckFinalData','bCheckInitialData','RefDecimali','nCurrentElement','GaugeDescription']});
 
     }
 

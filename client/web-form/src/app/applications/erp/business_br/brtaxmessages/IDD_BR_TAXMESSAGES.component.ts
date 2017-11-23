@@ -25,8 +25,7 @@ import { IDD_BR_TAXMESSAGESService } from './IDD_BR_TAXMESSAGES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRTaxMessages':['TaxMessageCode','Disabled','Description1','Description2','Description3','LongDescription'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRTaxMessages':['TaxMessageCode','Disabled','Description1','Description2','Description3','LongDescription'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

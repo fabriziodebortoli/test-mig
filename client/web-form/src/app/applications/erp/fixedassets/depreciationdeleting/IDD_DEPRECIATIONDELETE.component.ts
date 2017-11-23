@@ -25,8 +25,7 @@ import { IDD_DEPRECIATIONDELETEService } from './IDD_DEPRECIATIONDELETE.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromDate','ToDate','FiscalYearDescri','PostDate','Reason','RsnDescription']});
+        		this.bo.appendToModelStructure({'global':['FromDate','ToDate','FiscalYearDescri','PostDate','Reason','RsnDescription']});
 
     }
 

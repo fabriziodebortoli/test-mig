@@ -25,8 +25,7 @@ import { IDD_OPENORDERS_CUSTOMERCONTRACTSService } from './IDD_OPENORDERS_CUSTOM
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustContracts':['StartValidityDate','ModificationsHistory','Disabled','ContractNo','Description','Customer','Validity','ContractType','Notes'],'HKLCustomer':['CompNameComplete'],'global':['CustContractsDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContractsDetails':['Horizon','ConfirmationLevel','ConfirmationLevelDescr','PeriodType','ReferenceDay','DailySplit']});
+        		this.bo.appendToModelStructure({'CustContracts':['StartValidityDate','ModificationsHistory','Disabled','ContractNo','Description','Customer','Validity','ContractType','Notes'],'HKLCustomer':['CompNameComplete'],'global':['CustContractsDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContractsDetails':['Horizon','ConfirmationLevel','ConfirmationLevelDescr','PeriodType','ReferenceDay','DailySplit']});
 
     }
 

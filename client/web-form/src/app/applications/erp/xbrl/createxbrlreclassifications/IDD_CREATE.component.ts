@@ -25,8 +25,7 @@ import { IDD_CREATEService } from './IDD_CREATE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['RadioNormal','RadioConsolidated','RadioAbbreviated','RadioMicro','RadioAbbreviatedS','SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLCre_P2','l_TEnhPersonalDataXBRLCre_P1','l_TEnhPersonalDataXBRLCre_P3']});
+        		this.bo.appendToModelStructure({'global':['RadioNormal','RadioConsolidated','RadioAbbreviated','RadioMicro','RadioAbbreviatedS','SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLCre_P2','l_TEnhPersonalDataXBRLCre_P1','l_TEnhPersonalDataXBRLCre_P3']});
 
     }
 

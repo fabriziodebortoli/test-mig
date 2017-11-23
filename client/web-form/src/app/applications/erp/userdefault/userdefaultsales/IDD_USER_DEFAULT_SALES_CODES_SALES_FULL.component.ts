@@ -25,8 +25,7 @@ import { IDD_USER_DEFAULT_SALES_CODES_SALES_FULLService } from './IDD_USER_DEFAU
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllBranches','bAllWorkers','UserDefaultSalesByDocType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultSales':['Branch','BranchDesc','WorkerID','WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllBranches','bAllWorkers','UserDefaultSalesByDocType','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'UserDefaultSales':['Branch','BranchDesc','WorkerID','WorkerDesc']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_BRAUTONUMBERINGService } from './IDD_BRAUTONUMBERING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'BRAutoNumbering':['AutoNumbering','AutonumberingType','MaxChars','LastNo'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'BRAutoNumbering':['AutoNumbering','AutonumberingType','MaxChars','LastNo'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

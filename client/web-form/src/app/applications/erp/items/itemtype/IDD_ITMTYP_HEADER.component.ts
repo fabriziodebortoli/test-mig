@@ -25,8 +25,7 @@ import { IDD_ITMTYP_HEADERService } from './IDD_ITMTYP_HEADER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ItemType':['CodeType','Description','DiscountFormula','HasCustomers','HasSuppliers','Notes'],'global':['ItemTypeBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'ItemType':['CodeType','Description','DiscountFormula','HasCustomers','HasSuppliers','Notes'],'global':['ItemTypeBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

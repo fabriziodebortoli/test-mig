@@ -30,8 +30,7 @@ import { IDD_TS_DELETINGService } from './IDD_TS_DELETING.service';
   "namespace": "ERP.TESANConnector.Components.SalesDocAccEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','bElabPeriodAll','bElabPeriodSel','FromElabPeriod','ToElabPeriod','bDocTypeAll','bDocTypeSel','DocType','bDocDateAll','bDocDateSel','FromDocDate','ToDocDate','bDocNoAll','bDocNoSel','FromDocNo','ToDocNo','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Year','bElabPeriodAll','bElabPeriodSel','FromElabPeriod','ToElabPeriod','bDocTypeAll','bDocTypeSel','DocType','bDocDateAll','bDocDateSel','FromDocDate','ToDocDate','bDocNoAll','bDocNoSel','FromDocNo','ToDocNo','nCurrentElement','GaugeDescription']});
 
     }
 

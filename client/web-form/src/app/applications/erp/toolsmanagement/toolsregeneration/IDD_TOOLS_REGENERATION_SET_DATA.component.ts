@@ -27,8 +27,7 @@ import { IDD_TOOLS_REGENERATION_SET_DATAService } from './IDD_TOOLS_REGENERATION
         super.ngOnInit();
         this.IDC_MPARSEDCOMBO_itemSource = {}; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Remarks','Worker','ToolStatus','SetRecDate','nDuration'],'HKLWorkersSetData':['WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['Remarks','Worker','ToolStatus','SetRecDate','nDuration'],'HKLWorkersSetData':['WorkerDesc']});
 
     }
 

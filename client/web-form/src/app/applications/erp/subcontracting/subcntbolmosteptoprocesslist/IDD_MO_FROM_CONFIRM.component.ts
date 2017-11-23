@@ -30,8 +30,7 @@ import { IDD_MO_FROM_CONFIRMService } from './IDD_MO_FROM_CONFIRM.service';
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SubcntBoLMOStepsList'],'SubcntBoLMOStepsList':['Selection','StateBmp','MONo','RtgStep','Alternate','AltRtgStep','ProductionQty','ProducedQty','MOToConfQtyToConfirm','UoM','MOStatus','MOToConfConfirm','BOM','Variant','MOToConfProducedQty','Storage','MOToConfSpecificatorType','MOToConfSpecificator','ToIssueProductionQuantity','SecondRate','SecondRateVariant','MOToConfSecondRateQuantity','SecondRateStorage','Scrap','ScrapVariant','MOToConfScrapDescri','MOToConfScrapQuantity','ScrapStorage','Job'],'HKLSecondRate':['Description']});
+        		this.bo.appendToModelStructure({'global':['SubcntBoLMOStepsList'],'SubcntBoLMOStepsList':['Selection','StateBmp','MONo','RtgStep','Alternate','AltRtgStep','ProductionQty','ProducedQty','MOToConfQtyToConfirm','UoM','MOStatus','MOToConfConfirm','BOM','Variant','MOToConfProducedQty','Storage','MOToConfSpecificatorType','MOToConfSpecificator','ToIssueProductionQuantity','SecondRate','SecondRateVariant','MOToConfSecondRateQuantity','SecondRateStorage','Scrap','ScrapVariant','MOToConfScrapDescri','MOToConfScrapQuantity','ScrapStorage','Job'],'HKLSecondRate':['Description']});
 
     }
 

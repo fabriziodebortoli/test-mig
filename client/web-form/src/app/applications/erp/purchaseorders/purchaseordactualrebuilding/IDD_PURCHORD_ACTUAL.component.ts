@@ -25,8 +25,7 @@ import { IDD_PURCHORD_ACTUALService } from './IDD_PURCHORD_ACTUAL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupplier','SupplierSel','FromSupplier','ToSupplier','ActualClear','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupplier','SupplierSel','FromSupplier','ToSupplier','ActualClear','nCurrentElement','GaugeDescription']});
 
     }
 

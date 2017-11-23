@@ -25,8 +25,7 @@ import { IDD_PYMTCASHBALANCESService } from './IDD_PYMTCASHBALANCES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PaymentCashBalances':['PymtCash','BalanceDate','BalanceAmount'],'HKLPymtCash':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'PaymentCashBalances':['PymtCash','BalanceDate','BalanceAmount'],'HKLPymtCash':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

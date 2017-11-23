@@ -25,8 +25,7 @@ import { IDD_QUESTIONSService } from './IDD_QUESTIONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Questions':['QuestionNo','Question','CreationDate','Notes','Deletable','DeletingText'],'global':['Answers','Incompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Answers':['AnswerNo','Answer','Notes'],'Incompatibility':['AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
+        		this.bo.appendToModelStructure({'Questions':['QuestionNo','Question','CreationDate','Notes','Deletable','DeletingText'],'global':['Answers','Incompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Answers':['AnswerNo','Answer','Notes'],'Incompatibility':['AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_CTG_PRODUCT_HEADERService } from './IDD_CTG_PRODUCT_HEADER.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ProductCtg':['Category','CodeType','Description','Notes'],'global':['SubCtg','__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SubCtg':['SubCategory','Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'ProductCtg':['Category','CodeType','Description','Notes'],'global':['SubCtg','__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SubCtg':['SubCategory','Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

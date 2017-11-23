@@ -25,8 +25,7 @@ import { IDD_BOL_LOAD_FILTERService } from './IDD_BOL_LOAD_FILTER.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SuppDocNoFilter','BoLNoFilter','BoLLineFilter','ExcludeFulffilledLines','ExcludeNotes','ItemFilter','ShowOnlyItemLine']});
+        		this.bo.appendToModelStructure({'global':['SuppDocNoFilter','BoLNoFilter','BoLLineFilter','ExcludeFulffilledLines','ExcludeNotes','ItemFilter','ShowOnlyItemLine']});
 
     }
 

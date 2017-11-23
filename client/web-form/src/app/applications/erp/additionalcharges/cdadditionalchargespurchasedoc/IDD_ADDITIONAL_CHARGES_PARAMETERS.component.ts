@@ -30,8 +30,7 @@ import { IDD_ADDITIONAL_CHARGES_PARAMETERSService } from './IDD_ADDITIONAL_CHARG
   "namespace": "ERP.AdditionalCharges.AddOnsPurchases.DistributionTemplateCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AddChgParamSpreadingTemplate']});
+        		this.bo.appendToModelStructure({'global':['AddChgParamSpreadingTemplate']});
 
     }
 

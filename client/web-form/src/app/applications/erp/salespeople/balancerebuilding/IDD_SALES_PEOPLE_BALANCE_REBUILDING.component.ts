@@ -25,8 +25,7 @@ import { IDD_SALES_PEOPLE_BALANCE_REBUILDINGService } from './IDD_SALES_PEOPLE_B
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartMonth','EndMonth','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartMonth','EndMonth','nCurrentElement','GaugeDescription']});
 
     }
 

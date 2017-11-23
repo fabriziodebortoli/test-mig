@@ -30,8 +30,7 @@ import { IDD_PARAMETERS_PAYABLESRECEIVABLESService } from './IDD_PARAMETERS_PAYA
   "namespace": "ERP.Accounting.Components.FiscalPrintoutsEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PymtTerms','RequestsForPaymt','ParametersRate','CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PymtTerms':['PaymentTerm','CollectionAccTpl','CollectionAccRsn','PaymentAccTpl','PaymentAccRsn'],'RequestsForPaymt':['Line','DescriptiveText'],'ParametersRate':['Line','FromDate','ToDate','InterestRate','Disabled'],'CustomizedPrint':['CodeType','DescriptiveText']});
+        		this.bo.appendToModelStructure({'global':['PymtTerms','RequestsForPaymt','ParametersRate','CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PymtTerms':['PaymentTerm','CollectionAccTpl','CollectionAccRsn','PaymentAccTpl','PaymentAccRsn'],'RequestsForPaymt':['Line','DescriptiveText'],'ParametersRate':['Line','FromDate','ToDate','InterestRate','Disabled'],'CustomizedPrint':['CodeType','DescriptiveText']});
 
     }
 

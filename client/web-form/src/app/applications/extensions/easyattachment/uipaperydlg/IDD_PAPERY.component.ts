@@ -25,8 +25,7 @@ import { IDD_PAPERYService } from './IDD_PAPERY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['sPaperyDescripion','sPaperyBarcodeValue','PaperyBarcodeViewer','sPaperyNotes']});
+        		this.bo.appendToModelStructure({'global':['sPaperyDescripion','sPaperyBarcodeValue','PaperyBarcodeViewer','sPaperyNotes']});
 
     }
 

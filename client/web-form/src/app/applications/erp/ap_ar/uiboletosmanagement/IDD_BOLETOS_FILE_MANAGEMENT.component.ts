@@ -25,8 +25,7 @@ import { IDD_BOLETOS_FILE_MANAGEMENTService } from './IDD_BOLETOS_FILE_MANAGEMEN
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BoletosFileImportFileName']});
+        		this.bo.appendToModelStructure({'global':['BoletosFileImportFileName']});
 
     }
 

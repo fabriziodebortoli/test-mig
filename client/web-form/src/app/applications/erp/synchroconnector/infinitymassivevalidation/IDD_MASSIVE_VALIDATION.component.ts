@@ -25,8 +25,7 @@ import { IDD_MASSIVE_VALIDATIONService } from './IDD_MASSIVE_VALIDATION.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bCheckItems','bCheckCustomers','bCheckSuppliers','bCheckContacts','bCheckProspSupp','bAllCustomes','bSelCustomes','FromCustomer','ToCustomer','bAllCustCtg','bSelCustCtg','FromCustCtg','ToCustCtg','bAllContacts','bSelContacts','FromContact','ToContact','bAllProspSupp','bSelProspSupp','FromProspSupp','ToProspSupp','bAllSuppliers','bSelSuppliers','FromSupplier','ToSupplier','bAllSuppCtg','bSelSuppCtg','FromSuppCtg','ToSuppCtg','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'global':['bCheckItems','bCheckCustomers','bCheckSuppliers','bCheckContacts','bCheckProspSupp','bAllCustomes','bSelCustomes','FromCustomer','ToCustomer','bAllCustCtg','bSelCustCtg','FromCustCtg','ToCustCtg','bAllContacts','bSelContacts','FromContact','ToContact','bAllProspSupp','bSelProspSupp','FromProspSupp','ToProspSupp','bAllSuppliers','bSelSuppliers','FromSupplier','ToSupplier','bAllSuppCtg','bSelSuppCtg','FromSuppCtg','ToSuppCtg','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

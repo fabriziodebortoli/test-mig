@@ -25,8 +25,7 @@ import { IDD_TAXDECLAR394Service } from './IDD_TAXDECLAR394.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeclType','Year','Period','bOperation','VATRefound','Function','bSPLegalEntity','bSPNaturalPerson','SPFiscalCode','SPName','SPFunction','SPOtherFunction','bOption','bOption2','NrAMEF','PrintFile','PrintPaper']});
+        		this.bo.appendToModelStructure({'global':['DeclType','Year','Period','bOperation','VATRefound','Function','bSPLegalEntity','bSPNaturalPerson','SPFiscalCode','SPName','SPFunction','SPOtherFunction','bOption','bOption2','NrAMEF','PrintFile','PrintPaper']});
 
     }
 

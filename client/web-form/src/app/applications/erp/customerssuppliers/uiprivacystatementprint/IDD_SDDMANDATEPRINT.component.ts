@@ -25,8 +25,7 @@ import { IDD_SDDMANDATEPRINTService } from './IDD_SDDMANDATEPRINT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCustomers','CustomersSel','FromCode','FromCode','ToCode','AllSDD','DraftSDD','FromMandateCode','ToMandateCode','Reprint','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','nCurrentElement','GaugeDescription'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['AllCustomers','CustomersSel','FromCode','FromCode','ToCode','AllSDD','DraftSDD','FromMandateCode','ToMandateCode','Reprint','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','nCurrentElement','GaugeDescription'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
 
     }
 

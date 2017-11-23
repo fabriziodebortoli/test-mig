@@ -25,8 +25,7 @@ import { IDD_FEETEMPLATES_COPYService } from './IDD_FEETEMPLATES_COPY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Template']});
+        		this.bo.appendToModelStructure({'global':['Template']});
 
     }
 

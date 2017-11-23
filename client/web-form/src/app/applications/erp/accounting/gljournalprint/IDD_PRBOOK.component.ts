@@ -25,8 +25,7 @@ import { IDD_PRBOOKService } from './IDD_PRBOOK.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromMonth','FromYear','ToMonth','ToYear','FromPostDate','ToPostDate','DefinitivelyPrinted','bPrepareForSOS','PrintAccRsn','DiffRef','DotMatrixPrinter','PageTotals','DotMatrixPrinter80Col','GeneralTotals','PrintCustSupp','PreviousPosting','bByPostDate','bByAccrDate','ContextualHeading','NoPrefix','Page']});
+        		this.bo.appendToModelStructure({'global':['FromMonth','FromYear','ToMonth','ToYear','FromPostDate','ToPostDate','DefinitivelyPrinted','bPrepareForSOS','PrintAccRsn','DiffRef','DotMatrixPrinter','PageTotals','DotMatrixPrinter80Col','GeneralTotals','PrintCustSupp','PreviousPosting','bByPostDate','bByAccrDate','ContextualHeading','NoPrefix','Page']});
 
     }
 

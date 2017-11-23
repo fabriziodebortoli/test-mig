@@ -25,8 +25,7 @@ import { IDD_ENTRYSALESPERSON_FULLService } from './IDD_ENTRYSALESPERSON_FULL.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommissionsEntries':['Salesperson','AccrualPercAtInvoiceDate','Policy','Area','AccrualType','CommTotAmount','DocNo','DocumentDate','TaxableAmount','TotalAmount','Customer','Notes'],'HKLSalesperson':['Name'],'HKLArea':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CommissionsEntries':['Salesperson','AccrualPercAtInvoiceDate','Policy','Area','AccrualType','CommTotAmount','DocNo','DocumentDate','TaxableAmount','TotalAmount','Customer','Notes'],'HKLSalesperson':['Name'],'HKLArea':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

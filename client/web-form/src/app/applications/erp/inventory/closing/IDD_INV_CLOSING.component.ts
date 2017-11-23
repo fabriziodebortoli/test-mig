@@ -30,8 +30,7 @@ import { IDD_INV_CLOSINGService } from './IDD_INV_CLOSING.service';
   "namespace": "ERP.Company.Components.ValuationInventoryCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AlignItemCosts','InitialInventoryBalances','Valuate','UseItemDefaultValuation','ValueType','bEvaluateByLot','ValueType','bEvaluateByLot','BlockInv','bIgnoreDisabledItems','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['AlignItemCosts','InitialInventoryBalances','Valuate','UseItemDefaultValuation','ValueType','bEvaluateByLot','ValueType','bEvaluateByLot','BlockInv','bIgnoreDisabledItems','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

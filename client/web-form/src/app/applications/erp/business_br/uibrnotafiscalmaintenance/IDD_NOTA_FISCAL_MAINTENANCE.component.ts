@@ -39,8 +39,7 @@ this.IDC_NF_SUPP_MAINT_NOTA_FISCAL_CODE_validators = [
   }
 ]; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRNFForCustSaleDocMaintenance':['DocNo','DocumentDate','PostingDate','CustSupp'],'DBTBRNotaFiscalForCustMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLBRNotaFiscalType':['Description','Description'],'HKLCustomer':['CompNameComplete'],'DBTBRNFForSuppPurchDocMaintenance':['DocNo','DocumentDate','PostingDate','Supplier'],'DBTBRNotaFiscalForSuppMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRNFForCustSaleDocMaintenance':['DocNo','DocumentDate','PostingDate','CustSupp'],'DBTBRNotaFiscalForCustMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLBRNotaFiscalType':['Description','Description'],'HKLCustomer':['CompNameComplete'],'DBTBRNFForSuppPurchDocMaintenance':['DocNo','DocumentDate','PostingDate','Supplier'],'DBTBRNotaFiscalForSuppMaintenance':['ThirdParties','NotaFiscalCode','Model','Series','ChNFe','PostedToRomaneio','DocNoNFServices','DocDateNFServices'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

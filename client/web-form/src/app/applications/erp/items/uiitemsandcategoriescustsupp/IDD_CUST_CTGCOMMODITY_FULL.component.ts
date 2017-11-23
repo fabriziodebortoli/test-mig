@@ -25,8 +25,7 @@ import { IDD_CUST_CTGCOMMODITY_FULLService } from './IDD_CUST_CTGCOMMODITY_FULL.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommodityCtgCustomers':['Category','Disabled','PriceList','Customer','Notes','MinOrderQty','DaysForDelivery','ShippingCost','DiscountFormula','AdditionalCharges','SaleOffset','LastSaleDocType','LastSaleDocNo','LastSaleDocDate','LastPaymentTerm','LastSaleQty','LastDiscountFormula','LastSaleValue','LastRMADocNo','LastRMADocDate','LastRMAQty','LastRMAValue'],'HKLCtgCommodity':['Description','DiscountFormula'],'HKLPriceLists':['Description'],'HKLCustomersCommodityCtg':['CompanyName'],'HKLSaleOffset':['Description'],'global':['Budget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Budget':['BudgetYear','BudgetMonth','SaleQty','SaleValue'],'HKLPymtTermCommodityCustomersCtg':['Description']});
+        		this.bo.appendToModelStructure({'CommodityCtgCustomers':['Category','Disabled','PriceList','Customer','Notes','MinOrderQty','DaysForDelivery','ShippingCost','DiscountFormula','AdditionalCharges','SaleOffset','LastSaleDocType','LastSaleDocNo','LastSaleDocDate','LastPaymentTerm','LastSaleQty','LastDiscountFormula','LastSaleValue','LastRMADocNo','LastRMADocDate','LastRMAQty','LastRMAValue'],'HKLCtgCommodity':['Description','DiscountFormula'],'HKLPriceLists':['Description'],'HKLCustomersCommodityCtg':['CompanyName'],'HKLSaleOffset':['Description'],'global':['Budget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Budget':['BudgetYear','BudgetMonth','SaleQty','SaleValue'],'HKLPymtTermCommodityCustomersCtg':['Description']});
 
     }
 

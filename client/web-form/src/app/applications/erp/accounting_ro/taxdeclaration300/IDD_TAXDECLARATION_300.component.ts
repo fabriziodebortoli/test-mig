@@ -25,8 +25,7 @@ import { IDD_TAXDECLARATION_300Service } from './IDD_TAXDECLARATION_300.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeclType','Year','Period','DisabledFilter','Name','Surname','Function','BankCode','cont','PaymentDate','nr_evid','bifa_interne','temei','PrintFile','PrintPaper','ProcessStatus']});
+        		this.bo.appendToModelStructure({'global':['DeclType','Year','Period','DisabledFilter','Name','Surname','Function','BankCode','cont','PaymentDate','nr_evid','bifa_interne','temei','PrintFile','PrintPaper','ProcessStatus']});
 
     }
 

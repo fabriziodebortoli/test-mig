@@ -25,8 +25,7 @@ import { IDD_DELETE_ITEMSService } from './IDD_DELETE_ITEMS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bNotPosted','bPosted','FromDate','bTypeAll','bTypeGood','bTypeService','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bDisabled','bDeleteComponent','bLoadGridForManSel','ItemsDeleting','LegendPicked','LegendNotPicked'],'ItemsDeleting':['ItemsDelet_Selected','ItemsDelet_InEntriesBmp','Disabled','IsGood','Item','Description','BaseUoM','ItemsDelet_LastEntryDate']});
+        		this.bo.appendToModelStructure({'global':['bNotPosted','bPosted','FromDate','bTypeAll','bTypeGood','bTypeService','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bDisabled','bDeleteComponent','bLoadGridForManSel','ItemsDeleting','LegendPicked','LegendNotPicked'],'ItemsDeleting':['ItemsDelet_Selected','ItemsDelet_InEntriesBmp','Disabled','IsGood','Item','Description','BaseUoM','ItemsDelet_LastEntryDate']});
 
     }
 

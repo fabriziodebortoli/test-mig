@@ -25,8 +25,7 @@ import { IDD_PRICE_LISTS_DELETEService } from './IDD_PRICE_LISTS_DELETE.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllPriceList','bPriceListSel','FromPriceList','ToPriceList','bAllEdition','bNotValid','NotValidDate','bValid','DateValidFrom','PriceListsDeleting'],'PriceListsDeleting':['PriceLists_Selected','PriceList','Description','PriceLists_ValidityStartingDate','PriceLists_ValidityEndingDate']});
+        		this.bo.appendToModelStructure({'global':['bAllPriceList','bPriceListSel','FromPriceList','ToPriceList','bAllEdition','bNotValid','NotValidDate','bValid','DateValidFrom','PriceListsDeleting'],'PriceListsDeleting':['PriceLists_Selected','PriceList','Description','PriceLists_ValidityStartingDate','PriceLists_ValidityEndingDate']});
 
     }
 

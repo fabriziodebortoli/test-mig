@@ -25,8 +25,7 @@ import { IDD_RECALENASARCO_FEESService } from './IDD_RECALENASARCO_FEES.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ClearPaid','bAnyFee','bOnlyPeriod','FromMonth','ToMonth','BigStateProc','LittleStateProc','AccrualFeeDate','MovementCounter']});
+        		this.bo.appendToModelStructure({'global':['ClearPaid','bAnyFee','bOnlyPeriod','FromMonth','ToMonth','BigStateProc','LittleStateProc','AccrualFeeDate','MovementCounter']});
 
     }
 

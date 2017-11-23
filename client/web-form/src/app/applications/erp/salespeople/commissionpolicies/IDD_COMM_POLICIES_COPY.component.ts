@@ -25,8 +25,7 @@ import { IDD_COMM_POLICIES_COPYService } from './IDD_COMM_POLICIES_COPY.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CommissionPolicy']});
+        		this.bo.appendToModelStructure({'global':['CommissionPolicy']});
 
     }
 

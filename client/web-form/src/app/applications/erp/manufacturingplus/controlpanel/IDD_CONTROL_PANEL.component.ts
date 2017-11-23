@@ -25,8 +25,7 @@ import { IDD_CONTROL_PANELService } from './IDD_CONTROL_PANEL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Job','MO','Item','ControlPanelDetail'],'ControlPanelDetail':['FieldName','FieldValue']});
+        		this.bo.appendToModelStructure({'global':['Job','MO','Item','ControlPanelDetail'],'ControlPanelDetail':['FieldName','FieldValue']});
 
     }
 

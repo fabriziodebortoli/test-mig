@@ -40,8 +40,7 @@ this.IDC_EXPIRE_LOTS_MANAGE_TYPE_SPECIFICATOR_PHASE2_itemSource = {
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','RefDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','InvRsn','OperationDate','Storage1','Specificator1Type','Specificator1','Storage2','Specificator2Type','Specificator2','ExpireLotsManage'],'ExpireLotsManage':['ExpireLots_IsSelected','Storage','SpecificatorType','Specificator','Item','Lot','DueDate','BookInv'],'HKLItem':['Description']});
+        		this.bo.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','RefDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','InvRsn','OperationDate','Storage1','Specificator1Type','Specificator1','Storage2','Specificator2Type','Specificator2','ExpireLotsManage'],'ExpireLotsManage':['ExpireLots_IsSelected','Storage','SpecificatorType','Specificator','Item','Lot','DueDate','BookInv'],'HKLItem':['Description']});
 
     }
 

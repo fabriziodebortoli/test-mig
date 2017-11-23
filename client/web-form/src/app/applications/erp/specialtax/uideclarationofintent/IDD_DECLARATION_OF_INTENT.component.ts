@@ -25,8 +25,7 @@ import { IDD_DECLARATION_OF_INTENTService } from './IDD_DECLARATION_OF_INTENT.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DeclarationOfIntent':['DeclDate','DeclYear','LogNo','CustSupp','CustomerDate','CustomerNo','DeclType','LimitAmount','LetterNotes','FromDate','ToDate','AnnulmentDate','Notes','Printed','PrintDate','PrintedOnFile','PrintFileDate','TelProtocol','DocProtocol','PrintedLetter','PrintLetterDate','PrintedAnnulment','PrintAnnulmentDate'],'HKLCustSupp':['CompNameCompleteWithTaxNumber'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'DeclarationOfIntent':['DeclDate','DeclYear','LogNo','CustSupp','CustomerDate','CustomerNo','DeclType','LimitAmount','LetterNotes','FromDate','ToDate','AnnulmentDate','Notes','Printed','PrintDate','PrintedOnFile','PrintFileDate','TelProtocol','DocProtocol','PrintedLetter','PrintLetterDate','PrintedAnnulment','PrintAnnulmentDate'],'HKLCustSupp':['CompNameCompleteWithTaxNumber'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_DELETE_PURCHORDService } from './IDD_DELETE_PURCHORD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','AllPayed','NotPayed','Payed','AllAccounting','NotInAccounting','InAccounting','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','AllPayed','NotPayed','Payed','AllAccounting','NotInAccounting','InAccounting','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
 
     }
 

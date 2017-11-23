@@ -30,8 +30,7 @@ import { IDD_TOOLS_INSPECTION_SET_DATAService } from './IDD_TOOLS_INSPECTION_SET
   "namespace": "ERP.ToolsManagement.Documents.InspectionStatusItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Remarks','SetInspDate','Worker','nDuration','ToolStatus'],'HKLWorkersSetData':['WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['Remarks','SetInspDate','Worker','nDuration','ToolStatus'],'HKLWorkersSetData':['WorkerDesc']});
 
     }
 

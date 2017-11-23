@@ -25,8 +25,7 @@ import { IDD_COMMISSIONS_ENTRIES_DELETINGService } from './IDD_COMMISSIONS_ENTRI
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','StartingDate','EndingDate','FromOustandingDate','ToOustandingDate','bDeleteGenerateFlag','bOutstandingProcess','bEntriesProcess','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','StartingDate','EndingDate','FromOustandingDate','ToOustandingDate','bDeleteGenerateFlag','bOutstandingProcess','bEntriesProcess','nCurrentElement','GaugeDescription']});
 
     }
 

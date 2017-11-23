@@ -25,8 +25,7 @@ import { IDD_PAYROLLIMPORTService } from './IDD_PAYROLLIMPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ImportMonth','ImportYear','JEDocDate','ImportPathFile','strFileLayout','bReasonImportButton','nCurrentElement','Status','nCurrentElement','GaugeDescription','ProgressViewer'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['ImportMonth','ImportYear','JEDocDate','ImportPathFile','strFileLayout','bReasonImportButton','nCurrentElement','Status','nCurrentElement','GaugeDescription','ProgressViewer'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

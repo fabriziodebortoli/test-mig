@@ -25,8 +25,7 @@ import { IDD_REPORTMULTICOPIESService } from './IDD_REPORTMULTICOPIES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['CopyNo','PrintDescription','ReprintDescription']});
+        		this.bo.appendToModelStructure({'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['CopyNo','PrintDescription','ReprintDescription']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_COAGRAPHService } from './IDD_COAGRAPH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllLedgers','LedgerSel','FromLedger','ToLedger','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['AllLedgers','LedgerSel','FromLedger','ToLedger','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

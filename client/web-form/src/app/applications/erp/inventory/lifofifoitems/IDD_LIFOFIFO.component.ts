@@ -25,8 +25,7 @@ import { IDD_LIFOFIFOService } from './IDD_LIFOFIFO.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'LIFOFIFOItems':['Item','Description'],'global':['LIFO','FIFO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'LIFO':['OpeningDate','ClosingDate'],'FIFO':['OpeningDate','ClosingDate','RevaluationDone']});
+        		this.bo.appendToModelStructure({'LIFOFIFOItems':['Item','Description'],'global':['LIFO','FIFO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'LIFO':['OpeningDate','ClosingDate'],'FIFO':['OpeningDate','ClosingDate','RevaluationDone']});
 
     }
 

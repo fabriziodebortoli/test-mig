@@ -25,8 +25,7 @@ import { IDD_ITEMS_SUBSTITUTEService } from './IDD_ITEMS_SUBSTITUTE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Biuniqueness','SubstituteItems','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SubstituteItems':['Substitute','ItemQty','ItemUoM','SubstituteQty','SubsItemUoM','Notes'],'HKLItemsSubstitute':['Description']});
+        		this.bo.appendToModelStructure({'global':['Biuniqueness','SubstituteItems','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SubstituteItems':['Substitute','ItemQty','ItemUoM','SubstituteQty','SubsItemUoM','Notes'],'HKLItemsSubstitute':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_OMNIA_EXPORTService } from './IDD_OMNIA_EXPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CompanyCode','DateDocLastExport','DateDocFrom','DateDocTo','bAlreadyExported','bExportPureJE','bExportDocIssued','bExportDocRecvd','ExportLog','OMNIASubAccountLink','OMNIAAccReasonsLink','OMNIATaxCodesLink','CompanyCode','DateDocLastExport','DocLastExportNo','FilePathExport','FileNameExport','strOutput'],'ExportLog':['l_LogExport_TransactionType','l_LogExport_PostingDate','l_LogExport_DocNo','l_LogExport_AccTpl','l_LogExport_OMNIATag','l_LogExport_Notes'],'OMNIASubAccountLink':['Account','Description','OMNIASubAccount'],'HKLOMNIASubAccounts':['Description'],'OMNIAAccReasonsLink':['Reason','Description','OMNIAAccReason'],'HKLOMNIAAccReasons':['Description'],'OMNIATaxCodesLink':['TaxCode','Description','OMNIALawCode','OMNIATaxCode'],'HKLOMNIALawCodes':['Description'],'HKLOMNIATaxCodes':['Description']});
+        		this.bo.appendToModelStructure({'global':['CompanyCode','DateDocLastExport','DateDocFrom','DateDocTo','bAlreadyExported','bExportPureJE','bExportDocIssued','bExportDocRecvd','ExportLog','OMNIASubAccountLink','OMNIAAccReasonsLink','OMNIATaxCodesLink','CompanyCode','DateDocLastExport','DocLastExportNo','FilePathExport','FileNameExport','strOutput'],'ExportLog':['l_LogExport_TransactionType','l_LogExport_PostingDate','l_LogExport_DocNo','l_LogExport_AccTpl','l_LogExport_OMNIATag','l_LogExport_Notes'],'OMNIASubAccountLink':['Account','Description','OMNIASubAccount'],'HKLOMNIASubAccounts':['Description'],'OMNIAAccReasonsLink':['Reason','Description','OMNIAAccReason'],'HKLOMNIAAccReasons':['Description'],'OMNIATaxCodesLink':['TaxCode','Description','OMNIALawCode','OMNIATaxCode'],'HKLOMNIALawCodes':['Description'],'HKLOMNIATaxCodes':['Description']});
 
     }
 

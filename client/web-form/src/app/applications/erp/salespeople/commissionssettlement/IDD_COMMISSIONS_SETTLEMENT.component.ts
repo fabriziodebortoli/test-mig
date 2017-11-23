@@ -25,8 +25,7 @@ import { IDD_COMMISSIONS_SETTLEMENTService } from './IDD_COMMISSIONS_SETTLEMENT.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','CommissionsSettlement'],'CommissionsSettlement':['Commission_Selected','Commission_AreaManager','Salesperson','Commission_SalespersonDesc','Commission_CustCode','Commission_CustDescr','Commission_DocNo','DocumentDate','DocAmount','TaxableAmountDocTot','InstallmentNo','Base','Comm','ExpectedAccrualDate','ActualAccrualDate','Cancel']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','CommissionsSettlement'],'CommissionsSettlement':['Commission_Selected','Commission_AreaManager','Salesperson','Commission_SalespersonDesc','Commission_CustCode','Commission_CustDescr','Commission_DocNo','DocumentDate','DocAmount','TaxableAmountDocTot','InstallmentNo','Base','Comm','ExpectedAccrualDate','ActualAccrualDate','Cancel']});
 
     }
 

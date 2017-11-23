@@ -25,8 +25,7 @@ import { IDD_MARGIN_TAXService } from './IDD_MARGIN_TAX.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'MarginTaxData':['BalanceYear','BalanceMonth','PeriodRevenue','PeriodCost','ActualPeriodCreditCost'],'global':['PreviousPeriodCost','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'MarginTaxData':['BalanceYear','BalanceMonth','PeriodRevenue','PeriodCost','ActualPeriodCreditCost'],'global':['PreviousPeriodCost','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

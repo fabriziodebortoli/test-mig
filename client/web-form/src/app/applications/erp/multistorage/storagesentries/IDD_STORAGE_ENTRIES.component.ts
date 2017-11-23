@@ -35,8 +35,7 @@ this.IDC_STORAGEENTRIES_PROC_CODETYPE_SPECIFICATOR2_itemSource = {
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','bAllItems','bItemSel','FromItem','ToItem','Reason','OperationDate','Storage2','Specificator2Type','Specificator2','StoragesEntries'],'StoragesEntries':['StoragesEn_Selected','Item','BaseUoM','StoragesEn_Existence','StoragesEn_Qty','StoragesEn_Lot','StoragesEn_Variant','ProposedValue','StoragesEn_Annotations'],'HKLItems':['Description']});
+        		this.bo.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','bAllItems','bItemSel','FromItem','ToItem','Reason','OperationDate','Storage2','Specificator2Type','Specificator2','StoragesEntries'],'StoragesEntries':['StoragesEn_Selected','Item','BaseUoM','StoragesEn_Existence','StoragesEn_Qty','StoragesEn_Lot','StoragesEn_Variant','ProposedValue','StoragesEn_Annotations'],'HKLItems':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_TREEVIEWService } from './IDD_TREEVIEW.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','bAll','bSelect','BinFrom','BinTo','Item','DBTNodeDetail','LegendStorage','LegendZone','LegendSection','LegendBin','LegendNotEmptyBin','LegendStockWithoutSU','LegendStockWithSU','LegendIsMultilevelSU','LegendSnapshots','LegendDisabled','LegendSuspect','LegendUseSection','LegendBlocked'],'HKLItem':['Description'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','bAll','bSelect','BinFrom','BinTo','Item','DBTNodeDetail','LegendStorage','LegendZone','LegendSection','LegendBin','LegendNotEmptyBin','LegendStockWithoutSU','LegendStockWithSU','LegendIsMultilevelSU','LegendSnapshots','LegendDisabled','LegendSuspect','LegendUseSection','LegendBlocked'],'HKLItem':['Description'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
 
     }
 

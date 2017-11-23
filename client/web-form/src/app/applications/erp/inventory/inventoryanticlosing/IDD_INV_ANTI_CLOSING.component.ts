@@ -25,8 +25,7 @@ import { IDD_INV_ANTI_CLOSINGService } from './IDD_INV_ANTI_CLOSING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
 
     }
 

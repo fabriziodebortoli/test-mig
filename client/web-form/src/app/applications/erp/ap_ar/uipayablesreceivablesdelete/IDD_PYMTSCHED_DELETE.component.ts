@@ -25,8 +25,7 @@ import { IDD_PYMTSCHED_DELETEService } from './IDD_PYMTSCHED_DELETE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAll','bCustSuppSel','CustSuppSel','Description','LimitDate','bTaxExigibilityDelete','bExigibDelete','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAll','bCustSuppSel','CustSuppSel','Description','LimitDate','bTaxExigibilityDelete','bExigibDelete','nCurrentElement','GaugeDescription']});
 
     }
 

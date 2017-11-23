@@ -25,8 +25,7 @@ import { IDD_CREDITCARDService } from './IDD_CREDITCARD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CreditCardType':['CreditCard','Description','Offset'],'HKLCreditCardAccount':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CreditCardType':['CreditCard','Description','Offset'],'HKLCreditCardAccount':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

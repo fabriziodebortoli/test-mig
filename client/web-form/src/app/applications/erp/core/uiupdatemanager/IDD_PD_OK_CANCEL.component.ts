@@ -25,8 +25,7 @@ import { IDD_PD_OK_CANCELService } from './IDD_PD_OK_CANCEL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UpdateManagerbDeletion','UpdateManagerbCancellation','UpdateManagerAppDate']});
+        		this.bo.appendToModelStructure({'global':['UpdateManagerbDeletion','UpdateManagerbCancellation','UpdateManagerAppDate']});
 
     }
 

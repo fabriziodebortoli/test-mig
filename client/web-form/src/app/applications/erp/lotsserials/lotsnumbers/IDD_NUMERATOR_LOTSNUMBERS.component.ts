@@ -30,8 +30,7 @@ import { IDD_NUMERATOR_LOTSNUMBERSService } from './IDD_NUMERATOR_LOTSNUMBERS.se
   "namespace": "ERP.LotsSerials.Components.LotsSerialsPrefixEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'LotsNumbers':['LastLotNo','LastLotDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'LotsNumbers':['LastLotNo','LastLotDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

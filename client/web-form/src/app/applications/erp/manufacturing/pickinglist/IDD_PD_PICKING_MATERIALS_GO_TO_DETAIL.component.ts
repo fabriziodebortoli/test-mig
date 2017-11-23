@@ -25,8 +25,7 @@ import { IDD_PD_PICKING_MATERIALS_GO_TO_DETAILService } from './IDD_PD_PICKING_M
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['LineSearch']});
+        		this.bo.appendToModelStructure({'global':['LineSearch']});
 
     }
 

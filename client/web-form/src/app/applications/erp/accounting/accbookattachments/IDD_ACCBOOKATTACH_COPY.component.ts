@@ -25,8 +25,7 @@ import { IDD_ACCBOOKATTACH_COPYService } from './IDD_ACCBOOKATTACH_COPY.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYearCopy','AttachCode']});
+        		this.bo.appendToModelStructure({'global':['FiscalYearCopy','AttachCode']});
 
     }
 

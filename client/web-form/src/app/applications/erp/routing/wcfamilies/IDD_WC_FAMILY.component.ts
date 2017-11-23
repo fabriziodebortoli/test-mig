@@ -25,8 +25,7 @@ import { IDD_WC_FAMILYService } from './IDD_WC_FAMILY.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'WCFamily':['WCFamily','Description','Notes'],'global':['WCFamilyDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WCFamilyDetails':['WC','Priority','Preferential','Notes'],'HKLWCBE':['Description']});
+        		this.bo.appendToModelStructure({'WCFamily':['WCFamily','Description','Notes'],'global':['WCFamilyDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WCFamilyDetails':['WC','Priority','Preferential','Notes'],'HKLWCBE':['Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_LOAD_PURCH_DOCService } from './IDD_LOAD_PURCH_DOC.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PurchaseDocLoading':['DocNo','DocumentDate','Supplier','Payment','PostingDate','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['PurchaseDocLoadingSlave','GeneralDiscountTot'],'PurchaseDocLoadingSlave':['PurchaseDo_Selected','LineType','Item','Description','UoM','PurchaseDo_QtyToReturn','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'PurchaseDocSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'PurchaseDocLoading':['DocNo','DocumentDate','Supplier','Payment','PostingDate','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['PurchaseDocLoadingSlave','GeneralDiscountTot'],'PurchaseDocLoadingSlave':['PurchaseDo_Selected','LineType','Item','Description','UoM','PurchaseDo_QtyToReturn','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'PurchaseDocSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

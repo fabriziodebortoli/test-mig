@@ -25,8 +25,7 @@ import { IDD_SALESPEOPLE_ALLOWANCEService } from './IDD_SALESPEOPLE_ALLOWANCE.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Allowance':['IsManual','BalanceYear','Base','Accrued','PaymentDate']});
+        		this.bo.appendToModelStructure({'Allowance':['IsManual','BalanceYear','Base','Accrued','PaymentDate']});
 
     }
 

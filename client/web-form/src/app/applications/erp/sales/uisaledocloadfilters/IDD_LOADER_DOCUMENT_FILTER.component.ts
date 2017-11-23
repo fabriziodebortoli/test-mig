@@ -25,8 +25,7 @@ import { IDD_LOADER_DOCUMENT_FILTERService } from './IDD_LOADER_DOCUMENT_FILTER.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['RFCFilter']});
+        		this.bo.appendToModelStructure({'global':['RFCFilter']});
 
     }
 

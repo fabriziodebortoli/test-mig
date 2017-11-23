@@ -30,8 +30,7 @@ import { IDD_VARIANTService } from './IDD_VARIANT.service';
   "namespace": "ERP.Routing.Components.LabourLabourTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Variants':['Item','Variant','BOM','Notes','FromConfigurator'],'HKLItemsSelectNature':['Description'],'HKLBillOfMaterialsNoGhost':['Description'],'global':['VariantComponents','VariantRouting','__DBTLabour','DBTVariantsECO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTVariantsECO':['l_BmpStatus','ECONo','ECORevision','ECOStatus','ECOConfirmationDate','ECOCreationDate','ECONotes']});
+        		this.bo.appendToModelStructure({'Variants':['Item','Variant','BOM','Notes','FromConfigurator'],'HKLItemsSelectNature':['Description'],'HKLBillOfMaterialsNoGhost':['Description'],'global':['VariantComponents','VariantRouting','__DBTLabour','DBTVariantsECO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTVariantsECO':['l_BmpStatus','ECONo','ECORevision','ECOStatus','ECOConfirmationDate','ECOCreationDate','ECONotes']});
 
     }
 

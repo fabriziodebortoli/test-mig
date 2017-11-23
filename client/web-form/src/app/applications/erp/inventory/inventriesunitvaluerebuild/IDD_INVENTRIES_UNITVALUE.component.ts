@@ -25,8 +25,7 @@ import { IDD_INVENTRIES_UNITVALUEService } from './IDD_INVENTRIES_UNITVALUE.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['nCurrentElement','GaugeDescription']});
 
     }
 

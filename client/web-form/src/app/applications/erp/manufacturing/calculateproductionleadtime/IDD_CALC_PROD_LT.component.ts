@@ -30,8 +30,7 @@ import { IDD_CALC_PROD_LTService } from './IDD_CALC_PROD_LT.service';
   "namespace": "ERP.BillOfMaterials.Components.EnumRoundingTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllMO','bOrdSel','FromOrd','ToOrd','bAllProd','bProdSel','FromProd','ToProd','bAllVariants','bVariantsSel','FromVariant','ToVariant','bAllJobs','bJobSel','FromJob','ToJob','bAllDeliveryDates','bSelData','FromMODate','ToMODate','eRounding','nDigits','nHoursInDay','DBTCalculateProductionLeadTime','InHouseCreated','OutsourcedCreated','InHouseReleased','OutsourcedReleased','InHouseProcessing','OutsourcedProcessing'],'DBTCalculateProductionLeadTime':['TMO_Selection','BOM','UoM','ProducedQtyForLT','SecondRateQuantityForLT','ScrapQuantityForLT','ActualProcessTimeForLT','ActualSetupTimeForLT','TotTimeForLeadTime','CalcTotQty','CalcLeadTime']});
+        		this.bo.appendToModelStructure({'global':['bAllMO','bOrdSel','FromOrd','ToOrd','bAllProd','bProdSel','FromProd','ToProd','bAllVariants','bVariantsSel','FromVariant','ToVariant','bAllJobs','bJobSel','FromJob','ToJob','bAllDeliveryDates','bSelData','FromMODate','ToMODate','eRounding','nDigits','nHoursInDay','DBTCalculateProductionLeadTime','InHouseCreated','OutsourcedCreated','InHouseReleased','OutsourcedReleased','InHouseProcessing','OutsourcedProcessing'],'DBTCalculateProductionLeadTime':['TMO_Selection','BOM','UoM','ProducedQtyForLT','SecondRateQuantityForLT','ScrapQuantityForLT','ActualProcessTimeForLT','ActualSetupTimeForLT','TotTimeForLeadTime','CalcTotQty','CalcLeadTime']});
 
     }
 

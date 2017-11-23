@@ -25,8 +25,7 @@ import { IDD_IMPORTService } from './IDD_IMPORT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLImp_P3','l_TEnhPersonalDataXBRLImp_P1','l_TEnhPersonalDataXBRLImp_P2']});
+        		this.bo.appendToModelStructure({'global':['SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLImp_P3','l_TEnhPersonalDataXBRLImp_P1','l_TEnhPersonalDataXBRLImp_P2']});
 
     }
 

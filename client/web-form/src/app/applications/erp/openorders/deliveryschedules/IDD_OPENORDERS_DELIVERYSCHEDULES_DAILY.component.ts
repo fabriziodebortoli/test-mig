@@ -25,8 +25,7 @@ import { IDD_OPENORDERS_DELIVERYSCHEDULES_DAILYService } from './IDD_OPENORDERS_
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DailyDelivery','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DailyDelivery':['DeliveryDate','DayDate','DailyQty','Notes']});
+        		this.bo.appendToModelStructure({'global':['DailyDelivery','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DailyDelivery':['DeliveryDate','DayDate','DailyQty','Notes']});
 
     }
 

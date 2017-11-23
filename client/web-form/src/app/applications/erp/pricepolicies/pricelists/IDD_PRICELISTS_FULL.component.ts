@@ -25,8 +25,7 @@ import { IDD_PRICELISTS_FULLService } from './IDD_PRICELISTS_FULL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PriceLists':['PriceList','Disabled','Description','AlwaysShow','Currency','ValidityStartingDate','ValidityEndingDate','LastModificationDate'],'HKLCurrencies':['Description'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'PriceLists':['PriceList','Disabled','Description','AlwaysShow','Currency','ValidityStartingDate','ValidityEndingDate','LastModificationDate'],'HKLCurrencies':['Description'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2'],'DBTLinksTable':['Image','Description']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_BR_IMPORT_TAXRULES_COPY_TAX_RULEService } from './IDD_BR_IMPORT_TAX
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TaxRule']});
+        		this.bo.appendToModelStructure({'global':['TaxRule']});
 
     }
 

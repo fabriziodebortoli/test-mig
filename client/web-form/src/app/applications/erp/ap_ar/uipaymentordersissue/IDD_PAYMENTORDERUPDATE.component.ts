@@ -25,8 +25,7 @@ import { IDD_PAYMENTORDERUPDATEService } from './IDD_PAYMENTORDERUPDATE.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PymtOrders','TotalAmount'],'PymtOrders':['l_TEnhPymtOrders_P01','l_TEnhPymtOrders_P08','l_TEnhPymtOrders_P13','Amount','l_TEnhPymtOrders_P04']});
+        		this.bo.appendToModelStructure({'global':['PymtOrders','TotalAmount'],'PymtOrders':['l_TEnhPymtOrders_P01','l_TEnhPymtOrders_P08','l_TEnhPymtOrders_P13','Amount','l_TEnhPymtOrders_P04']});
 
     }
 

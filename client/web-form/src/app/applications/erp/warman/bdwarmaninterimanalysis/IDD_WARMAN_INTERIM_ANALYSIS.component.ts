@@ -25,8 +25,7 @@ import { IDD_WARMAN_INTERIM_ANALYSISService } from './IDD_WARMAN_INTERIM_ANALYSI
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bInterimIN','Storage','bInterimOUT','bItemAll','bItemSelection','sItemFrom','sItemTo','bTreeView']});
+        		this.bo.appendToModelStructure({'global':['bInterimIN','Storage','bInterimOUT','bItemAll','bItemSelection','sItemFrom','sItemTo','bTreeView']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_PRINT_QUOTATIONSService } from './IDD_PRINT_QUOTATIONS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllContact','ContactSel','FromContact','ToContact','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedByCustomer','OrderedByNo','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllContact','ContactSel','FromContact','ToContact','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedByCustomer','OrderedByNo','nCurrentElement','GaugeDescription']});
 
     }
 

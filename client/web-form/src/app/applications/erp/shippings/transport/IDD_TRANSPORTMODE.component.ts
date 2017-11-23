@@ -30,8 +30,7 @@ import { IDD_TRANSPORTMODEService } from './IDD_TRANSPORTMODE.service';
   "namespace": "ERP.Shippings.Documents.BRShippingModeComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Transports':['ModeOfTransport','Description','ShippingType','CodeType','Notes','BRShippingMode','BRShippingModeDescri','ExcludeCharges'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'Transports':['ModeOfTransport','Description','ShippingType','CodeType','Notes','BRShippingMode','BRShippingModeDescri','ExcludeCharges'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_COMMISSIONS_STATE_SETTINGService } from './IDD_COMMISSIONS_STATE_SE
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllPeriod','bPeriodSel','StartingDate','EndingDate','bManualize','bAutomate','bOrdersProcess','bDocProcess','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllPeriod','bPeriodSel','StartingDate','EndingDate','bManualize','bAutomate','bOrdersProcess','bDocProcess','nCurrentElement','GaugeDescription']});
 
     }
 

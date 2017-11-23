@@ -25,8 +25,7 @@ import { IDD_INTRA_SERVICESService } from './IDD_INTRA_SERVICES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PeriodMonth','Period','Year','PeriodQuarter','Period','Year','NrRef','DispatchesSummary','ArrivalsSummary','HeaderData','BranchCode','DailyNo','SuppTaxIdNumber','CheckNormal','CheckFirst','CheckChange','CheckBoth','DelegTaxIdNo','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['PeriodMonth','Period','Year','PeriodQuarter','Period','Year','NrRef','DispatchesSummary','ArrivalsSummary','HeaderData','BranchCode','DailyNo','SuppTaxIdNumber','CheckNormal','CheckFirst','CheckChange','CheckBoth','DelegTaxIdNo','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

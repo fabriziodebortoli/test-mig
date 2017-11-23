@@ -25,8 +25,7 @@ import { IDD_UNSET_USED_WMS_MOBILEService } from './IDD_UNSET_USED_WMS_MOBILE.se
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bNotPosted','bPosted','FromDate','bWMSStorages','bWMSStoragesFrom','WMSStoragesFromDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ItemsDeleting','LegendPicked','LegendNotPicked'],'ItemsDeleting':['ItemsDelet_Selected','ItemsDelet_InEntriesBmp','Disabled','IsGood','Item','Description','BaseUoM','ItemsDelet_LastEntryDate']});
+        		this.bo.appendToModelStructure({'global':['bNotPosted','bPosted','FromDate','bWMSStorages','bWMSStoragesFrom','WMSStoragesFromDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ItemsDeleting','LegendPicked','LegendNotPicked'],'ItemsDeleting':['ItemsDelet_Selected','ItemsDelet_InEntriesBmp','Disabled','IsGood','Item','Description','BaseUoM','ItemsDelet_LastEntryDate']});
 
     }
 

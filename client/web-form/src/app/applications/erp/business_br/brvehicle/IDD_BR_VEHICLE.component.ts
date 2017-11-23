@@ -25,8 +25,7 @@ import { IDD_BR_VEHICLEService } from './IDD_BR_VEHICLE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRVehicle':['Code','Description','Property','VehicleType','FuelType','RNTC','LicensePlate','RegFederalState','RegYear','EngineSize','Color','FrameNumber','TareWeightKg','CapacityKg','CapacityM3'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRVehicle':['Code','Description','Property','VehicleType','FuelType','RNTC','LicensePlate','RegFederalState','RegYear','EngineSize','Color','FrameNumber','TareWeightKg','CapacityKg','CapacityM3'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

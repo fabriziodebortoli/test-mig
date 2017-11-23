@@ -25,8 +25,7 @@ import { IDD_DECLICOMP_FULLService } from './IDD_DECLICOMP_FULL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustMaterialsExemption':['Customer','Material','NoEntryPosting'],'HKLCustomers':['CompNameComplete'],'global':['CustMaterialsExemptPeriod','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CustMaterialsExemption':['Customer','Material','NoEntryPosting'],'HKLCustomers':['CompNameComplete'],'global':['CustMaterialsExemptPeriod','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

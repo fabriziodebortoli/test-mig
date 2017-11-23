@@ -30,8 +30,7 @@ import { IDD_ECO_REFERENCEService } from './IDD_ECO_REFERENCE.service';
   "namespace": "ERP.BillOfMaterialsPlus.Documents.RtgStepSentItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UseInStep','bInsertBefore','bInsertAfter']});
+        		this.bo.appendToModelStructure({'global':['UseInStep','bInsertBefore','bInsertAfter']});
 
     }
 

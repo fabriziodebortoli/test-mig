@@ -35,8 +35,7 @@ this.IDC_DOC_CASH_STUBBOOK_itemSource = {
   "namespace": "ERP.Sales.Documents.CashStubBookItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Cash','SessionNo','CashReason','CashStubBook','CashDocNo','bAutoPrint','CashCurrency','CashTotal','CashTotalRounded','CashAmount','CashClosed','CashChange','CashRoundChange']});
+        		this.bo.appendToModelStructure({'global':['Cash','SessionNo','CashReason','CashStubBook','CashDocNo','bAutoPrint','CashCurrency','CashTotal','CashTotalRounded','CashAmount','CashClosed','CashChange','CashRoundChange']});
 
     }
 

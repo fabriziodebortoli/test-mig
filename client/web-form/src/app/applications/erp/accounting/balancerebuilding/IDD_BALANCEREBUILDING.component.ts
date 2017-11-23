@@ -25,8 +25,7 @@ import { IDD_BALANCEREBUILDINGService } from './IDD_BALANCEREBUILDING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ForecastProcess','ActualProcess','BothProcess','ActualProcess','BothProcess','Accounts','AccountOpen','bAnyAccount','CoAsFromMonth','FromYearAcc','bOneAccount','FromYearAcc','bOneAccount','CoAsToMonth','ToYearAcc','AccountCode','ToYearAcc','AccountCode','CustSupp','CustSuppOpen','bAnyCustSupp','CustSuppFromMonth','FromYearCustSupp','bOneCustSupp','FromYearCustSupp','bOneCustSupp','CustSuppToMonth','ToYearCustSupp','CustSuppType','CustSuppCode','ToYearCustSupp','CustSuppType','CustSuppCode','CustSuppType','CustSuppCode','TaxJourn','TaxJournalFromMonth','PurchTaxJ','TaxJournalToMonth','SaleTaxJ','RetailTaxJ','RetailToBeDTaxJ','TaxPlafond','TaxPlafondFromMonth','TaxPlafondToMonth','JEType','Suspended','nCurrentElement','GaugeDescription'],'HKLAccount':['Description'],'HKLCustSupp':['CompNameComplete']});
+        		this.bo.appendToModelStructure({'global':['ForecastProcess','ActualProcess','BothProcess','ActualProcess','BothProcess','Accounts','AccountOpen','bAnyAccount','CoAsFromMonth','FromYearAcc','bOneAccount','FromYearAcc','bOneAccount','CoAsToMonth','ToYearAcc','AccountCode','ToYearAcc','AccountCode','CustSupp','CustSuppOpen','bAnyCustSupp','CustSuppFromMonth','FromYearCustSupp','bOneCustSupp','FromYearCustSupp','bOneCustSupp','CustSuppToMonth','ToYearCustSupp','CustSuppType','CustSuppCode','ToYearCustSupp','CustSuppType','CustSuppCode','CustSuppType','CustSuppCode','TaxJourn','TaxJournalFromMonth','PurchTaxJ','TaxJournalToMonth','SaleTaxJ','RetailTaxJ','RetailToBeDTaxJ','TaxPlafond','TaxPlafondFromMonth','TaxPlafondToMonth','JEType','Suspended','nCurrentElement','GaugeDescription'],'HKLAccount':['Description'],'HKLCustSupp':['CompNameComplete']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_DWMSECTIONCATEGORYService } from './IDD_DWMSECTIONCATEGORY.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTWMSectionCategory':['SectionCategory','Description','HazardousMaterial'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTWMSectionCategory':['SectionCategory','Description','HazardousMaterial'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

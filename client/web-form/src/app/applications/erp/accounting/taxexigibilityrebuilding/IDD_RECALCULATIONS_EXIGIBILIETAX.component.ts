@@ -25,8 +25,7 @@ import { IDD_RECALCULATIONS_EXIGIBILIETAXService } from './IDD_RECALCULATIONS_EX
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartMonth','EndMonth','StartMonth','FromYear','EndMonth','ToYear','FromYear','EndMonth','ToYear','EndMonth','ToYear','Process']});
+        		this.bo.appendToModelStructure({'global':['StartMonth','EndMonth','StartMonth','FromYear','EndMonth','ToYear','FromYear','EndMonth','ToYear','EndMonth','ToYear','Process']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_TRANSFERTPLService } from './IDD_TRANSFERTPL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TransferTpl':['Template','Description','Priority','ValidityStartingDate','ValidityEndingDate'],'global':['TransferTplOrigin','TransferTplDest','TotPercCostCenters','TotPercJobs','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'TransferTplOrigin':['CostCenter','Detailed'],'HKLOriginCostCenter':['Description'],'TransferTplDest':['CostCenter','Job','ProductLine','TransferPerc','NotToBePosted'],'HKLDestCostCenter':['Description'],'HKLDestJob':['Description'],'HKLDestProductLine':['Description']});
+        		this.bo.appendToModelStructure({'TransferTpl':['Template','Description','Priority','ValidityStartingDate','ValidityEndingDate'],'global':['TransferTplOrigin','TransferTplDest','TotPercCostCenters','TotPercJobs','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'TransferTplOrigin':['CostCenter','Detailed'],'HKLOriginCostCenter':['Description'],'TransferTplDest':['CostCenter','Job','ProductLine','TransferPerc','NotToBePosted'],'HKLDestCostCenter':['Description'],'HKLDestJob':['Description'],'HKLDestProductLine':['Description']});
 
     }
 

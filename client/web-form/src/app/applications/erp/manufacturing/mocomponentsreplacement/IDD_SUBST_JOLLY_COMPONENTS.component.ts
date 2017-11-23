@@ -25,8 +25,7 @@ import { IDD_SUBST_JOLLY_COMPONENTSService } from './IDD_SUBST_JOLLY_COMPONENTS.
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMComponentsReplacement']});
+        		this.bo.appendToModelStructure({'global':['BOMComponentsReplacement']});
 
     }
 

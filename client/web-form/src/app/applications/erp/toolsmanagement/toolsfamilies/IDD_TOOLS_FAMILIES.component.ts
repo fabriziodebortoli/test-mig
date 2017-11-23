@@ -25,8 +25,7 @@ import { IDD_TOOLS_FAMILIESService } from './IDD_TOOLS_FAMILIES.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['GaugeQty','StatusDescription','ImageStatusTool','ToolsFamiliesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ToolsFamilies':['Family','Description','FamilyType','Disabled','ExclusiveUse'],'ToolsFamiliesDetails':['LocalBmpStatus','Priority','Tool','LocalToolStatus'],'HKLTools':['Description']});
+        		this.bo.appendToModelStructure({'global':['GaugeQty','StatusDescription','ImageStatusTool','ToolsFamiliesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ToolsFamilies':['Family','Description','FamilyType','Disabled','ExclusiveUse'],'ToolsFamiliesDetails':['LocalBmpStatus','Priority','Tool','LocalToolStatus'],'HKLTools':['Description']});
 
     }
 

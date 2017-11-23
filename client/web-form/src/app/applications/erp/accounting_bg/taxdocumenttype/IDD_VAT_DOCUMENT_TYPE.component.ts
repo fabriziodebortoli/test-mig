@@ -25,8 +25,7 @@ import { IDD_VAT_DOCUMENT_TYPEService } from './IDD_VAT_DOCUMENT_TYPE.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxDocumentType':['TypeOfTaxDocument','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxDocumentType':['TypeOfTaxDocument','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

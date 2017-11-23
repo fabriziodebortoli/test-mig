@@ -25,8 +25,7 @@ import { IDD_ITEMS_WAP_TRANS_REBUILDService } from './IDD_ITEMS_WAP_TRANS_REBUIL
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription']});
 
     }
 

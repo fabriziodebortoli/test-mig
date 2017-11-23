@@ -25,8 +25,7 @@ import { IDD_COPY_ITEM_CUSTSUPPService } from './IDD_COPY_ITEM_CUSTSUPP.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bCustCode','bSuppCode','bItemCode','bItemType','bCommCtg','bCustCtg','bSuppCtg','InputDataFrom','InputDataOn','bCustItem','bCustMainData','bCustStandardData','bLastSaleReturn','bCustGridQtyBrackets','bCustItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bSuppItem','bSuppMainData','bSuppStandardData','bLastPurchaseReturn','bSuppGridQtyBrackets','bSuppItemType','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bCustItemType','bSuppItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bCustCtgCommCtg','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bSuppCtgCommCtg','bCustCtgCommCtg','bSuppCtgCommCtg','bNoUpdateExistingData','bUpdateExistingData','nCurrentElement']});
+        		this.bo.appendToModelStructure({'global':['bCustCode','bSuppCode','bItemCode','bItemType','bCommCtg','bCustCtg','bSuppCtg','InputDataFrom','InputDataOn','bCustItem','bCustMainData','bCustStandardData','bLastSaleReturn','bCustGridQtyBrackets','bCustItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bSuppItem','bSuppMainData','bSuppStandardData','bLastPurchaseReturn','bSuppGridQtyBrackets','bSuppItemType','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bCustItemType','bSuppItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bCustCtgCommCtg','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bSuppCtgCommCtg','bCustCtgCommCtg','bSuppCtgCommCtg','bNoUpdateExistingData','bUpdateExistingData','nCurrentElement']});
 
     }
 

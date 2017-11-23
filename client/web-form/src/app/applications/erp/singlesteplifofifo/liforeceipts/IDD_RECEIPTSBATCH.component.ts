@@ -25,8 +25,7 @@ import { IDD_RECEIPTSBATCHService } from './IDD_RECEIPTSBATCH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Receipts':['Item','ReceiptBatchId','Storage','LoadDate','TotallyConsumedDate','AccountingType','UnitValue','Qty','ReceiptBatchValue'],'HKLItems':['BaseUoM','BaseUoM','Description'],'HKLAccountingType':['Description'],'global':['ReceiptDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ReceiptDetails':['InvEntryType','PostingDate','Reason','InvEntryLine','QtyIn','ValueIn','QtyOut','ValueOut','QtyToDate','ValueToDate','LineCost','LoadUnitValue']});
+        		this.bo.appendToModelStructure({'Receipts':['Item','ReceiptBatchId','Storage','LoadDate','TotallyConsumedDate','AccountingType','UnitValue','Qty','ReceiptBatchValue'],'HKLItems':['BaseUoM','BaseUoM','Description'],'HKLAccountingType':['Description'],'global':['ReceiptDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ReceiptDetails':['InvEntryType','PostingDate','Reason','InvEntryLine','QtyIn','ValueIn','QtyOut','ValueOut','QtyToDate','ValueToDate','LineCost','LoadUnitValue']});
 
     }
 

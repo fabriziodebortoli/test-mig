@@ -25,8 +25,7 @@ import { IDD_UNPACKINGService } from './IDD_UNPACKING.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','Bin','Item','StorageUnit','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','Bin','Item','StorageUnit','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU']});
 
     }
 

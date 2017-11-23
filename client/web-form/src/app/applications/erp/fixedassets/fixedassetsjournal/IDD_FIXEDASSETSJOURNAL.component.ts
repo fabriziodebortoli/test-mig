@@ -25,8 +25,7 @@ import { IDD_FIXEDASSETSJOURNALService } from './IDD_FIXEDASSETSJOURNAL.service'
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','FiscalRegime','BalanceRegime','AssetsJournal','DetailedHistory','Grouped','HistoryFrom','HistoryYear','AllCategories','SelCategories','FromCategories','ToCategories','AllPurchaseYears','SelPurchaseYears','FromPurchaseYear','ToPurchaseYear','OrderByPurchaseYear','OrderByCategory','Compound','OnePageForCategory','PrintPreviousQuota','Print','ContextualHeading','NoPrefix','StartingPage']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','FiscalRegime','BalanceRegime','AssetsJournal','DetailedHistory','Grouped','HistoryFrom','HistoryYear','AllCategories','SelCategories','FromCategories','ToCategories','AllPurchaseYears','SelPurchaseYears','FromPurchaseYear','ToPurchaseYear','OrderByPurchaseYear','OrderByCategory','Compound','OnePageForCategory','PrintPreviousQuota','Print','ContextualHeading','NoPrefix','StartingPage']});
 
     }
 

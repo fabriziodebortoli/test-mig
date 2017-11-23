@@ -25,8 +25,7 @@ import { IDD_ECOCONFIRMATIONService } from './IDD_ECOCONFIRMATION.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bNotItemSelection','bItemSelection','ItemFrom','ItemTo','bNotVariantSelection','bVariantSelection','VariantFrom','VariantTo','bNotECOSelection','bECOSelection','ECOFrom','ECOTo','bNotDateSelection','bDateSelection','DateFrom','DateTo','bAllECO','bOnlyAuto','ECOConfirmations'],'ECOConfirmations':['ECOConfSelected','ECOConfBmp','ECONo','ECORevision','ECOStatus','ECOAutomaticallyGenerated','BOM','BOM','Variant','Description','ECOCreationDate','ECOExecutionDate','ECOExecutionSignature','ECOExecutionSignature','ECOCheckDate','ECOCheckSignature','ECOApprovalDate','ECOApprovalSignature','ECONotes']});
+        		this.bo.appendToModelStructure({'global':['bNotItemSelection','bItemSelection','ItemFrom','ItemTo','bNotVariantSelection','bVariantSelection','VariantFrom','VariantTo','bNotECOSelection','bECOSelection','ECOFrom','ECOTo','bNotDateSelection','bDateSelection','DateFrom','DateTo','bAllECO','bOnlyAuto','ECOConfirmations'],'ECOConfirmations':['ECOConfSelected','ECOConfBmp','ECONo','ECORevision','ECOStatus','ECOAutomaticallyGenerated','BOM','BOM','Variant','Description','ECOCreationDate','ECOExecutionDate','ECOExecutionSignature','ECOExecutionSignature','ECOCheckDate','ECOCheckSignature','ECOApprovalDate','ECOApprovalSignature','ECONotes']});
 
     }
 

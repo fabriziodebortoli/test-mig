@@ -25,8 +25,7 @@ import { IDD_DEL_STOCKService } from './IDD_DEL_STOCK.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','IntDiff','MintDiff','IntIN','MintIN','IntOUT','MintOUT','bAllItems','bSelectItem','ItemFrom','ItemTo','bAllCreationDate','bSelectCreationDate','CreationDateFrom','CreationDateTo','DBTStocksFromInterim'],'DBTStocksFromInterim':['Selection','Storage','Zone','Bin','StockNumber','Item','Lot','InternalIdNo','UnitOfMeasure','Qty','QtyBaseUoM','CreationDate','SpecialStock','SpecialStockCode','StorageUnit','StorageUnitType','IsMultilevelStorageUnit','QtyReserved','QtyIncoming','LotValidTo','Snapshot','SnapshotCert','SnapshotWorker','SnapshotDate','SnapshotTOId','Weight','Capacity','ConsignmentPartner']});
+        		this.bo.appendToModelStructure({'global':['Storage','IntDiff','MintDiff','IntIN','MintIN','IntOUT','MintOUT','bAllItems','bSelectItem','ItemFrom','ItemTo','bAllCreationDate','bSelectCreationDate','CreationDateFrom','CreationDateTo','DBTStocksFromInterim'],'DBTStocksFromInterim':['Selection','Storage','Zone','Bin','StockNumber','Item','Lot','InternalIdNo','UnitOfMeasure','Qty','QtyBaseUoM','CreationDate','SpecialStock','SpecialStockCode','StorageUnit','StorageUnitType','IsMultilevelStorageUnit','QtyReserved','QtyIncoming','LotValidTo','Snapshot','SnapshotCert','SnapshotWorker','SnapshotDate','SnapshotTOId','Weight','Capacity','ConsignmentPartner']});
 
     }
 

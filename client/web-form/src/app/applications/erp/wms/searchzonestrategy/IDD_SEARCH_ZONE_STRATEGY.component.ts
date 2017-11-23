@@ -25,8 +25,7 @@ import { IDD_SEARCH_ZONE_STRATEGYService } from './IDD_SEARCH_ZONE_STRATEGY.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTSearchZoneStrategy':['Code','Description','Storage','Notes'],'global':['DBTSearchZoneStrategyDet','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTSearchZoneStrategyDet':['Zone','Priority'],'HKLWMZone':['Description']});
+        		this.bo.appendToModelStructure({'DBTSearchZoneStrategy':['Code','Description','Storage','Notes'],'global':['DBTSearchZoneStrategyDet','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTSearchZoneStrategyDet':['Zone','Priority'],'HKLWMZone':['Description']});
 
     }
 

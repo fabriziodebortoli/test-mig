@@ -25,8 +25,7 @@ import { IDD_ACTUAL_COSTS_CALCService } from './IDD_ACTUAL_COSTS_CALC.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['MOSel','FromMO','ToMO','JobSel','FromSaleJob','ToSaleJob','DateSel','FromDate','ToDate','UseStepCosts','UseFastMethod','DisplayExtendedMess','MODateConfirmationSel','FromMODateConfirmation','ToMODateConfirmation','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['MOSel','FromMO','ToMO','JobSel','FromSaleJob','ToSaleJob','DateSel','FromDate','ToDate','UseStepCosts','UseFastMethod','DisplayExtendedMess','MODateConfirmationSel','FromMODateConfirmation','ToMODateConfirmation','nCurrentElement','GaugeDescription']});
 
     }
 

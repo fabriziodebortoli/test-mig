@@ -25,8 +25,7 @@ import { IDD_SACTOTService } from './IDD_SACTOT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['YearDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SimplifiedAccountingTotals':['BalanceYear','BalanceMonth','ColumnCode','Amount']});
+        		this.bo.appendToModelStructure({'global':['YearDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SimplifiedAccountingTotals':['BalanceYear','BalanceMonth','ColumnCode','Amount']});
 
     }
 

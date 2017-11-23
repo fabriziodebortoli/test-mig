@@ -25,8 +25,7 @@ import { IDD_MAILService } from './IDD_MAIL.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Mail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Mail':['l_TEnhMail_Description','FilePath','Namespace','Notes','l_TEnhMail_Disabled']});
+        		this.bo.appendToModelStructure({'global':['Mail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Mail':['l_TEnhMail_Description','FilePath','Namespace','Notes','l_TEnhMail_Disabled']});
 
     }
 

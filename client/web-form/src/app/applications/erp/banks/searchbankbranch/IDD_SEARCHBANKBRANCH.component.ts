@@ -25,8 +25,7 @@ import { IDD_SEARCHBANKBRANCHService } from './IDD_SEARCHBANKBRANCH.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ABI','CAB','SearchBankBranch'],'SearchBankBranch':['ABI','CAB','Bank','Description','Address','City','ZIPCode','County','Counter','Swift']});
+        		this.bo.appendToModelStructure({'global':['ABI','CAB','SearchBankBranch'],'SearchBankBranch':['ABI','CAB','Bank','Description','Address','City','ZIPCode','County','Counter','Swift']});
 
     }
 

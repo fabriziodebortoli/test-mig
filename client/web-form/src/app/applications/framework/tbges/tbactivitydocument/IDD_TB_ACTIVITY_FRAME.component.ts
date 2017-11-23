@@ -25,8 +25,7 @@ import { IDD_TB_ACTIVITY_FRAMEService } from './IDD_TB_ACTIVITY_FRAME.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

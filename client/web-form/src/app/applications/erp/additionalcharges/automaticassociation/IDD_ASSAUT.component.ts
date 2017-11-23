@@ -25,8 +25,7 @@ import { IDD_ASSAUTService } from './IDD_ASSAUT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Template','ChargeCategory','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Template','ChargeCategory','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -25,8 +25,7 @@ import { IDD_COAGROUPSService } from './IDD_COAGROUPS.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ChartOfAccountsGroups':['Ledger','Description','Nature','ReportCode'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ChartOfAccountsGroups':['Ledger','Description','Nature','ReportCode'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

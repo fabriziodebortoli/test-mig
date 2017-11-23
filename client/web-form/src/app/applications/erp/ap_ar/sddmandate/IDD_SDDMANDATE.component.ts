@@ -30,8 +30,7 @@ import { IDD_SDDMANDATEService } from './IDD_SDDMANDATE.service';
   "namespace": "ERP.AP_AR.Components.TypeEnumComboSDD"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SDDMandate':['MandateCode','Draft','MandateType','MandateDate','DDMandate','UMRCode','MandateOneOff','MandateFirstDate','MandateLastDate','Notes','Printed','PrintDate','Customer','CustomerBank','CustomerCA','CustomerIBANIsManual','CustomerIBAN'],'HKLCustSupp':['CompNameComplete'],'HKLCustSuppBank':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'SDDMandate':['MandateCode','Draft','MandateType','MandateDate','DDMandate','UMRCode','MandateOneOff','MandateFirstDate','MandateLastDate','Notes','Printed','PrintDate','Customer','CustomerBank','CustomerCA','CustomerIBANIsManual','CustomerIBAN'],'HKLCustSupp':['CompNameComplete'],'HKLCustSuppBank':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

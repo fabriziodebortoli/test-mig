@@ -25,8 +25,7 @@ import { IDD_MULTICOMPANYBALANCESService } from './IDD_MULTICOMPANYBALANCES.serv
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'MultiCompanyBalances':['BalanceSchema','Notes','Template','Company','BalanceDate','Sent','SendingDate','Language','Currency','FixingDate','Fixing','CompanyIdentifier','Suffix'],'HKLConsolidTemplates':['Description'],'HKLCompanyGroups':['CompanyName'],'HKLLanguages':['Description'],'HKLCurrenciesCurrObj':['Description'],'global':['Balances','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Balances':['ExternalCode','Description','Debit','Credit']});
+        		this.bo.appendToModelStructure({'MultiCompanyBalances':['BalanceSchema','Notes','Template','Company','BalanceDate','Sent','SendingDate','Language','Currency','FixingDate','Fixing','CompanyIdentifier','Suffix'],'HKLConsolidTemplates':['Description'],'HKLCompanyGroups':['CompanyName'],'HKLLanguages':['Description'],'HKLCurrenciesCurrObj':['Description'],'global':['Balances','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Balances':['ExternalCode','Description','Debit','Credit']});
 
     }
 

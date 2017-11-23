@@ -25,8 +25,7 @@ import { IDD_INPROC_RAW_MATService } from './IDD_INPROC_RAW_MAT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllItem','bSelItem','FromItem','ToItem','bAllWC','bSelWC','FromWC','ToWC','bInHouseWC','bOutsrcWC','bShowZeroRows','bShowZeroColumns','bAllSupp','bSelSupp','FromSupp','ToSupp','bShowZeroRows','bShowZeroColumns','DBTInProcessingRawMaterials'],'DBTInProcessingRawMaterials':['Comp','UoM'],'HKLItem':['Description']});
+        		this.bo.appendToModelStructure({'global':['bAllItem','bSelItem','FromItem','ToItem','bAllWC','bSelWC','FromWC','ToWC','bInHouseWC','bOutsrcWC','bShowZeroRows','bShowZeroColumns','bAllSupp','bSelSupp','FromSupp','ToSupp','bShowZeroRows','bShowZeroColumns','DBTInProcessingRawMaterials'],'DBTInProcessingRawMaterials':['Comp','UoM'],'HKLItem':['Description']});
 
     }
 

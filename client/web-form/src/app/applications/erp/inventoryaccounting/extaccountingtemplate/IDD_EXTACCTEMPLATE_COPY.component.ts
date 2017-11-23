@@ -25,8 +25,7 @@ import { IDD_EXTACCTEMPLATE_COPYService } from './IDD_EXTACCTEMPLATE_COPY.servic
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ExtAccTemplate']});
+        		this.bo.appendToModelStructure({'global':['ExtAccTemplate']});
 
     }
 

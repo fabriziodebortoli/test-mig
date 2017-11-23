@@ -25,8 +25,7 @@ import { IDD_TAXSUMMTOTService } from './IDD_TAXSUMMTOT.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxSummaryTotals':['BalanceYear','Period','LastPage','PaymentDetails','DefinitivelyPrinted','ExigibleTax','DeductibleTax','DebitTax','CreditTax','PreviousDebitTax','PreviousCreditTax','PreviousYearCreditTax','ExcludedCreditTax','IncludedCreditTax','ImportedCarsTaxPaid','SpecialCreditTax','Interests','DebitTaxPeriod','CreditTaxPeriod'],'global':['Amount','Credit','VP9','Advance','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxSummaryTotals':['BalanceYear','Period','LastPage','PaymentDetails','DefinitivelyPrinted','ExigibleTax','DeductibleTax','DebitTax','CreditTax','PreviousDebitTax','PreviousCreditTax','PreviousYearCreditTax','ExcludedCreditTax','IncludedCreditTax','ImportedCarsTaxPaid','SpecialCreditTax','Interests','DebitTaxPeriod','CreditTaxPeriod'],'global':['Amount','Credit','VP9','Advance','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

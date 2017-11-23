@@ -25,8 +25,7 @@ import { IDD_MBPROD_REORDService } from './IDD_MBPROD_REORD.service';
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bWorkerAll','bWorkerSel','WorkerFrom','WorkerTo','bDateAll','bDateSel','DateFrom','DateTo','bItemAll','bItemSel','sItemFrom','sItemTo','bMinimumStock','bUseStockAvailability','bConsiderReorderLot','bGroupBySupplier','bGroupByDate','DocNo','Selected','IsKanban','WorkerDescription','Item','NatureDesc','AvailQty','ReorderLot','MinimumQty','Qty','UoM','QtyToReord','OrderDate','Supplier','Storage'],'HKLItems':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLStorage':['Description']});
+        		this.bo.appendToModelStructure({'global':['bWorkerAll','bWorkerSel','WorkerFrom','WorkerTo','bDateAll','bDateSel','DateFrom','DateTo','bItemAll','bItemSel','sItemFrom','sItemTo','bMinimumStock','bUseStockAvailability','bConsiderReorderLot','bGroupBySupplier','bGroupByDate','DocNo','Selected','IsKanban','WorkerDescription','Item','NatureDesc','AvailQty','ReorderLot','MinimumQty','Qty','UoM','QtyToReord','OrderDate','Supplier','Storage'],'HKLItems':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLStorage':['Description']});
 
     }
 
