@@ -10,12 +10,7 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartOfAccountComponent extends ControlComponent implements OnInit {
-  @Input() get hotLink(): { namespace: string, name: string} {
-    return { namespace: 'ERP.PaymentTerms.Dbl.PaymentTerms',
-             name: 'Test'
-              };
-  }
-
+  @Input() hotLink: { namespace: string, name: string};
   public errorMessage = '';
 
   constructor( public eventData: EventDataService,

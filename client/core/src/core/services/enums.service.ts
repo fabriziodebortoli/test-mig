@@ -17,14 +17,15 @@ export class EnumsService {
 
     async getEnumsTableAsync() {
         if (!this.enumsTable) {
-            this.enumsTable = await this.httpService.getEnumsTable().toPromise();
+            let result = await this.httpService.getEnumsTable().toPromise();
+            this.enumsTable = result.enums;
         }
     }
 
     getEnumsItem(storedValue: string) {
         if (this.enumsTable === undefined) { return; }
-        for (let index = 0; index < this.enumsTable.enums.tags.length; index++) {
-            let tag = this.enumsTable.enums.tags[index];
+        for (let index = 0; index < this.enumsTable.tags.length; index++) {
+            let tag = this.enumsTable.tags[index];
             if (tag !== undefined) {
                 for (let j = 0; j < tag.items.length; j++) {
                     if (tag.items[j].stored === storedValue) {
@@ -38,8 +39,8 @@ export class EnumsService {
 
     getItemFromTagAndValue(tag: string, storedValue: string) {
         if (this.enumsTable === undefined) { return; }
-        for (let index = 0; index < this.enumsTable.enums.tags.length; index++) {
-            let currentTag = this.enumsTable.enums.tags[index];
+        for (let index = 0; index < this.enumsTable.tags.length; index++) {
+            let currentTag = this.enumsTable.tags[index];
             if (currentTag !== undefined && currentTag.value === tag) {
 
                 for (let j = 0; j < currentTag.items.length; j++) {
@@ -54,8 +55,8 @@ export class EnumsService {
 
     getItemsFromTag(tag: string) {
         if (this.enumsTable === undefined) { return; }
-        for (let index = 0; index < this.enumsTable.enums.tags.length; index++) {
-            let currentTag = this.enumsTable.enums.tags[index];
+        for (let index = 0; index < this.enumsTable.tags.length; index++) {
+            let currentTag = this.enumsTable.tags[index];
             if (currentTag !== undefined && currentTag.value === tag) {
                 return currentTag.items;
             }
