@@ -63,7 +63,6 @@ export class InfoService {
 
                     this.baseUrl = config.baseUrl;
                     this.wsBaseUrl = config.wsBaseUrl;
-                    this.isDesktop = config.isDesktop;
 
                     resolve(true);
                 });
@@ -74,7 +73,7 @@ export class InfoService {
         //posso chiamarla prima della login, allora avrò meno informazioni
         //se la richiamo a login effettuata mi popola le informazioni mancanti
         return Observable.create(observer => {
-            if (this.productInfo && (!ensureIsLogged || this.productInfo.userLogged) ) {
+            if (this.productInfo && (!ensureIsLogged || this.productInfo.userLogged)) {
                 observer.next(this.productInfo);
                 observer.complete();
             }
@@ -166,6 +165,12 @@ export class InfoService {
         let url = this.getBaseUrl() + '/enums-service/';
         return url;
     }
+
+    getFormattersServiceUrl() {
+        let url = this.getBaseUrl() + '/formatters-service/';
+        return url;
+    }
+
     getDataServiceUrl() {
         let url = this.getBaseUrl() + '/data-service/';
         return url;

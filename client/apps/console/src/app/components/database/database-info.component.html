@@ -4,8 +4,8 @@
       <div class="adminTile tileNormal">
         {{databaseType}} database information
         <div>
-          <admin-input-text [inputLabel]="'Server'" [textType]="'text'" *ngIf="!isDMS" [readOnly]=readOnly [(inputData)]="subDBModel.DBServer"></admin-input-text>
-          <admin-input-text [inputLabel]="'Server'" [textType]="'text'" *ngIf="isDMS" [readOnly]=readOnly [(inputData)]="subDBModel.DMSDBServer"></admin-input-text>
+          <admin-input-text [inputLabel]="'Server'" [textType]="'text'" *ngIf="!isDMS" [readOnly]=true [(inputData)]="subDBModel.DBServer"></admin-input-text>
+          <admin-input-text [inputLabel]="'Server'" [textType]="'text'" *ngIf="isDMS" [readOnly]=true [(inputData)]="subDBModel.DMSDBServer"></admin-input-text>
         </div>
         <div>
           <admin-input-text [inputLabel]="'Database'" [textType]="'text'" *ngIf="!isDMS" [readOnly]=readOnly [(inputData)]="subDBModel.DBName"></admin-input-text>

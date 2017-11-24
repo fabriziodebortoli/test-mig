@@ -5,6 +5,8 @@ import { Component, Input, OnChanges, AfterViewInit, ChangeDetectorRef } from '@
 
 import { ControlComponent } from './../control.component';
 
+import { align } from '@progress/kendo-drawing/main';
+
 @Component({
   selector: 'tb-numeric-text-box',
   templateUrl: './numeric-text-box.component.html',
@@ -14,7 +16,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   @Input() forCmpID: string;
   @Input() formatter: string;
   @Input() disabled: boolean;
-  @Input() decimals: number;
+  @Input() decimals = 0;
   @Input() public hotLink: any = undefined;
 
   errorMessage: string;
@@ -22,13 +24,10 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   showError = '';
   public selectedValue: number;
 
-
-
-
   public formatOptionsCurrency: any = {
     style: 'currency',
-    currency: 'EUR',
-    currencyDisplay: 'name'
+    currency: 'EUR'/*,
+    currencyDisplay: 'name'*/
   };
   public formatOptionsInteger: any = {
     style: 'decimal'
@@ -49,19 +48,22 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
+  ngOnInit() {
+
+  }
+
   getDecimalsOptions(): number {
     switch (this.formatter) {
       case 'Integer':
       case 'Long':
         this.decimals = 0; break;
-
+      case 'Double':
       case 'Money':
         this.decimals = 2; break;
       default: break;
     }
     return this.decimals;
   }
-
 
   getFormatOptions(): any {
     switch (this.formatter) {
@@ -70,10 +72,8 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
         return this.formatOptionsInteger;
 
       case 'Double':
-        return this.formatOptionsDouble;
-
       case 'Money':
-        return this.formatOptionsCurrency;
+        return 'n' + this.getDecimalsOptions();
 
       case 'Percent':
         return this.formatOptionsPercent;

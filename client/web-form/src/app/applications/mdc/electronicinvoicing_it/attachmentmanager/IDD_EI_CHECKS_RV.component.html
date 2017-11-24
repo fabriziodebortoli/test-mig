@@ -1,0 +1,39 @@
+﻿ <tb-frame tbDataEntry >
+  <tb-frame-content>
+   <tb-view-container>
+    <tb-view>
+     <tb-tilegroup [active]="true" [title]="_TB('Tile Group')" tbLayoutTypeVbox >
+      <ng-template>
+       <tb-tile [title]="_TB('Main Data')" tbTileWide  isCollapsible="False" hasTitle="True">
+<div class="col col1">        <tb-enum-combo [caption]="_TB('Document Type')" cmpId="IDC_EI_CHECKS_DETAIL_RV_INVOICETYPE" width="103" [model]="eventData?.model?.Attachment_DocType"></tb-enum-combo>
+        <tb-label-static [caption]="_TB('Invoice No.')" cmpId="IDC_EI_CHECKS_RV_INVOICENO" width="44" [model]="eventData?.model?.Attachment_DocNo"></tb-label-static>
+        <tb-date-input formatter="Date" [readonly]="true" [caption]="_TB('Invoice Date')" cmpId="IDC_EI_CHECKS_RV_INVOICEDATE" width="57" [model]="eventData?.model?.Attachment_DocDate"></tb-date-input>
+        <tb-enum-combo [caption]="_TB('EI Status')" cmpId="IDC_EI_CHECKS_RV_INVOICESTATUS" width="98" [model]="eventData?.model?.Attachment_EIStatus"></tb-enum-combo>
+        <tb-label-static [caption]="_TB('Tax Journal')" cmpId="IDC_EI_CHECKS_DETAIL_RV_TAXJOURNAL" width="40" [model]="eventData?.model?.Attachment_TaxJournal"></tb-label-static>
+        <tb-label-static [caption]="_TB('EI Office Code')" cmpId="IDC_EI_CHECKS_RV_CUSTOMER_IPACODE" width="40" [model]="eventData?.model?.Attachment_strIPACode"></tb-label-static>
+</div><div class="col col2">        <tb-label-static [caption]="_TB('Customer')" cmpId="IDC_EI_CHECKS_RV_CUSTOMER" width="48" [model]="eventData?.model?.Attachment_CustSupp"></tb-label-static>
+        <tb-label-static [caption]="_TB('Company Name')" cmpId="IDC_EI_CHECKS_RV_CUSTOMER_COMPANYNAME" width="154" [model]="eventData?.model?.Attachment_strCompanyName"></tb-label-static>
+        <tb-label-static [caption]="_TB('Tax Id Number')" cmpId="IDC_EI_CHECKS_RV_CUSTOMER_PIVA" width="72" [model]="eventData?.model?.Attachment_strTaxIdNumber"></tb-label-static>
+        <tb-label-static [caption]="_TB('Fiscal Code')" cmpId="IDC_EI_CHECKS_RV_CUSTOMER_FISCALCODE" width="88" [model]="eventData?.model?.Attachment_strFiscalCode"></tb-label-static>
+        <tb-label-static [caption]="_TB('Admin. Ref.')" cmpId="IDC_EI_CHECKS_RV_CUSTOMER_ADMINREF" width="97" [model]="eventData?.model?.Attachment_strAdminRef"></tb-label-static>
+</div>       </tb-tile>
+       <tb-tile [title]="_TB('Detail')" tbTileAutoFill  isCollapsible="False">
+        <tb-body-edit cmpId="IDC_EI_CHECKS_RV_ATTACH_BE" width="325" [model]="eventData?.model?.Attachment">
+         <tb-body-edit-column cmpId="IDC_EI_CHECKS_RV_ATTACH_BE_SELECTION" columnName="TEIAttachDetail_P02" [title]="_TB('File Sel')" columnType="tb-checkbox" columnName="IDC_EI_CHECKS_RV_ATTACH_BE_SELECTION">
+         </tb-body-edit-column>
+         <tb-body-edit-column cmpId="IDC_EI_CHECKS_RV_ATTACH_BE_DOCNAME" columnName="TEIAttachDetail_P03" [title]="_TB('File Name')" columnType="tb-label-static" columnName="IDC_EI_CHECKS_RV_ATTACH_BE_DOCNAME">
+         </tb-body-edit-column>
+        </tb-body-edit>
+       </tb-tile>
+      </ng-template>
+     </tb-tilegroup>
+    </tb-view>
+   </tb-view-container>
+   <tb-dockpane-container>
+   </tb-dockpane-container>
+  </tb-frame-content>
+  <tb-toolbar-bottom>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_ALWAYS_ON_FRONT?.enabled" icon="framework.tbframeworkimages.images.25x25.pin.png" [caption]="_TB('Pin')" cmpId="ID_BSP_ALWAYS_ON_FRONT"></tb-toolbar-bottom-button>
+   <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_BSP_SWITCH_TO_CALLER?.enabled" icon="tb-back" [caption]="_TB('Back')" cmpId="ID_BSP_SWITCH_TO_CALLER"></tb-toolbar-bottom-button>
+  </tb-toolbar-bottom>
+ </tb-frame>

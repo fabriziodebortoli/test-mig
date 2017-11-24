@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'tb-card-title',
   templateUrl: './tb-card-title.component.html',
-  styleUrls: ['./tb-card-title.component.scss']
+  styleUrls: ['./tb-card-title.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TbCardTitleComponent implements OnInit {
   public _isCollapsible = true;

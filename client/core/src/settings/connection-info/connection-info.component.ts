@@ -11,7 +11,6 @@ import { Subscription } from '../../rxjs.imports';
 export class ConnectionInfoComponent implements OnInit, OnDestroy {
 
   public connectionInfos: any;
-  public showdbsize: boolean;
 
   private subscriptions = [];
   constructor(
@@ -24,7 +23,7 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.push(this.httpMenuService.getConnectionInfo().subscribe(result => {
       this.connectionInfos = result;
-      this.showdbsize = this.connectionInfos.showdbsizecontrols == 'Yes';
+      
     }));
 
     this.subscriptions.push(this.localizationService.localizationsLoaded.subscribe((loaded) => {
