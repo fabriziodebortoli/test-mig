@@ -6,6 +6,7 @@ node_modules/
 wwwroot/
 lib/
 bin/
+!**/applications/**/bin/
 obj/
 .vs/
 *.VC.db
