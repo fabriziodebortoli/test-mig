@@ -7,3 +7,8 @@ tb-card {
     flex-direction: column;
     flex: 1;
 }
+
+.tds-header tb-card {
+    box-shadow: none;
+    background: transparent;
+}

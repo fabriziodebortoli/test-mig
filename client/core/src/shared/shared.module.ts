@@ -140,7 +140,7 @@ const TB_COMPONENTS = [
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent,CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
+    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
     TbHotlinkButtonsComponent
 ];
 
@@ -296,15 +296,18 @@ const TB_CONTROLS = [
 import { ContextMenuDirective } from './directives/context-menu.directive';
 import { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
+import { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
 export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
+export { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
+    TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective,
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective, ContextMenuDirective,
     TbHotLinkDirective
 ];
@@ -312,7 +315,7 @@ const TB_DIRECTIVES = [
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
 
-const TB_PIPES = [ TbEnumsPipe ];
+const TB_PIPES = [TbEnumsPipe];
 
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';

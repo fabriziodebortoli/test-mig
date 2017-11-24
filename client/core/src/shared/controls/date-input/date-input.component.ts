@@ -22,11 +22,13 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
 
+  nullDate = new Date("1799-12-31 00:00:00");
+
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef:ChangeDetectorRef) {
+    changeDetectorRef: ChangeDetectorRef) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
@@ -39,31 +41,39 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     this.blur.emit(this);
   }
 
-  onUpdateNgModel(newDate: Date): void {
-    if (!newDate) {
-      return;
-    }
-    const timestamp = Date.parse(newDate.toDateString())
-    if (isNaN(timestamp)) { return; }
+  onUpdateNgModel(newDate: Date, updateModel: boolean = true): void {
+    // if (!newDate) {
+    //   return;
+    // }
+    // const timestamp = Date.parse(newDate.toDateString())
+    // if (isNaN(timestamp)) { return; }
     if (!this.modelValid()) {
       this.model = { enable: 'true', value: '' };
     }
 
-    this.selectedDate = newDate;
-    if (this.model.constructor.name === 'text') {
-      this.model.value = formatDate(this.selectedDate, 'y-MM-ddTHH:mm:ss');
+    if (!newDate || newDate.getTime() === this.nullDate.getTime()) {
+      this.selectedDate = null;
     }
+    else {
+      this.selectedDate = newDate;
+    }
+
+
+    //if (this.model.constructor.name === 'text') {
+    if (updateModel)
+      this.model.value = formatDate(this.selectedDate ? this.selectedDate : this.nullDate, 'y-MM-ddTHH:mm:ss');
+    //}
   }
 
   ngAfterViewInit(): void {
     if (this.modelValid()) {
-      this.onUpdateNgModel(new Date(this.model.value));
+      this.onUpdateNgModel(new Date(this.model.value), false);
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.modelValid()) {
-      this.onUpdateNgModel(new Date(this.model.value));
+      this.onUpdateNgModel(new Date(this.model.value), false);
     }
   }
 

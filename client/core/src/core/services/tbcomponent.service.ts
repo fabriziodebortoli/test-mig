@@ -31,27 +31,27 @@ export class TbComponentService {
                 } else {
                     subs = this.readTranslationsFromServer(id).subscribe(
                         tn => {
-                        if (subs) {
-                            subs.unsubscribe();
-                        }
-                        this.translations = this.translations.concat(tn);
-                        this.saveToLocal(id, tn);
-                    }, err =>{
-                        if (subs) {
-                            subs.unsubscribe();
-                        }
-                        //dictionary file may not exist on server
-                        if (err && err.status === 404){
-                            this.saveToLocal(id, []);
-                        }
-                    });
+                            if (subs) {
+                                subs.unsubscribe();
+                            }
+                            this.translations = this.translations.concat(tn);
+                            this.saveToLocal(id, tn);
+                        }, err => {
+                            if (subs) {
+                                subs.unsubscribe();
+                            }
+                            //dictionary file may not exist on server
+                            if (err && err.status === 404) {
+                                this.saveToLocal(id, []);
+                            }
+                        });
                 }
             });
         });
     }
-   
-    public _TB(baseText: string) {
-        return this.translate(this.translations, baseText);
+
+    public _TB(baseText: string, ...args: any[]) {
+        return this.translate(this.translations, baseText, args);
     }
     public readTranslationsFromServer(dictionaryId: string): Observable<Array<any>> {
         return this.httpService.getTranslations(dictionaryId, this.infoService.culture.value);
@@ -108,7 +108,7 @@ export class TbComponentService {
         });
     }
 
-    public translate(translations: Array<any>, baseText: string) {
+    public translate(translations: Array<any>, baseText: string, args: any[]) {
         let target = baseText;
         if (translations) {
             translations.some(t => {
@@ -117,6 +117,15 @@ export class TbComponentService {
                     return true;
                 }
                 return false;
+            });
+        }
+
+        if (args) {
+            target = target.replace(/{(\d+)}/g, function (match, number) {
+                return typeof args[number] != 'undefined'
+                    ? args[number]
+                    : match
+                    ;
             });
         }
         return target;
