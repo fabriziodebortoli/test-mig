@@ -28,7 +28,7 @@ export class EnumsService {
             let tag = this.enumsTable.tags[index];
             if (tag !== undefined) {
                 for (let j = 0; j < tag.items.length; j++) {
-                    if (tag.items[j].stored === storedValue) {
+                    if (tag.items[j].stored == storedValue) {
                         return tag.items[j];
                     }
                 }
@@ -44,7 +44,7 @@ export class EnumsService {
             if (currentTag !== undefined && currentTag.value === tag) {
 
                 for (let j = 0; j < currentTag.items.length; j++) {
-                    if (currentTag.items[j].stored === storedValue) {
+                    if (currentTag.items[j].stored == storedValue) {
                         return currentTag.items[j];
                     }
                 }
