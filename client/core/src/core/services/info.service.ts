@@ -90,7 +90,7 @@ export class InfoService {
                     });
             }
         });
-}
+    }
 
     public getDictionaries(): Observable<any> {
         return Observable.create(observer => {
@@ -165,6 +165,12 @@ export class InfoService {
         let url = this.getBaseUrl() + '/enums-service/';
         return url;
     }
+
+    getFormattersServiceUrl() {
+        let url = this.getBaseUrl() + '/formatters-service/';
+        return url;
+    }
+
     getDataServiceUrl() {
         let url = this.getBaseUrl() + '/data-service/';
         return url;

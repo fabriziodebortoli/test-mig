@@ -18,6 +18,7 @@ import { InfoService } from './../core/services/info.service';
 import { UtilsService } from './../core/services/utils.service';
 import { ComponentInfoService } from './../core/services/component-info.service';
 import { EnumsService } from './../core/services/enums.service';
+import { FormattersService } from './../core/services/formatters.service';
 import { TabberService } from './../core/services/tabber.service';
 import { LayoutService } from './../core/services/layout.service';
 import { ComponentService } from './../core/services/component.service';
@@ -64,6 +65,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public localizationService: LocalizationService,
     public settingsService: SettingsService,
     public enumsService: EnumsService,
+    public formattersService: FormattersService,
     public infoService: InfoService,
     public loadingService: LoadingService,
     public resolver: ComponentFactoryResolver,
@@ -114,6 +116,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
+    this.formattersService.getFormattersTable();
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
