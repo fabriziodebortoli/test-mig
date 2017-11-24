@@ -1560,8 +1560,15 @@ namespace Microarea.Common.NameSolver
 					ModulesInternal.Add(CreateModuleInfo(moduleName));
 			}
 		}
-		//------------------------------------------------------------------------------
-		public static bool MatchType(ApplicationType aType, ApplicationType aTargetType)
+
+        //------------------------------------------------------------------------------
+        public static bool IsApplicationOfTypes(BaseApplicationInfo info, ApplicationType types)
+        {
+            return (info.ApplicationType & types) == info.ApplicationType;
+        }
+
+        //------------------------------------------------------------------------------
+        public static bool MatchType(ApplicationType aType, ApplicationType aTargetType)
 		{
 			if (aTargetType == ApplicationType.All)
 				return true;

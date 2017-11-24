@@ -55,11 +55,11 @@
     </div>
 
     <!--DATABASE SIZE (if needed) -->
-    <div class="box" *ngIf="connectionInfos?.showdbsizecontrols" >
+    <div class="box" *ngIf="connectionInfos?.usedspace" >
         <div>{{localizationService.localizedElements?.UsedSpace}}:</div>
         <div class='text'>{{connectionInfos?.usedspace}}</div>
     </div>
-    <div class="box" *ngIf="connectionInfos?.showdbsizecontrols">
+    <div class="box" *ngIf="connectionInfos?.freespace">
         <div> {{localizationService.localizedElements?.FreeSpace}}:</div>
         <div class='text'>{{connectionInfos?.freespace}}</div>
     </div>
