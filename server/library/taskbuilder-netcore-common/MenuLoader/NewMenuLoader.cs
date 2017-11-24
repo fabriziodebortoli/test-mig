@@ -653,9 +653,9 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.RemoteWebServer);
 
 					jsonWriter.WritePropertyName("security");
-					jsonWriter.WriteValue(loginManagerSession.Security ? MenuStrings.Yes : MenuStrings.No);
+					jsonWriter.WriteValue(loginManagerSession.Security ? MenuStrings.Enabled : MenuStrings.Disabled);
 					jsonWriter.WritePropertyName("auditing");
-					jsonWriter.WriteValue(loginManagerSession.Auditing ? MenuStrings.Yes : MenuStrings.No);
+					jsonWriter.WriteValue(loginManagerSession.Auditing ? MenuStrings.Enabled : MenuStrings.Disabled);
 
 					bool showDBSizeControls = (LoginManager.LoginManagerInstance.GetDBNetworkType() == DBNetworkType.Small &&
 							string.Compare(loginManagerSession.ProviderName, NameSolverDatabaseStrings.SQLOLEDBProvider, StringComparison.OrdinalIgnoreCase) == 0 ||
