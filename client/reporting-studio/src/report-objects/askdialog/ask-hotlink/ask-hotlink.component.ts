@@ -30,4 +30,12 @@ export class AskHotlinkComponent extends HotlinkComponent implements OnInit {
     this.value = this.hotlink.value;
     this.selectionType = this.hotlink.selection_type;
   }
+
+  GetHotlinkObject(){
+    return {
+      namespace: this.hotlink.ns,
+      name: this.hotlink.name,
+      ctx: this.hotlink
+    }
+  }
 }
