@@ -14,7 +14,7 @@ export class ProductInfoComponent implements OnInit {
 
   public productInfos: any;
   constructor(
-      public infoService: InfoService,
+    public infoService: InfoService,
     public utilsService: UtilsService,
     public localizationService: LocalizationService
   ) {
