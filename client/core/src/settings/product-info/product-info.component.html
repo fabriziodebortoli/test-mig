@@ -1,12 +1,9 @@
 <div class=info-container>
-    <div class="box topbar-title-content">
-        <img src="assets/images/logoM4_h40.png" />
-    </div>
     <div class="box">
         <div>{{localizationService.localizedElements?.InstallationVersion}}:</div>
         <div class='text'>{{productInfos?.installationVersion}} {{productInfos?.debugState}}</div>
     </div>
-    <div class="box">
+    <div class="box" *ngIf="productInfos?.providerDescription">
         <div>{{localizationService.localizedElements?.Provider}}:</div>
         <div class='text'>{{productInfos?.providerDescription}}</div>
     </div>

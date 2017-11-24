@@ -91,7 +91,7 @@ export class InfoService {
                     });
             }
         });
-    }
+}
 
     public getDictionaries(): Observable<any> {
         return Observable.create(observer => {
