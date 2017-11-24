@@ -10,7 +10,7 @@ import { IDD_COMM_POLICIESService } from './IDD_COMM_POLICIES.service';
     providers: [IDD_COMM_POLICIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COMM_POLICIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COMM_POLICIESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DESALEPERSONPOLICIES_DETAIL_BE_POLICYCOMMTYPE_itemSource: any;
 public IDC_DESALEPERSONPOLICIES_DETAIL_BE_CROSSINGCODETYPE_itemSource: any;
 public IDC_DESALEPERSONPOLICIES_DETAIL_BE_CROSSINGCODETYPE2_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_DESALEPERSONPOLICIES_DETAIL_BE_CROSSINGCODETYPE2_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_DESALEPERSONPOLICIES_DETAIL_BE_CROSSINGCODETYPE2_itemSource = {
   "namespace": "ERP.SalesPeople.Documents.CrossingCodeTypeCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommissionPolicy':['Policy','CommissionOnLines','Description','CommissionFormula','DiscountsDetail','AccrualType','AccrualPercAtInvoiceDate','CommissionType','FinalDiscountIncluded'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['AllCodes','_PolicyCommType','_CrossingCodeType','CrossingCode','_CrossingCodeType2','CrossingCode2','CrossingValue','SalespersonCommPerc','AreaManagerCommPerc','StartingFrom','CommissionType','FinalDiscountIncluded','Disabled']});
+        		this.bo.appendToModelStructure({'CommissionPolicy':['Policy','CommissionOnLines','Description','CommissionFormula','DiscountsDetail','AccrualType','AccrualPercAtInvoiceDate','CommissionType','FinalDiscountIncluded'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['AllCodes','_PolicyCommType','_CrossingCodeType','CrossingCode','_CrossingCodeType2','CrossingCode2','CrossingValue','SalespersonCommPerc','AreaManagerCommPerc','StartingFrom','CommissionType','FinalDiscountIncluded','Disabled']});
 
     }
 

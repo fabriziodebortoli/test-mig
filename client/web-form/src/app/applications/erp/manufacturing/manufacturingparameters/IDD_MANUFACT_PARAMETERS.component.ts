@@ -10,7 +10,7 @@ import { IDD_MANUFACT_PARAMETERSService } from './IDD_MANUFACT_PARAMETERS.servic
     providers: [IDD_MANUFACT_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MANUFACT_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MANUFACT_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MANUFACT_PARAMETERSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MANUFACT_PARAMETERSComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

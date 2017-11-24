@@ -10,7 +10,7 @@ import { IDD_TD_PYMTTERMService } from './IDD_TD_PYMTTERM.service';
     providers: [IDD_TD_PYMTTERMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TD_PYMTTERMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TD_PYMTTERMComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PYMTTERM_COMBO_CODETYPEPYMTSCHEDULE_itemSource: any;
 public IDC_TITLE_PYMTTERM_DUEDATETYPE_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_TITLE_PYMTTERM_DUEDATETYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_TITLE_PYMTTERM_DUEDATETYPE_itemSource = {
   "namespace": "ERP.PaymentTerms.Documents.PercDueDateTypeEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PaymentTerms':['Payment','Disabled','Description','InstallmentType','CreditCard','Notes','Offset','AtSight','BusinessYear','WorkingDays','TaxInstallment','CollectionCharges','DiscountFormula','PymtCash','IntrastatCollectionType','DueDateType','FixedDay','FixedDayRounding','ExcludedMonth1','ExcludedMonth2','DeferredDayMonth1','DeferredDayMonth2','DeferredDayMonth1Same','DeferredDayMonth2Same','NoOfInstallments','FirstPaymentDays','DaysBetweenInstallments','PercInstallment','SettingsOnPercInstallment'],'HKLCreditCard':['Description'],'HKLAccount':['Description'],'HKLPymtCash':['Description'],'global':['DeferredDayMonth1Next','DeferredDayMonth2Next','PercInstallment','Date','TotalAmount','TaxAmount','PymtSchedule','__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PercInstallment':['InstallmentNo','Days','Perc','InstallmentType','DueDateType','FixedDay','FixedDayRounding','l_TEnhPaymentTermsPercInst_P1'],'PymtSchedule':['l_TEnhPymtSchedule_P1','l_TEnhPymtSchedule_P2','l_TEnhPymtSchedule_P3','l_TEnhPymtSchedule_P4','l_TEnhPymtSchedule_P5'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'PaymentTerms':['Payment','Disabled','Description','InstallmentType','CreditCard','Notes','Offset','AtSight','BusinessYear','WorkingDays','TaxInstallment','CollectionCharges','DiscountFormula','PymtCash','IntrastatCollectionType','DueDateType','FixedDay','FixedDayRounding','ExcludedMonth1','ExcludedMonth2','DeferredDayMonth1','DeferredDayMonth2','DeferredDayMonth1Same','DeferredDayMonth2Same','NoOfInstallments','FirstPaymentDays','DaysBetweenInstallments','PercInstallment','SettingsOnPercInstallment'],'HKLCreditCard':['Description'],'HKLAccount':['Description'],'HKLPymtCash':['Description'],'global':['DeferredDayMonth1Next','DeferredDayMonth2Next','PercInstallment','Date','TotalAmount','TaxAmount','PymtSchedule','__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PercInstallment':['InstallmentNo','Days','Perc','InstallmentType','DueDateType','FixedDay','FixedDayRounding','l_TEnhPaymentTermsPercInst_P1'],'PymtSchedule':['l_TEnhPymtSchedule_P1','l_TEnhPymtSchedule_P2','l_TEnhPymtSchedule_P3','l_TEnhPymtSchedule_P4','l_TEnhPymtSchedule_P5'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

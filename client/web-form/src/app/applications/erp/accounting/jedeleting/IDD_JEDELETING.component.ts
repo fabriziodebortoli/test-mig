@@ -10,7 +10,7 @@ import { IDD_JEDELETINGService } from './IDD_JEDELETING.service';
     providers: [IDD_JEDELETINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_JEDELETINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_JEDELETINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_JEDELETINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_JEDELETINGComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PureAccounting','IssuedDoc','PurchaseDoc','bFromPostDate','bFromAccrualDate','FromPostDate','ToPostDate','AllTemplate','SelTemplate','FromTemplate','ToTemplate','AllRefNo','SelRefNo','FromRifNo','ToRifNo','AllTaxJournal','SelTaxJournal','FromTaxJournal','ToTaxJournal','AllDocNo','SelDocNo','FromDocNo','ToDocNo','AllLogNo','SelLogNo','FromLogNo','ToLogNo','PymtSchedulesDeleting','FeesDeleting','CostAccDeleting','FADeleting','IntraDeleting','LinkDeleting','Detail'],'Detail':['l_TEnhDeleteComponentJE_P01','TransactionType','l_TEnhDeleteComponentJE_P02','l_TEnhDeleteComponentJE_P03','l_TEnhDeleteComponentJE_P04','l_TEnhDeleteComponentJE_P05','l_TEnhDeleteComponentJE_P06','l_TEnhDeleteComponentJE_P08','Simulation','FinalExpectedDate','l_TEnhDeleteComponentJE_P07','FinalPosting','FinalExpectedDate','FinalPosted','FinalPostingDate','Simulation','SimulationDate','Automatic','Notes']});
+        		this.bo.appendToModelStructure({'global':['PureAccounting','IssuedDoc','PurchaseDoc','bFromPostDate','bFromAccrualDate','FromPostDate','ToPostDate','AllTemplate','SelTemplate','FromTemplate','ToTemplate','AllRefNo','SelRefNo','FromRifNo','ToRifNo','AllTaxJournal','SelTaxJournal','FromTaxJournal','ToTaxJournal','AllDocNo','SelDocNo','FromDocNo','ToDocNo','AllLogNo','SelLogNo','FromLogNo','ToLogNo','PymtSchedulesDeleting','FeesDeleting','CostAccDeleting','FADeleting','IntraDeleting','LinkDeleting','Detail'],'Detail':['l_TEnhDeleteComponentJE_P01','TransactionType','l_TEnhDeleteComponentJE_P02','l_TEnhDeleteComponentJE_P03','l_TEnhDeleteComponentJE_P04','l_TEnhDeleteComponentJE_P05','l_TEnhDeleteComponentJE_P06','l_TEnhDeleteComponentJE_P08','Simulation','FinalExpectedDate','l_TEnhDeleteComponentJE_P07','FinalPosting','FinalExpectedDate','FinalPosted','FinalPostingDate','Simulation','SimulationDate','Automatic','Notes']});
 
     }
 

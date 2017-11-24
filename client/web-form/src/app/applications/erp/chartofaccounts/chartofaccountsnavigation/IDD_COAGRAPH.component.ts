@@ -10,7 +10,7 @@ import { IDD_COAGRAPHService } from './IDD_COAGRAPH.service';
     providers: [IDD_COAGRAPHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COAGRAPHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COAGRAPHComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COAGRAPHService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COAGRAPHComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllLedgers','LedgerSel','FromLedger','ToLedger','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['AllLedgers','LedgerSel','FromLedger','ToLedger','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

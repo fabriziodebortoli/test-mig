@@ -10,7 +10,7 @@ import { IDD_BR_VEHICLEService } from './IDD_BR_VEHICLE.service';
     providers: [IDD_BR_VEHICLEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_VEHICLEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_VEHICLEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_VEHICLEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BR_VEHICLEComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRVehicle':['Code','Description','Property','VehicleType','FuelType','RNTC','LicensePlate','RegFederalState','RegYear','EngineSize','Color','FrameNumber','TareWeightKg','CapacityKg','CapacityM3'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRVehicle':['Code','Description','Property','VehicleType','FuelType','RNTC','LicensePlate','RegFederalState','RegYear','EngineSize','Color','FrameNumber','TareWeightKg','CapacityKg','CapacityM3'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

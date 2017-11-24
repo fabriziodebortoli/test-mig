@@ -10,7 +10,7 @@ import { IDD_ADDITIONAL_CHARGES_LOADService } from './IDD_ADDITIONAL_CHARGES_LOA
     providers: [IDD_ADDITIONAL_CHARGES_LOADService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ADDITIONAL_CHARGES_LOADComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ADDITIONAL_CHARGES_LOADComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ADDITIONAL_CHARGES_LOADService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ADDITIONAL_CHARGES_LOADComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SuppDocNoFilter','SuppFilter']});
+        		this.bo.appendToModelStructure({'global':['SuppDocNoFilter','SuppFilter']});
 
     }
 

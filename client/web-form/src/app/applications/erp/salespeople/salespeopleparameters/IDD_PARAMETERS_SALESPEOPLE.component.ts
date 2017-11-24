@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_SALESPEOPLEService } from './IDD_PARAMETERS_SALESPEOPLE.
     providers: [IDD_PARAMETERS_SALESPEOPLEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_SALESPEOPLEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_SALESPEOPLEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PARAMETERS_SALESPEOPLEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PARAMETERS_SALESPEOPLEComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ENASARCOParameters','FIRROneFirm','FIRRMultiFirm','CustomerAllowance','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ENASARCOParameters':['FromAmount','ToAmount','Perc','PercSalePerson','Amount','Description'],'FIRROneFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'FIRRMultiFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'CustomerAllowance':['FromYear','ToYear','Perc','P1','MaxValue']});
+        		this.bo.appendToModelStructure({'global':['ENASARCOParameters','FIRROneFirm','FIRRMultiFirm','CustomerAllowance','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ENASARCOParameters':['FromAmount','ToAmount','Perc','PercSalePerson','Amount','Description'],'FIRROneFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'FIRRMultiFirm':['FromAmount','ToAmount','Perc','Amount','Description'],'CustomerAllowance':['FromYear','ToYear','Perc','P1','MaxValue']});
 
     }
 

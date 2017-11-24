@@ -10,7 +10,7 @@ import { IDD_OPERATIONSService } from './IDD_OPERATIONS.service';
     providers: [IDD_OPERATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OPERATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OPERATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
 public IDC_TOOLS_MAN_RTGSTEP_itemSource: any;
 public IDC_TOOLS_MAN_ALT_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_TOOLS_MAN_RTGSTEP_ALT_RTGSTEP_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -45,8 +45,7 @@ this.IDC_TOOLS_MAN_RTGSTEP_ALT_RTGSTEP_itemSource = {
   "namespace": "ERP.ToolsManagement.AddOnsCore.AltRtgStepToolsItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Operations':['Operation','Description','WC','IsWC','HourlyCost','CostsOnQty','TotalTime','HourlyCost','UnitCost','AdditionalCost','CostsOnQty','ProcessingTime','SetupTime','TotalTime','QueueTime','CreationDate','Notes','OperationDescriptionFile','LastModificationDate','Item'],'HKLSelectorWC':['Description'],'HKLItemsByGoodType':['Description'],'global':['__DBTLabour','DBTToolsManagement','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','ToolBmp','FamilyBmp'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTToolsManagement':['RtgStepTypeBmp','RtgStep','Alternate','AltRtgStep','Operation','OperationDescription','Usage','IsFamily','Tool','ProcessingType','ToolType','Fixed','UsageQuantity','UsageTime','ExclusiveUse','Source','SourceTool'],'HKLSelectorTools':['Description']});
+        		this.bo.appendToModelStructure({'Operations':['Operation','Description','WC','IsWC','HourlyCost','CostsOnQty','TotalTime','HourlyCost','UnitCost','AdditionalCost','CostsOnQty','ProcessingTime','SetupTime','TotalTime','QueueTime','CreationDate','Notes','OperationDescriptionFile','LastModificationDate','Item'],'HKLSelectorWC':['Description'],'HKLItemsByGoodType':['Description'],'global':['__DBTLabour','DBTToolsManagement','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','ToolBmp','FamilyBmp'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTToolsManagement':['RtgStepTypeBmp','RtgStep','Alternate','AltRtgStep','Operation','OperationDescription','Usage','IsFamily','Tool','ProcessingType','ToolType','Fixed','UsageQuantity','UsageTime','ExclusiveUse','Source','SourceTool'],'HKLSelectorTools':['Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_TAXSUMMARYService } from './IDD_TAXSUMMARY.service';
     providers: [IDD_TAXSUMMARYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXSUMMARYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXSUMMARYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TAXSUMMARYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TAXSUMMARYComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','FromPeriod','Interests','ProRata','ToPeriod','bSelWithinDate','WithinDate','ProRataDeductible','Interests','ProRata','bSelWithinDate','WithinDate','ProRataDeductible','WithinDate','ProRataDeductible','PreviousDebitCredit','Amount','LastTaxPymt','TaxAdvance','TaxAdvanceDescri','PurchaseExigAmount','PurchaseNonExigAmount','SaleExigAmount','SaleNonExigAmount','SaleSplitPaymentAmount','DebitCredit1','Amount1','Description1','Amount1','Description1','DebitCredit2','Amount2','Description2','Amount2','Description2','DebitCredit3','Amount3','Description3','Amount3','Description3','DebitCredit4','Amount4','Description4','Amount4','Description4','ExcludedCreditTax','IncludedCreditTax','ImportedCarsTaxPaid','SpecialCreditTax','TAXTRANSFER','PostDate','NrDoc','FreeDescri','DefinitivelyPrinted','bPrepareForSOS','DotMatrixPrinter','ContextualHeading','NoPrefix','VideoPage','SummbTransfer','SummPubPostDate','SummDocNo']});
+        		this.bo.appendToModelStructure({'global':['Year','FromPeriod','Interests','ProRata','ToPeriod','bSelWithinDate','WithinDate','ProRataDeductible','Interests','ProRata','bSelWithinDate','WithinDate','ProRataDeductible','WithinDate','ProRataDeductible','PreviousDebitCredit','Amount','LastTaxPymt','TaxAdvance','TaxAdvanceDescri','PurchaseExigAmount','PurchaseNonExigAmount','SaleExigAmount','SaleNonExigAmount','SaleSplitPaymentAmount','DebitCredit1','Amount1','Description1','Amount1','Description1','DebitCredit2','Amount2','Description2','Amount2','Description2','DebitCredit3','Amount3','Description3','Amount3','Description3','DebitCredit4','Amount4','Description4','Amount4','Description4','ExcludedCreditTax','IncludedCreditTax','ImportedCarsTaxPaid','SpecialCreditTax','TAXTRANSFER','PostDate','NrDoc','FreeDescri','DefinitivelyPrinted','bPrepareForSOS','DotMatrixPrinter','ContextualHeading','NoPrefix','VideoPage','SummbTransfer','SummPubPostDate','SummDocNo']});
 
     }
 

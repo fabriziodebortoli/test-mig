@@ -10,7 +10,7 @@ import { IDD_TOOLS_REGENERATION_SET_DATAService } from './IDD_TOOLS_REGENERATION
     providers: [IDD_TOOLS_REGENERATION_SET_DATAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLS_REGENERATION_SET_DATAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLS_REGENERATION_SET_DATAComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MPARSEDCOMBO_itemSource: any;
 
     constructor(document: IDD_TOOLS_REGENERATION_SET_DATAService,
@@ -20,15 +20,14 @@ export class IDD_TOOLS_REGENERATION_SET_DATAComponent extends BOComponent implem
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         this.IDC_MPARSEDCOMBO_itemSource = {}; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Remarks','Worker','ToolStatus','SetRecDate','nDuration'],'HKLWorkersSetData':['WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['Remarks','Worker','ToolStatus','SetRecDate','nDuration'],'HKLWorkersSetData':['WorkerDesc']});
 
     }
 

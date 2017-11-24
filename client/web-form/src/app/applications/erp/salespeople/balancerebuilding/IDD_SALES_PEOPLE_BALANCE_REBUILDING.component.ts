@@ -10,7 +10,7 @@ import { IDD_SALES_PEOPLE_BALANCE_REBUILDINGService } from './IDD_SALES_PEOPLE_B
     providers: [IDD_SALES_PEOPLE_BALANCE_REBUILDINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALES_PEOPLE_BALANCE_REBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALES_PEOPLE_BALANCE_REBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALES_PEOPLE_BALANCE_REBUILDINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SALES_PEOPLE_BALANCE_REBUILDINGComponent extends BOComponent im
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartMonth','EndMonth','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartMonth','EndMonth','nCurrentElement','GaugeDescription']});
 
     }
 

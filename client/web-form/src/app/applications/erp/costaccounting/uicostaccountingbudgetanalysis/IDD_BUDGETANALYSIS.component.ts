@@ -10,7 +10,7 @@ import { IDD_BUDGETANALYSISService } from './IDD_BUDGETANALYSIS.service';
     providers: [IDD_BUDGETANALYSISService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BUDGETANALYSISComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BUDGETANALYSISComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BUDGETANALYSISService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BUDGETANALYSISComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['strBalanceType','strType','AllRadio','RadioSel','FromCode','ToCode','strBalanceBy','AllRadio','RadioSel','FromCode','ToCode','AllNatureRadio','NatureRadioSel','CostCenterNature','OnDate','bFromCreationDate','bEveryone','PeriodNature','FiscalYear','OnDate','bEveryone','PeriodNature','strReportLayout','strScale']});
+        		this.bo.appendToModelStructure({'global':['strBalanceType','strType','AllRadio','RadioSel','FromCode','ToCode','strBalanceBy','AllRadio','RadioSel','FromCode','ToCode','AllNatureRadio','NatureRadioSel','CostCenterNature','OnDate','bFromCreationDate','bEveryone','PeriodNature','FiscalYear','OnDate','bEveryone','PeriodNature','strReportLayout','strScale']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_PD_ECO_IMPORT_XMLService } from './IDD_PD_ECO_IMPORT_XML.service';
     providers: [IDD_PD_ECO_IMPORT_XMLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PD_ECO_IMPORT_XMLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PD_ECO_IMPORT_XMLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PD_ECO_IMPORT_XMLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PD_ECO_IMPORT_XMLComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ImportFileName','LogFileName','bParam']});
+        		this.bo.appendToModelStructure({'global':['ImportFileName','LogFileName','bParam']});
 
     }
 

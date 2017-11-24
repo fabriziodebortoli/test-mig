@@ -10,7 +10,7 @@ import { IDD_TOOLSService } from './IDD_TOOLS.service';
     providers: [IDD_TOOLSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TOOLSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TOOLSComponent extends BOComponent implements OnInit, OnDestroy
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['GaugeQty','StatusDescription','ImageStatusTool','ToolsToolFamilies','ToolsHistory','ToolsUsedBy','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'Tools':['Tool','Disabled','Description','Item','ExclusiveUse','Drawing','ImagePath','ImagePath','ToolType','RoundingType','RoundingDigit','BarcodeSegment','OperatingInstructions','Notes','Supplier','PurchaseDate','PurchasePrice','WarrantyExpirationDate','Department','Location','MaintenanceWorker','Brand','Model','ToolSerial','PartNumber','ManufacturingDate','CertificationNumber','TechnicalNotes','UsedQuantity','MaxQuantity','WarningQuantity','ToleranceQuantity','TotalQuantity','UsedTime','MaxTime','WarningTime','ToleranceTime','TotalTime','Reconditioning','MaxReconditioning','Overload','ReconditioningStartDate','ReconditioningDuration','LastInspectionDate','InspectionStartDate','InspectionDuration','NextInspectionDate','InspectionValidityDays','InspectionWarningDays'],'HKLItem':['Description'],'HKLSupplier':['CompanyName'],'HKLWorkers':['WorkerDesc'],'ToolsToolFamilies':['Family','LocExclusive','LocDisabled'],'HKLToolsFamilies':['Description'],'ToolsHistory':['BmpStatus','ActionDate','MaintenanceWorker','Action','ToolStatus','Remarks'],'HKLWorkersHistory':['WorkerDesc'],'ToolsUsedBy':['LocalBmpStatus','MONo','BOM','Usage','RtgStep','Alternate','AltRtgStep','ProcessingType','Operation','WC'],'HKLOperations':['Description'],'HKLWC':['Description'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'global':['GaugeQty','StatusDescription','ImageStatusTool','ToolsToolFamilies','ToolsHistory','ToolsUsedBy','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'Tools':['Tool','Disabled','Description','Item','ExclusiveUse','Drawing','ImagePath','ImagePath','ToolType','RoundingType','RoundingDigit','BarcodeSegment','OperatingInstructions','Notes','Supplier','PurchaseDate','PurchasePrice','WarrantyExpirationDate','Department','Location','MaintenanceWorker','Brand','Model','ToolSerial','PartNumber','ManufacturingDate','CertificationNumber','TechnicalNotes','UsedQuantity','MaxQuantity','WarningQuantity','ToleranceQuantity','TotalQuantity','UsedTime','MaxTime','WarningTime','ToleranceTime','TotalTime','Reconditioning','MaxReconditioning','Overload','ReconditioningStartDate','ReconditioningDuration','LastInspectionDate','InspectionStartDate','InspectionDuration','NextInspectionDate','InspectionValidityDays','InspectionWarningDays'],'HKLItem':['Description'],'HKLSupplier':['CompanyName'],'HKLWorkers':['WorkerDesc'],'ToolsToolFamilies':['Family','LocExclusive','LocDisabled'],'HKLToolsFamilies':['Description'],'ToolsHistory':['BmpStatus','ActionDate','MaintenanceWorker','Action','ToolStatus','Remarks'],'HKLWorkersHistory':['WorkerDesc'],'ToolsUsedBy':['LocalBmpStatus','MONo','BOM','Usage','RtgStep','Alternate','AltRtgStep','ProcessingType','Operation','WC'],'HKLOperations':['Description'],'HKLWC':['Description'],'DBTLinksTable':['Image','Description']});
 
     }
 

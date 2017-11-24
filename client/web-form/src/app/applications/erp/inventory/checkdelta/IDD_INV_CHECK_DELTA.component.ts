@@ -10,7 +10,7 @@ import { IDD_INV_CHECK_DELTAService } from './IDD_INV_CHECK_DELTA.service';
     providers: [IDD_INV_CHECK_DELTAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INV_CHECK_DELTAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INV_CHECK_DELTAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INV_CHECK_DELTAService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_INV_CHECK_DELTAComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','RefDecimali','bCheckFinalData','bCheckInitialData','RefDecimali','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','RefDecimali','bCheckFinalData','bCheckInitialData','RefDecimali','nCurrentElement','GaugeDescription']});
 
     }
 

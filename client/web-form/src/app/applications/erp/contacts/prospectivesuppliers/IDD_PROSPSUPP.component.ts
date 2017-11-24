@@ -10,7 +10,7 @@ import { IDD_PROSPSUPPService } from './IDD_PROSPSUPP.service';
     providers: [IDD_PROSPSUPPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PROSPSUPPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PROSPSUPPComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PROSPSUPP_STATUS_itemSource: any;
 public IDC_PROSPSUPP_REGION_itemSource: any;
 public IDC_PROSPSUPP_BRANCHES_COUNTY_itemSource: any;
@@ -25,7 +25,7 @@ public IDC_PROSPSUPP_PYMTBRANCH_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -60,8 +60,7 @@ this.IDC_PROSPSUPP_PYMTBRANCH_itemSource = {
   "namespace": "ERP.Contacts.Documents.BranchProspectiveSupplierCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ProspectiveSuppliers':['ProspectiveSupplier','Disabled','CompanyName','TitleCode','NaturalPerson','ISOCountryCode','ProspSuppKind','FiscalCode','TaxIdNumber','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Latitude','Longitude','Address','Address2','City','ZIPCode','County','Region','Country','Latitude','Longitude','FromDate','IsACustSupp','CustSupp','ConversionDate','Category','ContactOrigin','ContactSpecification','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingTime','EMail','SkypeID','Internet','DocumentSendingType','MailSendingType','NoSendPostaLite','TaxpayerType','FedStateReg','MunicipalityReg','GenRegNo','GenRegEntity','SUFRAMA','TaxOffice','CompanyRegistrNo','PaymentAddress','Payment','CustSuppBank','Currency','Language','Port','DiscountFormula','TaxCode','ExemptFromTax','SuspendedTax','Account','GoodsOffset','ServicesOffset','Notes'],'HKLTitles':['Description'],'HKLSupplierCtg':['Description'],'HKLContactOrigin':['Description'],'HKLContactSpecification':['Description'],'global':['Branches','PaymentAddressDescri','People','Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Branches':['Branch','Disabled','Companyname','ISOCountryCode','FiscalCode','TaxIdNumber','TaxOffice','FederalState','ZIPCode','Address','StreetNo','Address2','District','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','SkypeID','Internet','Email','MailSendingType','WorkingTime','ContactPerson','Language','Notes'],'People':['TitleCode','ExternalCode','LastName','Name','Telephone1','Telephone2','Telex','Fax','Email','MailSendingType','SkypeID','Branch','WorkingPosition','Notes'],'HKLPymtTerm':['Description'],'HKLSupportBank':['Description'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'HKLPorts':['Description'],'HKLTax':['Description'],'HKLChartOfAccounts':['Description'],'HKLChartOfAccountsGoods':['Description'],'HKLChartOfAccountsServices':['Description'],'Notes':['Notes','PrintSuppQuota','ShowSuppQuota','CopySuppQuota']});
+        		this.bo.appendToModelStructure({'ProspectiveSuppliers':['ProspectiveSupplier','Disabled','CompanyName','TitleCode','NaturalPerson','ISOCountryCode','ProspSuppKind','FiscalCode','TaxIdNumber','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Latitude','Longitude','Address','Address2','City','ZIPCode','County','Region','Country','Latitude','Longitude','FromDate','IsACustSupp','CustSupp','ConversionDate','Category','ContactOrigin','ContactSpecification','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingTime','EMail','SkypeID','Internet','DocumentSendingType','MailSendingType','NoSendPostaLite','TaxpayerType','FedStateReg','MunicipalityReg','GenRegNo','GenRegEntity','SUFRAMA','TaxOffice','CompanyRegistrNo','PaymentAddress','Payment','CustSuppBank','Currency','Language','Port','DiscountFormula','TaxCode','ExemptFromTax','SuspendedTax','Account','GoodsOffset','ServicesOffset','Notes'],'HKLTitles':['Description'],'HKLSupplierCtg':['Description'],'HKLContactOrigin':['Description'],'HKLContactSpecification':['Description'],'global':['Branches','PaymentAddressDescri','People','Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Branches':['Branch','Disabled','Companyname','ISOCountryCode','FiscalCode','TaxIdNumber','TaxOffice','FederalState','ZIPCode','Address','StreetNo','Address2','District','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','SkypeID','Internet','Email','MailSendingType','WorkingTime','ContactPerson','Language','Notes'],'People':['TitleCode','ExternalCode','LastName','Name','Telephone1','Telephone2','Telex','Fax','Email','MailSendingType','SkypeID','Branch','WorkingPosition','Notes'],'HKLPymtTerm':['Description'],'HKLSupportBank':['Description'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'HKLPorts':['Description'],'HKLTax':['Description'],'HKLChartOfAccounts':['Description'],'HKLChartOfAccountsGoods':['Description'],'HKLChartOfAccountsServices':['Description'],'Notes':['Notes','PrintSuppQuota','ShowSuppQuota','CopySuppQuota']});
 
     }
 

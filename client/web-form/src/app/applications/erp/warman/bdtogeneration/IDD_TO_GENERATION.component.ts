@@ -10,7 +10,7 @@ import { IDD_TO_GENERATIONService } from './IDD_TO_GENERATION.service';
     providers: [IDD_TO_GENERATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TO_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TO_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TO_GENERATION_SEL_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_TO_GENERATIONService,
@@ -20,15 +20,14 @@ export class IDD_TO_GENERATIONComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         this.IDC_TO_GENERATION_SEL_DOCTYPE_itemSource = {}; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bTRAll','bTRSel','sTRFrom','sTRTo','bDateAll','bDateSel','dDateFrom','dDateTo','bDocTypeAll','bDocTypeSel','eDocType','bMOAll','bMOSel','sMOFrom','sMOTo','bItemAll','bItemSel','sItemFrom','sItemTo','DBTTOGeneration'],'DBTTOGeneration':['Selected','StatusBmp','RequiredDate','TRNumber','TRStatus','MONo','DocumentType','DocumentNumber','Item','Storage','Lot','UoM','RequiredQty','ReleasedQty','ProcessedQty','ConfirmedTOQty'],'HKLItemsBE':['Description'],'HKLStorages':['Description']});
+        		this.bo.appendToModelStructure({'global':['bTRAll','bTRSel','sTRFrom','sTRTo','bDateAll','bDateSel','dDateFrom','dDateTo','bDocTypeAll','bDocTypeSel','eDocType','bMOAll','bMOSel','sMOFrom','sMOTo','bItemAll','bItemSel','sItemFrom','sItemTo','DBTTOGeneration'],'DBTTOGeneration':['Selected','StatusBmp','RequiredDate','TRNumber','TRStatus','MONo','DocumentType','DocumentNumber','Item','Storage','Lot','UoM','RequiredQty','ReleasedQty','ProcessedQty','ConfirmedTOQty'],'HKLItemsBE':['Description'],'HKLStorages':['Description']});
 
     }
 

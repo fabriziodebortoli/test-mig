@@ -10,7 +10,7 @@ import { IDD_MO_MAINTENANCEService } from './IDD_MO_MAINTENANCE.service';
     providers: [IDD_MO_MAINTENANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MO_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MO_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MO_MAINTENANCE_OPERATION_itemSource: any;
 public IDC_MO_MAINTENANCE_BE_STATUS_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_MO_MAINTENANCE_BE_STATUS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_MO_MAINTENANCE_BE_STATUS_itemSource = {
   "namespace": "ERP.Manufacturing.Documents.MOMaintenanceStateItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OperationSelected','bMOAll','bMOSel','MOFrom','MOTo','bItemAll','bItemSel','bItemFrom','bItemTo','bVariantAll','bVariantSel','VariantFrom','VariantTo','bJobAll','bJobSel','JobFrom','JobTo','bDeleteConfirmedMO','bDeleteInventoryEntries','bCorrectInventoryEntries','bRestoreProdPlanLine','bDeleteDocProcessExt','MOMaintenance','InHouseRel','OutRel','InHouseProc','OutProc','InHouseConf','OutConf'],'MOMaintenance':['TMO_StateBmp','TMO_Selection','MONo','MOStatus','BOM','DeliveryDate','UoM','ProductionQty','Job'],'HKLItemDetail':['Description']});
+        		this.bo.appendToModelStructure({'global':['OperationSelected','bMOAll','bMOSel','MOFrom','MOTo','bItemAll','bItemSel','bItemFrom','bItemTo','bVariantAll','bVariantSel','VariantFrom','VariantTo','bJobAll','bJobSel','JobFrom','JobTo','bDeleteConfirmedMO','bDeleteInventoryEntries','bCorrectInventoryEntries','bRestoreProdPlanLine','bDeleteDocProcessExt','MOMaintenance','InHouseRel','OutRel','InHouseProc','OutProc','InHouseConf','OutConf'],'MOMaintenance':['TMO_StateBmp','TMO_Selection','MONo','MOStatus','BOM','DeliveryDate','UoM','ProductionQty','Job'],'HKLItemDetail':['Description']});
 
     }
 

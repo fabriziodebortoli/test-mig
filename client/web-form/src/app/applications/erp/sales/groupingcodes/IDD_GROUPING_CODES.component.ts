@@ -10,7 +10,7 @@ import { IDD_GROUPING_CODESService } from './IDD_GROUPING_CODES.service';
     providers: [IDD_GROUPING_CODESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_GROUPING_CODESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_GROUPING_CODESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_GROUPING_CODESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_GROUPING_CODESComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'InvoiceTypes':['CodeType','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'InvoiceTypes':['CodeType','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

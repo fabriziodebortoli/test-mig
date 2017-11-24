@@ -10,7 +10,7 @@ import { IDD_PD_PRINTMNG_PRINTINGService } from './IDD_PD_PRINTMNG_PRINTING.serv
     providers: [IDD_PD_PRINTMNG_PRINTINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PD_PRINTMNG_PRINTINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PD_PRINTMNG_PRINTINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PD_PRINTMNG_PRINTINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PD_PRINTMNG_PRINTINGComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeviceName','PageFmtName','ReportName']});
+        		this.bo.appendToModelStructure({'global':['DeviceName','PageFmtName','ReportName']});
 
     }
 

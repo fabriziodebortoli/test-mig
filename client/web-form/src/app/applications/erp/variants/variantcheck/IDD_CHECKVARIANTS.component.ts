@@ -10,7 +10,7 @@ import { IDD_CHECKVARIANTSService } from './IDD_CHECKVARIANTS.service';
     providers: [IDD_CHECKVARIANTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CHECKVARIANTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CHECKVARIANTSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CHECKVARIANTSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CHECKVARIANTSComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

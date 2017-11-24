@@ -10,7 +10,7 @@ import { IDD_PRINT_ISSDECLINTENTService } from './IDD_PRINT_ISSDECLINTENT.servic
     providers: [IDD_PRINT_ISSDECLINTENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINT_ISSDECLINTENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINT_ISSDECLINTENTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ISSDECLINTENT_DECL_POSITIONCODE_itemSource: any;
 
     constructor(document: IDD_PRINT_ISSDECLINTENTService,
@@ -20,7 +20,7 @@ export class IDD_PRINT_ISSDECLINTENTComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,8 +31,7 @@ export class IDD_PRINT_ISSDECLINTENTComponent extends BOComponent implements OnI
   "parameter": "DataFile.ERP.Payees.PositionCode"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','FromMonthDate','ToMonthDate','FromNo','ToNo','Reprint','Corrective','ProtocolTel','ProtocolDoc','MonthlyPlafond','Export','YearDeclPresented','IntraSales','ExtraOp','SanMarinoSales','AssOp','GoodDescri','EMail','DeclDiff','PositionCode_XML','FiscalCodeDecl','Intermediary','CommitDate','FileNameComplete','bOneFileForIssuedIntent','ProcessingState']});
+        		this.bo.appendToModelStructure({'global':['Year','FromMonthDate','ToMonthDate','FromNo','ToNo','Reprint','Corrective','ProtocolTel','ProtocolDoc','MonthlyPlafond','Export','YearDeclPresented','IntraSales','ExtraOp','SanMarinoSales','AssOp','GoodDescri','EMail','DeclDiff','PositionCode_XML','FiscalCodeDecl','Intermediary','CommitDate','FileNameComplete','bOneFileForIssuedIntent','ProcessingState']});
 
     }
 

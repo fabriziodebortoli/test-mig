@@ -10,7 +10,7 @@ import { IDD_PAYABLESRECEIVABLES_PASSIVEService } from './IDD_PAYABLESRECEIVABLE
     providers: [IDD_PAYABLESRECEIVABLES_PASSIVEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PAYABLESRECEIVABLES_PASSIVEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PAYABLESRECEIVABLES_PASSIVEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PAYABLESRECEIVABLES_PASSIVEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PAYABLESRECEIVABLES_PASSIVEComponent extends BOComponent implem
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AP_AR':['CustSupp','DocNo','LogNo','DocumentDate','Blocked','Currency','Settled','Payment','TotalAmount','TaxAmount','Advance','CreditNote','WithholdingTaxManagement','AmountsWithWHTax','InstallmStartDate','SendDocumentsTo','ContractCode','ProjectCode','Group1','Group2','Description','Notes','ESRReferenceNumber','ESRCheckDigit'],'HKLCustSupp':['CompNameComplete'],'HKLCurrencies':['Description'],'global':['StatusTileValue','StatusTileDescription','StatusTileImage','ClosingAmount','IntallmentRegenerate','AmountRegenerate','ClosingRegenerate','Detail','PymtSchedTot','OpenOutsTot','ClosingTot','PymtsTot','Balance','Delta','BranchDescri','CaptionRef1','CaptionRef2','Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLPymtTerm':['Description']});
+        		this.bo.appendToModelStructure({'AP_AR':['CustSupp','DocNo','LogNo','DocumentDate','Blocked','Currency','Settled','Payment','TotalAmount','TaxAmount','Advance','CreditNote','WithholdingTaxManagement','AmountsWithWHTax','InstallmStartDate','SendDocumentsTo','ContractCode','ProjectCode','Group1','Group2','Description','Notes','ESRReferenceNumber','ESRCheckDigit'],'HKLCustSupp':['CompNameComplete'],'HKLCurrencies':['Description'],'global':['StatusTileValue','StatusTileDescription','StatusTileImage','ClosingAmount','IntallmentRegenerate','AmountRegenerate','ClosingRegenerate','Detail','PymtSchedTot','OpenOutsTot','ClosingTot','PymtsTot','Balance','Delta','BranchDescri','CaptionRef1','CaptionRef2','Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLPymtTerm':['Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_LOTSTRACING_REBUILDINGService } from './IDD_LOTSTRACING_REBUILDING.
     providers: [IDD_LOTSTRACING_REBUILDINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOTSTRACING_REBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOTSTRACING_REBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOTSTRACING_REBUILDINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOTSTRACING_REBUILDINGComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAll','bSel','Item','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAll','bSel','Item','nCurrentElement','GaugeDescription']});
 
     }
 

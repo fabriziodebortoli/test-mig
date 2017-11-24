@@ -10,7 +10,7 @@ import { IDD_PD_JE_GENERATE_NATURE_DIFFERENTService } from './IDD_PD_JE_GENERATE
     providers: [IDD_PD_JE_GENERATE_NATURE_DIFFERENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PD_JE_GENERATE_NATURE_DIFFERENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PD_JE_GENERATE_NATURE_DIFFERENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PD_JE_GENERATE_NATURE_DIFFERENTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PD_JE_GENERATE_NATURE_DIFFERENTComponent extends BOComponent im
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ForecastEdit','DefinitiveEdit','ReverseEdit','Simulation','GenPybleRcvbleAutoEdit','GenPybleRcvbleARequestEdit','NotGenPybleRcvbleEdit','GenerateCostAccountingAutomatic','NotGenerateCostAccounting','PostDate','AccrualDate','DocDate','ValueDate','DocNo','PostDate','AccrualDate','DocDate','ValueDate','DocNo','TaxJournal','TaxAccrualDate','PlafondAccrualDate','EUTaxJournal']});
+        		this.bo.appendToModelStructure({'global':['ForecastEdit','DefinitiveEdit','ReverseEdit','Simulation','GenPybleRcvbleAutoEdit','GenPybleRcvbleARequestEdit','NotGenPybleRcvbleEdit','GenerateCostAccountingAutomatic','NotGenerateCostAccounting','PostDate','AccrualDate','DocDate','ValueDate','DocNo','PostDate','AccrualDate','DocDate','ValueDate','DocNo','TaxJournal','TaxAccrualDate','PlafondAccrualDate','EUTaxJournal']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ENTRYSALESPERSON_FULLService } from './IDD_ENTRYSALESPERSON_FULL.se
     providers: [IDD_ENTRYSALESPERSON_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ENTRYSALESPERSON_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ENTRYSALESPERSON_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ENTRYSALESPERSON_FULLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ENTRYSALESPERSON_FULLComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommissionsEntries':['Salesperson','AccrualPercAtInvoiceDate','Policy','Area','AccrualType','CommTotAmount','DocNo','DocumentDate','TaxableAmount','TotalAmount','Customer','Notes'],'HKLSalesperson':['Name'],'HKLArea':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CommissionsEntries':['Salesperson','AccrualPercAtInvoiceDate','Policy','Area','AccrualType','CommTotAmount','DocNo','DocumentDate','TaxableAmount','TotalAmount','Customer','Notes'],'HKLSalesperson':['Name'],'HKLArea':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

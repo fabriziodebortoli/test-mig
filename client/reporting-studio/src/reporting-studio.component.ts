@@ -334,14 +334,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   PageNumber() {
+    let increment = 1;
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: this.rsExportService.firstPageExport
+      page: this.rsExportService.firstPageExport + "," + increment
     };
 
-    this.rsService.pageNum = message.page;
+    this.rsService.pageNum = this.rsExportService.firstPageExport;
     this.rsService.doSend(JSON.stringify(message));
+    increment++;
   }
 
   // -----------------------------------------------

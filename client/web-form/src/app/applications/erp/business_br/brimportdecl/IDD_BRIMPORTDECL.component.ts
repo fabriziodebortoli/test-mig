@@ -10,7 +10,7 @@ import { IDD_BRIMPORTDECLService } from './IDD_BRIMPORTDECL.service';
     providers: [IDD_BRIMPORTDECLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BRIMPORTDECLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BRIMPORTDECLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BRIMPORTDECLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BRIMPORTDECLComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRImportDecl':['Importer','ImporterCode','ExporterCode','ImportDeclarationNo','RegistrationDate','CustomsDate','IntermediationType','CustomsState','DischargePlace','InNotaFiscal','GrossWeight','NetWeight','Appearance','ModeOfTransport'],'HKLImporter':['CompNameCompleteWithTaxNumber'],'HKLExporter':['CompNameCompleteWithTaxNumber'],'HKLGoodsAppearance':['Description'],'HKLTransport':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRImportDecl':['Importer','ImporterCode','ExporterCode','ImportDeclarationNo','RegistrationDate','CustomsDate','IntermediationType','CustomsState','DischargePlace','InNotaFiscal','GrossWeight','NetWeight','Appearance','ModeOfTransport'],'HKLImporter':['CompNameCompleteWithTaxNumber'],'HKLExporter':['CompNameCompleteWithTaxNumber'],'HKLGoodsAppearance':['Description'],'HKLTransport':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_PRORATAService } from './IDD_PRORATA.service';
     providers: [IDD_PRORATAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRORATAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRORATAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRORATAService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PRORATAComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromPeriod','ToPeriod','DebitCredit','Amount','LastTaxPymt','ProvProRataUndeductible','ProvProRataDeductible','UpdateTaxData']});
+        		this.bo.appendToModelStructure({'global':['FromPeriod','ToPeriod','DebitCredit','Amount','LastTaxPymt','ProvProRataUndeductible','ProvProRataDeductible','UpdateTaxData']});
 
     }
 

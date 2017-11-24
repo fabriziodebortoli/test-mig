@@ -10,7 +10,7 @@ import { IDD_EXIGIBILITY_TAXService } from './IDD_EXIGIBILITY_TAX.service';
     providers: [IDD_EXIGIBILITY_TAXService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_EXIGIBILITY_TAXComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_EXIGIBILITY_TAXComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_EXIGIBILITY_TAXService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_EXIGIBILITY_TAXComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxExigibility':['IsManual','TaxJournal','PostingDate','DocumentDate','DocNo','LogNo','SplitPayment','Exigible','ExigibilityDate','TotalAmount','TaxableAmount','TaxAmount','UndeductibleAmount','TaxCode','TEnhTaxExigibility_P6','TEnhTaxExigibility_P1','TEnhTaxExigibility_P4'],'HKLTaxJournals':['Description'],'HKLTAX':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['ID_Link_Tax_Document','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxExigibility':['IsManual','TaxJournal','PostingDate','DocumentDate','DocNo','LogNo','SplitPayment','Exigible','ExigibilityDate','TotalAmount','TaxableAmount','TaxAmount','UndeductibleAmount','TaxCode','TEnhTaxExigibility_P6','TEnhTaxExigibility_P1','TEnhTaxExigibility_P4'],'HKLTaxJournals':['Description'],'HKLTAX':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['ID_Link_Tax_Document','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

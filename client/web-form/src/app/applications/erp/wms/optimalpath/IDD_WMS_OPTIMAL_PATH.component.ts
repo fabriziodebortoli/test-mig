@@ -10,7 +10,7 @@ import { IDD_WMS_OPTIMAL_PATHService } from './IDD_WMS_OPTIMAL_PATH.service';
     providers: [IDD_WMS_OPTIMAL_PATHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WMS_OPTIMAL_PATHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WMS_OPTIMAL_PATHComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WMS_OPTIMAL_PATHService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WMS_OPTIMAL_PATHComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','bBinPathSequence','bBinStructPathSelect','DBTNodeDetail','LegendStorage','LegendZone','LegendBin'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
+        		this.bo.appendToModelStructure({'global':['Storage','bBinPathSequence','bBinStructPathSelect','DBTNodeDetail','LegendStorage','LegendZone','LegendBin'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
 
     }
 

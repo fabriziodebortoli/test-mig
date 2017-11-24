@@ -10,7 +10,7 @@ import { IDD_WIZ_SALES_POSTDOC_MAINService } from './IDD_WIZ_SALES_POSTDOC_MAIN.
     providers: [IDD_WIZ_SALES_POSTDOC_MAINService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WIZ_SALES_POSTDOC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WIZ_SALES_POSTDOC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SALES_POSTDOC_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_WIZ_SALES_POSTDOC_MAINService,
@@ -20,7 +20,7 @@ export class IDD_WIZ_SALES_POSTDOC_MAINComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_WIZ_SALES_POSTDOC_MAINComponent extends BOComponent implements 
   "namespace": "ERP.Sales.Components.SaleDocTypeForPostingSaleDocCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DocumentType','ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorAllCustomer','ElaboratorCustomerSel','ElaboratorFromCustomer','ElaboratorToCustomer','ElaboratorAllDocNo','ElaboratorDocNoSel','ElaboratorFromDocNo','ElaboratorToDocNo','ElaboratorAllStubBooks','ElaboratorStubBooksSelection','ElaboratorFromStubBook','ElaboratorToStubBook','ElaboratorAllTaxJournal','ElaboratorTaxJournalSel','ElaboratorFromStubBook','ElaboratorToTaxJournal','ElaboratorAllIssue','ElaboratorNotIssued','ElaboratorIssued','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllArchived','ElaboratorNotArchived','ElaboratorArchived','ElaboratorAllAccounting','ElaboratorNotInAccounting','ElaboratorInAccounting','ElaboratorAll_AccTempl','ElaboratorAccTemplSel','ElaboratorStartingAccTempl','ElaboratorEndingAccTempl','ElaboratorAllPrinted','ElaboratorNoPrinted','ElaboratorPrinted','ElaboratorAllPostaLite','ElaboratorPostaLiteNo','ElaboratorPostaLiteYes','ElaboratorAllMailed','ElaboratorMailNo','ElaboratorMailYes','ElaboratorAllSalesPeople','ElaboratorSalesPeopleSel','ElaboratorFromSalesperson','ElaboratorToSalesperson','SaleOrdFulfilmentDetail','ElaboratorDocDatePost','ElaboratorAppDatePost','ElaboratorInsDatePost','OperationDate','bPrintMail','eMailAddressType','bPrintPostaLite','sReportTemplate','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['DocGeneration','CustSupp','CustomerCompanyName','Salesperson','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['DocumentType','ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorAllCustomer','ElaboratorCustomerSel','ElaboratorFromCustomer','ElaboratorToCustomer','ElaboratorAllDocNo','ElaboratorDocNoSel','ElaboratorFromDocNo','ElaboratorToDocNo','ElaboratorAllStubBooks','ElaboratorStubBooksSelection','ElaboratorFromStubBook','ElaboratorToStubBook','ElaboratorAllTaxJournal','ElaboratorTaxJournalSel','ElaboratorFromStubBook','ElaboratorToTaxJournal','ElaboratorAllIssue','ElaboratorNotIssued','ElaboratorIssued','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllArchived','ElaboratorNotArchived','ElaboratorArchived','ElaboratorAllAccounting','ElaboratorNotInAccounting','ElaboratorInAccounting','ElaboratorAll_AccTempl','ElaboratorAccTemplSel','ElaboratorStartingAccTempl','ElaboratorEndingAccTempl','ElaboratorAllPrinted','ElaboratorNoPrinted','ElaboratorPrinted','ElaboratorAllPostaLite','ElaboratorPostaLiteNo','ElaboratorPostaLiteYes','ElaboratorAllMailed','ElaboratorMailNo','ElaboratorMailYes','ElaboratorAllSalesPeople','ElaboratorSalesPeopleSel','ElaboratorFromSalesperson','ElaboratorToSalesperson','SaleOrdFulfilmentDetail','ElaboratorDocDatePost','ElaboratorAppDatePost','ElaboratorInsDatePost','OperationDate','bPrintMail','eMailAddressType','bPrintPostaLite','sReportTemplate','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['DocGeneration','CustSupp','CustomerCompanyName','Salesperson','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_EXPIRE_LOTS_MANAGEService } from './IDD_EXPIRE_LOTS_MANAGE.service'
     providers: [IDD_EXPIRE_LOTS_MANAGEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_EXPIRE_LOTS_MANAGEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_EXPIRE_LOTS_MANAGEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_EXPIRE_LOTS_MANAGE_TYPE_SPECIFICATOR_itemSource: any;
 public IDC_EXPIRE_LOTS_MANAGE_TYPE_SPECIFICATOR_FINAL_itemSource: any;
 public IDC_EXPIRE_LOTS_MANAGE_TYPE_SPECIFICATOR_PHASE2_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_EXPIRE_LOTS_MANAGE_TYPE_SPECIFICATOR_PHASE2_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_EXPIRE_LOTS_MANAGE_TYPE_SPECIFICATOR_PHASE2_itemSource = {
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','RefDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','InvRsn','OperationDate','Storage1','Specificator1Type','Specificator1','Storage2','Specificator2Type','Specificator2','ExpireLotsManage'],'ExpireLotsManage':['ExpireLots_IsSelected','Storage','SpecificatorType','Specificator','Item','Lot','DueDate','BookInv'],'HKLItem':['Description']});
+        		this.bo.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','RefDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','InvRsn','OperationDate','Storage1','Specificator1Type','Specificator1','Storage2','Specificator2Type','Specificator2','ExpireLotsManage'],'ExpireLotsManage':['ExpireLots_IsSelected','Storage','SpecificatorType','Specificator','Item','Lot','DueDate','BookInv'],'HKLItem':['Description']});
 
     }
 

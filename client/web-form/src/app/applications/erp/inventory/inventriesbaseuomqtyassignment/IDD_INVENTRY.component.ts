@@ -10,7 +10,7 @@ import { IDD_INVENTRYService } from './IDD_INVENTRY.service';
     providers: [IDD_INVENTRYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVENTRYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVENTRYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INVENTRYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_INVENTRYComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OpeningDate','ClosingDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['OpeningDate','ClosingDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription']});
 
     }
 

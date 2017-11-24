@@ -10,7 +10,7 @@ import { IDD_GEN_NOPICKINGLISTSService } from './IDD_GEN_NOPICKINGLISTS.service'
     providers: [IDD_GEN_NOPICKINGLISTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_GEN_NOPICKINGLISTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_GEN_NOPICKINGLISTSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_GEN_NOPICKINGLISTSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_GEN_NOPICKINGLISTSComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllMO','bManOrdSel','FromMONo','ToMONo','bAllJT','bJTSel','FromBoLNo','ToBoLNo','bJOBALL','bJOBSel','FromJOB','ToJOB','bAllDate','bSelData','DateFrom','DateTo','Storage','StorageSemifinished','PickingListDetails'],'PickingListDetails':['Selection','Component','ComponentsDes','Variant','UoM','NeededQty','EstimatedUseDate','MONo','JobTicketNo','NotFoundQty','Updated']});
+        		this.bo.appendToModelStructure({'global':['bAllMO','bManOrdSel','FromMONo','ToMONo','bAllJT','bJTSel','FromBoLNo','ToBoLNo','bJOBALL','bJOBSel','FromJOB','ToJOB','bAllDate','bSelData','DateFrom','DateTo','Storage','StorageSemifinished','PickingListDetails'],'PickingListDetails':['Selection','Component','ComponentsDes','Variant','UoM','NeededQty','EstimatedUseDate','MONo','JobTicketNo','NotFoundQty','Updated']});
 
     }
 

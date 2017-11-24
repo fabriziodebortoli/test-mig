@@ -10,7 +10,7 @@ import { IDD_IMPORTService } from './IDD_IMPORT.service';
     providers: [IDD_IMPORTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_IMPORTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_IMPORTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_IMPORTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_IMPORTComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLImp_P3','l_TEnhPersonalDataXBRLImp_P1','l_TEnhPersonalDataXBRLImp_P2']});
+        		this.bo.appendToModelStructure({'global':['SlaveDataXBRL'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLImp_P3','l_TEnhPersonalDataXBRLImp_P1','l_TEnhPersonalDataXBRLImp_P2']});
 
     }
 

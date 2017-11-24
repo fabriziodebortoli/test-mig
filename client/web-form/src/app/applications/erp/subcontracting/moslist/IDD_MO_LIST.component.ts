@@ -10,7 +10,7 @@ import { IDD_MO_LISTService } from './IDD_MO_LIST.service';
     providers: [IDD_MO_LISTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MO_LISTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MO_LISTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MO_LISTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MO_LISTComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['MOComponentsToPick'],'MOComponentsToPick':['MOSelected','Line','Item','LineDescri','UoM','BoLMOQty','BoLMONeededQty','BoLMOProgQty','BoLMOProgNeededQty','Qty','BoLMORemainingQty','BoLMORemainingNeededQty','Lot','MONo','DeliveryDateForMO','Job','DocNo','BoLMOBmpOutsourced']});
+        		this.bo.appendToModelStructure({'global':['MOComponentsToPick'],'MOComponentsToPick':['MOSelected','Line','Item','LineDescri','UoM','BoLMOQty','BoLMONeededQty','BoLMOProgQty','BoLMOProgNeededQty','Qty','BoLMORemainingQty','BoLMORemainingNeededQty','Lot','MONo','DeliveryDateForMO','Job','DocNo','BoLMOBmpOutsourced']});
 
     }
 

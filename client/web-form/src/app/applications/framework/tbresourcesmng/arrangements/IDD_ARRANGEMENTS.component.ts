@@ -10,7 +10,7 @@ import { IDD_ARRANGEMENTSService } from './IDD_ARRANGEMENTS.service';
     providers: [IDD_ARRANGEMENTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ARRANGEMENTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ARRANGEMENTSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ARRANGEMENTSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ARRANGEMENTSComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Arrangements':['Arrangement','Description','ArrangementLevel','WorkingHours','BasicPay','TotalPay','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Arrangements':['Arrangement','Description','ArrangementLevel','WorkingHours','BasicPay','TotalPay','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

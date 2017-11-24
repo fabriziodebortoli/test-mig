@@ -10,7 +10,7 @@ import { IDD_COSTCENTERSService } from './IDD_COSTCENTERS.service';
     providers: [IDD_COSTCENTERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTCENTERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTCENTERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COSTCENTERSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COSTCENTERSComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CostCenters':['CostCenter','Disabled','Description','GroupCode','CodeType','Nature','SqMtSurfaceArea','DirectEmployeesNo','IndirectEmployeesNo','DepreciationPerc','DummyCostCenter','CostCenterManager','Notes','BarcodeSegment','Account'],'HKLGroupCode':['Description'],'HKLAccount':['Description'],'global':['DebitBudTot','CreditBudTot','BudgetDebitBalance','BudgetCreditBalance','DebitActTot','CreditActTot','ActualDebitBalance','ActualCreditBalance','DebitForTot','CreditForTot','ForecastDebitBalance','ForecastCreditBalance','DebitSimTot','CreditSimTot','SimDebitBalance','SimCreditBalance','CostCentersBalances','QtyDebitBudTot','QtyCreditBudTot','QtyBudgetDebitBalance','QtyBudgetCreditBalance','QtyDebitActTot','QtyCreditActTot','QtyActualDebitBalance','QtyActualCreditBalance','QtyDebitForTot','QtyCreditFortTot','QtyForecastDebitBalance','QtyForecastCreditBalance','QtyDebitSimTot','QtyCreditSimTot','QtySimDebitBalance','QtySimCreditBalance','CostCentersBalances','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CostCentersBalances':['l_TCostCentersBalancesEnh_P01','l_TCostCentersBalancesEnh_P02','l_TCostCentersBalancesEnh_P03','l_TCostCentersBalancesEnh_P04','l_TCostCentersBalancesEnh_P05','l_TCostCentersBalancesEnh_P06','l_TCostCentersBalancesEnh_P07','l_TCostCentersBalancesEnh_P01','l_TCostCentersBalancesEnh_P08','l_TCostCentersBalancesEnh_P09','l_TCostCentersBalancesEnh_P10','l_TCostCentersBalancesEnh_P11','l_TCostCentersBalancesEnh_P12','l_TCostCentersBalancesEnh_P13']});
+        		this.bo.appendToModelStructure({'CostCenters':['CostCenter','Disabled','Description','GroupCode','CodeType','Nature','SqMtSurfaceArea','DirectEmployeesNo','IndirectEmployeesNo','DepreciationPerc','DummyCostCenter','CostCenterManager','Notes','BarcodeSegment','Account'],'HKLGroupCode':['Description'],'HKLAccount':['Description'],'global':['DebitBudTot','CreditBudTot','BudgetDebitBalance','BudgetCreditBalance','DebitActTot','CreditActTot','ActualDebitBalance','ActualCreditBalance','DebitForTot','CreditForTot','ForecastDebitBalance','ForecastCreditBalance','DebitSimTot','CreditSimTot','SimDebitBalance','SimCreditBalance','CostCentersBalances','QtyDebitBudTot','QtyCreditBudTot','QtyBudgetDebitBalance','QtyBudgetCreditBalance','QtyDebitActTot','QtyCreditActTot','QtyActualDebitBalance','QtyActualCreditBalance','QtyDebitForTot','QtyCreditFortTot','QtyForecastDebitBalance','QtyForecastCreditBalance','QtyDebitSimTot','QtyCreditSimTot','QtySimDebitBalance','QtySimCreditBalance','CostCentersBalances','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CostCentersBalances':['l_TCostCentersBalancesEnh_P01','l_TCostCentersBalancesEnh_P02','l_TCostCentersBalancesEnh_P03','l_TCostCentersBalancesEnh_P04','l_TCostCentersBalancesEnh_P05','l_TCostCentersBalancesEnh_P06','l_TCostCentersBalancesEnh_P07','l_TCostCentersBalancesEnh_P01','l_TCostCentersBalancesEnh_P08','l_TCostCentersBalancesEnh_P09','l_TCostCentersBalancesEnh_P10','l_TCostCentersBalancesEnh_P11','l_TCostCentersBalancesEnh_P12','l_TCostCentersBalancesEnh_P13']});
 
     }
 

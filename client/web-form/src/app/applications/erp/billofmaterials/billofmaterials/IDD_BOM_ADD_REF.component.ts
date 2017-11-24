@@ -10,7 +10,7 @@ import { IDD_BOM_ADD_REFService } from './IDD_BOM_ADD_REF.service';
     providers: [IDD_BOM_ADD_REFService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOM_ADD_REFComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOM_ADD_REFComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BOM_REFERENCE_OPERATION_itemSource: any;
 
     constructor(document: IDD_BOM_ADD_REFService,
@@ -20,7 +20,7 @@ export class IDD_BOM_ADD_REFComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_BOM_ADD_REFComponent extends BOComponent implements OnInit, OnD
   "namespace": "ERP.BillOfMaterials.Documents.UseInOperationComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Operation','bInsertBefore','bInsertAfter']});
+        		this.bo.appendToModelStructure({'global':['Operation','bInsertBefore','bInsertAfter']});
 
     }
 

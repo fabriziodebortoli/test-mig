@@ -10,7 +10,7 @@ import { IDD_INTRA_PURCHASEService } from './IDD_INTRA_PURCHASE.service';
     providers: [IDD_INTRA_PURCHASEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTRA_PURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTRA_PURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INTRAT_PURCHASE_NATUREOFTRANSACTION_itemSource: any;
 
     constructor(document: IDD_INTRA_PURCHASEService,
@@ -20,7 +20,7 @@ export class IDD_INTRA_PURCHASEComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_INTRA_PURCHASEComponent extends BOComponent implements OnInit, 
   "namespace": "ERP.Intrastat.Documents.NaturePurchaseTerEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'IntraArrivals':['BalanceYear','AccrualDate','BalanceMonth','Quarter','CustSupp','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompanyName'],'global':['JEReferences','Details','Details','Details','Adjustments','Adjustments','ServicesDetails','ServicesAdjustments','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLCurrenciesCurrObj':['Description'],'Details':['NetMass','SuppUnit'],'Adjustments':['Operation','NatureOfTransaction','CombinedNomenclature','TotalAmountDocCurr','TotalAmountDocCurr','TotalAmount','TotalAmount','DebitCreditSign','CorrectionYear','l_TEnhIntraArrivals1B_P1','StatisticalValue','StatisticalValue','Notes'],'ServicesDetails':['ProgNo','CPACode','TotalAmountDocCurr','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType'],'ServicesAdjustments':['RefIntrastatId','BalanceYear','LogNo','ProgNo','CustomsSectionCode','CPACode','TotalAmountDocCurr','TotalAmountDocCurr','TotalAmount','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType']});
+        		this.bo.appendToModelStructure({'IntraArrivals':['BalanceYear','AccrualDate','BalanceMonth','Quarter','CustSupp','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompanyName'],'global':['JEReferences','Details','Details','Details','Adjustments','Adjustments','ServicesDetails','ServicesAdjustments','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLCurrenciesCurrObj':['Description'],'Details':['NetMass','SuppUnit'],'Adjustments':['Operation','NatureOfTransaction','CombinedNomenclature','TotalAmountDocCurr','TotalAmountDocCurr','TotalAmount','TotalAmount','DebitCreditSign','CorrectionYear','l_TEnhIntraArrivals1B_P1','StatisticalValue','StatisticalValue','Notes'],'ServicesDetails':['ProgNo','CPACode','TotalAmountDocCurr','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType'],'ServicesAdjustments':['RefIntrastatId','BalanceYear','LogNo','ProgNo','CustomsSectionCode','CPACode','TotalAmountDocCurr','TotalAmountDocCurr','TotalAmount','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType']});
 
     }
 

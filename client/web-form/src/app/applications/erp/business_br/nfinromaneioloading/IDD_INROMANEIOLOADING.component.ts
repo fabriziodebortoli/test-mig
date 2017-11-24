@@ -10,7 +10,7 @@ import { IDD_INROMANEIOLOADINGService } from './IDD_INROMANEIOLOADING.service';
     providers: [IDD_INROMANEIOLOADINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INROMANEIOLOADINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INROMANEIOLOADINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INROMANEIOLOADINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_INROMANEIOLOADINGComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllDocumentDate','bSelDocumentDate','FromDocumentDate','ToDocumentDate','bAllDocType','bDocTypeNFCust','bDocTypeNFSupp','bAllCustSupp','bSelCustSupp','FromCustSupp','ToCustSupp','bAllDocumentNo','bSelDocumentNo','FromDocumentNo','ToDocumentNo','bAllVehicle','bSelVehicle','SelectedVehicleCode','SelectedVehicleLicensePlate','NFInRomaneioLoading'],'NFInRomaneioLoading':['TEnhNFInRo_Select','TEnhNFInRo_Series','TEnhNFInRo_Model','TEnhNFInRo_DocNo','TEnhNFInRo_DocDate','TEnhNFInRo_CustSuppType','TEnhNFInRo_CustSupp','TEnhNFInRo_CustSuppCompanyName','TEnhNFInRo_CustSuppFederalState','TEnhNFInRo_CustSuppCity','TEnhNFInRo_DeliveryToCompanyName','TEnhNFInRo_DeliveryToFederalState','TEnhNFInRo_DeliveryToCity','TEnhNFInRo_Currency']});
+        		this.bo.appendToModelStructure({'global':['bAllDocumentDate','bSelDocumentDate','FromDocumentDate','ToDocumentDate','bAllDocType','bDocTypeNFCust','bDocTypeNFSupp','bAllCustSupp','bSelCustSupp','FromCustSupp','ToCustSupp','bAllDocumentNo','bSelDocumentNo','FromDocumentNo','ToDocumentNo','bAllVehicle','bSelVehicle','SelectedVehicleCode','SelectedVehicleLicensePlate','NFInRomaneioLoading'],'NFInRomaneioLoading':['TEnhNFInRo_Select','TEnhNFInRo_Series','TEnhNFInRo_Model','TEnhNFInRo_DocNo','TEnhNFInRo_DocDate','TEnhNFInRo_CustSuppType','TEnhNFInRo_CustSupp','TEnhNFInRo_CustSuppCompanyName','TEnhNFInRo_CustSuppFederalState','TEnhNFInRo_CustSuppCity','TEnhNFInRo_DeliveryToCompanyName','TEnhNFInRo_DeliveryToFederalState','TEnhNFInRo_DeliveryToCity','TEnhNFInRo_Currency']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_CRP_CONFIRMATIONService } from './IDD_CRP_CONFIRMATION.service';
     providers: [IDD_CRP_CONFIRMATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CRP_CONFIRMATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CRP_CONFIRMATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CRP_CONFIRMATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CRP_CONFIRMATIONComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bMoMrp','CRPMOSelection'],'CRPMOSelection':['TMO_Selection','MONo','BOM','Variant','Job','Customer','InternalOrdNo','DeliveryDate'],'HKLBOM':['Description'],'HKLJob':['Description'],'HKLCustomer':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['bMoMrp','CRPMOSelection'],'CRPMOSelection':['TMO_Selection','MONo','BOM','Variant','Job','Customer','InternalOrdNo','DeliveryDate'],'HKLBOM':['Description'],'HKLJob':['Description'],'HKLCustomer':['CompanyName']});
 
     }
 

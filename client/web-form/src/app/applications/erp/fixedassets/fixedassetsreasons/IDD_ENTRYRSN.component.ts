@@ -10,7 +10,7 @@ import { IDD_ENTRYRSNService } from './IDD_ENTRYRSN.service';
     providers: [IDD_ENTRYRSNService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ENTRYRSNComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ENTRYRSNComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ENTRYRSN_QTY_itemSource: any;
 public IDC_ENTRYRSN_DATAPURCHASE_itemSource: any;
 public IDC_ENTRYRSN_PURCHCOST_itemSource: any;
@@ -74,7 +74,7 @@ public IDC_ENTRYRSN_BALANCE_WINDFLOSS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -300,8 +300,7 @@ this.IDC_ENTRYRSN_BALANCE_WINDFLOSS_itemSource = {
   "namespace": "ERP.FixedAssets.Documents.SumSubtractEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'FixedAssetsReasons':['Reason','Disabled','Description','PostDocumentData','UserEditableQty','UserEditablePerc','PurchaseDisposalEnabled','DisposalType','FiscalEnabled','FinancialEnabled','BalanceEnabled'],'global':['PurchaseDisposal_Qty','PurchaseDisposal_DataPurchase','PurchaseDisposal_PurchCost','PurchaseDisposal_DisposalData','PurchaseDisposal_DisposalValue','FiscDepr_DeprInTot','FiscDepr_InAccumDepr','FiscDepr_InitialNotDepreciable','FiscDepr_InAccAccumDepr','FiscDepr_LostDeprInTot','FiscDepr_IncrementalCharges','FiscDepr_Revaluation','FiscDepr_AdditDepr','FiscDepr_Charges','FiscDepr_MaintenanceCharges','FiscDepr_RepairsCharges','FiscDepr_DeprCharges','FiscDepr_TransfCharges','FiscDepr_DeprTot','FiscDepr_Depreciation','FiscDepr_AccumDepr','FiscDepr_NotDepreciable','FiscDepr_LostDepr','FiscDepr_LostDeprTot','FiscDepr_AccelDepr','FiscDepr_AccAccumDepr','FiscDepr_CapitalGain','FiscDepr_CapitalLoss','FiscDepr_WindfLoss','FinDepr_DeprInTot','FinDepr_InAccumDepr','FinDepr_InRenewalReserve','FinDepr_InRenewalAccumDepr','FinDepr_Charges','FinDepr_DeprTot','FinDepr_Depreciation','FinDepr_AccumDepr','FinDepr_RenewalDepr','FinDepr_RenewalAccumDepr','FinDepr_RenewalReserve','FinDepr_AssignorContribution','BalDepr_DeprInTot','BalDepr_InAccumDepr','BalDepr_InitialLiquidation','BalDepr_IncrementalCharges','BalDepr_Revaluation','BalDepr_AdditDepr','BalDepr_Charges','BalDepr_DeprTot','BalDepr_Depreciation','BalDepr_AccumDepr','BalDepr_Liquidation','BalDepr_CapitalGain','BalDepr_CapitalLoss','BalDepr_WindfLoss','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'FixedAssetsReasons':['Reason','Disabled','Description','PostDocumentData','UserEditableQty','UserEditablePerc','PurchaseDisposalEnabled','DisposalType','FiscalEnabled','FinancialEnabled','BalanceEnabled'],'global':['PurchaseDisposal_Qty','PurchaseDisposal_DataPurchase','PurchaseDisposal_PurchCost','PurchaseDisposal_DisposalData','PurchaseDisposal_DisposalValue','FiscDepr_DeprInTot','FiscDepr_InAccumDepr','FiscDepr_InitialNotDepreciable','FiscDepr_InAccAccumDepr','FiscDepr_LostDeprInTot','FiscDepr_IncrementalCharges','FiscDepr_Revaluation','FiscDepr_AdditDepr','FiscDepr_Charges','FiscDepr_MaintenanceCharges','FiscDepr_RepairsCharges','FiscDepr_DeprCharges','FiscDepr_TransfCharges','FiscDepr_DeprTot','FiscDepr_Depreciation','FiscDepr_AccumDepr','FiscDepr_NotDepreciable','FiscDepr_LostDepr','FiscDepr_LostDeprTot','FiscDepr_AccelDepr','FiscDepr_AccAccumDepr','FiscDepr_CapitalGain','FiscDepr_CapitalLoss','FiscDepr_WindfLoss','FinDepr_DeprInTot','FinDepr_InAccumDepr','FinDepr_InRenewalReserve','FinDepr_InRenewalAccumDepr','FinDepr_Charges','FinDepr_DeprTot','FinDepr_Depreciation','FinDepr_AccumDepr','FinDepr_RenewalDepr','FinDepr_RenewalAccumDepr','FinDepr_RenewalReserve','FinDepr_AssignorContribution','BalDepr_DeprInTot','BalDepr_InAccumDepr','BalDepr_InitialLiquidation','BalDepr_IncrementalCharges','BalDepr_Revaluation','BalDepr_AdditDepr','BalDepr_Charges','BalDepr_DeprTot','BalDepr_Depreciation','BalDepr_AccumDepr','BalDepr_Liquidation','BalDepr_CapitalGain','BalDepr_CapitalLoss','BalDepr_WindfLoss','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

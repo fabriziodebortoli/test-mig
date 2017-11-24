@@ -10,7 +10,7 @@ import { IDD_DELETE_INV_ENTRYService } from './IDD_DELETE_INV_ENTRY.service';
     providers: [IDD_DELETE_INV_ENTRYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DELETE_INV_ENTRYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DELETE_INV_ENTRYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DELETE_INV_ENTRYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DELETE_INV_ENTRYComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['pEraserStartingDate','pEraserEndingDate','pEraserFromPostingDate','pEraserToPostingDate','pEraserReason','pEraserStubBook','pEraserStoragePhase1','pEraserStoragePhase2','pEraserUseCustSuppType','pEraserCustSuppType','pEraserFromCustSupp','pEraserToCustSupp','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','pEraserOnlySaleDoc','pEraserOnlyPurchaseDoc','bDeleteLinkedDocument','pEraserSaleDocResetFlagPosted','pEraserPurchaseDocResetFlagPosted','pEraserDoMessageForNotLinkedEntries','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['pEraserStartingDate','pEraserEndingDate','pEraserFromPostingDate','pEraserToPostingDate','pEraserReason','pEraserStubBook','pEraserStoragePhase1','pEraserStoragePhase2','pEraserUseCustSuppType','pEraserCustSuppType','pEraserFromCustSupp','pEraserToCustSupp','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','pEraserOnlySaleDoc','pEraserOnlyPurchaseDoc','bDeleteLinkedDocument','pEraserSaleDocResetFlagPosted','pEraserPurchaseDocResetFlagPosted','pEraserDoMessageForNotLinkedEntries','nCurrentElement','GaugeDescription']});
 
     }
 

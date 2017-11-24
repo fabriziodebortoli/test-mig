@@ -10,7 +10,7 @@ import { IDD_EXTACCTEMPLService } from './IDD_EXTACCTEMPL.service';
     providers: [IDD_EXTACCTEMPLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_EXTACCTEMPLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_EXTACCTEMPLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_EXTACCTEMPL_DOCDATEFORMULA_itemSource: any;
 public IDC_EXTACCTEMPL_BODY_CUSTSUPP_itemSource: any;
 public IDC_EXTACCTEMPL_BODY_ACCOUNT_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_EXTACCTEMPL_BODY_ACCOUNT_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -42,8 +42,7 @@ this.IDC_EXTACCTEMPL_BODY_ACCOUNT_itemSource = {
   "useProductLanguage": true
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ExtAccountingTemplate':['Template','Description','AccountingTemplate','DocDateFormula','SwitchCreditDebit','GroupRepeatedLines','UseBaseCurrency'],'HKLAccountingTemplate':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Repeat','AccountingReason','LineType','CustSuppFormula','AccountFormula','DebitCredit','AmountFormula','AmountType','OffsetGroupNo','StorageNo']});
+        		this.bo.appendToModelStructure({'ExtAccountingTemplate':['Template','Description','AccountingTemplate','DocDateFormula','SwitchCreditDebit','GroupRepeatedLines','UseBaseCurrency'],'HKLAccountingTemplate':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Repeat','AccountingReason','LineType','CustSuppFormula','AccountFormula','DebitCredit','AmountFormula','AmountType','OffsetGroupNo','StorageNo']});
 
     }
 

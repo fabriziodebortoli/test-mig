@@ -10,7 +10,7 @@ import { IDD_SALE_PRICE_POLICIES_PARAMETERSService } from './IDD_SALE_PRICE_POLI
     providers: [IDD_SALE_PRICE_POLICIES_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALE_PRICE_POLICIES_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALE_PRICE_POLICIES_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALE_PRICE_POLICIES_PARAMETERSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SALE_PRICE_POLICIES_PARAMETERSComponent extends BOComponent imp
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SalePolicy','SaleDiscountPolicy','SaleIncompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SalePolicy':['Priority','CodeType','DiscountType','NotPrompt','Notes'],'SaleDiscountPolicy':['Priority','CodeType','NotPrompt','Notes'],'SaleIncompatibility':['ValueType','DiscountType']});
+        		this.bo.appendToModelStructure({'global':['SalePolicy','SaleDiscountPolicy','SaleIncompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SalePolicy':['Priority','CodeType','DiscountType','NotPrompt','Notes'],'SaleDiscountPolicy':['Priority','CodeType','NotPrompt','Notes'],'SaleIncompatibility':['ValueType','DiscountType']});
 
     }
 

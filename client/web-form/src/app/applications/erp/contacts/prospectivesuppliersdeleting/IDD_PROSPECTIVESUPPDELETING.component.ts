@@ -10,7 +10,7 @@ import { IDD_PROSPECTIVESUPPDELETINGService } from './IDD_PROSPECTIVESUPPDELETIN
     providers: [IDD_PROSPECTIVESUPPDELETINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PROSPECTIVESUPPDELETINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PROSPECTIVESUPPDELETINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PROSPECTIVESUPPDELETINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PROSPECTIVESUPPDELETINGComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllProspSupp','ProspSuppSel','FromProspSupp','ToProspSupp','AllConv','NotConv','Conv','AllConversionDate','ConversionDateSel','FromConversionDate','ToConversionDate','Enabled','Disabled','Both','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['AllProspSupp','ProspSuppSel','FromProspSupp','ToProspSupp','AllConv','NotConv','Conv','AllConversionDate','ConversionDateSel','FromConversionDate','ToConversionDate','Enabled','Disabled','Both','nCurrentElement','GaugeDescription']});
 
     }
 

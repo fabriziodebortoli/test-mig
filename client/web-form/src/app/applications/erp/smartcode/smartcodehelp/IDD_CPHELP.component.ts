@@ -10,7 +10,7 @@ import { IDD_CPHELPService } from './IDD_CPHELP.service';
     providers: [IDD_CPHELPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CPHELPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CPHELPComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SMART_CODE_HELP_OPTION_itemSource: any;
 
     constructor(document: IDD_CPHELPService,
@@ -20,7 +20,7 @@ export class IDD_CPHELPComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_CPHELPComponent extends BOComponent implements OnInit, OnDestro
   "namespace": "ERP.SmartCode.Components.CombinationCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SmartCodeHelpRoot','SmartCodeHelpRootDescri','SmartCodeSegment','SmartCodeHelpSmartCodeGraphic','SmartCodeHelpSmartCodeDescription'],'SmartCodeSegment':['VSmartCodeSegment_p1','VSmartCodeSegment_p2']});
+        		this.bo.appendToModelStructure({'global':['SmartCodeHelpRoot','SmartCodeHelpRootDescri','SmartCodeSegment','SmartCodeHelpSmartCodeGraphic','SmartCodeHelpSmartCodeDescription'],'SmartCodeSegment':['VSmartCodeSegment_p1','VSmartCodeSegment_p2']});
 
     }
 

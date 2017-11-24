@@ -10,7 +10,7 @@ import { IDD_BANKS_AZService } from './IDD_BANKS_AZ.service';
     providers: [IDD_BANKS_AZService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BANKS_AZComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BANKS_AZComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BANKS_STATUS_itemSource: any;
 public IDC_BANKS_COUNTY_itemSource: any;
 public IDC_BE_BILLSCAS_PRESENTATION_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_BE_BILLSCAS_PRESENTATION_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -42,8 +42,7 @@ this.IDC_BE_BILLSCAS_PRESENTATION_itemSource = {
   "namespace": "ERP.Banks.Documents.BillsPresentationEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Banks':['Bank','Disabled','Description','IsForeign','ISOCountryCode','ABI','ABIPrefix','CAB','CABPrefix','Swift','SIACode','CBICode','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Counter','Agency','Branch','Address','Address2','City','ZIPCode','County','Country','Counter','Agency','Branch','Telephone1','Telephone2','Telex','Fax','ContactPerson','EMail','Internet','Identifier','Signature','Notes','BankDays','SenderCode','SenderReference','BillsAndPaymentsFolder','BillsAndPaymentsExtension','UseValueDate','CashOrderCBICode','CashOrderResultRequest','UseISO20022','Account','ChargesAccount','DebitChargesSeparately','PreferredCA','FactoringCode','FactoringCurrency'],'global':['People','BanksCAs','BillsCAs','FactoringCAs','FactoringCustomers','FactoringPymtTerms','BanksConditions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'People':['TitleCode','ExternalCode','LastName','Name','Telephone1','Telephone2','Telex','Fax','EMail','SkypeID','WorkingPosition','Notes'],'HKLAccountBank':['Description'],'HKLChargesAccountBank':['Description'],'BanksCAs':['CA','CIN','CACheck','IBANIsManual','IBAN','InternalNumber','Account','Disabled','Currency','PymtCash','Notes'],'HKLCAAccount':['Description'],'BillsCAs':['CA','IBAN','PostalNumber','InternalNumber','Blocked','Presentation','Account','Currency','MaxCreditLimit','Presented','BorrowingRate','Notes','DebitCollCharges'],'HKLBillsCA':['Description'],'FactoringCAs':['CA','FactoringType','FactoringAdvance','BorrowingRate','Account','Notes'],'HKLCAAccountFactoring':['Description'],'FactoringCustomers':['Customer','ExternalCode'],'HKLCustomer':['CompanyName'],'FactoringPymtTerms':['Payment','ExternalCode'],'HKLPymtTerm':['Description'],'BanksConditions':['ConditionCode','CompanyBankID','Convenio','CA','Carteira','CarteiraOnFile','RegisteredCollection','IssueSendByBank','MinRange','MaxRange','LastNumber','DiscountRate','InterestRate','PenalityRate','ProtestDays','PaymentPlace','Approved','FileLayout','LastFileID','ReportNamespace']});
+        		this.bo.appendToModelStructure({'Banks':['Bank','Disabled','Description','IsForeign','ISOCountryCode','ABI','ABIPrefix','CAB','CABPrefix','Swift','SIACode','CBICode','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Counter','Agency','Branch','Address','Address2','City','ZIPCode','County','Country','Counter','Agency','Branch','Telephone1','Telephone2','Telex','Fax','ContactPerson','EMail','Internet','Identifier','Signature','Notes','BankDays','SenderCode','SenderReference','BillsAndPaymentsFolder','BillsAndPaymentsExtension','UseValueDate','CashOrderCBICode','CashOrderResultRequest','UseISO20022','Account','ChargesAccount','DebitChargesSeparately','PreferredCA','FactoringCode','FactoringCurrency'],'global':['People','BanksCAs','BillsCAs','FactoringCAs','FactoringCustomers','FactoringPymtTerms','BanksConditions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'People':['TitleCode','ExternalCode','LastName','Name','Telephone1','Telephone2','Telex','Fax','EMail','SkypeID','WorkingPosition','Notes'],'HKLAccountBank':['Description'],'HKLChargesAccountBank':['Description'],'BanksCAs':['CA','CIN','CACheck','IBANIsManual','IBAN','InternalNumber','Account','Disabled','Currency','PymtCash','Notes'],'HKLCAAccount':['Description'],'BillsCAs':['CA','IBAN','PostalNumber','InternalNumber','Blocked','Presentation','Account','Currency','MaxCreditLimit','Presented','BorrowingRate','Notes','DebitCollCharges'],'HKLBillsCA':['Description'],'FactoringCAs':['CA','FactoringType','FactoringAdvance','BorrowingRate','Account','Notes'],'HKLCAAccountFactoring':['Description'],'FactoringCustomers':['Customer','ExternalCode'],'HKLCustomer':['CompanyName'],'FactoringPymtTerms':['Payment','ExternalCode'],'HKLPymtTerm':['Description'],'BanksConditions':['ConditionCode','CompanyBankID','Convenio','CA','Carteira','CarteiraOnFile','RegisteredCollection','IssueSendByBank','MinRange','MaxRange','LastNumber','DiscountRate','InterestRate','PenalityRate','ProtestDays','PaymentPlace','Approved','FileLayout','LastFileID','ReportNamespace']});
 
     }
 

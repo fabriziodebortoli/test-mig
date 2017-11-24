@@ -10,7 +10,7 @@ import { IDD_LOAD_SUPPQUOTAService } from './IDD_LOAD_SUPPQUOTA.service';
     providers: [IDD_LOAD_SUPPQUOTAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_SUPPQUOTAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_SUPPQUOTAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_SUPPQUOTAService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_SUPPQUOTAComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SuppQuotaLoading':['QuotationNo','QuotationDate','SupplierDocNo','Supplier','ProspectiveSupplier','Payment','Currency','ExpectedDeliveryDate','ValidityEndingDate','OurReference','YourReference','Notes'],'global':['SupplierDescri','SuppQuotaDetailLoading'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'SuppQuotaDetailLoading':['Selected','ExpectedDeliveryDate','LineType','Item','SupplierCode','Description','UoM','QtyToReceipt','UnitValue','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoCopyOnOrder'],'SuppQuotaSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'SuppQuotaLoading':['QuotationNo','QuotationDate','SupplierDocNo','Supplier','ProspectiveSupplier','Payment','Currency','ExpectedDeliveryDate','ValidityEndingDate','OurReference','YourReference','Notes'],'global':['SupplierDescri','SuppQuotaDetailLoading'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'SuppQuotaDetailLoading':['Selected','ExpectedDeliveryDate','LineType','Item','SupplierCode','Description','UoM','QtyToReceipt','UnitValue','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoCopyOnOrder'],'SuppQuotaSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

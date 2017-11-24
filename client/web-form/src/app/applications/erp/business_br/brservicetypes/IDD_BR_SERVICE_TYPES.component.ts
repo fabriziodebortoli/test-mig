@@ -10,7 +10,7 @@ import { IDD_BR_SERVICE_TYPESService } from './IDD_BR_SERVICE_TYPES.service';
     providers: [IDD_BR_SERVICE_TYPESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_SERVICE_TYPESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_SERVICE_TYPESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_SERVICE_TYPES_DETAIL_TAX_RATE_TYPE_itemSource: any;
 
     constructor(document: IDD_BR_SERVICE_TYPESService,
@@ -20,7 +20,7 @@ export class IDD_BR_SERVICE_TYPESComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_BR_SERVICE_TYPESComponent extends BOComponent implements OnInit
   "namespace": "ERP.Business_BR.Components.BRServiceTypesEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRServiceTypes':['ServiceTypeCode','Description','Disabled'],'global':['DBTBRServiceTypesDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRServiceTypesDetail':['TaxRateType','TaxRateCode'],'HKLBRTaxRate':['Description']});
+        		this.bo.appendToModelStructure({'DBTBRServiceTypes':['ServiceTypeCode','Description','Disabled'],'global':['DBTBRServiceTypesDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRServiceTypesDetail':['TaxRateType','TaxRateCode'],'HKLBRTaxRate':['Description']});
 
     }
 

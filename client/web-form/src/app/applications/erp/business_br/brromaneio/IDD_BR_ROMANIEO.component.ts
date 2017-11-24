@@ -10,7 +10,7 @@ import { IDD_BR_ROMANIEOService } from './IDD_BR_ROMANIEO.service';
     providers: [IDD_BR_ROMANIEOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_ROMANIEOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_ROMANIEOComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_ROMANIEOService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BR_ROMANIEOComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRRomaneio':['RomaneioNo','RomaneioDate','Driver','Status','Tractor','TractorLicensePlate','TractorFuelType','Trailer','trailerLicensePlate','trailerFuelType','DepartureDate','DepartureKm','ArrivalDate','ArrivalKm'],'HKLWorkers':['NameComplete'],'global':['BRRomaneioDetail','BRRomaneioPausesDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BRRomaneioDetail':['DeliveryOrder','ArrivalTime','DepartureTime','Series','Model','DocNo','CustSuppType','CustSupp','CustSuppCompanyName','CustSuppFederalState','CustSuppCity','DeliveryToCompanyName','DeliveryToFederalState','DeliveryToCity','GrossWeight','NetWeight','NoOfPacks','Event'],'BRRomaneioSummary':['OutboundNetWeight','InboundNetWeight','TheoreticalTotWeight','TotWeight','TotNoOfPacks','TotVolumM3','TotalKm','ShipOutwardVoyage','ShipBackWay','ShipTotCharges','GrossTime','NetTime'],'BRRomaneioPausesDetail':['StartTime','EndTime','TotalPauseTime','Reason'],'BRRomaneioNotes':['Notes'],'BRRomaneioExpenses':['Tolls','Meals','Overnight','Mainteinance','Fuel','TotalRefLiters','OtherCharges','StartingCash','EndingCash','EstimatedValue','ActualValue','Variation']});
+        		this.bo.appendToModelStructure({'DBTBRRomaneio':['RomaneioNo','RomaneioDate','Driver','Status','Tractor','TractorLicensePlate','TractorFuelType','Trailer','trailerLicensePlate','trailerFuelType','DepartureDate','DepartureKm','ArrivalDate','ArrivalKm'],'HKLWorkers':['NameComplete'],'global':['BRRomaneioDetail','BRRomaneioPausesDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BRRomaneioDetail':['DeliveryOrder','ArrivalTime','DepartureTime','Series','Model','DocNo','CustSuppType','CustSupp','CustSuppCompanyName','CustSuppFederalState','CustSuppCity','DeliveryToCompanyName','DeliveryToFederalState','DeliveryToCity','GrossWeight','NetWeight','NoOfPacks','Event'],'BRRomaneioSummary':['OutboundNetWeight','InboundNetWeight','TheoreticalTotWeight','TotWeight','TotNoOfPacks','TotVolumM3','TotalKm','ShipOutwardVoyage','ShipBackWay','ShipTotCharges','GrossTime','NetTime'],'BRRomaneioPausesDetail':['StartTime','EndTime','TotalPauseTime','Reason'],'BRRomaneioNotes':['Notes'],'BRRomaneioExpenses':['Tolls','Meals','Overnight','Mainteinance','Fuel','TotalRefLiters','OtherCharges','StartingCash','EndingCash','EstimatedValue','ActualValue','Variation']});
 
     }
 

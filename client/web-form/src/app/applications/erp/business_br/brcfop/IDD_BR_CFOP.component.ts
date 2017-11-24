@@ -10,7 +10,7 @@ import { IDD_BR_CFOPService } from './IDD_BR_CFOP.service';
     providers: [IDD_BR_CFOPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_CFOPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_CFOPComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_CFOP_MOV_TYPE_itemSource: any;
 public IDC_BR_CFOP_TRANS_TYPE_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_BR_CFOP_TRANS_TYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -39,8 +39,7 @@ this.IDC_BR_CFOP_TRANS_TYPE_itemSource = {
   "useProductLanguage": false
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRCFOP':['CFOP','ShortDescription','Description','ValidityStartingDate','ValidityEndingDate','CFOPGroup','OperationDescription','ExcludeFromTot','MovementType','MoveTypeDescri','TransactionType','TransTypeDescri'],'HKLBRCFOPGroup':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRCFOP':['CFOP','ShortDescription','Description','ValidityStartingDate','ValidityEndingDate','CFOPGroup','OperationDescription','ExcludeFromTot','MovementType','MoveTypeDescri','TransactionType','TransTypeDescri'],'HKLBRCFOPGroup':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

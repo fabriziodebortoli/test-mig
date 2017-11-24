@@ -10,7 +10,7 @@ import { IDD_SACGRPService } from './IDD_SACGRP.service';
     providers: [IDD_SACGRPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SACGRPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SACGRPComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SACGRPService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SACGRPComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SimplifiedAccountingGroups','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SimplifiedAccountingGroups':['ColumnCode','l_TEnhSimplifiedAccGroups_P2','l_TEnhSimplifiedAccGroups_P3','l_TEnhSimplifiedAccGroups_P1','IgnoreDifferentSign']});
+        		this.bo.appendToModelStructure({'global':['SimplifiedAccountingGroups','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SimplifiedAccountingGroups':['ColumnCode','l_TEnhSimplifiedAccGroups_P2','l_TEnhSimplifiedAccGroups_P3','l_TEnhSimplifiedAccGroups_P1','IgnoreDifferentSign']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_TREEVIEWService } from './IDD_TREEVIEW.service';
     providers: [IDD_TREEVIEWService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TREEVIEWComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TREEVIEWComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TREEVIEWService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TREEVIEWComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','bAll','bSelect','BinFrom','BinTo','Item','DBTNodeDetail','LegendStorage','LegendZone','LegendSection','LegendBin','LegendNotEmptyBin','LegendStockWithoutSU','LegendStockWithSU','LegendIsMultilevelSU','LegendSnapshots','LegendDisabled','LegendSuspect','LegendUseSection','LegendBlocked'],'HKLItem':['Description'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','bAll','bSelect','BinFrom','BinTo','Item','DBTNodeDetail','LegendStorage','LegendZone','LegendSection','LegendBin','LegendNotEmptyBin','LegendStockWithoutSU','LegendStockWithSU','LegendIsMultilevelSU','LegendSnapshots','LegendDisabled','LegendSuspect','LegendUseSection','LegendBlocked'],'HKLItem':['Description'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
 
     }
 

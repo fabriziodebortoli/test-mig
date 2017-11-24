@@ -10,7 +10,7 @@ import { IDD_WEEEASSOCIAService } from './IDD_WEEEASSOCIA.service';
     providers: [IDD_WEEEASSOCIAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WEEEASSOCIAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WEEEASSOCIAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WEEEASSOCIAService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WEEEASSOCIAComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Equal','WEEECtg','WEEECtg2','nCurrentElement','GaugeDescription'],'HKLWEEECtg':['Description'],'HKLWEEECtg2':['Description']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Equal','WEEECtg','WEEECtg2','nCurrentElement','GaugeDescription'],'HKLWEEECtg':['Description'],'HKLWEEECtg2':['Description']});
 
     }
 

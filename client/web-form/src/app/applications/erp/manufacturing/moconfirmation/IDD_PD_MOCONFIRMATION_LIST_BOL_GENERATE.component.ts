@@ -10,7 +10,7 @@ import { IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEService } from './IDD_PD_MOCONFI
     providers: [IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MOCONFIRMATION_PREPRINTDOCNO_REG_CODETYPE_ITEM_itemSource: any;
 
     constructor(document: IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEService,
@@ -20,7 +20,7 @@ export class IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEComponent extends BOComponen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_PD_MOCONFIRMATION_LIST_BOL_GENERATEComponent extends BOComponen
   "namespace": "ERP.Manufacturing.Documents.ItmTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NrDoc','DocDate','DocQty','ItemType']});
+        		this.bo.appendToModelStructure({'global':['NrDoc','DocDate','DocQty','ItemType']});
 
     }
 

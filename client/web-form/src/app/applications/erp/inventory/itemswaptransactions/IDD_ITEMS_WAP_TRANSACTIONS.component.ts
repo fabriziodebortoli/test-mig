@@ -10,7 +10,7 @@ import { IDD_ITEMS_WAP_TRANSACTIONSService } from './IDD_ITEMS_WAP_TRANSACTIONS.
     providers: [IDD_ITEMS_WAP_TRANSACTIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMS_WAP_TRANSACTIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMS_WAP_TRANSACTIONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMS_WAP_TRANSACTIONSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ITEMS_WAP_TRANSACTIONSComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Items':['Item','Description','BaseUoM','IsGood'],'global':['ItemsWAPTransactions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ItemsWAPTransactions':['StartingPeriodDate']});
+        		this.bo.appendToModelStructure({'Items':['Item','Description','BaseUoM','IsGood'],'global':['ItemsWAPTransactions','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ItemsWAPTransactions':['StartingPeriodDate']});
 
     }
 

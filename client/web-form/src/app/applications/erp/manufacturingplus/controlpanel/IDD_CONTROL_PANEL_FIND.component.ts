@@ -10,7 +10,7 @@ import { IDD_CONTROL_PANEL_FINDService } from './IDD_CONTROL_PANEL_FIND.service'
     providers: [IDD_CONTROL_PANEL_FINDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONTROL_PANEL_FINDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONTROL_PANEL_FINDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CONTROL_PANEL_FIND_TYPE_itemSource: any;
 
     constructor(document: IDD_CONTROL_PANEL_FINDService,
@@ -20,7 +20,7 @@ export class IDD_CONTROL_PANEL_FINDComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_CONTROL_PANEL_FINDComponent extends BOComponent implements OnIn
   "namespace": "ERP.ManufacturingPlus.Documents.ControlPanelFindItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FindType','FindValue']});
+        		this.bo.appendToModelStructure({'global':['FindType','FindValue']});
 
     }
 

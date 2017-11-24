@@ -10,7 +10,7 @@ import { IDD_REDUCEDACCTPLService } from './IDD_REDUCEDACCTPL.service';
     providers: [IDD_REDUCEDACCTPLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_REDUCEDACCTPLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_REDUCEDACCTPLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ACCTPL_CODETYPE_OPERATION_itemSource: any;
 
     constructor(document: IDD_REDUCEDACCTPLService,
@@ -20,7 +20,7 @@ export class IDD_REDUCEDACCTPLComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_REDUCEDACCTPLComponent extends BOComponent implements OnInit, O
   "namespace": "ERP.IdsMng.Components.OperationEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccountingTemplates':['Template','Disabled','Description','Operation','DocDateIsMand','DocNoIsMand','CodeType','PaymentScheduleAction','PaymentScheduleCreditNote','AccrualDeferral','GroupCode','Currency','ExcludedFromSAC','TaxJournal','CustSupp','Suspension','IntrastatOperation','ReverseChargeType','EUTaxJournal','TypeOfTaxDocument','TypeOfTaxDocumentAnn','TypeOfReverseCharge'],'HKLTaxJournals':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLJournalIntrastatTax':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'AccountingTemplates':['Template','Disabled','Description','Operation','DocDateIsMand','DocNoIsMand','CodeType','PaymentScheduleAction','PaymentScheduleCreditNote','AccrualDeferral','GroupCode','Currency','ExcludedFromSAC','TaxJournal','CustSupp','Suspension','IntrastatOperation','ReverseChargeType','EUTaxJournal','TypeOfTaxDocument','TypeOfTaxDocumentAnn','TypeOfReverseCharge'],'HKLTaxJournals':['Description'],'HKLCustSupp':['CompNameComplete'],'HKLJournalIntrastatTax':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

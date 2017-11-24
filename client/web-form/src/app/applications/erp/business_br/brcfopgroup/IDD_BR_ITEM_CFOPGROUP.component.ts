@@ -10,7 +10,7 @@ import { IDD_BR_ITEM_CFOPGROUPService } from './IDD_BR_ITEM_CFOPGROUP.service';
     providers: [IDD_BR_ITEM_CFOPGROUPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_ITEM_CFOPGROUPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_ITEM_CFOPGROUPComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_ITEM_CFOPGROUPService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BR_ITEM_CFOPGROUPComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRCFOPGroup':['CFOPGroup','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRCFOPGroup':['CFOPGroup','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

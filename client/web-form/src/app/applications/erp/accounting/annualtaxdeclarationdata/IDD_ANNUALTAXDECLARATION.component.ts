@@ -10,7 +10,7 @@ import { IDD_ANNUALTAXDECLARATIONService } from './IDD_ANNUALTAXDECLARATION.serv
     providers: [IDD_ANNUALTAXDECLARATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ANNUALTAXDECLARATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ANNUALTAXDECLARATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ANNUALTAXDECLARATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ANNUALTAXDECLARATIONComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','FromPeriod','ToPeriod','Purchases','Sales','RetailSales','RetailSalesDistributed','FromFrame','ToFrame','FromTaxCode','ToTaxCode','Intra','NotIntra','AllIntra','Distrib','NotDistrib']});
+        		this.bo.appendToModelStructure({'global':['Year','FromPeriod','ToPeriod','Purchases','Sales','RetailSales','RetailSalesDistributed','FromFrame','ToFrame','FromTaxCode','ToTaxCode','Intra','NotIntra','AllIntra','Distrib','NotDistrib']});
 
     }
 

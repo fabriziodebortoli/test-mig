@@ -10,7 +10,7 @@ import { IDD_DECHARGESPOLICIES_FULLService } from './IDD_DECHARGESPOLICIES_FULL.
     providers: [IDD_DECHARGESPOLICIES_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DECHARGESPOLICIES_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DECHARGESPOLICIES_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DECHARGESPOLICIES_FULLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DECHARGESPOLICIES_FULLComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AllCustomers','Shipping','Package','Areas','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Formula':['Customer','ShippingFormula','ShippingRounding','ShippingRoundingType','PackageFormula','PackageRounding','PackageRoundingType'],'HKLCustSupp':['CompNameComplete']});
+        		this.bo.appendToModelStructure({'global':['AllCustomers','Shipping','Package','Areas','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Formula':['Customer','ShippingFormula','ShippingRounding','ShippingRoundingType','PackageFormula','PackageRounding','PackageRoundingType'],'HKLCustSupp':['CompNameComplete']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_TS_EXPORTCSVFILEService } from './IDD_TS_EXPORTCSVFILE.service';
     providers: [IDD_TS_EXPORTCSVFILEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TS_EXPORTCSVFILEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TS_EXPORTCSVFILEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TS_EXPORT_CSV_DOCTYPE_itemSource: any;
 public IDC_TS_EXPORT_CSV_FILE_BE_OPERATION_TYPE_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_TS_EXPORT_CSV_FILE_BE_OPERATION_TYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_TS_EXPORT_CSV_FILE_BE_OPERATION_TYPE_itemSource = {
   "namespace": "ERP.TESANConnector.Components.TSOperationTypeCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','bDocTypeAll','bDocTypeSel','DocType','bDocDateAll','bDocDateSel','FromDocDate','ToDocDate','bDocNoAll','bDocNoSel','FromDocNo','ToDocNo','bJobAll','bJobSel','FromJob','ToJob','TSExportCsvFileDetail'],'TSExportCsvFileDetail':['TEnhTSExp_bSelected','SaleDocId','DocumentType','DocumentDate','DocNo','TEnhTSExp_Year','TEnhTSExp_TSChargeType','TEnhTSExp_TSChargeTypeDesc','TEnhTSExp_TSChargeTypeFlag','TEnhTSExp_TSChargeTypeFlagDesc','TEnhTSExp_AmountToTransfer','TEnhTSExp_TransferredAmount','TEnhTSExp_OperationType','TEnhTSExp_InstallmentDate']});
+        		this.bo.appendToModelStructure({'global':['Year','bDocTypeAll','bDocTypeSel','DocType','bDocDateAll','bDocDateSel','FromDocDate','ToDocDate','bDocNoAll','bDocNoSel','FromDocNo','ToDocNo','bJobAll','bJobSel','FromJob','ToJob','TSExportCsvFileDetail'],'TSExportCsvFileDetail':['TEnhTSExp_bSelected','SaleDocId','DocumentType','DocumentDate','DocNo','TEnhTSExp_Year','TEnhTSExp_TSChargeType','TEnhTSExp_TSChargeTypeDesc','TEnhTSExp_TSChargeTypeFlag','TEnhTSExp_TSChargeTypeFlagDesc','TEnhTSExp_AmountToTransfer','TEnhTSExp_TransferredAmount','TEnhTSExp_OperationType','TEnhTSExp_InstallmentDate']});
 
     }
 

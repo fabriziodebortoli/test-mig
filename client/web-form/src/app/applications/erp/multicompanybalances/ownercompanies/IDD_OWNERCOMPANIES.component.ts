@@ -10,7 +10,7 @@ import { IDD_OWNERCOMPANIESService } from './IDD_OWNERCOMPANIES.service';
     providers: [IDD_OWNERCOMPANIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OWNERCOMPANIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OWNERCOMPANIESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_OWNERCOMPANIESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_OWNERCOMPANIESComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'OwnerCompanies':['Company','CompanyName','Currency','Language','ExpectedConsolidDayMonth','DefaultTemplate','Notes'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'HKLConsolidTemplates':['Description'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Template','Notes'],'HKLConsolidTemplatesSendings':['Description']});
+        		this.bo.appendToModelStructure({'OwnerCompanies':['Company','CompanyName','Currency','Language','ExpectedConsolidDayMonth','DefaultTemplate','Notes'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'HKLConsolidTemplates':['Description'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Template','Notes'],'HKLConsolidTemplatesSendings':['Description']});
 
     }
 

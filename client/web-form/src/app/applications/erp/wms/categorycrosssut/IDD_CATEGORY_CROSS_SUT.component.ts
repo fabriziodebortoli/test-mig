@@ -10,7 +10,7 @@ import { IDD_CATEGORY_CROSS_SUTService } from './IDD_CATEGORY_CROSS_SUT.service'
     providers: [IDD_CATEGORY_CROSS_SUTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CATEGORY_CROSS_SUTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CATEGORY_CROSS_SUTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CATEGORY_CROSS_SUTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CATEGORY_CROSS_SUTComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CategoryCrossSUT':['Category','SUT'],'HKLWMCategory':['Description'],'HKLWMSUnitType':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CategoryCrossSUT':['Category','SUT'],'HKLWMCategory':['Description'],'HKLWMSUnitType':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

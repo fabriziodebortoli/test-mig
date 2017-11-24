@@ -10,7 +10,7 @@ import { IDD_BSP_THREADS_MANAGERService } from './IDD_BSP_THREADS_MANAGER.servic
     providers: [IDD_BSP_THREADS_MANAGERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BSP_THREADS_MANAGERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BSP_THREADS_MANAGERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BSP_THREADS_MANAGERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BSP_THREADS_MANAGERComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

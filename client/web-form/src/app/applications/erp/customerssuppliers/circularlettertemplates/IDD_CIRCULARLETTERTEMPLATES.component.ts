@@ -10,7 +10,7 @@ import { IDD_CIRCULARLETTERTEMPLATESService } from './IDD_CIRCULARLETTERTEMPLATE
     providers: [IDD_CIRCULARLETTERTEMPLATESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CIRCULARLETTERTEMPLATESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CIRCULARLETTERTEMPLATESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CIRCULARLETTERTEMPLATESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CIRCULARLETTERTEMPLATESComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CircularLetterTemplates':['Template','Disabled','Description','Subject','FileNamespace','ReportNamespace','PrintAuthSect','PLDeliveryType','PLPrintType'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'CircularLetterTemplates':['Template','Disabled','Description','Subject','FileNamespace','ReportNamespace','PrintAuthSect','PLDeliveryType','PLPrintType'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

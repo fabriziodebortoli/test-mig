@@ -10,7 +10,7 @@ import { IDD_BUDGETCOPYService } from './IDD_BUDGETCOPY.service';
     providers: [IDD_BUDGETCOPYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BUDGETCOPYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BUDGETCOPYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BUDGETCOPYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BUDGETCOPYComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustSupp','CustSuppAll','CustSuppSel','FromCode','FromCode','ToCode','Category','DescriCategory','CopyBudget','CopyActual','VarPerc','nCurrentElement','GaugeDescription'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['CustSupp','CustSuppAll','CustSuppSel','FromCode','FromCode','ToCode','Category','DescriCategory','CopyBudget','CopyActual','VarPerc','nCurrentElement','GaugeDescription'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
 
     }
 

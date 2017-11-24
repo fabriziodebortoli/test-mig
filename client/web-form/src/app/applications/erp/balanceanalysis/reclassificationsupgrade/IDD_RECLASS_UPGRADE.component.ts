@@ -10,7 +10,7 @@ import { IDD_RECLASS_UPGRADEService } from './IDD_RECLASS_UPGRADE.service';
     providers: [IDD_RECLASS_UPGRADEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RECLASS_UPGRADEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RECLASS_UPGRADEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RECLASS_UPGRADEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_RECLASS_UPGRADEComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Normal','Abbreviated','BASEL','Assets','New_Assets','Liabilities','New_Liabilities','ProfitLoss','New_ProfitLoss','ProfitLossPert','New_ProfitLossPert','SlaveOldDataReclassUpg','SlaveNewDataReclassUpg'],'SlaveOldDataReclassUpg':['l_TEnhOldDataReclassUpg_P1','l_Old_Code','l_TEnhOldDataReclassUpg_P2','l_TEnhOldDataReclassUpg_P3','l_TEnhOldDataReclassUpg_P4','l_TEnhOldDataReclassUpg_P5'],'SlaveNewDataReclassUpg':['l_TEnhNewDataReclassUpg_P1','l_TEnhNewDataReclassUpg_P2','l_TEnhNewDataReclassUpg_P3','l_TEnhNewDataReclassUpg_P3','l_TEnhNewDataReclassUpg_P8','l_TEnhNewDataReclassUpg_P4','l_TEnhNewDataReclassUpg_P5','l_TEnhNewDataReclassUpg_P6','l_TEnhNewDataReclassUpg_P7']});
+        		this.bo.appendToModelStructure({'global':['Normal','Abbreviated','BASEL','Assets','New_Assets','Liabilities','New_Liabilities','ProfitLoss','New_ProfitLoss','ProfitLossPert','New_ProfitLossPert','SlaveOldDataReclassUpg','SlaveNewDataReclassUpg'],'SlaveOldDataReclassUpg':['l_TEnhOldDataReclassUpg_P1','l_Old_Code','l_TEnhOldDataReclassUpg_P2','l_TEnhOldDataReclassUpg_P3','l_TEnhOldDataReclassUpg_P4','l_TEnhOldDataReclassUpg_P5'],'SlaveNewDataReclassUpg':['l_TEnhNewDataReclassUpg_P1','l_TEnhNewDataReclassUpg_P2','l_TEnhNewDataReclassUpg_P3','l_TEnhNewDataReclassUpg_P3','l_TEnhNewDataReclassUpg_P8','l_TEnhNewDataReclassUpg_P4','l_TEnhNewDataReclassUpg_P5','l_TEnhNewDataReclassUpg_P6','l_TEnhNewDataReclassUpg_P7']});
 
     }
 

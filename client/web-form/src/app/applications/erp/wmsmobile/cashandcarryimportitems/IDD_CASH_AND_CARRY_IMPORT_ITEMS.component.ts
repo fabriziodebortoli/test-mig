@@ -10,7 +10,7 @@ import { IDD_CASH_AND_CARRY_IMPORT_ITEMSService } from './IDD_CASH_AND_CARRY_IMP
     providers: [IDD_CASH_AND_CARRY_IMPORT_ITEMSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CASH_AND_CARRY_IMPORT_ITEMSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CASH_AND_CARRY_IMPORT_ITEMSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CASH_AND_CARRY_IMPORT_ITEMS_DEVICE_itemSource: any;
 
     constructor(document: IDD_CASH_AND_CARRY_IMPORT_ITEMSService,
@@ -20,7 +20,7 @@ export class IDD_CASH_AND_CARRY_IMPORT_ITEMSComponent extends BOComponent implem
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_CASH_AND_CARRY_IMPORT_ITEMSComponent extends BOComponent implem
   "namespace": "ERP.WMSMobile.Components.WorkerItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CashAndCarryImportItems_sWorker']});
+        		this.bo.appendToModelStructure({'global':['CashAndCarryImportItems_sWorker']});
 
     }
 

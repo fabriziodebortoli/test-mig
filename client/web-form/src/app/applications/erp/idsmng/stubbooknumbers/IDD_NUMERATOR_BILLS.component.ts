@@ -10,7 +10,7 @@ import { IDD_NUMERATOR_BILLSService } from './IDD_NUMERATOR_BILLS.service';
     providers: [IDD_NUMERATOR_BILLSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_NUMERATOR_BILLSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_NUMERATOR_BILLSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_NUMERATOR_BILLSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_NUMERATOR_BILLSComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'StubBookNumbers':['BalanceYear','StubBook','Suffix','LastDocDate','LastDocNo'],'HKLStubBook':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'StubBookNumbers':['BalanceYear','StubBook','Suffix','LastDocDate','LastDocNo'],'HKLStubBook':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

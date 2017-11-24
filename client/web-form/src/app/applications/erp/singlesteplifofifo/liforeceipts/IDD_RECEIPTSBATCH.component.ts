@@ -10,7 +10,7 @@ import { IDD_RECEIPTSBATCHService } from './IDD_RECEIPTSBATCH.service';
     providers: [IDD_RECEIPTSBATCHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RECEIPTSBATCHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RECEIPTSBATCHComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RECEIPTSBATCHService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_RECEIPTSBATCHComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Receipts':['Item','ReceiptBatchId','Storage','LoadDate','TotallyConsumedDate','AccountingType','UnitValue','Qty','ReceiptBatchValue'],'HKLItems':['BaseUoM','BaseUoM','Description'],'HKLAccountingType':['Description'],'global':['ReceiptDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ReceiptDetails':['InvEntryType','PostingDate','Reason','InvEntryLine','QtyIn','ValueIn','QtyOut','ValueOut','QtyToDate','ValueToDate','LineCost','LoadUnitValue']});
+        		this.bo.appendToModelStructure({'Receipts':['Item','ReceiptBatchId','Storage','LoadDate','TotallyConsumedDate','AccountingType','UnitValue','Qty','ReceiptBatchValue'],'HKLItems':['BaseUoM','BaseUoM','Description'],'HKLAccountingType':['Description'],'global':['ReceiptDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ReceiptDetails':['InvEntryType','PostingDate','Reason','InvEntryLine','QtyIn','ValueIn','QtyOut','ValueOut','QtyToDate','ValueToDate','LineCost','LoadUnitValue']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ROOT_SMARTCODService } from './IDD_ROOT_SMARTCOD.service';
     providers: [IDD_ROOT_SMARTCODService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ROOT_SMARTCODComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ROOT_SMARTCODComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ROOT_SMARTCODService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ROOT_SMARTCODComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Root':['Root','Disabled','Description','BaseUoM','TaxCode','CommodityCtg','HomogeneousCtg','CalculatePrice','Price','CalculateWeight','Weight','SaleOffset','PurchaseOffset','Notes','FactorNo','FactorValue','FactorDescription','GenerateComparableUoM','SetConversionFactor','ComparableUoM','ReferenceUoMCalculatedValue','ConvertCoefficientsInUoM','Length','SeparatorCode','SegmentSeparator','NoOfSegments','DescriptionDelimiter'],'HKLTaxCode':['Description'],'HKLCommodityCtg':['Description'],'HKLHomogeneousCtg':['Description'],'HKLOffsetFixAssets':['Description'],'HKLOffsetPurchase':['Description'],'global':['Language','DescriptionSeparator','Structure','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Root':['Root','Disabled','Description','BaseUoM','TaxCode','CommodityCtg','HomogeneousCtg','CalculatePrice','Price','CalculateWeight','Weight','SaleOffset','PurchaseOffset','Notes','FactorNo','FactorValue','FactorDescription','GenerateComparableUoM','SetConversionFactor','ComparableUoM','ReferenceUoMCalculatedValue','ConvertCoefficientsInUoM','Length','SeparatorCode','SegmentSeparator','NoOfSegments','DescriptionDelimiter'],'HKLTaxCode':['Description'],'HKLCommodityCtg':['Description'],'HKLHomogeneousCtg':['Description'],'HKLOffsetFixAssets':['Description'],'HKLOffsetPurchase':['Description'],'global':['Language','DescriptionSeparator','Structure','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ITEMS_WAP_TRANSACTIONS_DELETINGService } from './IDD_ITEMS_WAP_TRAN
     providers: [IDD_ITEMS_WAP_TRANSACTIONS_DELETINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMS_WAP_TRANSACTIONS_DELETINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMS_WAP_TRANSACTIONS_DELETINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMS_WAP_TRANSACTIONS_DELETINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ITEMS_WAP_TRANSACTIONS_DELETINGComponent extends BOComponent im
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

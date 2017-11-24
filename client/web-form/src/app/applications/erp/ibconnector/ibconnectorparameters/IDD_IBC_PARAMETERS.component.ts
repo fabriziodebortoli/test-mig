@@ -10,7 +10,7 @@ import { IDD_IBC_PARAMETERSService } from './IDD_IBC_PARAMETERS.service';
     providers: [IDD_IBC_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_IBC_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_IBC_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_IBC_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_IBC_PARAMETERSService,
@@ -20,7 +20,7 @@ export class IDD_IBC_PARAMETERSComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_IBC_PARAMETERSComponent extends BOComponent implements OnInit, 
   "namespace": "ERP.IBConnector.Services.IBCDocTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'IBCConfigurations':['Configuration','DateType','StartDate','EndDate','Days'],'global':['IBCDocuments','IBCCustCollected','IBCCustExpired','IBCCustCollected','IBCSuppCollected','IBCCustCollected','IBCCustCollected','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IBCDocuments':['DocumentType','DocumentClass','DocumentCycle','ValueSign','CostSign','CommissionSign','QuantitySign'],'IBCCustCollected':['AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription'],'IBCCustExpired':['AgingPeriod','AgingPeriodDescription'],'IBCSuppCollected':['AgingPeriod','AgingPeriodDescription']});
+        		this.bo.appendToModelStructure({'IBCConfigurations':['Configuration','DateType','StartDate','EndDate','Days'],'global':['IBCDocuments','IBCCustCollected','IBCCustExpired','IBCCustCollected','IBCSuppCollected','IBCCustCollected','IBCCustCollected','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IBCDocuments':['DocumentType','DocumentClass','DocumentCycle','ValueSign','CostSign','CommissionSign','QuantitySign'],'IBCCustCollected':['AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription','AgingPeriod','AgingPeriodDescription'],'IBCCustExpired':['AgingPeriod','AgingPeriodDescription'],'IBCSuppCollected':['AgingPeriod','AgingPeriodDescription']});
 
     }
 

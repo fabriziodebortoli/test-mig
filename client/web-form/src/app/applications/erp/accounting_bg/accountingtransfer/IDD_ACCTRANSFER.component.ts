@@ -10,7 +10,7 @@ import { IDD_ACCTRANSFERService } from './IDD_ACCTRANSFER.service';
     providers: [IDD_ACCTRANSFERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACCTRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACCTRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACCTRANSFERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ACCTRANSFERComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartDate','EndDate','PostingDate','AccrualDate','Detail'],'Detail':['l_TEnhAccTransfer_P01','l_TEnhAccTransfer_P02','l_TEnhAccTransfer_P04','l_TEnhAccTransfer_P03','l_TEnhAccTransfer_P06','Account','l_TEnhAccTransfer_P05','DebitCreditSign','Amount']});
+        		this.bo.appendToModelStructure({'global':['StartDate','EndDate','PostingDate','AccrualDate','Detail'],'Detail':['l_TEnhAccTransfer_P01','l_TEnhAccTransfer_P02','l_TEnhAccTransfer_P04','l_TEnhAccTransfer_P03','l_TEnhAccTransfer_P06','Account','l_TEnhAccTransfer_P05','DebitCreditSign','Amount']});
 
     }
 

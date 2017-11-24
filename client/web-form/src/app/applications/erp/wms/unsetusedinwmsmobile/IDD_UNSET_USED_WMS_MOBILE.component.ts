@@ -10,7 +10,7 @@ import { IDD_UNSET_USED_WMS_MOBILEService } from './IDD_UNSET_USED_WMS_MOBILE.se
     providers: [IDD_UNSET_USED_WMS_MOBILEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_UNSET_USED_WMS_MOBILEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_UNSET_USED_WMS_MOBILEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_UNSET_USED_WMS_MOBILEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_UNSET_USED_WMS_MOBILEComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bNotPosted','bPosted','FromDate','bWMSStorages','bWMSStoragesFrom','WMSStoragesFromDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ItemsDeleting','LegendPicked','LegendNotPicked'],'ItemsDeleting':['ItemsDelet_Selected','ItemsDelet_InEntriesBmp','Disabled','IsGood','Item','Description','BaseUoM','ItemsDelet_LastEntryDate']});
+        		this.bo.appendToModelStructure({'global':['bNotPosted','bPosted','FromDate','bWMSStorages','bWMSStoragesFrom','WMSStoragesFromDate','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ItemsDeleting','LegendPicked','LegendNotPicked'],'ItemsDeleting':['ItemsDelet_Selected','ItemsDelet_InEntriesBmp','Disabled','IsGood','Item','Description','BaseUoM','ItemsDelet_LastEntryDate']});
 
     }
 

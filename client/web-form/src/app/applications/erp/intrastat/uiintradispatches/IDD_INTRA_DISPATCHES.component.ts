@@ -10,7 +10,7 @@ import { IDD_INTRA_DISPATCHESService } from './IDD_INTRA_DISPATCHES.service';
     providers: [IDD_INTRA_DISPATCHESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTRA_DISPATCHESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTRA_DISPATCHESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INTRAT_DISPATCHES_NATUREOFTRANSACTION_itemSource: any;
 
     constructor(document: IDD_INTRA_DISPATCHESService,
@@ -20,7 +20,7 @@ export class IDD_INTRA_DISPATCHESComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_INTRA_DISPATCHESComponent extends BOComponent implements OnInit
   "namespace": "ERP.Intrastat.Documents.NatureDispatchesTerEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'IntraDispatches':['BalanceYear','AccrualDate','BalanceMonth','Quarter','CustSupp'],'HKLCustSupp':['CompanyName'],'global':['JEReferences','Details','Details','Details','Adjustments','Adjustments','ServicesDetails','ServicesAdjustments','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Details':['Operation'],'Adjustments':['Operation','NatureOfTransaction','CombinedNomenclature','TotalAmount','TotalAmount','DebitCreditSign','CorrectionYear','l_TEnhIntraDispatches2B_P1','StatisticalValue','StatisticalValue','Notes'],'ServicesDetails':['ProgNo','CPACode','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType'],'ServicesAdjustments':['RefIntrastatId','BalanceYear','LogNo','ProgNo','CustomsSectionCode','CPACode','TotalAmount','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType']});
+        		this.bo.appendToModelStructure({'IntraDispatches':['BalanceYear','AccrualDate','BalanceMonth','Quarter','CustSupp'],'HKLCustSupp':['CompanyName'],'global':['JEReferences','Details','Details','Details','Adjustments','Adjustments','ServicesDetails','ServicesAdjustments','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Details':['Operation'],'Adjustments':['Operation','NatureOfTransaction','CombinedNomenclature','TotalAmount','TotalAmount','DebitCreditSign','CorrectionYear','l_TEnhIntraDispatches2B_P1','StatisticalValue','StatisticalValue','Notes'],'ServicesDetails':['ProgNo','CPACode','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType'],'ServicesAdjustments':['RefIntrastatId','BalanceYear','LogNo','ProgNo','CustomsSectionCode','CPACode','TotalAmount','TotalAmount','CountryOfPayment','DocNo','DocumentDate','IntrastatSupplyType','IntrastatCollectionType']});
 
     }
 

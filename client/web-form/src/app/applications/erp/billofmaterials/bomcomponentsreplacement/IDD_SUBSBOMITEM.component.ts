@@ -10,7 +10,7 @@ import { IDD_SUBSBOMITEMService } from './IDD_SUBSBOMITEM.service';
     providers: [IDD_SUBSBOMITEMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUBSBOMITEMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUBSBOMITEMComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SUBSCOMPDB_OLD_COMPONENTTYPE_itemSource: any;
 public IDC_SUBSCOMPDB_NEW_COMPONENTTYPE_itemSource: any;
 public IDC_SUBSCOMPDB_NEW_UOM_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_SUBSCOMPDB_NEW_UOM_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_SUBSCOMPDB_NEW_UOM_itemSource = {
   "namespace": "ERP.BillOfMaterials.Documents.UnitsOfMeasureCompNewComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bBOMCompReplace','bBOMCompInsert','bBOMCompDelete','bBOMSelAll','bBOM','BOM','bBOMVariant_SelBOM_NoVar','bBOMVariant_SelBOM_Var','BOMVariant','bBOMVariant_SelBOM_AllVar','bCompAllPeriod','CompValidFrom','CompValidTo','OldComponentNature','OldComponent','NewComponentNature','NewComponent','bAllVariantsCompOld','OldVariant','NewVariant','OldUoM','OldQty','NewUoM','NewQty','bAllPeriod','ValidFrom','ValidTo','bRecursiveCtrl','BOMComponentsReplacement'],'BOMComponentsReplacement':['Selected','BOM','Item','BOMVariant','Component','ComponentVariant','Qty','PercQty','UoM','NewComponent','NewVariant','NewQty','NewQtyReplaced','PercQty','TotPercBmp','NewUoM','ValidityStartingDate','ValidityEndingDate','CompVarVariationType','ECOAutGen','ECONo'],'HKLBillOfMaterials':['Description'],'HKLItems':['Description']});
+        		this.bo.appendToModelStructure({'global':['bBOMCompReplace','bBOMCompInsert','bBOMCompDelete','bBOMSelAll','bBOM','BOM','bBOMVariant_SelBOM_NoVar','bBOMVariant_SelBOM_Var','BOMVariant','bBOMVariant_SelBOM_AllVar','bCompAllPeriod','CompValidFrom','CompValidTo','OldComponentNature','OldComponent','NewComponentNature','NewComponent','bAllVariantsCompOld','OldVariant','NewVariant','OldUoM','OldQty','NewUoM','NewQty','bAllPeriod','ValidFrom','ValidTo','bRecursiveCtrl','BOMComponentsReplacement'],'BOMComponentsReplacement':['Selected','BOM','Item','BOMVariant','Component','ComponentVariant','Qty','PercQty','UoM','NewComponent','NewVariant','NewQty','NewQtyReplaced','PercQty','TotPercBmp','NewUoM','ValidityStartingDate','ValidityEndingDate','CompVarVariationType','ECOAutGen','ECONo'],'HKLBillOfMaterials':['Description'],'HKLItems':['Description']});
 
     }
 

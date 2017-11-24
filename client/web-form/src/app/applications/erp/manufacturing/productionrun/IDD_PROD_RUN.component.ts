@@ -10,7 +10,7 @@ import { IDD_PROD_RUNService } from './IDD_PROD_RUN.service';
     providers: [IDD_PROD_RUNService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PROD_RUNComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PROD_RUNComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PROD_RUNService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PROD_RUNComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllDates','DateTo','bAllMO','bOrdSel','FromOrd','ToOrd','bAllDeliveryDates','bSelData','FromMODate','ToMODate','bRunDateAll','bRunDateSel','dRunDateFrom','dRunDateTo','bAllJobs','bJobSel','FromJob','ToJob','HFCostCenters_All','HFCostCenters_Range','HFCostCenters_From','HFCostCenters_To','bAllProd','bProdSel','FromProd','ToProd','bAllVariants','bVariantsSel','FromVariant','ToVariant','ChooseAlternateAuto','ChoosePreferredAlternate','ChooseCodeAlternate','AlternateCode','ChooseAlternateManual','bOnlyExactMatch','bAllMRPRanks','bMRPRanksSel','FromMRPRank','ToMRPRank','ChooseAlternate','PhaseDetail','bInHouseStepsSearchProductionStorages','bInHouseStepsSearchDefaultStorage','bOutsourcedStepsSearchProductionStorages','bOutsourcedStepsSearchDefaultStorage','bOutsourcedStepsSearchDefaultSubnctStorage','bOutsourcedStepsSearchSubcntStorage','bCreateSubcntOrd','bSeparateOrderForMO','bCreateSubcntDN','bOutsourcedStepsTakeStorageLotsFromDN','JobTicketType','Storage','StorageSemifinished','bPickMOComponents','bPickRequiredMaterials','bOverloadTool','nCurrentElement','GaugeDescription','ProgressViewer','InCreatedPic','InReleasedPic','InProcessingPic','OutCreatedPic','OutReleasedPic','OutProcessingPic'],'ChooseAlternate':['Selection','MONo','RtgStep','BOM','Variant','Alternate','AltRtgStep','Operation','WC'],'PhaseDetail':['StateBmp','Selection','MONo','WC','RtgStep','Alternate','AltRtgStep','BOM','Variant','Operation','Supplier','ProductionQty','UoM','BOMDescri','StepDeliveryDate','Lot'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['bAllDates','DateTo','bAllMO','bOrdSel','FromOrd','ToOrd','bAllDeliveryDates','bSelData','FromMODate','ToMODate','bRunDateAll','bRunDateSel','dRunDateFrom','dRunDateTo','bAllJobs','bJobSel','FromJob','ToJob','HFCostCenters_All','HFCostCenters_Range','HFCostCenters_From','HFCostCenters_To','bAllProd','bProdSel','FromProd','ToProd','bAllVariants','bVariantsSel','FromVariant','ToVariant','ChooseAlternateAuto','ChoosePreferredAlternate','ChooseCodeAlternate','AlternateCode','ChooseAlternateManual','bOnlyExactMatch','bAllMRPRanks','bMRPRanksSel','FromMRPRank','ToMRPRank','ChooseAlternate','PhaseDetail','bInHouseStepsSearchProductionStorages','bInHouseStepsSearchDefaultStorage','bOutsourcedStepsSearchProductionStorages','bOutsourcedStepsSearchDefaultStorage','bOutsourcedStepsSearchDefaultSubnctStorage','bOutsourcedStepsSearchSubcntStorage','bCreateSubcntOrd','bSeparateOrderForMO','bCreateSubcntDN','bOutsourcedStepsTakeStorageLotsFromDN','JobTicketType','Storage','StorageSemifinished','bPickMOComponents','bPickRequiredMaterials','bOverloadTool','nCurrentElement','GaugeDescription','ProgressViewer','InCreatedPic','InReleasedPic','InProcessingPic','OutCreatedPic','OutReleasedPic','OutProcessingPic'],'ChooseAlternate':['Selection','MONo','RtgStep','BOM','Variant','Alternate','AltRtgStep','Operation','WC'],'PhaseDetail':['StateBmp','Selection','MONo','WC','RtgStep','Alternate','AltRtgStep','BOM','Variant','Operation','Supplier','ProductionQty','UoM','BOMDescri','StepDeliveryDate','Lot'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

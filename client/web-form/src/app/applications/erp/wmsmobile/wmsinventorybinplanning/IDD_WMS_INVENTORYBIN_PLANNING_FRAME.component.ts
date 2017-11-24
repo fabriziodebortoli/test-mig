@@ -10,7 +10,7 @@ import { IDD_WMS_INVENTORYBIN_PLANNING_FRAMEService } from './IDD_WMS_INVENTORYB
     providers: [IDD_WMS_INVENTORYBIN_PLANNING_FRAMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WMS_INVENTORYBIN_PLANNING_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WMS_INVENTORYBIN_PLANNING_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WMS_INVENTORYBIN_PLANNING_FRAMEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WMS_INVENTORYBIN_PLANNING_FRAMEComponent extends BOComponent im
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bNewInventory','bEditInventory','Number','InventoryDescription','Date','Storage','ExpandBmp','Selected','TreeDescri','Descri','BinZoneDescri','LastInventory','HandheldStatusBmp','HandheldStatusOtherCountBmp','Selected','TreeDescri','Descri','BinZoneDescri','Team','Worker','TeamDescription','FullName','BinZoneDescriOtherCount','TeamOtherCount','WorkerOtherCount','TeamOtherCountDescription','FullNameOtherCount'],'HKLStorage':['Description']});
+        		this.bo.appendToModelStructure({'global':['bNewInventory','bEditInventory','Number','InventoryDescription','Date','Storage','ExpandBmp','Selected','TreeDescri','Descri','BinZoneDescri','LastInventory','HandheldStatusBmp','HandheldStatusOtherCountBmp','Selected','TreeDescri','Descri','BinZoneDescri','Team','Worker','TeamDescription','FullName','BinZoneDescriOtherCount','TeamOtherCount','WorkerOtherCount','TeamOtherCountDescription','FullNameOtherCount'],'HKLStorage':['Description']});
 
     }
 

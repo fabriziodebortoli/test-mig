@@ -10,7 +10,7 @@ import { IDD_BOLService } from './IDD_BOL.service';
     providers: [IDD_BOLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BOL_RSN_SPECIFICATOR_TYPE_1_itemSource: any;
 public IDC_BOL_RSN_SPECIFICATOR_TYPE_2_itemSource: any;
 public IDC_BOL_DETAIL_BE_UOM_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_BOL_DETAIL_BE_UOM_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_BOL_DETAIL_BE_UOM_itemSource = {
   "namespace": "ERP.PurchaseOrders.Documents.UnitsOfMeasureFromItemComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'BillOfLadingPosting':['InvRsn','CustSupp','DocNo','DocumentDate','PreprintedDocNo','PostingDate','StoragePhase1','Specificator1Type','SpecificatorPhase1','StoragePhase2','Specificator2Type','SpecificatorPhase2'],'HKLInvEntr':['Description'],'HKLSupplier':['CompNameCompleteWithTaxNumber'],'HKLStorageF1':['Description'],'HKLSpecificatorF1':['CompanyName'],'HKLStorageF2':['Description'],'HKLSpecificatorF2':['CompanyName'],'global':['Detail'],'Detail':['PurchaseOrdNo','Position','Drawing','Item','Descri','UoM','Qty','UnitValue','DiscountFormula','DiscountAmount','LineAmount','Department','Lot','NoOfPacks','Closed','SaleOrdNo','SaleOrdPos','Job','CostCenter','InvEntryDe_CostAccAccount'],'HKLCostAccAccount':['Description']});
+        		this.bo.appendToModelStructure({'BillOfLadingPosting':['InvRsn','CustSupp','DocNo','DocumentDate','PreprintedDocNo','PostingDate','StoragePhase1','Specificator1Type','SpecificatorPhase1','StoragePhase2','Specificator2Type','SpecificatorPhase2'],'HKLInvEntr':['Description'],'HKLSupplier':['CompNameCompleteWithTaxNumber'],'HKLStorageF1':['Description'],'HKLSpecificatorF1':['CompanyName'],'HKLStorageF2':['Description'],'HKLSpecificatorF2':['CompanyName'],'global':['Detail'],'Detail':['PurchaseOrdNo','Position','Drawing','Item','Descri','UoM','Qty','UnitValue','DiscountFormula','DiscountAmount','LineAmount','Department','Lot','NoOfPacks','Closed','SaleOrdNo','SaleOrdPos','Job','CostCenter','InvEntryDe_CostAccAccount'],'HKLCostAccAccount':['Description']});
 
     }
 

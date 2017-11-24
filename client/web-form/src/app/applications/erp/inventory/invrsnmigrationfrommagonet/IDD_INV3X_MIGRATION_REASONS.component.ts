@@ -10,7 +10,7 @@ import { IDD_INV3X_MIGRATION_REASONSService } from './IDD_INV3X_MIGRATION_REASON
     providers: [IDD_INV3X_MIGRATION_REASONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INV3X_MIGRATION_REASONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INV3X_MIGRATION_REASONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INV3X_MIGRATION_REASONSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_INV3X_MIGRATION_REASONSComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllReasons','bReasonSel','FromReason','ToReason','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllReasons','bReasonSel','FromReason','ToReason','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ACTUAL_COSTS_CALCService } from './IDD_ACTUAL_COSTS_CALC.service';
     providers: [IDD_ACTUAL_COSTS_CALCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACTUAL_COSTS_CALCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACTUAL_COSTS_CALCComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACTUAL_COSTS_CALCService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ACTUAL_COSTS_CALCComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['MOSel','FromMO','ToMO','JobSel','FromSaleJob','ToSaleJob','DateSel','FromDate','ToDate','UseStepCosts','UseFastMethod','DisplayExtendedMess','MODateConfirmationSel','FromMODateConfirmation','ToMODateConfirmation','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['MOSel','FromMO','ToMO','JobSel','FromSaleJob','ToSaleJob','DateSel','FromDate','ToDate','UseStepCosts','UseFastMethod','DisplayExtendedMess','MODateConfirmationSel','FromMODateConfirmation','ToMODateConfirmation','nCurrentElement','GaugeDescription']});
 
     }
 

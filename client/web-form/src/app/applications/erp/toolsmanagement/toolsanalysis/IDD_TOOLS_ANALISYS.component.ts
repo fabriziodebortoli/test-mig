@@ -10,7 +10,7 @@ import { IDD_TOOLS_ANALISYSService } from './IDD_TOOLS_ANALISYS.service';
     providers: [IDD_TOOLS_ANALISYSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLS_ANALISYSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLS_ANALISYSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TOOLS_ANALISYSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TOOLS_ANALISYSComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bMOALL','bMOSel','sMOFrom','sMOTo','bChooseAlternateAll','bChooseAlternatePreferred','bChooseAlternateSpecific','sChooseAlternateCode','bAlsoHints','bAlsoWarnings','bAlsoErrors','bAllToolStatus','bSelToolStatus','eToolStatus','ToolsAnalysis'],'ToolsAnalysis':['Type','BmpStatus','Status','_IsFamily','Tool','ToolType','Exclusive','NeededQty','NeededTime','MONo','RtgStep','Alternate','AltRtgStep','Message'],'HKLSelectorTools':['Description']});
+        		this.bo.appendToModelStructure({'global':['bMOALL','bMOSel','sMOFrom','sMOTo','bChooseAlternateAll','bChooseAlternatePreferred','bChooseAlternateSpecific','sChooseAlternateCode','bAlsoHints','bAlsoWarnings','bAlsoErrors','bAllToolStatus','bSelToolStatus','eToolStatus','ToolsAnalysis'],'ToolsAnalysis':['Type','BmpStatus','Status','_IsFamily','Tool','ToolType','Exclusive','NeededQty','NeededTime','MONo','RtgStep','Alternate','AltRtgStep','Message'],'HKLSelectorTools':['Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_WORKER_WINDOWService } from './IDD_WORKER_WINDOW.service';
     providers: [IDD_WORKER_WINDOWService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WORKER_WINDOWComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WORKER_WINDOWComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WORKER_WINDOWService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WORKER_WINDOWComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CreatedWorkerDes','CreatedDate','CreatedWorkerEmail','CreatedWorkerOfficePhone','CreatedWorkerPicture','ModifiedWorkerDes','ModifiedDate','ModifiedWorkerEmail','ModifiedWorkerOfficePhone','ModifiedWorkerPicture']});
+        		this.bo.appendToModelStructure({'global':['CreatedWorkerDes','CreatedDate','CreatedWorkerEmail','CreatedWorkerOfficePhone','CreatedWorkerPicture','ModifiedWorkerDes','ModifiedDate','ModifiedWorkerEmail','ModifiedWorkerOfficePhone','ModifiedWorkerPicture']});
 
     }
 

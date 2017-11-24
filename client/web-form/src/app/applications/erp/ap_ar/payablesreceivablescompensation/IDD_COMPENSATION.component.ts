@@ -10,7 +10,7 @@ import { IDD_COMPENSATIONService } from './IDD_COMPENSATION.service';
     providers: [IDD_COMPENSATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COMPENSATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COMPENSATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COMPENSATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COMPENSATIONComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Customer','strCompensation','CompensationNo','FromDueDate','ToDueDate','Currency','bCompensationPrintPreview','bCompensationPrint','bCompensationSendByMail','bCompensationNothing','bCompensationSendByPostaLite','CompensationPLDeliveryType','CompensationPLPrintType','PostingDate','FixingDate','Fixing','Schedule','DebitTotal','CreditTotal','DifferenceTotal','BlockedImage','LitigationImage'],'Schedule':['l_BlockedBmp','l_LitegationBmp','l_Selected','OpeningDate','l_DebitBalance','l_CreditBalance','l_WithholdingTaxBalance','l_DebitCompensation','l_CreditCompensation','l_DocDate','l_DocNo','l_LogNo','PaymentTerm','InstallmentNo']});
+        		this.bo.appendToModelStructure({'global':['Customer','strCompensation','CompensationNo','FromDueDate','ToDueDate','Currency','bCompensationPrintPreview','bCompensationPrint','bCompensationSendByMail','bCompensationNothing','bCompensationSendByPostaLite','CompensationPLDeliveryType','CompensationPLPrintType','PostingDate','FixingDate','Fixing','Schedule','DebitTotal','CreditTotal','DifferenceTotal','BlockedImage','LitigationImage'],'Schedule':['l_BlockedBmp','l_LitegationBmp','l_Selected','OpeningDate','l_DebitBalance','l_CreditBalance','l_WithholdingTaxBalance','l_DebitCompensation','l_CreditCompensation','l_DocDate','l_DocNo','l_LogNo','PaymentTerm','InstallmentNo']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_CASH_STUBBOOKService } from './IDD_CASH_STUBBOOK.service';
     providers: [IDD_CASH_STUBBOOKService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CASH_STUBBOOKComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CASH_STUBBOOKComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CASH_STUBBOOKService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CASH_STUBBOOKComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CashStubBooks':['CashStubBook','Disabled','Description','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CashStubBooks':['CashStubBook','Disabled','Description','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

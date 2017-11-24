@@ -10,7 +10,7 @@ import { IDD_DETYPOLOGY_FULLService } from './IDD_DETYPOLOGY_FULL.service';
     providers: [IDD_DETYPOLOGY_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DETYPOLOGY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DETYPOLOGY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DETYPOLOGY_FULLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DETYPOLOGY_FULLComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Materials':['Material','Offset','Disabled','Offset','Disabled','Description'],'global':['PackageTypes','UnitValue','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Materials':['Material','Offset','Disabled','Offset','Disabled','Description'],'global':['PackageTypes','UnitValue','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

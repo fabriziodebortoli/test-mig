@@ -10,7 +10,7 @@ import { IDD_SDDMANDATEService } from './IDD_SDDMANDATE.service';
     providers: [IDD_SDDMANDATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SDDMANDATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SDDMANDATEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SDDMANDATE_TYPE_itemSource: any;
 
     constructor(document: IDD_SDDMANDATEService,
@@ -20,7 +20,7 @@ export class IDD_SDDMANDATEComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_SDDMANDATEComponent extends BOComponent implements OnInit, OnDe
   "namespace": "ERP.AP_AR.Components.TypeEnumComboSDD"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SDDMandate':['MandateCode','Draft','MandateType','MandateDate','DDMandate','UMRCode','MandateOneOff','MandateFirstDate','MandateLastDate','Notes','Printed','PrintDate','Customer','CustomerBank','CustomerCA','CustomerIBANIsManual','CustomerIBAN'],'HKLCustSupp':['CompNameComplete'],'HKLCustSuppBank':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'SDDMandate':['MandateCode','Draft','MandateType','MandateDate','DDMandate','UMRCode','MandateOneOff','MandateFirstDate','MandateLastDate','Notes','Printed','PrintDate','Customer','CustomerBank','CustomerCA','CustomerIBANIsManual','CustomerIBAN'],'HKLCustSupp':['CompNameComplete'],'HKLCustSuppBank':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

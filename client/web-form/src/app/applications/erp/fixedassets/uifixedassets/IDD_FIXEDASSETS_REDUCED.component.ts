@@ -10,7 +10,7 @@ import { IDD_FIXEDASSETS_REDUCEDService } from './IDD_FIXEDASSETS_REDUCED.servic
     providers: [IDD_FIXEDASSETS_REDUCEDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FIXEDASSETS_REDUCEDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FIXEDASSETS_REDUCEDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_FIXEDASSET_CTGMETHOD_itemSource: any;
 public IDC_FIXEDASSET_METHOD_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_FIXEDASSET_METHOD_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_FIXEDASSET_METHOD_itemSource = {
   "namespace": "ERP.FixedAssets.Documents.FiscalDepreciationEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'FixedAssets':['FixedAsset','Disabled','Description','Category','Class','Location','ParentCodeType','ParentFixedAsset','Qty','DepreciationStart','FiscalCustomized','FiscalPerc','LifePeriod','FiscalPerc','LifePeriod','AcceleratedCustomized','AcceleratedPerc','BalanceCustomized','BalancePerc','AuthorizationPeriod','DepreciationStartingDate','BalanceCustomized','DeprTemplate','BalanceDepreciationMethod','BalanceLifePeriod','DepreciationStartingDate','FiscalCustomized','DepreciationMethod','LifePeriod','AcceleratedPerc','DepreciationStartingDate','FiscalCustomized','FiscalPerc','BalanceCustomized','BalancePerc','PurchaseType','IdNumber','Notes','ItemAdditionalCode','PartDeprPercCustom','PartDeprPerc','PartDeprLimitCustom','PartDeprLimit','PartDeprLimitCustom','PartDeprLimit','ExtraDed','NoChargesCalculation','BalanceStep','Activity','Job','CostCenter','ProductLine'],'HKLParent':['Description'],'global':['FiscDeprCtg','CtgFiscalPerc','LifePeriodCtg','CtgFiscalPerc','LifePeriodCtg','AccelDeprCtg','DepreciationAccPerc','BalDeprCtg','BalancePercCtg','FiscDeprCtg','CtgMethod','LifePeriodCtg','BalDeprCtg','BalCtgMethod','BalLifePeriodCtg','FiscDeprCtg','CtgMethod','LifePeriodCtg','FiscDeprCtg','CtgFiscalPerc','BalDeprCtg','BalancePercCtg','RadioDeprType','ParzAmmPercCat','ParzAmmTettoCat','Coeff','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLItemsAdditionalCodes':['Description'],'Coeff':['FromPeriod','ToPeriod','RegrCoeff','Perc','Activity'],'HKLJob':['Description'],'HKLCstCenter':['Description'],'HKLProductLine':['Description']});
+        		this.bo.appendToModelStructure({'FixedAssets':['FixedAsset','Disabled','Description','Category','Class','Location','ParentCodeType','ParentFixedAsset','Qty','DepreciationStart','FiscalCustomized','FiscalPerc','LifePeriod','FiscalPerc','LifePeriod','AcceleratedCustomized','AcceleratedPerc','BalanceCustomized','BalancePerc','AuthorizationPeriod','DepreciationStartingDate','BalanceCustomized','DeprTemplate','BalanceDepreciationMethod','BalanceLifePeriod','DepreciationStartingDate','FiscalCustomized','DepreciationMethod','LifePeriod','AcceleratedPerc','DepreciationStartingDate','FiscalCustomized','FiscalPerc','BalanceCustomized','BalancePerc','PurchaseType','IdNumber','Notes','ItemAdditionalCode','PartDeprPercCustom','PartDeprPerc','PartDeprLimitCustom','PartDeprLimit','PartDeprLimitCustom','PartDeprLimit','ExtraDed','NoChargesCalculation','BalanceStep','Activity','Job','CostCenter','ProductLine'],'HKLParent':['Description'],'global':['FiscDeprCtg','CtgFiscalPerc','LifePeriodCtg','CtgFiscalPerc','LifePeriodCtg','AccelDeprCtg','DepreciationAccPerc','BalDeprCtg','BalancePercCtg','FiscDeprCtg','CtgMethod','LifePeriodCtg','BalDeprCtg','BalCtgMethod','BalLifePeriodCtg','FiscDeprCtg','CtgMethod','LifePeriodCtg','FiscDeprCtg','CtgFiscalPerc','BalDeprCtg','BalancePercCtg','RadioDeprType','ParzAmmPercCat','ParzAmmTettoCat','Coeff','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLItemsAdditionalCodes':['Description'],'Coeff':['FromPeriod','ToPeriod','RegrCoeff','Perc','Activity'],'HKLJob':['Description'],'HKLCstCenter':['Description'],'HKLProductLine':['Description']});
 
     }
 

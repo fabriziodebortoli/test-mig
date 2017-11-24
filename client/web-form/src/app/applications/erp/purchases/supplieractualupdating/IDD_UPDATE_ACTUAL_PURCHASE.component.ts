@@ -10,7 +10,7 @@ import { IDD_UPDATE_ACTUAL_PURCHASEService } from './IDD_UPDATE_ACTUAL_PURCHASE.
     providers: [IDD_UPDATE_ACTUAL_PURCHASEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_UPDATE_ACTUAL_PURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_UPDATE_ACTUAL_PURCHASEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_UPDATE_ACTUAL_PURCHASEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_UPDATE_ACTUAL_PURCHASEComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SelectiveStartingDate','SelectiveEndingDate','SelectiveAllSupp','SelectiveSuppsSel','SelectiveSuppStart','SelectiveSuppEnd','ActualClear','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['SelectiveStartingDate','SelectiveEndingDate','SelectiveAllSupp','SelectiveSuppsSel','SelectiveSuppStart','SelectiveSuppEnd','ActualClear','nCurrentElement','GaugeDescription']});
 
     }
 

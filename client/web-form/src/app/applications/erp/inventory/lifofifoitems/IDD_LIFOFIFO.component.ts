@@ -10,7 +10,7 @@ import { IDD_LIFOFIFOService } from './IDD_LIFOFIFO.service';
     providers: [IDD_LIFOFIFOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LIFOFIFOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LIFOFIFOComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LIFOFIFOService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LIFOFIFOComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'LIFOFIFOItems':['Item','Description'],'global':['LIFO','FIFO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'LIFO':['OpeningDate','ClosingDate'],'FIFO':['OpeningDate','ClosingDate','RevaluationDone']});
+        		this.bo.appendToModelStructure({'LIFOFIFOItems':['Item','Description'],'global':['LIFO','FIFO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'LIFO':['OpeningDate','ClosingDate'],'FIFO':['OpeningDate','ClosingDate','RevaluationDone']});
 
     }
 

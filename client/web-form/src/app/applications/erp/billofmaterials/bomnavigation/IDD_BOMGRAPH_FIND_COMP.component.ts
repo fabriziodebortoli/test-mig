@@ -10,7 +10,7 @@ import { IDD_BOMGRAPH_FIND_COMPService } from './IDD_BOMGRAPH_FIND_COMP.service'
     providers: [IDD_BOMGRAPH_FIND_COMPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOMGRAPH_FIND_COMPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOMGRAPH_FIND_COMPComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BOMGRAPH_FIND_COMPService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BOMGRAPH_FIND_COMPComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FindComponent']});
+        		this.bo.appendToModelStructure({'global':['FindComponent']});
 
     }
 

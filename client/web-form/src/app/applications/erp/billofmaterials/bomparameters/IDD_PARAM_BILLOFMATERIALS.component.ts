@@ -10,7 +10,7 @@ import { IDD_PARAM_BILLOFMATERIALSService } from './IDD_PARAM_BILLOFMATERIALS.se
     providers: [IDD_PARAM_BILLOFMATERIALSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAM_BILLOFMATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAM_BILLOFMATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BDY_JEGL_BMP_PRNOPERATIONIG_itemSource: any;
 
     constructor(document: IDD_PARAM_BILLOFMATERIALSService,
@@ -20,7 +20,7 @@ export class IDD_PARAM_BILLOFMATERIALSComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_PARAM_BILLOFMATERIALSComponent extends BOComponent implements O
   "namespace": "ERP.BillOfMaterials.Services.SalesDocEnumComboBOM"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMDocumentsParametersDBT','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BOMDocumentsParametersDBT':['DocumentType','ExpandFirstLevelOnly','GenerateShortInvEntriesSet','RMClearingInvRsn','FPIssueToProdInvRsn','RMClearingProdInvRsn','RMReceiptInvRsn','WasteInvRsn','WasteDifferentItemInvRsn']});
+        		this.bo.appendToModelStructure({'global':['BOMDocumentsParametersDBT','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'BOMDocumentsParametersDBT':['DocumentType','ExpandFirstLevelOnly','GenerateShortInvEntriesSet','RMClearingInvRsn','FPIssueToProdInvRsn','RMClearingProdInvRsn','RMReceiptInvRsn','WasteInvRsn','WasteDifferentItemInvRsn']});
 
     }
 

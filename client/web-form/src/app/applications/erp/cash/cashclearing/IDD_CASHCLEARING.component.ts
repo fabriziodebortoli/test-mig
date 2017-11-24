@@ -10,7 +10,7 @@ import { IDD_CASHCLEARINGService } from './IDD_CASHCLEARING.service';
     providers: [IDD_CASHCLEARINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CASHCLEARINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CASHCLEARINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CASHCLEARINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CASHCLEARINGComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustSupp','SelectionDate','FromDocDate','ToDocDate','AllNo','SelNo','FromNo','ToNo','AllSuppNo','SelSuppNo','FromSuppNo','ToSuppNo','bNotSelectedPymtTerm','bSelectedPymtTerm','PymtTerm','Amount','CashClearing','TotInBaseCurr','TotalAmount','TotInDocCurr','TotalInCurr'],'CashClearing':['l_TEnhCashClearing_P03','l_TEnhCashClearing_P23','l_TEnhCashClearing_P01','l_TEnhCashClearing_P02','l_TEnhCashClearing_P20','l_TEnhCashClearing_P21','l_TEnhCashClearing_P22','l_TEnhCashClearing_P19','InstallmentNo','InstallmentDate','PaymentTerm','l_TEnhCashClearing_P08','l_TEnhCashClearing_P08','l_TEnhCashClearing_P09','l_TEnhCashClearing_P09','Amount','Closed','Currency','FixingIsManual','FixingDate','Fixing','PayableAmountInBaseCurr','Notes']});
+        		this.bo.appendToModelStructure({'global':['CustSupp','SelectionDate','FromDocDate','ToDocDate','AllNo','SelNo','FromNo','ToNo','AllSuppNo','SelSuppNo','FromSuppNo','ToSuppNo','bNotSelectedPymtTerm','bSelectedPymtTerm','PymtTerm','Amount','CashClearing','TotInBaseCurr','TotalAmount','TotInDocCurr','TotalInCurr'],'CashClearing':['l_TEnhCashClearing_P03','l_TEnhCashClearing_P23','l_TEnhCashClearing_P01','l_TEnhCashClearing_P02','l_TEnhCashClearing_P20','l_TEnhCashClearing_P21','l_TEnhCashClearing_P22','l_TEnhCashClearing_P19','InstallmentNo','InstallmentDate','PaymentTerm','l_TEnhCashClearing_P08','l_TEnhCashClearing_P08','l_TEnhCashClearing_P09','l_TEnhCashClearing_P09','Amount','Closed','Currency','FixingIsManual','FixingDate','Fixing','PayableAmountInBaseCurr','Notes']});
 
     }
 

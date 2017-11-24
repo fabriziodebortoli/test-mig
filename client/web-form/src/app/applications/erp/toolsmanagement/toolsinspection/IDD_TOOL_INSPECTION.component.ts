@@ -10,7 +10,7 @@ import { IDD_TOOL_INSPECTIONService } from './IDD_TOOL_INSPECTION.service';
     providers: [IDD_TOOL_INSPECTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOL_INSPECTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOL_INSPECTIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TOOLS_INSPECTIONS_ACTION_itemSource: any;
 
     constructor(document: IDD_TOOL_INSPECTIONService,
@@ -20,7 +20,7 @@ export class IDD_TOOL_INSPECTIONComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_TOOL_INSPECTIONComponent extends BOComponent implements OnInit,
   "namespace": "ERP.ToolsManagement.Documents.InspectionStatusItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','bToInspect','bUnderInspection','ToolsInspection'],'ToolsInspection':['LocalBmpStatus','Selected','Tool','LastInspectionDate','LocalRemarks','MaintenanceWorker','InspectionStartDate','InspectionDuration','InspectionDuration','InspectionValidityDays','NextInspectionDate','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','bToInspect','bUnderInspection','ToolsInspection'],'ToolsInspection':['LocalBmpStatus','Selected','Tool','LastInspectionDate','LocalRemarks','MaintenanceWorker','InspectionStartDate','InspectionDuration','InspectionDuration','InspectionValidityDays','NextInspectionDate','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
 
     }
 

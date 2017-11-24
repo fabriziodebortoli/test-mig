@@ -10,7 +10,7 @@ import { IDD_CALC_PROD_LTService } from './IDD_CALC_PROD_LT.service';
     providers: [IDD_CALC_PROD_LTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CALC_PROD_LTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CALC_PROD_LTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CALC_PROD_LT_DAYS_ROUNDING_TYPE_itemSource: any;
 
     constructor(document: IDD_CALC_PROD_LTService,
@@ -20,7 +20,7 @@ export class IDD_CALC_PROD_LTComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_CALC_PROD_LTComponent extends BOComponent implements OnInit, On
   "namespace": "ERP.BillOfMaterials.Components.EnumRoundingTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllMO','bOrdSel','FromOrd','ToOrd','bAllProd','bProdSel','FromProd','ToProd','bAllVariants','bVariantsSel','FromVariant','ToVariant','bAllJobs','bJobSel','FromJob','ToJob','bAllDeliveryDates','bSelData','FromMODate','ToMODate','eRounding','nDigits','nHoursInDay','DBTCalculateProductionLeadTime','InHouseCreated','OutsourcedCreated','InHouseReleased','OutsourcedReleased','InHouseProcessing','OutsourcedProcessing'],'DBTCalculateProductionLeadTime':['TMO_Selection','BOM','UoM','ProducedQtyForLT','SecondRateQuantityForLT','ScrapQuantityForLT','ActualProcessTimeForLT','ActualSetupTimeForLT','TotTimeForLeadTime','CalcTotQty','CalcLeadTime']});
+        		this.bo.appendToModelStructure({'global':['bAllMO','bOrdSel','FromOrd','ToOrd','bAllProd','bProdSel','FromProd','ToProd','bAllVariants','bVariantsSel','FromVariant','ToVariant','bAllJobs','bJobSel','FromJob','ToJob','bAllDeliveryDates','bSelData','FromMODate','ToMODate','eRounding','nDigits','nHoursInDay','DBTCalculateProductionLeadTime','InHouseCreated','OutsourcedCreated','InHouseReleased','OutsourcedReleased','InHouseProcessing','OutsourcedProcessing'],'DBTCalculateProductionLeadTime':['TMO_Selection','BOM','UoM','ProducedQtyForLT','SecondRateQuantityForLT','ScrapQuantityForLT','ActualProcessTimeForLT','ActualSetupTimeForLT','TotTimeForLeadTime','CalcTotQty','CalcLeadTime']});
 
     }
 

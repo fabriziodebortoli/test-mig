@@ -10,7 +10,7 @@ import { IDD_REBUILD_ORDEREDService } from './IDD_REBUILD_ORDERED.service';
     providers: [IDD_REBUILD_ORDEREDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_REBUILD_ORDEREDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_REBUILD_ORDEREDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_REBUILD_ORDEREDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_REBUILD_ORDEREDComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','nCurrentElement','GaugeDescription']});
 
     }
 

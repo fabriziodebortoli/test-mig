@@ -10,7 +10,7 @@ import { IDD_LOAD_ECOService } from './IDD_LOAD_ECO.service';
     providers: [IDD_LOAD_ECOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_ECOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_ECOComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_ECOService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_ECOComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['sBOMHeader','sBOMHeaderDescription','sBOMHeaderVariant','VariantsLoadingComponentsForEco','VariantsLoadingRouting','BOMLoadingComponentsForEco','BOMLoadingRouting','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'VariantsLoadingComponentsForEco':['Selected','SubstType','ComponentType','Component','Description','Qty','UoM','FixedQty','FixedQty','SetFixedQtyOnMO','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'VariantsLoadingRouting':['Selected','SubstType','RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','ProcessingTime','TotalTime','Qty','SetupTime','LineTypeInDN'],'BOMLoadingComponentsForEco':['Selected','ComponentType','Component','Qty','UoM','FixedQty','SetFixedQtyOnMO','FixedComponent','Waste','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMLoadingRouting':['Selected','RtgStep','Alternate','AltRtgStep','Operation','Description','Notes','IsWC','WC','ProcessingTime','TotalTime','Qty','SetupTime','LineTypeInDN']});
+        		this.bo.appendToModelStructure({'global':['sBOMHeader','sBOMHeaderDescription','sBOMHeaderVariant','VariantsLoadingComponentsForEco','VariantsLoadingRouting','BOMLoadingComponentsForEco','BOMLoadingRouting','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'VariantsLoadingComponentsForEco':['Selected','SubstType','ComponentType','Component','Description','Qty','UoM','FixedQty','FixedQty','SetFixedQtyOnMO','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'VariantsLoadingRouting':['Selected','SubstType','RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','ProcessingTime','TotalTime','Qty','SetupTime','LineTypeInDN'],'BOMLoadingComponentsForEco':['Selected','ComponentType','Component','Qty','UoM','FixedQty','SetFixedQtyOnMO','FixedComponent','Waste','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMLoadingRouting':['Selected','RtgStep','Alternate','AltRtgStep','Operation','Description','Notes','IsWC','WC','ProcessingTime','TotalTime','Qty','SetupTime','LineTypeInDN']});
 
     }
 

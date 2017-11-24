@@ -10,7 +10,7 @@ import { IDD_LOAD_QUESTIONService } from './IDD_LOAD_QUESTION.service';
     providers: [IDD_LOAD_QUESTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_QUESTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_QUESTIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_QUESTIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_QUESTIONComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AnswersToCopy','IncompatibilityToCopy','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AnswersToCopy':['l_bSelected','AnswerNo','Answer','Notes'],'IncompatibilityToCopy':['l_bSelected','AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
+        		this.bo.appendToModelStructure({'global':['AnswersToCopy','IncompatibilityToCopy','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'AnswersToCopy':['l_bSelected','AnswerNo','Answer','Notes'],'IncompatibilityToCopy':['l_bSelected','AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
 
     }
 

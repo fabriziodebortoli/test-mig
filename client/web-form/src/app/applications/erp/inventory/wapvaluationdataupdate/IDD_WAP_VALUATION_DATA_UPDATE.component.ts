@@ -10,7 +10,7 @@ import { IDD_WAP_VALUATION_DATA_UPDATEService } from './IDD_WAP_VALUATION_DATA_U
     providers: [IDD_WAP_VALUATION_DATA_UPDATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WAP_VALUATION_DATA_UPDATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WAP_VALUATION_DATA_UPDATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WAP_VALUATION_DATA_UPDATEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WAP_VALUATION_DATA_UPDATEComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFPeriod_From','HFPeriod_To','nCurrentElement','GaugeDescription']});
 
     }
 

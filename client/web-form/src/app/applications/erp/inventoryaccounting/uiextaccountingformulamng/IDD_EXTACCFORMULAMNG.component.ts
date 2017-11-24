@@ -10,7 +10,7 @@ import { IDD_EXTACCFORMULAMNGService } from './IDD_EXTACCFORMULAMNG.service';
     providers: [IDD_EXTACCFORMULAMNGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_EXTACCFORMULAMNGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_EXTACCFORMULAMNGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_EXTACCFORMULAMNGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_EXTACCFORMULAMNGComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SymbolExtAccountingFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolExtAccountingFormula':['VExtAccFormulaSymbol_p1']});
+        		this.bo.appendToModelStructure({'global':['SymbolExtAccountingFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolExtAccountingFormula':['VExtAccFormulaSymbol_p1']});
 
     }
 

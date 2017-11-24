@@ -10,7 +10,7 @@ import { IDD_COAGROUPSService } from './IDD_COAGROUPS.service';
     providers: [IDD_COAGROUPSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COAGROUPSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COAGROUPSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COAGROUPSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COAGROUPSComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ChartOfAccountsGroups':['Ledger','Description','Nature','ReportCode'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ChartOfAccountsGroups':['Ledger','Description','Nature','ReportCode'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

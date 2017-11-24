@@ -10,7 +10,7 @@ import { IDD_SALE_ORD_EDITService } from './IDD_SALE_ORD_EDIT.service';
     providers: [IDD_SALE_ORD_EDITService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALE_ORD_EDITComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALE_ORD_EDITComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALE_ORD_EDITService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SALE_ORD_EDITComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SaleOrdFulfilmentEditing':['InternalOrdNo','Customer'],'global':['SaleOrdFulfilmentDetailEditing'],'SaleOrdFulfilmentDetailEditing':['l_Sel','Position','CloseSaleOrdPos','LineType','ExpectedDeliveryDate','Item','Description','UoM','Qty','UnitValue','TaxCode','DiscountFormula','DiscountAmount','TaxableAmount','TotalAmount']});
+        		this.bo.appendToModelStructure({'SaleOrdFulfilmentEditing':['InternalOrdNo','Customer'],'global':['SaleOrdFulfilmentDetailEditing'],'SaleOrdFulfilmentDetailEditing':['l_Sel','Position','CloseSaleOrdPos','LineType','ExpectedDeliveryDate','Item','Description','UoM','Qty','UnitValue','TaxCode','DiscountFormula','DiscountAmount','TaxableAmount','TotalAmount']});
 
     }
 

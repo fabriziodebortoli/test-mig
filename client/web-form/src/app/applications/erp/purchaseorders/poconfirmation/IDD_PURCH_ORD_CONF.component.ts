@@ -10,7 +10,7 @@ import { IDD_PURCH_ORD_CONFService } from './IDD_PURCH_ORD_CONF.service';
     providers: [IDD_PURCH_ORD_CONFService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCH_ORD_CONFComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCH_ORD_CONFComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PURCH_ORD_CONFService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PURCH_ORD_CONFComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Supplier','bAllPO','bSelectedPO','POFrom','POTo','bAllDates','bSelectedDates','PODateFrom','PODateTo','EmptyConfirmNum','EmptyConfirmDate','Job','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ConfirmationNum','ConfirmationDate','POConfirmations'],'HKLSupplier':['CompanyName'],'POConfirmations':['POConfirma_Selected','InternalPurchOrdNo','Position','PurchOrdDate','ConfirmationNum','Item','UoM','Supplier','Job','Qty','DeliveredQty','QtyToConfirm','Notes','ExtendedNotes','ExpectedDeliveryDate','ConfirmedDeliveryDate','PreviousConfirmedDeliveryDate'],'HKLItemBody':['Description']});
+        		this.bo.appendToModelStructure({'global':['Supplier','bAllPO','bSelectedPO','POFrom','POTo','bAllDates','bSelectedDates','PODateFrom','PODateTo','EmptyConfirmNum','EmptyConfirmDate','Job','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','ConfirmationNum','ConfirmationDate','POConfirmations'],'HKLSupplier':['CompanyName'],'POConfirmations':['POConfirma_Selected','InternalPurchOrdNo','Position','PurchOrdDate','ConfirmationNum','Item','UoM','Supplier','Job','Qty','DeliveredQty','QtyToConfirm','Notes','ExtendedNotes','ExpectedDeliveryDate','ConfirmedDeliveryDate','PreviousConfirmedDeliveryDate'],'HKLItemBody':['Description']});
 
     }
 

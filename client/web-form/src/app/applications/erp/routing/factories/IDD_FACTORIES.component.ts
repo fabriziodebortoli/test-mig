@@ -10,7 +10,7 @@ import { IDD_FACTORIESService } from './IDD_FACTORIES.service';
     providers: [IDD_FACTORIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FACTORIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FACTORIESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FACTORIESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_FACTORIESComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Factories':['Factory','Description','Notes','PickingStorage','PickingStorageSemifinished','PickingExtStorage','PickingExtStorageSF','DefaultStorage','DefaultSFStorage','DefaultSecondRateStorage','DefaultScrapStorage','DefaultExtStorage','DefaultExtSFStorage','DefaultExtSecondRateStorage','DefaultExtScrapStorage','WasteStorage','WasteDifferentItemStorage'],'HKLPickingStorage':['Description'],'HKLPickingStorageSF':['Description'],'HKLPickingExtStorage':['Description'],'HKLPickingExtStorageSF':['Description'],'HKLStorageFP':['Description'],'HKLSFStorage':['Description'],'HKLSecondRateStorage':['Description'],'HKLScrapStorage':['Description'],'HKLExtStorageFP':['Description'],'HKLExtStorageSF':['Description'],'HKLExtSecondRateStorage':['Description'],'HKLExtScrapStorage':['Description'],'HKLWasteStorage':['Description'],'HKLWasteDifftemStorage':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Factories':['Factory','Description','Notes','PickingStorage','PickingStorageSemifinished','PickingExtStorage','PickingExtStorageSF','DefaultStorage','DefaultSFStorage','DefaultSecondRateStorage','DefaultScrapStorage','DefaultExtStorage','DefaultExtSFStorage','DefaultExtSecondRateStorage','DefaultExtScrapStorage','WasteStorage','WasteDifferentItemStorage'],'HKLPickingStorage':['Description'],'HKLPickingStorageSF':['Description'],'HKLPickingExtStorage':['Description'],'HKLPickingExtStorageSF':['Description'],'HKLStorageFP':['Description'],'HKLSFStorage':['Description'],'HKLSecondRateStorage':['Description'],'HKLScrapStorage':['Description'],'HKLExtStorageFP':['Description'],'HKLExtStorageSF':['Description'],'HKLExtSecondRateStorage':['Description'],'HKLExtScrapStorage':['Description'],'HKLWasteStorage':['Description'],'HKLWasteDifftemStorage':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

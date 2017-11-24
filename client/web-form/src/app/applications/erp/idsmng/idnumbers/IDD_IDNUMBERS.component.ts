@@ -10,7 +10,7 @@ import { IDD_IDNUMBERSService } from './IDD_IDNUMBERS.service';
     providers: [IDD_IDNUMBERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_IDNUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_IDNUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ID_NATURE_ARCHIVECODETYPE_itemSource: any;
 
     constructor(document: IDD_IDNUMBERSService,
@@ -20,7 +20,7 @@ export class IDD_IDNUMBERSComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_IDNUMBERSComponent extends BOComponent implements OnInit, OnDes
   "namespace": "ERP.IdsMng.Services.NatureEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'IDNumbers':['CodeType','LastId'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'IDNumbers':['CodeType','LastId'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

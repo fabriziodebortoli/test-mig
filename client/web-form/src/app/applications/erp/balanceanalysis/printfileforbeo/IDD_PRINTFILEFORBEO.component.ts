@@ -10,7 +10,7 @@ import { IDD_PRINTFILEFORBEOService } from './IDD_PRINTFILEFORBEO.service';
     providers: [IDD_PRINTFILEFORBEOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINTFILEFORBEOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINTFILEFORBEOComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRINTFILEFORBEOService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PRINTFILEFORBEOComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','Month','Schema','FileName','AskNature','AllNatureChoose','NatureSelection'],'HKLSchema':['Description']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','Month','Schema','FileName','AskNature','AllNatureChoose','NatureSelection'],'HKLSchema':['Description']});
 
     }
 

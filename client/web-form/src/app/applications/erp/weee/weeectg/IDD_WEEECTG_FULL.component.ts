@@ -10,7 +10,7 @@ import { IDD_WEEECTG_FULLService } from './IDD_WEEECTG_FULL.service';
     providers: [IDD_WEEECTG_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WEEECTG_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WEEECTG_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WEEECTG_FULLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WEEECTG_FULLComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'WEEECategories':['Category','Description','TaxCode','Offset'],'HKLTaxCode':['Description'],'HKLCoAOffset':['Description'],'global':['WEEEAmount','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WEEEAmount':['StartingValidityDate','EndingValidityDate','Amount']});
+        		this.bo.appendToModelStructure({'WEEECategories':['Category','Description','TaxCode','Offset'],'HKLTaxCode':['Description'],'HKLCoAOffset':['Description'],'global':['WEEEAmount','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WEEEAmount':['StartingValidityDate','EndingValidityDate','Amount']});
 
     }
 

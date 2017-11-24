@@ -10,7 +10,7 @@ import { IDD_ITEM_BUDGET_COPYService } from './IDD_ITEM_BUDGET_COPY.service';
     providers: [IDD_ITEM_BUDGET_COPYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEM_BUDGET_COPYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEM_BUDGET_COPYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEM_BUDGET_COPYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ITEM_BUDGET_COPYComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAll','bSelect','FromCode','ToCode','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAll','bSelect','FromCode','ToCode','nCurrentElement','GaugeDescription']});
 
     }
 

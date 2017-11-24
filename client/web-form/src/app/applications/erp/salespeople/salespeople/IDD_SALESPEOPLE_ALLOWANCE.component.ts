@@ -10,7 +10,7 @@ import { IDD_SALESPEOPLE_ALLOWANCEService } from './IDD_SALESPEOPLE_ALLOWANCE.se
     providers: [IDD_SALESPEOPLE_ALLOWANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALESPEOPLE_ALLOWANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALESPEOPLE_ALLOWANCEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALESPEOPLE_ALLOWANCEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SALESPEOPLE_ALLOWANCEComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Allowance':['IsManual','BalanceYear','Base','Accrued','PaymentDate']});
+        		this.bo.appendToModelStructure({'Allowance':['IsManual','BalanceYear','Base','Accrued','PaymentDate']});
 
     }
 

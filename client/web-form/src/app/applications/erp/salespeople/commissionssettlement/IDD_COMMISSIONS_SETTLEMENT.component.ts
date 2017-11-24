@@ -10,7 +10,7 @@ import { IDD_COMMISSIONS_SETTLEMENTService } from './IDD_COMMISSIONS_SETTLEMENT.
     providers: [IDD_COMMISSIONS_SETTLEMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COMMISSIONS_SETTLEMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COMMISSIONS_SETTLEMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COMMISSIONS_SETTLEMENTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COMMISSIONS_SETTLEMENTComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','CommissionsSettlement'],'CommissionsSettlement':['Commission_Selected','Commission_AreaManager','Salesperson','Commission_SalespersonDesc','Commission_CustCode','Commission_CustDescr','Commission_DocNo','DocumentDate','DocAmount','TaxableAmountDocTot','InstallmentNo','Base','Comm','ExpectedAccrualDate','ActualAccrualDate','Cancel']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','CommissionsSettlement'],'CommissionsSettlement':['Commission_Selected','Commission_AreaManager','Salesperson','Commission_SalespersonDesc','Commission_CustCode','Commission_CustDescr','Commission_DocNo','DocumentDate','DocAmount','TaxableAmountDocTot','InstallmentNo','Base','Comm','ExpectedAccrualDate','ActualAccrualDate','Cancel']});
 
     }
 

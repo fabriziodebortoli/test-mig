@@ -10,7 +10,7 @@ import { IDD_EXIG_FORCEDService } from './IDD_EXIG_FORCED.service';
     providers: [IDD_EXIG_FORCEDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_EXIG_FORCEDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_EXIG_FORCEDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_EXIG_FORCEDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_EXIG_FORCEDComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Sales','Purchases','FromDate','ToDate','AllCustSupp','SelCustSupp','FromCustSupp','ToCustSupp','Template','Reason','GlobalDate','SelectionBody'],'SelectionBody':['l_TEnhTaxExigibilityF_P01','l_TEnhTaxExigibilityF_P02','l_TEnhTaxExigibilityF_P06','l_TEnhTaxExigibilityF_P07','l_TEnhTaxExigibilityF_P08','l_TEnhTaxExigibilityF_P10','l_TEnhTaxExigibilityF_P05','DocNo','LogNo','DocumentDate','PostingDate','l_TEnhTaxExigibilityF_P03','l_TEnhTaxExigibilityF_P04','TaxJournal','l_TEnhTaxExigibilityF_P09']});
+        		this.bo.appendToModelStructure({'global':['Sales','Purchases','FromDate','ToDate','AllCustSupp','SelCustSupp','FromCustSupp','ToCustSupp','Template','Reason','GlobalDate','SelectionBody'],'SelectionBody':['l_TEnhTaxExigibilityF_P01','l_TEnhTaxExigibilityF_P02','l_TEnhTaxExigibilityF_P06','l_TEnhTaxExigibilityF_P07','l_TEnhTaxExigibilityF_P08','l_TEnhTaxExigibilityF_P10','l_TEnhTaxExigibilityF_P05','DocNo','LogNo','DocumentDate','PostingDate','l_TEnhTaxExigibilityF_P03','l_TEnhTaxExigibilityF_P04','TaxJournal','l_TEnhTaxExigibilityF_P09']});
 
     }
 

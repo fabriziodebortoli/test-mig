@@ -10,7 +10,7 @@ import { IDD_PURCH_POSTDOC_WIZARDService } from './IDD_PURCH_POSTDOC_WIZARD.serv
     providers: [IDD_PURCH_POSTDOC_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCH_POSTDOC_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCH_POSTDOC_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PURCH_POSTDOC_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_PURCH_POSTDOC_WIZARDService,
@@ -20,7 +20,7 @@ export class IDD_PURCH_POSTDOC_WIZARDComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_PURCH_POSTDOC_WIZARDComponent extends BOComponent implements On
   "namespace": "ERP.Purchases.Documents.PurchDocTypeForPostingPurchDocCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DocumentType','ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorAllSupp','ElaboratorSuppsSel','ElaboratorSuppStart','ElaboratorSuppEnd','ElaboratorAllTaxJourBoll','ElaboratorTaxJournalSel','ElaboratorFromTaxJourBoll','ElaboratorToTaxJourBoll','ElaboratorToTaxJourBoll','ElaboratorAll_AccTempl','ElaboratorAccTemplSel','ElaboratorStartingAccTempl','ElaboratorEndingAccTempl','ElaboratorAllDocNo','ElaboratorDocNoSel','ElaboratorFromDocNo','ElaboratorToDocNo','ElaboratorAllIssue','ElaboratorNotIssued','ElaboratorIssued','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllAccounting','ElaboratorNotInAccounting','ElaboratorInAccounting','ElaboratorAllPrinted','ElaboratorNoPrinted','ElaboratorPrinted','PurchaseOrdFulfilmentDetail','ElaboratorDocDatePost','ElaboratorAppDatePost','ElaboratorInsDatePost','OperationDate','bPrintMail','nCurrentElement','GaugeDescription','ProgressViewer'],'PurchaseOrdFulfilmentDetail':['DocGeneration','Supplier','CustomerCompanyName','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['DocumentType','ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorAllSupp','ElaboratorSuppsSel','ElaboratorSuppStart','ElaboratorSuppEnd','ElaboratorAllTaxJourBoll','ElaboratorTaxJournalSel','ElaboratorFromTaxJourBoll','ElaboratorToTaxJourBoll','ElaboratorToTaxJourBoll','ElaboratorAll_AccTempl','ElaboratorAccTemplSel','ElaboratorStartingAccTempl','ElaboratorEndingAccTempl','ElaboratorAllDocNo','ElaboratorDocNoSel','ElaboratorFromDocNo','ElaboratorToDocNo','ElaboratorAllIssue','ElaboratorNotIssued','ElaboratorIssued','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllAccounting','ElaboratorNotInAccounting','ElaboratorInAccounting','ElaboratorAllPrinted','ElaboratorNoPrinted','ElaboratorPrinted','PurchaseOrdFulfilmentDetail','ElaboratorDocDatePost','ElaboratorAppDatePost','ElaboratorInsDatePost','OperationDate','bPrintMail','nCurrentElement','GaugeDescription','ProgressViewer'],'PurchaseOrdFulfilmentDetail':['DocGeneration','Supplier','CustomerCompanyName','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

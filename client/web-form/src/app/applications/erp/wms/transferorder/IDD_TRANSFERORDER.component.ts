@@ -10,7 +10,7 @@ import { IDD_TRANSFERORDERService } from './IDD_TRANSFERORDER.service';
     providers: [IDD_TRANSFERORDERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TRANSFERORDERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TRANSFERORDERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TRANSFERORDERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TRANSFERORDERComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TransferOrder':['ID','TONumber','MovementType','CreationDate','ConfirmationDate','TOStatus','Reason','Team','ToResource','Storage','ConsignmentPartner','Item','Lot','InternalIdNo','BaseUoM','QtyNeeded','UoM','QtyToMove','QtyMoved','SourceZone','SourceBin','SourceStorageUnit','SourceSpecialStock','SourceSpecialStockCode','DestZone','DestBin','DestStorageUnit','DestSpecialStock','DestSpecialStockCode','Notes','CreatedFromInventory','AutoConfirmed'],'HKLWMReason':['Description'],'HKLWMTeams':['Description'],'HKLWMResource':['NameComplete'],'HKLStorage':['Description'],'HKLConsignmentPartner':['CompanyName'],'HKLItem':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['StockNumber','Storage','Zone','Bin','Item','Lot','InternalIdNo','SpecialStock','SpecialStockCode','StorageUnit','StorageUnitType','UnitOfMeasure','Qty','QtyBaseUoM','LotValidTo','ConsignmentPartner']});
+        		this.bo.appendToModelStructure({'TransferOrder':['ID','TONumber','MovementType','CreationDate','ConfirmationDate','TOStatus','Reason','Team','ToResource','Storage','ConsignmentPartner','Item','Lot','InternalIdNo','BaseUoM','QtyNeeded','UoM','QtyToMove','QtyMoved','SourceZone','SourceBin','SourceStorageUnit','SourceSpecialStock','SourceSpecialStockCode','DestZone','DestBin','DestStorageUnit','DestSpecialStock','DestSpecialStockCode','Notes','CreatedFromInventory','AutoConfirmed'],'HKLWMReason':['Description'],'HKLWMTeams':['Description'],'HKLWMResource':['NameComplete'],'HKLStorage':['Description'],'HKLConsignmentPartner':['CompanyName'],'HKLItem':['Description'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['StockNumber','Storage','Zone','Bin','Item','Lot','InternalIdNo','SpecialStock','SpecialStockCode','StorageUnit','StorageUnitType','UnitOfMeasure','Qty','QtyBaseUoM','LotValidTo','ConsignmentPartner']});
 
     }
 

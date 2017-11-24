@@ -10,7 +10,7 @@ import { IDD_RSNDETAILService } from './IDD_RSNDETAIL.service';
     providers: [IDD_RSNDETAILService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RSNDETAILComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RSNDETAILComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RSNDETAILService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_RSNDETAILComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AccountingReasons':['Reason','Description','UseForPureEntry','UseForSaleEntry','UseForPurchaseEntry','UseForRetailSaleEntry','AGOAccReason','OMNIAAccReason'],'global':['Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Notes':['Notes'],'HKLAGOAccReasons':['Description'],'HKLOMNIAAccReasons':['Description']});
+        		this.bo.appendToModelStructure({'AccountingReasons':['Reason','Description','UseForPureEntry','UseForSaleEntry','UseForPurchaseEntry','UseForRetailSaleEntry','AGOAccReason','OMNIAAccReason'],'global':['Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Notes':['Notes'],'HKLAGOAccReasons':['Description'],'HKLOMNIAAccReasons':['Description']});
 
     }
 

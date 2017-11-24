@@ -10,7 +10,7 @@ import { IDD_CONTACTS_BRANCHES_ADD_ON_FLYService } from './IDD_CONTACTS_BRANCHES
     providers: [IDD_CONTACTS_BRANCHES_ADD_ON_FLYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONTACTS_BRANCHES_ADD_ON_FLYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONTACTS_BRANCHES_ADD_ON_FLYComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CONTACTS_BRANCHES_STATUS_itemSource: any;
 public IDC_CONTACTS_BRANCHES_REGION_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_CONTACTS_BRANCHES_REGION_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -37,8 +37,7 @@ this.IDC_CONTACTS_BRANCHES_REGION_itemSource = {
   "parameter": "DataFile.ERP.Company.Region"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ContactBranches':['Branch','Disabled','CompanyName','ISOCountryCode','TaxIdNumber','FiscalCode','TaxOffice','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Latitude','Longitude','Address','Address2','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingTime','EMail','MailSendingType','SkypeID','Internet','Notes','Language'],'HKLLanguages':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ContactBranches':['Branch','Disabled','CompanyName','ISOCountryCode','TaxIdNumber','FiscalCode','TaxOffice','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Latitude','Longitude','Address','Address2','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingTime','EMail','MailSendingType','SkypeID','Internet','Notes','Language'],'HKLLanguages':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

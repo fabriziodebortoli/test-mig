@@ -20,24 +20,10 @@
       <tb-tilegroup [title]="_TB('Main Data')" icon="tb-master" tbLayoutTypeVbox >
        <ng-template>
         <tb-tile [title]="_TB('Main Data')" tbTileWide >
-<div class="col col1">         <tb-combo [caption]="_TB('Title')" cmpId="IDC_COMPANY_TITLECODE" width="84" [model]="eventData?.model?.Company?.TitleCode"></tb-combo>
-         <tb-label-static cmpId="IDC_COMPANY_DESCRI_TITLECODE" width="154" [model]="eventData?.model?.HKLTitlesMaster?.Description"></tb-label-static>
-         <tb-text [caption]="_TB('Company Name')" cmpId="IDC_COMPANY_NAME_SOC" width="180" [model]="eventData?.model?.Company?.CompanyName"></tb-text>
-         <tb-checkbox cmpId="IDC_COMPANY_CHECK_PERSON" width="109" [model]="eventData?.model?.Company?.NaturalPerson" [caption]="_TB('Natural Person  ')"></tb-checkbox>
-<div class="anchored">         <tb-combo *ngIf="eventData?.activation?.IDC_COMPANY_LEGALNATURE_COMBO" [caption]="_TB('Legal Nature')" cmpId="IDC_COMPANY_LEGALNATURE_COMBO" width="25" [model]="eventData?.model?.Company?.LegalNature" [itemSource]="IDC_COMPANY_LEGALNATURE_COMBO_itemSource"></tb-combo>
-         <tb-label-static *ngIf="eventData?.activation?.IDC_COMPANY_LEGALNATURE_DESCRI" cmpId="IDC_COMPANY_LEGALNATURE_DESCRI" width="196" [model]="eventData?.model?.LegalNatureDescri"></tb-label-static>
-</div>         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_LEGALE_NATURE" [caption]="_TB('Legal Nature')" cmpId="IDC_COMPANY_LEGALE_NATURE" width="23" [model]="eventData?.model?.Company?.LegalNature"></tb-text>
-         <tb-combo [caption]="_TB('ISO Country')" cmpId="IDC_COMPANY_COD_ISO" width="34" [model]="eventData?.model?.Company?.ISOCountryCode"></tb-combo>
-<div class="anchored">         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_COD_FISCALDATA" [caption]="_TB('Fiscal Code')" cmpId="IDC_COMPANY_COD_FISCALDATA" width="86" [model]="eventData?.model?.Company?.FiscalCode"></tb-text>
-         <tb-button *ngIf="eventData?.activation?.IDC_COMPANY_FISCALCODE_CALCULATE" cmpId="IDC_COMPANY_FISCALCODE_CALCULATE" width="14" [model]="eventData?.model?.MainDataFiscalCodeCalculate"></tb-button>
-</div>         <tb-text [caption]="_TB('Tax Number')" cmpId="IDC_COMPANY_PAYABLERECEIVABLE_TAX" width="86" [model]="eventData?.model?.Company?.TaxIdNumber"></tb-text>
-</div><div class="col col2">         <tb-text [caption]="_TB('Company Logo')" cmpId="IDC_COMPANYLOGO" width="180" [model]="eventData?.model?.Company?.CompanyLogo"></tb-text>
-         <tb-image [height]="74" [width]="195" cmpId="IDC_COMPANYLOGO_PICTURE" width="195" [model]="eventData?.model?.Company?.CompanyLogo"></tb-image>
-<div class="anchored">         <tb-numeric-text-box formatter="Money" [caption]="_TB('Capital')" cmpId="IDC_COMPANY_CAPITAL" width="68" [model]="eventData?.model?.Company?.Capital"></tb-numeric-text-box>
-         <tb-checkbox cmpId="IDC_COMPANY_CAPITAL_FULLYPAIDUP" width="120" [model]="eventData?.model?.Company?.FullyPaidUpCapital" [caption]="_TB('Fully Paid Up Capital  ')"></tb-checkbox>
-</div>         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_TAXOFFICE" [caption]="_TB('Tax Office')" cmpId="IDC_COMPANY_TAXOFFICE" width="154" [model]="eventData?.model?.Company?.TaxOffice"></tb-text>
-         <tb-text *ngIf="eventData?.activation?.IDC_COMPANY_PAYABLERECEIVABLE_TAX_EU" [caption]="_TB('Tax Number in EU')" cmpId="IDC_COMPANY_PAYABLERECEIVABLE_TAX_EU" width="86" [model]="eventData?.model?.Company?.NIPEu"></tb-text>
-</div>        </tb-tile>
+<div class="col col1">         <tb-combo *ngIf="eventData?.activation?.IDC_COMPANY_LEGALNATURE_COMBO" [caption]="_TB('Legal Nature volto lunga vediamo se va a capo e cosa succede')" cmpId="IDC_COMPANY_LEGALNATURE_COMBO" width="25" [model]="eventData?.model?.Company?.LegalNature" [itemSource]="IDC_COMPANY_LEGALNATURE_COMBO_itemSource"></tb-combo>
+         <tb-text [caption]="_TB('Legal Nature olto lunga vediamo cosa succede')" cmpId="IDC_COMPANY_LEGALE_NATURE" width="23" [model]="eventData?.model?.Company?.LegalNature"></tb-text>
+         <tb-text cmpId="IDC_MPARSEDEDIT" width="100"></tb-text>
+</div><div class="col col2"></div>        </tb-tile>
         <tb-tile [title]="_TB('Register Data')" tbTileWide  *ngIf="eventData?.activation?.IDD_TD_COMPANY_REGISTER">
 <div class="col col1">         <tb-text [caption]="_TB('Federal State Register')" cmpId="IDC_COMPANY_FEDSTATEREG" width="86" [model]="eventData?.model?.Company?.FedStateReg"></tb-text>
          <tb-text [caption]="_TB('Municipality Register')" cmpId="IDC_COMPANY_CITYREG" width="86" [model]="eventData?.model?.Company?.MunicipalityReg"></tb-text>

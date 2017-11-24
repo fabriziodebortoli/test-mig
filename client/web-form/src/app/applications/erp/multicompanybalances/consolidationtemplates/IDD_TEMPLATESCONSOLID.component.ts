@@ -10,7 +10,7 @@ import { IDD_TEMPLATESCONSOLIDService } from './IDD_TEMPLATESCONSOLID.service';
     providers: [IDD_TEMPLATESCONSOLIDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TEMPLATESCONSOLIDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TEMPLATESCONSOLIDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TEMPLATESCONSOLIDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TEMPLATESCONSOLIDComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ConsolidationTemplates':['Template','Description','Suffix','CompanyIdentifier','Mask'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Description','l_DebitBalanceAccount','l_CreditBalanceAccount']});
+        		this.bo.appendToModelStructure({'ConsolidationTemplates':['Template','Description','Suffix','CompanyIdentifier','Mask'],'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['Description','l_DebitBalanceAccount','l_CreditBalanceAccount']});
 
     }
 

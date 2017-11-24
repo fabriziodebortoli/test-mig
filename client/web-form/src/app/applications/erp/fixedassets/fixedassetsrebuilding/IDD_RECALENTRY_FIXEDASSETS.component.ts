@@ -10,7 +10,7 @@ import { IDD_RECALENTRY_FIXEDASSETSService } from './IDD_RECALENTRY_FIXEDASSETS.
     providers: [IDD_RECALENTRY_FIXEDASSETSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RECALENTRY_FIXEDASSETSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RECALENTRY_FIXEDASSETSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RECALENTRY_FIXEDASSETSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_RECALENTRY_FIXEDASSETSComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAnyFA','bSelFA','Type','FixedAsset','Type','FixedAsset','RecalculateInital','PurchaseFiscalYear','BigStateProc'],'HKLFixedAsset':['Description']});
+        		this.bo.appendToModelStructure({'global':['bAnyFA','bSelFA','Type','FixedAsset','Type','FixedAsset','RecalculateInital','PurchaseFiscalYear','BigStateProc'],'HKLFixedAsset':['Description']});
 
     }
 

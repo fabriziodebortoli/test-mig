@@ -10,7 +10,7 @@ import { IDD_GANTT_STEPService } from './IDD_GANTT_STEP.service';
     providers: [IDD_GANTT_STEPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_GANTT_STEPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_GANTT_STEPComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_GANTT_STEPService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_GANTT_STEPComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nHorizon','bAlsoPurchases','HFMO_From','HFMO_To','HFMO_All','HFMO_Range','HFMO_From','HFMOStatus_Created','HFMOStatus_Released','HFMOStatus_Processing','HFMODeliveryDate_All','HFMODeliveryDate_Range','HFMODeliveryDate_From','HFMODeliveryDate_To','HFItem_MakeOrBuy','HFItem_All','HFItem_Range','HFItem_From','HFItem_To','HFItem_Status','HFVariant_All','HFVariant_Range','HFVariant_From','HFVariant_To','HFCustomer_From','HFCustomer_To','HFCustomer_All','HFCustomer_Range','HFCustomer_From','HFCostCenters_All','HFCostCenters_Range','HFCostCenters_From','HFCostCenters_To','HFMRPJob_AlsoEmpty','HFMRPJob_All','HFMRPJob_Range','HFMRPJob_From','HFMRPJob_To','MOGanttSelect','RtgStepsGantt','Created','Processing','Released','Confirmed'],'MOGanttSelect':['TMO_Selection','MONo','BOM','Variant','TMO_BOMDescri','RunDate','DeliveryDate','ProductionQty','MOStatus','Job','Customer','InternalOrdNo'],'RtgStepsGantt':['Selection','MONo','DocType','NewSimulationsStartingDate','NewSimulationsEndingDate','SimStartDate','SimStartDate','NewWC','EstimatedWC','RtgStep','Alternate','AltRtgStep','MOStatus','BOM','Variant','BOMDescri','Job','Customer','SaleOrdNo','StartingDate','EndingDate']});
+        		this.bo.appendToModelStructure({'global':['nHorizon','bAlsoPurchases','HFMO_From','HFMO_To','HFMO_All','HFMO_Range','HFMO_From','HFMOStatus_Created','HFMOStatus_Released','HFMOStatus_Processing','HFMODeliveryDate_All','HFMODeliveryDate_Range','HFMODeliveryDate_From','HFMODeliveryDate_To','HFItem_MakeOrBuy','HFItem_All','HFItem_Range','HFItem_From','HFItem_To','HFItem_Status','HFVariant_All','HFVariant_Range','HFVariant_From','HFVariant_To','HFCustomer_From','HFCustomer_To','HFCustomer_All','HFCustomer_Range','HFCustomer_From','HFCostCenters_All','HFCostCenters_Range','HFCostCenters_From','HFCostCenters_To','HFMRPJob_AlsoEmpty','HFMRPJob_All','HFMRPJob_Range','HFMRPJob_From','HFMRPJob_To','MOGanttSelect','RtgStepsGantt','Created','Processing','Released','Confirmed'],'MOGanttSelect':['TMO_Selection','MONo','BOM','Variant','TMO_BOMDescri','RunDate','DeliveryDate','ProductionQty','MOStatus','Job','Customer','InternalOrdNo'],'RtgStepsGantt':['Selection','MONo','DocType','NewSimulationsStartingDate','NewSimulationsEndingDate','SimStartDate','SimStartDate','NewWC','EstimatedWC','RtgStep','Alternate','AltRtgStep','MOStatus','BOM','Variant','BOMDescri','Job','Customer','SaleOrdNo','StartingDate','EndingDate']});
 
     }
 

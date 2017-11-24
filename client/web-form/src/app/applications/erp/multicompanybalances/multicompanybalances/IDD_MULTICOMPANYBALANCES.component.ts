@@ -10,7 +10,7 @@ import { IDD_MULTICOMPANYBALANCESService } from './IDD_MULTICOMPANYBALANCES.serv
     providers: [IDD_MULTICOMPANYBALANCESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MULTICOMPANYBALANCESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MULTICOMPANYBALANCESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MULTICOMPANYBALANCESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MULTICOMPANYBALANCESComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'MultiCompanyBalances':['BalanceSchema','Notes','Template','Company','BalanceDate','Sent','SendingDate','Language','Currency','FixingDate','Fixing','CompanyIdentifier','Suffix'],'HKLConsolidTemplates':['Description'],'HKLCompanyGroups':['CompanyName'],'HKLLanguages':['Description'],'HKLCurrenciesCurrObj':['Description'],'global':['Balances','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Balances':['ExternalCode','Description','Debit','Credit']});
+        		this.bo.appendToModelStructure({'MultiCompanyBalances':['BalanceSchema','Notes','Template','Company','BalanceDate','Sent','SendingDate','Language','Currency','FixingDate','Fixing','CompanyIdentifier','Suffix'],'HKLConsolidTemplates':['Description'],'HKLCompanyGroups':['CompanyName'],'HKLLanguages':['Description'],'HKLCurrenciesCurrObj':['Description'],'global':['Balances','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Balances':['ExternalCode','Description','Debit','Credit']});
 
     }
 

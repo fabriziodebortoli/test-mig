@@ -10,7 +10,7 @@ import { IDD_BARCODE_LABELService } from './IDD_BARCODE_LABEL.service';
     providers: [IDD_BARCODE_LABELService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BARCODE_LABELComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BARCODE_LABELComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BARCODE_LABELService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BARCODE_LABELComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBarcodeLabel':['NamespaceReport','BarcodeStructureCode','BarcodeStructureCodeAlt1','BarcodeStructureCodeAlt2'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBarcodeLabel':['NamespaceReport','BarcodeStructureCode','BarcodeStructureCodeAlt1','BarcodeStructureCodeAlt2'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

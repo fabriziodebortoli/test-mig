@@ -10,7 +10,7 @@ import { IDD_DEPRECIATIONService } from './IDD_DEPRECIATION.service';
     providers: [IDD_DEPRECIATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DEPRECIATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DEPRECIATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DEPRECIATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DEPRECIATIONComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Twelfth','FiscalYearDescri','AllCtgs','CtgSel','FromCtg','ToCtg','Posted','PostDate','Block','FixedCalc','TwelfthCalc','TwelfthCaption','DaysCalc','DaysCaption','Accntng','AccPostingDate','AccrualDate','NrDoc','Values','Process']});
+        		this.bo.appendToModelStructure({'global':['Twelfth','FiscalYearDescri','AllCtgs','CtgSel','FromCtg','ToCtg','Posted','PostDate','Block','FixedCalc','TwelfthCalc','TwelfthCaption','DaysCalc','DaysCaption','Accntng','AccPostingDate','AccrualDate','NrDoc','Values','Process']});
 
     }
 

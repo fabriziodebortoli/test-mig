@@ -10,7 +10,7 @@ import { IDD_TAXFORMULAMNGService } from './IDD_TAXFORMULAMNG.service';
     providers: [IDD_TAXFORMULAMNGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXFORMULAMNGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXFORMULAMNGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TAXFORMULAMNGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TAXFORMULAMNGComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SymbolTaxFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolTaxFormula':['VTaxFormulaSymbol_p1','VTaxFormulaSymbol_p2']});
+        		this.bo.appendToModelStructure({'global':['SymbolTaxFormula','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SymbolTaxFormula':['VTaxFormulaSymbol_p1','VTaxFormulaSymbol_p2']});
 
     }
 

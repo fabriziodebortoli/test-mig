@@ -10,7 +10,7 @@ import { IDD_STD_COST_UPDService } from './IDD_STD_COST_UPD.service';
     providers: [IDD_STD_COST_UPDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STD_COST_UPDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STD_COST_UPDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_STD_COST_UPDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_STD_COST_UPDComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','UpdateStandardCost','UpdateBasePrice','ValidityDate','Standard','Average','Last','LIFO','FIFO','BasePrice','CostSel','DeltaCost','BasePriceIncludesTax','Rounding','RoundType','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','UpdateStandardCost','UpdateBasePrice','ValidityDate','Standard','Average','Last','LIFO','FIFO','BasePrice','CostSel','DeltaCost','BasePriceIncludesTax','Rounding','RoundType','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_GOODSREC_GENERATEService } from './IDD_GOODSREC_GENERATE.service';
     providers: [IDD_GOODSREC_GENERATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_GOODSREC_GENERATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_GOODSREC_GENERATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_GOODSREC_GENERATEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_GOODSREC_GENERATEComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SUToGenerate','StorageUnitType','bPrintLabelSU','nCurrentElement','GaugeDescription'],'HKLWMStorageUnitType':['Description']});
+        		this.bo.appendToModelStructure({'global':['SUToGenerate','StorageUnitType','bPrintLabelSU','nCurrentElement','GaugeDescription'],'HKLWMStorageUnitType':['Description']});
 
     }
 

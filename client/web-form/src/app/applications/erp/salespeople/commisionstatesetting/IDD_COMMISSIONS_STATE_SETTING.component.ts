@@ -10,7 +10,7 @@ import { IDD_COMMISSIONS_STATE_SETTINGService } from './IDD_COMMISSIONS_STATE_SE
     providers: [IDD_COMMISSIONS_STATE_SETTINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COMMISSIONS_STATE_SETTINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COMMISSIONS_STATE_SETTINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COMMISSIONS_STATE_SETTINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COMMISSIONS_STATE_SETTINGComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllPeriod','bPeriodSel','StartingDate','EndingDate','bManualize','bAutomate','bOrdersProcess','bDocProcess','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllPeriod','bPeriodSel','StartingDate','EndingDate','bManualize','bAutomate','bOrdersProcess','bDocProcess','nCurrentElement','GaugeDescription']});
 
     }
 

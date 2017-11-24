@@ -10,7 +10,7 @@ import { IDD_ADDITIONAL_CHARGES_PARAMETERSService } from './IDD_ADDITIONAL_CHARG
     providers: [IDD_ADDITIONAL_CHARGES_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ADDITIONAL_CHARGES_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ADDITIONAL_CHARGES_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_AC_PAR_SPREADINGTEMPLATE_itemSource: any;
 
     constructor(document: IDD_ADDITIONAL_CHARGES_PARAMETERSService,
@@ -20,7 +20,7 @@ export class IDD_ADDITIONAL_CHARGES_PARAMETERSComponent extends BOComponent impl
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_ADDITIONAL_CHARGES_PARAMETERSComponent extends BOComponent impl
   "namespace": "ERP.AdditionalCharges.AddOnsPurchases.DistributionTemplateCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['AddChgParamSpreadingTemplate']});
+        		this.bo.appendToModelStructure({'global':['AddChgParamSpreadingTemplate']});
 
     }
 

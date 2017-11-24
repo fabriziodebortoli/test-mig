@@ -10,7 +10,7 @@ import { IDD_QUESTIONSService } from './IDD_QUESTIONS.service';
     providers: [IDD_QUESTIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_QUESTIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_QUESTIONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_QUESTIONSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_QUESTIONSComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Questions':['QuestionNo','Question','CreationDate','Notes','Deletable','DeletingText'],'global':['Answers','Incompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Answers':['AnswerNo','Answer','Notes'],'Incompatibility':['AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
+        		this.bo.appendToModelStructure({'Questions':['QuestionNo','Question','CreationDate','Notes','Deletable','DeletingText'],'global':['Answers','Incompatibility','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Answers':['AnswerNo','Answer','Notes'],'Incompatibility':['AnswerNo','IncompatQuestionNo','IncompatAnswerNo']});
 
     }
 

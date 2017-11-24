@@ -10,7 +10,7 @@ import { IDD_ORDERED_PROD_CALCULATIONService } from './IDD_ORDERED_PROD_CALCULAT
     providers: [IDD_ORDERED_PROD_CALCULATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ORDERED_PROD_CALCULATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ORDERED_PROD_CALCULATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ORDERED_PROD_CALCULATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ORDERED_PROD_CALCULATIONComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['nCurrentElement','GaugeDescription','BookInventoryMago4','OnHandMago4','ShopFloorStorage','CancelInHouseRMReseInvRsn','RevOutsrcToInHouseInvRsn','RevInHouseRMIssueInvRsn','RevInHouseFPReceiptInvRsn','RevInHouseSRLoadInvRsn','RevInHouseScrapInvRsn','CancelOutsrcRMReseInvRsn','RevOutsrcRMPickingInvRsn','RevOutsrcToOutsrcInvRsn','RevInHouseToOutsrcInvRsn','RevOutsrcRMIssueInvRsn','RevOutsrcFPReceiptInvRsn','RevOutsrcSRLoadInvRsn','RevOutsrcScrapInvRsn','CancelInHouseRMReseInvRsn','RevOutsrcToInHouseInvRsn','RevInHouseRMIssueInvRsn','InHouseFPReceiptInvRsn','RevInHouseScrapInvRsn','CancelOutsrcRMReseInvRsn','RevOutsrcRMPickingInvRsn','RevOutsrcToOutsrcInvRsn','RevInHouseToOutsrcInvRsn','RevOutsrcRMIssueInvRsn','RevOutsrcFPReceiptInvRsn','RevOutsrcScrapInvRsn','InHouseRMReservInvRsn','OutsrcToInHouseInvRsn','InHouseRMIssueInvRsn','InHouseFPReceiptInvRsn','InHouseSRLoadInvRsn','InHouseScrapInvRsn','InHouseStdSFReservInvRsn','OutsrcRMReservInvRsn','OutsrcRMPickingInvRsn','OutsrcToOutsrcInvRsn','InHouseToOutsrcInvRsn','OutsrcRMIssueInvRsn','OutsrcFPReceiptInvRsn','OutsrcSRLoadInvRsn','OutsrcScrapInvRsn','OutsrcStdSFReservInvRsn','InHouseRMReservInvRsn','OutsrcToInHouseInvRsn','InHouseRMIssueInvRsn','InHouseFPReceiptInvRsn','InHouseScrapInvRsn','InHouseStdSFReservInvRsn','OutsrcRMReservInvRsn','OutsrcRMPickingInvRsn','OutsrcToOutsrcInvRsn','InHouseToOutsrcInvRsn','OutsrcRMIssueInvRsn','OutsrcFPReceiptInvRsn','OutsrcScrapInvRsn','OutsrcStdSFReservInvRsn']});
+        		this.bo.appendToModelStructure({'global':['nCurrentElement','GaugeDescription','BookInventoryMago4','OnHandMago4','ShopFloorStorage','CancelInHouseRMReseInvRsn','RevOutsrcToInHouseInvRsn','RevInHouseRMIssueInvRsn','RevInHouseFPReceiptInvRsn','RevInHouseSRLoadInvRsn','RevInHouseScrapInvRsn','CancelOutsrcRMReseInvRsn','RevOutsrcRMPickingInvRsn','RevOutsrcToOutsrcInvRsn','RevInHouseToOutsrcInvRsn','RevOutsrcRMIssueInvRsn','RevOutsrcFPReceiptInvRsn','RevOutsrcSRLoadInvRsn','RevOutsrcScrapInvRsn','CancelInHouseRMReseInvRsn','RevOutsrcToInHouseInvRsn','RevInHouseRMIssueInvRsn','InHouseFPReceiptInvRsn','RevInHouseScrapInvRsn','CancelOutsrcRMReseInvRsn','RevOutsrcRMPickingInvRsn','RevOutsrcToOutsrcInvRsn','RevInHouseToOutsrcInvRsn','RevOutsrcRMIssueInvRsn','RevOutsrcFPReceiptInvRsn','RevOutsrcScrapInvRsn','InHouseRMReservInvRsn','OutsrcToInHouseInvRsn','InHouseRMIssueInvRsn','InHouseFPReceiptInvRsn','InHouseSRLoadInvRsn','InHouseScrapInvRsn','InHouseStdSFReservInvRsn','OutsrcRMReservInvRsn','OutsrcRMPickingInvRsn','OutsrcToOutsrcInvRsn','InHouseToOutsrcInvRsn','OutsrcRMIssueInvRsn','OutsrcFPReceiptInvRsn','OutsrcSRLoadInvRsn','OutsrcScrapInvRsn','OutsrcStdSFReservInvRsn','InHouseRMReservInvRsn','OutsrcToInHouseInvRsn','InHouseRMIssueInvRsn','InHouseFPReceiptInvRsn','InHouseScrapInvRsn','InHouseStdSFReservInvRsn','OutsrcRMReservInvRsn','OutsrcRMPickingInvRsn','OutsrcToOutsrcInvRsn','InHouseToOutsrcInvRsn','OutsrcRMIssueInvRsn','OutsrcFPReceiptInvRsn','OutsrcScrapInvRsn','OutsrcStdSFReservInvRsn']});
 
     }
 

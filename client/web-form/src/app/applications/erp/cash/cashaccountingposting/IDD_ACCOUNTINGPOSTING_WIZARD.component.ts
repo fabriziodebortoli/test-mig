@@ -10,7 +10,7 @@ import { IDD_ACCOUNTINGPOSTING_WIZARDService } from './IDD_ACCOUNTINGPOSTING_WIZ
     providers: [IDD_ACCOUNTINGPOSTING_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACCOUNTINGPOSTING_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACCOUNTINGPOSTING_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACCOUNTINGPOSTING_WIZARDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ACCOUNTINGPOSTING_WIZARDComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Session','Cash','WorkerDesc','OpeningDate','ClosingDate','PostingDate','DocDate','CashAccountingPosting','Session','OpeningDate','ClosingDate','Cash','WorkerDesc'],'CashAccountingPosting':['l_TEnhCashSessionsEntries_P01','PostingDate','l_SessionEntryId','l_Symbol','l_AmountPos','l_AmountNeg','Notes','CustSupp','l_TEnhCashSessionsEntries_P10','l_TEnhCashSessionsEntries_P06','l_TEnhCashSessionsEntries_P08','CostCenter','Job'],'HKLAccount':['Description'],'HKLAccRsn':['Description']});
+        		this.bo.appendToModelStructure({'global':['Session','Cash','WorkerDesc','OpeningDate','ClosingDate','PostingDate','DocDate','CashAccountingPosting','Session','OpeningDate','ClosingDate','Cash','WorkerDesc'],'CashAccountingPosting':['l_TEnhCashSessionsEntries_P01','PostingDate','l_SessionEntryId','l_Symbol','l_AmountPos','l_AmountNeg','Notes','CustSupp','l_TEnhCashSessionsEntries_P10','l_TEnhCashSessionsEntries_P06','l_TEnhCashSessionsEntries_P08','CostCenter','Job'],'HKLAccount':['Description'],'HKLAccRsn':['Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_SOSADJUSTATTACH_WIZARDService } from './IDD_SOSADJUSTATTACH_WIZARD.
     providers: [IDD_SOSADJUSTATTACH_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SOSADJUSTATTACH_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SOSADJUSTATTACH_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SOSADJUSTATTACH_DOCCLASS_COMBO_itemSource: any;
 public IDC_SOSADJUSTATTACH_DOCTYPE_COMBO_itemSource: any;
 public IDC_SOSADJUSTATTACH_FISCALYEAR_COMBO_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_SOSADJUSTATTACH_FISCALYEAR_COMBO_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_SOSADJUSTATTACH_FISCALYEAR_COMBO_itemSource = {
   "namespace": "Extensions.EasyAttachment.TbDMS.SOSFiscalYearItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DocumentClass','DocumentType','FiscalYear','SOSStartingDate','SOSEndingDate','SOSAllCustSupp','SOSCustSuppSel','SOSFromCustSupp','SOSToCustSupp','SOSAllDocNo','SOSDocNoSel','SOSFromDocNo','SOSToDocNo','DBTSOSDocuments','DBTSOSElaboration','ElaborationMessage','nCurrentElement'],'DBTSOSDocuments':['VIsSelected','VFileName','VDocumentType','VDescriptionKeys','VAttachmentID'],'DBTSOSElaboration':['VMsgBmp','VMessage']});
+        		this.bo.appendToModelStructure({'global':['DocumentClass','DocumentType','FiscalYear','SOSStartingDate','SOSEndingDate','SOSAllCustSupp','SOSCustSuppSel','SOSFromCustSupp','SOSToCustSupp','SOSAllDocNo','SOSDocNoSel','SOSFromDocNo','SOSToDocNo','DBTSOSDocuments','DBTSOSElaboration','ElaborationMessage','nCurrentElement'],'DBTSOSDocuments':['VIsSelected','VFileName','VDocumentType','VDescriptionKeys','VAttachmentID'],'DBTSOSElaboration':['VMsgBmp','VMessage']});
 
     }
 

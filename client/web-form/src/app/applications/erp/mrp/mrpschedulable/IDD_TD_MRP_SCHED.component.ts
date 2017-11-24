@@ -10,7 +10,7 @@ import { IDD_TD_MRP_SCHEDService } from './IDD_TD_MRP_SCHED.service';
     providers: [IDD_TD_MRP_SCHEDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TD_MRP_SCHEDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TD_MRP_SCHEDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TD_MRP_SCHEDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TD_MRP_SCHEDComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Simulation','Description','RunDate','Status','NumMO','NumRDA']});
+        		this.bo.appendToModelStructure({'global':['Simulation','Description','RunDate','Status','NumMO','NumRDA']});
 
     }
 

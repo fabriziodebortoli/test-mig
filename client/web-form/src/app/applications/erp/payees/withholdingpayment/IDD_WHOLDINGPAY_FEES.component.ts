@@ -10,7 +10,7 @@ import { IDD_WHOLDINGPAY_FEESService } from './IDD_WHOLDINGPAY_FEES.service';
     providers: [IDD_WHOLDINGPAY_FEESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WHOLDINGPAY_FEESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WHOLDINGPAY_FEESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WHOLDINGPAY_FEESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WHOLDINGPAY_FEESComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PaymentDate','EffectiveDate','Method','BigStateProc','TaxAmount']});
+        		this.bo.appendToModelStructure({'global':['PaymentDate','EffectiveDate','Method','BigStateProc','TaxAmount']});
 
     }
 

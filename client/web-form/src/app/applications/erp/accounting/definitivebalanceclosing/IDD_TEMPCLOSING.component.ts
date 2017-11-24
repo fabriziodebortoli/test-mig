@@ -10,7 +10,7 @@ import { IDD_TEMPCLOSINGService } from './IDD_TEMPCLOSING.service';
     providers: [IDD_TEMPCLOSINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TEMPCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TEMPCLOSINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TEMPCLOSINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TEMPCLOSINGComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Accounts','CustSupp','ForecastBalances','Block','bAccBookAttach','TaxData','TaxDeclData','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Accounts','CustSupp','ForecastBalances','Block','bAccBookAttach','TaxData','TaxDeclData','nCurrentElement','GaugeDescription']});
 
     }
 

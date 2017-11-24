@@ -10,7 +10,7 @@ import { IDD_LOAD_CUSTCONTRService } from './IDD_LOAD_CUSTCONTR.service';
     providers: [IDD_LOAD_CUSTCONTRService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_CUSTCONTRComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_CUSTCONTRComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_CUSTCONTRService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_CUSTCONTRComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustContrLoading':['ContractNo','StartValidityDate','EndValidityDate','Customer','FixingDate','Fixing'],'HKLCustSupp':['CustSuppType','CompanyName','Currency'],'HKLCurrency':['Description'],'global':['CustContrLinesLoading','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContrLinesLoading':['Select','LineType','Item','Description','UoM','Quantity','UnitValue']});
+        		this.bo.appendToModelStructure({'CustContrLoading':['ContractNo','StartValidityDate','EndValidityDate','Customer','FixingDate','Fixing'],'HKLCustSupp':['CustSuppType','CompanyName','Currency'],'HKLCurrency':['Description'],'global':['CustContrLinesLoading','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContrLinesLoading':['Select','LineType','Item','Description','UoM','Quantity','UnitValue']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_CLEARINGService } from './IDD_CLEARING.service';
     providers: [IDD_CLEARINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CLEARINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CLEARINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CLEARINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CLEARINGComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustSupp','SelectionDate','Currency','Filter','FromDocDate','ToDocDate','AllNo','SelNo','FromNo','ToNo','AllSuppNo','SelSuppNo','FromSuppNo','ToSuppNo','ContractCode','ProjectCode','Amount','EquivalentAmount','bNotSelectedPymtTerm','bSelectedPymtTerm','PymtTerm','LastFixingDate','LastFixing','JEClosing','PostDateDoc','JEDocDate','JEDocNo','Clearing','TotInBaseCurr','TotalAmount','TotInDocCurr','TotalInCurr','BlockedImage','LitigationImage'],'Clearing':['l_TEnhClearing_P03','l_TEnhClearing_P28','l_TEnhClearing_P01','l_TEnhClearing_P02','l_TEnhClearing_P15','Advance','l_TEnhClearing_P22','l_TEnhClearing_P23','l_TEnhClearing_P24','l_TEnhClearing_P21','InstallmentNo','InstallmentDate','PaymentTerm','l_TEnhClearing_P08','l_TEnhClearing_P09','Amount','l_TEnhClearing_P31','Closed','Salesperson','Currency','FixingIsManual','FixingDate','Fixing','PayableAmountInBaseCurr','Notes','l_TEnhClearing_P13','l_TEnhClearing_P14','l_TEnhClearing_P29','l_TEnhClearing_P30']});
+        		this.bo.appendToModelStructure({'global':['CustSupp','SelectionDate','Currency','Filter','FromDocDate','ToDocDate','AllNo','SelNo','FromNo','ToNo','AllSuppNo','SelSuppNo','FromSuppNo','ToSuppNo','ContractCode','ProjectCode','Amount','EquivalentAmount','bNotSelectedPymtTerm','bSelectedPymtTerm','PymtTerm','LastFixingDate','LastFixing','JEClosing','PostDateDoc','JEDocDate','JEDocNo','Clearing','TotInBaseCurr','TotalAmount','TotInDocCurr','TotalInCurr','BlockedImage','LitigationImage'],'Clearing':['l_TEnhClearing_P03','l_TEnhClearing_P28','l_TEnhClearing_P01','l_TEnhClearing_P02','l_TEnhClearing_P15','Advance','l_TEnhClearing_P22','l_TEnhClearing_P23','l_TEnhClearing_P24','l_TEnhClearing_P21','InstallmentNo','InstallmentDate','PaymentTerm','l_TEnhClearing_P08','l_TEnhClearing_P09','Amount','l_TEnhClearing_P31','Closed','Salesperson','Currency','FixingIsManual','FixingDate','Fixing','PayableAmountInBaseCurr','Notes','l_TEnhClearing_P13','l_TEnhClearing_P14','l_TEnhClearing_P29','l_TEnhClearing_P30']});
 
     }
 

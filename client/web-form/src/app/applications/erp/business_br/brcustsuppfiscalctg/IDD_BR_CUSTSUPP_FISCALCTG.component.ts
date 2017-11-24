@@ -10,7 +10,7 @@ import { IDD_BR_CUSTSUPP_FISCALCTGService } from './IDD_BR_CUSTSUPP_FISCALCTG.se
     providers: [IDD_BR_CUSTSUPP_FISCALCTGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_CUSTSUPP_FISCALCTGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_CUSTSUPP_FISCALCTGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_CUSTSUPP_FISCALCTGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BR_CUSTSUPP_FISCALCTGComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRCustSuppFiscalCtg':['CustSuppFiscalCtg','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRCustSuppFiscalCtg':['CustSuppFiscalCtg','Description','Disabled'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

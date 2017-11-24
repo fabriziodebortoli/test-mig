@@ -10,7 +10,7 @@ import { IDD_LF_ANTI_CLOSING_TO_DATEService } from './IDD_LF_ANTI_CLOSING_TO_DAT
     providers: [IDD_LF_ANTI_CLOSING_TO_DATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LF_ANTI_CLOSING_TO_DATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LF_ANTI_CLOSING_TO_DATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LF_ANTI_CLOSING_TO_DATEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LF_ANTI_CLOSING_TO_DATEComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','StartingDate','OpeningDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','StartingDate','OpeningDate','nCurrentElement','GaugeDescription']});
 
     }
 

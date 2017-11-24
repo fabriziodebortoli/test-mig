@@ -10,7 +10,7 @@ import { IDD_PURCHASEDOC_MAINTENANCEService } from './IDD_PURCHASEDOC_MAINTENANC
     providers: [IDD_PURCHASEDOC_MAINTENANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PURCHASEDOC_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PURCHASEDOC_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PURCHASEDOC_MAINT_DOCTYPE_itemSource: any;
 
     constructor(document: IDD_PURCHASEDOC_MAINTENANCEService,
@@ -20,7 +20,7 @@ export class IDD_PURCHASEDOC_MAINTENANCEComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_PURCHASEDOC_MAINTENANCEComponent extends BOComponent implements
   "namespace": "ERP.Purchases.Services.PurchasesDocEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PurcDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','Supplier'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'PurcDocMaintenance':['DocumentType','DocNo','DocumentDate','PostingDate','StubBook','Supplier'],'HKLCustSupp':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

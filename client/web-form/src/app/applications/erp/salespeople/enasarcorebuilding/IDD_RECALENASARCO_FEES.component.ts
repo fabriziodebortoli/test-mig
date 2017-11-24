@@ -10,7 +10,7 @@ import { IDD_RECALENASARCO_FEESService } from './IDD_RECALENASARCO_FEES.service'
     providers: [IDD_RECALENASARCO_FEESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RECALENASARCO_FEESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RECALENASARCO_FEESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RECALENASARCO_FEESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_RECALENASARCO_FEESComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ClearPaid','bAnyFee','bOnlyPeriod','FromMonth','ToMonth','BigStateProc','LittleStateProc','AccrualFeeDate','MovementCounter']});
+        		this.bo.appendToModelStructure({'global':['ClearPaid','bAnyFee','bOnlyPeriod','FromMonth','ToMonth','BigStateProc','LittleStateProc','AccrualFeeDate','MovementCounter']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_TECHNICAL_DATA_DEFINITIONService } from './IDD_TECHNICAL_DATA_DEFIN
     providers: [IDD_TECHNICAL_DATA_DEFINITIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TECHNICAL_DATA_DEFINITIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TECHNICAL_DATA_DEFINITIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TECHNICAL_DATA_DEFINITIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TECHNICAL_DATA_DEFINITIONComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommodityCategories':['Category','Description'],'global':['TechnicalDataDefinition','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CommodityCategories':['Category','Description'],'global':['TechnicalDataDefinition','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_BIN_GENERATIONService } from './IDD_BIN_GENERATION.service';
     providers: [IDD_BIN_GENERATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BIN_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BIN_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BIN_GENERATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BIN_GENERATIONComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','Section','MaxWeight','TotalCapacity','MaxStorageUnit','bForPicking','bForPutaway','BinType','BinType','GenerationBinRange','BinGenerationDetail'],'HKLBinType':['Description','Description'],'GenerationBinRange':['Position','Description','RangeStart','RangeEnd','Increment'],'BinGenerationDetail':['Selection','Bin','BarcodeSegment','ForPicking','ForPutaway','BinType','MaxWeight','TotalCapacity','MaxStorageUnit']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','Section','MaxWeight','TotalCapacity','MaxStorageUnit','bForPicking','bForPutaway','BinType','BinType','GenerationBinRange','BinGenerationDetail'],'HKLBinType':['Description','Description'],'GenerationBinRange':['Position','Description','RangeStart','RangeEnd','Increment'],'BinGenerationDetail':['Selection','Bin','BarcodeSegment','ForPicking','ForPutaway','BinType','MaxWeight','TotalCapacity','MaxStorageUnit']});
 
     }
 

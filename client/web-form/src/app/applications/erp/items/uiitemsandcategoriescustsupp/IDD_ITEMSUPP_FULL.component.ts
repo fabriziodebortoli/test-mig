@@ -10,7 +10,7 @@ import { IDD_ITEMSUPP_FULLService } from './IDD_ITEMSUPP_FULL.service';
     providers: [IDD_ITEMSUPP_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMSUPP_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMSUPP_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CUSTSUPITEM_UOM_itemSource: any;
 public IDC_CUSTSUPITEM_QTY_UOM_itemSource: any;
 public IDC_CUSTSUPITEM_UOM_LASTPURCHASE_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_CUSTSUPITEM_UOM_LASTPURCHASE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_CUSTSUPITEM_UOM_LASTPURCHASE_itemSource = {
   "namespace": "ERP.Items.Documents.UnitsOfMeasureItemSuppliersComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ItemSuppliers':['Item','Disabled','Supplier','Currency','Notes','OutsrcPriceListUoM','SupplierCode','SupplierDescription','UoMStandardPrice','StandardPrice','StandardPriceWithTax','DiscountFormula','MinOrderQty','AdditionalCharges','ShippingCost','DaysForDelivery','PurchaseOffset','PostToInspection','SpecificationsForSupplier','LastPurchaseDocType','LastPurchaseDocNo','LastPurchaseDocDate','LastPriceCurrency','LastPaymentTerm','LastPriceUoM','LastPurchaseQty','LastPrice','LastPriceWithTax','LastDiscountFormula','LastPurchaseValue','LastRMADocNo','LastRMADocDate','LastRMAQty','LastRMAValue'],'HKLItems':['Description','BaseUoM','BasePrice','DiscountFormula'],'HKLCustSupp':['CompanyName'],'HKLStdCurrencies':['Description'],'HKLOffsetPurchase':['Description'],'global':['Operations','BracketPriceList','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Operations':['Operation','FixedCost'],'HKLOperations2':['Description'],'BracketPriceList':['Operation','ValidityStartingDate','ValidityEndingDate','UoM','Qty','Price','DiscountFormula','WithTax','LastModificationDate','Notes'],'HKLCurrencies':['Description'],'HKLPymtTerm':['Description']});
+        		this.bo.appendToModelStructure({'ItemSuppliers':['Item','Disabled','Supplier','Currency','Notes','OutsrcPriceListUoM','SupplierCode','SupplierDescription','UoMStandardPrice','StandardPrice','StandardPriceWithTax','DiscountFormula','MinOrderQty','AdditionalCharges','ShippingCost','DaysForDelivery','PurchaseOffset','PostToInspection','SpecificationsForSupplier','LastPurchaseDocType','LastPurchaseDocNo','LastPurchaseDocDate','LastPriceCurrency','LastPaymentTerm','LastPriceUoM','LastPurchaseQty','LastPrice','LastPriceWithTax','LastDiscountFormula','LastPurchaseValue','LastRMADocNo','LastRMADocDate','LastRMAQty','LastRMAValue'],'HKLItems':['Description','BaseUoM','BasePrice','DiscountFormula'],'HKLCustSupp':['CompanyName'],'HKLStdCurrencies':['Description'],'HKLOffsetPurchase':['Description'],'global':['Operations','BracketPriceList','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Operations':['Operation','FixedCost'],'HKLOperations2':['Description'],'BracketPriceList':['Operation','ValidityStartingDate','ValidityEndingDate','UoM','Qty','Price','DiscountFormula','WithTax','LastModificationDate','Notes'],'HKLCurrencies':['Description'],'HKLPymtTerm':['Description']});
 
     }
 

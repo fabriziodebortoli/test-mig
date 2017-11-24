@@ -10,7 +10,7 @@ import { IDD_BANKSService } from './IDD_BANKS.service';
     providers: [IDD_BANKSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BANKSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BANKSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BANKS_STATUS_itemSource: any;
 public IDC_BANKS_COUNTY_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_BANKS_COUNTY_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -37,8 +37,7 @@ this.IDC_BANKS_COUNTY_itemSource = {
   "parameter": "DataFile.ERP.Company.County"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Banks':['Bank','Disabled','Description','IsForeign','ISOCountryCode','ABI','ABIPrefix','CAB','CABPrefix','Swift','SIACode','CBICode','Bank','Disabled','Description','IsForeign','ISOCountryCode','ABI','ABIPrefix','CAB','CABPrefix','Swift','SIACode','CBICode','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Counter','Agency','Branch','Address','Address2','City','ZIPCode','County','Country','Counter','Agency','Branch','Telephone1','Telephone2','Telex','Fax','ContactPerson','EMail','Internet','Identifier','Signature','Notes','BankDays','SenderCode','SenderReference'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Banks':['Bank','Disabled','Description','IsForeign','ISOCountryCode','ABI','ABIPrefix','CAB','CABPrefix','Swift','SIACode','CBICode','Bank','Disabled','Description','IsForeign','ISOCountryCode','ABI','ABIPrefix','CAB','CABPrefix','Swift','SIACode','CBICode','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Counter','Agency','Branch','Address','Address2','City','ZIPCode','County','Country','Counter','Agency','Branch','Telephone1','Telephone2','Telex','Fax','ContactPerson','EMail','Internet','Identifier','Signature','Notes','BankDays','SenderCode','SenderReference'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

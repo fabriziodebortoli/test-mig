@@ -10,7 +10,7 @@ import { IDD_SEARCHBANKBRANCHService } from './IDD_SEARCHBANKBRANCH.service';
     providers: [IDD_SEARCHBANKBRANCHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SEARCHBANKBRANCHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SEARCHBANKBRANCHComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SEARCHBANKBRANCHService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SEARCHBANKBRANCHComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ABI','CAB','SearchBankBranch'],'SearchBankBranch':['ABI','CAB','Bank','Description','Address','City','ZIPCode','County','Counter','Swift']});
+        		this.bo.appendToModelStructure({'global':['ABI','CAB','SearchBankBranch'],'SearchBankBranch':['ABI','CAB','Bank','Description','Address','City','ZIPCode','County','Counter','Swift']});
 
     }
 

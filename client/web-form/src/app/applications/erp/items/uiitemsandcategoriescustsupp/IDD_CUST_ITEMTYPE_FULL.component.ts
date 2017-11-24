@@ -10,7 +10,7 @@ import { IDD_CUST_ITEMTYPE_FULLService } from './IDD_CUST_ITEMTYPE_FULL.service'
     providers: [IDD_CUST_ITEMTYPE_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CUST_ITEMTYPE_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CUST_ITEMTYPE_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CUST_ITEMTYPE_FULLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CUST_ITEMTYPE_FULLComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ItemTypeCustomers':['ItemType','Customer','DiscountFormula'],'HKLItemType':['Description','DiscountFormula'],'HKLCustomersItemType':['CompanyName'],'global':['Budget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Budget':['BudgetYear','BudgetMonth','SaleQty','SaleValue']});
+        		this.bo.appendToModelStructure({'ItemTypeCustomers':['ItemType','Customer','DiscountFormula'],'HKLItemType':['Description','DiscountFormula'],'HKLCustomersItemType':['CompanyName'],'global':['Budget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Budget':['BudgetYear','BudgetMonth','SaleQty','SaleValue']});
 
     }
 

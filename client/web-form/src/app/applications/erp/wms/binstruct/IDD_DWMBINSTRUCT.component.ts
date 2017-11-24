@@ -10,7 +10,7 @@ import { IDD_DWMBINSTRUCTService } from './IDD_DWMBINSTRUCT.service';
     providers: [IDD_DWMBINSTRUCTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DWMBINSTRUCTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DWMBINSTRUCTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DWMBINSTRUCT_SEPARATOR_itemSource: any;
 
     constructor(document: IDD_DWMBINSTRUCTService,
@@ -20,7 +20,7 @@ export class IDD_DWMBINSTRUCTComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,8 +31,7 @@ export class IDD_DWMBINSTRUCTComponent extends BOComponent implements OnInit, On
   "parameter": "DataFile.ERP.WMS.Separators"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTWMBinStruct':['BinStructure','Description','Separator'],'global':['Structure','DBTWMBinStructDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTWMBinStruct':['BinStructure','Description','Separator'],'global':['Structure','DBTWMBinStructDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

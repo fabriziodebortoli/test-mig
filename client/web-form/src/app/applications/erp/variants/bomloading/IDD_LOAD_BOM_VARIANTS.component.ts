@@ -10,7 +10,7 @@ import { IDD_LOAD_BOM_VARIANTSService } from './IDD_LOAD_BOM_VARIANTS.service';
     providers: [IDD_LOAD_BOM_VARIANTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_BOM_VARIANTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_BOM_VARIANTSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_BOM_VARIANTSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_BOM_VARIANTSComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMLoadingComponents','BOMLoadingRouting'],'BOMLoadingComponents':['Selected','Line','ComponentType','Component','Description','Qty','FixedQty','SetFixedQtyOnMO','UoM','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMLoadingRouting':['Selected','RtgStep','Alternate','AltRtgStep','Operation','Notes','WC','ProcessingTime','Qty','LineTypeInDN']});
+        		this.bo.appendToModelStructure({'global':['BOMLoadingComponents','BOMLoadingRouting'],'BOMLoadingComponents':['Selected','Line','ComponentType','Component','Description','Qty','FixedQty','SetFixedQtyOnMO','UoM','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMLoadingRouting':['Selected','RtgStep','Alternate','AltRtgStep','Operation','Notes','WC','ProcessingTime','Qty','LineTypeInDN']});
 
     }
 

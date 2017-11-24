@@ -10,7 +10,7 @@ import { IDD_COPY_CUST_CONFIRMService } from './IDD_COPY_CUST_CONFIRM.service';
     providers: [IDD_COPY_CUST_CONFIRMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COPY_CUST_CONFIRMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COPY_CUST_CONFIRMComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COPY_CUST_CONFIRMService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COPY_CUST_CONFIRMComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Code']});
+        		this.bo.appendToModelStructure({'global':['Code']});
 
     }
 

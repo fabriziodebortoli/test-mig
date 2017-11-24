@@ -10,7 +10,7 @@ import { IDD_PICKING_AND_PACKINGService } from './IDD_PICKING_AND_PACKING.servic
     providers: [IDD_PICKING_AND_PACKINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PICKING_AND_PACKINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PICKING_AND_PACKINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PICKING_AND_PACKINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PICKING_AND_PACKINGComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['To_All','To_Sel','FromTo','ToTo','ToCreationDate_All','ToCreationDate_Sel','FromToCreationDate','ToCreationDate','Storage_All','Storage_Sel','Storage','SourceZone_All','SourceZone_Sel','SourceZone','DestinationZone_All','DestinationZone_Sel','DestinationZone','Item_All','Item_Sel','FromItem','ToItem','TeamFilter_All','TeamFilter_Sel','TeamFilter','ResourceFilter_All','ResourceFilter_Sel','ResourceFilter','bWithoutInterimTO','Reason_All','Reason_Sel','Reason','bConsignmentPartner_All','bConsignmentPartner_Sel','ConsignmentPartner','PackingUnit','Selection','BmpProperty','ID','TONumber','CreationDate','Team','ToResource','Item','Reason','Lot','InternalIdNo','Storage','SourceZone','SourceBin','SourceStorageUnit','DestZone','DestBin','DestStorageUnit','UoM','QtyToMove','QtyMoved','QtyMoved','PackingUnit','PackingUnit','QtyMissing','QtyBroken','IsToReturn','InsertForDifference','CreatedFromInventory','ConfirmationDate','QtyNeeded','SourceSpecialStock','SourceSpecialStockCode','DestSpecialStock','DestSpecialStockCode','MovementType','ConsignmentPartner','Notes','StatusCreated','StatusProgress','StatusConfirmed','StatusCancelled'],'HKLTeamsFilter':['Description'],'HKLWorkersFilter':['NameComplete'],'HKLTeamsBody':['Description'],'HKLWorkersBody':['NameComplete'],'HKLItemBE':['Description'],'HKLReason':['Description']});
+        		this.bo.appendToModelStructure({'global':['To_All','To_Sel','FromTo','ToTo','ToCreationDate_All','ToCreationDate_Sel','FromToCreationDate','ToCreationDate','Storage_All','Storage_Sel','Storage','SourceZone_All','SourceZone_Sel','SourceZone','DestinationZone_All','DestinationZone_Sel','DestinationZone','Item_All','Item_Sel','FromItem','ToItem','TeamFilter_All','TeamFilter_Sel','TeamFilter','ResourceFilter_All','ResourceFilter_Sel','ResourceFilter','bWithoutInterimTO','Reason_All','Reason_Sel','Reason','bConsignmentPartner_All','bConsignmentPartner_Sel','ConsignmentPartner','PackingUnit','Selection','BmpProperty','ID','TONumber','CreationDate','Team','ToResource','Item','Reason','Lot','InternalIdNo','Storage','SourceZone','SourceBin','SourceStorageUnit','DestZone','DestBin','DestStorageUnit','UoM','QtyToMove','QtyMoved','QtyMoved','PackingUnit','PackingUnit','QtyMissing','QtyBroken','IsToReturn','InsertForDifference','CreatedFromInventory','ConfirmationDate','QtyNeeded','SourceSpecialStock','SourceSpecialStockCode','DestSpecialStock','DestSpecialStockCode','MovementType','ConsignmentPartner','Notes','StatusCreated','StatusProgress','StatusConfirmed','StatusCancelled'],'HKLTeamsFilter':['Description'],'HKLWorkersFilter':['NameComplete'],'HKLTeamsBody':['Description'],'HKLWorkersBody':['NameComplete'],'HKLItemBE':['Description'],'HKLReason':['Description']});
 
     }
 

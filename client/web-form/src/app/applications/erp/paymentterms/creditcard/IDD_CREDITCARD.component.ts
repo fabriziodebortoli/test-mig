@@ -10,7 +10,7 @@ import { IDD_CREDITCARDService } from './IDD_CREDITCARD.service';
     providers: [IDD_CREDITCARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CREDITCARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CREDITCARDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CREDITCARDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CREDITCARDComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CreditCardType':['CreditCard','Description','Offset'],'HKLCreditCardAccount':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'CreditCardType':['CreditCard','Description','Offset'],'HKLCreditCardAccount':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

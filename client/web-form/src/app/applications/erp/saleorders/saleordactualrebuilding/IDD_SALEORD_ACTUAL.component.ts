@@ -10,7 +10,7 @@ import { IDD_SALEORD_ACTUALService } from './IDD_SALEORD_ACTUAL.service';
     providers: [IDD_SALEORD_ACTUALService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALEORD_ACTUALComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALEORD_ACTUALComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALEORD_ACTUALService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SALEORD_ACTUALComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','ActualClear','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','ActualClear','nCurrentElement','GaugeDescription']});
 
     }
 

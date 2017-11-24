@@ -10,7 +10,7 @@ import { IDD_PACKING_ON_PRESHIPPINGService } from './IDD_PACKING_ON_PRESHIPPING.
     providers: [IDD_PACKING_ON_PRESHIPPINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PACKING_ON_PRESHIPPINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PACKING_ON_PRESHIPPINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PACKING_ON_PRESHIPPINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PACKING_ON_PRESHIPPINGComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NewStorageUnit','NewSUTCode','DBTPackingOnPreShippingDetail','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU'],'DBTPackingOnPreShippingDetail':['PackingOnP_FieldName','PackingOnP_FieldKey','PackingOnP_FieldDescription','PackingOnP_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['NewStorageUnit','NewSUTCode','DBTPackingOnPreShippingDetail','LegendStorage','LegendStockWithoutSU','LegendStockWithSU','LegendSU'],'DBTPackingOnPreShippingDetail':['PackingOnP_FieldName','PackingOnP_FieldKey','PackingOnP_FieldDescription','PackingOnP_FieldValue']});
 
     }
 

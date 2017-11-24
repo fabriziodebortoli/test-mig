@@ -10,7 +10,7 @@ import { IDD_PRINT_SUPPQUOTATIONSService } from './IDD_PRINT_SUPPQUOTATIONS.serv
     providers: [IDD_PRINT_SUPPQUOTATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINT_SUPPQUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINT_SUPPQUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRINT_SUPPQUOTATIONSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PRINT_SUPPQUOTATIONSComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','NotClosed','OnlyClosed','AllClosed','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','NotClosed','OnlyClosed','AllClosed','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedBySupplier','OrderedByNo','nCurrentElement','GaugeDescription']});
 
     }
 

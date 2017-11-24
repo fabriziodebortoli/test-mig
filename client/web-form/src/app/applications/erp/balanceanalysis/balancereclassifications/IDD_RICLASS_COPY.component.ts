@@ -10,7 +10,7 @@ import { IDD_RICLASS_COPYService } from './IDD_RICLASS_COPY.service';
     providers: [IDD_RICLASS_COPYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RICLASS_COPYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RICLASS_COPYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RICLASS_COPYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_RICLASS_COPYComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Schema','bNotCopyAccounts']});
+        		this.bo.appendToModelStructure({'global':['Schema','bNotCopyAccounts']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_CREATE_XBRLService } from './IDD_CREATE_XBRL.service';
     providers: [IDD_CREATE_XBRLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CREATE_XBRLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CREATE_XBRLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CREATE_XBRLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CREATE_XBRLComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Branch','Liquidation','SoleShareholder','UnderCoord','Coordinator','BelongToGroup','GroupLeader','GroupCountry','SlaveDataXBRL','SlaveDataXBRLErrors','Year','Month','DateStart','DateEnd','DateStartPrev','DateEndPrev','FileNameComplete'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLCrea_P9','l_TEnhPersonalDataXBRLCrea_P1','l_TEnhPersonalDataXBRLCrea_P2','l_TEnhPersonalDataXBRLCrea_P8'],'SlaveDataXBRLErrors':['l_TEnhPersonalDataXBRLCErr_P1']});
+        		this.bo.appendToModelStructure({'global':['Branch','Liquidation','SoleShareholder','UnderCoord','Coordinator','BelongToGroup','GroupLeader','GroupCountry','SlaveDataXBRL','SlaveDataXBRLErrors','Year','Month','DateStart','DateEnd','DateStartPrev','DateEndPrev','FileNameComplete'],'SlaveDataXBRL':['l_TEnhPersonalDataXBRLCrea_P9','l_TEnhPersonalDataXBRLCrea_P1','l_TEnhPersonalDataXBRLCrea_P2','l_TEnhPersonalDataXBRLCrea_P8'],'SlaveDataXBRLErrors':['l_TEnhPersonalDataXBRLCErr_P1']});
 
     }
 

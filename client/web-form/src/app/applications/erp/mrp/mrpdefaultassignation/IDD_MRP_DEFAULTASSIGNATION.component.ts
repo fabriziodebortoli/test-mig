@@ -10,7 +10,7 @@ import { IDD_MRP_DEFAULTASSIGNATIONService } from './IDD_MRP_DEFAULTASSIGNATION.
     providers: [IDD_MRP_DEFAULTASSIGNATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MRP_DEFAULTASSIGNATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MRP_DEFAULTASSIGNATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MRP_DEFAULTASSIGNATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MRP_DEFAULTASSIGNATIONComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bStockLevelHorizon','nStockLevelHorizon','bMinimumQty','nMinimumQty','bMRPPolicy','eMRPPolicy','bEOQ','nEOQ','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bStockLevelHorizon','nStockLevelHorizon','bMinimumQty','nMinimumQty','bMRPPolicy','eMRPPolicy','bEOQ','nEOQ','nCurrentElement','GaugeDescription']});
 
     }
 

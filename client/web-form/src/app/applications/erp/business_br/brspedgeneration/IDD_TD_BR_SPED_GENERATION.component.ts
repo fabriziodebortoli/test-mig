@@ -10,7 +10,7 @@ import { IDD_TD_BR_SPED_GENERATIONService } from './IDD_TD_BR_SPED_GENERATION.se
     providers: [IDD_TD_BR_SPED_GENERATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TD_BR_SPED_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TD_BR_SPED_GENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_SPED_GENERATION_FILE_TYPE_itemSource: any;
 
     constructor(document: IDD_TD_BR_SPED_GENERATIONService,
@@ -20,7 +20,7 @@ export class IDD_TD_BR_SPED_GENERATIONComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_TD_BR_SPED_GENERATIONComponent extends BOComponent implements O
   "namespace": "ERP.Business_BR.Documents.SPEDFileTypeComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartDate','EndDate','FileType','ICMSPaymentDate','ICMSSTPaymentDate','bIncludeInvData','InvDate','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['StartDate','EndDate','FileType','ICMSPaymentDate','ICMSSTPaymentDate','bIncludeInvData','InvDate','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

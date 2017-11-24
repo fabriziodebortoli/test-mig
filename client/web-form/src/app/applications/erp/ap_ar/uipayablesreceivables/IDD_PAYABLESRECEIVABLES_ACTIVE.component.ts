@@ -10,7 +10,7 @@ import { IDD_PAYABLESRECEIVABLES_ACTIVEService } from './IDD_PAYABLESRECEIVABLES
     providers: [IDD_PAYABLESRECEIVABLES_ACTIVEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PAYABLESRECEIVABLES_ACTIVEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PAYABLESRECEIVABLES_ACTIVEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PAYABLESRECEIVABLES_ACTIVEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PAYABLESRECEIVABLES_ACTIVEComponent extends BOComponent impleme
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AP_AR':['CustSupp','DocNo','LogNo','DocumentDate','Blocked','Currency','Settled','Payment','TotalAmount','TaxAmount','Advance','CreditNote','WithholdingTaxManagement','AmountsWithWHTax','InstallmStartDate','SendDocumentsTo','ContractCode','ProjectCode','Group1','Group2','Description','Notes','Salesperson','Area','WHTaxable','WHTaxableCN','TotalAmountCN','Salesperson','Area','WHTaxable','WHTaxableCN','TotalAmountCN'],'HKLCustSupp':['CompNameComplete'],'HKLCurrencies':['Description'],'global':['StatusTileValue','StatusTileDescription','StatusTileImage','ClosingAmount','IntallmentRegenerate','AmountRegenerate','ClosingRegenerate','Detail','PymtSchedTot','OpenOutsTot','ClosingTot','PymtsTot','Balance','Delta','BranchDescri','CaptionRef1','CaptionRef2','Detail','Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLPymtTerm':['Description'],'HKLSalesPeople':['Name','Name'],'HKLSaleAreas':['Description','Description'],'Detail':['InstallmentType','InstallmentNo','InstallmentDate','PaymentTerm','NotPresentable','Presented','BillNo','Slip','PresentationDate','PresentationAmount','PresentationAmountBaseCurr','PresentationBank','CA','Printed','Approved','ApprovalDate','ApprovedAmount','ApprovedAmountBaseCurr','Collected','CollectionDate','Outstanding','OutstandingDate','OutstandingAmount','OutstandingAmountBaseCurr','PresentationNotes']});
+        		this.bo.appendToModelStructure({'AP_AR':['CustSupp','DocNo','LogNo','DocumentDate','Blocked','Currency','Settled','Payment','TotalAmount','TaxAmount','Advance','CreditNote','WithholdingTaxManagement','AmountsWithWHTax','InstallmStartDate','SendDocumentsTo','ContractCode','ProjectCode','Group1','Group2','Description','Notes','Salesperson','Area','WHTaxable','WHTaxableCN','TotalAmountCN','Salesperson','Area','WHTaxable','WHTaxableCN','TotalAmountCN'],'HKLCustSupp':['CompNameComplete'],'HKLCurrencies':['Description'],'global':['StatusTileValue','StatusTileDescription','StatusTileImage','ClosingAmount','IntallmentRegenerate','AmountRegenerate','ClosingRegenerate','Detail','PymtSchedTot','OpenOutsTot','ClosingTot','PymtsTot','Balance','Delta','BranchDescri','CaptionRef1','CaptionRef2','Detail','Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLPymtTerm':['Description'],'HKLSalesPeople':['Name','Name'],'HKLSaleAreas':['Description','Description'],'Detail':['InstallmentType','InstallmentNo','InstallmentDate','PaymentTerm','NotPresentable','Presented','BillNo','Slip','PresentationDate','PresentationAmount','PresentationAmountBaseCurr','PresentationBank','CA','Printed','Approved','ApprovalDate','ApprovedAmount','ApprovedAmountBaseCurr','Collected','CollectionDate','Outstanding','OutstandingDate','OutstandingAmount','OutstandingAmountBaseCurr','PresentationNotes']});
 
     }
 

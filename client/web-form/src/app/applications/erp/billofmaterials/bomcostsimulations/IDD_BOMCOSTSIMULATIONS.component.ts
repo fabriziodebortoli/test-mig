@@ -10,7 +10,7 @@ import { IDD_BOMCOSTSIMULATIONSService } from './IDD_BOMCOSTSIMULATIONS.service'
     providers: [IDD_BOMCOSTSIMULATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOMCOSTSIMULATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOMCOSTSIMULATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COSTING_COMBO_VALUATION_itemSource: any;
 
     constructor(document: IDD_BOMCOSTSIMULATIONSService,
@@ -20,7 +20,7 @@ export class IDD_BOMCOSTSIMULATIONSComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_BOMCOSTSIMULATIONSComponent extends BOComponent implements OnIn
   "namespace": "ERP.Company.Components.ValuationInventoryCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'BOMCostSimulations':['SimulationBOMCost','UpdateCostDate'],'global':['bBOMSelNone','bBOMSelAll','bBOMSel','FromBOM','ToBOM','bPreferredSel','bAlternateSel','Alternate','bOnlyExactMatchAlt','bNotExplodeItemVariant','bAllVariantItems','bItemVariantSel','FromItem','ToItem','bNotExplodeVariant','bAllVariants','bVariantSel','FromVariant','ToVariant','bApplyECO','ECODate','ECORevision','bLevelSelAll','bLevelSel','NrLevels','EnableLot','QuantityToCost','RoundingValue','bCompRounding','bDateSelAll','bOnlyValidComponentsCosting','Date','bProdParamValueType','bDefaultComponentValueType','bSpecificValueType','ValueType','bEvaluateByLot','ValueType','bEvaluateByLot','ShowResultGrid','bAlsoSemifinished','bAlsoPhantomBOM','ExplodeAll','bAlsoDisabledBOM','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'BOMCostSimulations':['SimulationBOMCost','UpdateCostDate'],'global':['bBOMSelNone','bBOMSelAll','bBOMSel','FromBOM','ToBOM','bPreferredSel','bAlternateSel','Alternate','bOnlyExactMatchAlt','bNotExplodeItemVariant','bAllVariantItems','bItemVariantSel','FromItem','ToItem','bNotExplodeVariant','bAllVariants','bVariantSel','FromVariant','ToVariant','bApplyECO','ECODate','ECORevision','bLevelSelAll','bLevelSel','NrLevels','EnableLot','QuantityToCost','RoundingValue','bCompRounding','bDateSelAll','bOnlyValidComponentsCosting','Date','bProdParamValueType','bDefaultComponentValueType','bSpecificValueType','ValueType','bEvaluateByLot','ValueType','bEvaluateByLot','ShowResultGrid','bAlsoSemifinished','bAlsoPhantomBOM','ExplodeAll','bAlsoDisabledBOM','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

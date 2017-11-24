@@ -10,7 +10,7 @@ import { IDD_BR_NOTAFISCALTYPE_COPY_NFService } from './IDD_BR_NOTAFISCALTYPE_CO
     providers: [IDD_BR_NOTAFISCALTYPE_COPY_NFService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_NOTAFISCALTYPE_COPY_NFComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_NOTAFISCALTYPE_COPY_NFComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BR_NOTAFISCALTYPE_COPY_NFService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BR_NOTAFISCALTYPE_COPY_NFComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NotaFiscalType']});
+        		this.bo.appendToModelStructure({'global':['NotaFiscalType']});
 
     }
 

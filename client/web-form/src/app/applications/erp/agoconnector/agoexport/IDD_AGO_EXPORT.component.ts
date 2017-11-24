@@ -10,7 +10,7 @@ import { IDD_AGO_EXPORTService } from './IDD_AGO_EXPORT.service';
     providers: [IDD_AGO_EXPORTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_AGO_EXPORTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_AGO_EXPORTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_AGO_EXPORTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_AGO_EXPORTComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CompanyCode','Application','DateDocLastExport','DateDocFrom','DateDocTo','bAlreadyExported','bExportPureJE','bExportDocIssued','bExportDocRecvd','AGOExportLog','AGOSubAccountLink','AGOAccReasonsLink','AGOAccTemplatesLink','AGOTaxCodesLink','CompanyCode','Application','DateDocLastExport','DocLastExportNo','FilePathExport','strOutput'],'AGOExportLog':['l_LogExport_TransactionType','l_LogExport_PostingDate','l_LogExport_DocNo','l_LogExport_AccTpl','l_LogExport_Notes'],'AGOSubAccountLink':['Account','Description','AGOSubAccount'],'HKLAGOSubAccounts':['Description'],'AGOAccReasonsLink':['Reason','Description','AGOAccReason'],'HKLAGOAccReasons':['Description'],'AGOAccTemplatesLink':['Template','Description','AGOAccReason'],'HKLAGOAccReasonsTpl':['Description'],'AGOTaxCodesLink':['TaxCode','Description','AGOLawCode','AGOTaxCode'],'HKLAGOLawCodes':['Description'],'HKLAGOTaxCodes':['Description']});
+        		this.bo.appendToModelStructure({'global':['CompanyCode','Application','DateDocLastExport','DateDocFrom','DateDocTo','bAlreadyExported','bExportPureJE','bExportDocIssued','bExportDocRecvd','AGOExportLog','AGOSubAccountLink','AGOAccReasonsLink','AGOAccTemplatesLink','AGOTaxCodesLink','CompanyCode','Application','DateDocLastExport','DocLastExportNo','FilePathExport','strOutput'],'AGOExportLog':['l_LogExport_TransactionType','l_LogExport_PostingDate','l_LogExport_DocNo','l_LogExport_AccTpl','l_LogExport_Notes'],'AGOSubAccountLink':['Account','Description','AGOSubAccount'],'HKLAGOSubAccounts':['Description'],'AGOAccReasonsLink':['Reason','Description','AGOAccReason'],'HKLAGOAccReasons':['Description'],'AGOAccTemplatesLink':['Template','Description','AGOAccReason'],'HKLAGOAccReasonsTpl':['Description'],'AGOTaxCodesLink':['TaxCode','Description','AGOLawCode','AGOTaxCode'],'HKLAGOLawCodes':['Description'],'HKLAGOTaxCodes':['Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ANALYSISAREAService } from './IDD_ANALYSISAREA.service';
     providers: [IDD_ANALYSISAREAService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ANALYSISAREAComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ANALYSISAREAComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ANALYSISAREAService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ANALYSISAREAComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AnalysisArea':['AnalysisArea','Description','ExternalArea','Supplier'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'AnalysisArea':['AnalysisArea','Description','ExternalArea','Supplier'],'HKLSupplier':['CompNameComplete'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

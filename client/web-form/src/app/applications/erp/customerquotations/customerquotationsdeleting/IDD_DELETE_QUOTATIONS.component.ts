@@ -10,7 +10,7 @@ import { IDD_DELETE_QUOTATIONSService } from './IDD_DELETE_QUOTATIONS.service';
     providers: [IDD_DELETE_QUOTATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DELETE_QUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DELETE_QUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DELETE_QUOTATIONSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DELETE_QUOTATIONSComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllContact','ContactSel','FromContact','ToContact','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllContact','ContactSel','FromContact','ToContact','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ACCOUNTINGSIMULATIONSSELECTIONService } from './IDD_ACCOUNTINGSIMUL
     providers: [IDD_ACCOUNTINGSIMULATIONSSELECTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACCOUNTINGSIMULATIONSSELECTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACCOUNTINGSIMULATIONSSELECTIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACCOUNTINGSIMULATIONSSELECTIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ACCOUNTINGSIMULATIONSSELECTIONComponent extends BOComponent imp
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromPostDate','ToPostDate','FromSimulation','ToSimulation','bIncludeEmpty','AccountingSimulationsSelection'],'AccountingSimulationsSelection':['l_Selected','Simulation','Description','PostingDate']});
+        		this.bo.appendToModelStructure({'global':['FromPostDate','ToPostDate','FromSimulation','ToSimulation','bIncludeEmpty','AccountingSimulationsSelection'],'AccountingSimulationsSelection':['l_Selected','Simulation','Description','PostingDate']});
 
     }
 

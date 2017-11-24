@@ -10,7 +10,7 @@ import { IDD_LOAD_PURCH_DOCService } from './IDD_LOAD_PURCH_DOC.service';
     providers: [IDD_LOAD_PURCH_DOCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_PURCH_DOCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_PURCH_DOCComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_PURCH_DOCService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_PURCH_DOCComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PurchaseDocLoading':['DocNo','DocumentDate','Supplier','Payment','PostingDate','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['PurchaseDocLoadingSlave','GeneralDiscountTot'],'PurchaseDocLoadingSlave':['PurchaseDo_Selected','LineType','Item','Description','UoM','PurchaseDo_QtyToReturn','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'PurchaseDocSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'PurchaseDocLoading':['DocNo','DocumentDate','Supplier','Payment','PostingDate','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['PurchaseDocLoadingSlave','GeneralDiscountTot'],'PurchaseDocLoadingSlave':['PurchaseDo_Selected','LineType','Item','Description','UoM','PurchaseDo_QtyToReturn','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'PurchaseDocSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

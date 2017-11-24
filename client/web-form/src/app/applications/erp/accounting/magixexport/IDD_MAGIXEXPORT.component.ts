@@ -10,7 +10,7 @@ import { IDD_MAGIXEXPORTService } from './IDD_MAGIXEXPORT.service';
     providers: [IDD_MAGIXEXPORTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MAGIXEXPORTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MAGIXEXPORTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MAGIXEXPORTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MAGIXEXPORTComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Date','ExportFile','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['Date','ExportFile','nCurrentElement','GaugeDescription']});
 
     }
 

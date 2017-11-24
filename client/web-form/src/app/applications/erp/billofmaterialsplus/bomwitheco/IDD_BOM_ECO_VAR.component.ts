@@ -10,7 +10,7 @@ import { IDD_BOM_ECO_VARService } from './IDD_BOM_ECO_VAR.service';
     providers: [IDD_BOM_ECO_VARService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOM_ECO_VARComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOM_ECO_VARComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
 
     constructor(document: IDD_BOM_ECO_VARService,
@@ -20,7 +20,7 @@ export class IDD_BOM_ECO_VARComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_BOM_ECO_VARComponent extends BOComponent implements OnInit, OnD
   "namespace": "ERP.Routing.Components.LabourLabourTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'BomWithECO':['BOM'],'BOMWithECO':['Description'],'global':['sHeaderVariant','DBTVariantComponentsWithECO','DBTVariantRoutingWithECO','__DBTLabour','BOMComponentsWithECO','BOMRoutingWithECO','__DBTLabour','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTVariantComponentsWithECO':['SubstType','ComponentType','Component','Description','Qty','UoM','FixedComponent','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'DBTVariantRoutingWithECO':['SubstType','RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','LineTypeInDN','ProcessingTime','TotalTime','Qty'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources','__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'BOMComponentsWithECO':['ComponentType','Component','Description','Qty','UoM','FixedComponent','Valorize','Waste','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMRoutingWithECO':['RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','LineTypeInDN','ProcessingTime','TotalTime','Qty']});
+        		this.bo.appendToModelStructure({'BomWithECO':['BOM'],'BOMWithECO':['Description'],'global':['sHeaderVariant','DBTVariantComponentsWithECO','DBTVariantRoutingWithECO','__DBTLabour','BOMComponentsWithECO','BOMRoutingWithECO','__DBTLabour','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTVariantComponentsWithECO':['SubstType','ComponentType','Component','Description','Qty','UoM','FixedComponent','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'DBTVariantRoutingWithECO':['SubstType','RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','LineTypeInDN','ProcessingTime','TotalTime','Qty'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources','__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'BOMComponentsWithECO':['ComponentType','Component','Description','Qty','UoM','FixedComponent','Valorize','Waste','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMRoutingWithECO':['RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','LineTypeInDN','ProcessingTime','TotalTime','Qty']});
 
     }
 

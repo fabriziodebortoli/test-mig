@@ -10,7 +10,7 @@ import { IDD_PD_OK_CANCELService } from './IDD_PD_OK_CANCEL.service';
     providers: [IDD_PD_OK_CANCELService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PD_OK_CANCELComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PD_OK_CANCELComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PD_OK_CANCELService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PD_OK_CANCELComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UpdateManagerbDeletion','UpdateManagerbCancellation','UpdateManagerAppDate']});
+        		this.bo.appendToModelStructure({'global':['UpdateManagerbDeletion','UpdateManagerbCancellation','UpdateManagerAppDate']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_TEMPLATEEXPORTService } from './IDD_TEMPLATEEXPORT.service';
     providers: [IDD_TEMPLATEEXPORTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TEMPLATEEXPORTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TEMPLATEEXPORTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TEMPLATEEXPORTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TEMPLATEEXPORTComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Template','FileName','nCurrentElement','GaugeDescription'],'HKLTemplate':['Description']});
+        		this.bo.appendToModelStructure({'global':['Template','FileName','nCurrentElement','GaugeDescription'],'HKLTemplate':['Description']});
 
     }
 

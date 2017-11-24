@@ -10,7 +10,7 @@ import { IDD_TOOLS_MANAGEMENTService } from './IDD_TOOLS_MANAGEMENT.service';
     providers: [IDD_TOOLS_MANAGEMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLS_MANAGEMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLS_MANAGEMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TOOLS_MANAGEMENTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TOOLS_MANAGEMENTComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bGenerateTools','bSubstituteTools','bDisableTools','bAllItems','bSelItems','FromItem','ToItem','bCopyInFamilies','bSetNewDisabled','bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','bOnlyDisabled','bOnlyExhausted','bOnlyOutOfOrder','bOperations','bBOMs','bMOs','bFamilies','bDisableSubstitutedTool','bOperationDelete','bOperationDisable','bOperations','bBOMs','bMOs','bFamilies','sUnloadIR','ToolsManagement','ToolsToGenerate'],'ToolsManagement':['LocalBmpStatus','LocalSelected','LocalItem','LocalItemOnHand','LocalNoToolsFromItem','LocalRootCode','LocalNoToolsToGenerate','LocalOriginalTool','LocalOriginalTool','LocalOriginalToolDescription','LocalOriginalTool','LocalOriginalToolDescription','LocalOriginalToolStatus','LocalOriginalToolDisabled','LocalOriginalToolDisabled','LocalNewTool','LocalItem','LocalUnloadToolIE'],'HKLItemBE':['Description','Description'],'HKLNewToolBE':['Description'],'ToolsToGenerate':['LocalBmpStatus','LocalSelected','LocalItem','LocalOriginalTool','LocalNewTool','LocalMessages'],'HKLToolByItemBE':['Description']});
+        		this.bo.appendToModelStructure({'global':['bGenerateTools','bSubstituteTools','bDisableTools','bAllItems','bSelItems','FromItem','ToItem','bCopyInFamilies','bSetNewDisabled','bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','bOnlyDisabled','bOnlyExhausted','bOnlyOutOfOrder','bOperations','bBOMs','bMOs','bFamilies','bDisableSubstitutedTool','bOperationDelete','bOperationDisable','bOperations','bBOMs','bMOs','bFamilies','sUnloadIR','ToolsManagement','ToolsToGenerate'],'ToolsManagement':['LocalBmpStatus','LocalSelected','LocalItem','LocalItemOnHand','LocalNoToolsFromItem','LocalRootCode','LocalNoToolsToGenerate','LocalOriginalTool','LocalOriginalTool','LocalOriginalToolDescription','LocalOriginalTool','LocalOriginalToolDescription','LocalOriginalToolStatus','LocalOriginalToolDisabled','LocalOriginalToolDisabled','LocalNewTool','LocalItem','LocalUnloadToolIE'],'HKLItemBE':['Description','Description'],'HKLNewToolBE':['Description'],'ToolsToGenerate':['LocalBmpStatus','LocalSelected','LocalItem','LocalOriginalTool','LocalNewTool','LocalMessages'],'HKLToolByItemBE':['Description']});
 
     }
 

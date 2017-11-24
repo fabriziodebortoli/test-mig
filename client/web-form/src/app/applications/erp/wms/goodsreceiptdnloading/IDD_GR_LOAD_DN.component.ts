@@ -10,7 +10,7 @@ import { IDD_GR_LOAD_DNService } from './IDD_GR_LOAD_DN.service';
     providers: [IDD_GR_LOAD_DNService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_GR_LOAD_DNComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_GR_LOAD_DNComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_GR_LOAD_DNService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_GR_LOAD_DNComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DNLoading':['DocNo','DocumentDate','PostingDate','CustSupp','Payment','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['DNDetailLoading'],'DNDetailLoading':['DocDetDNGR_Selected','Invoiced','LineType','Item','Description','UoM','DocDetDNGR_QtaToIssue','Qty','InvoicedQty','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'DNSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'DNLoading':['DocNo','DocumentDate','PostingDate','CustSupp','Payment','Currency','FixingDate','Fixing'],'HKLCustSupp':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['DNDetailLoading'],'DNDetailLoading':['DocDetDNGR_Selected','Invoiced','LineType','Item','Description','UoM','DocDetDNGR_QtaToIssue','Qty','InvoicedQty','UnitValue','DiscountFormula','TaxCode','Lot','CostCenter','Job'],'DNSummaryLoading':['GoodsAmount','ServiceAmounts','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

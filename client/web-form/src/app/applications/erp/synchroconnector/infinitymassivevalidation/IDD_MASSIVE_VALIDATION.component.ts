@@ -10,7 +10,7 @@ import { IDD_MASSIVE_VALIDATIONService } from './IDD_MASSIVE_VALIDATION.service'
     providers: [IDD_MASSIVE_VALIDATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MASSIVE_VALIDATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MASSIVE_VALIDATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MASSIVE_VALIDATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MASSIVE_VALIDATIONComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bCheckItems','bCheckCustomers','bCheckSuppliers','bCheckContacts','bCheckProspSupp','bAllCustomes','bSelCustomes','FromCustomer','ToCustomer','bAllCustCtg','bSelCustCtg','FromCustCtg','ToCustCtg','bAllContacts','bSelContacts','FromContact','ToContact','bAllProspSupp','bSelProspSupp','FromProspSupp','ToProspSupp','bAllSuppliers','bSelSuppliers','FromSupplier','ToSupplier','bAllSuppCtg','bSelSuppCtg','FromSuppCtg','ToSuppCtg','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'global':['bCheckItems','bCheckCustomers','bCheckSuppliers','bCheckContacts','bCheckProspSupp','bAllCustomes','bSelCustomes','FromCustomer','ToCustomer','bAllCustCtg','bSelCustCtg','FromCustCtg','ToCustCtg','bAllContacts','bSelContacts','FromContact','ToContact','bAllProspSupp','bSelProspSupp','FromProspSupp','ToProspSupp','bAllSuppliers','bSelSuppliers','FromSupplier','ToSupplier','bAllSuppCtg','bSelSuppCtg','FromSuppCtg','ToSuppCtg','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

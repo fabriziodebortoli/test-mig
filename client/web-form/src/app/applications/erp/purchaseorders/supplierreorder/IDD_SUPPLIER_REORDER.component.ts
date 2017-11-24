@@ -10,7 +10,7 @@ import { IDD_SUPPLIER_REORDERService } from './IDD_SUPPLIER_REORDER.service';
     providers: [IDD_SUPPLIER_REORDERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUPPLIER_REORDERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUPPLIER_REORDERComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_GENPURCORD_CODETYPE_SPECIFICATOR_itemSource: any;
 
     constructor(document: IDD_SUPPLIER_REORDERService,
@@ -20,7 +20,7 @@ export class IDD_SUPPLIER_REORDERComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_SUPPLIER_REORDERComponent extends BOComponent implements OnInit
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Restore','Integrate','Overwrites','bSaveSettings','AllPriority','PrioritySel','FromPriority','ToPriority','Shortage','Insufficiency','StandardPrice','LastPrice','DefaultPrice','EndingDate','AllOrdNo','OrdNoSel','FromOrdNo','ToOrdNo','AllItems','ItemsSel','FromItem','ToItem','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProductionJob','ProductionJobSel','FromProducitonJob','ToProductionJob','GenInvSel','StorageSel','Storage','SpecificatorType','Specificator','ItemsWithoutSupp','IgnoreStock','IgnorePurchaseOrd','GroupOrders','bOnlyItemsWithMinimumStock','ItemsShortage','bBlockedOrders','ItemsBoM','SupplierSelection','Suppliers'],'SupplierSelection':['SupplierSe_Sel','Supplier','SupplierDes','Storage','SpecificatorType','Specificator','Item','SupplierCode','Description','ToOrder','UoM','BaseUoM','ReservationType','ReferenceDocNo','Position'],'Suppliers':['Suppliers_Sel','Supplier','CompanyName','Storage','SpecificatorType','Specificator','Address','City']});
+        		this.bo.appendToModelStructure({'global':['Restore','Integrate','Overwrites','bSaveSettings','AllPriority','PrioritySel','FromPriority','ToPriority','Shortage','Insufficiency','StandardPrice','LastPrice','DefaultPrice','EndingDate','AllOrdNo','OrdNoSel','FromOrdNo','ToOrdNo','AllItems','ItemsSel','FromItem','ToItem','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProductionJob','ProductionJobSel','FromProducitonJob','ToProductionJob','GenInvSel','StorageSel','Storage','SpecificatorType','Specificator','ItemsWithoutSupp','IgnoreStock','IgnorePurchaseOrd','GroupOrders','bOnlyItemsWithMinimumStock','ItemsShortage','bBlockedOrders','ItemsBoM','SupplierSelection','Suppliers'],'SupplierSelection':['SupplierSe_Sel','Supplier','SupplierDes','Storage','SpecificatorType','Specificator','Item','SupplierCode','Description','ToOrder','UoM','BaseUoM','ReservationType','ReferenceDocNo','Position'],'Suppliers':['Suppliers_Sel','Supplier','CompanyName','Storage','SpecificatorType','Specificator','Address','City']});
 
     }
 

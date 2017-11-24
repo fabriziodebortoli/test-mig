@@ -10,7 +10,7 @@ import { IDD_DOC_SUBCONTRACTINGService } from './IDD_DOC_SUBCONTRACTING.service'
     providers: [IDD_DOC_SUBCONTRACTINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DOC_SUBCONTRACTINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DOC_SUBCONTRACTINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DOC_SUBCONTRACTINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DOC_SUBCONTRACTINGComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bPurchaseOrder','bSubcntDN','bAll','bAlsoDescriptionLines','SubcntBoLShopPapersList'],'SubcntBoLShopPapersList':['Selection','BOMSubcontracting','DocumentNumber','Position','BOM','Variant','BOMDescri','Operation','OperationDescri','UoM','DocQty','ConfirmedQty','DocBoLQty','MONo','RtgStep','Alternate','AltRtgStep','Job','Customer','SaleOrdNo']});
+        		this.bo.appendToModelStructure({'global':['bPurchaseOrder','bSubcntDN','bAll','bAlsoDescriptionLines','SubcntBoLShopPapersList'],'SubcntBoLShopPapersList':['Selection','BOMSubcontracting','DocumentNumber','Position','BOM','Variant','BOMDescri','Operation','OperationDescri','UoM','DocQty','ConfirmedQty','DocBoLQty','MONo','RtgStep','Alternate','AltRtgStep','Job','Customer','SaleOrdNo']});
 
     }
 

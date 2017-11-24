@@ -10,7 +10,7 @@ import { IDD_ACCINVENTORYBOOKPRINTService } from './IDD_ACCINVENTORYBOOKPRINT.se
     providers: [IDD_ACCINVENTORYBOOKPRINTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACCINVENTORYBOOKPRINTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACCINVENTORYBOOKPRINTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACCINVENTORYBOOKPRINTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ACCINVENTORYBOOKPRINTComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FiscalYear','bFinancialStat','bProfitLoss','bStandardView','bPrevious','bAccInventoryFinStat','bAccInventoryProfitLoss','bCustSuppTrialBalByCode','bCustSuppTrialBalByAccGroup','bDocumentToBeIssRecPrint','bEUBALSheetFinStat','bEUBALSheetFinStatCasc','bEUBALSheetFinStatAbbr','bEUBALSheetProfitLoss','bEUBALSheetMemorandum','bBaselIIFinStat','bBaselIIFinStatCasc','bBaselIIProfitLoss','bFixedAssetsFiscal','bFixedAssetsBalReg','bFixedAssetsNoteFiscal','bFixedAssetsNoteBalReg','bPrintAttachments','bPrintSubscription','bSOSConnector','ContextualHeading','NoPrefix','VideoPage']});
+        		this.bo.appendToModelStructure({'global':['FiscalYear','bFinancialStat','bProfitLoss','bStandardView','bPrevious','bAccInventoryFinStat','bAccInventoryProfitLoss','bCustSuppTrialBalByCode','bCustSuppTrialBalByAccGroup','bDocumentToBeIssRecPrint','bEUBALSheetFinStat','bEUBALSheetFinStatCasc','bEUBALSheetFinStatAbbr','bEUBALSheetProfitLoss','bEUBALSheetMemorandum','bBaselIIFinStat','bBaselIIFinStatCasc','bBaselIIProfitLoss','bFixedAssetsFiscal','bFixedAssetsBalReg','bFixedAssetsNoteFiscal','bFixedAssetsNoteBalReg','bPrintAttachments','bPrintSubscription','bSOSConnector','ContextualHeading','NoPrefix','VideoPage']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_INV_ADJService } from './IDD_INV_ADJ.service';
     providers: [IDD_INV_ADJService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INV_ADJComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INV_ADJComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INVENTORYCORRECTIONENTRY_CODETYPE_SPECIFICATOR_itemSource: any;
 public IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_itemSource: any;
 public IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE_itemSource: any
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_INVENTORYCORRECTIONENTRY_PROPOSED_UNIT_VALUE_POSITIVE_itemSource = {
   "namespace": "ERP.Inventory.Components.ProposedValuePositiveEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Restore','bSaveSettings','Integrate','Overwrites','LinesSaved','LinesSaved','bOverwriteItemsAlreadyPresent','bAllLines','FromLine','ToLine','bBookInvAnalysis','bOnhandAnalysis','bExistenceToDateCheck','ExistenceToDate','Storage','SpecificatorType','Specificator','bDisplayItemsAvailable','bAllLot','bSelLot','Lot','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','OperationDate','bStartReport','NegInvRsn','ProposedValue','PosInvRsn','ProposedValuePositive','InventoryAdjustment'],'InventoryAdjustment':['IsSelected','Line','InvAdj_NotExistingItemBmp','Item','Lot','Variant','BaseUoM','PreviousQty','ActualQty','Difference','InvAdj_DifferenceBmp','ProposedValue','PreviousValue','ActualValue'],'HKLItemsBE':['Description']});
+        		this.bo.appendToModelStructure({'global':['Restore','bSaveSettings','Integrate','Overwrites','LinesSaved','LinesSaved','bOverwriteItemsAlreadyPresent','bAllLines','FromLine','ToLine','bBookInvAnalysis','bOnhandAnalysis','bExistenceToDateCheck','ExistenceToDate','Storage','SpecificatorType','Specificator','bDisplayItemsAvailable','bAllLot','bSelLot','Lot','HFItems_All','HFItems_Range','HFItems_From','HFItems_To','OperationDate','bStartReport','NegInvRsn','ProposedValue','PosInvRsn','ProposedValuePositive','InventoryAdjustment'],'InventoryAdjustment':['IsSelected','Line','InvAdj_NotExistingItemBmp','Item','Lot','Variant','BaseUoM','PreviousQty','ActualQty','Difference','InvAdj_DifferenceBmp','ProposedValue','PreviousValue','ActualValue'],'HKLItemsBE':['Description']});
 
     }
 

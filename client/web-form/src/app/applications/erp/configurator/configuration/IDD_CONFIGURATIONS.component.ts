@@ -10,7 +10,7 @@ import { IDD_CONFIGURATIONSService } from './IDD_CONFIGURATIONS.service';
     providers: [IDD_CONFIGURATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONFIGURATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONFIGURATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CONFIGQUESTIONSANSWER_ANSWERNO_itemSource: any;
 
     constructor(document: IDD_CONFIGURATIONSService,
@@ -20,7 +20,7 @@ export class IDD_CONFIGURATIONSComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_CONFIGURATIONSComponent extends BOComponent implements OnInit, 
   "namespace": "ERP.Configurator.Documents.AnswersToQuestionComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Configuration':['Configuration','Price','Item','Customer'],'HKLItem':['Description'],'HKLCustomer':['CompanyName'],'global':['ConfigQuestionsAnswer','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ConfigQuestionsAnswer':['QuestionNo','Question','AnswerNo','l_Answer','DeleteComponent','l_DeleteDes']});
+        		this.bo.appendToModelStructure({'Configuration':['Configuration','Price','Item','Customer'],'HKLItem':['Description'],'HKLCustomer':['CompanyName'],'global':['ConfigQuestionsAnswer','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ConfigQuestionsAnswer':['QuestionNo','Question','AnswerNo','l_Answer','DeleteComponent','l_DeleteDes']});
 
     }
 

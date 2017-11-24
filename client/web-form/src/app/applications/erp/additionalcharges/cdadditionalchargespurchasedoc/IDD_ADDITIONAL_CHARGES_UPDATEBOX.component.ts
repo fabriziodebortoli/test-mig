@@ -10,7 +10,7 @@ import { IDD_ADDITIONAL_CHARGES_UPDATEBOXService } from './IDD_ADDITIONAL_CHARGE
     providers: [IDD_ADDITIONAL_CHARGES_UPDATEBOXService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ADDITIONAL_CHARGES_UPDATEBOXComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ADDITIONAL_CHARGES_UPDATEBOXComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ADDITIONAL_CHARGES_UPDATEBOXService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ADDITIONAL_CHARGES_UPDATEBOXComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

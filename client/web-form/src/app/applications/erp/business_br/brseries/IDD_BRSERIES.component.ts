@@ -10,7 +10,7 @@ import { IDD_BRSERIESService } from './IDD_BRSERIES.service';
     providers: [IDD_BRSERIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BRSERIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BRSERIESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BRSERIESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BRSERIESComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRSeries':['Series','Disabled','Description','Model'],'global':['DBTBRSeriesUnusedNumbersDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRSeriesUnusedNumbersDetail':['FromNumber','ToNumber','OperationDate','ElabDate','AuthProtocol','AnswerStatus','AnswerStatusDescri','InutReason','MagoUserID']});
+        		this.bo.appendToModelStructure({'DBTBRSeries':['Series','Disabled','Description','Model'],'global':['DBTBRSeriesUnusedNumbersDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRSeriesUnusedNumbersDetail':['FromNumber','ToNumber','OperationDate','ElabDate','AuthProtocol','AnswerStatus','AnswerStatusDescri','InutReason','MagoUserID']});
 
     }
 

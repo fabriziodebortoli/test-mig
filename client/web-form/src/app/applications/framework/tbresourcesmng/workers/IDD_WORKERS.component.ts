@@ -10,7 +10,7 @@ import { IDD_WORKERSService } from './IDD_WORKERS.service';
     providers: [IDD_WORKERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WORKERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WORKERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WORKERSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WORKERSComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Workers':['DomicilyAddress','Address2','DomicilyCity','DomicilyZip','DomicilyCounty','DomicilyCountry','Latitude','Longitude','Telephone4','Telephone2','Telephone3','Telephone1','SkypeID','Email','URL','Notes'],'global':['WorkersArrangements','WorkersAbsences','WorkersFields','WorkersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WorkersArrangements':['Arrangement','BasicPay','TotalPay','FromDate','ToDate','Notes'],'Arrangements':['ArrangementLevel'],'WorkersAbsences':['Reason','Manager','ManagerDesc','StartingDate','EndingDate','Notes'],'WorkersFields':['FieldName','FieldValue','HideOnLayout','Notes'],'WorkersDetails':['IsWorker','ChildResourceType','ChildResourceCode','ChildWorkerID','WorkerDesc','ManagerDesc']});
+        		this.bo.appendToModelStructure({'Workers':['DomicilyAddress','Address2','DomicilyCity','DomicilyZip','DomicilyCounty','DomicilyCountry','Latitude','Longitude','Telephone4','Telephone2','Telephone3','Telephone1','SkypeID','Email','URL','Notes'],'global':['WorkersArrangements','WorkersAbsences','WorkersFields','WorkersDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'WorkersArrangements':['Arrangement','BasicPay','TotalPay','FromDate','ToDate','Notes'],'Arrangements':['ArrangementLevel'],'WorkersAbsences':['Reason','Manager','ManagerDesc','StartingDate','EndingDate','Notes'],'WorkersFields':['FieldName','FieldValue','HideOnLayout','Notes'],'WorkersDetails':['IsWorker','ChildResourceType','ChildResourceCode','ChildWorkerID','WorkerDesc','ManagerDesc']});
 
     }
 

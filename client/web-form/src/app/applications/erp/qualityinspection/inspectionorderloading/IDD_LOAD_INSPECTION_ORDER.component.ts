@@ -10,7 +10,7 @@ import { IDD_LOAD_INSPECTION_ORDERService } from './IDD_LOAD_INSPECTION_ORDER.se
     providers: [IDD_LOAD_INSPECTION_ORDERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_INSPECTION_ORDERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_INSPECTION_ORDERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_INSPECTION_ORDERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_INSPECTION_ORDERComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'InspectionOrderLoading':['InspectionOrderNo','InspectionOrderDate','ExpectedInspectionDate','Supplier'],'HKLMasterSupplier':['CompNameComplete'],'global':['InspectionOrderDetailLoading'],'InspectionOrderDetailLoading':['Selected','Item','Description','UoM','ConformingQty','ToBeReturnedQty','ScrapQty','NoPrint','NoRiepOnInspNotes','Lot']});
+        		this.bo.appendToModelStructure({'InspectionOrderLoading':['InspectionOrderNo','InspectionOrderDate','ExpectedInspectionDate','Supplier'],'HKLMasterSupplier':['CompNameComplete'],'global':['InspectionOrderDetailLoading'],'InspectionOrderDetailLoading':['Selected','Item','Description','UoM','ConformingQty','ToBeReturnedQty','ScrapQty','NoPrint','NoRiepOnInspNotes','Lot']});
 
     }
 

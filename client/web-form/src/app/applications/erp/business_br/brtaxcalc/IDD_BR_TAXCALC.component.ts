@@ -10,7 +10,7 @@ import { IDD_BR_TAXCALCService } from './IDD_BR_TAXCALC.service';
     providers: [IDD_BR_TAXCALCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_TAXCALCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_TAXCALCComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_TAXCALC_TAXTYPE_itemSource: any;
 
     constructor(document: IDD_BR_TAXCALCService,
@@ -20,7 +20,7 @@ export class IDD_BR_TAXCALCComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -32,8 +32,7 @@ export class IDD_BR_TAXCALCComponent extends BOComponent implements OnInit, OnDe
   "useProductLanguage": false
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRTaxCalc':['TaxCalcCode','Description','TaxType','ValidityStartingDate','ValidityEndingDate','TaxCode','TaxRateCode','ReducTaxRateCode','TaxFormulaCode'],'HKLBRTaxCode':['Description'],'HKLBRTaxRateCode':['Description'],'HKLBRReducTaxRateCode':['Description'],'HKLBRTaxFormulaCode':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DBTBRTaxCalc':['TaxCalcCode','Description','TaxType','ValidityStartingDate','ValidityEndingDate','TaxCode','TaxRateCode','ReducTaxRateCode','TaxFormulaCode'],'HKLBRTaxCode':['Description'],'HKLBRTaxRateCode':['Description'],'HKLBRReducTaxRateCode':['Description'],'HKLBRTaxFormulaCode':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ANALYSISMETHODService } from './IDD_ANALYSISMETHOD.service';
     providers: [IDD_ANALYSISMETHODService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ANALYSISMETHODComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ANALYSISMETHODComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ANALYSISMETHODService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ANALYSISMETHODComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'AnalysisMet':['AnalysisMet','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'AnalysisMet':['AnalysisMet','Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

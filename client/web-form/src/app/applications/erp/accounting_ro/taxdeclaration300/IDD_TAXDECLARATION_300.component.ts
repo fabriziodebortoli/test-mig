@@ -10,7 +10,7 @@ import { IDD_TAXDECLARATION_300Service } from './IDD_TAXDECLARATION_300.service'
     providers: [IDD_TAXDECLARATION_300Service, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXDECLARATION_300Component extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXDECLARATION_300Component extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TAXDECLARATION_300Service,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TAXDECLARATION_300Component extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeclType','Year','Period','DisabledFilter','Name','Surname','Function','BankCode','cont','PaymentDate','nr_evid','bifa_interne','temei','PrintFile','PrintPaper','ProcessStatus']});
+        		this.bo.appendToModelStructure({'global':['DeclType','Year','Period','DisabledFilter','Name','Surname','Function','BankCode','cont','PaymentDate','nr_evid','bifa_interne','temei','PrintFile','PrintPaper','ProcessStatus']});
 
     }
 

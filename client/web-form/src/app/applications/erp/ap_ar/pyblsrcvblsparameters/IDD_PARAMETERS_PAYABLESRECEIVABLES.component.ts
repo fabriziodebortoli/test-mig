@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_PAYABLESRECEIVABLESService } from './IDD_PARAMETERS_PAYA
     providers: [IDD_PARAMETERS_PAYABLESRECEIVABLESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_PAYABLESRECEIVABLESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_PAYABLESRECEIVABLESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_APAR_PARAMETERS_PRINTS_TYPE_itemSource: any;
 
     constructor(document: IDD_PARAMETERS_PAYABLESRECEIVABLESService,
@@ -20,7 +20,7 @@ export class IDD_PARAMETERS_PAYABLESRECEIVABLESComponent extends BOComponent imp
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_PARAMETERS_PAYABLESRECEIVABLESComponent extends BOComponent imp
   "namespace": "ERP.Accounting.Components.FiscalPrintoutsEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PymtTerms','RequestsForPaymt','ParametersRate','CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PymtTerms':['PaymentTerm','CollectionAccTpl','CollectionAccRsn','PaymentAccTpl','PaymentAccRsn'],'RequestsForPaymt':['Line','DescriptiveText'],'ParametersRate':['Line','FromDate','ToDate','InterestRate','Disabled'],'CustomizedPrint':['CodeType','DescriptiveText']});
+        		this.bo.appendToModelStructure({'global':['PymtTerms','RequestsForPaymt','ParametersRate','CustomizedPrint','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PymtTerms':['PaymentTerm','CollectionAccTpl','CollectionAccRsn','PaymentAccTpl','PaymentAccRsn'],'RequestsForPaymt':['Line','DescriptiveText'],'ParametersRate':['Line','FromDate','ToDate','InterestRate','Disabled'],'CustomizedPrint':['CodeType','DescriptiveText']});
 
     }
 

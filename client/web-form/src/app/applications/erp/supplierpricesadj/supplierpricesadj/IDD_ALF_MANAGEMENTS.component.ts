@@ -10,7 +10,7 @@ import { IDD_ALF_MANAGEMENTSService } from './IDD_ALF_MANAGEMENTS.service';
     providers: [IDD_ALF_MANAGEMENTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ALF_MANAGEMENTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ALF_MANAGEMENTSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ALF_MANAGEMENTSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ALF_MANAGEMENTSComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SupplierPricesAdj'],'SupplierPricesAdj':['Select','Item','Description','SupplierPr_ValueType','ExpectedPrice','UnitValue','SupplierPr_DiscountType','ExpectedDiscount','DiscountFormula','DocumentDate']});
+        		this.bo.appendToModelStructure({'global':['SupplierPricesAdj'],'SupplierPricesAdj':['Select','Item','Description','SupplierPr_ValueType','ExpectedPrice','UnitValue','SupplierPr_DiscountType','ExpectedDiscount','DiscountFormula','DocumentDate']});
 
     }
 

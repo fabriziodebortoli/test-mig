@@ -10,7 +10,7 @@ import { IDD_WMS_INTERIM_ANALYSISService } from './IDD_WMS_INTERIM_ANALYSIS.serv
     providers: [IDD_WMS_INTERIM_ANALYSISService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WMS_INTERIM_ANALYSISComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WMS_INTERIM_ANALYSISComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WMS_INTERIM_ANALYSISService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WMS_INTERIM_ANALYSISComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','bInterimIN','bInterimOUT','bDisplayOnlySuspectTO','DateAll','DateSelection','DateFrom','DateTo','ItemAll','ItemSelection','ItemFrom','ItemTo','LegendTO','LegendInvEntry','LegendDocIn','LegendDocOut']});
+        		this.bo.appendToModelStructure({'global':['Storage','bInterimIN','bInterimOUT','bDisplayOnlySuspectTO','DateAll','DateSelection','DateFrom','DateTo','ItemAll','ItemSelection','ItemFrom','ItemTo','LegendTO','LegendInvEntry','LegendDocIn','LegendDocOut']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_NUMERATOR_SUNUMBERSService } from './IDD_NUMERATOR_SUNUMBERS.servic
     providers: [IDD_NUMERATOR_SUNUMBERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_NUMERATOR_SUNUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_NUMERATOR_SUNUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SUNO_PREFIXFORMAT_itemSource: any;
 
     constructor(document: IDD_NUMERATOR_SUNUMBERSService,
@@ -20,7 +20,7 @@ export class IDD_NUMERATOR_SUNUMBERSComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_NUMERATOR_SUNUMBERSComponent extends BOComponent implements OnI
   "namespace": "ERP.WMS.Components.SorageUnitPrefixEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'StorageUnitNumbers':['LastSUNo','LastSUDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'StorageUnitNumbers':['LastSUNo','LastSUDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_COMBINATIONService } from './IDD_COMBINATION.service';
     providers: [IDD_COMBINATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COMBINATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COMBINATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COMBINATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COMBINATIONComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SegmentsComb':['Segment','Combination'],'HKLSegments':['Description'],'HKLSegmentsComb':['Description'],'global':['SegmentsCombState','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SegmentsCombState':['ISOCountryCode','Description','Currency','Language','Price','Notes'],'HKLISOCountryCode':['Description']});
+        		this.bo.appendToModelStructure({'SegmentsComb':['Segment','Combination'],'HKLSegments':['Description'],'HKLSegmentsComb':['Description'],'global':['SegmentsCombState','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SegmentsCombState':['ISOCountryCode','Description','Currency','Language','Price','Notes'],'HKLISOCountryCode':['Description']});
 
     }
 

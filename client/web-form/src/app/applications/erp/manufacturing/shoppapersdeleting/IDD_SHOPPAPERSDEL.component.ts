@@ -10,7 +10,7 @@ import { IDD_SHOPPAPERSDELService } from './IDD_SHOPPAPERSDEL.service';
     providers: [IDD_SHOPPAPERSDELService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SHOPPAPERSDELComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SHOPPAPERSDELComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SHOPPAPERSDEL_SELECTION_itemSource: any;
 public IDC_SHOPPAPERSDEL_MO_STATUS_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_SHOPPAPERSDEL_MO_STATUS_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_SHOPPAPERSDEL_MO_STATUS_itemSource = {
   "namespace": "ERP.Manufacturing.Documents.StatusNotTermBoLItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Selection','bMOMOAll','bMOMOSel','bMOMOFrom','bMOMOTo','bMODateAll','bMODateSel','MODateFrom','MODateTo','bMOJobAll','bMOJobSel','MOJobFrom','MOJobTo','bMOItemAll','bMOItemSel','MOItemFrom','MOItemTo','bMOVariantAll','bMOVariantSel','MOVariantFrom','MOVariantTo','bMOStatusAll','bMOStatusSel','MOStatus','bMODeleteConfirmed','bDeleteSubcntShopPapers','bMORestoreProdPlanLine','bDeleteInvEntries','bDeleteCorrInvEntries','bPlanPlanAll','bPlanPlanSel','PlanPlanFrom','PlanPlanTo','bPlanDateAll','bPlanDateSel','bPlanDateFrom','bPlanDateTo','bJTJTAll','bJTJTSel','bJTJTFrom','bJTJTTo','bJTProdRunAll','bJTProdRunSel','JTProdRunNo','bDeleteSubcntShopPapers','bDeleteInvEntries','bDeleteCorrInvEntries','bPLPLAll','bPLPLSel','bPLPLFrom','bPLPLTo','bDeleteInvEntries','bDeleteCorrInvEntries','DeleteShopPapers','nCurrentElement','GaugeDescription','ProgressViewer'],'DeleteShopPapers':['TMO_Selection','TMO_StateBmp','MONo','DeliveryDate','MOStatus','BOM','TMO_BOMDescri','UoM','Variant','PlanNo','Job','ProductionPlanDescri','PlanCreationDate','ProductionPlanNotes','JobTicketNo','ProductionRunNo','OutsourcedJT','WC','MONo','MORtgStep','PickingListNo','PLCreationDate','MONo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['Selection','bMOMOAll','bMOMOSel','bMOMOFrom','bMOMOTo','bMODateAll','bMODateSel','MODateFrom','MODateTo','bMOJobAll','bMOJobSel','MOJobFrom','MOJobTo','bMOItemAll','bMOItemSel','MOItemFrom','MOItemTo','bMOVariantAll','bMOVariantSel','MOVariantFrom','MOVariantTo','bMOStatusAll','bMOStatusSel','MOStatus','bMODeleteConfirmed','bDeleteSubcntShopPapers','bMORestoreProdPlanLine','bDeleteInvEntries','bDeleteCorrInvEntries','bPlanPlanAll','bPlanPlanSel','PlanPlanFrom','PlanPlanTo','bPlanDateAll','bPlanDateSel','bPlanDateFrom','bPlanDateTo','bJTJTAll','bJTJTSel','bJTJTFrom','bJTJTTo','bJTProdRunAll','bJTProdRunSel','JTProdRunNo','bDeleteSubcntShopPapers','bDeleteInvEntries','bDeleteCorrInvEntries','bPLPLAll','bPLPLSel','bPLPLFrom','bPLPLTo','bDeleteInvEntries','bDeleteCorrInvEntries','DeleteShopPapers','nCurrentElement','GaugeDescription','ProgressViewer'],'DeleteShopPapers':['TMO_Selection','TMO_StateBmp','MONo','DeliveryDate','MOStatus','BOM','TMO_BOMDescri','UoM','Variant','PlanNo','Job','ProductionPlanDescri','PlanCreationDate','ProductionPlanNotes','JobTicketNo','ProductionRunNo','OutsourcedJT','WC','MONo','MORtgStep','PickingListNo','PLCreationDate','MONo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_FISCALYEARGENERATIONService } from './IDD_FISCALYEARGENERATION.serv
     providers: [IDD_FISCALYEARGENERATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FISCALYEARGENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FISCALYEARGENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_FISCALYEARGENERATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_FISCALYEARGENERATIONComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PrevYearDescri','OpeningDatePrev','ClosingDatePrev','NewFiscalYearDescri','OpeningDate','ClosingDate','Year','OldTaxRegulations','OldSalesTaxPerc','OldSalesTaxPerc2','NewYear','TaxRegulations','SalesTaxPerc','SalesTaxPerc2','Year','TaxDeclaration','QuarterlyOptionStatic','CashTaxStatic','TaxDistribution','FarmerTaxStatic','NewYear','QuarterlyDecl','QuarterlyOption','CashTax','UseTaxDistribution','FarmerTax','Year','IntrastatPurchases','IntrastatSales','PurchasesStatisticalValue','SalesStatisticalValue','NewYear','PurchIntraSummary','SaleIntraSummary','StatisticalValueArrivals','StatisticalValueDispatches','bUpdateCounterTaxJournal','bUpdateCounterDeclarationOfIntentNos','bUpdateCounterStubBook','bUpdateCounterSerialNos','bUpdateCounterNonFiscals','bUpdateCounterLotNos','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['PrevYearDescri','OpeningDatePrev','ClosingDatePrev','NewFiscalYearDescri','OpeningDate','ClosingDate','Year','OldTaxRegulations','OldSalesTaxPerc','OldSalesTaxPerc2','NewYear','TaxRegulations','SalesTaxPerc','SalesTaxPerc2','Year','TaxDeclaration','QuarterlyOptionStatic','CashTaxStatic','TaxDistribution','FarmerTaxStatic','NewYear','QuarterlyDecl','QuarterlyOption','CashTax','UseTaxDistribution','FarmerTax','Year','IntrastatPurchases','IntrastatSales','PurchasesStatisticalValue','SalesStatisticalValue','NewYear','PurchIntraSummary','SaleIntraSummary','StatisticalValueArrivals','StatisticalValueDispatches','bUpdateCounterTaxJournal','bUpdateCounterDeclarationOfIntentNos','bUpdateCounterStubBook','bUpdateCounterSerialNos','bUpdateCounterNonFiscals','bUpdateCounterLotNos','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

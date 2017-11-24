@@ -10,7 +10,7 @@ import { IDD_SOS_CONFIGURATIONService } from './IDD_SOS_CONFIGURATION.service';
     providers: [IDD_SOS_CONFIGURATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SOS_CONFIGURATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SOS_CONFIGURATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SOS_CONFIGURATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SOS_CONFIGURATIONComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SOSDocClasses','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SOSDocClasses':['VCode','VDescription']});
+        		this.bo.appendToModelStructure({'global':['SOSDocClasses','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SOSDocClasses':['VCode','VDescription']});
 
     }
 

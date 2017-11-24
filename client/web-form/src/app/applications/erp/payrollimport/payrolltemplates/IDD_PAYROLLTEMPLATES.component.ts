@@ -10,7 +10,7 @@ import { IDD_PAYROLLTEMPLATESService } from './IDD_PAYROLLTEMPLATES.service';
     providers: [IDD_PAYROLLTEMPLATESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PAYROLLTEMPLATESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PAYROLLTEMPLATESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PAYROLLTEMPLATES_BE_REASON_itemSource: any;
 
     constructor(document: IDD_PAYROLLTEMPLATESService,
@@ -20,7 +20,7 @@ export class IDD_PAYROLLTEMPLATESComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_PAYROLLTEMPLATESComponent extends BOComponent implements OnInit
   "namespace": "ERP.PayrollImport.Documents.StrReasonCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'PayrollTemplates':['Template','Description','AccTpl','ValidityStartingDate','ValidityEndingDate','Priority','Nature'],'HKLAccTpl':['Description'],'global':['PayrollTemplatesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PayrollTemplatesDetails':['Line','Reason','AccRsn'],'HKLBodyReason':['Description'],'HKLBodyAccRsn':['Description']});
+        		this.bo.appendToModelStructure({'PayrollTemplates':['Template','Description','AccTpl','ValidityStartingDate','ValidityEndingDate','Priority','Nature'],'HKLAccTpl':['Description'],'global':['PayrollTemplatesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PayrollTemplatesDetails':['Line','Reason','AccRsn'],'HKLBodyReason':['Description'],'HKLBodyAccRsn':['Description']});
 
     }
 

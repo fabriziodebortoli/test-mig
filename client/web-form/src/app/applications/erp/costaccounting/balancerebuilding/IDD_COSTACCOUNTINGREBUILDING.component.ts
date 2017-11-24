@@ -10,7 +10,7 @@ import { IDD_COSTACCOUNTINGREBUILDINGService } from './IDD_COSTACCOUNTINGREBUILD
     providers: [IDD_COSTACCOUNTINGREBUILDINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCOUNTINGREBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCOUNTINGREBUILDINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_RICALCOSTACC_COSTCENTERS_CODETYPE_itemSource: any;
 public IDC_RICALCOSTACC_JOBS_CODETYPE_itemSource: any;
 public IDC_RICALCOSTACC_PRODUCTLINE_CODETYPE_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_RICALCOSTACC_PRODUCTLINE_CODETYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_RICALCOSTACC_PRODUCTLINE_CODETYPE_itemSource = {
   "namespace": "ERP.CostAccounting.Components.EntryTypeForecastEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CostCenters','CostCentersFromMonth','FromYearCostCenters','CostCentersToMonth','ToYearCostCenters','AllCostCenters','CostCentersSel','CostCentersType','Jobs','JobsFromMonth','FromYearJobs','JobsToMonth','ToYearJobs','AllJob','JobSell','JobsType','ProductLine','LineFromMonth','FromYearLines','AllLine','FromYearLines','AllLine','LineToMonth','ToYearLines','LineSel','LineType','ToYearLines','LineSel','LineType','LineSel','LineType','CostCentersProcess','JobsProcess','LineProcess']});
+        		this.bo.appendToModelStructure({'global':['CostCenters','CostCentersFromMonth','FromYearCostCenters','CostCentersToMonth','ToYearCostCenters','AllCostCenters','CostCentersSel','CostCentersType','Jobs','JobsFromMonth','FromYearJobs','JobsToMonth','ToYearJobs','AllJob','JobSell','JobsType','ProductLine','LineFromMonth','FromYearLines','AllLine','FromYearLines','AllLine','LineToMonth','ToYearLines','LineSel','LineType','ToYearLines','LineSel','LineType','LineSel','LineType','CostCentersProcess','JobsProcess','LineProcess']});
 
     }
 

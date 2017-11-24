@@ -10,7 +10,7 @@ import { IDD_LOGISTIC_CONTROLService } from './IDD_LOGISTIC_CONTROL.service';
     providers: [IDD_LOGISTIC_CONTROLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOGISTIC_CONTROLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOGISTIC_CONTROLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LOGISTICS_CONTROL_PANEL_DOCUMENT_TYPE_itemSource: any;
 
     constructor(document: IDD_LOGISTIC_CONTROLService,
@@ -20,7 +20,7 @@ export class IDD_LOGISTIC_CONTROLComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_LOGISTIC_CONTROLComponent extends BOComponent implements OnInit
   "namespace": "ERP.InvoiceMng.Documents.BrowsingDocumentTypeCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bCustomer','bSupplier','CustSupp','bAllDocuments','DocumentType','DocumentNo','StartingDate','EndingDate','bOrderByDocType','bOrderByDocDate','ControlPanelDetailSelection','DBTNodeDetail','ImageSuppQuota','ImageSuppQuotaProcessed','ImagePurchOrder','ImagePurchOrderProcessed','ImagePurchOrderCancelled','ImageBOL','ImageBOLProcessed','ImageInspOrder','ImageInspOrderProcessed','ImageInspNote','ImagePurchDoc','ImagePurchDocProcessed','ImageCustQuota','ImageSaleOrder','ImageSaleOrderAllocated','ImageSaleOrderProcessed','ImageSaleOrderBlocked','ImageSaleOrderCancelled','ImageDeliveryNote','ImageDeliveryNoteProcessed','ImagePickList','ImagePickListProcessed','ImageSaleDocument','ImageSaleDocumentProcessed','ImageAddCharges','ImageInvEntry','ImageAccounting','ImageReceivable'],'ControlPanelDetailSelection':['ModifiableLineBmp','SelectionType'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
+        		this.bo.appendToModelStructure({'global':['bCustomer','bSupplier','CustSupp','bAllDocuments','DocumentType','DocumentNo','StartingDate','EndingDate','bOrderByDocType','bOrderByDocDate','ControlPanelDetailSelection','DBTNodeDetail','ImageSuppQuota','ImageSuppQuotaProcessed','ImagePurchOrder','ImagePurchOrderProcessed','ImagePurchOrderCancelled','ImageBOL','ImageBOLProcessed','ImageInspOrder','ImageInspOrderProcessed','ImageInspNote','ImagePurchDoc','ImagePurchDocProcessed','ImageCustQuota','ImageSaleOrder','ImageSaleOrderAllocated','ImageSaleOrderProcessed','ImageSaleOrderBlocked','ImageSaleOrderCancelled','ImageDeliveryNote','ImageDeliveryNoteProcessed','ImagePickList','ImagePickListProcessed','ImageSaleDocument','ImageSaleDocumentProcessed','ImageAddCharges','ImageInvEntry','ImageAccounting','ImageReceivable'],'ControlPanelDetailSelection':['ModifiableLineBmp','SelectionType'],'DBTNodeDetail':['l_FieldValue','l_FieldName']});
 
     }
 

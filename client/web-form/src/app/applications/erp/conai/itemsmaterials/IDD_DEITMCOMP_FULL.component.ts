@@ -10,7 +10,7 @@ import { IDD_DEITMCOMP_FULLService } from './IDD_DEITMCOMP_FULL.service';
     providers: [IDD_DEITMCOMP_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DEITMCOMP_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DEITMCOMP_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DEITMCOMP_FULLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DEITMCOMP_FULLComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Items':['Item','TaxCode','UseDocumentWeight','ImportedMaterial'],'HKLItems':['Description'],'HKLTAX':['Description'],'global':['ItemsMaterials','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Items':['Item','TaxCode','UseDocumentWeight','ImportedMaterial'],'HKLItems':['Description'],'HKLTAX':['Description'],'global':['ItemsMaterials','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -44,6 +44,7 @@ import { IDD_PD_JE_GENERATE_NATURE_DIFFERENTComponent, IDD_PD_JE_GENERATE_NATURE
 import { IDD_PD_GENERATE_COSTACCOUNTINGComponent, IDD_PD_GENERATE_COSTACCOUNTINGFactoryComponent } from './uijournalentries/IDD_PD_GENERATE_COSTACCOUNTING.component';
 import { IDD_JE_SAVETEMPLATEComponent, IDD_JE_SAVETEMPLATEFactoryComponent } from './uijournalentries/IDD_JE_SAVETEMPLATE.component';
 import { IDD_JEComponent, IDD_JEFactoryComponent } from './uijournalentries/IDD_JE.component';
+import { IDD_JE_NOTES_SELECTIONComponent, IDD_JE_NOTES_SELECTIONFactoryComponent } from './accountingcontrols/IDD_JE_NOTES_SELECTION.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -100,6 +101,7 @@ import { SharedModule } from './../../../shared/shared.module';
             { path: 'IDD_PD_GENERATE_COSTACCOUNTING', component: IDD_PD_GENERATE_COSTACCOUNTINGFactoryComponent },
             { path: 'IDD_JE_SAVETEMPLATE', component: IDD_JE_SAVETEMPLATEFactoryComponent },
             { path: 'IDD_JE', component: IDD_JEFactoryComponent },
+            { path: 'IDD_JE_NOTES_SELECTION', component: IDD_JE_NOTES_SELECTIONFactoryComponent },
         ])],
     declarations: [
             IDD_BALANCE_SHEET_SUMMARIZEDComponent, IDD_BALANCE_SHEET_SUMMARIZEDFactoryComponent,
@@ -148,6 +150,7 @@ import { SharedModule } from './../../../shared/shared.module';
             IDD_PD_GENERATE_COSTACCOUNTINGComponent, IDD_PD_GENERATE_COSTACCOUNTINGFactoryComponent,
             IDD_JE_SAVETEMPLATEComponent, IDD_JE_SAVETEMPLATEFactoryComponent,
             IDD_JEComponent, IDD_JEFactoryComponent,
+            IDD_JE_NOTES_SELECTIONComponent, IDD_JE_NOTES_SELECTIONFactoryComponent,
     ],
     exports: [
             IDD_BALANCE_SHEET_SUMMARIZEDFactoryComponent,
@@ -196,6 +199,7 @@ import { SharedModule } from './../../../shared/shared.module';
             IDD_PD_GENERATE_COSTACCOUNTINGFactoryComponent,
             IDD_JE_SAVETEMPLATEFactoryComponent,
             IDD_JEFactoryComponent,
+            IDD_JE_NOTES_SELECTIONFactoryComponent,
     ],
     entryComponents: [
             IDD_BALANCE_SHEET_SUMMARIZEDComponent,
@@ -244,6 +248,7 @@ import { SharedModule } from './../../../shared/shared.module';
             IDD_PD_GENERATE_COSTACCOUNTINGComponent,
             IDD_JE_SAVETEMPLATEComponent,
             IDD_JEComponent,
+            IDD_JE_NOTES_SELECTIONComponent,
     ]
 })
 

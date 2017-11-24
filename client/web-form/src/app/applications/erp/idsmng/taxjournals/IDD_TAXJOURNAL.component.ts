@@ -10,7 +10,7 @@ import { IDD_TAXJOURNALService } from './IDD_TAXJOURNAL.service';
     providers: [IDD_TAXJOURNALService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXJOURNALComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXJOURNALComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TAXJOURN_CODETYPETAXJOURNAL_itemSource: any;
 
     constructor(document: IDD_TAXJOURNALService,
@@ -20,7 +20,7 @@ export class IDD_TAXJOURNALComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_TAXJOURNALComponent extends BOComponent implements OnInit, OnDe
   "namespace": "ERP.IdsMng.Documents.TypeJournalEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TaxJournals':['TaxJournal','Disabled','Description','CodeType','Notes','ExcludedFromVAT','SpecialPrint','IsTravelAgencyJournal','InTravelAgencyCalculation','ExcludedFromProRata','EUAnnotation','MarginTAX','AutomaticNumbering','IsAProtocol','BranchNumber','D394Serie','AGOSection','OMNIASection'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TaxJournals':['TaxJournal','Disabled','Description','CodeType','Notes','ExcludedFromVAT','SpecialPrint','IsTravelAgencyJournal','InTravelAgencyCalculation','ExcludedFromProRata','EUAnnotation','MarginTAX','AutomaticNumbering','IsAProtocol','BranchNumber','D394Serie','AGOSection','OMNIASection'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

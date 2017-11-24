@@ -10,7 +10,7 @@ import { IDD_IMPORT_DECLARATIONService } from './IDD_IMPORT_DECLARATION.service'
     providers: [IDD_IMPORT_DECLARATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_IMPORT_DECLARATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_IMPORT_DECLARATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_IMPORT_DECLARATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_IMPORT_DECLARATIONComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ImportDeclLoading':['Importer','ImporterCode','ExporterCode','ImportDeclarationNo','RegistrationDate','CustomsDate','IntermediationType','CustomsState','DischargePlace','GrossWeight','NetWeight','Appearance','ModeOfTransport'],'HKLImporter':['CompNameCompleteWithTaxNumber'],'HKLExporter':['CompNameCompleteWithTaxNumber'],'HKLGoodsAppearance':['Description'],'HKLTransport':['Description'],'global':['TBRNFeImportDeclarationDetail'],'TBRNFeImportDeclarationDetail':['TBREnhImportDeclDet_Selected','AdditionNumber','SeqAdditionNumber','Item','NCM','UoM','Qty'],'HKLItemsBody':['Description']});
+        		this.bo.appendToModelStructure({'ImportDeclLoading':['Importer','ImporterCode','ExporterCode','ImportDeclarationNo','RegistrationDate','CustomsDate','IntermediationType','CustomsState','DischargePlace','GrossWeight','NetWeight','Appearance','ModeOfTransport'],'HKLImporter':['CompNameCompleteWithTaxNumber'],'HKLExporter':['CompNameCompleteWithTaxNumber'],'HKLGoodsAppearance':['Description'],'HKLTransport':['Description'],'global':['TBRNFeImportDeclarationDetail'],'TBRNFeImportDeclarationDetail':['TBREnhImportDeclDet_Selected','AdditionNumber','SeqAdditionNumber','Item','NCM','UoM','Qty'],'HKLItemsBody':['Description']});
 
     }
 

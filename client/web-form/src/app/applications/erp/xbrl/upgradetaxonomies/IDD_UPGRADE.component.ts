@@ -10,7 +10,7 @@ import { IDD_UPGRADEService } from './IDD_UPGRADE.service';
     providers: [IDD_UPGRADEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_UPGRADEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_UPGRADEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_UPGRADEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_UPGRADEComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TaxDetail'],'TaxDetail':['l_TEnhPersonalDataXBRL_P1','l_TEnhPersonalDataXBRL_P2','l_TEnhPersonalDataXBRL_P4','l_TEnhPersonalDataXBRL_P5','l_TEnhPersonalDataXBRL_P3']});
+        		this.bo.appendToModelStructure({'global':['TaxDetail'],'TaxDetail':['l_TEnhPersonalDataXBRL_P1','l_TEnhPersonalDataXBRL_P2','l_TEnhPersonalDataXBRL_P4','l_TEnhPersonalDataXBRL_P5','l_TEnhPersonalDataXBRL_P3']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_ACTION_SNAPSHOT_CREATEService } from './IDD_ACTION_SNAPSHOT_CREATE.
     providers: [IDD_ACTION_SNAPSHOT_CREATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ACTION_SNAPSHOT_CREATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ACTION_SNAPSHOT_CREATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ACTION_SNAPSHOT_CREATEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ACTION_SNAPSHOT_CREATEComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllStorage','bSelectionStorage','SelectedStorage','bAllZone','bSelectionZone','SelectedZone','bAllBins','bSelectBins','BinFrom','BinTo','bAllItems','bSelectItems','ItemFrom','ItemTo','bCertify','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllStorage','bSelectionStorage','SelectedStorage','bAllZone','bSelectionZone','SelectedZone','bAllBins','bSelectBins','BinFrom','BinTo','bAllItems','bSelectItems','ItemFrom','ItemTo','bCertify','nCurrentElement','GaugeDescription']});
 
     }
 

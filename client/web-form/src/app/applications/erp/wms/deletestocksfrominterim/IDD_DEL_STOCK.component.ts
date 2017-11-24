@@ -10,7 +10,7 @@ import { IDD_DEL_STOCKService } from './IDD_DEL_STOCK.service';
     providers: [IDD_DEL_STOCKService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DEL_STOCKComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DEL_STOCKComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DEL_STOCKService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DEL_STOCKComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','IntDiff','MintDiff','IntIN','MintIN','IntOUT','MintOUT','bAllItems','bSelectItem','ItemFrom','ItemTo','bAllCreationDate','bSelectCreationDate','CreationDateFrom','CreationDateTo','DBTStocksFromInterim'],'DBTStocksFromInterim':['Selection','Storage','Zone','Bin','StockNumber','Item','Lot','InternalIdNo','UnitOfMeasure','Qty','QtyBaseUoM','CreationDate','SpecialStock','SpecialStockCode','StorageUnit','StorageUnitType','IsMultilevelStorageUnit','QtyReserved','QtyIncoming','LotValidTo','Snapshot','SnapshotCert','SnapshotWorker','SnapshotDate','SnapshotTOId','Weight','Capacity','ConsignmentPartner']});
+        		this.bo.appendToModelStructure({'global':['Storage','IntDiff','MintDiff','IntIN','MintIN','IntOUT','MintOUT','bAllItems','bSelectItem','ItemFrom','ItemTo','bAllCreationDate','bSelectCreationDate','CreationDateFrom','CreationDateTo','DBTStocksFromInterim'],'DBTStocksFromInterim':['Selection','Storage','Zone','Bin','StockNumber','Item','Lot','InternalIdNo','UnitOfMeasure','Qty','QtyBaseUoM','CreationDate','SpecialStock','SpecialStockCode','StorageUnit','StorageUnitType','IsMultilevelStorageUnit','QtyReserved','QtyIncoming','LotValidTo','Snapshot','SnapshotCert','SnapshotWorker','SnapshotDate','SnapshotTOId','Weight','Capacity','ConsignmentPartner']});
 
     }
 

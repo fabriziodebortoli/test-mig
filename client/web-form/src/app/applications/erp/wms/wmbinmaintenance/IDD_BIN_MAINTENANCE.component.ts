@@ -10,7 +10,7 @@ import { IDD_BIN_MAINTENANCEService } from './IDD_BIN_MAINTENANCE.service';
     providers: [IDD_BIN_MAINTENANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BIN_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BIN_MAINTENANCEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BIN_MAINTENANCEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BIN_MAINTENANCEComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','Zone','bAllBin','bSelBin','FromBin','ToBin','bBlocked','bUnBlocked','bEnable','bDisable','bBinMainCancel','DBTEnhBinMaintenance'],'DBTEnhBinMaintenance':['l_Selection','Bin','Storage','Zone','Section','Disabled','Blocked']});
+        		this.bo.appendToModelStructure({'global':['Storage','Zone','bAllBin','bSelBin','FromBin','ToBin','bBlocked','bUnBlocked','bEnable','bDisable','bBinMainCancel','DBTEnhBinMaintenance'],'DBTEnhBinMaintenance':['l_Selection','Bin','Storage','Zone','Section','Disabled','Blocked']});
 
     }
 

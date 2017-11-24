@@ -10,7 +10,7 @@ import { IDD_MANUAL_ASSIGNMENTService } from './IDD_MANUAL_ASSIGNMENT.service';
     providers: [IDD_MANUAL_ASSIGNMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MANUAL_ASSIGNMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MANUAL_ASSIGNMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MANUAL_ASSIGNMENTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MANUAL_ASSIGNMENTComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DBTBinStocksManualAssign'],'DBTBinStocksManualAssign':['BinStocksM_Selected','Zone','BinStocksM_ZoneDesctiption','Bin','StockNumber','Item','BinStocksM_ItemDescription','Lot','InternalIdNo','UnitOfMeasure','BinStocksM_QtyOnHand','StorageUnit','BinStocksM_SUTypeDescr','BinStocksM_NewStorage','BinStocksM_NewZone','BinStocksM_NewZoneDescri','BinStocksM_NewBin','ConsignmentPartner']});
+        		this.bo.appendToModelStructure({'global':['DBTBinStocksManualAssign'],'DBTBinStocksManualAssign':['BinStocksM_Selected','Zone','BinStocksM_ZoneDesctiption','Bin','StockNumber','Item','BinStocksM_ItemDescription','Lot','InternalIdNo','UnitOfMeasure','BinStocksM_QtyOnHand','StorageUnit','BinStocksM_SUTypeDescr','BinStocksM_NewStorage','BinStocksM_NewZone','BinStocksM_NewZoneDescri','BinStocksM_NewBin','ConsignmentPartner']});
 
     }
 

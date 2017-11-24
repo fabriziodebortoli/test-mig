@@ -10,7 +10,7 @@ import { IDD_LIFO_FIFO_REVService } from './IDD_LIFO_FIFO_REV.service';
     providers: [IDD_LIFO_FIFO_REVService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LIFO_FIFO_REVComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LIFO_FIFO_REVComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LIFO_FIFO_REVService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LIFO_FIFO_REVComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bFIFORevaluate','bLIFORevaluate','OperationDate','RevaluateInvRsn','FIFOLIFORevaluation'],'FIFOLIFORevaluation':['IsSelected','Item','Description','BaseUoM','FinalBookInv','BookInvValue','UnitValue','RevaluateBookInvValue','Note']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','bFIFORevaluate','bLIFORevaluate','OperationDate','RevaluateInvRsn','FIFOLIFORevaluation'],'FIFOLIFORevaluation':['IsSelected','Item','Description','BaseUoM','FinalBookInv','BookInvValue','UnitValue','RevaluateBookInvValue','Note']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_TOOLS_FAMILIESService } from './IDD_TOOLS_FAMILIES.service';
     providers: [IDD_TOOLS_FAMILIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLS_FAMILIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLS_FAMILIESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TOOLS_FAMILIESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TOOLS_FAMILIESComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['GaugeQty','StatusDescription','ImageStatusTool','ToolsFamiliesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ToolsFamilies':['Family','Description','FamilyType','Disabled','ExclusiveUse'],'ToolsFamiliesDetails':['LocalBmpStatus','Priority','Tool','LocalToolStatus'],'HKLTools':['Description']});
+        		this.bo.appendToModelStructure({'global':['GaugeQty','StatusDescription','ImageStatusTool','ToolsFamiliesDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ToolsFamilies':['Family','Description','FamilyType','Disabled','ExclusiveUse'],'ToolsFamiliesDetails':['LocalBmpStatus','Priority','Tool','LocalToolStatus'],'HKLTools':['Description']});
 
     }
 

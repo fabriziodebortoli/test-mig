@@ -10,7 +10,7 @@ import { IDD_WIZ_POSTING_NFC_MAINService } from './IDD_WIZ_POSTING_NFC_MAIN.serv
     providers: [IDD_WIZ_POSTING_NFC_MAINService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WIZ_POSTING_NFC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WIZ_POSTING_NFC_MAINComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_NFC_POSTDOC_STATUS_NFE_itemSource: any;
 
     constructor(document: IDD_WIZ_POSTING_NFC_MAINService,
@@ -20,7 +20,7 @@ export class IDD_WIZ_POSTING_NFC_MAINComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_WIZ_POSTING_NFC_MAINComponent extends BOComponent implements On
   "namespace": "ERP.Business_BR.Components.BRNFeStatusForRecalculationCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorStatusNFe','ElaboratorAllCustomer','ElaboratorCustomerSel','ElaboratorFromCustomer','ElaboratorToCustomer','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllSalesPeople','ElaboratorSalesPeopleSel','ElaboratorFromSalesperson','ElaboratorToSalesperson','SaleOrdFulfilmentDetail','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['DocGeneration','CustSupp','CustomerCompanyName','Salesperson','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['ElaboratorStartingDate','ElaboratorEndingDate','ElaboratorStatusNFe','ElaboratorAllCustomer','ElaboratorCustomerSel','ElaboratorFromCustomer','ElaboratorToCustomer','ElaboratorAllInv','ElaboratorNotInInv','ElaboratorInInv','ElaboratorAllSalesPeople','ElaboratorSalesPeopleSel','ElaboratorFromSalesperson','ElaboratorToSalesperson','SaleOrdFulfilmentDetail','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['DocGeneration','CustSupp','CustomerCompanyName','Salesperson','DepartureDate','DocumentDate','DocNo','Payment','Currency','SendDocumentsTo'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

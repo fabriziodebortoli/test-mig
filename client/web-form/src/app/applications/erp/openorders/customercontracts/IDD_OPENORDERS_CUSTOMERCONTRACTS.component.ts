@@ -10,7 +10,7 @@ import { IDD_OPENORDERS_CUSTOMERCONTRACTSService } from './IDD_OPENORDERS_CUSTOM
     providers: [IDD_OPENORDERS_CUSTOMERCONTRACTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OPENORDERS_CUSTOMERCONTRACTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OPENORDERS_CUSTOMERCONTRACTSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_OPENORDERS_CUSTOMERCONTRACTSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_OPENORDERS_CUSTOMERCONTRACTSComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustContracts':['StartValidityDate','ModificationsHistory','Disabled','ContractNo','Description','Customer','Validity','ContractType','Notes'],'HKLCustomer':['CompNameComplete'],'global':['CustContractsDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContractsDetails':['Horizon','ConfirmationLevel','ConfirmationLevelDescr','PeriodType','ReferenceDay','DailySplit']});
+        		this.bo.appendToModelStructure({'CustContracts':['StartValidityDate','ModificationsHistory','Disabled','ContractNo','Description','Customer','Validity','ContractType','Notes'],'HKLCustomer':['CompNameComplete'],'global':['CustContractsDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CustContractsDetails':['Horizon','ConfirmationLevel','ConfirmationLevelDescr','PeriodType','ReferenceDay','DailySplit']});
 
     }
 

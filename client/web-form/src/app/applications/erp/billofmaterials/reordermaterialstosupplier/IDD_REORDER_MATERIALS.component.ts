@@ -10,7 +10,7 @@ import { IDD_REORDER_MATERIALSService } from './IDD_REORDER_MATERIALS.service';
     providers: [IDD_REORDER_MATERIALSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_REORDER_MATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_REORDER_MATERIALSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_REORDER_MATERIALSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_REORDER_MATERIALSComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['NrPlan','bSplitForJob','bSplitForCostCnt','bSplitForSaleOrder','ReorderMaterialsToSupplier'],'HKLPlan':['Description'],'ReorderMaterialsToSupplier':['PrepareSubcntOrd','CodeType','Component','ComponentDescription','UoM','RequProductionPlanQty','RequInducedRequirements','RequReservedQty','OnHandStorageQty','RequIncomingQty','RequMinimumStock','RequQtyToOrder','RequAvailaibility','Supplier','MinOrderQty','RequReorderingLotSize','Job','CostCenter','SaleOrdNo']});
+        		this.bo.appendToModelStructure({'global':['NrPlan','bSplitForJob','bSplitForCostCnt','bSplitForSaleOrder','ReorderMaterialsToSupplier'],'HKLPlan':['Description'],'ReorderMaterialsToSupplier':['PrepareSubcntOrd','CodeType','Component','ComponentDescription','UoM','RequProductionPlanQty','RequInducedRequirements','RequReservedQty','OnHandStorageQty','RequIncomingQty','RequMinimumStock','RequQtyToOrder','RequAvailaibility','Supplier','MinOrderQty','RequReorderingLotSize','Job','CostCenter','SaleOrdNo']});
 
     }
 

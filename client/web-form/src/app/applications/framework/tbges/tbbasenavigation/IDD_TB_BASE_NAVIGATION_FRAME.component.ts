@@ -10,7 +10,7 @@ import { IDD_TB_BASE_NAVIGATION_FRAMEService } from './IDD_TB_BASE_NAVIGATION_FR
     providers: [IDD_TB_BASE_NAVIGATION_FRAMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TB_BASE_NAVIGATION_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TB_BASE_NAVIGATION_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TB_BASE_NAVIGATION_FRAMEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TB_BASE_NAVIGATION_FRAMEComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

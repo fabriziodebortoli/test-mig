@@ -10,7 +10,7 @@ import { IDD_SALE_ORD_FULFILLMENTService } from './IDD_SALE_ORD_FULFILLMENT.serv
     providers: [IDD_SALE_ORD_FULFILLMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALE_ORD_FULFILLMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALE_ORD_FULFILLMENTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ELABSALEORD_DOCTYPE_itemSource: any;
 public IDC_ELABSALEORD_CODETYPE_SPECIFICATOR_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_ELABSALEORD_CODETYPE_SPECIFICATOR_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_ELABSALEORD_CODETYPE_SPECIFICATOR_itemSource = {
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DocumentType','bOnlyDeliveredOrd','bOnHandCheck','bGeneralInventory','bSelectedStorage','bAllStorages','bStorageSel','Storage','SpecificatorType','Specificator','bPriority','bExpectedDelivery','bMinimumStock','bInsufficiency','FromExpectedDelivery','ToExpectedDelivery','StartingDate','EndingDate','FromConfirmedDelivery','ToConfirmedDelivery','AllSaleOrdNo','SaleOrdNoSel','FromSaleOrdNo','ToSaleOrdNo','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllPriority','PrioritySel','FromPriority','ToPriority','InvAllCustomer','InvCustomerSel','FromInvCustomer','ToInvCustomer','AllItems','ItemSel','FromItem','ToItem','AllSalesPeople','SalesPeopleSel','FromSalesperson','ToSalesperson','AllProductionJob','ProductionJobSel','FromProducitonJob','ToProductionJob','SaleOrdFulfilmentDetail','OperationDate','bPrintMail','eMailAddressType','bPrintPostaLite','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['Bmp','DocGeneration','InternalOrdNo','ExternalOrdNo','Priority','OrderDate','ExpectedDeliveryDate','ConfirmedDeliveryDate','BlockedCust','Customer','CustomerCompanyName','Payment','Currency','TaxJournal','StubBook','Carrier1','SendDocumentsTo','ShipToAddress','Port','Package','Transport','Salesperson','Area','InvRsn','Job','CostCenter'],'HKLCarrierBE':['CompNameComplete'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['DocumentType','bOnlyDeliveredOrd','bOnHandCheck','bGeneralInventory','bSelectedStorage','bAllStorages','bStorageSel','Storage','SpecificatorType','Specificator','bPriority','bExpectedDelivery','bMinimumStock','bInsufficiency','FromExpectedDelivery','ToExpectedDelivery','StartingDate','EndingDate','FromConfirmedDelivery','ToConfirmedDelivery','AllSaleOrdNo','SaleOrdNoSel','FromSaleOrdNo','ToSaleOrdNo','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllPriority','PrioritySel','FromPriority','ToPriority','InvAllCustomer','InvCustomerSel','FromInvCustomer','ToInvCustomer','AllItems','ItemSel','FromItem','ToItem','AllSalesPeople','SalesPeopleSel','FromSalesperson','ToSalesperson','AllProductionJob','ProductionJobSel','FromProducitonJob','ToProductionJob','SaleOrdFulfilmentDetail','OperationDate','bPrintMail','eMailAddressType','bPrintPostaLite','nCurrentElement','GaugeDescription','ProgressViewer'],'SaleOrdFulfilmentDetail':['Bmp','DocGeneration','InternalOrdNo','ExternalOrdNo','Priority','OrderDate','ExpectedDeliveryDate','ConfirmedDeliveryDate','BlockedCust','Customer','CustomerCompanyName','Payment','Currency','TaxJournal','StubBook','Carrier1','SendDocumentsTo','ShipToAddress','Port','Package','Transport','Salesperson','Area','InvRsn','Job','CostCenter'],'HKLCarrierBE':['CompNameComplete'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

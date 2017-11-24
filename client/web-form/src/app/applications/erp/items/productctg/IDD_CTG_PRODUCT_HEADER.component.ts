@@ -10,7 +10,7 @@ import { IDD_CTG_PRODUCT_HEADERService } from './IDD_CTG_PRODUCT_HEADER.service'
     providers: [IDD_CTG_PRODUCT_HEADERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CTG_PRODUCT_HEADERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CTG_PRODUCT_HEADERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CTG_PRODUCT_HEADERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CTG_PRODUCT_HEADERComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ProductCtg':['Category','CodeType','Description','Notes'],'global':['SubCtg','__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SubCtg':['SubCategory','Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'ProductCtg':['Category','CodeType','Description','Notes'],'global':['SubCtg','__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SubCtg':['SubCategory','Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

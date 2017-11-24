@@ -10,7 +10,7 @@ import { IDD_BANKSDOWNLOADERService } from './IDD_BANKSDOWNLOADER.service';
     providers: [IDD_BANKSDOWNLOADERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BANKSDOWNLOADERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BANKSDOWNLOADERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BANKSDOWNLOADERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BANKSDOWNLOADERComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromABI','ToABI','FromCAB','ToCAB','DownloadType','UpdateDate','bNewBanksFromUpdateFile','bCancelledBanks','bUpdateBanks','bAbsorbedBanks','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['FromABI','ToABI','FromCAB','ToCAB','DownloadType','UpdateDate','bNewBanksFromUpdateFile','bCancelledBanks','bUpdateBanks','bAbsorbedBanks','nCurrentElement','GaugeDescription']});
 
     }
 

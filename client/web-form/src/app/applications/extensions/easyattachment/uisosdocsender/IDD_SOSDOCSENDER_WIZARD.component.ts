@@ -10,7 +10,7 @@ import { IDD_SOSDOCSENDER_WIZARDService } from './IDD_SOSDOCSENDER_WIZARD.servic
     providers: [IDD_SOSDOCSENDER_WIZARDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SOSDOCSENDER_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SOSDOCSENDER_WIZARDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_SOSDOCSENDER_DOCCLASS_COMBO_itemSource: any;
 public IDC_SOSDOCSENDER_DOCTYPE_COMBO_itemSource: any;
 public IDC_SOSDOCSENDER_TAXJOURNAL_COMBO_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_SOSDOCSENDER_FISCALYEAR_COMBO_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -45,8 +45,7 @@ this.IDC_SOSDOCSENDER_FISCALYEAR_COMBO_itemSource = {
   "namespace": "Extensions.EasyAttachment.TbDMS.SOSFiscalYearItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bSendDocToSOS','bExcludeDocFromSOS','DocumentClass','DocumentType','TaxJournal','FiscalYear','bOnlyMainDoc','bDocIdle','bDocToResend','SOSStartingDate','SOSEndingDate','SOSAllCustSupp','SOSCustSuppSel','SOSFromCustSupp','SOSToCustSupp','SOSAllDocNo','SOSDocNoSel','SOSFromDocNo','SOSToDocNo','DBTSOSDocuments','DBTSOSElaboration','ElaborationMessage','nCurrentElement'],'DBTSOSDocuments':['VIsSelected','VFileName','VDocumentType','VDescriptionKeys','VDocumentStatus','VAttachmentID'],'DBTSOSElaboration':['VMsgBmp','VMessage']});
+        		this.bo.appendToModelStructure({'global':['bSendDocToSOS','bExcludeDocFromSOS','DocumentClass','DocumentType','TaxJournal','FiscalYear','bOnlyMainDoc','bDocIdle','bDocToResend','SOSStartingDate','SOSEndingDate','SOSAllCustSupp','SOSCustSuppSel','SOSFromCustSupp','SOSToCustSupp','SOSAllDocNo','SOSDocNoSel','SOSFromDocNo','SOSToDocNo','DBTSOSDocuments','DBTSOSElaboration','ElaborationMessage','nCurrentElement'],'DBTSOSDocuments':['VIsSelected','VFileName','VDocumentType','VDescriptionKeys','VDocumentStatus','VAttachmentID'],'DBTSOSElaboration':['VMsgBmp','VMessage']});
 
     }
 

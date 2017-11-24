@@ -10,7 +10,7 @@ import { IDD_INVENTRY_LOAD_UNLOADService } from './IDD_INVENTRY_LOAD_UNLOAD.serv
     providers: [IDD_INVENTRY_LOAD_UNLOADService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVENTRY_LOAD_UNLOADComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVENTRY_LOAD_UNLOADComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_INVENTRYFROMLOADUNLOADTO_LOAD_SPEC_TYPE_itemSource: any;
 public IDC_INVENTRYFROMLOADUNLOADTO_PROPOSED_LOAD_UNIT_VALUE_itemSource: any;
 public IDC_INVENTRYFROMLOADUNLOADTO_UNLOAD_SPEC_TYPE_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_INVENTRYFROMLOADUNLOADTO_PROPOSED_UNLOAD_UNIT_VALUE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -45,8 +45,7 @@ this.IDC_INVENTRYFROMLOADUNLOADTO_PROPOSED_UNLOAD_UNIT_VALUE_itemSource = {
   "namespace": "ERP.Inventory.Components.ProposedValueEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','bAll','bLoad','bUnload','ResourceFilter_All','ResourceFilter_Sel','ResourceFilter','bAllDate','bSelDate','FromDate','ToDate','LoadInvRsn','LoadStorage','LoadSpecificatorType','LoadSpecificator','ProposedValueLoad','UnloadInvRsn','UnloadStorage','UnloadSpecificatorType','UnloadSpecificator','ProposedValueUnload','OperationDate','InvEntryFromLoadUnloadTO'],'HKLWorkersFilter':['NameComplete'],'InvEntryFromLoadUnloadTO':['InvEntryFr_IsSelected','MovementType','ID','ToNumber','Item','ItemDescription','Lot','Storage','UoM','QtyMoved','DifferenceBmp','InvEntryFr_ProposedValue','InvEntryFr_Zone','InvEntryFr_Bin','InvEntryFr_StorageUnit','PackingUnit','ConfirmationDate','SourceSpecialStock','SourceSpecialStockCode','DestSpecialStock','DestSpecialStockCode','ToResource','WorkerDescription','Notes']});
+        		this.bo.appendToModelStructure({'global':['Storage','bAll','bLoad','bUnload','ResourceFilter_All','ResourceFilter_Sel','ResourceFilter','bAllDate','bSelDate','FromDate','ToDate','LoadInvRsn','LoadStorage','LoadSpecificatorType','LoadSpecificator','ProposedValueLoad','UnloadInvRsn','UnloadStorage','UnloadSpecificatorType','UnloadSpecificator','ProposedValueUnload','OperationDate','InvEntryFromLoadUnloadTO'],'HKLWorkersFilter':['NameComplete'],'InvEntryFromLoadUnloadTO':['InvEntryFr_IsSelected','MovementType','ID','ToNumber','Item','ItemDescription','Lot','Storage','UoM','QtyMoved','DifferenceBmp','InvEntryFr_ProposedValue','InvEntryFr_Zone','InvEntryFr_Bin','InvEntryFr_StorageUnit','PackingUnit','ConfirmationDate','SourceSpecialStock','SourceSpecialStockCode','DestSpecialStock','DestSpecialStockCode','ToResource','WorkerDescription','Notes']});
 
     }
 

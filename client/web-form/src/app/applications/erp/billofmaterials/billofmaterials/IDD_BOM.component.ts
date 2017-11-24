@@ -10,7 +10,7 @@ import { IDD_BOMService } from './IDD_BOM.service';
     providers: [IDD_BOMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOMComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BOM_CODETYPE_BOM_itemSource: any;
 public IDC_BOM_DISPLAY_PROD_itemSource: any;
 public IDC_BOM_UNIMIS_itemSource: any;
@@ -29,7 +29,7 @@ public IDC_TOOLS_MAN_RTGSTEP_ALT_RTGSTEP_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -81,8 +81,7 @@ this.IDC_TOOLS_MAN_RTGSTEP_ALT_RTGSTEP_itemSource = {
   "namespace": "ERP.ToolsManagement.AddOnsCore.AltRtgStepToolsItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'BillOfMaterials':['CodeType','BOM','Description','Disabled','UsePercQty','SF','UoM','Configurable','SalesDocOnly','LastModificationDate','CreationDate','Notes'],'global':['BOMStatus','TotPercentage','BOMComponents','BOMQuestionsAnswers','Internal','Outsourced','Supplier','BOMRoutings','__DBTLabour','DBTBOMECO','DBTToolsManagement','DBTBOMVariants','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable','ToolBmp','FamilyBmp'],'BOMDrawings':['Drawing','Position','Drawing','Correction','Notes'],'HKLDrawings':['Description'],'BOMComponents':['IsBOM','Nature','Configurable','IsKanban'],'BOMQuestionsAnswers':['IsADefault','AnswerNo','AnswerDes','ComponentType','Component','Description','Variant','Qty','UoM','ToExplode','PercWaste','WastePerc','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate','Notes'],'HKLSupplier':['CompanyName'],'BOMRoutings':['BOMStateBmp','Outsourced','SetupTime','ProcessingTime','TotalTime','Qty','QueueTime','LineTypeInDN','InHouseProcessingCost','Notes'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTBOMECO':['l_BmpStatus','ECONo','ECORevision','ECOStatus','ECOConfirmationDate','ECOCreationDate','ECONotes'],'DBTToolsManagement':['RtgStepTypeBmp','RtgStep','Alternate','AltRtgStep','Operation','OperationDescription','Usage','IsFamily','Tool','ProcessingType','ToolType','Fixed','UsageQuantity','UsageTime','ExclusiveUse','Source','SourceTool'],'HKLSelectorTools':['Description'],'DBTBOMVariants':['Variant','Item','FromConfigurator','Notes'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'BillOfMaterials':['CodeType','BOM','Description','Disabled','UsePercQty','SF','UoM','Configurable','SalesDocOnly','LastModificationDate','CreationDate','Notes'],'global':['BOMStatus','TotPercentage','BOMComponents','BOMQuestionsAnswers','Internal','Outsourced','Supplier','BOMRoutings','__DBTLabour','DBTBOMECO','DBTToolsManagement','DBTBOMVariants','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable','ToolBmp','FamilyBmp'],'BOMDrawings':['Drawing','Position','Drawing','Correction','Notes'],'HKLDrawings':['Description'],'BOMComponents':['IsBOM','Nature','Configurable','IsKanban'],'BOMQuestionsAnswers':['IsADefault','AnswerNo','AnswerDes','ComponentType','Component','Description','Variant','Qty','UoM','ToExplode','PercWaste','WastePerc','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate','Notes'],'HKLSupplier':['CompanyName'],'BOMRoutings':['BOMStateBmp','Outsourced','SetupTime','ProcessingTime','TotalTime','Qty','QueueTime','LineTypeInDN','InHouseProcessingCost','Notes'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTBOMECO':['l_BmpStatus','ECONo','ECORevision','ECOStatus','ECOConfirmationDate','ECOCreationDate','ECONotes'],'DBTToolsManagement':['RtgStepTypeBmp','RtgStep','Alternate','AltRtgStep','Operation','OperationDescription','Usage','IsFamily','Tool','ProcessingType','ToolType','Fixed','UsageQuantity','UsageTime','ExclusiveUse','Source','SourceTool'],'HKLSelectorTools':['Description'],'DBTBOMVariants':['Variant','Item','FromConfigurator','Notes'],'DBTLinksTable':['Image','Description']});
 
     }
 

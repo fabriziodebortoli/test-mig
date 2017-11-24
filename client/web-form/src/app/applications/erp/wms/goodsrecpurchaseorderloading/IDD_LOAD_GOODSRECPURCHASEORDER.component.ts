@@ -10,7 +10,7 @@ import { IDD_LOAD_GOODSRECPURCHASEORDERService } from './IDD_LOAD_GOODSRECPURCHA
     providers: [IDD_LOAD_GOODSRECPURCHASEORDERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOAD_GOODSRECPURCHASEORDERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOAD_GOODSRECPURCHASEORDERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOAD_GOODSRECPURCHASEORDERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOAD_GOODSRECPURCHASEORDERComponent extends BOComponent impleme
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'GoodsRecPurchaseOrderLoading':['InternalOrdNo','OrderDate','ExpectedDeliveryDate','Supplier','Payment','Currency','OurReference','YourReference','Notes'],'HKLSuppGoodsRecPurchaseOrder':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['Detail'],'Detail':['PurchaseOr_Selected','Position','LineType','Item','SupplierCode','Description','Qty','QtyToReceipt','ReceiptQty','PaidQty','UoM','UnitValue','ExpectedDeliveryDate','ConfirmedDeliveryDate','Delivered','Paid','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoDN','NoInvoice','Lot','Job'],'PurchaseOrdSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
+        		this.bo.appendToModelStructure({'GoodsRecPurchaseOrderLoading':['InternalOrdNo','OrderDate','ExpectedDeliveryDate','Supplier','Payment','Currency','OurReference','YourReference','Notes'],'HKLSuppGoodsRecPurchaseOrder':['CompNameComplete'],'HKLPaymentTerms':['Description'],'HKLCurrencies':['Description'],'global':['Detail'],'Detail':['PurchaseOr_Selected','Position','LineType','Item','SupplierCode','Description','Qty','QtyToReceipt','ReceiptQty','PaidQty','UoM','UnitValue','ExpectedDeliveryDate','ConfirmedDeliveryDate','Delivered','Paid','TaxableAmount','DiscountFormula','TaxCode','NoPrint','NoDN','NoInvoice','Lot','Job'],'PurchaseOrdSummaryLoading':['GoodsAmount','ServiceAmounts','GeneralDiscountTot','PayableAmount','PayableAmountInBaseCurr']});
 
     }
 

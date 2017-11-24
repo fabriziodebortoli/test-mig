@@ -10,7 +10,7 @@ import { IDD_RETURNREASONService } from './IDD_RETURNREASON.service';
     providers: [IDD_RETURNREASONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_RETURNREASONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_RETURNREASONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_RETURNREASONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_RETURNREASONComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ReturnReason':['ReturnReason','Description','Purchases','Sales'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ReturnReason':['ReturnReason','Description','Purchases','Sales'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_NUMERATOR_NOT_FISCALService } from './IDD_NUMERATOR_NOT_FISCAL.serv
     providers: [IDD_NUMERATOR_NOT_FISCALService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_NUMERATOR_NOT_FISCALComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_NUMERATOR_NOT_FISCALComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_NONOEND_PREFIXFORMAT_itemSource: any;
 
     constructor(document: IDD_NUMERATOR_NOT_FISCALService,
@@ -20,7 +20,7 @@ export class IDD_NUMERATOR_NOT_FISCALComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_NUMERATOR_NOT_FISCALComponent extends BOComponent implements On
   "namespace": "ERP.IdsMng.Services.TypeNoPrefixEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'NonFiscalNumbers':['CodeType','DisableManualMod','LastDocDate','LastDocNo','PrefixFormat','Separators','Suffix','SuffixChars','PrefixWithSiteCode'],'global':['ExtendedNo','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'NonFiscalNumbers':['CodeType','DisableManualMod','LastDocDate','LastDocNo','PrefixFormat','Separators','Suffix','SuffixChars','PrefixWithSiteCode'],'global':['ExtendedNo','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

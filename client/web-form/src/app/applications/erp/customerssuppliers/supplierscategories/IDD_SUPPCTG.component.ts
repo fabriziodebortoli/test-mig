@@ -10,7 +10,7 @@ import { IDD_SUPPCTGService } from './IDD_SUPPCTG.service';
     providers: [IDD_SUPPCTGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SUPPCTGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SUPPCTGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SUPPCTGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SUPPCTGComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'SuppliersCategories':['Category','Description','Notes'],'global':['Form','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Form':['DocumentNamespace','ReportNamespace','ReportDescription']});
+        		this.bo.appendToModelStructure({'SuppliersCategories':['Category','Description','Notes'],'global':['Form','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Form':['DocumentNamespace','ReportNamespace','ReportDescription']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_CS_SUMMARIZEDService } from './IDD_CS_SUMMARIZED.service';
     providers: [IDD_CS_SUMMARIZEDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CS_SUMMARIZEDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CS_SUMMARIZEDComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CS_REGION_itemSource: any;
 public IDC_CS_STATUS_itemSource: any;
 public IDC_CS_FP_COUNTYOFBIRTH_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_CS_FP_COUNTYOFBIRTH_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -43,8 +43,7 @@ this.IDC_CS_FP_COUNTYOFBIRTH_itemSource = {
   "parameter": "DataFile.ERP.Company.County"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CustomersSuppliers':['CustSupp','CompanyName','Draft','IsCustoms','TitleCode','NaturalPerson','ISOCountryCode','CustSuppKind','FiscalCode','TaxIdNumber','InsertionDate','ActivityCode','FantasyName','Address','Address2','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingPosition','WorkingTime','EMail','CertifiedEMail','SkypeID','Internet','Payment','CustSuppBank','Currency','InCurrency','UsedForSummaryDocuments','Account','ChambOfCommRegistrNo','UsedForSummaryDocuments','Account','ChambOfCommRegistrNo','InvoiceAccTpl','CreditNoteAccTpl','CustSupp','CompanyName','Draft','IsCustoms','TitleCode','NaturalPerson','ISOCountryCode','CustSuppKind','FiscalCode','TaxIdNumber','InsertionDate','ActivityCode','FantasyName','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Latitude','Longitude','TaxpayerType','FedStateReg','MunicipalityReg','GenRegNo','GenRegEntity','SUFRAMA','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingPosition','WorkingTime','EMail','CertifiedEMail','SkypeID','Internet','Payment','CustSuppBank','Currency','InCurrency'],'HKLTitles':['Description','Description'],'global':['FiscalCodeCalculate','FiscalCodeCalculate','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLActivityCode':['Description','Description'],'NaturalPerson':['LastName','Name','Professional','Gender','DateOfBirth','ISOCountryCodeOfBirth','CityOfBirth','CountyOfBirth','LastName','Name','Professional','Gender','DateOfBirth','ISOCountryCodeOfBirth','CityOfBirth','CountyOfBirth'],'HKLPaymentTerms':['Description','Description'],'HKLCustSuppBank':['Description','Description'],'HKLCurrencies':['Description','Description'],'Options':['TaxCode','ExemptFromTax','AdditionalTax','IsAPrivatePerson','SuspendedTax','PublicAuthority','PASplitPayment','PASplitPayment','WithholdingTaxManagement','WithholdingTaxBasePerc','WithholdingTaxPerc','TaxCode','ExemptFromTax','SuspendedTax'],'HKLTax':['Description','Description'],'HKLChartOfAccounts':['Description','Description']});
+        		this.bo.appendToModelStructure({'CustomersSuppliers':['CustSupp','CompanyName','Draft','IsCustoms','TitleCode','NaturalPerson','ISOCountryCode','CustSuppKind','FiscalCode','TaxIdNumber','InsertionDate','ActivityCode','FantasyName','Address','Address2','City','ZIPCode','County','Region','Country','Latitude','Longitude','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingPosition','WorkingTime','EMail','CertifiedEMail','SkypeID','Internet','Payment','CustSuppBank','Currency','InCurrency','UsedForSummaryDocuments','Account','ChambOfCommRegistrNo','UsedForSummaryDocuments','Account','ChambOfCommRegistrNo','InvoiceAccTpl','CreditNoteAccTpl','CustSupp','CompanyName','Draft','IsCustoms','TitleCode','NaturalPerson','ISOCountryCode','CustSuppKind','FiscalCode','TaxIdNumber','InsertionDate','ActivityCode','FantasyName','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Latitude','Longitude','TaxpayerType','FedStateReg','MunicipalityReg','GenRegNo','GenRegEntity','SUFRAMA','Telephone1','Telephone2','Telex','Fax','ContactPerson','WorkingPosition','WorkingTime','EMail','CertifiedEMail','SkypeID','Internet','Payment','CustSuppBank','Currency','InCurrency'],'HKLTitles':['Description','Description'],'global':['FiscalCodeCalculate','FiscalCodeCalculate','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'HKLActivityCode':['Description','Description'],'NaturalPerson':['LastName','Name','Professional','Gender','DateOfBirth','ISOCountryCodeOfBirth','CityOfBirth','CountyOfBirth','LastName','Name','Professional','Gender','DateOfBirth','ISOCountryCodeOfBirth','CityOfBirth','CountyOfBirth'],'HKLPaymentTerms':['Description','Description'],'HKLCustSuppBank':['Description','Description'],'HKLCurrencies':['Description','Description'],'Options':['TaxCode','ExemptFromTax','AdditionalTax','IsAPrivatePerson','SuspendedTax','PublicAuthority','PASplitPayment','PASplitPayment','WithholdingTaxManagement','WithholdingTaxBasePerc','WithholdingTaxPerc','TaxCode','ExemptFromTax','SuspendedTax'],'HKLTax':['Description','Description'],'HKLChartOfAccounts':['Description','Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTIONService } from './IDD
     providers: [IDD_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WMS_INVENTORYBIN_PLANNING_ASSIGNZONE_SELECTIONComponent extends
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllZone','bSelZone','FromZone','ToZone','bOnlyZoneNotInventoriedFrom','ZoneNotInventoriedFromDate','bAllBin','bSelBin','FromBin','ToBin','bOnlySuspectBin','bOnlyBinNotInventoriedFrom','BinNotInventoriedFromDate']});
+        		this.bo.appendToModelStructure({'global':['bAllZone','bSelZone','FromZone','ToZone','bOnlyZoneNotInventoriedFrom','ZoneNotInventoriedFromDate','bAllBin','bSelBin','FromBin','ToBin','bOnlySuspectBin','bOnlyBinNotInventoriedFrom','BinNotInventoriedFromDate']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_CONVPRECISIONTIMEService } from './IDD_CONVPRECISIONTIME.service';
     providers: [IDD_CONVPRECISIONTIMEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONVPRECISIONTIMEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONVPRECISIONTIMEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CONVPRECISIONTIME_CURRENT_itemSource: any;
 public IDC_CONVPRECISIONTIME_NEW_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_CONVPRECISIONTIME_NEW_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_CONVPRECISIONTIME_NEW_itemSource = {
   "namespace": "ERP.Company.Services.PrecisionSecondParamCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['lCurrentPrecision','lNewPrecision','bMatRoundSel','bCuttSel','bSupSel','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['lCurrentPrecision','lNewPrecision','bMatRoundSel','bCuttSel','bSupSel','nCurrentElement','GaugeDescription']});
 
     }
 

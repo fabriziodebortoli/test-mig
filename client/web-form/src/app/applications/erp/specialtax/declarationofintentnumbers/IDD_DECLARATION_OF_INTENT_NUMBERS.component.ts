@@ -10,7 +10,7 @@ import { IDD_DECLARATION_OF_INTENT_NUMBERSService } from './IDD_DECLARATION_OF_I
     providers: [IDD_DECLARATION_OF_INTENT_NUMBERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DECLARATION_OF_INTENT_NUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DECLARATION_OF_INTENT_NUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DECLARATION_OF_INTENT_NUMBERSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DECLARATION_OF_INTENT_NUMBERSComponent extends BOComponent impl
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DeclarationOfIntentNumbers':['Received','LastDate','LastLogNo','Suffix','LastPrintingDate','DefinitivelyPrinted'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'DeclarationOfIntentNumbers':['Received','LastDate','LastLogNo','Suffix','LastPrintingDate','DefinitivelyPrinted'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

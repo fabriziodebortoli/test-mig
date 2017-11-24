@@ -10,7 +10,7 @@ import { IDD_DJEService } from './IDD_DJE.service';
     providers: [IDD_DJEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DJEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DJEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DJEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DJEComponent extends BOComponent implements OnInit, OnDestroy {
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['YearDescription','Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'GLJournalTotals':['BalanceYear','BalanceMonth','LastPrintingDate','DefinitivelyPrinted','Updated','NoOfPrintedLines','LastPage','Debit','Credit']});
+        		this.bo.appendToModelStructure({'global':['YearDescription','Currency','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'GLJournalTotals':['BalanceYear','BalanceMonth','LastPrintingDate','DefinitivelyPrinted','Updated','NoOfPrintedLines','LastPage','Debit','Credit']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_DEFAULTService } from './IDD_DEFAULT.service';
     providers: [IDD_DEFAULTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DEFAULTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DEFAULTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DEFAULTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DEFAULTComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['PurchasesTaxAccounts','SalesTaxAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PurchasesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLPurchasesTaxCode':['Description'],'HKLPurchasesTaxAccounts':['Description'],'HKLPurchasesSuspendedTaxAccounts':['Description'],'SalesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLSalesTaxCode':['Description'],'HKLSalesTaxAccounts':['Description'],'HKLSalesSuspendedTaxAccounts':['Description']});
+        		this.bo.appendToModelStructure({'global':['PurchasesTaxAccounts','SalesTaxAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'PurchasesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLPurchasesTaxCode':['Description'],'HKLPurchasesTaxAccounts':['Description'],'HKLPurchasesSuspendedTaxAccounts':['Description'],'SalesTaxAccounts':['l_All','TaxCode','TaxAccount','TaxSuspendedAccount'],'HKLSalesTaxCode':['Description'],'HKLSalesTaxAccounts':['Description'],'HKLSalesSuspendedTaxAccounts':['Description']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_LOCATIONSService } from './IDD_LOCATIONS.service';
     providers: [IDD_LOCATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOCATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOCATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOCATIONSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOCATIONSComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Location':['Location','Description','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'Location':['Location','Description','Notes'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

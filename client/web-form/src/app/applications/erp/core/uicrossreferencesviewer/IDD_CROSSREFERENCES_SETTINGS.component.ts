@@ -10,7 +10,7 @@ import { IDD_CROSSREFERENCES_SETTINGSService } from './IDD_CROSSREFERENCES_SETTI
     providers: [IDD_CROSSREFERENCES_SETTINGSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CROSSREFERENCES_SETTINGSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CROSSREFERENCES_SETTINGSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CROSSREFERENCES_SETTINGSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CROSSREFERENCES_SETTINGSComponent extends BOComponent implement
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({});
+        		this.bo.appendToModelStructure({});
 
     }
 

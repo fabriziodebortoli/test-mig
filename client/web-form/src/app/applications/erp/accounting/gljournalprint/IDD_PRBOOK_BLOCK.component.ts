@@ -10,7 +10,7 @@ import { IDD_PRBOOK_BLOCKService } from './IDD_PRBOOK_BLOCK.service';
     providers: [IDD_PRBOOK_BLOCKService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRBOOK_BLOCKComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRBOOK_BLOCKComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRBOOK_BLOCKService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PRBOOK_BLOCKComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Month']});
+        		this.bo.appendToModelStructure({'global':['Month']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_DUTYCODESService } from './IDD_DUTYCODES.service';
     providers: [IDD_DUTYCODESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DUTYCODESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DUTYCODESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_DUTYCODES_LETTER770_itemSource: any;
 
     constructor(document: IDD_DUTYCODESService,
@@ -20,7 +20,7 @@ export class IDD_DUTYCODESComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,8 +31,7 @@ export class IDD_DUTYCODESComponent extends BOComponent implements OnInit, OnDes
   "parameter": "DataFile.ERP.Payees.ReasonCU"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ContributionRsn':['DutyType','Reason','Description','WithholdingTaxDebitForDuty','Form770Letter','NeedMonth'],'HKLPdWithholdingTaxDebit':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ContributionRsn':['DutyType','Reason','Description','WithholdingTaxDebitForDuty','Form770Letter','NeedMonth'],'HKLPdWithholdingTaxDebit':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

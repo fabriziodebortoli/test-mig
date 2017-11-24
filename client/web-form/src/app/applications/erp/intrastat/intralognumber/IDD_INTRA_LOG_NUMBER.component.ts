@@ -10,7 +10,7 @@ import { IDD_INTRA_LOG_NUMBERService } from './IDD_INTRA_LOG_NUMBER.service';
     providers: [IDD_INTRA_LOG_NUMBERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INTRA_LOG_NUMBERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INTRA_LOG_NUMBERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INTRA_LOG_NUMBERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_INTRA_LOG_NUMBERComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['IntraLogNumberDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IntraLogNumberDetails':['BalanceYear','BalanceMonth','Dispatches','LogNo','SendingDate','TEnhIntraLogNumberDetail_P1']});
+        		this.bo.appendToModelStructure({'global':['IntraLogNumberDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'IntraLogNumberDetails':['BalanceYear','BalanceMonth','Dispatches','LogNo','SendingDate','TEnhIntraLogNumberDetail_P1']});
 
     }
 

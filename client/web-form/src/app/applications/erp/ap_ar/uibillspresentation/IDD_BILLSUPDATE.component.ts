@@ -10,7 +10,7 @@ import { IDD_BILLSUPDATEService } from './IDD_BILLSUPDATE.service';
     providers: [IDD_BILLSUPDATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BILLSUPDATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BILLSUPDATEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BILLSUPDATEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BILLSUPDATEComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Bills','TotalAmount'],'Bills':['l_TEnhBills_P01','l_TEnhBills_P08','l_TEnhBills_P13','Amount','l_TEnhBills_P04']});
+        		this.bo.appendToModelStructure({'global':['Bills','TotalAmount'],'Bills':['l_TEnhBills_P01','l_TEnhBills_P08','l_TEnhBills_P13','Amount','l_TEnhBills_P04']});
 
     }
 

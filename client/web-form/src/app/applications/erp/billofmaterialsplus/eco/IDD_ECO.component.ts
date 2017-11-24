@@ -10,7 +10,7 @@ import { IDD_ECOService } from './IDD_ECO.service';
     providers: [IDD_ECOService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ECOComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ECOComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ECO_ROW_TYPE_PROD_COMPONENT_itemSource: any;
 public IDC_ECO_ROW_UOM_itemSource: any;
 public IDC_ECO_ROW_STEP_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -45,8 +45,7 @@ this.IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource = {
   "namespace": "ERP.Routing.Components.LabourLabourTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'BillOfMaterials':['ECONo','ECORevision','ECOAutomaticallyGenerated','BOM','Description','ECOCreationDate','Variant','ECOConfirmationDate','ECORevision','ECOAutomaticallyGenerated','Description','ECOCreationDate','UoM','Disabled','SF','UsePercQty','SalesDocOnly','Configurable','InProduction','CreationDate','LastModificationDate','DwgDrawing','DwgPosition','DwgNotes','ECOExecutionDate','ECOExecutionSignature','ECOApprovalDate','ECOApprovalSignature','ECOCheckDate','ECOCheckSignature','ECONotes','ECOImagePath'],'global':['ECOStatusDescription','ImageStatusECO','DesignBOMOld','DesignBOM','BOMComponents','BOMRoutings','__DBTLabour','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ECOHistory':['UoM','Disabled','SF','UsePercQty','SalesDocOnly','Configurable','InProduction','DwgDrawing','DwgPosition','DwgNotes'],'HKLECODrawings':['Description','Description'],'BOMComponents':['Bmp','VariationType','ECOLine','ComponentType','Semifinished','ValidityStartingDate','ValidityEndingDate','UseInOperation','IsKanban'],'BOMRoutings':['Bmp','BmpType','VariationType'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'HKLECOTeamsExec':['Description'],'HKLECOTeamsAppr':['Description'],'HKLECOTeamsCheck':['Description']});
+        		this.bo.appendToModelStructure({'BillOfMaterials':['ECONo','ECORevision','ECOAutomaticallyGenerated','BOM','Description','ECOCreationDate','Variant','ECOConfirmationDate','ECORevision','ECOAutomaticallyGenerated','Description','ECOCreationDate','UoM','Disabled','SF','UsePercQty','SalesDocOnly','Configurable','InProduction','CreationDate','LastModificationDate','DwgDrawing','DwgPosition','DwgNotes','ECOExecutionDate','ECOExecutionSignature','ECOApprovalDate','ECOApprovalSignature','ECOCheckDate','ECOCheckSignature','ECONotes','ECOImagePath'],'global':['ECOStatusDescription','ImageStatusECO','DesignBOMOld','DesignBOM','BOMComponents','BOMRoutings','__DBTLabour','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'ECOHistory':['UoM','Disabled','SF','UsePercQty','SalesDocOnly','Configurable','InProduction','DwgDrawing','DwgPosition','DwgNotes'],'HKLECODrawings':['Description','Description'],'BOMComponents':['Bmp','VariationType','ECOLine','ComponentType','Semifinished','ValidityStartingDate','ValidityEndingDate','UseInOperation','IsKanban'],'BOMRoutings':['Bmp','BmpType','VariationType'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'HKLECOTeamsExec':['Description'],'HKLECOTeamsAppr':['Description'],'HKLECOTeamsCheck':['Description']});
 
     }
 

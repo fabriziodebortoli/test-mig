@@ -10,7 +10,7 @@ import { IDD_INVENTRY_LOADService } from './IDD_INVENTRY_LOAD.service';
     providers: [IDD_INVENTRY_LOADService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_INVENTRY_LOADComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_INVENTRY_LOADComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_INVENTRY_LOADService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_INVENTRY_LOADComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'InvEntriesLoading':['InvRsn','CustSuppType','CustSupp','PreprintedDocNo','DocumentDate','PostingDate','DocNo','Currency'],'HKLInvRsn':['Description'],'HKLCustSupp':['CompanyName'],'HKLCurrencies':['Description'],'global':['InvEntriesDetailLoading'],'InvEntriesDetailLoading':['Selected','Item','Variant','Description','UoM','Qty','UnitValue'],'HKLItems':['Description']});
+        		this.bo.appendToModelStructure({'InvEntriesLoading':['InvRsn','CustSuppType','CustSupp','PreprintedDocNo','DocumentDate','PostingDate','DocNo','Currency'],'HKLInvRsn':['Description'],'HKLCustSupp':['CompanyName'],'HKLCurrencies':['Description'],'global':['InvEntriesDetailLoading'],'InvEntriesDetailLoading':['Selected','Item','Variant','Description','UoM','Qty','UnitValue'],'HKLItems':['Description']});
 
     }
 

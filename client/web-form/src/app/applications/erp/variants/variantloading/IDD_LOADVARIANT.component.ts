@@ -10,7 +10,7 @@ import { IDD_LOADVARIANTService } from './IDD_LOADVARIANT.service';
     providers: [IDD_LOADVARIANTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOADVARIANTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOADVARIANTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOADVARIANTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOADVARIANTComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ComponentsVariantToCopy','RoutingVariantToCopy'],'ComponentsVariantToCopy':['Sel','SubstType','Component','Description','ComponentVariant','Qty','UoM','FixedComponent','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate','DNRtgStep'],'RoutingVariantToCopy':['Sel','SubstType','RtgStep','Alternate','AltRtgStep','Operation','WC','SetupTime','ProcessingTime','TotalTime','Quantity','QueueTime']});
+        		this.bo.appendToModelStructure({'global':['ComponentsVariantToCopy','RoutingVariantToCopy'],'ComponentsVariantToCopy':['Sel','SubstType','Component','Description','ComponentVariant','Qty','UoM','FixedComponent','ScrapQty','ScrapUM','ValidityStartingDate','ValidityEndingDate','DNRtgStep'],'RoutingVariantToCopy':['Sel','SubstType','RtgStep','Alternate','AltRtgStep','Operation','WC','SetupTime','ProcessingTime','TotalTime','Quantity','QueueTime']});
 
     }
 

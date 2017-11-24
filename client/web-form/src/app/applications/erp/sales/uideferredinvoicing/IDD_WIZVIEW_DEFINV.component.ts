@@ -10,7 +10,7 @@ import { IDD_WIZVIEW_DEFINVService } from './IDD_WIZVIEW_DEFINV.service';
     providers: [IDD_WIZVIEW_DEFINVService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WIZVIEW_DEFINVComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WIZVIEW_DEFINVComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WIZVIEW_DEFINVService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WIZVIEW_DEFINVComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FullfillmentStartingDate','FullfillmentEndingDate','FullfillmentAllCustomer','FullfillmentCustomerSel','FullfillmentFromCustomer','FullfillmentToCustomer','FullfillmentAllDocNo','FullfillmentDocNoSel','FullfillmentFromDocNo','FullfillmentToDocNo','FullfillmentAllStubBooks','FullfillmentStubBooksSelection','FullfillmentFromStubBook','FullfillmentToStubBook','FullfillmentAllTaxJournal','FullfillmentTaxJournalSel','FullfillmentFromTaxJournal','FullfillmentToTaxJournal','FullfillmentAllGroup','FullfillmentGroupSel','FullfillmentGroupCode','FullfillmentAllStorage2','FullfillmentStorage2Sel','FullfillmentFromStorage2','FullfillmentToStorage2','FullfillmentAllSalesPeople','FullfillmentSalesPeopleSel','FullfillmentFromSalesperson','FullfillmentToSalesperson','DeferredInvoicing','OperationDate','DefInvLastData','TrialDefInv','PrintMail','eMailAddressType','PrintPostaLite','bOneInvoicePerDN','nCurrentElement','GaugeDescription','ProgressViewer'],'DeferredInvoicing':['Inv','CustSupp','CustDescription','InvoicingCustomer','InvoicingCustDescription','StoragePhase2','Payment','Salesperson','DepartureDate','DocumentDate','DocNo','StubBook','InvoicingTaxJournal','Currency','SendDocumentsTo','Job','CostCenter','DocumentType'],'DefInvLastData':['Title','Value'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'global':['FullfillmentStartingDate','FullfillmentEndingDate','FullfillmentAllCustomer','FullfillmentCustomerSel','FullfillmentFromCustomer','FullfillmentToCustomer','FullfillmentAllDocNo','FullfillmentDocNoSel','FullfillmentFromDocNo','FullfillmentToDocNo','FullfillmentAllStubBooks','FullfillmentStubBooksSelection','FullfillmentFromStubBook','FullfillmentToStubBook','FullfillmentAllTaxJournal','FullfillmentTaxJournalSel','FullfillmentFromTaxJournal','FullfillmentToTaxJournal','FullfillmentAllGroup','FullfillmentGroupSel','FullfillmentGroupCode','FullfillmentAllStorage2','FullfillmentStorage2Sel','FullfillmentFromStorage2','FullfillmentToStorage2','FullfillmentAllSalesPeople','FullfillmentSalesPeopleSel','FullfillmentFromSalesperson','FullfillmentToSalesperson','DeferredInvoicing','OperationDate','DefInvLastData','TrialDefInv','PrintMail','eMailAddressType','PrintPostaLite','bOneInvoicePerDN','nCurrentElement','GaugeDescription','ProgressViewer'],'DeferredInvoicing':['Inv','CustSupp','CustDescription','InvoicingCustomer','InvoicingCustDescription','StoragePhase2','Payment','Salesperson','DepartureDate','DocumentDate','DocNo','StubBook','InvoicingTaxJournal','Currency','SendDocumentsTo','Job','CostCenter','DocumentType'],'DefInvLastData':['Title','Value'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_LOT_SERIAL_PARAMETERSService } from './IDD_LOT_SERIAL_PARAMETERS.se
     providers: [IDD_LOT_SERIAL_PARAMETERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOT_SERIAL_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOT_SERIAL_PARAMETERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOT_SERIAL_PARAMETERSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOT_SERIAL_PARAMETERSComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

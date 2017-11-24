@@ -10,7 +10,7 @@ import { IDD_MO_FROM_CONFIRMService } from './IDD_MO_FROM_CONFIRM.service';
     providers: [IDD_MO_FROM_CONFIRMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MO_FROM_CONFIRMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MO_FROM_CONFIRMComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MO_FROM_CONFIRM_CODETYPE_SPECIFICATOR_itemSource: any;
 
     constructor(document: IDD_MO_FROM_CONFIRMService,
@@ -20,7 +20,7 @@ export class IDD_MO_FROM_CONFIRMComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_MO_FROM_CONFIRMComponent extends BOComponent implements OnInit,
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SubcntBoLMOStepsList'],'SubcntBoLMOStepsList':['Selection','StateBmp','MONo','RtgStep','Alternate','AltRtgStep','ProductionQty','ProducedQty','MOToConfQtyToConfirm','UoM','MOStatus','MOToConfConfirm','BOM','Variant','MOToConfProducedQty','Storage','MOToConfSpecificatorType','MOToConfSpecificator','ToIssueProductionQuantity','SecondRate','SecondRateVariant','MOToConfSecondRateQuantity','SecondRateStorage','Scrap','ScrapVariant','MOToConfScrapDescri','MOToConfScrapQuantity','ScrapStorage','Job'],'HKLSecondRate':['Description']});
+        		this.bo.appendToModelStructure({'global':['SubcntBoLMOStepsList'],'SubcntBoLMOStepsList':['Selection','StateBmp','MONo','RtgStep','Alternate','AltRtgStep','ProductionQty','ProducedQty','MOToConfQtyToConfirm','UoM','MOStatus','MOToConfConfirm','BOM','Variant','MOToConfProducedQty','Storage','MOToConfSpecificatorType','MOToConfSpecificator','ToIssueProductionQuantity','SecondRate','SecondRateVariant','MOToConfSecondRateQuantity','SecondRateStorage','Scrap','ScrapVariant','MOToConfScrapDescri','MOToConfScrapQuantity','ScrapStorage','Job'],'HKLSecondRate':['Description']});
 
     }
 

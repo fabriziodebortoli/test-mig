@@ -10,7 +10,7 @@ import { IDD_TRAVELAGENCY_TAXService } from './IDD_TRAVELAGENCY_TAX.service';
     providers: [IDD_TRAVELAGENCY_TAXService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TRAVELAGENCY_TAXComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TRAVELAGENCY_TAXComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TRAVELAGENCY_TAXService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TRAVELAGENCY_TAXComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'TravelAgencyTaxData':['BalanceYear','BalanceMonth','PeriodRevenue','PeriodCost','ActualPeriodCreditCost'],'global':['PreviousPeriodCost','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'TravelAgencyTaxData':['BalanceYear','BalanceMonth','PeriodRevenue','PeriodCost','ActualPeriodCreditCost'],'global':['PreviousPeriodCost','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

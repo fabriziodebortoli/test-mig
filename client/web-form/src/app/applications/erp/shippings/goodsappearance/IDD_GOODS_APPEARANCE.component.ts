@@ -10,7 +10,7 @@ import { IDD_GOODS_APPEARANCEService } from './IDD_GOODS_APPEARANCE.service';
     providers: [IDD_GOODS_APPEARANCEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_GOODS_APPEARANCEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_GOODS_APPEARANCEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_GOODS_APPEARANCEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_GOODS_APPEARANCEComponent extends BOComponent implements OnInit
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'GoodsAppearance':['Appearance','Description'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'GoodsAppearance':['Appearance','Description'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

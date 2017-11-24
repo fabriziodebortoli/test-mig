@@ -10,7 +10,7 @@ import { IDD_BOECOLLECTIONService } from './IDD_BOECOLLECTION.service';
     providers: [IDD_BOECOLLECTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOECOLLECTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOECOLLECTIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BOECOLLECTIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BOECOLLECTIONComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DueDate','Customer','FiscalNo','PresentationDate','Bank','CA','PostingDate','DocDate','NrDoc','Charges','Bills','TotalAmount'],'Bills':['l_P1','FiscalNo','Supplier','Customer','l_P2','DueDate','BillType','BillStatus','Amount','l_P5','l_P6','l_P3','Supplier','l_P7','l_P8','l_P4']});
+        		this.bo.appendToModelStructure({'global':['DueDate','Customer','FiscalNo','PresentationDate','Bank','CA','PostingDate','DocDate','NrDoc','Charges','Bills','TotalAmount'],'Bills':['l_P1','FiscalNo','Supplier','Customer','l_P2','DueDate','BillType','BillStatus','Amount','l_P5','l_P6','l_P3','Supplier','l_P7','l_P8','l_P4']});
 
     }
 

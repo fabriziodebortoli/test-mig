@@ -10,7 +10,7 @@ import { IDD_ASSAUTService } from './IDD_ASSAUT.service';
     providers: [IDD_ASSAUTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ASSAUTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ASSAUTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ASSAUTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ASSAUTComponent extends BOComponent implements OnInit, OnDestro
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Template','ChargeCategory','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','Template','ChargeCategory','nCurrentElement','GaugeDescription']});
 
     }
 

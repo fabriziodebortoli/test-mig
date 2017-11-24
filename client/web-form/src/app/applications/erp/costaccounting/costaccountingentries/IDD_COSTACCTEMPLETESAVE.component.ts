@@ -10,7 +10,7 @@ import { IDD_COSTACCTEMPLETESAVEService } from './IDD_COSTACCTEMPLETESAVE.servic
     providers: [IDD_COSTACCTEMPLETESAVEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCTEMPLETESAVEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCTEMPLETESAVEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COSTACCTEMPLETESAVEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COSTACCTEMPLETESAVEComponent extends BOComponent implements OnI
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Account'],'HKLAccount':['Description']});
+        		this.bo.appendToModelStructure({'global':['Account'],'HKLAccount':['Description']});
 
     }
 

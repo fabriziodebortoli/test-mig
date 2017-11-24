@@ -10,7 +10,7 @@ import { IDD_SALE_ORDER_ALLOCATION_DETAILService } from './IDD_SALE_ORDER_ALLOCA
     providers: [IDD_SALE_ORDER_ALLOCATION_DETAILService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALE_ORDER_ALLOCATION_DETAILComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALE_ORDER_ALLOCATION_DETAILComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALE_ORDER_ALLOCATION_DETAILService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SALE_ORDER_ALLOCATION_DETAILComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['SaleOrdNo','SaleOrdersAllocation'],'SaleOrdersAllocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Lot','Qty','AllocableQty','AllocatedQty','DeliveredQty','BaseUoM','AvailableQty','ProgressiveAvailableQty','AreaQty','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate']});
+        		this.bo.appendToModelStructure({'global':['SaleOrdNo','SaleOrdersAllocation'],'SaleOrdersAllocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Lot','Qty','AllocableQty','AllocatedQty','DeliveredQty','BaseUoM','AvailableQty','ProgressiveAvailableQty','AreaQty','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate']});
 
     }
 

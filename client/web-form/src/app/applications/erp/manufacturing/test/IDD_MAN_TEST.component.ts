@@ -10,7 +10,7 @@ import { IDD_MAN_TESTService } from './IDD_MAN_TEST.service';
     providers: [IDD_MAN_TESTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MAN_TESTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MAN_TESTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_MAN_TESTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_MAN_TESTComponent extends BOComponent implements OnInit, OnDest
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['sBom','QtyBom','sComponent','sComponent2','QtyComp','QtyComp2','sLot','sLot2','sSaleOrder','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['sBom','QtyBom','sComponent','sComponent2','QtyComp','QtyComp2','sLot','sLot2','sSaleOrder','nCurrentElement','GaugeDescription']});
 
     }
 

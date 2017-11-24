@@ -10,7 +10,7 @@ import { IDD_PRINT_SALEORDService } from './IDD_PRINT_SALEORD.service';
     providers: [IDD_PRINT_SALEORDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINT_SALEORDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINT_SALEORDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRINT_SALEORDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PRINT_SALEORDComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','AllPriority','PrioritySel','FromPriority','ToPriority','AllSalePeop','SalePeopSel','FromSalesperson','ToSalesperson','NotInvoiced','Invoiced','AllInvoiced','NotDelivered','Delivered','AllDelivered','NotCancelled','Cancelled','AllCancelled','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedByCustomer','OrderedByNo','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllCustomer','CustomerSel','FromCustomer','ToCustomer','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','AllPriority','PrioritySel','FromPriority','ToPriority','AllSalePeop','SalePeopSel','FromSalesperson','ToSalesperson','NotInvoiced','Invoiced','AllInvoiced','NotDelivered','Delivered','AllDelivered','NotCancelled','Cancelled','AllCancelled','NoPrinted','Printed','AllPrinted','MailNo','MailYes','AllMailed','PostaLiteNo','PostaLiteYes','AllPostaLite','PrintMail','PrintPostaLite','OrderedByCustomer','OrderedByNo','nCurrentElement','GaugeDescription']});
 
     }
 

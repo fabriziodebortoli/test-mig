@@ -10,7 +10,7 @@ import { IDD_ECODELETIONService } from './IDD_ECODELETION.service';
     providers: [IDD_ECODELETIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ECODELETIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ECODELETIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ECODELETIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ECODELETIONComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bNotItemSelection','bItemSelection','ItemFrom','ItemTo','bNotVariantSelection','bVariantSelection','VariantFrom','VariantTo','bNotECOSelection','bECOSelection','ECOFrom','bNotDateSelection','bDateSelection','DateFrom','bAllECO','bOnlyAuto','ECODeletions'],'ECODeletions':['ECODelSelected','ECODelBmp','ECONo','ECORevision','ECOStatus','ECOAutomaticallyGenerated','BOM','BOM','Variant','Description','ECOCreationDate','ECOConfirmationDate','ECOExecutionDate','ECOExecutionSignature','ECOCheckDate','ECOCheckSignature','ECOApprovalDate','ECOApprovalSignature','ECONotes']});
+        		this.bo.appendToModelStructure({'global':['bNotItemSelection','bItemSelection','ItemFrom','ItemTo','bNotVariantSelection','bVariantSelection','VariantFrom','VariantTo','bNotECOSelection','bECOSelection','ECOFrom','bNotDateSelection','bDateSelection','DateFrom','bAllECO','bOnlyAuto','ECODeletions'],'ECODeletions':['ECODelSelected','ECODelBmp','ECONo','ECORevision','ECOStatus','ECOAutomaticallyGenerated','BOM','BOM','Variant','Description','ECOCreationDate','ECOConfirmationDate','ECOExecutionDate','ECOExecutionSignature','ECOCheckDate','ECOCheckSignature','ECOApprovalDate','ECOApprovalSignature','ECONotes']});
 
     }
 

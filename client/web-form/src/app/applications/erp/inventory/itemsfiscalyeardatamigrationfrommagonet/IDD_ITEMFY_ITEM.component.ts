@@ -10,7 +10,7 @@ import { IDD_ITEMFY_ITEMService } from './IDD_ITEMFY_ITEM.service';
     providers: [IDD_ITEMFY_ITEMService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMFY_ITEMComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMFY_ITEMComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMFY_ITEMService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ITEMFY_ITEMComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','nCurrentElement','GaugeDescription']});
 
     }
 

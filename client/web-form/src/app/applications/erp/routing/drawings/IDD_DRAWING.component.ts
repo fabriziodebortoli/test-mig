@@ -10,7 +10,7 @@ import { IDD_DRAWINGService } from './IDD_DRAWING.service';
     providers: [IDD_DRAWINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DRAWINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DRAWINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DRAWINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DRAWINGComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Drawings':['Drawing','Description','DerivedFrom','Notes','Item','PreferredDrawing','Revision','FilePath','DateOfSignature','ApprovalSignature','BarCode'],'HKLDrawings':['Description'],'HKLItems':['Description'],'global':['DrawingsRevisions','DrawingsDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DrawingsRevisions':['Notes'],'DrawingsDescription':['Language','Description']});
+        		this.bo.appendToModelStructure({'Drawings':['Drawing','Description','DerivedFrom','Notes','Item','PreferredDrawing','Revision','FilePath','DateOfSignature','ApprovalSignature','BarCode'],'HKLDrawings':['Description'],'HKLItems':['Description'],'global':['DrawingsRevisions','DrawingsDescription','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DrawingsRevisions':['Notes'],'DrawingsDescription':['Language','Description']});
 
     }
 

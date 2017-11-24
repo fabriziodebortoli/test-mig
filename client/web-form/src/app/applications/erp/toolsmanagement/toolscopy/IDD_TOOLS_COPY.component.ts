@@ -10,7 +10,7 @@ import { IDD_TOOLS_COPYService } from './IDD_TOOLS_COPY.service';
     providers: [IDD_TOOLS_COPYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLS_COPYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLS_COPYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TOOLS_COPYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TOOLS_COPYComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OldTool','NewTool','bCopyInFamilies','bSetNewDisabled','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['OldTool','NewTool','bCopyInFamilies','bSetNewDisabled','nCurrentElement','GaugeDescription']});
 
     }
 

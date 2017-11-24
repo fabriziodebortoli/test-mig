@@ -10,7 +10,7 @@ import { IDD_FDLService } from './IDD_FDL.service';
     providers: [IDD_FDLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_FDLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_FDLComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_FDL_PROVIDER_itemSource: any;
 
     constructor(document: IDD_FDLService,
@@ -20,7 +20,7 @@ export class IDD_FDLComponent extends BOComponent implements OnInit, OnDestroy {
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_FDLComponent extends BOComponent implements OnInit, OnDestroy {
   "namespace": "ERP.Currencies.BatchDocuments.FixingProviderCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['strComboProvider','RequestedDate','DownloadedFixingDate','BaseCurrency','BaseCurrencyDescri','FixingDownload'],'FixingDownload':['l_Selected','ReferredCurrency','l_ReferredCurrencyDescription','FixingDate','FixingDate','l_InternationalCode','Fixing','l_NewFixing']});
+        		this.bo.appendToModelStructure({'global':['strComboProvider','RequestedDate','DownloadedFixingDate','BaseCurrency','BaseCurrencyDescri','FixingDownload'],'FixingDownload':['l_Selected','ReferredCurrency','l_ReferredCurrencyDescription','FixingDate','FixingDate','l_InternationalCode','Fixing','l_NewFixing']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_BOLETOSISSUINGPRINTINGService } from './IDD_BOLETOSISSUINGPRINTING.
     providers: [IDD_BOLETOSISSUINGPRINTINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOLETOSISSUINGPRINTINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOLETOSISSUINGPRINTINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BOLETOSISSUINGPRINTINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BOLETOSISSUINGPRINTINGComponent extends BOComponent implements 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['OperationType','bReprint','AllCustomers','SelCustomer','FromCust','ToCust','bAlsoBlockedCust','FromDueDate','ToDueDate','FromDocNo','ToDocNo','FromIssuingDate','ToIssuingDate','FromNo','ToNo','IssuingDate','BankCode','Instruction','BankCondition','InterestRate','PenalityRate','DiscountRate','ProtestDays','bPrintPreview','bDefPrint','bEMail','bPrintMail'],'HKLBanks':['Description']});
+        		this.bo.appendToModelStructure({'global':['OperationType','bReprint','AllCustomers','SelCustomer','FromCust','ToCust','bAlsoBlockedCust','FromDueDate','ToDueDate','FromDocNo','ToDocNo','FromIssuingDate','ToIssuingDate','FromNo','ToNo','IssuingDate','BankCode','Instruction','BankCondition','InterestRate','PenalityRate','DiscountRate','ProtestDays','bPrintPreview','bDefPrint','bEMail','bPrintMail'],'HKLBanks':['Description']});
 
     }
 

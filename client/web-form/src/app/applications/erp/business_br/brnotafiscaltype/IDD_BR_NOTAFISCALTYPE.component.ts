@@ -10,7 +10,7 @@ import { IDD_BR_NOTAFISCALTYPEService } from './IDD_BR_NOTAFISCALTYPE.service';
     providers: [IDD_BR_NOTAFISCALTYPEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_NOTAFISCALTYPEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_NOTAFISCALTYPEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_NOTA_FISCAL_TYPE_MOV_TYPE_itemSource: any;
 public IDC_BR_NOTA_FISCAL_TYPE_CUST_SUPP_TYPE_itemSource: any;
 public IDC_BR_NOTA_FISCAL_TYPE_OPERATION_TYPE_itemSource: any;
@@ -23,7 +23,7 @@ public IDC_BR_NOTA_FISCAL_TYPE_TRANS_DATA_DANFE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -45,8 +45,7 @@ this.IDC_BR_NOTA_FISCAL_TYPE_TRANS_DATA_DANFE_itemSource = {
   "namespace": "ERP.Business_BR.Components.DANFETypePrintComboBox"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRNotaFiscalType':['NotaFiscalCode','ForGoods','Description','MovementType','MoveTypeDescri','CustSuppType','CustSuppDescri','NFeIssuingPurpose','OperationType','OperationTypeDescri','CustPresenceIndicator','ISSTaxRateCode','InventoryReason','InventoryReasonAdjust','CFOPGroup','ExcludeElectrTransm','DANFETypePrint','DANFETypePrintDescri','IncludedInTurnover','ExcludedFromTot','InCreditLimit','GenerateCommissions','NotaFiscalAccTpl','NotaFiscalAccRsn','AdvanceAccRsn','FreeSamplesAccRsn','GoodsAccount','ServicesAccount','FreeSamplesAmount','ShippingCharges','AdditionalCharges','InsuranceCharges','Advance','SimplesMsg','SimplesZeroMsg','EnableNFeRef','EnableOrigDest','Message1','Message2','EnableApproxTaxesMsg','ApproxTaxesMsg','AutoNumbering','Model','Series'],'HKLBRTaxRateCode':['Description'],'HKLInvReason':['Description'],'HKLInvReasonAdjust':['Description'],'HKLBRCFOPGroup':['Description'],'HKLBRSeries':['Description'],'global':['DBTBRNotaFiscalTypeDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRNotaFiscalTypeDetail':['Storage','Priority','Model','Series'],'HKLStorage':['Description'],'HKLBRSeriesBE':['Description']});
+        		this.bo.appendToModelStructure({'DBTBRNotaFiscalType':['NotaFiscalCode','ForGoods','Description','MovementType','MoveTypeDescri','CustSuppType','CustSuppDescri','NFeIssuingPurpose','OperationType','OperationTypeDescri','CustPresenceIndicator','ISSTaxRateCode','InventoryReason','InventoryReasonAdjust','CFOPGroup','ExcludeElectrTransm','DANFETypePrint','DANFETypePrintDescri','IncludedInTurnover','ExcludedFromTot','InCreditLimit','GenerateCommissions','NotaFiscalAccTpl','NotaFiscalAccRsn','AdvanceAccRsn','FreeSamplesAccRsn','GoodsAccount','ServicesAccount','FreeSamplesAmount','ShippingCharges','AdditionalCharges','InsuranceCharges','Advance','SimplesMsg','SimplesZeroMsg','EnableNFeRef','EnableOrigDest','Message1','Message2','EnableApproxTaxesMsg','ApproxTaxesMsg','AutoNumbering','Model','Series'],'HKLBRTaxRateCode':['Description'],'HKLInvReason':['Description'],'HKLInvReasonAdjust':['Description'],'HKLBRCFOPGroup':['Description'],'HKLBRSeries':['Description'],'global':['DBTBRNotaFiscalTypeDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRNotaFiscalTypeDetail':['Storage','Priority','Model','Series'],'HKLStorage':['Description'],'HKLBRSeriesBE':['Description']});
 
     }
 

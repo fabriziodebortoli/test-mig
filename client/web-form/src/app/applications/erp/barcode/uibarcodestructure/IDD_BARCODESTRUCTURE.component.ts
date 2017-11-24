@@ -10,7 +10,7 @@ import { IDD_BARCODESTRUCTUREService } from './IDD_BARCODESTRUCTURE.service';
     providers: [IDD_BARCODESTRUCTUREService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BARCODESTRUCTUREComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BARCODESTRUCTUREComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BARCODESTRUCTURE_TYPE_itemSource: any;
 public IDC_BARCODESTRUCTURE_DETAIL_DATA_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_BARCODESTRUCTURE_DETAIL_DATA_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -37,8 +37,7 @@ this.IDC_BARCODESTRUCTURE_DETAIL_DATA_itemSource = {
   "namespace": "ERP.Barcode.Documents.BarCodeDataEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBarcodeStructure':['Code','Disabled','Description','Prefix','BarcodeType'],'global':['DBTBarcodeStructureDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBarcodeStructureDetails':['Data','InitialSeparator','Prefix','FinalSeparator','Length','Position']});
+        		this.bo.appendToModelStructure({'DBTBarcodeStructure':['Code','Disabled','Description','Prefix','BarcodeType'],'global':['DBTBarcodeStructureDetails','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBarcodeStructureDetails':['Data','InitialSeparator','Prefix','FinalSeparator','Length','Position']});
 
     }
 

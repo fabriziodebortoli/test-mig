@@ -10,7 +10,7 @@ import { IDD_SALE_ORD_DEALLOCATIONService } from './IDD_SALE_ORD_DEALLOCATION.se
     providers: [IDD_SALE_ORD_DEALLOCATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_SALE_ORD_DEALLOCATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_SALE_ORD_DEALLOCATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_SALE_ORD_DEALLOCATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_SALE_ORD_DEALLOCATIONComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllCustomer','bCustomerSel','CustomerStart','CustomerEnd','bAllOrdNo','bOrdNoSel','FromOrdNo','ToOrdNo','FromDate','EndingDate','FromExpectedDeliveryDate','EndingExpectedDeliveryDate','AllPriority','PrioritySel','FromPriority','ToPriority','bAllAllocationArea','bAllocationAreaSel','AllocationAreaStart','AllocationAreaEnd','bAllStorage','bStorageSel','Storage','bStorageSel','Storage','SpecificatorType','Specificator','bAllItem','bItemSel','ItemStart','ItemEnd','SaleOrdersDeallocation'],'SaleOrdersDeallocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Qty','AllocatedQty','DeliveredQty','QtyToDeallocate','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate','StoragePhase1','Specificator1Type','SpecificatorPhase1','Customer','CustomerDescri','Note']});
+        		this.bo.appendToModelStructure({'global':['bAllCustomer','bCustomerSel','CustomerStart','CustomerEnd','bAllOrdNo','bOrdNoSel','FromOrdNo','ToOrdNo','FromDate','EndingDate','FromExpectedDeliveryDate','EndingExpectedDeliveryDate','AllPriority','PrioritySel','FromPriority','ToPriority','bAllAllocationArea','bAllocationAreaSel','AllocationAreaStart','AllocationAreaEnd','bAllStorage','bStorageSel','Storage','bStorageSel','Storage','SpecificatorType','Specificator','bAllItem','bItemSel','ItemStart','ItemEnd','SaleOrdersDeallocation'],'SaleOrdersDeallocation':['StatusBmp','IsSelected','Item','ItemDescri','UoM','Qty','AllocatedQty','DeliveredQty','QtyToDeallocate','AllocationArea','ConfirmedDeliveryDate','InternalOrdNo','OrderDate','ExpectedDeliveryDate','StoragePhase1','Specificator1Type','SpecificatorPhase1','Customer','CustomerDescri','Note']});
 
     }
 

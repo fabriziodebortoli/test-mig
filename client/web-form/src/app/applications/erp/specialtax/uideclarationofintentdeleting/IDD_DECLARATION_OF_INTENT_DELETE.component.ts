@@ -10,7 +10,7 @@ import { IDD_DECLARATION_OF_INTENT_DELETEService } from './IDD_DECLARATION_OF_IN
     providers: [IDD_DECLARATION_OF_INTENT_DELETEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DECLARATION_OF_INTENT_DELETEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DECLARATION_OF_INTENT_DELETEComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DECLARATION_OF_INTENT_DELETEService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DECLARATION_OF_INTENT_DELETEComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAll','bCustSuppSel','CustSuppSel','Description','FromDate','LimitDate','FromDocNo','ToDocNo','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['bAll','bCustSuppSel','CustSuppSel','Description','FromDate','LimitDate','FromDocNo','ToDocNo','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

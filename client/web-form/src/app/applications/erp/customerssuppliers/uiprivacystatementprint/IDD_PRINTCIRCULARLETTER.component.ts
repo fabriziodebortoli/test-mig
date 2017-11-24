@@ -10,7 +10,7 @@ import { IDD_PRINTCIRCULARLETTERService } from './IDD_PRINTCIRCULARLETTER.servic
     providers: [IDD_PRINTCIRCULARLETTERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINTCIRCULARLETTERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINTCIRCULARLETTERComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_STCIRCULARLETTER_COUNTY_itemSource: any;
 public IDC_STCIRCULARLETTER_REGION_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_STCIRCULARLETTER_REGION_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -37,8 +37,7 @@ this.IDC_STCIRCULARLETTER_REGION_itemSource = {
   "parameter": "DataFile.ERP.Company.Region"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustSupp','CustSuppAll','CustSuppSel','FromCode','FromCode','ToCode','Category','DescriCategory','Reprint','AllCountry','Country','AllCounty','County','AllCity','City','Reprint','AllCountry','Country','AllCounty','County','AllRegion','Region','AllCity','City','UseTemplate','Template','OnlyExistTpl','UseFreeText','FreeText','PrintAuthSect','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName'],'HKLCircularLetterTemplates':['Description']});
+        		this.bo.appendToModelStructure({'global':['CustSupp','CustSuppAll','CustSuppSel','FromCode','FromCode','ToCode','Category','DescriCategory','Reprint','AllCountry','Country','AllCounty','County','AllCity','City','Reprint','AllCountry','Country','AllCounty','County','AllRegion','Region','AllCity','City','UseTemplate','Template','OnlyExistTpl','UseFreeText','FreeText','PrintAuthSect','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName'],'HKLCircularLetterTemplates':['Description']});
 
     }
 

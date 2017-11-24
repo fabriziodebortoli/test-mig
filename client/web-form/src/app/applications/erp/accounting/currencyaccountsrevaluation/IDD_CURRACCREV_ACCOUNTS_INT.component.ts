@@ -10,7 +10,7 @@ import { IDD_CURRACCREV_ACCOUNTS_INTService } from './IDD_CURRACCREV_ACCOUNTS_IN
     providers: [IDD_CURRACCREV_ACCOUNTS_INTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CURRACCREV_ACCOUNTS_INTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CURRACCREV_ACCOUNTS_INTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CURRACCREV_ACCOUNTS_INTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CURRACCREV_ACCOUNTS_INTComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Currency','FixingDate','Fixing','FixingDescri','bAll','bSelection','From','To','PostDate','AccrualDate','Nature','bOneJEForCustSupp','Profit','Loss','Detail'],'Detail':['l_TEnhCurrencyAccountsRev_P01','l_TEnhCurrencyAccountsRev_P10','CustSuppType','Account','l_TEnhCurrencyAccountsRev_P04','l_TEnhCurrencyAccountsRev_P05','l_TEnhCurrencyAccountsRev_P06','l_TEnhCurrencyAccountsRev_P09','DocCurrAmount','FixingDate','Amount','Fixing','l_TEnhCurrencyAccountsRev_P02','l_TEnhCurrencyAccountsRev_P03']});
+        		this.bo.appendToModelStructure({'global':['Currency','FixingDate','Fixing','FixingDescri','bAll','bSelection','From','To','PostDate','AccrualDate','Nature','bOneJEForCustSupp','Profit','Loss','Detail'],'Detail':['l_TEnhCurrencyAccountsRev_P01','l_TEnhCurrencyAccountsRev_P10','CustSuppType','Account','l_TEnhCurrencyAccountsRev_P04','l_TEnhCurrencyAccountsRev_P05','l_TEnhCurrencyAccountsRev_P06','l_TEnhCurrencyAccountsRev_P09','DocCurrAmount','FixingDate','Amount','Fixing','l_TEnhCurrencyAccountsRev_P02','l_TEnhCurrencyAccountsRev_P03']});
 
     }
 

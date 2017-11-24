@@ -10,7 +10,7 @@ import { IDD_COPY_VARIANTService } from './IDD_COPY_VARIANT.service';
     providers: [IDD_COPY_VARIANTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COPY_VARIANTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COPY_VARIANTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COPY_VARIANTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COPY_VARIANTComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromItemToCopy','VariantToCopy'],'HKLItemBOMVariants':['Description']});
+        		this.bo.appendToModelStructure({'global':['FromItemToCopy','VariantToCopy'],'HKLItemBOMVariants':['Description']});
 
     }
 

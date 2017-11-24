@@ -10,7 +10,7 @@ import { IDD_TAXDISTRIBUTIONService } from './IDD_TAXDISTRIBUTION.service';
     providers: [IDD_TAXDISTRIBUTIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXDISTRIBUTIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXDISTRIBUTIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TAXDISTRIBUTIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TAXDISTRIBUTIONComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UseTaxDistribution','ReDistribution','FromPeriod','ToPeriod','AllPurchase','PurchaseSel','FromPurchaseTaxJournal','ToPurchaseTaxJournal','AllRetail','RetailSel','FromRetailSaleTaxJournal','ToRetailSaleTaxJournal','UpdateSummary','Preview','DotMatrixPrinter','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['UseTaxDistribution','ReDistribution','FromPeriod','ToPeriod','AllPurchase','PurchaseSel','FromPurchaseTaxJournal','ToPurchaseTaxJournal','AllRetail','RetailSel','FromRetailSaleTaxJournal','ToRetailSaleTaxJournal','UpdateSummary','Preview','DotMatrixPrinter','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

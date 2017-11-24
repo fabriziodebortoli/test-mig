@@ -10,7 +10,7 @@ import { IDD_MRPService } from './IDD_MRP.service';
     providers: [IDD_MRPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_MRPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_MRPComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_MRP_HORIZON_TYPE_itemSource: any;
 public IDC_MRP_FINISHED_LEAD_TIME_itemSource: any;
 public IDC_MRP_PURCHASE_LEAD_TIME_itemSource: any;
@@ -22,7 +22,7 @@ public IDC_MRP_PURCHASE_LEAD_TIME_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -40,8 +40,7 @@ this.IDC_MRP_PURCHASE_LEAD_TIME_itemSource = {
   "namespace": "ERP.MRP.Documents.LeadTimeOrginItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTMRP':['ProdPlan','SaleOrdersOnly','HrzType','HrzEndDate','Horizon','ExplodeAllBOMLevels','SelectBOMLevel','MaxLevelBOMExplosion','FinishedLeadTimeOrigin','PurchaseLeadTimeOrigin','NetFirstLevelOnJobPolicy','NetOtherLevelsOnJobPolicy','NetFirstLevelOnLotPolicy','NetOtherLevelsOnLotPolicy','NetFirstLevelOnDayReqPolicy','NetOtherLevelsOnDayReqPolicy','UseMinStock','SkipNotWorkingDays','GroupLotsByDate','UseSimulatedEndDate'],'HKLProductionPlan':['Description'],'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTResult','nCurrentElement','GaugeDescription','ProgressViewer'],'DBTResult':['Selection','Item','Description','Nature','BOM','Variant','BaseUoM'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
+        		this.bo.appendToModelStructure({'DBTMRP':['ProdPlan','SaleOrdersOnly','HrzType','HrzEndDate','Horizon','ExplodeAllBOMLevels','SelectBOMLevel','MaxLevelBOMExplosion','FinishedLeadTimeOrigin','PurchaseLeadTimeOrigin','NetFirstLevelOnJobPolicy','NetOtherLevelsOnJobPolicy','NetFirstLevelOnLotPolicy','NetOtherLevelsOnLotPolicy','NetFirstLevelOnDayReqPolicy','NetOtherLevelsOnDayReqPolicy','UseMinStock','SkipNotWorkingDays','GroupLotsByDate','UseSimulatedEndDate'],'HKLProductionPlan':['Description'],'global':['HFItems_All','HFItems_Range','HFItems_From','HFItems_To','DBTResult','nCurrentElement','GaugeDescription','ProgressViewer'],'DBTResult':['Selection','Item','Description','Nature','BOM','Variant','BaseUoM'],'ProgressViewer':['TEnhProgressViewer_P1','TEnhProgressViewer_P2','TEnhProgressViewer_P3']});
 
     }
 

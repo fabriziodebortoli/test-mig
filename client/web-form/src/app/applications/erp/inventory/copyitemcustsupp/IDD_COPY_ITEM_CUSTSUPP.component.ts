@@ -10,7 +10,7 @@ import { IDD_COPY_ITEM_CUSTSUPPService } from './IDD_COPY_ITEM_CUSTSUPP.service'
     providers: [IDD_COPY_ITEM_CUSTSUPPService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COPY_ITEM_CUSTSUPPComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COPY_ITEM_CUSTSUPPComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COPY_ITEM_CUSTSUPPService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COPY_ITEM_CUSTSUPPComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bCustCode','bSuppCode','bItemCode','bItemType','bCommCtg','bCustCtg','bSuppCtg','InputDataFrom','InputDataOn','bCustItem','bCustMainData','bCustStandardData','bLastSaleReturn','bCustGridQtyBrackets','bCustItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bSuppItem','bSuppMainData','bSuppStandardData','bLastPurchaseReturn','bSuppGridQtyBrackets','bSuppItemType','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bCustItemType','bSuppItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bCustCtgCommCtg','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bSuppCtgCommCtg','bCustCtgCommCtg','bSuppCtgCommCtg','bNoUpdateExistingData','bUpdateExistingData','nCurrentElement']});
+        		this.bo.appendToModelStructure({'global':['bCustCode','bSuppCode','bItemCode','bItemType','bCommCtg','bCustCtg','bSuppCtg','InputDataFrom','InputDataOn','bCustItem','bCustMainData','bCustStandardData','bLastSaleReturn','bCustGridQtyBrackets','bCustItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bSuppItem','bSuppMainData','bSuppStandardData','bLastPurchaseReturn','bSuppGridQtyBrackets','bSuppItemType','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bCustItemType','bSuppItemType','bCustCommCtg','bCustNotes','bCustCommCtgData','bCommCtgLastSaleReturn','bCustCtgCommCtg','bSuppCommCtg','bSuppNotes','bSuppCommCtgData','bCommCtgLastPurchaseReturn','bSuppCtgCommCtg','bCustCtgCommCtg','bSuppCtgCommCtg','bNoUpdateExistingData','bUpdateExistingData','nCurrentElement']});
 
     }
 

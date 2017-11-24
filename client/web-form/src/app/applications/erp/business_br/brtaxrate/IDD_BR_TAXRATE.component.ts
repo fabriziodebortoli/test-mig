@@ -10,7 +10,7 @@ import { IDD_BR_TAXRATEService } from './IDD_BR_TAXRATE.service';
     providers: [IDD_BR_TAXRATEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BR_TAXRATEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BR_TAXRATEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_BR_TAXRATE_TAX_TYPE_itemSource: any;
 
     constructor(document: IDD_BR_TAXRATEService,
@@ -20,7 +20,7 @@ export class IDD_BR_TAXRATEComponent extends BOComponent implements OnInit, OnDe
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_BR_TAXRATEComponent extends BOComponent implements OnInit, OnDe
   "namespace": "ERP.Business_BR.Components.BRTaxRateEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'DBTBRTaxRate':['TaxRateCode','Description','TaxType','TaxRate','NotTaxable','Thresold','ValidityStartingDate','ValidityEndingDate'],'global':['DBTBRTaxRateDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRTaxRateDetail':['MinAmount','MaxAmount','TaxRate']});
+        		this.bo.appendToModelStructure({'DBTBRTaxRate':['TaxRateCode','Description','TaxType','TaxRate','NotTaxable','Thresold','ValidityStartingDate','ValidityEndingDate'],'global':['DBTBRTaxRateDetail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'DBTBRTaxRateDetail':['MinAmount','MaxAmount','TaxRate']});
 
     }
 

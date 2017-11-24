@@ -10,7 +10,7 @@ import { IDD_STPRIVACYSTATEMENTService } from './IDD_STPRIVACYSTATEMENT.service'
     providers: [IDD_STPRIVACYSTATEMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STPRIVACYSTATEMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STPRIVACYSTATEMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_STPRIVACYSTATEMENTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_STPRIVACYSTATEMENTComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CustSupp','CustSuppAll','CustSuppSel','FromCode','FromCode','ToCode','Category','DescriCategory','Reprint','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['CustSupp','CustSuppAll','CustSuppSel','FromCode','FromCode','ToCode','Category','DescriCategory','Reprint','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
 
     }
 

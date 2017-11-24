@@ -10,7 +10,7 @@ import { IDD_CONAIENTRY_FULLService } from './IDD_CONAIENTRY_FULL.service';
     providers: [IDD_CONAIENTRY_FULLService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CONAIENTRY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CONAIENTRY_FULLComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CONAIENTRY_FULLService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CONAIENTRY_FULLComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ConaiEntries':['EntryId','EntryDate','Customer','ExemptionPerc','Item','PrimaryPackage','Material','PackageType','PackageTypeDescription','UnitContribution','TotalContributionAmount','Qty','ExemptQty','SubjectedQty','PrimaryPackageQty','SecondaryTertiaryPackageQty','DocumentType','DocumentLine','DocumentNumber','DocumentDate'],'HKLCustomer':['CompNameComplete'],'HKLMaterials':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'ConaiEntries':['EntryId','EntryDate','Customer','ExemptionPerc','Item','PrimaryPackage','Material','PackageType','PackageTypeDescription','UnitContribution','TotalContributionAmount','Qty','ExemptQty','SubjectedQty','PrimaryPackageQty','SecondaryTertiaryPackageQty','DocumentType','DocumentLine','DocumentNumber','DocumentDate'],'HKLCustomer':['CompNameComplete'],'HKLMaterials':['Description'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

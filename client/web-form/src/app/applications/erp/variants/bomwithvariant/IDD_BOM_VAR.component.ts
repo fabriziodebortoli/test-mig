@@ -10,7 +10,7 @@ import { IDD_BOM_VARService } from './IDD_BOM_VAR.service';
     providers: [IDD_BOM_VARService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOM_VARComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOM_VARComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
 
     constructor(document: IDD_BOM_VARService,
@@ -20,7 +20,7 @@ export class IDD_BOM_VARComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_BOM_VARComponent extends BOComponent implements OnInit, OnDestr
   "namespace": "ERP.Routing.Components.LabourLabourTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BOMComponentsWithVariant','BOMRoutingWithVariant','__DBTLabour'],'BOMComponentsWithVariant':['ComponentType','Component','Description','Qty','UoM','FixedQty','SetFixedQtyOnMO','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMRoutingWithVariant':['RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','ProcessingTime','TotalTime','Qty','QueueTime','LineTypeInDN'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources']});
+        		this.bo.appendToModelStructure({'global':['BOMComponentsWithVariant','BOMRoutingWithVariant','__DBTLabour'],'BOMComponentsWithVariant':['ComponentType','Component','Description','Qty','UoM','FixedQty','SetFixedQtyOnMO','FixedComponent','Valorize','ScrapQty','ScrapUM','Variant','ValidityStartingDate','ValidityEndingDate','DNRtgStep','Notes'],'BOMRoutingWithVariant':['RtgStep','Alternate','AltRtgStep','Operation','Notes','IsWC','WC','SetupTime','ProcessingTime','TotalTime','Qty','QueueTime','LineTypeInDN'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources']});
 
     }
 

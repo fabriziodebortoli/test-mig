@@ -10,7 +10,7 @@ import { IDD_CASHService } from './IDD_CASH.service';
     providers: [IDD_CASHService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CASHComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CASHComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CASHService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CASHComponent extends BOComponent implements OnInit, OnDestroy 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Cash':['Cash','Description','WorkerID','CashStubBook','PreferredCurrency','AlternativeCurrency'],'HKLWorkers':['NameComplete'],'HKLStubBook':['Description'],'global':['CashAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CashAccounts':['Currency','Account'],'HKLAccount':['Description']});
+        		this.bo.appendToModelStructure({'Cash':['Cash','Description','WorkerID','CashStubBook','PreferredCurrency','AlternativeCurrency'],'HKLWorkers':['NameComplete'],'HKLStubBook':['Description'],'global':['CashAccounts','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'CashAccounts':['Currency','Account'],'HKLAccount':['Description']});
 
     }
 

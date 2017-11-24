@@ -10,7 +10,7 @@ import { IDD_BLANKCHECKSService } from './IDD_BLANKCHECKS.service';
     providers: [IDD_BLANKCHECKSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BLANKCHECKSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BLANKCHECKSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BLANKCHECKSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BLANKCHECKSComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['CompanyBank','CompanyBankCA','BillType','CheckNoFrom','Notes','CheckNoTo','ProcessStatus']});
+        		this.bo.appendToModelStructure({'global':['CompanyBank','CompanyBankCA','BillType','CheckNoFrom','Notes','CheckNoTo','ProcessStatus']});
 
     }
 

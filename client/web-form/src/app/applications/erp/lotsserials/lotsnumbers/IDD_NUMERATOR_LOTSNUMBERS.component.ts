@@ -10,7 +10,7 @@ import { IDD_NUMERATOR_LOTSNUMBERSService } from './IDD_NUMERATOR_LOTSNUMBERS.se
     providers: [IDD_NUMERATOR_LOTSNUMBERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_NUMERATOR_LOTSNUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_NUMERATOR_LOTSNUMBERSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LOTSNO_PREFIXFORMAT_itemSource: any;
 
     constructor(document: IDD_NUMERATOR_LOTSNUMBERSService,
@@ -20,7 +20,7 @@ export class IDD_NUMERATOR_LOTSNUMBERSComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_NUMERATOR_LOTSNUMBERSComponent extends BOComponent implements O
   "namespace": "ERP.LotsSerials.Components.LotsSerialsPrefixEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'LotsNumbers':['LastLotNo','LastLotDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'LotsNumbers':['LastLotNo','LastLotDocDate','PrefixFormat','BalanceYear','SeparatorCode','SuffixChars'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_COMPANYGROUPSService } from './IDD_COMPANYGROUPS.service';
     providers: [IDD_COMPANYGROUPSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COMPANYGROUPSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COMPANYGROUPSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COMPANYGROUPS_STATUS_itemSource: any;
 
     constructor(document: IDD_COMPANYGROUPSService,
@@ -20,7 +20,7 @@ export class IDD_COMPANYGROUPSComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,8 +31,7 @@ export class IDD_COMPANYGROUPSComponent extends BOComponent implements OnInit, O
   "parameter": "DataFile.ERP.Company.State"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CompanyGroups':['Company','CompanyName','ISOCountryCode','TaxIdNumber','TaxOffice','BusinessKind','Currency','Language','StatedCapital','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Address','Address2','City','ZIPCode','County','Country','Telephone1','Telephone2','Telex','Fax','EMailAddress','InternetAddress'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'global':['People','Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Notes':['Notes','PublicCompany','UseInBalanceSheetNotes']});
+        		this.bo.appendToModelStructure({'CompanyGroups':['Company','CompanyName','ISOCountryCode','TaxIdNumber','TaxOffice','BusinessKind','Currency','Language','StatedCapital','ZIPCode','Address','StreetNo','Address2','District','FederalState','City','Country','Address','Address2','City','ZIPCode','County','Country','Telephone1','Telephone2','Telex','Fax','EMailAddress','InternetAddress'],'HKLCurrencies':['Description'],'HKLLanguages':['Description'],'global':['People','Notes','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Notes':['Notes','PublicCompany','UseInBalanceSheetNotes']});
 
     }
 

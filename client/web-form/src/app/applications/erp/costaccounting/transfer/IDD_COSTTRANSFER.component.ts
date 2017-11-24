@@ -10,7 +10,7 @@ import { IDD_COSTTRANSFERService } from './IDD_COSTTRANSFER.service';
     providers: [IDD_COSTTRANSFERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTTRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTTRANSFERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COSTTRANSFERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COSTTRANSFERComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartMonth','StartYear','EndMonth','EndYear','bBudget','bActual','bForecast','PostingDate','AccrualDate','Detail'],'Detail':['l_TEnhTransfer_P01','l_TEnhTransfer_P02','l_TEnhTransfer_P04','l_TEnhTransfer_P03','l_TEnhTransfer_P08','l_TEnhTransfer_P05','l_TEnhTransfer_P06','l_TEnhTransfer_P12','l_TEnhTransfer_P11','DebitCreditSign','TotalAmount']});
+        		this.bo.appendToModelStructure({'global':['StartMonth','StartYear','EndMonth','EndYear','bBudget','bActual','bForecast','PostingDate','AccrualDate','Detail'],'Detail':['l_TEnhTransfer_P01','l_TEnhTransfer_P02','l_TEnhTransfer_P04','l_TEnhTransfer_P03','l_TEnhTransfer_P08','l_TEnhTransfer_P05','l_TEnhTransfer_P06','l_TEnhTransfer_P12','l_TEnhTransfer_P11','DebitCreditSign','TotalAmount']});
 
     }
 

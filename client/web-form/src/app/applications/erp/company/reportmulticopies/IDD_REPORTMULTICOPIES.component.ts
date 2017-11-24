@@ -10,7 +10,7 @@ import { IDD_REPORTMULTICOPIESService } from './IDD_REPORTMULTICOPIES.service';
     providers: [IDD_REPORTMULTICOPIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_REPORTMULTICOPIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_REPORTMULTICOPIESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_REPORTMULTICOPIESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_REPORTMULTICOPIESComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['CopyNo','PrintDescription','ReprintDescription']});
+        		this.bo.appendToModelStructure({'global':['Detail','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['CopyNo','PrintDescription','ReprintDescription']});
 
     }
 

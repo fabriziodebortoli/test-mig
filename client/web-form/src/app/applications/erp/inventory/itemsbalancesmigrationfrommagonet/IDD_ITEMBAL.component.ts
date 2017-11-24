@@ -10,7 +10,7 @@ import { IDD_ITEMBALService } from './IDD_ITEMBAL.service';
     providers: [IDD_ITEMBALService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMBALComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMBALComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMBALService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ITEMBALComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllFiscalYear','bSelFiscalYear','FromFiscalYear','ToFiscalYear','bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','bUseLotsBalances','bUseVariantsBalances','bMigrateAlsoStorageQtyLower','bMigrateAlsoStorageQtyGreater','DBTItemBalMigrStorages','nCurrentElement','GaugeDescription'],'DBTItemBalMigrStorages':['IsMainStorage','Storage','Description']});
+        		this.bo.appendToModelStructure({'global':['bAllFiscalYear','bSelFiscalYear','FromFiscalYear','ToFiscalYear','bAllItems','bItemSel','FromItem','ToItem','bIgnoreNotTransactableItems','bIgnoreDisabledItems','bUseLotsBalances','bUseVariantsBalances','bMigrateAlsoStorageQtyLower','bMigrateAlsoStorageQtyGreater','DBTItemBalMigrStorages','nCurrentElement','GaugeDescription'],'DBTItemBalMigrStorages':['IsMainStorage','Storage','Description']});
 
     }
 

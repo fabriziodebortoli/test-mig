@@ -10,7 +10,7 @@ import { IDD_CTGCOMMODITYService } from './IDD_CTGCOMMODITY.service';
     providers: [IDD_CTGCOMMODITYService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CTGCOMMODITYComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CTGCOMMODITYComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CTGCOMMODITYService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CTGCOMMODITYComponent extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'CommodityCategories':['Category','Description','DiscountFormula','PerishablesType','HasCustomers','HasSuppliers','Notes','SaleOffset','PurchaseOffset','ConsumptionOffset','ReverseCharge','RCTaxCode'],'HKLSaleOffset':['Description'],'HKLPurchaseOffset':['Description'],'HKLConsumptionOffset':['Description'],'HKLRCTaxCode':['Description'],'global':['CommodityCtgBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'CommodityCategories':['Category','Description','DiscountFormula','PerishablesType','HasCustomers','HasSuppliers','Notes','SaleOffset','PurchaseOffset','ConsumptionOffset','ReverseCharge','RCTaxCode'],'HKLSaleOffset':['Description'],'HKLPurchaseOffset':['Description'],'HKLConsumptionOffset':['Description'],'HKLRCTaxCode':['Description'],'global':['CommodityCtgBudget','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

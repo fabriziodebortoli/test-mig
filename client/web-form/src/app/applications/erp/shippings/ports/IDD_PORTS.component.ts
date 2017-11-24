@@ -10,7 +10,7 @@ import { IDD_PORTSService } from './IDD_PORTS.service';
     providers: [IDD_PORTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PORTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PORTSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PORTS_INCOTERM_itemSource: any;
 
     constructor(document: IDD_PORTSService,
@@ -20,7 +20,7 @@ export class IDD_PORTSComponent extends BOComponent implements OnInit, OnDestroy
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,8 +31,7 @@ export class IDD_PORTSComponent extends BOComponent implements OnInit, OnDestroy
   "parameter": "DataFile.ERP.Shippings.Incoterm"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Ports':['Port','Disabled','Description','Incoterm','IntraArrivalsDeliveryTerm','IntraDispatchesDeliveryTerm'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
+        		this.bo.appendToModelStructure({'Ports':['Port','Disabled','Description','Incoterm','IntraArrivalsDeliveryTerm','IntraDispatchesDeliveryTerm'],'global':['__Languages','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2']});
 
     }
 

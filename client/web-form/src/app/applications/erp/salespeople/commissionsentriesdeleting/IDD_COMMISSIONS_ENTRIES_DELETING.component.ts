@@ -10,7 +10,7 @@ import { IDD_COMMISSIONS_ENTRIES_DELETINGService } from './IDD_COMMISSIONS_ENTRI
     providers: [IDD_COMMISSIONS_ENTRIES_DELETINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COMMISSIONS_ENTRIES_DELETINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COMMISSIONS_ENTRIES_DELETINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_COMMISSIONS_ENTRIES_DELETINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_COMMISSIONS_ENTRIES_DELETINGComponent extends BOComponent imple
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','StartingDate','EndingDate','FromOustandingDate','ToOustandingDate','bDeleteGenerateFlag','bOutstandingProcess','bEntriesProcess','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['bAllSalesPeople','bSalesPeopleSel','FromSalesperson','ToSalesperson','StartingDate','EndingDate','FromOustandingDate','ToOustandingDate','bDeleteGenerateFlag','bOutstandingProcess','bEntriesProcess','nCurrentElement','GaugeDescription']});
 
     }
 

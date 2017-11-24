@@ -10,7 +10,7 @@ import { IDD_TAXDECLAR394Service } from './IDD_TAXDECLAR394.service';
     providers: [IDD_TAXDECLAR394Service, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXDECLAR394Component extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXDECLAR394Component extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TAXDECLAR394Service,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TAXDECLAR394Component extends BOComponent implements OnInit, On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeclType','Year','Period','bOperation','VATRefound','Function','bSPLegalEntity','bSPNaturalPerson','SPFiscalCode','SPName','SPFunction','SPOtherFunction','bOption','bOption2','NrAMEF','PrintFile','PrintPaper']});
+        		this.bo.appendToModelStructure({'global':['DeclType','Year','Period','bOperation','VATRefound','Function','bSPLegalEntity','bSPNaturalPerson','SPFiscalCode','SPName','SPFunction','SPOtherFunction','bOption','bOption2','NrAMEF','PrintFile','PrintPaper']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_770ONFILEService } from './IDD_770ONFILE.service';
     providers: [IDD_770ONFILEService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_770ONFILEComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_770ONFILEComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_CU_HEIR_CODE_itemSource: any;
 
     constructor(document: IDD_770ONFILEService,
@@ -20,7 +20,7 @@ export class IDD_770ONFILEComponent extends BOComponent implements OnInit, OnDes
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -31,8 +31,7 @@ export class IDD_770ONFILEComponent extends BOComponent implements OnInit, OnDes
   "parameter": "DataFile.ERP.Payees.PositionCode"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromPaymentDateFee','ToPaymentDateFee','FromSupplier','CustSuppDescription','CU_Intermediary','CU_CommitDate','MadeTaxpayer','ExtraordinaryEvents','INPS_FiscalCode','Progressive','DeclarationType','SubstituteFiscalCode','Software','Heir_FiscalCode','Heir_Code_XML','CU_SubstituteFiscalCode','CU_Ordinary','CU_ProtocolTel','CU_Sostitutive','CU_Cancellation','CU_ProtocolDoc','FileNameComplete','bOneFileForCertification','bOneReportForCertification','b770AllRecord','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
+        		this.bo.appendToModelStructure({'global':['FromPaymentDateFee','ToPaymentDateFee','FromSupplier','CustSuppDescription','CU_Intermediary','CU_CommitDate','MadeTaxpayer','ExtraordinaryEvents','INPS_FiscalCode','Progressive','DeclarationType','SubstituteFiscalCode','Software','Heir_FiscalCode','Heir_Code_XML','CU_SubstituteFiscalCode','CU_Ordinary','CU_ProtocolTel','CU_Sostitutive','CU_Cancellation','CU_ProtocolDoc','FileNameComplete','bOneFileForCertification','bOneReportForCertification','b770AllRecord','DBTSummaryDetail'],'DBTSummaryDetail':['l_LineSummaryDescription']});
 
     }
 

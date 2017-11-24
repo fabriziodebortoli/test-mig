@@ -10,7 +10,7 @@ import { IDD_WORKCENTERSService } from './IDD_WORKCENTERS.service';
     providers: [IDD_WORKCENTERSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_WORKCENTERSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_WORKCENTERSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_WORKCENTERSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_WORKCENTERSComponent extends BOComponent implements OnInit, OnD
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'WC':['WC','Description','AverageCapacity','ResourceNo','Calendar','Notes','WorkType','ManagerID','Outsourced','Supplier','HourlyCost','UnitCost','AdditionalCost','Template','Make','PurchaseDate','PlacedInServiceDate'],'HKLWorkersManager':['NameComplete'],'HKLSuppliers':['CompanyName'],'global':['BreakdownWC','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
+        		this.bo.appendToModelStructure({'WC':['WC','Description','AverageCapacity','ResourceNo','Calendar','Notes','WorkType','ManagerID','Outsourced','Supplier','HourlyCost','UnitCost','AdditionalCost','Template','Make','PurchaseDate','PlacedInServiceDate'],'HKLWorkersManager':['NameComplete'],'HKLSuppliers':['CompanyName'],'global':['BreakdownWC','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
 
     }
 

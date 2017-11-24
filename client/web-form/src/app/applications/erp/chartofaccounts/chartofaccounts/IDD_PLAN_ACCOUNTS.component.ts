@@ -10,7 +10,7 @@ import { IDD_PLAN_ACCOUNTSService } from './IDD_PLAN_ACCOUNTS.service';
     providers: [IDD_PLAN_ACCOUNTSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PLAN_ACCOUNTSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PLAN_ACCOUNTSComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COA_CURRENCY_FOR_BALANCES_itemSource: any;
 
     constructor(document: IDD_PLAN_ACCOUNTSService,
@@ -20,7 +20,7 @@ export class IDD_PLAN_ACCOUNTSComponent extends BOComponent implements OnInit, O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_PLAN_ACCOUNTSComponent extends BOComponent implements OnInit, O
   "namespace": "ERP.ChartOfAccounts.Documents.CurrenciesCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'ChartOfAccounts':['Account','Disabled','Description','Notes','Ledger','CodeType','PostableInJE','ReportCode','ExternalCode','PostableInCostAcc','CashFlowType','InCurrency','Currency','AGOSubAccount','AGOIntraCode','OMNIASubAccount','OMNIAIntraCode','DebitCreditSign','UoM','DirectCost','FullCost','CostCentersDistribution','JobsDistribution'],'global':['Nature','Nature','NrFiscalYear','BalanceCurrency','DebitActTotal','CreditActTotal','ActualDebitBalance','ActualCreditBalance','DebitForTotal','CreditForTotal','BudgetDebitBalance','BudgetCreditBalance','DebitTotal','CreditTotal','DebitBalance','CreditBalance','Balances','__Languages','CoAReclass','CostAccTemplates','TotalDebitCCTot','TotalCreditCCTot','TotalDebitCCTot','TotalCreditCCTot','TotalDebitJobTot','TotalCreditJobTot','TotalDebitJobTot','TotalCreditJobTot','TotalDebitLineTot','TotalCreditLineTot','TotalDebitLineTot','TotalCreditLineTot','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'HKLCurrency':['Description'],'Balances':['Nature','TEnhCOABalancesMonthYear_P1','Debit','Credit'],'HKLAGOSubAccounts':['Description'],'HKLAGOIntraCodes':['Description'],'HKLOMNIASubAccounts':['Description'],'HKLOMNIAIntraCodes':['Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2'],'CoAReclass':['SchemaCode','Code','Description','Account','DebitCreditSign'],'HKLBalReclass':['Description'],'HKLChartOfAccounts':['Description'],'CostAccTemplates':['CostCenter','Job','ProductLine','DebitCreditSign','Perc','Notes'],'HKLDetailCstCenter':['Description'],'HKLDetailJob':['Description'],'HKLDetailProductLine':['Description'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'ChartOfAccounts':['Account','Disabled','Description','Notes','Ledger','CodeType','PostableInJE','ReportCode','ExternalCode','PostableInCostAcc','CashFlowType','InCurrency','Currency','AGOSubAccount','AGOIntraCode','OMNIASubAccount','OMNIAIntraCode','DebitCreditSign','UoM','DirectCost','FullCost','CostCentersDistribution','JobsDistribution'],'global':['Nature','Nature','NrFiscalYear','BalanceCurrency','DebitActTotal','CreditActTotal','ActualDebitBalance','ActualCreditBalance','DebitForTotal','CreditForTotal','BudgetDebitBalance','BudgetCreditBalance','DebitTotal','CreditTotal','DebitBalance','CreditBalance','Balances','__Languages','CoAReclass','CostAccTemplates','TotalDebitCCTot','TotalCreditCCTot','TotalDebitCCTot','TotalCreditCCTot','TotalDebitJobTot','TotalCreditJobTot','TotalDebitJobTot','TotalCreditJobTot','TotalDebitLineTot','TotalCreditLineTot','TotalDebitLineTot','TotalCreditLineTot','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'HKLCurrency':['Description'],'Balances':['Nature','TEnhCOABalancesMonthYear_P1','Debit','Credit'],'HKLAGOSubAccounts':['Description'],'HKLAGOIntraCodes':['Description'],'HKLOMNIASubAccounts':['Description'],'HKLOMNIAIntraCodes':['Description'],'@Languages':['__Language','__Description','__Notes','__TextDescri','__TextDescri2'],'CoAReclass':['SchemaCode','Code','Description','Account','DebitCreditSign'],'HKLBalReclass':['Description'],'HKLChartOfAccounts':['Description'],'CostAccTemplates':['CostCenter','Job','ProductLine','DebitCreditSign','Perc','Notes'],'HKLDetailCstCenter':['Description'],'HKLDetailJob':['Description'],'HKLDetailProductLine':['Description'],'DBTLinksTable':['Image','Description']});
 
     }
 

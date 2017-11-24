@@ -10,7 +10,7 @@ import { IDD_BANKTRANSFERPRINTService } from './IDD_BANKTRANSFERPRINT.service';
     providers: [IDD_BANKTRANSFERPRINTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BANKTRANSFERPRINTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BANKTRANSFERPRINTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_PYMTORD_BANKTRANSFERTYPE_itemSource: any;
 
     constructor(document: IDD_BANKTRANSFERPRINTService,
@@ -20,7 +20,7 @@ export class IDD_BANKTRANSFERPRINTComponent extends BOComponent implements OnIni
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_BANKTRANSFERPRINTComponent extends BOComponent implements OnIni
   "namespace": "ERP.AP_AR.Documents.EnumComboBankTransfer"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['BankTransferType','AllSel1','SlipSel','SlipNo','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','bPrintIBAN','bUseOneDateForForeign','bNewRecordP9','SupporttName','Transmit'],'HKLBank':['Description']});
+        		this.bo.appendToModelStructure({'global':['BankTransferType','AllSel1','SlipSel','SlipNo','AllSel1','SlipSel','SlipNo','AllSel','NoSel','FromNo','ToNo','IgnorePrinted','IssueDate','IssueBank','DefPrint','bPrintIBAN','bUseOneDateForForeign','bNewRecordP9','SupporttName','Transmit'],'HKLBank':['Description']});
 
     }
 

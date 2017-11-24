@@ -10,7 +10,7 @@ import { IDD_CHECKS_RECEIVINGISSUINGService } from './IDD_CHECKS_RECEIVINGISSUIN
     providers: [IDD_CHECKS_RECEIVINGISSUINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_CHECKS_RECEIVINGISSUINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_CHECKS_RECEIVINGISSUINGComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_CHECKS_RECEIVINGISSUINGService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_CHECKS_RECEIVINGISSUINGComponent extends BOComponent implements
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Customer','Date','DocNoFilter','PostingDate','DocDate','NrDoc','Checks','AdvanceAmount','AdvanceNrDoc','Bills','TotalChecks','TotalAmount'],'HKLCustSupp':['CompanyName'],'Checks':['l_TEnhChecks_P06','l_TEnhChecks_P01','IssuerBank','IssuerBank','IssuerBankCA','IssuerBankCA','FiscalNo','BillType','Amount','DueDate','IssuePlace','IssueDate','IssuerName','IssuerTaxIdNumber','IssuerFiscalCode','Description','BillCode'],'Bills':['l_TEnhBillsCollection_P01','BillNo','CustSupp','l_TEnhBillsCollection_P02','InstallmentDate','PaymentTerm','Currency','PayableAmountInBaseCurr','PresentationAmountBaseCurr','l_TEnhBillsCollection_P18','l_TEnhBillsCollection_P19','l_TEnhBillsCollection_P20','PayableAmountInBaseCurr','l_TEnhBillsCollection_P21','l_TEnhBillsCollection_P22','Closed','PresentationAmountBaseCurr','PayableAmountInBaseCurr','Closed','PayableAmountInBaseCurr','PayableAmountInBaseCurr','l_TEnhBillsCollection_P19','l_TEnhBillsCollection_P20','PresentationAmountBaseCurr','l_TEnhBillsCollection_P17','l_TEnhBillsCollection_P03','l_TEnhBillsCollection_P07','CustSupp','l_TEnhBillsCollection_P02','ValueDate','l_TEnhBillsCollection_P28','l_TEnhBillsCollection_P23','l_TEnhBillsCollection_P24','CollectionDate','l_TEnhBillsCollection_P25','l_TEnhBillsCollection_P26','l_TEnhBillsCollection_P27','CustSuppBank']});
+        		this.bo.appendToModelStructure({'global':['Customer','Date','DocNoFilter','PostingDate','DocDate','NrDoc','Checks','AdvanceAmount','AdvanceNrDoc','Bills','TotalChecks','TotalAmount'],'HKLCustSupp':['CompanyName'],'Checks':['l_TEnhChecks_P06','l_TEnhChecks_P01','IssuerBank','IssuerBank','IssuerBankCA','IssuerBankCA','FiscalNo','BillType','Amount','DueDate','IssuePlace','IssueDate','IssuerName','IssuerTaxIdNumber','IssuerFiscalCode','Description','BillCode'],'Bills':['l_TEnhBillsCollection_P01','BillNo','CustSupp','l_TEnhBillsCollection_P02','InstallmentDate','PaymentTerm','Currency','PayableAmountInBaseCurr','PresentationAmountBaseCurr','l_TEnhBillsCollection_P18','l_TEnhBillsCollection_P19','l_TEnhBillsCollection_P20','PayableAmountInBaseCurr','l_TEnhBillsCollection_P21','l_TEnhBillsCollection_P22','Closed','PresentationAmountBaseCurr','PayableAmountInBaseCurr','Closed','PayableAmountInBaseCurr','PayableAmountInBaseCurr','l_TEnhBillsCollection_P19','l_TEnhBillsCollection_P20','PresentationAmountBaseCurr','l_TEnhBillsCollection_P17','l_TEnhBillsCollection_P03','l_TEnhBillsCollection_P07','CustSupp','l_TEnhBillsCollection_P02','ValueDate','l_TEnhBillsCollection_P28','l_TEnhBillsCollection_P23','l_TEnhBillsCollection_P24','CollectionDate','l_TEnhBillsCollection_P25','l_TEnhBillsCollection_P26','l_TEnhBillsCollection_P27','CustSuppBank']});
 
     }
 

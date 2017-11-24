@@ -10,7 +10,7 @@ import { IDD_DELETE_SUPPQUOTATIONSService } from './IDD_DELETE_SUPPQUOTATIONS.se
     providers: [IDD_DELETE_SUPPQUOTATIONSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DELETE_SUPPQUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DELETE_SUPPQUOTATIONSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DELETE_SUPPQUOTATIONSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DELETE_SUPPQUOTATIONSComponent extends BOComponent implements O
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllClosed','NotClosed','OnlyClosed','AllPrinted','NoPrinted','Printed','OnlyExpired','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllProspSupp','ProspSuppSel','FromProspectiveSupplier','ToProspectiveSupplier','AllQuotationNo','QuotationNoSel','FromQuotationNo','ToQuotationNo','AllClosed','NotClosed','OnlyClosed','AllPrinted','NoPrinted','Printed','OnlyExpired','nCurrentElement','GaugeDescription']});
 
     }
 

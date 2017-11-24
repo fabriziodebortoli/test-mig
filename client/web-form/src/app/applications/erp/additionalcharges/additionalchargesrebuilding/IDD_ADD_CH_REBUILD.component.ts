@@ -10,7 +10,7 @@ import { IDD_ADD_CH_REBUILDService } from './IDD_ADD_CH_REBUILD.service';
     providers: [IDD_ADD_CH_REBUILDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ADD_CH_REBUILDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ADD_CH_REBUILDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ADD_CH_REBUILDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ADD_CH_REBUILDComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['FromDate','ToDate','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['FromDate','ToDate','nCurrentElement','GaugeDescription']});
 
     }
 

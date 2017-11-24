@@ -10,7 +10,7 @@ import { IDD_TAXDECLARATIONService } from './IDD_TAXDECLARATION.service';
     providers: [IDD_TAXDECLARATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TAXDECLARATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TAXDECLARATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_TAXDECLARATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_TAXDECLARATIONComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['DeclType','Year','Period','PrintFile','PrintPaper','Name','Surname','Function','ProcessStatus']});
+        		this.bo.appendToModelStructure({'global':['DeclType','Year','Period','PrintFile','PrintPaper','Name','Surname','Function','ProcessStatus']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_PRINTERService } from './IDD_PARAMETERS_PRINTER.service'
     providers: [IDD_PARAMETERS_PRINTERService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_PRINTERComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_PRINTERComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PARAMETERS_PRINTERService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PARAMETERS_PRINTERComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['UpdateManagerbPrinterWithPrintPreview','UpdateManagerReportTitle','UpdateManagerReportTitle']});
+        		this.bo.appendToModelStructure({'global':['UpdateManagerbPrinterWithPrintPreview','UpdateManagerReportTitle','UpdateManagerReportTitle']});
 
     }
 

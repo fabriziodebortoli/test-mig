@@ -10,7 +10,7 @@ import { IDD_LOTGRAFService } from './IDD_LOTGRAF.service';
     providers: [IDD_LOTGRAFService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_LOTGRAFComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_LOTGRAFComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_LOTGRAFService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_LOTGRAFComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Item','Lot','CriticalItems','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
+        		this.bo.appendToModelStructure({'global':['Item','Lot','CriticalItems','DBTNodeDetail'],'DBTNodeDetail':['l_FieldName','l_FieldValue']});
 
     }
 

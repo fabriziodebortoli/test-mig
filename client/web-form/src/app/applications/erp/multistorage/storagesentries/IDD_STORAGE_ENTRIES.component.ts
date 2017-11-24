@@ -10,7 +10,7 @@ import { IDD_STORAGE_ENTRIESService } from './IDD_STORAGE_ENTRIES.service';
     providers: [IDD_STORAGE_ENTRIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_STORAGE_ENTRIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_STORAGE_ENTRIESComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_STORAGEENTRIES_CODETYPE_SPECIFICATOR_itemSource: any;
 public IDC_STORAGEENTRIES_PROC_CODETYPE_SPECIFICATOR2_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_STORAGEENTRIES_PROC_CODETYPE_SPECIFICATOR2_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ this.IDC_STORAGEENTRIES_PROC_CODETYPE_SPECIFICATOR2_itemSource = {
   "namespace": "ERP.Inventory.Components.SpecTypeNoIgnoreCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','bAllItems','bItemSel','FromItem','ToItem','Reason','OperationDate','Storage2','Specificator2Type','Specificator2','StoragesEntries'],'StoragesEntries':['StoragesEn_Selected','Item','BaseUoM','StoragesEn_Existence','StoragesEn_Qty','StoragesEn_Lot','StoragesEn_Variant','ProposedValue','StoragesEn_Annotations'],'HKLItems':['Description']});
+        		this.bo.appendToModelStructure({'global':['Storage','SpecificatorType','Specificator','bAllItems','bItemSel','FromItem','ToItem','Reason','OperationDate','Storage2','Specificator2Type','Specificator2','StoragesEntries'],'StoragesEntries':['StoragesEn_Selected','Item','BaseUoM','StoragesEn_Existence','StoragesEn_Qty','StoragesEn_Lot','StoragesEn_Variant','ProposedValue','StoragesEn_Annotations'],'HKLItems':['Description']});
 
     }
 

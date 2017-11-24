@@ -10,7 +10,7 @@ import { IDD_TOOLS_REGENERATIONService } from './IDD_TOOLS_REGENERATION.service'
     providers: [IDD_TOOLS_REGENERATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_TOOLS_REGENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_TOOLS_REGENERATIONComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_TOOLS_REGENERATION_ACTION_BE_itemSource: any;
 
     constructor(document: IDD_TOOLS_REGENERATIONService,
@@ -20,7 +20,7 @@ export class IDD_TOOLS_REGENERATIONComponent extends BOComponent implements OnIn
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_TOOLS_REGENERATIONComponent extends BOComponent implements OnIn
   "namespace": "ERP.ToolsManagement.Documents.RegenerationStatusItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','ToolType','bToBeReconditioned','bUnderMaintenance','ToolsRegeneration'],'ToolsRegeneration':['LocalBmpStatus','Selected','Tool','ActualStatus','UsedQuantity','UsedTime','MaxQuantity','MaxTime','Reconditioning','MaxReconditioning','LocalRemarks','MaintenanceWorker','ReconditioningStartDate','ReconditioningDuration','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
+        		this.bo.appendToModelStructure({'global':['bAllTools','bSelTools','FromTool','ToTool','bAllFamilies','bSelFamilies','FromFamily','ToFamily','ToolType','bToBeReconditioned','bUnderMaintenance','ToolsRegeneration'],'ToolsRegeneration':['LocalBmpStatus','Selected','Tool','ActualStatus','UsedQuantity','UsedTime','MaxQuantity','MaxTime','Reconditioning','MaxReconditioning','LocalRemarks','MaintenanceWorker','ReconditioningStartDate','ReconditioningDuration','ToolStatus'],'HKLToolsBE':['Description'],'HKLWorkers':['WorkerDesc']});
 
     }
 

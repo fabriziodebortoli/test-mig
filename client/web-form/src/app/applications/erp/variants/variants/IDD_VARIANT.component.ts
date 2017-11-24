@@ -10,7 +10,7 @@ import { IDD_VARIANTService } from './IDD_VARIANT.service';
     providers: [IDD_VARIANTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_VARIANTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_VARIANTComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_LABOUR_DETAILS_ESTIMATED_LABOUR_TYPE_itemSource: any;
 
     constructor(document: IDD_VARIANTService,
@@ -20,7 +20,7 @@ export class IDD_VARIANTComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_VARIANTComponent extends BOComponent implements OnInit, OnDestr
   "namespace": "ERP.Routing.Components.LabourLabourTypeItemSource"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Variants':['Item','Variant','BOM','Notes','FromConfigurator'],'HKLItemsSelectNature':['Description'],'HKLBillOfMaterialsNoGhost':['Description'],'global':['VariantComponents','VariantRouting','__DBTLabour','DBTVariantsECO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTVariantsECO':['l_BmpStatus','ECONo','ECORevision','ECOStatus','ECOConfirmationDate','ECOCreationDate','ECONotes']});
+        		this.bo.appendToModelStructure({'Variants':['Item','Variant','BOM','Notes','FromConfigurator'],'HKLItemsSelectNature':['Description'],'HKLBillOfMaterialsNoGhost':['Description'],'global':['VariantComponents','VariantRouting','__DBTLabour','DBTVariantsECO','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'@DBTLabour':['__ePhase','__bIsWorker','__eResourceType','__sResourceCode','__nWorkerID','__sResourceDescription','__eLabourType','__bIsPercent','__nAttendancePerc','__nWorkingTime','__dDate','__nNoOfResources'],'DBTVariantsECO':['l_BmpStatus','ECONo','ECORevision','ECOStatus','ECOConfirmationDate','ECOCreationDate','ECONotes']});
 
     }
 

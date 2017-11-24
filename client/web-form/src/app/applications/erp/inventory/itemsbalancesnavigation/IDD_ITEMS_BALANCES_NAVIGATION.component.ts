@@ -10,7 +10,7 @@ import { IDD_ITEMS_BALANCES_NAVIGATIONService } from './IDD_ITEMS_BALANCES_NAVIG
     providers: [IDD_ITEMS_BALANCES_NAVIGATIONService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_ITEMS_BALANCES_NAVIGATIONComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_ITEMS_BALANCES_NAVIGATIONComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_ITEMS_BALANCES_NAVIGATIONService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_ITEMS_BALANCES_NAVIGATIONComponent extends BOComponent implemen
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Item','Storage','SpecificatorType','Specificator','bAllVariants','bVariantSel','Variant','bAllLots','bLotSel','Lot','bAlsoOutOfStock','Item','BaseUoM','LastCost','AverageCost','WeightedAverage','InitialBookInv','FinalBookInventory','InitialBookInvValue','BookInvValue','InitialOnHand','FinalOnHand','OrderedPurchOrd','OrderedToProd','ReservedSaleOrd','AllocatedQty','ReservedByProd','Availability','PurchasesQty','PurchasesValue','SalesQty','SalesValue','ScrapQty','ScrapValue','ReceivedQty','ReceivedValue','IssuedQty','IssuedValue','CIGValue','InitialReturnedQty','ReturnedQty','InitialForRepairing','ForRepairing','InitialSampleGoods','SampleGoods','InitialSampling','Sampling','InitialBailment','Bailment','PickedQty','ProducedQty','ProducedValue','InitialUsedByProduction','UsedInProduction','InitialUsedInProductionValue','UsedInProductionValue','PickingValue','InitialSubcontracting','Subcontracting','InitialForSubcontracting','ForSubcontracting','CustomDescription1','InitialCustomQty1','InitialCustomValue1','CustomQty1','CustomValue1','CustomDescription2','InitialCustomQty2','InitialCustomValue2','CustomQty2','CustomValue2','CustomDescription3','InitialCustomQty3','InitialCustomValue3','CustomQty3','CustomValue3','CustomDescription4','InitialCustomQty4','InitialCustomValue4','CustomQty4','CustomValue4','CustomDescription5','InitialCustomQty5','InitialCustomValue5','CustomQty5','CustomValue5','LegendFiscalYearImg','LegendStorageImg','LegendSpecificatorImg','LegendLotImg'],'HKLItems':['Description']});
+        		this.bo.appendToModelStructure({'global':['Item','Storage','SpecificatorType','Specificator','bAllVariants','bVariantSel','Variant','bAllLots','bLotSel','Lot','bAlsoOutOfStock','Item','BaseUoM','LastCost','AverageCost','WeightedAverage','InitialBookInv','FinalBookInventory','InitialBookInvValue','BookInvValue','InitialOnHand','FinalOnHand','OrderedPurchOrd','OrderedToProd','ReservedSaleOrd','AllocatedQty','ReservedByProd','Availability','PurchasesQty','PurchasesValue','SalesQty','SalesValue','ScrapQty','ScrapValue','ReceivedQty','ReceivedValue','IssuedQty','IssuedValue','CIGValue','InitialReturnedQty','ReturnedQty','InitialForRepairing','ForRepairing','InitialSampleGoods','SampleGoods','InitialSampling','Sampling','InitialBailment','Bailment','PickedQty','ProducedQty','ProducedValue','InitialUsedByProduction','UsedInProduction','InitialUsedInProductionValue','UsedInProductionValue','PickingValue','InitialSubcontracting','Subcontracting','InitialForSubcontracting','ForSubcontracting','CustomDescription1','InitialCustomQty1','InitialCustomValue1','CustomQty1','CustomValue1','CustomDescription2','InitialCustomQty2','InitialCustomValue2','CustomQty2','CustomValue2','CustomDescription3','InitialCustomQty3','InitialCustomValue3','CustomQty3','CustomValue3','CustomDescription4','InitialCustomQty4','InitialCustomValue4','CustomQty4','CustomValue4','CustomDescription5','InitialCustomQty5','InitialCustomValue5','CustomQty5','CustomValue5','LegendFiscalYearImg','LegendStorageImg','LegendSpecificatorImg','LegendLotImg'],'HKLItems':['Description']});
 
     }
 

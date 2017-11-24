@@ -10,7 +10,7 @@ import { IDD_DELETE_PURCHORDService } from './IDD_DELETE_PURCHORD.service';
     providers: [IDD_DELETE_PURCHORDService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_DELETE_PURCHORDComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_DELETE_PURCHORDComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_DELETE_PURCHORDService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_DELETE_PURCHORDComponent extends BOComponent implements OnInit,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','AllPayed','NotPayed','Payed','AllAccounting','NotInAccounting','InAccounting','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
+        		this.bo.appendToModelStructure({'global':['StartingDate','EndingDate','AllSupp','SuppsSel','SuppStart','SuppEnd','AllInternalNo','InternalNoSel','FromInternalNo','ToInternalNo','AllExternalNo','ExternalNoSel','FromExternalNo','ToExternalNo','AllPayed','NotPayed','Payed','AllAccounting','NotInAccounting','InAccounting','AllCancelled','NotCancelled','Cancelled','AllPrinted','NoPrinted','Printed','nCurrentElement','GaugeDescription']});
 
     }
 

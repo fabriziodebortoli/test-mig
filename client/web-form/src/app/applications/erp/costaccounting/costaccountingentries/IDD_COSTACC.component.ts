@@ -10,7 +10,7 @@ import { IDD_COSTACCService } from './IDD_COSTACC.service';
     providers: [IDD_COSTACCService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_COSTACCComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_COSTACCComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_COSTACC_ENTRYTYPE_itemSource: any;
 
     constructor(document: IDD_COSTACCService,
@@ -20,7 +20,7 @@ export class IDD_COSTACCComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -30,8 +30,7 @@ export class IDD_COSTACCComponent extends BOComponent implements OnInit, OnDestr
   "namespace": "ERP.CostAccounting.Components.EntryTypeForecastEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Header':['Account','PostingDate','AccrualDate','RefNo','Reversing','CodeType','DebitCreditSign','TotalAmount','Notes','DocumentDate','DocNo','LogNo','DocNo','LogNo','RefDocNo','CustSuppType','CustSupp'],'HKLAccount':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['Detail','DebitCCTot','CostCentersDebitVar','DebitJobTot','JobsDebitVar','DebitLineTot','LinesDebitVar','CreditCCTot','CostCentersCreditVar','CreditJobTot','JobsCreditVar','CreditLineTot','LinesCreditVar','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['AccrualDate','CostCenter','Job','ProductLine','DebitCreditSign','Perc','Amount','Item','Qty','Notes'],'HKLDetailCstCenter':['Description'],'HKLDetailJob':['Description'],'HKLDetailProductLine':['Description'],'HKLDetailItem':['Description']});
+        		this.bo.appendToModelStructure({'Header':['Account','PostingDate','AccrualDate','RefNo','Reversing','CodeType','DebitCreditSign','TotalAmount','Notes','DocumentDate','DocNo','LogNo','DocNo','LogNo','RefDocNo','CustSuppType','CustSupp'],'HKLAccount':['Description'],'HKLCustSupp':['CompNameComplete'],'global':['Detail','DebitCCTot','CostCentersDebitVar','DebitJobTot','JobsDebitVar','DebitLineTot','LinesDebitVar','CreditCCTot','CostCentersCreditVar','CreditJobTot','JobsCreditVar','CreditLineTot','LinesCreditVar','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'Detail':['AccrualDate','CostCenter','Job','ProductLine','DebitCreditSign','Perc','Amount','Item','Qty','Notes'],'HKLDetailCstCenter':['Description'],'HKLDetailJob':['Description'],'HKLDetailProductLine':['Description'],'HKLDetailItem':['Description']});
 
     }
 

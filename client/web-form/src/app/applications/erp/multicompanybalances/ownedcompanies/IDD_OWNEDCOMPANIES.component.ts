@@ -10,7 +10,7 @@ import { IDD_OWNEDCOMPANIESService } from './IDD_OWNEDCOMPANIES.service';
     providers: [IDD_OWNEDCOMPANIESService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_OWNEDCOMPANIESComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_OWNEDCOMPANIESComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_OWNEDCOMPANIESService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_OWNEDCOMPANIESComponent extends BOComponent implements OnInit, 
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'OwnedCompanies':['Company','CompanyName','ExpectedConsolidDayMonth','CompanyIdentifier','Notes'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Notes']});
+        		this.bo.appendToModelStructure({'OwnedCompanies':['Company','CompanyName','ExpectedConsolidDayMonth','CompanyIdentifier','Notes'],'global':['Balances','SendingsMade','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'SendingsMade':['BalanceDate','SendingDate','Notes']});
 
     }
 

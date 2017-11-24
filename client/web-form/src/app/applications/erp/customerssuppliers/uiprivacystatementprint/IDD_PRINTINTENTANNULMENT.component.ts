@@ -10,7 +10,7 @@ import { IDD_PRINTINTENTANNULMENTService } from './IDD_PRINTINTENTANNULMENT.serv
     providers: [IDD_PRINTINTENTANNULMENTService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PRINTINTENTANNULMENTComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PRINTINTENTANNULMENTComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_PRINTINTENTANNULMENTService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_PRINTINTENTANNULMENTComponent extends BOComponent implements On
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['Year','LogNo','Reprint','CustSuppAll','CustSuppSel','FromCode','CustSuppSel','FromCode','FromCode','ToCode','TaxCode','ISOCode','FromDate','ToDate','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
+        		this.bo.appendToModelStructure({'global':['Year','LogNo','Reprint','CustSuppAll','CustSuppSel','FromCode','CustSuppSel','FromCode','FromCode','ToCode','TaxCode','ISOCode','FromDate','ToDate','DefPrint','Labels','EMail','PrintMail','PostaLite','PrintPostaLite','PLDeliveryType','PLPrintType','ProcessStatus'],'HKLFromCode':['CompanyName','CompanyName','CompanyName'],'HKLToCode':['CompanyName']});
 
     }
 

@@ -10,7 +10,7 @@ import { IDD_BOLETOSService } from './IDD_BOLETOS.service';
     providers: [IDD_BOLETOSService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_BOLETOSComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_BOLETOSComponent extends BOComponent implements OnInit, OnDestroy {
      
     constructor(document: IDD_BOLETOSService,
         eventData: EventDataService,
@@ -19,14 +19,13 @@ export class IDD_BOLETOSComponent extends BOComponent implements OnInit, OnDestr
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
         
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'Boletos':['BoletoNo','Cancelled','IssuerBank','BarCode','OurNumber','PrintedOurNumber','Amount','DueDate','IssuingDate','ConditionCode','InterestRate','PenalityRate','DiscountRate','ProtestDays','Instruction','PrintedOnPaper','PrintedOnFile','UpdateNo','OriginalAmount','Customer','Collected','CollectionDate','CollectedAmount','InterestPenality'],'HKLIssuerBank':['Description'],'HKLCustomers':['CompanyName'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
+        		this.bo.appendToModelStructure({'Boletos':['BoletoNo','Cancelled','IssuerBank','BarCode','OurNumber','PrintedOurNumber','Amount','DueDate','IssuingDate','ConditionCode','InterestRate','PenalityRate','DiscountRate','ProtestDays','Instruction','PrintedOnPaper','PrintedOnFile','UpdateNo','OriginalAmount','Customer','Collected','CollectionDate','CollectedAmount','InterestPenality'],'HKLIssuerBank':['Description'],'HKLCustomers':['CompanyName'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg','DBTLinksTable'],'DBTLinksTable':['Image','Description']});
 
     }
 

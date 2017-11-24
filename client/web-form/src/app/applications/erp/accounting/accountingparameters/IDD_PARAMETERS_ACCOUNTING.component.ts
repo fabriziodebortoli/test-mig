@@ -10,7 +10,7 @@ import { IDD_PARAMETERS_ACCOUNTINGService } from './IDD_PARAMETERS_ACCOUNTING.se
     providers: [IDD_PARAMETERS_ACCOUNTINGService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IDD_PARAMETERS_ACCOUNTINGComponent extends BOComponent implements OnInit, OnDestroy {
+    export class IDD_PARAMETERS_ACCOUNTINGComponent extends BOComponent implements OnInit, OnDestroy {
      public IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE_itemSource: any;
 public IDC_TBA_CODETYPE_itemSource: any;
 
@@ -21,7 +21,7 @@ public IDC_TBA_CODETYPE_itemSource: any;
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
-        this.eventData.change.subscribe(() => this.changeDetectorRef.detectChanges());
+        this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
@@ -39,8 +39,7 @@ this.IDC_ACCPARAMDECL_TELEMATICDECLARATIONTYPE_itemSource = {
   "namespace": "ERP.Accounting.Components.DeclarationExportFileEnumCombo"
 }; 
 
-        const boService = this.document as BOService;
-		boService.appendToModelStructure({'global':['TaxAmount','TAXJournalsReferencesDetails','TelematicDeclarations','CustomizedPrint','AccBookParametersPrint','BalancesExportFiles','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'TaxAmount':['Line','Description','Amount','ToDebit'],'TAXJournalsReferencesDetails':['SaleRetailType','l_TEnhTAXJournalsRefDetail_P3','l_TEnhTAXJournalsRefDetail_P1','TaxCode','l_TEnhTAXJournalsRefDetail_P4','l_TEnhTAXJournalsRefDetail_P2','AccountingTemplate','l_TEnhTAXJournalsRefDetail_P5','TaxableAmountColumn','TaxAmountColumn','Description'],'TelematicDeclarations':['TelematicDeclarationType','DeclarationPath'],'CustomizedPrint':['CodeType','DescriptiveText'],'AccBookParametersPrint':['ReportType','ReportNamespace'],'BalancesExportFiles':['TelematicDeclarationType','DeclarationPath']});
+        		this.bo.appendToModelStructure({'global':['TaxAmount','TAXJournalsReferencesDetails','TelematicDeclarations','CustomizedPrint','AccBookParametersPrint','BalancesExportFiles','ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg'],'TaxAmount':['Line','Description','Amount','ToDebit'],'TAXJournalsReferencesDetails':['SaleRetailType','l_TEnhTAXJournalsRefDetail_P3','l_TEnhTAXJournalsRefDetail_P1','TaxCode','l_TEnhTAXJournalsRefDetail_P4','l_TEnhTAXJournalsRefDetail_P2','AccountingTemplate','l_TEnhTAXJournalsRefDetail_P5','TaxableAmountColumn','TaxAmountColumn','Description'],'TelematicDeclarations':['TelematicDeclarationType','DeclarationPath'],'CustomizedPrint':['CodeType','DescriptiveText'],'AccBookParametersPrint':['ReportType','ReportNamespace'],'BalancesExportFiles':['TelematicDeclarationType','DeclarationPath']});
 
     }
 
