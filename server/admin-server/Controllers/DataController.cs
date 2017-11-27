@@ -54,7 +54,7 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/savecluster")]
         public IActionResult Post([FromBody] dynamic dataCluster)
         {
-			// now we check authorization
+			// checking authorization
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 			OperationResult opRes = AuthorizationHelper.VerifyPermissionOnGWAM(authHeader, this.httpHelper, this.GWAMUrl);
@@ -65,22 +65,47 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// now we produce the list of items that belong to the data cluster, and save it
+			// saving the cluster
 
+			// list of model objects created from the data cluster
 			List<IModelObject> modelList = DataControllerHelper.GetModelListFromCluster(dataCluster);
 
-			OperationResult saveResult = new OperationResult();
+			// a list of all saved models. We'll use this list in case we need to rollback the savings
+			Stack<IModelObject> savedModelStack = new Stack<IModelObject>();
+
+			// log of each model saving
 			Dictionary<string, bool> saveLog = new Dictionary<string, bool>();
 
-			// todo: if an error occurs while saving models, then delete all cluster and raisean error
+			OperationResult saveResult = new OperationResult();
+			bool saveClusterResult = true;
 
-			modelList.ForEach(modelItem =>
+			foreach (IModelObject iModel in modelList)
 			{
-				saveResult = modelItem.Save(this.burgerData);
-				saveLog.Add(modelItem.GetHashCode() + ": " + saveResult.Message, saveResult.Result);
-			});
+				saveResult = iModel.Save(this.burgerData);
+				saveLog.Add(iModel.GetHashCode().ToString() + ": " + saveResult.Message, saveResult.Result);
+				
+				if (!saveResult.Result)
+				{
+					saveClusterResult = false;
+					break;
+				}
 
-			jsonHelper.AddJsonCouple<string>("result", "API.savecluster completed");
+				savedModelStack.Push(iModel);
+			}
+
+			if (saveClusterResult == false)
+			{
+				// an error occurred while saving, so proceed to clean all items
+				// in savedModelList
+
+				while (savedModelStack.Count > 0)
+				{
+					savedModelStack.Pop().Delete(this.burgerData);
+				}
+			}
+
+			jsonHelper.AddJsonCouple<string>("API Save Cluster", "Execution completed. See the following");
+			jsonHelper.AddJsonCouple<bool>("savecluster result:", saveClusterResult);
 			jsonHelper.AddJsonCouple<Dictionary<string, bool>>("operationLog", saveLog);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
         }

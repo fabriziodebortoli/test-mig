@@ -63,6 +63,17 @@ namespace Microarea.AdminServer.Model
 		{
 			throw new NotImplementedException();
 		}
+
+		//----------------------------------------------------------------------
+		public OperationResult Delete(BurgerData burgerData)
+		{
+			OperationResult opRes = new OperationResult();
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
+			burgerDataParameters.Add(new BurgerDataParameter("@InstanceKey", this.instanceKey));
+			opRes.Result = burgerData.Delete(ModelTables.InstanceAccounts, burgerDataParameters);
+			return opRes;
+		}
 	}
 }
 

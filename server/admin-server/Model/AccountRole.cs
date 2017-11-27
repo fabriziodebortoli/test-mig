@@ -76,5 +76,17 @@ namespace Microarea.AdminServer.Model
         {
             return String.Concat(" ( AccountName = '", this.accountName, "' ) ");
         }
-    }
+
+		//----------------------------------------------------------------------
+		public OperationResult Delete(BurgerData burgerData)
+		{
+			OperationResult opRes = new OperationResult();
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.AccountName));
+			burgerDataParameters.Add(new BurgerDataParameter("@RoleName", this.RoleName));
+			burgerDataParameters.Add(new BurgerDataParameter("@EntityKey", this.EntityKey));
+			opRes.Result = burgerData.Delete(ModelTables.AccountRoles, burgerDataParameters);
+			return opRes;
+		}
+	}
 }

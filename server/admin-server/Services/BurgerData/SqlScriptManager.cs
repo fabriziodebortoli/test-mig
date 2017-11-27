@@ -202,8 +202,54 @@ namespace Microarea.AdminServer.Services.BurgerData
             }
         }
 
-        //--------------------------------------------------------------------------------
-        public static ModelTables GetModelTable(string modelName)
+		//--------------------------------------------------------------------------------
+		public static string GetDeleteQueryByModel(ModelTables table)
+		{
+			switch (table)
+			{
+				case ModelTables.None:
+					return String.Empty;
+
+				case ModelTables.Accounts:
+					return Queries.DeleteAccount;
+
+				case ModelTables.AccountRoles:
+					return Queries.DeleteAccountRole;
+
+				case ModelTables.Instances:
+					return Queries.DeleteInstance;
+
+				case ModelTables.InstanceAccounts:
+					return Queries.DeleteInstanceAccount;
+
+				case ModelTables.Roles:
+					return Queries.DeleteRole;
+
+				case ModelTables.Subscriptions:
+					return String.Empty;
+
+				case ModelTables.SubscriptionAccounts:
+					return String.Empty;
+
+				case ModelTables.SubscriptionDatabases:
+					return String.Empty;
+
+				case ModelTables.SubscriptionExternalSources:
+					return String.Empty;
+
+				case ModelTables.SecurityTokens:
+					return String.Empty;
+
+				case ModelTables.SubscriptionInstances:
+					return String.Empty;
+
+				default:
+					return String.Empty;
+			}
+		}
+
+		//--------------------------------------------------------------------------------
+		public static ModelTables GetModelTable(string modelName)
         {
             switch (modelName.ToUpperInvariant())
             {
@@ -223,5 +269,6 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return ModelTables.None;
             }
         }
-    }
+
+	}
 }
