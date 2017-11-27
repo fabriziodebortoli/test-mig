@@ -47,33 +47,12 @@
       </div>
     </div>    
   </div>
-
+  
   <div *ngIf="currentStep == 2">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h2 class="stepDone">Step 1: Instance Information</h2>
-        <h2>Step 2: Select a Subscription</h2>
-        <h3>This Instance will be associated to this subscription:</h3>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <div class="adminTile tileNormal">
-          Subscriptions
-          <admin-list 
-            [items]=subscriptions
-            [columnNames]="['SubscriptionKey']" 
-            [readingData]=readingData
-            (onSelectedItem)="associateInstanceToSubscription($event)"></admin-list>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div *ngIf="currentStep == 3">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h2 class="stepDone">Step 1: Instance Information</h2>
-        <h2 class="stepDone">Step 2: Select a Subscription</h2>
-        <h2 class="stayLine">Step 3: Completing the registration</h2><img class="stayLine" *ngIf="busy" src="assets/ajax-loader.gif" />
+        <h2 class="stayLine">Step 2: Completing the registration</h2><img class="stayLine" *ngIf="busy" src="assets/ajax-loader.gif" />
         <br><br>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">

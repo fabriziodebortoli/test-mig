@@ -95,26 +95,48 @@ export class InstanceRegistrationComponent implements OnDestroy {
           return;
         }
 
-        this.currentStep++;
-        
         this.securityValue = res['Content'].securityValue;
+        let instanceCluster = res['Content'].dataCluster;
 
-        this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: this.accountName } }, this.activationCode).subscribe(
-          res => {
-            this.subscriptions = res['Content'];
-            this.readingData = false;
+        if (instanceCluster === null || instanceCluster === undefined) {
+          this.clusterStep = 0;
+          this.busy = false;
+          return;
+        }        
+
+        this.currentStep++;
+
+        this.clusterStep = 1;
+
+        this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
+          res => { 
+            this.clusterStep = 2;
             this.busy = false;
+
+            this.modelService.setData({}, true, this.activationCode, this.model.InstanceKey, this.accountName).retry(3).subscribe(
+              res => {
+                this.clusterStep = 3;
+                this.busy = false;
+              },
+              err => {
+                this.clusterStep = 0;
+                this.busy = false;
+              }
+            )
+
           },
-          err => {
-            alert(err);
-            this.readingData = false;
+          err => { 
+            alert('Registration Failed'); 
+            this.clusterStep = 0;
             this.busy = false;
           }
-        );
+        )        
+
 
       },
       err => {
         alert(err);
+        this.clusterStep = 0;
         this.readingData = false;
         this.busy = false;
       }
