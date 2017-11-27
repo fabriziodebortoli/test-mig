@@ -412,4 +412,19 @@
     <value>It is not possible to change customization context with opened documents.
 Please, close all documents.</value>
   </data>
+  <data name="Auditing" xml:space="preserve">
+    <value>Auditing</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="TaskBuilderDeveloper" xml:space="preserve">
+    <value>TaskBuilder Developer</value>
+  </data>
 </root>

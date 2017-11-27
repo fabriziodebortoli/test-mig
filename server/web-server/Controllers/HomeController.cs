@@ -14,10 +14,11 @@ namespace WebServer
 {
     public class HomeController : Controller
     {
-		private IHostingEnvironment _env;
+		private IHostingEnvironment _env = null;
 
 		public HomeController(IHostingEnvironment env)
 		{
+            this._env = env;
 		}
 		// GET: api/values
 		[HttpGet]

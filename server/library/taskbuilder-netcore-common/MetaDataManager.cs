@@ -340,9 +340,7 @@ namespace Microarea.Common
             {
                 string nameSpace = string.Empty;
 				string fileFullName = aFile.FullName;
-                string a = "";
-                if ("C:\\DEV_ERP_NEXT\\Standard\\Applications\\ERP\\Accounting\\ModuleObjects\\AccountingParameters\\JsonForms\\IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT.hjson" == aFile.FullName)
-                    a = "";
+                //if ("C:\\DEV_ERP_NEXT\\Standard\\Applications\\ERP\\Accounting\\ModuleObjects\\AccountingParameters\\JsonForms\\IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT.hjson" == aFile.FullName)
                 if (BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
                 {
                     nameSpace = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(aFile.FullName).ToString();

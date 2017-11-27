@@ -19,6 +19,7 @@ import { DataService } from './services/data.service';
 import { DocumentService } from './services/document.service';
 import { EasystudioService } from './services/easystudio.service';
 import { EnumsService } from './services/enums.service';
+import { FormattersService } from './services/formatters.service';
 import { EventDataService } from './services/eventdata.service';
 import { ExplorerService } from './services/explorer.service';
 import { HttpService } from './services/http.service';
@@ -53,6 +54,7 @@ export { DataService } from './services/data.service';
 export { DocumentService } from './services/document.service';
 export { EasystudioService } from './services/easystudio.service';
 export { EnumsService } from './services/enums.service';
+export { FormattersService } from './services/formatters.service';
 export { EventDataService } from './services/eventdata.service';
 export { ExplorerService } from './services/explorer.service';
 export { HttpService } from './services/http.service';
@@ -75,7 +77,7 @@ export { ThemeService } from './services/theme.service';
 
 export const TB_SERVICES = [
     TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
-    EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
+    FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
     LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
 ];

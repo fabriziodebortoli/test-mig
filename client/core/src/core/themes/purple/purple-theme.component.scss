@@ -108,28 +108,28 @@ $font-size-tooltip: 12px;
     }
     //Colore icone di tipo document
     tb-menu-element .menu-element-content .object-type.Document {
-        color: $bkg-medium;
+        color: $bkg-light;
     }
     //Colore icone di tipo Report
     tb-menu-element .menu-element-content .object-type.Report {
-        color: $bkg-medium;
+        color: $bkg-light;
     }
     //Colore icone di tipo Batch
     tb-menu-element .menu-element-content .object-type.Batch {
-        color: $bkg-medium;
+        color: $bkg-light;
     }
     //Colore icone di tipo Function
     tb-menu-element .menu-element-content .object-type.Function {
-        color: $bkg-medium;
+        color: $bkg-light;
     }
     //colore della stellina nel menu dei favoriti
     tb-menu-element .menu-element-content .star {
-        color: $bkg-medium;
+        color: $bkg-light;
         font-size: 18px;
         line-height: 22px;
         margin-right: 3px;
         &.favorite {
-            color: $bkg-medium;
+            color: $bkg-light;
         }
     }
     tb-menu-element .menu-element-content .star:hover {
@@ -210,7 +210,7 @@ $font-size-tooltip: 12px;
         .most-used-item,
         .favorite-item,
         .hiddentiles {
-            background: #f1f4f7;
+            background: #f1f1f1;
             border: 1px solid #ddd;
             margin: 3px 7px;
             height: 28px;

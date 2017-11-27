@@ -1,26 +1,26 @@
 <div class=info-container>
     <div class="box">
-        <div>{{localizationService.localizedElements?.InstallationVersion}}:</div>
+        <div>{{localizationService.localizedElements?.InstallationVersion}}</div>
         <div class='text'>{{productInfos?.installationVersion}} {{productInfos?.debugState}}</div>
     </div>
     <div class="box" *ngIf="productInfos?.providerDescription">
-        <div>{{localizationService.localizedElements?.Provider}}:</div>
+        <div>{{localizationService.localizedElements?.Provider}}</div>
         <div class='text'>{{productInfos?.providerDescription}}</div>
     </div>
     <div class="box">
-        <div>{{localizationService.localizedElements?.Edition}}:</div>
+        <div>{{localizationService.localizedElements?.Edition}}</div>
         <div class='text'>{{productInfos?.edition}}</div>
     </div>
     <div class="box">
-        <div>{{localizationService.localizedElements?.InstallationName}}:</div>
+        <div>{{localizationService.localizedElements?.InstallationName}}</div>
         <div class='text'>{{productInfos?.installationName}}</div>
     </div>
     <div class="box">
-        <div> {{localizationService.localizedElements?.ActivationState}}:</div>
+        <div> {{localizationService.localizedElements?.ActivationState}}</div>
         <div class='text'>{{productInfos?.activationState}}</div>
     </div>
     <div class="box" *ngFor="let current of utilsService.toArray(productInfos?.Applications)">
-        <div> {{current?.application}}:</div>
+        <div> {{current?.application}}</div>
         <div class='text'>{{current?.licensed}}</div>
     </div>
 </div>

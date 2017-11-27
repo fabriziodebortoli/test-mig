@@ -612,11 +612,8 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		public static string GetConnectionInformation(string authenticationToken)
 		{
-			string Yes = "Yes";
-			string No = "No";
 			LoginFacilities lf = new LoginFacilities();
 			lf.Load();
-
 
 			// la chiamata di questo metodo mi serve per caricare l'informazione EasyBuilderDeveloper
 			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
@@ -633,11 +630,11 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WritePropertyName("user");
 					jsonWriter.WriteValue(loginManagerSession.UserName);
 					jsonWriter.WritePropertyName("admin");
-					jsonWriter.WriteValue(loginManagerSession.Admin);
+					jsonWriter.WriteValue(loginManagerSession.Admin ? MenuStrings.Yes : MenuStrings.No);
 					jsonWriter.WritePropertyName("ebdev");
 					bool ok = loginManagerSession.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
                                                     LoginManager.LoginManagerInstance.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
-					jsonWriter.WriteValue(ok);
+					jsonWriter.WriteValue(ok ? MenuStrings.Yes : MenuStrings.No);
 					jsonWriter.WritePropertyName("company");
 					jsonWriter.WriteValue(loginManagerSession.CompanyName);
 
@@ -656,22 +653,22 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.RemoteWebServer);
 
 					jsonWriter.WritePropertyName("security");
-					jsonWriter.WriteValue(loginManagerSession.Security);
+					jsonWriter.WriteValue(loginManagerSession.Security ? MenuStrings.Enabled : MenuStrings.Disabled);
 					jsonWriter.WritePropertyName("auditing");
-					jsonWriter.WriteValue(loginManagerSession.Auditing);
+					jsonWriter.WriteValue(loginManagerSession.Auditing ? MenuStrings.Enabled : MenuStrings.Disabled);
 
 					bool showDBSizeControls = (LoginManager.LoginManagerInstance.GetDBNetworkType() == DBNetworkType.Small &&
 							string.Compare(loginManagerSession.ProviderName, NameSolverDatabaseStrings.SQLOLEDBProvider, StringComparison.OrdinalIgnoreCase) == 0 ||
 							string.Compare(loginManagerSession.ProviderName, NameSolverDatabaseStrings.SQLODBCProvider, StringComparison.OrdinalIgnoreCase) == 0);
 
 					jsonWriter.WritePropertyName("showdbsizecontrols");
-					jsonWriter.WriteValue(showDBSizeControls);
+					jsonWriter.WriteValue(showDBSizeControls ? MenuStrings.Yes : MenuStrings.No);
 					float usagePercentage = LoginManager.LoginManagerInstance.GetUsagePercentageOnDBSize(loginManagerSession.ConnectionString);
 					showDBSizeControls = showDBSizeControls && (usagePercentage == -1);
 					jsonWriter.WritePropertyName("freespace");
-					jsonWriter.WriteValue(showDBSizeControls ? (100 - usagePercentage).ToString() : "NA");
+					jsonWriter.WriteValue(showDBSizeControls ? (100 - usagePercentage).ToString() : "");
 					jsonWriter.WritePropertyName("usedspace");
-					jsonWriter.WriteValue(showDBSizeControls ? usagePercentage.ToString() : "NA");
+					jsonWriter.WriteValue(showDBSizeControls ? usagePercentage.ToString() : "");
 				}
 
 				lf.Diagnostic.ToJson(jsonWriter, true);//se ci sono messaggi, li serializzo all'utente
@@ -730,34 +727,42 @@ namespace Microarea.Common.MenuLoader
                 jsonWriter.WritePropertyName("Applications");
                 jsonWriter.WriteStartArray();
 
-                BasePathFinder.BasePathFinderInstance.GetApplicationsList(ApplicationType.All, out StringCollection apps);
+                BasePathFinder.BasePathFinderInstance.GetApplicationsList(ApplicationType.TaskBuilder | ApplicationType.TaskBuilderApplication, out StringCollection apps);
+                BrandLoader brand = new BrandLoader();
 
                 foreach (string app in apps)
                 {
                     IBaseApplicationInfo appInfo = BasePathFinder.BasePathFinderInstance.GetApplicationInfoByName(app);
                     //appInfo.Name
 
-					IEnumerator enumerator = appInfo.Modules.GetEnumerator();
-					if (!enumerator.MoveNext())
-						continue;
-					
-					IBaseModuleInfo firstModule = enumerator.Current as IBaseModuleInfo;
-					if (firstModule == null)
-						continue;
-					string sActive = session != null && session.IsActivated(appInfo.Name, firstModule.Name)
-						? EnumsStateStrings.Licensed 
-						: EnumsStateStrings.NotLicensed;
-					jsonWriter.WriteStartObject();
-					jsonWriter.WritePropertyName("application");
-					jsonWriter.WriteValue(appInfo.Name);  // TODOLUCA manca la versione accanto al name
-					jsonWriter.WritePropertyName("licensed");
-					jsonWriter.WriteValue(sActive);
-					jsonWriter.WriteEndObject();
-				}
-				
-				jsonWriter.WriteEndArray();
-				jsonWriter.WriteEndObject();
-				jsonWriter.WriteEndObject();
+                    if (appInfo.Modules.Count <= 0)
+                        continue;
+
+                    IEnumerator enumerator = appInfo.Modules.GetEnumerator();
+                    if (!enumerator.MoveNext())
+                        continue;
+
+                    IBaseModuleInfo firstModule = enumerator.Current as IBaseModuleInfo;
+                    if (firstModule == null)
+                        continue;
+                    string sActive = session != null && session.IsActivated(appInfo.Name, firstModule.Name)
+                        ? EnumsStateStrings.Licensed
+                        : EnumsStateStrings.NotLicensed;
+
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("application");
+                    string appName = brand.GetApplicationBrandMenuTitle(appInfo.Name);
+                    string appWithVersion = string.Format("{0} rel. {1}", !string.IsNullOrEmpty(appName) ? appName : appInfo.Name, appInfo.ApplicationConfigInfo.Version);
+                    jsonWriter.WriteValue(appWithVersion);  // TODOLUCA la versione accanto al nome non mi convince, potrebbe essere sbagliata
+
+                    jsonWriter.WritePropertyName("licensed");
+                    jsonWriter.WriteValue(sActive);
+                    jsonWriter.WriteEndObject();
+                }
+
+                jsonWriter.WriteEndArray();
+                jsonWriter.WriteEndObject();
+                jsonWriter.WriteEndObject();
 
                 string output = sw.ToString();
 

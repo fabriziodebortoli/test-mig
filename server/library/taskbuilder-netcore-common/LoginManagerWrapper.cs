@@ -418,13 +418,18 @@ namespace Microarea.Common.WebServicesWrapper
             switch (GetSerialNumberType())
             {
                 case TaskBuilderNetCore.Interfaces.SerialNumberType.Development:
-                    sMessage += EnumsStateStrings.SerialNumberDevelopment;
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.DevelopmentIU:
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.PersonalPlusK:
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.DevelopmentPlusK:
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.DevelopmentPlusUser:
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.PersonalPlusUser:
+                    sMessage += " " + EnumsStateStrings.SerialNumberDevelopment;
                     break;
                 case TaskBuilderNetCore.Interfaces.SerialNumberType.Reseller:
-                    sMessage += EnumsStateStrings.SerialNumberReseller;
+                    sMessage += " " + EnumsStateStrings.SerialNumberReseller;
                     break;
                 case TaskBuilderNetCore.Interfaces.SerialNumberType.Distributor:
-                    sMessage += EnumsStateStrings.SerialNumberDistributor;
+                    sMessage += " " + EnumsStateStrings.SerialNumberDistributor;
                     break;
                 default:
                     break;
