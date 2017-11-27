@@ -25,10 +25,10 @@
         <div class="adminTile tileNormal">
           Main Data
           <div>
-            <admin-input-text [inputLabel]="'Instance Key'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.InstanceKey"></admin-input-text>
+            <admin-input-text [inputLabel]="'Instance Key'" [textType]="'text'" [readOnly]="activationCode === ''" [(inputData)]="model.InstanceKey"></admin-input-text>
           </div>
           <div>
-            <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
+            <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description" [readOnly]="activationCode === ''"></admin-input-text>
           </div>
         </div>
       </div>
