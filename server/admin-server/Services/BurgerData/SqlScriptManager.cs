@@ -19,7 +19,9 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return "MP_RegisteredApps";
                 case ModelTables.Instances:
                     return "MP_Instances";
-                case ModelTables.RecoveryCode:
+				case ModelTables.InstanceAccounts:
+					return "MP_InstanceAccounts";
+				case ModelTables.RecoveryCode:
                     return "MP_RecoveryCodes";
                 case ModelTables.ServerURLs:
                     return "MP_ServerURLs";
@@ -79,6 +81,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 				case ModelTables.Instances:
 					return Queries.ExistInstance;
 
+				case ModelTables.InstanceAccounts:
+					return Queries.ExistInstanceAccount;
+
 				case ModelTables.Roles:
 					return Queries.ExistRole;
 
@@ -122,6 +127,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 				case ModelTables.Instances:
 					return Queries.UpdateInstance;
 
+				case ModelTables.InstanceAccounts:
+					return Queries.UpdateInstanceAccount;
+
 				case ModelTables.Roles:
 					return Queries.UpdateRole;
 
@@ -164,6 +172,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 
 				case ModelTables.Instances:
 					return Queries.InsertInstance;
+
+				case ModelTables.InstanceAccounts:
+					return Queries.InsertInstanceAccount;
 
 				case ModelTables.Roles:
 					return Queries.InsertRole;

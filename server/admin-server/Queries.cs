@@ -133,8 +133,17 @@ namespace Microarea.AdminServer
         public const string UpdateSubscriptionAccount = @"UPDATE  MP_SubscriptionAccounts SET Ticks=@Ticks  WHERE AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
 
-        // SecurityToken
-        public const string ExistSecurityToken = @"SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
+		// InstanceAccounts
+		public const string ExistInstanceAccount = @"SELECT COUNT(*) FROM MP_InstanceAccounts WHERE AccountName = @AccountName AND InstanceKey = @InstanceKey";
+		public const string SelectInstanceAccountByInstanceKey = @"SELECT * FROM MP_InstanceAccounts WHERE InstanceKey = @InstanceKey";
+		public const string SelectInstanceAccountByAccount = @"SELECT * FROM MP_InstanceAccounts WHERE AccountName = @AccountName";
+		public const string SelectInstanceAccountByAccountSimple = @"SELECT * FROM MP_InstanceAccounts WHERE AccountName = '{0}'";
+		public const string InsertInstanceAccount = @"INSERT INTO MP_InstanceAccounts (AccountName, InstanceKey, Ticks) VALUES (@AccountName, @InstanceKey, @Ticks)";
+		public const string DeleteInstanceAccount = @"DELETE MP_InstanceAccounts WHERE @AccountName = @AccountName AND InstanceKey = @InstanceKey";
+		public const string UpdateInstanceAccount = @"UPDATE MP_InstanceAccounts SET Ticks = @Ticks WHERE InstanceKey = @InstanceKey AND AccountName = @AccountName";
+
+		// SecurityToken
+		public const string ExistSecurityToken = @"SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string SelectSecurityToken = @"SELECT * FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string InsertSecurityToken = @"INSERT INTO MP_SecurityTokens (AccountName, TokenType, Token, ExpirationDate, Expired) VALUES (@AccountName, @TokenType, @Token, @ExpirationDate, @Expired)";
         public const string UpdateSecurityToken = @"UPDATE MP_SecurityTokens SET Token=@Token, ExpirationDate=@ExpirationDate, Expired=@Expired WHERE AccountName=@AccountName AND TokenType=@TokenType";

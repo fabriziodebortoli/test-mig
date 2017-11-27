@@ -1,4 +1,3 @@
-import {SubscriptionAccount} from '../../model/subscriptionAccount';
 import { OperationResult } from './../../services/operationResult';
 import { Observable } from 'rxjs/Observable';
 import { ModelService } from './../../services/model.service';
@@ -26,8 +25,6 @@ export class InstanceRegistrationComponent implements OnDestroy {
   subscriptionKey: string;
   subscriptionSaveInstance: Subscription;
   subscriptionReadSubscriptions: Subscription;
-  @Input() subscriptions: Array<SubscriptionAccount>;
-  
   currentStep: number;
   readingData: boolean;
   clusterStep: number;
@@ -37,7 +34,6 @@ export class InstanceRegistrationComponent implements OnDestroy {
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
     this.activationCode = '';
-    this.subscriptions = new Array<SubscriptionAccount>();
     this.currentStep = 1;
     this.securityValue = '';
     this.accountName = '';
@@ -95,121 +91,53 @@ export class InstanceRegistrationComponent implements OnDestroy {
           return;
         }
 
-        this.currentStep++;
-        
         this.securityValue = res['Content'].securityValue;
+        let instanceCluster = res['Content'].dataCluster;
 
-        this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: this.accountName } }, this.activationCode).subscribe(
-          res => {
-            this.subscriptions = res['Content'];
-            this.readingData = false;
-            this.busy = false;
-          },
-          err => {
-            alert(err);
-            this.readingData = false;
-            this.busy = false;
-          }
-        );
+        if (instanceCluster === null || instanceCluster === undefined) {
+          this.clusterStep = 0;
+          this.busy = false;
+          return;
+        }        
 
-      },
-      err => {
-        alert(err);
-        this.readingData = false;
-        this.busy = false;
-      }
-    );
-
-  }
-
-  //--------------------------------------------------------------------------------
-  associateInstanceToSubscription(subAcc) {
-
-    let instanceKey: string = this.model.InstanceKey;
-    this.subscriptionKey = subAcc.SubscriptionKey;
-
-    if (this.activationCode === '') {
-      alert('Permission token is missing, please ask one.');
-      return;
-    }
-
-    if (!confirm('This command will associate the instance ' + instanceKey + ' to this subscription: ' + subAcc.SubscriptionKey + '). Confirm?')) {
-      return;
-    }
-
-    this.readingData = true;
-
-    this.modelService.addInstanceSubscriptionAssociation(instanceKey, subAcc.SubscriptionKey, this.activationCode).subscribe(
-      res => {
         this.currentStep++;
-        this.model.Activated = true;
-        this.busy = true;
 
-        this.modelService.setData({}, true, this.activationCode, instanceKey, this.accountName).retry(3).subscribe(
-          res => {
+        this.clusterStep = 1;
 
-            let apiQuery = {
-              matchingField : null,
-              likeFields : null,
-              addDependencies : true,
-              accountName : this.accountName,
-              subscriptionKey : this.subscriptionKey
-            }
+        this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
+          res => { 
+            this.clusterStep = 2;
+            this.busy = false;
 
-            this.clusterStep = 1;
-
-            this.modelService.getObjectCluster('instances', instanceKey, "0", apiQuery, this.activationCode).subscribe(
+            this.modelService.setData({}, true, this.activationCode, this.model.InstanceKey, this.accountName).retry(3).subscribe(
               res => {
-
-                let instanceCluster = res['Content'];
-                
-                if (instanceCluster === null || instanceCluster === undefined) {
-                  this.clusterStep = 0;
-                  this.busy = false;
-                  return;
-                }
-                
-                this.model = instanceCluster['instance'];
-                this.model.SecurityValue = this.securityValue;
-
-                // we got the instance, now we pass it to the admin console
-
-                this.clusterStep = 2;
-
-                this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
-                  res => { 
-                    this.clusterStep = 3;
-                    this.busy = false;
-                  },
-                  err => { 
-                    alert('Registration Failed'); 
-                    this.clusterStep = 0;
-                    this.busy = false;
-                  }
-                )
+                this.clusterStep = 3;
+                this.busy = false;
               },
-              err => { 
-                this.clusterStep = 0; 
+              err => {
+                this.clusterStep = 0;
                 this.busy = false;
               }
             )
 
           },
           err => { 
-            alert('An error occurred while updating the Instance on GWAM');
+            alert('Registration Failed'); 
             this.clusterStep = 0;
             this.busy = false;
           }
-        )
-        
+        )        
+
+
       },
       err => {
-        alert('Oops, something went wrong with your request: ' + err);
+        alert(err);
         this.clusterStep = 0;
         this.readingData = false;
         this.busy = false;
       }
     );
+
   }
 
   //--------------------------------------------------------------------------------
