@@ -72,6 +72,8 @@ namespace Microarea.AdminServer.Controllers
 			OperationResult saveResult = new OperationResult();
 			Dictionary<string, bool> saveLog = new Dictionary<string, bool>();
 
+			// todo: if an error occurs while saving models, then delete all cluster and raisean error
+
 			modelList.ForEach(modelItem =>
 			{
 				saveResult = modelItem.Save(this.burgerData);
