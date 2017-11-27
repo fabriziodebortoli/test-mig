@@ -40,8 +40,18 @@ namespace Microarea.AdminServer
 															JOIN MP_SubscriptionInstances subIns ON subAcc.SubscriptionKey = subIns.SubscriptionKey
 															WHERE subAcc.AccountName = '{0}')";
 
-        // Referenced table MP_ServerURLs
-        public const string SelectURlsInstance = @"SELECT * FROM MP_ServerURLs WHERE InstanceKey = {0}";
+		public const string SelectInstanceForAdminAccount = @"SELECT * FROM MP_Instances WHERE 
+																InstanceKey IN
+																	(SELECT DISTINCT InstanceKey FROM MP_Subscriptions sub 
+																		JOIN MP_SubscriptionAccounts subAcc ON sub.SubscriptionKey = subAcc.SubscriptionKey
+																		JOIN MP_SubscriptionInstances subIns ON subAcc.SubscriptionKey = subIns.SubscriptionKey
+																		WHERE subAcc.AccountName = '{0}') 
+																OR InstanceKey IN
+																	(SELECT DISTINCT InstanceKey FROM MP_InstanceAccounts iAcc
+																		WHERE iAcc.AccountName = '{0}')";
+
+		// Referenced table MP_ServerURLs
+		public const string SelectURlsInstance = @"SELECT * FROM MP_ServerURLs WHERE InstanceKey = {0}";
 
         // ServerURL
         public const string ExistServerURL = @"SELECT COUNT(*) FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey AND URLType = @URLType";
