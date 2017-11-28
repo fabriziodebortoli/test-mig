@@ -208,7 +208,7 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
   // ---------------------------------------------------------------------------------------
   getValue(dataItem: string, column) {
     if (column.type === 'Enum') {
-      let res = this.enumService.getEnumsItem(dataItem);
+      let res = this.enumService.getEnumsItem(Number(dataItem));
       if (res)
         return res.name;
       return dataItem;

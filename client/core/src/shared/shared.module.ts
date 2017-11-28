@@ -297,16 +297,18 @@ import { ContextMenuDirective } from './directives/context-menu.directive';
 import { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
 import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
+import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
 export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
 export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
+export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective, ContextMenuDirective,
-    TbHotLinkDirective
+    TbHotLinkDirective, OutSideEventHandlerDirective
 ];
 
 import { TbEnumsPipe } from './pipes/enums.pipe';

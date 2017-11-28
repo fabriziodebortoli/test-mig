@@ -13,7 +13,10 @@ export class ChartOfAccountComponent extends ControlComponent implements OnInit 
   @Input() hotLink: { namespace: string, name: string};
   public errorMessage = '';
 
-  constructor( 
+  @Input() selector: any;
+  @Input() slice$: any;
+
+  constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,

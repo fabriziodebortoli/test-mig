@@ -10,5 +10,8 @@
         <ng-template kendoDropDownListNoDataTemplate>
             <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
         </ng-template>
+        <ng-template [ngIf]="hotLink">
+            <ng-template [tbHotLink]="hotLink" ></ng-template>
+        </ng-template>
     </kendo-dropdownlist>
 </div>
