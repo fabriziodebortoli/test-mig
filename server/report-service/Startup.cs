@@ -61,7 +61,8 @@ namespace Microarea.RSWeb
                   on the page (because CookieHttpOnly defaults to true).
                  */
                 //options.CookieName = ".AdventureWorks.Session";
-                options.CookieHttpOnly = true;
+                //options.CookieHttpOnly = true;
+                options.Cookie.HttpOnly = true;
             });
         }
 

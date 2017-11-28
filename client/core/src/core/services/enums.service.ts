@@ -22,13 +22,13 @@ export class EnumsService {
         }
     }
 
-    getEnumsItem(storedValue: string) {
+    getEnumsItem(storedValue: number) {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
             let tag = this.enumsTable.tags[index];
             if (tag !== undefined) {
                 for (let j = 0; j < tag.items.length; j++) {
-                    if (tag.items[j].stored === storedValue) {
+                    if (tag.items[j].stored == storedValue) {
                         return tag.items[j];
                     }
                 }
@@ -37,14 +37,14 @@ export class EnumsService {
         return undefined;
     }
 
-    getItemFromTagAndValue(tag: string, storedValue: string) {
+    getItemFromTagAndValue(tag: string, storedValue: number) {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
             let currentTag = this.enumsTable.tags[index];
             if (currentTag !== undefined && currentTag.value === tag) {
 
                 for (let j = 0; j < currentTag.items.length; j++) {
-                    if (currentTag.items[j].stored === storedValue) {
+                    if (currentTag.items[j].stored == storedValue) {
                         return currentTag.items[j];
                     }
                 }

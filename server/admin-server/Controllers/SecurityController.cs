@@ -499,7 +499,18 @@ namespace Microarea.AdminServer.Controllers
 					return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 				}
 
-                IInstance[] instancesArray = this.GetInstances(accountName);
+				// TODO optimization
+
+				// getting roles
+
+				List<IAccountRoles> accountRoles = this.burgerData.GetList<AccountRoles, IAccountRoles>(
+					String.Format(Queries.SelectAccountRoles, accountName), ModelTables.AccountRoles);
+
+				bool isAdmin = accountRoles.Find(k => k.RoleName == "Admin" && k.Level == "Instance") != null;
+
+				// if the account is an administrator, we look through the InstanceAccounts to find his Instances
+
+                IInstance[] instancesArray = this.GetInstances(accountName, isAdmin);
 
                 opRes = UpdateInstances(instancesArray);
 
@@ -615,7 +626,7 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.UserTokens = tokens;
             bootstrapToken.RegionalSettings = account.RegionalSettings;
             bootstrapToken.Language = account.Language;
-            bootstrapToken.Instances = GetInstances(account.AccountName);
+            bootstrapToken.Instances = GetInstances(account.AccountName, false);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance(instance.InstanceKey);
 			bootstrapToken.Roles = GetRoles(account.AccountName);
@@ -646,10 +657,18 @@ namespace Microarea.AdminServer.Controllers
 		}
 
         //----------------------------------------------------------------------
-        private IInstance[] GetInstances(string accountName)
+        private IInstance[] GetInstances(string accountName, bool includeAdminInstances)
         {
-            // getting instances for this account
-            string querySelectInstancesForAccount = String.Format(Queries.SelectInstanceForAccount, accountName);
+			// getting instances for this account
+
+			// if includeAdminInstances is true, this method returns all instances linked to the
+			// account via InstanceAccounts,
+			// otherwise, it returns all the instances that are linked to the account via SubscriptionAccounts
+
+			string querySelectInstancesForAccount = includeAdminInstances ?
+				String.Format(Queries.SelectInstanceForAdminAccount, accountName) :
+				String.Format(Queries.SelectInstanceForAccount, accountName);
+
             List<IInstance> instancesList = this.burgerData.GetList<Instance, IInstance>(querySelectInstancesForAccount, ModelTables.Instances);
             return instancesList != null ? instancesList.ToArray() : new Instance[] { };
         }

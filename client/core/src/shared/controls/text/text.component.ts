@@ -16,7 +16,8 @@ import { ControlComponent } from '../control.component';
 export class TextComponent extends ControlComponent /*implements AfterContentInit, OnChanges */ {
 
   @Input('readonly') readonly: boolean = false;
-  @Input() public hotLink: any = undefined;
+  @Input() public hotLink: { namespace: string, name: string};
+  
 
   @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   // public  contextMenuRef;

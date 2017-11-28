@@ -10,6 +10,7 @@ namespace Microarea.AdminServer.Model.Interfaces
     public interface IModelObject
     {
         OperationResult Save(BurgerData burgerData);
+		OperationResult Delete(BurgerData burgerData);
         IModelObject Fetch(IDataReader reader);
         string GetKey();
     }
