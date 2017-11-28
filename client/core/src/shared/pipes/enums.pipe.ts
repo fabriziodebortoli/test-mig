@@ -8,7 +8,7 @@ export class TbEnumsPipe implements PipeTransform {
              private ngZone: NgZone) {
   }
 
-  async transform(value: string, type: string): Promise<string> {
+  async transform(value: number, type: string): Promise<number> {
         if (type === 'Enum') {
             await this.ngZone.runOutsideAngular(() => this.enumService.getEnumsTableAsync());
             let res = this.enumService.getEnumsItem(value);

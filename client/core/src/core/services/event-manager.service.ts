@@ -6,7 +6,6 @@ export class EventManagerService {
 
     preferenceLoaded: EventEmitter<any> = new EventEmitter();
     loggedIn: EventEmitter<any> = new EventEmitter();
-    loggedOff: EventEmitter<any> = new EventEmitter();
     loggingOff: EventEmitter<any> = new EventEmitter();
 
     constructor(public logger: Logger) {
@@ -19,10 +18,6 @@ export class EventManagerService {
 
     emitLoggedIn() {
         this.loggedIn.emit();
-    }
-
-    emitloggedOff() {
-        this.loggedOff.emit();
     }
 
     emitloggingOff() {

@@ -304,18 +304,20 @@ import { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirec
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
 import { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
+import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
 export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
 export { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
+export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
     TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective,
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective, ContextMenuDirective,
-    TbHotLinkDirective
+    TbHotLinkDirective, OutSideEventHandlerDirective
 ];
 
 import { TbEnumsPipe } from './pipes/enums.pipe';

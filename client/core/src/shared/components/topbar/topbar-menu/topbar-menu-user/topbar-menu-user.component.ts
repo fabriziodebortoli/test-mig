@@ -89,6 +89,5 @@ export class TopbarMenuUserComponent implements OnDestroy {
 
     openSettingsPage() {
         this.settingsService.settingsPageOpenedEvent.emit(true);
-        //this.componentService.createComponentFromUrl('settings/settings', true);
     }
 }

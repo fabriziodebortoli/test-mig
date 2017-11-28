@@ -552,7 +552,7 @@ namespace Microarea.RSWeb.WoormEngine
                 Debug.Fail("Field init expression failed" + '(' + this.Name + ')');
                 return;
             }
-
+            
             AssignRuleData(aData, aValid);
 			AssignGroupByData(aData, aValid);
 			AssignEventData(aData, aValid);

@@ -9,7 +9,6 @@ import { EventDataService } from './../../core/services/eventdata.service';
 import { SettingsPageService } from '../settings-page.service';
 import { InfoService } from './../../core/services/info.service';
 
-
 @Component({
   selector: 'tb-settings-container',
   templateUrl: './settings-container.component.html',
@@ -23,12 +22,12 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
   constructor(
     eventData: EventDataService, 
     public dataService: DataService, 
-    settingsService: SettingsPageService, 
+    settingsPageService: SettingsPageService, 
     public infoService: InfoService,
     public localizationService: OldLocalizationService,
     changeDetectorRef: ChangeDetectorRef
   ) {
-    super(settingsService, eventData, null, changeDetectorRef);
+    super(settingsPageService, eventData, null, changeDetectorRef);
     this.isDesktop = infoService.isDesktop;
   }
   ngOnInit() {
