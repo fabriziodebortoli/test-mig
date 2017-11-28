@@ -340,11 +340,11 @@ export class ModelService {
 
     if (authorizationHeader === '' || authorizationHeader === undefined) {
       return Observable.throw('AuthorizationHeader is missing!');
-    }    
-    
+    }
+
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
-    
+
     return this.http.post(environment.gwamAPIUrl + 'instanceSubscriptions/' + subscriptionKey + '/' + instanceKey, {}, options)
       .map((res: Response) => {
         return res.json();
@@ -437,7 +437,6 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error (saveDatabase)'));
   }
 
-  // 
   //--------------------------------------------------------------------------------------------------------
   quickConfigureDatabase(subscriptionKey: string): Observable<OperationResult> {
 
@@ -654,7 +653,7 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
   }
 
-  // get list of configurations for default/sample data (INTL data are added in any case)
+  // get list of configurations for default/sample data (INTL configuration files are added in any case)
   //--------------------------------------------------------------------------------------------------------
   getConfigurations(subscriptionKey: string, configType: string, iso: string): Observable<Array<{ iso: string, configurations: Array<string> }>> {
 
@@ -693,6 +692,27 @@ export class ModelService {
       .map((res: Response) => {
         return res.json();
       })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error (importDefaultData)'));
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (importData)'));
+  }
+
+  // 
+  //--------------------------------------------------------------------------------------------------------
+  deleteDatabaseObjects(subscriptionKey: string, body: SubscriptionDatabase): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.adminAPIUrl + 'database/deleteobjects/' + subscriptionKey, bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (deleteDatabaseObjects)'));
   }
 }
