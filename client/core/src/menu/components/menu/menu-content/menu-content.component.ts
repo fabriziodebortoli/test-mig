@@ -32,6 +32,11 @@ export class MenuContentComponent {
   public _tile: any;
 
   @Input()
+  public canHide: boolean = true;
+
+  @Input() menu: any;
+
+  @Input()
   get tile(): any {
     return this._tile;
   }
