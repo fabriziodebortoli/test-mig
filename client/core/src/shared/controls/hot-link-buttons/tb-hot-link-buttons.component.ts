@@ -122,9 +122,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   public documentClick(event: any): void {
     if (!this.contains(event.target)) {
       this.closeOptions();
-      //if ( !this.enableMultiSelection) {
-      this.showTable.next(false);
-      //}
+      this.closeTable();
     }
   }
 
@@ -148,7 +146,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   selectionTypeChanged(type: string) {
     this.selectionType = type;
-	this.closeOptions();
+    this.closeOptions();
   }
 
   selectionChanged(value: any) {
@@ -159,8 +157,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       this.eventDataService.change.emit(this.cmpId);
     }
   }
-
-  onFocus() { this.closePopups(); }
 
   onOptionsClick() {
     this.closeTable();
