@@ -278,5 +278,14 @@ namespace Microarea.AdminServer.Model
             return LoginReturnCodes.NoError;
         }
 
-    }
+		//----------------------------------------------------------------------
+		public OperationResult Delete(BurgerData burgerData)
+		{
+			OperationResult opRes = new OperationResult();
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.AccountName));
+			opRes.Result = burgerData.Delete(ModelTables.Accounts, burgerDataParameters);
+			return opRes;
+		}
+	}
 }

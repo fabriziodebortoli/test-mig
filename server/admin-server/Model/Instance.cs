@@ -111,5 +111,15 @@ namespace Microarea.AdminServer.Model
         {
             return String.Concat(" ( InstanceKey = '", this.InstanceKey, "' ) ");
         }
-    }
+
+		//----------------------------------------------------------------------
+		public OperationResult Delete(BurgerData burgerData)
+		{
+			OperationResult opRes = new OperationResult();
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@InstanceKey", this.instanceKey));
+			opRes.Result = burgerData.Delete(ModelTables.Instances, burgerDataParameters);
+			return opRes;
+		}
+	}
 }

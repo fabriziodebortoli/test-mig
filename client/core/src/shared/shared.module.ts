@@ -91,8 +91,6 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 import { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
 
-
-
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
 
@@ -134,6 +132,7 @@ export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
 export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 export { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
+
 
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
@@ -243,6 +242,9 @@ import { ConnectionStatusComponent } from './controls/connection-status/connecti
 import { ControlComponent } from './controls/control.component';
 import { VATCodeComponent } from './controls/vat-code/vat-code.component';
 import { NumbererComponent } from './controls/numberer/numberer.component';
+import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
+import { PropertyGridItemComponent } from './controls/property-grid-item/property-grid-item.component';
+import { PropertyGridItemGroupComponent } from './controls/property-grid-item-group/property-grid-item-group.component';
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -280,6 +282,9 @@ export { ConnectionStatusComponent } from './controls/connection-status/connecti
 export { ControlComponent } from './controls/control.component';
 export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 export { NumbererComponent } from './controls/numberer/numberer.component';
+export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
+export { PropertyGridItemComponent } from './controls/property-grid-item/property-grid-item.component';
+export { PropertyGridItemGroupComponent } from './controls/property-grid-item-group/property-grid-item-group.component';
 
 const TB_CONTROLS = [
     ControlComponent, VATCodeComponent, NumbererComponent,
@@ -287,7 +292,8 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,
+    PropertyGridItemComponent, PropertyGridItemGroupComponent
 ];
 
 /**
