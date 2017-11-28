@@ -125,7 +125,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
-    this.formattersService.getFormattersTable();
+    this.formattersService.loadFormattersTable();
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
@@ -173,7 +173,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   onContextMenu() {
     return !this.infoService.isDesktop;
   }
- 
+
   closeSettings() {
     console.log("closeSettings", this.settingsPageComponent);
     if (this.settingsPageComponent != null && this.componentService.components.find(current => current == this.settingsPageComponent)) {
