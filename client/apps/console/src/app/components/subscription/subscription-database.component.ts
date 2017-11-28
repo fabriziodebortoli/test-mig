@@ -129,9 +129,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
     if (this.editing) {
 
       if (!this.onlyMainDataHasChanged()) {
-
-        this.msgDialog = 'No data has changed, so no save operation is needed';
-        this.openMsgDialog = true;
+        this.showAlertMessage('No data has changed, so no save operation is needed');
         return;
       }
       else
