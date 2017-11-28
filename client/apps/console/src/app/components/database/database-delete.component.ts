@@ -77,7 +77,7 @@ export class DatabaseDeleteComponent implements OnInit {
       message = 'All non-system database objects (such as tables, procedures and views) will be deleted. Do you want to continue?';
     else {
       if (this.deleteERPDB || this.deleteDMSDB)
-        message = 'There will be deleted the database containers associated to the subscription and all data managed by application will be lost! Do you want to continue?';
+        message = 'There will be deleted the database containers associated to the subscription and all data will be lost! Do you want to continue?';
       else
         message = 'Only subscription database information will be deleted. Do you want to continue?';
     }
