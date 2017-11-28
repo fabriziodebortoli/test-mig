@@ -2,6 +2,8 @@ import { Directive, Input, ViewContainerRef, ComponentFactoryResolver, OnInit } 
 import { TbHotlinkButtonsComponent } from './../controls/hot-link-buttons/tb-hot-link-buttons.component';
 import { ControlComponent } from './../controls/control.component';
 
+export type HlComponent = { slice$: any, model: any };
+
 @Directive({
     selector: '[tbHotLink]'
 })
@@ -24,13 +26,15 @@ export class TbHotLinkDirective implements OnInit {
 
     ngOnInit() {
         const compFactory = this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
+        let ancestor: HlComponent;
         if (!this.model) {
-            let anchestor = (<any>this.viewContainer)._view.component as ControlComponent;
-            this.model = anchestor.model;
+            ancestor = (<any>this.viewContainer)._view.component as HlComponent;
+            this.model = ancestor.model;
         }
         let comp = this.viewContainer.createComponent(compFactory);
         comp.instance.model = this.model;
         comp.instance.namespace = this.namespace;
         comp.instance.name = this.name;
+        comp.instance.slice$ = ancestor.slice$;
     }
 }

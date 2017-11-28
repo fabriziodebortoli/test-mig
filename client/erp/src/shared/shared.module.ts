@@ -3,39 +3,41 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
-// import { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
-// import { VatComponent } from './controls/vat/vat.component';
-// import { NumberEditWithFillerComponent } from './controls/number-edit-with-filler/tb-number-edit-with-filler.component';
-// import { EsrComponent } from './controls/esr/esr.component';
-// import { StrBinEditComponent } from './controls/str-bin-edit/str-bin-edit.component';
-// import { ItemEditComponent } from './controls/item-edit/item-edit.component';
+import { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
+import { VatComponent } from './controls/vat/vat.component';
+import { NumberEditWithFillerComponent } from './controls/number-edit-with-filler/tb-number-edit-with-filler.component';
+import { EsrComponent } from './controls/esr/esr.component';
+import { StrBinEditComponent } from './controls/str-bin-edit/str-bin-edit.component';
+import { ItemEditComponent } from './controls/item-edit/item-edit.component';
+import { AutoSearchEditComponent } from './controls/auto-search-edit/auto-search-edit.component';
+import { ChartOfAccountComponent } from './controls/chart-of-account/chart-of-account.component';
 
-import * as Controls from './controls';
-export * from './controls';
+import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 
-import * as Pipes from './pipes';
-export * from './pipes';
+export { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
+export { VatComponent } from './controls/vat/vat.component';
+export { NumberEditWithFillerComponent } from './controls/number-edit-with-filler/tb-number-edit-with-filler.component';
+export { EsrComponent } from './controls/esr/esr.component';
+export { StrBinEditComponent } from './controls/str-bin-edit/str-bin-edit.component';
+export { ItemEditComponent } from './controls/item-edit/item-edit.component';
+export { AutoSearchEditComponent } from './controls/auto-search-edit/auto-search-edit.component';
+export { ChartOfAccountComponent } from './controls/chart-of-account/chart-of-account.component';
 
-// export { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
-// export { VatComponent } from './controls/vat/vat.component';
-// export { NumberEditWithFillerComponent } from './controls/number-edit-with-filler/tb-number-edit-with-filler.component';
-// export { EsrComponent } from './controls/esr/esr.component';
-// export { StrBinEditComponent } from './controls/str-bin-edit/str-bin-edit.component';
-// export { ItemEditComponent } from './controls/item-edit/item-edit.component';
+export { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 
 const ERP_COMPONENTS = [
-    Controls.AutoSearchEditComponent,
-    Controls.EsrComponent,
-    Controls.ItemEditComponent,
-    Controls.NoSpacesEditComponent,
-    Controls.NumberEditWithFillerComponent,
-    Controls.StrBinEditComponent,
-    Controls.VatComponent,
-    Controls.ChartOfAccountComponent
+    AutoSearchEditComponent,
+    EsrComponent,
+    ItemEditComponent,
+    NoSpacesEditComponent,
+    NumberEditWithFillerComponent,
+    StrBinEditComponent,
+    VatComponent,
+    ChartOfAccountComponent
 ];
 
 const ERP_PIPES = [
-    Pipes.KeyValueFilterPipe
+    KeyValueFilterPipe
 ];
 
 @NgModule({
