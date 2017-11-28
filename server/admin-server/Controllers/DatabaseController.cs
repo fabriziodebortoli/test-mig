@@ -762,7 +762,7 @@ namespace Microarea.AdminServer.Controllers
 
 		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
 		//---------------------------------------------------------------------
-		public IActionResult ApiDeleteObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
+		public IActionResult ApiDeleteDatabaseObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
