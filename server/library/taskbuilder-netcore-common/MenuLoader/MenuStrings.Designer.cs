@@ -106,6 +106,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auditing.
+        /// </summary>
+        public static string Auditing {
+            get {
+                return ResourceManager.GetString("Auditing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auditing enabled.
         /// </summary>
         public static string AuditingEnabled {
@@ -413,6 +422,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        public static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disconnected.
         /// </summary>
         public static string Disconnected {
@@ -445,6 +463,15 @@ namespace Microarea.Common.MenuLoader {
         public static string EmptyList {
             get {
                 return ResourceManager.GetString("EmptyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        public static string Enabled {
+            get {
+                return ResourceManager.GetString("Enabled", resourceCulture);
             }
         }
         
@@ -800,6 +827,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Security.
+        /// </summary>
+        public static string Security {
+            get {
+                return ResourceManager.GetString("Security", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Security enabled.
         /// </summary>
         public static string SecurityEnabled {
@@ -859,6 +895,15 @@ namespace Microarea.Common.MenuLoader {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TaskBuilder Developer.
+        /// </summary>
+        public static string TaskBuilderDeveloper {
+            get {
+                return ResourceManager.GetString("TaskBuilderDeveloper", resourceCulture);
             }
         }
         

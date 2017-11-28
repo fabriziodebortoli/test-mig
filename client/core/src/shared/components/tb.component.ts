@@ -13,10 +13,11 @@ export abstract class TbComponent implements OnInit {
     public tbComponentService: TbComponentService, 
     protected changeDetectorRef: ChangeDetectorRef) {
     this.dictionaryId = tbComponentService.calculateDictionaryId(this);
+    let s = this._TB("Ciao {1} {0}", 0, 1);
   }
 
-  _TB(baseText: string) {
-    return this.tbComponentService.translate(this.translations, baseText);
+  _TB(baseText: string, ...args: any[]) {
+    return this.tbComponentService.translate(this.translations, baseText, args);
   }
   ngOnInit() {
     const ids = this.dictionaryId.split('.');

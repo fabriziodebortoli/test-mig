@@ -27,7 +27,7 @@ namespace Microarea.RSWeb.Render
 
         public RSEngine StateMachine = null;
         Snapshot pagesSnapshot = null;
-        int numPagSnapshot = 0;
+        //int numPagSnapshot = 0;
 
         private int pageNum = 1;
 
@@ -693,7 +693,7 @@ namespace Microarea.RSWeb.Render
             DirectoryInfo dUser = new DirectoryInfo(destinationPath);
 
             string s = "[";
-            bool first = true;
+            //bool first = true;
 
             foreach (FileInfo file in dUser.GetFiles("*.json"))
             {
@@ -714,7 +714,7 @@ namespace Microarea.RSWeb.Render
             destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
             DirectoryInfo dAllUser = new DirectoryInfo(destinationPath);
 
-            first = true;
+            //first = true;
             foreach (FileInfo file in dAllUser.GetFiles("*.json"))
             {
                 string[] split = file.Name.Split('_');

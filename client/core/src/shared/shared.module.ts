@@ -91,8 +91,6 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 import { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
 
-
-
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
 
@@ -135,12 +133,13 @@ export { LoadingComponent } from './components/loading/loading.component';
 export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 export { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
 
+
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent,CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
+    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
     TbHotlinkButtonsComponent
 ];
 
@@ -243,6 +242,9 @@ import { ConnectionStatusComponent } from './controls/connection-status/connecti
 import { ControlComponent } from './controls/control.component';
 import { VATCodeComponent } from './controls/vat-code/vat-code.component';
 import { NumbererComponent } from './controls/numberer/numberer.component';
+import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
+import { PropertyGridItemComponent } from './controls/property-grid-item/property-grid-item.component';
+import { PropertyGridItemGroupComponent } from './controls/property-grid-item-group/property-grid-item-group.component';
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -280,6 +282,9 @@ export { ConnectionStatusComponent } from './controls/connection-status/connecti
 export { ControlComponent } from './controls/control.component';
 export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 export { NumbererComponent } from './controls/numberer/numberer.component';
+export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
+export { PropertyGridItemComponent } from './controls/property-grid-item/property-grid-item.component';
+export { PropertyGridItemGroupComponent } from './controls/property-grid-item-group/property-grid-item-group.component';
 
 const TB_CONTROLS = [
     ControlComponent, VATCodeComponent, NumbererComponent,
@@ -287,7 +292,8 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,
+    PropertyGridItemComponent, PropertyGridItemGroupComponent
 ];
 
 /**
@@ -296,17 +302,20 @@ const TB_CONTROLS = [
 import { ContextMenuDirective } from './directives/context-menu.directive';
 import { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
+import { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
 export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
+export { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
+    TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective,
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective, ContextMenuDirective,
     TbHotLinkDirective, OutSideEventHandlerDirective
 ];
@@ -314,7 +323,7 @@ const TB_DIRECTIVES = [
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
 
-const TB_PIPES = [ TbEnumsPipe ];
+const TB_PIPES = [TbEnumsPipe];
 
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';

@@ -30,6 +30,10 @@ export class MenuContentComponent {
   pinned: boolean= false;
   public objects: any;
   public _tile: any;
+
+  @Input()
+  public canHide: boolean = true;
+
   @Input() menu: any;
 
   @Input()

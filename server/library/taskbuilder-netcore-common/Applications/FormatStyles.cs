@@ -15,6 +15,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
+using Newtonsoft.Json;
 
 namespace Microarea.Common.Applications
 {
@@ -3886,6 +3887,66 @@ namespace Microarea.Common.Applications
 
 			return fs.Format(name, dataString, context);
 		}
+
+        //-----------------------------------------------------------------------------
+        public string GetJsonFormattersTable()
+        {
+            return null;
+
+        //    StringBuilder sb = new StringBuilder();
+        //    using (StringWriter sw = new StringWriter(sb))
+        //    {
+        //        JsonWriter jsonWriter = new JsonTextWriter(sw);
+
+        //        try
+        //        {
+        //            jsonWriter.WriteStartObject();
+        //            jsonWriter.WritePropertyName("formatters");
+
+        //            jsonWriter.WriteStartObject();
+        //            jsonWriter.WritePropertyName("tags");
+        //            jsonWriter.WriteStartArray();
+                    
+        //            foreach (FormatStylesGroup tag in fs)
+        //            {
+        //                jsonWriter.WriteStartObject();
+
+        //                jsonWriter.WritePropertyName("name");
+        //                jsonWriter.WriteValue(tag.LocalizedName);
+        //                jsonWriter.WritePropertyName("value");
+        //                jsonWriter.WriteValue(tag.Value);
+
+        //                //jsonWriter.WriteStartObject();
+        //                jsonWriter.WritePropertyName("items");
+        //                jsonWriter.WriteStartArray();
+        //                foreach (EnumItem item in tag.EnumItems)
+        //                {
+        //                    jsonWriter.WriteStartObject();
+        //                    jsonWriter.WritePropertyName("name");
+        //                    jsonWriter.WriteValue(item.LocalizedName);
+        //                    jsonWriter.WritePropertyName("value");
+        //                    jsonWriter.WriteValue(item.Value);
+        //                    jsonWriter.WritePropertyName("stored");
+        //                    jsonWriter.WriteValue(item.Stored);
+        //                    jsonWriter.WriteEndObject();
+        //                }
+        //                //jsonWriter.WriteEndObject();
+        //                jsonWriter.WriteEndArray();
+        //                jsonWriter.WriteEndObject();
+
+        //            }
+
+        //            jsonWriter.WriteEndArray();
+        //            jsonWriter.WriteEndObject();
+        //            jsonWriter.WriteEndObject();
+        //        }
+        //        catch (Exception)
+        //        {
+        //        }
+
+        //        return sb.ToString();
+        //    }
+        }
 	}
 
 	/// ================================================================================

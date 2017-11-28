@@ -43,11 +43,11 @@ export class HttpService {
         headers.append('Accept', 'application/json');
         const url = '/dictionary/' + culture + '/' + dictionaryId + '.json';
         return this.http.get(url, { withCredentials: true, headers: headers })
-        .map((res: Response) => {
-            return res.json();
-        });
+            .map((res: Response) => {
+                return res.json();
+            });
     }
-  
+
     isLogged(params: { authtoken: string }): Observable<boolean> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {
@@ -144,7 +144,7 @@ export class HttpService {
         });
         //qui dobbiamo crare dei params
         //let dat = this.utils.serializeData(data);
-        return this.http.get(url, { withCredentials: true, headers: headers, params: data})
+        return this.http.get(url, { withCredentials: true, headers: headers, params: data })
             .catch(this.handleError);
     }
 
@@ -161,6 +161,14 @@ export class HttpService {
 
     getEnumsTable(): Observable<any> {
         return this.getData(this.infoService.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getFormattersTable(): Observable<any> {
+        return this.getData(this.infoService.getFormattersServiceUrl() + 'getFormattersTable/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
@@ -253,11 +261,11 @@ export class HttpService {
     getHotlinkTestData(page: number, rows: number): Observable<any> {
         let headers = new Headers();
         headers.append('Authorization', this.infoService.getAuthorization());
-        return this.http.get('http://localhost:50419/api/hotlink/' + page + '/' + rows, {withCredentials: true, headers: headers })
-        .map((res: Response) => {
-            return res.json();
-        })
-        .catch(this.handleError);
+        return this.http.get('http://localhost:50419/api/hotlink/' + page + '/' + rows, { withCredentials: true, headers: headers })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
     }
 
 }

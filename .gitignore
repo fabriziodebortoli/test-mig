@@ -6,6 +6,8 @@ node_modules/
 wwwroot/
 lib/
 bin/
+client/web-form/src/app/applications/*
+!client/web-form/src/app/applications/test/ 
 obj/
 .vs/
 *.VC.db

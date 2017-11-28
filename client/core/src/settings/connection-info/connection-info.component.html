@@ -14,7 +14,7 @@
     </div>
 
     <div class="box">
-        <div>{{localizationService.localizedElements?.EasyStudioDeveloper}}:</div>
+        <div>{{localizationService.localizedElements?.TaskBuilderDeveloper}}:</div>
         <div class='text'>{{connectionInfos?.ebdev}}</div>
     </div>
     <!-- General -->
@@ -33,8 +33,12 @@
         <div class='text'>{{connectionInfos?.remotewebserver}}</div>
     </div>
     <div class="box">
-        <div> {{localizationService.localizedElements?.SecurityEnabled}}:</div>
+        <div> {{localizationService.localizedElements?.Security}}:</div>
         <div class='text'>{{connectionInfos?.security}}</div>
+    </div>
+    <div class="box">
+        <div> {{localizationService.localizedElements?.Auditing}}:</div>
+        <div class='text'>{{connectionInfos?.auditing}}</div>
     </div>
     <!--DATABASE -->
     <div class="box">
@@ -49,12 +53,13 @@
         <div>{{localizationService.localizedElements?.DBUser}}:</div>
         <div class='text'>{{connectionInfos?.dbuser}}</div>
     </div>
+
     <!--DATABASE SIZE (if needed) -->
-    <div class="box" [hidden]="!showdbsize">
+    <div class="box" *ngIf="connectionInfos?.usedspace" >
         <div>{{localizationService.localizedElements?.UsedSpace}}:</div>
         <div class='text'>{{connectionInfos?.usedspace}}</div>
     </div>
-    <div class="box" [hidden]="!showdbsize">
+    <div class="box" *ngIf="connectionInfos?.freespace">
         <div> {{localizationService.localizedElements?.FreeSpace}}:</div>
         <div class='text'>{{connectionInfos?.freespace}}</div>
     </div>

@@ -793,7 +793,7 @@ namespace Microarea.Common.NameSolver
 			applicationList = new StringCollection();
 			foreach (BaseApplicationInfo aApplicationInfo in ApplicationInfos)
 			{
-				if (BaseApplicationInfo.MatchType(aApplicationInfo.ApplicationType, applicationType))
+				if (BaseApplicationInfo.IsApplicationOfTypes(aApplicationInfo, applicationType))
 					applicationList.Add(aApplicationInfo.Name);
 			}
 

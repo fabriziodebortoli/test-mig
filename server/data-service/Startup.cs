@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 using Microarea.DataService.Models;
 using System;
+using System.Net;
 
 namespace Microarea.DataService
 {
@@ -52,7 +53,8 @@ namespace Microarea.DataService
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(20 * 60);
-                options.CookieHttpOnly = true;
+                //options.CookieHttpOnly = true;  //rimosso warning
+                options.Cookie.HttpOnly = true;
             });
 
         }

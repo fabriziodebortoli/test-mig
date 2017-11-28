@@ -1,3 +1,8 @@
-<tb-hotlink [ns]="hotlink.ns" [enableMultiSelection]="hotlink.multi_selection" caption="{{hotlink.caption}}" [args]="hotlink.args" [model]="hotlink" [value]="hotlink.value">
+<!--<tb-hotlink [ns]="hotlink.ns" [enableMultiSelection]="hotlink.multi_selection" caption="{{hotlink.caption}}" [args]="hotlink.args" [model]="hotlink" [value]="hotlink.value">
 
-</tb-hotlink>
+</tb-hotlink> -->
+
+
+<div>{{hotlink.caption}}</div>
+<kendo-maskedtextbox [(ngModel)]="hotlink.value" [disabled]="!hotlink.enabled"></kendo-maskedtextbox>
+<ng-template [tbHotLink]="GetHotlinkObject()"></ng-template>

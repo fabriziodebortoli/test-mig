@@ -118,6 +118,16 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       console.log('VIEW CHECKED!');
   }
 
+  @HostListener('document:click', ['$event'])
+  public documentClick(event: any): void {
+    if (!this.contains(event.target)) {
+      this.closeOptions();
+      //if ( !this.enableMultiSelection) {
+      this.showTable.next(false);
+      //}
+    }
+  }
+
   public filterChange(filter: CompositeFilterDescriptor): void {
     this.filterer.filter = filter;
   }
@@ -138,6 +148,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   selectionTypeChanged(type: string) {
     this.selectionType = type;
+	this.closeOptions();
   }
 
   selectionChanged(value: any) {
