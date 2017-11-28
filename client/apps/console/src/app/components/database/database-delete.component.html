@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        Options
+        <div class="mt20">
+          <admin-checkbox [checkText]="'Delete only ERP database objects'" [checkId]="'chkDeleteDatabaseObjects'" [(checkValue)]="deleteDatabaseObjects"
+            (inputDataChange)="ondeleteDatabaseObjects($event)"></admin-checkbox>
+        </div>
+        <div class="mt20">
+          <admin-checkbox [checkText]="'Delete subscription database info'" [checkId]="'chkDeleteSubscriptionDB'" [(checkValue)]="deleteSubscriptionDB"
+            (inputDataChange)="onDeleteSubscriptionDB($event)"></admin-checkbox>
+        </div>
+        <div class="mt20 pad10">
+          <admin-checkbox [checkText]="'also ERP database container'" [checkId]="'chkDeleteERPDB'" [(checkValue)]="deleteERPDB" (inputDataChange)="onDeleteERPDB($event)"
+            [readOnly]=isReadOnly></admin-checkbox>
+        </div>
+        <div class="mt20 pad10">
+          <admin-checkbox [checkText]="'also DMS database container'" [checkId]="'chkDeleteDMSDB'" [(checkValue)]="deleteDMSDB" (inputDataChange)="onDeleteDMSDB($event)"
+            [readOnly]=isReadOnly></admin-checkbox>
+        </div>
+      </div>
+      <admin-button [buttonText]="'Delete'" [primary]=true (click)="delete()"></admin-button>
+      <div *ngIf="isDeleting" class="mt20">
+        <img src="assets/ajax-loader.gif" />
+      </div>
+    </div>
+  </div>
+  <admin-dialog [mode]="'yesno'" [title]="'Delete'" [message]="msgDelete" [(opened)]=openDeleteDialog [(result)]=dialogResult
+    (onClose)="onCloseDialog($event)"></admin-dialog>
+</div>
