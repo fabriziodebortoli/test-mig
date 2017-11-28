@@ -1,5 +1,5 @@
 import { AnyFn } from './../../../shared/commons/selector';
-import { LocalizationService } from './../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { LoadingService } from './../../../core/services/loading.service';
 import { MenuService } from './../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public httpService: HttpService,
     public utilsService: UtilsService,
     public menuService: MenuService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     public loadingService: LoadingService
   ) {
     this.loadingService.setLoading(true);

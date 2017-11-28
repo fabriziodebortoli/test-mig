@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { LocalizationService } from './../../core/services/localization.service';
+import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { SettingsService } from './../../core/services/settings.service';
 import { ThemeService } from './../../core/services/theme.service';
 import { UtilsService } from './../../core/services/utils.service';
@@ -22,7 +22,7 @@ export class DashboardComponent {
     public utilsService: UtilsService,
     public settingsService: SettingsService,
     public themeService: ThemeService,
-    public localizationService: LocalizationService
+    public localizationService: OldLocalizationService
   ) { }
 
   runFunction(object) {
