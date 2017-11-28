@@ -71,6 +71,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.DataController
 			}
 		}
 
+		//--------------------------------------------------------------------------------
 		public static OperationResult SaveCluster(List<IModelObject> modelList, BurgerData burgerData)
 		{
 			OperationResult saveResult = new OperationResult(true, String.Empty);
