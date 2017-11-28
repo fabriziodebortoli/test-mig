@@ -2,7 +2,7 @@
     <kendo-chart-title [text]="chart?.title"></kendo-chart-title>
     <kendo-chart-series>
         <kendo-chart-series-item *ngFor="let item of chart.series" [type]="getType(item)" [data]="item.data" [name]="item.title"
-            xField="x" yField="y" sizeField="size" categoryField="category" [color]="item.color" [opacity]="item.opacity">
+            xField="x" yField="y" sizeField="size" colorField="customColor" categoryField="category" [color]="item.color" [opacity]="item.opacity">
         </kendo-chart-series-item>
         <kendo-chart-tooltip format="{0} : {1}" [opacity]="1">
         </kendo-chart-tooltip>
