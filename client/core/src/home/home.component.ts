@@ -1,3 +1,4 @@
+import { EventManagerService } from './../core/services/event-manager.service';
 import { ThemeService } from './../core/services/theme.service';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './../settings/settings-container/settings-container.component';
 import { BoolEditComponent } from './../shared/controls/bool-edit/bool-edit.component';
@@ -53,7 +54,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   viewHeight: number;
 
   isDesktop: boolean;
-  settingsPageOpened: boolean = false;
+  settingsPageComponent: ComponentInfo = null;
 
   constructor(
     public sidenavService: SidenavService,
@@ -69,7 +70,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public infoService: InfoService,
     public loadingService: LoadingService,
     public resolver: ComponentFactoryResolver,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    public eventManagerService: EventManagerService
   ) {
 
     this.initialize();
@@ -90,6 +92,13 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
       if (arg.activate) {
         this.kendoTabStripInstance.selectTab(arg.index + 2);
       }
+    }));
+
+    this.subscriptions.push(this.eventManagerService.loggingOff.subscribe(() => {
+      //sulla logout, se serve, chiudo i settings
+      console.log("loggedOff");
+      this.closeSettings();
+      //eventualmente altre chiusure??? TODOLUCA
     }));
 
     this.subscriptions.push(this.tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
@@ -164,28 +173,31 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   onContextMenu() {
     return !this.infoService.isDesktop;
   }
-
+ 
   closeSettings() {
-    this.kendoTabStripInstance.selectTab(0);
-    this.settingsPageOpened = false;
-    console.log("this.settingsPageOpened ", this.settingsPageOpened);
+    console.log("closeSettings", this.settingsPageComponent);
+    if (this.settingsPageComponent != null && this.componentService.components.find(current => current == this.settingsPageComponent)) {
+      this.componentService.removeComponent(this.settingsPageComponent);
+      console.log("remove setting", this.settingsPageComponent);
+    }
+    this.settingsPageComponent = null;
   }
 
   openSettings(opened: boolean) {
 
-    // console.log("this.settingsPageOpened ", this.settingsPageOpened );
-    // if (this.settingsPageOpened === true)
-    //   return;
     if (!opened) {
-      this.settingsPageOpened = opened;
+      this.closeSettings();
       return;
     }
 
-    if (opened == true && this.settingsPageOpened) {
+    if (opened == true && this.settingsPageComponent != null) {
       return;
     }
 
-    this.settingsPageOpened = opened;
+    this.componentService.componentInfoAdded.subscribe((component) => {
+      this.settingsPageComponent = component;
+    });
+
     this.componentService.createComponent(SettingsContainerComponent, this.resolver);
 
     let len = this.kendoTabStripInstance.tabs.toArray().length;

@@ -10,8 +10,6 @@ import { DocumentComponent } from './../../shared/components/document.component'
 import { DataService } from './../../core/services/data.service';
 import { EventDataService } from './../../core/services/eventdata.service';
 
-
-import { SettingsPageService } from '../settings-page.service';
 import { InfoService } from './../../core/services/info.service';
 import { ViewEncapsulation } from '@angular/core';
 
