@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { OperationResult } from '../../services/operationResult';
 import { ModelService } from 'app/services/model.service';
-import { ExtendedSubscriptionDatabase } from '../../authentication/credentials';
 import { Router } from '@angular/router';
 import { MessageData } from '../../services/messageData';
 import { Subject } from 'rxjs';
+import { ExtendedSubscriptionDatabase } from './helpers/database-helpers';
 
 @Component({
   selector: 'app-database-operations',

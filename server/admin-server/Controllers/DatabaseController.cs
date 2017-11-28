@@ -1,6 +1,6 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Controllers.Helpers.All;
-using Microarea.AdminServer.Controllers.Helpers.APIQuery;
+using Microarea.AdminServer.Controllers.Helpers.Database;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Libraries.DatabaseManager;
 using Microarea.AdminServer.Libraries.DataManagerEngine;
@@ -1034,24 +1034,5 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
-	}
-
-	//================================================================================
-	public class ExtendedSubscriptionDatabase
-	{
-		public DatabaseCredentials AdminCredentials;
-		public SubscriptionDatabase Database;
-	}
-
-	//================================================================================
-	public class DBInfo
-	{
-		public string Name = string.Empty;
-		public bool ExistDBMark = false;
-		public bool UseUnicode = false;
-		public string Collation = string.Empty;
-		public string Error = string.Empty;
-
-		public bool HasError { get { return !string.IsNullOrWhiteSpace(Error); } }
 	}
 }

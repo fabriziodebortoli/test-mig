@@ -4,7 +4,7 @@ import { SubscriptionDatabase } from 'app/model/subscriptionDatabase';
 import { ActivatedRoute } from '@angular/router';
 import { ModelService } from 'app/services/model.service';
 import { AccountInfo } from 'app/authentication/account-info';
-import { DatabaseCredentials, ExtendedSubscriptionDatabase } from '../../authentication/credentials';
+import { DatabaseCredentials } from '../../authentication/credentials';
 import { OperationResult } from '../../services/operationResult';
 import { DataChannelService } from 'app/services/data-channel.service';
 

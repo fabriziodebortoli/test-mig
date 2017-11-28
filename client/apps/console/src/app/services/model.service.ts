@@ -1,4 +1,4 @@
-import { DatabaseCredentials, ExtendedSubscriptionDatabase } from './../authentication/credentials';
+import { DatabaseCredentials } from './../authentication/credentials';
 import { AuthorizationProperties } from './../authentication/auth-info';
 import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
@@ -11,6 +11,7 @@ import { OperationResult } from './operationResult';
 import { AccountInfo } from '../authentication/account-info';
 import { MessageData } from './messageData';
 import { retry } from 'rxjs/operator/retry';
+import { ExtendedSubscriptionDatabase } from '../components/database/helpers/database-helpers';
 
 @Injectable()
 export class ModelService {
