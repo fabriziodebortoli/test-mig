@@ -26,7 +26,6 @@ export class InstanceRegistrationComponent implements OnDestroy {
   subscriptionSaveInstance: Subscription;
   subscriptionReadSubscriptions: Subscription;
   currentStep: number;
-  readingData: boolean;
   clusterStep: number;
   busy: boolean;
 
@@ -78,7 +77,6 @@ export class InstanceRegistrationComponent implements OnDestroy {
       return;
     }
 
-    this.readingData = true;
     this.busy = true;
 
     this.subscriptionSaveInstance = this.modelService.registerInstance(this.model, this.accountName, this.activationCode).subscribe(
@@ -86,7 +84,6 @@ export class InstanceRegistrationComponent implements OnDestroy {
 
         if (!res.Result) {
           alert(res.Message);
-          this.readingData = false;
           this.busy = false;
           return;
         }
@@ -133,7 +130,6 @@ export class InstanceRegistrationComponent implements OnDestroy {
       err => {
         alert(err);
         this.clusterStep = 0;
-        this.readingData = false;
         this.busy = false;
       }
     );
