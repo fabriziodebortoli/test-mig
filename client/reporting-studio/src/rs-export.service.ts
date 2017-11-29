@@ -112,14 +112,15 @@ export class RsExportService {
                     });
                 }).then((dataUri) => {
                     saveAs(dataUri, this.titleReport + '_copy_' + this.incrCopy + '.pdf');
+                    this.pdfState = PdfType.NOPDF;
                 }).then(() => {
                     this.rsService.reset();
                     this.filePdf = new Group();
                     if (this.incrCopy < this.numberOfCopy && this.multiFile) {
+                        this.pdfState = PdfType.PDF;
                         this.eventPageNumber.emit();
                     }
                     else
-                        this.pdfState = PdfType.NOPDF;
                         this.eventFirstPage.emit();
                 });
         }
