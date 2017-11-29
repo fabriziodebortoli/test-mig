@@ -1,7 +1,7 @@
 import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
-import { LocalizationService } from './../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';
@@ -22,7 +22,7 @@ export class MostUsedComponent {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public imageService: ImageService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     public settingsService: SettingsService
   ) { }
 

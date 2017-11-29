@@ -64,7 +64,14 @@ namespace Microarea.AdminServer.Model
 			opRes.Result = burgerData.Save(ModelTables.Roles, keyColumnParameter, burgerDataParameters);
 			return opRes;
 		}
-    }
+
+		//----------------------------------------------------------------------
+		public OperationResult Delete(BurgerData burgerData)
+		{
+			OperationResult opRes = new OperationResult(true, "Commin Roles cannot be deleted.");
+			return opRes;
+		}
+	}
 
     //================================================================================
     public static class RolesStrings

@@ -717,6 +717,8 @@ export class MenuService {
                 tile.currentAppTitle = this.selectedApplication.title;
                 tile.currentGroupTitle = this.selectedGroup.title;
                 tile.currentMenuTitle = menu.title;
+                
+                tile.tooltip = tile.currentAppTitle + " | " +  tile.currentGroupTitle + " | " +  tile.currentMenuTitle;
 
                 this.addToHiddenTilesArray(tile);
                 this.selectedMenuChanged.emit(); //stuzzico la rigenerazione delle tiles

@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../core/services/localization.service';
+import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { ComponentService } from '../../core/services/component.service';
 import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
@@ -8,7 +8,6 @@ import { EventDataService } from './../../core/services/eventdata.service';
 
 import { SettingsPageService } from '../settings-page.service';
 import { InfoService } from './../../core/services/info.service';
-
 
 @Component({
   selector: 'tb-settings-container',
@@ -23,12 +22,12 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
   constructor(
     eventData: EventDataService, 
     public dataService: DataService, 
-    settingsService: SettingsPageService, 
+    settingsPageService: SettingsPageService, 
     public infoService: InfoService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     changeDetectorRef: ChangeDetectorRef
   ) {
-    super(settingsService, eventData, null, changeDetectorRef);
+    super(settingsPageService, eventData, null, changeDetectorRef);
     this.isDesktop = infoService.isDesktop;
   }
   ngOnInit() {

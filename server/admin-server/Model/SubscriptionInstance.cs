@@ -53,5 +53,11 @@ namespace Microarea.AdminServer.Model
 		{
 			throw new System.NotImplementedException();
 		}
+
+		//----------------------------------------------------------------------
+		public OperationResult Delete(BurgerData burgerData)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

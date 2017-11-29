@@ -77,7 +77,7 @@ export class UrlGuard {
         return opRes;
       }
 
-      if (authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
+      if (authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Account)) {
         opRes.Result = true;
         return opRes;
       }
@@ -112,8 +112,8 @@ export class UrlGuard {
     }
 
     if (url == '/accountsHome' || url.startsWith('/database') || url == '/account') {
-      if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
-        opRes.Message = RoleLevels.Subscription + ' level missing';
+      if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Account)) {
+        opRes.Message = RoleLevels.Account + ' level missing';
         opRes.Result = false;
         return opRes;
       }

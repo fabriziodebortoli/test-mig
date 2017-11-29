@@ -40,8 +40,18 @@ namespace Microarea.AdminServer
 															JOIN MP_SubscriptionInstances subIns ON subAcc.SubscriptionKey = subIns.SubscriptionKey
 															WHERE subAcc.AccountName = '{0}')";
 
-        // Referenced table MP_ServerURLs
-        public const string SelectURlsInstance = @"SELECT * FROM MP_ServerURLs WHERE InstanceKey = {0}";
+		public const string SelectInstanceForAdminAccount = @"SELECT * FROM MP_Instances WHERE 
+																InstanceKey IN
+																	(SELECT DISTINCT InstanceKey FROM MP_Subscriptions sub 
+																		JOIN MP_SubscriptionAccounts subAcc ON sub.SubscriptionKey = subAcc.SubscriptionKey
+																		JOIN MP_SubscriptionInstances subIns ON subAcc.SubscriptionKey = subIns.SubscriptionKey
+																		WHERE subAcc.AccountName = '{0}') 
+																OR InstanceKey IN
+																	(SELECT DISTINCT InstanceKey FROM MP_InstanceAccounts iAcc
+																		WHERE iAcc.AccountName = '{0}')";
+
+		// Referenced table MP_ServerURLs
+		public const string SelectURlsInstance = @"SELECT * FROM MP_ServerURLs WHERE InstanceKey = {0}";
 
         // ServerURL
         public const string ExistServerURL = @"SELECT COUNT(*) FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey AND URLType = @URLType";
@@ -60,9 +70,9 @@ namespace Microarea.AdminServer
         public const string ExistSubscription = @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionsAll = @"SELECT * FROM MP_Subscriptions";
         public const string SelectSubscription = @"SELECT * FROM MP_Subscriptions WHERE SubscriptionKey = '{0}'";
-        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, Language, RegionalSettings, MinDBSizeToWarn, UnderMaintenance, Ticks) 
-											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @Language, @RegionalSettings, @MinDBSizeToWarn, @UnderMaintenance, @Ticks)";
-        public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, Language = @Language, 
+        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken,VATNr, Language, RegionalSettings, MinDBSizeToWarn, UnderMaintenance, Ticks) 
+											 	VALUES (@SubscriptionKey, @Description, @ActivationToken,@VATNr, @Language, @RegionalSettings, @MinDBSizeToWarn, @UnderMaintenance, @Ticks)";
+        public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, VATNr=@VATNr, Language = @Language, 
 												RegionalSettings = @RegionalSettings, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance, Ticks=@Ticks WHERE SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscription = @"DELETE MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
 
@@ -133,8 +143,17 @@ namespace Microarea.AdminServer
         public const string UpdateSubscriptionAccount = @"UPDATE  MP_SubscriptionAccounts SET Ticks=@Ticks  WHERE AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
 
-        // SecurityToken
-        public const string ExistSecurityToken = @"SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
+		// InstanceAccounts
+		public const string ExistInstanceAccount = @"SELECT COUNT(*) FROM MP_InstanceAccounts WHERE AccountName = @AccountName AND InstanceKey = @InstanceKey";
+		public const string SelectInstanceAccountByInstanceKey = @"SELECT * FROM MP_InstanceAccounts WHERE InstanceKey = @InstanceKey";
+		public const string SelectInstanceAccountByAccount = @"SELECT * FROM MP_InstanceAccounts WHERE AccountName = @AccountName";
+		public const string SelectInstanceAccountByAccountSimple = @"SELECT * FROM MP_InstanceAccounts WHERE AccountName = '{0}'";
+		public const string InsertInstanceAccount = @"INSERT INTO MP_InstanceAccounts (AccountName, InstanceKey, Ticks) VALUES (@AccountName, @InstanceKey, @Ticks)";
+		public const string DeleteInstanceAccount = @"DELETE MP_InstanceAccounts WHERE @AccountName = @AccountName AND InstanceKey = @InstanceKey";
+		public const string UpdateInstanceAccount = @"UPDATE MP_InstanceAccounts SET Ticks = @Ticks WHERE InstanceKey = @InstanceKey AND AccountName = @AccountName";
+
+		// SecurityToken
+		public const string ExistSecurityToken = @"SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string SelectSecurityToken = @"SELECT * FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string InsertSecurityToken = @"INSERT INTO MP_SecurityTokens (AccountName, TokenType, Token, ExpirationDate, Expired) VALUES (@AccountName, @TokenType, @Token, @ExpirationDate, @Expired)";
         public const string UpdateSecurityToken = @"UPDATE MP_SecurityTokens SET Token=@Token, ExpirationDate=@ExpirationDate, Expired=@Expired WHERE AccountName=@AccountName AND TokenType=@TokenType";

@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../core/services/localization.service';
+import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { InfoService } from './../../core/services/info.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +16,7 @@ export class ProductInfoComponent implements OnInit {
   constructor(
     public infoService: InfoService,
     public utilsService: UtilsService,
-    public localizationService: LocalizationService
+    public localizationService: OldLocalizationService
   ) {
 
   }

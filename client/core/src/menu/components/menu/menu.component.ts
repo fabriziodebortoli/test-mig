@@ -3,7 +3,7 @@ import { SettingsService } from './../../../core/services/settings.service';
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
-import { LocalizationService } from './../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { ComponentInfoService } from './../../../core/services/component-info.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { MenuService } from './../../services/menu.service';
@@ -28,7 +28,7 @@ export class MenuComponent implements OnDestroy {
   public subscriptions: Subscription[] = [];
   constructor(
     public menuService: MenuService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     public settingsService: SettingsService,
     public eventManagerService: EventManagerService,
     public eventData: EventDataService,

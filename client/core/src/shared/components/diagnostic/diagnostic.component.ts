@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { Component, OnInit } from '@angular/core';
 import { DiagnosticService } from './../../../core/services/diagnostic.service';
 
@@ -11,7 +11,7 @@ export class DiagnosticComponent implements OnInit {
 
     constructor(
         public diagnosticService: DiagnosticService,
-        public localizationService: LocalizationService
+        public localizationService: OldLocalizationService
     ) {
         
      }

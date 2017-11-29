@@ -1,5 +1,5 @@
 import { SettingsService } from './../../../../core/services/settings.service';
-import { LocalizationService } from './../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 
@@ -20,7 +20,7 @@ export class HiddenTilesComponent implements OnInit {
   constructor(
     public menuService: MenuService,
     public utilsService: UtilsService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     public settingsService: SettingsService,
   ) { }
 

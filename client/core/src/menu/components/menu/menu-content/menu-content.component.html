@@ -1,6 +1,7 @@
 <tb-card *ngIf="tile != undefined">
     <tb-card-title class="tb-card-title" [title]="tile.title" [isCollapsible]="false">
-        <m4-icon [icon]="!pinned ? 'tb-uncheckedradiobutton' : 'tb-uncheckedradiobuttonfilled'" (mouseenter)="pinned = true" (mouseleave)="pinned = false" class="hideButton" (click)="menuService.addToHiddenTiles(menu, tile)" matTooltip="{{localizationService?.localizedElements?.HideTile}}"
+        <m4-icon *ngIf="canHide" [icon]="!pinned ? 'tb-uncheckedradiobutton' : 'tb-uncheckedradiobuttonfilled'" (mouseenter)="pinned = true" (mouseleave)="pinned = false"
+            class="hideButton" (click)="menuService.addToHiddenTiles(menu, tile)" matTooltip="{{localizationService?.localizedElements?.HideTile}}"
             matTooltipShowDelay="500"></m4-icon>
     </tb-card-title>
 

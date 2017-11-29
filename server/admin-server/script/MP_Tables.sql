@@ -19,6 +19,33 @@ CREATE TABLE [dbo].[MP_Instances] (
 END
 GO
 
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_InstanceAccounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].MP_InstanceAccounts (
+	[AccountName] [varchar] (128) NOT NULL ,
+	[InstanceKey] [varchar] (50) NOT NULL,
+	[Ticks] [int] NULL CONSTRAINT DF_InstanceAccounts_Ticks DEFAULT (0),
+	CONSTRAINT [PK_MP_InstanceAccounts] PRIMARY KEY NONCLUSTERED 
+	(
+		[AccountName],
+		[InstanceKey]
+	),
+	CONSTRAINT [FK_MP_InstanceAccounts_Accounts] FOREIGN KEY 
+	(
+		[AccountName]
+	) REFERENCES [dbo].[MP_Accounts] (
+		[AccountName]
+	),
+	CONSTRAINT [FK_MP_InstanceAccounts_Instances] FOREIGN KEY 
+	(
+		[InstanceKey]
+	) REFERENCES [dbo].[MP_Instances] (
+		[InstanceKey]
+	)
+)
+END
+GO
+
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_InstanceTBFS]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_InstanceTBFS](
@@ -104,6 +131,7 @@ CREATE TABLE [dbo].[MP_Subscriptions] (
 	[SubscriptionKey] [varchar] (50) NOT NULL,
 	[Description] [varchar] (255) NULL CONSTRAINT DF_Subscriptions_Description DEFAULT(''),
 	[ActivationToken] [varchar](max) NULL CONSTRAINT DF_Subscriptions_ActivationToken DEFAULT(''),
+	[VATNr] [varchar] (20) NULL CONSTRAINT DF_Subscriptions_VATNr DEFAULT (''),
 	[Language] [varchar] (10) NULL CONSTRAINT DF_Subscriptions_Language DEFAULT(''),
 	[RegionalSettings] [varchar] (10) NULL CONSTRAINT DF_Subscriptions_RegionalSettings DEFAULT(''),
 	[MinDBSizeToWarn] [int] NULL CONSTRAINT DF_Subscriptions_MinDBSizeToWarn DEFAULT(2044723), 

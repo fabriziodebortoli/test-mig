@@ -9,9 +9,6 @@ $text-light: rgb(238, 238, 238);
 $text-medium: #9E9E9E;
 $text-dark: #212121;
 $text-black: #000000;
-$text-light: #fff;
-$text-medium:#fff;
-$text-dark: #000;
 $font-size-tooltip: 12px;
 .underwater {
     //toolbar principale, dove si trova anche la "ricerca"
@@ -32,7 +29,7 @@ $font-size-tooltip: 12px;
     //Selettore menu/dashboard/documenti/report, singola tab attiva
     .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
         background: $bkg-light;
-        color: $text-dark;
+        color: $text-black;
         border-bottom-color: $bkg-medium;
     }
     //colore pulsanti finestre di messaggio modali

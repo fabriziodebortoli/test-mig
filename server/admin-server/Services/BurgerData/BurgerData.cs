@@ -93,165 +93,200 @@ namespace Microarea.AdminServer.Services.BurgerData
             return found ? (I)obj : default(I);
         }
 
-			//--------------------------------------------------------------------------------
-			public List<I> GetList<T, I>(string command, ModelTables table)
+		//--------------------------------------------------------------------------------
+		public List<I> GetList<T, I>(string command, ModelTables table)
+		{
+			return GetList<T, I>(command, table, null, null);
+		}
+
+		public List<I> GetList<T, I>(string command, ModelTables table, List<SqlParameter> sqlParametersList)
+		{
+			return GetList<T, I>(command, table, null, sqlParametersList, null);
+		}
+
+		public List<I> GetList<T, I>(ModelTables table, SqlLogicOperators? sqlLogicOperator, params WhereCondition[] conditions)
+		{
+			return GetList<T, I>(String.Empty, table, sqlLogicOperator, null, conditions);
+		}
+
+		public List<I> GetList<T, I>(ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
+		{
+			return GetList<T, I>(String.Empty, table, sqlLogicOperator, sqlParametersList, conditions);
+		}
+
+		//--------------------------------------------------------------------------------
+		private List<I> GetList<T, I>(
+			string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
+		{
+			List<I> innerList = new List<I>();
+			IModelObject obj = ModelFactory.CreateModelObject<T, I>();
+
+			IDBManager dbManager = new DBManager(DataProvider.SqlClient, this.connectionString);
+			string tableName = SqlScriptManager.GetTableName(table);
+
+			if (String.IsNullOrEmpty(command))
+				command = conditions != null ?
+					CreateSelectFromSelectParameters(conditions, sqlLogicOperator, tableName) :
+					CreateSelectFromSelectParameters(sqlLogicOperator, tableName);
+
+			if (String.IsNullOrEmpty(command))
+				return innerList;
+
+			try
 			{
-				return GetList<T, I>(command, table, null, null);
-			}
-
-			public List<I> GetList<T, I>(string command, ModelTables table, List<SqlParameter> sqlParametersList)
-			{
-				return GetList<T, I>(command, table, null, sqlParametersList, null);
-			}
-
-			public List<I> GetList<T, I>(ModelTables table, SqlLogicOperators? sqlLogicOperator, params WhereCondition[] conditions)
-			{
-				return GetList<T, I>(String.Empty, table, sqlLogicOperator, null, conditions);
-			}
-
-			public List<I> GetList<T, I>(ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
-			{
-				return GetList<T, I>(String.Empty, table, sqlLogicOperator, sqlParametersList, conditions);
-			}
-
-			//--------------------------------------------------------------------------------
-			private List<I> GetList<T, I>(
-				string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
-			{
-				List<I> innerList = new List<I>();
-				IModelObject obj = ModelFactory.CreateModelObject<T, I>();
-
-				IDBManager dbManager = new DBManager(DataProvider.SqlClient, this.connectionString);
-				string tableName = SqlScriptManager.GetTableName(table);
-
-				if (String.IsNullOrEmpty(command))
-					command = conditions != null ?
-						CreateSelectFromSelectParameters(conditions, sqlLogicOperator, tableName) :
-						CreateSelectFromSelectParameters(sqlLogicOperator, tableName);
-
-				if (String.IsNullOrEmpty(command))
-					return innerList;
-
-				try
+				dbManager.Open();
+				if (sqlParametersList != null)
 				{
-					dbManager.Open();
-					if (sqlParametersList != null)
+					dbManager.CreateParameters(sqlParametersList.Count);
+					for (int i = 0; i < sqlParametersList.Count; i++)
 					{
-						dbManager.CreateParameters(sqlParametersList.Count);
-						for (int i = 0; i < sqlParametersList.Count; i++)
-						{
-							dbManager.AddParameters(i, sqlParametersList[i].ParameterName, sqlParametersList[i].Value);
-						}
+						dbManager.AddParameters(i, sqlParametersList[i].ParameterName, sqlParametersList[i].Value);
 					}
-					dbManager.ExecuteReader(System.Data.CommandType.Text, command);
-					while (dbManager.DataReader.Read())
-						innerList.Add((I)obj.Fetch(dbManager.DataReader));
 				}
-				catch (SqlException e)
-				{
-					System.Diagnostics.Debug.WriteLine(e.Message);
-					// todo log
-				}
+				dbManager.ExecuteReader(System.Data.CommandType.Text, command);
+				while (dbManager.DataReader.Read())
+					innerList.Add((I)obj.Fetch(dbManager.DataReader));
+			}
+			catch (SqlException e)
+			{
+				System.Diagnostics.Debug.WriteLine(e.Message);
+				// todo log
+			}
+        catch (Exception e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.Message);
+            // todo log
+        }
+        finally
+			{
+				dbManager.Close();
+				dbManager.Dispose();
+			}
+
+			return innerList;
+		}
+
+        //--------------------------------------------------------------------------------
+        private static string CreateSelectFromSelectParameters(SqlLogicOperators? sqlLogicOperator, string tableName)
+        {
+            return CreateSelectFromSelectParameters(new WhereCondition[] { }, sqlLogicOperator, tableName);
+        }
+
+        //--------------------------------------------------------------------------------
+        private static string CreateSelectFromSelectParameters(WhereCondition[] conditions,
+            SqlLogicOperators? sqlLogicOperator, string tableName)
+        {
+            SelectScript selectScript = new SelectScript(tableName);
+            selectScript.AddSelectField("*");
+
+            if (sqlLogicOperator != null)
+                selectScript.LogicOperatorForAllParameters = (SqlLogicOperators)sqlLogicOperator;
+
+            if (conditions == null)
+                return selectScript.ToString();
+
+            foreach (WhereCondition condition in conditions)
+                selectScript.AddWhereParameter(
+                    condition.FieldName,
+                    condition.Val,
+                    condition.ComparingOperator,
+                    condition.IsNumber);
+
+            return selectScript.ToString();
+        }
+
+        //--------------------------------------------------------------------------------
+        public bool Save(ModelTables table, BurgerDataParameter burgerDataParameterKeyColumn, List<BurgerDataParameter> burgerDataParameters)
+        {
+            return Save(table, new BurgerDataParameter[] { burgerDataParameterKeyColumn }, burgerDataParameters);
+        }
+
+        //--------------------------------------------------------------------------------
+        public bool Save(ModelTables table, BurgerDataParameter[] burgerDataParameterKeyColumns, List<BurgerDataParameter> burgerDataParameters)
+        {
+            string queryExistRow = SqlScriptManager.GetExistQueryByModel(table);
+            string queryUpdateRow = SqlScriptManager.GetUpdateQueryByModel(table);
+            string queryInsertRow = SqlScriptManager.GetInsertQueryByModel(table);
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
+                {
+                    connection.Open();
+
+                    bool existRow = false;
+
+                    using (SqlCommand command = new SqlCommand(queryExistRow, connection))
+                    {
+                        foreach (BurgerDataParameter bdParam in burgerDataParameterKeyColumns)
+                        {
+                            command.Parameters.AddWithValue(bdParam.Name, bdParam.Value);
+                        }
+
+                        existRow = (int)command.ExecuteScalar() > 0;
+                    }
+
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = existRow ? queryUpdateRow : queryInsertRow;
+
+                        burgerDataParameters.ForEach(p =>
+                        {
+                            command.Parameters.AddWithValue(p.Name, p.Value);
+                        });
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+            }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
                 // todo log
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return false;
             }
-            finally
+        }
+
+		//--------------------------------------------------------------------------------
+		public bool Delete(ModelTables table, List<BurgerDataParameter> burgerDataParameters)
+		{
+			string queryDeleteRow = SqlScriptManager.GetDeleteQueryByModel(table);
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
-					dbManager.Close();
-					dbManager.Dispose();
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand())
+					{
+						command.Connection = connection;
+						command.CommandText = queryDeleteRow;
+
+						burgerDataParameters.ForEach(p =>
+						{
+							command.Parameters.AddWithValue(p.Name, p.Value);
+						});
+
+						command.ExecuteNonQuery();
+					}
+
+					return true;
 				}
-
-				return innerList;
 			}
+			catch (Exception e)
+			{
+				// todo log
+				System.Diagnostics.Debug.WriteLine(e.Message);
+				return false;
+			}
+		}
 
-            //--------------------------------------------------------------------------------
-            private static string CreateSelectFromSelectParameters(SqlLogicOperators? sqlLogicOperator, string tableName)
-            {
-                return CreateSelectFromSelectParameters(new WhereCondition[] { }, sqlLogicOperator, tableName);
-            }
-
-            //--------------------------------------------------------------------------------
-            private static string CreateSelectFromSelectParameters(WhereCondition[] conditions,
-                SqlLogicOperators? sqlLogicOperator, string tableName)
-            {
-                SelectScript selectScript = new SelectScript(tableName);
-                selectScript.AddSelectField("*");
-
-                if (sqlLogicOperator != null)
-                    selectScript.LogicOperatorForAllParameters = (SqlLogicOperators)sqlLogicOperator;
-
-                if (conditions == null)
-                    return selectScript.ToString();
-
-                foreach (WhereCondition condition in conditions)
-                    selectScript.AddWhereParameter(
-                        condition.FieldName,
-                        condition.Val,
-                        condition.ComparingOperator,
-                        condition.IsNumber);
-
-                return selectScript.ToString();
-            }
-
-            //--------------------------------------------------------------------------------
-            public bool Save(ModelTables table, BurgerDataParameter burgerDataParameterKeyColumn, List<BurgerDataParameter> burgerDataParameters)
-            {
-                return Save(table, new BurgerDataParameter[] { burgerDataParameterKeyColumn }, burgerDataParameters);
-            }
-
-            //--------------------------------------------------------------------------------
-            public bool Save(ModelTables table, BurgerDataParameter[] burgerDataParameterKeyColumns, List<BurgerDataParameter> burgerDataParameters)
-            {
-                string queryExistRow = SqlScriptManager.GetExistQueryByModel(table);
-                string queryUpdateRow = SqlScriptManager.GetUpdateQueryByModel(table);
-                string queryInsertRow = SqlScriptManager.GetInsertQueryByModel(table);
-
-                try
-                {
-                    using (SqlConnection connection = new SqlConnection(this.connectionString))
-                    {
-                        connection.Open();
-
-                        bool existRow = false;
-
-                        using (SqlCommand command = new SqlCommand(queryExistRow, connection))
-                        {
-                            foreach (BurgerDataParameter bdParam in burgerDataParameterKeyColumns)
-                            {
-                                command.Parameters.AddWithValue(bdParam.Name, bdParam.Value);
-                            }
-
-                            existRow = (int)command.ExecuteScalar() > 0;
-                        }
-
-                        using (SqlCommand command = new SqlCommand())
-                        {
-                            command.Connection = connection;
-                            command.CommandText = existRow ? queryUpdateRow : queryInsertRow;
-
-                            burgerDataParameters.ForEach(p =>
-                            {
-                                command.Parameters.AddWithValue(p.Name, p.Value);
-                            });
-
-                            command.ExecuteNonQuery();
-                        }
-
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    // todo log
-                    System.Diagnostics.Debug.WriteLine(e.Message);
-                    return false;
-                }
-            }
-
-			//--------------------------------------------------------------------------------
-			public bool ExecuteNoResultsQuery(string command)
+		//--------------------------------------------------------------------------------
+		public bool ExecuteNoResultsQuery(string command)
 			{
 				return ExecuteNoResultsQuery(command, null);
 			}
@@ -991,7 +1026,8 @@ namespace Microarea.AdminServer.Services.BurgerData
             AccountRoles,
             RegisteredApps,
             Instances,
-            RecoveryCode,
+			InstanceAccounts,
+			RecoveryCode,
 			ServerURLs,
 			SecurityTokens
 		}

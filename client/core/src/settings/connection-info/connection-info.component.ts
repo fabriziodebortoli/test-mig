@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../core/services/localization.service';
+import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from '../../rxjs.imports';
@@ -15,7 +15,7 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
   private subscriptions = [];
   constructor(
     public httpMenuService: HttpMenuService,
-    public localizationService: LocalizationService
+    public localizationService: OldLocalizationService
   ) {
 
   }

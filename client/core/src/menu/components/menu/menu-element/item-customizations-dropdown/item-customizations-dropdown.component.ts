@@ -1,7 +1,7 @@
 import { CloneDocumentDialogComponent } from './../../../../../shared/components/clone-document-dialog/clone-document-dialog.component';
 import { EsCustomizItem } from './../../../../../shared/models/es-customization-item.model';
 import { EasystudioService } from './../../../../../core/services/easystudio.service';
-import { LocalizationService } from './../../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../../core/services/oldlocalization.service';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { EasyStudioContextComponent } from './../../../../../shared/components/easystudio-context/easystudio-context.component';
 import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
@@ -49,7 +49,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
 
   constructor(elRef: ElementRef,
     public easystudioService: EasystudioService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     public popupService: PopupService) {
     this.elRef = elRef.nativeElement;
   }

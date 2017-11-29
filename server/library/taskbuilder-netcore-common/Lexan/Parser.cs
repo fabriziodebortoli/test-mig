@@ -1088,31 +1088,65 @@ namespace Microarea.Common.Lexan
 			return ok;
 		}
 
-		//------------------------------------------------------------------------------
-		public bool ParseColor (Token token, out Color aColor)
-		{
-			byte nRed = 0;
+        //------------------------------------------------------------------------------
+        public bool ParseColor(Token token, out Color aColor)
+        {
+
+            byte nRed = 0;
             byte nGreen = 0;
             byte nBlue = 0;
-			
-			bool ok1 = token == Token.NULL ? true : ParseTag(token); 
 
-			bool ok = ok1 &&
-				//ParseTag	(token)		&&
-				ParseOpen	()			&&
-				ParseByte	(out nRed)	&&
-				ParseComma	()			&&
-                ParseByte(out nGreen)&&
-				ParseComma	()			&&
-                ParseByte(out nBlue)	&&
-				ParseClose	();
+            bool ok1 = token == Token.NULL ? true : ParseTag(token);
 
-			aColor = Color.FromArgb(255, nRed, nGreen, nBlue);
-			return ok;
-		}
+            bool ok = ok1 &&
+                
+                ParseOpen() && ParseByte(out nRed) &&
+            ParseComma() &&
+            ParseByte(out nGreen) &&
+            ParseComma() &&
+            ParseByte(out nBlue) &&
+            ParseClose();
 
-		//------------------------------------------------------------------------------
-		public bool ParseBegin			()	{ return ParseTag(Token.BEGIN); }
+            aColor = Color.FromArgb(255, nRed, nGreen, nBlue);
+
+            return ok;
+        }
+
+        // parse chart series color that an be also an ID
+        public bool ParseColorWithID(Token token, out Color aColor, out string colorId)
+        {
+
+            byte nRed = 0;
+            byte nGreen = 0;
+            byte nBlue = 0;
+
+            bool ok1 = token == Token.NULL ? true : ParseTag(token);
+
+            bool ok = ok1 &&
+                //ParseTag	(token)		&&
+                ParseOpen();
+            if (!ok)
+            {
+                if (currentToken == Token.ID)
+                {
+                    colorId = CurrentLexeme;
+                    return true;
+                }
+            }
+            ok = ok && ParseByte(out nRed) &&
+            ParseComma() &&
+            ParseByte(out nGreen) &&
+            ParseComma() &&
+            ParseByte(out nBlue) &&
+            ParseClose();
+
+            aColor = Color.FromArgb(255, nRed, nGreen, nBlue);
+            colorId = "";
+            return ok;
+        }
+
+        //------------------------------------------------------------------------------
+        public bool ParseBegin			()	{ return ParseTag(Token.BEGIN); }
 		public bool ParseEnd			()	{ return ParseTag(Token.END); }
 		public bool ParseComma			()  { return ParseTag(Token.COMMA); }
 		public bool ParseColon			()  { return ParseTag(Token.COLON); }

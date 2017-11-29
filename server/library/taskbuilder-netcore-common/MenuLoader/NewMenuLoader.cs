@@ -723,10 +723,6 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WritePropertyName("Applications");
 				jsonWriter.WriteStartArray();
 				
-
-                jsonWriter.WritePropertyName("Applications");
-                jsonWriter.WriteStartArray();
-
                 BasePathFinder.BasePathFinderInstance.GetApplicationsList(ApplicationType.TaskBuilder | ApplicationType.TaskBuilderApplication, out StringCollection apps);
                 BrandLoader brand = new BrandLoader();
 

@@ -14,6 +14,7 @@ using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.WoormWebControl;
 using Microarea.Common.Hotlink;
+using System.Diagnostics;
 
 //using Microarea.RSWeb.Temp;
 
@@ -108,8 +109,10 @@ namespace Microarea.RSWeb.Objects
 
         Categories Categories = null;
         List<Series> Series = new List<Series>();
-        Variable ColorVar=null;
+        Variable ColorID = null;
         ChartLegend Legend = new ChartLegend();
+
+        public object ColorVar { get; private set; }
 
         //------------------------------------------------------------------------------
         public Chart(WoormDocument document)
@@ -137,7 +140,7 @@ namespace Microarea.RSWeb.Objects
                 ChartType == EnumChartType.Donut ||
                 ChartType == EnumChartType.DonutNested ||
                 ChartType == EnumChartType.RadarArea ||
-                ChartType == EnumChartType.RadarLine ||            
+                ChartType == EnumChartType.RadarLine ||
                 ChartType == EnumChartType.Bubble ||
                 ChartType == EnumChartType.RangeArea ||
                 ChartType == EnumChartType.RangeBar ||
@@ -192,7 +195,7 @@ namespace Microarea.RSWeb.Objects
 
         bool IsChartFamilyBubble()
         {
-            return            
+            return
                 ChartType == EnumChartType.Bubble ||
                 ChartType == EnumChartType.BubbleScatter;
         }
@@ -320,37 +323,37 @@ namespace Microarea.RSWeb.Objects
                     return false;
             }
 
+
+            if (lex.LookAhead(Token.COLOR))
+            {
+                string colorId = "";
+                if (!lex.ParseColorWithID(Token.COLOR, out pSeries.Color, out colorId))
+                {
+                    return false;
+                }
+
+                if (!String.IsNullOrEmpty(colorId))
+                {
+                    ColorID = Document.SymbolTable.Find(colorId);
+                    if (ColorID == null)
+                    {
+                        Debug.WriteLine("The field associated with array of colours not found");
+                        return false;
+                    }
+                }
+
+                pSeries.Colored = true;
+            }
+            else
+                pSeries.Colored = false;
+
+
             if (lex.Matched(Token.TRANSPARENT))
             {
                 if (!lex.ParseDouble(out pSeries.Transparent))
                     return false;
             }
 
-            if (lex.LookAhead(Token.COLOR))
-            {
-                if (!IsChartFamilyPie())
-                {
-                    if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
-                        return false;
-                }
-                else
-                {
-                    string colorId = "";
-                    ok = lex.ParseTag(Token.COLOR);                  
-                    ok=lex.ParseID(out colorId);
-                    Variable pF = Document.SymbolTable.Find(colorId);
-                    if (pF == null)
-                    {
-                        lex.SetError("TODO - il campo associato al colore non esiste");
-                        return false;
-                    }
-                    ColorVar = pF;
-                }
-                
-                pSeries.Colored = true;
-            }
-            else
-                pSeries.Colored = false;
 
             if (lex.Matched(Token.STYLE))
             {
@@ -381,8 +384,9 @@ namespace Microarea.RSWeb.Objects
 
             if (HasCategories())
             {
-                if (lex.Matched(Token.TITLE)) {
-                   ok= /*lex.ParseTag(Token.TITLE) &&*/ lex.ParseString(out Categories.Title);
+                if (lex.Matched(Token.TITLE))
+                {
+                    ok = /*lex.ParseTag(Token.TITLE) &&*/ lex.ParseString(out Categories.Title);
                     if (!ok)
                         return false;
                 }
@@ -458,18 +462,18 @@ namespace Microarea.RSWeb.Objects
         public override bool Parse(WoormParser lex)
         {
             bool ok = lex.ParseTag(Token.CHART) && lex.ParseID(out Name) &&
-                        lex.ParseBegin() &&                     
+                        lex.ParseBegin() &&
                         lex.ParseAlias(out this.InternalID) &&
                         lex.ParseTag(Token.TITLE) &&
                         lex.ParseString(out Title);
 
-           /* if (lex.Matched(Token.COMMA))
-                ok = ok && lex.ParseID(out Name); */
+            /* if (lex.Matched(Token.COMMA))
+                 ok = ok && lex.ParseID(out Name); */
 
             int t = 0;
             ok = ok &&
-                lex.ParseTag(Token.TYPE) && lex.ParseInt(out t) && 
-                lex.ParseRect(out this.Rect) ;
+                lex.ParseTag(Token.TYPE) && lex.ParseInt(out t) &&
+                lex.ParseRect(out this.Rect);
 
             ChartType = (EnumChartType)t;
 
@@ -478,7 +482,7 @@ namespace Microarea.RSWeb.Objects
             /*if*/
             if (lex.Matched(Token.CHART_CATEGORIES))
             {
-                ParseCategories(lex);          
+                ParseCategories(lex);
             }
 
             while (lex.Matched(Token.CHART_SERIES))
@@ -639,7 +643,7 @@ namespace Microarea.RSWeb.Objects
 
             return s + '}';
         }
-           
+
         //---------------------------------------------------------------------
         string ToJsonDataFamilyBar()
         {
@@ -699,7 +703,13 @@ namespace Microarea.RSWeb.Objects
             string series = "[";
 
             DataArray categories = GetArray(Categories.BindedField);
-
+            DataArray colors = null;
+            if (ColorID != null)
+            {
+                colors = GetArray(ColorID);
+                if (colors == null || colors.Count == 0)
+                    ColorID = null;
+            }
 
             int count = Series.Count - 1;
             foreach (Series seriesItem in Series)
@@ -727,14 +737,23 @@ namespace Microarea.RSWeb.Objects
                     string categoriesStr = categories.GetAt(i).ToJson("category");
 
                     string val = arSeries.GetAt(i).ToJson("value");
-                    series += '{' + categoriesStr + ',' + val + '}';
+                    string customColor = "";
+                    if (colors != null)
+                    {
+                        Color c = Color.FromArgb((int)colors.GetAt(i));
+
+                        customColor = ',' + ('#' + c.Name).ToJson("customColor");
+                    }
+                    series += '{' + categoriesStr + ',' + val + customColor + '}';
 
                 }
 
                 series += "]," + seriesItem.Title.ToJson("name", false, true);
 
-                if (seriesItem.Colored)
+                if (seriesItem.Colored && ColorID == null)
+                {
                     series += ',' + seriesItem.Color.ToJson("color");
+                }
 
                 series += ',' + seriesItem.SeriesType.ToJson("type");
 
@@ -783,7 +802,7 @@ namespace Microarea.RSWeb.Objects
             DataArray categories = HasCategories() ? GetArray(Categories.BindedField) : null;
 
             foreach (Series seriesItem in Series)
-            {              
+            {
                 DataArray axesX = GetArray(seriesItem.BindedFields[0]);
                 DataArray axesY = GetArray(seriesItem.BindedFields[1]);
 
@@ -852,7 +871,7 @@ namespace Microarea.RSWeb.Objects
                     count--;
                 }
             }
-        
+
             series += ']';
 
             return "\"series\":" + series;
@@ -871,8 +890,16 @@ namespace Microarea.RSWeb.Objects
             int count = Series.Count - 1;
             DataArray categories = HasCategories() ? GetArray(Categories.BindedField) : null;
 
+            DataArray colors = null;
+            if (ColorID != null)
+            {
+                colors = GetArray(ColorID);
+                if (colors == null || colors.Count == 0)
+                    ColorID = null;
+            }
+
             foreach (Series seriesItem in Series)
-            {              
+            {
                 DataArray axesX = GetArray(seriesItem.BindedFields[0]);
                 DataArray axesY = GetArray(seriesItem.BindedFields[1]);
                 DataArray size = IsChartFamilyBubble() ? GetArray(seriesItem.BindedFields[2]) : null;
@@ -910,12 +937,20 @@ namespace Microarea.RSWeb.Objects
                         ss += "," + size.GetAt(i).ToJson("size");
                     }
 
-                    series += '{' + ss + '}';
+                    string customColor = "";
+                    if (colors != null)
+                    {
+                        Color c = Color.FromArgb((int)colors.GetAt(i));
+
+                        customColor = ',' + ('#' + c.Name).ToJson("customColor");
+                    }
+
+                    series += '{' + ss + customColor + '}';
                 }
 
                 series += "]," + seriesItem.Title.ToJson("name", false, true);
 
-                if (seriesItem.Colored)
+                if (seriesItem.Colored && ColorID == null)
                     series += ',' + seriesItem.Color.ToJson("color");
 
                 series += ',' + seriesItem.SeriesType.ToJson("type");
@@ -947,7 +982,7 @@ namespace Microarea.RSWeb.Objects
                     count--;
                 }
             }
-        
+
             series += ']';
 
             return "\"series\":" + series;

@@ -53,7 +53,7 @@ namespace Microarea.AdminServer.Controllers
 					await file.CopyToAsync(stream);
 				}
 			}
-			catch (Exception)
+			catch 
 			{
 				this.jsonHelper.AddJsonCouple<bool>("result", false);
 				return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), StatusCode = 500, ContentType = "application/json" };

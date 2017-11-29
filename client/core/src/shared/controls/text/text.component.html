@@ -3,6 +3,9 @@
     <div class="group">
         <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)"
             (ngModelChange)="model.value=$event" [style.width.px]="width"></kendo-maskedtextbox>
+        <ng-template [ngIf]="hotLink">
+            <ng-template [tbHotLink]="hotLink" ></ng-template>
+        </ng-template>
         <ng-container #contextMenu></ng-container>
     </div>
 </div>

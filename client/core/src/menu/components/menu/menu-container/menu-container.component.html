@@ -20,10 +20,20 @@
                             </tb-header-strip>
 
                             <div class="menu-container row" *ngIf="menuService.selectedMenu != undefined">
-                                
-                                <tb-menu-content *ngFor="let tile of tiles"  [menu]="menuTab" [tile]="tile" class="col-xs-12 col-sm-12 col-md-6 col-lg-4" [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
+
+                                <tb-menu-content *ngFor="let tile of tiles"  [menu]="menuTab" [tile]="tile" class="col-xs-12 col-sm-12 col-md-6 col-lg-4"
+                                    [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
                                 </tb-menu-content>
                             </div>
+
+                            <div class="menu-container row" *ngIf="menuService?.selectedMenu?.Object">
+
+                                <tb-menu-content [canHide]="false" [menu]="menuTab" [tile]="menuService.selectedMenu" class="col-xs-12 col-sm-12 col-md-6 col-lg-4"
+                                    [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
+                                </tb-menu-content>
+                            </div>
+
+
                         </div>
                     </ng-template>
                 </kendo-tabstrip-tab>

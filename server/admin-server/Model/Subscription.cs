@@ -18,6 +18,7 @@ namespace Microarea.AdminServer.Model
 		int minDBSizeToWarn;
         bool underMaintenance;
         int ticks = TicksHelper.GetTicks();
+        string vATNr;
 
         //---------------------------------------------------------------------
         public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
@@ -28,6 +29,7 @@ namespace Microarea.AdminServer.Model
 		public int MinDBSizeToWarn { get { return this.minDBSizeToWarn; } set { this.minDBSizeToWarn = value; } }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
         public int Ticks { get => ticks; set => ticks = value; }
+        public string VATNr { get => vATNr; set => vATNr = value; }
 
         //---------------------------------------------------------------------
         public Subscription() {}
@@ -57,7 +59,8 @@ namespace Microarea.AdminServer.Model
 			}
 
 			burgerDataParameters.Add(new BurgerDataParameter("@ActivationToken", this.activationToken));
-			burgerDataParameters.Add(new BurgerDataParameter("@Language", this.language));
+            burgerDataParameters.Add(new BurgerDataParameter("@VATNr", this.vATNr));
+            burgerDataParameters.Add(new BurgerDataParameter("@Language", this.language));
 			burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.regionalSettings));
 			burgerDataParameters.Add(new BurgerDataParameter("@MinDBSizeToWarn", this.minDBSizeToWarn));
 			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
@@ -77,7 +80,8 @@ namespace Microarea.AdminServer.Model
 			subscription.subscriptionKey = reader["SubscriptionKey"] as string;
 			subscription.description = reader["Description"] as string;
 			subscription.activationToken = reader["ActivationToken"] as string;
-			subscription.language = reader["Language"] as string;
+            subscription.vATNr = reader["VATNr"] as string;
+            subscription.language = reader["Language"] as string;
 			subscription.regionalSettings = reader["RegionalSettings"] as string;
 			subscription.minDBSizeToWarn = (int)reader["MinDBSizeToWarn"];
 			subscription.underMaintenance = (bool)reader["UnderMaintenance"];
@@ -87,6 +91,12 @@ namespace Microarea.AdminServer.Model
 
 		//---------------------------------------------------------------------
 		public string GetKey()
+		{
+			throw new NotImplementedException();
+		}
+
+		//----------------------------------------------------------------------
+		public OperationResult Delete(BurgerData burgerData)
 		{
 			throw new NotImplementedException();
 		}

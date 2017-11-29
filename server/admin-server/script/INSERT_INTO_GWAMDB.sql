@@ -6,11 +6,11 @@ INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 
 INSERT [dbo].[MP_ServerURLs] ([InstanceKey], [URLType], [URL]) VALUES (N'I-M4', 1, N'https://app.m4cloud.netcore.com')
 
 -- Subscriptions
-INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4', N'subscription M4', N'', N'', N'', 2044723,999)
-INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4-ENT', N'subscription Enterprise', N'', N'', N'', 2044723,999)
-INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4-MDC', N'subscription MDC', N'', N'', N'', 2044723,999)
-INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4-MANUF', N'subscription Manufacturing', N'', N'', N'', 2044723,999)
-INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'S-ENT', N'subscription Enteprise', N'', N'', N'', 2044723,999)
+INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [VATNr], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4', N'subscription M4', N'',N'', N'', N'', 2044723,999)
+INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [VATNr], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4-ENT', N'subscription Enterprise', N'',N'', N'', N'', 2044723,999)
+INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [VATNr], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4-MDC', N'subscription MDC', N'',N'', N'', N'', 2044723,999)
+INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [VATNr], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'M4-MANUF', N'subscription Manufacturing', N'',N'', N'', N'', 2044723,999)
+INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [VATNr], [Language], [RegionalSettings], [MinDBSizeToWarn], [Ticks]) VALUES (N'S-ENT', N'subscription Enteprise', N'',N'', N'', N'', 2044723,999)
 
 -- SubscriptionInstances
 INSERT INTO [dbo].[MP_SubscriptionInstances]([SubscriptionKey],[InstanceKey], [Ticks]) VALUES (N'M4', N'I-M4',999)
