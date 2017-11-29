@@ -1,4 +1,4 @@
-<div #hotLinkButtons>
+<div class="hotlinkContainer" #hotLinkButtons>
     <button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!(model?.enabled)"></button>
     <kendo-popup [anchor]="anchor" (blur)="closeOptions()" *ngIf="showOptions$ | async">
         <div class="searchOptions">
@@ -13,26 +13,15 @@
     <button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!(model?.enabled)"></button>
     <div #anchorTable></div>
     <kendo-popup [anchor]="anchorTable" *ngIf="showTable$ | async" [ngStyle]="popupStyle">
-        <kendo-grid [data]="gridView | async" 
-                    [pageSize]="pageSize"
-                    [selectable]="true" 
-                    [skip]="paginator.skip"
-                    [filter]="filterer.filter"
-                    [filterable]="true"
-                    (filterChange)="filterChange($event)"
-                    [pageable]="{
+        <kendo-grid [data]="gridView | async" [pageSize]="pageSize" [selectable]="true" [skip]="paginator.skip" [filter]="filterer.filter"
+            [filterable]="true" (filterChange)="filterChange($event)" [pageable]="{
                         buttonCount: buttonCount,
                         info: info,
                         type: type,
                         pageSizes: pageSizes,
                         previousNext: previousNext
-                      }"
-                    [height]="300"
-                    (pageChange)="pageChange($event)"
-                    (selectionChange)="selectionChanged($event)"
-                    style="cursor:pointer">
-            <kendo-grid-column *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" 
-            [headerStyle]="{'background-color': '#666','color': '#fff','line-height': '1em'}">
+                      }" [height]="300" (pageChange)="pageChange($event)" (selectionChange)="selectionChanged($event)" style="cursor:pointer">
+            <kendo-grid-column *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" [headerStyle]="{'background-color': '#666','color': '#fff','line-height': '1em'}">
                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                     <div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
                 </ng-template>
