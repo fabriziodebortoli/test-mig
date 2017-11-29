@@ -9,7 +9,7 @@
                 <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="after" icon="tb-closewindows"></m4-icon>
             </ng-container>
         </li>
-        <hr class="separator">
+        <hr class="separator" *ngIf="menuService.hiddenTilesCount != 0">
         <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item" (click)="menuService.removeFromHiddenTiles(tile)">
             <ng-container *ngIf="tile.currentApp != menuService?.selectedApplication?.name || tile.currentGroup != menuService?.selectedGroup?.name ||  tile.currentMenu != menuService?.selectedMenu?.name">
                 <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
