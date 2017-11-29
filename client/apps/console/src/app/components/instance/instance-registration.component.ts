@@ -1,3 +1,4 @@
+import {Credentials} from '../../authentication/credentials';
 import { OperationResult } from './../../services/operationResult';
 import { Observable } from 'rxjs/Observable';
 import { ModelService } from './../../services/model.service';
@@ -5,8 +6,9 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Instance } from '../../model/instance';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Credentials } from 'app/authentication/credentials';
 import { retry } from 'rxjs/operator/retry';
+import { transition } from '@angular/core/src/animation/dsl';
+import { COMPONENT_VARIABLE } from '@angular/platform-browser/src/dom/dom_renderer';
 
 @Component({
   selector: 'app-instance',
@@ -15,7 +17,7 @@ import { retry } from 'rxjs/operator/retry';
 })
 
 //================================================================================
-export class InstanceRegistrationComponent implements OnDestroy {
+export class InstanceRegistrationComponent implements OnInit, OnDestroy {
 
   model: Instance;
   accountName: string;
@@ -29,6 +31,11 @@ export class InstanceRegistrationComponent implements OnDestroy {
   clusterStep: number;
   busy: boolean;
 
+  // credentials form data
+  fields: Array<{label:string, value:string, hide: boolean}>;
+  openToggle: boolean;
+  credentials: Credentials;
+
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
@@ -40,22 +47,58 @@ export class InstanceRegistrationComponent implements OnDestroy {
     this.subscriptionKey = '';
     this.clusterStep = 0;
     this.busy = false;
+    this.fields = [
+      { label: 'username', value:'', hide: false},
+      { label: 'password', value:'', hide: true}
+    ];
+    this.openToggle = false;
+    this.credentials = new Credentials();
+  }
+
+  //--------------------------------------------------------------------------------
+  ngOnInit(): void {
+    this.openToggle = true;
+  }  
+
+  //--------------------------------------------------------------------------------
+  onCloseCredentialsDialog() {
+    this.credentials = this.getCredentials(this.fields);
+    this.accountName = this.credentials.accountName;
+    this.password = this.credentials.password;    
+  }
+
+  //--------------------------------------------------------------------------------
+  getCredentials(formFields: Array<{label:string, value:string, hide: boolean}>) {
+
+    let credentials = new Credentials();
+
+    for (let i=0;i<formFields.length;i++) {
+      let item = formFields[i];
+
+      if (item.label === 'username') {
+        credentials.accountName = item.value;
+        continue;
+      }
+
+      if (item.label === 'password') {
+        credentials.password = item.value;
+        continue;
+      }
+    }
+
+    return credentials;
   }
 
   //--------------------------------------------------------------------------------
   getPermission() {
 
-    if (this.accountName === '' || this.password === '') {
-      return;
+    if (this.credentials.accountName === '' || this.credentials.password === '') {
+      alert('Invalid credentials.');
     }
-
-    let credentials = new Credentials();
-    credentials.accountName = this.accountName;
-    credentials.password = this.password;
 
     this.busy = true;
 
-    this.modelService.getPermissionToken(credentials, "newinstance").subscribe(
+    this.modelService.getPermissionToken(this.credentials, "newinstance").subscribe(
       res => {
         this.activationCode = res['Content'];
         this.busy = false;

@@ -48,8 +48,9 @@ namespace Microarea.AdminServer.Controllers.Helpers
             MissingRole,//30
             ValidToken,//31
             DataToUpdate,//32
-            DataNotFound//33,
-            
+            DataNotFound,//33,
+            TooLongParameters//34
+
         }
 
         //-----------------------------------------------------------------------------	
@@ -130,6 +131,8 @@ namespace Microarea.AdminServer.Controllers.Helpers
                     return Strings.DataToUpdate;
                 case 33:
                     return Strings.DataNotFound;
+                case 34:
+                    return Strings.TooLongParameters;
 
                 default:
                     return Strings.UnknownError;
