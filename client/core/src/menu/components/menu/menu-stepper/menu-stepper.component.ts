@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { LocalizationService } from './../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';
@@ -20,7 +20,7 @@ export class MenuStepperComponent {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public imageService: ImageService,
-    public localizationService: LocalizationService
+    public localizationService: OldLocalizationService
   ) { }
 
   public menu: any;

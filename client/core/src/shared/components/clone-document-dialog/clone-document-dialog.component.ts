@@ -1,6 +1,6 @@
 import { MatSnackBar } from '@angular/material';
 import { EasystudioService } from './../../../core/services/easystudio.service';
-import { LocalizationService } from './../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, Input } from '@angular/core';
 
 @Component({
@@ -18,7 +18,7 @@ export class CloneDocumentDialogComponent {
     public openCloneDialog = false;
 
     constructor(
-        public localizationService: LocalizationService,
+        public localizationService: OldLocalizationService,
         public easystudioService: EasystudioService,
         public snackBar: MatSnackBar) { }
 

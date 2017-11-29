@@ -49,6 +49,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.DataController
 
 				case "accountRolesForInstance":
 				case "accountRolesForSubscription":
+				case "accountRolesForAccount":
 					return jToken.ToObject<AccountRoles>();
 
 				case "instance":

@@ -466,6 +466,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The parameters are too long..
+        /// </summary>
+        public static string TooLongParameters {
+            get {
+                return ResourceManager.GetString("TooLongParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Undefined.
         /// </summary>
         public static string Undefined {

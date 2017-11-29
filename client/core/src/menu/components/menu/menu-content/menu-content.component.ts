@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { EventManagerService } from './../../../../core/services/event-manager.service';
 import { Component, Input, HostBinding } from '@angular/core';
 
@@ -23,7 +23,7 @@ export class MenuContentComponent {
     public utilsService: UtilsService,
     public imageService: ImageService,
     public eventManagerService: EventManagerService,
-    public localizationService: LocalizationService
+    public localizationService: OldLocalizationService
   ) {
 
   }

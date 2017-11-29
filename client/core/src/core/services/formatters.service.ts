@@ -9,17 +9,21 @@ export class FormattersService {
     public formattersTable: any;
     constructor(public httpService: HttpService) { }
 
-    getFormattersTable() {
+    loadFormattersTable() {
         this.httpService.getFormattersTable().subscribe((json) => {
-            this.formattersTable = json.enums;
+            this.formattersTable = json.formatters;
         });
     }
 
-    async getFormattersTableAsync() {
+    async loadFormattersTableAsync() {
         if (!this.formattersTable) {
             let result = await this.httpService.getFormattersTable().toPromise();
-            this.formattersTable = result.enums;
+            this.formattersTable = result.formatters;
         }
+    }
+
+    getFormatter(key: string): any {
+        return this.formattersTable[key];
     }
 
 }

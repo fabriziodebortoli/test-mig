@@ -3,7 +3,7 @@ import { ThemeService } from './../core/services/theme.service';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './../settings/settings-container/settings-container.component';
 import { BoolEditComponent } from './../shared/controls/bool-edit/bool-edit.component';
 import { SettingsService } from './../core/services/settings.service';
-import { LocalizationService } from './../core/services/localization.service';
+import { OldLocalizationService } from './../core/services/oldlocalization.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 
 import { Subscription } from '../rxjs.imports';
@@ -63,7 +63,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public layoutService: LayoutService,
     public tabberService: TabberService,
     public menuService: MenuService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     public settingsService: SettingsService,
     public enumsService: EnumsService,
     public formattersService: FormattersService,
@@ -125,7 +125,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
-    this.formattersService.getFormattersTable();
+    this.formattersService.loadFormattersTable();
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
@@ -173,7 +173,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   onContextMenu() {
     return !this.infoService.isDesktop;
   }
- 
+
   closeSettings() {
     console.log("closeSettings", this.settingsPageComponent);
     if (this.settingsPageComponent != null && this.componentService.components.find(current => current == this.settingsPageComponent)) {

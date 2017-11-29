@@ -13,10 +13,11 @@ Dop aver creato la nuova folder m4.zip contentente il nuovi file di font (.eot, 
 
  - occorre creare il repository **ng-icons** che è su github in locale per es nella folder **@TaskBuilder**
 
- - Dopo aver creato il repository nella folder **@TaskBuilder\ng-icons\docs** si deve copiare all'interno del file **index.html** il contenuto del file **\m4\icons-reference.html**
+ - Dopo aver creato il repository nella folder **@TaskBuilder\ng-icons\docs** si deve modificare il file **index.html** in 
+ **\Standard\Web\client\icons\src\docs** il contenuto del file **\m4\icons-reference.html**
 
 > **Importante:**
-    > nel file **@TaskBuilder\ng-icons\docs\index.html** dopo aver copiato il contenuto del file  **m4\icons-reference.html** va sostituito questo link  `<link rel="stylesheet" href="styles.css">` con questo `<link rel='stylesheet\' href='./fonts/m4.css'>`
+    > nel file **Standard\Web\client\icons\src\docs\index.html** dopo aver copiato il contenuto del file  **m4\icons-reference.html** va sostituito questo link  `<link rel="stylesheet" href="styles.css">` con questo `<link rel='stylesheet\' href='./fonts/m4.css'>`
 
  - bisogna modificare i files **Web\client\icons\package.json** e **@TaskBuilder\ng-icons\packag.json** aggiornando in entrambi il numero di versione
     > **"version": "......."**

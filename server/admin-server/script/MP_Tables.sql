@@ -131,6 +131,7 @@ CREATE TABLE [dbo].[MP_Subscriptions] (
 	[SubscriptionKey] [varchar] (50) NOT NULL,
 	[Description] [varchar] (255) NULL CONSTRAINT DF_Subscriptions_Description DEFAULT(''),
 	[ActivationToken] [varchar](max) NULL CONSTRAINT DF_Subscriptions_ActivationToken DEFAULT(''),
+	[VATNr] [varchar] (20) NULL CONSTRAINT DF_Subscriptions_VATNr DEFAULT (''),
 	[Language] [varchar] (10) NULL CONSTRAINT DF_Subscriptions_Language DEFAULT(''),
 	[RegionalSettings] [varchar] (10) NULL CONSTRAINT DF_Subscriptions_RegionalSettings DEFAULT(''),
 	[MinDBSizeToWarn] [int] NULL CONSTRAINT DF_Subscriptions_MinDBSizeToWarn DEFAULT(2044723), 

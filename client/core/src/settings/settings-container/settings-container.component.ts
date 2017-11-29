@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../core/services/localization.service';
+import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { ComponentService } from '../../core/services/component.service';
 import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
@@ -24,7 +24,7 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
     public dataService: DataService, 
     settingsPageService: SettingsPageService, 
     public infoService: InfoService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     changeDetectorRef: ChangeDetectorRef
   ) {
     super(settingsPageService, eventData, null, changeDetectorRef);

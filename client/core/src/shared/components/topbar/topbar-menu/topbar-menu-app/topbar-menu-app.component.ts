@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../../core/services/oldlocalization.service';
 import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
@@ -26,7 +26,7 @@ export class TopbarMenuAppComponent implements OnDestroy {
         public httpMenuService: HttpMenuService,
         public menuService: MenuService,
         public utilsService: UtilsService,
-        public localizationService: LocalizationService,
+        public localizationService: OldLocalizationService,
         public eventDataService: EventDataService
     ) {
 

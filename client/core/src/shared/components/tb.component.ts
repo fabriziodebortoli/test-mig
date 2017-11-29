@@ -10,32 +10,34 @@ export abstract class TbComponent implements OnInit {
   public translations = [];
 
   constructor(
-    public tbComponentService: TbComponentService, 
+    public tbComponentService: TbComponentService,
     protected changeDetectorRef: ChangeDetectorRef) {
-    this.dictionaryId = tbComponentService.calculateDictionaryId(this);
-    let s = this._TB("Ciao {1} {0}", 0, 1);
+    this.dictionaryId = "";
   }
-
+  protected enableLocalization() {
+    this.dictionaryId = this.tbComponentService.calculateDictionaryId(this);
+  }
   _TB(baseText: string, ...args: any[]) {
     return this.tbComponentService.translate(this.translations, baseText, args);
   }
   ngOnInit() {
-    const ids = this.dictionaryId.split('.');
-    ids.forEach(id => {
-      const subs = this.tbComponentService.readFromLocal(id).subscribe(tn => {
-        if (subs) {
-          subs.unsubscribe();
-        }
+    if (this.dictionaryId) {
+      const ids = this.dictionaryId.split('.');
+      ids.forEach(id => {
+        const subs = this.tbComponentService.readFromLocal(id).subscribe(tn => {
+          if (subs) {
+            subs.unsubscribe();
+          }
 
-        if (tn) {
-          this.translations = this.translations.concat(tn);
-          this.changeDetectorRef.detectChanges();
-        } else {
-          this.readTranslationsFromServer(id);
-        }
+          if (tn) {
+            this.translations = this.translations.concat(tn);
+            this.changeDetectorRef.detectChanges();
+          } else {
+            this.readTranslationsFromServer(id);
+          }
+        });
       });
-    });
-
+    }
   }
 
   public readTranslationsFromServer(dictionaryId: string) {

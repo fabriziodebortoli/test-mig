@@ -3,7 +3,7 @@ import { TopbarMenuAppComponent } from './../topbar/topbar-menu/topbar-menu-app/
 import { SettingsService } from './../../../core/services/settings.service';
 import { InfoService } from './../../../core/services/info.service';
 import { EasystudioService } from './../../../core/services/easystudio.service';
-import { LocalizationService } from './../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Button } from '@progress/kendo-angular-buttons';
@@ -45,7 +45,7 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     public isDefault = false;
 
     constructor(
-        public localizationService: LocalizationService,
+        public localizationService: OldLocalizationService,
         public easystudioService: EasystudioService,
         public infoService: InfoService,
         public settingsService: SettingsService,

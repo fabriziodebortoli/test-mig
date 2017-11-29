@@ -2,7 +2,7 @@
     <kendo-chart-title [text]="chart?.title"></kendo-chart-title>
     <kendo-chart-legend *ngIf="chart.legend" [position]="chart.legend.position" [orientation]="chart.legend.orientation"></kendo-chart-legend>
     <kendo-chart-series>
-        <kendo-chart-series-item *ngFor="let item of chart.series" field="value" categoryField="category" [type]="getType(item)"
+        <kendo-chart-series-item *ngFor="let item of chart.series" field="value" colorField="customColor" categoryField="category" [type]="getType(item)"
             [name]="item.name" [data]="item.data" [style]="item.style" [color]="item.color" [opacity]="item.opacity">
 
             <kendo-chart-series-item-labels [content]="labelContent" [position]="'outsideEnd'" [visible]="item.label" color="#000" background="none">

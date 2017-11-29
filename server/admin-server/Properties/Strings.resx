@@ -288,4 +288,7 @@
   <data name="DataNotFound" xml:space="preserve">
     <value>Data not found</value>
   </data>
+  <data name="TooLongParameters" xml:space="preserve">
+    <value>The parameters are too long.</value>
+  </data>
 </root>

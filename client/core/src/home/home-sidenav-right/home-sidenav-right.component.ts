@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { TabberService } from './../../core/services/tabber.service';
-import { LocalizationService } from './../../core/services/localization.service';
+import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { ImageService } from './../../menu/services/image.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { MenuService } from './../../menu/services/menu.service';
@@ -22,7 +22,7 @@ export class HomeSidenavRightComponent implements OnInit {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public imageService: ImageService,
-    public localizationService: LocalizationService,
+    public localizationService: OldLocalizationService,
     public tabberService: TabberService
   ) { }
 
