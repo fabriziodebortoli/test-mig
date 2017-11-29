@@ -5,7 +5,7 @@ import { Observable } from '../../../../rxjs.imports';
 
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { LocalizationService } from './../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { MenuService } from './../../../services/menu.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(
     public menuService: MenuService,
     public settingsService: SettingsService,
-    public localizationService: LocalizationService
+    public localizationService: OldLocalizationService
 
   ) {
 

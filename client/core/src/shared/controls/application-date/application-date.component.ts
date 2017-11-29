@@ -5,7 +5,7 @@ import { Subscription, Subject } from '../../../rxjs.imports';
 
 import { OperationResult } from './../../models/operation-result.model';
 
-import { LocalizationService } from './../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { InfoService } from './../../../core/services/info.service';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
@@ -32,7 +32,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
         public infoService: InfoService,
         public httpMenuService: HttpMenuService,
         public taskbuilderService: TaskbuilderService,
-        public localizationService: LocalizationService) {
+        public localizationService: OldLocalizationService) {
     }
 
     ngOnInit() {

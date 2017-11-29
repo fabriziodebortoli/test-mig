@@ -22,7 +22,7 @@ export class EnumsService {
         }
     }
 
-    getEnumsItem(storedValue: string) {
+    getEnumsItem(storedValue: number) {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
             let tag = this.enumsTable.tags[index];
@@ -37,7 +37,7 @@ export class EnumsService {
         return undefined;
     }
 
-    getItemFromTagAndValue(tag: string, storedValue: string) {
+    getItemFromTagAndValue(tag: string, storedValue: number) {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
             let currentTag = this.enumsTable.tags[index];

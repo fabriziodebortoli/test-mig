@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microarea.Common.Applications;
 using Microsoft.AspNetCore.Mvc;
 using Microarea.Common;
+using Newtonsoft.Json;
+using System.Collections;
+using Microarea.Common.Generic;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -61,9 +64,7 @@ namespace DataService.Controllers
             ApplicationFormatStyles formatStyles = new ApplicationFormatStyles(session);
             formatStyles.Load();
 
-            //FormatStylesGroup dtStyle = (FormatStylesGroup)formatStyles.Fs["Double"];
-
-            string content = ""; //TODO GIANLUCA formatStyles.GetJsonEnumsTable();
+            string content = formatStyles.GetJsonFormattersTable();
             return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
         }
     }

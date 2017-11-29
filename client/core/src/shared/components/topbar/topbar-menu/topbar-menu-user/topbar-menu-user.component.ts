@@ -1,6 +1,6 @@
 import { DiagnosticService } from './../../../../../core/services/diagnostic.service';
 import { DiagnosticItemComponent } from './../../../../containers/diagnostic-dialog/diagnostic-dialog.component';
-import { LocalizationService } from './../../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../../core/services/oldlocalization.service';
 import { SettingsService } from './../../../../../core/services/settings.service';
 import { HttpService } from './../../../../../core/services/http.service';
 import { InfoService } from './../../../../../core/services/info.service';
@@ -33,7 +33,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
         public infoService: InfoService,
         public httpService: HttpService,
         public settingsService: SettingsService,
-        public localizationService: LocalizationService,
+        public localizationService: OldLocalizationService,
         public diagnosticService: DiagnosticService
     ) {
         this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe((loaded) => {
@@ -89,6 +89,5 @@ export class TopbarMenuUserComponent implements OnDestroy {
 
     openSettingsPage() {
         this.settingsService.settingsPageOpenedEvent.emit(true);
-        //this.componentService.createComponentFromUrl('settings/settings', true);
     }
 }

@@ -2,7 +2,7 @@ import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from '../../../../rxjs.imports';
 
-import { LocalizationService } from './../../../../core/services/localization.service';
+import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';
 
@@ -24,7 +24,7 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public settingsService: SettingsService,
-    public localizationService: LocalizationService
+    public localizationService: OldLocalizationService
   ) {
 
     this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
@@ -120,12 +120,12 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
           newArray.push(array[i]);
       }
 
-      //aggiunto per menù a tre livelli
-      let olstyleMenu = this.menuService.selectedGroup.Menu;
-      for (let i = 0; i < olstyleMenu.length; i++) {
-        if (this.tileIsVisible(olstyleMenu[i]) && !olstyleMenu[i].hiddenTile)
-          newArray.push(olstyleMenu[i]);
-      }
+      // //aggiunto per menù a tre livelli
+      // let olstyleMenu = this.menuService.selectedGroup.Menu;
+      // for (let i = 0; i < olstyleMenu.length; i++) {
+      //   if (this.tileIsVisible(olstyleMenu[i]) && !olstyleMenu[i].hiddenTile)
+      //     newArray.push(olstyleMenu[i]);
+      // }
       return newArray;
     }
 

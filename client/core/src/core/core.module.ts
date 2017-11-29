@@ -34,7 +34,7 @@ import { WebSocketService } from './services/websocket.service';
 import { TbComponentService } from './services/tbcomponent.service';
 import { TbComponentServiceParams } from './services/tbcomponent.service.params';
 import { BOServiceParams } from './services/bo.service.params';
-import { LocalizationService } from './services/localization.service';
+import { OldLocalizationService } from './services/oldlocalization.service';
 import { LoadingService } from './services/loading.service';
 import { DiagnosticService } from './services/diagnostic.service';
 import { SettingsService } from './services/settings.service';
@@ -67,7 +67,7 @@ export { SidenavService } from './services/sidenav.service';
 export { TabberService } from './services/tabber.service';
 export { UtilsService } from './services/utils.service';
 export { WebSocketService } from './services/websocket.service';
-export { LocalizationService } from './services/localization.service';
+export { OldLocalizationService } from './services/oldlocalization.service';
 export { LoadingService } from './services/loading.service';
 export { DiagnosticService } from './services/diagnostic.service';
 export { SettingsService } from './services/settings.service';
@@ -79,7 +79,7 @@ export const TB_SERVICES = [
     TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
-    LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
+    OldLocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
 ];
 
 import { CoreGuard } from './guards/core.guard';
