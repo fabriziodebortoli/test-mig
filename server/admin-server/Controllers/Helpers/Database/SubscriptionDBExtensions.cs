@@ -36,7 +36,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 	//============================================================================
 	public class ImportDataParameters
 	{
-		public ImportSelections.UpdateExistRowType UpdateExistRow = ImportSelections.UpdateExistRowType.SKIP_ROW;
+		public bool OverwriteRecord = true;
 		public bool DeleteTableContext = false;
 	}
 

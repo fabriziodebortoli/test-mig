@@ -652,7 +652,7 @@ namespace Microarea.AdminServer.Controllers
 
 		[HttpPost("/api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
 		//---------------------------------------------------------------------
-		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] SubscriptionDatabase subDatabase)
+		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -669,7 +669,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (subDatabase == null)
+			if (importDataContent == null || importDataContent.Database == null)
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
@@ -678,7 +678,7 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase, false); // il param 2 effettua il controllo solo sul db di ERP
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(importDataContent.Database , false); // il param 2 effettua il controllo solo sul db di ERP
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
 			{
@@ -694,11 +694,11 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbManager.ContextInfo.MakeCompanyConnection(subDatabase))
+			if (dbManager.ContextInfo.MakeCompanyConnection(importDataContent.Database))
 			{
 				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
 				importExportManager.SetDefaultDataConfiguration(configuration);
-				importExportManager.ImportDefaultDataSilentMode(true);
+				importExportManager.ImportDefaultDataForSubscription(importDataContent.ImportParameters);
 			}
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
@@ -707,7 +707,7 @@ namespace Microarea.AdminServer.Controllers
 
 		[HttpPost("/api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
 		//---------------------------------------------------------------------
-		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] SubscriptionDatabase subDatabase)
+		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -724,7 +724,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (subDatabase == null)
+			if (importDataContent == null || importDataContent.Database == null)
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
@@ -733,7 +733,7 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase, false); // il param 2 effettua il controllo solo sul db di ERP
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(importDataContent.Database, false); // il param 2 effettua il controllo solo sul db di ERP
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
 			{
@@ -749,11 +749,11 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbManager.ContextInfo.MakeCompanyConnection(subDatabase))
+			if (dbManager.ContextInfo.MakeCompanyConnection(importDataContent.Database))
 			{
 				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
 				importExportManager.SetSampleDataConfiguration(configuration, iso);
-				importExportManager.ImportSampleDataSilentMode(true);
+				importExportManager.ImportSampleDataForSubscription(importDataContent.ImportParameters);
 			}
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
