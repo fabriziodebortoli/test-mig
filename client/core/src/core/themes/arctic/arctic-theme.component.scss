@@ -1,9 +1,9 @@
-$bkg-light:rgb(138, 185, 199);
-$bkg-light-opacity50: rgba(138, 185, 199, 0.5);
-$bkg-medium:rgba(34, 101, 119, 1);
-$bkg-dark:rgb(0, 59, 75);
+$bkg-light:rgb(193,244,255);
+$bkg-light-opacity50: rgba(193,244,255, 0.5);
+$bkg-medium:#5cc9f3;
+$bkg-dark:#3c97c3;
 $bkg-neutral:#BDBDBD;
-$bkg-app: rgba(19, 58, 68, 0.2);
+$bkg-app: rgba(60,151,195,0.2);
 $bkg:#FAFAFA;
 $text-light: rgb(238, 238, 238);
 $text-medium: #9E9E9E;
@@ -14,6 +14,7 @@ $font-size-tooltip: 12px;
     //toolbar principale, dove si trova anche la "ricerca"
     .mat-toolbar.mat-primary {
         background: $bkg-medium;
+        color:$text-light;
     }
     //Selettore menu/dashboard/documenti/report
     .tabber-container>.k-tabstrip>.k-tabstrip-items {
@@ -178,7 +179,7 @@ $font-size-tooltip: 12px;
     /// inizio sidenav
     .sidenav {
         m4-icon.close {
-            color: #ddd;
+            color: $text-light;
         }
         //recenti, colori 
         .most-used-item,
@@ -195,7 +196,7 @@ $font-size-tooltip: 12px;
             }
             m4-icon.close {
                 &:hover {
-                    color: #fff;
+                    color: $text-light;
                 }
             }
         }
