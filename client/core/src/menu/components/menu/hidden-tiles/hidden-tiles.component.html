@@ -3,20 +3,19 @@
         <p *ngIf="menuService.hiddenTilesCount == 0" class="hiddenTiles-empty">{{localizationService?.localizedElements?.EmptyList}}</p>
 
         <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item" (click)="menuService.removeFromHiddenTiles(tile)">
-            <m4-icon class="type"  icon="tb-uncheckedradiobutton" ></m4-icon>
-            <span class="truncate">{{tile.title}}</span>
-            <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="after" icon="tb-closewindows"></m4-icon>
-        </li>
-
-        <!-- Others -->
-        <!-- <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item">
-                <m4-icon class="type"  icon="tb-uncheckedradiobutton" ></m4-icon>
-                <span class="truncate">{{tile.title}}</span>
+            <ng-container *ngIf="tile.currentApp == menuService?.selectedApplication?.name && tile.currentGroup == menuService?.selectedGroup?.name &&  tile.currentMenu == menuService?.selectedMenu?.name">
+                <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
+                <span class="truncate" matTooltip="{{tile?.tooltip}}" matTooltipPosition="after"  matTooltipShowDelay="500">{{tile.title}}</span>
                 <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="after" icon="tb-closewindows"></m4-icon>
-            </li> -->
-
+            </ng-container>
+        </li>
+        <hr class="separator">
+        <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item" (click)="menuService.removeFromHiddenTiles(tile)">
+            <ng-container *ngIf="tile.currentApp != menuService?.selectedApplication?.name || tile.currentGroup != menuService?.selectedGroup?.name ||  tile.currentMenu != menuService?.selectedMenu?.name">
+                <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
+                <span class="truncate" matTooltip="{{tile?.tooltip}}" matTooltipPosition="after"  matTooltipShowDelay="500">{{tile.title}}</span>
+                <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="after" icon="tb-closewindows"></m4-icon>
+            </ng-container>
+        </li>
     </ul>
 </div>
-
-
-<!-- ng-if="tile.currentMenuTitle==menuService.selectedMenu.title " -->
