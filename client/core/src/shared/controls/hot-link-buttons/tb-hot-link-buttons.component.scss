@@ -35,3 +35,15 @@
     background-color: white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.03), 0 4px 5px 0 rgba(0, 0, 0, 0.04);
 }
+
+kendo-pager-info.k-pager-info.k-label {
+    display: none;
+}
+
+a.k-link.k-pager-nav.k-pager-last {
+    display: none;
+}
+
+a.k-link.k-pager-nav.k-state-disabled.k-pager-first {
+    display: none;
+}

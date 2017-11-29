@@ -1,6 +1,6 @@
 <div #hotLinkButtons>
     <button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!(model?.enabled)"></button>
-    <kendo-popup [anchor]="anchor" (blur)="closeOptions()" *ngIf="showOptions$ | async" (anchorViewportLeave)="closeOptions()">
+    <kendo-popup [anchor]="anchor" (blur)="closeOptions()" *ngIf="showOptions$ | async">
         <div class="searchOptions">
             Search for:
             <br>
@@ -12,7 +12,7 @@
 
     <button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!(model?.enabled)"></button>
     <div #anchorTable></div>
-    <kendo-popup [anchor]="anchorTable" (anchorViewportLeave)="closePopups()" *ngIf="showTable$ | async" [ngStyle]="popupStyle">
+    <kendo-popup [anchor]="anchorTable" *ngIf="showTable$ | async" [ngStyle]="popupStyle">
         <kendo-grid [data]="gridView | async" 
                     [pageSize]="pageSize"
                     [selectable]="true" 

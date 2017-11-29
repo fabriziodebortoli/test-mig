@@ -13,7 +13,7 @@ export class PaginatorService implements OnDestroy {
     private clientEndOffset = 0;
     private isCorrectlyConfigured = false;
     private configurationChanged = new BehaviorSubject(false);
-    private displayedServerPages = 2;
+    private displayedServerPages = 10;
     private get serverPage(): number { return this.clientPage * this.displayedServerPages; }
     private serverData: ServerPage;
     private currentServerPage = -1;
