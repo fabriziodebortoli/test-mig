@@ -11,7 +11,7 @@ import { OperationResult } from './operationResult';
 import { AccountInfo } from '../authentication/account-info';
 import { MessageData } from './messageData';
 import { retry } from 'rxjs/operator/retry';
-import { ExtendedSubscriptionDatabase } from '../components/database/helpers/database-helpers';
+import { ExtendedSubscriptionDatabase, ImportDataBodyContent } from '../components/database/helpers/database-helpers';
 
 @Injectable()
 export class ModelService {
@@ -675,7 +675,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  importData(subscriptionKey: string, importDefault: boolean, configuration: string, iso: string, body: SubscriptionDatabase): Observable<OperationResult> {
+  importData(subscriptionKey: string, importDefault: boolean, configuration: string, iso: string, body: ImportDataBodyContent): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('jwt');
 

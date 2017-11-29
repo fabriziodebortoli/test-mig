@@ -34,17 +34,17 @@
       <div class="adminTile tileNormal">
         Options
         <div class="mt20">
-          <admin-checkbox [checkText]="'Delete table contents before import data'" [checkId]="'chkDeleteTableContents'" [(checkValue)]="deleteTableContents"
+          <admin-checkbox [checkText]="'Delete table contents before import data'" [checkId]="'chkDeleteTableContents'" [(checkValue)]="importParams.DeleteTableContext"
             (inputDataChange)="onDeleteTableContentsChanged($event)"></admin-checkbox>
         </div>
         <div class="mt20">
           in case of row already present in table
         </div>
         <div>
-          <admin-checkbox [checkText]="'don\'t overwrite'" [checkId]="'chkSkipRow'" [(checkValue)]="skipRow" (inputDataChange)="onSkipRowChanged($event)"></admin-checkbox>
+          <admin-checkbox [checkText]="'don\'t overwrite'" [checkId]="'chkSkipRow'" [(checkValue)]="!importParams.OverwriteRecord" (inputDataChange)="onSkipRowChanged($event)"></admin-checkbox>
         </div>
         <div>
-          <admin-checkbox [checkText]="'overwrite'" [checkId]="'chkUpdateRow'" [(checkValue)]="updateRow" (inputDataChange)="onUpdateRowChanged($event)"></admin-checkbox>
+          <admin-checkbox [checkText]="'overwrite'" [checkId]="'chkUpdateRow'" [(checkValue)]="importParams.OverwriteRecord" (inputDataChange)="onUpdateRowChanged($event)"></admin-checkbox>
         </div>
       </div>
     </div>

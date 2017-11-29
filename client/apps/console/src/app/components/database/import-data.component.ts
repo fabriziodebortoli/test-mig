@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SubscriptionDatabase } from 'app/model/subscriptionDatabase';
 import { ModelService } from '../../services/model.service';
 import { element } from 'protractor';
+import { ImportDataParameters, ImportDataBodyContent } from './helpers/database-helpers';
 
 @Component({
   selector: 'app-import-data',
@@ -23,6 +24,8 @@ export class ImportDataComponent implements OnInit {
   importSampleData: boolean = false;
 
   // options
+  importParams: ImportDataParameters;
+
   deleteTableContents: boolean = false;
   skipRow: boolean = false;
   updateRow: boolean = true;
@@ -40,6 +43,7 @@ export class ImportDataComponent implements OnInit {
 
   //-----------------------------------------------------------------------------	
   constructor(private modelService: ModelService) {
+     this.importParams = new ImportDataParameters();
   }
 
   //-----------------------------------------------------------------------------	
@@ -104,19 +108,20 @@ export class ImportDataComponent implements OnInit {
 
   //-----------------------------------------------------------------------------	
   onDeleteTableContentsChanged(value) {
-    this.deleteTableContents = value;
+    this.importParams.DeleteTableContext = value;
   }
 
   //-----------------------------------------------------------------------------	
   onSkipRowChanged(value) {
-    this.skipRow = value;
-    this.updateRow = !this.skipRow;
+    this.importParams.OverwriteRecord = !value;
+    //this.updateRow = !this.skipRow;
   }
 
   //-----------------------------------------------------------------------------	
   onUpdateRowChanged(value) {
-    this.updateRow = value;
-    this.skipRow = !this.updateRow;
+    this.importParams.OverwriteRecord = value;
+    //this.updateRow = value;
+    //this.skipRow = !this.updateRow;
   }
 
   // load the list of configurations from filesystem
@@ -155,13 +160,17 @@ export class ImportDataComponent implements OnInit {
       return;
     }
 
+    let importBodyContent: ImportDataBodyContent = new ImportDataBodyContent();
+    importBodyContent.Database = this.model;
+    importBodyContent.ImportParameters = this.importParams;
+
     this.isImporting = true;
 
     let importData = this.modelService.importData(this.model.SubscriptionKey,
       this.importDefaultData,
       this.selectedConfiguration.value,
       this.selectedCountry.value,
-      this.model).
+      importBodyContent).
       subscribe(importDataResult => {
 
         this.isImporting = false;
