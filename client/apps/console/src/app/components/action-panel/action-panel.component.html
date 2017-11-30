@@ -1,0 +1,11 @@
+<div class="adminTile">
+  <div style="display:block">
+    <h3 style="float:left;color:#FF5722"><admin-icon [iconSignature]="iconSignature"></admin-icon></h3>
+    <h3 style="float:left;margin-left:20px;">{{ message }}</h3>
+    <div style="clear: both"></div>
+  </div>
+  <div class="pt20" style="border-top:1px solid #c0c0c0; margin-bottom:10px">
+    <admin-button *ngIf="showButton" [primary]=true [buttonText]="actionText" (click)="fireActionEvent()"></admin-button>
+    <a *ngIf="!showButton" style="display:inline-block;margin-left:15px;color: #3f51b5;font-weight:bold;" class="pointer" (click)="fireActionEvent()">{{actionText}}</a>
+  </div>
+</div>

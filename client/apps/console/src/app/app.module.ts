@@ -38,6 +38,7 @@ import { DatabaseUpgradeComponent } from './components/database/database-upgrade
 import { DataChannelService } from 'app/services/data-channel.service';
 import { ImportDataComponent } from './components/database/import-data.component';
 import { DatabaseDeleteComponent } from './components/database/database-delete.component';
+import { ActionPanelComponent } from './components/action-panel/action-panel.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { DatabaseDeleteComponent } from './components/database/database-delete.c
     InstanceRegistrationComponent,
     DatabaseUpgradeComponent,
     ImportDataComponent,
-    DatabaseDeleteComponent
+    DatabaseDeleteComponent,
+    ActionPanelComponent
   ],
   imports: [
     BrowserModule,
