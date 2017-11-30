@@ -1,6 +1,8 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
+import { FormattersService } from './../../../core/services/formatters.service';
+
 import { Component, Input, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
 import { ControlComponent } from './../control.component';
@@ -14,11 +16,12 @@ import { align } from '@progress/kendo-drawing/main';
 })
 export class NumericTextBoxComponent extends ControlComponent implements OnChanges, AfterViewInit {
   @Input() forCmpID: string;
-  @Input() formatter: string;
   @Input() disabled: boolean;
-  @Input() decimals = 0;
+  @Input() formatterDecimals = 0;
   @Input() public hotLink: any = undefined;
 
+  formatter: any;
+  decimals = 0;
   errorMessage: string;
   public constraint: RegExp = new RegExp('\\d');
   showError = '';
@@ -41,46 +44,49 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
 
   constructor(
     public eventData: EventDataService,
+    private formattersService: FormattersService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
+
+    // DEBUG
+    this.format = "Double";
   }
 
   ngOnInit() {
-
+    if (this.format)
+      this.formatter = this.formattersService.getFormatter(this.format);
   }
 
-  getDecimalsOptions(): number {
-    switch (this.formatter) {
-      case 'Integer':
-      case 'Long':
-        this.decimals = 0; break;
-      case 'Double':
-      case 'Money':
-        this.decimals = 2; break;
-      default: break;
+  getDecimals() {
+    if (this.formatterDecimals > 0) {
+      this.decimals = this.formatterDecimals;
+    } else {
+      if (this.formatter && this.formatter.refDecNumber) {
+        this.decimals = +this.formatter.refDecNumber;
+      }
     }
     return this.decimals;
   }
 
   getFormatOptions(): any {
-    switch (this.formatter) {
-      case 'Integer':
-      case 'Long':
-        return this.formatOptionsInteger;
+    return 'n' + this.getDecimals().toString();
+    // switch (this.formatterCode) {
+    //   case 'Integer':
+    //   case 'Long':
+    //     return this.formatOptionsInteger;
 
-      case 'Double':
-      case 'Money':
-        return 'n' + this.getDecimalsOptions();
+    //   case 'Double':
+    //   case 'Money':
+    //     return 'n' + this.decimals.toString();
 
-      case 'Percent':
-        return this.formatOptionsPercent;
-      default: break;
-    }
+    //   case 'Percent':
+    //     return this.formatOptionsPercent;
+    //   default: break;
+    // }
   }
-
 
   public onChange(val: any) {
     this.onUpdateNgModel(val);
@@ -92,7 +98,6 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
     }
     this.selectedValue = newValue;
     this.model.value = newValue;
-
   }
 
   ngAfterViewInit(): void {
