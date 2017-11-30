@@ -9,8 +9,8 @@
     <span class="spacer"></span>
     <a (click)="loginOrAccount()">
       <div>
-        <div style="float:left;margin-top:-4px" class="hide-for-small">{{ userAccountName === undefined || userAccountName === '' ? 'Sign In' : userAccountName }}</div>&nbsp;
-        <mat-icon class="example-icon">{{ userAccountName === undefined || userAccountName === '' ? 'person' : '' }}</mat-icon>
+        <div style="float:left;margin-top:-4px" class="hide-for-small">{{ userAccountName }}</div>&nbsp;
+        <mat-icon *ngIf="userAccountName !== ''" class="example-icon">{{ userAccountName === undefined || userAccountName === '' ? 'person' : '' }}</mat-icon>
       </div>
     </a>
   </mat-toolbar>
