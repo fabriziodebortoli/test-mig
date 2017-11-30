@@ -633,11 +633,15 @@ namespace Microarea.Common.Applications
 
         public enum FormatTag { NUMERIC, LETTER, ENCODED, ZERO_AS_DASH = 0x0099 }
 
-        public SignTag Sign = SignTag.MINUSPREFIX;
+        public SignTag Sign { get; set; } = SignTag.MINUSPREFIX;
         public string XTable = "ZAEGHMPSTK";
         public string ThousSeparator = "";
+
+        public string refThousSeparator { get { return ThousSeparator; } }
+
         public string AsZeroValue = "--";
-        public FormatTag FormatType = FormatTag.NUMERIC;
+        
+        public FormatTag FormatType { get; set; } = FormatTag.NUMERIC;
 
         //----------------------------------------------------------------------------
         public override string Format(object data)
@@ -1119,16 +1123,20 @@ namespace Microarea.Common.Applications
         protected const int DBL_DIG = 15;
         protected const int SIGNIFICANT_DECIMAL = 7;
 
-        public RoundingTag Rounding = RoundingTag.ROUND_NONE;
-        public SignTag Sign = SignTag.MINUSPREFIX;
-        public FormatTag FormatType = FormatTag.FIXED;
+        public RoundingTag Rounding { get; set; } = RoundingTag.ROUND_NONE;
+        public SignTag Sign { get; set; } = SignTag.MINUSPREFIX;
+        public FormatTag FormatType { get; set; } = FormatTag.FIXED;
         public double Quantum = 0.0;
         public string ThousSeparator = ".";
-        public string DecSeparator = ",";
+        public string refThousSeparator { get { return ThousSeparator; } }
+public string DecSeparator = ",";
+        public string refDecSeparator { get { return DecSeparator; } }
         public bool ShowMSZero = true;
         public bool ShowLSZero = true;
         public string XTable = "ZAEGHMPSTK,";   //la virgola e' all'ultima posizione
         public int DecNumber = 2;
+        public int refDecNumber { get { return DecNumber; } }
+
         public string AsZeroValue = "--";
 
         //----------------------------------------------------------------------------
@@ -1556,18 +1564,24 @@ namespace Microarea.Common.Applications
             HMMSS = TIME_HF9
         }
 
-        public GeneralTag GeneralFormat = GeneralTag.DATE;
-        public WeekdayTag WeekdayFormat = WeekdayTag.NOWEEKDAY;
-        public DayDigitTag DayFormat = DayDigitTag.DAY99;
-        public MonthDigitTag MonthFormat = MonthDigitTag.MONTH99;
-        public YearDigitTag YearFormat = YearDigitTag.YEAR99;
-        public OrderTag FormatType = OrderTag.DATE_DMY;
-        public HourDigitTag TimeFormat = HourDigitTag.TIME_NONE;
+        public GeneralTag GeneralFormat { get; set; } = GeneralTag.DATE;
+        public WeekdayTag WeekdayFormat { get; set; } = WeekdayTag.NOWEEKDAY;
+        public DayDigitTag DayFormat { get; set; } = DayDigitTag.DAY99;
+        public MonthDigitTag MonthFormat { get; set; } = MonthDigitTag.MONTH99;
+        public YearDigitTag YearFormat { get; set; } = YearDigitTag.YEAR99;
+        public OrderTag FormatType { get; set; } = OrderTag.DATE_DMY;
+        public HourDigitTag TimeFormat { get; set; } = HourDigitTag.TIME_NONE;
         public string FirstSeparator = "/";
         public string SecondSeparator = "/";
         public string TimeSeparator = ":";
         public string TimeAM = "AM";
         public string TimePM = "PM";
+
+        public string refFirstSeparator { get { return FirstSeparator; } }
+        public string refSecondSeparator { get { return SecondSeparator; } }
+        public string refTimeSeparator { get { return TimeSeparator; } }
+        public string refTimeAM { get { return TimeAM; } }
+        public string refTimePM { get { return TimePM; } }
 
         //----------------------------------------------------------------------------
         public override string Format(object data)
@@ -2075,6 +2089,8 @@ namespace Microarea.Common.Applications
         private bool isDecSeparatorDefault = true;
         public static int Precision = 1;
 
+        public int refPrecision { get { return Precision; } }
+
         public enum FormatTag
         {
             TIME_D = 0X0001, TIME_H = 0X0002, TIME_M = 0x0004, TIME_S = 0x0008,
@@ -2101,10 +2117,17 @@ namespace Microarea.Common.Applications
         protected const int DBL_DIG = 15;
 
         public string TimeSeparator = ":";
+
+        public string refTimeSeparator {get { return TimeSeparator; } }
         public string DecSeparator = ",";
+        public string refDecSeparator { get { return DecSeparator; } }
+
         public int DecNumber = 2;
-        public Token CaptionPos;
-        public FormatTag FormatType = FormatTag.TIME_HM;
+
+        public int refDecNumber { get { return DecNumber; } } 
+
+        public Token CaptionPos { get; set; }
+        public FormatTag FormatType { get; set; } = FormatTag.TIME_HM;
 
         //----------------------------------------------------------------------------
         public override string Format(object data)
@@ -2405,7 +2428,7 @@ namespace Microarea.Common.Applications
         public string FalseTag { get { return falseTag == string.Empty ? ApplicationsStrings.FalseTag : falseTag; } }
         public string TrueTag { get { return trueTag == string.Empty ? ApplicationsStrings.TrueTag : trueTag; } }
 
-        public FormatTag FormatType = FormatTag.AS_ZERO;
+        public FormatTag FormatType { get; set; } = FormatTag.AS_ZERO;
 
         //----------------------------------------------------------------------------
         public override string Format(object data)
@@ -3920,6 +3943,7 @@ namespace Microarea.Common.Applications
 
                         Formatter f = style.GetFormatter(ns);
                         PropertyInfo[] props = f.GetType().GetProperties();
+
                         foreach (PropertyInfo i in props)
                         {
                             jsonWriter.WritePropertyName(i.Name.ToString());

@@ -82,7 +82,7 @@ export class AuthService {
                 if (loggedOut) {
                     this.eventManagerService.emitloggingOff();
                     this.islogged = !loggedOut;
-                    localStorage.removeItem('authtoken');
+                    sessionStorage.removeItem('authtoken');
 
                     this.router.navigate([this.getLoginUrl()]);
                 }
