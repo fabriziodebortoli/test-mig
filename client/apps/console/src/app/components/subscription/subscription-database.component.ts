@@ -6,8 +6,8 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
 import { Observable } from 'rxjs';
 import { OperationResult } from '../../services/operationResult';
-import { ExtendedSubscriptionDatabase } from '../../authentication/credentials';
 import { DataChannelService } from 'app/services/data-channel.service';
+import { ExtendedSubscriptionDatabase } from '../database/helpers/database-helpers';
 
 @Component({
   selector: 'app-subscription-database',
@@ -129,9 +129,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
     if (this.editing) {
 
       if (!this.onlyMainDataHasChanged()) {
-
-        this.msgDialog = 'No data has changed, so no save operation is needed';
-        this.openMsgDialog = true;
+        this.showAlertMessage('No data has changed, so no save operation is needed');
         return;
       }
       else

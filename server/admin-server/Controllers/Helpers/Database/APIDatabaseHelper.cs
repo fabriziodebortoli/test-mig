@@ -15,7 +15,7 @@ using System.IO;
 using System.Linq;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
+namespace Microarea.AdminServer.Controllers.Helpers.Database
 {
 	/// <summary>
 	/// Helper con i vari metodi richiamati dal DatabaseController

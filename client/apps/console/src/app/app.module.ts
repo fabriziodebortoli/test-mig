@@ -37,6 +37,7 @@ import { InstanceRegistrationComponent } from './components/instance/instance-re
 import { DatabaseUpgradeComponent } from './components/database/database-upgrade.component';
 import { DataChannelService } from 'app/services/data-channel.service';
 import { ImportDataComponent } from './components/database/import-data.component';
+import { DatabaseDeleteComponent } from './components/database/database-delete.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ImportDataComponent } from './components/database/import-data.component
     DatabaseOperationsComponent,
     InstanceRegistrationComponent,
     DatabaseUpgradeComponent,
-    ImportDataComponent
+    ImportDataComponent,
+    DatabaseDeleteComponent
   ],
   imports: [
     BrowserModule,

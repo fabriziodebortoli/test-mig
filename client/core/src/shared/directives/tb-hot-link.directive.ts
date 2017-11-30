@@ -1,4 +1,4 @@
-import { Directive, Input, ViewContainerRef, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Directive, Input, ViewContainerRef, ComponentFactoryResolver, OnInit, ComponentRef, OnChanges, SimpleChanges } from '@angular/core';
 import { TbHotlinkButtonsComponent } from './../controls/hot-link-buttons/tb-hot-link-buttons.component';
 import { ControlComponent } from './../controls/control.component';
 
@@ -11,8 +11,10 @@ export class TbHotLinkDirective implements OnInit {
     namespace: string;
     name: any;
     model: any;
+    private cmp: ComponentRef<TbHotlinkButtonsComponent>;
+    private ancestor: HlComponent;
 
-    @Input() set tbHotLink(hl: {namespace: string, name: string, ctx?: any }) {
+    @Input() set tbHotLink(hl: { namespace: string, name: string, ctx?: any }) {
         this.namespace = hl.namespace;
         this.name = hl.name;
         if (hl.ctx) {
@@ -26,15 +28,16 @@ export class TbHotLinkDirective implements OnInit {
 
     ngOnInit() {
         const compFactory = this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
-        let ancestor: HlComponent;
         if (!this.model) {
-            ancestor = (<any>this.viewContainer)._view.component as HlComponent;
-            this.model = ancestor.model;
+            this.ancestor = (<any>this.viewContainer)._view.component as HlComponent;
+            this.model = this.ancestor.model;
+        } else {
+            this.cmp.instance.model = this.model;
         }
-        let comp = this.viewContainer.createComponent(compFactory);
-        comp.instance.model = this.model;
-        comp.instance.namespace = this.namespace;
-        comp.instance.name = this.name;
-        comp.instance.slice$ = ancestor.slice$;
+
+        this.cmp = this.viewContainer.createComponent(compFactory);
+        this.cmp.instance.namespace = this.namespace;
+        this.cmp.instance.name = this.name;
+        this.cmp.instance.slice$ = this.ancestor.slice$;
     }
 }
