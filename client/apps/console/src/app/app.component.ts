@@ -14,23 +14,23 @@ import { Subscription } from "rxjs/Subscription";
 
 export class AppComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  loginServiceSubscription: Subscription;
   userAccountName: string;
 
   constructor(private router: Router, private loginService: LoginService) {
     this.userAccountName = '';
 
-    this.subscription = this.loginService.getMessage().subscribe(message => {
-      try
-      {
+    this.loginServiceSubscription = this.loginService.getMessage().subscribe(
+      message => {
         let opRes:OperationResult = message;
         if (opRes.Result) {
           this.userAccountName = opRes.Message;
         }
+      },
+      err => {
+        console.log('An error occurred while listening to loginService.getMessage()');
       }
-      catch(Error){
-      }
-    });
+    );
   }
 
   @HostListener('window:unload', [ '$event' ])
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.loginServiceSubscription.unsubscribe();
   }
   
   logout() {
