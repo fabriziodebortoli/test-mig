@@ -55,6 +55,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   public id: string;
 
+  private increment = 1;
+
 
   constructor(
     public rsService: ReportingStudioService,
@@ -334,16 +336,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   PageNumber() {
-    let increment = 1;
+   
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: this.rsExportService.firstPageExport + "," + increment
+      page: this.rsExportService.firstPageExport + "," + this.increment
     };
 
     this.rsService.pageNum = this.rsExportService.firstPageExport;
     this.rsService.doSend(JSON.stringify(message));
-    increment++;
+    this.increment++;
   }
 
   // -----------------------------------------------

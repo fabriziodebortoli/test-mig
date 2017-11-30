@@ -70,9 +70,9 @@ namespace Microarea.AdminServer
         public const string ExistSubscription = @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionsAll = @"SELECT * FROM MP_Subscriptions";
         public const string SelectSubscription = @"SELECT * FROM MP_Subscriptions WHERE SubscriptionKey = '{0}'";
-        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, Language, RegionalSettings, MinDBSizeToWarn, UnderMaintenance, Ticks) 
-											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @Language, @RegionalSettings, @MinDBSizeToWarn, @UnderMaintenance, @Ticks)";
-        public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, Language = @Language, 
+        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken,VATNr, Language, RegionalSettings, MinDBSizeToWarn, UnderMaintenance, Ticks) 
+											 	VALUES (@SubscriptionKey, @Description, @ActivationToken,@VATNr, @Language, @RegionalSettings, @MinDBSizeToWarn, @UnderMaintenance, @Ticks)";
+        public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, VATNr=@VATNr, Language = @Language, 
 												RegionalSettings = @RegionalSettings, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance, Ticks=@Ticks WHERE SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscription = @"DELETE MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
 

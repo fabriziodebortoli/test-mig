@@ -1937,5 +1937,99 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			return result;
 		}
 		#endregion
+
+		#region DeleteDatabase - Cancella un database (da completare)
+		/// <summary>
+		/// DeleteDatabase
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool DeleteDatabase
+			(
+				string serverName,
+				string dataBaseName,
+				string databaseOwnerLogin,
+				string databaseOwnerPassword,
+				bool integratedSecurity
+			)
+		{
+			bool companyDbDeleted = false;
+
+			string connectionString =
+				(integratedSecurity)
+				? string.Format(NameSolverDatabaseStrings.SQLWinNtConnection, serverName, DatabaseLayerConsts.MasterDatabase)
+				: string.Format(NameSolverDatabaseStrings.SQLConnection, serverName, DatabaseLayerConsts.MasterDatabase, databaseOwnerLogin, databaseOwnerPassword);
+
+			try
+			{
+				using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+				{
+					sqlConnection.Open();
+
+					string countDb = string.Format("SELECT COUNT(*) FROM sysdatabases WHERE name = N'{0}'", dataBaseName);
+
+					using (SqlCommand countCmd = new SqlCommand(countDb, sqlConnection))
+					{
+						if ((int)countCmd.ExecuteScalar() == 1)
+						{
+							if (!isAzureDB)
+							{
+								// prima altero il db per fare in modo di rimuovere le connessioni aperte
+								string alterDB = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", dataBaseName);
+
+								using (SqlCommand alterDbCmd = new SqlCommand(alterDB, sqlConnection))
+									alterDbCmd.ExecuteNonQuery();
+							}
+
+							// poi eseguo la vera e propria cancellazione
+							string dropDb = string.Format("DROP DATABASE [{0}]", dataBaseName);
+							using (SqlCommand dropDbCmd = new SqlCommand(dropDb, sqlConnection))
+							{
+								dropDbCmd.CommandTimeout = 60;
+								dropDbCmd.ExecuteNonQuery();
+								companyDbDeleted = true;
+							}
+						}
+						else
+						{
+							ExtendedInfo extendedInfo = new ExtendedInfo();
+							extendedInfo.Add(DatabaseManagerStrings.Description, "The database does not exist on specified server");
+							extendedInfo.Add(DatabaseManagerStrings.Server, serverName);
+							extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDataBase");
+							extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+							Diagnostic.Set(DiagnosticType.Warning, string.Format("Unable to delete the database {0}", dataBaseName), extendedInfo);
+							companyDbDeleted = true;
+						}
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDataBase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", dataBaseName), extendedInfo);
+			}
+			catch (ApplicationException aExc)
+			{
+				Debug.WriteLine(aExc.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, aExc.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDataBase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Source, aExc.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, aExc.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", dataBaseName), extendedInfo);
+			}
+
+			return companyDbDeleted;
+		}
+		#endregion
 	}
 }

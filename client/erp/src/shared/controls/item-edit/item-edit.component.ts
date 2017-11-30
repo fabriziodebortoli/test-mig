@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService } from '@taskbuilder/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
 import { BehaviorSubject } from "../../../rxjs.imports";
@@ -6,11 +6,14 @@ import { BehaviorSubject } from "../../../rxjs.imports";
 @Component({
     selector: "erp-item-edit",
     templateUrl: './item-edit.component.html',
-    styleUrls: ['./item-edit.component.scss']
+    styleUrls: ['./item-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemEditComponent extends ControlComponent {
     @Input() slice: any;
     @Input() selector: any;
+
+    @Input() public hotLink: { namespace: string, name: string };
 
     maxLength = 5;
 

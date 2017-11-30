@@ -155,26 +155,6 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		{
 		}
 
-		public ForeignKeyArray(DataTable fkTable)
-		{
-			//@@TODOMICHI DataTable
-			/*ForeignKeyInfo fki = null;
-			if (fkTable != null)
-			{
-				foreach (DataRow fkRow in fkTable.Rows)
-				{
-					string fkName		= (string) fkRow[DBSchemaStrings.Name];
-					string pkTableName	= (string) fkRow[DBSchemaStrings.PKTableName];
-					string fkColumn		= (string) fkRow[DBSchemaStrings.FKColumn];
-					string pkColumn		= (string) fkRow[DBSchemaStrings.PKColumn];
-
-					fki = Add(fkName, pkTableName);
-					if (fki != null)
-						fki.AddColumns(fkColumn, pkColumn);
-				}
-			}*/
-		}
-
 		//----------------------------------------------------------------------
 		public void Add(string fkName, string pkTableName, string fkColumn, string pkColumn)
 		{
@@ -1105,7 +1085,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			
 			try
 			{
-				refFKConstraints = dbSchema.LoadRefFKConstraints(TableName);
+				ForeignKeyArray fkArray = dbSchema.LoadRefFKConstraints(TableName);
+
+				if (fkArray != null)
+				{
+					refFKConstraints = new ArrayList();
+					foreach (ForeignKeyInfo fkInfo in fkArray)
+						refFKConstraints.Add(new RefFKConstraint(fkInfo.Name, fkInfo.PKTableName));
+				}
 			}
 			catch (TBException e)
 			{				

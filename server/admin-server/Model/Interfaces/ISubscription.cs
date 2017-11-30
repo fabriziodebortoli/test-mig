@@ -11,5 +11,6 @@
 		int MinDBSizeToWarn { get; set; }
         bool UnderMaintenance { get; set; }
         int Ticks { get; set; }
+        string VATNr { get; set; }
     }
 }

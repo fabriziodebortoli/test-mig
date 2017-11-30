@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microarea.Common.NameSolver;
 using Microarea.AdminServer.Libraries.DatabaseManager;
+using Microarea.AdminServer.Controllers.Helpers.Database;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -55,12 +56,27 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		# endregion
 
 		# region Funzione per l'importazione dei dati di default silente
+		/// <summary>
+		/// Entry-point per importazione dati 
+		/// </summary>
+		/// <param name="preloadAllFiles">utilizzato dall'importazione stand-alone e forzare il caricamento dei files
+		/// (perche' non esiste piu' il wizard predisposto a questo scopo)</param>
+		/// <returns></returns>
 		//---------------------------------------------------------------------------
-		public bool ImportDefaultDataSilentMode(bool preloadAllFiles = false)
+		public bool ImportDefaultDataSilentMode()
 		{
 			if (defManager != null)
-				return defManager.ImportDefaultDataSilentMode(preloadAllFiles);
+				return defManager.ImportDefaultDataSilentMode();
+			
+			return false;
+		}
 
+		//---------------------------------------------------------------------------
+		public bool ImportDefaultDataForSubscription(ImportDataParameters parameters)
+		{
+			if (defManager != null)
+				return defManager.ImportDefaultDataForSubscription(parameters);
+			
 			return false;
 		}
 
@@ -130,11 +146,20 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		}
 
 		//---------------------------------------------------------------------------
-		public bool ImportSampleDataSilentMode(bool preloadAllFiles = false)
+		public bool ImportSampleDataSilentMode()
 		{
 			if (sampleManager != null)
-				sampleManager.ImportSampleDataSilentMode(preloadAllFiles);
+				sampleManager.ImportSampleDataSilentMode();
 			
+			return false;
+		}
+
+		//---------------------------------------------------------------------------
+		public bool ImportSampleDataForSubscription(ImportDataParameters parameters)
+		{
+			if (sampleManager != null)
+				sampleManager.ImportSampleDataForSubscription(parameters);
+
 			return false;
 		}
 

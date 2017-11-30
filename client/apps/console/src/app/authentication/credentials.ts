@@ -29,15 +29,3 @@ export class DatabaseCredentials {
         this.Password = '';
     }
 }
-
-//================================================================================
-export class ExtendedSubscriptionDatabase {
-    
-    AdminCredentials: DatabaseCredentials;
-    Database: SubscriptionDatabase;
-    
-    constructor(credentials: DatabaseCredentials, subDatabase: SubscriptionDatabase) {
-        this.AdminCredentials = credentials;
-        this.Database = subDatabase;
-    }
-}

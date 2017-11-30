@@ -3,7 +3,7 @@
     <tb-toolbar-top>
         <tb-toolbar-top-button icon="tb-find" caption="Search"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-first" caption="First" (click)="FirstPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-prev-2" caption="Previous Page" (click)="PrevPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-prev" caption="Previous Page" (click)="PrevPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-next" caption="Next Page" (click)="NextPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="ReRunReport()" *ngIf="rsService.runEnabled"></tb-toolbar-top-button>

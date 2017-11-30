@@ -1,3 +1,13 @@
+<admin-dialog 
+  [mode]="'fields'"
+  [title]="'Permission required'" 
+  [message]="'Please insert your credentials'"
+  [(fields)]=fields
+  [(opened)]=openToggle 
+  [(result)]=result
+  (onClose)=onCloseCredentialsDialog()>
+</admin-dialog>
+
 <div class="container">
   <h2 class="componentTitle">New Instance Registration</h2>
 

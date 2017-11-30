@@ -29,8 +29,7 @@ export type maskParts = { prefix: string, separator: string, body: string, suffi
 
 export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
-    @Input() public hotLink: any = undefined;
-    //@Input() automaticNumbering: boolean;
+
     @Input() popUpMenu: boolean = true;
     @Input() maxLength = -1;
 

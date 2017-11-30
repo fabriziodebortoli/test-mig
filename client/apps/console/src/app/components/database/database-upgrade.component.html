@@ -17,7 +17,7 @@
         <admin-dropdown [inputLabel]="'default configuration'" [(selectedValue)]="selectedConfiguration" [listItems]="configurations"
           [textField]="'name'" [valueField]="'value'" (selectedValueChange)="onConfigurationChange($event)"></admin-dropdown>
       </div>
-      <div>
+      <div class="mt20">
         <admin-button [buttonText]="'Update databases structure'" (click)="updateDatabase()"></admin-button>
       </div>
     </div>

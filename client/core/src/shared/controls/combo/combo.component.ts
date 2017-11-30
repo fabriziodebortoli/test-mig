@@ -21,17 +21,20 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     selectedItem: any;
     public itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
-    @Input() public hotLink: { namespace: string, name: string};
+    @Input() public hotLink: { namespace: string, name: string };
 
+    ngOnInit() {
+        console.log('OnInit ComboComponent Model ' + this.model ? JSON.stringify(this.model) : "niente modello");
+    }
 
     constructor(
         public webSocketService: WebSocketService,
         public eventDataService: EventDataService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
-        changeDetectorRef:ChangeDetectorRef
+        changeDetectorRef: ChangeDetectorRef
     ) {
-        super(layoutService, tbComponentService,changeDetectorRef);
+        super(layoutService, tbComponentService, changeDetectorRef);
 
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
             this.items = result.itemSource;
