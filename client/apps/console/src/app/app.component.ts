@@ -1,7 +1,7 @@
 import {OperationResult} from './services/operationResult';
 import { LoginService } from './services/login.service';
 import { ModelService } from './services/model.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
@@ -33,6 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  @HostListener('window:unload', [ '$event' ])
+  clearLocalStorage() {
+    this.loginService.logout();
+  }  
+
   ngOnInit() {
     this.router.navigateByUrl('/appHome', { skipLocationChange:true });
   }
@@ -40,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
+  
   logout() {
     this.loginService.logout();
   }
