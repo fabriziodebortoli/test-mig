@@ -63,3 +63,5 @@ md-sidenav {
 
 md-sidenav div { margin-bottom:10px; }
 md-sidenav a { color:#444444; padding-bottom:10px; text-decoration: none; }
+
+.nav-link { display:inline-block;margin-left:15px;color: #3f51b5;font-weight:bold; cursor:pointer; }
