@@ -28,4 +28,15 @@ export class AutoSearchEditComponent extends ControlComponent {
     formatItem(item) {
         return StringUtils.pad(item.key, 8) + item.value;
     }
+
+    ngOnChanges(changes) {
+        if (changes.slice) {
+            this.filterText = changes.slice.filterText;
+            this.items = changes.slice.items;
+        }
+    }
+
+    ngOnInit() {
+        this.items = this.model.value;
+    }
 }
