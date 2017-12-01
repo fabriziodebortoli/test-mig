@@ -90,19 +90,21 @@ export class NumbererComponent extends ControlComponent {
             }
         });
 
-        this.store
-            .select(this.selector)
-            .select('value')
-            .subscribe(
-            (v) => this.setComponentMask()
-            );
+        if (this.store && this.selector) {
+            this.store
+                .select(this.selector)
+                .select('value')
+                .subscribe(
+                (v) => this.setComponentMask()
+                );
 
-        this.store
-            .select(this.selector)
-            .select('formMode')
-            .subscribe(
-            (v) => this.onFormModeChanged(v)
-            );
+            this.store
+                .select(this.selector)
+                .select('formMode')
+                .subscribe(
+                (v) => this.onFormModeChanged(v)
+                );
+        }
     }
 
     constructor(

@@ -243,8 +243,8 @@ import { ControlComponent } from './controls/control.component';
 import { VATCodeComponent } from './controls/vat-code/vat-code.component';
 import { NumbererComponent } from './controls/numberer/numberer.component';
 import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
-import { PropertyGridItemComponent } from './controls/property-grid-item/property-grid-item.component';
-import { PropertyGridItemGroupComponent } from './controls/property-grid-item-group/property-grid-item-group.component';
+import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
+import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -283,8 +283,8 @@ export { ControlComponent } from './controls/control.component';
 export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 export { NumbererComponent } from './controls/numberer/numberer.component';
 export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
-export { PropertyGridItemComponent } from './controls/property-grid-item/property-grid-item.component';
-export { PropertyGridItemGroupComponent } from './controls/property-grid-item-group/property-grid-item-group.component';
+export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
+export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 
 const TB_CONTROLS = [
     ControlComponent, VATCodeComponent, NumbererComponent,

@@ -20,25 +20,25 @@ INSERT INTO [dbo].[MP_SubscriptionInstances]([SubscriptionKey],[InstanceKey], [T
 INSERT INTO [dbo].[MP_SubscriptionInstances]([SubscriptionKey],[InstanceKey], [Ticks]) VALUES (N'S-ENT', N'I-M4-ENT',999)
 
 -- Accounts
-INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
+INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [VATNr], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
 [PasswordDuration], [Disabled], [Locked], [WindowsAuthentication], [Language], [RegionalSettings], [Ticks], [ExpirationDate]) 
-VALUES (N'mdelbene@m4.com', N'delbene', N'Michela Delbene', N'ufficio amministrativo', N'mdelbene@m4.com', 0, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 5, 0, 0,  
+VALUES (N'mdelbene@m4.com', N'delbene', N'Michela Delbene', N'ufficio amministrativo', N'', N'mdelbene@m4.com', 0, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 5, 0, 0,  
 0, N'', N'', 999, CAST(N'2027-06-26 15:04:57.713' AS DateTime))
-INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
+INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [VATNr], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
 [PasswordDuration], [Disabled], [Locked], [WindowsAuthentication], [Language], [RegionalSettings], [Ticks], [ExpirationDate]) 
-VALUES (N'imanzoni@m4.com', N'manzoni', N'Ilaria Manzoni', N'ufficio risorse umane', N'imanzoni@m4.com', 1, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 90, 0, 0,
+VALUES (N'imanzoni@m4.com', N'manzoni', N'Ilaria Manzoni', N'ufficio risorse umane', N'', N'imanzoni@m4.com', 1, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 90, 0, 0,
 0, N'', N'', 999, CAST(N'2027-06-26 15:04:57.713' AS DateTime))
-INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
+INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [VATNr], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
 [PasswordDuration], [Disabled], [Locked], [WindowsAuthentication], [Language], [RegionalSettings], [Ticks], [ExpirationDate])
-VALUES (N'fricceri@m4.com', N'ricceri', N'Francesco Ricceri', N'', N'fricceri@m4.com', 0, 0, 0, 0,CAST(N'2027-06-26 15:04:57.713' AS DateTime), 90, 0, 0, 
+VALUES (N'fricceri@m4.com', N'ricceri', N'Francesco Ricceri', N'', N'', N'fricceri@m4.com', 0, 0, 0, 0,CAST(N'2027-06-26 15:04:57.713' AS DateTime), 90, 0, 0, 
 0, N'', N'', 999, CAST(N'2027-06-26 15:04:57.713' AS DateTime))
-INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
+INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [VATNr], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
 [PasswordDuration], [Disabled], [Locked], [WindowsAuthentication], [Language], [RegionalSettings], [Ticks], [ExpirationDate]) 
-VALUES (N'abauzone@m4.com', N'bauzone', N'Anna Bauzone', N'', N'abauzone@m4.com', 0, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 40, 0, 0, 
+VALUES (N'abauzone@m4.com', N'bauzone', N'Anna Bauzone', N'', N'', N'abauzone@m4.com', 0, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 40, 0, 0, 
 0, N'', N'', 999, CAST(N'2027-06-26 15:04:57.713' AS DateTime))
-INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
+INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [VATNr], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], 
 [PasswordDuration], [Disabled], [Locked], [WindowsAuthentication], [Language], [RegionalSettings], [Ticks], [ExpirationDate]) 
-VALUES (N'lbruni@m4.com', N'bruni', N'Luca Bruni', N'', N'lbruni@m4.com', 0, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 30, 0, 0, 
+VALUES (N'lbruni@m4.com', N'bruni', N'Luca Bruni', N'', N'', N'lbruni@m4.com', 0, 0, 0, 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime), 30, 0, 0, 
 0, N'', N'', 999, CAST(N'2027-06-26 15:04:57.713' AS DateTime))
 
 -- SubscriptionAccounts

@@ -21,6 +21,8 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     public validators: Array<any> = [];
     @Input()
     public value: any;
+    @Input()
+    public format: string;
 
     public widthFactor: number = 1;
     public heightFactor: number = 1;

@@ -1,7 +1,7 @@
 import {OperationResult} from './services/operationResult';
 import { LoginService } from './services/login.service';
 import { ModelService } from './services/model.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
@@ -14,33 +14,38 @@ import { Subscription } from "rxjs/Subscription";
 
 export class AppComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  loginServiceSubscription: Subscription;
   userAccountName: string;
 
   constructor(private router: Router, private loginService: LoginService) {
     this.userAccountName = '';
 
-    this.subscription = this.loginService.getMessage().subscribe(message => {
-      try
-      {
+    this.loginServiceSubscription = this.loginService.getMessage().subscribe(
+      message => {
         let opRes:OperationResult = message;
         if (opRes.Result) {
           this.userAccountName = opRes.Message;
         }
+      },
+      err => {
+        console.log('An error occurred while listening to loginService.getMessage()');
       }
-      catch(Error){
-      }
-    });
+    );
   }
+
+  @HostListener('window:unload', [ '$event' ])
+  clearLocalStorage() {
+    this.loginService.logout();
+  }  
 
   ngOnInit() {
     this.router.navigateByUrl('/appHome', { skipLocationChange:true });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.loginServiceSubscription.unsubscribe();
   }
-
+  
   logout() {
     this.loginService.logout();
   }

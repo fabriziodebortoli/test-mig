@@ -37,7 +37,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         super(layoutService, tbComponentService, changeDetectorRef);
 
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
-            this.items = result.itemSource;
+            if (result.itemSource) this.items = result.itemSource;
         });
     }
 
@@ -82,7 +82,6 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
 
         this.items.splice(0, this.items.length);
         let temp = changes['model'].currentValue.value;
-
         let obj = { code: temp, description: temp };
         this.items.push(obj);
         this.selectedItem = obj;

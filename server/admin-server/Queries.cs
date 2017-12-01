@@ -119,14 +119,14 @@ namespace Microarea.AdminServer
 		public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string SelectAccount = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
 
-        public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, Salt, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, 
+        public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, Salt, Notes,VATNr, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, 
 												CannotChangePassword, PasswordExpirationDate, PasswordDuration, Disabled, Locked, WindowsAuthentication, Language, 
 												RegionalSettings, Ticks, ExpirationDate, ParentAccount, Confirmed) 
-												VALUES (@AccountName, @FullName, @Password, @Salt, @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, 
+												VALUES (@AccountName, @FullName, @Password, @Salt, @Notes, @VATNr, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, 
 												@CannotChangePassword, @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @WindowsAuthentication, @Language, 
 												@RegionalSettings, @Ticks, @ExpirationDate, @ParentAccount, @Confirmed)";
 
-        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount,
+        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Notes = @Notes, VATNr=@VATNr, Email = @Email, LoginFailedCount = @LoginFailedCount,
 												PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 												PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, 
 												WindowsAuthentication = @WindowsAuthentication, Language = @Language, 

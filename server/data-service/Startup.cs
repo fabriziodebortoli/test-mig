@@ -1,13 +1,10 @@
 ﻿
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-using Microarea.DataService.Models;
-using System;
-using System.Net;
 
 namespace Microarea.DataService
 {
@@ -23,8 +20,8 @@ namespace Microarea.DataService
 
             //if (env.IsDevelopment())
             //{
-                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                //builder.AddApplicationInsightsSettings(developerMode: true);
+            // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
+            //builder.AddApplicationInsightsSettings(developerMode: true);
             //}
             Configuration = builder.Build();
         }
@@ -49,7 +46,7 @@ namespace Microarea.DataService
 
             services.AddMvc();
 
-            services.AddMemoryCache();  
+            services.AddMemoryCache();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(20 * 60);
@@ -62,16 +59,16 @@ namespace Microarea.DataService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-           app.UseCors("CorsPolicy");
+            app.UseCors("CorsPolicy");
 
-           app.UseSession();
+            app.UseSession();
 
-           app.UseStaticFiles();
+            app.UseStaticFiles();
 
-           loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-           loggerFactory.AddDebug();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-           app.UseMvc();
+            app.UseMvc();
         }
     }
 }

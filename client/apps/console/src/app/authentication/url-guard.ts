@@ -111,7 +111,7 @@ export class UrlGuard {
       }
     }
 
-    if (url == '/accountsHome' || url.startsWith('/database') || url == '/account') {
+    if (url == '/accountsHome' || url == '/account') {
       if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Account)) {
         opRes.Message = RoleLevels.Account + ' level missing';
         opRes.Result = false;
@@ -119,6 +119,36 @@ export class UrlGuard {
       }
       else {
         opRes.Result = true;
+        return opRes;
+      }
+    }
+
+    // checking databases (url is like this: /database?subscriptionToEdit=S-ENT&databaseToEdit=EntDbName)
+
+    if (url.startsWith('/database')) {
+
+      // better use try/catch to avoid exception when we play with string indexes!
+      try {
+        // I search the subscriptionKey in the url
+        let startSubKeyIdx: number = url.indexOf("=") + 1;
+        let endSubKeyIdx: number = url.indexOf("&");
+
+        let subKey: string = url.substr(startSubKeyIdx, endSubKeyIdx - startSubKeyIdx);
+
+        // then I check the role for this subscription
+
+        if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Subscription, subKey)) {
+          opRes.Message = 'You do not have rights to edit ' + subKey;
+          opRes.Result = false;
+          return opRes;
+        }
+        else {
+          opRes.Result = true;
+          return opRes;
+        }
+      } catch (error) {
+        opRes.Message = error;
+        opRes.Result = false;
         return opRes;
       }
     }
