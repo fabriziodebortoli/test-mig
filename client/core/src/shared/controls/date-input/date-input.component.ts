@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnChanges, AfterViewInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, OnInit, AfterViewInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { formatDate } from '@telerik/kendo-intl';
@@ -6,19 +6,22 @@ import { formatDate } from '@telerik/kendo-intl';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
+import { FormattersService } from './../../../core/services/formatters.service';
 
 import { ControlComponent } from './../control.component';
+
+// import { localeIt } from 'yargs';
 
 @Component({
   selector: 'tb-date-input',
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss']
 })
-export class DateInputComponent extends ControlComponent implements OnChanges, AfterViewInit {
+export class DateInputComponent extends ControlComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() forCmpID: string;
-  @Input() formatter: string;
   @Input() readonly = false;
 
+  formatter: any;
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
 
@@ -26,10 +29,56 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
 
   constructor(
     public eventData: EventDataService,
+    private formattersService: FormattersService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef) {
     super(layoutService, tbComponentService, changeDetectorRef);
+  }
+
+  ngOnInit() {
+
+    if (!this.format)
+      this.format = "Date";
+
+    this.formatter = this.formattersService.getFormatter(this.format);
+  }
+
+  dateFormatByFormatter() {
+    let ret = '', day = '', month = '', year = '';
+    let dateSep1 = this.formatter.refFirstSeparator ? this.formatter.refFirstSeparator : " ";
+    let dateSep2 = this.formatter.refSecondSeparator ? this.formatter.refSecondSeparator : " ";
+    let timeSep = this.formatter.refTimeSeparator ? this.formatter.refTimeSeparator : ":";
+
+    day = String('d').repeat((<string>this.formatter.DayFormat).length - 3);    // 'DAY99'
+    month = String('M').repeat((<string>this.formatter.MonthFormat).length - 5);  // 'MONTH99'
+    year = String('y').repeat((<string>this.formatter.YearFormat).length - 4);   // 'YEAR99'
+
+
+    switch (this.formatter.FormatType) {
+      case "DATE_DMY": {
+        ret = day + dateSep1 + month + dateSep2 + year;
+        break;
+      }
+      case "DATE_YMD": {
+        ret = year + dateSep1 + month + dateSep2 + day;
+        break;
+      }
+      default: {
+        ret = month + dateSep1 + day + dateSep2 + year;   // "DATE_MDY"
+        break;
+      }
+    }
+
+    if (this.format === "DateTime") {
+      ret = ret + " HH" + timeSep + "mm";
+    }
+
+    if (this.format === "DateTimeExtended") {
+      ret = ret + " HH" + timeSep + "mm" + timeSep + "ss";
+    }
+
+    return ret;
   }
 
   onChange(changes) {
@@ -42,11 +91,6 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   }
 
   onUpdateNgModel(newDate: Date, updateModel: boolean = true): void {
-    // if (!newDate) {
-    //   return;
-    // }
-    // const timestamp = Date.parse(newDate.toDateString())
-    // if (isNaN(timestamp)) { return; }
     if (!this.modelValid()) {
       this.model = { enable: 'true', value: '' };
     }
@@ -57,7 +101,6 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     else {
       this.selectedDate = newDate;
     }
-
 
     //if (this.model.constructor.name === 'text') {
     if (updateModel)
@@ -77,16 +120,22 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     }
   }
 
-  getFormat(formatter: string): string {
-    switch (formatter) {
-      case 'Date':
-        this.dateFormat = 'dd MMM yyyy'; break;
-      case 'DateTime':
-        this.dateFormat = 'dd MMM yyyy HH:mm'; break;
-      case 'DateTimeExtended':
-        this.dateFormat = 'dd MMM yyyy HH:mm:ss'; break;
-      default: break;
+  getFormat(): string {
+    if (this.formatter) {
+      this.dateFormat = this.dateFormatByFormatter();
     }
+    else {
+      switch (this.format) {
+        case 'Date':
+          this.dateFormat = 'dd MMM yyyy'; break;
+        case 'DateTime':
+          this.dateFormat = 'dd MMM yyyy HH:mm'; break;
+        case 'DateTimeExtended':
+          this.dateFormat = 'dd MMM yyyy HH:mm:ss'; break;
+        default: break;
+      }
+    }
+
     return this.dateFormat;
   }
 
