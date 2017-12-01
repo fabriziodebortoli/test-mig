@@ -35,9 +35,10 @@ namespace Microarea.AdminServer.Model
 		string parentAccount = string.Empty;
 		bool confirmed = false;
         int ticks = TicksHelper.GetTicks();
+        string vATNr = string.Empty;
 
         //---------------------------------------------------------------------
-		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
+        public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
 		public byte[] Salt{ get { return this.salt; } set { this.salt = value; } }
@@ -58,6 +59,7 @@ namespace Microarea.AdminServer.Model
         public int Ticks { get { return this.ticks; } set { this.ticks = value; } }
 		public string ParentAccount { get { return this.parentAccount; } set { this.parentAccount = value; } }
 		public bool Confirmed { get { return this.confirmed; } set { this.confirmed = value; } }
+        public string VATNr { get => vATNr; set => vATNr = value; }
 
         //---------------------------------------------------------------------
         public Account()
@@ -84,6 +86,7 @@ namespace Microarea.AdminServer.Model
             account.AccountName = dataReader["AccountName"] as string;
             account.FullName = dataReader["FullName"] as string;
             account.Notes = dataReader["Notes"] as string;
+            VATNr = dataReader["VATNr"] as string;
             account.Email = dataReader["Email"] as string;
             account.Password = dataReader["Password"] as string;
 			account.Salt = dataReader["Salt"] as byte[];
@@ -122,6 +125,7 @@ namespace Microarea.AdminServer.Model
 
 			burgerDataParameters.Add(new BurgerDataParameter("@Salt", this.Salt));
 			burgerDataParameters.Add(new BurgerDataParameter("@Notes", this.Notes));
+            burgerDataParameters.Add(new BurgerDataParameter("@VATNr", this.VATNr));
             burgerDataParameters.Add(new BurgerDataParameter("@Email", this.Email));
             burgerDataParameters.Add(new BurgerDataParameter("@LoginFailedCount", this.LoginFailedCount));
             burgerDataParameters.Add(new BurgerDataParameter("@PasswordNeverExpires", this.PasswordNeverExpires));

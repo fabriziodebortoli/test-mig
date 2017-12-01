@@ -281,6 +281,7 @@ CREATE TABLE [dbo].[MP_Accounts] (
 	[Salt] [varbinary] (128) NULL,
 	[FullName] [varchar] (255) NULL CONSTRAINT DF_Accounts_FullName DEFAULT(''),
 	[Notes] [varchar] (500) NULL CONSTRAINT DF_Accounts_Notes DEFAULT(''),
+	[VATNr] [varchar] (20) NULL CONSTRAINT DF_Accounts_VATNr DEFAULT (''),
 	[Email] [varchar] (255) NULL CONSTRAINT DF_Accounts_Email DEFAULT(''),
 	[LoginFailedCount] [int] NULL CONSTRAINT DF_Accounts_LoginFailedCount  DEFAULT (0), 
 	[PasswordNeverExpires] [bit] NULL CONSTRAINT DF_Accounts_PasswordNeverExpires DEFAULT(0),
