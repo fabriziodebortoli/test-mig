@@ -20,12 +20,18 @@
             [readOnly]=isReadOnly></admin-checkbox>
         </div>
       </div>
-      <admin-button [buttonText]="'Delete'" [primary]=true (click)="delete()"></admin-button>
-      <div *ngIf="isDeleting" class="mt20">
-        <img src="assets/ajax-loader.gif" />
-      </div>
     </div>
   </div>
+
+  <div class="row center-xs end-sm end-lg">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <admin-button [buttonText]="'Delete'" [primary]=true (click)="delete()"></admin-button>
+    </div>
+    <div *ngIf="isDeleting" class="mt20">
+      <img src="assets/ajax-loader.gif" />
+    </div>
+  </div>
+
   <admin-dialog [mode]="'yesno'" [title]="'Delete'" [message]="msgDelete" [(opened)]=openDeleteDialog [(result)]=dialogResult
     (onClose)="onCloseDialog($event)"></admin-dialog>
 </div>
