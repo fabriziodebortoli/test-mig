@@ -13,6 +13,7 @@ export class PropertyGridItemComponent extends ControlComponent {
     @Input() text: string;
     @Input() hint: string;
     @Input() itemSource: any;
+    @Input() hotLink: { namespace: string, name: string };
 
     constructor(
         layoutService: LayoutService,
