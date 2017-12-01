@@ -46,8 +46,6 @@ namespace Microarea.DataService
 
             services.AddMvc();
 
-            services.AddDependencies();
-
             services.AddMemoryCache();
             services.AddSession(options =>
             {

@@ -122,7 +122,7 @@ namespace ErpService.Controllers
                     {
                         string query = @"   select  MA_ProducersCategories.Producer, MA_Producers.CompanyName, MA_ProducersCategories.Category
                                             from    MA_ProducersCategories
-	                                            inner join MA_Producers on MA_ProducersCategories.Producer = MA_Producers.Producer";
+                                                inner join MA_Producers on MA_ProducersCategories.Producer = MA_Producers.Producer";
 
                         return ExecuteReader(connection, System.Data.CommandType.Text, query, null);
                     }
@@ -131,7 +131,7 @@ namespace ErpService.Controllers
                     {
                         string query = @"   select  MA_ProducersCategories.Category, MA_ProductCtg.Description, MA_ProducersCategories.Producer
                                             from    MA_ProducersCategories
-	                                            inner join MA_ProductCtg on MA_ProducersCategories.Category = MA_ProductCtg.Category";
+                                                inner join MA_ProductCtg on MA_ProducersCategories.Category = MA_ProductCtg.Category";
 
                         return ExecuteReader(connection, System.Data.CommandType.Text, query, null);
                     }
