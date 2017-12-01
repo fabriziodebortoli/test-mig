@@ -18,15 +18,6 @@
           <admin-dropdown [inputLabel]="'Configuration'" [(selectedValue)]="selectedConfiguration" [listItems]="configurations" [textField]="'name'"
             [valueField]="'value'"></admin-dropdown>
         </div>
-
-        <div class="row center-xs end-sm end-lg">
-          <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-            <admin-button [buttonText]="'Import data'" (click)="importData()"></admin-button>
-          </div>
-        </div>
-        <div *ngIf="isImporting" class="mt20">
-          <img src="assets/ajax-loader.gif" />
-        </div>
       </div>
     </div>
 
@@ -47,6 +38,14 @@
           <admin-checkbox [checkText]="'overwrite'" [checkId]="'chkUpdateRow'" [(checkValue)]="importParams.OverwriteRecord" (inputDataChange)="onUpdateRowChanged($event)"></admin-checkbox>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row center-xs end-sm end-lg">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <admin-button [primary]=true [buttonText]="'Import data'" (click)="importData()"></admin-button>
+    </div>
+    <div *ngIf="isImporting" class="mt20">
+      <img src="assets/ajax-loader.gif" />
     </div>
   </div>
 </div>
