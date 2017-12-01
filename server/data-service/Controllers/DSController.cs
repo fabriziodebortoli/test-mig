@@ -3,7 +3,6 @@ using System.Globalization;
 using Microarea.Common;
 using Microarea.Common.Applications;
 using Microarea.Common.Hotlink;
-using Microarea.DataService.Managers.Interfaces;
 using Microarea.DataService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -13,13 +12,6 @@ namespace DataService.Controllers
     [Route("data-service")]
     public class DSController : Controller
     {
-        private readonly IParameterManager _parameterManager;
-
-        public DSController(IParameterManager parameterManager)
-        {
-            _parameterManager = parameterManager;
-        }
-
         [Route("getinstalleddictionaries")]
         public IActionResult GetInstalledDictionaries()
         {
@@ -128,7 +120,7 @@ namespace DataService.Controllers
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             return new ContentResult { Content = columns, ContentType = "application/json" };
-        }*/
+        }
 
         [Route("getparameters/{namespace}")]
         public IActionResult GetParameters(string nameSpace)
@@ -146,7 +138,7 @@ namespace DataService.Controllers
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             return new ContentResult { Content = list, ContentType = "application/json" };
-        }
+        }*/
 
 
         //---------------------------------------------------------------------
