@@ -171,8 +171,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       res => {
 
         if (!res.Result) {
-          // show dialog
-          alert(res.Message);
+          this.showDialogMessage('Operation failed', 'Submitting instance failed (' + res.Message + ')')
           this.busy = false;
           return;
         }
@@ -214,7 +213,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
 
           },
           err => { 
-            alert('Registration Failed'); 
+            this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
             this.clusterStep = 0;
             this.busy = false;
           }
@@ -222,7 +221,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
 
       },
       err => {
-        alert(err);
+        this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
         this.clusterStep = 0;
         this.busy = false;
       }
