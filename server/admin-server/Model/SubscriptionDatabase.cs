@@ -139,7 +139,15 @@ namespace Microarea.AdminServer.Model
 		//----------------------------------------------------------------------
 		public OperationResult Delete(BurgerData burgerData)
 		{
-			throw new NotImplementedException();
+			OperationResult opRes = new OperationResult();
+
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@InstanceKey", this.InstanceKey));
+			burgerDataParameters.Add(new BurgerDataParameter("@SubscriptionKey", this.SubscriptionKey));
+			burgerDataParameters.Add(new BurgerDataParameter("@Name", this.Name));
+
+			opRes.Result = burgerData.Delete(ModelTables.SubscriptionDatabases, burgerDataParameters);
+			return opRes;
 		}
 	}
 }
