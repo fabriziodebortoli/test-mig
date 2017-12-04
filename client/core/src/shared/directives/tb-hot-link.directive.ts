@@ -2,11 +2,15 @@ import {
     Directive, Input, ViewContainerRef, ComponentFactoryResolver,
     OnInit, ComponentRef, OnChanges, SimpleChanges
 } from '@angular/core';
-import { TbHotlinkButtonsComponent } from './../controls/hot-link-buttons/tb-hot-link-buttons.component';
+import { TbHotlinkButtonsComponent, HlComponent } from './../controls/hot-link-buttons/tb-hot-link-buttons.component';
 import { ControlComponent } from './../controls/control.component';
-import { SimpleChange } from '@angular/core';
+import { Store } from '../../core/services/store.service';
+import { createSelector, createSelectorByMap } from '../../shared/commons/selector';
 
-export type HlComponent = { slice$: any, model: any };
+import { EventDataService } from '../../core/services/eventdata.service';
+
+export type HlDefinition = { namespace: string, name: string, ctx?: any };
+export type BadHlDefinition = { name: HlDefinition }
 
 @Directive({
     selector: '[tbHotLink]'
@@ -15,47 +19,48 @@ export class TbHotLinkDirective implements OnInit {
     namespace: string;
     name: any;
     model: any;
-    private cmp: ComponentRef<TbHotlinkButtonsComponent>;
-    private ancestor: HlComponent;
+    private cmp: ComponentRef<TbHotlinkButtonsComponent>
 
-    @Input() set tbHotLink(hl: { namespace: string, name: string, ctx?: any }) {
-        this.namespace = hl.namespace;
-        this.name = hl.name;
-        if (hl.ctx) {
-            this.model = hl.ctx;
+    @Input() set tbHotLink(hl: any) {
+        let goodHl: any;
+        try {
+            goodHl = JSON.parse(hl.name.replace (/\'/g, '"'));
+        } catch (e) {
+            goodHl = hl;
+        }
+
+        this.namespace = goodHl.namespace;
+        this.name = goodHl.name;
+        if (goodHl.ctx) {
+            this.model = goodHl.ctx;
         }
     }
 
     constructor(private viewContainer: ViewContainerRef,
-        private cfr: ComponentFactoryResolver) {
-    }
-
-    monkeyPatch(onAfter: (_source: HlComponent, _dest: TbHotLinkDirective) => void, source: HlComponent, dest: TbHotLinkDirective) {
-        if (source) {
-            let orig: (changes: {}) => void = (source as any).ngOnChanges;
-            (source as any).ngOnChanges = function (changes: {}) {
-                if (orig) { orig.apply(source, changes); };
-                onAfter(source, dest);
-            }
-        }
+        private cfr: ComponentFactoryResolver,
+        private store: Store,
+    private eventDataService: EventDataService) {
     }
 
     ngOnInit() {
-        console.log(' ===> DIRECTIVE ngOnInit');
         const compFactory = this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
-        if (!this.model) {
-            this.ancestor = (<any>this.viewContainer)._view.component as HlComponent;
-            this.monkeyPatch((_ancestor, _me) => {
-                if (!_me.model || JSON.stringify(_me.model) !== JSON.stringify(_ancestor.model)) { _me.model = _ancestor.model; }
-                if (!_me.cmp.instance.slice$) { _me.cmp.instance.slice$ = _ancestor.slice$; }
-                console.log(' ===> Patch running');
-            }, this.ancestor, this);
-        } else {
-            this.cmp.instance.model = this.model;
-        }
-
         this.cmp = this.viewContainer.createComponent(compFactory);
+        if (!this.model) {
+            let ancestor = (this.viewContainer as any)._view.component as HlComponent;
+            if (ancestor) { this.cmp.instance.modelComponent = ancestor; }
+        } else { this.cmp.instance.model = this.model; }
+
         this.cmp.instance.namespace = this.namespace;
         this.cmp.instance.name = this.name;
+
+        let selector = createSelector(
+            s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.enabled : false,
+            s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : undefined,
+            s => this.cmp.instance.modelComponent.model ? { value: this.cmp.instance.modelComponent.model.value,
+                                                            enabled: this.cmp.instance.modelComponent.model.enabled } :
+                                                          { value: undefined, enabled: false });
+        this.cmp.instance.slice$ = this.store.select(selector)
+        // .map(x => ( {enabled: this.cmp.instance.modelComponent.model.enabled, value: this.cmp.instance.modelComponent.model.value}))
+        .startWith( { value: undefined,  enabled: false });
     }
 }

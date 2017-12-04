@@ -13,21 +13,38 @@ import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters } from '../../../core/services/filter.services';
 
+export type HlComponent = { model: any, slice$?: any, cmpId: string };
+
 @Component({
   selector: 'tb-hotlink-buttons',
   templateUrl: './tb-hot-link-buttons.component.html',
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
   providers: [PaginatorService, FilterService],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.Default
 })
+export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, AfterViewChecked {
 
-export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, OnInit, AfterViewChecked, AfterViewInit {
+  private _modelComponent: HlComponent
+  @Input() public get modelComponent(): HlComponent {
+    return this._modelComponent;
+  }
 
-  @Input() namespace: string;
-  @Input() name: string;
+  public set modelComponent(value: HlComponent) {
+    this._modelComponent = value;
+    if (value && value.model) { this.model = value.model; }
+  }
 
-  @Input() slice$: any;
+  @Input() public namespace: string;
+  @Input() public name: string;
+
+  private _slice$: Observable<{ model: any, enabled: boolean }> | any;
+  public set slice$(value: Observable<{ model: any, enabled: boolean }> | any) {
+    this._slice$ = value;
+  }
+  public get slice$(): Observable<{ model: any, enabled: boolean }> | any {
+    return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
+  }
 
   @ViewChild('anchor') public anchor: ElementRef;
   @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
@@ -79,23 +96,22 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   closeOptions() { this.showOptionsSubj$.next(false); }
   openOptions() { this.showOptionsSubj$.next(true); }
-  closeTable() { this.showTableSubj$.next(false); }
+  closeTable() { this.showTableSubj$.next(false); this.stop(); }
   openTable() {
     this.showTableSubj$.next(true);
   }
   closePopups() { this.closeOptions(); this.closeTable(); }
   get popupStyle(): any { return {'max-width': '50%', 'font-size': 'small'}; }
 
-  ngOnInit() {
+  private start() {
     this.filterer.configure(200);
-    this.paginator.configure(this.buttonCount,
-      this.pageSize,
-      combineFilters(this.filterer.filter$, this.slice$)
-      .map((x) => { return { model: x.right, customFilters: x.left}; }),
+    this.paginator.start(this.buttonCount, this.pageSize,
+      combineFilters(this.filterer.filterChanged$, this.slice$)
+        .map(x => ({ model: x.right, customFilters: x.left})),
       (pageNumber, serverPageSize, otherParams?) => {
         let p: URLSearchParams = new URLSearchParams(this.args);
         if (otherParams) {
-          p.set('filter', JSON.stringify(otherParams.model));
+          p.set('filter', JSON.stringify(otherParams.model.value));
           p.set('customFilters', JSON.stringify(otherParams.customFilters));
         }
 
@@ -104,8 +120,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         p.set('per_page', JSON.stringify(serverPageSize));
         return this.httpService.getHotlinkData(this.namespace, this.selectionType,  p);
       });
-    this.ngZone.runOutsideAngular( () => {
-      this.subscription = this.paginator.clientData.subscribe((d) => {
+
+    this.subscription = this.paginator.clientData.subscribe((d) => {
         if (d && d.rows && d.rows.length > 0) {
           this.selectionColumn = d.key;
           this.gridView.next({data: d.rows, total: d.total, columns: d.columns });
@@ -114,25 +130,21 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
           this.closeOptions();
         }
         this.loadingData = false;
-      });
-
-      this.filterer.filterTyping$.subscribe(x => {
-        this.gridView.next({data: [], total: 0, columns: this.columns });
-      });
     });
+    this.filterer.filterChanging$.subscribe(x => this.gridView.next({data: [], total: 0, columns: this.columns }));
   }
 
-  ngAfterViewInit() {
-    console.log(this._pagerComponet);
+  private stop() {
+    this.paginator.stop();
   }
 
   ngAfterViewChecked() {
       console.log('VIEW CHECKED!');
   }
 
-  public filterChange(filter: CompositeFilterDescriptor): void {
+  public onFilterChange(filter: CompositeFilterDescriptor): void {
     this.filterer.filter = filter;
-    this.filterer.filterChanged(filter);
+    this.filterer.onFilterChanged(filter);
   }
 
   protected async pageChange(event: PageChangeEvent) {
@@ -145,8 +157,9 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   async onSearchClick() {
-    if (this.showTableSubj$.value) {this.closeTable(); return; }
+    if (this.showTableSubj$.value) { this.closeTable(); return; }
     this.loadingData = true;
+    this.start();
     await this.paginator.firstPage();
   }
 
@@ -164,11 +177,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     }
   }
 
-  onOptionsClick() {
+  async onOptionsClick() {
     this.closeTable();
     if (this.selectionTypes.length === 0) {
-      this.httpService.getHotlinkSelectionTypes(this.namespace)
-      .subscribe((json) => { this.selectionTypes = json.selections; });
+      let json = await this.httpService.getHotlinkSelectionTypes(this.namespace).toPromise();
+      this.selectionTypes = json.selections;
       this.openOptions();
       return;
     }

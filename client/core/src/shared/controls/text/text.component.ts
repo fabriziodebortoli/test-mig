@@ -22,7 +22,7 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   // public  contextMenuRef;
 
-  public mask: string = '';
+  public mask = '';
 
   constructor(
     public eventData: EventDataService,
@@ -30,7 +30,7 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
     public componentResolver: ComponentFactoryResolver,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef:ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }

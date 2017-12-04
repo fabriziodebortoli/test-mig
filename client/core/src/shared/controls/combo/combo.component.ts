@@ -23,10 +23,6 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: { namespace: string, name: string };
 
-    ngOnInit() {
-        console.log('OnInit ComboComponent Model ' + this.model ? JSON.stringify(this.model) : "niente modello");
-    }
-
     constructor(
         public webSocketService: WebSocketService,
         public eventDataService: EventDataService,
@@ -37,7 +33,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         super(layoutService, tbComponentService, changeDetectorRef);
 
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
-            if (result.itemSource) this.items = result.itemSource;
+            if (result.itemSource) { this.items = result.itemSource};
         });
     }
 
@@ -49,11 +45,11 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     }
 
     onChange(change: any) {
-        if (this.model.value == change.code)
-            return;
+        if (this.model.value == change.code) { return; }
 
         this.selectedItem = change;
         this.model.value = this.selectedItem.code;
+        this.eventDataService.change.emit(this.cmpId);
     }
 
     ngDoCheck() {
