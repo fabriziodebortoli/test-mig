@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Http;
 
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Configuration;
+using Microarea.TbLoaderGate.Application;
+using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 
 namespace Microarea.TbLoaderGate
 {
@@ -42,9 +45,11 @@ namespace Microarea.TbLoaderGate
     }
     public class SocketDispatcher
     {
+        private readonly IHostingEnvironment hostingEnvironment;
         TBLoaderConnectionParameters options;
-        public SocketDispatcher(TBLoaderConnectionParameters options)
+        public SocketDispatcher(IHostingEnvironment hostingEnvironment, TBLoaderConnectionParameters options)
         {
+            this.hostingEnvironment = hostingEnvironment;
             this.options = options;
         }
 
@@ -90,10 +95,10 @@ namespace Microarea.TbLoaderGate
         public async Task HandleAsync(HttpContext http)
         {
             var webSocket = await http.WebSockets.AcceptWebSocketAsync();
-            await ManageSocketTraffic(webSocket);
+            await ManageSocketTraffic(webSocket, true);
         }
 
-        private async Task ManageSocketTraffic(WebSocket webSocket, string coupleName = "")
+        private async Task ManageSocketTraffic(WebSocket webSocket, bool client2server, string coupleName = "")
         {
             try
             {
@@ -123,15 +128,15 @@ namespace Microarea.TbLoaderGate
                             continue;
                         }
 
-                        if (jObj["cmd"] == null)
+                        var cmd = jObj["cmd"];
+                        if (cmd == null)
                         {
                             //TODO gestione errore
                             Debug.WriteLine("Missing cmd");
                             continue;
                         }
-                        string cmd = jObj["cmd"].ToString();
 
-                        if (cmd == setClientWebSocketName)
+                        if (cmd.Value<string>() == setClientWebSocketName)
                         {
                             JObject jArgs = jObj["args"] as JObject;
                             if (jArgs == null)
@@ -161,24 +166,25 @@ namespace Microarea.TbLoaderGate
                                 continue;
                             }
                             string tbName = jName.ToString();
-
                             TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, false, out bool dummy);
                             if (tb != null)
                             {
                                 couple = GetWebCouple(coupleName);
                                 couple.serverSocket = await tb.OpenWebSocketAsync(coupleName);
 #pragma warning disable 4014 //questo deve essere asincrono, non è necessario aspettarlo, gestisce il traffico del socket tb
-                                ManageSocketTraffic(couple.serverSocket, coupleName);
+                                ManageSocketTraffic(couple.serverSocket, false, coupleName);
 #pragma warning restore 4014
                             }
                             continue;
                         }
-
                         else
                         {
                             //altrimenti cerco il socket della controparte (by name) e gli mando una copia di quanto ricevuto
                             couple = GetWebCouple(coupleName);
+                            if (options.RecordingMode)
+                                RecordRequest(cmd.Value<string>(), jObj);
                         }
+
                         if (couple != null)
                         {
                             WebSocket otherSocket = couple.GetOther(webSocket);
@@ -202,6 +208,32 @@ namespace Microarea.TbLoaderGate
             DisconnectOtherSocket(coupleName, webSocket);
         }
 
+        private void RecordRequest(string msg, JObject jObj)
+        {
+            try
+            {
+                RecordedWSRequest req = new RecordedWSRequest();
+                req.RequestMessage = msg;
+                req.Body = jObj.ToString();
+                string folder = Path.Combine(hostingEnvironment.ContentRootPath, RecordedHttpRequest.RecordingFolder);
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string fileName = msg + ".tbjson";
+                string file = Path.Combine(folder, fileName);
+                using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
+                {
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.Formatting = Formatting.Indented;
+                    JsonSerializer ser = JsonSerializer.Create(settings);
+                    ser.Serialize(new JsonTextWriter(sw), req);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
+        }
         private static void DisconnectOtherSocket(string coupleName, WebSocket webSocket)
         {
             WebSocketCouple couple = GetWebCouple(coupleName);

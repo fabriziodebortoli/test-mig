@@ -159,7 +159,7 @@ namespace Microarea.TbLoaderGate
         {
             try
             {
-                RecordedRequest req = new RecordedRequest();
+                RecordedHttpRequest req = new RecordedHttpRequest();
                 req.Url = url.Substring(relativeUrl.Length);
                 req.Body = Encoding.UTF8.GetString(ms.ToArray());
                 using (MemoryStream contentStream = new MemoryStream())
@@ -167,15 +167,16 @@ namespace Microarea.TbLoaderGate
                     await resp.Content.CopyToAsync(contentStream);
                     req.Response = Encoding.UTF8.GetString(contentStream.ToArray());
                 }
-                string folder = Path.Combine(hostingEnvironment.ContentRootPath, RecordedRequest.RecordingFolder);
+                string folder = Path.Combine(hostingEnvironment.ContentRootPath, RecordedHttpRequest.RecordingFolder);
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
                 string fileName = HttpContext.Request.Path.Value.Replace("/", ".") + "tbjson";
                 string file = Path.Combine(folder, fileName);
                 using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
                 {
-                    JsonSerializer ser = JsonSerializer.Create();
-                    ser.Serialize(new JsonTextWriter(sw), req);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.Formatting = Formatting.Indented;
+                    JsonSerializer ser = JsonSerializer.Create(settings);
                 }
             }
             catch (Exception ex)

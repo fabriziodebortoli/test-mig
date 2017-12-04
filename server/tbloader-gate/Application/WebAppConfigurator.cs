@@ -18,7 +18,7 @@ namespace Microarea.TbLoaderGate.Application
 		{
             TBLoaderConnectionParameters options = new TBLoaderConnectionParameters();
             configuration.GetSection("TBLoaderConnectionParameters").Bind(options);
-            SocketDispatcher dispatcher = new SocketDispatcher(options);
+            SocketDispatcher dispatcher = new SocketDispatcher(env, options);
             app.Use(dispatcher.Listen);
         }
 
