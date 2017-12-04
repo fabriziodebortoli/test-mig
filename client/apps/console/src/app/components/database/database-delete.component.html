@@ -12,12 +12,12 @@
             (inputDataChange)="onDeleteSubscriptionDB($event)"></admin-checkbox>
         </div>
         <div class="mt20 pad10">
-          <admin-checkbox [checkText]="'also ERP database container'" [checkId]="'chkDeleteERPDB'" [(checkValue)]="deleteERPDB" (inputDataChange)="onDeleteERPDB($event)"
-            [readOnly]=isReadOnly></admin-checkbox>
+          <admin-checkbox [checkText]="'also ERP database container'" [checkId]="'chkDeleteERPDB'" [(checkValue)]="deleteParams.DeleteERPDatabase"
+            (inputDataChange)="onDeleteERPDB($event)" [readOnly]=isReadOnly></admin-checkbox>
         </div>
         <div class="mt20 pad10">
-          <admin-checkbox [checkText]="'also DMS database container'" [checkId]="'chkDeleteDMSDB'" [(checkValue)]="deleteDMSDB" (inputDataChange)="onDeleteDMSDB($event)"
-            [readOnly]=isReadOnly></admin-checkbox>
+          <admin-checkbox [checkText]="'also DMS database container'" [checkId]="'chkDeleteDMSDB'" [(checkValue)]="deleteParams.DeleteDMSDatabase"
+            (inputDataChange)="onDeleteDMSDB($event)" [readOnly]=isReadOnly></admin-checkbox>
         </div>
       </div>
     </div>
