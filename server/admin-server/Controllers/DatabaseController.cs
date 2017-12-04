@@ -760,6 +760,12 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
+		/// <summary>
+		/// Delete only objects in ERP database
+		/// </summary>
+		/// <param name="subscriptionKey"></param>
+		/// <param name="subDatabase"></param>
+		/// <returns></returns>
 		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
 		//---------------------------------------------------------------------
 		public IActionResult ApiDeleteDatabaseObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
@@ -787,9 +793,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// I use master database to load all dbs
 			bool isAzureDB = (subDatabase.Provider == "SQLAzure");
-
 			string connectionString =
 				string.Format
 				(
@@ -803,6 +807,57 @@ namespace Microarea.AdminServer.Controllers
 			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
 			opRes.Result = dTask.DeleteDatabaseObjects();
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		/// <summary>
+		/// Delete the SubscriptionDatabase and, eventually, the database containers
+		/// </summary>
+		/// <param name="subscriptionKey"></param>
+		/// <param name="deleteContent"></param>
+		/// <returns></returns>
+		[HttpPost("/api/database/delete/{subscriptionKey}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiDeleteDatabase(string subscriptionKey, [FromBody]DeleteDatabaseBodyContent deleteContent)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (deleteContent == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+			
+			// se ho scelto di eliminare almeno uno dei contenitori dei database richiamo l'apposito metodo
+			/*if (deleteContent.DeleteParameters.DeleteDMSDatabase || deleteContent.DeleteParameters.DeleteERPDatabase)
+				opRes = APIDatabaseHelper.DeleteDatabase(deleteContent);
+			
+			if (!opRes.Result)
+			{
+				opRes.Message = Strings.OperationKO;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}*/
+
+			// Elimino cmq la riga nella tabella MP_SubscriptionDatabases!!!!
+			opRes = APIDatabaseHelper.DeleteSubscriptionDatabase(deleteContent.Database, burgerData);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
