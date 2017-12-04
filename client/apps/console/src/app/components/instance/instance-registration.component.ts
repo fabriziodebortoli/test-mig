@@ -37,6 +37,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   openToggle: boolean;
   credentials: Credentials;
   credentialsEnteredFirstTime: boolean;
+  obtainingPermission: boolean;
 
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -55,6 +56,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
     ];
     this.openToggle = false;
     this.credentialsEnteredFirstTime = false;
+    this.obtainingPermission = false;
     this.credentials = new Credentials();
   }
 
@@ -114,17 +116,19 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
     }
 
     this.busy = true;
+    this.obtainingPermission = true;
 
     this.modelService.getPermissionToken(this.credentials, "newinstance").subscribe(
       res => {
         this.activationCode = res['Content'];
         this.currentStep++;
         this.busy = false;
+        this.obtainingPermission = false;
       },
       err => {
-        alert('Cannot get a permission :(');
         this.activationCode = '';
         this.busy = false;
+        this.obtainingPermission = false;
       }
     )
 
@@ -133,7 +137,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   //--------------------------------------------------------------------------------
   submitInstance() {
 
-    if (this.model.InstanceKey == '') {
+    if (this.model.InstanceKey === undefined || this.model.InstanceKey === '') {
       alert('To proceed, an Instance key is required.');
       return;
     }
