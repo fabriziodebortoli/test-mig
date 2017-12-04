@@ -11,17 +11,15 @@
 <div class="container">
   <h2 class="componentTitle">New Instance Registration</h2>
 
-  <div *ngIf="activationCode === ''" class="row center-xs end-sm end-lg">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div>
-        <admin-input-text [inputLabel]="'Account'" [textType]="'text'" [(inputData)]="accountName"></admin-input-text>
-      </div>
-      <div>
-        <admin-input-text [inputLabel]="'Password'" [textType]="'password'" [(inputData)]="password"></admin-input-text>
-      </div>
-      <div class="mt20">
-        <admin-button [buttonText]="'Get Permission'" (click)="getPermission()" [primary]="true"></admin-button>
-      </div>
+  <div *ngIf="activationCode === '' && credentialsEnteredFirstTime === true" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div>
+      <app-action-panel 
+        [iconSignature]="'warning'" 
+        [message]="'Provided credentials are not valid.'"
+        [actionText]="'Enter Credentials'"
+        [showButton]=true
+        (actionFired)="openCredentialsDialog()">
+      </app-action-panel>
     </div>
   </div>
 

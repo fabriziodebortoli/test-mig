@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { retry } from 'rxjs/operator/retry';
 import { transition } from '@angular/core/src/animation/dsl';
 import { COMPONENT_VARIABLE } from '@angular/platform-browser/src/dom/dom_renderer';
+import { fail } from 'assert';
 
 @Component({
   selector: 'app-instance',
@@ -35,12 +36,13 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   fields: Array<{label:string, value:string, hide: boolean}>;
   openToggle: boolean;
   credentials: Credentials;
+  credentialsEnteredFirstTime: boolean;
 
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
     this.activationCode = '';
-    this.currentStep = 1;
+    this.currentStep = 0;
     this.securityValue = '';
     this.accountName = '';
     this.password = '';
@@ -52,6 +54,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       { label: 'password', value:'', hide: true}
     ];
     this.openToggle = false;
+    this.credentialsEnteredFirstTime = false;
     this.credentials = new Credentials();
   }
 
@@ -62,9 +65,23 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
 
   //--------------------------------------------------------------------------------
   onCloseCredentialsDialog() {
+
     this.credentials = this.getCredentials(this.fields);
     this.accountName = this.credentials.accountName;
-    this.password = this.credentials.password;    
+    this.password = this.credentials.password;
+    this.openToggle = false;
+    this.credentialsEnteredFirstTime = true;
+
+    if (this.credentials.accountName === '' || this.credentials.password === '') {
+      return;
+    }
+
+    this.getPermission();
+  }
+
+  //--------------------------------------------------------------------------------
+  openCredentialsDialog() {
+    this.openToggle = true;
   }
 
   //--------------------------------------------------------------------------------
@@ -93,7 +110,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   getPermission() {
 
     if (this.credentials.accountName === '' || this.credentials.password === '') {
-      alert('Invalid credentials.');
+      return;
     }
 
     this.busy = true;
@@ -101,6 +118,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
     this.modelService.getPermissionToken(this.credentials, "newinstance").subscribe(
       res => {
         this.activationCode = res['Content'];
+        this.currentStep++;
         this.busy = false;
       },
       err => {
