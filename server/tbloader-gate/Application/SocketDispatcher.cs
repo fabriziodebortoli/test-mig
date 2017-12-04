@@ -42,13 +42,10 @@ namespace Microarea.TbLoaderGate
     }
     public class SocketDispatcher
     {
-        string tbLoaderServer = string.Empty;
-        int tbLoaderPort = -1;
-        public SocketDispatcher(IConfiguration configuration)
+        TBLoaderConnectionParameters options;
+        public SocketDispatcher(TBLoaderConnectionParameters options)
         {
-            tbLoaderServer = configuration.GetSection("TBLoaderConnectionParameters:tbLoaderServer").Value;
-            string httpPortString = configuration.GetSection("TBLoaderConnectionParameters:tbLoaderPort").Value;
-            tbLoaderPort = int.Parse(httpPortString);
+            this.options = options;
         }
 
         public async Task Listen(HttpContext http, Func<Task> next)
@@ -165,7 +162,7 @@ namespace Microarea.TbLoaderGate
                             }
                             string tbName = jName.ToString();
 
-                            TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbLoaderServer, tbLoaderPort, tbName, false, out bool dummy);
+                            TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, false, out bool dummy);
                             if (tb != null)
                             {
                                 couple = GetWebCouple(coupleName);

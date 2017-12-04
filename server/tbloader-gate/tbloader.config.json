@@ -1,6 +1,7 @@
 {
-	"TBLoaderConnectionParameters": {
-		"tbLoaderServer": "localhost",
-		"tbLoaderPort": 11000
-	}
+  "TBLoaderConnectionParameters": {
+    "TbLoaderServiceHost": "localhost",
+    "TbLoaderServicePort": 11000,
+    "RecordingMode":  false
+  }
 }

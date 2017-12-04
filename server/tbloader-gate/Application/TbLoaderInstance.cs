@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
@@ -38,6 +36,7 @@ namespace Microarea.TbLoaderGate
             processId = response.ProcessId;
         }
 
+       
         //-----------------------------------------------------------------------------------------
         internal async Task<WebSocket> OpenWebSocketAsync(string name)
         {

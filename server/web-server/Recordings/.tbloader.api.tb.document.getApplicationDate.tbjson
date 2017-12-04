@@ -1,0 +1,1 @@
+﻿{"Url":"nt/getApplicationDate/","Body":"{\n  \"authtoken\": \"df15b9a9-ec5f-49b6-8c57-10f8633c4642\"\n}","Response":"{\n   \"dateInfo\" : {\n      \"applicationDate\" : \"2017-12-04T00:00:00\",\n      \"culture\" : \"it-IT\",\n      \"formatDate\" : \"MM/dd/yyyy\"\n   }\n}\n"}

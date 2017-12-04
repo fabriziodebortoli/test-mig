@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Net.Http.Headers;
 using Microsoft.Extensions.Primitives;
+using Microarea.TbLoaderGate.Application;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Microarea.TbLoaderGate
 {
@@ -24,13 +24,14 @@ namespace Microarea.TbLoaderGate
 	}
 	public class TBLoaderController : Controller
 	{
-		string tbLoaderServer = "";
-		int tbLoaderPort = -1;
-		public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters)
+        private readonly IHostingEnvironment hostingEnvironment;
+        TBLoaderConnectionParameters options;
+
+        public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters, IHostingEnvironment hostingEnvironment)
 		{
-			tbLoaderServer = parameters.Value.tbLoaderServer;
-			tbLoaderPort = parameters.Value.tbLoaderPort;
-		}
+            options = parameters.Value;
+            this.hostingEnvironment = hostingEnvironment;
+        }
 		const string TbLoaderName = "tbLoaderName";
 		static readonly int leftTrimCount = "/tbloader/api".Length;
 		[Route("/controller")]
@@ -66,7 +67,7 @@ namespace Microarea.TbLoaderGate
 				}
 
 				bool newInstance;
-				TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbLoaderServer, tbLoaderPort, tbName, createTB, out newInstance);
+				TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, createTB, out newInstance);
 				if (tb == null)
 				{
 					TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
@@ -76,68 +77,24 @@ namespace Microarea.TbLoaderGate
 					await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
 				}
 				else
-				{
-					tbName = tb.name;
-					if (jObject == null)
-						jObject = new JObject();
+                {
+                    tbName = tb.name;
+                    if (jObject == null)
+                        jObject = new JObject();
 
-					jObject[TbLoaderName] = tbName;
+                    jObject[TbLoaderName] = tbName;
+                    string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
 
-					using (var client = new HttpClient())
-					{
-						string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
+                    HttpResponseMessage resp = await SendRequest(url, url.Substring(tb.BaseUrl.Length));
 
-						HttpRequestMessage msg = new HttpRequestMessage();
-						msg.Method = ParseMethod(HttpContext.Request.Method);
-						msg.RequestUri = new Uri(url);
+                    HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
+                    HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
 
-						MemoryStream ms = new MemoryStream();
-						HttpContext.Request.Body.CopyTo(ms);
-						ms.Seek(0, SeekOrigin.Begin);
-						msg.Content = new StreamContent(ms);
+                    HttpContext.Response.StatusCode = (int)resp.StatusCode;
 
-						//copy request headers
-						foreach (KeyValuePair<string, StringValues> header in HttpContext.Request.Headers)
-						{
-
-							try
-							{
-								if (IsValidHeader(header.Key))
-								{
-									if (IsContentHeader(header.Key))
-									{
-										msg.Content.Headers.Add(header.Key, header.Value.ToArray());
-									}
-									else
-									{
-										msg.Headers.Add(header.Key, header.Value.ToArray());
-									}
-								}
-							}
-							catch (Exception e)
-							{
-								Debug.WriteLine("Invalid header: " + header.Key + " message: " + e.Message);
-							}
-						}
-
-						HttpResponseMessage resp = await client.SendAsync(msg);
-
-						//copy back response headers
-						foreach (var h in resp.Headers)
-						{
-							foreach (var sv in h.Value)
-								HttpContext.Response.Headers[h.Key] = sv;
-						}
-
-						HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
-						HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
-
-						HttpContext.Response.StatusCode = (int)resp.StatusCode;
-
-						await resp.Content.CopyToAsync(HttpContext.Response.Body);
-					}
-				}
-			}
+                    await resp.Content.CopyToAsync(HttpContext.Response.Body);
+                }
+            }
 			catch (Exception ex)
 			{
 				//todo mandare risposta al client 
@@ -146,30 +103,116 @@ namespace Microarea.TbLoaderGate
 			}
 		}
 
-		private bool IsContentHeader(string key)
-		{
-			return key == "Content-Type";
-		}
+        public async Task<HttpResponseMessage> SendRequest(string url, string relativeUrl)
+        {
+            using (var client = new HttpClient())
+            {
+                HttpRequestMessage msg = new HttpRequestMessage();
+                msg.Method = ParseMethod(HttpContext.Request.Method);
+                msg.RequestUri = new Uri(url);
 
-		private bool IsValidHeader(string key)
-		{
-			//Authorization andrà criptato, e allora potrà essere tolto da qui
-			//Content-Length non lo metto nella richiesta replicata, viene ricalcolarto dalll'http client
-			return key != "Authorization" && key != "Content-Length";
-		}
-		private HttpMethod ParseMethod(string method)
-		{
-			switch (method)
-			{
-				case "POST": return HttpMethod.Post;
-				case "GET": return HttpMethod.Get;
-				case "DELETE": return HttpMethod.Delete;
-				case "HEAD": return HttpMethod.Head;
-				case "OPTIONS": return HttpMethod.Options;
-				case "PUT": return HttpMethod.Put;
-				case "TRACE": return HttpMethod.Trace;
-				default: return HttpMethod.Post;
-			}
-		}
-	}
+                MemoryStream ms = new MemoryStream();
+                HttpContext.Request.Body.CopyTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                msg.Content = new StreamContent(ms);
+
+                //copy request headers
+                foreach (KeyValuePair<string, StringValues> header in HttpContext.Request.Headers)
+                {
+                    try
+                    {
+                        if (IsValidHeader(header.Key))
+                        {
+                            if (IsContentHeader(header.Key))
+                            {
+                                msg.Content.Headers.Add(header.Key, header.Value.ToArray());
+                            }
+                            else
+                            {
+                                msg.Headers.Add(header.Key, header.Value.ToArray());
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("Invalid header: " + header.Key + " message: " + e.Message);
+                    }
+                }
+
+                HttpResponseMessage resp = await client.SendAsync(msg);
+
+                //copy back response headers
+                foreach (var h in resp.Headers)
+                {
+                    foreach (var sv in h.Value)
+                        HttpContext.Request.Headers[h.Key] = sv;
+                }
+                if (options.RecordingMode)
+                    RecordRequest(url, relativeUrl, ms, resp);
+
+                return resp;
+            }
+        }
+
+
+        private async void RecordRequest(string url, string relativeUrl, MemoryStream ms, HttpResponseMessage resp)
+        {
+            try
+            {
+                RecordedRequest req = new RecordedRequest();
+                req.Url = url.Substring(relativeUrl.Length);
+                req.Body = Encoding.UTF8.GetString(ms.ToArray());
+                using (MemoryStream contentStream = new MemoryStream())
+                {
+                    await resp.Content.CopyToAsync(contentStream);
+                    req.Response = Encoding.UTF8.GetString(contentStream.ToArray());
+                }
+                string folder = Path.Combine(hostingEnvironment.ContentRootPath, RecordedRequest.RecordingFolder);
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string fileName = HttpContext.Request.Path.Value.Replace("/", ".") + "tbjson";
+                string file = Path.Combine(folder, fileName);
+                using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
+                {
+                    JsonSerializer ser = JsonSerializer.Create();
+                    ser.Serialize(new JsonTextWriter(sw), req);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
+        }
+
+
+        private HttpMethod ParseMethod(string method)
+        {
+            switch (method)
+            {
+                case "POST": return HttpMethod.Post;
+                case "GET": return HttpMethod.Get;
+                case "DELETE": return HttpMethod.Delete;
+                case "HEAD": return HttpMethod.Head;
+                case "OPTIONS": return HttpMethod.Options;
+                case "PUT": return HttpMethod.Put;
+                case "TRACE": return HttpMethod.Trace;
+                default: return HttpMethod.Post;
+            }
+        }
+
+
+        private bool IsContentHeader(string key)
+        {
+            return key == "Content-Type";
+        }
+
+        private bool IsValidHeader(string key)
+        {
+            //Authorization andrà criptato, e allora potrà essere tolto da qui
+            //Content-Length non lo metto nella richiesta replicata, viene ricalcolarto dalll'http client
+            return key != "Authorization" && key != "Content-Length";
+        }
+
+    }
 }

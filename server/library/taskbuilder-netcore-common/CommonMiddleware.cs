@@ -16,6 +16,7 @@ using System.IO;
 using TaskBuilderNetCore.Interfaces;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microarea.Common
 {
@@ -60,6 +61,10 @@ namespace Microarea.Common
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IConfiguration configuration)
         {
             app.UseMiddleware<CommonMiddleware>();
+        }
+
+        public void ConfigureServices(IConfiguration configuration, IServiceCollection services)
+        {
         }
 
         public void MapRoutes(IRouteBuilder routes)

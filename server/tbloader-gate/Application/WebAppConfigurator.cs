@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microarea.TbLoaderGate.Application
 {
@@ -15,11 +16,19 @@ namespace Microarea.TbLoaderGate.Application
 	{
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IConfiguration configuration)
 		{
-            SocketDispatcher dispatcher = new SocketDispatcher(configuration);
+            TBLoaderConnectionParameters options = new TBLoaderConnectionParameters();
+            configuration.GetSection("TBLoaderConnectionParameters").Bind(options);
+            SocketDispatcher dispatcher = new SocketDispatcher(options);
             app.Use(dispatcher.Listen);
-		}
+        }
 
-		public void MapRoutes(IRouteBuilder routes)
+
+        public void ConfigureServices(IConfiguration configuration, IServiceCollection services)
+        {
+            services.Configure<TBLoaderConnectionParameters>(options => configuration.GetSection("TBLoaderConnectionParameters").Bind(options));
+        }
+
+        public void MapRoutes(IRouteBuilder routes)
 		{
 		}
     }
