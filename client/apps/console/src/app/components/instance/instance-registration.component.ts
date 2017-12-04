@@ -38,6 +38,13 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   credentials: Credentials;
   credentialsEnteredFirstTime: boolean;
   obtainingPermission: boolean;
+  processEndedWithErrors: boolean;
+
+  // alert dialog
+
+  dlgMessageTitle: string;
+  dlgMessageText: string;
+  openDlgMessageToggle: boolean;
 
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -58,6 +65,10 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
     this.credentialsEnteredFirstTime = false;
     this.obtainingPermission = false;
     this.credentials = new Credentials();
+    this.processEndedWithErrors = false;
+    this.dlgMessageTitle = '';
+    this.dlgMessageTitle = '';
+    this.openDlgMessageToggle = false;
   }
 
   //--------------------------------------------------------------------------------
@@ -82,8 +93,20 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   }
 
   //--------------------------------------------------------------------------------
+  onCloseMessageDialog() {
+    this.openDlgMessageToggle = false;
+  }
+
+  //--------------------------------------------------------------------------------
   openCredentialsDialog() {
     this.openToggle = true;
+  }
+
+  //--------------------------------------------------------------------------------
+  showDialogMessage(title: string, message: string) {
+    this.dlgMessageTitle = title;
+    this.dlgMessageText = message;
+    this.openDlgMessageToggle = true;
   }
 
   //--------------------------------------------------------------------------------
@@ -138,7 +161,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   submitInstance() {
 
     if (this.model.InstanceKey === undefined || this.model.InstanceKey === '') {
-      alert('To proceed, an Instance key is required.');
+      this.showDialogMessage('Invalid input', 'To proceed, an Instance key is required.')
       return;
     }
 
@@ -148,6 +171,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       res => {
 
         if (!res.Result) {
+          // show dialog
           alert(res.Message);
           this.busy = false;
           return;
@@ -171,6 +195,12 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
             this.clusterStep = 2;
             this.busy = false;
 
+            let saveClusterResult: boolean = res['Result'];
+
+            if (!saveClusterResult) {
+              
+            }
+
             this.modelService.setData({}, true, this.activationCode, this.model.InstanceKey, this.accountName).retry(3).subscribe(
               res => {
                 this.clusterStep = 3;
@@ -189,7 +219,6 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
             this.busy = false;
           }
         )        
-
 
       },
       err => {
