@@ -28,3 +28,24 @@ export class ImportDataParameters {
   DeleteTableContext: boolean = false;
 }
 // #endregion
+
+// #region Classi per passaggio parametri al back-end per la cancellazione dei database
+/// Si compone di:
+/// - oggetto SubscriptionDatabase da eliminare
+/// - credenziali di amministrazione di SQL Azure (solo per questo tipo di provider e se voglio eliminare almeno un database)
+/// - parametri aggiuntivi relativi all'eliminazione dei contenitori
+//============================================================================
+export class DeleteDatabaseBodyContent
+{
+  Database: SubscriptionDatabase;
+  AdminCredentials: DatabaseCredentials;
+  DeleteParameters: DeleteDatabaseParameters;
+}
+
+//============================================================================
+export class DeleteDatabaseParameters
+{
+  DeleteERPDatabase: boolean = false;
+  DeleteDMSDatabase: boolean = false;
+}
+// #endregion
