@@ -1,3 +1,5 @@
+<!-- begin credentials dialog -->
+
 <admin-dialog 
   [mode]="'fields'"
   [title]="'Permission required'" 
@@ -7,6 +9,8 @@
   [(result)]=result
   (onClose)=onCloseCredentialsDialog()>
 </admin-dialog>
+
+<!-- end credentials dialog -->
 
 <div class="container">
   <h2 class="componentTitle">New Instance Registration</h2>
@@ -20,6 +24,9 @@
         [showButton]=true
         (actionFired)="openCredentialsDialog()">
       </app-action-panel>
+    </div>
+    <div *ngIf="obtainingPermission">
+      <h3 class="stayLine">Obtaining permission..</h3><img class="stayLine" *ngIf="busy" src="assets/ajax-loader.gif" />
     </div>
   </div>
 
