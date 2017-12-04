@@ -1,1 +1,0 @@
-﻿{"Url":"/getAllAppsAndModules/","Body":"{\n  \"user\": \"sa\"\n}","Response":"{\"allApplications\":[{\"application\":\"NewApplication1\",\"module\":\"NewModule1\"}],\"DeveloperEd\":true}"}
