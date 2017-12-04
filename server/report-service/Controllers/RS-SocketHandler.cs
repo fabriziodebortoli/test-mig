@@ -84,7 +84,7 @@ namespace Microarea.RSWeb.Models
             }
         }
 
-        public static async Task SendMessage(WebSocket webSocket, MessageBuilder.CommandType type, string body)
+        public static async void SendMessage(WebSocket webSocket, MessageBuilder.CommandType type, string body)
         {
             Message msg = new Message();
             msg.commandType = type;

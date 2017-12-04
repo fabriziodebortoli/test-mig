@@ -7,6 +7,7 @@
     <AssemblyName>tbloader-gate</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>tbloader-gate</PackageId>
+    <RootNamespace>Microarea.TbLoaderGate</RootNamespace>
      
   </PropertyGroup>
 

@@ -9,10 +9,12 @@ using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer.Model
 {
-    //================================================================================
-    public class Account : IAccount, IModelObject
-    {       
-        internal static int maxPasswordError = 5;
+	//================================================================================
+	public class Account : IAccount, IModelObject
+    {
+		const int MAX_PASSWORD_ERROR = 5;
+		const int EXPIRY_DAYS = 3;
+
         // model attributes
         string accountName;
         string fullName = string.Empty;
@@ -31,7 +33,8 @@ namespace Microarea.AdminServer.Model
 		string regionalSettings = string.Empty;
         string language = string.Empty;
         bool isWindowsAuthentication = false;
-        DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
+		// todo per ora scadenza 3 giorni per esempio
+		DateTime expirationDate = DateTime.Now.AddDays(EXPIRY_DAYS);
 		string parentAccount = string.Empty;
 		bool confirmed = false;
         int ticks = TicksHelper.GetTicks();
@@ -61,12 +64,12 @@ namespace Microarea.AdminServer.Model
 		public bool Confirmed { get { return this.confirmed; } set { this.confirmed = value; } }
         public string VATNr { get => vATNr; set => vATNr = value; }
 
-        //---------------------------------------------------------------------
-        public Account()
+		//--------------------------------------------------------------------------------
+		public Account()
         { }
 
-        //---------------------------------------------------------------------
-        internal static Account GetAccountByName(BurgerData burgerData, string accountName)
+		//--------------------------------------------------------------------------------
+		internal static Account GetAccountByName(BurgerData burgerData, string accountName)
         {
             try
             {
@@ -79,17 +82,17 @@ namespace Microarea.AdminServer.Model
 
         }
 
-        //--------------------------------------------------------------------------------
-        public IModelObject Fetch(IDataReader dataReader)
+		//--------------------------------------------------------------------------------
+		public IModelObject Fetch(IDataReader dataReader)
         {
             Account account = new Account();
             account.AccountName = dataReader["AccountName"] as string;
             account.FullName = dataReader["FullName"] as string;
             account.Notes = dataReader["Notes"] as string;
-            VATNr = dataReader["VATNr"] as string;
+            account.vATNr = dataReader["VATNr"] as string ?? String.Empty;
             account.Email = dataReader["Email"] as string;
             account.Password = dataReader["Password"] as string;
-			account.Salt = dataReader["Salt"] as byte[];
+			account.Salt = dataReader["Salt"] as byte[] ?? new byte[] { };
 			account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
             account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
             account.MustChangePassword = (bool)dataReader["MustChangePassword"];
@@ -106,9 +109,9 @@ namespace Microarea.AdminServer.Model
             account.ParentAccount = dataReader["ParentAccount"] as string;
             account.Confirmed = (bool)dataReader["Confirmed"];
             return account;
-        }
+		}
 
-        //---------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
         public OperationResult Save(BurgerData burgerData)
         {
             OperationResult opRes = new OperationResult();
@@ -117,12 +120,6 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.AccountName));
             burgerDataParameters.Add(new BurgerDataParameter("@FullName", this.FullName));
             burgerDataParameters.Add(new BurgerDataParameter("@Password", this.Password));
-
-			if (this.Salt == null)
-			{
-				this.Salt = new byte[] { };
-			}
-
 			burgerDataParameters.Add(new BurgerDataParameter("@Salt", this.Salt));
 			burgerDataParameters.Add(new BurgerDataParameter("@Notes", this.Notes));
             burgerDataParameters.Add(new BurgerDataParameter("@VATNr", this.VATNr));
@@ -154,16 +151,16 @@ namespace Microarea.AdminServer.Model
         public string GetKey()
         {
             return String.Concat(" ( Account = '", this.accountName, "' ) ");
-        }
+		}
 
-        //---------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
         public Account(string accountName)
         {
             this.accountName = accountName;
         }
 
-        //---------------------------------------------------------------------
-        public bool CheckPassword(string password)
+		//--------------------------------------------------------------------------------
+		public bool CheckPassword(string password)
         {
             // calculating password hash
             Byte[] salt = Salt;
@@ -177,8 +174,8 @@ namespace Microarea.AdminServer.Model
 
         }
 
-        //---------------------------------------------------------------------
-        public void ResetPassword(string pwd)
+		//--------------------------------------------------------------------------------
+		public void ResetPassword(string pwd)
 		{
             Password = pwd;
             ResetPasswordExpirationDate();
@@ -186,36 +183,36 @@ namespace Microarea.AdminServer.Model
             ClearWrongPwdLoginCount();
         }
 
-        //---------------------------------------------------------------------
-        public bool IsPasswordExpirated()
+		//--------------------------------------------------------------------------------
+		public bool IsPasswordExpirated()
 		{
             // La data è inferiore ad adesso, ma comunque non è il min value che è il default
             return passwordExpirationDate < DateTime.Now &&
                 passwordExpirationDate > BurgerData.MinDateTimeValue;
         }
 
-        //---------------------------------------------------------------------
-        public void ResetPasswordExpirationDate()
+		//--------------------------------------------------------------------------------
+		public void ResetPasswordExpirationDate()
         {
             passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
         }
 
-        //----------------------------------------------------------------------
-        public void AddWrongPwdLoginCount()
+		//--------------------------------------------------------------------------------
+		public void AddWrongPwdLoginCount()
         {
-            Locked = (++LoginFailedCount >= maxPasswordError);
+            Locked = (++LoginFailedCount >= MAX_PASSWORD_ERROR);
         }
 
-        //----------------------------------------------------------------------
-        public void ClearWrongPwdLoginCount()
+		//--------------------------------------------------------------------------------
+		public void ClearWrongPwdLoginCount()
         {
             Locked = false;
             LoginFailedCount = 0;
 
         }
 
-        //----------------------------------------------------------------------
-        public LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata)
+		//--------------------------------------------------------------------------------
+		public LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata)
         {
             if (ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -251,8 +248,8 @@ namespace Microarea.AdminServer.Model
             return LoginReturnCodes.NoError;
         }
 
-        //----------------------------------------------------------------------
-        internal LoginReturnCodes ChangePassword(ChangePasswordInfo passwordInfo, BurgerData burgerdata)
+		//--------------------------------------------------------------------------------
+		internal LoginReturnCodes ChangePassword(ChangePasswordInfo passwordInfo, BurgerData burgerdata)
         {
             if (ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -282,7 +279,7 @@ namespace Microarea.AdminServer.Model
             return LoginReturnCodes.NoError;
         }
 
-		//----------------------------------------------------------------------
+		//--------------------------------------------------------------------------------
 		public OperationResult Delete(BurgerData burgerData)
 		{
 			OperationResult opRes = new OperationResult();

@@ -194,7 +194,7 @@ export class ModelService {
 
     let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl;
 
-    return this.http.post(baseUrl + 'setdata/instances/' + accountName + '/' + rowId + '/activated' + '/1', {}, options)
+    return this.http.post(baseUrl + 'setdata/instances/' + rowId + '/activated' + '/1', {}, options)
       .map((res: Response) => {
         return res.json();
       })

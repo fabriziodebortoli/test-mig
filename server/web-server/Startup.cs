@@ -103,7 +103,9 @@ namespace WebApplication
                 options.Cookie.HttpOnly = true;
             });
 
-            services.Configure<TBLoaderConnectionParameters>(options => Configuration.GetSection("TBLoaderConnectionParameters").Bind(options));
+            
+            foreach (var configurator in configurators)
+                configurator.ConfigureServices(Configuration, services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

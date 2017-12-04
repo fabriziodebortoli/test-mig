@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microarea.Common
 {
@@ -13,6 +14,6 @@ namespace Microarea.Common
     {
 		void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IConfiguration configuration);
 		void MapRoutes(IRouteBuilder routes);
-
+        void ConfigureServices(IConfiguration configuration, IServiceCollection services);
     }
 }
