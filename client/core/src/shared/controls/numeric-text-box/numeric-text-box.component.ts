@@ -27,20 +27,20 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   showError = '';
   public selectedValue: number;
 
-  public formatOptionsCurrency: any = {
-    style: 'currency',
-    currency: 'EUR'/*,
-    currencyDisplay: 'name'*/
-  };
-  public formatOptionsInteger: any = {
-    style: 'decimal'
-  };
+  // public formatOptionsCurrency: any = {
+  //   style: 'currency',
+  //   currency: 'EUR'/*,
+  //   currencyDisplay: 'name'*/
+  // };
+  // public formatOptionsInteger: any = {
+  //   style: 'decimal'
+  // };
 
-  public formatOptionsDouble = 'F';
+  // public formatOptionsDouble = 'F';
 
-  public formatOptionsPercent: any = {
-    style: 'percent'
-  };
+  // public formatOptionsPercent: any = {
+  //   style: 'percent'
+  // };
 
   constructor(
     public eventData: EventDataService,
@@ -64,28 +64,38 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
     if (this.formatterDecimals > 0) {
       this.decimals = this.formatterDecimals;
     } else {
-      if (this.formatter && this.formatter.refDecNumber) {
-        this.decimals = +this.formatter.refDecNumber;
+      switch (this.format) {
+        case 'FiscalYear':
+          this.decimals = 0;
+        default:
+          if (this.formatter && this.formatter.refDecNumber) {
+            this.decimals = +this.formatter.refDecNumber;
+          }
       }
     }
     return this.decimals;
   }
 
+  getMinValue(): any {
+    switch (this.format) {
+      case 'PositiveMoney':
+      case 'PositiveRoundedMoney':
+      case 'Fixing':
+      case 'MoneyWithoutDecimal':
+        return 0;
+
+      default:
+        return null;
+    }
+  }
+
   getFormatOptions(): any {
-    return 'n' + this.getDecimals().toString();
-    // switch (this.formatterCode) {
-    //   case 'Integer':
-    //   case 'Long':
-    //     return this.formatOptionsInteger;
-
-    //   case 'Double':
-    //   case 'Money':
-    //     return 'n' + this.decimals.toString();
-
-    //   case 'Percent':
-    //     return this.formatOptionsPercent;
-    //   default: break;
-    // }
+    switch (this.format) {
+      case 'Percent':
+        return 'p';
+      default:
+        return 'n' + this.getDecimals().toString();
+    }
   }
 
   public onChange(val: any) {
