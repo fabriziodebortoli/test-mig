@@ -450,13 +450,13 @@ namespace Microarea.AdminServer.Controllers
             try
             {
                 Task<string> responseData = await gc.CheckRecoveryCode(accountName, recoveryCode);
-                // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
-                {                    
-					//imposto il flag pending per capire quanto tempo passa fuori copertura
-                    //if (!VerifyPendingFlag(instanceKey))
-                        return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                }
+                    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+
+                OperationResult opres = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
+                if (!opres.Result)
+                    return SetErrorResponse(bootstrapTokenContainer, (int)opres.Code, Strings.GwamDislikes + opres.Message);
+
             }
             catch { }
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
@@ -487,15 +487,12 @@ namespace Microarea.AdminServer.Controllers
 
             if (account != null)
             {
-                if (account.Disabled || account.Locked)
+                LoginReturnCodes code = account.IsValidUser();
+                if (code != LoginReturnCodes.NoError)
                 {
 					opRes.Result = false;
-					opRes.Code = 0;
-					opRes.Message = String.Format(
-						"Account is {0} {1}",
-						account.Disabled ? "disabled" : String.Empty,
-						account.Locked ? "locked" : String.Empty);
-
+					opRes.Code = (int)code;
+                    opRes.Message = Strings.InvalidUser  +": " + code.ToString();//todo valutare se  avere metodo che traduce codice in stringa( codice esistente altrove)
 					return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 				}
 
@@ -534,25 +531,11 @@ namespace Microarea.AdminServer.Controllers
             // account doesn'exist in Admin BackEnd, so we ask the instances list to GWAM
             gc = new GwamCaller(_httpHelper, GWAMUrl, null);
             Task<string> responseData = await gc.GetInstancesListFromGWAM(accountName);
+            OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-			// GWAM call could not end correctly: so we check the object
-			if (responseData.Status == TaskStatus.Faulted)
+            if (responseData.Status == TaskStatus.Faulted || !opGWAMRes.Result)
 			{
-				opRes.Result = false;
-				opRes.Code = (int)AppReturnCodes.GWAMCommunicationError;
-				opRes.Message = Strings.GWAMCommunicationError;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
-
-			if (!opGWAMRes.Result)
-			{
-				opRes.Result = false;
-				opRes.Code = (int)AppReturnCodes.InvalidData;
-				opRes.Message = Strings.InvalidAccountName;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				_jsonHelper.AddPlainObject<OperationResult>(opGWAMRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
