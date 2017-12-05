@@ -155,29 +155,30 @@ namespace Microarea.TbLoaderGate
         }
 
 
-        private async void RecordRequest(string url, string relativeUrl, MemoryStream ms, HttpResponseMessage resp)
+        private void RecordRequest(string url, string relativeUrl, MemoryStream ms, HttpResponseMessage resp)
         {
             try
             {
-                RecordedHttpRequest req = new RecordedHttpRequest();
-                req.Url = url.Substring(relativeUrl.Length);
-                req.Body = Encoding.UTF8.GetString(ms.ToArray());
-                using (MemoryStream contentStream = new MemoryStream())
-                {
-                    await resp.Content.CopyToAsync(contentStream);
-                    req.Response = Encoding.UTF8.GetString(contentStream.ToArray());
-                }
-                string folder = Path.Combine(hostingEnvironment.ContentRootPath, RecordedHttpRequest.RecordingFolder);
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-                string fileName = HttpContext.Request.Path.Value.Replace("/", ".") + "tbjson";
-                string file = Path.Combine(folder, fileName);
-                using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
-                {
-                    JsonSerializerSettings settings = new JsonSerializerSettings();
-                    settings.Formatting = Formatting.Indented;
-                    JsonSerializer ser = JsonSerializer.Create(settings);
-                }
+				lock (this)
+				{
+					RecordedHttpRequest req = new RecordedHttpRequest();
+					req.Url = url.Substring(relativeUrl.Length);
+					req.Body = Encoding.UTF8.GetString(ms.ToArray());
+					using (MemoryStream contentStream = new MemoryStream())
+					{
+						resp.Content.CopyToAsync(contentStream).Wait();
+						req.Response = Encoding.UTF8.GetString(contentStream.ToArray());
+					}
+					//copy back response headers
+					foreach (var h in resp.Headers)
+					{
+						foreach (var sv in h.Value)
+							HttpContext.Request.Headers[h.Key] = sv;
+					}
+					
+					string fileName = HttpContext.Request.Path.Value.Replace("/", ".") + "tbjson";
+					req.Save(hostingEnvironment, fileName);
+				}
             }
             catch (Exception ex)
             {
