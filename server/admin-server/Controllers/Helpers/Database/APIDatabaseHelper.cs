@@ -635,20 +635,12 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 		{
 			OperationResult opRes = new OperationResult();
 
+			// qualcuno deve aver testato la connessione del db admin per Azure
+
 			bool isAzureDB = (deleteContent.Database.Provider == "SQLAzure");
 
-			string connectionString =
-				string.Format
-				(
-				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-				deleteContent.Database.DBServer,
-				deleteContent.Database.DBName,
-				deleteContent.Database.DBOwner,
-				deleteContent.Database.DBPassword
-				);
-
-			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
-			opRes.Result = dTask.DeleteDatabaseObjects();
+			DatabaseTask dTask = new DatabaseTask(isAzureDB);
+			opRes.Result = dTask.DeleteDatabase(deleteContent);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 			return opRes;
 		}

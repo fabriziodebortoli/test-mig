@@ -813,7 +813,7 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		/// <summary>
-		/// Delete the SubscriptionDatabase and, eventually, the database containers
+		/// Delete the SubscriptionDatabase row and, eventually, the database containers
 		/// </summary>
 		/// <param name="subscriptionKey"></param>
 		/// <param name="deleteContent"></param>
@@ -844,20 +844,22 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Code = (int)AppReturnCodes.InvalidData;
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
-			
+
+			// In ogni caso elimino la riga nella tabella MP_SubscriptionDatabases!!!! (meglio farlo subito?)
+			opRes = APIDatabaseHelper.DeleteSubscriptionDatabase(deleteContent.Database, burgerData);
+
 			// se ho scelto di eliminare almeno uno dei contenitori dei database richiamo l'apposito metodo
-			/*if (deleteContent.DeleteParameters.DeleteDMSDatabase || deleteContent.DeleteParameters.DeleteERPDatabase)
-				opRes = APIDatabaseHelper.DeleteDatabase(deleteContent);
+			if (deleteContent.DeleteParameters.DeleteDMSDatabase || deleteContent.DeleteParameters.DeleteERPDatabase)
+				/*opRes =*/ APIDatabaseHelper.DeleteDatabase(deleteContent);
 			
-			if (!opRes.Result)
+			// anche se il result e' false devo procedere ma tenere traccia da qualche parte dell'errore (nell'area notifiche)
+			/*if (!opRes.Result)
 			{
 				opRes.Message = Strings.OperationKO;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}*/
 
-			// Elimino cmq la riga nella tabella MP_SubscriptionDatabases!!!!
-			opRes = APIDatabaseHelper.DeleteSubscriptionDatabase(deleteContent.Database, burgerData);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };

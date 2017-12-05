@@ -92,7 +92,7 @@ export class DatabaseDeleteComponent implements OnInit {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  onCloseDialog() {
+  onCloseDeleteDialog() {
     // if 'No' button has been clicked I return
     if (!this.dialogResult)
       return;
