@@ -1,4 +1,4 @@
-<!-- begin credentials dialog -->
+<!-- #begin popup dialogs -->
 
 <admin-dialog 
   [mode]="'fields'"
@@ -10,7 +10,15 @@
   (onClose)=onCloseCredentialsDialog()>
 </admin-dialog>
 
-<!-- end credentials dialog -->
+<admin-dialog 
+  [mode]="'message'"
+  [title]="dlgMessageTitle" 
+  [message]="dlgMessageText"
+  [(opened)]=openDlgMessageToggle
+  (onClose)=onCloseMessageDialog()>
+</admin-dialog>
+
+<!-- #end popup dialogs -->
 
 <div class="container">
   <h2 class="componentTitle">New Instance Registration</h2>
@@ -27,6 +35,18 @@
     </div>
     <div *ngIf="obtainingPermission">
       <h3 class="stayLine">Obtaining permission..</h3><img class="stayLine" *ngIf="busy" src="assets/ajax-loader.gif" />
+    </div>
+  </div>
+
+  <div *ngIf="processEndedWithErrors === true" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div>
+      <app-action-panel 
+        [iconSignature]="'warning'" 
+        [message]="'Instance registration failed.'"
+        [actionText]="'Retry'"
+        [showButton]=true
+        (actionFired)="restartInstanceRegistration()">
+      </app-action-panel>
     </div>
   </div>
 
