@@ -179,7 +179,15 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
         this.securityValue = res['Content'].securityValue;
         let instanceCluster = res['Content'].dataCluster;
 
-        if (instanceCluster === null || instanceCluster === undefined) {
+        if (instanceCluster === null || 
+            instanceCluster === undefined ||
+            Object.keys(instanceCluster).length === 0) {
+
+          this.showDialogMessage('Operation aborted', 'GWAM returned null or empty instance data cluster');
+
+          // error case: instance cluster is null
+          // suggested action: retry to get cluster
+          
           this.clusterStep = 0;
           this.busy = false;
           return;

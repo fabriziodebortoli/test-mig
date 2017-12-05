@@ -1,4 +1,5 @@
-﻿using Microarea.Common.DiagnosticManager;
+﻿using Microarea.AdminServer.Controllers.Helpers.Database;
+using Microarea.Common.DiagnosticManager;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1383,7 +1384,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return result;
 		}
-		# endregion
+		#endregion
 
 		#region ExistDataBase - Verifica se il db specificato esiste già (non di sistema)
 		/// <summary>
@@ -1938,26 +1939,52 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		}
 		#endregion
 
-		#region DeleteDatabase - Cancella un database (da completare)
+		#region DeleteDatabase - Cancella un database
 		/// <summary>
 		/// DeleteDatabase
 		/// </summary>
 		//---------------------------------------------------------------------
-		public bool DeleteDatabase
-			(
-				string serverName,
-				string dataBaseName,
-				string databaseOwnerLogin,
-				string databaseOwnerPassword,
-				bool integratedSecurity
-			)
+		public bool DeleteDatabase(DeleteDatabaseBodyContent deleteContent)
 		{
-			bool companyDbDeleted = false;
+			bool result = false;
 
-			string connectionString =
-				(integratedSecurity)
-				? string.Format(NameSolverDatabaseStrings.SQLWinNtConnection, serverName, DatabaseLayerConsts.MasterDatabase)
-				: string.Format(NameSolverDatabaseStrings.SQLConnection, serverName, DatabaseLayerConsts.MasterDatabase, databaseOwnerLogin, databaseOwnerPassword);
+			string erpConnectionString = string.Empty;
+			string dmsConnectionString = string.Empty;
+
+			// le stringhe di connessione devono andare sul master, altrimenti il database risulterebbe in uso
+			if (isAzureDB)
+			{
+				// se il db e' su Azure e' necessario connettersi al master con specifiche credenziali di amministrazione, perche' il dbowner del db non potrebbe avere i permessi
+				erpConnectionString = string.Format(NameSolverDatabaseStrings.SQLAzureConnection, deleteContent.AdminCredentials.Server, DatabaseLayerConsts.MasterDatabase, deleteContent.AdminCredentials.Login, deleteContent.AdminCredentials.Password);
+				dmsConnectionString = string.Format(NameSolverDatabaseStrings.SQLAzureConnection, deleteContent.AdminCredentials.Server, DatabaseLayerConsts.MasterDatabase, deleteContent.AdminCredentials.Login, deleteContent.AdminCredentials.Password);
+			}
+			else
+			{
+				// su un server SQL e' possibile connettersi con le credenziali del dbo
+				erpConnectionString = string.Format(NameSolverDatabaseStrings.SQLConnection, deleteContent.Database.DBServer, DatabaseLayerConsts.MasterDatabase, deleteContent.Database.DBOwner, deleteContent.Database.DBPassword);
+				dmsConnectionString = string.Format(NameSolverDatabaseStrings.SQLConnection, deleteContent.Database.DMSDBServer, DatabaseLayerConsts.MasterDatabase, deleteContent.Database.DMSDBOwner, deleteContent.Database.DMSDBPassword);
+			}
+
+			if (deleteContent.DeleteParameters.DeleteERPDatabase)
+				result = (isAzureDB) ? DeleteAzureDatabase(erpConnectionString, deleteContent.Database.DBName) : DeleteSqlDatabase(erpConnectionString, deleteContent.Database.DBName);
+
+			if (deleteContent.DeleteParameters.DeleteDMSDatabase)
+				result = result &&
+					(isAzureDB) ? DeleteAzureDatabase(dmsConnectionString, deleteContent.Database.DMSDBName) : DeleteSqlDatabase(dmsConnectionString, deleteContent.Database.DMSDBName);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Elimina il database passato come parametro (SQL Server)
+		/// </summary>
+		/// <param name="connectionString">la stringa di connessione deve essere sul master, altrimenti il db risulta in uso</param>
+		/// <param name="databaseName">nome del database da eliminare</param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		private bool DeleteSqlDatabase(string connectionString, string databaseName)
+		{
+			bool result = false;
 
 			try
 			{
@@ -1965,41 +1992,36 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				{
 					sqlConnection.Open();
 
-					string countDb = string.Format("SELECT COUNT(*) FROM sysdatabases WHERE name = N'{0}'", dataBaseName);
+					string countDb = string.Format("SELECT COUNT(*) FROM sysdatabases WHERE name = N'{0}'", databaseName);
 
 					using (SqlCommand countCmd = new SqlCommand(countDb, sqlConnection))
 					{
 						if ((int)countCmd.ExecuteScalar() == 1)
 						{
-							if (!isAzureDB)
-							{
-								// prima altero il db per fare in modo di rimuovere le connessioni aperte
-								string alterDB = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", dataBaseName);
-
-								using (SqlCommand alterDbCmd = new SqlCommand(alterDB, sqlConnection))
-									alterDbCmd.ExecuteNonQuery();
-							}
+							// prima altero il db per fare in modo di rimuovere le connessioni aperte
+							string alterDB = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", databaseName);
+							using (SqlCommand alterDbCmd = new SqlCommand(alterDB, sqlConnection))
+								alterDbCmd.ExecuteNonQuery();
 
 							// poi eseguo la vera e propria cancellazione
-							string dropDb = string.Format("DROP DATABASE [{0}]", dataBaseName);
+							string dropDb = string.Format("DROP DATABASE [{0}]", databaseName);
 							using (SqlCommand dropDbCmd = new SqlCommand(dropDb, sqlConnection))
 							{
 								dropDbCmd.CommandTimeout = 60;
 								dropDbCmd.ExecuteNonQuery();
-								companyDbDeleted = true;
 							}
 						}
 						else
 						{
 							ExtendedInfo extendedInfo = new ExtendedInfo();
 							extendedInfo.Add(DatabaseManagerStrings.Description, "The database does not exist on specified server");
-							extendedInfo.Add(DatabaseManagerStrings.Server, serverName);
-							extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDataBase");
-							extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
-							Diagnostic.Set(DiagnosticType.Warning, string.Format("Unable to delete the database {0}", dataBaseName), extendedInfo);
-							companyDbDeleted = true;
+							extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteSqlDatabase");
+							extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+							Diagnostic.Set(DiagnosticType.Warning, string.Format("Unable to delete the database {0}", databaseName), extendedInfo);
 						}
 					}
+
+					result = true;
 				}
 			}
 			catch (SqlException e)
@@ -2010,25 +2032,104 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
 				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
 				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
-				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDataBase");
-				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteSqlDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
-				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", dataBaseName), extendedInfo);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", databaseName), extendedInfo);
 			}
 			catch (ApplicationException aExc)
 			{
 				Debug.WriteLine(aExc.Message);
 				ExtendedInfo extendedInfo = new ExtendedInfo();
 				extendedInfo.Add(DatabaseManagerStrings.Description, aExc.Message);
-				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDataBase");
-				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteSqlDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
 				extendedInfo.Add(DatabaseManagerStrings.Source, aExc.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, aExc.StackTrace);
-				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", dataBaseName), extendedInfo);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", databaseName), extendedInfo);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, ex.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteSqlDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, ex.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, ex.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", databaseName), extendedInfo);
 			}
 
-			return companyDbDeleted;
+			return result;
+		}
+
+		/// <summary>
+		/// Elimina il database passato come parametro (SQL Azure)
+		/// </summary>
+		/// <param name="connectionString">la stringa di connessione deve essere sul master, altrimenti il db risulta in uso</param>
+		/// <param name="databaseName">nome del database da eliminare</param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		private bool DeleteAzureDatabase(string connectionString, string databaseName)
+		{
+			bool result = false;
+
+			try
+			{
+				using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+				{
+					sqlConnection.Open();
+
+					// poi eseguo la vera e propria cancellazione
+					string dropDb = string.Format("DROP DATABASE IF EXISTS [{0}]", databaseName);
+					using (SqlCommand dropDbCmd = new SqlCommand(dropDb, sqlConnection))
+					{
+						dropDbCmd.CommandTimeout = 60; // timeout su Azure ???
+						dropDbCmd.ExecuteNonQuery();
+					}
+
+					result = true;
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteAzureDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", databaseName), extendedInfo);
+			}
+			catch (ApplicationException aExc)
+			{
+				Debug.WriteLine(aExc.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, aExc.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteAzureDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, aExc.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, aExc.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", databaseName), extendedInfo);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, ex.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteAzureDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, ex.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, ex.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format("Unable to delete the database {0}", databaseName), extendedInfo);
+			}
+
+			return result;
 		}
 		#endregion
 	}
