@@ -650,7 +650,9 @@ export class ModelService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(environment.adminAPIUrl + 'savecluster', cluster, options)
-      .map((res: Response) => { return res.json; })
+      .map((res: Response) => { 
+        return res.json(); 
+      })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
   }
 

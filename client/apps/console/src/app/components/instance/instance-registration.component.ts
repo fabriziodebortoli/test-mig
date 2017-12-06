@@ -19,7 +19,6 @@ import { fail } from 'assert';
 
 //================================================================================
 export class InstanceRegistrationComponent implements OnInit, OnDestroy {
-
   model: Instance;
   accountName: string;
   password: string;
@@ -39,6 +38,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   credentialsEnteredFirstTime: boolean;
   obtainingPermission: boolean;
   processEndedWithErrors: boolean;
+  errorMessage: string;
 
   // alert dialog
 
@@ -61,6 +61,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       { label: 'username', value:'', hide: false},
       { label: 'password', value:'', hide: true}
     ];
+    this.errorMessage = '';
     this.openToggle = false;
     this.credentialsEnteredFirstTime = false;
     this.obtainingPermission = false;
@@ -194,39 +195,9 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
         }        
 
         this.currentStep++;
-
         this.clusterStep = 1;
 
-        this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
-          res => { 
-            this.clusterStep = 2;
-            this.busy = false;
-
-            let saveClusterResult: boolean = res['Result'];
-
-            if (!saveClusterResult) {
-              
-            }
-
-            this.modelService.setData({}, true, this.activationCode, this.model.InstanceKey, this.accountName).retry(3).subscribe(
-              res => {
-                this.clusterStep = 3;
-                this.busy = false;
-              },
-              err => {
-                this.clusterStep = 0;
-                this.busy = false;
-              }
-            )
-
-          },
-          err => { 
-            this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
-            this.clusterStep = 0;
-            this.busy = false;
-          }
-        )        
-
+        this.cloneCluster(instanceCluster, this.activationCode);
       },
       err => {
         this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
@@ -236,6 +207,51 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
     );
 
   }
+
+  //--------------------------------------------------------------------------------
+  cloneCluster(instanceCluster: any, permissionToken: string) {
+
+    this.modelService.saveCluster(instanceCluster, permissionToken).subscribe(
+      res => { 
+        this.clusterStep = 2;
+        this.busy = false;
+
+        let saveClusterResult:OperationResult = res;
+
+        if (!saveClusterResult.Result) {
+          this.showDialogMessage('Error', 'An error occurred while replicating instance informations (' + res.Message + ')');
+          // show error with retry
+          return;
+        }
+
+        this.modelService.setData({}, true, permissionToken, this.model.InstanceKey, this.accountName).retry(3).subscribe(
+          res => {
+            this.busy = false;
+            let opRes: OperationResult = res;
+
+            if (!opRes.Result) {
+              this.errorMessage = opRes.Message;
+              this.clusterStep = 3;
+              return;
+            }
+
+            this.clusterStep = 3;
+          },
+          err => {
+            this.clusterStep = 0;
+            this.busy = false;
+          }
+        )
+
+      },
+      err => { 
+        this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
+        this.clusterStep = 0;
+        this.busy = false;
+      }
+    )     
+    
+  }  
 
   //--------------------------------------------------------------------------------
   ngOnDestroy() {
