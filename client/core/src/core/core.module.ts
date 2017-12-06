@@ -119,7 +119,7 @@ const TB_PAGES = [
  * Culture
  */
 import { LOCALE_ID } from '@angular/core';
-const culture = 'fr-FR';
+const culture = localStorage.getItem('ui_culture') ? localStorage.getItem('ui_culture') : 'en-EN';
 
 @NgModule({
     imports: [
