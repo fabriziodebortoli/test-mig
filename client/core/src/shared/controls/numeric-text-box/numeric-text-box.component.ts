@@ -20,7 +20,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   @Input() formatterDecimals = 0;
   @Input() public hotLink: any = undefined;
 
-  formatter: any;
+  formatterProps: any;
   decimals = 0;
   errorMessage: string;
   public constraint: RegExp = new RegExp('\\d');
@@ -52,24 +52,24 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
     super(layoutService, tbComponentService, changeDetectorRef);
 
     // DEBUG
-    this.format = "Double";
+    this.formatter = "Double";
   }
 
   ngOnInit() {
-    if (this.format)
-      this.formatter = this.formattersService.getFormatter(this.format);
+    if (this.formatter)
+      this.formatterProps = this.formattersService.getFormatter(this.formatter);
   }
 
   getDecimals() {
     if (this.formatterDecimals > 0) {
       this.decimals = this.formatterDecimals;
     } else {
-      switch (this.format) {
+      switch (this.formatter) {
         case 'FiscalYear':
           this.decimals = 0;
         default:
-          if (this.formatter && this.formatter.refDecNumber) {
-            this.decimals = +this.formatter.refDecNumber;
+          if (this.formatterProps && this.formatterProps.refDecNumber) {
+            this.decimals = +this.formatterProps.refDecNumber;
           }
       }
     }
@@ -77,7 +77,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   }
 
   getMinValue(): any {
-    switch (this.format) {
+    switch (this.formatter) {
       case 'PositiveMoney':
       case 'PositiveRoundedMoney':
       case 'Fixing':
@@ -90,12 +90,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   }
 
   getFormatOptions(): any {
-    switch (this.format) {
-      case 'Percent':
-        return 'p';
-      default:
-        return 'n' + this.getDecimals().toString();
-    }
+    return 'n' + this.getDecimals().toString();
   }
 
   public onChange(val: any) {
