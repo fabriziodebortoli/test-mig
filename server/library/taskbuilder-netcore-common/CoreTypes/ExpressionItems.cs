@@ -546,7 +546,7 @@ namespace Microarea.Common.CoreTypes
             public const ushort PAGE = 0x7FFb;
             public const ushort LINKED_DOC = 0x7FFa;
             public const ushort IS_PRINTING = 0x7FF9;
-            public const ushort DEFAULT_ATTRIBUTE = 0x7FF8;
+            public const ushort USE_DEFAULT_ATTRIBUTE = 0x7FF8;
             public const ushort LAST_PAGE = 0x7FF7;
             public const ushort EA_BARCODE = 0x7FF6;
             public const ushort IS_ARCHIVING = 0x7FF5;
@@ -568,19 +568,19 @@ namespace Microarea.Common.CoreTypes
             public const string STATUS                  = "ReportStatus";
             public const string OWNER                   = "OwnerID";
             public const string LAYOUT                  = "ReportLayout";
-            public const string CURRENT_PAGE_NUMBER     = "ReportCurrentPageNumber";
-            public const string LASTPAGE                = "ReportLastPageNumber";
-            public const string ISPRINTING              = "ReportIsPrinting";
-            public const string ISARCHIVING             = "ReportIsArchiving";
+            public const string PAGE                    = "ReportCurrentPageNumber";
+            public const string LAST_PAGE               = "ReportLastPageNumber";
+            public const string IS_PRINTING             = "ReportIsPrinting";
+            public const string IS_ARCHIVING            = "ReportIsArchiving";
             public const string PRINT_ON_LETTERHEAD     = "PrintOnLetterHead";
-            public const string USEDEFAULTATTRIBUTE     = "UseDefaultAttribute";
+            public const string USE_DEFAULT_ATTRIBUTE   = "UseDefaultAttribute";
             public const string LINKED_DOC_ID           = "LinkedDocumentID";
             public const string FUNCTION_RETURN_VALUE   = "_ReturnValue";
             public const string HIDE_ALL_ASK_DIALOGS    = "_HideAllAskDialogs";
             public const string EMPTY_COLUMN            = "_EmptyColumn";
             public const string IS_FIRST_TUPLE          = "IsFirstTuple";
             public const string IS_LAST_TUPLE           = "IsLastTuple";
-            public const string CURRENT_COPY_NUMBER     = "CurrentCopyNumber";
+            public const string CURRENT_COPY            = "CurrentCopyNumber";
         };
     }
     //============================================================================

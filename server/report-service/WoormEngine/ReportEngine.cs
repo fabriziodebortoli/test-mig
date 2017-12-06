@@ -1221,7 +1221,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public RuleReturn ExecuteRulesAndEvents()
 		{
-			Field f = RepSymTable.Fields.Find(SpecialReportField.NAME.CURRENT_PAGE_NUMBER);
+			Field f = RepSymTable.Fields.Find(SpecialReportField.NAME.PAGE);
 			if (f != null)
 			{
 				f.SetAllData(OutChannel.PageNumber, true);
@@ -1676,7 +1676,7 @@ namespace Microarea.RSWeb.WoormEngine
 		// il numero corrente di pagina del report
 		private void AddReportCurrentPageNumberField()
 		{
-			Field rf = new Field("Int32", SpecialReportField.NAME.CURRENT_PAGE_NUMBER, this);
+			Field rf = new Field("Int32", SpecialReportField.NAME.PAGE, this);
 			rf.Hidden = false;
 			rf.SetReadOnly();
 			rf.SetAllData(1, true);
@@ -1691,7 +1691,7 @@ namespace Microarea.RSWeb.WoormEngine
         // il numero di copia corrente di pagina del report che si sta salvando in pdf
         private void AddReportCurrentCopyNumberField()
         {
-            Field rf = new Field("Int32", SpecialReportField.NAME.CURRENT_COPY_NUMBER, this);
+            Field rf = new Field("Int32", SpecialReportField.NAME.CURRENT_COPY, this);
             rf.Hidden = true;
             rf.SetReadOnly();
             rf.SetAllData(1, true);

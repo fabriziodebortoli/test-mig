@@ -1516,7 +1516,7 @@ namespace Microarea.RSWeb.WoormEngine
                     return false;
             }
 
-			Field f = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.CURRENT_PAGE_NUMBER);
+			Field f = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.PAGE);
 			if (f != null)
 			{
 				int np = (int)f.Data;
@@ -1759,7 +1759,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			RepSymTable symTable = engine.RepSymTable;
 
-			Field f = symTable.Fields.Find(SpecialReportField.NAME.CURRENT_PAGE_NUMBER);
+			Field f = symTable.Fields.Find(SpecialReportField.NAME.PAGE);
 			if (f != null)
 			{
 				int np = (int)f.Data;
