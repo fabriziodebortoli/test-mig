@@ -39,6 +39,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   obtainingPermission: boolean;
   processEndedWithErrors: boolean;
   errorMessage: string;
+  operationSuccess: number;
 
   // alert dialog
 
@@ -62,6 +63,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       { label: 'password', value:'', hide: true}
     ];
     this.errorMessage = '';
+    this.operationSuccess = 0;
     this.openToggle = false;
     this.credentialsEnteredFirstTime = false;
     this.obtainingPermission = false;
@@ -231,14 +233,17 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
 
             if (!opRes.Result) {
               this.errorMessage = opRes.Message;
+              this.operationSuccess = -1;
               this.clusterStep = 3;
               return;
             }
 
             this.clusterStep = 3;
+            this.operationSuccess = 1;
           },
           err => {
             this.clusterStep = 0;
+            this.operationSuccess = -1;
             this.busy = false;
           }
         )
@@ -246,6 +251,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       },
       err => { 
         this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
+        this.operationSuccess = -1;
         this.clusterStep = 0;
         this.busy = false;
       }
