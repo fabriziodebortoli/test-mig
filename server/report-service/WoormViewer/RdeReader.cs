@@ -141,19 +141,19 @@ namespace Microarea.RSWeb.WoormViewer
         private void AddSpecialFields()
         {
             Variable
-            v = new Variable(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_ISPRINTING);
+            v = new Variable(SpecialReportField.NAME.ISPRINTING);
             v.Data = false;
             SymbolTable.Add(v);
 
-            v = new Variable(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_ISARCHIVING);
+            v = new Variable(SpecialReportField.NAME.ISARCHIVING);
             v.Data = false;
             SymbolTable.Add(v);
 
-            v = new Variable(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LASTPAGE);
+            v = new Variable(SpecialReportField.NAME.LASTPAGE);
             v.Data = 0;
             SymbolTable.Add(v);
 
-            v = new Variable(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_USEDEFAULTATTRIBUTE);
+            v = new Variable(SpecialReportField.NAME.USEDEFAULTATTRIBUTE);
             v.Data = null;
             SymbolTable.Add(v);
         }
@@ -180,7 +180,7 @@ namespace Microarea.RSWeb.WoormViewer
                             reader.MoveToAttribute(RdeWriterTokens.Attribute.Number);
                             TotalPages = XmlConvert.ToInt32(reader.Value);
                             AllPagesReady = true;
-                            Variable v = SymbolTable.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LASTPAGE);
+                            Variable v = SymbolTable.Find(SpecialReportField.NAME.LASTPAGE);
                             if (v != null)
                                 v.Data = TotalPages;
                             break;
@@ -236,7 +236,7 @@ namespace Microarea.RSWeb.WoormViewer
                                     reader.MoveToAttribute(RdeWriterTokens.Attribute.Number);
                                     TotalPages = XmlConvert.ToInt32(reader.Value);
                                     AllPagesReady = true;
-                                    Variable v = SymbolTable.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LASTPAGE);
+                                    Variable v = SymbolTable.Find(SpecialReportField.NAME.LASTPAGE);
                                     if (v != null)
                                         v.Data = TotalPages;
 
@@ -610,7 +610,7 @@ namespace Microarea.RSWeb.WoormViewer
         {
             woorm.NewPage();
 
-            Variable v = this.SymbolTable.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER);
+            Variable v = this.SymbolTable.Find(SpecialReportField.NAME.CURRENT_PAGE_NUMBER);
             if (v != null)
             {
                 v.Data = this.CurrentPage;
@@ -722,7 +722,7 @@ namespace Microarea.RSWeb.WoormViewer
         //------------------------------------------------------------------------------
         private void ApplyLayout(XmlReader reader)
         {
-            reader.MoveToAttribute(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+            reader.MoveToAttribute(SpecialReportField.NAME.LAYOUT);
             string layout = (string)reader.Value;
             woorm.ApplyLayout(layout);
         }

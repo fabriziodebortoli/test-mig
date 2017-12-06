@@ -1083,7 +1083,7 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         public void HideAllAskDialogs()
         {
-            Variable varHideAllAskDialogs = this.RepSymTable.Fields.FindById(SpecialReportField.REPORT_HIDE_ALL_ASK_DIALOGS);
+            Variable varHideAllAskDialogs = this.RepSymTable.Fields.FindById(SpecialReportField.ID.HIDE_ALL_ASK_DIALOGS);
             if (varHideAllAskDialogs != null)
                  varHideAllAskDialogs.Data = true;
         }
@@ -1112,7 +1112,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (askDialog.BeforeActions != null && !askDialog.BeforeActions.Exec())
 					return false;
 
-                Variable varHideAllAskDialogs = this.RepSymTable.Fields.FindById(SpecialReportField.REPORT_HIDE_ALL_ASK_DIALOGS);
+                Variable varHideAllAskDialogs = this.RepSymTable.Fields.FindById(SpecialReportField.ID.HIDE_ALL_ASK_DIALOGS);
                 if (varHideAllAskDialogs != null && varHideAllAskDialogs.Data != null && ((bool)varHideAllAskDialogs.Data))
                 {
                     askDialog.EvalAllInitExpression(initializedFields, true);
@@ -1221,7 +1221,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public RuleReturn ExecuteRulesAndEvents()
 		{
-			Field f = RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER);
+			Field f = RepSymTable.Fields.Find(SpecialReportField.NAME.CURRENT_PAGE_NUMBER);
 			if (f != null)
 			{
 				f.SetAllData(OutChannel.PageNumber, true);
@@ -1645,10 +1645,10 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private void AddOwnerIDField()
 		{
-			Field rf = new Field("Int32", SpecialReportField.REPORT_SPECIAL_FIELD_NAME_OWNER, this);
+			Field rf = new Field("Int32", SpecialReportField.NAME.OWNER, this);
 			rf.Hidden = true;
 			rf.SetReadOnly();
-			rf.Id = SpecialReportField.REPORT_OWNER_ID;
+			rf.Id = SpecialReportField.ID.OWNER;
 
 			RepSymTable.Fields.Add(rf);
 		}
@@ -1659,42 +1659,81 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private void AddReportStatusField()
 		{
-            string name = SpecialReportField.REPORT_SPECIAL_FIELD_NAME_STATUS;
+            string name = SpecialReportField.NAME.STATUS;
 			ushort tag = Session.Enums.TagValue(name);				
 			ushort item = 0;
 
-			Field rf = new Field("DataEnum", SpecialReportField.REPORT_SPECIAL_FIELD_NAME_STATUS, tag, item, this);
+			Field rf = new Field("DataEnum", SpecialReportField.NAME.STATUS, tag, item, this);
 			rf.Hidden = true;
 			rf.SetReadOnly();
-			rf.Id = SpecialReportField.REPORT_STATUS_ID;
+			rf.Id = SpecialReportField.ID.STATUS;
 	
 			RepSymTable.Fields.Add(rf);
 		}
 
+		//---------------------------------------------------------------------------
 		// Aggiunge subito una variabile predefinita di nome ReportCurrentPageNumber che contiene 
 		// il numero corrente di pagina del report
-		//---------------------------------------------------------------------------
-		private void AddReportReportCurrentPageNumberField()
+		private void AddReportCurrentPageNumberField()
 		{
-			Field rf = new Field("Int32", SpecialReportField.REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER, this);
+			Field rf = new Field("Int32", SpecialReportField.NAME.CURRENT_PAGE_NUMBER, this);
 			rf.Hidden = false;
 			rf.SetReadOnly();
 			rf.SetAllData(1, true);
-			rf.Id = SpecialReportField.REPORT_PAGE_NUMBER_ID;
+			rf.Id = SpecialReportField.ID.PAGE;
 			rf.IsSpecialFieldInitialized = true;		//per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
 
 			RepSymTable.Fields.Add(rf);
 		}
 
-		// Aggiunge subito una variabile predefinita di nome ReportLayout che contiene il nome del layout corrente 
-		//---------------------------------------------------------------------------
-		private void AddReportLayoutField()
+        //---------------------------------------------------------------------------
+        // Aggiunge subito una variabile predefinita di nome ReportCurrentCopyNumber che contiene 
+        // il numero di copia corrente di pagina del report che si sta salvando in pdf
+        private void AddReportCurrentCopyNumberField()
+        {
+            Field rf = new Field("Int32", SpecialReportField.NAME.CURRENT_COPY_NUMBER, this);
+            rf.Hidden = true;
+            rf.SetReadOnly();
+            rf.SetAllData(1, true);
+            rf.Id = SpecialReportField.ID.CURRENT_COPY;
+            rf.IsSpecialFieldInitialized = true;        //per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
+
+            RepSymTable.Fields.Add(rf);
+        }
+
+        //---------------------------------------------------------------------------
+        private void AddReportIsFirstTupleField()
+        {
+            Field rf = new Field("Int32", SpecialReportField.NAME.IS_FIRST_TUPLE, this);
+            rf.Hidden = true;
+            rf.SetReadOnly();
+            rf.SetAllData(1, true);
+            rf.Id = SpecialReportField.ID.IS_FIRST_TUPLE;
+            rf.IsSpecialFieldInitialized = true;        //per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
+
+            RepSymTable.Fields.Add(rf);
+        }
+        private void AddReportIsLastTupleField()
+        {
+            Field rf = new Field("Int32", SpecialReportField.NAME.IS_LAST_TUPLE, this);
+            rf.Hidden = true;
+            rf.SetReadOnly();
+            rf.SetAllData(1, true);
+            rf.Id = SpecialReportField.ID.IS_LAST_TUPLE;
+            rf.IsSpecialFieldInitialized = true;        //per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
+
+            RepSymTable.Fields.Add(rf);
+        }
+
+        // Aggiunge subito una variabile predefinita di nome ReportLayout che contiene il nome del layout corrente 
+        //---------------------------------------------------------------------------
+        private void AddReportLayoutField()
 		{
-			Field rf = new Field("String", SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT, this);
+			Field rf = new Field("String", SpecialReportField.NAME.LAYOUT, this);
 			rf.Hidden = false;
 			rf.SetReadOnly();
 			rf.SetAllData(Layout.DefaultName, true);
-			rf.Id = SpecialReportField.REPORT_LAYOUT_ID;
+			rf.Id = SpecialReportField.ID.LAYOUT;
 			rf.IsSpecialFieldInitialized = true;		//per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
 
 			RepSymTable.Fields.Add(rf);
@@ -1703,28 +1742,48 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         private void AddHideAllAskDialogField()
         {
-            Field rf = new Field("Bool", SpecialReportField.REPORT_SPECIAL_FIELD_NAME_HIDE_ALL_ASK_DIALOGS, this);
+            Field rf = new Field("Bool", SpecialReportField.NAME.HIDE_ALL_ASK_DIALOGS, this);
             rf.Hidden = true;
             rf.SetReadOnly();
             rf.SetAllData(false, true);
-            rf.Id = SpecialReportField.REPORT_HIDE_ALL_ASK_DIALOGS;
+            rf.Id = SpecialReportField.ID.HIDE_ALL_ASK_DIALOGS;
             rf.IsSpecialFieldInitialized = true;		//per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
 
             RepSymTable.Fields.Add(rf);
         }
 
-		//---------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
+        private void AddPrintOnLetterHeadField()
+        {
+            Field rf = new Field("Bool", SpecialReportField.NAME.PRINT_ON_LETTERHEAD, this);
+            rf.Hidden = true;
+            rf.SetReadOnly();
+            rf.SetAllData(false, true);
+            rf.Id = SpecialReportField.ID.PRINT_ON_LETTERHEAD;
+            rf.IsSpecialFieldInitialized = true;		//per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
+
+            RepSymTable.Fields.Add(rf);
+        }
+
+        //---------------------------------------------------------------------------
         public void AddSpecialFields()
         {
 			AddReportStatusField();
 			AddOwnerIDField();
-			AddReportReportCurrentPageNumberField();
+
+			AddReportCurrentPageNumberField();
 			AddReportLayoutField();
+
             AddHideAllAskDialogField();
+
+            AddPrintOnLetterHeadField();
+            AddReportCurrentCopyNumberField();
+            AddReportIsFirstTupleField();
+            AddReportIsLastTupleField();
         }
 
-		//---------------------------------------------------------------------------
-		public bool ParseFields(Parser lex)
+        //---------------------------------------------------------------------------
+        public bool ParseFields(Parser lex)
 		{
 			if (!lex.Error && lex.ParseTag(Token.VAR))
 			{

@@ -133,7 +133,7 @@ namespace Microarea.RSWeb.WoormEngine
 				//int id = CastInt(v1);
 
                 string layout = null;
-                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
                 if (fLayout != null && fLayout.Data != null && fLayout.Data is string)
                     layout = fLayout.Data as string;
 
@@ -149,7 +149,7 @@ namespace Microarea.RSWeb.WoormEngine
 				string name = CastString(v1);
 				//int id = CastInt(v1);
                 string layout = null;
-                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
                 if (fLayout != null && fLayout.Data != null && fLayout.Data is string)
                     layout = fLayout.Data as string;
 
@@ -170,7 +170,7 @@ namespace Microarea.RSWeb.WoormEngine
                 string name = CastString(v1);
                 //int id = CastInt(v1);
                 string layout = null;
-                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
                 if (fLayout != null && fLayout.Data != null && fLayout.Data is string)
                     layout = fLayout.Data as string;
 
@@ -188,7 +188,7 @@ namespace Microarea.RSWeb.WoormEngine
                 ushort id = CastUShort(v1);
 
                 string layout = null;
-                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
                 if (fLayout != null && fLayout.Data != null && fLayout.Data is string)
                     layout = fLayout.Data as string;
 
@@ -204,7 +204,7 @@ namespace Microarea.RSWeb.WoormEngine
                 ushort id = CastUShort(v1);
 
                 string layout = null;
-                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+                Field fLayout = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
                 if (fLayout != null && fLayout.Data != null && fLayout.Data is string)
                     layout = fLayout.Data as string;
 
@@ -1491,7 +1491,7 @@ namespace Microarea.RSWeb.WoormEngine
 
             //dovuto gestione stessa tabella con numero di righe diverse su layout diversi
 			//devo aggiornare la DisplayTable associata ai Fields
-            Field f1 = GetSymTable().Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+            Field f1 = GetSymTable().Fields.Find(SpecialReportField.NAME.LAYOUT);
 			if (!string.IsNullOrEmpty(f1.Data.ToString()))
 			{
 
@@ -1516,7 +1516,7 @@ namespace Microarea.RSWeb.WoormEngine
                     return false;
             }
 
-			Field f = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER);
+			Field f = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.CURRENT_PAGE_NUMBER);
 			if (f != null)
 			{
 				int np = (int)f.Data;
@@ -1759,14 +1759,14 @@ namespace Microarea.RSWeb.WoormEngine
 
 			RepSymTable symTable = engine.RepSymTable;
 
-			Field f = symTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER);
+			Field f = symTable.Fields.Find(SpecialReportField.NAME.CURRENT_PAGE_NUMBER);
 			if (f != null)
 			{
 				int np = (int)f.Data;
 				f.SetAllData(engine.OutChannel.PageNumber + 1, true);
 			}
 
-			Field fLayout = symTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+			Field fLayout = symTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
 			if (fLayout != null && !string.IsNullOrEmpty(layout))
 			{
 				fLayout.SetAllData(layout, true);
@@ -1843,7 +1843,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			//Skip se current layout != da quello della display table
 			//dovuto gestione stessa tabella con numero di righe diverse su layout diversi
-			Field currentLayout = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
+			Field currentLayout = engine.RepSymTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
 			if (currentLayout != null)
 			{
 				if (string.Compare((string)currentLayout.Data, displayTable.LayoutTable) != 0)

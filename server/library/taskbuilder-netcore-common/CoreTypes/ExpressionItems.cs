@@ -538,37 +538,50 @@ namespace Microarea.Common.CoreTypes
     //==============================================================================
     public class SpecialReportField
     {
-        //ID riservati da Woorm
-        public const ushort REPORT_STATUS_ID = 0x7FFe;
-        public const ushort REPORT_OWNER_ID = 0x7FFd;
-        public const ushort REPORT_LAYOUT_ID = 0x7FFc;
-        public const ushort REPORT_PAGE_NUMBER_ID = 0x7FFb;
-        public const ushort REPORT_LINKED_ID = 0x7FFa;
-        public const ushort REPORT_ISPRINTING_ID = 0x7FF9;
-        public const ushort DEFAULT_ATTRIBUTE_ID = 0x7FF8;
-        public const ushort REPORT_LASTPAGE_ID = 0x7FF7;
-        public const ushort REPORT_EABARCODE_ID = 0x7FF6;
-        public const ushort REPORT_ISARCHIVING_ID = 0x7FF5;
-        public const ushort REPORT_FUNCTION_RETURN_VALUE = 0x7FF4;
-        public const ushort REPORT_HIDE_ALL_ASK_DIALOGS = 0x7FF3;
+        public const ushort NO_INTERNAL_ID = 0xFFFF;
+        public struct ID {        //ID riservati da Woorm
+            public const ushort STATUS = 0x7FFe;
+            public const ushort OWNER = 0x7FFd;
+            public const ushort LAYOUT = 0x7FFc;
+            public const ushort PAGE = 0x7FFb;
+            public const ushort LINKED_DOC = 0x7FFa;
+            public const ushort IS_PRINTING = 0x7FF9;
+            public const ushort DEFAULT_ATTRIBUTE = 0x7FF8;
+            public const ushort LAST_PAGE = 0x7FF7;
+            public const ushort EA_BARCODE = 0x7FF6;
+            public const ushort IS_ARCHIVING = 0x7FF5;
+            public const ushort IS_EXPORTING = 0x7FF4;
+            public const ushort FUNCTION_RETURN_VALUE = 0x7FF3;
+            public const ushort HIDE_ALL_ASK_DIALOGS = 0x7FF2;
+            public const ushort PRINT_ON_LETTERHEAD   = 0x7FF1;
+            public const ushort IS_FIRST_TUPLE = 0x7FF0;
+            public const ushort IS_LAST_TUPLE = 0x7FEF;
+            public const ushort CURRENT_COPY = 0x7FEE;
+            public const ushort EMPTY_COLUMN = 0x7FED;
+        };
         //the latest used id
-        public const ushort REPORT_LOWER_SPECIAL_ID = 0x7FD0;
-
+        public const ushort REPORT_LOWER_SPECIAL_ID = 0x7FEC;
         //nomi delle variabili riservate
-        public const string REPORT_DEFAULT_LAYOUT_NAME = "default";
-        public const string REPORT_SPECIAL_FIELD_NAME_STATUS = "ReportStatus";
-        public const string REPORT_SPECIAL_FIELD_NAME_OWNER = "OwnerID";
-        public const string REPORT_SPECIAL_FIELD_NAME_LAYOUT = "ReportLayout";
-        public const string REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER = "ReportCurrentPageNumber";
-        public const string REPORT_SPECIAL_FIELD_NAME_LASTPAGE = "ReportLastPageNumber";
-        public const string REPORT_SPECIAL_FIELD_NAME_ISPRINTING = "ReportIsPrinting";
-        public const string REPORT_SPECIAL_FIELD_NAME_ISARCHIVING = "ReportIsArchiving";
-        public const string REPORT_SPECIAL_FIELD_NAME_USEDEFAULTATTRIBUTE = "UseDefaultAttribute";
-        //public const string REPORT_SPECIAL_FIELD_NAME_EABARCODE             =   "ReportEABarCode";
-        //public const string REPORT_SPECIAL_FIELD_NAME_LINKED_ID				    =   "LinkedDocumentID";
-        //public const string REPORT_SPECIAL_FIELD_NAME_FUNCTION_RETURN_VALUE	    =   "_ReturnValue";
-        public const string REPORT_SPECIAL_FIELD_NAME_HIDE_ALL_ASK_DIALOGS = "_HideAllAskDialogs";
-
+        public const string REPORT_DEFAULT_LAYOUT_NAME                      = "default";
+        public struct NAME
+        {
+            public const string STATUS                  = "ReportStatus";
+            public const string OWNER                   = "OwnerID";
+            public const string LAYOUT                  = "ReportLayout";
+            public const string CURRENT_PAGE_NUMBER     = "ReportCurrentPageNumber";
+            public const string LASTPAGE                = "ReportLastPageNumber";
+            public const string ISPRINTING              = "ReportIsPrinting";
+            public const string ISARCHIVING             = "ReportIsArchiving";
+            public const string PRINT_ON_LETTERHEAD     = "PrintOnLetterHead";
+            public const string USEDEFAULTATTRIBUTE     = "UseDefaultAttribute";
+            public const string LINKED_DOC_ID           = "LinkedDocumentID";
+            public const string FUNCTION_RETURN_VALUE   = "_ReturnValue";
+            public const string HIDE_ALL_ASK_DIALOGS    = "_HideAllAskDialogs";
+            public const string EMPTY_COLUMN            = "_EmptyColumn";
+            public const string IS_FIRST_TUPLE          = "IsFirstTuple";
+            public const string IS_LAST_TUPLE           = "IsLastTuple";
+            public const string CURRENT_COPY_NUMBER     = "CurrentCopyNumber";
+        };
     }
     //============================================================================
     public class ValueContentOf : Value
