@@ -27,7 +27,7 @@
     <div>
       <app-action-panel 
         [iconSignature]="'warning'" 
-        [message]="'Provided credentials are not valid.'"
+        [message]="obtainingPermission ? 'Verifying credentials..' : 'Provided credentials are not valid.'"
         [actionText]="'Enter Credentials'"
         [showButton]=true
         (actionFired)="openCredentialsDialog()">
@@ -96,7 +96,7 @@
           <h3 [ngClass]="(clusterStep > 1) ? 'stepDone' : ''">Replicating data cluster on Provisioning..</h3>
           <h3 [ngClass]="(clusterStep > 2) ? 'stepDone' : ''">Completing operation on GWAM..</h3>
           
-          <div *ngIf="operationSuccess; then operationOk else operationFailed"></div>
+          <div *ngIf="operationSuccess > 0; then operationOk else operationFailed"></div>
           <ng-template #operationOk>
             <h3><admin-icon class="success" [iconSignature]="'done'"></admin-icon>Registration of the new instance has been completed succesfully.</h3>
           </ng-template>
