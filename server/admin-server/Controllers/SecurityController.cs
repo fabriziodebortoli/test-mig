@@ -149,136 +149,12 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
-        //-----------------------------------------------------------------------------
-        private OperationResult SaveAccountIdentityPack(AccountIdentityPack accountIdentityPack, Account account)
-        {
-            if (accountIdentityPack == null || account == null) return new OperationResult(true, string.Empty,0);//todo verifica
-
-            OperationResult result = account.Save(burgerData);
-            if (result.Result && accountIdentityPack.Subscriptions != null)
-                result = SaveSubscriptions(accountIdentityPack);
-            if (result.Result && accountIdentityPack.Instances != null)
-                result = SaveSubscriptionsInstances(accountIdentityPack);
-            if (result.Result && accountIdentityPack.Subscriptions != null)
-                result = SaveSubscriptionsAccounts(accountIdentityPack);
-            if (result.Result && accountIdentityPack.Roles != null)
-                result = SaveAccountRoles(accountIdentityPack);
-           
-            return result;
-        }
-
-        //-----------------------------------------------------------------------------
-        private OperationResult SaveSubscriptionsInstances(AccountIdentityPack accountIdentityPack)
-        {
-            if (accountIdentityPack == null || accountIdentityPack.Instances == null)
-            {
-                return new OperationResult(false, "Empty Instances", (int)AppReturnCodes.InvalidData);
-            }
-
-            OperationResult result = new OperationResult();
-
-            foreach (Instance i in accountIdentityPack.Instances)
-            {
-                result = i.Save(this.burgerData);
-
-                if (!result.Result)
-                {
-                    return result;
-                }
-            }
-
-            result.Result = true;
-            result.Code = (int)AppReturnCodes.OK;
-            result.Message = AppReturnCodes.OK.ToString();
-
-            return result;
-        }
-
-		// salvo per l'account corrente tutte le subscriptions ad esso associate
-		//-----------------------------------------------------------------------------
-		private OperationResult SaveSubscriptionsAccounts(AccountIdentityPack accountIdentityPack)
-		{
-			if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
-			{
-				return new OperationResult(false, "Empty Subscriptions", (int)AppReturnCodes.InvalidData);
-			}
-
-			OperationResult result = new OperationResult();
-
-			SubscriptionAccount subAccount;
-
-			foreach (Subscription s in accountIdentityPack.Subscriptions)
-			{
-				subAccount = new SubscriptionAccount();
-				subAccount.AccountName = accountIdentityPack.Account.AccountName;
-				subAccount.SubscriptionKey = s.SubscriptionKey;
-                subAccount.Ticks = s.Ticks;
-                result = subAccount.Save(this.burgerData);
-
-				if (!result.Result)
-				{
-					return result;
-				}
-			}
-
-			result.Result = true;
-			result.Code = (int)AppReturnCodes.OK;
-			result.Message = AppReturnCodes.OK.ToString();
-
-			return result;
-		}
-
-		//-----------------------------------------------------------------------------
-		private OperationResult SaveAccountRoles(AccountIdentityPack accountIdentityPack)
-		{
-			if (accountIdentityPack == null || accountIdentityPack.Roles == null)
-			{
-				return new OperationResult(false, "Empty Roles", (int)AppReturnCodes.InvalidData);
-			}
-
-			OperationResult result = new OperationResult();
-
-			Role role;
-			AccountRoles accRole;
-
-			foreach (AccountRoles r in accountIdentityPack.Roles)
-			{
-				// prima inserisco il ruolo (se non esiste)
-				role = new Role();
-				role.RoleName = r.RoleName;
-				if (!role.Save(this.burgerData).Result)
-					continue;
-
-				// poi vado ad inserire le associazioni ruolo/account
-				accRole = new AccountRoles
-				{
-					RoleName = r.RoleName,
-					AccountName = r.AccountName,
-					EntityKey = r.EntityKey,
-					Level = r.Level
-				};
-				result = accRole.Save(this.burgerData);
-
-                if (!result.Result)
-				{
-					return result;
-				}
-			}
-
-			result.Result = true;
-			result.Code = (int)AppReturnCodes.OK;
-			result.Message = AppReturnCodes.OK.ToString();
-
-			return result;
-		}
-
-
         // <summary>
         // Provides change password
         // </summary>
         //-----------------------------------------------------------------------------	
         [HttpPost("/api/password/{instanceKey}")]
-        public IActionResult ApiPassword(string instanceKey, [FromBody] ChangePasswordInfo passwordInfo)
+        public IActionResult ApiChangePassword(string instanceKey, [FromBody] ChangePasswordInfo passwordInfo)
         {
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
@@ -357,65 +233,6 @@ namespace Microarea.AdminServer.Controllers
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.InvalidUserError, LoginReturnCodes.InvalidUserError.ToString());
         }
 
-       
-
-        //-----------------------------------------------------------------------------	
-        private string GetInstanceSecurityValue(string instancekey)
-        {
-			IInstance iInstance = this.burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND,
-				new WhereCondition[]
-				{
-					new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false)
-				});
-
-			return iInstance.SecurityValue;
-        }
-
-        //-----------------------------------------------------------------------------	
-        private string GetInstanceOrigin(string instancekey)
-        {
-            IInstance instance = GetInstance(instancekey);
-            if (instance == null)
-                return string.Empty;
-
-            return instance.Origin; 
-        }
-
-        //-----------------------------------------------------------------------------	
-        private DateTime GetInstancePendingDate(string instancekey)
-        {
-            Instance instance = (Instance)GetInstance(instancekey);
-            if (instance == null)
-                return DateTime.MinValue;
-
-           if (!instance.VerifyPendingDate())
-                return DateTime.MinValue;
-            return instance.PendingDate;
-        }
-
-        //-----------------------------------------------------------------------------	
-        private IInstance GetInstance(string instancekey)
-        {
-            try
-            {
-                return burgerData.GetObject<Instance, IInstance>(
-                    String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
-                        new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-                //todo log
-                return null;
-            } 
-        }
-
-        /// <summary>
-        /// Check a token
-        /// </summary>
-        /// <returns>
-        /// OperationResult
-        /// </returns>
         [HttpPost("api/token")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiCheckToken(string token, string roleName, string entityKey, string level)
@@ -547,6 +364,8 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
+        //----------------------------------------------------------------------
+        #region Metodi privati
         //----------------------------------------------------------------------
         private OperationResult UpdateInstances(IInstance[] instancesArray)
         {
@@ -740,5 +559,180 @@ namespace Microarea.AdminServer.Controllers
 
 			return tokenList.ToArray();
         }
+
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveAccountIdentityPack(AccountIdentityPack accountIdentityPack, Account account)
+        {
+            if (accountIdentityPack == null || account == null) return new OperationResult(true, string.Empty, 0);//todo verifica
+
+            OperationResult result = account.Save(burgerData);
+            if (result.Result && accountIdentityPack.Subscriptions != null)
+                result = SaveSubscriptions(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Instances != null)
+                result = SaveSubscriptionsInstances(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Subscriptions != null)
+                result = SaveSubscriptionsAccounts(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Roles != null)
+                result = SaveAccountRoles(accountIdentityPack);
+
+            return result;
+        }
+
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveSubscriptionsInstances(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Instances == null)
+            {
+                return new OperationResult(false, "Empty Instances", (int)AppReturnCodes.InvalidData);
+            }
+
+            OperationResult result = new OperationResult();
+
+            foreach (Instance i in accountIdentityPack.Instances)
+            {
+                result = i.Save(this.burgerData);
+
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+
+            result.Result = true;
+            result.Code = (int)AppReturnCodes.OK;
+            result.Message = AppReturnCodes.OK.ToString();
+
+            return result;
+        }
+
+        // salvo per l'account corrente tutte le subscriptions ad esso associate
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveSubscriptionsAccounts(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
+            {
+                return new OperationResult(false, "Empty Subscriptions", (int)AppReturnCodes.InvalidData);
+            }
+
+            OperationResult result = new OperationResult();
+
+            SubscriptionAccount subAccount;
+
+            foreach (Subscription s in accountIdentityPack.Subscriptions)
+            {
+                subAccount = new SubscriptionAccount();
+                subAccount.AccountName = accountIdentityPack.Account.AccountName;
+                subAccount.SubscriptionKey = s.SubscriptionKey;
+                subAccount.Ticks = s.Ticks;
+                result = subAccount.Save(this.burgerData);
+
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+
+            result.Result = true;
+            result.Code = (int)AppReturnCodes.OK;
+            result.Message = AppReturnCodes.OK.ToString();
+
+            return result;
+        }
+
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveAccountRoles(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Roles == null)
+            {
+                return new OperationResult(false, "Empty Roles", (int)AppReturnCodes.InvalidData);
+            }
+
+            OperationResult result = new OperationResult();
+
+            Role role;
+            AccountRoles accRole;
+
+            foreach (AccountRoles r in accountIdentityPack.Roles)
+            {
+                // prima inserisco il ruolo (se non esiste)
+                role = new Role();
+                role.RoleName = r.RoleName;
+                if (!role.Save(this.burgerData).Result)
+                    continue;
+
+                // poi vado ad inserire le associazioni ruolo/account
+                accRole = new AccountRoles
+                {
+                    RoleName = r.RoleName,
+                    AccountName = r.AccountName,
+                    EntityKey = r.EntityKey,
+                    Level = r.Level
+                };
+                result = accRole.Save(this.burgerData);
+
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+
+            result.Result = true;
+            result.Code = (int)AppReturnCodes.OK;
+            result.Message = AppReturnCodes.OK.ToString();
+
+            return result;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private string GetInstanceSecurityValue(string instancekey)
+        {
+            IInstance iInstance = this.burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND,
+                new WhereCondition[]
+                {
+                    new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false)
+                });
+
+            return iInstance.SecurityValue;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private string GetInstanceOrigin(string instancekey)
+        {
+            IInstance instance = GetInstance(instancekey);
+            if (instance == null)
+                return string.Empty;
+
+            return instance.Origin;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private DateTime GetInstancePendingDate(string instancekey)
+        {
+            Instance instance = (Instance)GetInstance(instancekey);
+            if (instance == null)
+                return DateTime.MinValue;
+
+            if (!instance.VerifyPendingDate())
+                return DateTime.MinValue;
+            return instance.PendingDate;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private IInstance GetInstance(string instancekey)
+        {
+            try
+            {
+                return burgerData.GetObject<Instance, IInstance>(
+                    String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
+                        new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                //todo log
+                return null;
+            }
+        }
+#endregion
     }
 }

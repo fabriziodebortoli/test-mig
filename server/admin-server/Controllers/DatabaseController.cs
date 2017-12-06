@@ -423,18 +423,22 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Result = dTask.TryToConnect();
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			// controllo che se l'edizione di SQL sia compatibile con il provider prescelto
-			using (SqlConnection connection = new SqlConnection(connectionString))
+			// se sono riuscita a connettermi allora
+			// vado a controllare che se l'edizione di SQL sia compatibile con il provider prescelto
+			if (opRes.Result)
 			{
-				connection.Open();
-				SQLServerEdition sqlEdition = TBCheckDatabase.GetSQLServerEdition(connection);
-				if (
-					(isAzureDB && sqlEdition != SQLServerEdition.SqlAzureV12) ||
-					(!isAzureDB && sqlEdition == SQLServerEdition.SqlAzureV12)
-					)
+				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
-					opRes.Result = false;
-					opRes.Message = "The provider and the edition of SQL Server you are chosen are not compatible. Please choose another one.";
+					connection.Open();
+					SQLServerEdition sqlEdition = TBCheckDatabase.GetSQLServerEdition(connection);
+					if (
+						(isAzureDB && sqlEdition != SQLServerEdition.SqlAzureV12) ||
+						(!isAzureDB && sqlEdition == SQLServerEdition.SqlAzureV12)
+						)
+					{
+						opRes.Result = false;
+						opRes.Message = "The provider and the edition of SQL Server you are chosen are not compatible. Please choose another one.";
+					}
 				}
 			}
 
