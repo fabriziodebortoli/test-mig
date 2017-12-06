@@ -27,7 +27,7 @@
     <div>
       <app-action-panel 
         [iconSignature]="'warning'" 
-        [message]="'Provided credentials are not valid.'"
+        [message]="obtainingPermission ? 'Verifying credentials..' : 'Provided credentials are not valid.'"
         [actionText]="'Enter Credentials'"
         [showButton]=true
         (actionFired)="openCredentialsDialog()">
