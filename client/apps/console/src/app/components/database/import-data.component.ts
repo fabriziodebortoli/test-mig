@@ -36,7 +36,7 @@ export class ImportDataComponent implements OnInit {
   selectedCountry: { name: string, value: string };
   //
 
-  // lista configurazione dati di default (dovrebbe essere ritornata dall'esterno, in base ai folder presenti nell'installazione)
+  // lista configurazioni disponibili per i dati di default
   configurations: Array<{ name: string, value: string }> = [];
   selectedConfiguration: { name: string, value: string };
   //
@@ -114,14 +114,11 @@ export class ImportDataComponent implements OnInit {
   //-----------------------------------------------------------------------------	
   onSkipRowChanged(value) {
     this.importParams.OverwriteRecord = !value;
-    //this.updateRow = !this.skipRow;
   }
 
   //-----------------------------------------------------------------------------	
   onUpdateRowChanged(value) {
     this.importParams.OverwriteRecord = value;
-    //this.updateRow = value;
-    //this.skipRow = !this.updateRow;
   }
 
   // load the list of configurations from filesystem

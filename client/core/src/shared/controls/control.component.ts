@@ -22,7 +22,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     @Input()
     public value: any;
     @Input()
-    public format: string;
+    public formatter: string;
 
     public widthFactor: number = 1;
     public heightFactor: number = 1;

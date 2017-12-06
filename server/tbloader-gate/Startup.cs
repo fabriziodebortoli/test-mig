@@ -51,10 +51,8 @@ namespace Microarea.TbLoaderGate
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
-
+            new WebAppConfigurator().ConfigureServices(Configuration, services);
             IMvcBuilder builder2 = services.AddMvc();
-            
-            services.Configure<TBLoaderConnectionParameters>(options => Configuration.GetSection("TBLoaderConnectionParameters").Bind(options));
             
         }
 

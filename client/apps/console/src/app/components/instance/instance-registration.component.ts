@@ -19,7 +19,6 @@ import { fail } from 'assert';
 
 //================================================================================
 export class InstanceRegistrationComponent implements OnInit, OnDestroy {
-
   model: Instance;
   accountName: string;
   password: string;
@@ -37,6 +36,16 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   openToggle: boolean;
   credentials: Credentials;
   credentialsEnteredFirstTime: boolean;
+  obtainingPermission: boolean;
+  processEndedWithErrors: boolean;
+  errorMessage: string;
+  operationSuccess: number;
+
+  // alert dialog
+
+  dlgMessageTitle: string;
+  dlgMessageText: string;
+  openDlgMessageToggle: boolean;
 
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -53,9 +62,16 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       { label: 'username', value:'', hide: false},
       { label: 'password', value:'', hide: true}
     ];
+    this.errorMessage = '';
+    this.operationSuccess = 0;
     this.openToggle = false;
     this.credentialsEnteredFirstTime = false;
+    this.obtainingPermission = false;
     this.credentials = new Credentials();
+    this.processEndedWithErrors = false;
+    this.dlgMessageTitle = '';
+    this.dlgMessageTitle = '';
+    this.openDlgMessageToggle = false;
   }
 
   //--------------------------------------------------------------------------------
@@ -80,8 +96,20 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   }
 
   //--------------------------------------------------------------------------------
+  onCloseMessageDialog() {
+    this.openDlgMessageToggle = false;
+  }
+
+  //--------------------------------------------------------------------------------
   openCredentialsDialog() {
     this.openToggle = true;
+  }
+
+  //--------------------------------------------------------------------------------
+  showDialogMessage(title: string, message: string) {
+    this.dlgMessageTitle = title;
+    this.dlgMessageText = message;
+    this.openDlgMessageToggle = true;
   }
 
   //--------------------------------------------------------------------------------
@@ -114,17 +142,19 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
     }
 
     this.busy = true;
+    this.obtainingPermission = true;
 
     this.modelService.getPermissionToken(this.credentials, "newinstance").subscribe(
       res => {
         this.activationCode = res['Content'];
         this.currentStep++;
         this.busy = false;
+        this.obtainingPermission = false;
       },
       err => {
-        alert('Cannot get a permission :(');
         this.activationCode = '';
         this.busy = false;
+        this.obtainingPermission = false;
       }
     )
 
@@ -133,8 +163,8 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   //--------------------------------------------------------------------------------
   submitInstance() {
 
-    if (this.model.InstanceKey == '') {
-      alert('To proceed, an Instance key is required.');
+    if (this.model.InstanceKey === undefined || this.model.InstanceKey === '') {
+      this.showDialogMessage('Invalid input', 'To proceed, an Instance key is required.')
       return;
     }
 
@@ -144,7 +174,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       res => {
 
         if (!res.Result) {
-          alert(res.Message);
+          this.showDialogMessage('Operation failed', 'Submitting instance failed (' + res.Message + ')')
           this.busy = false;
           return;
         }
@@ -152,50 +182,82 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
         this.securityValue = res['Content'].securityValue;
         let instanceCluster = res['Content'].dataCluster;
 
-        if (instanceCluster === null || instanceCluster === undefined) {
+        if (instanceCluster === null || 
+            instanceCluster === undefined ||
+            Object.keys(instanceCluster).length === 0) {
+
+          this.showDialogMessage('Operation aborted', 'GWAM returned null or empty instance data cluster');
+
+          // error case: instance cluster is null
+          // suggested action: retry to get cluster
+          
           this.clusterStep = 0;
           this.busy = false;
           return;
         }        
 
         this.currentStep++;
-
         this.clusterStep = 1;
 
-        this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
-          res => { 
-            this.clusterStep = 2;
-            this.busy = false;
-
-            this.modelService.setData({}, true, this.activationCode, this.model.InstanceKey, this.accountName).retry(3).subscribe(
-              res => {
-                this.clusterStep = 3;
-                this.busy = false;
-              },
-              err => {
-                this.clusterStep = 0;
-                this.busy = false;
-              }
-            )
-
-          },
-          err => { 
-            alert('Registration Failed'); 
-            this.clusterStep = 0;
-            this.busy = false;
-          }
-        )        
-
-
+        this.cloneCluster(instanceCluster, this.activationCode);
       },
       err => {
-        alert(err);
+        this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
         this.clusterStep = 0;
         this.busy = false;
       }
     );
 
   }
+
+  //--------------------------------------------------------------------------------
+  cloneCluster(instanceCluster: any, permissionToken: string) {
+
+    this.modelService.saveCluster(instanceCluster, permissionToken).subscribe(
+      res => { 
+        this.clusterStep = 2;
+        this.busy = false;
+
+        let saveClusterResult:OperationResult = res;
+
+        if (!saveClusterResult.Result) {
+          this.showDialogMessage('Error', 'An error occurred while replicating instance informations (' + res.Message + ')');
+          // show error with retry
+          return;
+        }
+
+        this.modelService.setData({}, true, permissionToken, this.model.InstanceKey, this.accountName).retry(3).subscribe(
+          res => {
+            this.busy = false;
+            let opRes: OperationResult = res;
+
+            if (!opRes.Result) {
+              this.errorMessage = opRes.Message;
+              this.operationSuccess = -1;
+              this.clusterStep = 3;
+              return;
+            }
+
+            this.clusterStep = 3;
+            this.operationSuccess = 1;
+          },
+          err => {
+            this.clusterStep = 0;
+            this.operationSuccess = -1;
+            this.busy = false;
+          }
+        )
+
+      },
+      err => { 
+        this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
+        this.operationSuccess = -1;
+        this.clusterStep = 0;
+        this.busy = false;
+      }
+    )     
+    
+  }  
 
   //--------------------------------------------------------------------------------
   ngOnDestroy() {

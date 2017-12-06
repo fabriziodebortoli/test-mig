@@ -30,6 +30,12 @@ namespace Microarea.AdminServer.Services.BurgerData
         }
 
         //----------------------------------------------------------------------
+        private Task<string> GwamNotRespondingManager()
+        {
+            return (Task<string>)VerifyPendingFlag(Task.FromException<string>(new Exception())).Content;
+        }
+
+        //----------------------------------------------------------------------
         private OperationResult VerifyPendingFlag(Task<string> res)
         {
             OperationResult opRes = new OperationResult();
@@ -50,6 +56,8 @@ namespace Microarea.AdminServer.Services.BurgerData
                 opRes.Result = true;
                 opRes.Code = GwamMessageStrings.GoOnDespiteGWAM; // gwam non risponde ma possiamo lavorare offline
             }
+            else GwamDown = false;
+
             opRes = JsonConvert.DeserializeObject<OperationResult>(res.Result as string);
             return opRes;
         }
@@ -68,7 +76,7 @@ namespace Microarea.AdminServer.Services.BurgerData
                 url, new List<KeyValuePair<string, string>>(), String.Empty);
 
             if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+                return (Task<string>)VerifyPendingFlag(Task.FromException<string>(new Exception())).Content;
 
             return (Task<string>)opRes.Content;
         }
@@ -76,17 +84,12 @@ namespace Microarea.AdminServer.Services.BurgerData
         //----------------------------------------------------------------------
         internal OperationResult VerifyAccountModificationGWAM(AccountModification accMod)
         {
-            OperationResult opRes = new OperationResult();
             if (GwamDown)
-                return opRes;
+                return new OperationResult();
 
             Task<string> res = VerifyAccountModificationGWAMAsync(accMod).Result;
-            
-            opRes = VerifyPendingFlag(res);
-
-            return opRes;
+            return JsonConvert.DeserializeObject<OperationResult>(res.Result);
         }
-
 
         //----------------------------------------------------------------------
         private async Task<Task<string>> VerifyAccountModificationGWAMAsync(AccountModification accMod)
@@ -99,12 +102,9 @@ namespace Microarea.AdminServer.Services.BurgerData
             OperationResult opRes = await httpHelper.PostDataAsync(
                 url, new List<KeyValuePair<string, string>>(), JsonConvert.SerializeObject(authInfo));
 
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());//FAULTED, POTREBBE NON RISPONDERE
+            if (opRes.Result) return (Task<string>)opRes.Content;
 
-            return (Task<string>)opRes.Content;
-
-
+            return GwamNotRespondingManager();           
         }
 
         //----------------------------------------------------------------------
@@ -117,10 +117,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 
             OperationResult opRes = await httpHelper.PostDataAsync(GWAMUrl + "accounts", entries, JsonConvert.SerializeObject(authInfo));
 
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+            if (opRes.Result) return (Task<string>)opRes.Content;
 
-            return (Task<string>)opRes.Content;
+            return GwamNotRespondingManager();           
         }
 
         //----------------------------------------------------------------------
@@ -132,10 +131,9 @@ namespace Microarea.AdminServer.Services.BurgerData
                 new List<KeyValuePair<string, string>>(),
                  JsonConvert.SerializeObject(authInfo));
 
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+            if (opRes.Result) return (Task<string>)opRes.Content;
 
-            return (Task<string>)opRes.Content;
+            return GwamNotRespondingManager();
         }
 
         // [HttpGet("/api/accountRoles/{accountName}/{roleName}/{entityKey}/{ticks}")]
@@ -146,24 +144,20 @@ namespace Microarea.AdminServer.Services.BurgerData
                 this.GWAMUrl + "accountRoles/" + accountName + "/" + roleName + "/" + entityKey + "/" + ticks,
                  JsonConvert.SerializeObject(authInfo));
 
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+            if (opRes.Result) return (Task<string>)opRes.Content;
 
-            return (Task<string>)opRes.Content;
+            return GwamNotRespondingManager();
+
         }
 
         //----------------------------------------------------------------------
         internal OperationResult GetInstance()
         {
-            OperationResult opRes = new OperationResult();
             if (GwamDown)
-                return opRes;
+                return new OperationResult();
 
-           Task<string>  res = GetInstanceAsync(instance.InstanceKey, instance.Ticks).Result;
-
-           opRes= VerifyPendingFlag(res);
-
-           return opRes;
+            Task<string> res = GetInstanceAsync(instance.InstanceKey, instance.Ticks).Result;
+            return JsonConvert.DeserializeObject<OperationResult>(res.Result);
         }
 
         //[HttpGet("/api/instances/{instanceKey}/{ticks}")]
@@ -173,11 +167,11 @@ namespace Microarea.AdminServer.Services.BurgerData
             OperationResult opRes = await httpHelper.GetDataAsync(
                 GWAMUrl + "instances/" + instanceKey + "/" + ticks,
                  JsonConvert.SerializeObject(authInfo));
-           
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
 
-            return (Task<string>)opRes.Content;
+            if (opRes.Result) return (Task<string>)opRes.Content;
+
+            return GwamNotRespondingManager();
+
         }
 
         //[HttpGet("/api/subscription/{subscriptionKey}/{ticks}")]
@@ -188,10 +182,10 @@ namespace Microarea.AdminServer.Services.BurgerData
                 this.GWAMUrl + "subscription/" + subscriptionKey + "/" + ticks,
                  JsonConvert.SerializeObject(authInfo));
 
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+            if (opRes.Result) return (Task<string>)opRes.Content;
 
-            return (Task<string>)opRes.Content;
+            return GwamNotRespondingManager();
+
         }
 
         // [HttpGet("/api/subscriptionInstances/{subscriptionKey}/{instanceKey}/{ticks}")]
@@ -202,10 +196,10 @@ namespace Microarea.AdminServer.Services.BurgerData
                 this.GWAMUrl + "subscriptionInstances/" + subscriptionKey + "/" + instanceKey + "/" + ticks,
                  JsonConvert.SerializeObject(authInfo));
 
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+            if (opRes.Result) return (Task<string>)opRes.Content;
 
-            return (Task<string>)opRes.Content;
+            return GwamNotRespondingManager();
+
         }
 
         //[HttpGet("/api/subscriptionAccounts/{subscriptionKey}/{accountName}/{ticks}")]
@@ -216,14 +210,14 @@ namespace Microarea.AdminServer.Services.BurgerData
                 this.GWAMUrl + "subscriptionAccounts/" + subscriptionKey + "/" + accountName + "/" + ticks,
                  JsonConvert.SerializeObject(authInfo));
 
-            if (!opRes.Result)
-                return Task.FromException<string>(new Exception());
+            if (opRes.Result) return (Task<string>)opRes.Content;
 
-            return (Task<string>)opRes.Content;
+            return GwamNotRespondingManager();
+
         }
 
-		//----------------------------------------------------------------------
-		public static async Task<Task<string>> ValidateGWAMToken(string token, IHttpHelper httpHelper, string GWAMUrl)
+        //----------------------------------------------------------------------
+        public static async Task<Task<string>> ValidateGWAMToken(string token, IHttpHelper httpHelper, string GWAMUrl)
 		{
 			OperationResult opRes = await httpHelper.GetDataAsync(GWAMUrl + "permissions/" + token);
 

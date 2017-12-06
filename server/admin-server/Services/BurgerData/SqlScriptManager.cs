@@ -232,7 +232,7 @@ namespace Microarea.AdminServer.Services.BurgerData
 					return String.Empty;
 
 				case ModelTables.SubscriptionDatabases:
-					return String.Empty;
+					return Queries.DeleteSubscriptionDatabase;
 
 				case ModelTables.SubscriptionExternalSources:
 					return String.Empty;

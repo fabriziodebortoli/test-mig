@@ -1,16 +1,17 @@
-    .property-grid-item {
-        display: flex;
-        align-items: center;
-    }
+.property-grid-item {
+    display: flex;
+    align-items: center;
+}
 
-    .property-grid-item /deep/ tb-caption {
-        display: none
-    }
+.property-grid-item /deep/ tb-caption {
+    display: none
+}
 
-    .property-text {
-        flex: 2
-    }
+.property-text {
+    flex: 2
+}
 
-    .property-grid-item /deep/ tb-text {
-        flex: 1
-    }
+.property-grid-item /deep/ tb-text {
+    flex: 1;
+    margin-right: auto;
+}

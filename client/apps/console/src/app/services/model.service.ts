@@ -11,7 +11,7 @@ import { OperationResult } from './operationResult';
 import { AccountInfo } from '../authentication/account-info';
 import { MessageData } from './messageData';
 import { retry } from 'rxjs/operator/retry';
-import { ExtendedSubscriptionDatabase, ImportDataBodyContent } from '../components/database/helpers/database-helpers';
+import { ExtendedSubscriptionDatabase, ImportDataBodyContent, DeleteDatabaseBodyContent } from '../components/database/helpers/database-helpers';
 
 @Injectable()
 export class ModelService {
@@ -194,7 +194,7 @@ export class ModelService {
 
     let baseUrl = goGWAM ? environment.gwamAPIUrl : environment.adminAPIUrl;
 
-    return this.http.post(baseUrl + 'setdata/instances/' + accountName + '/' + rowId + '/activated' + '/1', {}, options)
+    return this.http.post(baseUrl + 'setdata/instances/' + rowId + '/activated' + '/1', {}, options)
       .map((res: Response) => {
         return res.json();
       })
@@ -650,7 +650,9 @@ export class ModelService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(environment.adminAPIUrl + 'savecluster', cluster, options)
-      .map((res: Response) => { return res.json; })
+      .map((res: Response) => { 
+        return res.json(); 
+      })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
   }
 
@@ -696,7 +698,7 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error (importData)'));
   }
 
-  // 
+  // delete only ERP database objects
   //--------------------------------------------------------------------------------------------------------
   deleteDatabaseObjects(subscriptionKey: string, body: SubscriptionDatabase): Observable<OperationResult> {
 
@@ -715,5 +717,26 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (deleteDatabaseObjects)'));
+  }
+
+  // delete database containers and SubscriptionDatabase row
+  //--------------------------------------------------------------------------------------------------------
+  deleteDatabase(subscriptionKey: string, body: DeleteDatabaseBodyContent): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.adminAPIUrl + 'database/delete/' + subscriptionKey, bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (deleteDatabase)'));
   }
 }
