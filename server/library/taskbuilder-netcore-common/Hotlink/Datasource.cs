@@ -157,9 +157,11 @@ namespace Microarea.Common.Hotlink
             string likeValue = requestQuery["filter"];
             if (likeValue == null) 
                 likeValue = string.Empty;
+
             if (!selectionType.CompareNoCase("direct"))
-                likeValue += "%";
-            filter_value.Data = likeValue;
+                filter_value.Data = likeValue + "%";
+            else
+                filter_value.Data = likeValue;
 
             //Paging
             bool isPaged = false;
@@ -228,7 +230,7 @@ namespace Microarea.Common.Hotlink
 
                     string documentId = requestQuery["documentID"].ToString();
                     string hklName = requestQuery["hklName"].ToString();
-                    query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction, documentId, hklName);
+                    query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction, likeValue, documentId, hklName);
 
                     JObject jObject = JObject.Parse(query);
                     query = jObject.GetValue("query")?.ToString();
