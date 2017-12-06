@@ -38,6 +38,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   credentialsEnteredFirstTime: boolean;
   obtainingPermission: boolean;
   processEndedWithErrors: boolean;
+  errorMessage: string;
 
   // alert dialog
 
@@ -60,6 +61,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       { label: 'username', value:'', hide: false},
       { label: 'password', value:'', hide: true}
     ];
+    this.errorMessage = '';
     this.openToggle = false;
     this.credentialsEnteredFirstTime = false;
     this.obtainingPermission = false;
@@ -224,8 +226,16 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
 
         this.modelService.setData({}, true, permissionToken, this.model.InstanceKey, this.accountName).retry(3).subscribe(
           res => {
-            this.clusterStep = 3;
             this.busy = false;
+            let opRes: OperationResult = res;
+
+            if (!opRes.Result) {
+              this.errorMessage = opRes.Message;
+              this.clusterStep = 3;
+              return;
+            }
+
+            this.clusterStep = 3;
           },
           err => {
             this.clusterStep = 0;
