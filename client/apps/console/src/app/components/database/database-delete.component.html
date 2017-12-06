@@ -32,6 +32,8 @@
     </div>
   </div>
 
-  <admin-dialog [mode]="'yesno'" [title]="'Delete'" [message]="msgDelete" [(opened)]=openDeleteDialog [(result)]=dialogResult
+  <admin-dialog [mode]="'yesno'" [title]="'Delete'" [message]="msgDelete" [(opened)]=openDeleteDialog [(result)]=deleteDialogResult
     (onClose)="onCloseDeleteDialog($event)"></admin-dialog>
+  <admin-dialog [mode]="'fields'" [title]="'Credentials'" [message]="'Please insert your administrative credentials to connect to server ' + model.DBServer"
+    [(fields)]=credentialsFields [(opened)]=openCredentialsDialog [(result)]=credentialsDialogResult (onClose)="onCloseCredentialsDialog($event)"></admin-dialog>
 </div>
