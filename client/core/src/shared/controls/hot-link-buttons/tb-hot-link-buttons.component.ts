@@ -7,11 +7,12 @@ import { HttpService } from './../../../core/services/http.service';
 import { OnDestroy, OnInit, AfterViewChecked, Component, Input, HostListener, ElementRef,
         ViewChild, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
-import { GridDataResult, PageChangeEvent, PagerComponent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, PagerComponent,  } from '@progress/kendo-angular-grid';
 import { filterBy, FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters } from '../../../core/services/filter.services';
+import * as _ from 'lodash';
 
 export type HlComponent = { model: any, slice$?: any, cmpId: string };
 
@@ -48,21 +49,31 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   @ViewChild('anchor') public anchor: ElementRef;
   @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
-  @ViewChild(PagerComponent) _pagerComponet: PagerComponent;
   private gridView = new BehaviorSubject<{data: any[], total: number, columns: any[]}>
   ({data: [], total: 0, columns: [] });
   public columns: any[];
   public selectionTypes: any[] = [];
   public selectionType = 'code';
 
-  private buttonCount = 2;
-  private info = true;
+  private info = false;
   private type: 'numeric' | 'input' = 'numeric';
   private pageSizes = false;
-  private previousNext = false;
-  private pageSize = 2;
-  private filter: CompositeFilterDescriptor;
+  private previousNext = true;
+  private pageSize = 20;
   private showTableSubj$ = new BehaviorSubject(false);
+
+  private _filter: CompositeFilterDescriptor;
+  private get filter(): CompositeFilterDescriptor {
+    return this._filter;
+  }
+
+  private set filter(value: CompositeFilterDescriptor) {
+    this._filter = _.cloneDeep(value);
+    this.filterer.filter = _.cloneDeep(value);
+    this.changedFilterIndex = this.columns.findIndex(c => c.id === this.filterer.changedField);
+    this.filterer.onFilterChanged(value);
+  }
+
   public get showTable$(): Observable<boolean> {
     return this.showTableSubj$.asObservable();
   }
@@ -79,7 +90,13 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   selectionColumn = '';
   subscription: Subscription;
-  loadingData = false;
+
+  _defaultGridStyle = {'cursor': 'pointer'};
+  _filterTypingGridStyle = {'color': 'darkgrey'}
+  _gridStyle = new BehaviorSubject<any>(this._defaultGridStyle);
+  get gridStyle(): Observable<any> { return this._gridStyle.asObservable(); }
+
+  private changedFilterIndex = 0;
 
   constructor(public httpService: HttpService,
     layoutService: LayoutService,
@@ -89,11 +106,19 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     private eventDataService: EventDataService,
     private paginator: PaginatorService,
     private filterer: FilterService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private elRef: ElementRef
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
+  toggleOptionsPopup() {
+    if (this.showOptionsSubj$.value) {
+      this.closeOptions();
+    } else {
+      this.openOptions();
+    }
+  }
   closeOptions() { this.showOptionsSubj$.next(false); }
   openOptions() { this.showOptionsSubj$.next(true); }
   closeTable() { this.showTableSubj$.next(false); this.stop(); }
@@ -101,11 +126,12 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.showTableSubj$.next(true);
   }
   closePopups() { this.closeOptions(); this.closeTable(); }
-  get popupStyle(): any { return {'max-width': '50%', 'font-size': 'small'}; }
+  get gridPopupStyle(): any { return {'max-width': '50%', 'font-size': 'small', 'border': '1px solid rgba(0,0,0,.05)'}; }
+  get optionsPopupStyle(): any { return {'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)'}; }
 
   private start() {
     this.filterer.configure(200);
-    this.paginator.start(this.buttonCount, this.pageSize,
+    this.paginator.start(1, this.pageSize,
       combineFilters(this.filterer.filterChanged$, this.slice$)
         .map(x => ({ model: x.right, customFilters: x.left})),
       (pageNumber, serverPageSize, otherParams?) => {
@@ -122,16 +148,28 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       });
 
     this.subscription = this.paginator.clientData.subscribe((d) => {
-        if (d && d.rows && d.rows.length > 0) {
+        if (d && d.rows) {
           this.selectionColumn = d.key;
           this.gridView.next({data: d.rows, total: d.total, columns: d.columns });
           this.columns = d.columns;
           this.openTable();
           this.closeOptions();
         }
-        this.loadingData = false;
+        setTimeout(() => {
+          let filters = this.elRef.nativeElement.querySelectorAll('[kendofilterinput]');
+          if (filters && filters[this.changedFilterIndex]) {
+            filters[this.changedFilterIndex].focus();
+          }
+        }, 100);
     });
-    this.filterer.filterChanging$.subscribe(x => this.gridView.next({data: [], total: 0, columns: this.columns }));
+    this.filterer.filterChanged$.subscribe(x => {
+      this.gridView.next({data: [], total: 0, columns: this.columns });
+      this._gridStyle.next(this._defaultGridStyle);
+    });
+
+    this.filterer.filterChanging$.subscribe(x => {
+      this._gridStyle.next(this._filterTypingGridStyle);
+    });
   }
 
   private stop() {
@@ -143,8 +181,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   public onFilterChange(filter: CompositeFilterDescriptor): void {
-    this.filterer.filter = filter;
-    this.filterer.onFilterChanged(filter);
+    this.filter = filter;
   }
 
   protected async pageChange(event: PageChangeEvent) {
@@ -158,7 +195,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   async onSearchClick() {
     if (this.showTableSubj$.value) { this.closeTable(); return; }
-    this.loadingData = true;
     this.start();
     await this.paginator.firstPage();
   }
@@ -182,10 +218,10 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if (this.selectionTypes.length === 0) {
       let json = await this.httpService.getHotlinkSelectionTypes(this.namespace).toPromise();
       this.selectionTypes = json.selections;
-      this.openOptions();
+      this.toggleOptionsPopup();
       return;
     }
-    this.showOptionsSubj$.next(!this.showOptionsSubj$.value);
+    this.toggleOptionsPopup();
   }
 
   ngOnDestroy() {
