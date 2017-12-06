@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnChanges, OnInit, AfterViewInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, OnInit, AfterViewInit, SimpleChanges, ChangeDetectorRef, Inject } from '@angular/core';
 
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { formatDate } from '@telerik/kendo-intl';
@@ -10,7 +10,8 @@ import { FormattersService } from './../../../core/services/formatters.service';
 
 import { ControlComponent } from './../control.component';
 
-// import { localeIt } from 'yargs';
+
+import { LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'tb-date-input',
@@ -32,15 +33,17 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
     private formattersService: FormattersService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef) {
+    changeDetectorRef: ChangeDetectorRef,
+    @Inject(LOCALE_ID) private _locale: string) {
     super(layoutService, tbComponentService, changeDetectorRef);
+
+    this._locale = localStorage.getItem('ui_culture');
   }
 
   ngOnInit() {
 
     if (!this.format)
       this.format = "Date";
-
     this.formatter = this.formattersService.getFormatter(this.format);
   }
 
