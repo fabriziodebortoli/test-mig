@@ -240,6 +240,12 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
 
             this.clusterStep = 3;
             this.operationSuccess = 1;
+
+            // instance registration is completed: telling GWAM to free the permission token
+            this.modelService.consumeToken(this.accountName, permissionToken).retry(2).subscribe(
+              res => { console.log('Token consumed');},
+              err => { console.log('Error while consuming token ' + err)}
+            );
           },
           err => {
             this.clusterStep = 0;
