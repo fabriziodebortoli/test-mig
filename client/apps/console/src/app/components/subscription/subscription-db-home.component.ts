@@ -7,6 +7,7 @@ import { AccountInfo } from 'app/authentication/account-info';
 import { DatabaseCredentials } from '../../authentication/credentials';
 import { OperationResult } from '../../services/operationResult';
 import { DataChannelService } from 'app/services/data-channel.service';
+import { ImportExportConsts } from '../components.helper';
 
 @Component({
   selector: 'app-subscription-db-home',
@@ -19,6 +20,11 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
   model: SubscriptionDatabase;
   modelTest: SubscriptionDatabase;
   originalModel: SubscriptionDatabase;
+
+  // caricamento informazioni configurazione dei dati di default/esempio
+  // da passare poi alle singole tab che hanno le dropdown
+  defaultInfo: Object;
+  sampleInfo: Object;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(
@@ -65,8 +71,9 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
   }
 
   //--------------------------------------------------------------------------------------------------------
-    ngAfterContentInit(): void {
-      this.loadDatabase();
+  ngAfterContentInit(): void {
+
+    this.loadData();
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -76,7 +83,7 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  loadDatabase() {
+  loadData() {
 
     this.modelService.getDatabase(this.model.SubscriptionKey, this.model.Name)
       .subscribe(
@@ -91,10 +98,49 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
         // I copy the original model values
         this.originalModel.assign(this.model);
 
-        // notify model loaded
-        this.dataChannelService.sendMessage();
+        // precarico localmente le configurazioni per i dati di esempio e di default
+        // cosi da propagarle in tutte le tab
+        // a regime l'iso stato sara' un'informazione disponibile nella subscription
+        this.loadConfigurations('IT');
       },
       err => { alert(err); }
+      )
+  }
+
+  // load the list of configurations from filesystem
+  //-----------------------------------------------------------------------------	
+  loadConfigurations(isoCountry: string) {
+
+    let getConfigurations = this.modelService.getConfigurations(this.model.SubscriptionKey, ImportExportConsts.DEFAULT, isoCountry).
+      subscribe(
+      getResult => {
+
+        this.defaultInfo = getResult['Content'];
+
+        let getConfigurations = this.modelService.getConfigurations(this.model.SubscriptionKey, ImportExportConsts.SAMPLE, isoCountry).
+          subscribe(
+          getResult => {
+
+            this.sampleInfo = getResult['Content'];
+
+            this.dataChannelService.sendMessage();
+            getConfigurations.unsubscribe();
+
+            // notify model and configurations are loaded
+            this.dataChannelService.sendMessage();
+          },
+          getError => {
+            console.log(getError);
+            alert(getError);
+            getConfigurations.unsubscribe();
+          }
+          )
+      },
+      getError => {
+        console.log(getError);
+        alert(getError);
+        getConfigurations.unsubscribe();
+      }
       )
   }
 }
