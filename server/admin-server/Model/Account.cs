@@ -34,7 +34,7 @@ namespace Microarea.AdminServer.Model
         string language = string.Empty;
         bool isWindowsAuthentication = false;
         // todo per ora scadenza 3 giorni per esempio
-        DateTime expirationDate = DateTime.Now.AddDays(EXPIRY_DAYS);
+        DateTime expirationDate = DateTime.UtcNow.AddDays(EXPIRY_DAYS);
         string parentAccount = string.Empty;
         bool confirmed = false;
         int ticks = TicksHelper.GetTicks();
@@ -187,14 +187,14 @@ namespace Microarea.AdminServer.Model
         public bool IsPasswordExpirated()
         {
             // La data è inferiore ad adesso, ma comunque non è il min value che è il default
-            return passwordExpirationDate < DateTime.Now &&
+            return passwordExpirationDate < DateTime.UtcNow &&
                 passwordExpirationDate > BurgerData.MinDateTimeValue;
         }
 
         //--------------------------------------------------------------------------------
         public void ResetPasswordExpirationDate()
         {
-            passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
+            passwordExpirationDate = DateTime.UtcNow.AddDays(passwordDuration);
         }
 
         //--------------------------------------------------------------------------------
@@ -214,7 +214,7 @@ namespace Microarea.AdminServer.Model
         //--------------------------------------------------------------------------------
         public LoginReturnCodes IsValidUser()
         {
-            if (ExpirationDate < DateTime.Now)
+            if (ExpirationDate < DateTime.UtcNow)
                 return LoginReturnCodes.UserExpired;
 
             if (Locked)
@@ -242,7 +242,7 @@ namespace Microarea.AdminServer.Model
         //--------------------------------------------------------------------------------
         public LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata)
         {
-            if (ExpirationDate < DateTime.Now)
+            if (ExpirationDate < DateTime.UtcNow)
                 return LoginReturnCodes.UserExpired;
 
             if (Locked)
@@ -279,7 +279,7 @@ namespace Microarea.AdminServer.Model
 		//--------------------------------------------------------------------------------
 		internal LoginReturnCodes ChangePassword(ChangePasswordInfo passwordInfo, BurgerData burgerdata)
         {
-            if (ExpirationDate < DateTime.Now)
+            if (ExpirationDate < DateTime.UtcNow)
                 return LoginReturnCodes.UserExpired;
 
             if (Locked)
