@@ -42,9 +42,22 @@ Se il SqlTable non rientra in questi casi sarà compito del programmatore discon
 # Gestione cursori
 
 In ADO.NET esistono due modalità di estrazione dati:
--	Mediante un cursore l forward-only read-only server site implementato dal SqlDataReader. 
+-	Mediante un cursore forward-only read-only lato server  implementato dal SqlDataReader. 
 -	Mediante un cursore lato client completamente disconnesso implementato dal SqlDataSet
 
 Questo vuol dire che se il SqlTable viene aperto in modalità Forward-Only (il default) viene utilizzato un SqlDataReader mentre nel caso di un apertura con bScrollable = TRUE, la piattaforma utilizza un DataTable (una versione semplificata ed ottimizzata del SqlDataSet).
 
-
+```virtual	void Open
+					(
+						BOOL bUpdatable = FALSE,   // é un rowset su cui verranno effettuate operazioni di insert/update/delete
+						BOOL bScrollable = FALSE,   // se TRUE é un rowset con un cursore di tipo scrollable
+						BOOL bSensitivity = TRUE  // non usato ma lasciato per compatibilità con il passato
+					);
+ ```
+ Nel caso di un SqlTable aperto in scrittura (bUpdatable = TRUE) la piattaforma effettua la query di update/insert/delete attraverso il comando di ExecuteNonQuery.
+ 
+ Per utilizzare al meglio la nuova piattaforma si consiglia di:
+  - se il SqlTable è forward-only consumare tutti i dati estratti mediante il MoveNext 
+  - usare un cursore scrollabile solo se strettamente necessario e solo se si devono estrarre un numero limitato di record : l'utilizzo di un DataTable vuol dire occupazione di memoria lato client, ovvero i dati sono tutti idisponibili nella memoria dove gira l'applicativo e non sul server del db come nel caso di cursore lato server. 
+  
+  
