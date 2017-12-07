@@ -125,7 +125,7 @@ export class DatabaseDeleteComponent implements OnInit {
 
       // se voglio eliminare i contenitori del database e sono in Azure 
       // devo prima richiedere le credenziali di amministrazione tramite l'apposita dialog
-      if (this.model.Provider === DatabaseProvider.SQLAzure &&
+      if (this.model.Provider === DatabaseProvider.SQLAZURE &&
         (this.deleteParams.DeleteERPDatabase || this.deleteParams.DeleteDMSDatabase)) {
         // apro la dialog
         this.openCredentialsDialog = true;

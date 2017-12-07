@@ -111,13 +111,13 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
   //-----------------------------------------------------------------------------	
   loadConfigurations(isoCountry: string) {
 
-    let getConfigurations = this.modelService.getConfigurations(this.model.SubscriptionKey, ImportExportConsts.Default, isoCountry).
+    let getConfigurations = this.modelService.getConfigurations(this.model.SubscriptionKey, ImportExportConsts.DEFAULT, isoCountry).
       subscribe(
       getResult => {
 
         this.defaultInfo = getResult['Content'];
 
-        let getConfigurations = this.modelService.getConfigurations(this.model.SubscriptionKey, ImportExportConsts.Sample, isoCountry).
+        let getConfigurations = this.modelService.getConfigurations(this.model.SubscriptionKey, ImportExportConsts.SAMPLE, isoCountry).
           subscribe(
           getResult => {
 

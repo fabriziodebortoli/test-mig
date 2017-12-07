@@ -20,8 +20,8 @@ export class DatabaseTestconnectionComponent implements OnInit {
 
    // dropdown auxiliary variables
   providers: Array<{ name:string, value:string }> = [
-    { name: 'SQL Azure', value: DatabaseProvider.SQLAzure},
-    { name: 'SQL Server', value: DatabaseProvider.SQLServer}
+    { name: 'SQL Azure', value: DatabaseProvider.SQLAZURE},
+    { name: 'SQL Server', value: DatabaseProvider.SQLSERVER}
   ];
 
   selectedProvider: { name: string, value: string } = { name: '', value: ''};

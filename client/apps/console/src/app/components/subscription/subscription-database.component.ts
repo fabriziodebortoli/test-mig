@@ -40,8 +40,8 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
   // dropdown auxiliary variables
   providers: Array<{ name: string, value: string }> = [
-    { name: 'SQL Azure', value: DatabaseProvider.SQLAzure },
-    { name: 'SQL Server', value: DatabaseProvider.SQLServer }
+    { name: 'SQL Azure', value: DatabaseProvider.SQLAZURE },
+    { name: 'SQL Server', value: DatabaseProvider.SQLSERVER }
   ];
   selectedProvider: { name: string, value: string };
 
@@ -314,7 +314,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
     }
 
     // per il provider Azure devo controllare se le password rispettano le policy di sicurezza
-    if (this.model.Provider === DatabaseProvider.SQLAzure) {
+    if (this.model.Provider === DatabaseProvider.SQLAZURE) {
 
       let dbPasswordIsValid = this.meetAzurePasswordPolicy(this.model.DBPassword, this.model.DBOwner);
       let dmsDbPasswordIsValid = (this.model.DBPassword !== this.model.DMSDBPassword)
