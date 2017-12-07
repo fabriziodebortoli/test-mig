@@ -21,9 +21,12 @@
     background: #bde3f8;
 }
 
-.hotlinkContainer {
+.hotlinkButtonsContainer {
     display: -webkit-inline-box;
     margin-bottom: 5px;
+}
+.hotlinkPopupsContainer {
+    display: grid;
 }
 
 .tablePopup {

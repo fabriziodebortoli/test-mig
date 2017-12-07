@@ -1,6 +1,9 @@
-<div class="hotlinkContainer" #hotLinkButtons>
-    <button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!(slice$ | async).enabled"></button>
-    <kendo-popup [anchor]="anchor" (blur)="closeOptions()" *ngIf="(showOptions$ | async)" [ngStyle]="optionsPopupStyle">
+<div class="hotlinkButtonsContainer" #hotLinkButtons>
+    <button #anchorPopup kendoButton (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!(slice$ | async).enabled"></button>
+    <button #anchorTable kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!(slice$ | async).enabled"></button>
+</div>
+<div onscroll="onScroll()" class="hotlinkPopupsContainer" #hotLinkPopups>
+    <kendo-popup [anchor]="anchorPopup" (blur)="closeOptions()" *ngIf="(showOptions$ | async)" [ngStyle]="optionsPopupStyle">
         <div class="searchOptions">
             <strong>Search for</strong>:
             <br>
@@ -9,10 +12,7 @@
             </div>
         </div>
     </kendo-popup>
-
-    <button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!(slice$ | async).enabled"></button>
-    <div #anchorTable></div>
-    <kendo-popup [anchor]="anchorTable" *ngIf="(showTable$ | async)" [ngStyle]="gridPopupStyle">
+    <kendo-popup [anchor]="anchorTable" [positionMode]="'absolute'" *ngIf="(showTable$ | async)" [ngStyle]="gridPopupStyle">
         <kendo-grid [height]="300"
                     [data]="gridView | async"
                     [pageSize]="pageSize"

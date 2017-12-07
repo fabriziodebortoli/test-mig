@@ -122,12 +122,14 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   closeOptions() { this.showOptionsSubj$.next(false); }
   openOptions() { this.showOptionsSubj$.next(true); }
   closeTable() { this.showTableSubj$.next(false); this.stop(); }
-  openTable() {
-    this.showTableSubj$.next(true);
-  }
+  openTable() { this.showTableSubj$.next(true); }
   closePopups() { this.closeOptions(); this.closeTable(); }
-  get gridPopupStyle(): any { return {'max-width': '50%', 'font-size': 'small', 'border': '1px solid rgba(0,0,0,.05)'}; }
-  get optionsPopupStyle(): any { return {'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)'}; }
+  get gridPopupStyle(): any {
+    return {'max-width': '50%', 'font-size': 'small', 'border': '1px solid rgba(0,0,0,.05)'};
+  }
+  get optionsPopupStyle(): any {
+    return {'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)'};
+  }
 
   private start() {
     this.filterer.configure(200);
