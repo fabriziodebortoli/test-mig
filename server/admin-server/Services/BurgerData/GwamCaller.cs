@@ -136,6 +136,15 @@ namespace Microarea.AdminServer.Services.BurgerData
             return GwamNotRespondingManager();
         }
 
+        //----------------------------------------------------------------------
+        internal void CreateRecoveryCode(string accountName)
+        {           
+            httpHelper.GetDataAsync(
+                this.GWAMUrl + "recoveryCode/" + accountName,
+                 JsonConvert.SerializeObject(authInfo));
+        }
+
+
         // [HttpGet("/api/accountRoles/{accountName}/{roleName}/{entityKey}/{ticks}")]
         //----------------------------------------------------------------------
         internal async Task<Task<string>>GetAccountRoles(string accountName, string roleName, string entityKey, int ticks )

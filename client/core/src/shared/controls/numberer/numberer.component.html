@@ -2,8 +2,8 @@
     <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
         <kendo-maskedtextbox #textbox [mask]="mask" [ngModel]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
-            (ngModelChange)="changeModelValue($event)" [style.width.px]="width" (keydown)="onKeyDown($event)" (blur)="onBlur($event)"
-            [maxlength]="maxLength">
+            (ngModelChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
+            (blur)="onBlur($event)" [maxlength]="maxLength">
         </kendo-maskedtextbox>
 
         <tb-context-menu [contextMenu]="numbererContextMenu" *ngIf="popUpMenu"></tb-context-menu>

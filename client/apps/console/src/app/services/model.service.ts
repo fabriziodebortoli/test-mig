@@ -198,7 +198,21 @@ export class ModelService {
       .map((res: Response) => {
         return res.json();
       })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (setData)'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  consumeToken(accountName: string, permissionToken: string): Observable<OperationResult> {
+
+    if (accountName === '' || permissionToken === '') {
+      return Observable.throw('Invalid input');
+    }
+
+    let baseUrl = environment.gwamAPIUrl + 'permissions/' + accountName + '/' + permissionToken;
+
+    return this.http.delete(baseUrl)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error (consumeToken)'));
   }
 
   //--------------------------------------------------------------------------------------------------------
