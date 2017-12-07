@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { DatabaseCredentials } from '../../authentication/credentials';
 import { ModelService } from 'app/services/model.service';
+import { DatabaseProvider } from '../components.helper';
 
 @Component({
   selector: 'app-database-testconnection',
@@ -19,8 +20,8 @@ export class DatabaseTestconnectionComponent implements OnInit {
 
    // dropdown auxiliary variables
   providers: Array<{ name:string, value:string }> = [
-    { name: 'SQL Azure', value: 'SQLAzure'},
-    { name: 'SQL Server', value: 'SQLServer'}
+    { name: 'SQL Azure', value: DatabaseProvider.SQLAzure},
+    { name: 'SQL Server', value: DatabaseProvider.SQLServer}
   ];
 
   selectedProvider: { name: string, value: string } = { name: '', value: ''};
