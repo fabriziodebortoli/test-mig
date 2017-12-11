@@ -48,4 +48,6 @@
       <img src="assets/ajax-loader.gif" />
     </div>
   </div>
+
+  <admin-dialog [mode]="'message'" [title]="'Import'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
 </div>
