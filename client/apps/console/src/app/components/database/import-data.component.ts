@@ -15,7 +15,7 @@ import { DataChannelService } from 'app/services/data-channel.service';
 export class ImportDataComponent implements OnInit {
 
   @Input() model: SubscriptionDatabase;
-  @Input() defaultInfo: Object; 
+  @Input() defaultInfo: Object;
   @Input() sampleInfo: Object;
 
   isImporting: boolean = false;
@@ -36,12 +36,16 @@ export class ImportDataComponent implements OnInit {
   selectedConfiguration: { name: string, value: string };
   //
 
+  // msgdialog variables
+  openMsgDialog: boolean = false;
+  msgDialog: string;
+
   //-----------------------------------------------------------------------------	
   constructor(
     private modelService: ModelService,
     private dataChannelService: DataChannelService) {
-      
-     this.importParams = new ImportDataParameters();
+
+    this.importParams = new ImportDataParameters();
   }
 
   //-----------------------------------------------------------------------------	
@@ -57,7 +61,7 @@ export class ImportDataComponent implements OnInit {
       (res) => {
         this.selectedCountry = { name: 'IT', value: 'IT' };
         this.onSelectedCountryChange(this.selectedCountry);
-          },
+      },
       (err) => { }
     );
   }
@@ -150,7 +154,8 @@ export class ImportDataComponent implements OnInit {
 
         this.isImporting = false;
 
-        alert(importDataResult.Message);
+        this.msgDialog = importDataResult.Message;
+        this.openMsgDialog = true;
 
         importData.unsubscribe();
       },
