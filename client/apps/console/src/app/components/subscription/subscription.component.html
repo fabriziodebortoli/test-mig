@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div *ngIf="editing" class="row">
     <div *ngIf="databases.length === 0" class="col-xs-12 col-md-12">
       <div class="box mt20">
         <div class="adminTile">
