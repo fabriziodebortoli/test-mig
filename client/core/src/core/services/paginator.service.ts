@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 export type ClientPage = {key: string, rows: any[], total: number, oldTotal: number,
     columns: any[], ignore: boolean};
 export type ServerPage = {key: string, rows: any[], columns: any[]};
-export type ServerNeededParams = { model?: any, customFilters?: any };
+export type ServerNeededParams = { model: any, customFilters: any };
 
 @Injectable()
 export class PaginatorService implements OnDestroy {
@@ -31,7 +31,7 @@ export class PaginatorService implements OnDestroy {
         this._skip = value;
     }
 
-    private lastServNeededParams: ServerNeededParams;
+    private lastServNeededParams: ServerNeededParams = { model: {value: ''}, customFilters: '' };
     private queryTrigger$: Observable<ServerNeededParams>;
     private needSrvParamTriggerSub: Subscription;
 
