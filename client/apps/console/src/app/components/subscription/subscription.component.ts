@@ -35,68 +35,69 @@ export class SubscriptionComponent implements OnInit {
 
     let subscriptionKey: string = this.route.snapshot.queryParams['subscriptionToEdit'];
 
-    if (subscriptionKey !== undefined) {
-      this.editing = true;
-      this.readingData = true;
+    if (subscriptionKey === undefined || subscriptionKey === '')
+      return;
 
-      // first I load the subscription 
+    this.editing = true;
+    this.readingData = true;
 
-      let accountName: string;
-      let authorizationStored = localStorage.getItem('auth-info');
+    // first I load the subscription 
 
-      if (authorizationStored !== null) {
-        let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
-        accountName = authorizationProperties.accountName;
-      }
+    let accountName: string;
+    let authorizationStored = localStorage.getItem('auth-info');
 
-      let localAccountInfo = localStorage.getItem(accountName);
-      let instanceKey: string = '';
-
-      if (localAccountInfo != null && localAccountInfo != '') {
-        let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
-        instanceKey = accountInfo.instanceKey;
-      }
-
-      this.modelService.getSubscriptions(accountName, instanceKey, subscriptionKey)
-        .subscribe(
-        res => {
-          let subscriptions: AppSubscription[] = res['Content'];
-
-          if (subscriptions.length == 0) {
-            this.readingData = true;
-            return;
-          }
-
-          this.model = subscriptions[0];
-
-          // then I load the databases of selected subscription
-
-          this.modelService.getDatabases(subscriptionKey)
-            .subscribe(
-            res => {
-              this.databases = res['Content'];
-              this.readingData = false;
-
-              for (var index = 0; index < this.databases.length; index++) {
-                var db = this.databases[index];
-                if (db.UnderMaintenance) {
-                  this.underMaintenance = true;
-                  break;
-                }
-              }
-            },
-            err => {
-              alert(err);
-              this.readingData = false;
-            }
-            )
-        },
-        err => {
-          alert(err);
-          this.readingData = false;
-        }
-        )
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+      accountName = authorizationProperties.accountName;
     }
+
+    let localAccountInfo = localStorage.getItem(accountName);
+    let instanceKey: string = '';
+
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instanceKey = accountInfo.instanceKey;
+    }
+
+    this.modelService.getSubscriptions(accountName, instanceKey, subscriptionKey)
+      .subscribe(
+      res => {
+        let subscriptions: AppSubscription[] = res['Content'];
+
+        if (subscriptions.length == 0) {
+          this.readingData = true;
+          return;
+        }
+
+        this.model = subscriptions[0];
+
+        // then I load the databases of selected subscription
+
+        this.modelService.getDatabases(subscriptionKey)
+          .subscribe(
+          res => {
+            this.databases = res['Content'];
+            this.readingData = false;
+
+            for (var index = 0; index < this.databases.length; index++) {
+              var db = this.databases[index];
+              if (db.UnderMaintenance) {
+                this.underMaintenance = true;
+                break;
+              }
+            }
+          },
+          err => {
+            alert(err);
+            this.readingData = false;
+          }
+          )
+      },
+      err => {
+        alert(err);
+        this.readingData = false;
+      }
+      )
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -113,6 +114,7 @@ export class SubscriptionComponent implements OnInit {
         this.model = new AppSubscription();
         if (this.editing)
           this.editing = !this.editing;
+
         subs.unsubscribe();
         // after save I return to parent page
         this.router.navigateByUrl('/subscriptionsHome');
