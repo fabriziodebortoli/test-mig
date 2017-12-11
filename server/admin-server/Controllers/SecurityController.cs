@@ -328,8 +328,9 @@ namespace Microarea.AdminServer.Controllers
                 {
 					opRes.Result = false;
 					opRes.Code = (int)code;
-                    opRes.Message = Strings.InvalidUser  +": " + code.ToString();//todo valutare se  avere metodo che traduce codice in stringa( codice esistente altrove)
-					return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    opRes.Message = Strings.InvalidUser  +": " + code.ToString();
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);//todo valutare se  avere metodo che traduce codice in stringa( codice esistente altrove)
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 				}
 
 				// TODO optimization
@@ -352,7 +353,15 @@ namespace Microarea.AdminServer.Controllers
                     _jsonHelper.AddPlainObject<OperationResult>(opRes);
                     return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                 }
-                
+                if (instancesArray.Length == 0)
+                {
+                    opRes.Result = false;
+                    opRes.Code = (int)AppReturnCodes.NoInstancesAvailable;
+                    opRes.Message = Strings.NoInstancesAvailable;
+                    opRes.Content = instancesArray;
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
                 opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;

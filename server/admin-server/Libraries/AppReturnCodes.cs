@@ -28,6 +28,7 @@
 		InvalidData,
 		GWAMCommunicationError,
         UnknownModelName,
-		NoSubscriptionDatabasesAvailable
-	}
+		NoSubscriptionDatabasesAvailable,
+        NoInstancesAvailable
+    }
 }
