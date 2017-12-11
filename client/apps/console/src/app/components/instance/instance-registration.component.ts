@@ -153,6 +153,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       },
       err => {
         this.activationCode = '';
+        this.errorMessage = 'An error occurred while contacting GWAM';
         this.busy = false;
         this.obtainingPermission = false;
       }
@@ -263,6 +264,11 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       }
     )     
     
+  }  
+
+  //--------------------------------------------------------------------------------
+  goInstanceConfiguration() {
+    this.router.navigateByUrl('/instancesHome');
   }  
 
   //--------------------------------------------------------------------------------

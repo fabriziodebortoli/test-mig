@@ -2,8 +2,9 @@ import { OperationResult } from './../../services/operationResult';
 import { Component, OnInit, Input } from '@angular/core';
 import { SubscriptionDatabase } from 'app/model/subscriptionDatabase';
 import { ModelService } from '../../services/model.service';
-import { element } from 'protractor';
 import { ImportDataParameters, ImportDataBodyContent } from './helpers/database-helpers';
+import { ImportExportConsts } from '../components.helper';
+import { DataChannelService } from 'app/services/data-channel.service';
 
 @Component({
   selector: 'app-import-data',
@@ -14,11 +15,10 @@ import { ImportDataParameters, ImportDataBodyContent } from './helpers/database-
 export class ImportDataComponent implements OnInit {
 
   @Input() model: SubscriptionDatabase;
+  @Input() defaultInfo: Object; 
+  @Input() sampleInfo: Object;
 
   isImporting: boolean = false;
-
-  defaultInfo: Object;
-  sampleInfo: Object;
 
   importDefaultData: boolean = true;
   importSampleData: boolean = false;
@@ -26,23 +26,21 @@ export class ImportDataComponent implements OnInit {
   // options
   importParams: ImportDataParameters;
 
-  deleteTableContents: boolean = false;
-  skipRow: boolean = false;
-  updateRow: boolean = true;
-  //
-
   // lista country code
   countries: Array<{ name: string, value: string }> = [];
   selectedCountry: { name: string, value: string };
   //
 
-  // lista configurazioni disponibili per i dati di default
+  // lista configurazioni disponibili per i dati di default/esempio
   configurations: Array<{ name: string, value: string }> = [];
   selectedConfiguration: { name: string, value: string };
   //
 
   //-----------------------------------------------------------------------------	
-  constructor(private modelService: ModelService) {
+  constructor(
+    private modelService: ModelService,
+    private dataChannelService: DataChannelService) {
+      
      this.importParams = new ImportDataParameters();
   }
 
@@ -51,14 +49,17 @@ export class ImportDataComponent implements OnInit {
 
     this.countries.push(
       { name: 'IT', value: 'IT' },   // l'iso stato dovrebbe essere un'informazione a livello di subscription
-      { name: 'INTL', value: 'INTL' }// il set INTL viene aggiunto d'ufficio
+      { name: ImportExportConsts.INTL, value: ImportExportConsts.INTL }// il set INTL viene aggiunto d'ufficio
     );
 
-    // precarico localmente le configurazioni per i dati di esempio e di default
-    this.getConfigurations('default', 'IT');
-    this.getConfigurations('sample', 'IT');
-
-    this.selectedCountry = { name: 'IT', value: 'IT' };
+    // to initialize the default data configurations in dropdown
+    this.dataChannelService.dataChannel.subscribe(
+      (res) => {
+        this.selectedCountry = { name: 'IT', value: 'IT' };
+        this.onSelectedCountryChange(this.selectedCountry);
+          },
+      (err) => { }
+    );
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -119,29 +120,6 @@ export class ImportDataComponent implements OnInit {
   //-----------------------------------------------------------------------------	
   onUpdateRowChanged(value) {
     this.importParams.OverwriteRecord = value;
-  }
-
-  // load the list of configurations from filesystem
-  //-----------------------------------------------------------------------------	
-  getConfigurations(importType: string, isoCountry: string) {
-
-    let getConfigurations = this.modelService.getConfigurations(this.model.SubscriptionKey, importType, isoCountry).
-      subscribe(
-      getResult => {
-
-        if (importType === 'default')
-          this.defaultInfo = getResult['Content'];
-        else
-          this.sampleInfo = getResult['Content'];
-
-        getConfigurations.unsubscribe();
-      },
-      checkDbError => {
-        console.log(checkDbError);
-        alert(checkDbError);
-        getConfigurations.unsubscribe();
-      }
-      )
   }
 
   //-----------------------------------------------------------------------------	

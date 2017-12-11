@@ -170,7 +170,7 @@ namespace Microarea.AdminServer.Controllers
             {
                 Account account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
 
-                // L'account esiste sul db locale
+                // L'account deve esistere sul db locale perchè il cambio pwd è possibile solo dopo la login
                 if (account != null)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
@@ -178,14 +178,9 @@ namespace Microarea.AdminServer.Controllers
                         new AccountModification(account.AccountName, instanceKey, account.Ticks));
 
                     //TODO verifica valori ritorno
-                    // GWAM call could not end correctly: so we check the object
+                    // se il GWAM non risponde non si deve poter andare avanti, il  cambio pwd si può fare solo se connessi, perlomeno per adesso.
                     if (!responseData.Result)
-                    {
-
-                        //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        //    if (!VerifyPendingFlag(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                    }
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -255,6 +250,30 @@ namespace Microarea.AdminServer.Controllers
 			}
 		}
 
+        [HttpPost("api/forgotPassword/{accountName}/{instanceKey}")]
+        //-----------------------------------------------------------------------------	
+        public IActionResult ApiForgotPassword(string accountName, string instanceKey)
+        {
+            // Used as a response to the front-end.
+            OperationResult opRes = new OperationResult();
+            IInstance instance = this.GetInstance(instanceKey);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
+            try
+            {
+               gc.CreateRecoveryCode(accountName);
+            }
+            catch (Exception e)
+            {
+                opRes.Result = false;
+                opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
+                opRes.Message = string.Format(Strings.ExceptionOccurred, e.Message);
+                _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+            }
+            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+
+        }
+
         [HttpPost("api/recoveryCode")]
         //-----------------------------------------------------------------------------	
         public async Task<IActionResult> ApiCheckRecoveryCode(string accountName, string recoveryCode, string instanceKey)
@@ -309,8 +328,9 @@ namespace Microarea.AdminServer.Controllers
                 {
 					opRes.Result = false;
 					opRes.Code = (int)code;
-                    opRes.Message = Strings.InvalidUser  +": " + code.ToString();//todo valutare se  avere metodo che traduce codice in stringa( codice esistente altrove)
-					return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    opRes.Message = Strings.InvalidUser  +": " + code.ToString();
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);//todo valutare se  avere metodo che traduce codice in stringa( codice esistente altrove)
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 				}
 
 				// TODO optimization
@@ -333,7 +353,15 @@ namespace Microarea.AdminServer.Controllers
                     _jsonHelper.AddPlainObject<OperationResult>(opRes);
                     return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                 }
-                
+                if (instancesArray.Length == 0)
+                {
+                    opRes.Result = false;
+                    opRes.Code = (int)AppReturnCodes.NoInstancesAvailable;
+                    opRes.Message = Strings.NoInstancesAvailable;
+                    opRes.Content = instancesArray;
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
                 opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;

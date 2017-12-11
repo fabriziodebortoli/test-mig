@@ -4,6 +4,7 @@ import { SubscriptionDatabase } from 'app/model/subscriptionDatabase';
 import { DeleteDatabaseBodyContent, DeleteDatabaseParameters } from 'app/components/database/helpers/database-helpers';
 import { Router } from '@angular/router';
 import { DatabaseCredentials } from '../../authentication/credentials';
+import { DatabaseProvider } from '../components.helper';
 
 @Component({
   selector: 'app-database-delete',
@@ -124,7 +125,7 @@ export class DatabaseDeleteComponent implements OnInit {
 
       // se voglio eliminare i contenitori del database e sono in Azure 
       // devo prima richiedere le credenziali di amministrazione tramite l'apposita dialog
-      if (this.model.Provider === 'SQLAzure' &&
+      if (this.model.Provider === DatabaseProvider.SQLAZURE &&
         (this.deleteParams.DeleteERPDatabase || this.deleteParams.DeleteDMSDatabase)) {
         // apro la dialog
         this.openCredentialsDialog = true;

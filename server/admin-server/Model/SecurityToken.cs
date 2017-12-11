@@ -39,7 +39,7 @@ namespace Microarea.AdminServer.Model
 				if (expired)
 					return false;
 
-				if (expirationDate < DateTime.Now)
+				if (expirationDate < DateTime.UtcNow)
 					expired = true;
 
 				return !expired;
@@ -59,7 +59,7 @@ namespace Microarea.AdminServer.Model
 			t.accountName = accountName;
 			t.token  = Guid.NewGuid().ToString();
 			t.expired = false;
-			t.expirationDate = DateTime.Now.AddDays(7); // default: dura una settinama
+			t.expirationDate = DateTime.UtcNow.AddDays(7); // default: dura una settinama
 			t.TokenType = type;
 			return t;
         }

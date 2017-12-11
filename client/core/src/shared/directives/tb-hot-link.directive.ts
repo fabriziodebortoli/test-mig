@@ -59,8 +59,6 @@ export class TbHotLinkDirective implements OnInit {
             s => this.cmp.instance.modelComponent.model ? { value: this.cmp.instance.modelComponent.model.value,
                                                             enabled: this.cmp.instance.modelComponent.model.enabled } :
                                                           { value: undefined, enabled: false });
-        this.cmp.instance.slice$ = this.store.select(selector)
-        // .map(x => ( {enabled: this.cmp.instance.modelComponent.model.enabled, value: this.cmp.instance.modelComponent.model.value}))
-        .startWith( { value: undefined,  enabled: false });
+        this.cmp.instance.slice$ = this.store.select(selector).startWith( { value: undefined,  enabled: false });
     }
 }

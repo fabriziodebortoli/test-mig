@@ -38,7 +38,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			this.result = result;
 			this.resultCode = resultCode;
 			this.message = message;
-			this.expirationDate = result ? DateTime.Now.AddMinutes(defaultTokenDurationMinutes) : DateTime.MinValue;
+			this.expirationDate = result ? DateTime.UtcNow.AddMinutes(defaultTokenDurationMinutes) : DateTime.MinValue;
 			this.jwtToken = result ? GenerateJWTToken(token, secretKey) : String.Empty;
 		}
 
