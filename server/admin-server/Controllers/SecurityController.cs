@@ -340,7 +340,7 @@ namespace Microarea.AdminServer.Controllers
 				List<IAccountRoles> accountRoles = this.burgerData.GetList<AccountRoles, IAccountRoles>(
 					String.Format(Queries.SelectAccountRoles, accountName), ModelTables.AccountRoles);
 
-				bool isAdmin = accountRoles.Find(k => k.RoleName == "Admin" && k.Level == "Instance") != null;
+				bool isAdmin = accountRoles.Find(k => k.RoleName == "Admin" && k.Level == "INSTANCE") != null;// todo case sensitive
 
 				// if the account is an administrator, we look through the InstanceAccounts to find his Instances
 
@@ -366,9 +366,6 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
 				opRes.Content = instancesArray;
-
-				//@@TODO: se instancesArray.Count == 0 ritornare un msg appropriato (se in locale ho l'account ma mancano le tabelle correlate)
-
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -383,8 +380,20 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddPlainObject<OperationResult>(opGWAMRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
+                List<Instance> instancesArray2 = JsonConvert.DeserializeObject<List<Instance>>(opGWAMRes.Content.ToString()); 
+                // usando List <IInstance>:Exception thrown: 'Newtonsoft.Json.JsonSerializationException' in Newtonsoft.Json.dll
+                // Could not create an instance of type Microarea.AdminServer.Model.Interfaces.IInstance.Type is an interface or abstract class and cannot be instantiated.Path '[0].Ticks', line 3, position 12.The program '[41224] chrome.exe: WebKit' has exited with code -1 (0xffffffff).
 
-			opRes.Result = true;
+                if (instancesArray2.Count == 0)
+                {
+                    opRes.Result = false;
+                    opRes.Code = (int)AppReturnCodes.NoInstancesAvailable;
+                    opRes.Message = Strings.NoInstancesAvailable;
+                    opRes.Content = instancesArray2;
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
+            opRes.Result = true;
 			opRes.Code = (int)AppReturnCodes.OK;
 			opRes.Message = Strings.OperationOK;
 			opRes.Content = opGWAMRes.Content;
