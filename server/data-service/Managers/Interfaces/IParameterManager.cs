@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Microarea.DataService.Managers.Interfaces
 {
     public interface IParameterManager
     {
-        Dictionary<string, string> GetParameters(IEnumerable<string> parameters);
+        Dictionary<string, object> GetParameters(IEnumerable<string> parameters, string connectionString);
+        void UpdateCache(IEnumerable<string> parameters, string connectionString);
     }
 }
