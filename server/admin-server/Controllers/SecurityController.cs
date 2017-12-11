@@ -340,11 +340,14 @@ namespace Microarea.AdminServer.Controllers
 				List<IAccountRoles> accountRoles = this.burgerData.GetList<AccountRoles, IAccountRoles>(
 					String.Format(Queries.SelectAccountRoles, accountName), ModelTables.AccountRoles);
 
-				bool isAdmin = accountRoles.Find(k => k.RoleName == "Admin" && k.Level == "INSTANCE") != null;// todo case sensitive
+				bool isAdmin = accountRoles.Find(
+					k =>
+					k.RoleName.Equals("Admin", StringComparison.InvariantCultureIgnoreCase) &&
+					k.Level.Equals("INSTANCE", StringComparison.InvariantCultureIgnoreCase)) != null;
 
 				// if the account is an administrator, we look through the InstanceAccounts to find his Instances
 
-                IInstance[] instancesArray = this.GetInstances(accountName, isAdmin);
+				IInstance[] instancesArray = this.GetInstances(accountName, isAdmin);
 
                 opRes = UpdateInstances(instancesArray);
 
