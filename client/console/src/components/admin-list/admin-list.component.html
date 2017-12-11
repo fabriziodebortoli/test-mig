@@ -3,6 +3,15 @@
 </div>
 <div class="list-container">
   <md-list class="w-wide">
+
+    <md-list-item *ngIf="showHeader">
+      <div class="item-container">
+        <div *ngFor="let columnName of columnNames; let last = last;" class="item-col-left">
+          {{ columnName }}
+        </div>
+      </div>
+    </md-list-item>    
+
     <md-list-item *ngFor="let item of items" (click)="goEditMode(item)">
       <div class="item-container">
         <div *ngFor="let columnName of columnNames; let last = last;" class="item-col-left">

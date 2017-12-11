@@ -1,5 +1,6 @@
 
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { fadeInContent } from '@angular/material';
 
 @Component({
   selector: 'admin-list',
@@ -12,6 +13,7 @@ export class AdminListComponent implements OnInit {
   @Input() columnNames: Array<string>;
   @Input() rowCommand: string;
   @Input() readingData: boolean;
+  @Input() showHeader: boolean;
   
   @Output() onSelectedItem: EventEmitter<object> = new EventEmitter<object>();
   @Output() onFireRowCommand: EventEmitter<object> = new EventEmitter<object>();
@@ -19,7 +21,9 @@ export class AdminListComponent implements OnInit {
   supportedCommands: string[] = ['delete'];
   rowCommandIcon: string;
 
-  constructor() { }
+  constructor() { 
+    this.showHeader = false;
+  }
 
   ngOnInit() {
 
