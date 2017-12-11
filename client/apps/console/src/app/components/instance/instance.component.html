@@ -1,3 +1,17 @@
+<!-- #begin dialogs -->
+
+<admin-dialog 
+  [mode]="'fields'"
+  [title]="'Quick Add Server'" 
+  [message]="''"
+  [(fields)]=fields
+  [(opened)]=openToggle 
+  [(result)]=result
+  (onClose)=onCloseCredentialsDialog()>
+  </admin-dialog>
+
+<!-- #end dialogs -->
+
 <div class="container">
   <h2 class="componentTitle">Instance {{ model.InstanceKey }}</h2>
 
@@ -36,15 +50,16 @@
         </div>        
       </div>
     </admin-tab>
-    <admin-tab [tabTitle]="'Server Topography'">
+    <admin-tab [tabTitle]="'Instance Servers'">
       <div class="tab-content">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="adminTile tileNormal">
               <div>
+                <admin-button class="right" [buttonText]="'Add'" (click)="openAddServerDialog()"></admin-button>
                 <admin-list 
                   [items]=serverURLs
-                  [columnNames]="['URLType','URL']" 
+                  [columnNames]="['appName', 'url', 'urlType']"
                   [readingData]=readingData>
                 </admin-list>
               </div>
