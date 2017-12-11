@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Instance } from '../../model/instance';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ServerUrl } from 'app/authentication/server-url';
+import { ServerUrl, UrlType } from 'app/authentication/server-url';
 
 @Component({
   selector: 'app-instance',
@@ -23,10 +23,17 @@ export class InstanceComponent implements OnInit, OnDestroy {
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
+    this.serverURLs = [];
   }
 
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
+    let urlType: UrlType;
+    urlType = UrlType.TBLOADER;
+    
+    let surl: ServerUrl = new ServerUrl(urlType, "http://test.tbloader.net", "TBLoader Server");
+
+    this.serverURLs.push(surl);
 
     let instanceKey: string = this.route.snapshot.queryParams['instanceToEdit'];
     
