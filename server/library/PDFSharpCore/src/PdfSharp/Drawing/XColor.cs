@@ -31,9 +31,8 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.ComponentModel;
-#if GDI
 using System.Drawing;
-#endif
+
 #if WPF
 using WpfColor = System.Windows.Media.Color;
 #endif
@@ -136,8 +135,8 @@ namespace PdfSharp.Drawing
 #endif
 
 #if GDI
-        XColor(KnownColor knownColor)
-            : this(System.Drawing.Color.FromName(knownColor.ToString()))
+        XColor(string knownColor)
+            : this(System.Drawing.Color.FromName(knownColor))
         { }
 #endif
 
@@ -306,9 +305,9 @@ namespace PdfSharp.Drawing
         /// <summary>
         /// Creates an XColor from the specified pre-defined color.
         /// </summary>
-        public static XColor FromKnownColor(KnownColor color)
+        public static XColor FromKnownColor(string knownColor)
         {
-            return new XColor(color);
+            return new XColor(knownColor);
         }
 #endif
 
@@ -323,7 +322,7 @@ namespace PdfSharp.Drawing
             // So I don't use the source, but the reflection.
             try
             {
-                return new XColor((KnownColor)Enum.Parse(typeof(KnownColor), name, true));
+                return new XColor(name);
             }
             // ReSharper disable EmptyGeneralCatchClause
             catch { }
