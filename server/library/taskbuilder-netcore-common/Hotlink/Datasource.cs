@@ -262,10 +262,18 @@ namespace Microarea.Common.Hotlink
 
         //---------------------------------------------------------------------
 
-        public bool PrepareRadar(HttpRequest request)
+        public async Task<bool> PrepareRadar(IQueryCollection requestQuery)
         {
-            string query =  request.Form["query"];
-            string columnInfos = request.Form["columnInfos"];
+
+            string documentId = requestQuery["documentID"].ToString();
+            string name = requestQuery["name"].ToString();
+            string response = await TbSession.GetRadarQuery(Session, documentId, name);
+
+            JObject jObject = JObject.Parse(response);
+            string query = jObject.GetValue("query")?.ToString();
+            string columnInfos = jObject.GetValue("columnInfos")?.ToString();
+
+            this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
 
             List<ColumnType> columns = columnInfos.IsNullOrEmpty() ? null
                                             : JsonConvert.DeserializeObject<List<ColumnType>>(columnInfos);

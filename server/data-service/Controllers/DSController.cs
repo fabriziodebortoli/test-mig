@@ -142,16 +142,34 @@ namespace DataService.Controllers
 
 
         //---------------------------------------------------------------------
+        // radar/nsdoc/finder, radar/nsdoc/browser,  radar/nsdoc/query-name
         [Route("radar")]
         public IActionResult GetRadar()
         {
+            string authHeader = HttpContext.Request.Headers["Authorization"];
+            if (string.IsNullOrWhiteSpace(authHeader))
+            {
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+            }
             UserInfo ui = GetLoginInformation();
             if (ui == null)
+            {
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+            }
 
-            Datasource ds = new Datasource(ui);
+            TbSession session = new TbSession(ui, null);
 
-            if (!ds.PrepareRadar(HttpContext.Request))
+            JObject jObject = JObject.Parse(authHeader);
+            string instanceID = jObject.GetValue("tbLoaderName")?.ToString();  //TODO RSWEB  togliere stringa cablata e usare il tostring del datamember del messaggio
+            if (!string.IsNullOrWhiteSpace(instanceID))
+            {
+                session.TbInstanceID = instanceID;
+                session.LoggedToTb = true;
+            }
+
+            Datasource ds = new Datasource(session);
+
+            if (!ds.PrepareRadar(HttpContext.Request.Query).Result)
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
             string records;
