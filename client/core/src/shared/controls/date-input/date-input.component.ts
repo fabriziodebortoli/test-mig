@@ -10,8 +10,9 @@ import { FormattersService } from './../../../core/services/formatters.service';
 
 import { ControlComponent } from './../control.component';
 
+// failed test to refresh locale settings immediately after logout-login
 
-import { LOCALE_ID } from '@angular/core';
+// import { LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'tb-date-input',
@@ -33,11 +34,14 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
     private formattersService: FormattersService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef,
-    @Inject(LOCALE_ID) private _locale: string) {
+    changeDetectorRef: ChangeDetectorRef) {
     super(layoutService, tbComponentService, changeDetectorRef);
 
-    this._locale = localStorage.getItem('ui_culture');
+
+    // failed test to refresh locale settings immediately after logout-login
+
+    // @Inject(LOCALE_ID) private _locale: string
+    // this._locale = localStorage.getItem('ui_culture');
   }
 
   ngOnInit() {
