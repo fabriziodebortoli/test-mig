@@ -349,11 +349,11 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string, activationCode: string): Observable<OperationResult> {
+  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string): Observable<OperationResult> {
 
-    let authorizationHeader = activationCode;
+    let authorizationHeader = this.createAuthorizationHeader('app');
 
-    if (authorizationHeader === '' || authorizationHeader === undefined) {
+    if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
     }
 
