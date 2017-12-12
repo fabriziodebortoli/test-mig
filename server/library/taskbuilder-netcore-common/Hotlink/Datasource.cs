@@ -155,7 +155,7 @@ namespace Microarea.Common.Hotlink
             selection_type.Data = selectionType;
 
             string likeValue = requestQuery["filter"];
-            if (likeValue == null) 
+            if (String.IsNullOrEmpty(likeValue) || /*tapullo*/ likeValue== "\"\"") 
                 likeValue = string.Empty;
 
             if (!selectionType.CompareNoCase("direct"))

@@ -1,28 +1,24 @@
-<div class="container pad10" fxLayout="column">
+<div class="row adminTile">
+  <div class="box" style="width:60%">
+    <admin-button [buttonText]="'Check databases structure'" [primary]=true (click)="checkDatabase()" [readOnly]="isCheckDbRunning || isUpdateDbRunning"></admin-button>
+    <admin-list [items]=operationsList [readingData]=isCheckDbRunning [columnNames]="['Message']"></admin-list>
+  </div>
+</div>
 
-  <div class="row adminTile">
-    <div class="box" style="width:60%">
-      <admin-button [buttonText]="'Check databases structure'" (click)="checkDatabase()" [readOnly]="isCheckDbRunning || isUpdateDbRunning"></admin-button>
-      <admin-list [items]=operationsList [readingData]=isCheckDbRunning [columnNames]="['Message']"></admin-list>
+<div class="row adminTile" *ngIf="canUpdateDb">
+  <div class="box" style="width:60%" *ngIf="!isUpdateDbRunning">
+    <div>
+      <admin-checkbox [checkId]="'chkImportDefault'" [checkText]="'Import default data'" [(checkValue)]="importDefaultData" (inputDataChange)="importDefaultDataChanged($event)"></admin-checkbox>
+    </div>
+    <div>
+      <admin-dropdown [inputLabel]="'default configuration'" [(selectedValue)]="selectedConfiguration" [listItems]="configurations"
+        [textField]="'name'" [valueField]="'value'" (selectedValueChange)="onConfigurationChange($event)"></admin-dropdown>
+    </div>
+    <div class="mt20">
+      <admin-button [buttonText]="'Update databases structure'" [primary]=true (click)="updateDatabase()"></admin-button>
     </div>
   </div>
-
-  <div class="row adminTile" *ngIf="canUpdateDb">
-    <div class="box" style="width:60%" *ngIf="!isUpdateDbRunning">
-      <div>
-        <admin-checkbox [checkId]="'chkImportDefault'" [checkText]="'Import default data'" [(checkValue)]="importDefaultData" 
-        (inputDataChange)="importDefaultDataChanged($event)"></admin-checkbox>
-      </div>
-      <div>
-        <admin-dropdown [inputLabel]="'default configuration'" [(selectedValue)]="selectedConfiguration" [listItems]="configurations"
-          [textField]="'name'" [valueField]="'value'" (selectedValueChange)="onConfigurationChange($event)"></admin-dropdown>
-      </div>
-      <div class="mt20">
-        <admin-button [buttonText]="'Update databases structure'" (click)="updateDatabase()"></admin-button>
-      </div>
-    </div>
-    <div *ngIf="isUpdateDbRunning" class="mt20">
-      <img src="assets/ajax-loader.gif" />
-    </div>
+  <div *ngIf="isUpdateDbRunning" class="mt20">
+    <img src="assets/ajax-loader.gif" />
   </div>
 </div>

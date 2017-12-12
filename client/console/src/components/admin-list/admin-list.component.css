@@ -1,5 +1,7 @@
 .list-container { background-color:#ffffff;padding:4px }
 .w-wide { width:100% }
-.item-container { width:100%;margin-top:4px;display:inline-block;border-bottom:1px solid #c0c0c0; cursor:pointer }
+.item-container { width:100%;margin-top:4px;display:inline-block;border-bottom:1px solid #f0f0f0; cursor:pointer }
+.item-header { width:100%;margin-top:4px;display:inline-block;border-bottom:1px solid #d0d0d0; }
+.item-header div { font-weight: bold; }
 .item-col-left { display:block; float:left; min-width:20% }
 .item-col-right { display:block; float:right }

@@ -169,9 +169,9 @@ namespace Microarea.RSWeb.Controllers
             if (pathComplete.IsNullOrEmpty())
                 return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
 
-            UserInfo ui = GetLoginInformation();
+            /*UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };*/
 
             if (!System.IO.File.Exists(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };

@@ -1,5 +1,5 @@
 import { TbComponentService, LayoutService, ControlComponent, EventDataService, Store } from '@taskbuilder/core';
-import { ErpHttpService } from '../../../core/services/erp-http.service';
+import { LogisticsHttpService } from '../../../core/services/logistics/logistics-http.service';
 import { Component, Input, ViewChild, ViewContainerRef, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -18,8 +18,8 @@ export class StrBinEditComponent extends ControlComponent {
         public eventData: EventDataService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
-        changeDetectorRef:ChangeDetectorRef,
-        private http: ErpHttpService,
+        changeDetectorRef: ChangeDetectorRef,
+        private http: LogisticsHttpService,
         private store: Store
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);

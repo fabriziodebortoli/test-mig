@@ -45,20 +45,28 @@ export class TbHotLinkDirective implements OnInit {
     ngOnInit() {
         const compFactory = this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
         this.cmp = this.viewContainer.createComponent(compFactory);
+        let selector;
         if (!this.model) {
             let ancestor = (this.viewContainer as any)._view.component as HlComponent;
             if (ancestor) { this.cmp.instance.modelComponent = ancestor; }
-        } else { this.cmp.instance.model = this.model; }
+            selector = createSelector(
+                s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.enabled : false,
+                s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : undefined,
+                s => this.cmp.instance.modelComponent.model ? { value: this.cmp.instance.modelComponent.model.value,
+                                                                enabled: this.cmp.instance.modelComponent.model.enabled } :
+                                                              { value: undefined, enabled: false });
+        } else {
+            this.cmp.instance.model = this.model;
+            selector = createSelector(
+                s => this.cmp.instance.model ? this.cmp.instance.model.enabled : false,
+                s => this.cmp.instance.model ? this.cmp.instance.model.value : undefined,
+                s => this.cmp.instance.model ? { value: this.cmp.instance.model.value,
+                                                 enabled: this.cmp.instance.model.enabled } :
+                                               { value: undefined, enabled: false });
+        }
 
         this.cmp.instance.namespace = this.namespace;
         this.cmp.instance.name = this.name;
-
-        let selector = createSelector(
-            s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.enabled : false,
-            s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : undefined,
-            s => this.cmp.instance.modelComponent.model ? { value: this.cmp.instance.modelComponent.model.value,
-                                                            enabled: this.cmp.instance.modelComponent.model.enabled } :
-                                                          { value: undefined, enabled: false });
         this.cmp.instance.slice$ = this.store.select(selector).startWith( { value: undefined,  enabled: false });
     }
 }
