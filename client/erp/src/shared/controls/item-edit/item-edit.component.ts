@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService } from '@taskbuilder/core';
-import { ErpHttpService } from '../../../core/services/erp-http.service';
+import { LogisticsHttpService } from '../../../core/services/logistics/logistics-http.service';
 import { BehaviorSubject } from "../../../rxjs.imports";
 
 @Component({
@@ -25,7 +25,7 @@ export class ItemEditComponent extends ControlComponent {
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
         private store: Store,
-        private http: ErpHttpService
+        private http: LogisticsHttpService
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
     }
@@ -35,13 +35,6 @@ export class ItemEditComponent extends ControlComponent {
     }
 
     readParams() {
-
-        // this.http.getItemsSearchList("producersByCategory").subscribe(result => {
-        //     let response = result.json();
-        //     console.log(response);
-        // })
-
-
         this.http.checkItemsAutoNumbering().subscribe(result => {
             this.itemsAutoNumbering = result.json().itemsAutoNumbering;
             this.changeDetectorRef.detectChanges();

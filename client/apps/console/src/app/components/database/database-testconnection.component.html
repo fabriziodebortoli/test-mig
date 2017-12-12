@@ -1,15 +1,15 @@
+  <!-- #begin dialogs -->
+  <admin-dialog [mode]="'message'" [title]="'Test connection'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
+  <!-- #end dialogs -->
+
 <div class="container" (keyup)="onKeyUp($event)">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile tileNormal">
         System Administrator connection information
         <div class="mt20">
-          <admin-dropdown 
-          [inputLabel]="'Provider'" 
-          [(selectedValue)]="selectedProvider"
-          [listItems]="providers" 
-          [textField]="'name'"
-          [valueField]="'value'"></admin-dropdown>
+          <admin-dropdown [inputLabel]="'Provider'" [(selectedValue)]="selectedProvider" [listItems]="providers" [textField]="'name'"
+            [valueField]="'value'"></admin-dropdown>
         </div>
         <div>
           <admin-input-text [inputLabel]="'Server'" [textType]="'text'" [(inputData)]="dbCredentials.Server"></admin-input-text>
@@ -31,6 +31,4 @@
       </div>
     </div>
   </div>
-
-  <admin-dialog [mode]="'message'" [title]="'Test connection'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
 </div>
