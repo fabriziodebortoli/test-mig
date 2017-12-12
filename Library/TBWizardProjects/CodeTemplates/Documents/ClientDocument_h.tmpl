@@ -1,0 +1,98 @@
+//=============================================================================
+// module name  : @(ClientDocumentClassName).h
+//=============================================================================
+#pragma once
+
+@(DeleteDuplicatedLines(@(+)
+@(RepeatOnServerDocumentIncludeFiles{@(+)
+#include "@(RelativeFileName)"@(+)
+, "\r\n"})\n@(+)
+@(RepeatOnDBTs{@(+)
+#include <@(TableModuleName)\@(TableLibrarySourceFolder)\@(TableClassName).h>\n@(+)
+#include <@(DBTModuleName)\@(DBTLibrarySourceFolder)\@(DBTClassName).h>\n@(+)
+, "\r\n"})))
+
+//TBWIZ-INJECT{@(ClientDocumentClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+//includere alla fine degli include del .H
+#include "beginh.dex"
+
+@(DeleteDuplicatedLines(@(_NOEMPTYLINES:RepeatOnTabbedPanes{@(RepeatOnHotLinkColumns{class @(ColumnHKLClassName);, "\r\n"})\n, "\r\n"})))
+//////////////////////////////////////////////////////////////////////////////
+//             @(ClientDocumentClassName) class declaration 
+//////////////////////////////////////////////////////////////////////////////
+class @(ClientDocumentClassName) : public CClientDoc
+{
+	DECLARE_DYNCREATE(@(ClientDocumentClassName))
+
+@(_NOEMPTYLINES:IfDBTsPresent(@(+)
+public:\n@(+)
+@(RepeatOnDBTs{@(+)
+\t@(DBTClassName)* m_p@(DBTClassName);@(+)
+, "\r\n"@(+)
+})@(+)
+\n@(+)
+@(_NOEMPTYLINES:RepeatOnTabbedPanes{@(+)
+	@(RepeatOnHotLinkColumns{@(+)
+		\t@(ColumnHKLClassName)* m_pHKL@(_RB(_)TabbedPaneName)@(ColumnName);@(+)
+	,"\r\n"})@(+)
+,"\r\n"})@(+)
+@(_NOEMPTYLINES:RepeatOnTabbedPanes{@(IfNotDBTSlaveBuffered(@(+)
+	@(RepeatOnHotLinkColumns{@(+)
+		@(IfColumnShowsHotLinkDescription{@(+)
+			\t@(ColumnHKLDescriptionColumnDataObjClassName) m_@(_RB(_)TabbedPaneName)@(ColumnName)HotLinkDescription;@(+)
+		})@(+)
+	,"\r\n"})@(+)
+)),"\r\n"})@(+)
+))
+public:	
+	@(ClientDocumentClassName)();
+
+public:
+@(IfAttachedDirectly(\t@(ServerDocumentClassName)* m_pServerDoc;))
+@(IfAttachedToFamily(\t@(ServerDocumentFamilyClassName)* m_pServerDoc;))
+
+public:
+@(IfAttachedDirectly(@(+)
+	\t@(ServerDocumentClassName)* GetServerDoc() const\n@(+)
+	\t\t{\n@(+)
+	\t\t\treturn (@(ServerDocumentClassName)*) m_pServerDocument;\n@(+)
+	\t\t}\n@(+)
+))
+@(IfAttachedToFamily(@(+)
+	\t@(ServerDocumentFamilyClassName)* GetServerDoc() const\n@(+)
+	\t\t{\n@(+)
+	\t\t\treturn (@(ServerDocumentFamilyClassName)*) m_pServerDocument;\n@(+)
+	\t\t}\n@(+)
+))
+@(IfDBTsPresent(@(+)
+@(RepeatOnDBTs{@(+)
+    \t@(TableClassName)* Get@(DBTClassName)Record() const { return m_p@(DBTClassName)->Get@(TableClassName)(); }@(+)
+, "\r\n"@(+)
+})))
+
+protected:
+@(IfInterfacePresent(\tvirtual void Customize\t\t();))
+	virtual BOOL OnAttachData		();
+	virtual BOOL OnInitAuxData		();
+	virtual BOOL OnPrepareAuxData	();
+
+	virtual void OnPrepareAuxColumns (DBTSlaveBuffered*, SqlRecord*);
+
+protected:
+	//{{AFX_MSG(@(ClientDocumentClassName))
+		@(IsSlaveFormViewToCreate{afx_msg void On@(_RB(_)ClientDocumentName)Command();\n})
+@(_NOEMPTYLINES:RepeatOnTabbedPanes(@(_NOEMPTYLINES:RepeatOnHotLinkColumns{@(IfColumnShowsHotLinkDescription{\t\tafx_msg void On@(TabbedPaneName)@(ColumnName)Changed();}), "\r\n"}), "\r\n"))
+	//}}AFX_MSG
+	
+	DECLARE_MESSAGE_MAP()
+
+	//TBWIZ-INJECT{@(ClientDocumentClassName)(AdditionalMembers)
+	//TBWIZ-INJECT}
+};
+
+//TBWIZ-INJECT{@(ClientDocumentClassName)(AdditionalDeclarations)
+//TBWIZ-INJECT}
+
+#include "endh.dex"

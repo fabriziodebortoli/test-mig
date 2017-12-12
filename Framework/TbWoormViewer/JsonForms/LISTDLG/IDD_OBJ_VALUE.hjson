@@ -1,0 +1,7 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_OBJ_VALUE			GET_IDD(IDD_OBJ_VALUE, M.Framework.TbWoormViewer.LISTDLG)
+#define	IDC_OBJ_HEIGHT			GET_IDC(IDC_OBJ_HEIGHT)
+#define	IDC_OBJ_LEFT			GET_IDC(IDC_OBJ_LEFT)
+#define	IDC_OBJ_TOP			GET_IDC(IDC_OBJ_TOP)
+#define	IDC_OBJ_WIDTH			GET_IDC(IDC_OBJ_WIDTH)

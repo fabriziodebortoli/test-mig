@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RemoteClients>
+  <!--Add your remote clients here, put this file int the \installation\apps folder-->
+  <!--
+  <RemoteClient host="host1" user="domain\host1_user" password="host1_password" folder="C:\magonet\" port="10000" serviceport="11000"></RemoteClient>
+  <RemoteClient host="host2" user="domain\host2_user" password="host2_password" folder="C:\magonet\" port="10000" serviceport="11000"></RemoteClient>
+  
+  
+  <RemoteClient host="host2" user="domain\host2_user" password="host2_password" folder="C:\easylook\" easylook="true"></RemoteClient>
+  -->
+</RemoteClients>

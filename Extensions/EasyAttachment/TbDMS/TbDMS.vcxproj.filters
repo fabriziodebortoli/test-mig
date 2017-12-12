@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CDDMS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DDMSSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyAttachmentTbDMSWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParsedControlWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbDMSFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbDMSInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbRepositoryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAcquisitionFromDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAttachment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnmanagedFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDDMSRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DDMSCategories.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDMSCategories.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDMSRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDMSSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPaperyDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSOSConfiguration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DMSSearchFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SOSObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UISOSConfiguration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDSOSDocSender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UISOSDocSender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMassiveArchive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDMassiveArchive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDSOSAdjustAttachments.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UISOSAdjustAttachments.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDAcquisitionFromDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CDDMS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DDMSSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParsedControlWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBDMSEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TbDMSFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TbDMSInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TbRepositoryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAcquisitionFromDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAttachment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DDMSCategories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDMSCategories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDDMSRepository.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDMSRepository.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDMSSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPaperyDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DSOSConfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DMSSearchFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SOSObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UISOSConfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDSOSDocSender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UISOSDocSender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDSOSAdjustAttachments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UISOSAdjustAttachments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDMassiveArchive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMassiveArchive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDAcquisitionFromDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="endh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Beginh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="CDDMS.hjson" />
+    <None Include="UIAttachment.hjson" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{058545d7-2766-4f91-83af-42422551a31e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{dfde4e86-7c4a-4989-b507-a86f6728677d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JsonForms">
+      <UniqueIdentifier>{e02489a7-1a7b-48ae-b48e-fa0be4a80199}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\JsonForms\UIAcquisitionFromDevice\IDD_ACQUISITION_FROM_DEVICE.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UIDMSSettings\IDD_DMS_SETTINGS.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UIDMSCategories\IDD_DMSCATEGORIES.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UIDMSRepository\IDD_DMSREPOSITORY_EXPLORER.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UIMassiveArchive\IDD_MASSIVEARCHIVE_WIZARD.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UIPaperyDlg\IDD_PAPERY.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UISOSConfiguration\IDD_SOS_CONFIGURATION.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UISOSAdjustAttachments\IDD_SOSADJUSTATTACH_WIZARD.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\JsonForms\UISOSDocSender\IDD_SOSDOCSENDER_WIZARD.tbjson">
+      <Filter>JsonForms</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbDMS.rc" />
+  </ItemGroup>
+</Project>

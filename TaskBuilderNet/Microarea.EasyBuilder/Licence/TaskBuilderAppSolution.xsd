@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Product">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" name="SalesModule">
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element minOccurs="0" name="Allow">
+								<xs:complexType>
+									<xs:attribute name="iso" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="Deny">
+								<xs:complexType>
+									<xs:attribute name="iso" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="localize" type="xs:string" use="required" />
+			<xs:attribute name="activationversion" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="prodid" type="xs:string" use="required" />
+			<xs:attribute name="editionid" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

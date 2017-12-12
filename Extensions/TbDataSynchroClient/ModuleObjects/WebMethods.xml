@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Extensions.TbDataSynchroClient.TbDataSynchroClient.OpenWebSynchroMonitor" type="void" sourceInfo="File: Extensions\TbDataSynchroClient\TbDataSynchroClientFunctions.cpp." localize="Allow to open the Monitor Web" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+  </Functions>
+</FunctionObjects>

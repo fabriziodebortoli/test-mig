@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_RESOURCES_LAYOUT_TOOLBAR	GET_IDD(IDD_RESOURCES_LAYOUT_TOOLBAR, D.Framework.TbResourcesMng.ResourcesLayout)
+

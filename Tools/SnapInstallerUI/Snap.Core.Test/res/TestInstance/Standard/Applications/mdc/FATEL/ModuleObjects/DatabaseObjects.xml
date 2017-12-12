@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseObjects>
+	<Signature>FATEL</Signature>
+	<PreviousSignature application="ERP" module="FEPAConnector" />
+	<Release>10</Release>
+	<Tables>
+		<Table namespace="MDC.FATEL.Dbl.MA_FEPAParameters">
+			<Create release="1" createstep="1" />
+		</Table>
+	</Tables>
+	<Views />
+</DatabaseObjects>

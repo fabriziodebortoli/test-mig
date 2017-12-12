@@ -1,0 +1,105 @@
+.Document {
+	content: url(../ImagesOld/Document.png);
+}
+
+.Report {
+	content: url(../ImagesOld/Report.png);
+}
+
+.Batch {
+	content: url(../ImagesOld/Batch.png);
+}
+
+.Function {
+	content: url(../ImagesOld/Function.png);
+}
+
+.Wizard {
+	content: url(../ImagesOld/Wizard.png);
+}
+
+.OfficeItem {
+	content: url(../ImagesOld/OfficeItem.png);
+}
+
+.Unknown {
+	content: url(../ImagesOld/Unknown.png);
+}
+
+.pinnedImage {
+	content: url(../ImagesOld/Pin.png);
+}
+
+.unpinnedImage {
+	content: url(../ImagesOld/unpin.png);
+}
+
+.back {
+	content: url(../ImagesOld/Back.png);
+}
+
+.loading {
+	content: url(../ImagesOld/loading32.gif);
+}
+
+.favorite {
+	content: url(../ImagesOld/FilledStar.png);
+}
+
+.unFavorite {
+	content: url(../ImagesOld/EmptyStar.png);
+}
+
+.justAdded {
+	content: url(../ImagesOld/JustAdded.png);
+}
+
+.worker {
+	content: url(../ImagesOld/Worker.png);
+}
+
+.workerImage {
+	width: 60px;
+	height: 60px;
+	float: right;
+}
+
+.environment {
+	content: url(../ImagesOld/Environment.png);
+}
+
+.fullMenu {
+	content: url(../ImagesOld/FullMenu.png);
+}
+
+.pinnedMenu {
+	content: url(../ImagesOld/PinnedMenu.png);
+}
+
+.startMenu {
+	content: url(../ImagesOld/StartMenu.png);
+}
+
+.userOptions {
+	content: url(../ImagesOld/Squares.png);
+}
+
+.collapseAll {
+	content: url(../ImagesOld/CollapseAll.png);
+}
+
+.expandAll {
+	content: url(../ImagesOld/ExpandAll.png);
+}
+
+.releaseInfo {
+	content: url(../ImagesOld/ReleaseInfo.png);
+}
+
+.notify {
+	content: url(../ImagesOld/Notify.png);
+}
+
+.productInfo {
+	content: url(../ImagesOld/ProductInfo.png);
+}

@@ -1,0 +1,2 @@
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\UnpinnedTilesPane\IDD_UNPINNED_TILES_PANE.hjson>

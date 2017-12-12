@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="MDC.ElectronicInvoicing_IT.Dbl.ApplicationDateChanged" type="bool" localize="Application Date Change" />
+    <Function namespace="MDC.ElectronicInvoicing_IT.Dbl.OnDSNChanged" type="bool" localize="Company Connection Change" />
+  </Functions>
+</FunctionObjects>

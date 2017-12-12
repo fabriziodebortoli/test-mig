@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function type="string" namespace="Framework.TbGes.TbGes.Entities" localize="Entities"  >
+    <Param name="Behaviour" type="string" localize="Behaviour" value="" optional="true"/>
+  </Function>
+  <DbField name="Entity" />
+  <ComboBox />
+</HotKeyLink>

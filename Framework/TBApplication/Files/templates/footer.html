@@ -1,0 +1,69 @@
+
+<div ng-controller="FooterController" class="footerContainer footerFont">
+    <div class="coloredMenuSeparator"></div>
+    <!--#CDD7ED-->
+    <!--Favorites-->
+
+    <div class="footerLayer">
+        <div class="footerSelector" ng-show="menuService.FavoritesCount > 0">
+            <div class="btn-group dropup" uib-dropdown>
+                <div class="dropdown-toggle link" uib-dropdown-toggle>
+                    <div>
+                        {{::localizationService.getLocalizedElement('FavoritesLabel')}}
+                    </div>
+                    <div class="glyphicon glyphicon-chevron-up"></div>
+                </div>
+                <div class="dropdown-menu" uib-dropdown-menu role="menu" ng-include="'templates/favoritesDropdown.html'">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footerSelector" ng-show="menuService.MostUsedCount > 0">
+            <div class="btn-group dropup" uib-dropdown ng-mouseover="mostUsedItemHover = true" ng-mouseleave="mostUsedItemHover = false" ng-class="{'footerItemSelected': mostUsedItemHover}">
+                <div class="dropdown-toggle link" uib-dropdown-toggle>
+                    <div>
+                        {{::localizationService.getLocalizedElement('MostUsedLabel')}}
+                    </div>
+                    <div class="glyphicon glyphicon-chevron-up"></div>
+                </div>
+                <div class="dropdown-menu" uib-dropdown-menu role="menu" ng-include="'templates/mostUsedDropDown.html'">
+                </div>
+            </div>
+        </div>
+
+        <div class="footerSelector" ng-show="menuService.HiddenTilesCount > 0">
+            <div class="btn-group dropup" uib-dropdown ng-mouseover="hiddenTilesItemHover = true" ng-mouseleave="hiddenTilesItemHover = false" ng-class="{'footerItemSelected': hiddenTilesItemHover}">
+                <div class="dropdown-toggle link " uib-dropdown-toggle>
+                    <div>
+                        {{::localizationService.getLocalizedElement('HiddenTiles')}}
+                    </div>
+                    <div class="glyphicon glyphicon-chevron-up"></div>
+                </div>
+                <div class="dropdown-menu" uib-dropdown-menu role="menu" ng-include="'templates/hiddenTilesDropDown.html'">
+                </div>
+            </div>
+        </div>
+
+        <div class="footerSelector themeSelector">
+            <div>
+                <div class="" ng-include="'templates/newViewerSelector.html'" ng-mouseover="viewerSelectorItemHover = true" ng-mouseleave="viewerSelectorItemHover = false" ng-class="{'footerItemSelected': viewerSelectorItemHover}">
+                </div>
+            </div>
+
+            <div ng-mouseover="changeThemeItemHover = true" ng-mouseleave="changeThemeItemHover = false" ng-class="{'footerItemSelected': changeThemeItemHover}">
+                <div class="btn-group dropup" uib-dropdown uib-tooltip="{{::localizationService.getLocalizedElement('ChangeTheme')}}" tooltip-append-to-body="true" tooltip-placement="left" tooltip-popup-delay="500" tooltip-animation="false">
+                    <div class="dropdown-toggle link " uib-dropdown-toggle>
+                        <div class="glyphicon glyphicon-tags link">
+
+                        </div>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" uib-dropdown-menu role="menu" ng-include="'templates/changeThemeDropdown.html'">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

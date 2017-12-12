@@ -1,0 +1,66 @@
+﻿{
+  "id": "IDD_GOTO_PAGE",
+  "rcId": 1150,
+  "type": 66,
+  "text": "Go to Page",
+  "x": 198,
+  "y": 18,
+  "width": 130,
+  "height": 62,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Page Number",
+      "x": 11,
+      "y": 10,
+      "width": 109,
+      "height": 11,
+      "tabStop": false,
+      "group": true,
+      "simple": true
+    },
+    {
+      "id": "IDC_GOTO_PAGE",
+      "type": 13,
+      "x": 11,
+      "y": 21,
+      "width": 86,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 6,
+      "y": 43,
+      "width": 53,
+      "height": 15,
+      "group": true,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 69,
+      "y": 43,
+      "width": 56,
+      "height": 15
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "x": 6,
+      "y": 3,
+      "width": 119,
+      "height": 37
+    }
+  ]
+}

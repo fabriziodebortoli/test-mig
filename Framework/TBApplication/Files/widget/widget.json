@@ -1,0 +1,17 @@
+{
+  "widget": 
+  [
+    {
+      "path": "Clock",
+      "ico": "ico.png"
+    },
+    {
+      "path": "Calculator",
+      "ico": "ico.png"
+    },
+    {
+      "path": "Calendar",
+      "ico": "ico.png"
+    }
+  ]
+}

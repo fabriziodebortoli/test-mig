@@ -1,0 +1,79 @@
+﻿{
+  "id": "IDD_DATASYNCHRO_MONITOR_FILTER_BY_DATE",
+  "rcId": 14132,
+  "type": 71,
+  "x": 0,
+  "y": 0,
+  "width": 161,
+  "height": 50,
+  "name": "DataSynchroMonitorFilterByDate",
+  "text": "Synchronization Date",
+  "size": 1, //tile mini
+  "tileStyle": 2, //TDS_FILTER
+  "pinnable" :  false,
+  "child": true,
+  "context": "uidsmonitor",
+  "items": [
+    {
+      "id": "IDC_DS_MONITOR_SYNCHSDATE_ALL",
+      "type": 10,
+      "controlClass": "RadioButton",
+      "binding": { "datasource": "SynchDateAll" },
+      "text": "All",
+      "x": 4,
+      "y": 2,
+      "width": 46,
+      "height": 10,
+      "tabStop": false,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_DS_MONITOR_SYNCHSDATE_SEL",
+      "type": 10,
+      "controlClass": "RadioButton",
+      "binding": { "datasource": "SynchDateSel" },
+      "text": "From",
+      "x": 4,
+      "y": 16,
+      "width": 31,
+      "height": 8,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_DS_MONITOR_SYNCHSDATE_FROM",
+      "type": 13,
+      "autoHScroll": true,
+      "binding": { "datasource": "SynchDateFrom" },
+      "border": true,
+      "controlClass": "DateEdit",
+      "x": 38,
+      "y": 16,
+      "width": 57,
+      "height": 12
+    },
+    {
+      "id": "IDC_DS_MONITOR_SYNCHSDATE_TO",
+      "type": 13,
+      "autoHScroll": true,
+      "binding": { "datasource": "SynchDateTo" },
+      "border": true,
+      "controlClass": "DateEdit",
+      "x": 38,
+      "y": 30,
+      "width": 57,
+      "height": 12
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "To",
+      "x": 14,
+      "y": 32,
+      "width": 20,
+      "height": 8,
+      "textAlign": 0
+    }
+  ]
+}

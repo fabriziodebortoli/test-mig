@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_WIZARD_SUMMARY_PAGE			GET_IDD(IDD_WIZARD_SUMMARY_PAGE, D.Extensions.XEngine.ExportCriteria)
+#define	IDC_EXPORT_SUMMARY_EDIT			GET_IDC(IDC_EXPORT_SUMMARY_EDIT)

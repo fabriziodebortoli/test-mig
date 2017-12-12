@@ -1,0 +1,22 @@
+﻿{
+  "id": "IDR_TBEXPLORER_DLG",
+  "type": 66,
+  "accelerators": [
+    {
+      "id": "IDC_BTN_STYLE",
+      "key": 65,
+      "virtualKey": true,
+      "control": true,
+      "alt": true,
+      "noInvert": true
+    },
+    {
+      "id": "IDC_BTN_SEARCH",
+      "key": 83,
+      "virtualKey": true,
+      "control": true,
+      "alt": true,
+      "noInvert": true
+    }
+  ]
+}

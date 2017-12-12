@@ -1,0 +1,16 @@
+﻿{
+  "id": "IDD_DEFAULT_TEMPLATE_POPUP",
+  "rcId": 1011,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 599,
+  "height": 357,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "basefrm",
+  "items": []
+}

@@ -1,0 +1,23 @@
+﻿{
+    "id": "IDD_SOSDOCSENDER_WIZARD_VIEW",
+    "type": 1, //View
+    "text": "SOS Document Sender",
+    "context": "uisosdocsender",
+    "items": [
+        {
+            "id": "IDC_WIZARD_TAB",
+            "type": 16, //Tabber
+            "items": [
+                {
+                    "href": "IDD_WTD_SOSDOCSENDER_FILTERS"
+                },
+                {
+                    "href": "IDD_WTD_SOSDOCSENDER_DOCSELECTIONS"
+                },
+                {
+                    "href": "IDD_WTD_SOSDOCSENDER_ELABORATION"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink version="2" accessibility="Public" >
+
+<Function namespace="Extensions.TbMailer.TbMailer.ContactEmails" localize="Contact's email address" type="string">
+  <Param name="localized_StartCode" type="string" localize="From Contact" value="From code" optional="true"/>
+  <Param name="localized_EndCode" type="string" localize="To Contact" value="To code" optional="true"/>
+</Function>
+
+  <!-- Syntax allows comma separated db tables, the first is the hkl master table -->
+  <DbTable name="MA_Contacts"  loadFullRecord="false" /> 
+  <DbField name="MA_Contacts.Email"/>
+  <DbFieldDescription name="MA_Contacts.CompanyName" />
+
+  <Events>
+    <Event name="IsValid" type="bool">
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              return MA_Contacts.EMail != '';
+        End
+       ]]>
+      </TbScript>
+    </Event>
+    <Event name="OnAssignSelectedValue" type="bool">
+      <Param name="p_CtrlValue" type="string" localize="Control value" mode="in out" />
+      <Param name="p_HklValue" type="string" localize="Selected value" />
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              if p_CtrlValue != ''
+                then p_CtrlValue = p_CtrlValue + ';' + p_HklValue;
+                else p_CtrlValue = p_HklValue;
+        End
+      ]]>
+      </TbScript>
+    </Event>
+  </Events>
+  
+  <AskRules>
+    <![CDATA[ 
+    Variables 
+      String ask_StartCode [15,1] Alias 1 Hidden Input Init = "" ; 
+      String ask_EndCode [15,1] Alias 2 Hidden Input Init = "" ; 
+    End
+    Dialogs Begin 
+      Dialog AskContacts "" 
+      Begin 
+         Controls Begin 
+            Begin 
+              ask_StartCode Prompt = (GetTitle("localized_StartCode")) LowerLimit HotLink ERP.Contacts.Dbl.Contacts () ; 
+              ask_EndCode Prompt = (GetTitle("localized_EndCode")) UpperLimit HotLink ERP.Contacts.Dbl.Contacts () ; 
+            End 
+         End 
+      End 
+    End     
+   ]]>
+  </AskRules>
+
+  <SelectionModes>
+ 
+    <Mode name="Default" type="query">
+  <![CDATA[  
+SELECT 
+     Contact              { COL MA_Contacts.Contact }
+     ,CompanyName         { COL MA_Contacts.CompanyName }
+     ,EMail               { COL MA_Contacts.EMail }
+     ,Address             { COL MA_Contacts.Address }
+     ,ZIPCode             { COL MA_Contacts.ZIPCode }
+     ,City                { COL MA_Contacts.City }
+     ,County              { COL MA_Contacts.County }
+     ,Country             { COL MA_Contacts.Country }
+     ,ContactPerson       { COL MA_Contacts.ContactPerson }
+     ,Notes               { COL MA_Contacts.Notes }
+     ,Disabled            { COL MA_Contacts.Disabled }
+     ,1 as sort           
+  FROM MA_Contacts
+  WHERE 
+  Contact BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } AND
+  (EMail <> {''} OR EXISTS (
+    SELECT Email FROM MA_ContactsPeople
+    WHERE
+      MA_ContactsPeople.Contact = MA_Contacts.Contact AND
+      MA_ContactsPeople.Email <> {''}
+      ) OR EXISTS (
+    SELECT Email FROM MA_ContactBranches
+    WHERE
+      MA_ContactBranches.Contact = MA_Contacts.Contact AND
+      MA_ContactBranches.Email <> {''}
+      )
+   )
+UNION SELECT 
+
+	  Contact {+} '-' {+} Branch AS Contact 
+    ,CompanyName 
+    ,EMail
+    ,Address
+    ,ZIPCode
+    ,City
+    ,County
+    ,Country  
+    ,ContactPerson
+    ,Notes
+    ,Disabled
+	  ,3 as sort
+  FROM MA_ContactBranches 
+  WHERE 
+   MA_ContactBranches.Contact BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } AND
+ (EMail <> {''} OR EXISTS (
+    SELECT Email FROM MA_ContactsPeople
+    WHERE
+      MA_ContactsPeople.Contact = MA_ContactBranches.Contact AND
+      MA_ContactsPeople.Branch = MA_ContactBranches.Branch AND
+      MA_ContactsPeople.Email <> {''}
+    )
+  )
+UNION SELECT 
+	  MA_ContactsPeople.Contact {+} '-' {+} MA_ContactsPeople.Branch AS Contact
+    ,'>' {+} MA_ContactsPeople.Name 
+    ,MA_ContactsPeople.EMail 
+    ,{''} AS Address
+    ,{''} AS ZIPCode
+    ,{''} AS City
+    ,{''} AS County
+    ,{''} AS Country  
+    ,WorkingPosition 
+    ,MA_ContactsPeople.Notes 
+    ,{FALSE} AS Disabled
+	  , { WHEN GetDatabaseType ( ) != "ORACLE" 
+        EXPAND { CASE MA_ContactsPeople.Branch WHEN '' THEN 2 ELSE 4 END  }
+        ELSE { Decode( MA_ContactsPeople.Branch, '', 2, ' ', 2, 4) }
+      } AS sort    
+  FROM MA_ContactsPeople 
+  LEFT OUTER JOIN MA_ContactBranches
+  ON  
+	  MA_ContactsPeople.Contact = MA_ContactBranches.Contact AND
+	  MA_ContactsPeople.Branch = MA_ContactBranches.Branch 
+  WHERE 
+    MA_ContactsPeople.Contact BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } AND
+	  MA_ContactsPeople.EMail <> {''}
+  ORDER BY 1, sort
+ ]]>
+  </Mode>
+
+</SelectionModes>
+
+</HotKeyLink>

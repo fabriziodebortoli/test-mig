@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Product
+  xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper"
+  ProductCode="Zucchetti.ShellExtContextMenuHandler"
+>
+
+	<!-- Defines list of files to be copied on build -->
+	<PackageFiles>
+		<PackageFile Name="ValoreStudioMenuContestualeSetup.exe" />
+	</PackageFiles>
+	<RelatedProducts>
+		<DependsOnProduct Code="Microsoft.Visual.C++.12.0.x64" />
+		<DependsOnProduct Code="Microsoft.Visual.C++.12.0.x86" />
+	</RelatedProducts>
+	<InstallChecks>
+		<MsiProductCheck Property="ShellExtContextMenuHandlerInstalled" Product="{6E80492F-A9AA-45A9-AD78-7C0683116412}"/>
+	</InstallChecks>
+	
+	<Commands Reboot="None">
+		<Command PackageFile="ValoreStudioMenuContestualeSetup.exe" Arguments="">
+			<!-- These checks determine whether the package is to be installed -->
+			<InstallConditions>
+				<!-- Block install if user does not have admin privileges -->
+				<FailIf Property="AdminUser" Compare="ValueEqualTo" Value="false" String="AdminRequired"/>
+				<BypassIf Property="ShellExtContextMenuHandlerInstalled" Compare="ValueGreaterThanOrEqualTo" Value="3"/>
+			</InstallConditions>
+		</Command>
+	</Commands>
+</Product>

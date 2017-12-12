@@ -1,0 +1,214 @@
+﻿{
+  "id": "IDD_PROC_RENAME",
+  "rcId": 1114,
+  "type": 66,
+  "text": "Rename element",
+  "x": 9,
+  "y": 20,
+  "width": 248,
+  "height": 183,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "procdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "&New Name:",
+      "x": 125,
+      "y": 2,
+      "width": 119,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROC_NEW_NAME",
+      "type": 13,
+      "x": 125,
+      "y": 12,
+      "width": 118,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_PROC_TABLEACT_SEL_ALL",
+      "type": 3,
+      "text": "Sel&ect all",
+      "x": 7,
+      "y": 112,
+      "width": 109,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_TABLEACT_DESEL_ALL",
+      "type": 3,
+      "text": "De&select all",
+      "x": 7,
+      "y": 128,
+      "width": 109,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_TRIGGEVN_LIST",
+      "type": 24,
+      "x": 129,
+      "y": 38,
+      "width": 111,
+      "height": 73,
+      "enabled": false,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "disableNoScroll": true,
+      "selection": 2,
+      "hasStrings": true
+    },
+    {
+      "id": "IDC_PROC_TRIGGEVN_SEL_ALL",
+      "type": 3,
+      "text": "&Select all",
+      "x": 129,
+      "y": 112,
+      "width": 109,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_TRIGGEVN_DESEL_ALL",
+      "type": 3,
+      "text": "&Deselect all",
+      "x": 129,
+      "y": 128,
+      "width": 109,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 3,
+      "y": 151,
+      "width": 59,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 64,
+      "y": 151,
+      "width": 59,
+      "height": 14
+    },
+    {
+      "id": "IDC_PROC_SEL_ALL",
+      "type": 3,
+      "text": "All",
+      "x": 125,
+      "y": 151,
+      "width": 59,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_DESEL_ALL",
+      "type": 3,
+      "text": "None",
+      "x": 187,
+      "y": 151,
+      "width": 59,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Current element:",
+      "x": 3,
+      "y": 2,
+      "width": 117,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROC_CURRENT_NAME",
+      "type": 13,
+      "x": 3,
+      "y": 12,
+      "width": 118,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_PROC_EVENT_REPORT",
+      "type": 11,
+      "text": "&Report",
+      "x": 7,
+      "y": 41,
+      "width": 111,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PROC_EVENT_NEWPAGE",
+      "type": 11,
+      "text": "&Form Feed",
+      "x": 7,
+      "y": 51,
+      "width": 110,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PROC_TABLEACT_LIST",
+      "type": 24,
+      "x": 7,
+      "y": 79,
+      "width": 111,
+      "height": 28,
+      "enabled": false,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "disableNoScroll": true,
+      "selection": 2,
+      "hasStrings": true
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Table Fill",
+      "x": 7,
+      "y": 68,
+      "width": 110,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 9,
+      "text": "Customized Events",
+      "x": 125,
+      "y": 28,
+      "width": 118,
+      "height": 119
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Default Events",
+      "x": 3,
+      "y": 28,
+      "width": 120,
+      "height": 119
+    }
+  ]
+}

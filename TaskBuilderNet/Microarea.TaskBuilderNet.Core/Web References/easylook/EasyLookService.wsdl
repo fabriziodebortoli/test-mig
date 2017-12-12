@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="XmlExecuteReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parameters" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="applicationDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="impersonatedUser" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="useApproximation" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XmlExecuteReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XmlExecuteReportResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="XmlGetParameters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parameters" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="applicationDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="impersonatedUser" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="useApproximation" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XmlGetParametersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XmlGetParametersResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="XmlExecuteReportSoapIn">
+    <wsdl:part name="parameters" element="tns:XmlExecuteReport" />
+  </wsdl:message>
+  <wsdl:message name="XmlExecuteReportSoapOut">
+    <wsdl:part name="parameters" element="tns:XmlExecuteReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="XmlGetParametersSoapIn">
+    <wsdl:part name="parameters" element="tns:XmlGetParameters" />
+  </wsdl:message>
+  <wsdl:message name="XmlGetParametersSoapOut">
+    <wsdl:part name="parameters" element="tns:XmlGetParametersResponse" />
+  </wsdl:message>
+  <wsdl:portType name="EasyLookServiceSoap">
+    <wsdl:operation name="XmlExecuteReport">
+      <wsdl:input message="tns:XmlExecuteReportSoapIn" />
+      <wsdl:output message="tns:XmlExecuteReportSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="XmlGetParameters">
+      <wsdl:input message="tns:XmlGetParametersSoapIn" />
+      <wsdl:output message="tns:XmlGetParametersSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EasyLookServiceSoap" type="tns:EasyLookServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="XmlExecuteReport">
+      <soap:operation soapAction="http://tempuri.org/XmlExecuteReport" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XmlGetParameters">
+      <soap:operation soapAction="http://tempuri.org/XmlGetParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="EasyLookServiceSoap12" type="tns:EasyLookServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="XmlExecuteReport">
+      <soap12:operation soapAction="http://tempuri.org/XmlExecuteReport" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XmlGetParameters">
+      <soap12:operation soapAction="http://tempuri.org/XmlGetParameters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EasyLookService">
+    <wsdl:port name="EasyLookServiceSoap" binding="tns:EasyLookServiceSoap">
+      <soap:address location="http://localhost/Development/EasyLook/EasyLookService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="EasyLookServiceSoap12" binding="tns:EasyLookServiceSoap12">
+      <soap12:address location="http://localhost/Development/EasyLook/EasyLookService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

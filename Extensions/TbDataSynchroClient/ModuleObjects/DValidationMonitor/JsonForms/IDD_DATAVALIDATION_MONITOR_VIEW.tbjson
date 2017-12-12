@@ -1,0 +1,66 @@
+﻿{
+    "id": "IDD_DATAVALIDATION_MONITOR_VIEW",
+    "type": 1,
+    "text": "Validation Monitor",
+    "x": 0,
+    "y": 0,
+    "width": 500,
+    "height": 290,
+    "child": true,
+    "context": "uidsmonitor",
+    "items": [
+        {
+            "id": "IDC_DV_MONITOR_TILE_GRP",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+
+                    "id": "IDC_DV_MONITOR_FILTERS",
+                    "name": "ValidationFilter",
+                    "layoutType": 1 /*COLUMN*/,
+                    "layoutAlign": 0, /*BEGIN*/
+                    "showAsTile": true,
+                    "collapsible": true,
+                    "collapsed": false,
+                    "text": "Filters",
+                    "type": 77 /*TilePanel*/,
+                    "items": [
+                        {
+                            "href": "IDD_DATAVALIDATION_MONITOR_FILTER_BY_PROVIDER"
+                        },
+                        {
+                            "href": "IDD_DATAVALIDATION_MONITOR_FILTER_BY_DATE",
+                            "activation": "!bFromBatch"
+                        },
+                        {
+                            "href": "IDD_DATAVALIDATION_MONITOR_FILTER_BY_OTHER"
+                        }
+                    ]
+                },
+                {
+                    "href": "IDD_DATASYNCHRO_MONITOR_STATUS"
+                },
+                {
+
+                    "id": "IDC_DV_MONITOR_RESULTS",
+                    "name": "ValidationResults",
+                    "layoutType": 4 /*VBOC*/,
+                    "collapsed": false,
+                    "collapsible": true,
+                    "type": 77,
+                    "text": "Report Errors",
+                    "items": [
+                       {
+                            "href": "IDD_DATAVALIDATION_MONITOR_SUMMARY"
+                        },
+                        {
+                            "href": "IDD_DATAVALIDATION_MONITOR_DETAIL"
+
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

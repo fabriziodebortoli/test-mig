@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TBMobileUI.EditRow"
+Style="{StaticResource PageStyle}"> 
+	<ContentPage.Content> 
+		<StackLayout>
+			<StackLayout.Children>
+				<Grid x:Name="UpToolbar" VerticalOptions="Start" Padding="2,5,2,5">
+					<Grid.Children>
+						<Button x:Name="Back" Text="Back" Style="{StaticResource ButtonStyle}" Grid.Column="0" Clicked="OnBackClicked" HorizontalOptions="Start"></Button>
+					</Grid.Children>
+				</Grid>
+				<Grid VerticalOptions="CenterAndExpand">
+					<Grid.Children>
+						<StackLayout x:Name="container" VerticalOptions="Start">
+						</StackLayout>
+					</Grid.Children>
+				</Grid>
+				<Grid x:Name="BottomToolbar" VerticalOptions="End" Padding="2,5,2,5">
+				</Grid>
+			</StackLayout.Children>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

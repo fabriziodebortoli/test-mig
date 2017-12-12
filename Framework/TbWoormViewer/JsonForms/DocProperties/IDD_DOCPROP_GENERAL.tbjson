@@ -1,0 +1,258 @@
+﻿{
+  "id": "IDD_DOCPROP_GENERAL",
+  "rcId": 1127,
+  "type": 66,
+  "text": "General",
+  "x": 0,
+  "y": 0,
+  "width": 285,
+  "height": 238,
+  "child": true,
+  "enabled": false,
+  "caption": true,
+  "context": "docproperties",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Creation date:",
+      "x": 10,
+      "y": 140,
+      "width": 103,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Last change:",
+      "x": 10,
+      "y": 154,
+      "width": 103,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Last access:",
+      "x": 10,
+      "y": 168,
+      "width": 103,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_CREATED",
+      "type": 2,
+      "x": 118,
+      "y": 140,
+      "width": 161,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_SIZE",
+      "type": 2,
+      "x": 118,
+      "y": 105,
+      "width": 161,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_ACCESSED",
+      "type": 2,
+      "x": 118,
+      "y": 168,
+      "width": 161,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_FILENAME",
+      "type": 2,
+      "x": 10,
+      "y": 15,
+      "width": 272,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Type:",
+      "x": 10,
+      "y": 44,
+      "width": 103,
+      "height": 10,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Size:",
+      "x": 10,
+      "y": 105,
+      "width": 103,
+      "height": 10,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 2,
+      "text": "Position:",
+      "x": 10,
+      "y": 60,
+      "width": 103,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 2,
+      "text": "MS-DOS name:",
+      "x": 10,
+      "y": 128,
+      "width": 103,
+      "height": 10,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_MODIFIED",
+      "type": 2,
+      "x": 118,
+      "y": 154,
+      "width": 161,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_TYPE",
+      "type": 2,
+      "x": 118,
+      "y": 44,
+      "width": 161,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_MSDOS_NAME",
+      "type": 2,
+      "x": 118,
+      "y": 128,
+      "width": 161,
+      "height": 12,
+      "pathEllipsis": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 2,
+      "text": "Attributes:",
+      "x": 10,
+      "y": 186,
+      "width": 269,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_READONLY",
+      "type": 11,
+      "text": "Read only",
+      "x": 28,
+      "y": 199,
+      "width": 106,
+      "height": 10,
+      "enabled": false,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_DOCPROP_ARCHIVE",
+      "type": 11,
+      "text": "Archive",
+      "x": 28,
+      "y": 212,
+      "width": 106,
+      "height": 10,
+      "enabled": false,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_DOCPROP_HIDDEN",
+      "type": 11,
+      "text": "Hidden",
+      "x": 144,
+      "y": 199,
+      "width": 106,
+      "height": 10,
+      "enabled": false,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_DOCPROP_SYSTEM",
+      "type": 11,
+      "text": "System",
+      "x": 144,
+      "y": 212,
+      "width": 106,
+      "height": 10,
+      "enabled": false,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_9",
+      "type": 2,
+      "x": 7,
+      "y": 37,
+      "width": 276,
+      "height": 1,
+      "tabStop": false,
+      "sunken": true,
+      "whiteFrame": true
+    },
+    {
+      "id": "IDC_STATIC_10",
+      "type": 2,
+      "x": 6,
+      "y": 123,
+      "width": 279,
+      "height": 1,
+      "tabStop": false,
+      "sunken": true,
+      "whiteFrame": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "x": 6,
+      "y": 182,
+      "width": 279,
+      "height": 1,
+      "tabStop": false,
+      "grayFrame": true,
+      "sunken": true
+    },
+    {
+      "id": "IDC_DOCPROP_LOCATION",
+      "type": 13,
+      "x": 13,
+      "y": 70,
+      "width": 267,
+      "height": 33,
+      "transparent": true,
+      "border": false,
+      "autoHScroll": true,
+      "readOnly": true,
+      "multiline": true
+    }
+  ]
+}

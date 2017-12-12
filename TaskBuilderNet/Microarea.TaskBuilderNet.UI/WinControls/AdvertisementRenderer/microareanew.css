@@ -1,0 +1,591 @@
+h1, h2, h3, h4, h5, h6	{font-family: Verdana,Arial,Helvetia,sans-serif; color: #505DAA;margin: 0px;padding: 0px; border-bottom: 0 px; font-weight:100;}
+h1						{ font-size: 18px; }
+h2						{ font-size: 16px; }
+h3						{ font-size: 14px; }
+h4						{ font-size: 12px; }
+h5						{ font-size: 10px; }
+h6						{ font-size: 10px; }
+body, p,li, ul, ol		{font-family: Verdana,Arial,Helvetia,sans-serif; font-size: 12px; color: #505DAA;}
+p						{text-align: justify;}
+td						{vertical-align: top; font-family: Verdana,Arial,Helvetia,sans-serif; font-size: 10px;}
+li						{text-align: justify; margin-bottom: 0px;}
+ul						{text-align: justify}
+ol						{text-align: justify}
+body					{background: #FFFFFF; text-align: justify; position: absolute; 
+						top: 0px; left: 0px; margin: 0px; border: 0px; width: 600px; padding: 4px;
+						scrollbar-base-color: #ADC5ED;
+						scrollbar-arrow-color: #ADC5ED;
+						scrollbar-3dlight-color: #ADC5ED;
+						scrollbar-darkshadow-color: #ADC5ED;
+						scrollbar-face-color: #78A1D4;
+						scrollbar-highlight-color: #ADC5ED;
+						scrollbar-shadow-color: #ADC5ED;
+						scrollbar-track-color: #E4EFFE;
+					}
+.Italico				{font-style:italic;}
+.Underline	{text-decoration: underline;}
+.BoldUnderline	{font-weight: bold;text-decoration: underline;}
+.UnderlineItalico	{font-style:italic; text-decoration: underline;}
+.BoldItalico			{font-weight: bold;font-style:italic;}
+.grassetto				{font-weight: bold}			
+.l						{text-align: left;}
+.c						{text-align: center;}
+.r						{text-align: right;}
+.j						{text-align: justify;}
+/* usato per modificare l'indentazione delle liste puntate */
+.indent {text-indent: -20px;}
+/* font diverso usato per indicare i path dei file */
+.courier {font-family: Courier New}
+/* stile associato agli hr */
+hr {color: #003399; height: 1px; text-align: center;}
+/* introdotto per definire lo stile dei link nelle pagine non appartenenti ad alcuna area quali per esempio login e mappa */
+a:link     {font-family: Verdana,Arial,sans-serif; color: #FF6600; text-decoration: underline; font-weight: bold}
+a:visited  {font-family: Verdana,Arial,sans-serif; color:#FF9966; text-decoration: underline; font-weight: bold}
+a:hover    {font-family: Verdana,Arial,sans-serif; color: red; text-decoration: underline; font-weight: bold}
+a:active   {font-family: Verdana,Arial,sans-serif; color: red; text-decoration: underline; font-weight: bold}
+/* solitamente associato al tag table, è stato introdotto per definire lo stile di una tabella */
+/* crea un bordo di dimensione 1*/
+.border1     {background: #F0F0F0; 
+	          border-top:1px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:1px solid #003399;}
+.border1White     {background: #FFFFFF; 
+	          border-top:1px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:1px solid #003399;} 
+.border1NoBottom    {background: #F0F0F0; 
+	          border-top:1px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:0px solid #003399; 
+	          border-right:1px solid #003399;} 
+.border1NoTop    {background: #F0F0F0; 
+	          border-top:0px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:1px solid #003399;} 
+	          
+.border1dashed {background: #F0F0F0; 
+	          border-top:1px dashed #FF6600;
+	          border-left:1px dashed #FF6600; 
+	          border-bottom:1px dashed #FF6600; 
+	          border-right:1px dashed #FF6600;} 	
+.border1Arancione {background: #F0F0F0; 
+	          border-top:1px solid #FF6600;
+	          border-left:1px solid #FF6600; 
+	          border-bottom:1px solid #FF6600; 
+	          border-right:1px solid #FF6600;} 	                    
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-top di dimensione 1*/	          
+.borderTop   {background: #F0F0F0; 
+	          border-top:1px solid #003399;
+	          border-left:0px solid #003399; 
+	          border-bottom:0px solid #003399; 
+	          border-right:0px solid #003399;}	 
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-right di dimensione 1*/	    
+.borderRight {background: #F0F0F0; 
+	          border-top:0px solid #003399;
+	          border-left:0px solid #003399; 
+	          border-bottom:0px solid #003399; 
+	          border-right:1px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-bottom di dimensione 1*/		   
+.borderBottom {background: #F0F0F0; 
+	          border-top:0px solid #003399;
+	          border-left:0px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:0px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-top di dimensione 1*/		   
+.borderTopArancione {background: #F0F0F0; 
+	          border-top:1px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:0px solid #FF6600; 
+	          border-right:0px solid #FF6600;}
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-bottom di dimensione 1*/		   
+.borderBottomArancione {background: #F0F0F0; 
+	          border-top:0px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:1px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */  
+.borderArancioneHeader {background: #CCCCCC; 
+	          border-top:0px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:0px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-bottom di dimensione 1*/		   
+.borderBottomArancioneHeader {background: #CCCCCC; 
+	          border-top:0px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:1px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+.borderTopBottomArancioneHeader {background: #CCCCCC; 
+	          border-top:1px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:1px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+.borderTopBottomVerdeHeader {background: #99CC99; 
+	          border-top:1px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:1px solid #FF6600; 
+	          border-right:0px solid #FF6600;}		          
+.borderLeftArancione {background: #CCCCCC; 
+	          border-top:0px solid #FF6600;
+	          border-left:1px solid #FF6600; 
+	          border-bottom:0px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+.borderRightArancione {background: #CCCCCC; 
+	          border-top:0px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:0px solid #FF6600; 
+	          border-right:1px solid #FF6600;}	
+.borderBottomVerde {background: #99CC99; 
+	          border-top:0px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:1px solid #FF6600; 
+	          border-right:0px solid #FF6600;}		          
+.borderTopLeftArancioneHeader {background: #CCCCCC; 
+	          border-top:1px solid #FF6600;
+	          border-left:1px solid #FF6600; 
+	          border-bottom:0px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+.borderTopArancioneHeader {background: #CCCCCC; 
+	          border-top:1px solid #FF6600;
+	          border-left:0px solid #FF6600; 
+	          border-bottom:0px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+.borderLeftArancioneHeader {background: #CCCCCC; 
+	          border-top:0px solid #FF6600;
+	          border-left:1px solid #FF6600; 
+	          border-bottom:0px solid #FF6600; 
+	          border-right:0px solid #FF6600;}	
+.border1ArancioneHeader {background: #CCCCCC; 
+	          border-top:1px solid #FF6600;
+	          border-left:1px solid #FF6600; 
+	          border-bottom:1px solid #FF6600; 
+	          border-right:1px solid #FF6600;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-left di dimensione 1*/	   
+.borderLeft	 {background: #F0F0F0; 
+	          border-top:0px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:0px solid #003399; 
+	          border-right:0px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-left e un border-bottom di dimensione 1*/	
+.borderBottomLeft {background: #F0F0F0; 
+					border-top:0px solid #003399;
+					border-left:1px solid #003399; 
+					border-bottom:1px solid #003399; 
+					border-right:0px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-top e un border-right di dimensione 1*/	  
+.borderTopRight {background: #F0F0F0; 
+				border-top:1px solid #003399;
+				border-left:0px solid #003399; 
+				border-bottom:0px solid #003399; 
+				border-right:1px solid #003399;}	
+.borderTopLEft {background: #F0F0F0; 
+				border-top:1px solid #003399;
+				border-left:1px solid #003399; 
+				border-bottom:0px solid #003399; 
+				border-right:0px solid #003399;}	/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-bottom e un border-right di dimensione 1*/		             
+.borderBottomRight {background: #F0F0F0; 
+					border-top:0px solid #003399;
+					border-left:0px solid #003399; 
+					border-bottom:1px solid #003399; 
+					border-right:1px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-left e un border-right di dimensione 1*/		             
+.borderLeftRight {background: #F0F0F0; 
+	          border-top:0px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:0px solid #003399; 
+	          border-right:1px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border-top e un border-bottom di dimensione 1*/		             
+.borderTopBottom {background: #F0F0F0; 
+	          border-top:1px solid #003399;
+	          border-left:0px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:0px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border di dimensione 1 alla cella tranne che per il border-bottom*/		             
+.borderNoBottom {background: #F0F0F0; 
+	          border-top:1px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:0px solid #003399; 
+	          border-right:1px solid #003399;}	
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border di dimensione 1 alla cella tranne che per il border-top*/		        
+.borderNoTop {background: #F0F0F0; 
+	          border-top:0px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:1px solid #003399;}
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border di dimensione 1 alla cella tranne che per il border-right*/		        
+.borderNoRight {background: #F0F0F0; 
+	          border-top:1px solid #003399;
+	          border-left:1px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:0px solid #003399;}	          
+/*solitamente associato al tag td, è stato introdotto per definire lo stile di una cella */
+/* crea un border di dimensione 1 alla cella tranne che per il border-left*/		        
+.borderNoLeft {background: #F0F0F0; 
+	          border-top:1px solid #003399;
+	          border-left:0px solid #003399; 
+	          border-bottom:1px solid #003399; 
+	          border-right:1px solid #003399;}
+/*introdotto per definire lo stile del datagrid/datalist standard */
+.ReportGlobal	{color:#000080; 
+				background: #F0F0F0; 
+				border-top:1px solid #003399;
+				border-left:1px solid #003399; 
+				border-bottom:1px solid #003399; 
+				border-right:1px solid #003399;}	
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard */		           
+.ReportHeader	{font-family: Verdana,Arial,Helvetia,sans-serif; 
+				font-weight:bold; 
+				font-size: 10px; 
+				color: #FFFFFF; 
+				background: #3366FF; 
+				border-top:1px solid #003399; 
+				border-left:1px solid #003399; 
+				border-bottom:1px solid #003399; 
+				border-right:1px solid #003399;}   	  
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce solo il border-bottom = 1 e i restanti border = 0*/		           
+.ReportHeaderBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:0px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:0px solid #003399;} 
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce solo il border-left = 1 e i restanti border = 0*/		     
+.ReportHeaderLeft {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:0px solid #003399; 
+	           border-left:1px solid #003399; 
+	           border-bottom:0px solid #003399; 
+	           border-right:0px solid #003399;} 
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce solo il border-right = 1 e border-bottom = 1 */		     
+.ReportHeaderRightBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:0px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:1px solid #003399;} 
+ /* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce solo il border-left = 1 e border-bottom = 1 */		     
+.ReportHeaderLeftBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:0px solid #003399; 
+	           border-left:1px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:0px solid #003399;} 	
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce border-top e border-bottom = 1 */	
+.ReportHeaderTopBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:1px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:0px solid #003399;} 	                      	                  
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce un border di dimensione 1 tranne che per il border-right*/		
+.ReportHeaderNoRight {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:1px solid #003399; 
+	           border-left:1px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:0px solid #003399;}
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce un border di dimensione 1 tranne che per il border-left*/	
+.ReportHeaderNoLeft {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:1px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:1px solid #003399;} 	
+/* introdotto per definire lo stile dell'header del datagrid/datalist standard dell'area */
+/* definisce un border di dimensione 1 tranne che per il border-bottom*/	
+.ReportHeaderNoBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #FFFFFF; 
+	           background: #3366FF; 
+	           border-top:1px solid #003399; 
+	           border-left:1px solid #003399; 
+	           border-bottom:0px solid #003399; 
+	           border-right:1px solid #003399;}
+/* introdotto per definire lo stile del footer del datagrid/datalist standard dell'area */		           
+.ReportFooter {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #6699FF; 
+	           border-top:1px solid #003399; 
+	           border-left:1px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:1px solid #003399;}  
+/* introdotto per definire lo stile del footer del datagrid/datalist standard dell'area */
+/* definisce border-top e border-bottom = 1 */		           
+.ReportFooterTopBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #6699FF; 
+	           border-top:1px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:0px solid #003399;}  	           
+/* introdotto per definire lo stile del footer del datagrid/datalist standard dell'area */
+/* definisce un border di dimensione 1 tranne che per il border-right*/       
+.ReportFooterNoRight {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #6699FF; 
+	           border-top:1px solid #003399; 
+	           border-left:1px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:0px solid #003399;} 	 
+/* introdotto per definire lo stile del footer del datagrid/datalist standard dell'area */
+/* definisce un border di dimensione 1 tranne che per il border-top*/       
+.ReportFooterNoTop {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #6699FF; 
+	           border-top:0px solid #003399; 
+	           border-left:1px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:1px solid #003399;} 	 	 
+/* introdotto per definire lo stile del footer del datagrid/datalist standard dell'area */
+/* deinisce un border di dimensione 1 tranne che per il border-left*/   	           
+.ReportFooterNoLeft {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #6699FF; 
+	           border-top:1px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:1px solid #003399;} 	 
+/* introdotto per definire lo stile del footer del datagrid/datalist standard dell'area */
+/* definisce il border-bottom = 1 e il border-right = 1 e i restanti border = 0*/       
+.ReportFooterBottomRight {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #6699FF; 
+	           border-top:0px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:1px solid #003399;} 
+/* introdotto per definire lo stile del footer del datagrid/datalist standard dell'area */
+/* definisce il border-bottom = 1 e i restanti border = 0*/       
+.ReportFooterBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #6699FF; 
+	           border-top:0px solid #003399; 
+	           border-left:0px solid #003399; 
+	           border-bottom:1px solid #003399; 
+	           border-right:0px solid #003399;} 
+/* introdotto per definire lo stile di un header di secondo livello del datagrid/datalist standard dell'area */	           
+.ReportHeaderMinor {font-family: Verdana,Arial,Helvetia,sans-serif; 
+			      border-color:#009999; 
+			      background: #CCCCCC; 
+			      border-top:1px solid #003399; 
+			      border-left:1px solid #003399; 
+			      border-bottom:1px solid #003399; 
+			      border-right:1px solid #003399;} 	           
+/* introdotto per definire lo stile di un header di secondo livello del datagrid/datalist standard dell'area */	           
+/* definisce solo il border-bottom = 1 e i restanti border = 0*/  
+.ReportHeaderMinorBottom {font-family: Verdana,Arial,Helvetia,sans-serif; 
+			      border-color:#009999; 
+			      background: #CCCCCC; 
+			      border-top:0px solid #003399; 
+			      border-left:0px solid #003399; 
+			      border-bottom:1px solid #003399; 
+			      border-right:0px solid #003399;} 	 
+/* definisce lo stile della textbox della pagina*/
+.TextBoxStyle {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-size: 10px; 
+	           color: #000080; 
+			   background: #FFFFFF;
+	           border-top:1px solid #003399; 
+			   border-left:1px solid #003399; 
+			   border-bottom:1px solid #003399; 
+			   border-right:1px solid #003399;}    
+.TextBoxStyleNoBorder {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-size: 10px; 
+	           color: #000080; 
+			   background: #F0F7FF;border:none ;
+				}    
+/* definisce lo stile di un bottone della pagina*/
+.ButtonStyle {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-weight:bold; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #CCCCCC;
+	           border-top:1px solid #003399; 
+			   border-left:1px solid #003399; 
+			   border-bottom:1px solid #003399; 
+			   border-right:1px solid #003399;
+			   cursor:hand;}
+/* definisce lo stile degli elementi nella dropdown*/
+.DropDownStyle {font-family: Verdana,Arial,Helvetia,sans-serif; 
+	           font-size: 10px; 
+	           color: #000080; 
+	           background: #FFFFFF;
+	           border-top:1px solid #003399; 
+			   border-left:1px solid #003399; 
+			   border-bottom:1px solid #003399; 
+			   border-right:1px solid #003399;
+			   }  			   
+.ContentDiv	{margin: 0px;
+			border: 0px;
+			padding: 4px;
+			width: 600px;
+			} 
+.AiutoCompilazione  {font-family: Verdana,Arial,Helvetia,sans-serif; 
+					font-size: 14px; 
+				    color: #FF0000; 
+					font-weight: bold;	
+					text-decoration: none; 
+			   } 
+.DivWithScrollbar 
+				{
+				   border-right: #003399 0px solid; 
+				   border-top:: #003399 0px solid; 
+				   overflow: auto; 
+				   border-left: #003399 0px solid; 
+				   width: 600px; 
+				   border-bottom: #003399 0px solid; 
+				   height: 200px 
+				 }
+
+.DivWithScrollbarGlobal582-72 {overflow: auto; 
+		                 width: 582px; 
+		                 height:72px;
+		                 border-top:1px solid #003399;
+				         border-left:1px solid #003399; 
+	                     border-bottom:1px solid #003399; 
+	                     border-right:1px solid #003399;}
+.DivWithScrollbarGlobal500-200 {overflow: auto; 
+		                 width: 500px; 
+		                 height:200px;
+		                 border-top:1px solid #003399;
+				         border-left:1px solid #003399; 
+	                     border-bottom:1px solid #003399; 
+	                     border-right:1px solid #003399;}	 
+.DivWithScrollbarGlobal195-283 {overflow: auto; 
+		                 width: 195px; 
+		                 height:283px;
+		                 border-top:1px solid #003399;
+				         border-left:1px solid #003399; 
+	                     border-bottom:1px solid #003399; 
+	                     border-right:1px solid #003399;
+	                     background: #F0F0F0;}
+.DivWithScrollbarGlobal580-150 {overflow: auto; 
+		                 width: 580px; 
+		                 height:150px;
+		                 border-top:1px solid #003399;
+				         border-left:1px solid #003399; 
+	                     border-bottom:1px solid #003399; 
+	                     border-right:1px solid #003399;
+	                     background: #F0F0F0;}	
+.DivWithScrollbarGlobal600-250 {overflow:auto; 
+		                 width: 600px; 
+		                 height:250px;
+		                 border-top:1px solid #003399;
+				         border-left:1px solid #003399; 
+	                     border-bottom:1px solid #003399; 
+	                     border-right:1px solid #003399;
+	                     background: #F0F0F0;}		       
+.DivWithScrollbarGlobal600-100 {overflow:auto; 
+		                 width: 600px; 
+		                 height:100px;
+		                 border-top:0px solid #003399;
+				         border-left:0px solid #003399; 
+	                     border-bottom:0px solid #003399; 
+	                     border-right:0px solid #003399;
+	                     background: #F0F0F0;}                        
+.DivWithScrollbarGlobal-h70 {overflow: auto; 
+		                 width: 100%; 
+		                 height:70px;
+		                 border-top:1px solid #003399;
+				         border-left:1px solid #003399; 
+	                     border-bottom:1px solid #003399; 
+	                     border-right:1px solid #003399;
+	                     background: #F0F0F0;}	
+ .DivWithScrollbarGlobal-h150 {overflow: auto; 
+		                 width: 100%; 
+		                 height:150px;
+		                 border-top:0px solid #003399;
+				         border-left:0px solid #003399; 
+	                     border-bottom:0px solid #003399; 
+	                     border-right:0px solid #003399;
+	                     background: #F0F0F0;}	
+.DivWithScrollbarNoBorder600-250 {overflow: auto; 
+		                 width: 600px; 
+		                 height:250px;
+		                 border-top:0px solid #003399;
+				         border-left:0px solid #003399; 
+	                     border-bottom:0px solid #003399; 
+	                     border-right:0px solid #003399;
+	                     background: #FFFFFF;}		    
+.DivWithScrollbarNoBorderTop600-250 {overflow:auto; 
+		                 width: 600px; 
+		                 height:250px;
+		                 border-top:0px solid #003399;
+				         border-left:1px solid #003399; 
+	                     border-bottom:1px solid #003399; 
+	                     border-right:1px solid #003399;
+	                     background: #F0F0F0;}		 
+.12PixelsBold	{font-weight: bold;	
+				font-size: 12px; } 
+.14PixelsBold	{font-weight: bold;	
+				font-size: 14px; } 
+.12Pixels  {font-size: 12px; }   
+.9Pixels  {font-size: 9px; }   
+.Bold10Red {font-size:10px; font-weight:bold; color:#FF0000;} 
+.Italic10Red {font-size:10px; font-style:italic; color:#FF0000;}   
+.Bold10Arancione {font-size:10px; font-weight:bold; color:#FF6600;}             
+.IndentazioneListaPuntataNulla {position:relative; left:-25px}          
+.VerticalAlignBottom { vertical-align : bottom; }                   
+.box			{ background : #F0F7FF; border:1px solid #5fa7d9; }   	    
+

@@ -1,0 +1,16 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_VIEW.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_TOOLBAR.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_DETAIL.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_SUMMARY.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_FILTER_BY_PROVIDER.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_FILTER_BY_DATE.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDR_DATAVALIDATION_MONITOR.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_RW_DATAVALIDATION_MONITOR_DETAIL.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_TD_RW_DATAVALIDATION_MONITOR_DETAIL.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_FILTER_BY_OTHER.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_FK_TO_FIX.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_FK_TO_FIX_SUMMARY.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DValidationMonitor\JsonForms\IDD_DATAVALIDATION_MONITOR_FK_TO_FIX_DETAIL.hjson>

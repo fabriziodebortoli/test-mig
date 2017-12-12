@@ -1,0 +1,22 @@
+{
+    "id": "IDD_WTD_SOSADJUSTATTACH_DOCSELECTIONS",
+    "type": 66,
+    "text": "Document Selections",
+    "context": "UISOSAdjustAttachments",
+    "items": [
+        {
+            "id": "IDC_TG_SOSADJUSTATTACH_DOCSELECTIONS",
+            "type": 72, //TileGroup
+            "text": "Document Selections",
+            "layoutType": 4, /*VBOX*/
+            "items": [
+                {
+                    "href": "Framework.TbGes.UITileDialog.IDD_TB_HEADER_TILE"
+                },
+                {
+                    "href": "IDD_TD_SOSADJUSTATTACH_RESULTS"
+                }
+            ]
+        }
+    ]
+}

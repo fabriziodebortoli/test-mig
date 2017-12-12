@@ -1,0 +1,33 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_FILTER_BY_PROVIDER.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_FILTER_BY_OTHER.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_FILTER_BY_STATUS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_FILTER_BY_DATE.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_STATUS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_DETAIL.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_DETAIL_DOC_SUMMARY.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_LEGEND.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_LEGEND_TILE.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_RW_DATASYNCHRO_MONITOR_DETAIL.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_TD_RW_DATASYNCHRO_MONITOR_DETAIL.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDR_DATASYNCHRO_MONITOR.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_DETAIL_IMS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSMonitor\JsonForms\IDD_DATASYNCHRO_MONITOR_DETAIL_DOC_SUMMARY_IMS.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_DS_MONITOR_PROVIDERS						GET_IDC(IDC_DS_MONITOR_PROVIDERS)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_DS_MONITOR_REFRESH							GET_ID(ID_DS_MONITOR_REFRESH)
+#define ID_DS_MONITOR_ERR_START_RECOVERY_BUTTON			GET_ID(ID_DS_MONITOR_ERR_START_RECOVERY_BUTTON)
+#define ID_DS_MONITOR_PAUSE_BUTTON						GET_ID(ID_DS_MONITOR_PAUSE_BUTTON)
+#define ID_DS_MONITOR_CONTINUE_BUTTON					GET_ID(ID_DS_MONITOR_CONTINUE_BUTTON)
+#define ID_DS_MONITOR_ABORT_BUTTON						GET_ID(ID_DS_MONITOR_ABORT_BUTTON)
+
+

@@ -1,0 +1,596 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageInfo (1,9,2100,2970,100,1,1,True ) 
+
+FontStyles 
+	Begin
+		"Text"  Facename "Calibri"  Size 10 Style (0,0,0,400,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"ListTitle"  Facename "Calibri"  Size 17 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,128,128) ) ;
+		"Appunti"  Facename "Calibri"  Size 10 Style (0,0,0,400,255,0,0,0,3,2,1,34,TextColor (0,128,128) ) ;
+	End
+
+PageLayout "RotazioneDuecentosettantaGradiMultilinea" 
+	Begin
+		Text (4,6,44,743) "Rotazione 270° Multilinea" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 2133 ;
+				FontStyle "ListTitle" ;
+			End
+
+		Text (52,12,149,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526416 ;
+			End
+
+		Text (153,12,250,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526420 ;
+			End
+
+		Text (253,12,350,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526424 ;
+			End
+
+		Text (407,12,504,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526401 ;
+			End
+
+		Text (508,12,605,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526405 ;
+			End
+
+		Text (608,12,705,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017. " 
+			Begin
+				Align 526409 ;
+			End
+
+		Text (762,12,859,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526418 ;
+			End
+
+		Text (865,12,962,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526422 ;
+			End
+
+		Text (967,12,1064,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 526426 ;
+			End
+
+		Field (1053,354,1084,744) Alias 1  /* Expr */ 
+			Begin
+				Hidden  
+			End
+
+	End
+PageLayout "default" 
+	Begin
+		Text (4,7,44,744) "Allineamento Multilinea" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 2133 ;
+				FontStyle "ListTitle" ;
+			End
+
+		Text (52,12,149,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+			End
+
+		Text (85,511,125,630) "Sinistra - Alto" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (153,12,250,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 2132 ;
+			End
+
+		Text (179,511,219,630) "Sinistra - Centrato" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (253,12,350,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 2136 ;
+			End
+
+		Text (273,511,313,630) "Sinistra - Basso" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (407,12,504,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 2113 ;
+			End
+
+		Text (443,511,483,630) "Centrato - Alto" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (508,12,605,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 2117 ;
+			End
+
+		Text (537,511,577,630) "Centrato - Centrato" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (608,12,705,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017. " 
+			Begin
+				Align 2121 ;
+			End
+
+		Text (630,511,670,630) "Centrato - Basso" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2117 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (762,12,859,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 2130 ;
+			End
+
+		Text (803,511,843,630) "Destra - Alto" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (865,12,962,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 2134 ;
+			End
+
+		Text (902,511,942,630) "Destro - Centrato" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (973,12,1070,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 2138 ;
+			End
+
+		Text (1006,511,1046,630) "Destro - Basso" 
+			Begin
+				Transparent
+				Pen (0,139,139) ;
+				Borders (0,0,1,1) ;
+				DropShadow 1 Color (0,139,139) 
+				Align 2133 ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (1047,663,1087,739) "-{Page}-" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Special
+				Align 2137 ;
+			End
+
+	End
+PageLayout "RotazioneNovantaGradiSingola" 
+	Begin
+		Text (4,6,44,743) "Rotazione 90°" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 2133 ;
+				FontStyle "ListTitle" ;
+			End
+
+		Text (70,22,323,93) "Allineamento Sinistra Alto" 
+			Begin
+				Align 264288 ;
+			End
+
+		Text (70,106,323,177) "Allineamento Sinistra Centrato" 
+			Begin
+				Align 264292 ;
+			End
+
+		Text (70,190,323,261) "Allinemanto Sinistra Basso" 
+			Begin
+				Align 264312 ;
+			End
+
+		Text (70,276,323,347) "Allineamento Sinistra Imposta Campo" 
+			Begin
+				Hidden  Align 133216 ;
+			End
+
+		Text (347,22,600,93) "Allineamento Centrato Alto" 
+			Begin
+				Align 264289 ;
+			End
+
+		Text (347,106,600,177) "Allineamento Centrato Centrato" 
+			Begin
+				Align 264293 ;
+			End
+
+		Text (347,189,600,260) "Allineamento Centrato Basso" 
+			Begin
+				Align 264297 ;
+			End
+
+		Text (347,275,600,346) "Allineamento Centrato Imposta Campo" 
+			Begin
+				Hidden  Align 133217 ;
+			End
+
+		Text (422,410,505,716) 
+			Begin
+				"ATTENZIONE!!!!" 
+				"I settaggi Allineamento Sinistra Imposta Campo, Allineamento Centrato Imposta Campo, Allineamento Destra Imposta Campo NON STANNO FUNZIONANDO COME DOVREBBERO." 
+			End
+
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				TextColor (255,0,0) ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (631,22,884,93) "Allineamento Destra Alto" 
+			Begin
+				Align 264290 ;
+			End
+
+		Text (631,104,884,175) "Allineamento Destra Centrato" 
+			Begin
+				Align 264294 ;
+			End
+
+		Text (631,189,884,260) "Allineamento Destra Basso" 
+			Begin
+				Align 264298 ;
+			End
+
+		Text (631,275,884,346) "Allineamento Destra Imposta Campo" 
+			Begin
+				Hidden  Align 133218 ;
+			End
+
+		Field (1051,354,1082,744) Alias 1  /* Expr */ 
+			Begin
+				Hidden  
+			End
+
+	End
+PageLayout "RotazioneDuecentosettantaGradiSingola" 
+	Begin
+		Text (4,6,44,743) "Rotazione 270°" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 2133 ;
+				FontStyle "ListTitle" ;
+			End
+
+		Text (70,22,323,93) "Allineamento Sinistra Alto" 
+			Begin
+				Align 526432 ;
+			End
+
+		Text (70,106,323,177) "Allineamento Sinistra Centrato" 
+			Begin
+				Align 526436 ;
+			End
+
+		Text (70,190,323,261) "Allinemanto Sinistra Basso" 
+			Begin
+				Align 526440 ;
+			End
+
+		Text (70,276,323,347) "Allineamento Sinistra Imposta Campo" 
+			Begin
+				Hidden  Align 133216 ;
+			End
+
+		Text (347,22,600,93) "Allineamento Centrato Alto" 
+			Begin
+				Align 526449 ;
+			End
+
+		Text (347,106,600,177) "Allineamento Centrato Centrato" 
+			Begin
+				Align 526453 ;
+			End
+
+		Text (347,189,600,260) "Allineamento Centrato Basso" 
+			Begin
+				Align 526457 ;
+			End
+
+		Text (347,275,600,346) "Allineamento Centrato Imposta Campo" 
+			Begin
+				Hidden  Align 133217 ;
+			End
+
+		Text (438,410,520,721) 
+			Begin
+				"ATTENZIONE!!!!" 
+				"I settaggi Allineamento Sinistra Imposta Campo, Allineamento Centrato Imposta Campo, Allineamento Destra Imposta Campo NON STANNO FUNZIONANDO COME DOVREBBERO." 
+			End
+
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				TextColor (255,0,0) ;
+				FontStyle "Appunti" ;
+			End
+
+		Text (631,22,884,93) "Allineamento Destra Alto" 
+			Begin
+				Align 526434 ;
+			End
+
+		Text (631,104,884,175) "Allineamento Destra Centrato" 
+			Begin
+				Align 526438 ;
+			End
+
+		Text (631,189,884,260) "Allineamento Destra Basso" 
+			Begin
+				Align 526442 ;
+			End
+
+		Text (631,275,884,346) "Allineamento Destra Imposta Campo" 
+			Begin
+				Hidden  Align 133218 ;
+			End
+
+		Field (1053,354,1084,744) Alias 1  /* Expr */ 
+			Begin
+				Hidden  
+			End
+
+	End
+PageLayout "RotazioneNovantaGradiMultilinea" 
+	Begin
+		Text (2,6,42,743) "Rotazione 90° Multilinea" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 2133 ;
+				FontStyle "ListTitle" ;
+			End
+
+		Text (52,12,149,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264272 ;
+			End
+
+		Text (153,12,250,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264276 ;
+			End
+
+		Text (253,12,350,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264280 ;
+			End
+
+		Text (384,12,481,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264257 ;
+			End
+
+		Text (485,12,582,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264261 ;
+			End
+
+		Text (585,12,682,456) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017. " 
+			Begin
+				Align 264265 ;
+			End
+
+		Text (730,13,827,457) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264274 ;
+			End
+
+		Text (833,13,930,457) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264278 ;
+			End
+
+		Text (935,13,1032,457) "Il codice civile stabilisce che entro 120 giorni dalla chiusura dell’esercizio, le società di capitali devono convocare l’assemblea per approvare il bilancio d''esercizio. Per i soggetti con periodo d’imposta coincidente con l’anno solare, tale termine cade quest’anno il prossimo 30 aprile 2017." 
+			Begin
+				Align 264282 ;
+			End
+
+		Field (1051,354,1082,744) Alias 1  /* Expr */ 
+			Begin
+				Hidden  
+			End
+
+	End
+PageLayout "LayoutLineaSingola" 
+	Begin
+		Text (9,7,40,789) "Allineamento Linea Singola" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 2133 ;
+				FontStyle "ListTitle" ;
+			End
+
+		Text (70,22,128,403) "Allineamento Sinistra Alto" 
+			Begin
+				Align 2160 ;
+			End
+
+		Text (132,22,190,403) "Allineamento Sinistra Centrato" 
+			Begin
+				Align 2164 ;
+			End
+
+		Text (194,22,252,403) "Allinemanto Sinistra Basso" 
+			Begin
+				Align 2168 ;
+			End
+
+		Text (259,22,317,403) "Allineamento Sinistra Imposta Campo" 
+			Begin
+				Align 133216 ;
+			End
+
+		Text (347,25,405,406) "Allineamento Centrato Alto" 
+			Begin
+				Align 2161 ;
+			End
+
+		Text (413,25,471,406) "Allineamento Centrato Centrato" 
+			Begin
+				Align 2165 ;
+			End
+
+		Text (479,25,537,406) "Allineamento Centrato Basso" 
+			Begin
+				Align 2169 ;
+			End
+
+		Text (544,25,602,406) "Allineamento Centrato Imposta Campo" 
+			Begin
+				Align 133233 ;
+			End
+
+		Text (631,25,689,406) "Allineamento Destra Alto" 
+			Begin
+				Align 2162 ;
+			End
+
+		Text (695,25,753,406) "Allineamento Destra Centrato" 
+			Begin
+				Align 2166 ;
+			End
+
+		Text (758,25,816,406) "Allineamento Destra Basso" 
+			Begin
+				Align 2170 ;
+			End
+
+		Text (821,25,879,406) "Allineamento Destra Imposta Campo" 
+			Begin
+				Align 133234 ;
+			End
+
+		Field (1056,353,1087,743) Alias 1  /* Expr */ 
+			Begin
+				Hidden  
+			End
+
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			String       Expr [15] Alias 1 ;
+			String       Expr_2 [15] Alias 2  Hidden ;
+		End
+
+		Rules
+			Expr = "NON CONSIDERARE: workaround per far apparire i layout secondari"  ;
+
+			Expr_2 = "NON CONSIDERARE: workaround per far apparire i layout secondari"  ;
+		End
+
+
+		Events
+			Report : Do
+				Always 
+					Begin
+						FormFeed "LayoutLineaSingola" ;
+						/*Formfeed "layoutdue";*/
+						FormFeed "RotazioneNovantaGradiSingola" ;
+						/*Formfeed "layoutdue";*/
+						FormFeed "RotazioneDuecentosettantaGradiSingola" ;
+						If 1 = 0 
+							Then 
+								Begin
+									FormFeed "RotazioneNovantaGradiMultilinea" ;
+									FormFeed "RotazioneDuecentosettantaGradiMultilinea" ;
+								End ;
+						/*Formfeed "layoutdue";*/
+						/*Formfeed "layoutdue";*/
+						/*Formfeed "layoutdue";*/
+						/*Formfeed "layoutdue";*/
+						/*Formfeed "layoutdue";*/
+						/*Formfeed "layoutdue";*/
+						/*Formfeed "layoutdue";*/
+						/*Formfeed "layoutdue";*/
+					End
+				/*Formfeed "layoutdue";*/
+				Before 
+					Begin
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+End
+

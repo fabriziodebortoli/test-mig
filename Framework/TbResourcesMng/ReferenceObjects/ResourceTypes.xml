@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function namespace="Framework.TbResourcesMng.TbResourcesMng.ResourceTypes" localize="Resource Types" type="string" />
+   <DbField name="RM_ResourceTypes.ResourceType" />
+  <ComboBox>
+	<Column source="RM_ResourceTypes.ResourceType" />
+	<Column source="RM_ResourceTypes.Description" />
+  </ComboBox>
+  <ClassName>HKLResourceTypes</ClassName>
+</HotKeyLink>

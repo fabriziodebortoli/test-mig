@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_XREF_WIZARD_MASTER			GET_IDD(IDD_XREF_WIZARD_MASTER, M.Framework.TbGes.XRefManager)
+#define	IDC_XREF_WIZ_STATIC_SHEET_RECT			GET_IDC(IDC_XREF_WIZ_STATIC_SHEET_RECT)

@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormEngine\JsonForms\EXPDLG\IDD_EXPRULE.hjson>

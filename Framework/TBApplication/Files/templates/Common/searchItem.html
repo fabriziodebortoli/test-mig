@@ -1,0 +1,15 @@
+<a ng-click="$parent.$parent.$parent.menuService.runFunction(match.model);" ng-mouseenter="starHover=true" ng-mouseleave="starHover=false">
+    <div style="display:inline-block" class="imageSmall">
+        <span class="imageSmall" ng-click="$parent.$parent.$parent.menuService.toggleFavorites(match.model); $event.stopPropagation();" ng-class="{favorite: match.model.isFavorite, unFavorite: !match.model.isFavorite}" ng-show="match.model.isFavorite || starHover" />
+    </div>
+    
+    <div style="display:inline-block;width:395px; padding-left:5px;" class="link" >
+
+        <span uib-tooltip-html="match.model.itemTooltip" tooltip-popup-delay="500" tooltip-append-to-body="true" tooltip-animation="false">
+            <img ng-src="{{match.model.customImage = $parent.$parent.$parent.imageService.getStaticImage(match.model)}}" class="menuItemImage" ng-show="match.model.customImage != ''" draggable="false" style="display:inline-block" />
+            <span style="padding-left:1px" class="menuItemImage  ng-class: $parent.$parent.$parent.imageService.getObjectIcon(match.model)" ng-show="match.model.customImage == ''" draggable="false"></span>
+            <span ng-bind-html="match.model.title | uibTypeaheadHighlight:query" style="display:inline-block;font-size:13px; padding-left:1px" class="truncate" ></span>
+        </span>
+    </div>
+
+</a>

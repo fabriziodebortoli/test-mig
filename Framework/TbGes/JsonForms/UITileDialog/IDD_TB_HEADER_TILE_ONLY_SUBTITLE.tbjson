@@ -1,0 +1,30 @@
+﻿{
+  "id": "IDD_TB_HEADER_TILE_ONLY_SUBTITLE",
+  "type": 71,
+  "x": 0,
+  "y": 0,
+  "width": 643,
+  "height": 33,
+  "child": true,
+  "text": "",
+  "tileStyle": 3, //TDS_HEADER,
+  "hasTitle": false,
+  "size": 2, //TILE_STANDARD
+  "flex" :  0,
+  "context": "uitiledialog",
+  "items": [
+    {
+      "id": "IDC_TB_HEADER_ONLY_SUBTITLE_SUBTITLE",
+      "type": 2,
+      "controlClass": "LabelStatic",
+      "text": "{{HeaderSubTitle}}",
+      "multiline": true,
+      "rightAnchor": true,
+      "x": 2,
+      "y": 2,
+      "width": 640,
+      "height": 31,
+      "font": { "size": 12 }
+    }
+  ]
+}

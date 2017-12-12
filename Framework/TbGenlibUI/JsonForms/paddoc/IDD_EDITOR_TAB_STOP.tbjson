@@ -1,0 +1,55 @@
+﻿{
+  "id": "IDD_EDITOR_TAB_STOP",
+  "rcId": 1035,
+  "type": 66,
+  "text": "Tabulation position (in character)",
+  "x": 0,
+  "y": 0,
+  "width": 186,
+  "height": 55,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "paddoc",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 24,
+      "y": 36,
+      "width": 65,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 96,
+      "y": 36,
+      "width": 65,
+      "height": 14
+    },
+    {
+      "id": "IDC_EDITOR_TAB_STOP",
+      "type": 13,
+      "x": 37,
+      "y": 18,
+      "width": 110,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Distance of tabulation",
+      "x": 4,
+      "y": 8,
+      "width": 179,
+      "height": 8,
+      "textAlign": 1
+    }
+  ]
+}

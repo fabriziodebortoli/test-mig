@@ -1,0 +1,18 @@
+//{{NO_DEPENDENCIES}}
+// Microsoft Developer Studio generated include file.
+// Used by XMLEnvMng.rc
+//
+#define IDI_SITE                        2210
+#define IDI_ENV_CLASS                   2211
+#define IDI_ENVELOPE                    2212
+
+// Next default values for new objects
+// 
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+#define _APS_NEXT_RESOURCE_VALUE        2206
+#define _APS_NEXT_COMMAND_VALUE         34532
+#define _APS_NEXT_CONTROL_VALUE         2857
+#define _APS_NEXT_SYMED_VALUE           2213
+#endif
+#endif

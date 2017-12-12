@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="677d17b2-33e2-41a1-aff8-72278d752031" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10000/ERP.PricePolicies.Components?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ERP.xsd" MetadataType="Schema" ID="873145f6-a1a6-44f2-bde4-080ccb2b895f" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd2" />
+    <MetadataFile FileName="ERP1.xsd" MetadataType="Schema" ID="6daaebf3-8a3d-4463-916e-be942cb64e9a" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd6" />
+    <MetadataFile FileName="PricePoliciesComponents.wsdl" MetadataType="Wsdl" ID="21ad4dd2-f427-41d1-8d41-48abeb1bb9a0" SourceId="1" SourceUrl="http://localhost:10000/ERP.PricePolicies.Components?wsdl" />
+    <MetadataFile FileName="ERP14.xsd" MetadataType="Schema" ID="7fe0770f-587f-4785-b83e-c8539a9e1fc2" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd14" />
+    <MetadataFile FileName="ERP2.xsd" MetadataType="Schema" ID="765c17c8-ffce-4227-91bb-233b73ae3bad" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd13" />
+    <MetadataFile FileName="ERP3.xsd" MetadataType="Schema" ID="481cb6fc-8799-4f24-ac34-da1423ae44b2" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd1" />
+    <MetadataFile FileName="ERP4.xsd" MetadataType="Schema" ID="5ae62904-4765-420d-86db-bc7eca06d906" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd5" />
+    <MetadataFile FileName="ERP5.xsd" MetadataType="Schema" ID="0aca8705-8501-416f-a131-7779cb3f1276" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd9" />
+    <MetadataFile FileName="ERP6.xsd" MetadataType="Schema" ID="29f15577-0934-4d9c-bb8d-81a1bab9615b" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd10" />
+    <MetadataFile FileName="ERP7.xsd" MetadataType="Schema" ID="eb733dbf-e144-43b1-9ff1-65357d94afbc" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd11" />
+    <MetadataFile FileName="ERP8.xsd" MetadataType="Schema" ID="124876dd-e011-4a32-965f-b78987b558e6" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd0" />
+    <MetadataFile FileName="ERP9.xsd" MetadataType="Schema" ID="0dce66ba-efdb-4c81-909f-0f587ce11e24" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd4" />
+    <MetadataFile FileName="ERP10.xsd" MetadataType="Schema" ID="54b1ae8b-14ea-4a6e-a095-67637bb0ecee" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd8" />
+    <MetadataFile FileName="ERP11.xsd" MetadataType="Schema" ID="570e887f-39aa-442c-ba29-39164f9f3d6a" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd12" />
+    <MetadataFile FileName="ERP12.xsd" MetadataType="Schema" ID="1dde07ad-bd9d-45c0-a017-8d08ef2836b0" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd3" />
+    <MetadataFile FileName="ERP13.xsd" MetadataType="Schema" ID="5964b8a0-8cc0-4690-a4b0-57b7dfe0d472" SourceId="1" SourceUrl="http://usr-squiccimar1:10000/ERP.PricePolicies.Components?xsd=xsd7" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="release"
+                 upgradeGuid="081399EA-2CEE-4D41-9565-BD939B46BB94"
+                 producer="Microarea S.p.A."
+                 productName="Mago4 Retail"
+                 setupOutputFileName="Mago4Retail"
+                 applicationType="addon"
+								 clickOnceClientDeployment="yes"
+								 allowUpdates="no"
+                 producerWebSite="http://www.microarea.it"
+                 prerequisiteProduct="Mago4"
+                 prerequisiteProductUpgradeGuid="E51B08A3-8D02-44BE-B3BC-85144A6C7EBA"
+                 >
+	<!--Consideriamo questo path come root di partenza: C:\Development\-->
+	<FileSystemStructure >
+		<IncludeFolder name ="Apps" >
+			<IncludeFolder name="Publish" fragment="yes">
+				<IncludeFile name="Retail*.dll"/>
+        <IncludeFile name="Microarea.Retail*.dll"/>
+			</IncludeFolder>
+		</IncludeFolder>
+		<IncludeFolder name="Standard">
+			<IncludeFolder name="Applications">
+				<IncludeFolder name="Retail">
+          <IncludeFolder name="*" fragment="yes">
+            <IncludeFolder name="Modules" recursive="yes">
+              <IncludeFile name="*.csm"/>
+            </IncludeFolder>
+            <IncludeFolder name="DatabaseScript|Files|DataManager|Menu|Settings|ModuleObjects|Report|ReferenceObjects|JsonForms" recursive="yes">
+              <IncludeFile name="*.*"/>
+            </IncludeFolder>
+            <IncludeFile name="*.config|*.Solution.xml|*.Brand.xml"/>
+          </IncludeFolder>
+          <IncludeFile name="application.config" />
+				</IncludeFolder>
+			</IncludeFolder>
+		</IncludeFolder>
+	</FileSystemStructure>
+</SetupDefinition>

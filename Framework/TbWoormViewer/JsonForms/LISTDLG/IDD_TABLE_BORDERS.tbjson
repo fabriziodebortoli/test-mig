@@ -1,0 +1,295 @@
+﻿{
+  "id": "IDD_TABLE_BORDERS",
+  "rcId": 1143,
+  "type": 66,
+  "text": "Table Borders",
+  "x": 50,
+  "y": 56,
+  "width": 344,
+  "height": 190,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_TABLETITLE_TOP",
+      "type": 11,
+      "text": "To&p",
+      "x": 7,
+      "y": 44,
+      "width": 85,
+      "height": 12,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_TABLETITLE_LEFT",
+      "type": 11,
+      "text": "&Left",
+      "x": 7,
+      "y": 16,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_TABLETITLE_RIGHT",
+      "type": 11,
+      "text": "&Right",
+      "x": 7,
+      "y": 30,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLUMNTITLE_TOP",
+      "type": 11,
+      "text": "To&p",
+      "x": 7,
+      "y": 124,
+      "width": 85,
+      "height": 12,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLUMNTITLE_LEFT",
+      "type": 11,
+      "text": "L&eft",
+      "x": 7,
+      "y": 98,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLUMNTITLE_RIGHT",
+      "type": 11,
+      "text": "Righ&t",
+      "x": 7,
+      "y": 111,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_ROW_SEPARATOR",
+      "type": 11,
+      "text": "Li&nes",
+      "x": 209,
+      "y": 20,
+      "width": 85,
+      "height": 12,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLUMN_SEPARATOR",
+      "type": 11,
+      "text": "&Columns",
+      "x": 209,
+      "y": 85,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLUMNTITLE_SEPARATOR",
+      "type": 11,
+      "text": "Colu&mn Title",
+      "x": 209,
+      "y": 136,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_TOTAL_LEFT",
+      "type": 11,
+      "text": "Left",
+      "x": 104,
+      "y": 18,
+      "width": 89,
+      "height": 10,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_TOTAL_BOTTOM",
+      "type": 11,
+      "text": "&Bottom",
+      "x": 104,
+      "y": 57,
+      "width": 90,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_TOTAL_RIGHT",
+      "type": 11,
+      "text": "Right",
+      "x": 104,
+      "y": 31,
+      "width": 90,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_BODY_LEFT",
+      "type": 11,
+      "text": "Lef&t",
+      "x": 104,
+      "y": 98,
+      "width": 90,
+      "height": 12,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_BODY_RIGHT",
+      "type": 11,
+      "text": "Right",
+      "x": 104,
+      "y": 111,
+      "width": 90,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_BODY_TOP",
+      "type": 11,
+      "text": "Top",
+      "x": 104,
+      "y": 124,
+      "width": 90,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_BODY_BOTTOM",
+      "type": 11,
+      "text": "Bottom",
+      "x": 104,
+      "y": 137,
+      "width": 91,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 75,
+      "y": 163,
+      "width": 84,
+      "height": 15,
+      "group": true,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 184,
+      "y": 163,
+      "width": 84,
+      "height": 15
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "text": "Table Title",
+      "x": 3,
+      "y": 3,
+      "width": 94,
+      "height": 73
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 9,
+      "text": "Column Title",
+      "x": 3,
+      "y": 84,
+      "width": 94,
+      "height": 73
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 9,
+      "text": "Separators",
+      "x": 204,
+      "y": 3,
+      "width": 133,
+      "height": 154
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 9,
+      "text": "Total",
+      "x": 100,
+      "y": 3,
+      "width": 100,
+      "height": 73
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Body",
+      "x": 100,
+      "y": 84,
+      "width": 100,
+      "height": 73
+    },
+    {
+      "id": "IDC_TOTAL_TOP",
+      "type": 11,
+      "text": "Top",
+      "x": 104,
+      "y": 44,
+      "width": 88,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_TABLETITLE_BOTTOM",
+      "type": 11,
+      "text": "Bottom",
+      "x": 7,
+      "y": 58,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLUMNTITLE_BOTTOM",
+      "type": 11,
+      "text": "Bottom",
+      "x": 7,
+      "y": 137,
+      "width": 85,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_REMOVE_CUSTOM_ROWSEP_PEN",
+      "type": 3,
+      "text": "Remove custom pen",
+      "x": 215,
+      "y": 57,
+      "width": 122,
+      "height": 14
+    },
+    {
+      "id": "IDC_SET_CUSTOM_ROWSEP_PEN",
+      "type": 3,
+      "text": "Set custom pen",
+      "x": 216,
+      "y": 39,
+      "width": 121,
+      "height": 14
+    }
+  ]
+}

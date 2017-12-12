@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects.Forms.Metadata" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects.Forms.Metadata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8081/APMServiceClient?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects" />
+  <xs:complexType name="SchemaMetadata">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Root" nillable="true" type="tns:LayoutGroup" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mVersion" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SchemaMetadata" nillable="true" type="tns:SchemaMetadata" />
+  <xs:complexType name="LayoutGroup">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:LayoutItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BorderVisible" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Caption" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:LayoutItems" />
+          <xs:element minOccurs="0" name="LayoutType" type="tns:LayoutType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LayoutGroup" nillable="true" type="tns:LayoutGroup" />
+  <xs:complexType name="LayoutItem">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseAbstractControl">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ShowText" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LayoutItem" nillable="true" type="tns:LayoutItem" />
+  <xs:complexType name="BaseAbstractControl">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects" base="q1:APMObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FieldName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseAbstractControl" nillable="true" type="tns:BaseAbstractControl" />
+  <xs:complexType name="EmptySpace">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseAbstractControl">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="EmptySpace" nillable="true" type="tns:EmptySpace" />
+  <xs:complexType name="DropDownMultiple">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DropDown">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DropDownMultiple" nillable="true" type="tns:DropDownMultiple" />
+  <xs:complexType name="DropDown">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:AbstractField">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfListItem" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DropDown" nillable="true" type="tns:DropDown" />
+  <xs:complexType name="AbstractField">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseAbstractField">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FieldType" type="tns:FieldTypeEnum" />
+          <xs:element minOccurs="0" name="IsMandatory" type="xs:boolean" />
+          <xs:element minOccurs="0" name="IsReadOnly" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Label" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Validation" nillable="true" type="tns:FieldValidation" />
+          <xs:element minOccurs="0" name="Value" nillable="true" type="xs:anyType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AbstractField" nillable="true" type="tns:AbstractField" />
+  <xs:complexType name="BaseAbstractField">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseAbstractControl">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseAbstractField" nillable="true" type="tns:BaseAbstractField" />
+  <xs:complexType name="Text">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:AbstractField">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Lines" type="xs:unsignedByte" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Text" nillable="true" type="tns:Text" />
+  <xs:complexType name="DateEdit">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:AbstractField">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DateEdit" nillable="true" type="tns:DateEdit" />
+  <xs:complexType name="Label">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseAbstractField">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Label" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Label" nillable="true" type="tns:Label" />
+  <xs:complexType name="Button">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseAbstractControl">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Button" nillable="true" type="tns:Button" />
+  <xs:simpleType name="FieldTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="String" />
+      <xs:enumeration value="Byte" />
+      <xs:enumeration value="Integer" />
+      <xs:enumeration value="Long" />
+      <xs:enumeration value="Double" />
+      <xs:enumeration value="Date" />
+      <xs:enumeration value="DateTime" />
+      <xs:enumeration value="Boolean" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FieldTypeEnum" nillable="true" type="tns:FieldTypeEnum" />
+  <xs:complexType name="FieldValidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegEx" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FieldValidation" nillable="true" type="tns:FieldValidation" />
+  <xs:complexType name="ArrayOfListItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ListItem" nillable="true" type="tns:ListItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfListItem" nillable="true" type="tns:ArrayOfListItem" />
+  <xs:complexType name="ListItem">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects" base="q2:APMObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Value" nillable="true" type="xs:anyType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ListItem" nillable="true" type="tns:ListItem" />
+  <xs:complexType name="LayoutItems">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LayoutItem" nillable="true" type="tns:LayoutItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LayoutItems" nillable="true" type="tns:LayoutItems" />
+  <xs:complexType name="LayoutItemField">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:LayoutItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Field" nillable="true" type="tns:BaseAbstractControl" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LayoutItemField" nillable="true" type="tns:LayoutItemField" />
+  <xs:complexType name="LayoutTabbedGroup">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:LayoutGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="DefaultTab" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LayoutTabbedGroup" nillable="true" type="tns:LayoutTabbedGroup" />
+  <xs:simpleType name="LayoutType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Vertical" />
+      <xs:enumeration value="Horizontal" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LayoutType" nillable="true" type="tns:LayoutType" />
+</xs:schema>

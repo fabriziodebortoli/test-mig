@@ -1,0 +1,18 @@
+﻿{
+    "id": "IDD_DATAVALIDATION_MONITOR",
+    "href": "M.Framework.TbGes.TbGes.IDD_BATCH_FRAME",
+    "type": "Frame",
+    "text": "Validation Monitor",
+    "x": 0,
+    "y": 0,
+    "width": 500,
+    "height": 290,
+    "items": [
+        {
+            "href": "IDD_DATAVALIDATION_TOOLBAR"
+        },
+        {
+            "href": "IDD_DATAVALIDATION_MONITOR_VIEW"
+        }
+    ]
+}

@@ -1,0 +1,152 @@
+﻿{
+  "id": "IDD_SELFIELD",
+  "rcId": 1119,
+  "type": 66,
+  "text": "Hidden Fields",
+  "x": 38,
+  "y": 43,
+  "width": 248,
+  "height": 148,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "rpsymdlg",
+  "items": [
+    {
+      "id": "IDC_SELFIELD_LIST",
+      "type": 24,
+      "style": 128,
+      "x": 4,
+      "y": 15,
+      "width": 99,
+      "height": 127,
+      "tabStop": true,
+      "vScroll": true,
+      "hasStrings": true,
+      "noIntegralHeight": true,
+      "ownerDraw": 1
+    },
+    {
+      "id": "IDC_SELFIELD_ALL",
+      "type": 10,
+      "text": "all hidden fields",
+      "x": 113,
+      "y": 18,
+      "width": 126,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_SELFIELD_ASK",
+      "type": 10,
+      "text": "only request fields",
+      "x": 113,
+      "y": 29,
+      "width": 126,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_SELFIELD_FUNC",
+      "type": 10,
+      "text": "only function fields",
+      "x": 113,
+      "y": 40,
+      "width": 126,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 113,
+      "y": 127,
+      "width": 60,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 180,
+      "y": 127,
+      "width": 60,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Fields",
+      "x": 4,
+      "y": 5,
+      "width": 99,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Show",
+      "x": 108,
+      "y": 4,
+      "width": 135,
+      "height": 51
+    },
+    {
+      "id": "IDC_DISPTBL_DLG_TABLE_NAME",
+      "type": 13,
+      "x": 114,
+      "y": 79,
+      "width": 84,
+      "height": 13,
+      "visible": false,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_DISPTBL_DLG_TABLE_ROWSNO",
+      "type": 13,
+      "x": 114,
+      "y": 105,
+      "width": 62,
+      "height": 12,
+      "visible": false,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_DISPTBL_DLG_TABLE_NAME_LABEL",
+      "type": 2,
+      "text": "Name",
+      "x": 114,
+      "y": 69,
+      "width": 108,
+      "height": 8,
+      "visible": false,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DISPTBL_DLG_TABLE_ROWSNO_LABEL",
+      "type": 2,
+      "text": "Number of Rows",
+      "x": 114,
+      "y": 95,
+      "width": 113,
+      "height": 8,
+      "visible": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DISPTBL_DLG_TABLE_GROUP",
+      "type": 9,
+      "text": "New Table",
+      "x": 108,
+      "y": 58,
+      "width": 135,
+      "height": 66,
+      "visible": false
+    }
+  ]
+}

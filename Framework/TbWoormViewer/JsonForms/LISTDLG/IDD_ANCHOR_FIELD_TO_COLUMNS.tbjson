@@ -1,0 +1,136 @@
+﻿{
+  "id": "IDD_ANCHOR_FIELD_TO_COLUMNS",
+  "rcId": 1157,
+  "type": 66,
+  "text": "Anchor To Column",
+  "x": 0,
+  "y": 0,
+  "width": 239,
+  "height": 216,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Table",
+      "x": 16,
+      "y": 11,
+      "width": 129,
+      "height": 11,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_CMB_TABLES",
+      "type": 12,
+      "x": 12,
+      "y": 23,
+      "width": 216,
+      "height": 30,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Left Column",
+      "x": 16,
+      "y": 40,
+      "width": 129,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_CMB_LEFTCOLUMNS",
+      "type": 12,
+      "x": 12,
+      "y": 53,
+      "width": 216,
+      "height": 16,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Right Column",
+      "x": 16,
+      "y": 69,
+      "width": 129,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_CMB_RIGHTCOLUMNS",
+      "type": 12,
+      "x": 12,
+      "y": 82,
+      "width": 216,
+      "height": 16,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_RADIO_ANCHOR",
+      "type": 10,
+      "text": "Anchor",
+      "x": 16,
+      "y": 109,
+      "width": 38,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADIO_DISANCHOR",
+      "type": 10,
+      "text": "Free",
+      "x": 16,
+      "y": 165,
+      "width": 30,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 64,
+      "y": 188,
+      "width": 40,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDC_CHK_ANCHOR_HIDDEN_TITLE",
+      "type": 11,
+      "text": "Use the field to set dynamically the  column header title (The anchored field will be hidden)",
+      "x": 58,
+      "y": 125,
+      "width": 170,
+      "height": 30,
+      "multiline": true,
+      "vertAlign": 0,
+      "auto": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 135,
+      "y": 188,
+      "width": 40,
+      "height": 14
+    }
+  ]
+}

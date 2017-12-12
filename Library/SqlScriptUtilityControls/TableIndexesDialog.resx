@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LSTIndexColumns.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="LSTIndexColumns.Size" type="System.Drawing.Size, System.Drawing">
+    <value>269, 260</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LSTIndexColumns.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMBIndexes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 9</value>
+  </data>
+  <data name="LSTIndexColumns.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.HorizontalExtent" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CMBIndexes.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="LSTIndexColumns.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="CMDSalva.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDRemoveIndexColumn.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 19</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Text" xml:space="preserve">
+    <value>&lt;</value>
+  </data>
+  <data name="&gt;&gt;CMDAddItem.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CMDAddItem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 9</value>
+  </data>
+  <assembly alias="System" name="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CMDRemoveIndexColumn.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="$this.SnapToGrid" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAddIndexColumn.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndexColumn.Name" xml:space="preserve">
+    <value>CMDRemoveIndexColumn</value>
+  </data>
+  <data name="LSTIndexColumns.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndexColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LSTAllColumnsForIndex.Name" xml:space="preserve">
+    <value>LSTAllColumnsForIndex</value>
+  </data>
+  <data name="&gt;&gt;LSTAllColumnsForIndex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CMDSalva.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDSalva.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDRemoveIndexColumn.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMBIndexes.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMDAddItem.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Standard</value>
+  </data>
+  <data name="CMDAddItem.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="$this.TrayLargeIcon" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CMDAddIndexColumn.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CMBIndexes.Name" xml:space="preserve">
+    <value>CMBIndexes</value>
+  </data>
+  <data name="&gt;&gt;CMBIndexes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="$this.Icon" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="$this.Name" xml:space="preserve">
+    <value>TableIndexesDialog</value>
+  </data>
+  <data name="$this.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Indexes</value>
+  </data>
+  <data name="CMDAddIndexColumn.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDSalva.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="CMBIndexes.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="CMDAddIndexColumn.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMDAddIndexColumn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDAddItem.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDSalva.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMDSalva.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAddItem.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMDAnnulla.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddItem.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="CMDRemoveIndex.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="CMDAddItem.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDRemoveIndex.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.ColumnWidth" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CMDAddIndexColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>720, 329</value>
+  </data>
+  <data name="CMDAddIndexColumn.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;CMDAddIndexColumn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="LSTIndexColumns.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;LSTAllColumnsForIndex.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="CMDAddItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMDSalva.Location" type="System.Drawing.Point, System.Drawing">
+    <value>643, 295</value>
+  </data>
+  <data name="$this.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="$this.DrawGrid" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;LSTAllColumnsForIndex.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CMDRemoveIndex.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="$this.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDRemoveIndex.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDSalva.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMBIndexes.MaxLength" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CMBIndexes.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="CMDRemoveIndex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>490, 9</value>
+  </data>
+  <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
+    <value>6, 15</value>
+  </data>
+  <data name="CMDAnnulla.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAnnulla.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDSalva.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDAnnulla.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDRemoveIndex.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDRemoveIndex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 28</value>
+  </data>
+  <data name="CMDRemoveIndex.Text" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="CMDRemoveIndex.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDRemoveIndex.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="CMDAnnulla.Text" xml:space="preserve">
+    <value>&amp;Cancel</value>
+  </data>
+  <data name="CMDAnnulla.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 27</value>
+  </data>
+  <data name="CMDAnnulla.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="CMDAnnulla.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDRemoveIndexColumn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Standard</value>
+  </data>
+  <data name="CMDRemoveIndex.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDRemoveIndexColumn.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMDAddIndexColumn.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndex.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LSTIndexColumns.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddIndexColumn.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="CMDAddIndexColumn.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddIndexColumn.Text" xml:space="preserve">
+    <value>&gt;</value>
+  </data>
+  <data name="CMDAddIndexColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 18</value>
+  </data>
+  <data name="CMDAddItem.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.ScrollAlwaysVisible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMDAddIndexColumn.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="LSTIndexColumns.Location" type="System.Drawing.Point, System.Drawing">
+    <value>355, 46</value>
+  </data>
+  <data name="&gt;&gt;CMDSalva.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndex.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="CMDAddItem.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDAnnulla.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAddItem.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMDAddIndexColumn.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDAddIndexColumn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="&gt;&gt;CMDAnnulla.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CMDAnnulla.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CMDAnnulla.Name" xml:space="preserve">
+    <value>CMDAnnulla</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>298, 138</value>
+  </data>
+  <data name="CMDAddItem.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDSalva.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="CMDSalva.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDSalva.Text" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
+  <data name="CMDSalva.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 28</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAnnulla.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="LSTIndexColumns.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTIndexColumns.ColumnWidth" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CMDAddIndexColumn.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;CMDSalva.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="LSTIndexColumns.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDRemoveIndex.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;CMDSalva.Name" xml:space="preserve">
+    <value>CMDSalva</value>
+  </data>
+  <data name="&gt;&gt;CMDSalva.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDAddItem.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="LSTIndexColumns.HorizontalScrollbar" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="LSTIndexColumns.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAnnulla.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Standard</value>
+  </data>
+  <data name="$this.Language" type="System.Globalization.CultureInfo, mscorlib">
+    <value>Invariant Language (Invariant Country)</value>
+  </data>
+  <data name="CMDAddIndexColumn.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="$this.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.GridSize" type="System.Drawing.Size, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="CMDRemoveIndex.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddIndexColumn.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddItem.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDRemoveIndex.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Standard</value>
+  </data>
+  <data name="$this.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAnnulla.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;CMDAddIndexColumn.Name" xml:space="preserve">
+    <value>CMDAddIndexColumn</value>
+  </data>
+  <data name="&gt;&gt;CMDAddIndexColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CMDAnnulla.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;CMDAnnulla.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LSTIndexColumns.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LSTIndexColumns.Name" xml:space="preserve">
+    <value>LSTIndexColumns</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDRemoveIndex.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDSalva.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDSalva.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 46</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.HorizontalScrollbar" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMDAnnulla.Location" type="System.Drawing.Point, System.Drawing">
+    <value>643, 268</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="CMDAddIndexColumn.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="CMDRemoveIndex.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDRemoveIndex.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDAddIndexColumn.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;CMDAnnulla.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;CMBIndexes.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CMDSalva.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTIndexColumns.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;CMDAddItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMDAddItem.Name" xml:space="preserve">
+    <value>CMDAddItem</value>
+  </data>
+  <data name="CMDAddItem.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="CMBIndexes.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="CMDSalva.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndexColumn.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CMDSalva.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDRemoveIndex.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="CMBIndexes.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="LSTIndexColumns.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="CMDAnnulla.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMDAnnulla.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndexColumn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDRemoveIndex.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMDSalva.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="LSTIndexColumns.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAddItem.Text" xml:space="preserve">
+    <value>A&amp;dd</value>
+  </data>
+  <data name="CMDAddItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 28</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>TableIndexesDialog</value>
+  </data>
+  <data name="CMDAddItem.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="CMDAddItem.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CMBIndexes.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAnnulla.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMBIndexes.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="$this.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="LSTIndexColumns.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAnnulla.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="&gt;&gt;CMBIndexes.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddItem.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="$this.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>WindowsDefaultLocation</value>
+  </data>
+  <data name="CMDAnnulla.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddItem.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="LSTIndexColumns.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMDRemoveIndex.Name" xml:space="preserve">
+    <value>CMDRemoveIndex</value>
+  </data>
+  <data name="CMBIndexes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="&gt;&gt;LSTIndexColumns.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CMDAnnulla.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="LSTIndexColumns.ScrollAlwaysVisible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMBIndexes.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="CMBIndexes.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMBIndexes.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CMBIndexes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>470, 24</value>
+  </data>
+  <data name="CMDRemoveIndexColumn.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddItem.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMBIndexes.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;LSTIndexColumns.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="CMDAddIndexColumn.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDAddIndexColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>298, 74</value>
+  </data>
+  <data name="CMBIndexes.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDAnnulla.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDRemoveIndexColumn.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDSalva.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Standard</value>
+  </data>
+  <data name="CMBIndexes.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CMDAddIndexColumn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Standard</value>
+  </data>
+  <data name="CMBIndexes.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="LSTIndexColumns.HorizontalExtent" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CMDRemoveIndex.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="LSTIndexColumns.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="CMDSalva.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="CMBIndexes.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMDSalva.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="CMBIndexes.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;CMDAddItem.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="$this.AutoScrollMargin" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CMDRemoveIndex.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="LSTAllColumnsForIndex.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LSTAllColumnsForIndex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 260</value>
+  </data>
+  <data name="CMDRemoveIndex.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+</root>

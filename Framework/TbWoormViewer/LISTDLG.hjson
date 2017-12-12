@@ -1,0 +1,34 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_ALIGN.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_ANCHOR_FIELD_TO_COLUMNS.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_BORDERS.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_CELL_ALIGN.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_CHOOSE_LAYOUT.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_CHOOSE_OBJECT.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_CLASS_LIST.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_EXPRTEXT.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_GENERIC_LIST.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_GOTO_PAGE.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_HIDDEN_WHEN.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_LINE_WIDTH.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_MUL_ALIGN.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_MUL_SIZE.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_OBJ_VALUE.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_OPTIONS.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_RATIOS.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_REPEATER_PROPERTIES.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_SET_NAME.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_SET_TABLE_ROWS.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_SET_TOOLTIP.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_SET_WIDTH.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_SINGLELINE_TEXT.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_SPECIAL_FIELD.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_TABLE_ALIGN.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_TABLE_BORDERS.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_TABLE_HEIGHTS.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_V_LARGEST			GET_IDC(IDC_V_LARGEST)

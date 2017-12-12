@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_FORMVIEW			GET_IDD(IDD_FORMVIEW, M.Extensions.EasyBuilder.Test)
+#define	IDC_EDIT1			GET_IDC(IDC_EDIT1)

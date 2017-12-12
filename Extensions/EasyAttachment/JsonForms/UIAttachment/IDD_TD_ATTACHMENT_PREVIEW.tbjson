@@ -1,0 +1,23 @@
+{
+   "context" : "uiattachment",
+   "height" : 134,
+   "id" : "IDD_TD_ATTACHMENT_PREVIEW",
+   "items" : [
+      {
+         "acceptFiles" : true,
+         "height" : 131,
+         "id" : "IDC_ATT_PREVIEW",
+         "ownerDraw" : true,
+         "text" : "AttachmentPreview",
+         "type" : 3, /*Button*/
+         "vertAlign" : 0,
+         "width" : 295,
+         "x" : 4,
+         "y" : 1
+      }
+   ],
+   "overlapped" : true,
+   "tabStop" : false,
+   "type" : 66, /*Panel*/
+   "width" : 295
+}

@@ -1,0 +1,383 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (72,2,952,1278) ReportTemplate "Report.erp.core.Fields.wrmt" 
+PageInfo (1,9,2100,2970,100,1,1,False ) Margins (57,45,57,45) 
+
+
+PageLayout "default" 
+	Begin
+		Text (7,4,47,700) "PostaLite Documents" 
+
+			Begin
+				Style "ListTitleUnderline" 
+			End
+
+		Repeater (5,1) Alias 18 InterLine (15,60) Rect (54,3,230,705) 
+			Begin
+				Transparent
+				Borders (0,0,1,0) ;
+			End
+
+		Field (58,6,86,91) Alias 1  /* w_MsgID */ FormatStyle "Long" 
+			Begin
+				Tooltip = ( ( w_DocNamespace + "\n" ) + w_DocPrimaryKey )  ;
+				Label "MsgID" 
+			End
+
+		Field (58,92,86,177) Alias 2  /* w_LotId */ FormatStyle "Long" 
+			Begin
+				Label "LotId" 
+			End
+
+		Field (58,178,86,580) Alias 4  /* w_Addressee */ 
+			Begin
+				Tooltip = ( ( w_AddresseeNamespace + "\n" ) + w_AddresseePrimaryKey )  ;
+				Label "Addressee" 
+			End
+
+		Field (58,581,86,703) Alias 3  /* w_Fax */ 
+			Begin
+				Label "Fax" 
+			End
+
+		Field (91,6,119,259) Alias 5  /* w_Address */ 
+			Begin
+				Label "Address" 
+			End
+
+		Field (91,261,119,447) Alias 7  /* w_City */ 
+			Begin
+				Label "City" 
+			End
+
+		Field (91,448,119,498) Alias 8  /* w_County */ 
+			Begin
+				Label "County" 
+			End
+
+		Field (91,499,119,556) Alias 6  /* w_Zip */ 
+			Begin
+				Label "Zip" 
+			End
+
+		Field (91,557,119,703) Alias 9  /* w_Country */ 
+			Begin
+				Label "Country" 
+			End
+
+		Field (124,6,152,405) Alias 10  /* w_Subject */ 
+			Begin
+				Label "Subject" 
+			End
+
+		Field (124,407,152,581) Alias 15  /* w_DocFileName */ 
+			Begin
+				Label "File Name" 
+			End
+
+		Field (124,582,152,642) Alias 16  /* w_DocPages */ FormatStyle "Long" 
+			Begin
+				Label "Pages" 
+			End
+
+		Field (124,643,152,703) Alias 17  /* w_DocSize */ FormatStyle "Long" 
+			Begin
+				Label "Size" 
+			End
+
+		Field (157,6,186,201) Alias 39  /* w_DesDeliveryType */ 
+			Begin
+				Label "Delivery Type" 
+			End
+
+		Field (157,6,186,91) Alias 11  /* w_DocNamespace */ 
+			Begin
+				Hidden
+				 Label "DocNamespace" 
+			End
+
+		Field (157,97,186,180) Alias 12  /* w_DocPrimaryKey */ 
+			Begin
+				Hidden
+				 Label "DocPrimaryKey" 
+			End
+
+		Field (157,184,186,253) Alias 13  /* w_AddresseeNamespace */ 
+			Begin
+				Hidden
+				 Label "Addressee Namespace" 
+			End
+
+		Field (157,204,186,405) Alias 40  /* w_DesPrintType */ 
+			Begin
+				Label "Print Type" 
+			End
+
+		Field (157,258,185,316) Alias 14  /* w_AddresseePrimaryKey */ 
+			Begin
+				Hidden
+				 Label "Addressee PrimaryKey" 
+			End
+
+		Field (157,320,186,388) Alias 37  /* w_TBCreatedID */ FormatStyle "Long" 
+			Begin
+				Hidden
+				 Label "TBCreatedID" 
+			End
+
+		Field (157,406,186,580) Alias 38  /* w_WorkerName */ 
+			Begin
+				Label "Worker" 
+			End
+
+		Field (157,582,186,703) Alias 36  /* w_TBCreated */ FormatStyle "DateTime" 
+			Begin
+				Label "Date" 
+			End
+
+		Field (190,6,218,336) Alias 47  /* w_StatusExtDescr */ 
+			Begin
+				Tooltip = ( Localize ( "Status code: " ) + Format ( w_StatusExt ) )  ;
+				Hidden
+				 When
+				
+				( w_StatusExt = 0 )  ;
+				Label "Status" 
+			End
+
+		Field (190,339,218,375) Alias 49  /* w_Incongruous */ FormatStyle "Bool" 
+			Begin
+				Tooltip = Localize ( "The address is incongruos" )  ;
+				Hidden
+				 When
+				
+				( Not w_Incongruous )  ;
+				Label "!" 
+			End
+
+		Field (190,380,218,703) Alias 48  /* w_ErrorExtDescr */ 
+			Begin
+				Tooltip = ( Localize ( "Error code: " ) + Format ( w_ErrorExt ) )  ;
+				Hidden
+				 When
+				
+				( w_ErrorExt = 0 )  ;
+				Label "Error" 
+			End
+
+		Field (197,171,223,235) Alias 45  /* w_StatusExt */ FormatStyle "Long" 
+			Begin
+				Hidden
+				 Label "StatusExt" 
+			End
+
+		Field (197,574,223,634) Alias 46  /* w_ErrorExt */ FormatStyle "Long" 
+			Begin
+				Hidden
+				 Label "ErrorExt" 
+			End
+
+		Text (231,1254,543,1262) "{Page}" 
+
+			Begin
+				Special
+			End
+
+	End
+Links
+	Begin
+		LinkForm w_DocNamespace 
+			On w_Subject 
+			When
+				 ( w_DocNamespace <> "" )
+			Begin
+				String _DocumentPK =  w_DocPrimaryKey ;
+			End
+
+		LinkForm w_AddresseeNamespace 
+			On w_Addressee 
+			When
+				 ( w_AddresseeNamespace <> "" )
+			Begin
+				String _DocumentPK =  w_AddresseePrimaryKey ;
+			End
+
+		LinkUrl 4 w_Address 
+			On w_Address 
+			Begin
+				String Country =  w_Country ;
+				String County =  w_County ;
+				String City =  w_City ;
+				String ZipCode =  w_Zip ;
+			End
+
+		LinkFunction "Function.Extensions.TbMailer.TbMailer.GetPostaLiteDocument" 
+			On w_DocFileName 
+			When
+				 ( Not IsRemoteInterface ( ) )
+			Begin
+				Long msgID =  w_MsgID ;
+				String tempFileName =  "" ;
+			End
+			Before 
+				Begin
+				End
+			After 
+				Begin
+					If _ReturnValue 
+						Then Do Woorm.RunProgram ( tempFileName , "" )  ;
+				End
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Repeater_18 [5] Alias 18 ;
+		End
+
+		Variables
+			Long         w_MsgID [12] Alias 1  Column ;
+			Long         w_LotId [12] Alias 2  Column ;
+			String       w_Fax [15] Alias 3  Column ;
+			String       w_Addressee [15] Alias 4  Column ;
+			String       w_Address [15] Alias 5  Column ;
+			String       w_Zip [15] Alias 6  Column ;
+			String       w_City [15] Alias 7  Column ;
+			String       w_County [15] Alias 8  Column ;
+			String       w_Country [15] Alias 9  Column ;
+			String       w_Subject [15] Alias 10  Column ;
+			String       w_DocNamespace [15] Alias 11  Column ;
+			String       w_DocPrimaryKey [15] Alias 12  Column ;
+			String       w_AddresseeNamespace [15] Alias 13  Column ;
+			String       w_AddresseePrimaryKey [15] Alias 14  Column ;
+			String       w_DocFileName [15] Alias 15  Column ;
+			Long         w_DocPages [12] Alias 16  Column ;
+			Long         w_DocSize [12] Alias 17  Column ;
+			DateTime     w_TBCreated [16] Alias 36  Column ;
+			Long         w_TBCreatedID [12] Alias 37  Column ;
+			String       w_WorkerName [15] Alias 38  Column ;
+			String       w_DesDeliveryType [6] Alias 39  Column ;
+			String       w_DesPrintType [6] Alias 40  Column ;
+			Integer      w_DeliveryType [6] Alias 41  Hidden ;
+			Integer      w_PrintType [6] Alias 42  Hidden ;
+			Long         w_askWorker [12] Alias 43  Hidden  Input ;
+			Date         w_askFromDate [10] Alias 44  Hidden  Input Init = Date ( ) ;
+			Long         w_StatusExt [12] Alias 45  Column ;
+			Long         w_ErrorExt [12] Alias 46  Column ;
+			String       w_StatusExtDescr [15] Alias 47  Column ;
+			String       w_ErrorExtDescr [15] Alias 48  Column ;
+			Bool         w_Incongruous [2] Alias 49  Column ;
+			Bool         w_ShowSentDocuments [1] Alias 50  Hidden  Input Init = FALSE  ;
+		End
+
+		Rules
+			From TB_MsgQueue 
+			Select 
+				MsgID                Into w_MsgID ,
+				LotId                Into w_LotId ,
+				Fax                  Into w_Fax ,
+				Addressee            Into w_Addressee ,
+				Address              Into w_Address ,
+				Zip                  Into w_Zip ,
+				City                 Into w_City ,
+				County               Into w_County ,
+				Country              Into w_Country ,
+				TB_MsgQueue.Subject  Into w_Subject ,
+				DocNamespace         Into w_DocNamespace ,
+				DocPrimaryKey        Into w_DocPrimaryKey ,
+				AddresseeNamespace   Into w_AddresseeNamespace ,
+				AddresseePrimaryKey  Into w_AddresseePrimaryKey ,
+				DocFileName          Into w_DocFileName ,
+				DocPages             Into w_DocPages ,
+				DocSize              Into w_DocSize ,
+				TBCreated            Into w_TBCreated ,
+				TBCreatedID          Into w_TBCreatedID ,
+				DeliveryType         Into w_DeliveryType ,
+				PrintType            Into w_PrintType 
+			Where TB_MsgQueue.TBCreated >= w_askFromDate and 
+				ContentOf ( w_askWorker != 0 ? "TB_MsgQueue.TBCreatedID = w_askWorker " : " 1 = 1" )  
+			Order By  TB_MsgQueue.MsgID Desc ;
+
+			From RM_Workers 
+			Select 
+				{RM_Workers.LastName + ' ' + RM_Workers.Name As WName } Into w_WorkerName 
+			Where RM_Workers.WorkerID = w_TBCreatedID  ;
+
+			w_DesDeliveryType = Woorm.PostaLiteDecodeDeliveryType ( w_DeliveryType )  ;
+
+			w_DesPrintType = Woorm.PostaLiteDecodePrintType ( w_PrintType )  ;
+
+			From TB_MsgLots 
+			Select 
+				StatusExt            Into w_StatusExt ,
+				ErrorExt             Into w_ErrorExt ,
+				Incongruous          Into w_Incongruous 
+			Where TB_MsgLots.LotID == w_LotId  ;
+
+			If w_StatusExt != 0 
+				Then w_StatusExtDescr = Woorm.PostaLiteDecodeStatusExt ( w_StatusExt )  ;
+
+			If w_ErrorExt != 0 
+				Then w_ErrorExtDescr = Woorm.PostaLiteDecodeErrorExt ( w_ErrorExt )  ;
+		End
+
+
+		Events
+			Report : Do
+				Always 
+					Begin
+					End
+				Before 
+					Begin
+					If Not IsAdmin ( ) Then 
+						Begin
+							Bool bOk = Woorm.QueryReadOne("ReadWorker");
+							string msg = Localize("The report is available only to the system administrator");
+							If Not bOk Then Abort msg;
+						End;
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+	Queries
+		Begin
+			Query ReadWorker
+			Begin
+				{
+					Select 
+						WorkerID {COL w_askWorker}
+					From RM_Workers 
+					Where RM_Workers.CompanyLogin = {EVAL GetLoginName() }
+				}
+			End
+		End
+	Dialogs
+		Begin
+			Dialog Filter  
+				Begin
+					Before 
+						Begin
+						End
+					Controls
+						Begin
+							Begin   
+								w_askWorker Style = 8 Prompt = "Worker" When IsAdmin ( )  HotLink Framework.TbResourcesMng.TbResourcesMng.Workers ( 0 ) ;
+								w_askFromDate Prompt = "From sent date:" ;
+							End
+						End
+					After 
+						Begin
+						
+						End
+				End
+		End
+End
+

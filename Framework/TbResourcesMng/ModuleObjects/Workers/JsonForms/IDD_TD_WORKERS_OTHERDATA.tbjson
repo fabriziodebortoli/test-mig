@@ -1,0 +1,171 @@
+﻿{
+    "id": "IDD_TD_WORKERS_OTHERDATA",
+    "type": 71,
+    "text": "Other Data",
+    "x": 0,
+    "y": 0,
+    "width": 654,
+    "height": 85,
+    "child": true,
+    "size": 4,
+    "name": "WorkersOtherData",
+    "items": [
+        {
+            "id": "IDC_WRK_MASTER_FISCALCODE",
+            "controlClass": "FiscalCodeEdit",
+            "binding": { "datasource": "Workers.DomicilyFC" },
+            "controlCaption": "Fiscal code",
+            "type": 13,
+            "x": 101,
+            "y": 4,
+            "width": 110,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_OTHER_GENDER",
+            "controlClass": "EnumCombo",
+            "binding": { "datasource": "Workers.Gender" },
+            "controlCaption": "Gender",
+            "type": 12,
+            "x": 101,
+            "y": 18,
+            "width": 56,
+            "height": 64,
+            "tabStop": true,
+            "vScroll": true,
+            "comboType": 2,
+            "sort": true,
+            "auto": true
+        },
+        {
+            "id": "IDC_WRK_OTHER_CIVILSTAT",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.CivilStatus"
+            },
+            "controlCaption": "Civil status",
+            "type": 13,
+            "x": 101,
+            "y": 32,
+            "width": 96,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_BIRTHDATE",
+            "controlClass": "DateEdit",
+            "binding": {
+                "datasource": "Workers.DateOfBirth"
+            },
+            "controlCaption": "Birth date",
+            "type": 13,
+            "x": 101,
+            "y": 46,
+            "width": 66,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_BIRTHCITY",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.CityOfBirth"
+            },
+            "controlCaption": "Birth municipality",
+            "type": 13,
+            "x": 102,
+            "y": 60,
+            "width": 174,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_OTHER_REGISTER",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.RegisterNumber"
+            },
+            "controlCaption": "Register",
+            "type": 13,
+            "x": 429,
+            "y": 4,
+            "width": 88,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_OTHER_EMPLOYM",
+            "controlClass": "DateEdit",
+            "binding": {
+                "datasource": "Workers.EmploymentDate"
+            },
+            "controlCaption": "Employment date",
+            "type": 13,
+            "x": 429,
+            "y": 18,
+            "width": 66,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_OTHER_RESIGNAT",
+            "controlClass": "DateEdit",
+            "binding": {
+                "datasource": "Workers.ResignationDate"
+            },
+            "controlCaption": "Resignation date",
+            "type": 13,
+            "x": 429,
+            "y": 32,
+            "width": 66,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_OTHER_HOURLYCOST",
+            "controlClass": "MoneyEdit",
+            "binding": {
+                "datasource": "Workers.HourlyCost"
+            },
+            "controlCaption": "Hourly cost",
+            "type": 13,
+            "x": 429,
+            "y": 46,
+            "width": 56,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_LOGIN_PIN",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.PIN"
+            },
+            "controlCaption": "PIN",
+            "type": 13,
+            "x": 429,
+            "y": 60,
+            "width": 56,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_HIDE_ON_LAYOUT",
+            "controlClass": "CheckBox",
+            "binding": {
+                "datasource": "Workers.HideOnLayout"
+            },
+            "type": 11,
+            "text": "Hide on Layout  ",
+            "x": 489,
+            "y": 60,
+            "width": 93,
+            "height": 8,
+            "textAlign": 2,
+            "auto": true,
+            "labelOnLeft": true
+        }
+    ],
+    "hasStaticArea": true
+}

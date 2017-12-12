@@ -1,0 +1,37 @@
+{
+   "id" : "ID_EXTDOC_BATCH_TOOLBAR_MAIN",
+   "items" : [
+    {
+      "hint": "Load documents from repository",
+      "icon": "Framework.TbFrameworkImages.Images.25x25.Extract.png",
+      "id": "ID_DMSREPOSITORY_TOOLBTN_EXTRACT_DOCUMENTS",
+      "name": "BatchFrameLoadData",
+      "text": "Extract",
+      "type": 15 /*ToolbarButton*/
+    },
+    {
+        "hint": "Undo extraction selections",
+        "icon": "Framework.TbFrameworkImages.Images.25x25.Undo.png",
+        "id": "ID_DMSREPOSITORY_TOOLBTN_UNDO_EXTRACTION",
+        "name": "BatchFrameUndoExtraction",
+        "text": "Undo",
+        "type": 15 /*ToolbarButton*/
+    },
+    
+    { 
+      "id": "ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN",
+      "visible": false
+    },
+    {
+      "id": "ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN", 
+      "visible": false
+    },
+    {
+      "id": "ID_EXTDOC_REPORT",
+      "visible": false
+    }
+   ],
+   "name" : "Main",
+   "type" : 14 /*Toolbar*/
+
+}

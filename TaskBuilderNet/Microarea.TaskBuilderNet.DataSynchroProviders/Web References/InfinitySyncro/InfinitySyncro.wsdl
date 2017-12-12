@@ -1,0 +1,1770 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:intf="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" targetNamespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types />
+  <wsdl:message name="iRevolutionSetGlobalRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXmlRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="lFrom" type="xsd:int" />
+    <wsdl:part name="lTo" type="xsd:int" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="putXmlWithRandomResponse">
+    <wsdl:part name="putXmlWithRandomReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkJDBCConnectionRequest">
+    <wsdl:part name="sJdbcConnection" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXmlLengthWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionServerEstResponse">
+    <wsdl:part name="iRevolutionServerEstReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="GetConvergencyCriteriaResponse">
+    <wsdl:part name="GetConvergencyCriteriaReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="initXmlResponse">
+    <wsdl:part name="initXmlReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setVrtRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sBo" type="xsd:string" />
+    <wsdl:part name="sFields" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionGetUrlResponse">
+    <wsdl:part name="iRevolutionGetUrlReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkConnectionDbAhrRequest">
+    <wsdl:part name="sJdbcConnection" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkUserPwdRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="importPackageResponse">
+    <wsdl:part name="importPackageReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessSyncroResponse">
+    <wsdl:part name="doProcessSyncroReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sActionList" type="xsd:string" />
+    <wsdl:part name="sAtomicLevel" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXsdByNameRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="sName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkConnectionDbAhrResponse">
+    <wsdl:part name="checkConnectionDbAhrReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkUserPwdWithInstanceRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sInstance" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="putXmlWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="bXml" type="xsd:base64Binary" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCompanyAlreadyMappedResponse">
+    <wsdl:part name="iMagoCompanyAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectRevInfinityRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sAppreg" type="xsd:string" />
+    <wsdl:part name="sCompanyId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkRevInfinityAssResponse">
+    <wsdl:part name="checkRevInfinityAssReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXmlLengthResponse">
+    <wsdl:part name="getXmlLengthReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessResponse">
+    <wsdl:part name="doProcessReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getProcessInfoRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXsdByNameResponse">
+    <wsdl:part name="getXsdByNameReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="checkRevInfinityUserAlreadyMappedResponse">
+    <wsdl:part name="checkRevInfinityUserAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revCompanyAlreadyMappedRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="magoInfSetGlobalRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="uploadMailAttachmentsRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="bAttachments" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getXmlLengthRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getActionWithInstanceResponse">
+    <wsdl:part name="getActionWithInstanceReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionSetGlobalResponse">
+    <wsdl:part name="iRevolutionSetGlobalReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkDoProcessResponse">
+    <wsdl:part name="checkDoProcessReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessSyncroWithRandomResponse">
+    <wsdl:part name="doProcessSyncroWithRandomReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfinityServerEstRequest">
+    <wsdl:part name="sCodeAhr" type="xsd:string" />
+    <wsdl:part name="sConnDb" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXsdRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllCompanyResponse">
+    <wsdl:part name="getAllCompanyReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionConnectResponse">
+    <wsdl:part name="iRevolutionConnectReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXsdWithInstanceResponse">
+    <wsdl:part name="getXsdWithInstanceReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="closeXmlWithRandomResponse">
+    <wsdl:part name="closeXmlWithRandomReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revCompanyAlreadyMappedResponse">
+    <wsdl:part name="revCompanyAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="executeSyncroResponse">
+    <wsdl:part name="executeSyncroReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoSetGlobalRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXmlWithRandomResponse">
+    <wsdl:part name="getXmlWithRandomReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getXsdResponse">
+    <wsdl:part name="getXsdReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="iMagoSetGadgetPermissionRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCheckUserAlreadyMappedRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sMode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="rollbackEntityResponse">
+    <wsdl:part name="rollbackEntityReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="disconnectResponse">
+    <wsdl:part name="disconnectReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllUsersResponse">
+    <wsdl:part name="getAllUsersReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="initXmlWithRandomResponse">
+    <wsdl:part name="initXmlWithRandomReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="putXmlRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="bXml" type="xsd:base64Binary" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCompanyAlreadyMappedRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessWithRandomResponse">
+    <wsdl:part name="doProcessWithRandomReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXsdByNameWithInstanceRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="sName" type="xsd:string" />
+    <wsdl:part name="sInstance" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkRevInfinityAlreadyMappedResponse">
+    <wsdl:part name="checkRevInfinityAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCheckAziAlreadyMappedRequest">
+    <wsdl:part name="sAziInf" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCompanyAlreadyMappedResponse">
+    <wsdl:part name="iRevolutionCompanyAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkUserPwdWithInstanceResponse">
+    <wsdl:part name="checkUserPwdWithInstanceReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessSyncroWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sActionList" type="xsd:string" />
+    <wsdl:part name="sAtomicLevel" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="commitEntityRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+    <wsdl:part name="sXmlCommit" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCompanyAlreadyMappedRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkDoProcessWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectWithInstanceRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sCompanyId" type="xsd:string" />
+    <wsdl:part name="sInstanceId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getsGuidImportResponse">
+    <wsdl:part name="getsGuidImportReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCheckMatricolaResponse">
+    <wsdl:part name="iRevolutionCheckMatricolaReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkDoProcessRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="initXmlRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkRevInfinityUserAlreadyMappedRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sMode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SetConvergencyCriteriaRequest">
+    <wsdl:part name="sXmlCriteria" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckUserAlreadyMappedResponse">
+    <wsdl:part name="iMagoCheckUserAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkAppRegRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setsGuidImportResponse" />
+  <wsdl:message name="iRevolutionCheckUserAlreadyMappedResponse">
+    <wsdl:part name="iRevolutionCheckUserAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="sendMailResponse">
+    <wsdl:part name="sendMailReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessSyncroRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sActionList" type="xsd:string" />
+    <wsdl:part name="sAtomicLevel" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="initXmlWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoWizardResponse">
+    <wsdl:part name="iMagoWizardReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="rollbackActionRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfinityServerEstResponse">
+    <wsdl:part name="revInfinityServerEstReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getProcessModeResponse">
+    <wsdl:part name="getProcessModeReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="commitEntityResponse">
+    <wsdl:part name="commitEntityReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionConnectRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sAppreg" type="xsd:string" />
+    <wsdl:part name="sCompanyId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectRevInfinityWithTokenRequest">
+    <wsdl:part name="sToken" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="importPackageRequest">
+    <wsdl:part name="bPackage" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckAziAssociationResponse">
+    <wsdl:part name="iMagoCheckAziAssociationReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXsdWithInstanceRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="sInstance" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXsdByNameWithInstanceResponse">
+    <wsdl:part name="getXsdByNameWithInstanceReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="setsGuidImportRequest">
+    <wsdl:part name="sGuidImport" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectRevInfinityWithTokenResponse">
+    <wsdl:part name="connectRevInfinityWithTokenReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfinityAssResponse">
+    <wsdl:part name="revInfinityAssReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="closeXmlRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SetConvergencyCriteriaResponse">
+    <wsdl:part name="SetConvergencyCriteriaReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkRevInfinityAssRequest">
+    <wsdl:part name="sAziRev" type="xsd:string" />
+    <wsdl:part name="sAziInf" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllAppRegResponse">
+    <wsdl:part name="getAllAppRegReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="magoWizardResponse">
+    <wsdl:part name="magoWizardReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCheckAziAssociationRequest">
+    <wsdl:part name="sAziRev" type="xsd:string" />
+    <wsdl:part name="sAziInf" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXmlWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="lFrom" type="xsd:int" />
+    <wsdl:part name="lTo" type="xsd:int" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="magoInfSetGlobalResponse">
+    <wsdl:part name="magoInfSetGlobalReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectWithInstanceRevInfinityResponse">
+    <wsdl:part name="connectWithInstanceRevInfinityReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionWizardRequest">
+    <wsdl:part name="sAziRev" type="xsd:string" />
+    <wsdl:part name="sAziInf" type="xsd:string" />
+    <wsdl:part name="sCodeAhr" type="xsd:string" />
+    <wsdl:part name="sConnDb" type="xsd:string" />
+    <wsdl:part name="sMatricola" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionWizardResponse">
+    <wsdl:part name="iRevolutionWizardReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="closeXmlResponse">
+    <wsdl:part name="closeXmlReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectWithInstanceRevInfinityRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sAppreg" type="xsd:string" />
+    <wsdl:part name="sCompanyId" type="xsd:string" />
+    <wsdl:part name="sInstanceId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfSetGlobalRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="uploadMailAttachmentsResponse">
+    <wsdl:part name="uploadMailAttachmentsReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllCompanyRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkJDBCConnectionResponse">
+    <wsdl:part name="checkJDBCConnectionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllUsersRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionConnectWithInstanceRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sAppreg" type="xsd:string" />
+    <wsdl:part name="sCompanyId" type="xsd:string" />
+    <wsdl:part name="sInstanceId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkAppRegWithInstanceResponse">
+    <wsdl:part name="checkAppRegWithInstanceReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="magoWizardRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="iMagoAzi" type="xsd:int" />
+    <wsdl:part name="sAziInf" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="closeXmlWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoConnectWithTokenRequest">
+    <wsdl:part name="sToken" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCheckAziAlreadyMappedResponse">
+    <wsdl:part name="iRevolutionCheckAziAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionSetGadgetPermissionRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkDoProcessWithRandomResponse">
+    <wsdl:part name="checkDoProcessWithRandomReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoConnectWithTokenResponse">
+    <wsdl:part name="iMagoConnectWithTokenReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoSetGlobalResponse">
+    <wsdl:part name="iMagoSetGlobalReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getProcessInfoResponse">
+    <wsdl:part name="getProcessInfoReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfinityImportPackageRequest">
+    <wsdl:part name="bPackage" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckAziAlreadyMappedResponse">
+    <wsdl:part name="iMagoCheckAziAlreadyMappedReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getActionResponse">
+    <wsdl:part name="getActionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckVersionRequest">
+    <wsdl:part name="sMagoVersion" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getActionRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionGetUrlRequest">
+    <wsdl:part name="sKeyAccess" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckAziAssociationRequest">
+    <wsdl:part name="sAziRev" type="xsd:string" />
+    <wsdl:part name="sAziInf" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getProcessModeRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionConnectWithTokenRequest">
+    <wsdl:part name="sToken" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoSetGadgetPermissionResponse">
+    <wsdl:part name="iMagoSetGadgetPermissionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCheckAziAssociationResponse">
+    <wsdl:part name="iRevolutionCheckAziAssociationReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfinityAssRequest">
+    <wsdl:part name="sAziRev" type="xsd:string" />
+    <wsdl:part name="sAziInf" type="xsd:string" />
+    <wsdl:part name="sCodeAhr" type="xsd:string" />
+    <wsdl:part name="sConnDb" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="disconnectRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="sendMailRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="iTypeSearch" type="xsd:int" />
+    <wsdl:part name="sMailSender" type="xsd:string" />
+    <wsdl:part name="sText" type="xsd:string" />
+    <wsdl:part name="sSubject" type="xsd:string" />
+    <wsdl:part name="sMailTo" type="xsd:string" />
+    <wsdl:part name="sMailCC" type="xsd:string" />
+    <wsdl:part name="sMailCCN" type="xsd:string" />
+    <wsdl:part name="iIsHtml" type="xsd:int" />
+    <wsdl:part name="iSaveMail" type="xsd:int" />
+    <wsdl:part name="bAttachments" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getUrlAhrResponse">
+    <wsdl:part name="getUrlAhrReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setVrtResponse">
+    <wsdl:part name="setVrtReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionCheckMatricolaRequest">
+    <wsdl:part name="sMatricola" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoServerEstResponse">
+    <wsdl:part name="iMagoServerEstReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionSetGadgetPermissionResponse">
+    <wsdl:part name="iRevolutionSetGadgetPermissionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckAziAlreadyMappedRequest">
+    <wsdl:part name="sAziInf" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="pingRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXmlResponse">
+    <wsdl:part name="getXmlReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="rollbackActionResponse">
+    <wsdl:part name="rollbackActionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkRevInfinityAlreadyMappedRequest">
+    <wsdl:part name="sAziInf" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="pingResponse">
+    <wsdl:part name="pingReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfSetGlobalResponse">
+    <wsdl:part name="revInfSetGlobalReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkUserPwdResponse">
+    <wsdl:part name="checkUserPwdReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="putXmlResponse">
+    <wsdl:part name="putXmlReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkAppRegResponse">
+    <wsdl:part name="checkAppRegReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectResponse">
+    <wsdl:part name="connectReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectRevInfinityResponse">
+    <wsdl:part name="connectRevInfinityReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getsGuidImportRequest" />
+  <wsdl:message name="iMagoServerEstRequest">
+    <wsdl:part name="sCodeAhr" type="xsd:string" />
+    <wsdl:part name="sConnDb" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkAppRegWithInstanceRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="sInstance" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoWizardRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="iMagoAzi" type="xsd:int" />
+    <wsdl:part name="sAziInf" type="xsd:string" />
+    <wsdl:part name="sAuthCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckUserAlreadyMappedRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sMode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionConnectWithInstanceResponse">
+    <wsdl:part name="iRevolutionConnectWithInstanceReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sCompanyId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iMagoCheckVersionResponse">
+    <wsdl:part name="iMagoCheckVersionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectWithInstanceResponse">
+    <wsdl:part name="connectWithInstanceReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getXmlLengthWithRandomResponse">
+    <wsdl:part name="getXmlLengthWithRandomReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getActionWithInstanceRequest">
+    <wsdl:part name="sAppReg" type="xsd:string" />
+    <wsdl:part name="sInstance" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getUrlAhrRequest">
+    <wsdl:part name="sKeyAccess" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="rollbackEntityRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sProcessId" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="sEntityId" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="doProcessWithRandomRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sRandomId" type="xsd:string" />
+    <wsdl:part name="sActionList" type="xsd:string" />
+    <wsdl:part name="sAtomicLevel" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="GetConvergencyCriteriaRequest">
+    <wsdl:part name="sActionName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="executeSyncroRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+    <wsdl:part name="sAction" type="xsd:string" />
+    <wsdl:part name="bXml" type="xsd:base64Binary" />
+    <wsdl:part name="sAtomicLevel" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionServerEstRequest">
+    <wsdl:part name="sCodeAhr" type="xsd:string" />
+    <wsdl:part name="sConnDb" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="revInfinityImportPackageResponse">
+    <wsdl:part name="revInfinityImportPackageReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllAppRegRequest">
+    <wsdl:part name="sDummy" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="iRevolutionConnectWithTokenResponse">
+    <wsdl:part name="iRevolutionConnectWithTokenReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="InfinitySyncro">
+    <wsdl:operation name="connect" parameterOrder="sUser sPwd sCompanyId">
+      <wsdl:input name="connectRequest" message="impl:connectRequest" />
+      <wsdl:output name="connectResponse" message="impl:connectResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="disconnect" parameterOrder="sContextId">
+      <wsdl:input name="disconnectRequest" message="impl:disconnectRequest" />
+      <wsdl:output name="disconnectResponse" message="impl:disconnectResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="ping" parameterOrder="sContextId">
+      <wsdl:input name="pingRequest" message="impl:pingRequest" />
+      <wsdl:output name="pingResponse" message="impl:pingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAction" parameterOrder="sAppReg">
+      <wsdl:input name="getActionRequest" message="impl:getActionRequest" />
+      <wsdl:output name="getActionResponse" message="impl:getActionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckMatricola" parameterOrder="sMatricola">
+      <wsdl:input name="iRevolutionCheckMatricolaRequest" message="impl:iRevolutionCheckMatricolaRequest" />
+      <wsdl:output name="iRevolutionCheckMatricolaResponse" message="impl:iRevolutionCheckMatricolaResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXsdByNameWithInstance" parameterOrder="sAppReg sName sInstance">
+      <wsdl:input name="getXsdByNameWithInstanceRequest" message="impl:getXsdByNameWithInstanceRequest" />
+      <wsdl:output name="getXsdByNameWithInstanceResponse" message="impl:getXsdByNameWithInstanceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkUserPwdWithInstance" parameterOrder="sUser sPwd sInstance">
+      <wsdl:input name="checkUserPwdWithInstanceRequest" message="impl:checkUserPwdWithInstanceRequest" />
+      <wsdl:output name="checkUserPwdWithInstanceResponse" message="impl:checkUserPwdWithInstanceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkDoProcessWithRandom" parameterOrder="sContextId sRandomId sProcessId">
+      <wsdl:input name="checkDoProcessWithRandomRequest" message="impl:checkDoProcessWithRandomRequest" />
+      <wsdl:output name="checkDoProcessWithRandomResponse" message="impl:checkDoProcessWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkAppRegWithInstance" parameterOrder="sAppReg sInstance">
+      <wsdl:input name="checkAppRegWithInstanceRequest" message="impl:checkAppRegWithInstanceRequest" />
+      <wsdl:output name="checkAppRegWithInstanceResponse" message="impl:checkAppRegWithInstanceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="revCompanyAlreadyMapped" parameterOrder="sDummy">
+      <wsdl:input name="revCompanyAlreadyMappedRequest" message="impl:revCompanyAlreadyMappedRequest" />
+      <wsdl:output name="revCompanyAlreadyMappedResponse" message="impl:revCompanyAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="doProcessSyncroWithRandom" parameterOrder="sContextId sRandomId sActionList sAtomicLevel sOwner">
+      <wsdl:input name="doProcessSyncroWithRandomRequest" message="impl:doProcessSyncroWithRandomRequest" />
+      <wsdl:output name="doProcessSyncroWithRandomResponse" message="impl:doProcessSyncroWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXmlLengthWithRandom" parameterOrder="sContextId sRandomId sProcessId sAction">
+      <wsdl:input name="getXmlLengthWithRandomRequest" message="impl:getXmlLengthWithRandomRequest" />
+      <wsdl:output name="getXmlLengthWithRandomResponse" message="impl:getXmlLengthWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCompanyAlreadyMapped" parameterOrder="sDummy">
+      <wsdl:input name="iMagoCompanyAlreadyMappedRequest" message="impl:iMagoCompanyAlreadyMappedRequest" />
+      <wsdl:output name="iMagoCompanyAlreadyMappedResponse" message="impl:iMagoCompanyAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckAziAssociation" parameterOrder="sAziRev sAziInf">
+      <wsdl:input name="iMagoCheckAziAssociationRequest" message="impl:iMagoCheckAziAssociationRequest" />
+      <wsdl:output name="iMagoCheckAziAssociationResponse" message="impl:iMagoCheckAziAssociationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkRevInfinityAlreadyMapped" parameterOrder="sAziInf">
+      <wsdl:input name="checkRevInfinityAlreadyMappedRequest" message="impl:checkRevInfinityAlreadyMappedRequest" />
+      <wsdl:output name="checkRevInfinityAlreadyMappedResponse" message="impl:checkRevInfinityAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckAziAlreadyMapped" parameterOrder="sAziInf">
+      <wsdl:input name="iMagoCheckAziAlreadyMappedRequest" message="impl:iMagoCheckAziAlreadyMappedRequest" />
+      <wsdl:output name="iMagoCheckAziAlreadyMappedResponse" message="impl:iMagoCheckAziAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckUserAlreadyMapped" parameterOrder="sUser sMode">
+      <wsdl:input name="iMagoCheckUserAlreadyMappedRequest" message="impl:iMagoCheckUserAlreadyMappedRequest" />
+      <wsdl:output name="iMagoCheckUserAlreadyMappedResponse" message="impl:iMagoCheckUserAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="revInfinityImportPackage" parameterOrder="bPackage">
+      <wsdl:input name="revInfinityImportPackageRequest" message="impl:revInfinityImportPackageRequest" />
+      <wsdl:output name="revInfinityImportPackageResponse" message="impl:revInfinityImportPackageResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoSetGadgetPermission" parameterOrder="sDummy">
+      <wsdl:input name="iMagoSetGadgetPermissionRequest" message="impl:iMagoSetGadgetPermissionRequest" />
+      <wsdl:output name="iMagoSetGadgetPermissionResponse" message="impl:iMagoSetGadgetPermissionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="connectRevInfinityWithToken" parameterOrder="sToken">
+      <wsdl:input name="connectRevInfinityWithTokenRequest" message="impl:connectRevInfinityWithTokenRequest" />
+      <wsdl:output name="connectRevInfinityWithTokenResponse" message="impl:connectRevInfinityWithTokenResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionConnectWithToken" parameterOrder="sToken">
+      <wsdl:input name="iRevolutionConnectWithTokenRequest" message="impl:iRevolutionConnectWithTokenRequest" />
+      <wsdl:output name="iRevolutionConnectWithTokenResponse" message="impl:iRevolutionConnectWithTokenResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="SetConvergencyCriteria" parameterOrder="sXmlCriteria">
+      <wsdl:input name="SetConvergencyCriteriaRequest" message="impl:SetConvergencyCriteriaRequest" />
+      <wsdl:output name="SetConvergencyCriteriaResponse" message="impl:SetConvergencyCriteriaResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConvergencyCriteria" parameterOrder="sActionName">
+      <wsdl:input name="GetConvergencyCriteriaRequest" message="impl:GetConvergencyCriteriaRequest" />
+      <wsdl:output name="GetConvergencyCriteriaResponse" message="impl:GetConvergencyCriteriaResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="doProcess" parameterOrder="sContextId sActionList sAtomicLevel sOwner">
+      <wsdl:input name="doProcessRequest" message="impl:doProcessRequest" />
+      <wsdl:output name="doProcessResponse" message="impl:doProcessResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="executeSyncro" parameterOrder="sContextId sOwner sAction bXml sAtomicLevel">
+      <wsdl:input name="executeSyncroRequest" message="impl:executeSyncroRequest" />
+      <wsdl:output name="executeSyncroResponse" message="impl:executeSyncroResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="initXml" parameterOrder="sContextId sAction">
+      <wsdl:input name="initXmlRequest" message="impl:initXmlRequest" />
+      <wsdl:output name="initXmlResponse" message="impl:initXmlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="closeXml" parameterOrder="sContextId sAction">
+      <wsdl:input name="closeXmlRequest" message="impl:closeXmlRequest" />
+      <wsdl:output name="closeXmlResponse" message="impl:closeXmlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="putXml" parameterOrder="sContextId sAction bXml sFlags">
+      <wsdl:input name="putXmlRequest" message="impl:putXmlRequest" />
+      <wsdl:output name="putXmlResponse" message="impl:putXmlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setVrt" parameterOrder="sContextId sBo sFields">
+      <wsdl:input name="setVrtRequest" message="impl:setVrtRequest" />
+      <wsdl:output name="setVrtResponse" message="impl:setVrtResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXml" parameterOrder="sContextId sProcessId sAction lFrom lTo sFlags">
+      <wsdl:input name="getXmlRequest" message="impl:getXmlRequest" />
+      <wsdl:output name="getXmlResponse" message="impl:getXmlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXmlLength" parameterOrder="sContextId sProcessId sAction">
+      <wsdl:input name="getXmlLengthRequest" message="impl:getXmlLengthRequest" />
+      <wsdl:output name="getXmlLengthResponse" message="impl:getXmlLengthResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkUserPwd" parameterOrder="sUser sPwd">
+      <wsdl:input name="checkUserPwdRequest" message="impl:checkUserPwdRequest" />
+      <wsdl:output name="checkUserPwdResponse" message="impl:checkUserPwdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkAppReg" parameterOrder="sAppReg">
+      <wsdl:input name="checkAppRegRequest" message="impl:checkAppRegRequest" />
+      <wsdl:output name="checkAppRegResponse" message="impl:checkAppRegResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllAppReg" parameterOrder="sDummy">
+      <wsdl:input name="getAllAppRegRequest" message="impl:getAllAppRegRequest" />
+      <wsdl:output name="getAllAppRegResponse" message="impl:getAllAppRegResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXsd" parameterOrder="sAppReg sAction">
+      <wsdl:input name="getXsdRequest" message="impl:getXsdRequest" />
+      <wsdl:output name="getXsdResponse" message="impl:getXsdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXsdByName" parameterOrder="sAppReg sName">
+      <wsdl:input name="getXsdByNameRequest" message="impl:getXsdByNameRequest" />
+      <wsdl:output name="getXsdByNameResponse" message="impl:getXsdByNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendMail" parameterOrder="sContextId iTypeSearch sMailSender sText sSubject sMailTo sMailCC sMailCCN iIsHtml iSaveMail bAttachments">
+      <wsdl:input name="sendMailRequest" message="impl:sendMailRequest" />
+      <wsdl:output name="sendMailResponse" message="impl:sendMailResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="commitEntity" parameterOrder="sContextId sProcessId sAction sOwner sXmlCommit">
+      <wsdl:input name="commitEntityRequest" message="impl:commitEntityRequest" />
+      <wsdl:output name="commitEntityResponse" message="impl:commitEntityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllCompany" parameterOrder="sDummy">
+      <wsdl:input name="getAllCompanyRequest" message="impl:getAllCompanyRequest" />
+      <wsdl:output name="getAllCompanyResponse" message="impl:getAllCompanyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsers" parameterOrder="sDummy">
+      <wsdl:input name="getAllUsersRequest" message="impl:getAllUsersRequest" />
+      <wsdl:output name="getAllUsersResponse" message="impl:getAllUsersResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="magoWizard" parameterOrder="sAppReg iMagoAzi sAziInf">
+      <wsdl:input name="magoWizardRequest" message="impl:magoWizardRequest" />
+      <wsdl:output name="magoWizardResponse" message="impl:magoWizardResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoWizard" parameterOrder="sAppReg iMagoAzi sAziInf sAuthCode">
+      <wsdl:input name="iMagoWizardRequest" message="impl:iMagoWizardRequest" />
+      <wsdl:output name="iMagoWizardResponse" message="impl:iMagoWizardResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="importPackage" parameterOrder="bPackage">
+      <wsdl:input name="importPackageRequest" message="impl:importPackageRequest" />
+      <wsdl:output name="importPackageResponse" message="impl:importPackageResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUrlAhr" parameterOrder="sKeyAccess">
+      <wsdl:input name="getUrlAhrRequest" message="impl:getUrlAhrRequest" />
+      <wsdl:output name="getUrlAhrResponse" message="impl:getUrlAhrResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckAziAlreadyMapped" parameterOrder="sAziInf">
+      <wsdl:input name="iRevolutionCheckAziAlreadyMappedRequest" message="impl:iRevolutionCheckAziAlreadyMappedRequest" />
+      <wsdl:output name="iRevolutionCheckAziAlreadyMappedResponse" message="impl:iRevolutionCheckAziAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckAziAssociation" parameterOrder="sAziRev sAziInf">
+      <wsdl:input name="iRevolutionCheckAziAssociationRequest" message="impl:iRevolutionCheckAziAssociationRequest" />
+      <wsdl:output name="iRevolutionCheckAziAssociationResponse" message="impl:iRevolutionCheckAziAssociationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCompanyAlreadyMapped" parameterOrder="sDummy">
+      <wsdl:input name="iRevolutionCompanyAlreadyMappedRequest" message="impl:iRevolutionCompanyAlreadyMappedRequest" />
+      <wsdl:output name="iRevolutionCompanyAlreadyMappedResponse" message="impl:iRevolutionCompanyAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkRevInfinityUserAlreadyMapped" parameterOrder="sUser sMode">
+      <wsdl:input name="checkRevInfinityUserAlreadyMappedRequest" message="impl:checkRevInfinityUserAlreadyMappedRequest" />
+      <wsdl:output name="checkRevInfinityUserAlreadyMappedResponse" message="impl:checkRevInfinityUserAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckUserAlreadyMapped" parameterOrder="sUser sMode">
+      <wsdl:input name="iRevolutionCheckUserAlreadyMappedRequest" message="impl:iRevolutionCheckUserAlreadyMappedRequest" />
+      <wsdl:output name="iRevolutionCheckUserAlreadyMappedResponse" message="impl:iRevolutionCheckUserAlreadyMappedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionSetGadgetPermission" parameterOrder="sDummy">
+      <wsdl:input name="iRevolutionSetGadgetPermissionRequest" message="impl:iRevolutionSetGadgetPermissionRequest" />
+      <wsdl:output name="iRevolutionSetGadgetPermissionResponse" message="impl:iRevolutionSetGadgetPermissionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="connectWithInstanceRevInfinity" parameterOrder="sUser sPwd sAppreg sCompanyId sInstanceId">
+      <wsdl:input name="connectWithInstanceRevInfinityRequest" message="impl:connectWithInstanceRevInfinityRequest" />
+      <wsdl:output name="connectWithInstanceRevInfinityResponse" message="impl:connectWithInstanceRevInfinityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionConnectWithInstance" parameterOrder="sUser sPwd sAppreg sCompanyId sInstanceId">
+      <wsdl:input name="iRevolutionConnectWithInstanceRequest" message="impl:iRevolutionConnectWithInstanceRequest" />
+      <wsdl:output name="iRevolutionConnectWithInstanceResponse" message="impl:iRevolutionConnectWithInstanceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="putXmlWithRandom" parameterOrder="sContextId sRandomId sAction bXml sFlags">
+      <wsdl:input name="putXmlWithRandomRequest" message="impl:putXmlWithRandomRequest" />
+      <wsdl:output name="putXmlWithRandomResponse" message="impl:putXmlWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getsGuidImport">
+      <wsdl:input name="getsGuidImportRequest" message="impl:getsGuidImportRequest" />
+      <wsdl:output name="getsGuidImportResponse" message="impl:getsGuidImportResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setsGuidImport" parameterOrder="sGuidImport">
+      <wsdl:input name="setsGuidImportRequest" message="impl:setsGuidImportRequest" />
+      <wsdl:output name="setsGuidImportResponse" message="impl:setsGuidImportResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="initXmlWithRandom" parameterOrder="sContextId sRandomId sAction">
+      <wsdl:input name="initXmlWithRandomRequest" message="impl:initXmlWithRandomRequest" />
+      <wsdl:output name="initXmlWithRandomResponse" message="impl:initXmlWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="closeXmlWithRandom" parameterOrder="sContextId sRandomId sAction">
+      <wsdl:input name="closeXmlWithRandomRequest" message="impl:closeXmlWithRandomRequest" />
+      <wsdl:output name="closeXmlWithRandomResponse" message="impl:closeXmlWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXmlWithRandom" parameterOrder="sContextId sRandomId sProcessId sAction lFrom lTo sFlags">
+      <wsdl:input name="getXmlWithRandomRequest" message="impl:getXmlWithRandomRequest" />
+      <wsdl:output name="getXmlWithRandomResponse" message="impl:getXmlWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="connectWithInstance" parameterOrder="sUser sPwd sCompanyId sInstanceId">
+      <wsdl:input name="connectWithInstanceRequest" message="impl:connectWithInstanceRequest" />
+      <wsdl:output name="connectWithInstanceResponse" message="impl:connectWithInstanceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="doProcessSyncro" parameterOrder="sContextId sActionList sAtomicLevel sOwner">
+      <wsdl:input name="doProcessSyncroRequest" message="impl:doProcessSyncroRequest" />
+      <wsdl:output name="doProcessSyncroResponse" message="impl:doProcessSyncroResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="doProcessWithRandom" parameterOrder="sContextId sRandomId sActionList sAtomicLevel sOwner">
+      <wsdl:input name="doProcessWithRandomRequest" message="impl:doProcessWithRandomRequest" />
+      <wsdl:output name="doProcessWithRandomResponse" message="impl:doProcessWithRandomResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkDoProcess" parameterOrder="sContextId sProcessId">
+      <wsdl:input name="checkDoProcessRequest" message="impl:checkDoProcessRequest" />
+      <wsdl:output name="checkDoProcessResponse" message="impl:checkDoProcessResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getProcessInfo" parameterOrder="sContextId sProcessId">
+      <wsdl:input name="getProcessInfoRequest" message="impl:getProcessInfoRequest" />
+      <wsdl:output name="getProcessInfoResponse" message="impl:getProcessInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getProcessMode" parameterOrder="sContextId">
+      <wsdl:input name="getProcessModeRequest" message="impl:getProcessModeRequest" />
+      <wsdl:output name="getProcessModeResponse" message="impl:getProcessModeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getActionWithInstance" parameterOrder="sAppReg sInstance">
+      <wsdl:input name="getActionWithInstanceRequest" message="impl:getActionWithInstanceRequest" />
+      <wsdl:output name="getActionWithInstanceResponse" message="impl:getActionWithInstanceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getXsdWithInstance" parameterOrder="sAppReg sAction sInstance">
+      <wsdl:input name="getXsdWithInstanceRequest" message="impl:getXsdWithInstanceRequest" />
+      <wsdl:output name="getXsdWithInstanceResponse" message="impl:getXsdWithInstanceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="uploadMailAttachments" parameterOrder="sContextId bAttachments">
+      <wsdl:input name="uploadMailAttachmentsRequest" message="impl:uploadMailAttachmentsRequest" />
+      <wsdl:output name="uploadMailAttachmentsResponse" message="impl:uploadMailAttachmentsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="rollbackEntity" parameterOrder="sContextId sProcessId sAction sEntityId sOwner">
+      <wsdl:input name="rollbackEntityRequest" message="impl:rollbackEntityRequest" />
+      <wsdl:output name="rollbackEntityResponse" message="impl:rollbackEntityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="rollbackAction" parameterOrder="sContextId sProcessId sAction sOwner">
+      <wsdl:input name="rollbackActionRequest" message="impl:rollbackActionRequest" />
+      <wsdl:output name="rollbackActionResponse" message="impl:rollbackActionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkRevInfinityAss" parameterOrder="sAziRev sAziInf">
+      <wsdl:input name="checkRevInfinityAssRequest" message="impl:checkRevInfinityAssRequest" />
+      <wsdl:output name="checkRevInfinityAssResponse" message="impl:checkRevInfinityAssResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="revInfinityAss" parameterOrder="sAziRev sAziInf sCodeAhr sConnDb">
+      <wsdl:input name="revInfinityAssRequest" message="impl:revInfinityAssRequest" />
+      <wsdl:output name="revInfinityAssResponse" message="impl:revInfinityAssResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionWizard" parameterOrder="sAziRev sAziInf sCodeAhr sConnDb sMatricola">
+      <wsdl:input name="iRevolutionWizardRequest" message="impl:iRevolutionWizardRequest" />
+      <wsdl:output name="iRevolutionWizardResponse" message="impl:iRevolutionWizardResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckVersion" parameterOrder="sMagoVersion">
+      <wsdl:input name="iMagoCheckVersionRequest" message="impl:iMagoCheckVersionRequest" />
+      <wsdl:output name="iMagoCheckVersionResponse" message="impl:iMagoCheckVersionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="revInfSetGlobal" parameterOrder="sContextId">
+      <wsdl:input name="revInfSetGlobalRequest" message="impl:revInfSetGlobalRequest" />
+      <wsdl:output name="revInfSetGlobalResponse" message="impl:revInfSetGlobalResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionSetGlobal" parameterOrder="sContextId">
+      <wsdl:input name="iRevolutionSetGlobalRequest" message="impl:iRevolutionSetGlobalRequest" />
+      <wsdl:output name="iRevolutionSetGlobalResponse" message="impl:iRevolutionSetGlobalResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="magoInfSetGlobal" parameterOrder="sContextId">
+      <wsdl:input name="magoInfSetGlobalRequest" message="impl:magoInfSetGlobalRequest" />
+      <wsdl:output name="magoInfSetGlobalResponse" message="impl:magoInfSetGlobalResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoSetGlobal" parameterOrder="sContextId">
+      <wsdl:input name="iMagoSetGlobalRequest" message="impl:iMagoSetGlobalRequest" />
+      <wsdl:output name="iMagoSetGlobalResponse" message="impl:iMagoSetGlobalResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="revInfinityServerEst" parameterOrder="sCodeAhr sConnDb">
+      <wsdl:input name="revInfinityServerEstRequest" message="impl:revInfinityServerEstRequest" />
+      <wsdl:output name="revInfinityServerEstResponse" message="impl:revInfinityServerEstResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionServerEst" parameterOrder="sCodeAhr sConnDb">
+      <wsdl:input name="iRevolutionServerEstRequest" message="impl:iRevolutionServerEstRequest" />
+      <wsdl:output name="iRevolutionServerEstResponse" message="impl:iRevolutionServerEstResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoServerEst" parameterOrder="sCodeAhr sConnDb">
+      <wsdl:input name="iMagoServerEstRequest" message="impl:iMagoServerEstRequest" />
+      <wsdl:output name="iMagoServerEstResponse" message="impl:iMagoServerEstResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionGetUrl" parameterOrder="sKeyAccess">
+      <wsdl:input name="iRevolutionGetUrlRequest" message="impl:iRevolutionGetUrlRequest" />
+      <wsdl:output name="iRevolutionGetUrlResponse" message="impl:iRevolutionGetUrlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkConnectionDbAhr" parameterOrder="sJdbcConnection">
+      <wsdl:input name="checkConnectionDbAhrRequest" message="impl:checkConnectionDbAhrRequest" />
+      <wsdl:output name="checkConnectionDbAhrResponse" message="impl:checkConnectionDbAhrResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkJDBCConnection" parameterOrder="sJdbcConnection">
+      <wsdl:input name="checkJDBCConnectionRequest" message="impl:checkJDBCConnectionRequest" />
+      <wsdl:output name="checkJDBCConnectionResponse" message="impl:checkJDBCConnectionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="connectRevInfinity" parameterOrder="sUser sPwd sAppreg sCompanyId">
+      <wsdl:input name="connectRevInfinityRequest" message="impl:connectRevInfinityRequest" />
+      <wsdl:output name="connectRevInfinityResponse" message="impl:connectRevInfinityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionConnect" parameterOrder="sUser sPwd sAppreg sCompanyId">
+      <wsdl:input name="iRevolutionConnectRequest" message="impl:iRevolutionConnectRequest" />
+      <wsdl:output name="iRevolutionConnectResponse" message="impl:iRevolutionConnectResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="iMagoConnectWithToken" parameterOrder="sToken">
+      <wsdl:input name="iMagoConnectWithTokenRequest" message="impl:iMagoConnectWithTokenRequest" />
+      <wsdl:output name="iMagoConnectWithTokenResponse" message="impl:iMagoConnectWithTokenResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="InfinitySyncroSoapBinding" type="impl:InfinitySyncro">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="connect">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="connectRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="connectResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disconnect">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="disconnectRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="disconnectResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ping">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="pingRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="pingResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAction">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getActionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getActionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckMatricola">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionCheckMatricolaRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionCheckMatricolaResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXsdByNameWithInstance">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXsdByNameWithInstanceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXsdByNameWithInstanceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkUserPwdWithInstance">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkUserPwdWithInstanceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkUserPwdWithInstanceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkDoProcessWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkDoProcessWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkDoProcessWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkAppRegWithInstance">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkAppRegWithInstanceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkAppRegWithInstanceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="revCompanyAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="revCompanyAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="revCompanyAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doProcessSyncroWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="doProcessSyncroWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="doProcessSyncroWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXmlLengthWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXmlLengthWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXmlLengthWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCompanyAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoCompanyAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoCompanyAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckAziAssociation">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoCheckAziAssociationRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoCheckAziAssociationResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkRevInfinityAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkRevInfinityAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkRevInfinityAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckAziAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoCheckAziAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoCheckAziAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckUserAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoCheckUserAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoCheckUserAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="revInfinityImportPackage">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="revInfinityImportPackageRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="revInfinityImportPackageResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoSetGadgetPermission">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoSetGadgetPermissionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoSetGadgetPermissionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="connectRevInfinityWithToken">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="connectRevInfinityWithTokenRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="connectRevInfinityWithTokenResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionConnectWithToken">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionConnectWithTokenRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionConnectWithTokenResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetConvergencyCriteria">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="SetConvergencyCriteriaRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="SetConvergencyCriteriaResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConvergencyCriteria">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="GetConvergencyCriteriaRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="GetConvergencyCriteriaResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doProcess">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="doProcessRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="doProcessResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executeSyncro">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="executeSyncroRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="executeSyncroResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="initXml">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="initXmlRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="initXmlResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="closeXml">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="closeXmlRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="closeXmlResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="putXml">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="putXmlRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="putXmlResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setVrt">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setVrtRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="setVrtResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXml">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXmlRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXmlResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXmlLength">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXmlLengthRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXmlLengthResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkUserPwd">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkUserPwdRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkUserPwdResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkAppReg">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkAppRegRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkAppRegResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllAppReg">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllAppRegRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllAppRegResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXsd">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXsdRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXsdResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXsdByName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXsdByNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXsdByNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendMail">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="sendMailRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="sendMailResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="commitEntity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="commitEntityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="commitEntityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllCompany">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllCompanyRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllCompanyResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsers">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllUsersRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllUsersResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="magoWizard">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="magoWizardRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="magoWizardResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoWizard">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoWizardRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoWizardResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="importPackage">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="importPackageRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="importPackageResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUrlAhr">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getUrlAhrRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getUrlAhrResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckAziAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionCheckAziAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionCheckAziAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckAziAssociation">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionCheckAziAssociationRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionCheckAziAssociationResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCompanyAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionCompanyAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionCompanyAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkRevInfinityUserAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkRevInfinityUserAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkRevInfinityUserAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionCheckUserAlreadyMapped">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionCheckUserAlreadyMappedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionCheckUserAlreadyMappedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionSetGadgetPermission">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionSetGadgetPermissionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionSetGadgetPermissionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="connectWithInstanceRevInfinity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="connectWithInstanceRevInfinityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="connectWithInstanceRevInfinityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionConnectWithInstance">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionConnectWithInstanceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionConnectWithInstanceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="putXmlWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="putXmlWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="putXmlWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getsGuidImport">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getsGuidImportRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getsGuidImportResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setsGuidImport">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setsGuidImportRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="setsGuidImportResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="initXmlWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="initXmlWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="initXmlWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="closeXmlWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="closeXmlWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="closeXmlWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXmlWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXmlWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXmlWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="connectWithInstance">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="connectWithInstanceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="connectWithInstanceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doProcessSyncro">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="doProcessSyncroRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="doProcessSyncroResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doProcessWithRandom">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="doProcessWithRandomRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="doProcessWithRandomResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkDoProcess">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkDoProcessRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkDoProcessResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessInfo">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getProcessInfoRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getProcessInfoResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessMode">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getProcessModeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getProcessModeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActionWithInstance">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getActionWithInstanceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getActionWithInstanceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getXsdWithInstance">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getXsdWithInstanceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getXsdWithInstanceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="uploadMailAttachments">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="uploadMailAttachmentsRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="uploadMailAttachmentsResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rollbackEntity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="rollbackEntityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="rollbackEntityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rollbackAction">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="rollbackActionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="rollbackActionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkRevInfinityAss">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkRevInfinityAssRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkRevInfinityAssResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="revInfinityAss">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="revInfinityAssRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="revInfinityAssResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionWizard">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionWizardRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionWizardResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoCheckVersion">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoCheckVersionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoCheckVersionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="revInfSetGlobal">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="revInfSetGlobalRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="revInfSetGlobalResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionSetGlobal">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionSetGlobalRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionSetGlobalResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="magoInfSetGlobal">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="magoInfSetGlobalRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="magoInfSetGlobalResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoSetGlobal">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoSetGlobalRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoSetGlobalResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="revInfinityServerEst">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="revInfinityServerEstRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="revInfinityServerEstResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionServerEst">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionServerEstRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionServerEstResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoServerEst">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoServerEstRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoServerEstResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionGetUrl">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionGetUrlRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionGetUrlResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkConnectionDbAhr">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkConnectionDbAhrRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkConnectionDbAhrResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkJDBCConnection">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkJDBCConnectionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkJDBCConnectionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="connectRevInfinity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="connectRevInfinityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="connectRevInfinityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iRevolutionConnect">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iRevolutionConnectRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iRevolutionConnectResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMagoConnectWithToken">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="iMagoConnectWithTokenRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.syncro.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="iMagoConnectWithTokenResponse">
+        <wsdlsoap:body use="encoded" namespace="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="InfinitySyncroService">
+    <wsdl:port name="InfinitySyncro" binding="impl:InfinitySyncroSoapBinding">
+      <wsdlsoap:address location="http://localhost:8090/iMagoSviluppo/services/InfinitySyncro" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

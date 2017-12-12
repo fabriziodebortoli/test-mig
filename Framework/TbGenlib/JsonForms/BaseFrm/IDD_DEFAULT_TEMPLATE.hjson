@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DEFAULT_TEMPLATE			GET_IDD(IDD_DEFAULT_TEMPLATE, M.Framework.TbGenlib.BASEFRM)

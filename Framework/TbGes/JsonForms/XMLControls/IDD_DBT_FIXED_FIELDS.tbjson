@@ -1,0 +1,144 @@
+﻿{
+  "id": "IDD_DBT_FIXED_FIELDS",
+  "rcId": 1069,
+  "type": 66,
+  "text": "Manage fixed fields",
+  "x": 0,
+  "y": 0,
+  "width": 331,
+  "height": 169,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "xmlcontrols",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 107,
+      "y": 148,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 173,
+      "y": 148,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_FIELD_COMBO",
+      "type": 12,
+      "x": 7,
+      "y": 53,
+      "width": 122,
+      "height": 76,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 1,
+      "sort": true
+    },
+    {
+      "id": "IDC_FIXED_FIELD_ADD",
+      "type": 3,
+      "text": "Add",
+      "x": 274,
+      "y": 52,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_FIXED_VALUE_EDIT",
+      "type": 13,
+      "x": 148,
+      "y": 53,
+      "width": 115,
+      "height": 12,
+      "visible": false,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_FIXED_VALUE_COMBO",
+      "type": 12,
+      "x": 148,
+      "y": 53,
+      "width": 115,
+      "height": 65,
+      "visible": false,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_FIXED_FIELDS",
+      "type": 30,
+      "text": "List1",
+      "x": 7,
+      "y": 87,
+      "width": 317,
+      "height": 51,
+      "border": true,
+      "view": 2,
+      "singleSelection": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Fixed field",
+      "x": 7,
+      "y": 40,
+      "width": 39,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Fixed value",
+      "x": 149,
+      "y": 42,
+      "width": 37,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Insert fixed fields and set value.",
+      "x": 7,
+      "y": 7,
+      "width": 128,
+      "height": 15,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_REMOVE_FIXED_FIELD",
+      "type": 3,
+      "text": "Delete",
+      "x": 7,
+      "y": 138,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_FIXED_BOOL_VALUE_COMBO",
+      "type": 12,
+      "x": 148,
+      "y": 53,
+      "width": 115,
+      "height": 47,
+      "visible": false,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    }
+  ]
+}

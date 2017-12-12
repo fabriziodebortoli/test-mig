@@ -1,0 +1,111 @@
+﻿{
+  "id": "IDD_ORDERBY",
+  "rcId": 1112,
+  "type": 66,
+  "text": "Grouping - Filtering",
+  "x": 9,
+  "y": 20,
+  "width": 260,
+  "height": 222,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "orddlg",
+  "items": [
+    {
+      "id": "IDC_GROUPBY",
+      "type": 13,
+      "x": 8,
+      "y": 22,
+      "width": 247,
+      "height": 30,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_GROUPBY_ACTION",
+      "type": 13,
+      "x": 8,
+      "y": 65,
+      "width": 247,
+      "height": 78,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_FILTER",
+      "type": 13,
+      "x": 8,
+      "y": 161,
+      "width": 247,
+      "height": 37,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 56,
+      "y": 204,
+      "width": 77,
+      "height": 15,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 144,
+      "y": 204,
+      "width": 77,
+      "height": 15
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "C&riterion",
+      "x": 8,
+      "y": 11,
+      "width": 246,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "&Actions",
+      "x": 9,
+      "y": 55,
+      "width": 244,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "&Filtering Condition",
+      "x": 8,
+      "y": 150,
+      "width": 242,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Grouping",
+      "x": 2,
+      "y": 1,
+      "width": 257,
+      "height": 146
+    }
+  ]
+}

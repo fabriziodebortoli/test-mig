@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DATASYNCHRO_MONITOR_LEGEND			GET_IDD(IDD_DATASYNCHRO_MONITOR_LEGEND, D.Extensions.TbDataSynchroClient.DSMonitor)
+#define	IDC_DS_MONITOR_LEGEND_TILE_GRP			GET_IDC(IDC_DS_MONITOR_LEGEND_TILE_GRP)

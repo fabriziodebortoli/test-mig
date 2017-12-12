@@ -1,0 +1,4 @@
+#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_RS_GRANTS_DLG	GET_IDD(IDD_RS_GRANTS_DLG,D.Extensions.TbRowSecurity.RSGrants)
+#define IDC_RS_GRANTS_TILEGROUP	GET_IDC(IDC_RS_GRANTS_TILEGROUP)

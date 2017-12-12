@@ -1,0 +1,22 @@
+<div ng-controller="MostUsedController" class="recentlyUsedDropdown footerDropdown" >
+    <div onclick="event.stopPropagation();">
+        <div class="truncate link">
+        </div>
+        <div class="glyphicon glyphicon-trash link" ng-click="clearall()"
+             ng-class="{'elementVisible' : mostUsed.length > 0, 'elementInvisible': mostUsed.length <= 0}"
+             uib-tooltip="{{::localizationService.getLocalizedElement('DeleteAllElements')}}" tooltip-append-to-body="true" tooltip-popup-delay="500" tooltip-animation="false"></div>
+    </div>
+
+    <div ng-repeat="object in mostUsed  | repeatFilter | orderBy:'lastModified': true | filter:nameFilter.title">
+
+        <ng-Menuitemimage class="link" ng-click="menuService.runFunction(object)">
+        </ng-Menuitemimage>
+
+        <div class="truncate link" ng-click="menuService.runFunction(object)">
+            {{object.title}}
+        </div>
+
+        <div class="glyphicon glyphicon-remove link" onclick="event.stopPropagation();" ng-click="removeFromMostUsed(object);$event.stopPropagation()"></div>
+
+    </div>
+</div>

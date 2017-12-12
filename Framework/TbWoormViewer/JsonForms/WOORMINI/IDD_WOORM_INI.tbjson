@@ -1,0 +1,535 @@
+﻿{
+  "id": "IDD_WOORM_INI",
+  "rcId": 1183,
+  "type": 66,
+  "text": "Woorm General Options",
+  "x": 8,
+  "y": 17,
+  "width": 430,
+  "height": 331,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "woormini",
+  "items": [
+    {
+      "id": "IDC_AUTO_TOTAL",
+      "type": 11,
+      "text": "Automatic tot&al",
+      "x": 229,
+      "y": 138,
+      "width": 193,
+      "height": 11,
+      "auto": true
+    },
+    {
+      "id": "IDC_TOTAL_ON_NEW_PAGE",
+      "type": 11,
+      "text": "Total on &new page",
+      "x": 229,
+      "y": 150,
+      "width": 193,
+      "height": 11,
+      "auto": true
+    },
+    {
+      "id": "IDC_RESET_ON_NEW_PAGE",
+      "type": 11,
+      "text": "&Reset on new page",
+      "x": 229,
+      "y": 162,
+      "width": 193,
+      "height": 11,
+      "auto": true
+    },
+    {
+      "id": "IDC_SHOW_ID",
+      "type": 10,
+      "text": "Internal Na&me",
+      "x": 229,
+      "y": 190,
+      "width": 193,
+      "height": 8,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_SHOW_NAME",
+      "type": 10,
+      "text": "P&ublic Name",
+      "x": 229,
+      "y": 201,
+      "width": 193,
+      "height": 8,
+      "auto": true
+    },
+    {
+      "id": "IDC_SHOW_VALUE",
+      "type": 10,
+      "text": "&Value",
+      "x": 229,
+      "y": 212,
+      "width": 193,
+      "height": 8,
+      "auto": true
+    },
+    {
+      "id": "IDC_INI_HRATIO",
+      "type": 13,
+      "x": 228,
+      "y": 252,
+      "width": 50,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_INI_VRATIO",
+      "type": 13,
+      "x": 327,
+      "y": 252,
+      "width": 50,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_GRID_X",
+      "type": 13,
+      "x": 228,
+      "y": 59,
+      "width": 63,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_GRID_Y",
+      "type": 13,
+      "x": 228,
+      "y": 81,
+      "width": 63,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_SIZE_IN_GRID_UNITS",
+      "type": 11,
+      "text": "Show sizes in &unit",
+      "x": 228,
+      "y": 37,
+      "width": 184,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_GRID_OLD_PAPER",
+      "type": 3,
+      "text": "Use Dot Matrix Printer Grid",
+      "x": 224,
+      "y": 100,
+      "width": 204,
+      "height": 12
+    },
+    {
+      "id": "IDC_DRAFT_FONT_SEL",
+      "type": 3,
+      "text": "Use Characters for &quick print",
+      "x": 224,
+      "y": 113,
+      "width": 204,
+      "height": 12
+    },
+    {
+      "id": "IDC_SORT_OBJECTS",
+      "type": 11,
+      "text": "Sort items by position",
+      "x": 10,
+      "y": 14,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_BOTTOM_ALIGN",
+      "type": 11,
+      "text": "Align single data at the &bottom",
+      "x": 10,
+      "y": 25,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_MAKE_BACKUP_FILE",
+      "type": 11,
+      "text": "Save schemes creating .&BAK",
+      "x": 10,
+      "y": 36,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_ALWAYS_HIDDEN",
+      "type": 11,
+      "text": "&Save deleted fields",
+      "x": 10,
+      "y": 47,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_ADD_COLUMN_BEFORE",
+      "type": 11,
+      "text": "Ad&d &before the column",
+      "x": 10,
+      "y": 58,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_INCLUDE_TOTAL",
+      "type": 11,
+      "text": "Column attributes also on &total",
+      "x": 10,
+      "y": 69,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_TRACK_INSIDE",
+      "type": 11,
+      "text": "Show selection inside",
+      "x": 10,
+      "y": 80,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_ENABLE_TRACK_CROSS",
+      "type": 11,
+      "text": "Enable &Handles",
+      "x": 10,
+      "y": 91,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_SORT_GAP",
+      "type": 13,
+      "x": 10,
+      "y": 248,
+      "width": 110,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_SHOW_MARGINS",
+      "type": 11,
+      "text": "Show &printing margins",
+      "x": 10,
+      "y": 102,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_SHOW_PRINTABLE_AREA",
+      "type": 11,
+      "text": "Show &printable area",
+      "x": 10,
+      "y": 113,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_TRANSAPARENT_CREATE",
+      "type": 11,
+      "text": "Create &transparents",
+      "x": 10,
+      "y": 124,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_NO_BORDER_CREATE",
+      "type": 11,
+      "text": "Create without &borders",
+      "x": 10,
+      "y": 135,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_NO_LABEL_CREATE",
+      "type": 11,
+      "text": "Create without &descriptions",
+      "x": 10,
+      "y": 146,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_MOUSE_SENSIBILITY",
+      "type": 13,
+      "x": 10,
+      "y": 273,
+      "width": 110,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_TABLE_ROWS",
+      "type": 13,
+      "x": 10,
+      "y": 297,
+      "width": 110,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 242,
+      "y": 287,
+      "width": 80,
+      "height": 13,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 334,
+      "y": 287,
+      "width": 77,
+      "height": 13
+    },
+    {
+      "id": "IDC_SNAP_TO_GRID",
+      "type": 11,
+      "text": "Align to &grid",
+      "x": 228,
+      "y": 15,
+      "width": 184,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_SHOW_GRID",
+      "type": 11,
+      "text": "Show grid",
+      "x": 228,
+      "y": 26,
+      "width": 184,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "&Table lines",
+      "x": 10,
+      "y": 287,
+      "width": 210,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Grid pitch &x (mm)",
+      "x": 228,
+      "y": 49,
+      "width": 171,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "&Landscape",
+      "x": 228,
+      "y": 242,
+      "width": 95,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "&Portrait",
+      "x": 327,
+      "y": 242,
+      "width": 95,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 9,
+      "text": "Column Total",
+      "x": 224,
+      "y": 126,
+      "width": 204,
+      "height": 51
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 9,
+      "text": "Show on field value",
+      "x": 224,
+      "y": 179,
+      "width": 204,
+      "height": 49
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 9,
+      "text": "General",
+      "x": 4,
+      "y": 2,
+      "width": 219,
+      "height": 312,
+      "group": true
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 9,
+      "text": "Eccentricity",
+      "x": 224,
+      "y": 229,
+      "width": 204,
+      "height": 40,
+      "group": true
+    },
+    {
+      "id": "IDC_STATIC_9",
+      "type": 2,
+      "text": "&Mouse sensitivity",
+      "x": 10,
+      "y": 263,
+      "width": 211,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_10",
+      "type": 2,
+      "text": "Grid pitch &y (mm)",
+      "x": 228,
+      "y": 72,
+      "width": 124,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_GRID_X_PIXEL",
+      "type": 2,
+      "text": "Pixel_X",
+      "x": 294,
+      "y": 63,
+      "width": 76,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_GRID_Y_PIXEL",
+      "type": 2,
+      "text": "Pixel_Y",
+      "x": 294,
+      "y": 84,
+      "width": 72,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_11",
+      "type": 9,
+      "text": "Metric grid (in mm)",
+      "x": 224,
+      "y": 2,
+      "width": 204,
+      "height": 97
+    },
+    {
+      "id": "IDC_STATIC_12",
+      "type": 2,
+      "text": "&Sorting tolerance (mm)",
+      "x": 10,
+      "y": 238,
+      "width": 209,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_OPTIMIZED_LINE_BREAK",
+      "type": 11,
+      "text": "Enable optimized line break",
+      "x": 10,
+      "y": 158,
+      "width": 206,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLUMN_WIDTH_PERCENTAGE",
+      "type": 13,
+      "x": 188,
+      "y": 170,
+      "width": 28,
+      "height": 14,
+      "autoHScroll": true,
+      "number": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Percentage of used width column:",
+      "x": 19,
+      "y": 173,
+      "width": 166,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_CHK_SHOW_ADVANCED_FORMS",
+      "type": 11,
+      "text": "Show advanced form",
+      "x": 10,
+      "y": 214,
+      "width": 165,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_CHK_CHECK_BARCODE_SIZE",
+      "type": 11,
+      "text": "Check Barcode size",
+      "x": 10,
+      "y": 188,
+      "width": 197,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_CHK_FORCE_VALIGN_LREL",
+      "type": 11,
+      "text": "Force vertical alignment label relative",
+      "x": 10,
+      "y": 201,
+      "width": 201,
+      "height": 10,
+      "auto": true
+    }
+  ]
+}

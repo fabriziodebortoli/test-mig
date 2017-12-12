@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink version="2" accessibility="Public" >
+
+<Function namespace="Extensions.TbMailer.TbMailer.ProducerAddress" localize="MA_Producer's address" type="string">
+  <Param name="localized_StartCode" type="string" localize="From Producer" value="From code" optional="true"/>
+  <Param name="localized_EndCode" type="string" localize="To Producer" value="To code" optional="true"/>
+</Function>
+
+  <DbTable name="MA_Producers"  loadFullRecord="false" /> 
+  <DbField name="MA_Producers.CompanyName"/>
+  <DbFieldDescription name="MA_Producers.Producer" />
+
+  <Events>
+   
+    <Event name="OnAssignSelectedValue" type="bool">
+      <Param name="p_CtrlValue" type="string" localize="Control value" mode="in out" />
+      <Param name="p_HklValue" type="string" localize="Selected value" />
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              if p_CtrlValue != ''
+                then p_CtrlValue = p_CtrlValue + ';' + p_HklValue;
+                else p_CtrlValue = p_HklValue;
+        End
+      ]]>
+      </TbScript>
+    </Event>
+  </Events>
+
+  <AskRules>
+    <![CDATA[ 
+    Variables 
+      String ask_StartCode [15,1] Alias 1 Hidden Input Init = "" ; 
+      String ask_EndCode [15,1] Alias 2 Hidden Input Init = "" ; 
+    End
+    Dialogs Begin 
+      Dialog AskContacts "" 
+      Begin 
+         Controls Begin 
+            Begin 
+              ask_StartCode Prompt = (GetTitle("localized_StartCode")) LowerLimit HotLink ERP.Items.Dbl.Producers (2) ; 
+              ask_EndCode Prompt = (GetTitle("localized_EndCode")) UpperLimit HotLink ERP.Items.Dbl.Producers (2) ; 
+            End 
+         End 
+      End 
+    End     
+   ]]>
+  </AskRules>
+  
+  <SelectionModes>
+    <Mode name="Default" type="query">
+  <![CDATA[  
+SELECT 
+     Producer             { COL MA_Producers.Producer }
+     ,CompanyName         { COL MA_Producers.CompanyName }
+     ,Fax                 { COL MA_Producers.Fax }
+     ,Address             { COL MA_Producers.Address }
+     ,City                { COL MA_Producers.City }
+     ,ZIPCode             { COL MA_Producers.ZIPCode }
+     ,County              { COL MA_Producers.County }
+     ,Country             { COL MA_Producers.Country }
+     ,ContactPerson       { COL MA_Producers.ContactPerson }
+     ,WorkingTime         { COL MA_Producers.WorkingTime }  
+     ,Notes               { COL MA_Producers.Notes }
+     ,Disabled            { COL MA_Producers.Disabled }   
+ FROM MA_Producers
+ WHERE 
+    Producer BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode }
+ ORDER BY CompanyName
+ ]]>
+  </Mode>
+
+</SelectionModes>
+
+</HotKeyLink>

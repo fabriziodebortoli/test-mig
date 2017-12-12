@@ -1,0 +1,40 @@
+﻿{
+  "id": "IDD_LIST_LINKS",
+  "rcId": 1131,
+  "type": 66,
+  "text": " List of columns with Link(s)",
+  "x": 0,
+  "y": 0,
+  "width": 142,
+  "height": 170,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "editorlinksdlg",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "Close",
+      "x": 46,
+      "y": 139,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDC_LIST_LINKS",
+      "type": 24,
+      "x": 7,
+      "y": 7,
+      "width": 127,
+      "height": 117,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    }
+  ]
+}

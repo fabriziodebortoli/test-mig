@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Table Name="MA_EI_ITFatelWebParameters" Module="ElectronicInvoicing_IT" Document="Document.MDC.ElectronicInvoicing_IT.CDEI_ITFatelWebParameters" Namespace="Table.MDC.ElectronicInvoicing_IT.Dbl.MA_EI_ITFatelWebParameters" RuntimeClass="TEI_ITFatelWebPAramenters" localize="Electronic Invoicing FatelWeb Parameters" Reference="">
+  <Overview localizable="true">This table contains the parameters about FATELWEB WebService Connection</Overview>
+  <Fields>
+    <Column Name="ParametersId" Type="Long" Length="0" ReadOnly="X" Mandatory="X" Default="X" Enum="" Reference="" localizable="true">Field only for internal use.</Column>
+    <Column Name="Url" Type="String" Length="256" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">FATELWEB webserver name </Column>
+    <Column Name="UserName" Type="String" Length="32" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Username to connect to FATELWEB WebService</Column>
+    <Column Name="Password" Type="String" Length="32" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Password to connect to FATELWEB WebService</Column>
+    <Column Name="CompanyCode" Type="String" Length="8" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Code to be used in FATELWEB to identify the Company</Column>
+    <Column Name="UseFatelWeb" Type="Bool" Length="" ReadOnly="" Mandatory="" Default="0" Enum="" Reference="" localizable="true">Use FATELWEB</Column>
+    <Column Name="XMLVersion" Type="String" Length="4" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">XML Version</Column>
+    <Column Name="ActivationDate" Type="Date" Length="0" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Activation Date</Column>
+    <Column Name="ExpiringDate" Type="Date" Length="0" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Expiring Date</Column>
+    <Column Name="ProgrCompanyCode" Type="String" Length="5" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Prefix code received from FATELWEB webservice</Column>
+    <Column Name="MaxNumFile" Type="Long" Length="0" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Max number of files for single zip (used in transmission batch)</Column>
+    <Column Name="ManageSignature" Type="Bool" Length="0" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Manage Signature</Column>
+  </Fields>
+  <Keys>
+    <Key Name="PK_EI_ITFatelWebParameters" Type="Primary">
+      <Column Name="ParametersId" localizable="true" />
+    </Key>
+  </Keys>
+  <Remarks localizable="true">Nothing to remark.</Remarks>
+</Table>

@@ -1,0 +1,159 @@
+﻿<Definition z:Type="PAT.CRM.WSC4.WorkflowObjects.Definition" z:Assembly="PAT.CRM.WSC4.WorkflowObjects, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects"><HierarchyPath xmlns="http://tempuri.org/">|18|25|55|56|57|</HierarchyPath><LastVersion xmlns="http://tempuri.org/">true</LastVersion><DateVersion xmlns="http://tempuri.org/">2014-12-29T11:01:08.78Z</DateVersion><ApplicationProviderID xmlns="http://tempuri.org/">123ed732-d3ed-4328-8e1b-93334e8422b3</ApplicationProviderID><ApplicationProviderEventID xmlns="http://tempuri.org/">123b495a-0f7d-41a6-a696-b99ac94576df</ApplicationProviderEventID><Name xmlns="http://tempuri.org/">FieldsTestDefinition</Name><Description xmlns="http://tempuri.org/" /><XAML xmlns="http://tempuri.org/">&lt;Activity mc:Ignorable="sads sap" x:Class="Untitled Definition 1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:e="clr-namespace:EAConnector;assembly=EAConnector"
+ xmlns:eaa="clr-namespace:EAConnector.Activities.ActivitiesById;assembly=EAConnector"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:pcww="clr-namespace:PAT.CRM.WSC4.WorkflowObjects;assembly=PAT.CRM.WSC4.WorkflowObjects"
+ xmlns:pcwwfm="clr-namespace:PAT.CRM.WSC4.WorkflowObjects.Forms.Metadata;assembly=PAT.CRM.WSC4.WorkflowObjects"
+ xmlns:pwcau="clr-namespace:PAT.Workflow.Common.Activities.UserManager;assembly=PAT.Workflow.Common"
+ xmlns:pwfa="clr-namespace:PAT.Workflow.Forms.Activities;assembly=PAT.Workflow.Forms"
+ xmlns:pwr="clr-namespace:PAT.Workflow.Runtime;assembly=PAT.Workflow.Runtime"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sa="clr-namespace:System.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+  &lt;x:Members&gt;
+    &lt;x:Property Name="SourceConnection" Type="InArgument(pwr:ConnectionReference(e:EAConnection))" /&gt;
+    &lt;x:Property Name="AttachmentId" Type="InArgument(x:Int32)" /&gt;
+    &lt;x:Property Name="RequesterUserName" Type="InArgument(x:String)" /&gt;
+    &lt;x:Property Name="ApprovalUserName" Type="InArgument(x:String)" /&gt;
+    &lt;x:Property Name="Comments" Type="InArgument(x:String)" /&gt;
+  &lt;/x:Members&gt;
+  &lt;sap:VirtualizedContainerService.HintSize&gt;654,689&lt;/sap:VirtualizedContainerService.HintSize&gt;
+  &lt;mva:VisualBasic.Settings&gt;Assembly references and imported namespaces serialized as XML namespaces&lt;/mva:VisualBasic.Settings&gt;
+  &lt;pwr:WorkflowRootActivity Connection="{x:Null}" sap:VirtualizedContainerService.HintSize="614,649" Kind="Flowchart" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces"&gt;
+    &lt;pwr:WorkflowRootActivity.Body&gt;
+      &lt;Flowchart sap:VirtualizedContainerService.HintSize="614,649"&gt;
+        &lt;Flowchart.Variables&gt;
+          &lt;Variable x:TypeArguments="pwr:User" Name="approvatore" /&gt;
+        &lt;/Flowchart.Variables&gt;
+        &lt;sap:WorkflowViewStateService.ViewState&gt;
+          &lt;scg:Dictionary x:TypeArguments="x:String, x:Object"&gt;
+            &lt;x:Boolean x:Key="IsExpanded"&gt;True&lt;/x:Boolean&gt;
+            &lt;av:Point x:Key="ShapeLocation"&gt;270,2.5&lt;/av:Point&gt;
+            &lt;av:Size x:Key="ShapeSize"&gt;60,75&lt;/av:Size&gt;
+            &lt;av:PointCollection x:Key="ConnectorLocation"&gt;300,77.5 300,149&lt;/av:PointCollection&gt;
+            &lt;x:Double x:Key="Height"&gt;613&lt;/x:Double&gt;
+          &lt;/scg:Dictionary&gt;
+        &lt;/sap:WorkflowViewStateService.ViewState&gt;
+        &lt;Flowchart.StartNode&gt;
+          &lt;FlowStep x:Name="__ReferenceID4"&gt;
+            &lt;sap:WorkflowViewStateService.ViewState&gt;
+              &lt;scg:Dictionary x:TypeArguments="x:String, x:Object"&gt;
+                &lt;av:Point x:Key="ShapeLocation"&gt;200,149&lt;/av:Point&gt;
+                &lt;av:Size x:Key="ShapeSize"&gt;200,22&lt;/av:Size&gt;
+                &lt;av:PointCollection x:Key="ConnectorLocation"&gt;300,171 300,261&lt;/av:PointCollection&gt;
+              &lt;/scg:Dictionary&gt;
+            &lt;/sap:WorkflowViewStateService.ViewState&gt;
+            &lt;pwcau:GetUser Email="{x:Null}" UserID="{x:Null}" ActivityVersion="0" sap:VirtualizedContainerService.HintSize="200,22" User="[approvatore]" UserName="[ApprovalUserName]"&gt;
+              &lt;sap:WorkflowViewStateService.ViewState&gt;
+                &lt;scg:Dictionary x:TypeArguments="x:String, x:Object"&gt;
+                  &lt;x:Boolean x:Key="IsExpanded"&gt;True&lt;/x:Boolean&gt;
+                &lt;/scg:Dictionary&gt;
+              &lt;/sap:WorkflowViewStateService.ViewState&gt;
+            &lt;/pwcau:GetUser&gt;
+            &lt;FlowStep.Next&gt;
+              &lt;FlowStep x:Name="__ReferenceID5"&gt;
+                &lt;sap:WorkflowViewStateService.ViewState&gt;
+                  &lt;scg:Dictionary x:TypeArguments="x:String, x:Object"&gt;
+                    &lt;av:Point x:Key="ShapeLocation"&gt;143,261&lt;/av:Point&gt;
+                    &lt;av:Size x:Key="ShapeSize"&gt;314,218&lt;/av:Size&gt;
+                    &lt;av:PointCollection x:Key="ConnectorLocation"&gt;300,479 300,547&lt;/av:PointCollection&gt;
+                  &lt;/scg:Dictionary&gt;
+                &lt;/sap:WorkflowViewStateService.ViewState&gt;
+                &lt;pwfa:SendForm Body="{x:Null}" FormID="{x:Null}" Instance="{x:Null}" NotificationOnly="{x:Null}" SendToGroup="{x:Null}" Title="{x:Null}" ActivityVersion="1" FormSchemaIdentifier="8a87e2e6-d2fc-44d3-b26c-16eec7344744" sap:VirtualizedContainerService.HintSize="314,218" SendTo="[approvatore]" ThisVersion="1"&gt;
+                  &lt;pwfa:SendForm.InputMappings&gt;
+                    &lt;scg:Dictionary x:TypeArguments="x:String, InArgument" /&gt;
+                  &lt;/pwfa:SendForm.InputMappings&gt;
+                  &lt;pwfa:SendForm.InputOutputMappings&gt;
+                    &lt;scg:Dictionary x:TypeArguments="x:String, InOutArgument" /&gt;
+                  &lt;/pwfa:SendForm.InputOutputMappings&gt;
+                  &lt;pwfa:SendForm.OutputMappings&gt;
+                    &lt;scg:Dictionary x:TypeArguments="x:String, OutArgument" /&gt;
+                  &lt;/pwfa:SendForm.OutputMappings&gt;
+                  &lt;pwfa:SendForm.Schema&gt;
+                    &lt;pcwwfm:SchemaMetadata Title="TabTestForm" Version="1" mVersion="1"&gt;
+                      &lt;pcwwfm:SchemaMetadata.Fields&gt;
+                        &lt;pcwwfm:Label Description="{x:Null}" x:Name="__ReferenceID0" FieldName="Label13" Label="label prima tab" /&gt;
+                        &lt;pcwwfm:Label Description="{x:Null}" x:Name="__ReferenceID1" FieldName="Label12" Label="label seconda tab" /&gt;
+                        &lt;pcwwfm:Text Description="{x:Null}" Value="{x:Null}" x:Name="__ReferenceID2" FieldName="Text14" FieldType="String" IsMandatory="True" IsReadOnly="False" Label="Label1" Lines="0"&gt;
+                          &lt;pcwwfm:Text.Validation&gt;
+                            &lt;pcwwfm:FieldValidation Message="{x:Null}" RegEx="{x:Null}" /&gt;
+                          &lt;/pcwwfm:Text.Validation&gt;
+                        &lt;/pcwwfm:Text&gt;
+                        &lt;pcwwfm:Text Description="{x:Null}" Value="{x:Null}" x:Name="__ReferenceID3" FieldName="Text4" FieldType="String" IsMandatory="True" IsReadOnly="False" Label="Label2" Lines="0"&gt;
+                          &lt;pcwwfm:Text.Validation&gt;
+                            &lt;pcwwfm:FieldValidation Message="{x:Null}" RegEx="{x:Null}" /&gt;
+                          &lt;/pcwwfm:Text.Validation&gt;
+                        &lt;/pcwwfm:Text&gt;
+                      &lt;/pcwwfm:SchemaMetadata.Fields&gt;
+                      &lt;pcwwfm:SchemaMetadata.Root&gt;
+                        &lt;pcwwfm:LayoutGroup ParentLayoutGroup="{x:Null}" BorderVisible="True" Caption="Root" Description="The root node of the form" FieldName="Root" LayoutType="Vertical" ShowText="False"&gt;
+                          &lt;pcwwfm:LayoutGroup.Items&gt;
+                            &lt;pcwwfm:LayoutItems ParentLayoutGroup="{x:Null}" Capacity="4" Direction="Vertical"&gt;
+                              &lt;pcwwfm:LayoutTabbedGroup Caption="{x:Null}" Description="{x:Null}" ParentLayoutGroup="{x:Null}" BorderVisible="False" DefaultTab="0" FieldName="LayoutTabbedGroup2" LayoutType="Vertical" ShowText="False"&gt;
+                                &lt;pcwwfm:LayoutTabbedGroup.Items&gt;
+                                  &lt;pcwwfm:LayoutItems ParentLayoutGroup="{x:Null}" Capacity="4" Direction="Vertical"&gt;
+                                    &lt;pcwwfm:LayoutGroup Description="{x:Null}" ParentLayoutGroup="{x:Null}" BorderVisible="True" Caption="LayoutGroup5" FieldName="LayoutGroup5" LayoutType="Vertical" ShowText="True"&gt;
+                                      &lt;pcwwfm:LayoutGroup.Items&gt;
+                                        &lt;pcwwfm:LayoutItems ParentLayoutGroup="{x:Null}" Capacity="4" Direction="Vertical"&gt;
+                                          &lt;pcwwfm:LayoutItemField Field="{x:Reference __ReferenceID0}" ParentLayoutGroup="{x:Null}" FieldName="Label13" ShowText="False" /&gt;
+                                        &lt;/pcwwfm:LayoutItems&gt;
+                                      &lt;/pcwwfm:LayoutGroup.Items&gt;
+                                    &lt;/pcwwfm:LayoutGroup&gt;
+                                    &lt;pcwwfm:LayoutGroup Description="{x:Null}" ParentLayoutGroup="{x:Null}" BorderVisible="True" Caption="LayoutGroup4" FieldName="LayoutGroup4" LayoutType="Vertical" ShowText="True"&gt;
+                                      &lt;pcwwfm:LayoutGroup.Items&gt;
+                                        &lt;pcwwfm:LayoutItems ParentLayoutGroup="{x:Null}" Capacity="4" Direction="Vertical"&gt;
+                                          &lt;pcwwfm:LayoutItemField Field="{x:Reference __ReferenceID1}" ParentLayoutGroup="{x:Null}" FieldName="Label12" ShowText="False" /&gt;
+                                          &lt;pcwwfm:LayoutItemField Field="{x:Reference __ReferenceID2}" ParentLayoutGroup="{x:Null}" FieldName="Text14" ShowText="True" /&gt;
+                                          &lt;pcwwfm:LayoutItemField Field="{x:Reference __ReferenceID3}" ParentLayoutGroup="{x:Null}" FieldName="Text4" ShowText="True" /&gt;
+                                        &lt;/pcwwfm:LayoutItems&gt;
+                                      &lt;/pcwwfm:LayoutGroup.Items&gt;
+                                    &lt;/pcwwfm:LayoutGroup&gt;
+                                  &lt;/pcwwfm:LayoutItems&gt;
+                                &lt;/pcwwfm:LayoutTabbedGroup.Items&gt;
+                              &lt;/pcwwfm:LayoutTabbedGroup&gt;
+                            &lt;/pcwwfm:LayoutItems&gt;
+                          &lt;/pcwwfm:LayoutGroup.Items&gt;
+                        &lt;/pcwwfm:LayoutGroup&gt;
+                      &lt;/pcwwfm:SchemaMetadata.Root&gt;
+                    &lt;/pcwwfm:SchemaMetadata&gt;
+                  &lt;/pwfa:SendForm.Schema&gt;
+                  &lt;sap:WorkflowViewStateService.ViewState&gt;
+                    &lt;scg:Dictionary x:TypeArguments="x:String, x:Object"&gt;
+                      &lt;x:Boolean x:Key="IsExpanded"&gt;True&lt;/x:Boolean&gt;
+                    &lt;/scg:Dictionary&gt;
+                  &lt;/sap:WorkflowViewStateService.ViewState&gt;
+                &lt;/pwfa:SendForm&gt;
+                &lt;FlowStep.Next&gt;
+                  &lt;FlowStep x:Name="__ReferenceID6"&gt;
+                    &lt;sap:WorkflowViewStateService.ViewState&gt;
+                      &lt;scg:Dictionary x:TypeArguments="x:String, x:Object"&gt;
+                        &lt;av:Point x:Key="ShapeLocation"&gt;200,547&lt;/av:Point&gt;
+                        &lt;av:Size x:Key="ShapeSize"&gt;200,66&lt;/av:Size&gt;
+                      &lt;/scg:Dictionary&gt;
+                    &lt;/sap:WorkflowViewStateService.ViewState&gt;
+                    &lt;eaa:ApproveAttachmentById ActivityVersion="0" Connection="[SourceConnection]" sap:VirtualizedContainerService.HintSize="200,66" approvalComments="approvazione automatica" approvalUserName="[approvatore.UserName]" attachmentId="[AttachmentId]" requesterUserName="[RequesterUserName]"&gt;
+                      &lt;sap:WorkflowViewStateService.ViewState&gt;
+                        &lt;scg:Dictionary x:TypeArguments="x:String, x:Object"&gt;
+                          &lt;x:Boolean x:Key="IsExpanded"&gt;True&lt;/x:Boolean&gt;
+                        &lt;/scg:Dictionary&gt;
+                      &lt;/sap:WorkflowViewStateService.ViewState&gt;
+                    &lt;/eaa:ApproveAttachmentById&gt;
+                  &lt;/FlowStep&gt;
+                &lt;/FlowStep.Next&gt;
+              &lt;/FlowStep&gt;
+            &lt;/FlowStep.Next&gt;
+          &lt;/FlowStep&gt;
+        &lt;/Flowchart.StartNode&gt;
+        &lt;x:Reference&gt;__ReferenceID4&lt;/x:Reference&gt;
+        &lt;x:Reference&gt;__ReferenceID5&lt;/x:Reference&gt;
+        &lt;x:Reference&gt;__ReferenceID6&lt;/x:Reference&gt;
+      &lt;/Flowchart&gt;
+    &lt;/pwr:WorkflowRootActivity.Body&gt;
+  &lt;/pwr:WorkflowRootActivity&gt;
+&lt;/Activity&gt;</XAML><DefinitionIdentifier xmlns="http://tempuri.org/">0131829f-8885-4c22-a097-41093b2090bb</DefinitionIdentifier><DefinitionStatus xmlns="http://tempuri.org/">InLine</DefinitionStatus><ObjectTypeID xmlns="http://tempuri.org/">-1</ObjectTypeID><ID xmlns="http://tempuri.org/">57</ID></Definition>

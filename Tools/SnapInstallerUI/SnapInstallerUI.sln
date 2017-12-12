@@ -1,0 +1,108 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Core", "Snap.Core\Snap.Core.csproj", "{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Core.Test", "Snap.Core.Test\Snap.Core.Test.csproj", "{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Installer", "Snap.Installer\Snap.Installer.csproj", "{05E540AB-7254-46D6-9B4F-0A7299F40958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Services", "Snap.Services\Snap.Services.csproj", "{F14BC9DF-37F5-43E2-A10E-68C0694C139F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{829195B6-E181-4A1B-BBA8-7AA04D32300F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Services.Test", "Snap.Services.Test\Snap.Services.Test.csproj", "{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.IO", "Snap.IO\Snap.IO.csproj", "{73C85C98-833D-478C-BA5C-AEB480A06D28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Debug|x86.ActiveCfg = Debug|x86
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Debug|x86.Build.0 = Debug|x86
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Release|x86.ActiveCfg = Release|x86
+		{8B71DE9F-F14E-4A11-B8C5-A479B3DFCED4}.Release|x86.Build.0 = Release|x86
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}.Debug|x86.ActiveCfg = Debug|x86
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}.Debug|x86.Build.0 = Debug|x86
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75}.Release|x86.ActiveCfg = Release|x86
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Debug|x86.ActiveCfg = Debug|x86
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Debug|x86.Build.0 = Debug|x86
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Release|x86.ActiveCfg = Release|x86
+		{05E540AB-7254-46D6-9B4F-0A7299F40958}.Release|x86.Build.0 = Release|x86
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Debug|x86.ActiveCfg = Debug|x86
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Debug|x86.Build.0 = Debug|x86
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Release|x86.ActiveCfg = Release|x86
+		{F14BC9DF-37F5-43E2-A10E-68C0694C139F}.Release|x86.Build.0 = Release|x86
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}.Debug|x86.ActiveCfg = Debug|x86
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}.Debug|x86.Build.0 = Debug|x86
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3}.Release|x86.ActiveCfg = Release|x86
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Debug|x86.ActiveCfg = Debug|x86
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Debug|x86.Build.0 = Debug|x86
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Release|x86.ActiveCfg = Release|x86
+		{73C85C98-833D-478C-BA5C-AEB480A06D28}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3EA8BBE5-A974-48AE-9D7D-A61FD1F36E75} = {829195B6-E181-4A1B-BBA8-7AA04D32300F}
+		{FE7DDA30-F0F6-4BDF-A561-ADA9972B5FE3} = {829195B6-E181-4A1B-BBA8-7AA04D32300F}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfs:8080/tfs/microarea
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Snap.Services.Test\\Snap.Services.Test.csproj
+		SccProjectTopLevelParentUniqueName1 = SnapInstallerUI.sln
+		SccProjectName1 = Snap.Services.Test
+		SccLocalPath1 = Snap.Services.Test
+		SccProjectUniqueName2 = Snap.Services\\Snap.Services.csproj
+		SccProjectName2 = Snap.Services
+		SccLocalPath2 = Snap.Services
+		SccProjectUniqueName3 = Snap.IO\\Snap.IO.csproj
+		SccProjectName3 = Snap.IO
+		SccLocalPath3 = Snap.IO
+		SccProjectUniqueName4 = Snap.Installer\\Snap.Installer.csproj
+		SccProjectName4 = Snap.Installer
+		SccLocalPath4 = Snap.Installer
+		SccProjectUniqueName5 = Snap.Core.Test\\Snap.Core.Test.csproj
+		SccProjectTopLevelParentUniqueName5 = SnapInstallerUI.sln
+		SccProjectName5 = Snap.Core.Test
+		SccLocalPath5 = Snap.Core.Test
+		SccProjectUniqueName6 = Snap.Core\\Snap.Core.csproj
+		SccProjectName6 = Snap.Core
+		SccLocalPath6 = Snap.Core
+	EndGlobalSection
+EndGlobal

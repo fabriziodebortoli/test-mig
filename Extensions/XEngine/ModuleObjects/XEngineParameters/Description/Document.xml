@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:sl="urn:TBStringLoader">
+  <Version>1</Version>
+  <Description localizable="true">XEngine parameters</Description>
+  <MaxDocuments>10</MaxDocuments>
+  <MaxDimension>100</MaxDimension>
+  <DataUrl>Site Parameters.xml</DataUrl>
+  <EnvelopeClass extension="">XEngine</EnvelopeClass>
+</Document>

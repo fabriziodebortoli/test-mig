@@ -1,0 +1,192 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_EditorDiagnosticView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_EditorGridView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_EditorPreviewView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_EditorParametersView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_EditorToolView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_EngineTreeView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_LayoutTreeView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_ObjectPropertyView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_ReportTreeView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_LayoutTreeView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_EngineTreeView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_ToolBoxObjectsView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_ToolBoxDBView.hjson>
+#include	<TbWoormViewer\JsonForms\RSEditorUI\IDD_RS_ToolBarView.hjson>
+
+#define	IDD_RS_EditView			GET_IDD(IDD_RS_EditView, M.Framework.TbWoormViewer.RSEditorUI)
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_MFCPROPERTYGRID1				GET_IDC(IDC_MFCPROPERTYGRID1)
+#define	IDC_RS_Tree							GET_IDC(IDC_RS_Tree)
+#define	IDC_RS_Tree_Finder					GET_IDC(IDC_RS_Tree_Finder)
+
+#define	IDC_RS_EditorDiagnosticDockPane		GET_IDC(IDC_RS_EditorDiagnosticDockPane)
+#define	IDC_RS_EditorPreviewDockPane		GET_IDC(IDC_RS_EditorPreviewDockPane)
+#define	IDC_RS_EditorDiagnosticGrid			GET_IDC(IDC_RS_EditorDiagnosticGrid)
+#define	IDC_RS_EditorGridDockPane			GET_IDC(IDC_RS_EditorGridDockPane)
+#define	IDC_RS_EditorParametersDockPane		GET_IDC(IDC_RS_EditorParametersDockPane)
+#define	IDC_RS_EditorParametersGrid			GET_IDC(IDC_RS_EditorParametersGrid)
+#define	IDC_RS_EditorToolDockPane			GET_IDC(IDC_RS_EditorToolDockPane)
+#define	IDC_RS_EngineDockPane				GET_IDC(IDC_RS_EngineDockPane)
+#define	IDC_RS_HelpPropertyGrid				GET_IDC(IDC_RS_HelpPropertyGrid)
+#define	IDC_RS_LayoutDockPane				GET_IDC(IDC_RS_LayoutDockPane)
+#define	IDC_RS_PropertyDockPane				GET_IDC(IDC_RS_PropertyDockPane)
+#define	IDC_RS_ReportDockPane				GET_IDC(IDC_RS_ReportDockPane)
+#define	IDC_RS_StructDockPane				GET_IDC(IDC_RS_StructDockPane)
+#define	IDC_RS_ToolBoxDockPane				GET_IDC(IDC_RS_ToolBoxDockPane)
+#define	IDC_RS_ToolBoxDBDockPane			GET_IDC(IDC_RS_ToolBoxDBDockPane)
+#define	IDC_RS_ToolBarDockPane				GET_IDC(IDC_RS_ToolBarDockPane)
+#define	IDC_RS_EditorDockPane				GET_IDC(IDC_RS_EditorDockPane)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_CARET_POS			GET_ID(ID_CARET_POS)
+#define	ID_EDIT_AUTOOUTLINING			GET_ID(ID_EDIT_AUTOOUTLINING)
+#define	ID_EDIT_CHECK			GET_ID(ID_EDIT_CHECK)
+#define	ID_EDIT_CLEAR_ALLBOOKMARKS			GET_ID(ID_EDIT_CLEAR_ALLBOOKMARKS)
+#define	ID_EDIT_COLLAPSETODEFINITIONS			GET_ID(ID_EDIT_COLLAPSETODEFINITIONS)
+#define	ID_EDIT_DECREASE_INDENT			GET_ID(ID_EDIT_DECREASE_INDENT)
+#define	ID_EDIT_ENABLEOUTLINING			GET_ID(ID_EDIT_ENABLEOUTLINING)
+#define	ID_EDIT_EXEC			GET_ID(ID_EDIT_EXEC)
+#define	ID_DEBUG_RUN			GET_ID(ID_DEBUG_RUN)
+#define	ID_DEBUG_STOP			GET_ID(ID_DEBUG_STOP)
+#define	ID_DEBUG_STEP			GET_ID(ID_DEBUG_STEP)
+#define	ID_EDIT_FIND_COMBO			GET_ID(ID_EDIT_FIND_COMBO) 
+#define	ID_EDIT_REPLACE_COMBO			GET_ID(ID_EDIT_REPLACE_COMBO)
+#define	ID_EDIT_FINDNEXT			GET_ID(ID_EDIT_FINDNEXT)
+#define ID_EDIT_REPLACEONE			GET_ID(ID_EDIT_REPLACEONE)
+#define ID_EDIT_REPLACEALL			GET_ID(ID_EDIT_REPLACEALL)
+#define	ID_EDIT_FINDPREV			GET_ID(ID_EDIT_FINDPREV)
+#define	ID_EDIT_FINDREPLACE			GET_ID(ID_EDIT_FINDREPLACE)
+#define	ID_EDIT_GOTO_LINE			GET_ID(ID_EDIT_GOTO_LINE)
+#define	ID_EDIT_HIDESELECTION			GET_ID(ID_EDIT_HIDESELECTION)
+#define	ID_EDIT_INCREASE_INDENT			GET_ID(ID_EDIT_INCREASE_INDENT)
+#define	ID_EDIT_LINENUMBERS			GET_ID(ID_EDIT_LINENUMBERS)
+#define	ID_EDIT_LISTMEMBERS			GET_ID(ID_EDIT_LISTMEMBERS)
+#define	ID_EDIT_NEXT_WORD			GET_ID(ID_EDIT_NEXT_WORD)
+#define	ID_EDIT_NEXTBOOKMARK			GET_ID(ID_EDIT_NEXTBOOKMARK)
+#define	ID_EDIT_PREVIOUSBOOKMARK			GET_ID(ID_EDIT_PREVIOUSBOOKMARK)
+#define	ID_EDIT_SHOWHINT			GET_ID(ID_EDIT_SHOWHINT)
+#define	ID_EDIT_STOPHIDINGCURRENT			GET_ID(ID_EDIT_STOPHIDINGCURRENT)
+#define	ID_EDIT_STOPOUTLINING			GET_ID(ID_EDIT_STOPOUTLINING)
+#define	ID_EDIT_TOGGLEALLOUTLINING			GET_ID(ID_EDIT_TOGGLEALLOUTLINING)
+#define	ID_EDIT_TOGGLEBOOKMARK			GET_ID(ID_EDIT_TOGGLEBOOKMARK)
+#define	ID_EDIT_TOGGLEOUTLINING			GET_ID(ID_EDIT_TOGGLEOUTLINING)
+#define	ID_EDITFAILED			GET_ID(ID_EDITFAILED)
+#define	ID_EDITOR_COPY			GET_ID(ID_EDITOR_COPY)
+#define	ID_EDITOR_CUT			GET_ID(ID_EDITOR_CUT)
+#define	ID_EDITOR_PASTE			GET_ID(ID_EDITOR_PASTE)
+#define	ID_PARAM0			GET_ID(ID_PARAM0)
+#define	ID_PARAM1			GET_ID(ID_PARAM1)
+#define	ID_PARAM10			GET_ID(ID_PARAM10)
+#define	ID_PARAM11			GET_ID(ID_PARAM11)
+#define	ID_PARAM12			GET_ID(ID_PARAM12)
+#define	ID_PARAM13			GET_ID(ID_PARAM13)
+#define	ID_PARAM15			GET_ID(ID_PARAM15)
+#define	ID_PARAM16			GET_ID(ID_PARAM16)
+#define	ID_PARAM17			GET_ID(ID_PARAM17)
+#define	ID_PARAM18			GET_ID(ID_PARAM18)
+#define	ID_PARAM19			GET_ID(ID_PARAM19)
+#define	ID_PARAM2			GET_ID(ID_PARAM2)
+#define	ID_PARAM3			GET_ID(ID_PARAM3)
+#define	ID_PARAM4			GET_ID(ID_PARAM4)
+#define	ID_PARAM5			GET_ID(ID_PARAM5)
+#define	ID_PARAM6			GET_ID(ID_PARAM6)
+#define	ID_PARAM7			GET_ID(ID_PARAM7)
+#define	ID_PARAM8			GET_ID(ID_PARAM8)
+#define	ID_PARAM80			GET_ID(ID_PARAM80)
+#define	ID_PARAM9			GET_ID(ID_PARAM9)
+#define	ID_PGUPFAILED			GET_ID(ID_PGUPFAILED)
+
+#define	ID_RS_DELETE					GET_ID(ID_RS_DELETE)
+#define	ID_RS_DOWN						GET_ID(ID_RS_DOWN)
+#define	ID_RS_EDIT						GET_ID(ID_RS_EDIT)
+#define	ID_RS_EDITOR_CAPTIONBAR			GET_ID(ID_RS_EDITOR_CAPTIONBAR)
+#define	ID_RS_EDITOR_CAPTIONBAR_BUTTON	GET_ID(ID_RS_EDITOR_CAPTIONBAR_BUTTON)
+#define	ID_RS_NEW						GET_ID(ID_RS_NEW)
+#define	ID_RS_MORE						GET_ID(ID_RS_MORE)
+#define	ID_RS_OPEN						GET_ID(ID_RS_OPEN)
+#define	ID_RS_REFRESH					GET_ID(ID_RS_REFRESH)
+#define	ID_RS_RENAME					GET_ID(ID_RS_RENAME)
+#define	ID_RS_SAVE						GET_ID(ID_RS_SAVE)
+#define	ID_RS_LAYOUT					GET_ID(ID_RS_LAYOUT)
+#define	ID_RS_VARIABLE					GET_ID(ID_RS_VARIABLE)
+#define	ID_RS_REQUESTFIELD				GET_ID(ID_RS_REQUESTFIELD)
+#define	ID_RS_FINDRULE					GET_ID(ID_RS_FINDRULE)
+#define	ID_RS_DLGPREVIEW				GET_ID(ID_RS_DLGPREVIEW)
+#define	ID_RS_CLOSE						GET_ID(ID_RS_CLOSE)
+#define	ID_RS_UP						GET_ID(ID_RS_UP)
+#define	ID_RS_COLLAPSEALLTREE			GET_ID(ID_RS_COLLAPSEALLTREE)
+#define	ID_RS_EXPANDALLTREE				GET_ID(ID_RS_EXPANDALLTREE)
+#define	ID_RS_FILTER					GET_ID(ID_RS_FILTER)
+#define	ID_RS_DISCARD					GET_ID(ID_RS_DISCARD)
+
+#define	ID_RS_CHECK_TABLE_FROM_DB				GET_ID(ID_RS_CHECK_TABLE_FROM_DB)
+//#define	ID_RS_CHECK_HIDDEN_VAR_FROM_DB		GET_ID(ID_RS_CHECK_HIDDEN_VAR_FROM_DB)
+
+#define	ID_RS_ADD_HIDDEN_VAR_FROM_DB		GET_ID(ID_RS_ADD_HIDDEN_VAR_FROM_DB)
+
+#define	ID_RS_TOOLBOX				GET_ID(ID_RS_TOOLBOX)
+
+#define	ID_STRING123			GET_ID(ID_STRING123)
+#define	ID_UAT_BACKSPACE			GET_ID(ID_UAT_BACKSPACE)
+#define	ID_UAT_CUT			GET_ID(ID_UAT_CUT)
+#define	ID_UAT_DELETE			GET_ID(ID_UAT_DELETE)
+#define	ID_UAT_DRAGDROP			GET_ID(ID_UAT_DRAGDROP)
+#define	ID_UAT_ENTER			GET_ID(ID_UAT_ENTER)
+#define	ID_UAT_INDENT			GET_ID(ID_UAT_INDENT)
+#define	ID_UAT_PASTE			GET_ID(ID_UAT_PASTE)
+#define	ID_UAT_REPLACE			GET_ID(ID_UAT_REPLACE)
+#define	ID_UAT_TAB			GET_ID(ID_UAT_TAB)
+#define	ID_UAT_TYPING			GET_ID(ID_UAT_TYPING)
+#define	ID_UAT_UNDEFINED			GET_ID(ID_UAT_UNDEFINED)
+#define	ID_UAT_UNINDENT			GET_ID(ID_UAT_UNINDENT)
+#define	ID_UAT_UNKNOWN			GET_ID(ID_UAT_UNKNOWN)
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBWOORMVIEWER
+static UINT IDS_ID_EDIT_FIND_COMBO		=GET_IDS(ID_EDIT_FIND_COMBO, _TB_STRING("Find the text\nFind"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_HIDESELECTION		=GET_IDS(ID_EDIT_HIDESELECTION, _TB_STRING("Adds the user-defined collapsible node for the currently selected text\nHide Selection"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_TOGGLEOUTLINING		=GET_IDS(ID_EDIT_TOGGLEOUTLINING, _TB_STRING("Toggles outlining inside selection\nToggle Outlining"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_STOPHIDINGCURRENT		=GET_IDS(ID_EDIT_STOPHIDINGCURRENT, _TB_STRING("Deletes the user-defined collapsible node(s) inside selection\nStop Hiding Current"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_TOGGLEALLOUTLINING		=GET_IDS(ID_EDIT_TOGGLEALLOUTLINING, _TB_STRING("Toggles outlinings for the whole text\nToggle All Outlining"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_COLLAPSETODEFINITIONS		=GET_IDS(ID_EDIT_COLLAPSETODEFINITIONS, _TB_STRING("Collapses the members of all outlining types\nCollapse to Definitions"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_STOPOUTLINING		=GET_IDS(ID_EDIT_STOPOUTLINING, _TB_STRING("Cancels auto-outlining mode\nStop Outlining"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_ENABLEOUTLINING		=GET_IDS(ID_EDIT_ENABLEOUTLINING, _TB_STRING("Enables/disables outlining mode\nEnable Outlining"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_CUT		=GET_IDS(ID_UAT_CUT, _TB_STRING("Cut"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_PASTE		=GET_IDS(ID_UAT_PASTE, _TB_STRING("Paste"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_DELETE		=GET_IDS(ID_UAT_DELETE, _TB_STRING("Delete"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_BACKSPACE		=GET_IDS(ID_UAT_BACKSPACE, _TB_STRING("Backspace"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_DRAGDROP		=GET_IDS(ID_UAT_DRAGDROP, _TB_STRING("Drag/drop"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_ENTER		=GET_IDS(ID_UAT_ENTER, _TB_STRING("Enter"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_INDENT		=GET_IDS(ID_UAT_INDENT, _TB_STRING("Indent"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_UNINDENT		=GET_IDS(ID_UAT_UNINDENT, _TB_STRING("Unindent"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_TAB		=GET_IDS(ID_UAT_TAB, _TB_STRING("Tab"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDITFAILED		=GET_IDS(ID_EDITFAILED, _TB_STRING("You cannot edit the document!"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_PGUPFAILED		=GET_IDS(ID_PGUPFAILED, _TB_STRING("PgUp failed!"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_STRING123		=GET_IDS(ID_STRING123, _TB_STRING("Find the text\nFind"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_REPLACE		=GET_IDS(ID_UAT_REPLACE, _TB_STRING("Replace"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_TOGGLEBOOKMARK		=GET_IDS(ID_EDIT_TOGGLEBOOKMARK, _TB_STRING("Toggle bookmark"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_CLEAR_ALLBOOKMARKS		=GET_IDS(ID_EDIT_CLEAR_ALLBOOKMARKS, _TB_STRING("Clear all bookmarks"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_NEXTBOOKMARK		=GET_IDS(ID_EDIT_NEXTBOOKMARK, _TB_STRING("Next bookmark"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_INCREASE_INDENT		=GET_IDS(ID_EDIT_INCREASE_INDENT, _TB_STRING("Indents the selection text right one tab stop\nIncrease Indent"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_DECREASE_INDENT		=GET_IDS(ID_EDIT_DECREASE_INDENT, _TB_STRING("Indents the selection text left one tab stop\nDecrease Indent"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_LISTMEMBERS		=GET_IDS(ID_EDIT_LISTMEMBERS, _TB_STRING("Brings up the completion list box\nList Members"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_AUTOOUTLINING		=GET_IDS(ID_EDIT_AUTOOUTLINING, _TB_STRING("Enables/disables auto-outlining mode\nEnable Auto-Outlining"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_LINENUMBERS		=GET_IDS(ID_EDIT_LINENUMBERS, _TB_STRING("Shows/hides the line numbers\nLine Numbers"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_GOTO_LINE		=GET_IDS(ID_EDIT_GOTO_LINE, _TB_STRING("Move to a specified location\nGo to line"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_CARET_POS		=GET_IDS(ID_CARET_POS, _TB_STRING("Ln %4d, Col %4d"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_UNKNOWN		=GET_IDS(ID_UAT_UNKNOWN, _TB_STRING("<Unknown>"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_UNDEFINED		=GET_IDS(ID_UAT_UNDEFINED, _TB_STRING("<Cut-in>"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_UAT_TYPING		=GET_IDS(ID_UAT_TYPING, _TB_STRING("Typing"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_PREVIOUSBOOKMARK		=GET_IDS(ID_EDIT_PREVIOUSBOOKMARK, _TB_STRING("Previous bookmark"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_CHECK		=GET_IDS(ID_EDIT_CHECK, _TB_STRING("Compile .wrm"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+static UINT IDS_ID_EDIT_EXEC		=GET_IDS(ID_EDIT_EXEC, _TB_STRING("Execute query"), L"\\Framework\\TbWoormViewer\\RSEditorUI.hjson");
+#endif
+

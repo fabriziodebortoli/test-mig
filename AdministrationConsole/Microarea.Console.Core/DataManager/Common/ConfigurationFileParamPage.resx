@@ -1,0 +1,631 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System" name="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SaveFileCheckBox.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;PathTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="m_titleLabel.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Family</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.SnapToGrid" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="m_headerPicture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>626, 8</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ParamsGroupBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="m_headerPanel.GridSize" type="System.Drawing.Size, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="PathTextBox.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="PathTextBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;m_titleLabel.Parent" xml:space="preserve">
+    <value>m_headerPanel</value>
+  </data>
+  <data name="m_subtitleLabel.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Family</value>
+  </data>
+  <data name="SaveFileCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>25, 36</value>
+  </data>
+  <data name="SaveFileCheckBox.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.TrayLargeIcon" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BrowseButton.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="BrowseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="$this.Name" xml:space="preserve">
+    <value>ConfigurationFileParamPage</value>
+  </data>
+  <data name="$this.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>682, 368</value>
+  </data>
+  <data name="BrowseButton.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="ParamsGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ParamsGroupBox.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="BrowseButton.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;m_subtitleLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="m_subtitleLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>610, 56</value>
+  </data>
+  <data name="m_subtitleLabel.Text" xml:space="preserve">
+    <value>Choose if you want to save your selections in a specified XML file.</value>
+  </data>
+  <data name="m_headerPanel.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;PathTextBox.Parent" xml:space="preserve">
+    <value>ParamsGroupBox</value>
+  </data>
+  <data name="SaveFileCheckBox.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="SaveFileCheckBox.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="PathTextBox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value />
+  </data>
+  <data name="m_headerPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="SaveFileCheckBox.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PathTextBox.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;m_subtitleLabel.Parent" xml:space="preserve">
+    <value>m_headerPanel</value>
+  </data>
+  <data name="m_titleLabel.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="m_headerPanel.SnapToGrid" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BrowseButton.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BrowseButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>617, 67</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="&gt;&gt;m_headerPicture.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="m_headerPanel.DrawGrid" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SaveFileCheckBox.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="SaveFileCheckBox.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PathTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="$this.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="PathTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="$this.DrawGrid" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SaveFileCheckBox.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="m_titleLabel.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ParamsGroupBox.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SaveFileCheckBox.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;m_headerPicture.Parent" xml:space="preserve">
+    <value>m_headerPanel</value>
+  </data>
+  <data name="PathTextBox.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PathTextBox.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="SaveFileCheckBox.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="ParamsGroupBox.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;PathTextBox.Name" xml:space="preserve">
+    <value>PathTextBox</value>
+  </data>
+  <data name="&gt;&gt;PathTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SaveFileCheckBox.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PathTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BrowseButton.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PathTextBox.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="SaveFileCheckBox.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;SaveFileCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SaveFileCheckBox.Name" xml:space="preserve">
+    <value>SaveFileCheckBox</value>
+  </data>
+  <data name="BrowseButton.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="PathTextBox.WordWrap" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PathTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="PathTextBox.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PathTextBox.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PathTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>566, 23</value>
+  </data>
+  <data name="PathTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="BrowseButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SaveFileCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>583, 24</value>
+  </data>
+  <data name="SaveFileCheckBox.Text" xml:space="preserve">
+    <value>save effected selections in the following configuration file:</value>
+  </data>
+  <data name="SaveFileCheckBox.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="SaveFileCheckBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="BrowseButton.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="BrowseButton.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="BrowseButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="BrowseButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 23</value>
+  </data>
+  <data name="BrowseButton.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="m_titleLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>604, 32</value>
+  </data>
+  <data name="m_titleLabel.Text" xml:space="preserve">
+    <value>Configuration File options</value>
+  </data>
+  <data name="m_titleLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 11.25pt, style=Bold</value>
+  </data>
+  <data name="PathTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 67</value>
+  </data>
+  <data name="BrowseButton.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ParamsGroupBox.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="ParamsGroupBox.SnapToGrid" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;SaveFileCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="m_headerPicture.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="m_headerPanel.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;m_headerPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_headerPanel.Name" xml:space="preserve">
+    <value>m_headerPanel</value>
+  </data>
+  <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="&gt;&gt;SaveFileCheckBox.Parent" xml:space="preserve">
+    <value>ParamsGroupBox</value>
+  </data>
+  <data name="$this.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ParamsGroupBox.DrawGrid" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ParamsGroupBox.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="$this.GridSize" type="System.Drawing.Size, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="SaveFileCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="$this.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;m_headerPicture.Name" xml:space="preserve">
+    <value>m_headerPicture</value>
+  </data>
+  <data name="&gt;&gt;m_headerPicture.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BrowseButton.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="m_headerPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>682, 104</value>
+  </data>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="m_headerPicture.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ParamsGroupBox.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="BrowseButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BrowseButton.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="&gt;&gt;m_headerPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="ParamsGroupBox.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ParamsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>651, 128</value>
+  </data>
+  <data name="ParamsGroupBox.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ParamsGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="PathTextBox.MaxLength" type="System.Int32, mscorlib">
+    <value>32767</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="m_subtitleLabel.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;m_headerPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BrowseButton.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;m_titleLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_titleLabel.Name" xml:space="preserve">
+    <value>m_titleLabel</value>
+  </data>
+  <data name="SaveFileCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ConfigurationFileParamPage</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.UI.WizardDialogLib.InteriorWizardPage, WizardDialogLib, Version=2.4.2403.17180, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="PathTextBox.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PathTextBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="$this.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="PathTextBox.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="&gt;&gt;ParamsGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="m_headerPanel.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Family</value>
+  </data>
+  <data name="&gt;&gt;ParamsGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="SaveFileCheckBox.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ParamsGroupBox.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="$this.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="SaveFileCheckBox.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
+    <value>Normal</value>
+  </data>
+  <data name="&gt;&gt;BrowseButton.Parent" xml:space="preserve">
+    <value>ParamsGroupBox</value>
+  </data>
+  <data name="SaveFileCheckBox.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ParamsGroupBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="BrowseButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="PathTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="m_subtitleLabel.DefaultModifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Private</value>
+  </data>
+  <data name="ParamsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 125</value>
+  </data>
+  <data name="&gt;&gt;BrowseButton.Name" xml:space="preserve">
+    <value>BrowseButton</value>
+  </data>
+  <data name="&gt;&gt;BrowseButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PathTextBox.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;m_titleLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SaveFileCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
+  </data>
+  <data name="m_headerPicture.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Family</value>
+  </data>
+  <data name="ParamsGroupBox.Locked" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="PathTextBox.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="&gt;&gt;BrowseButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;m_subtitleLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_subtitleLabel.Name" xml:space="preserve">
+    <value>m_subtitleLabel</value>
+  </data>
+  <data name="ParamsGroupBox.GridSize" type="System.Drawing.Size, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="&gt;&gt;ParamsGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BrowseButton.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;ParamsGroupBox.Name" xml:space="preserve">
+    <value>ParamsGroupBox</value>
+  </data>
+  <data name="BrowseButton.ImageIndex" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="ParamsGroupBox.Enabled" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="m_headerPicture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 47</value>
+  </data>
+  <data name="$this.AutoScrollMargin" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="SaveFileCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+</root>

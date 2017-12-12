@@ -1,0 +1,12 @@
+﻿{
+  "id": "IDD_EMPTY_TILE",
+  "rcId": 1050,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 336,
+  "height": 262,
+  "visible": true,
+  "child": true,
+  "context": "extdoc"
+}

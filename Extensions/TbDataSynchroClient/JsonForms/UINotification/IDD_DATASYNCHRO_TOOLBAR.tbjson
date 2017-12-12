@@ -1,0 +1,40 @@
+﻿{
+    "id": "IDD_DATASYNCHRO_TOOLBAR",
+    "name": "AAAA",
+    "bottom": false,
+	"type": 14 /*Toolbar*/,
+	"autoHide": false,
+    "items": [
+
+        {
+            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.OutBound.png",
+            "id": "ID_FORCE_SYNCHRONIZATION",
+            "name": "Force",
+            "text": "Force",
+            "hint": "Force Synchronization",
+            "type": 15 /*ToolbarButton*/,
+            "visible":  true
+        },
+        {
+            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Ok.png",
+            "id": "ID_FORCE_VALIDATION",
+            "name": "Validation",
+            "text": "Validation",
+            "hint": "Validation",
+            "type": 15, /*ToolbarButton*/
+            "visible": true
+        },
+        {
+            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Refresh.png",
+            "id": "ID_DS_REFRESH_BTN",
+            "name": "Refresh",
+            "text": "Refresh",
+            "hint": "Refresh",
+            "type": 15, /*ToolbarButton*/
+            "visible": true
+        }
+    ]
+}
+
+
+

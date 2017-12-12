@@ -1,0 +1,131 @@
+﻿{
+  "id": "IDD_UNIVERSAL_KEY_PROPERTIES",
+  "rcId": 1067,
+  "type": 66,
+  "text": "Universal Key Properties",
+  "x": 0,
+  "y": 0,
+  "width": 301,
+  "height": 196,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "xmlcontrols",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 67,
+      "y": 175,
+      "width": 67,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 146,
+      "y": 175,
+      "width": 70,
+      "height": 14
+    },
+    {
+      "id": "IDC_UNIVERSAL_KEY_FIELD_LIST",
+      "type": 24,
+      "x": 17,
+      "y": 81,
+      "width": 115,
+      "height": 90,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 3,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_UNIVERSAL_KEY_SEGMENT_LIST",
+      "type": 24,
+      "x": 161,
+      "y": 81,
+      "width": 115,
+      "height": 90,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 3,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Table Fields in Document Head",
+      "x": 4,
+      "y": 60,
+      "width": 142,
+      "height": 19,
+      "textAlign": 1
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Universal Key Segments",
+      "x": 159,
+      "y": 60,
+      "width": 142,
+      "height": 19,
+      "textAlign": 1
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "The Universal Key or alternative key is a unique access key to data to be used as a substitute of the primary key.",
+      "x": 5,
+      "y": 6,
+      "width": 293,
+      "height": 22,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ADD_UK_SEGMENT",
+      "type": 3,
+      "text": ">",
+      "x": 139,
+      "y": 95,
+      "width": 14,
+      "height": 14
+    },
+    {
+      "id": "IDC_REMOVE_UK_SEGMENT",
+      "type": 3,
+      "text": "<",
+      "x": 139,
+      "y": 116,
+      "width": 14,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Universal Key Name",
+      "x": 37,
+      "y": 34,
+      "width": 208,
+      "height": 8,
+      "textAlign": 1
+    },
+    {
+      "id": "IDC_UK_NAME",
+      "type": 13,
+      "x": 100,
+      "y": 43,
+      "width": 82,
+      "height": 14,
+      "autoHScroll": true
+    }
+  ]
+}

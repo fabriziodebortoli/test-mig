@@ -1,0 +1,10 @@
+﻿{
+	"href": "M.Framework.TbGes.TbGes.IDD_MASTER_FRAME",
+	"id": "IDD_WORKERS",
+	"name": "Workers",
+	"items": [
+        {
+            "href": "IDD_WORKERS_VIEW"
+        }
+	]
+}

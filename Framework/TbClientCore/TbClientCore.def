@@ -1,0 +1,7 @@
+; TbClientCore.def : Declares the module parameters for the DLL.
+
+LIBRARY      "TbClientCore"
+
+EXPORTS
+	InitDynLinkLibrary
+    ; Explicit exports can go here

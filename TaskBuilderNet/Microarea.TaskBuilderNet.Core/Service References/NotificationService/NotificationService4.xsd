@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/PAT.CRM.Portal.BrainIntegration" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PAT.CRM.Portal.BrainIntegration" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="Event">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Event" nillable="true" type="tns:Event" />
+  <xs:complexType name="NewWorkflowAssignedEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UserEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AssignedWorkflows" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="NewWorkflowAssignedEvent" nillable="true" type="tns:NewWorkflowAssignedEvent" />
+  <xs:complexType name="UserEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Event">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserEvent" nillable="true" type="tns:UserEvent" />
+  <xs:complexType name="UserWorkflowEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UserEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="WorkflowID" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserWorkflowEvent" nillable="true" type="tns:UserWorkflowEvent" />
+</xs:schema>

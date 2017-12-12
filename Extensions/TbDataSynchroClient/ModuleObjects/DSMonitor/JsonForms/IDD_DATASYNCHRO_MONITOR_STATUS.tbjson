@@ -1,0 +1,55 @@
+{
+   "collapsible" : false,
+   "context" : "uidsmonitor",
+  "tileStyle": 1,
+  "text": "Advancement status",
+   "height" : 69,
+   "id" : "IDD_DATASYNCHRO_MONITOR_STATUS",
+   "items" : [
+      {
+         "binding" : {
+            "datasource" : "PictureStatus"
+         },
+         "bitmap" : true,
+         "controlClass" : "PictureStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_DATASYNCHRO_MONITOR_STATUS_PICTURE",
+         "name" : "PictureStatus",
+         "type" : 2, /*Label*/
+         "width" : 16,
+         "x" : 7,
+         "y" : 2
+      },
+    {
+        "binding": {
+            "datasource": "nValueGauge"
+        },
+        "blackFrame": true,
+        "controlClass": "TBLinearGaugeCtrl",
+        "group": true,
+        "height": 12,
+        "id": "IDC_DATASYNCHRO_MONITOR_STATUS_GAUGE",
+        "type": 2, /*Label*/
+        "width": 587,
+        "x": 4,
+        "y": 14
+    },
+      {
+         "binding" : {
+            "datasource" : "GaugeDescription"
+         },
+         "controlClass" : "LabelStatic",
+         "group" : true,
+         "height" : 10,
+         "id" : "IDC_DATASYNCHRO_MONITOR_STATUS_DESCRIPTION",
+         "type" : 2, /*Label*/
+         "width" : 563,
+         "x" : 27,
+         "y" : 2
+      }
+   ],
+   "name" : "MonitorStatusResultsGaugeTileDlg",
+   "type" : 71, /*Tile*/
+   "width" : 600
+}

@@ -1,0 +1,10 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\CAddressDlg\IDD_ADDRESS.hjson>
+#include	<TbGes\JsonForms\CAddressDlg\IDD_ADDRESS_SELECTION.hjson>
+#include	<TbGes\JsonForms\CAddressDlg\IDD_TD_ADDRESS.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_ADDRESS_SHOW_MAP			GET_ID(ID_ADDRESS_SHOW_MAP)

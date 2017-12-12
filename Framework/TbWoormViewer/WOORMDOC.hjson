@@ -1,0 +1,304 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormViewer\JsonForms\WOORMDOC\IDD_CUSTOMFILEDIALOG_PDF.hjson>
+#include	<TbWoormViewer\JsonForms\WOORMDOC\IDD_DLG_WEBPRINT.hjson>
+#include	<TbWoormViewer\JsonForms\WOORMDOC\IDR_LISTER.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_DLG_EXPLORER_BROWSE			GET_IDC(IDC_DLG_EXPLORER_BROWSE)
+#define	IDC_DROPDOWN_TEMPLATES			GET_IDC(IDC_DROPDOWN_TEMPLATES)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_TOOLS					GET_ID(ID_TOOLS)
+#define	ID_TOOLS_2					GET_ID(ID_TOOLS_2)
+#define	ID_GENERAL_SETTINGS			GET_ID(ID_GENERAL_SETTINGS)
+#define	ID_PROPERTIES				GET_ID(ID_PROPERTIES)
+#define	ID_PAGE_INFO				GET_ID(ID_PAGE_INFO)
+
+#define	ID_ACTIONS_REP_COPY			GET_ID(ID_ACTIONS_REP_COPY)
+#define	ID_ACTIONS_REP_XML_COPY			GET_ID(ID_ACTIONS_REP_XML_COPY)
+
+#define	ID_ADD_EA_BARCODE			GET_ID(ID_ADD_EA_BARCODE)
+#define	ID_ADD_ARRAY				GET_ID(ID_ADD_ARRAY)
+#define	ID_ADD_FILE_RECT			GET_ID(ID_ADD_FILE_RECT)
+#define	ID_ADD_GRAPH_RECT			GET_ID(ID_ADD_GRAPH_RECT)
+#define	ID_ADD_REPEATER				GET_ID(ID_ADD_REPEATER)
+#define	ID_ADD_SQR_RECT				GET_ID(ID_ADD_SQR_RECT)
+#define	ID_ADD_TEXT_RECT			GET_ID(ID_ADD_TEXT_RECT)
+#define	ID_ADD_CHART				GET_ID(ID_ADD_CHART)
+
+#define	ID_ALIGN_CUT_H_LEFT			GET_ID(ID_ALIGN_CUT_H_LEFT)
+#define	ID_ALIGN_CUT_H_RIGHT		GET_ID(ID_ALIGN_CUT_H_RIGHT)
+#define	ID_ALIGN_CUT_V_BOTTOM		GET_ID(ID_ALIGN_CUT_V_BOTTOM)
+#define	ID_ALIGN_CUT_V_TOP			GET_ID(ID_ALIGN_CUT_V_TOP)
+#define	ID_ALIGN_HLEFT				GET_ID(ID_ALIGN_HLEFT)
+#define	ID_ALIGN_HRIGHT				GET_ID(ID_ALIGN_HRIGHT)
+#define	ID_ALIGN_HSPACE_EQUAL			GET_ID(ID_ALIGN_HSPACE_EQUAL)
+#define	ID_ALIGN_STACK_BOTTOM			GET_ID(ID_ALIGN_STACK_BOTTOM)
+#define	ID_ALIGN_STACK_LEFT			GET_ID(ID_ALIGN_STACK_LEFT)
+#define	ID_ALIGN_STACK_RIGHT			GET_ID(ID_ALIGN_STACK_RIGHT)
+#define	ID_ALIGN_STACK_TOP			GET_ID(ID_ALIGN_STACK_TOP)
+#define	ID_ALIGN_VBOTTOM			GET_ID(ID_ALIGN_VBOTTOM)
+#define	ID_ALIGN_VSPACE_EQUAL			GET_ID(ID_ALIGN_VSPACE_EQUAL)
+#define	ID_ALIGN_VTOP			GET_ID(ID_ALIGN_VTOP)
+#define	ID_ARCHIVE_WITH_CHILDS			GET_ID(ID_ARCHIVE_WITH_CHILDS)
+#define	ID_GENERATE_PAPERY			GET_ID(ID_GENERATE_PAPERY)
+//#define	ID_ASK_RULES			GET_ID(ID_ASK_RULES)
+#define	ID_BTN_FILE_PRINT			GET_ID(ID_BTN_FILE_PRINT)
+#define	ID_CLEAR_ALL			GET_ID(ID_CLEAR_ALL)
+#define	ID_CLEAR_ALL_CUSTOM_STYLE			GET_ID(ID_CLEAR_ALL_CUSTOM_STYLE)
+#define	ID_COL_ADD_TOTAL			GET_ID(ID_COL_ADD_TOTAL)
+//#define	ID_COL_DELETE			GET_ID(ID_COL_DELETE)
+#define	ID_COL_LMOVE			GET_ID(ID_COL_LMOVE)
+#define	ID_COL_RMOVE			GET_ID(ID_COL_RMOVE)
+#define	ID_COPY_TEXT			GET_ID(ID_COPY_TEXT)
+//#define	ID_ENTRIES			GET_ID(ID_ENTRIES)
+#define	ID_ENUMS_VIEWER			GET_ID(ID_ENUMS_VIEWER)
+//#define	ID_EVENTS			GET_ID(ID_EVENTS)
+#define	ID_FILE_PROPERTIES			GET_ID(ID_FILE_PROPERTIES)
+#define	ID_FILE_SAVE_AS_TEMPLATE			GET_ID(ID_FILE_SAVE_AS_TEMPLATE)
+#define	ID_FILE_SAVE_PDF			GET_ID(ID_FILE_SAVE_PDF)
+#define	ID_FILE_SAVE_RDE			GET_ID(ID_FILE_SAVE_RDE)
+#define	ID_FILE_SAVE_2			GET_ID(ID_FILE_SAVE_2)
+#define	ID_FONT_STYLES			GET_ID(ID_FONT_STYLES)
+#define	ID_FORMAT_STYLES			GET_ID(ID_FORMAT_STYLES)
+#define	ID_GOTO_PAGE			GET_ID(ID_GOTO_PAGE)
+#define	ID_GOTO_PRODUCERSITE			GET_ID(ID_GOTO_PRODUCERSITE)
+#define	ID_GOTO_SITE_PRIVATE_AREA			GET_ID(ID_GOTO_SITE_PRIVATE_AREA)
+#define	ID_HELP_WOORM			GET_ID(ID_HELP_WOORM)
+#define	ID_INDICATOR_PAGE			GET_ID(ID_INDICATOR_PAGE)
+#define	ID_INDICATOR_RUN			GET_ID(ID_INDICATOR_RUN)
+#define	ID_INDICATOR_TRACK_RECT			GET_ID(ID_INDICATOR_TRACK_RECT)
+#define	ID_INDICATOR_MESSAGE			GET_ID(ID_INDICATOR_MESSAGE)
+#define	ID_INDICATOR_VOID			GET_ID(ID_INDICATOR_VOID)
+#define	ID_INDICATOR_TRACK_ROWS			GET_ID(ID_INDICATOR_TRACK_ROWS)
+#define	ID_LAST_HIGH			GET_ID(ID_LAST_HIGH)
+#define	ID_LAST_LARGE			GET_ID(ID_LAST_LARGE)
+#define	ID_LAYOUT_CLONE_OBJECT			GET_ID(ID_LAYOUT_CLONE_OBJECT)
+#define	ID_LAYOUT_MOVE_OBJECT			GET_ID(ID_LAYOUT_MOVE_OBJECT)
+//#define	ID_LAYOUT_NEW			GET_ID(ID_LAYOUT_NEW)
+//#define	ID_LAYOUT_RENAME			GET_ID(ID_LAYOUT_RENAME)
+#define	ID_LOAD_TEMPLATE			GET_ID(ID_LOAD_TEMPLATE)
+#define	ID_OBJECTS_EASYATTACHMENTS			GET_ID(ID_OBJECTS_EASYATTACHMENTS)
+#define	ID_OBJECTS_RENAMELAYOUT			GET_ID(ID_OBJECTS_RENAMELAYOUT)
+#define	ID_OPEN_AS_TEXT			GET_ID(ID_OPEN_AS_TEXT)
+#define	ID_OPEN_TEMPLATE			GET_ID(ID_OPEN_TEMPLATE)
+#define	ID_OPTION_CREATE_SCHEMA1			GET_ID(ID_OPTION_CREATE_SCHEMA1)
+#define	ID_OPTION_CREATE_SCHEMA2			GET_ID(ID_OPTION_CREATE_SCHEMA2)
+#define	ID_OPTIONS			GET_ID(ID_OPTIONS)
+//#define	ID_ORDERBY			GET_ID(ID_ORDERBY)
+#define	ID_PAUSE_RESUME			GET_ID(ID_PAUSE_RESUME)
+#define	ID_PAUSE_RESUME_RESUME			GET_ID(ID_PAUSE_RESUME_RESUME)
+#define	ID_POST_OPEN_WOORM_DOC			GET_ID(ID_POST_OPEN_WOORM_DOC)
+#define	ID_PRINT_MULTICOPIES			GET_ID(ID_PRINT_MULTICOPIES)
+#define	ID_PRINT_WITH_CHILDS			GET_ID(ID_PRINT_WITH_CHILDS)
+#define	ID_PRINT_ON_LETTERHEAD			GET_ID(ID_PRINT_ON_LETTERHEAD)
+//#define	ID_PROCEDURES			GET_ID(ID_PROCEDURES)
+//#define	ID_QUERIES			GET_ID(ID_QUERIES)
+#define	ID_REC_VALIDATION			GET_ID(ID_REC_VALIDATION)
+//#define	ID_REPORT_OBJECTS			GET_ID(ID_REPORT_OBJECTS)
+#define	ID_REPORT_PARAMETER			GET_ID(ID_REPORT_PARAMETER)
+
+// Nuove tabelle/colonne/fields --------------------------------
+//servono ancora ?
+#define	ID_ADD_VAR_FIELD			GET_ID(ID_ADD_VAR_FIELD)
+#define	ID_ADD_HIDDEN_FIELD			GET_ID(ID_ADD_HIDDEN_FIELD)
+#define	ID_ADD_DATA_FIELD			GET_ID(ID_ADD_DATA_FIELD)
+#define	ID_ADD_EXP_FIELD			GET_ID(ID_ADD_EXP_FIELD)
+//-----
+
+#define	ID_RS_ADD_TABLE_FROM_DB				GET_ID(ID_RS_ADD_TABLE_FROM_DB)
+#define	ID_RS_ADD_TABLE_NEW_FUNCEXPR		GET_ID(ID_RS_ADD_TABLE_NEW_FUNCEXPR)
+#define	ID_RS_ADD_TABLE_FROM_HIDDEN_FIELDS	GET_ID(ID_RS_ADD_TABLE_FROM_HIDDEN_FIELDS)
+
+#define	ID_RS_ADD_COLUMNS_FROM_DB			GET_ID(ID_RS_ADD_COLUMNS_FROM_DB)
+#define	ID_RS_ADD_COLUMN_NEW_FUNCEXPR		GET_ID(ID_RS_ADD_COLUMN_NEW_FUNCEXPR)
+#define	ID_RS_ADD_COLUMNS_FROM_HIDDENS		GET_ID(ID_RS_ADD_COLUMNS_FROM_HIDDENS)
+
+#define	ID_RS_ADD_FIELDS_FROM_DB			GET_ID(ID_RS_ADD_FIELDS_FROM_DB)
+#define	ID_RS_ADD_FIELD_NEW_FUNCEXPR		GET_ID(ID_RS_ADD_FIELD_NEW_FUNCEXPR)
+#define	ID_RS_ADD_FIELDS_FROM_HIDDENS		GET_ID(ID_RS_ADD_FIELDS_FROM_HIDDENS)
+//---------------------------------
+
+#define ID_RS_REMOVE_LAYOUT_OBJECT		GET_ID(ID_RS_REMOVE_LAYOUT_OBJECT)
+#define ID_RS_ADD_LINK					GET_ID(ID_RS_ADD_LINK)
+
+#define	ID_RUN_AND_ATTACH_PDF_CHILDS	GET_ID(ID_RUN_AND_ATTACH_PDF_CHILDS)
+#define	ID_RUN_STOP						GET_ID(ID_RUN_STOP)
+#define	ID_RUN_STOP_2					GET_ID(ID_RUN_STOP_2)
+
+#define	ID_RUN_STOP_STOP				GET_ID(ID_RUN_STOP_STOP)
+#define	ID_RUN_STOP_2_STOP				GET_ID(ID_RUN_STOP_2_STOP)
+
+#define	ID_RS_RUN_DEBUGGER				GET_ID(ID_RS_RUN_DEBUGGER)
+#define	ID_RUN_WITHOUT_CHILDS			GET_ID(ID_RUN_WITHOUT_CHILDS)
+#define	ID_SAVE_ONLY_GRAPH_INFO			GET_ID(ID_SAVE_ONLY_GRAPH_INFO)
+#define	ID_SEND_MAIL					GET_ID(ID_SEND_MAIL)
+#define	ID_SEND_POSTALITE				GET_ID(ID_SEND_POSTALITE)
+#define	ID_SHOW_EDIT_TOOLBARS			GET_ID(ID_SHOW_EDIT_TOOLBARS)
+
+#define	ID_SNAP_TO_GRID					GET_ID(ID_SNAP_TO_GRID)
+#define	ID_STOP							GET_ID(ID_STOP)
+//#define	ID_SUB_TOTALS				GET_ID(ID_SUB_TOTALS)
+#define	ID_TOGGLE_ALIGN_TOOLBAR_FLOATING	GET_ID(ID_TOGGLE_ALIGN_TOOLBAR_FLOATING)
+#define	ID_TOGGLE_BORDER_ALL			GET_ID(ID_TOGGLE_BORDER_ALL)
+#define	ID_TOGGLE_BORDER_DOWN			GET_ID(ID_TOGGLE_BORDER_DOWN)
+#define	ID_TOGGLE_BORDER_LEFT			GET_ID(ID_TOGGLE_BORDER_LEFT)
+#define	ID_TOGGLE_BORDER_RIGHT			GET_ID(ID_TOGGLE_BORDER_RIGHT)
+#define	ID_TOGGLE_BORDER_UP				GET_ID(ID_TOGGLE_BORDER_UP)
+#define	ID_TOGGLE_CONCAT_PDF			GET_ID(ID_TOGGLE_CONCAT_PDF)
+#define	ID_TOGGLE_TRANSPARENT			GET_ID(ID_TOGGLE_TRANSPARENT)
+#define	ID_UNLOAD_TEMPLATE				GET_ID(ID_UNLOAD_TEMPLATE)
+#define	ID_USE_PREV_ASK_INPUT			GET_ID(ID_USE_PREV_ASK_INPUT)
+#define	ID_VIEW_ALIGN_TOOLBAR			GET_ID(ID_VIEW_ALIGN_TOOLBAR)
+#define	ID_VIEW_OBJECT_TOOLBAR			GET_ID(ID_VIEW_OBJECT_TOOLBAR)
+#define	ID_VIEW_SIZE_TOOLBAR			GET_ID(ID_VIEW_SIZE_TOOLBAR)
+#define	ID_VIEW_WOORM_TOOLBAR			GET_ID(ID_VIEW_WOORM_TOOLBAR)
+#define	ID_WOORM_INI					GET_ID(ID_WOORM_INI)
+#define	ID_WOORM_TAB_SWITCH				GET_ID(ID_WOORM_TAB_SWITCH)
+#define	ID_WOORM_TOOLBAR_COLLAPSED		GET_ID(ID_WOORM_TOOLBAR_COLLAPSED)
+#define	ID_WRM_COLLAPSED_START			GET_ID(ID_WRM_COLLAPSED_START)
+
+#define	ID_WRM_EASY_READING_BYCOLOR			GET_ID(ID_WRM_EASY_READING_BYCOLOR)
+#define	ID_WRM_EASY_READING_BYCOLOR_DYNAMIC	GET_ID(ID_WRM_EASY_READING_BYCOLOR_DYNAMIC)
+#define	ID_WRM_EASY_READING_BYLINE			GET_ID(ID_WRM_EASY_READING_BYLINE)
+#define	ID_WRM_EASY_READING_BYLINE_DYNAMIC	GET_ID(ID_WRM_EASY_READING_BYLINE_DYNAMIC)
+
+#define	ID_WRM_ORDER_ASCE				GET_ID(ID_WRM_ORDER_ASCE)
+#define	ID_WRM_ORDER_DESC				GET_ID(ID_WRM_ORDER_DESC)
+
+#define ID_WMR_COMBO_TIME_RERUN			GET_ID(ID_WMR_COMBO_TIME_RERUN)
+#define ID_WMR_RERUN_STARTSTOP			GET_ID(ID_WMR_RERUN_STARTSTOP)
+#define ID_WMR_RERUN_STARTSTOP_START	GET_ID(ID_WMR_RERUN_STARTSTOP_START)
+#define ID_WMR_RERUN_STARTSTOP_STOP		GET_ID(ID_WMR_RERUN_STARTSTOP_STOP)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC_CURSOR
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_ARROW_HORZ		2038
+#define	IDC_ARROW_MOVE		2042
+#define	IDC_ARROW_NE_SW		2040
+#define	IDC_ARROW_NW_SE		2041
+#define	IDC_ARROW_VERT		2039
+#define	IDC_COLUMN_SIZE		2044
+#define	IDC_FIELDRECT		2037
+#define	IDC_FILERECT		2035
+#define	IDC_GRAPHRECT		2036
+#define	IDC_SQRRECT			2033
+#define	IDC_TABLE			2046
+#define	IDC_TABLE_ADD_ROW	2045
+#define	IDC_TEXTRECT		2034
+#define	IDC_TITLE_UP		2043
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBWOORMVIEWER
+static UINT IDS_IDR_LISTER				=GET_IDS(IDR_LISTER, _TB_STRING("Woorm\nWoorm\nWoorm report\nWoorm files (*.wrm, *.rde)\n.wrm"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_REPEATER			=GET_IDS(ID_ADD_REPEATER, _TB_STRING("Add a fields repeater\r\nRepeater"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALLOW_EDITING		=GET_IDS(ID_ALLOW_EDITING, _TB_STRING("Enable changes to report\r\nEnable changes (ctrl-E)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_SHOW_EDIT_TOOLBARS	=GET_IDS(ID_SHOW_EDIT_TOOLBARS, _TB_STRING("Show toolbars for disegn\nShow toolbars "), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_DATA_FIELD		=GET_IDS(ID_ADD_DATA_FIELD, _TB_STRING("Add a data field (from archive)\r\nData"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_EXP_FIELD		=GET_IDS(ID_ADD_EXP_FIELD, _TB_STRING("Add an expression field\r\nExpression"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_FILE_RECT		=GET_IDS(ID_ADD_FILE_RECT, _TB_STRING("Add a field from a text file\r\nText File"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_GRAPH_RECT		=GET_IDS(ID_ADD_GRAPH_RECT, _TB_STRING("Add an image (bitmap)\r\nImage"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_HIDDEN_FIELD		=GET_IDS(ID_ADD_HIDDEN_FIELD, _TB_STRING("Add a hidden field\r\nHidden"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_SQR_RECT			=GET_IDS(ID_ADD_SQR_RECT, _TB_STRING("Add a filled rectangle\r\nRectangle"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_TABLE			=GET_IDS(ID_ADD_TABLE, _TB_STRING("Add a table\r\nTable"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_TABLE_EXP_FIELD		=GET_IDS(ID_ADD_TABLE_EXP_FIELD, _TB_STRING("Add an expression field table"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_TABLE_HIDDEN_FIELD	=GET_IDS(ID_ADD_TABLE_HIDDEN_FIELD, _TB_STRING("Add a hidden field table"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_TABLE_VAR_FIELD		=GET_IDS(ID_ADD_TABLE_VAR_FIELD, _TB_STRING("Add a variable field table"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_TEXT_RECT	=GET_IDS(ID_ADD_TEXT_RECT, _TB_STRING("Add a text field\r\nText"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ADD_VAR_FIELD	=GET_IDS(ID_ADD_VAR_FIELD, _TB_STRING("Add a function field\r\nFunction"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_CLEAR_ALL		=GET_IDS(ID_CLEAR_ALL, _TB_STRING("Delete all the current report objects"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ASK_RULES		=GET_IDS(ID_ASK_RULES, _TB_STRING("Define dialog box"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_COL_ADD_TOTAL	=GET_IDS(ID_COL_ADD_TOTAL, _TB_STRING("Add total to the column\r\nAdd total"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_COL_DELETE		=GET_IDS(ID_COL_DELETE, _TB_STRING("Delete a column or a total column\r\nDelete column"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_COL_LMOVE		=GET_IDS(ID_COL_LMOVE, _TB_STRING("Move a column to the left\r\nMove column"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_COL_RMOVE		=GET_IDS(ID_COL_RMOVE, _TB_STRING("Move a column to the right\r\nMove column"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_COMPILE			=GET_IDS(ID_COMPILE, _TB_STRING("Make a validity check on the report"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_UNSELECT_ALL		=GET_IDS(ID_UNSELECT_ALL, _TB_STRING("Deselect all objects"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ENTRIES			=GET_IDS(ID_ENTRIES, _TB_STRING("List and properties of the fields defined up to now\r\n"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EVENTS			=GET_IDS(ID_EVENTS, _TB_STRING("Define events and associated actions"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_FONT_STYLES		=GET_IDS(ID_FONT_STYLES, _TB_STRING("Fonts styles management"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_FORMAT_STYLES	=GET_IDS(ID_FORMAT_STYLES, _TB_STRING("Format style management"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_GOTO_PAGE		=GET_IDS(ID_GOTO_PAGE, _TB_STRING("Place to particular page of the report"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_SAVE_ONLY_GRAPH_INFO		=GET_IDS(ID_SAVE_ONLY_GRAPH_INFO, _TB_STRING("Save only graphic features of defined objects"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_MULSEL_ALIGN		=GET_IDS(ID_MULSEL_ALIGN, _TB_STRING("Align objects automatically"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_MULSEL_SIZE		=GET_IDS(ID_MULSEL_SIZE, _TB_STRING("Resize objects automatically"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_OPTIONS			=GET_IDS(ID_OPTIONS, _TB_STRING("Specific options to current report"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ORDERBY			=GET_IDS(ID_ORDERBY, _TB_STRING("Define grouping and filtering"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_PAUSE			=GET_IDS(ID_PAUSE, _TB_STRING("Suspend data extraction"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_PROCEDURES		=GET_IDS(ID_PROCEDURES, _TB_STRING("Define 'Procedures' in WL (Woorm Language)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_RESUME			=GET_IDS(ID_RESUME, _TB_STRING("Resume data extraction previously suspended"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_STOP				=GET_IDS(ID_STOP, _TB_STRING("Stop data extraction."), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_RUN				=GET_IDS(ID_RUN, _TB_STRING("Extract and display data from database"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_FILE_SAVE_RDE	=GET_IDS(ID_FILE_SAVE_RDE, _TB_STRING("&Save extracted data in a 'RDE' file format..."), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_TOOLBAR_FIND_EDITBOX		=GET_IDS(ID_TOOLBAR_FIND_EDITBOX, _TB_STRING("Find a value in the selected table\nFind a value in the selected table"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_SELECT_ALL		=GET_IDS(ID_SELECT_ALL, _TB_STRING("Select all objects"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_OBJECT_COPY		=GET_IDS(ID_OBJECT_COPY, _TB_STRING("Copy selected objects in the Clipboard"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_OBJECT_CUT		=GET_IDS(ID_OBJECT_CUT, _TB_STRING("Delete selected objects without entering them in the Clipboard"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_OBJECT_PASTE		=GET_IDS(ID_OBJECT_PASTE, _TB_STRING("Enter the Clipboard content"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_OBJECT_UNDO		=GET_IDS(ID_OBJECT_UNDO, _TB_STRING("Undo last action"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_SUB_TOTALS		=GET_IDS(ID_SUB_TOTALS, _TB_STRING("Automatically define subtotals for the selected table"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_RUN_STOP			=GET_IDS(ID_RUN_STOP, _TB_STRING("Run or Stop the report\nRun/Stop"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_PAUSE_RESUME		=GET_IDS(ID_PAUSE_RESUME, _TB_STRING("Suspend or Resume the report\nSuspend/Resume"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_WOORM_INI		=GET_IDS(ID_WOORM_INI, _TB_STRING("Common options for all reports"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_PG_UP			=GET_IDS(ID_PG_UP, _TB_STRING("Go to previous page\nPrevious"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_PG_DN			=GET_IDS(ID_PG_DN, _TB_STRING("Go to next page\nNext"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_PG_END			=GET_IDS(ID_PG_END, _TB_STRING("Go to last page\nLast"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_PG_HOME			=GET_IDS(ID_PG_HOME, _TB_STRING("Go to first page\nFirst"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_INDICATOR_PAGE	=GET_IDS(ID_INDICATOR_PAGE, _TB_STRING("0000:0000"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_INDICATOR_RUN	=GET_IDS(ID_INDICATOR_RUN, _TB_STRING(" "), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_INDICATOR_TRACK_RECT	=GET_IDS(ID_INDICATOR_TRACK_RECT, _TB_STRING(" "), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_INDICATOR_MESSAGE	=GET_IDS(ID_INDICATOR_MESSAGE, _TB_STRING(" "), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_RMOUSE_DOWN		=GET_IDS(ID_RMOUSE_DOWN, _TB_STRING("Enable specific option menu for the active object"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_HLEFT		=GET_IDS(ID_ALIGN_HLEFT, _TB_STRING("Align left\nAlign left"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_HRIGHT		=GET_IDS(ID_ALIGN_HRIGHT, _TB_STRING("Align right\nAlign right"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_HSPACE_EQUAL	=GET_IDS(ID_ALIGN_HSPACE_EQUAL, _TB_STRING("Equal horizontal spacing\nEqual horizontal spacing"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_VTOP			=GET_IDS(ID_ALIGN_VTOP, _TB_STRING("Align top\nAlign top"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_WRM_PLUS_LINES		=GET_IDS(ID_WRM_PLUS_LINES, _TB_STRING("Increase row height (+)\nIncrease row height(+)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_WRM_EASY_READING		=GET_IDS(ID_WRM_EASY_READING, _TB_STRING("Enable/Disable easy reading (Ctrl L)\nEasy reading (Ctrl L)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_WRM_ORDER_ASCE		=GET_IDS(ID_WRM_ORDER_ASCE, _TB_STRING("Sort values in ascending order(Ctrl A)\nAscending order (Ctrl A)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_WRM_ORDER_DESC		=GET_IDS(ID_WRM_ORDER_DESC, _TB_STRING("Sort values in descending order(Ctrl Z)\nDescending order (Ctrl Z)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_QUERIES				=GET_IDS(ID_QUERIES, _TB_STRING("Define 'Queries' in WL (Woorm Language)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_BTN_FILE_PRINT		=GET_IDS(ID_BTN_FILE_PRINT, _TB_STRING("Print on preferred printer\r\nPrint"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_VBOTTOM		=GET_IDS(ID_ALIGN_VBOTTOM, _TB_STRING("Align bottom\nAlign bottom"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_VSPACE_EQUAL	=GET_IDS(ID_ALIGN_VSPACE_EQUAL, _TB_STRING("Equal vertical spacing\nEqual vertical spacing"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_STACK_LEFT		=GET_IDS(ID_ALIGN_STACK_LEFT, _TB_STRING("Tile on the left with respect to the last selected object\nTile on the left with respect to the last selected object"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_STACK_RIGHT	=GET_IDS(ID_ALIGN_STACK_RIGHT, _TB_STRING("Tile on the right with respect to the last selected object \nTile on the right with respect to the last selected object "), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_STACK_TOP		=GET_IDS(ID_ALIGN_STACK_TOP, _TB_STRING("Tile on top with respect to the last selected object \nTile on top with respect to the last selected object"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_STACK_BOTTOM	=GET_IDS(ID_ALIGN_STACK_BOTTOM, _TB_STRING("Tile on bottom with respect to the last selected object \nTile on bottom with respect to the last selected object"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_LAST_LARGE		=GET_IDS(ID_LAST_LARGE, _TB_STRING("Same width as last selected object\nSame width as last selected object"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_LAST_HIGH		=GET_IDS(ID_LAST_HIGH, _TB_STRING("Same height as last selected object\nSame height as last selected object"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_LEFT			=GET_IDS(ID_VK_LEFT, _TB_STRING("Move Left \nMove Left (left arrow)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_RIGHT			=GET_IDS(ID_VK_RIGHT, _TB_STRING("Move Right\nMove Right (right arrow)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_UP			=GET_IDS(ID_VK_UP, _TB_STRING("Move up\nMove up (up arrow)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_DOWN			=GET_IDS(ID_VK_DOWN, _TB_STRING("Move down\nMove down (down arrow)\r\n"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_SHIFT_LEFT	=GET_IDS(ID_VK_SHIFT_LEFT, _TB_STRING("Narrow object from right\nNarrow object from right (shift+left arrow)\r\n"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_SHIFT_RIGHT	=GET_IDS(ID_VK_SHIFT_RIGHT, _TB_STRING("Enlarge object toward right\nEnlarge object toward right (shift+right arrow)\r\n\r\n"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_SHIFT_UP		=GET_IDS(ID_VK_SHIFT_UP, _TB_STRING("Enlarge object increasing upper side\nEnlarge object toward top (shift+up arrow)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_SHIFT_DOWN	=GET_IDS(ID_VK_SHIFT_DOWN, _TB_STRING("Narrow object reducing upper side\nNarrow object from top (shift+ down arrow)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_CTRL_LEFT		=GET_IDS(ID_VK_CTRL_LEFT, _TB_STRING("Enlarge object toward left\nEnlarge object toward left (shift+left arrow)\r\n"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_CTRL_RIGHT	=GET_IDS(ID_VK_CTRL_RIGHT, _TB_STRING("Narrow object from left \nNarrow object from left (ctrl+right arrow)\r\n"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_CTRL_UP		=GET_IDS(ID_VK_CTRL_UP, _TB_STRING("Narrow object increasing bottom down\nNarrow object from bottom (ctrl+up arrow)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_VK_CTRL_DOWN		=GET_IDS(ID_VK_CTRL_DOWN, _TB_STRING("Enlarge object reducing bottom side\nEnlarge object toward bottom (ctrl+down arrow)"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_CUT_H_LEFT		=GET_IDS(ID_ALIGN_CUT_H_LEFT, _TB_STRING("Justify left \nJustify left"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_CUT_H_RIGHT	=GET_IDS(ID_ALIGN_CUT_H_RIGHT, _TB_STRING("Justify right \nJustify right"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_CUT_V_TOP		=GET_IDS(ID_ALIGN_CUT_V_TOP, _TB_STRING("Justify up\nJustify up"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_ALIGN_CUT_V_BOTTOM	=GET_IDS(ID_ALIGN_CUT_V_BOTTOM, _TB_STRING("Justify down\nJustify down"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_CLEAR		=GET_IDS(ID_EDIT_CLEAR, _TB_STRING("Clear"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_COPY		=GET_IDS(ID_EDIT_COPY, _TB_STRING("Copy in clipboard"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_CUT			=GET_IDS(ID_EDIT_CUT, _TB_STRING("Enter in clipboard"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_FIND		=GET_IDS(ID_EDIT_FIND, _TB_STRING("Search specified text"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_PASTE		=GET_IDS(ID_EDIT_PASTE, _TB_STRING("Mix with clipboard data"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_REPEAT		=GET_IDS(ID_EDIT_REPEAT, _TB_STRING("Repeat text search"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_REPLACE		=GET_IDS(ID_EDIT_REPLACE, _TB_STRING("Replace the text found"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_SELECT_ALL	=GET_IDS(ID_EDIT_SELECT_ALL, _TB_STRING("Select all text"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+static UINT IDS_ID_EDIT_UNDO		=GET_IDS(ID_EDIT_UNDO, _TB_STRING("Undo last command"), L"\\Framework\\TbWoormViewer\\WOORMDOC.hjson");
+#endif
+

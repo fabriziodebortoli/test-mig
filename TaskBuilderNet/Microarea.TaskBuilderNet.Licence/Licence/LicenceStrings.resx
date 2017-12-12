@@ -1,0 +1,821 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MissingContainer" xml:space="preserve">
+    <value>Container not found: {0}.</value>
+  </data>
+  <data name="ExceptionMessage" xml:space="preserve">
+    <value>Exception message: </value>
+  </data>
+  <data name="InvalidHasserial" xml:space="preserve">
+    <value>Module {0} does not need Serial Number, it is not allowed.</value>
+  </data>
+  <data name="IncorrectSerial" xml:space="preserve">
+    <value>Serial Number {0} is not in correct format.</value>
+  </data>
+  <data name="TooManyCal" xml:space="preserve">
+    <value>Module {0} has too many cal for a Standard edition.</value>
+  </data>
+  <data name="DbError" xml:space="preserve">
+    <value>It is not possible to identify licensed database version.</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="NoShortNameCorresponding" xml:space="preserve">
+    <value>Serial Number not corresponding to ShortName for the module: {0}</value>
+  </data>
+  <data name="ErrorLoading" xml:space="preserve">
+    <value>It is not possible to load file {0}.</value>
+  </data>
+  <data name="NoCal" xml:space="preserve">
+    <value>Module {0} does not have cal.</value>
+  </data>
+  <data name="NoProducts" xml:space="preserve">
+    <value>There are not any products available. Please verify if the installation was completed correctly.</value>
+  </data>
+  <data name="MissingModule" xml:space="preserve">
+    <value>Module not found (needed with policy {0}): {1}.</value>
+  </data>
+  <data name="ReadingConfigurationError" xml:space="preserve">
+    <value>An exception occurred during reading configuration and activation key.</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="LicensedsSearchError" xml:space="preserve">
+    <value>An error occurrend during searching the *.Licensed.config files.</value>
+  </data>
+  <data name="NoLicence" xml:space="preserve">
+    <value>No module with UserLicence was found.</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="EditionError" xml:space="preserve">
+    <value>It is not possible to identify licensed product edition.</value>
+  </data>
+  <data name="NoProductIDCorresponding" xml:space="preserve">
+    <value>Serial Number not corresponding to the product for the module: {0}</value>
+  </data>
+  <data name="TenCalNeeded" xml:space="preserve">
+    <value>Enterprise Edition needs at least ten cal. Please add the needed cal.</value>
+  </data>
+  <data name="UserInfo" xml:space="preserve">
+    <value>User info</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Data source</value>
+  </data>
+  <data name="MsgTitleWarning" xml:space="preserve">
+    <value>Warning!</value>
+  </data>
+  <data name="MsgTitleError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MsgSaveError" xml:space="preserve">
+    <value>An error occured while saving.</value>
+  </data>
+  <data name="MsgRequestedDataError" xml:space="preserve">
+    <value>Some of the mandatory fields have not been filled :{0}</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Serial Number</value>
+  </data>
+  <data name="ModuleName" xml:space="preserve">
+    <value>Module</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ActivationKO" xml:space="preserve">
+    <value>Activation invalid.</value>
+  </data>
+  <data name="MsgNoData" xml:space="preserve">
+    <value>Cannot find configuration data.</value>
+  </data>
+  <data name="SerialExists" xml:space="preserve">
+    <value>The serial number is duplicated or is not compatible with the other serial numbers.</value>
+  </data>
+  <data name="MsgInsertSerial" xml:space="preserve">
+    <value>Insert...</value>
+  </data>
+  <data name="MsgEditSerial" xml:space="preserve">
+    <value>Edit...</value>
+  </data>
+  <data name="MissingSerial" xml:space="preserve">
+    <value>The following modules have been selected, but not related Serial Numbers have been inserted:</value>
+  </data>
+  <data name="MissingCheck" xml:space="preserve">
+    <value>Serial Numbers have been specified for the following modules, but the modules have not been selected:</value>
+  </data>
+  <data name="MissingCalCompliance" xml:space="preserve">
+    <value>Total CAL number for the following modules is major than the maximum allowed, please check the Serial Numbers specified in the related tab pages for:</value>
+  </data>
+  <data name="MissingKey" xml:space="preserve">
+    <value>There is not the Activation Key.</value>
+  </data>
+  <data name="MissingMasterCal" xml:space="preserve">
+    <value>It is necessary to select one of the following module, otherwise application can not run:</value>
+  </data>
+  <data name="MissingMandatory" xml:space="preserve">
+    <value>It is necessary to select the following modules, otherwise application can not run:</value>
+  </data>
+  <data name="MissingSerialCompliance" xml:space="preserve">
+    <value>The Serial Numbers of the following modules are not exact, verify having inserted the exact Serial Numbers for each module:</value>
+  </data>
+  <data name="IgnoreWarning" xml:space="preserve">
+    <value>Do you want to continue?</value>
+  </data>
+  <data name="IgnoreMissingCheck" xml:space="preserve">
+    <value>Modules marked as unchecked will be considered not licensed even if a related Serial Number has been explicited.</value>
+  </data>
+  <data name="NotSelectedItem" xml:space="preserve">
+    <value>No Serial Number has been selected.</value>
+  </data>
+  <data name="NotSerialRequired" xml:space="preserve">
+    <value>Not required</value>
+  </data>
+  <data name="SerialIncomplete" xml:space="preserve">
+    <value>Incomplete Serial Number.</value>
+  </data>
+  <data name="Wait" xml:space="preserve">
+    <value>Please wait...</value>
+  </data>
+  <data name="MsgMistakenSerial" xml:space="preserve">
+    <value>{0} (the inserted Serial Number matches with {1})</value>
+  </data>
+  <data name="MsgSerialUnmanageable" xml:space="preserve">
+    <value>Unable to handle Serial Numbers for {0} module.</value>
+  </data>
+  <data name="MissingSerialCompleteness" xml:space="preserve">
+    <value>There are some Serial Numbers missing for the following modules:</value>
+  </data>
+  <data name="TooManyMasterCal" xml:space="preserve">
+    <value>The following modules can't coexist in the same configuration, please select only one of theme:</value>
+  </data>
+  <data name="RepeatedSerials" xml:space="preserve">
+    <value>The Serial Numbers of some modules are repeated. Please verify:</value>
+  </data>
+  <data name="NotUniformedSerial" xml:space="preserve">
+    <value>The Serial Numbers of some modules do not comply with the others. Please verify:</value>
+  </data>
+  <data name="Not_Verified" xml:space="preserve">
+    <value>Error while verifying Serial Numbers.
+Please verify inserted Serial Number correctness and eventually contact customer service. Serial numbers to check are:
+{0}</value>
+  </data>
+  <data name="Producer_SerialNumber_Not_Verified" xml:space="preserve">
+    <value>Error while verifying Serial Numbers for producer {0}. Please verify inserted Serial Number correctness and eventually contact customer service.</value>
+  </data>
+  <data name="Error_Loading_XML_Data" xml:space="preserve">
+    <value>Data sent to Web Service are corrupted.</value>
+  </data>
+  <data name="Error_Signing_Data" xml:space="preserve">
+    <value>An error occurred during the procedure.</value>
+  </data>
+  <data name="Error_Verifing_Data" xml:space="preserve">
+    <value>An error occurred while accessing the database in order to verify the Serial Numbers.</value>
+  </data>
+  <data name="Error_Updating_DataBase" xml:space="preserve">
+    <value>An error occurred while accessing the database in order to save a new activation.</value>
+  </data>
+  <data name="Error_Initializing_ActivationWebService" xml:space="preserve">
+    <value>An error occurred while initializing the Web Service.</value>
+  </data>
+  <data name="Country_Not_Valid" xml:space="preserve">
+    <value>The Country specified for User Info does not match with the SerialNumber country.</value>
+  </data>
+  <data name="Error_In_UserInfo_Element" xml:space="preserve">
+    <value>Data related to User Info is incomplete.</value>
+  </data>
+  <data name="Error_In_LicensedFiles_Element" xml:space="preserve">
+    <value>Data related to Configuration is corrupted.</value>
+  </data>
+  <data name="Error_In_SerialNumber_Format" xml:space="preserve">
+    <value>One or more Serial Numbers are in a wrong format.</value>
+  </data>
+  <data name="No_SerialNumber_Found" xml:space="preserve">
+    <value>There are some Serial Numbers missing for one or more modules:</value>
+  </data>
+  <data name="Error_Generic" xml:space="preserve">
+    <value>Double-click here to read details. You can save the log by clicking the floppy icon on the toolbar.</value>
+  </data>
+  <data name="Configuration_Not_Changed" xml:space="preserve">
+    <value>No action is needed to perform this changes to the configuration.</value>
+  </data>
+  <data name="Error_In_ActivationKey_Element" xml:space="preserve">
+    <value>An error occurred during reading the Activation Key from data sent to Web Service.</value>
+  </data>
+  <data name="ActivationKey_Not_Valid" xml:space="preserve">
+    <value>Existing Activation Key does not match with specified configuration.</value>
+  </data>
+  <data name="Unknown_Error" xml:space="preserve">
+    <value>Unknown error</value>
+  </data>
+  <data name="User_Not_Recognized" xml:space="preserve">
+    <value>The user requesting the activation is not registered on database and he has not been authenticated.</value>
+  </data>
+  <data name="Invalid_Database_Value" xml:space="preserve">
+    <value>Selected configuration does not specify the correct database type.</value>
+  </data>
+  <data name="Invalid_Edition_Value" xml:space="preserve">
+    <value>Selected configuration does not specify the correct product edition.</value>
+  </data>
+  <data name="Invalid_OpSys_Value" xml:space="preserve">
+    <value>Selected configuration does not specify the correct operating system type.</value>
+  </data>
+  <data name="Error_Generating_ActivationKey" xml:space="preserve">
+    <value>An error occurred during generation of string containing the Activation Key.</value>
+  </data>
+  <data name="MsgTitleInfo" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Installing" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Removing" xml:space="preserve">
+    <value>Removing...</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Procedure result</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product name</value>
+  </data>
+  <data name="Installation" xml:space="preserve">
+    <value>Installation name</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="SerialNumberWrongFormat" xml:space="preserve">
+    <value>Uncorrect Serial Number format.</value>
+  </data>
+  <data name="MSDE" xml:space="preserve">
+    <value>MSDE</value>
+  </data>
+  <data name="Oracle" xml:space="preserve">
+    <value>Oracle</value>
+  </data>
+  <data name="SqlServer2000" xml:space="preserve">
+    <value>SqlServer2000</value>
+  </data>
+  <data name="Undefined" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ExceptionRaised" xml:space="preserve">
+    <value>An error occurred.</value>
+  </data>
+  <data name="ModuleListedTwice" xml:space="preserve">
+    <value>The {0} module is listed more than once among the selectable modules.</value>
+  </data>
+  <data name="IncongruityData" xml:space="preserve">
+    <value>There is an inconsistency in module data.</value>
+  </data>
+  <data name="DuplicatedShortName" xml:space="preserve">
+    <value>Modules {0} and {1} are identified by the same name.</value>
+  </data>
+  <data name="Time_Error" xml:space="preserve">
+    <value>Please verify your date and time because the error can be caused by a difference in the time settings on your computer.</value>
+  </data>
+  <data name="No_CAL_Found" xml:space="preserve">
+    <value>You do not specify the Serial Number for CAL, please verify to have inserted all Serial Number.</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Professional" xml:space="preserve">
+    <value>Professional</value>
+  </data>
+  <data name="Enterprise" xml:space="preserve">
+    <value>Enterprise</value>
+  </data>
+  <data name="ImpossibleContinue" xml:space="preserve">
+    <value>Unable to continue.</value>
+  </data>
+  <data name="UserCountry" xml:space="preserve">
+    <value>Country specified in User Info: {0}</value>
+  </data>
+  <data name="SerialCountry" xml:space="preserve">
+    <value>Country expressed by Serial Numbers: {0}</value>
+  </data>
+  <data name="WebService" xml:space="preserve">
+    <value>Web Service</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="VatNumber" xml:space="preserve">
+    <value>VAT number</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Provincia" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>ZIP</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Telephone</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Updates" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="Illimited" xml:space="preserve">
+    <value>Illimited</value>
+  </data>
+  <data name="NoSerialPresence" xml:space="preserve">
+    <value>No Serial Numbers are specified, it is therefore impossible to activate the product which will not be usable. Please contact the support service.</value>
+  </data>
+  <data name="ReinitWarning" xml:space="preserve">
+    <value>Warning! There are at the moment other users connected to the program. The saving procedure will disconnect them. Do you want to continue?</value>
+  </data>
+  <data name="ResponseXmlNotValid" xml:space="preserve">
+    <value>Web Service response is not well formatted, it is impossible to understand it.</value>
+  </data>
+  <data name="ResponseEmpty" xml:space="preserve">
+    <value>Web Service response is empty, it is impossible to understand it.</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>It is impossible to have a response from Web Service, unknown error.</value>
+  </data>
+  <data name="Producer" xml:space="preserve">
+    <value>Producer: {0}</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ProductName_Not_Found" xml:space="preserve">
+    <value>It is impossible to identify the product to activate.</value>
+  </data>
+  <data name="No_Producer_Found" xml:space="preserve">
+    <value>One or more modules do not define the producer.</value>
+  </data>
+  <data name="Duplicated_Product" xml:space="preserve">
+    <value>There are two or more products wiht the same name.</value>
+  </data>
+  <data name="User_Disabled" xml:space="preserve">
+    <value>The user which is making the request is disabled.</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Error_Contacting_Web_Service" xml:space="preserve">
+    <value>It is impossible to contact {0} to validate the Serial Numbers.</value>
+  </data>
+  <data name="AllProducers" xml:space="preserve">
+    <value>all producers</value>
+  </data>
+  <data name="ConsensoInterno" xml:space="preserve">
+    <value>I consent to have my personal data processed by MICROAREA for purposes strictly connected to the management of relations with customers and to accomplish to the provisions of laws, regulations, communitarian law, etc. and to the communication, for purposes analogous or  to support the above mentioned ones, to third companies. I am aware that my consent is essential to the supply, by MICROAREA, of the services which I have requested.</value>
+  </data>
+  <data name="ConsensoEsteso" xml:space="preserve">
+    <value>I consent to have my personal data processed for commercial information, market researches, direct offers of products and services by MICROAREA Group or third companies. I am aware that my consent is optional to the supply of the services which I have requested.</value>
+  </data>
+  <data name="Migration_Order_Not_Yet_Generated" xml:space="preserve">
+    <value>Procedure stopped because Microarea has not yet generated the order.  Please contact the technical support to have more information.</value>
+  </data>
+  <data name="ErrorOpeningPage" xml:space="preserve">
+    <value>An error occurred, it is not possible to show the requested page.</value>
+  </data>
+  <data name="MissingCalCompleteness" xml:space="preserve">
+    <value>The following modules lack the CAL Serial Numbers:</value>
+  </data>
+  <data name="HasSerialAttribute_Not_Allowed" xml:space="preserve">
+    <value>One or more modules with invalid attributes have been identified. Please contact technical support.</value>
+  </data>
+  <data name="EditionUncorrect" xml:space="preserve">
+    <value>Serial numbers of the following modules express a wrong edition:</value>
+  </data>
+  <data name="Release" xml:space="preserve">
+    <value>Release: {0}</value>
+  </data>
+  <data name="InvalidPortNumber" xml:space="preserve">
+    <value>Port number not valid</value>
+  </data>
+  <data name="MissingPortNumber" xml:space="preserve">
+    <value>Specify a port for proxy server.</value>
+  </data>
+  <data name="Too_Much_CAL_Specified" xml:space="preserve">
+    <value>CAL number exceeded the maximum CAL number allowed.</value>
+  </data>
+  <data name="Invalid_License" xml:space="preserve">
+    <value>It is impossible to activate the product, the activation of one or more modules needs special licence. Please contact technical support.</value>
+  </data>
+  <data name="Missing_SerialNumber" xml:space="preserve">
+    <value>Some Serial Number that were included in the last activation are missing. Please check if all Serial Number are present.</value>
+  </data>
+  <data name="ErrorIdentifier" xml:space="preserve">
+    <value>Error code: {0}-{1}.</value>
+  </data>
+  <data name="InvalidData" xml:space="preserve">
+    <value>Not valid data</value>
+  </data>
+  <data name="Invalid_Version_Format" xml:space="preserve">
+    <value>It is impossible to recognize the product version.</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="NoModuleSelected" xml:space="preserve">
+    <value>No module selected for Product </value>
+  </data>
+  <data name="Incorrect_VatNumber" xml:space="preserve">
+    <value>The user information does not match, therefore it can not be recognized. Please verify that you have not modified such information.</value>
+  </data>
+  <data name="Activation" xml:space="preserve">
+    <value>Activation</value>
+  </data>
+  <data name="CRCFailed" xml:space="preserve">
+    <value>SerialNumbers not correct :</value>
+  </data>
+  <data name="ErrorNotValid" xml:space="preserve">
+    <value>Impossible to read error code.</value>
+  </data>
+  <data name="RegisterOK" xml:space="preserve">
+    <value>Registration completed successfully</value>
+  </data>
+  <data name="ExceptionBeforeCall" xml:space="preserve">
+    <value>It is impossible to continue, a local exception occurred. {0}</value>
+  </data>
+  <data name="LoginManagerNotExisting" xml:space="preserve">
+    <value>It is impossible to continue, web services are not available. {0}</value>
+  </data>
+  <data name="LoginManagerNotExistingDet" xml:space="preserve">
+    <value>Please verify if LoginManager folder is present on your disk.</value>
+  </data>
+  <data name="WebExceptionPinging" xml:space="preserve">
+    <value>It is impossible to continue, a Web exception occurred. {0}</value>
+  </data>
+  <data name="SoapExceptionPinging" xml:space="preserve">
+    <value>It is impossible to continue, a Soap exception occurred. {0}</value>
+  </data>
+  <data name="InvalidOperationExceptionPinging" xml:space="preserve">
+    <value>It is impossible to continue, an InvalidOperation exception occurred. {0}</value>
+  </data>
+  <data name="ExceptionInstantiatingProxy" xml:space="preserve">
+    <value>It is impossible to continue, an exception occurred. {0}</value>
+  </data>
+  <data name="Max3CALSTD" xml:space="preserve">
+    <value>Warning, Standard Edition allows max 3 CAL.</value>
+  </data>
+  <data name="DependenciesMissing" xml:space="preserve">
+    <value>In order to satisfy functional dependences, module {0} needs following selections :
+{1}</value>
+  </data>
+  <data name="ExceptionParsingDependency" xml:space="preserve">
+    <value>Error parsing functional dependence bond expression for module: {0}. {1}</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="NOT" xml:space="preserve">
+    <value>not</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="ExceptionParsingDependencyMSGStartWhitOperator" xml:space="preserve">
+    <value>The expression can not start with an operator like '&amp;', '|', ')'</value>
+  </data>
+  <data name="ExceptionParsingDependencyMSGParentheses" xml:space="preserve">
+    <value>There is a wrong parentheses matching </value>
+  </data>
+  <data name="ExceptionParsingDependencyMSGEndWhitOperator" xml:space="preserve">
+    <value>The expression can not end with an operator like '&amp;', '|', ')'</value>
+  </data>
+  <data name="Activation_Disabled" xml:space="preserve">
+    <value>The activation is not valid. Please contact technical support</value>
+  </data>
+  <data name="Product_Disabled" xml:space="preserve">
+    <value>The product is not activated. Please contact technical support</value>
+  </data>
+  <data name="Incompatible_Products" xml:space="preserve">
+    <value>The installed products can not be activated together. There are two or more master products.</value>
+  </data>
+  <data name="Error_Confirmating_User_Data" xml:space="preserve">
+    <value>Exception during user data confirmation.</value>
+  </data>
+  <data name="Cannot_Confirm_User_Data" xml:space="preserve">
+    <value>Sent serial number cannot be associate to any user.</value>
+  </data>
+  <data name="Invalid_Activation_Request" xml:space="preserve">
+    <value>Procedure stopped because the request is not valid.</value>
+  </data>
+  <data name="ErrorPackSynch" xml:space="preserve">
+    <value>Error while preparing the request for the registration by WebService.</value>
+  </data>
+  <data name="ArgumentsNull" xml:space="preserve">
+    <value>Null Arguments: {0}. Verify that the correct version of the .Net Framework is installed and configured properly on the local IIS.</value>
+  </data>
+  <data name="PongReflectionError" xml:space="preserve">
+    <value>Verify that the correct version of the .Net Framework is installed and configured properly on the local IIS.</value>
+  </data>
+  <data name="ParamManagerException" xml:space="preserve">
+    <value>Exception: {0}</value>
+  </data>
+  <data name="NullCountry" xml:space="preserve">
+    <value>User Country is null or not readable.</value>
+  </data>
+  <data name="Resource_Busy" xml:space="preserve">
+    <value>Database is busy. Please retry later.</value>
+  </data>
+  <data name="InvalidProxyAddress" xml:space="preserve">
+    <value>Specify a valid address for proxy server.</value>
+  </data>
+  <data name="ExceptionDuringCommunication" xml:space="preserve">
+    <value>An exception occurred during connection. {0}</value>
+  </data>
+  <data name="ModifingSerial" xml:space="preserve">
+    <value>You was modifying another Serial Number. Please clear the fields above to continue.</value>
+  </data>
+  <data name="InvalidSerialForModule" xml:space="preserve">
+    <value>This Serial Number is not valid for this module.</value>
+  </data>
+  <data name="Found_OSLS_And_OSLL" xml:space="preserve">
+    <value>It is not possible to activate the Security Light module and Security Full module together.</value>
+  </data>
+  <data name="Found_OSLL_But_OSLS_Was_Previously_Activated" xml:space="preserve">
+    <value>It is not possible to activate the Security Light module because the Security Full module was previously activated.</value>
+  </data>
+  <data name="No_Licensed_Found" xml:space="preserve">
+    <value>There are not License.config files. Please verify the presence of these files in your installation and their permission.</value>
+  </data>
+  <data name="ProducerKey_Without_License" xml:space="preserve">
+    <value>The following Producer Key are not valid: {0}.</value>
+  </data>
+  <data name="ProducerKey_Not_Found" xml:space="preserve">
+    <value>One or more Producer Key are missing.</value>
+  </data>
+  <data name="Win2kNoSP4" xml:space="preserve">
+    <value>Error managing inserted SerialNumber. If your Operating System is Windows2000 please ensure having SP4 installed.</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message:</value>
+  </data>
+  <data name="Too_Little_Oracle_CAL_Specified" xml:space="preserve">
+    <value>Oracle Serial numbers must specify at least 5 licence.</value>
+  </data>
+  <data name="ActivityCode" xml:space="preserve">
+    <value>Activity Code</value>
+  </data>
+  <data name="CodFisc" xml:space="preserve">
+    <value>Fiscal Code</value>
+  </data>
+  <data name="UserinfoIncompleteDetail" xml:space="preserve">
+    <value>User Info are incomplete, the missing data are : {0}.</value>
+  </data>
+  <data name="CodFiscChangeWarning" xml:space="preserve">
+    <value>We remind you that the Program can be exclusively utilized by the User who purchased the Program and the information details of which has to correspond to the EULA (End User License Agreement) Licensee details. The User identifier (more specifically the Fiscal Code) can be modified only if such corporate event happens: corporate merger of the Licensee, 100% transferral of the licensee. Any form of sale, distribution, loan, hire, rental, lease, or any other type of Program transferral is therefore forbidden, as explicitly declared by article 5) of the  EULA (End Users License Agreement).</value>
+  </data>
+  <data name="MLUAcceptance" xml:space="preserve">
+    <value>MLU Contract Acceptance</value>
+  </data>
+  <data name="MLUAcceptanceConfirm" xml:space="preserve">
+    <value>Do you confirm your choice "{0}"?</value>
+  </data>
+  <data name="MluContractInfo" xml:space="preserve">
+    <value>(The contract will be send by e-mail at the moment of subscription)</value>
+  </data>
+  <data name="NoProductMatchingWithSerial" xml:space="preserve">
+    <value>The specified Serial Number is not valid for none product.</value>
+  </data>
+  <data name="SerialNotSpecial" xml:space="preserve">
+    <value>Specified Serial Number is not valid for DEMO version</value>
+  </data>
+  <data name="NoModuleSelectedWarning" xml:space="preserve">
+    <value>The product will be not activated</value>
+  </data>
+  <data name="InternalAgreement" xml:space="preserve">
+    <value>Privacy agreement</value>
+  </data>
+  <data name="EmailNoValid" xml:space="preserve">
+    <value>Email address format is not valid.</value>
+  </data>
+  <data name="NotActive" xml:space="preserve">
+    <value>(Not activated)</value>
+  </data>
+  <data name="DemoVersion" xml:space="preserve">
+    <value>Demo Version</value>
+  </data>
+  <data name="DvlpVersion" xml:space="preserve">
+    <value>Development Version</value>
+  </data>
+  <data name="NFSVersion" xml:space="preserve">
+    <value>NotForSale Version</value>
+  </data>
+  <data name="My" xml:space="preserve">
+    <value>My</value>
+  </data>
+  <data name="DisablingModule" xml:space="preserve">
+    <value>ATTENTION! You are deactivating a module or a Client Access License (CAL) of Mago.net.  A penalty could be applied on the relating MLU service should you in future desire to reactivate such module/CAL. Do you wish to proceed with the deactivation of </value>
+  </data>
+  <data name="ActivateProduct" xml:space="preserve">
+    <value>Product activation</value>
+  </data>
+  <data name="BackupVersion" xml:space="preserve">
+    <value>BackUp Version</value>
+  </data>
+  <data name="MultiVersion" xml:space="preserve">
+    <value>Multi Company Version</value>
+  </data>
+  <data name="StandAloneVersion" xml:space="preserve">
+    <value>StandAlone Version</value>
+  </data>
+  <data name="TestVersion" xml:space="preserve">
+    <value>Test Version</value>
+  </data>
+  <data name="Permission230" xml:space="preserve">
+    <value>Error 230: Missing TBF folder in Applications. If it exists you can check the permission on folder Standard or on folder {0} (may be you have to set Everyone - FullControl on them).</value>
+  </data>
+  <data name="UnknownUser" xml:space="preserve">
+    <value>UNKNOWN</value>
+  </data>
+  <data name="VerifyUser" xml:space="preserve">
+    <value>Inserted serial numbers belong to 
+{0} ( vat number: {1})
+Do you confirm?</value>
+  </data>
+  <data name="ErrorInCodes" xml:space="preserve">
+    <value>Vat Number and/or  Fiscal Code are incorrect, please verify them!</value>
+  </data>
+  <data name="DevelopmentPlusIncompatibility" xml:space="preserve">
+    <value>It is not possible to activate the following module with your Serial Numbers, please change them or deselect the module : </value>
+  </data>
+  <data name="SerialNotAdded" xml:space="preserve">
+    <value>SerialNumber {0} not added! Continue?</value>
+  </data>
+  <data name="InvalidSpecialSerialForModule" xml:space="preserve">
+    <value>Error: Please move the serial number entered for {0} in a server (or package) module.</value>
+  </data>
+  <data name="NoDemoModules" xml:space="preserve">
+    <value>Please remove flag from following modules, because they can not used in demo version:</value>
+  </data>
+  <data name="NoActivatedExplanation" xml:space="preserve">
+    <value>OPS! The periodic validation of the product has not taken place and the program is not able to start. Probably your internet connection did not worked properly.  Continue to validate via Internet or via SMS.</value>
+  </data>
+  <data name="NotAvailableModule" xml:space="preserve">
+    <value>Some of {0} features may be unavailable.</value>
+  </data>
+  <data name="CantModify" xml:space="preserve">
+    <value>You cannot change the selection</value>
+  </data>
+  <data name="TbfIncluded" xml:space="preserve">
+    <value>is included in {0}</value>
+  </data>
+  <data name="Missing_SerialNumberRNFS" xml:space="preserve">
+    <value>Missing Not For Sale serial.</value>
+  </data>
+  <data name="ErrorSavingLicence" xml:space="preserve">
+    <value>An error occurred while saving licence. Please check your data and retry.</value>
+  </data>
+</root>

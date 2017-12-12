@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_RS_EditorGridView			GET_IDD(IDD_RS_EditorGridView, M.Framework.TbWoormViewer.RSEditorUI)

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Microarea.TaskBuilderNet.DataSynchroProviders.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Microarea_TaskBuilderNet_DataSynchroProviders_InfinitySyncro_InfinitySyncroService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8090/iMagoSviluppo/services/InfinitySyncro</Value>
+    </Setting>
+    <Setting Name="Microarea_TaskBuilderNet_DataSynchroProviders_InfinityDms_InfinityDmsInterfaceService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

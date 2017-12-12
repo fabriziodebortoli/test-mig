@@ -1,0 +1,439 @@
+.border1AzzurroChiaro     {background: #F0F0F0; 
+	          border-top:1px solid #adc5ed;
+	          border-left:1px solid #adc5ed; 
+	          border-bottom:1px solid #adc5ed; 
+	          border-right:1px solid #adc5ed;} 
+.SfondoBlu {border-bottom:0px solid #003399; 
+					border-top:0px solid #003399;
+					border-right:0px solid #003399;
+					border-left:0px solid #003399;
+					background: #3366CC;
+					background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoBlu.jpg);}
+.SfondoBluTopBottom {border-bottom:1px solid #003399; 
+					border-top:1px solid #003399;
+					border-right:0px solid #003399;
+					border-left:0px solid #003399;
+					background: #3366CC;
+					background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoBlu.jpg);}
+.SfondoBluBorder1 {border-bottom:1px solid #003399; 
+					border-top:1px solid #003399;
+					border-right:1px solid #003399;
+					border-left:1px solid #003399;
+					background: #3366CC;
+					background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoBlu.jpg);}
+.SfondoBluBottom {border-bottom:1px solid #003399; 
+					border-top:0px solid #003399;
+					border-right:0px solid #003399;
+					border-left:0px solid #003399;
+					background: #3366CC;
+					background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoBlu.jpg);}
+.SfondoBluNoBottom {border-bottom:0px solid #003399; 
+					border-top:1px solid #003399;
+					border-right:0px solid #003399;
+					border-left:0px solid #003399;
+					background: #3366CC;
+					background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoBlu.jpg);}
+td.SfondoBluBottomPadding3{border-bottom:1px solid #003399; 
+					border-top:0px solid #003399;
+					border-right:0px solid #003399;
+					border-left:0px solid #003399;
+					background: #3366CC;
+					padding-right:5;
+					padding-top:5;
+					padding-left:5;
+					padding-bottom:5;
+					background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoBlu.jpg);}
+td.SfondoAzzurroTopBottomPadding5{border-bottom:1px solid #003399; 
+										border-top:1px solid #003399;
+										border-right:0px solid #003399;
+										border-left:0px solid #003399;
+							            background: #99CCFF;
+							            padding-right:5;
+							            padding-top:5;
+							            padding-left:5;
+							            padding-bottom:5;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroTopBottom {border-bottom:1px solid #003399; 
+										border-top:1px solid #003399;
+										border-right:0px solid #003399;
+										border-left:0px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroRightBottom {border-bottom:1px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:1px solid #003399;
+										border-left:0px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroLeftBottom {border-bottom:1px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:0px solid #003399;
+										border-left:1px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+
+.SfondoAzzurroBottom {border-bottom:1px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:0px solid #003399;
+										border-left:0px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroTop {border-bottom:0px solid #003399; 
+										border-top:1px solid #003399;
+										border-right:0px solid #003399;
+										border-left:0px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroNoBottom {border-bottom:0px solid #003399; 
+										border-top:1px solid #003399;
+										border-right:1px solid #003399;
+										border-left:1px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroNoTop	 {border-bottom:1px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:1px solid #003399;
+										border-left:1px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroLeftTop {border-bottom:0px solid #003399; 
+										border-top:1px solid #003399;
+										border-right:0px solid #003399;
+										border-left:1px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroRightTop {border-bottom:0px solid #003399; 
+										border-top:1px solid #003399;
+										border-right:1px solid #003399;
+										border-left:0px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurro		 {border-bottom:0px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:0px solid #003399;
+										border-left:0px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.SfondoAzzurroChiaroUnitoCellpadding5	
+						{   border-right: #84B5ED 1px solid;  
+						border-top: #84B5ED 5px solid;
+						border-left: #84B5ED 5px solid;
+						border-bottom: #84B5ED 1px solid;
+						background-color: #C9DAF8; padding-top:0px; padding-bottom:0px; padding-left:5px; padding-right:5px}
+						
+.SfondoAzzurroChiaroUnitoCellpadding2	{   border-right: #84B5ED 3px solid;  
+						border-top: #84B5ED 3px solid;
+						border-left: #84B5ED 3px solid;
+						border-bottom: #84B5ED 3px solid;
+						background-color: #C9DAF8; padding:2px;}
+
+
+.SfondoArancione {border-bottom:1px solid #003399; 
+											border-top:1px solid #003399;
+											border-right:1px solid #003399;
+											border-left:1px solid #003399;
+											background: #FF9900;
+											background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneTopBottom {border-bottom:1px solid #003399; 
+											border-top:1px solid #003399;
+											border-right:0px solid #003399;
+											border-left:0px solid #003399;
+											background: #FF9900;
+											background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneBottom {border-bottom:1px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:0px solid #003399;
+										border-left:0px solid #003399;
+										background: #FF9900;
+										background-repeat: repeat-x;
+										background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneNoRight {border-bottom:1px solid #003399; 
+											border-top:1px solid #003399;
+											border-right:0px solid #003399;
+											border-left:1px solid #003399;
+											background: #FF9900;
+											background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneNoLeft {border-bottom:1px solid #003399; 
+											border-top:1px solid #003399;
+											border-right:1px solid #003399;
+											border-left:0px solid #003399;
+											background: #FF9900;
+											background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneLeftBottom {border-bottom:1px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:0px solid #003399;
+										border-left:1px solid #003399;
+										background: #FF9900;
+										background-repeat: repeat-x;
+										background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneRightBottom {border-bottom:1px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:1px solid #003399;
+										border-left:0px solid #003399;
+										background: #FF9900;
+										background-repeat: repeat-x;
+										background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneNoBorder {border-bottom:0px solid #003399; 
+										border-top:0px solid #003399;
+										border-right:0px solid #003399;
+										border-left:0px solid #003399;
+										background: #FF9900;
+										background-repeat: repeat-x;
+										background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancione.jpg);}
+.SfondoArancioneSmallBottom { border-right: #adc5ed 0px solid;
+										border-top: #adc5ed 0px solid;
+										background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancioneChiaro.gif);
+										border-left: #adc5ed 0px solid;
+										width: 100%;						    
+										border-bottom: #adc5ed 0px solid;
+										background-repeat: repeat-x;
+										height: 20px;
+										background-color: #fddb94}
+.SfondoArancioneSmallBottomNoWidth { border-right: #adc5ed 0px solid;
+										border-top: #adc5ed 0px solid;
+										background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancioneChiaro.gif);
+										border-left: #adc5ed 0px solid;
+										border-bottom: #adc5ed 0px solid;
+										background-repeat: repeat-x;
+										height: 20px;
+										background-color: #fddb94}
+.SfondoArancioneSmallRightBottomNoWidth 
+{
+	                                    border-right: #BFBFBF 1px solid;
+										border-top: #BFBFBF 0px solid;
+										/*background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancioneChiaro.gif);*/
+										border-left: #BFBFBF 0px solid;
+										border-bottom: #BFBFBF 0px solid;
+										background-repeat: repeat-x;
+										height: 20px;
+										background-color: #fddb94}
+																				
+																				
+.SfondoArancioneSmallTopBottom { border-right: #adc5ed 0px solid;
+										border-top: #adc5ed 1px solid;
+										background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoArancioneChiaro.gif);
+										border-left: #adc5ed 0px solid;
+										width: 100%;						    
+										border-bottom: #adc5ed 1px solid;
+										background-repeat: repeat-x;
+										height: 20px;
+										background-color: #fddb94}
+									
+.SfondoArancioneUnitoTopBlu	{   border-right: #003399 0px solid;  
+											border-top: #003399 1px solid;
+											border-left: #003399 0px solid;
+											border-bottom: #003399 0px solid;
+											background-color: #ffcc66;}
+											
+.SfondoArancioneChiaroUnito	{   border-right: #FF6633 1px solid;  
+											border-top: #FF6633 5px solid;
+											border-left: #FF6633 5px solid;
+											border-bottom: #FF6633 1px solid;
+											background-color: #FFCC99; padding-top:0px; padding-bottom:0px; padding-left:5px; padding-right:5px}
+										
+.ArancioneBottom					{ border-right: 0px solid #adc5ed;
+										border-top: 0px solid #adc5ed ;
+										border-left: 0px solid #adc5ed ;
+										width: 100%;						    
+										border-bottom: #FF6600 1px solid;
+										height: 20px;
+										background-color: #fddb94}
+.ArancioneTopBottom				{ border-right: 0px solid #adc5ed;
+										border-top: 1px solid #FF6600 ;
+										border-left: 0px solid #adc5ed ;
+										width: 100%;						    
+										border-bottom: #FF6600 1px solid;
+										height: 20px;
+										background-color: #fddb94}
+										
+.Arancione							{ border-right: 1px solid #FF6600;
+										border-top: 1px solid #FF6600 ;
+										border-left: 1px solid #FF6600 ;
+										width: 100%;						    
+										border-bottom: #FF6600 1px solid;
+										height: 20px;
+										background-color: #fddb94}
+.ArancioneNoBorder				{ border-right: 0px solid #FF6600;
+										border-top: 0px solid #FF6600 ;
+										border-left: 0px solid #FF6600 ;
+										width: 100%;						    
+										border-bottom: #FF6600 0px solid;
+										height: 20px;
+										background-color: #fddb94}
+.Border1AzzurroAll {border-bottom:1px solid #003399; 
+										border-top:1px solid #003399;
+										border-right:1px solid #003399;
+										border-left:1px solid #003399;
+							            background: #99CCFF;
+						                background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurro.jpg);}
+.Border1BiancoTop					{ border-right: 0px solid #FFFFFF;
+										border-top: 1px solid #FFFFFF ;
+										border-left: 0px solid #FFFFFF ;				    
+										border-bottom: 0px solid #FFFFFF ;	
+										background-color: #F0F0F0}
+.Border1Azzurro					{ border-right: 1px solid #adc5ed;
+										border-top: 1px solid #adc5ed ;
+										border-left: 1px solid #adc5ed ;				    
+										border-bottom: 1px solid #adc5ed ;	
+										background-color: #F0F0F0}
+.Border1AzzurroNoTop			{ border-right: 1px solid #adc5ed;
+										border-top: 0px solid #adc5ed ;
+										border-left: 1px solid #adc5ed ;				    
+										border-bottom: 1px solid #adc5ed ;	
+										background-color: #F0F0F0}
+.Border1AzzurroRightBottom	{ border-right: 1px solid #adc5ed;
+										border-top: 0px solid #adc5ed ;
+										border-left: 0px solid #adc5ed ;				    
+										border-bottom: 1px solid #adc5ed ;	
+										background-color: #F0F0F0}
+.Border1AzzurroLeftBottom	{ border-right: 0px solid #adc5ed;
+										border-top: 0px solid #adc5ed ;
+										border-left: 1px solid #adc5ed ;				    
+										border-bottom: 1px solid #adc5ed ;	
+										background-color: #F0F0F0}
+.Border1AzzurroLeft			{ border-right: 0px solid #adc5ed;
+										border-top: 0px solid #adc5ed ;
+										border-left: 1px solid #adc5ed ;				    
+										border-bottom: 0px solid #adc5ed ;	
+										background-color: #F0F0F0}
+.Border1AzzurroRight	     { border-right: 1px solid #adc5ed;
+										border-top: 0px solid #adc5ed ;
+										border-left: 0px solid #adc5ed ;				    
+										border-bottom: 0px solid #adc5ed ;	
+										background-color: #F0F0F0}
+										
+.Border1AzzurroLeftRight	{ border-right: 1px solid #adc5ed;
+										border-top: 0px solid #adc5ed ;
+										border-left: 1px solid #adc5ed ;				    
+										border-bottom: 0px solid #adc5ed ;	
+										background-color: #F0F0F0}
+.SfondoAzzurroSmallNoTop{border-right: #adc5ed 1px solid;  
+									border-top: #adc5ed 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 1px solid;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #84bfe9}
+.SfondoAzzurroSmallNoBottom{border-right: #adc5ed 1px solid;  
+									border-top: #adc5ed 1px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 1px solid;
+									border-bottom: #adc5ed 0px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #84bfe9}									
+.SfondoGrigioSmallNoTop{border-right: #adc5ed 1px solid;  
+									border-top: #adc5ed 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoGrigio.jpg);
+									border-left: #adc5ed 1px solid;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #9999CC}
+.SfondoGrigioSmallBottom{border-right: #adc5ed 0px solid;  
+									border-top: #adc5ed 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoGrigio.jpg);
+									border-left: #adc5ed 0px solid;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #9999CC}								
+.SfondoAzzurroSmallLeftBottom{border-right: #adc5ed 0px solid;  
+									border-top: #adc5ed 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 1px solid;
+									width: 100%;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #84bfe9}
+.SfondoAzzurroSmallRightBottom{border-right: #adc5ed 1px solid;  
+									border-top: #adc5ed 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 0px solid;
+									width: 100%;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #84bfe9}
+.SfondoAzzurroSmallBottom{border-right: #adc5ed 0px solid;  
+									border-top: #adc5ed 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 0px solid;
+									width: 100%;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #84bfe9}
+.SfondoAzzurroSmallTopBottom{border-right: #adc5ed 0px solid;  
+									border-top: #adc5ed 1px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 0px solid;
+									width: 100%;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #84bfe9}
+.SfondoAzzurroSmallTopBottomNoWidth{border-right: #adc5ed 0px solid;  
+									border-top: #adc5ed 1px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 0px solid;
+									border-bottom: #adc5ed 1px solid;
+									background-repeat: repeat-x;
+									height: 20px;
+									background-color: #84bfe9}
+.SfondoAzzurroSmall				{border-right: #adc5ed 0px solid;  
+									border-top: #adc5ed 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoAzzurroChiaro.gif);
+									border-left: #adc5ed 0px solid;
+									border-bottom: #adc5ed 0px solid;
+									background-color: #84bfe9}	
+.SfondoVerdeChiaro			{border-right: #A3EE92 0px solid;  
+									border-top:#A3EE92 0px solid;
+									background-image: url(http://www.microarea.it/Microarea.IT/common/img/SfondoSfumatoVerdeChiaro.gif);
+									border-left: #A3EE92 0px solid;
+									border-bottom: #A3EE92 0px solid;
+									background-color: #A3EE92;
+									width: 100%;	
+									height: 20px;	
+									}	
+.backgroundGrigioChiaro		
+							{
+								background-color:#D9D9D9;
+							}
+							
+.Border2ArancioneRightTopBottom
+									 {border-bottom:1px solid #993300; 
+										border-top:2px solid #993300;
+										border-right:2px solid #993300;
+										border-left:0px solid #993300;
+							            background: #CCCCCC;
+										background-image: url(http://www.microarea.it/Microarea.EN/common/img/SfondoSfumatoArancioneScuro.jpg);
+	             					}
+.Border2ArancioneLeftTopBottom
+									 {border-bottom:1px solid #993300; 
+										border-top:2px solid #993300;
+										border-right:0px solid #993300;
+										border-left:2px solid #993300;
+							            background: #CCCCCC;
+										background-image: url(http://www.microarea.it/Microarea.EN/common/img/SfondoSfumatoArancioneScuro.jpg);
+	             					}	             											
+		
+.Border3ArancioneNoBottom {border-bottom:0px solid #003399; 
+										border-top:3px solid #CC6600;
+										border-right:3px solid #CC6600;
+										border-left:3px solid #CC6600;
+							            background: #FF9900;
+										background-image: url(http://www.microarea.it/Microarea.EN/common/img/SfondoSfumatoArancione.jpg);}
+
+.Bold10Arancione {font-size:10px; font-weight:bold; color:#FF9900;}   																		
+.Bold12Bianco {font-size:12px; font-weight:bold; color:#FFFFFF;}
+.Bold12Blu {font-size:12px; font-weight:bold; color:#000080;} 
+.Bold10Bianco {font-size:10px; font-weight:bold; color:#FFFFFF;}     
+.Bold10Blu {font-size:10px; font-weight:bold; color:#000080;}  
+.CellaVuota  {padding-right: 0px;
+			padding-left: 0px;
+		 padding-bottom: 0px;
+    padding-top: 0px;}
+                 	    

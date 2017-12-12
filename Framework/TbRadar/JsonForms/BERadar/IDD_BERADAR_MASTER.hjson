@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_BERADAR_MASTER			GET_IDD(IDD_BERADAR_MASTER, M.Framework.TbRadar.BERadar)
+#define	IDC_BERADAR_ROWS			GET_IDC(IDC_BERADAR_ROWS)

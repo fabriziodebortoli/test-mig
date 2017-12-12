@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://microarea.it/TbSender/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://microarea.it/TbSender/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microarea.it/TbSender/">
+      <s:element name="Subscribe">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="companyName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="zipCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="county" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="prefixTelephoneNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vatNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fiscalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="eMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="legalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="activityCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="areaCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="privateEntity" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="privateEntityOption" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCompanyName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCity" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderZipCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCounty" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCountry" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderVatNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderFiscalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderEMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderLegalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderActivityCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubscribeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SubscribeResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Charge">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileContentBase64" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="amountCharge" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="vat" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="amountActivation" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalAmount" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChargeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChargeResult" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="credit" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="expiryDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCadastralCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCadastralCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCadastralCodeResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLegalInfos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="language" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLegalInfosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLegalInfosResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="restrictiveClauses" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="iban" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bankName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="beneficiary" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="privacyPolicy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="priceListUrl" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="termsOfUse" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="generalConditionsCharge" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="transparancyObligations" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cadastralPageUrl" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="minimumRecharge" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEstimateCharge">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="amountCharge" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEstimateChargeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetEstimateChargeResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="vat" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="amountActivation" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="iban" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nameBank" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="beneficiary" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadSingleLot">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lotID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadSingleLotResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UploadSingleLotResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSentLotsStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="async" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSentLotsStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateSentLotsStatusResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLotCostEstimate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lotID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLotCostEstimateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLotCostEstimateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DoTick">
+        <s:complexType />
+      </s:element>
+      <s:element name="DoTickResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="WakeUp">
+        <s:complexType />
+      </s:element>
+      <s:element name="WakeUpResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="RefreshSettings">
+        <s:complexType />
+      </s:element>
+      <s:element name="RefreshSettingsResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Login">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="loginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="surNameCompanyName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="zipCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="county" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="prefixTelephoneNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vatNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fiscalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="eMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="legalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="activityCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="areaCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="privateEntity" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="privateEntityOption" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCompanyName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCity" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderZipCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCounty" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderCountry" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderVatNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderFiscalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderEMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderLegalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderActivityCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCreditState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCreditStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCreditStateResult" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="codeState" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="expiryDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AllotMessages">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AllotMessagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AllotMessagesResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReopenClosedLot">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lotId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReopenClosedLotResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReopenClosedLotResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveFromLot">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="msgId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveFromLotResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveFromLotResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseLot">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lotId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseLotResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CloseLotResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateSingleMessageLot">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="msgId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="sendImmediately" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateSingleMessageLotResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateSingleMessageLotResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="msgId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteMessageResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeMessageDeliveryType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="msgId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="deliveryType" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeMessageDeliveryTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChangeMessageDeliveryTypeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeMessagePrintType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="msgId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="printType" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeMessagePrintTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChangeMessagePrintTypeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SubscribeSoapIn">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
+  </wsdl:message>
+  <wsdl:message name="SubscribeSoapOut">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChargeSoapIn">
+    <wsdl:part name="parameters" element="tns:Charge" />
+  </wsdl:message>
+  <wsdl:message name="ChargeSoapOut">
+    <wsdl:part name="parameters" element="tns:ChargeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCadastralCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCadastralCode" />
+  </wsdl:message>
+  <wsdl:message name="GetCadastralCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCadastralCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLegalInfosSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLegalInfos" />
+  </wsdl:message>
+  <wsdl:message name="GetLegalInfosSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLegalInfosResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEstimateChargeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEstimateCharge" />
+  </wsdl:message>
+  <wsdl:message name="GetEstimateChargeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEstimateChargeResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadSingleLotSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadSingleLot" />
+  </wsdl:message>
+  <wsdl:message name="UploadSingleLotSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadSingleLotResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSentLotsStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateSentLotsStatus" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSentLotsStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateSentLotsStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLotCostEstimateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLotCostEstimate" />
+  </wsdl:message>
+  <wsdl:message name="GetLotCostEstimateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLotCostEstimateResponse" />
+  </wsdl:message>
+  <wsdl:message name="DoTickSoapIn">
+    <wsdl:part name="parameters" element="tns:DoTick" />
+  </wsdl:message>
+  <wsdl:message name="DoTickSoapOut">
+    <wsdl:part name="parameters" element="tns:DoTickResponse" />
+  </wsdl:message>
+  <wsdl:message name="WakeUpSoapIn">
+    <wsdl:part name="parameters" element="tns:WakeUp" />
+  </wsdl:message>
+  <wsdl:message name="WakeUpSoapOut">
+    <wsdl:part name="parameters" element="tns:WakeUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="RefreshSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:RefreshSettings" />
+  </wsdl:message>
+  <wsdl:message name="RefreshSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:RefreshSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapIn">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCreditStateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCreditState" />
+  </wsdl:message>
+  <wsdl:message name="GetCreditStateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCreditStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="AllotMessagesSoapIn">
+    <wsdl:part name="parameters" element="tns:AllotMessages" />
+  </wsdl:message>
+  <wsdl:message name="AllotMessagesSoapOut">
+    <wsdl:part name="parameters" element="tns:AllotMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReopenClosedLotSoapIn">
+    <wsdl:part name="parameters" element="tns:ReopenClosedLot" />
+  </wsdl:message>
+  <wsdl:message name="ReopenClosedLotSoapOut">
+    <wsdl:part name="parameters" element="tns:ReopenClosedLotResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFromLotSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveFromLot" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFromLotSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveFromLotResponse" />
+  </wsdl:message>
+  <wsdl:message name="CloseLotSoapIn">
+    <wsdl:part name="parameters" element="tns:CloseLot" />
+  </wsdl:message>
+  <wsdl:message name="CloseLotSoapOut">
+    <wsdl:part name="parameters" element="tns:CloseLotResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateSingleMessageLotSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateSingleMessageLot" />
+  </wsdl:message>
+  <wsdl:message name="CreateSingleMessageLotSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateSingleMessageLotResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteMessage" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangeMessageDeliveryTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangeMessageDeliveryType" />
+  </wsdl:message>
+  <wsdl:message name="ChangeMessageDeliveryTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangeMessageDeliveryTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangeMessagePrintTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangeMessagePrintType" />
+  </wsdl:message>
+  <wsdl:message name="ChangeMessagePrintTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangeMessagePrintTypeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PLProxySoap">
+    <wsdl:operation name="Subscribe">
+      <wsdl:input message="tns:SubscribeSoapIn" />
+      <wsdl:output message="tns:SubscribeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Charge">
+      <wsdl:input message="tns:ChargeSoapIn" />
+      <wsdl:output message="tns:ChargeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCadastralCode">
+      <wsdl:input message="tns:GetCadastralCodeSoapIn" />
+      <wsdl:output message="tns:GetCadastralCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLegalInfos">
+      <wsdl:input message="tns:GetLegalInfosSoapIn" />
+      <wsdl:output message="tns:GetLegalInfosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEstimateCharge">
+      <wsdl:input message="tns:GetEstimateChargeSoapIn" />
+      <wsdl:output message="tns:GetEstimateChargeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadSingleLot">
+      <wsdl:input message="tns:UploadSingleLotSoapIn" />
+      <wsdl:output message="tns:UploadSingleLotSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSentLotsStatus">
+      <wsdl:input message="tns:UpdateSentLotsStatusSoapIn" />
+      <wsdl:output message="tns:UpdateSentLotsStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLotCostEstimate">
+      <wsdl:input message="tns:GetLotCostEstimateSoapIn" />
+      <wsdl:output message="tns:GetLotCostEstimateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DoTick">
+      <wsdl:input message="tns:DoTickSoapIn" />
+      <wsdl:output message="tns:DoTickSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WakeUp">
+      <wsdl:input message="tns:WakeUpSoapIn" />
+      <wsdl:output message="tns:WakeUpSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RefreshSettings">
+      <wsdl:input message="tns:RefreshSettingsSoapIn" />
+      <wsdl:output message="tns:RefreshSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input message="tns:LoginSoapIn" />
+      <wsdl:output message="tns:LoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCreditState">
+      <wsdl:input message="tns:GetCreditStateSoapIn" />
+      <wsdl:output message="tns:GetCreditStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AllotMessages">
+      <wsdl:input message="tns:AllotMessagesSoapIn" />
+      <wsdl:output message="tns:AllotMessagesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReopenClosedLot">
+      <wsdl:input message="tns:ReopenClosedLotSoapIn" />
+      <wsdl:output message="tns:ReopenClosedLotSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromLot">
+      <wsdl:input message="tns:RemoveFromLotSoapIn" />
+      <wsdl:output message="tns:RemoveFromLotSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseLot">
+      <wsdl:input message="tns:CloseLotSoapIn" />
+      <wsdl:output message="tns:CloseLotSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateSingleMessageLot">
+      <wsdl:input message="tns:CreateSingleMessageLotSoapIn" />
+      <wsdl:output message="tns:CreateSingleMessageLotSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMessage">
+      <wsdl:input message="tns:DeleteMessageSoapIn" />
+      <wsdl:output message="tns:DeleteMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMessageDeliveryType">
+      <wsdl:input message="tns:ChangeMessageDeliveryTypeSoapIn" />
+      <wsdl:output message="tns:ChangeMessageDeliveryTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMessagePrintType">
+      <wsdl:input message="tns:ChangeMessagePrintTypeSoapIn" />
+      <wsdl:output message="tns:ChangeMessagePrintTypeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PLProxySoap" type="tns:PLProxySoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Subscribe">
+      <soap:operation soapAction="http://microarea.it/TbSender/Subscribe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Charge">
+      <soap:operation soapAction="http://microarea.it/TbSender/Charge" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCadastralCode">
+      <soap:operation soapAction="http://microarea.it/TbSender/GetCadastralCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLegalInfos">
+      <soap:operation soapAction="http://microarea.it/TbSender/GetLegalInfos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEstimateCharge">
+      <soap:operation soapAction="http://microarea.it/TbSender/GetEstimateCharge" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadSingleLot">
+      <soap:operation soapAction="http://microarea.it/TbSender/UploadSingleLot" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSentLotsStatus">
+      <soap:operation soapAction="http://microarea.it/TbSender/UpdateSentLotsStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLotCostEstimate">
+      <soap:operation soapAction="http://microarea.it/TbSender/GetLotCostEstimate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoTick">
+      <soap:operation soapAction="http://microarea.it/TbSender/DoTick" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WakeUp">
+      <soap:operation soapAction="http://microarea.it/TbSender/WakeUp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefreshSettings">
+      <soap:operation soapAction="http://microarea.it/TbSender/RefreshSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://microarea.it/TbSender/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCreditState">
+      <soap:operation soapAction="http://microarea.it/TbSender/GetCreditState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AllotMessages">
+      <soap:operation soapAction="http://microarea.it/TbSender/AllotMessages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReopenClosedLot">
+      <soap:operation soapAction="http://microarea.it/TbSender/ReopenClosedLot" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromLot">
+      <soap:operation soapAction="http://microarea.it/TbSender/RemoveFromLot" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseLot">
+      <soap:operation soapAction="http://microarea.it/TbSender/CloseLot" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSingleMessageLot">
+      <soap:operation soapAction="http://microarea.it/TbSender/CreateSingleMessageLot" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMessage">
+      <soap:operation soapAction="http://microarea.it/TbSender/DeleteMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMessageDeliveryType">
+      <soap:operation soapAction="http://microarea.it/TbSender/ChangeMessageDeliveryType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMessagePrintType">
+      <soap:operation soapAction="http://microarea.it/TbSender/ChangeMessagePrintType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PLProxySoap12" type="tns:PLProxySoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://microarea.it/TbSender/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Charge">
+      <soap12:operation soapAction="http://microarea.it/TbSender/Charge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCadastralCode">
+      <soap12:operation soapAction="http://microarea.it/TbSender/GetCadastralCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLegalInfos">
+      <soap12:operation soapAction="http://microarea.it/TbSender/GetLegalInfos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEstimateCharge">
+      <soap12:operation soapAction="http://microarea.it/TbSender/GetEstimateCharge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadSingleLot">
+      <soap12:operation soapAction="http://microarea.it/TbSender/UploadSingleLot" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSentLotsStatus">
+      <soap12:operation soapAction="http://microarea.it/TbSender/UpdateSentLotsStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLotCostEstimate">
+      <soap12:operation soapAction="http://microarea.it/TbSender/GetLotCostEstimate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoTick">
+      <soap12:operation soapAction="http://microarea.it/TbSender/DoTick" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WakeUp">
+      <soap12:operation soapAction="http://microarea.it/TbSender/WakeUp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefreshSettings">
+      <soap12:operation soapAction="http://microarea.it/TbSender/RefreshSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://microarea.it/TbSender/Login" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCreditState">
+      <soap12:operation soapAction="http://microarea.it/TbSender/GetCreditState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AllotMessages">
+      <soap12:operation soapAction="http://microarea.it/TbSender/AllotMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReopenClosedLot">
+      <soap12:operation soapAction="http://microarea.it/TbSender/ReopenClosedLot" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromLot">
+      <soap12:operation soapAction="http://microarea.it/TbSender/RemoveFromLot" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseLot">
+      <soap12:operation soapAction="http://microarea.it/TbSender/CloseLot" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSingleMessageLot">
+      <soap12:operation soapAction="http://microarea.it/TbSender/CreateSingleMessageLot" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMessage">
+      <soap12:operation soapAction="http://microarea.it/TbSender/DeleteMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMessageDeliveryType">
+      <soap12:operation soapAction="http://microarea.it/TbSender/ChangeMessageDeliveryType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMessagePrintType">
+      <soap12:operation soapAction="http://microarea.it/TbSender/ChangeMessagePrintType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PLProxy">
+    <wsdl:port name="PLProxySoap" binding="tns:PLProxySoap">
+      <soap:address location="http://localhost/Development/tbsender/plproxy.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PLProxySoap12" binding="tns:PLProxySoap12">
+      <soap12:address location="http://localhost/Development/tbsender/plproxy.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

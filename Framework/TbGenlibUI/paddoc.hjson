@@ -1,0 +1,17 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGenlibUI\JsonForms\paddoc\IDD_EDITOR_TAB_STOP.hjson>
+#include	<TbGenlibUI\JsonForms\paddoc\IDR_EDITOR.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_EDITOR_TAB_STOP			GET_ID(ID_EDITOR_TAB_STOP)
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBGENLIBUI
+static UINT IDS_IDR_EDITOR		=GET_IDS(IDR_EDITOR, _TB_STRING("Editor\nEditor"), L"\\Framework\\TbGenlibUI\\paddoc.hjson");
+#endif
+

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper"
+  Name="DisplayName"
+  Culture="Culture">
+	
+    <!-- Defines a localizable string table for error messages-->
+    <Strings>
+        <String Name="DisplayName">IDAutomation OCRa and OCRb Fonts for PVR print</String>
+        <String Name="Culture">en</String>
+        <String Name="AdminRequired">You do not have the permissions required to install the fonts. Please contact your administrator.</String>
+        <String Name="PVRFontsHomeSite">http://www.microarea.it</String>
+    </Strings>
+
+</Package>

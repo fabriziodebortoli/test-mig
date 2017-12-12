@@ -1,0 +1,7 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_BORDERS			GET_IDD(IDD_BORDERS, M.Framework.TbWoormViewer.LISTDLG)
+#define	IDC_BORDER_BOTTOM			GET_IDC(IDC_BORDER_BOTTOM)
+#define	IDC_BORDER_LEFT			GET_IDC(IDC_BORDER_LEFT)
+#define	IDC_BORDER_RIGHT			GET_IDC(IDC_BORDER_RIGHT)
+#define	IDC_BORDER_TOP			GET_IDC(IDC_BORDER_TOP)

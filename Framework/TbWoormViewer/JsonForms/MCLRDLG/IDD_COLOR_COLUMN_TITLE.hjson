@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_COLOR_COLUMN_TITLE			GET_IDD(IDD_COLOR_COLUMN_TITLE, M.Framework.TbWoormViewer.MCLRDLG)

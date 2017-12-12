@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_RCVRYMNGASK			GET_IDD(IDD_RCVRYMNGASK, M.Framework.TbOleDb.SqlRecoveryManager)
+#define	IDC_RCVRYMNG_EXPLANATION			GET_IDC(IDC_RCVRYMNG_EXPLANATION)
+#define	IDC_RCVRYMNG_QUESTION			GET_IDC(IDC_RCVRYMNG_QUESTION)

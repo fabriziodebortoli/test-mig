@@ -1,0 +1,29 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZ_DOC_SEL.hjson>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZ_FIELD_PROP.hjson>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZ_FINISH_PAGE.hjson>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZ_FK_LIST.hjson>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZ_PRESENTATION.hjson>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZ_SEGMENT.hjson>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZ_UNIVERSAL_KEY.hjson>
+#include	<TbGes\JsonForms\XRefManager\IDD_XREF_WIZARD_MASTER.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_XREF_EXPORT			GET_IDC(IDC_XREF_EXPORT)
+#define	IDC_XREF_EXPORT2			GET_IDC(IDC_XREF_EXPORT2)
+#define	IDC_XREFSEG_FK_TABLE_STATIC			GET_IDC(IDC_XREFSEG_FK_TABLE_STATIC)
+#define	IDC_XREFSEG_REF_TABLE_STATIC			GET_IDC(IDC_XREFSEG_REF_TABLE_STATIC)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDB
+//-----------------------------------------------------------------------------------------------------
+#define	IDB_XREF_WIZARD_FINISH		1256
+#define	IDB_XREF_WIZARD_OPTION		1254
+#define	IDB_XREF_WIZARD_PRESENTATION_PAGE		1251
+#define	IDB_XREF_WIZARD_SEGMENT		1255
+#define	IDB_XREF_WIZARD_SEL_DOC		1253
+#define	IDB_XREF_WIZARD_SEL_FK		1252
+#define	IDB_XREF_WIZARD_UK		1257

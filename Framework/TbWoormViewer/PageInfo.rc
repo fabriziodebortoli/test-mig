@@ -1,0 +1,173 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "pageinfo.hrc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "pageinfo.hrc\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LANDSCAPE           ICON                    "RES\\LANDSCAP.ICO"
+IDI_PORTRAIT            ICON                    "RES\\PORTRAIT.ICO"
+IDI_PAGE_SAMPLE         ICON                    "RES\\PGSAMPLE.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PAGE_SETUP DIALOGEX 0, 0, 401, 276
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Page Format"
+FONT 9, "Roboto", 400, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_PAPER_TYPE,7,35,140,160,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Customized sizes",IDC_PS_SPECIAL_SIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,179,10
+    EDITTEXT        IDC_PAGE_WIDTH,7,74,56,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PAGE_HEIGHT,95,74,56,12,ES_AUTOHSCROLL
+    CONTROL         "&Portrait",IDC_PORTRAIT,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,43,235,126,10
+    CONTROL         "&Landscape",IDC_LANDSCAPE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,43,246,126,10
+    EDITTEXT        IDC_PS_PAGENUM,202,22,89,12,ES_AUTOHSCROLL
+    CONTROL         "&Collate copies",IDC_PS_COLLATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,40,184,10
+    EDITTEXT        IDC_PS_TOPMARGIN,210,88,56,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PS_BOTTOMMARGIN,210,114,56,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PS_LEFTMARGIN,300,88,56,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PS_RIGHTMARGIN,300,114,56,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_PAGE_SAMPLE,"Button",BS_OWNERDRAW | WS_DISABLED,204,165,102,94
+    DEFPUSHBUTTON   "&OK",IDOK,317,200,73,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,317,220,73,14
+    CONTROL         "&Width",IDC_WIDTH_CAPT,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,7,63,81,8
+    LTEXT           "&Height",IDC_HEIGHT_CAPT,95,63,83,8
+    GROUPBOX        "Orientation",IDC_STATIC,5,224,188,39
+    ICON            "",IDC_ORIENTATION,11,236,20,20
+    GROUPBOX        "Example",IDC_STATIC,200,142,112,120
+    GROUPBOX        "Margins (in mm)",IDC_STATIC,200,69,199,63
+    LTEXT           "To&p",IDC_STATIC,211,79,83,9
+    LTEXT           "Le&ft",IDC_STATIC,300,79,83,9
+    LTEXT           "Bot&tom",IDC_STATIC,210,104,83,8
+    LTEXT           "Ri&ght",IDC_STATIC,300,104,83,9
+    LTEXT           "N&umber of copies",IDC_STATIC,202,12,184,8
+    GROUPBOX        "Woorm Page Sizes (in mm)",IDC_STATIC,3,11,188,80
+    LTEXT           "&Styles",IDC_STATIC,7,24,176,8
+    CONTROL         "Use print&able area",IDC_PS_USE_PRINTABLE_AREA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,55,188,10
+    COMBOBOX        IDC_PRINTER_PAPER_TYPE,9,166,140,160,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Customized sizes",IDC_PS_PRINTER_SPECIAL_SIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,181,179,10
+    EDITTEXT        IDC_PRINTER_PAGE_WIDTH,9,205,56,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PRINTER_PAGE_HEIGHT,97,205,56,12,ES_AUTOHSCROLL
+    CONTROL         "&Width",IDC_PRINTER_WIDTH_CAPT,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,9,194,81,8
+    LTEXT           "&Height",IDC_PRINTER_HEIGHT_CAPT,97,194,83,8
+    GROUPBOX        "Printer Page Sizes (in mm)",IDC_STATIC,4,142,188,80
+    LTEXT           "&Styles",IDC_STATIC,9,154,176,8
+END
+
+IDD_FIND_DLG_ENUM DIALOGEX 30, 73, 191, 43
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    COMBOBOX        1136,3,22,72,44,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Up",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,83,12,45,10
+    CONTROL         "&Down",1057,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,83,24,44,10
+    DEFPUSHBUTTON   "Find &where",IDOK,135,7,54,12,WS_GROUP
+    PUSHBUTTON      "&Cancel",IDCANCEL,135,22,54,12,WS_GROUP
+    LTEXT           "&Find:",-1,3,11,72,8,NOT WS_GROUP
+    GROUPBOX        "Direction",1072,80,3,51,34
+END
+
+IDD_FIND_DLG_NUMERIC DIALOGEX 30, 73, 249, 62
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    EDITTEXT        1152,5,12,128,12,ES_AUTOHSCROLL | WS_GROUP
+    COMBOBOX        1137,5,31,71,47,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Up",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,96,37,66,10
+    CONTROL         "&Down",1057,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,96,47,62,10
+    DEFPUSHBUTTON   "Find &where",IDOK,172,4,73,14,WS_GROUP
+    PUSHBUTTON      "&Cancel",IDCANCEL,172,22,73,14,WS_GROUP
+    LTEXT           "&Find:",-1,5,1,127,8,NOT WS_GROUP
+    GROUPBOX        "Direction",1072,88,25,81,35
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_PAGE_SETUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 399
+        BOTTOMMARGIN, 262
+    END
+
+    "IDD_FIND_DLG_ENUM", DIALOG
+    BEGIN
+    END
+
+    "IDD_FIND_DLG_NUMERIC", DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

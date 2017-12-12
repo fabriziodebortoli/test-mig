@@ -1,0 +1,23 @@
+﻿{
+    "id": "IDD_DMS_SETTINGS_VIEW",
+    "type": 1 /*View*/,
+    "child": true,
+    "name": "DMSSettings",
+    "context": "uidmssettings",
+    "items": [
+        {
+            "id": "IDC_TG_DMS_SETTINGS",
+            "name": "DMSSettings",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+                    "href": "IDD_TD_DMS_SETTINGS"
+                },
+                {
+                    "href": "IDD_TD_DMS_SETTINGS_EXTENSIONS"
+                }
+            ]
+        }
+    ]
+}

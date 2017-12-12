@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink version="2" accessibility="Public" >
+
+<Function namespace="Extensions.TbMailer.TbMailer.CarrierAddress" localize="MA_Carriers's address" type="string">
+  <Param name="localized_StartCode" type="string" localize="From Carrier" value="From code" optional="true"/>
+  <Param name="localized_EndCode" type="string" localize="To Carrier" value="To code" optional="true"/>
+</Function>
+
+  <DbTable name="MA_Carriers"  loadFullRecord="false" /> 
+  <DbField name="MA_Carriers.CompanyName"/>
+  <DbFieldDescription name="MA_Carriers.Carrier" />
+
+  <Events>
+    <Event name="OnAssignSelectedValue" type="bool">
+      <Param name="p_CtrlValue" type="string" localize="Control value" mode="in out" />
+      <Param name="p_HklValue" type="string" localize="Selected value" />
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              if p_CtrlValue != ''
+                then p_CtrlValue = p_CtrlValue + ';' + p_HklValue;
+                else p_CtrlValue = p_HklValue;
+        End
+      ]]>
+      </TbScript>
+    </Event>
+  </Events>
+
+  <AskRules>
+    <![CDATA[ 
+    Variables 
+      String ask_StartCode [15,1] Alias 1 Hidden Input Init = "" ; 
+      String ask_EndCode [15,1] Alias 2 Hidden Input Init = "" ; 
+    End
+    Dialogs Begin 
+      Dialog AskCarriers "" 
+      Begin 
+         Controls Begin 
+            Begin 
+              ask_StartCode Prompt = (GetTitle("localized_StartCode")) LowerLimit HotLink ERP.Shippings.Dbl.Carriers (2) ; 
+              ask_EndCode Prompt = (GetTitle("localized_EndCode")) UpperLimit HotLink ERP.Shippings.Dbl.Carriers (2) ; 
+            End 
+         End 
+      End 
+    End     
+   ]]>
+  </AskRules>
+  
+  <SelectionModes>
+    <Mode name="Default" type="query">
+  <![CDATA[  
+SELECT 
+     Carrier              { COL MA_Carriers.Carrier }
+     ,CompanyName         { COL MA_Carriers.CompanyName }
+     ,Fax                 { COL MA_Carriers.Fax }
+     ,Address             { COL MA_Carriers.Address }
+     ,City                { COL MA_Carriers.City }
+     ,ZIPCode             { COL MA_Carriers.ZIPCode }
+     ,County              { COL MA_Carriers.County }
+     ,Country             { COL MA_Carriers.Country }
+     ,Notes               { COL MA_Carriers.Notes }
+     ,Disabled            { COL MA_Carriers.Disabled } 
+     ,ISOCountryCode      { COL MA_Carriers.ISOCountryCode }     
+ FROM MA_Carriers
+ WHERE 
+    Carrier BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode }
+ ORDER BY CompanyName
+ ]]>
+  </Mode>
+
+</SelectionModes>
+
+</HotKeyLink>

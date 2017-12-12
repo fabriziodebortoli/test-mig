@@ -1,0 +1,7 @@
+; TbParser.def : Declares the module parameters for the DLL.
+
+LIBRARY      "TbParser"
+
+EXPORTS
+	InitDynLinkLibrary
+    ; Explicit exports can go here

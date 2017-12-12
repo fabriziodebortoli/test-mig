@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function namespace="Framework.TbResourcesMng.TbResourcesMng.AbsenceReasons" localize="Absence Reasons" type="string">
+  </Function>
+  <DbField name="RM_AbsenceReasons.Reason" />
+  <ClassName>HKLAbsenceReasons</ClassName>
+</HotKeyLink>

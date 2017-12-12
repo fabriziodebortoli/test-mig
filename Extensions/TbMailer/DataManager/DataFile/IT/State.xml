@@ -1,0 +1,1451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Auxdata>
+  <Header>
+    <Fieldtype name="Code" key="0" hidden="1" type="string" />
+    <Fieldtype name="Country" key="1" hidden="0" type="string" />
+    <Fieldtype name="IntraEU" key="0" hidden="1" type="bool" />
+    <Fieldtype name="CountryCode" key="0" hidden="1" type="string" />
+  </Header>
+  <Elements>
+    <Element>
+      <Field name="Code">AF</Field>
+      <Field name="Country">Afghanistan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">002</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AL</Field>
+      <Field name="Country">Albania</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">087</Field>
+    </Element>
+    <Element>
+      <Field name="Code">DZ</Field>
+      <Field name="Country">Algeria</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">003</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AD</Field>
+      <Field name="Country">Andorra</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">004</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AO</Field>
+      <Field name="Country">Angola</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">133</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AI</Field>
+      <Field name="Country">Anguilla</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">209</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AQ</Field>
+      <Field name="Country">Antarctica</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">180</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AG</Field>
+      <Field name="Country">Antigua e Barbuda</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">197</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AN</Field>
+      <Field name="Country">Antille Olandesi</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">251</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SA</Field>
+      <Field name="Country">Arabia Saudita</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">005</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AR</Field>
+      <Field name="Country">Argentina</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">006</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AM</Field>
+      <Field name="Country">Armenia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">266</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AW</Field>
+      <Field name="Country">Aruba</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">212</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AU</Field>
+      <Field name="Country">Australia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">007</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AT</Field>
+      <Field name="Country">Austria</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">008</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AZ</Field>
+      <Field name="Country">Azerbaijan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">268</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BS</Field>
+      <Field name="Country">Bahamas</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">160</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BH</Field>
+      <Field name="Country">Bahrain</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">169</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BD</Field>
+      <Field name="Country">Bangladesh</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">130</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BB</Field>
+      <Field name="Country">Barbados</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">118</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BE</Field>
+      <Field name="Country">Belgio</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">009</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BZ</Field>
+      <Field name="Country">Belize</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">198</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BJ</Field>
+      <Field name="Country">Benin</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">158</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BM</Field>
+      <Field name="Country">Bermuda</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">207</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BT</Field>
+      <Field name="Country">Bhutan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">097</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BY</Field>
+      <Field name="Country">Bielorussia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">264</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BO</Field>
+      <Field name="Country">Bolivia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">010</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BA</Field>
+      <Field name="Country">Bosnia Erzegovina</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">274</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BW</Field>
+      <Field name="Country">Botswana</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">098</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BR</Field>
+      <Field name="Country">Brasile</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">011</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BN</Field>
+      <Field name="Country">Brunei</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">125</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BG</Field>
+      <Field name="Country">Bulgaria</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">012</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BF</Field>
+      <Field name="Country">Burkina Faso</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">142</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BI</Field>
+      <Field name="Country">Burundi</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">025</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KH</Field>
+      <Field name="Country">Cambogia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">135</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CM</Field>
+      <Field name="Country">Camerun</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">119</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CA</Field>
+      <Field name="Country">Canada</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">013</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CV</Field>
+      <Field name="Country">Capo Verde</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">188</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TD</Field>
+      <Field name="Country">Ciad</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">144</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CL</Field>
+      <Field name="Country">Cile</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">015</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CN</Field>
+      <Field name="Country">Cina</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">016</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CY</Field>
+      <Field name="Country">Cipro</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">101</Field>
+    </Element>
+    <Element>
+      <Field name="Code">VA</Field>
+      <Field name="Country">Città del Vaticano</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">093</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CO</Field>
+      <Field name="Country">Colombia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">017</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CG</Field>
+      <Field name="Country">Congo</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">145</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KR</Field>
+      <Field name="Country">Corea del Sud</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">084</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KP</Field>
+      <Field name="Country">Corea del Nord</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">074</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CI</Field>
+      <Field name="Country">Costa d'Avorio</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">146</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CR</Field>
+      <Field name="Country">Costa Rica</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">019</Field>
+    </Element>
+    <Element>
+      <Field name="Code">HR</Field>
+      <Field name="Country">Croazia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">261</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CU</Field>
+      <Field name="Country">Cuba</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">020</Field>
+    </Element>
+    <Element>
+      <Field name="Code">DK</Field>
+      <Field name="Country">Danimarca</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">021</Field>
+    </Element>
+    <Element>
+      <Field name="Code">DM</Field>
+      <Field name="Country">Dominica</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">192</Field>
+    </Element>
+    <Element>
+      <Field name="Code">EC</Field>
+      <Field name="Country">Ecuador</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">024</Field>
+    </Element>
+    <Element>
+      <Field name="Code">EG</Field>
+      <Field name="Country">Egitto</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">023</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SV</Field>
+      <Field name="Country">El Salvador</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">064</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AE</Field>
+      <Field name="Country">Emirati Arabi Uniti</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">238</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ER</Field>
+      <Field name="Country">Eritrea</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">277</Field>
+    </Element>
+    <Element>
+      <Field name="Code">EE</Field>
+      <Field name="Country">Estonia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">257</Field>
+    </Element>
+    <Element>
+      <Field name="Code">EDT</Field>
+      <Field name="Country">Etiopia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">026</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PH</Field>
+      <Field name="Country">Filippine</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">027</Field>
+    </Element>
+    <Element>
+      <Field name="Code">FI</Field>
+      <Field name="Country">Finlandia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">028</Field>
+    </Element>
+    <Element>
+      <Field name="Code">FR</Field>
+      <Field name="Country">Francia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">029</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GA</Field>
+      <Field name="Country">Gabon</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">157</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GG</Field>
+      <Field name="Country">Guernsey</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">201</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GM</Field>
+      <Field name="Country">Gambia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">164</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GE</Field>
+      <Field name="Country">Georgia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">267</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GS</Field>
+      <Field name="Country">Georgia del Sud e Sandwich del sud</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">283</Field>
+    </Element>
+    <Element>
+      <Field name="Code">DE</Field>
+      <Field name="Country">Germania</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">094</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GH</Field>
+      <Field name="Country">Ghana</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">112</Field>
+    </Element>
+     <Element>
+      <Field name="Code">JE</Field>
+      <Field name="Country">Jersey</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">202</Field>
+    </Element>
+    <Element>
+      <Field name="Code">JM</Field>
+      <Field name="Country">Giamaica</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">082</Field>
+    </Element>
+    <Element>
+      <Field name="Code">JP</Field>
+      <Field name="Country">Giappone</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">088</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GI</Field>
+      <Field name="Country">Gibilterra</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">102</Field>
+    </Element>
+    <Element>
+      <Field name="Code">DJ</Field>
+      <Field name="Country">Gibuti</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">113</Field>
+    </Element>
+    <Element>
+      <Field name="Code">JO</Field>
+      <Field name="Country">Giordania</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">122</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GR</Field>
+      <Field name="Country">Grecia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">032</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GD</Field>
+      <Field name="Country">Grenada</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">156</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GL</Field>
+      <Field name="Country">Groenlandia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">200</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GP</Field>
+      <Field name="Country">Guadalupe</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">214</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GU</Field>
+      <Field name="Country">Guam</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">154</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GT</Field>
+      <Field name="Country">Guatemala</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">033</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GF</Field>
+      <Field name="Country">Guiana</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">123</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GN</Field>
+      <Field name="Country">Guinea</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">137</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GQ</Field>
+      <Field name="Country">Guinea equatoriale</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">167</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GW</Field>
+      <Field name="Country">Guinea Bissau</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">185</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GY</Field>
+      <Field name="Country">Guyana</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">159</Field>
+    </Element>
+    <Element>
+      <Field name="Code">HT</Field>
+      <Field name="Country">Haiti</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">034</Field>
+    </Element>
+    <Element>
+      <Field name="Code">HN</Field>
+      <Field name="Country">Honduras</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">035</Field>
+    </Element>
+    <Element>
+      <Field name="Code">HK</Field>
+      <Field name="Country">Hong Kong</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">103</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IM</Field>
+      <Field name="Country">Isola di Man</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">203</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IN</Field>
+      <Field name="Country">India</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">114</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ID</Field>
+      <Field name="Country">Indonesia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">129</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IR</Field>
+      <Field name="Country">Iran</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">039</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IQ</Field>
+      <Field name="Country">Iraq</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">038</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IE</Field>
+      <Field name="Country">Irlanda</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">040</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IS</Field>
+      <Field name="Country">Islanda</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">041</Field>
+    </Element>
+    <Element>
+      <Field name="Code">BV</Field>
+      <Field name="Country">Bouvet Island</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">280</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AX</Field>
+      <Field name="Country">Aland Island</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">000</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KY</Field>
+      <Field name="Country">Isole Cayman</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">211</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CX</Field>
+      <Field name="Country">Isola Christmas</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">282</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CC</Field>
+      <Field name="Country">Isole Cocos Keeling</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">281</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CK</Field>
+      <Field name="Country">Isole Cook</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">237</Field>
+    </Element>
+    <Element>
+      <Field name="Code">FK</Field>
+      <Field name="Country">Isole Falkland Malvinas</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">190</Field>
+    </Element>
+    <Element>
+      <Field name="Code">FO</Field>
+      <Field name="Country">Isole Faroe</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">204</Field>
+    </Element>
+    <Element>
+      <Field name="Code">FJ</Field>
+      <Field name="Country">Isla Fiji</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">161</Field>
+    </Element>
+    <Element>
+      <Field name="Code">HM</Field>
+      <Field name="Country">Heard Islands and McDonald Islands</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">284</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MP</Field>
+      <Field name="Country">Isole Mariannes</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">219</Field>
+    </Element>
+    <Element>
+      <Field name="Code">UM</Field>
+      <Field name="Country">United States Minor Outlying Islands</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">177</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NF</Field>
+      <Field name="Country">Norfolk Island</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">285</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SB</Field>
+      <Field name="Country">Isole Salomone</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">191</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TC</Field>
+      <Field name="Country">Isole Turks e Caicos</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">210</Field>
+    </Element>
+    <Element>
+      <Field name="Code">VG</Field>
+      <Field name="Country">Isole Vergini Britanniche</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">249</Field>
+    </Element>
+    <Element>
+      <Field name="Code">VI</Field>
+      <Field name="Country">Isole Vergini Americane</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">221</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IL</Field>
+      <Field name="Country">Israele</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">182</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IT</Field>
+      <Field name="Country">Italia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">086</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KZ</Field>
+      <Field name="Country">Kazakstan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">269</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KE</Field>
+      <Field name="Country">Kenya</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">116</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KG</Field>
+      <Field name="Country">Kirghizstan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">270</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KI</Field>
+      <Field name="Country">Kiribati</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">194</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KW</Field>
+      <Field name="Country">Kuwait</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">126</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LA</Field>
+      <Field name="Country">Laos</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">136</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LS</Field>
+      <Field name="Country">Lesotho</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">089</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LV</Field>
+      <Field name="Country">Lettonia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">258</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LB</Field>
+      <Field name="Country">Libano</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">095</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LR</Field>
+      <Field name="Country">Liberia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">044</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LY</Field>
+      <Field name="Country">Libia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">045</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LI</Field>
+      <Field name="Country">Liechtenstein</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">090</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LT</Field>
+      <Field name="Country">Lituania</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">259</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LU</Field>
+      <Field name="Country">Lussemburgo</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">092</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MO</Field>
+      <Field name="Country">Macao</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">059</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MK</Field>
+      <Field name="Country">Macedonia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">278</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MG</Field>
+      <Field name="Country">Madagascar</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">104</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MW</Field>
+      <Field name="Country">Malawi</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">056</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MV</Field>
+      <Field name="Country">Maldive</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">127</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MY</Field>
+      <Field name="Country">Malesia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">106</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ML</Field>
+      <Field name="Country">Mali</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">149</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MT</Field>
+      <Field name="Country">Malta</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">105</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MA</Field>
+      <Field name="Country">Marocco</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">107</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MQ</Field>
+      <Field name="Country">Martinica</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">213</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MR</Field>
+      <Field name="Country">Mauritania</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">141</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MU</Field>
+      <Field name="Country">Mauritius</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">128</Field>
+    </Element>
+    <Element>
+      <Field name="Code">YT</Field>
+      <Field name="Country">Mayotte</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">226</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MX</Field>
+      <Field name="Country">Messico</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">046</Field>
+    </Element>
+    <Element>
+      <Field name="Code">FM</Field>
+      <Field name="Country">Micronesia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">215</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MD</Field>
+      <Field name="Country">Moldavia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">265</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MC</Field>
+      <Field name="Country">Monaco</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">091</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MN</Field>
+      <Field name="Country">Mongolia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">110</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MS</Field>
+      <Field name="Country">Montserrat</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">208</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MZ</Field>
+      <Field name="Country">Mozambico</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">134</Field>
+    </Element>
+    <Element>
+      <Field name="Code">MM</Field>
+      <Field name="Country">Myanmar</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">083</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NA</Field>
+      <Field name="Country">Namibia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">206</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NR</Field>
+      <Field name="Country">Nauru</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">109</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NP</Field>
+      <Field name="Country">Nepal</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">115</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NI</Field>
+      <Field name="Country">Nicaragua</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">047</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NE</Field>
+      <Field name="Country">Niger</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">150</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NG</Field>
+      <Field name="Country">Nigeria</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">117</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NU</Field>
+      <Field name="Country">Niue</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">205</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NO</Field>
+      <Field name="Country">Norvegia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">048</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NC</Field>
+      <Field name="Country">Nuova Caledonia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">253</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NZ</Field>
+      <Field name="Country">Nuova Zelanda</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">049</Field>
+    </Element>
+    <Element>
+      <Field name="Code">OM</Field>
+      <Field name="Country">Oman</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">163</Field>
+    </Element>
+    <Element>
+      <Field name="Code">NL</Field>
+      <Field name="Country">Paesi Bassi</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">050</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PK</Field>
+      <Field name="Country">Pakistan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">036</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PW</Field>
+      <Field name="Country">Palau</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">216</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PA</Field>
+      <Field name="Country">Panama</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">051</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PG</Field>
+      <Field name="Country">Papuasia Nuova Guinea</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">186</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PY</Field>
+      <Field name="Country">Paraguay</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">052</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PE</Field>
+      <Field name="Country">Peru</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">053</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PN</Field>
+      <Field name="Country">Pitcairn</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">175</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PF</Field>
+      <Field name="Country">Polinesia francese</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">225</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PL</Field>
+      <Field name="Country">Polonia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">054</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PT</Field>
+      <Field name="Country">Portogallo</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">055</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PR</Field>
+      <Field name="Country">Porto Rico</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">220</Field>
+    </Element>
+    <Element>
+      <Field name="Code">QA</Field>
+      <Field name="Country">Qatar</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">168</Field>
+    </Element>
+    <Element>
+      <Field name="Code">GB</Field>
+      <Field name="Country">Gran Bretagna</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">031</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CZ</Field>
+      <Field name="Country">Repubblica Ceca</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">275</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CF</Field>
+      <Field name="Country">Repubblica Centroafricana</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">143</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CD</Field>
+      <Field name="Country">Congo, The Democratic Republic of</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">145</Field>
+    </Element>
+    <Element>
+      <Field name="Code">DO</Field>
+      <Field name="Country">Repubblica Dominicana</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">063</Field>
+    </Element>
+    <Element>
+      <Field name="Code">RE</Field>
+      <Field name="Country">Reunion</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">247</Field>
+    </Element>
+    <Element>
+      <Field name="Code">RO</Field>
+      <Field name="Country">Romania</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">061</Field>
+    </Element>
+    <Element>
+      <Field name="Code">RW</Field>
+      <Field name="Country">Ruanda</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">151</Field>
+    </Element>
+    <Element>
+      <Field name="Code">RU</Field>
+      <Field name="Country">Russia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">262</Field>
+    </Element>
+    <Element>
+      <Field name="Code">KN</Field>
+      <Field name="Country">Saint Kitts and Nevis</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">195</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LC</Field>
+      <Field name="Country">Saint Lucia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">199</Field>
+    </Element>
+    <Element>
+      <Field name="Code">PM</Field>
+      <Field name="Country">Saint Pierre e Miquelon</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">248</Field>
+    </Element>
+    <Element>
+      <Field name="Code">VC</Field>
+      <Field name="Country">Saint Vincent and the Grenadines</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">196</Field>
+    </Element>
+    <Element>
+      <Field name="Code">WS</Field>
+      <Field name="Country">Samoa</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">131</Field>
+    </Element>
+    <Element>
+      <Field name="Code">AS</Field>
+      <Field name="Country">Samoa americane</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">148</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SM</Field>
+      <Field name="Country">San Marino</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">037</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SH</Field>
+      <Field name="Country">Sant'Elena</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">254</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ST</Field>
+      <Field name="Country">Sao Tome e Principe</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">187</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SN</Field>
+      <Field name="Country">Senegal</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">152</Field>
+    </Element>
+    <Element>
+      <Field name="Code">RS</Field>
+      <Field name="Country">Serbia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">289</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ME</Field>
+      <Field name="Country">Montenegro</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">290</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SC</Field>
+      <Field name="Country">Seychelles</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">189</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SL</Field>
+      <Field name="Country">Sierra Leone</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">153</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SG</Field>
+      <Field name="Country">Singapore</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">147</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SY</Field>
+      <Field name="Country">Siria</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">065</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SK</Field>
+      <Field name="Country">Slovacchia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">276</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SI</Field>
+      <Field name="Country">Slovenia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">260</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SO</Field>
+      <Field name="Country">Somalia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">066</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ES</Field>
+      <Field name="Country">Spagna</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">067</Field>
+    </Element>
+    <Element>
+      <Field name="Code">LK</Field>
+      <Field name="Country">Sri Lanka</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">085</Field>
+    </Element>
+    <Element>
+      <Field name="Code">US</Field>
+      <Field name="Country">Stati Uniti D'America</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">069</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ZA</Field>
+      <Field name="Country">SudAfrica</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">078</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SD</Field>
+      <Field name="Country">Sudan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">070</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SR</Field>
+      <Field name="Country">Suriname</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">124</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SJ</Field>
+      <Field name="Country">Svalbard and Jan Mayen</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">286</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SE</Field>
+      <Field name="Country">Svezia</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">068</Field>
+    </Element>
+    <Element>
+      <Field name="Code">CH</Field>
+      <Field name="Country">Svizzera</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">071</Field>
+    </Element>
+    <Element>
+      <Field name="Code">SZ</Field>
+      <Field name="Country">Swaziland</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">138</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TJ</Field>
+      <Field name="Country">Tajikistan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">272</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TH</Field>
+      <Field name="Country">Tailandia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">072</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TW</Field>
+      <Field name="Country">Taiwan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">022</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TZ</Field>
+      <Field name="Country">Tanzania</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">057</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TF</Field>
+      <Field name="Country">Terre Australi e Antart. Francesi</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">183</Field>
+    </Element>
+    <Element>
+      <Field name="Code">IO</Field>
+      <Field name="Country">Territ. Brit. dell'Oceano Indiano</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">245</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TL</Field>
+      <Field name="Country">Timor Oriental</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">287</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TG</Field>
+      <Field name="Country">Togo</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">155</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TK</Field>
+      <Field name="Country">Tokelau</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">236</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TO</Field>
+      <Field name="Country">Tonga</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">162</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TT</Field>
+      <Field name="Country">Trinidad e Tobago</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">120</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TN</Field>
+      <Field name="Country">Tunisia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">075</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TR</Field>
+      <Field name="Country">Turchia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">076</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TM</Field>
+      <Field name="Country">Turkmenistan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">273</Field>
+    </Element>
+    <Element>
+      <Field name="Code">TV</Field>
+      <Field name="Country">Tuvalu</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">193</Field>
+    </Element>
+    <Element>
+      <Field name="Code">UA</Field>
+      <Field name="Country">Ucraina</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">263</Field>
+    </Element>
+    <Element>
+      <Field name="Code">UG</Field>
+      <Field name="Country">Uganda</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">132</Field>
+    </Element>
+    <Element>
+      <Field name="Code">HU</Field>
+      <Field name="Country">Ungheria</Field>
+      <Field name="IntraEU">True</Field>
+      <Field name="CountryCode">077</Field>
+    </Element>
+    <Element>
+      <Field name="Code">UY</Field>
+      <Field name="Country">Uruguay</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">080</Field>
+    </Element>
+    <Element>
+      <Field name="Code">UZ</Field>
+      <Field name="Country">Uzbekistan</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">271</Field>
+    </Element>
+    <Element>
+      <Field name="Code">VU</Field>
+      <Field name="Country">Vanuatu</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">121</Field>
+    </Element>
+    <Element>
+      <Field name="Code">VE</Field>
+      <Field name="Country">Venezuela</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">081</Field>
+    </Element>
+    <Element>
+      <Field name="Code">VN</Field>
+      <Field name="Country">Vietnam</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">062</Field>
+    </Element>
+    <Element>
+      <Field name="Code">WF</Field>
+      <Field name="Country">Wallis e Futuna</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">218</Field>
+    </Element>
+    <Element>
+      <Field name="Code">YE</Field>
+      <Field name="Country">Yemen</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">042</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ZM</Field>
+      <Field name="Country">Zambia</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">058</Field>
+    </Element>
+    <Element>
+      <Field name="Code">ZW</Field>
+      <Field name="Country">Zimbabwe</Field>
+      <Field name="IntraEU">False</Field>
+      <Field name="CountryCode">073</Field>
+    </Element>
+  </Elements>
+</Auxdata>

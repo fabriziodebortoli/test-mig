@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+	<ClientDocuments>
+		<ServerDocument type="family" class="CAbstractFormDoc">
+			<ClientDocument namespace="Framework.TbGes.TbGes.FieldInspector" localize="Field Inspector" />
+		</ServerDocument>
+	</ClientDocuments>
+	<ClientForms>
+		<ClientForm name="M.Framework.TbGes.FieldInspector.FIELDINSPECTOR_TOOLBAR" server="IDD_MASTER_FRAME"/>
+	</ClientForms>
+</ClientDocumentObjects>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="NoficationService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc?xsd=xsd2" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Interfaces" />
+      <xsd:import schemaLocation="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/NotificationService" />
+      <xsd:import schemaLocation="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/PAT.CRM.Portal.BrainIntegration" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="INotificationService_IsAlive_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsAlive" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_IsAlive_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsAliveResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetXSocketControllerUrl_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetXSocketControllerUrl" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetXSocketControllerUrl_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetXSocketControllerUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SendMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SendIGenericNotify_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendIGenericNotify" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SendIGenericNotify_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendIGenericNotifyResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetAllIGenericNotify_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllIGenericNotify" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetAllIGenericNotify_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllIGenericNotifyResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SetNotificationAsRead_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetNotificationAsRead" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SetNotificationAsRead_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetNotificationAsReadResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_TestInheritance_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestInheritance" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_TestInheritance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestInheritanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SendChatMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendChatMessage" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SendChatMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendChatMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetBrainBusinessServiceUrl_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBrainBusinessServiceUrl" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetBrainBusinessServiceUrl_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBrainBusinessServiceUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_UpdateBrainBusinessServiceUrl_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateBrainBusinessServiceUrl" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_UpdateBrainBusinessServiceUrl_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateBrainBusinessServiceUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetBBForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBBForm" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetBBForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBBFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SetBBForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetBBForm" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_SetBBForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetBBFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetAllBBFormInstances_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllBBFormInstances" />
+  </wsdl:message>
+  <wsdl:message name="INotificationService_GetAllBBFormInstances_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllBBFormInstancesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainBusinessNotificationListener_ReceiveEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveEvent" />
+  </wsdl:message>
+  <wsdl:message name="IBrainBusinessNotificationListener_ReceiveEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveEventResponse" />
+  </wsdl:message>
+  <wsdl:portType name="INotificationService">
+    <wsdl:operation name="IsAlive">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/IsAlive" message="tns:INotificationService_IsAlive_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/IsAliveResponse" message="tns:INotificationService_IsAlive_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetXSocketControllerUrl">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/GetXSocketControllerUrl" message="tns:INotificationService_GetXSocketControllerUrl_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/GetXSocketControllerUrlResponse" message="tns:INotificationService_GetXSocketControllerUrl_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/SendMessage" message="tns:INotificationService_SendMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/SendMessageResponse" message="tns:INotificationService_SendMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendIGenericNotify">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/SendIGenericNotify" message="tns:INotificationService_SendIGenericNotify_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/SendIGenericNotifyResponse" message="tns:INotificationService_SendIGenericNotify_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllIGenericNotify">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/GetAllIGenericNotify" message="tns:INotificationService_GetAllIGenericNotify_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/GetAllIGenericNotifyResponse" message="tns:INotificationService_GetAllIGenericNotify_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetNotificationAsRead">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/SetNotificationAsRead" message="tns:INotificationService_SetNotificationAsRead_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/SetNotificationAsReadResponse" message="tns:INotificationService_SetNotificationAsRead_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TestInheritance">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/TestInheritance" message="tns:INotificationService_TestInheritance_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/TestInheritanceResponse" message="tns:INotificationService_TestInheritance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendChatMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/SendChatMessage" message="tns:INotificationService_SendChatMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/SendChatMessageResponse" message="tns:INotificationService_SendChatMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBrainBusinessServiceUrl">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/GetBrainBusinessServiceUrl" message="tns:INotificationService_GetBrainBusinessServiceUrl_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/GetBrainBusinessServiceUrlResponse" message="tns:INotificationService_GetBrainBusinessServiceUrl_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBrainBusinessServiceUrl">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/UpdateBrainBusinessServiceUrl" message="tns:INotificationService_UpdateBrainBusinessServiceUrl_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/UpdateBrainBusinessServiceUrlResponse" message="tns:INotificationService_UpdateBrainBusinessServiceUrl_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBBForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/GetBBForm" message="tns:INotificationService_GetBBForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/GetBBFormResponse" message="tns:INotificationService_GetBBForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetBBForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/SetBBForm" message="tns:INotificationService_SetBBForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/SetBBFormResponse" message="tns:INotificationService_SetBBForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBBFormInstances">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificationService/GetAllBBFormInstances" message="tns:INotificationService_GetAllBBFormInstances_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificationService/GetAllBBFormInstancesResponse" message="tns:INotificationService_GetAllBBFormInstances_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IBrainBusinessNotificationListener">
+    <wsdl:operation name="ReceiveEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainBusinessNotificationListener/ReceiveEvent" message="tns:IBrainBusinessNotificationListener_ReceiveEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainBusinessNotificationListener/ReceiveEventResponse" message="tns:IBrainBusinessNotificationListener_ReceiveEvent_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_INotificationService" type="tns:INotificationService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IsAlive">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/IsAlive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetXSocketControllerUrl">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/GetXSocketControllerUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/SendMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendIGenericNotify">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/SendIGenericNotify" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllIGenericNotify">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/GetAllIGenericNotify" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetNotificationAsRead">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/SetNotificationAsRead" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestInheritance">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/TestInheritance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendChatMessage">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/SendChatMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBrainBusinessServiceUrl">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/GetBrainBusinessServiceUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBrainBusinessServiceUrl">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/UpdateBrainBusinessServiceUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBBForm">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/GetBBForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetBBForm">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/SetBBForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllBBFormInstances">
+      <soap:operation soapAction="http://tempuri.org/INotificationService/GetAllBBFormInstances" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpBinding_IBrainBusinessNotificationListener" type="tns:IBrainBusinessNotificationListener">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ReceiveEvent">
+      <soap:operation soapAction="http://tempuri.org/IBrainBusinessNotificationListener/ReceiveEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NoficationService">
+    <wsdl:port name="BasicHttpBinding_INotificationService" binding="tns:BasicHttpBinding_INotificationService">
+      <soap:address location="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpBinding_IBrainBusinessNotificationListener" binding="tns:BasicHttpBinding_IBrainBusinessNotificationListener">
+      <soap:address location="http://localhost/DEVELOPMENT/NotificationService/NotificationService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

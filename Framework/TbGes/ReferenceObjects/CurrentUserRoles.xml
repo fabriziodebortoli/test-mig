@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function type="string" namespace="Framework.TbGes.TbGes.CurrentUserRoles" localize="Current User Roles" />
+  <DbField name="Role" />
+  <ComboBox/>
+</HotKeyLink>

@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MenuLoadErrorCaption" xml:space="preserve">
+    <value>Menu Load Error</value>
+  </data>
+  <data name="MenuExcelFilesDialogCaption" xml:space="preserve">
+    <value>Excel File Selection</value>
+  </data>
+  <data name="ShowCommandsDescriptionsMenuItemText" xml:space="preserve">
+    <value>Show Commands Descriptions</value>
+  </data>
+  <data name="LoadCachedStandardMenuText" xml:space="preserve">
+    <value>Cached standard menu loading</value>
+  </data>
+  <data name="ShowReportsDatesMenuItemText" xml:space="preserve">
+    <value>Show Reports Dates</value>
+  </data>
+  <data name="ViewToolBarCaptionText" xml:space="preserve">
+    <value>Commands View Options</value>
+  </data>
+  <data name="HideViewToolBarMenuItemText" xml:space="preserve">
+    <value>Hide Commands View Options Toolbar</value>
+  </data>
+  <data name="MenuSearchResultsStatusBarMessage" xml:space="preserve">
+    <value>{0} commands found by the search.</value>
+  </data>
+  <data name="LoadFavoritesMenuText" xml:space="preserve">
+    <value>Favorites menu loading</value>
+  </data>
+  <data name="MenuSearchFilteredByEnvironment" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="NoCommandsAvailableWarningMessage" xml:space="preserve">
+    <value>The loaded menu does not contain any valid item.</value>
+  </data>
+  <data name="HideCommandsDescriptionsMenuItemText" xml:space="preserve">
+    <value>Hide Commands Descriptions</value>
+  </data>
+  <data name="ReportCreationTimeFormat" xml:space="preserve">
+    <value>Creation date: {0}</value>
+  </data>
+  <data name="ScanStandardMenuComponentsText" xml:space="preserve">
+    <value>Standard components searching</value>
+  </data>
+  <data name="MenuSearchNoFilter" xml:space="preserve">
+    <value>(no filter)</value>
+  </data>
+  <data name="MenuOfficeFilesDialogCaption" xml:space="preserve">
+    <value>Office File Selection</value>
+  </data>
+  <data name="LoadAllMenuFilesStartedText" xml:space="preserve">
+    <value>Menu file loading</value>
+  </data>
+  <data name="MenuSearchFilteredByFavorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="ScanCustomMenuComponentsText" xml:space="preserve">
+    <value>Custom components searching</value>
+  </data>
+  <data name="MenuSearchGenericFailureMessageText" xml:space="preserve">
+    <value>Search interrupted due to errors.
+Verify that the search expression syntax is valid.</value>
+  </data>
+  <data name="MenuManagerDialogCaption" xml:space="preserve">
+    <value>Menu Command Selection</value>
+  </data>
+  <data name="MenuSearchInProgressStatusBarMessage" xml:space="preserve">
+    <value>Searching...</value>
+  </data>
+  <data name="MenuSearchFilteredByApplications" xml:space="preserve">
+    <value>Applications</value>
+  </data>
+  <data name="ShowViewToolBarMenuItemText" xml:space="preserve">
+    <value>Show Commands View Options Toolbar</value>
+  </data>
+  <data name="HideReportsDatesMenuItemText" xml:space="preserve">
+    <value>Hide Reports Dates</value>
+  </data>
+  <data name="MenuSearchNoResultStatusBarMessage" xml:space="preserve">
+    <value>No results found.</value>
+  </data>
+  <data name="MenuSearchFailedMessageText" xml:space="preserve">
+    <value>Error encountered during search: {0}.</value>
+  </data>
+  <data name="MenuSearchFailedMessageCaption" xml:space="preserve">
+    <value>Search failed</value>
+  </data>
+  <data name="MenuWordFilesDialogCaption" xml:space="preserve">
+    <value>Word File Selection</value>
+  </data>
+  <data name="NoCommandsAvailableWarningCaption" xml:space="preserve">
+    <value>Empty Menu</value>
+  </data>
+  <data name="ReportLastWriteTimeFormat" xml:space="preserve">
+    <value>Last modification date: {0}</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MenuLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Bitmaps\MenuLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EmptyFileName" xml:space="preserve">
+    <value>Warning! File name empty!</value>
+  </data>
+  <data name="InvalidExtensionOrName" xml:space="preserve">
+    <value>The selected file name is invalid!</value>
+  </data>
+  <data name="InvalidPathSelected" xml:space="preserve">
+    <value>Warning! Error in module or application selection!</value>
+  </data>
+  <data name="NoCheckSelected" xml:space="preserve">
+    <value>Warning! You must select an option!</value>
+  </data>
+  <data name="WarningFormCaption" xml:space="preserve">
+    <value>Task Builder</value>
+  </data>
+  <data name="ErrFileNotExists" xml:space="preserve">
+    <value>File {0} does not exist.</value>
+  </data>
+  <data name="PathFinderNull" xml:space="preserve">
+    <value>PathFinder component isn't initialized</value>
+  </data>
+  <data name="RunConsoleFirst" xml:space="preserve">
+    <value>Before using the application you first have to execute Administration Console and create a company.</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="WarningAutologin" xml:space="preserve">
+    <value>Selecting this option the Auto Login will be enabled. You can change your choice from menu Options.</value>
+  </data>
+  <data name="OverWriteLastuser" xml:space="preserve">
+    <value>Do you want to overwrite the login information saved by {0} with yours?</value>
+  </data>
+  <data name="WarningOnDBSize" xml:space="preserve">
+    <value>You are about to reach the maximum size of the database, you have only {0}% of free space.
+Please contact your reseller for further information.</value>
+  </data>
+  <data name="NotificationButtonTooltip" xml:space="preserve">
+    <value>You got {0} notifications</value>
+  </data>
+  <data name="ProductLicencedTo" xml:space="preserve">
+    <value>Product licenced to: {0} </value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version: {0}</value>
+  </data>
+</root>

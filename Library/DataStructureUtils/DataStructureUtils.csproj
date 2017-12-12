@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{632E00E1-18C8-4480-B5C8-8FA94C4FC9BA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microarea.Library.DataStructureUtils</RootNamespace>
+    <AssemblyName>DataStructureUtils</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataIcons.cs" />
+    <Compile Include="DBObjectDefsFileValidator.cs" />
+    <Compile Include="DBObjectDefsHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBObjects\DBObjects.csproj">
+      <Project>{023411C9-F6D0-4C39-8259-DC32FCC41884}</Project>
+      <Name>DBObjects</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SqlScriptUtility\SqlScriptUtility.csproj">
+      <Project>{3455E1AD-11E2-4944-8B31-937048EE6639}</Project>
+      <Name>SqlScriptUtility</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TBWizardProjects\TBWizardProjects.csproj">
+      <Project>{D10E8174-DE5F-45BF-AB49-AECAD02CA001}</Project>
+      <Name>TBWizardProjects</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\BlueBrick.ico" />
+    <EmbeddedResource Include="Icons\Bricks.ico" />
+    <EmbeddedResource Include="Icons\GreenBrick.ico" />
+    <EmbeddedResource Include="Icons\RedBrick.ico" />
+    <EmbeddedResource Include="Icons\YellowBrick.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="XSD\DBObjectsDef.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\DataStructureBinFile.ico" />
+    <EmbeddedResource Include="Icons\DataStructureFile.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\ModuleDBObjs.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\Database.ico" />
+    <EmbeddedResource Include="Icons\DBScript.ico" />
+    <EmbeddedResource Include="Icons\OracleScript.ico" />
+    <EmbeddedResource Include="Icons\SQLServerScript.ico" />
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

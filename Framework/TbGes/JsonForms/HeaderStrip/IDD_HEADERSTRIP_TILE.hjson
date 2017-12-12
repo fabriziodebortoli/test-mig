@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_HEADERSTRIP_TILE			GET_IDD(IDD_HEADERSTRIP_TILE, M.Framework.TbGes.HeaderStrip)
+#define	IDC_HEADERSTRIP_CAPTION			GET_IDC(IDC_HEADERSTRIP_CAPTION)

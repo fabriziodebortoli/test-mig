@@ -1,0 +1,16 @@
+﻿{
+   "id" : "ID_EXTDOC_WIZARDBATCH_TOOLBAR_MAIN",
+   "items" : [
+    {
+      "id": "ID_EXTDOC_REPORT",
+      "activation": "false"
+    },
+    {
+      "id": "ID_WIZARD_RESTART",
+      "activation": "false"
+    }
+   ],
+   "name" : "Main",
+   "type" : 14 /*Toolbar*/
+
+}

@@ -1,0 +1,93 @@
+﻿{
+  "id": "IDD_WIZARD_OPTION_PAGE",
+  "rcId": 2213,
+  "type": 66,
+  "text": "Export options",
+  "x": 0,
+  "y": 0,
+  "width": 262,
+  "height": 193,
+  "child": true,
+  "context": "expcriteriadlg",
+  "items": [
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Envelope options",
+      "x": 3,
+      "y": 7,
+      "width": 255,
+      "height": 99
+    },
+    {
+      "id": "IDC_EXPORT_USING_PATH_CHECK",
+      "type": 11,
+      "text": "&Change export path",
+      "x": 8,
+      "y": 26,
+      "width": 172,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_EXPORT_PATH_EDIT",
+      "type": 13,
+      "x": 8,
+      "y": 40,
+      "width": 223,
+      "height": 12,
+      "enabled": false,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_EXPORT_PATH_BTN",
+      "type": 3,
+      "text": "...",
+      "x": 233,
+      "y": 40,
+      "width": 23,
+      "height": 12,
+      "enabled": false
+    },
+    {
+      "id": "IDC_EXPORT_ZIP_CHECK",
+      "type": 11,
+      "text": "Compress in &zip format",
+      "x": 8,
+      "y": 61,
+      "width": 192,
+      "height": 10,
+      "visible": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_EXPORT_SAVECRITERIA_GROUP",
+      "type": 9,
+      "text": "Criteria",
+      "x": 3,
+      "y": 120,
+      "width": 255,
+      "height": 46
+    },
+    {
+      "id": "IDC_EXPORT_SAVE_EXPCRITERIA",
+      "type": 11,
+      "text": "&Save export criteria",
+      "x": 8,
+      "y": 137,
+      "width": 191,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_EXPORT_SEND_ENVELOPE_NOW",
+      "type": 11,
+      "text": "Send the generated envelope &immediately",
+      "x": 8,
+      "y": 80,
+      "width": 192,
+      "height": 10,
+      "auto": true
+    }
+  ]
+}

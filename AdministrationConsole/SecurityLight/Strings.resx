@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RootPlugInNodeToolTipText" xml:space="preserve">
+    <value>Set Security Light Authorizations</value>
+  </data>
+  <data name="LoadAllMenuFilesStartedText" xml:space="preserve">
+    <value>Menu file loading</value>
+  </data>
+  <data name="RootPlugInNodeText" xml:space="preserve">
+    <value>Security Light</value>
+  </data>
+  <data name="ScanStandardMenuComponentsText" xml:space="preserve">
+    <value>Standard components searching</value>
+  </data>
+  <data name="ScanCustomMenuComponentsText" xml:space="preserve">
+    <value>Custom components searching</value>
+  </data>
+  <data name="RefreshAllSLDenyFilesMenuItemText" xml:space="preserve">
+    <value>Refresh secured menu customizations</value>
+  </data>
+  <data name="AccessRightChangeErrorCaption" xml:space="preserve">
+    <value>Access Right Change Failure</value>
+  </data>
+  <data name="AccessRightChangeFailedMsgFmt" xml:space="preserve">
+    <value>The changing process of the access right assigned to the command related to the '{0}' namespace is failed.</value>
+  </data>
+  <data name="AllCompaniesComboBoxItemText" xml:space="preserve">
+    <value>&lt;All Companies&gt;</value>
+  </data>
+  <data name="AllowAccessToAllObjectsMenuItemText" xml:space="preserve">
+    <value>&amp;Allow AccessTo All Objects</value>
+  </data>
+  <data name="AllowAccessToCommandMenuItemText" xml:space="preserve">
+    <value>&amp;Allow Access</value>
+  </data>
+  <data name="AllowUnattendedModeMenuItemText" xml:space="preserve">
+    <value>Allow Run in &amp;Unattended Mode</value>
+  </data>
+  <data name="AllUsersComboBoxItemText" xml:space="preserve">
+    <value>&lt;All Users&gt;</value>
+  </data>
+  <data name="ApplyCurrentAccessToMenuItemText" xml:space="preserve">
+    <value>Apply Current Access &amp;Right to</value>
+  </data>
+  <data name="ApplySameAccessRightsToMenuItemText" xml:space="preserve">
+    <value>Apply the &amp;Same Access Rights to</value>
+  </data>
+  <data name="ApplyToOtherCompaniesMenuItemText" xml:space="preserve">
+    <value>Other &amp;Companies ...</value>
+  </data>
+  <data name="ApplyToOtherUsersMenuItemText" xml:space="preserve">
+    <value>Other &amp;Users ...</value>
+  </data>
+  <data name="BatchObjectDescriptionText" xml:space="preserve">
+    <value>Batch</value>
+  </data>
+  <data name="CommandAccessDeniedForAllMsgFmt" xml:space="preserve">
+    <value>The access to the '{0}' command ({1}) is always denied. The overview display is needless.</value>
+  </data>
+  <data name="CommandObjectTypeCaptionText" xml:space="preserve">
+    <value>Command Type:</value>
+  </data>
+  <data name="ConnectionErrorCaption" xml:space="preserve">
+    <value>Connection Error</value>
+  </data>
+  <data name="DenyAccessToAllObjectsMenuItemText" xml:space="preserve">
+    <value>&amp;Deny Access To All Objects</value>
+  </data>
+  <data name="DenyAccessToCommandMenuItemText" xml:space="preserve">
+    <value>&amp;Deny Access</value>
+  </data>
+  <data name="ExcelDocumentObjectDescriptionText" xml:space="preserve">
+    <value>Excel Document</value>
+  </data>
+  <data name="ExcelTemplateObjectDescriptionText" xml:space="preserve">
+    <value>Excel Template</value>
+  </data>
+  <data name="FormObjectDescriptionText" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="FunctionObjectDescriptionText" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="GroupAccessDeniedForAllMsgFmt" xml:space="preserve">
+    <value>The accesses to all the objects contained in the '{0}' group are always denied. The overview display is needless.</value>
+  </data>
+  <data name="GroupObjectDescriptionText" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="GroupTitleCaptionText" xml:space="preserve">
+    <value>Group Title:</value>
+  </data>
+  <data name="InvalidDBConnectionErrorMsgFmt" xml:space="preserve">
+    <value>Database connection error: {0}</value>
+  </data>
+  <data name="MenuAccessDeniedForAllMsgFmt" xml:space="preserve">
+    <value>The accesses to all the objects contained in the '{0}' menu are always denied. The overview display is needless.</value>
+  </data>
+  <data name="MenuObjectDescriptionText" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="MenuTitleCaptionText" xml:space="preserve">
+    <value>Menu Title:</value>
+  </data>
+  <data name="NoAccessRightsOverviewCaption" xml:space="preserve">
+    <value>Access Rights Overview Not Displayed</value>
+  </data>
+  <data name="NoCompanyAvailableInformationMsgText" xml:space="preserve">
+    <value>There is no company available for selection. There is no other company available or all other companies have the same access rights on the selected object.</value>
+  </data>
+  <data name="NoUserAvailableInformationMsgText" xml:space="preserve">
+    <value>There is no user available for selection. There is no other user available or all other users have the same access rights on the selected object.</value>
+  </data>
+  <data name="OpenConnectionErrorMsgFmt" xml:space="preserve">
+    <value>Could not open the database connection ({0})</value>
+  </data>
+  <data name="OperationCancelledCaption" xml:space="preserve">
+    <value>Operation Cancelled</value>
+  </data>
+  <data name="ReportObjectDescriptionText" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="ShowAccessRightsMenuItemText" xml:space="preserve">
+    <value>Show Access Rights &amp;Overview...</value>
+  </data>
+  <data name="StopCurrentOperationQuestionText" xml:space="preserve">
+    <value>Are you sure you want to interrupt the current operation?</value>
+  </data>
+  <data name="StopLoadingCaption" xml:space="preserve">
+    <value>Stop Loading</value>
+  </data>
+  <data name="WordDocumentObjectDescriptionText" xml:space="preserve">
+    <value>Word Document</value>
+  </data>
+  <data name="WordTemplateObjectDescriptionText" xml:space="preserve">
+    <value>Word Template</value>
+  </data>
+</root>

@@ -1,0 +1,12 @@
+﻿{
+    "id": "IDD_DS_PROVIDERS",
+    "href": "M.Framework.TbGes.TbGes.IDD_MASTER_FRAME",
+    "type": "Frame",
+    "x": 0,
+    "y": 0,
+    "width": 750,
+    "height": 97,
+    "items": [
+        { "href": "IDD_DS_PROVIDERS_VIEW" }
+    ]
+}

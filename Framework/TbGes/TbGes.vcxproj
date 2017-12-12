@@ -1,0 +1,1038 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseDebugInfo|Win32">
+      <Configuration>ReleaseDebugInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{39A7EB20-843D-4FD2-ADB6-FD543C30A709}</ProjectGuid>
+    <RootNamespace>TbGes</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Keyword>MFCDLLProj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TBAppsBin)\debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Obj\Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TBAppsBin)\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Obj\Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">$(TBAppsBin)\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Obj\ReleaseDebugInfo\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TBOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_TBGES;_TbMultiDll;_WINDOWS;_DEBUG;_AFXEXT;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalOptions>/Zm130 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0000</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);$(TBFramework);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msxml6.lib;bclw32.lib;mpr.lib;Vfw32.lib;iphlpapi.lib;libcef.lib;libcef_dll_wrapperd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TbGes.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);$(TBOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TbGes.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)TbGes.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AllowIsolation>true</AllowIsolation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TBOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_TBGES;_TbMultiDll;_WINDOWS;NDEBUG;_AFXEXT;_CRT_SECURE_NO_WARNINGS;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);$(TBFramework);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msxml6.lib;bclw32.lib;mpr.lib;Vfw32.lib;iphlpapi.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TbGes.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);$(TBOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TbGes.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)TbGes.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <GenerateMapFile>true</GenerateMapFile>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TBOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_TBGES;_TbMultiDll;_WINDOWS;NDEBUG;_AFXEXT;_CRT_SECURE_NO_WARNINGS;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);$(TBFramework);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msxml2.lib;bclw32.lib;mpr.lib;Vfw32.lib;iphlpapi.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TbGes.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);$(TBOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TbGes.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)TbGes.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Link>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TbClientCore\TbClientCore.vcxproj">
+      <Project>{d971152d-aed9-45dd-af87-1e788d6f950a}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TbFrameworkImages\TbFrameworkImages.vcxproj">
+      <Project>{fa802c42-4615-4053-985a-70dc6b15784a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\TbGeneric\TbGeneric.vcxproj">
+      <Project>{2ec6864f-a6d1-4cb1-9a5a-4bffc02e696e}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TbNameSolver\TbNameSolver.vcxproj">
+      <Project>{a53bba7f-1b6f-4137-af4e-63c2f44be5d5}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TbParser\TbParser.vcxproj">
+      <Project>{9288c505-54e3-4a11-af9a-e18a3ae1c1e0}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TbWebServicesWrappers\TbWebServicesWrappers.vcxproj">
+      <Project>{85411506-b033-420f-b360-b1fda8e198d8}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TbXmlCore\TbXmlCore.vcxproj">
+      <Project>{fcd1c83e-7b0a-484f-8e1a-b2b742df619a}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TBStringLoader\TBStringLoader.vcxproj">
+      <Project>{562e38dc-4acf-4f5b-a2a8-c7b59e8badc9}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TbGenLibManaged\TbGenLibManaged.vcxproj">
+      <Project>{28ed1a12-014c-4331-b17f-e58554094b8a}</Project>
+      <Private>false</Private>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\TbGenlibUI\BrowserDlg.cpp" />
+    <ClCompile Include="..\TbGenlibUI\ContextSelectionDialog.cpp" />
+    <ClCompile Include="..\TbGenlibUI\FontsDialog.cpp" />
+    <ClCompile Include="..\TbGenlibUI\FormatDialog.cpp" />
+    <ClCompile Include="..\TbGenlibUI\paddoc.cpp" />
+    <ClCompile Include="..\TbGenlibUI\TbGenlibUISoapFunctions.cpp" />
+    <ClCompile Include="..\TbGenlibUI\TBExplorer.cpp" />
+    <ClCompile Include="..\TbGenlibUI\TBExplorerUtility.cpp" />
+    <ClCompile Include="..\TbGenlibUI\TbGenlibUIInterface.cpp" />
+    <ClCompile Include="..\TbGenlibUI\TbGenlibUIWCFInterface.cpp" />
+    <ClCompile Include="..\TbGenlibUI\TBManageFile.cpp" />
+    <ClCompile Include="..\TbGenlib\AboutBox.cpp" />
+    <ClCompile Include="..\TbGenlib\AddOnMng.cpp" />
+    <ClCompile Include="..\TbGenlib\AddressEdit.cpp" />
+    <ClCompile Include="..\TbGenlib\AutoExprDlg.cpp" />
+    <ClCompile Include="..\TbGenlib\AutoExpressionMng.cpp" />
+    <ClCompile Include="..\TbGenlib\BarCode.cpp" />
+    <ClCompile Include="..\TbGenlib\BARCOMBO.CPP" />
+    <ClCompile Include="..\TbGenlib\Baseapp.cpp" />
+    <ClCompile Include="..\TbGenlib\Basedoc.cpp" />
+    <ClCompile Include="..\TbGenlib\BaseEventMng.cpp" />
+    <ClCompile Include="..\TbGenlib\Basefrm.cpp" />
+    <ClCompile Include="..\TbGenlib\BaseTileDialog.cpp" />
+    <ClCompile Include="..\TbGenlib\BaseTileManager.cpp" />
+    <ClCompile Include="..\TbGenlib\Batchdlg.cpp" />
+    <ClCompile Include="..\TbGenlib\Behaviour.cpp" />
+    <ClCompile Include="..\TbGenlib\CEFClasses.cpp" />
+    <ClCompile Include="..\TbGenlib\Command.cpp" />
+    <ClCompile Include="..\TbGenlib\DataObjDescriptionEx.cpp" />
+    <ClCompile Include="..\TbGenlib\DiagnosticManager.cpp" />
+    <ClCompile Include="..\TbGenlib\DirTreeCtrl.cpp" />
+    <ClCompile Include="..\TbGenlib\DMSAttachmentInfo.cpp" />
+    <ClCompile Include="..\TbGenlib\Expparse.cpp" />
+    <ClCompile Include="..\TbGenlib\Expr.cpp" />
+    <ClCompile Include="..\TbGenlib\ExternalControllerInfo.cpp" />
+    <ClCompile Include="..\TbGenlib\ExtStatusControlBar.cpp" />
+    <ClCompile Include="..\TbGenlib\Funproto.cpp" />
+    <ClCompile Include="..\TbGenlib\Parscbx.cpp" />
+    <ClCompile Include="..\TbGenlib\TbGenlibGeneric.cpp" />
+    <ClCompile Include="..\TbGenlib\Hlinkobj.cpp" />
+    <ClCompile Include="..\TbGenlib\HotlinkController.cpp" />
+    <ClCompile Include="..\TbGenlib\HyperLink.cpp" />
+    <ClCompile Include="..\TbGenlib\LayoutContainer.cpp" />
+    <ClCompile Include="..\TbGenlib\Messages.cpp" />
+    <ClCompile Include="..\TbGenlib\MicroareaVisualManager.cpp" />
+    <ClCompile Include="..\TbGenlib\MiniHtmlStatic.cpp" />
+    <ClCompile Include="..\TbGenlib\NumbererInfo.cpp" />
+    <ClCompile Include="..\TbGenlib\OslBaseInterface.cpp" />
+    <ClCompile Include="..\TbGenlib\OslInfo.cpp" />
+    <ClCompile Include="..\TbGenlib\Parsbtn.cpp" />
+    <ClCompile Include="..\TbGenlib\Parsedt.cpp" />
+    <ClCompile Include="..\TbGenlib\ParsEdtOther.cpp" />
+    <ClCompile Include="..\TbGenlib\Parslbx.cpp" />
+    <ClCompile Include="..\TbGenlib\Parsobj.cpp" />
+    <ClCompile Include="..\TbGenlib\ParsObjManaged.cpp" />
+    <ClCompile Include="..\TbGenlib\Reswalk.cpp" />
+    <ClCompile Include="..\TbGenlib\RichEditControl50W.cpp" />
+    <ClCompile Include="..\TbGenlib\SettingsTableManager.cpp" />
+    <ClCompile Include="..\TbGenlib\StretchableCtrl.cpp" />
+    <ClCompile Include="..\TbGenlib\Tabcore.cpp" />
+    <ClCompile Include="..\TbGenlib\TabSelector.cpp" />
+    <ClCompile Include="..\TbGenlib\TBAutoHideBar.cpp" />
+    <ClCompile Include="..\TbGenlib\TBBreadCrumb.cpp" />
+    <ClCompile Include="..\TbGenlib\TBCaptionBar.cpp" />
+    <ClCompile Include="..\TbGenlib\TBDockPane.cpp" />
+    <ClCompile Include="..\TbGenlib\TBExplorerInterface.cpp" />
+    <ClCompile Include="..\TbGenlib\TbGenlibInterface.cpp" />
+    <ClCompile Include="..\TbGenlib\TbGenlibSettings.cpp" />
+    <ClCompile Include="..\TbGenlib\TbGenlibWCFInterface.cpp" />
+    <ClCompile Include="..\TbGenlib\TBLinearGauge.cpp" />
+    <ClCompile Include="..\TbGenlib\TBParsedProgressBar.cpp" />
+    <ClCompile Include="..\TbGenlib\TBPropertyGrid.cpp" />
+    <ClCompile Include="..\TbGenlib\TBSplitterWnd.cpp" />
+    <ClCompile Include="..\TbGenlib\TBStrings.cpp" />
+    <ClCompile Include="..\TbGenlib\TBTabWnd.cpp" />
+    <ClCompile Include="..\TbGenlib\TBToolBar.cpp" />
+    <ClCompile Include="..\TbGenlib\TbTreeCtrl.cpp" />
+    <ClCompile Include="..\TbGenlib\TbWizardMaster.cpp" />
+    <ClCompile Include="..\TbGenlib\Tfxdatatip.cpp" />
+    <ClCompile Include="..\TbGenlib\Tile.cpp" />
+    <ClCompile Include="..\TbGenlib\TileButtons.cpp" />
+    <ClCompile Include="..\TbGenlib\TileDialogPart.cpp" />
+    <ClCompile Include="..\TbGenlib\TilePanel.cpp" />
+    <ClCompile Include="..\TbGenlib\ToolBarButton.cpp" />
+    <ClCompile Include="..\TbGenlib\ToolTipCtrl.cpp" />
+    <ClCompile Include="..\TbGenlib\XMLModuleObjectsInfo.cpp" />
+    <ClCompile Include="..\TbGenlib\XmlReferenceObjectsParser.cpp" />
+    <ClCompile Include="..\TbOleDb\HelperExternalReferences.cpp" />
+    <ClCompile Include="..\TbOleDb\Interfce.cpp" />
+    <ClCompile Include="..\TbOleDb\OleDbMng.cpp" />
+    <ClCompile Include="..\TbOleDb\PerformanceAnalizer.cpp" />
+    <ClCompile Include="..\TbOleDb\RIChecker.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlAccessor.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlCache.cpp" />
+    <ClCompile Include="..\TbOleDb\Sqlcatalog.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlConnect.cpp" />
+    <ClCompile Include="..\TbOleDb\sqllock.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlMark.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlObject.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlProviderInfo.cpp">
+      <DisableSpecificWarnings>4477</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlRec.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlRecoveryManager.cpp" />
+    <ClCompile Include="..\TbOleDb\Sqltable.cpp" />
+    <ClCompile Include="..\TbOleDb\TbExtensionsInterface.cpp" />
+    <ClCompile Include="..\TbOleDb\TbOleDbWCFInterface.cpp" />
+    <ClCompile Include="..\TbOleDb\WClause.cpp" />
+    <ClCompile Include="..\TbWoormEngine\ActionsRepEngin.cpp" />
+    <ClCompile Include="..\TbWoormEngine\ASKDATA.CPP" />
+    <ClCompile Include="..\TbWoormEngine\ASKDLG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\DATAFUNC.CPP" />
+    <ClCompile Include="..\TbWoormEngine\DISPTBL.CPP" />
+    <ClCompile Include="..\TbWoormEngine\EDTCMM.CPP" />
+    <ClCompile Include="..\TbWoormEngine\EDTMNG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\EQNEDIT.CPP" />
+    <ClCompile Include="..\TbWoormEngine\EVENTS.CPP" />
+    <ClCompile Include="..\TbWoormEngine\EVNDLG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\EXPDLG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\ExportSymbols.cpp" />
+    <ClCompile Include="..\TbWoormEngine\TbWoormEngineGeneric.cpp" />
+    <ClCompile Include="..\TbWoormEngine\INPUTMNG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\ORDDLG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\PRGDATA.CPP" />
+    <ClCompile Include="..\TbWoormEngine\PROCDATA.CPP" />
+    <ClCompile Include="..\TbWoormEngine\PROCDLG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\QRYDATA.CPP" />
+    <ClCompile Include="..\TbWoormEngine\QRYENGIN.CPP" />
+    <ClCompile Include="..\TbWoormEngine\QueryObject.cpp" />
+    <ClCompile Include="..\TbWoormEngine\RdeProtocolCode.cpp" />
+    <ClCompile Include="..\TbWoormEngine\REPDATA.CPP" />
+    <ClCompile Include="..\TbWoormEngine\REPENGIN.CPP" />
+    <ClCompile Include="..\TbWoormEngine\REPFIELD.CPP" />
+    <ClCompile Include="..\TbWoormEngine\REPORT.CPP" />
+    <ClCompile Include="..\TbWoormEngine\ReportLink.cpp" />
+    <ClCompile Include="..\TbWoormEngine\REPTABLE.CPP" />
+    <ClCompile Include="..\TbWoormEngine\RPSYMDLG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\RPSYMTBL.CPP" />
+    <ClCompile Include="..\TbWoormEngine\RULEDATA.CPP" />
+    <ClCompile Include="..\TbWoormEngine\RULENGIN.CPP" />
+    <ClCompile Include="..\TbWoormEngine\TBLDLG.CPP" />
+    <ClCompile Include="..\TbWoormEngine\TbWoormEngineInterface.cpp" />
+    <ClCompile Include="..\TbWoormEngine\TbWoormEngineWCFInterface.cpp" />
+    <ClCompile Include="Aliases.cpp" />
+    <ClCompile Include="BARQUERY.CPP" />
+    <ClCompile Include="BARQYDLG.CPP" />
+    <ClCompile Include="BROWSER.CPP" />
+    <ClCompile Include="BusinessObjectInterface.cpp" />
+    <ClCompile Include="BusinessServiceProvider.cpp" />
+    <ClCompile Include="CAddressDlg.cpp" />
+    <ClCompile Include="ComposedHotLink.cpp" />
+    <ClCompile Include="ControlBehaviour.cpp" />
+    <ClCompile Include="CustomSaveDialog.cpp" />
+    <ClCompile Include="DataAdapter.cpp" />
+    <ClCompile Include="DocumentSession.cpp" />
+    <ClCompile Include="Validator.cpp" />
+    <ClCompile Include="DataPickerRecordSet.cpp" />
+    <ClCompile Include="HotFilter.cpp" />
+    <ClCompile Include="HotFilterDataPicker.cpp" />
+    <ClCompile Include="HotFilterManager.cpp" />
+    <ClCompile Include="ItemSource.cpp" />
+    <ClCompile Include="DBT.CPP" />
+    <ClCompile Include="DBTIterator.cpp" />
+    <ClCompile Include="DocRecoveryManager.cpp" />
+    <ClCompile Include="DynDBT.cpp" />
+    <ClCompile Include="EVENTMNG.CPP" />
+    <ClCompile Include="EXTDOC.CPP" />
+    <ClCompile Include="ExtDocAdm.cpp" />
+    <ClCompile Include="ExtDocClientDoc.cpp" />
+    <ClCompile Include="ExtDocFinderDoc.cpp" />
+    <ClCompile Include="ExtDocFrame.cpp" />
+    <ClCompile Include="ExtDocView.cpp" />
+    <ClCompile Include="ExtDocViewTool.cpp" />
+    <ClCompile Include="FieldInspector.cpp" />
+    <ClCompile Include="FormMng.cpp" />
+    <ClCompile Include="FormMngReportDlg.cpp" />
+    <ClCompile Include="HeaderStrip.cpp" />
+    <ClCompile Include="HtmlParser\HtmlElementCollection.cpp" />
+    <ClCompile Include="HtmlParser\HtmlEventHandler.cpp" />
+    <ClCompile Include="HtmlParser\LiteHTMLAttributes.cpp" />
+    <ClCompile Include="HtmlParser\LiteHTMLEntityResolver.cpp" />
+    <ClCompile Include="HtmlParser\LiteHTMLReader.cpp" />
+    <ClInclude Include="..\TbGenlib\Behaviour.h" />
+    <ClInclude Include="ComposedHotLink.h" />
+    <ClInclude Include="ControlBehaviour.h" />
+    <ClInclude Include="DataAdapter.h" />
+    <ClCompile Include="JSONFormDoc.cpp" />
+    <ClCompile Include="JsonFrame.cpp" />
+    <ClCompile Include="StatusTile.cpp" />
+    <ClCompile Include="TBActivityDocument.cpp" />
+    <ClCompile Include="TBGridControlDataSource.cpp" />
+    <ClCompile Include="HOTLINK.CPP" />
+    <ClCompile Include="ItemsListTools.cpp" />
+    <ClCompile Include="JsonFormEngineEx.cpp" />
+    <ClCompile Include="NumbererService.cpp" />
+    <ClCompile Include="ParsedPanel.cpp" />
+    <ClCompile Include="RecordLocker.cpp" />
+    <ClCompile Include="ReportListDlg.cpp" />
+    <ClCompile Include="SlaveViewContainer.cpp" />
+    <ClCompile Include="TbGesSoapFunctions.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TABBER.CPP" />
+    <ClCompile Include="TbGes.cpp" />
+    <ClCompile Include="TbGesInterface.cpp" />
+    <ClCompile Include="TbGesWCFInterface.cpp" />
+    <ClCompile Include="TBGridControl.cpp" />
+    <ClCompile Include="TBHtmlParser.cpp" />
+    <ClCompile Include="TBLREAD.CPP" />
+    <ClCompile Include="TBLUPDAT.CPP" />
+    <ClCompile Include="TBBaseNavigation.cpp" />
+    <ClCompile Include="TBRadarInterface.cpp" />
+    <ClCompile Include="TileDialog.cpp" />
+    <ClCompile Include="TileManager.cpp" />
+    <ClCompile Include="TreeEdit.cpp" />
+    <ClCompile Include="UIBusinessServiceProvider.cpp" />
+    <ClCompile Include="UIHotFilterDataPicker.cpp" />
+    <ClCompile Include="UnpinnedTilesPane.cpp" />
+    <ClCompile Include="XMLControls.cpp" />
+    <ClCompile Include="XMLDocGenerator.cpp" />
+    <ClCompile Include="XMLGesInfo.cpp" />
+    <ClCompile Include="XMLLogManager.cpp" />
+    <ClCompile Include="XmlReferenceObjectsParserEx.cpp" />
+    <ClCompile Include="XRefManager.cpp" />
+    <ClCompile Include="XSLTMNG.CPP" />
+    <ClCompile Include="BEColumnInfo.CPP" />
+    <ClCompile Include="BODYEDIT.CPP">
+      <DisableSpecificWarnings>4302</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="BodyEditTree.cpp" />
+    <ClCompile Include="CTBEDataCodecASCII.cpp" />
+    <ClCompile Include="DBTTreeEdit.cpp" />
+    <ClCompile Include="TBEDataCoDec.cpp" />
+    <ClCompile Include="TbExtBEDefaultCodec.cpp" />
+    <ClCompile Include="TBExtBEDropTarget.Cpp" />
+    <ClCompile Include="TBExtBEOleDataSource.cpp" />
+    <ClCompile Include="TBExtBEOleDropSource.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbGenlibUI\Begincpp.dex" />
+    <None Include="..\TbGenlibUI\Beginh.dex" />
+    <None Include="..\TbGenlibUI\Endh.dex" />
+    <None Include="..\TbGenlibUI\FormatDialog.HRC" />
+    <None Include="..\TbGenlibUI\JsonForms\FontsDialog\IDD_FONT_STYLE.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\FontsDialog\IDD_FONT_STYLE.tbjson" />
+    <None Include="..\TbGenlibUI\JsonForms\FormatDialog\IDD_FORMAT_STYLE.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\FormatDialog\IDD_FORMAT_STYLE.tbjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_ASKCOPYLNK_DLG.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_ASKCOPYLNK_DLG.tbjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN.tbjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN_SAVE.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN_SAVE.tbjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_FULL_ADMIN_SAVE.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_FULL_ADMIN_SAVE.tbjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_SEARCH.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_SEARCH.tbjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDR_TBEXPLORER_DLG.hjson" />
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDR_TBEXPLORER_DLG.tbjson" />
+    <None Include="..\TbGenlibUI\Menu\Amministration.menu" />
+    <None Include="..\TbGenlibUI\Module.config" />
+    <None Include="..\TbGenlib\BEGINCPP.DEX" />
+    <None Include="..\TbGenlib\BEGINH.DEX" />
+    <None Include="..\TbGenlib\commands.hrc" />
+    <None Include="..\TbGenlib\ENDH.DEX" />
+    <None Include="..\TbGenlib\Module.config" />
+    <None Include="..\TbGenlib\ModuleObjects\fonts.ini" />
+    <None Include="..\TbGenlib\ModuleObjects\formats.ini" />
+    <None Include="..\TbGenlib\PARSRES.HRC" />
+    <None Include="..\TbGenlib\Res\hand.cur" />
+    <None Include="..\TbGenlib\Settings\Settings.config" />
+    <None Include="..\TbOleDb\Begincpp.dex" />
+    <None Include="..\TbOleDb\Beginh.dex" />
+    <None Include="..\TbOleDb\DatabaseScript\Create\All\TB_DBMark.sql" />
+    <None Include="..\TbOleDb\DatabaseScript\Create\Oracle\TB_DBMARK.sql" />
+    <None Include="..\TbOleDb\DatabaseScript\Upgrade\All\Release_2\Alter_TB_DBMark.sql" />
+    <None Include="..\TbOleDb\DatabaseScript\Upgrade\Oracle\Release_2\Alter_TB_DBMark.sql" />
+    <None Include="..\TbOleDb\Endh.dex" />
+    <None Include="..\TbOleDb\Module.config" />
+    <None Include="..\TbOleDb\Settings\Settings.config" />
+    <None Include="..\TbWoormEngine\BEGINCPP.DEX" />
+    <None Include="..\TbWoormEngine\BEGINH.DEX" />
+    <None Include="..\TbWoormEngine\ENDH.DEX" />
+    <None Include="..\TbWoormEngine\Module.config" />
+    <None Include="BARQUERY.HRC" />
+    <None Include="Files\Images\DBT.png" />
+    <None Include="Files\Images\delete.png" />
+    <None Include="Files\Images\new.png" />
+    <None Include="Files\Images\record.png" />
+    <None Include="Files\Images\toggle.png" />
+    <None Include="JsonForms\TbGes\IDD_BROWSER.hjson" />
+    <None Include="JsonForms\TbGes\IDD_BROWSER.tbjson" />
+    <None Include="JsonForms\TbGes\IDD_MASTER_FRAME.hjson" />
+    <None Include="JsonForms\TbGes\IDD_MASTER_FRAME.tbjson" />
+    <None Include="ModuleObjects\BehaviourObjects.xml" />
+    <None Include="ModuleObjects\ClientDocumentObjects.xml" />
+    <None Include="ModuleObjects\DatabaseObjects.xml" />
+    <None Include="ModuleObjects\DocumentObjects.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ReferenceObjects\BarCode.xml" />
+    <None Include="ReferenceObjects\Behaviours.xml" />
+    <None Include="ReferenceObjects\Entities.xml" />
+    <None Include="ReferenceObjects\TableColumns.xml" />
+    <None Include="ReferenceObjects\Tables.xml" />
+    <None Include="ReferenceObjects\UICultures.xml" />
+    <None Include="TBActivityDocument.hjson" />
+    <None Include="TbGes.def" />
+    <None Include="BEGINCPP.DEX" />
+    <None Include="BEGINH.DEX" />
+    <None Include="ENDH.DEX" />
+    <None Include="EXTDOC.HRC" />
+    <None Include="FieldInspector.hrc" />
+    <None Include="TBGes.hrc" />
+    <None Include="TBBaseNavigation.hjson" />
+    <None Include="UIBusinessServiceProvider.hjson" />
+    <None Include="UIHotFilter.hjson" />
+    <None Include="UIHotFilterDataPicker.hjson" />
+    <None Include="UnpinnedTilesPane.hjson" />
+    <None Include="XMLControls.hrc" />
+    <None Include="XRefManager.hrc" />
+    <None Include="res\addon.ico" />
+    <None Include="res\alluser.ico" />
+    <None Include="Res\DataEntry.ico" />
+    <None Include="res\dbt_slav_buf_exp.ico" />
+    <None Include="res\EXTDOC.ICO" />
+    <None Include="res\module.ico" />
+    <None Include="res\profpred.ico" />
+    <None Include="res\profpref.ico" />
+    <None Include="res\standard.ico" />
+    <None Include="res\user.ico" />
+    <None Include="res\ViewFinder.cur" />
+    <None Include="res\xref_not_exp.ico" />
+    <None Include="res\adm.avi" />
+    <None Include="ModuleObjects\WebMethods.xml" />
+    <None Include="Xml\Template_Events.xml" />
+    <None Include="Xml\XMLLogManager.xsl" />
+    <None Include="Xml\XSLLostDbConnection.xsl" />
+    <None Include="Menu\TbGes.menu" />
+    <None Include="ReferenceObjects\CurrentUserRoles.xml" />
+    <None Include="ReferenceObjects\Roles.xml" />
+    <None Include="ReferenceObjects\Users.xml" />
+    <None Include="Module.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\TbGenlibUI\BrowserDlg.h" />
+    <ClInclude Include="..\TbGenlibUI\ContextSelectionDialog.h" />
+    <ClInclude Include="..\TbGenlibUI\FontsDialog.h" />
+    <ClInclude Include="..\TbGenlibUI\FormatDialog.H" />
+    <ClInclude Include="..\TbGenlibUI\paddoc.h" />
+    <ClInclude Include="..\TbGenlibUI\SettingsTableManager.h" />
+    <ClInclude Include="..\TbGenlibUI\SoapFunctions.h" />
+    <ClInclude Include="..\TbGenlibUI\stdafx.h" />
+    <ClInclude Include="..\TbGenlibUI\TBExplorer.h" />
+    <ClInclude Include="..\TbGenlibUI\TBExplorerUtility.h" />
+    <ClInclude Include="..\TbGenlibUI\TBManageFile.h" />
+    <ClInclude Include="..\TbGenlib\AboutBox.h" />
+    <ClInclude Include="..\TbGenlib\AddOnMng.h" />
+    <ClInclude Include="..\TbGenlib\AddressEdit.h" />
+    <ClInclude Include="..\TbGenlib\AutoExprDlg.h" />
+    <ClInclude Include="..\TbGenlib\AutoExpressionMng.h" />
+    <ClInclude Include="..\TbGenlib\BarCode.h" />
+    <ClInclude Include="..\TbGenlib\BarcodeEnums.h" />
+    <ClInclude Include="..\TbGenlib\BARCOMBO.H" />
+    <ClInclude Include="..\TbGenlib\BASEAPP.H" />
+    <ClInclude Include="..\TbGenlib\BASEDOC.H" />
+    <ClInclude Include="..\TbGenlib\BaseEventMng.h" />
+    <ClInclude Include="..\TbGenlib\BASEFRM.H" />
+    <ClInclude Include="..\TbGenlib\BaseTileDialog.h" />
+    <ClInclude Include="..\TbGenlib\BaseTileManager.h" />
+    <ClInclude Include="..\TbGenlib\BATCHDLG.H" />
+    <ClInclude Include="..\TbGenlib\CEFClasses.h" />
+    <ClInclude Include="..\TbGenlib\Command.h" />
+    <ClInclude Include="..\TbGenlib\Const.h" />
+    <ClInclude Include="..\TbGenlib\DataObjDescriptionEx.h" />
+    <ClInclude Include="..\TbGenlib\DiagnosticManager.h" />
+    <ClInclude Include="..\TbGenlib\DirTreeCtrl.h" />
+    <ClInclude Include="..\TbGenlib\DMSAttachmentInfo.h" />
+    <ClInclude Include="..\TbGenlib\EXPPARSE.H" />
+    <ClInclude Include="..\TbGenlib\EXPR.H" />
+    <ClInclude Include="..\TbGenlib\ExternalControllerInfo.h" />
+    <ClInclude Include="..\TbGenlib\ExtStatusControlBar.h" />
+    <ClInclude Include="..\TbGenlib\FUNPROTO.H" />
+    <ClInclude Include="..\TbGenlib\GENERIC.H" />
+    <ClInclude Include="..\TbGenlib\hlinkobj.h" />
+    <ClInclude Include="..\TbGenlib\HotlinkController.h" />
+    <ClInclude Include="..\TbGenlib\HyperLink.h" />
+    <ClInclude Include="..\TbGenlib\InterfaceMacros.h" />
+    <ClInclude Include="..\TbGenlib\LayoutContainer.h" />
+    <ClInclude Include="..\TbGenlib\MESSAGES.H" />
+    <ClInclude Include="..\TbGenlib\MicroareaVisualManager.h" />
+    <ClInclude Include="..\TbGenlib\MiniHtmlStatic.h" />
+    <ClInclude Include="..\TbGenlib\NumbererInfo.h" />
+    <ClInclude Include="..\TbGenlib\OslBaseInterface.h" />
+    <ClInclude Include="..\TbGenlib\OslInfo.h" />
+    <ClInclude Include="..\TbGenlib\PARSBTN.H" />
+    <ClInclude Include="..\TbGenlib\PARSCBX.H" />
+    <ClInclude Include="..\TbGenlib\PARSCTRL.H" />
+    <ClInclude Include="..\TbGenlib\PARSEDT.H" />
+    <ClInclude Include="..\TbGenlib\ParsEdtOther.h" />
+    <ClInclude Include="..\TbGenlib\PARSLBX.H" />
+    <ClInclude Include="..\TbGenlib\PARSOBJ.H" />
+    <ClInclude Include="..\TbGenlib\ParsObjManaged.h" />
+    <ClInclude Include="..\TbGenlib\PROFILE.H" />
+    <ClInclude Include="..\TbGenlib\RESWALK.H" />
+    <ClInclude Include="..\TbGenlib\RichEditControl50W.h" />
+    <ClInclude Include="..\TbGenlib\SettingsTableManager.h" />
+    <ClInclude Include="..\TbGenlib\stdafx.h" />
+    <ClInclude Include="..\TbGenlib\StretchableCtrl.h" />
+    <ClInclude Include="..\TbGenlib\TABCORE.H" />
+    <ClInclude Include="..\TbGenlib\TabSelector.h" />
+    <ClInclude Include="..\TbGenlib\TBAutoHideBar.h" />
+    <ClInclude Include="..\TbGenlib\TBBreadCrumb.h" />
+    <ClInclude Include="..\TbGenlib\TBCaptionBar.h" />
+    <ClInclude Include="..\TbGenlib\TBCommandInterface.h" />
+    <ClInclude Include="..\TbGenlib\TBDockPane.h" />
+    <ClInclude Include="..\TbGenlib\TBExplorerInterface.h" />
+    <ClInclude Include="..\TbGenlib\TbGenlibSettings.h" />
+    <ClInclude Include="..\TbGenlib\TBLinearGauge.h" />
+    <ClInclude Include="..\TbGenlib\TBParsedProgressBar.h" />
+    <ClInclude Include="..\TbGenlib\TBPropertyGrid.h" />
+    <ClInclude Include="..\TbGenlib\TBSplitterWnd.h" />
+    <ClInclude Include="..\TbGenlib\TBStrings.h" />
+    <ClInclude Include="..\TbGenlib\TBTabWnd.h" />
+    <ClInclude Include="..\TbGenlib\TBToolBar.h" />
+    <ClInclude Include="..\TbGenlib\TbTreeCtrl.h" />
+    <ClInclude Include="..\TbGenlib\TbWizardMaster.h" />
+    <ClInclude Include="..\TbGenlib\Tfxdatatip.h" />
+    <ClInclude Include="..\TbGenlib\Tile.h" />
+    <ClInclude Include="..\TbGenlib\TileButtons.h" />
+    <ClInclude Include="..\TbGenlib\TileDialogPart.h" />
+    <ClInclude Include="..\TbGenlib\TilePanel.h" />
+    <ClInclude Include="..\TbGenlib\ToolBarButton.h" />
+    <ClInclude Include="..\TbGenlib\ToolTipCtrl.h" />
+    <ClInclude Include="..\TbGenlib\XMLModuleObjectsInfo.h" />
+    <ClInclude Include="..\TbGenlib\XmlReferenceObjectsParser.h" />
+    <ClInclude Include="..\TbOleDb\ATLSession.h" />
+    <ClInclude Include="..\TbOleDb\HelperExternalReferences.h" />
+    <ClInclude Include="..\TbOleDb\InterfaceMacros.h" />
+    <ClInclude Include="..\TbOleDb\lentbl.h" />
+    <ClInclude Include="..\TbOleDb\OleDbMng.h" />
+    <ClInclude Include="..\TbOleDb\PerformanceAnalizer.h" />
+    <ClInclude Include="..\TbOleDb\RIChecker.h" />
+    <ClInclude Include="..\TbOleDb\SqlAccessor.h" />
+    <ClInclude Include="..\TbOleDb\SqlCache.h" />
+    <ClInclude Include="..\TbOleDb\SqlCatalog.h" />
+    <ClInclude Include="..\TbOleDb\SqlConnect.h" />
+    <ClInclude Include="..\TbOleDb\sqllock.h" />
+    <ClInclude Include="..\TbOleDb\SQLMARK.H" />
+    <ClInclude Include="..\TbOleDb\SqlObject.h" />
+    <ClInclude Include="..\TbOleDb\SqlProviderInfo.h" />
+    <ClInclude Include="..\TbOleDb\SqlRec.h" />
+    <ClInclude Include="..\TbOleDb\SqlRecoveryManager.h" />
+    <ClInclude Include="..\TbOleDb\Sqltable.h" />
+    <ClInclude Include="..\TbOleDb\stdafx.h" />
+    <ClInclude Include="..\TbOleDb\TbExtensionsInterface.h" />
+    <ClInclude Include="..\TbOleDb\WClause.h" />
+    <ClInclude Include="..\TbWoormEngine\ActionsRepEngin.h" />
+    <ClInclude Include="..\TbWoormEngine\ASKDATA.H" />
+    <ClInclude Include="..\TbWoormEngine\ASKDLG.H" />
+    <ClInclude Include="..\TbWoormEngine\DATAFUNC.H" />
+    <ClInclude Include="..\TbWoormEngine\DISPTBL.H" />
+    <ClInclude Include="..\TbWoormEngine\EDTCMM.H" />
+    <ClInclude Include="..\TbWoormEngine\EDTMNG.H" />
+    <ClInclude Include="..\TbWoormEngine\EQNEDIT.H" />
+    <ClInclude Include="..\TbWoormEngine\EVENTS.H" />
+    <ClInclude Include="..\TbWoormEngine\EVNDLG.H" />
+    <ClInclude Include="..\TbWoormEngine\EXPDLG.H" />
+    <ClInclude Include="..\TbWoormEngine\ExportSymbols.h" />
+    <ClInclude Include="..\TbWoormEngine\Generic.h" />
+    <ClInclude Include="..\TbWoormEngine\INPUTMNG.H" />
+    <ClInclude Include="..\TbWoormEngine\MultiLayout.h" />
+    <ClInclude Include="..\TbWoormEngine\ORDDLG.H" />
+    <ClInclude Include="..\TbWoormEngine\PRGDATA.H" />
+    <ClInclude Include="..\TbWoormEngine\PROCDATA.H" />
+    <ClInclude Include="..\TbWoormEngine\PROCDLG.H" />
+    <ClInclude Include="..\TbWoormEngine\QRYDATA.H" />
+    <ClInclude Include="..\TbWoormEngine\QRYENGIN.H" />
+    <ClInclude Include="..\TbWoormEngine\QRYWRKID.H" />
+    <ClInclude Include="..\TbWoormEngine\QueryObject.h" />
+    <ClInclude Include="..\TbWoormEngine\RdeProtocolCode.h" />
+    <ClInclude Include="..\TbWoormEngine\REPDATA.H" />
+    <ClInclude Include="..\TbWoormEngine\REPENGIN.H" />
+    <ClInclude Include="..\TbWoormEngine\REPFIELD.H" />
+    <ClInclude Include="..\TbWoormEngine\REPORT.H" />
+    <ClInclude Include="..\TbWoormEngine\ReportLink.h" />
+    <ClInclude Include="..\TbWoormEngine\REPTABLE.H" />
+    <ClInclude Include="..\TbWoormEngine\REPWRKID.H" />
+    <ClInclude Include="..\TbWoormEngine\RPSYMDLG.H" />
+    <ClInclude Include="..\TbWoormEngine\RPSYMTBL.H" />
+    <ClInclude Include="..\TbWoormEngine\RULEDATA.H" />
+    <ClInclude Include="..\TbWoormEngine\RULENGIN.H" />
+    <ClInclude Include="..\TbWoormEngine\stdafx.h" />
+    <ClInclude Include="..\TbWoormEngine\TBLDLG.H" />
+    <ClInclude Include="Aliases.h" />
+    <ClInclude Include="BARQUERY.H" />
+    <ClInclude Include="BARQYDLG.H" />
+    <ClInclude Include="BROWSER.H" />
+    <ClInclude Include="BusinessObjectInterface.h" />
+    <ClInclude Include="BusinessServiceProvider.h" />
+    <ClInclude Include="CAddressDlg.h" />
+    <ClInclude Include="CustomSaveDialog.h" />
+    <ClInclude Include="DataPickerRecordSet.h" />
+    <ClInclude Include="DocumentSession.h" />
+    <ClInclude Include="HotFilter.h" />
+    <ClInclude Include="HotFilterDataPicker.h" />
+    <ClInclude Include="HotFilterManager.h" />
+    <ClInclude Include="ItemSource.h" />
+    <ClInclude Include="DBT.H" />
+    <ClInclude Include="DBTIterator.h" />
+    <ClInclude Include="DynDBT.h" />
+    <ClInclude Include="HeaderStrip.h" />
+    <ClInclude Include="JsonFrame.h" />
+    <ClInclude Include="PredefinedColors.h" />
+    <ClInclude Include="StatusTile.h" />
+    <ClInclude Include="TBActivityDocument.h" />
+    <ClInclude Include="TBHtmlParser.h" />
+    <ClInclude Include="HtmlParser\DataKeeper.h" />
+    <ClInclude Include="HtmlParser\HtmlElementCollection.h" />
+    <ClInclude Include="HtmlParser\HtmlEventHandler.h" />
+    <ClInclude Include="HtmlParser\LiteHTMLAttributes.h" />
+    <ClInclude Include="HtmlParser\LiteHTMLCommon.h" />
+    <ClInclude Include="HtmlParser\LiteHTMLEntityResolver.h" />
+    <ClInclude Include="HtmlParser\LiteHTMLReader.h" />
+    <ClInclude Include="HtmlParser\LiteHTMLTag.h" />
+    <ClInclude Include="HtmlParser\Tree.h" />
+    <ClInclude Include="JSONFormDoc.h" />
+    <ClInclude Include="TBGridControlDataSource.h" />
+    <ClInclude Include="DocRecoveryManager.h" />
+    <ClInclude Include="EVENTMNG.H" />
+    <ClInclude Include="EXTDOC.H" />
+    <ClInclude Include="ExtDocAbstract.h" />
+    <ClInclude Include="ExtDocAdm.h" />
+    <ClInclude Include="ExtDocClientDoc.h" />
+    <ClInclude Include="ExtDocFinderDoc.h" />
+    <ClInclude Include="ExtDocFrame.h" />
+    <ClInclude Include="ExtDocView.h" />
+    <ClInclude Include="ExtDocViewTool.h" />
+    <ClInclude Include="FieldInspector.h" />
+    <ClInclude Include="FormMng.h" />
+    <ClInclude Include="FormMngDlg.h" />
+    <ClInclude Include="HOTLINK.H" />
+    <ClInclude Include="InterfaceMacros.h" />
+    <ClInclude Include="ItemsListTools.h" />
+    <ClInclude Include="JsonFormEngineEx.h" />
+    <ClInclude Include="NumbererService.h" />
+    <ClInclude Include="ParsedPanel.h" />
+    <ClInclude Include="RecordLocker.h" />
+    <ClInclude Include="ReportListDlg.h" />
+    <ClInclude Include="SlaveViewContainer.h" />
+    <ClInclude Include="SoapFunctions.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TABBER.H" />
+    <ClInclude Include="TBGridControl.h" />
+    <ClInclude Include="TBLREAD.H" />
+    <ClInclude Include="TBLUPDAT.H" />
+    <ClInclude Include="TBBaseNavigation.h" />
+    <ClInclude Include="TBRadarInterface.h" />
+    <ClInclude Include="TileDialog.h" />
+    <ClInclude Include="TileManager.h" />
+    <ClInclude Include="TreeEdit.h" />
+    <ClInclude Include="UIBusinessServiceProvider.h" />
+    <ClInclude Include="UIHotFilterDataPicker.h" />
+    <ClInclude Include="UnpinnedTilesPane.h" />
+    <ClInclude Include="Validator.h" />
+    <ClInclude Include="XMLControls.h" />
+    <ClInclude Include="XMLDocGenerator.h" />
+    <ClInclude Include="XMLGesInfo.h" />
+    <ClInclude Include="XMLLogManager.h" />
+    <ClInclude Include="XmlReferenceObjectsParserEx.h" />
+    <ClInclude Include="XRefManager.h" />
+    <ClInclude Include="XSLTMNG.H" />
+    <ClInclude Include="BEColumnInfo.H" />
+    <ClInclude Include="BODYEDIT.H" />
+    <ClInclude Include="BodyEditTree.h" />
+    <ClInclude Include="CTBEDataCodecASCII.h" />
+    <ClInclude Include="DBTTreeEdit.h" />
+    <ClInclude Include="TBEDataCoDec.h" />
+    <ClInclude Include="TbExtBEDefaultCodec.h" />
+    <ClInclude Include="TBExtBEDropTarget.h" />
+    <ClInclude Include="TBExtBEOleDataSource.h" />
+    <ClInclude Include="TBExtBEOleDropSource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FieldInspector.rc">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+    </None>
+    <ResourceCompile Include="..\TbGenlib\PARSRES.RC">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+    </ResourceCompile>
+    <None Include="..\TbGenlibUI\FormatDialog.RC">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+    </None>
+    <ResourceCompile Include="BARQUERY.RC" />
+    <ResourceCompile Include="TbGes.rc" />
+    <None Include="XMLControls.rc">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+    </None>
+    <None Include="XRefManager.rc">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RelativeDir)%(Filename).hrc</AdditionalInputs>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\TbGenlibUI\Res\FontFormatToolbar_Disabled.bmp" />
+    <Image Include="..\TbGenlibUI\Res\FontFormatToolbar_Small.bmp" />
+    <Image Include="..\TbGenlibUI\Res\FontFormatToolbar_Small_Disabled.bmp" />
+    <Image Include="..\TbWoormEngine\RES\CHECK.BMP" />
+    <Image Include="..\TbWoormEngine\RES\CHECKKEY.BMP" />
+    <Image Include="..\TbWoormEngine\RES\HIDDEN.BMP" />
+    <Image Include="..\TbWoormEngine\RES\HIDDKEY.BMP" />
+    <Image Include="..\TbWoormEngine\RES\KEY.BMP" />
+    <Image Include="RES\BQ_DEFA.BMP" />
+    <Image Include="RES\BQ_DEFA_MN.BMP" />
+    <Image Include="RES\BQ_EDIT_MN.BMP" />
+    <Image Include="RES\BQ_FILE.BMP" />
+    <Image Include="RES\BQ_FIND.BMP" />
+    <Image Include="RES\BQ_FIND_MN.BMP" />
+    <Image Include="RES\BQ_PRED.BMP" />
+    <Image Include="RES\BQ_PRED_MN.BMP" />
+    <Image Include="RES\BQ_TEMP.BMP" />
+    <Image Include="res\document.ico" />
+    <Image Include="RES\WIZDOC.BMP" />
+    <Image Include="RES\xrefwizfinish.bmp" />
+    <Image Include="RES\xrefwizoption.bmp" />
+    <Image Include="RES\XREFWIZPRES.BMP" />
+    <Image Include="res\xrefwizsegment.bmp" />
+    <Image Include="RES\xrefwizseldoc.bmp" />
+    <Image Include="RES\xrefwizselfk.bmp" />
+    <Image Include="res\xrefwizuk.bmp" />
+    <None Include="..\TbGenlibUI\Menu\Framework.gif" />
+    <None Include="..\TbGenlibUI\Menu\Framework.System.gif" />
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.EnumsViewer.gif" />
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecManageFile.gif" />
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont.gif" />
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter.gif" />
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenText.gif" />
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.TbEditor.gif" />
+    <Image Include="..\TbGenlibUI\res\FontFormatToolbar.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbWoormEngine\ModuleObjects\DocumentObjects.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbWoormEngine\ModuleObjects\WebMethods.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbOleDb\DatabaseScript\Create\CreateInfo.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbOleDb\DatabaseScript\Upgrade\UpgradeInfo.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbOleDb\ModuleObjects\DatabaseObjects.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbOleDb\ModuleObjects\WebMethods.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbGenlib\ModuleObjects\Enums.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbGenlib\ModuleObjects\WebMethods.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbGenlibUI\ModuleObjects\DocumentObjects.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TbGenlibUI\ModuleObjects\WebMethods.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\TbGenlib\Xml\Functions.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="ReferenceObjects\Applications.xml" />
+    <Xml Include="ReferenceObjects\ComposedJsonHotLink.xml" />
+    <Xml Include="ReferenceObjects\Modules.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDoJson.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="BARQUERY.RC" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

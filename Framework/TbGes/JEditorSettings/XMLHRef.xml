@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<HRefFrames>
+  <Frame>
+	<Namespace>M.Framework.TbGes.TbGes.IDD_MASTER_FRAME</Namespace>
+  </Frame>
+  <Frame>
+	<Namespace>M.Framework.TbGes.TbGes.IDD_BATCH_FRAME</Namespace>
+  </Frame>
+  <Frame>
+	<Namespace>M.Framework.TbGes.TbGes.IDD_WIZARD_FRAME</Namespace>
+  </Frame>
+  <Frame>
+	<Namespace>M.Framework.TbGes.TbActivityDocument.IDD_TB_ACTIVITY_FRAME</Namespace>
+  </Frame>
+  <Frame>
+	<Namespace>M.Framework.TbGes.TBActivityDocument.IDD_TB_ACTIVITY_NO_LOAD_DATA_FRAME</Namespace>
+  </Frame>
+</HRefFrames>

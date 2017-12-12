@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:Microarea.Web.Services.WebProxyObj_SetDate" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.WebProxyObj_SetDate" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="handle" type="xs:int" />
+  <xs:element name="WindowId" nillable="true" type="xs:string" />
+  <xs:element name="Day" type="xs:int" />
+  <xs:element name="Month" type="xs:int" />
+  <xs:element name="Year" type="xs:int" />
+  <xs:element name="return" nillable="true" type="xs:string" />
+</xs:schema>

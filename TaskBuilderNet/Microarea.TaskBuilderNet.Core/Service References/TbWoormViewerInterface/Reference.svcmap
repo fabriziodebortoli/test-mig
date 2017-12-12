@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c3d09254-26a6-45c9-a2d1-0b22c8ef60d6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Microarea.Web.Services.wsdl" MetadataType="Wsdl" ID="c299e06b-a207-4b40-a306-b6ee8ecda62f" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="e275c855-d33c-4a91-b60e-15f2adaaa124" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetParamValue.xsd" MetadataType="Schema" ID="d0aa7ca1-8705-4647-8933-74e5d12a7c08" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.xsd" MetadataType="Schema" ID="8587d7b6-e5ed-4cb7-b0d3-eac32b613a1e" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.TaskBuilderNet.Core.SoapCall.xsd" MetadataType="Schema" ID="1deadf79-4597-4288-9add-e80a7e6fdd80" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetUICulture.xsd" MetadataType="Schema" ID="f7f79e8d-9b28-4f18-bc3f-11dfc8cae40b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetPrinterName.xsd" MetadataType="Schema" ID="7764ba0e-5947-4f57-a09f-5ce3c6c26de0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetExportOutputType.xsd" MetadataType="Schema" ID="52963bb3-f2fd-4332-af38-c8be1cc9081f" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormDoc_Close.xsd" MetadataType="Schema" ID="76b7d6e2-3c53-4be3-aada-8f0de08efb09" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormDoc_Print.xsd" MetadataType="Schema" ID="782cd7e3-8815-4f17-aade-a359e3282aa5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetConcatPDF.xsd" MetadataType="Schema" ID="b13e456b-83b0-41a9-be78-b648d0521df3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetPDFOutput.xsd" MetadataType="Schema" ID="3edc324d-4f84-4fc5-b4bf-6efab0bc1434" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetPDFOutputPreview.xsd" MetadataType="Schema" ID="b976194c-53d8-449a-a437-fd949e34a097" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_AddOutputFileName.xsd" MetadataType="Schema" ID="3d0562ce-8de4-4a3c-a1d7-b382427ca1d6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetRDEOutput.xsd" MetadataType="Schema" ID="1bf2c4c6-e5e8-4cff-8579-96f283f8fc1d" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetExcelOutput.xsd" MetadataType="Schema" ID="3010b858-f499-40f3-a8e8-959a9db08b2a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_MailTo.xsd" MetadataType="Schema" ID="94e5e090-9328-4115-b8d3-7cd0f511880b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_MailCc.xsd" MetadataType="Schema" ID="503e01c5-577c-4d74-8506-966873f154f0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_MailBcc.xsd" MetadataType="Schema" ID="6d6698bd-1974-45fb-a7dd-e52bf22d47a0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_MailAttach.xsd" MetadataType="Schema" ID="213e1a84-f23c-4836-9123-ba8023b6c8b0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_MailSubject.xsd" MetadataType="Schema" ID="98729529-ccb7-4775-a6a5-78c739db53d1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_MailBody.xsd" MetadataType="Schema" ID="02e7a38c-4dfc-4393-b719-f6e2230bbf91" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_AddParameter.xsd" MetadataType="Schema" ID="0dc14d9a-7902-4096-9b22-e89a9c6b98a0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetCloseOnEndPrint.xsd" MetadataType="Schema" ID="c22c9421-e33c-45a9-9317-718820b459f5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetIconized.xsd" MetadataType="Schema" ID="3c1d0f58-ab5f-42bc-95c4-f4fc6f5bc488" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetHideFrame.xsd" MetadataType="Schema" ID="7c316f52-865f-482b-8d8f-c3cd2e628ca2" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetSilentMode.xsd" MetadataType="Schema" ID="05401ab0-8361-47c0-943d-d56f0da37aa5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetSendEmail.xsd" MetadataType="Schema" ID="a01ee91e-95fe-4faf-b3c3-d1b27ebaf705" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetAttachRDE.xsd" MetadataType="Schema" ID="04eb8fed-a81d-47f7-9098-0a16f8a23ddc" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetAttachPDF.xsd" MetadataType="Schema" ID="2702f98a-49b1-43b9-9ff7-288703ca5d7e" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetAttachOther.xsd" MetadataType="Schema" ID="cacb912a-22fc-4e34-9ade-42e83923ee18" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetArchivePdfFormat.xsd" MetadataType="Schema" ID="460c2d14-339b-4664-a816-fc20ff840910" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetCompressAttach.xsd" MetadataType="Schema" ID="a1cb2d08-7344-4db2-8aca-ff3792993b52" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetOnePrintDialog.xsd" MetadataType="Schema" ID="b31d0220-8fc8-4212-b347-5075e2031f80" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetUniqueMail.xsd" MetadataType="Schema" ID="01715fca-6dde-4b77-8522-fbadd65a15ee" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetDocumentMethods.xsd" MetadataType="Schema" ID="ff9d86c6-1775-43a0-a9b7-ecf5c62c6a34" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="364e3d52-58d1-4791-80e5-b3dc2bbd9cd3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.IsPostaLiteEnabled1.xsd" MetadataType="Schema" ID="4b5ddbfc-445b-440b-abb0-0fb95a075e88" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteDecodeDeliveryType1.xsd" MetadataType="Schema" ID="adbb9298-84a7-4c71-ac84-e35f8b8dcfca" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteDecodePrintType1.xsd" MetadataType="Schema" ID="09bfccb7-8c33-4202-866e-753934bc67e6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteDecodeStatus1.xsd" MetadataType="Schema" ID="870b0307-517b-483b-83eb-f12536cfbf59" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteDecodeCodeState1.xsd" MetadataType="Schema" ID="c6fc2f05-47fd-4e20-91ca-ae0065cdaac2" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteDecodeStatusExt1.xsd" MetadataType="Schema" ID="12437a08-5202-4e6d-9efa-d2fc30d0ea1f" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteDecodeErrorExt1.xsd" MetadataType="Schema" ID="4a9b93d4-ca58-4cbc-90f5-647b685c7905" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_Create.xsd" MetadataType="Schema" ID="c9cdf114-e21c-4bdb-ac45-f508b56f719c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_Dispose.xsd" MetadataType="Schema" ID="eccb398d-cd84-4d04-a5bf-92a02bdad8aa" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_AddReport.xsd" MetadataType="Schema" ID="c30f7a9e-c815-4d0d-a490-7aafa94160a0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetAutoPrint.xsd" MetadataType="Schema" ID="f230f874-bd49-4e51-8b42-3f91095c1b4b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CWoormInfo_SetNoPrintDialog.xsd" MetadataType="Schema" ID="3884468b-95f7-4686-9f03-327d17fad9c7" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ConnectionBeginTrans.xsd" MetadataType="Schema" ID="2d920e86-2501-4448-b14e-6aab870c4cc7" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ConnectionCommit.xsd" MetadataType="Schema" ID="5630f21a-0ae2-4072-8d4b-f758a2d93506" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ConnectionRollback.xsd" MetadataType="Schema" ID="1e8a50fd-e3af-4d7b-9472-e5be2c450c01" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ConnectionClose.xsd" MetadataType="Schema" ID="d154a005-e6d0-49db-b146-366aea0ae309" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteSetAddressee1.xsd" MetadataType="Schema" ID="f085fc74-c254-4cf6-9e22-b5d4713c8ae6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteSetSendType1.xsd" MetadataType="Schema" ID="3b16d880-816d-46e2-86ee-4a46e3e43c9c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PostaLiteSend1.xsd" MetadataType="Schema" ID="5d47f6f3-7aa8-4f29-9343-47f7005e19c0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SendMail1.xsd" MetadataType="Schema" ID="74012b81-bd4c-4138-a3a4-36a4edef017b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ExecNewReport.xsd" MetadataType="Schema" ID="df9305d8-9544-4b4b-aafb-a7421d24b68c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ExecOpenReport.xsd" MetadataType="Schema" ID="93598805-2d8e-40e0-bdea-d9570932a14c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ExecUpgradeReport.xsd" MetadataType="Schema" ID="2b958916-ec21-4c1f-b5f1-19f44ea796f2" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.IsUserReportsDeveloper.xsd" MetadataType="Schema" ID="9b99bc1c-ecf0-40af-b6f5-cec6ababe910" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QueryRead.xsd" MetadataType="Schema" ID="f6d78e47-a041-4a3e-9b3c-7895e6cb80cd" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QueryExecute.xsd" MetadataType="Schema" ID="cd517712-d925-4e26-8d35-884c379435b5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QueryCall1.xsd" MetadataType="Schema" ID="84109a80-f90d-4864-a701-35cdf23c5f96" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.UpdateOutputParametersEvenIfReportDoesNotFetchRecords.xsd" MetadataType="Schema" ID="39341689-0c49-415b-9b3f-40b0ae4b02d9" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SkipContext1.xsd" MetadataType="Schema" ID="d8393a0f-da09-4711-8aa5-fe4e817417a1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QueryReadOne.xsd" MetadataType="Schema" ID="4d38d748-7ac7-488d-b5ee-921be6eb8ecb" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QuerySetConnection.xsd" MetadataType="Schema" ID="ba053a1a-4c66-42a7-97d4-9ab0e5c8adc3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QuerySetCursorType.xsd" MetadataType="Schema" ID="53c25991-8666-45ac-9a45-d86626685a6b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetConnection.xsd" MetadataType="Schema" ID="94c23a2a-632e-475f-92fe-8678a66bebb4" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.OpenConnection.xsd" MetadataType="Schema" ID="f28ac2ad-8c90-4b7a-bf21-6256e62f99d9" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ConnectionLockRecord1.xsd" MetadataType="Schema" ID="9ecbbafc-9edb-4ded-9e01-223d02807af1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ConnectionUnlockRecord1.xsd" MetadataType="Schema" ID="144b22bd-8bce-40c5-8fe8-a482ea267b1b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ConnectionUnlockAll.xsd" MetadataType="Schema" ID="13c5ce32-1cef-4423-b6a7-5f3b8ab356a1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetRows1.xsd" MetadataType="Schema" ID="abf61cc3-018a-4b6b-8fc4-f5edf0552ed5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetCurrentRow1.xsd" MetadataType="Schema" ID="60375adc-d15b-48a4-9862-6224254b02fc" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetReportPath.xsd" MetadataType="Schema" ID="3c4324eb-4e37-406d-b5da-7a08b46f5b63" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetReportNamespace.xsd" MetadataType="Schema" ID="85328627-9107-46cb-a926-78d3b7b90dcd" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetReportName1.xsd" MetadataType="Schema" ID="2903fc73-9135-460e-9aca-781cca5de7e4" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetReportModuleNamespace.xsd" MetadataType="Schema" ID="2629c6aa-5ef3-4dda-b4f3-c6525e8f4ef1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetPrinterName1.xsd" MetadataType="Schema" ID="09541ead-f6f4-4837-a44a-66fdb6335e99" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetOwnerNamespace.xsd" MetadataType="Schema" ID="f32122f7-5082-4443-a094-2448e1cd1187" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.IsAutoPrint.xsd" MetadataType="Schema" ID="f6cf50e0-d411-4028-b93d-861f8aaf6196" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QueryOpen.xsd" MetadataType="Schema" ID="4f97af4e-7b4e-4783-847d-2aff09721b6d" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QueryIsOpen.xsd" MetadataType="Schema" ID="6668dc93-2a7e-4159-918e-bed7bf24d303" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.QueryClose.xsd" MetadataType="Schema" ID="c569f31f-2430-47d0-9db8-13f9b6ebabe5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSend.xsd" MetadataType="Schema" ID="e22b550e-2080-416c-9848-66bd85e866e6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSendEx1.xsd" MetadataType="Schema" ID="3baa0a1f-a291-4692-bbe5-9bf52af793de" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetAttachmentReportName.xsd" MetadataType="Schema" ID="f846a040-aafd-419a-9512-41da1badd159" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ReportSaveAs.xsd" MetadataType="Schema" ID="4d93f35f-3313-4f44-99eb-5aa4cb8b66da" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunReport.xsd" MetadataType="Schema" ID="9f10cea3-d09d-4756-83a0-67e3c47af603" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunDocument.xsd" MetadataType="Schema" ID="9779b467-2d37-4550-aec2-9f3e4e746f1e" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.BrowseDocument.xsd" MetadataType="Schema" ID="03bc8115-df36-4546-b04c-845884acecf9" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunProgram.xsd" MetadataType="Schema" ID="2e0259e9-2759-438c-8fe6-e8da5fe37caa" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ExpandTemplate1.xsd" MetadataType="Schema" ID="f301d273-d120-4cb8-8bd8-ab7509496b4b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetTableRows.xsd" MetadataType="Schema" ID="fe31c4e0-1c22-49a3-80f7-3261f19b967d" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetTableCurrentRow.xsd" MetadataType="Schema" ID="207b6905-de35-4471-82e3-c6b0205777f6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CurrentRowContainsCellTail1.xsd" MetadataType="Schema" ID="b7d7d949-bd6d-4456-a374-7412c0206c77" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CurrentRowContainsCellSubTotal1.xsd" MetadataType="Schema" ID="0cf92cd3-c789-4c6f-ad67-300455a28c82" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetFrom.xsd" MetadataType="Schema" ID="42e5e609-348d-4268-8789-533dffff080b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetSubject.xsd" MetadataType="Schema" ID="0ae10528-7df4-40cf-8f3f-ec76d3b0c4ff" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetBody.xsd" MetadataType="Schema" ID="cbd260af-44d7-4f41-9b8f-e3596a14d533" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetMapiProfile.xsd" MetadataType="Schema" ID="cad83b1a-58e3-4206-9c36-a8d46cd9fe85" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetBodyTemplateFileName.xsd" MetadataType="Schema" ID="bd442fad-94b4-4fb0-91b7-680736216a50" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetTo.xsd" MetadataType="Schema" ID="d30198f7-023d-465e-97c3-b5648958a07a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetCc.xsd" MetadataType="Schema" ID="288b2499-ea3c-4c52-b885-8b8e4d7f9775" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetBcc.xsd" MetadataType="Schema" ID="f1d27812-445f-47fd-8552-545e20dd1edf" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetToCertified1.xsd" MetadataType="Schema" ID="123f032f-201c-4184-8f14-7dcfebc2b528" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetCertifiedFilter1.xsd" MetadataType="Schema" ID="8ef57d7d-0fe0-4692-b5fa-20dcd4826ed6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetAttachment.xsd" MetadataType="Schema" ID="9f2b3c71-e5c9-4d24-b906-eac47a7aded8" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.MailSetBodyParameter1.xsd" MetadataType="Schema" ID="cb3c9221-01c8-410f-a428-6b11f41ceef8" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbWoormViewer.TbWoormViewer/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

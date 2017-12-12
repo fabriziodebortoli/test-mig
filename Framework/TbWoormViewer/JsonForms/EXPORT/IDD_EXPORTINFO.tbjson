@@ -1,0 +1,359 @@
+{
+   "caption" : true,
+   "child" : false,
+   "context" : "export",
+   "height" : 235,
+   "id" : "IDD_EXPORTINFO",
+   "items" : [
+      {
+         "height" : 221,
+         "id" : "IDC_EXP_STPARAM",
+         "text" : "Export parameters",
+         "type" : 9, /*Group*/
+         "width" : 172,
+         "x" : 3,
+         "y" : 5
+      },
+      {
+         "group" : true,
+         "height" : 10,
+         "id" : "IDC_RAD_NEWDOC",
+         "tabStop" : false,
+         "text" : "Create new Document",
+         "type" : 10, /*Radio*/
+         "visible" : false,
+         "width" : 156,
+         "x" : 9,
+         "y" : 20
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_RAD_APPEND_DOC",
+         "tabStop" : false,
+         "text" : "Append to an existing Document",
+         "type" : 10, /*Radio*/
+         "visible" : false,
+         "width" : 156,
+         "x" : 9,
+         "y" : 34
+      },
+      {
+         "height" : 12,
+         "id" : "IDC_EXP_FINDFILE",
+         "text" : "&Open File",
+         "type" : 3, /*Button*/
+         "width" : 121,
+         "x" : 19,
+         "y" : 48
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_EXP_FILENAME",
+         "type" : 13, /*Edit*/
+         "width" : 150,
+         "x" : 19,
+         "y" : 63
+      },
+      {
+         "group" : true,
+         "height" : 9,
+         "id" : "IDC_EXP_STSHEETNAME",
+         "text" : "Sheet Name",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 160,
+         "x" : 9,
+         "y" : 81
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_EXP_SHEETNAME",
+         "type" : 13, /*Edit*/
+         "visible" : false,
+         "width" : 160,
+         "x" : 9,
+         "y" : 90
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_EXP_STSETROW",
+         "text" : "First row",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 82,
+         "x" : 9,
+         "y" : 112
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_EXP_OFFSETROW",
+         "number" : true,
+         "textAlign" : 2, /*Right*/
+         "type" : 13, /*Edit*/
+         "visible" : false,
+         "width" : 40,
+         "x" : 9,
+         "y" : 122
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_EXP_STSETCOL",
+         "text" : "First column",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 66,
+         "x" : 102,
+         "y" : 112
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_EXP_OFFSETCOL",
+         "number" : true,
+         "textAlign" : 2, /*Right*/
+         "type" : 13, /*Edit*/
+         "visible" : false,
+         "width" : 40,
+         "x" : 102,
+         "y" : 122
+      },
+      {
+         "group" : true,
+         "height" : 10,
+         "id" : "IDC_EXP_TXTCLIPBOARD",
+         "text" : "Cli&pboard",
+         "type" : 10, /*Radio*/
+         "visible" : false,
+         "width" : 67,
+         "x" : 100,
+         "y" : 146
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_EXP_CSV",
+         "text" : "Text",
+         "type" : 10, /*Radio*/
+         "visible" : false,
+         "width" : 67,
+         "x" : 9,
+         "y" : 146
+      },
+      {
+         "group" : true,
+         "height" : 10,
+         "id" : "IDC_EXP_STSEP",
+         "text" : "Separator:",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 39,
+         "x" : 9,
+         "y" : 166
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_EXP_CSVSEPARATOR",
+         "type" : 13, /*Edit*/
+         "visible" : false,
+         "width" : 21,
+         "x" : 58,
+         "y" : 164
+      },
+      {
+         "group" : true,
+         "height" : 103,
+         "id" : "IDC_STATIC_1",
+         "text" : "Select Pages",
+         "type" : 9, /*Group*/
+         "width" : 159,
+         "x" : 177,
+         "y" : 5
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_CURRPAGE_RADIOBTN",
+         "tabStop" : false,
+         "text" : "Cu&rrent page",
+         "type" : 10, /*Radio*/
+         "width" : 146,
+         "x" : 183,
+         "y" : 21
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_ALLPAGES_RADIOBTN",
+         "tabStop" : false,
+         "text" : "&All",
+         "type" : 10, /*Radio*/
+         "width" : 148,
+         "x" : 183,
+         "y" : 33
+      },
+      {
+         "height" : 11,
+         "id" : "IDC_SELPAGES_RADIOBTN",
+         "tabStop" : false,
+         "text" : "Pag&es",
+         "type" : 10, /*Radio*/
+         "width" : 140,
+         "x" : 183,
+         "y" : 45
+      },
+      {
+         "group" : true,
+         "height" : 11,
+         "id" : "IDC_STATIC_2",
+         "text" : "from",
+         "type" : 2, /*Label*/
+         "width" : 47,
+         "x" : 195,
+         "y" : 60
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_FROMPAGE_EDIT",
+         "type" : 13, /*Edit*/
+         "width" : 40,
+         "x" : 247,
+         "y" : 58
+      },
+      {
+         "group" : true,
+         "height" : 11,
+         "id" : "IDC_STATIC",
+         "text" : "to",
+         "type" : 2, /*Label*/
+         "width" : 47,
+         "x" : 195,
+         "y" : 74
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_TOPAGE_EDIT",
+         "type" : 13, /*Edit*/
+         "width" : 40,
+         "x" : 247,
+         "y" : 74
+      },
+      {
+         "height" : 12,
+         "id" : "IDC_EXP_MULTIROW",
+         "text" : "Multi-l&ine",
+         "type" : 11, /*Check*/
+         "width" : 153,
+         "x" : 182,
+         "y" : 145
+      },
+      {
+         "height" : 12,
+         "id" : "IDC_EXP_REPEAT_COLUMN_TITLE",
+         "text" : "&Repeat colum titles",
+         "type" : 11, /*Check*/
+         "width" : 153,
+         "x" : 182,
+         "y" : 159
+      },
+      {
+         "height" : 12,
+         "id" : "IDC_EXP_COLUMN_TITLE",
+         "text" : "Export column &titles",
+         "type" : 11, /*Check*/
+         "width" : 153,
+         "x" : 182,
+         "y" : 173
+      },
+      {
+         "default" : true,
+         "group" : true,
+         "height" : 14,
+         "id" : "IDOK",
+         "text" : "&OK",
+         "type" : 3, /*Button*/
+         "width" : 68,
+         "x" : 192,
+         "y" : 209
+      },
+      {
+         "height" : 14,
+         "id" : "IDCANCEL",
+         "text" : "&Cancel",
+         "type" : 3, /*Button*/
+         "width" : 68,
+         "x" : 264,
+         "y" : 209
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_EXP_CSV_ENCODE",
+         "text" : "CSV encoding",
+         "type" : 11, /*Check*/
+         "visible" : false,
+         "width" : 83,
+         "x" : 9,
+         "y" : 183
+      },
+      {
+         "group" : true,
+         "height" : 10,
+         "id" : "IDC_EXPTIPE_STRING",
+         "text" : "File Format:",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 77,
+         "x" : 9,
+         "y" : 204
+      },
+      {
+         "height" : 30,
+         "id" : "IDC_FILEFORMAT_COMBO",
+         "sort" : true,
+         "type" : 12, /*Combo*/
+         "vScroll" : true,
+         "visible" : false,
+         "width" : 62,
+         "x" : 63,
+         "y" : 202
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_CHECK_EXPORT",
+         "text" : "Export Totals",
+         "type" : 11, /*Check*/
+         "width" : 101,
+         "x" : 182,
+         "y" : 124
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_CHECK_EXPORTSUBTOTAL",
+         "text" : "Export SubTotals",
+         "type" : 11, /*Check*/
+         "width" : 101,
+         "x" : 182,
+         "y" : 135
+      },
+      {
+         "height" : 12,
+         "id" : "IDC_EXP_HIDDEN_COLUMNS",
+         "text" : "Export hidden columns",
+         "type" : 11, /*Check*/
+         "width" : 153,
+         "x" : 182,
+         "y" : 185
+      }
+   ],
+   "modalFrame" : true,
+   "systemMenu" : true,
+   "text" : "Data Export",
+   "type" : 66, /*Panel*/
+   "width" : 339,
+   "x" : 25,
+   "y" : 30
+}

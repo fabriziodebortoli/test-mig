@@ -1,0 +1,639 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ModifyRecurringModeButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="ModifyRecurringModeButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ModifyRecurringModeButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>445, 94</value>
+  </data>
+  <data name="ModifyRecurringModeButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 32</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ModifyRecurringModeButton.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="ModifyRecurringModeButton.Text" xml:space="preserve">
+    <value>&amp;Edit...</value>
+  </data>
+  <data name="&gt;&gt;ModifyRecurringModeButton.Name" xml:space="preserve">
+    <value>ModifyRecurringModeButton</value>
+  </data>
+  <data name="&gt;&gt;ModifyRecurringModeButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ModifyRecurringModeButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ModifyRecurringModeButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RecurringModeDescriptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RecurringModeDescriptionLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 94</value>
+  </data>
+  <data name="RecurringModeDescriptionLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>386, 57</value>
+  </data>
+  <data name="RecurringModeDescriptionLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;RecurringModeDescriptionLabel.Name" xml:space="preserve">
+    <value>RecurringModeDescriptionLabel</value>
+  </data>
+  <data name="&gt;&gt;RecurringModeDescriptionLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RecurringModeDescriptionLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RecurringModeDescriptionLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RecurringRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="RecurringRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RecurringRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 72</value>
+  </data>
+  <data name="RecurringRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>266, 19</value>
+  </data>
+  <data name="RecurringRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="RecurringRadioButton.Text" xml:space="preserve">
+    <value>&amp;Recurring</value>
+  </data>
+  <data name="&gt;&gt;RecurringRadioButton.Name" xml:space="preserve">
+    <value>RecurringRadioButton</value>
+  </data>
+  <data name="&gt;&gt;RecurringRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RecurringRadioButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RecurringRadioButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="OnceTimePicker.CustomFormat" xml:space="preserve">
+    <value>HH:mm</value>
+  </data>
+  <data name="OnceTimePicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>480, 41</value>
+  </data>
+  <data name="OnceTimePicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 27</value>
+  </data>
+  <data name="OnceTimePicker.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;OnceTimePicker.Name" xml:space="preserve">
+    <value>OnceTimePicker</value>
+  </data>
+  <data name="&gt;&gt;OnceTimePicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OnceTimePicker.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OnceTimePicker.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="OnceTimeLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OnceTimeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OnceTimeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>432, 43</value>
+  </data>
+  <data name="OnceTimeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 20</value>
+  </data>
+  <data name="OnceTimeLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="OnceTimeLabel.Text" xml:space="preserve">
+    <value>&amp;at:</value>
+  </data>
+  <data name="&gt;&gt;OnceTimeLabel.Name" xml:space="preserve">
+    <value>OnceTimeLabel</value>
+  </data>
+  <data name="&gt;&gt;OnceTimeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OnceTimeLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OnceTimeLabel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="OnceDatePicker.CustomFormat" xml:space="preserve">
+    <value>dd/MM/yyyy</value>
+  </data>
+  <data name="OnceDatePicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>288, 41</value>
+  </data>
+  <data name="OnceDatePicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 27</value>
+  </data>
+  <data name="OnceDatePicker.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;OnceDatePicker.Name" xml:space="preserve">
+    <value>OnceDatePicker</value>
+  </data>
+  <data name="&gt;&gt;OnceDatePicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OnceDatePicker.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OnceDatePicker.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="OnceDateLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OnceDateLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OnceDateLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>219, 43</value>
+  </data>
+  <data name="OnceDateLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="OnceDateLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="OnceDateLabel.Text" xml:space="preserve">
+    <value>t&amp;he:</value>
+  </data>
+  <data name="&gt;&gt;OnceDateLabel.Name" xml:space="preserve">
+    <value>OnceDateLabel</value>
+  </data>
+  <data name="&gt;&gt;OnceDateLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OnceDateLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OnceDateLabel.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="OnceRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="OnceRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OnceRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 45</value>
+  </data>
+  <data name="OnceRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 18</value>
+  </data>
+  <data name="OnceRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="OnceRadioButton.Text" xml:space="preserve">
+    <value>&amp;Once</value>
+  </data>
+  <data name="&gt;&gt;OnceRadioButton.Name" xml:space="preserve">
+    <value>OnceRadioButton</value>
+  </data>
+  <data name="&gt;&gt;OnceRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OnceRadioButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OnceRadioButton.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="OnDemandRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="OnDemandRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OnDemandRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 18</value>
+  </data>
+  <data name="OnDemandRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>266, 18</value>
+  </data>
+  <data name="OnDemandRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="OnDemandRadioButton.Text" xml:space="preserve">
+    <value>On &amp;demand</value>
+  </data>
+  <data name="&gt;&gt;OnDemandRadioButton.Name" xml:space="preserve">
+    <value>OnDemandRadioButton</value>
+  </data>
+  <data name="&gt;&gt;OnDemandRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OnDemandRadioButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OnDemandRadioButton.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CyclicDelayLabel2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CyclicDelayLabel2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CyclicDelayLabel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>213, 82</value>
+  </data>
+  <data name="CyclicDelayLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>351, 20</value>
+  </data>
+  <data name="CyclicDelayLabel2.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="CyclicDelayLabel2.Text" xml:space="preserve">
+    <value>minutes, from the end of last execution</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel2.Name" xml:space="preserve">
+    <value>CyclicDelayLabel2</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel2.Parent" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CyclicDelayNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 80</value>
+  </data>
+  <data name="CyclicDelayNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 27</value>
+  </data>
+  <data name="CyclicDelayNumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="CyclicDelayNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayNumericUpDown.Name" xml:space="preserve">
+    <value>CyclicDelayNumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayNumericUpDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayNumericUpDown.Parent" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayNumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CyclicDelayLabel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CyclicDelayLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CyclicDelayLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 82</value>
+  </data>
+  <data name="CyclicDelayLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 20</value>
+  </data>
+  <data name="CyclicDelayLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="CyclicDelayLabel1.Text" xml:space="preserve">
+    <value>At inter&amp;vals of</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel1.Name" xml:space="preserve">
+    <value>CyclicDelayLabel1</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel1.Parent" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicDelayLabel1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CyclicRepeatInfiniteRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CyclicRepeatInfiniteRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CyclicRepeatInfiniteRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 48</value>
+  </data>
+  <data name="CyclicRepeatInfiniteRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>320, 18</value>
+  </data>
+  <data name="CyclicRepeatInfiniteRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CyclicRepeatInfiniteRadioButton.Text" xml:space="preserve">
+    <value>&amp;Infinite</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatInfiniteRadioButton.Name" xml:space="preserve">
+    <value>CyclicRepeatInfiniteRadioButton</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatInfiniteRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatInfiniteRadioButton.Parent" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatInfiniteRadioButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CyclicRepeatNumberNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>521, 17</value>
+  </data>
+  <data name="CyclicRepeatNumberNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 27</value>
+  </data>
+  <data name="CyclicRepeatNumberNumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CyclicRepeatNumberNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberNumericUpDown.Name" xml:space="preserve">
+    <value>CyclicRepeatNumberNumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberNumericUpDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberNumericUpDown.Parent" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberNumericUpDown.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CyclicRepeatNumberRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CyclicRepeatNumberRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CyclicRepeatNumberRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 20</value>
+  </data>
+  <data name="CyclicRepeatNumberRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>320, 18</value>
+  </data>
+  <data name="CyclicRepeatNumberRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CyclicRepeatNumberRadioButton.Text" xml:space="preserve">
+    <value>&amp;Number of subsequent execution:</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberRadioButton.Name" xml:space="preserve">
+    <value>CyclicRepeatNumberRadioButton</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberRadioButton.Parent" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicRepeatNumberRadioButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CyclicCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CyclicCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CyclicCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 16</value>
+  </data>
+  <data name="CyclicCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 24</value>
+  </data>
+  <data name="CyclicCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CyclicCheckBox.Text" xml:space="preserve">
+    <value>&amp;Cyclic execution</value>
+  </data>
+  <data name="&gt;&gt;CyclicCheckBox.Name" xml:space="preserve">
+    <value>CyclicCheckBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicCheckBox.Parent" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicCheckBox.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CyclicGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 192</value>
+  </data>
+  <data name="CyclicGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>578, 117</value>
+  </data>
+  <data name="CyclicGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;CyclicGroupBox.Name" xml:space="preserve">
+    <value>CyclicGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CyclicGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CyclicGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CyclicGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="AdvancedPropertiesButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="AdvancedPropertiesButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="AdvancedPropertiesButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>445, 160</value>
+  </data>
+  <data name="AdvancedPropertiesButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 32</value>
+  </data>
+  <data name="AdvancedPropertiesButton.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="AdvancedPropertiesButton.Text" xml:space="preserve">
+    <value>Ad&amp;vanced &gt;&gt;</value>
+  </data>
+  <data name="&gt;&gt;AdvancedPropertiesButton.Name" xml:space="preserve">
+    <value>AdvancedPropertiesButton</value>
+  </data>
+  <data name="&gt;&gt;AdvancedPropertiesButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AdvancedPropertiesButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;AdvancedPropertiesButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>595, 319</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SchedulingPropertiesPageContent</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

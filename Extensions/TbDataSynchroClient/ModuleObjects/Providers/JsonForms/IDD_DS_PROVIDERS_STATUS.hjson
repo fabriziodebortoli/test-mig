@@ -1,0 +1,5 @@
+#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_DS_PROVIDERS_STATUS	GET_IDD(IDD_DS_PROVIDERS_STATUS,D.Extensions.TbDataSynchroClient.Providers)
+#define IDC_PROVIDERS_STATUS_IMG	GET_IDC(IDC_PROVIDERS_STATUS_IMG)
+#define IDC_PROVIDER_STATUS	GET_IDC(IDC_PROVIDER_STATUS)

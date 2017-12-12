@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:Microarea.Web.Services.ArchiveBinaryContent" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.ArchiveBinaryContent" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="binaryContent" nillable="true" type="xs:base64Binary" />
+  <xs:element name="sourceFileName" nillable="true" type="xs:string" />
+  <xs:element name="description" nillable="true" type="xs:string" />
+  <xs:element name="archivedDocID" type="xs:int" />
+  <xs:element name="result" nillable="true" type="xs:string" />
+  <xs:element name="return" type="xs:boolean" />
+</xs:schema>

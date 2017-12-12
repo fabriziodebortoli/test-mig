@@ -1,0 +1,17 @@
+//=============================================================================
+// module name  : @(LibraryName).rc
+//=============================================================================
+
+#ifdef APSTUDIO_INVOKED
+	#error this file is not editable by AppStudio
+#else
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Standard resources di MFC
+//
+#include "afxres.h"
+@(RepeatOnDocuments{#include "@(DocumentViewFileName).rc", "\r\n"})
+@(RepeatOnClientDocuments{@(IfInterfacePresent(#include "@(ClientDocumentViewFileName).rc")), "\r\n"})
+
+#endif //APSTUDIO_INVOKED

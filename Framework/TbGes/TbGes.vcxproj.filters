@@ -1,0 +1,2086 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TbGes">
+      <UniqueIdentifier>{09d433e7-c6f6-46d4-83b0-774e5d245aa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\ReferenceObjects">
+      <UniqueIdentifier>{4ce56be2-006e-4e40-95e7-0bb9e74aea52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Resource Files">
+      <UniqueIdentifier>{1b9378f1-bed0-4dd1-ae25-c4c8423eab19}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="TbGes\Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{05b04be2-9c6b-49c8-beff-6ed1ae7eb967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Resource Files\Icon">
+      <UniqueIdentifier>{c9f0ed97-7697-43c0-b91d-9649584a6f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Resource Files\Avi multimedia">
+      <UniqueIdentifier>{d04d3679-ed3b-4673-af09-b5d1ab0b2a7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Resource Files\Png">
+      <UniqueIdentifier>{8e9641bf-ccb1-44cf-b5c2-743700b211e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Resource Files\ToolBar">
+      <UniqueIdentifier>{cfedc913-98e8-4302-98f0-5630f6f29427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Source Files">
+      <UniqueIdentifier>{4ab7b8eb-66f2-4038-bd47-a7a19c8463a7}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="TbGes\Xml">
+      <UniqueIdentifier>{48fc7f75-1c7e-4db7-9b46-f6b994fed218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\ModuleObjects">
+      <UniqueIdentifier>{fac5f422-dbc6-4331-ad64-d88d3d992d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Menu">
+      <UniqueIdentifier>{0e6b5f31-1fd7-4a0d-a061-7405c619b31c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\Header Files">
+      <UniqueIdentifier>{4715595b-203a-45ed-9a73-bf47493ad26c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="TbGes\BSP">
+      <UniqueIdentifier>{de119e8d-b006-445f-8252-ba0afed0b846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\BodyEdit">
+      <UniqueIdentifier>{0ff875ad-0212-434f-815a-cb694ed0e546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbWoormEngine">
+      <UniqueIdentifier>{44f9ac91-84d8-4bf3-98c4-d10bb5474f3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbWoormEngine\Header Files">
+      <UniqueIdentifier>{146c752e-208f-457b-98c6-15fde7f3b633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbWoormEngine\Resource Files">
+      <UniqueIdentifier>{e36ca3df-b3bf-413e-ae32-8d896a16b8f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbWoormEngine\ModuleObjects">
+      <UniqueIdentifier>{e55c67f4-c888-42ab-9da1-7323729e3ad4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbWoormEngine\Source Files">
+      <UniqueIdentifier>{9bb46e61-a5dc-4182-9fdd-97d0f11d8312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb">
+      <UniqueIdentifier>{432bce89-1c5f-4164-bf66-6b0cfd59c0b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript">
+      <UniqueIdentifier>{b9e5afb1-80e7-42aa-928f-01809555e70a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Create">
+      <UniqueIdentifier>{70406f65-fb6d-4d9a-89f8-a98953974054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Create\All">
+      <UniqueIdentifier>{a923be9e-72e2-44ae-af49-1b0470611191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Create\Oracle">
+      <UniqueIdentifier>{40b6e67f-dd82-49a0-b43e-4239e8650b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Upgrade">
+      <UniqueIdentifier>{7c50e651-6836-4330-b712-096396ad649c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Upgrade\All">
+      <UniqueIdentifier>{4a4123ec-678e-470f-a25d-562105e1496f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Upgrade\All\Release_2">
+      <UniqueIdentifier>{eade2caa-4f2a-44fb-bb0f-baf5a868496a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Upgrade\Oracle">
+      <UniqueIdentifier>{244f4e69-61ed-4023-a419-0867f9b4aba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\DatabaseScript\Upgrade\Oracle\Release_2">
+      <UniqueIdentifier>{7a80b51b-3f16-487a-ac3a-7f0c70160f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\Header Files">
+      <UniqueIdentifier>{a8f45b84-027a-443c-9089-8406957e0658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\ModuleObjects">
+      <UniqueIdentifier>{85bf882c-7519-4fd4-8eb1-a55bcb9c87ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\Resource Files">
+      <UniqueIdentifier>{06168be7-094e-4893-b962-03688fe7edae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\Resource Files\Header hrc">
+      <UniqueIdentifier>{1b22bffa-6e75-49af-b906-5dda47b63c00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\Settings">
+      <UniqueIdentifier>{0a28716e-9794-4378-bfdd-390eb161641e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbOleDb\Source Files">
+      <UniqueIdentifier>{25601582-017e-45d7-b76b-2875f86e7862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib">
+      <UniqueIdentifier>{b5d06918-37af-4924-8e99-1d7b1376152a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Source Files">
+      <UniqueIdentifier>{56fc1030-2b8c-4869-9e31-df76e6914051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Settings">
+      <UniqueIdentifier>{3d17bea1-c7be-41af-ab97-d03b0f379466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Resource Files">
+      <UniqueIdentifier>{7776ef5c-8fd3-4370-a2a7-cdc2c65d90dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{7799e946-899d-4401-96bb-560cba3dd9b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Resource Files\Cursor">
+      <UniqueIdentifier>{8f59d847-211a-4f56-85bc-853752a8fcab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\ModuleObjects">
+      <UniqueIdentifier>{faf2c605-738c-4a58-95bd-d7ee153ef27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Header Files">
+      <UniqueIdentifier>{80fe0bfd-d943-40ee-a536-155bcaeba4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Controls">
+      <UniqueIdentifier>{601f1b43-8fe2-432a-a765-9419e65a7676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI">
+      <UniqueIdentifier>{94b997db-a84e-401a-86d4-22b1576ce0e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\Header Files">
+      <UniqueIdentifier>{02f5f427-c434-446c-9140-95e70fef9f8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\ModuleObjects">
+      <UniqueIdentifier>{b8eb0c05-b058-4e72-8f51-1ec7e6a81a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\Source Files">
+      <UniqueIdentifier>{3fe94a73-ee7e-4dd1-90f1-59e90d394f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\Menu">
+      <UniqueIdentifier>{56f03f42-7298-4a22-b2a1-e869ebb799d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\Resource Files">
+      <UniqueIdentifier>{e94a81aa-028a-40eb-99e5-fd14ac666c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{b1df2e4a-0306-4819-8078-76cdc2232ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\Resource Files\Icon">
+      <UniqueIdentifier>{a4967e31-b405-4ea3-8d77-742eef9404ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlibUI\Resource Files\Bitmap">
+      <UniqueIdentifier>{fd70f049-1d0e-41d1-b8ee-c613064e54c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbWoormEngine\OldWoormEditor">
+      <UniqueIdentifier>{32614034-beca-402a-8392-673c6f71a050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Controls\HtmlParser">
+      <UniqueIdentifier>{ba0dd93b-a5a8-4fbc-a653-105b3bbcf76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGenlib\Xml">
+      <UniqueIdentifier>{d8e80902-d484-42b9-8224-8fa15893e9af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\ActivityDocument">
+      <UniqueIdentifier>{05bcf12f-7f46-4fd1-aae9-b9f3d70f288c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\HotFilter">
+      <UniqueIdentifier>{7cf07d0d-a0ca-49af-80bc-67bc4ae84e9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TbGes\BaseNavigation">
+      <UniqueIdentifier>{cb50cf66-6b4c-4eff-8766-8fc2ab9fd33b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BARQUERY.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BARQYDLG.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BROWSER.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DBT.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DocRecoveryManager.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EVENTMNG.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EXTDOC.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtDocAdm.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtDocClientDoc.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtDocFinderDoc.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtDocFrame.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtDocView.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldInspector.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FormMng.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FormMngReportDlg.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HOTLINK.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordLocker.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ReportListDlg.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TABBER.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbGes.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbGesInterface.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbGesWCFInterface.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBLREAD.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBLUPDAT.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBRadarInterface.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLControls.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLDocGenerator.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLGesInfo.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLLogManager.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlReferenceObjectsParserEx.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XRefManager.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XSLTMNG.CPP">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BEColumnInfo.CPP">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="BODYEDIT.CPP">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="BodyEditTree.cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CTBEDataCodecASCII.cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="DBTTreeEdit.cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="TBEDataCoDec.cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="TbExtBEDefaultCodec.cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="TBExtBEDropTarget.Cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="TBExtBEOleDataSource.cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="TBExtBEOleDropSource.cpp">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemsListTools.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtDocViewTool.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DBTIterator.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NumbererService.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SlaveViewContainer.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeEdit.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParsedPanel.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileDialog.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBGridControl.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBGridControlDataSource.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JSONFormDoc.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DynDBT.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonFormEngineEx.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeaderStrip.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomSaveDialog.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CAddressDlg.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\ActionsRepEngin.cpp">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\ASKDATA.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\DATAFUNC.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\EVENTS.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\INPUTMNG.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\PRGDATA.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\PROCDATA.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\QRYDATA.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\QRYENGIN.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\QueryObject.cpp">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\RdeProtocolCode.cpp">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\REPDATA.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\REPENGIN.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\REPFIELD.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\REPORT.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\ReportLink.cpp">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\REPTABLE.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\RPSYMTBL.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\RULEDATA.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\RULENGIN.CPP">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\TbWoormEngineInterface.cpp">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\TbWoormEngineWCFInterface.cpp">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\Interfce.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\OleDbMng.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\PerformanceAnalizer.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlAccessor.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlCache.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\Sqlcatalog.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlConnect.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\sqllock.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlMark.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlObject.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlProviderInfo.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlRec.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlRecoveryManager.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\Sqltable.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\TbExtensionsInterface.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\TbOleDbWCFInterface.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\WClause.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\AboutBox.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\AddOnMng.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\AutoExprDlg.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\AutoExpressionMng.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\BarCode.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Baseapp.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Basedoc.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\BaseEventMng.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Basefrm.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Batchdlg.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\CEFClasses.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Command.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\DataObjDescriptionEx.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\DiagnosticManager.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\DMSAttachmentInfo.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Expparse.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Expr.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\ExternalControllerInfo.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Funproto.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Hlinkobj.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\LayoutContainer.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\MicroareaVisualManager.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TabSelector.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Messages.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\NumbererInfo.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\OslBaseInterface.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\OslInfo.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\SettingsTableManager.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Tabcore.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBExplorerInterface.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TbGenlibInterface.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TbGenlibSettings.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TbGenlibWCFInterface.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\HotlinkController.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBLinearGauge.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBParsedProgressBar.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBStrings.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TbWizardMaster.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\BaseTileManager.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\BaseTileDialog.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Tile.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TileButtons.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TileDialogPart.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TilePanel.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\ToolBarButton.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\ToolTipCtrl.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\XMLModuleObjectsInfo.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\XmlReferenceObjectsParser.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\AddressEdit.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\BARCOMBO.CPP">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\DirTreeCtrl.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\ExtStatusControlBar.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\HyperLink.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\MiniHtmlStatic.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Parsbtn.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Parsedt.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\ParsEdtOther.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Parslbx.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Parsobj.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\ParsObjManaged.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Reswalk.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\RichEditControl50W.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\StretchableCtrl.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBAutoHideBar.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBBreadCrumb.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBCaptionBar.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBDockPane.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBPropertyGrid.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBSplitterWnd.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBTabWnd.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TBToolBar.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Tfxdatatip.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\BrowserDlg.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\ContextSelectionDialog.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\FontsDialog.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\FormatDialog.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\paddoc.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\TBExplorer.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\TBExplorerUtility.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\TbGenlibUIInterface.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\TbGenlibUIWCFInterface.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\TBManageFile.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TbGenlibGeneric.cpp">
+      <Filter>TbGenlib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\TbWoormEngineGeneric.cpp">
+      <Filter>TbWoormEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlibUI\TbGenlibUISoapFunctions.cpp">
+      <Filter>TbGenlibUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbGesSoapFunctions.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\TbTreeCtrl.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Parscbx.cpp">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\ASKDLG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\DISPTBL.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\EDTCMM.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\EDTMNG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\EQNEDIT.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\EVNDLG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\EXPDLG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\ORDDLG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\RPSYMDLG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\TBLDLG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\PROCDLG.CPP">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbWoormEngine\ExportSymbols.cpp">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="UnpinnedTilesPane.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\HelperExternalReferences.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Aliases.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBHtmlParser.cpp">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlParser\HtmlElementCollection.cpp">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlParser\HtmlEventHandler.cpp">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlParser\LiteHTMLAttributes.cpp">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlParser\LiteHTMLEntityResolver.cpp">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlParser\LiteHTMLReader.cpp">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbOleDb\RIChecker.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSource.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusTile.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BusinessObjectInterface.cpp">
+      <Filter>TbGes\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="BusinessServiceProvider.cpp">
+      <Filter>TbGes\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="UIBusinessServiceProvider.cpp">
+      <Filter>TbGes\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="TBActivityDocument.cpp">
+      <Filter>TbGes\ActivityDocument</Filter>
+    </ClCompile>
+    <ClCompile Include="HotFilter.cpp">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="HotFilterDataPicker.cpp">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="HotFilterManager.cpp">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHotFilterDataPicker.cpp">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="DataPickerRecordSet.cpp">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="TBBaseNavigation.cpp">
+      <Filter>TbGes\BaseNavigation</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonFrame.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Validator.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataAdapter.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComposedHotLink.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlBehaviour.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DocumentSession.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TbGenlib\Behaviour.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TbGes.def">
+      <Filter>TbGes\Source Files</Filter>
+    </None>
+    <None Include="BEGINCPP.DEX">
+      <Filter>TbGes\Header Files</Filter>
+    </None>
+    <None Include="BEGINH.DEX">
+      <Filter>TbGes\Header Files</Filter>
+    </None>
+    <None Include="ENDH.DEX">
+      <Filter>TbGes\Header Files</Filter>
+    </None>
+    <None Include="EXTDOC.HRC">
+      <Filter>TbGes\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="FieldInspector.hrc">
+      <Filter>TbGes\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="XMLControls.hrc">
+      <Filter>TbGes\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="XRefManager.hrc">
+      <Filter>TbGes\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="res\addon.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\alluser.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="Res\DataEntry.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\dbt_slav_buf_exp.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\EXTDOC.ICO">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\module.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\profpred.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\profpref.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\standard.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\user.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\ViewFinder.cur">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\xref_not_exp.ico">
+      <Filter>TbGes\Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\adm.avi">
+      <Filter>TbGes\Resource Files\Avi multimedia</Filter>
+    </None>
+    <None Include="ModuleObjects\WebMethods.xml">
+      <Filter>TbGes\ModuleObjects</Filter>
+    </None>
+    <None Include="Xml\Template_Events.xml">
+      <Filter>TbGes\Xml</Filter>
+    </None>
+    <None Include="Xml\XMLLogManager.xsl">
+      <Filter>TbGes\Xml</Filter>
+    </None>
+    <None Include="Xml\XSLLostDbConnection.xsl">
+      <Filter>TbGes\Xml</Filter>
+    </None>
+    <None Include="Menu\TbGes.menu">
+      <Filter>TbGes\Menu</Filter>
+    </None>
+    <None Include="ReferenceObjects\CurrentUserRoles.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\Roles.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\Users.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\UICultures.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\BarCode.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\Behaviours.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\Entities.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\TableColumns.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\Tables.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </None>
+    <None Include="Files\Images\DBT.png">
+      <Filter>TbGes\Resource Files\Png</Filter>
+    </None>
+    <None Include="Files\Images\delete.png">
+      <Filter>TbGes\Resource Files\Png</Filter>
+    </None>
+    <None Include="Files\Images\new.png">
+      <Filter>TbGes\Resource Files\Png</Filter>
+    </None>
+    <None Include="Files\Images\record.png">
+      <Filter>TbGes\Resource Files\Png</Filter>
+    </None>
+    <None Include="Files\Images\toggle.png">
+      <Filter>TbGes\Resource Files\Png</Filter>
+    </None>
+    <None Include="ModuleObjects\BehaviourObjects.xml">
+      <Filter>TbGes\ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\ClientDocumentObjects.xml">
+      <Filter>TbGes\ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\DatabaseObjects.xml">
+      <Filter>TbGes\ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\DocumentObjects.xml">
+      <Filter>TbGes\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbWoormEngine\BEGINCPP.DEX">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </None>
+    <None Include="..\TbWoormEngine\BEGINH.DEX">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </None>
+    <None Include="..\TbWoormEngine\ENDH.DEX">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </None>
+    <None Include="..\TbWoormEngine\ModuleObjects\DocumentObjects.xml">
+      <Filter>TbWoormEngine\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbWoormEngine\ModuleObjects\WebMethods.xml">
+      <Filter>TbWoormEngine\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbOleDb\DatabaseScript\Create\CreateInfo.xml">
+      <Filter>TbOleDb\DatabaseScript\Create</Filter>
+    </None>
+    <None Include="..\TbOleDb\DatabaseScript\Create\All\TB_DBMark.sql">
+      <Filter>TbOleDb\DatabaseScript\Create\All</Filter>
+    </None>
+    <None Include="..\TbOleDb\DatabaseScript\Create\Oracle\TB_DBMARK.sql">
+      <Filter>TbOleDb\DatabaseScript\Create\Oracle</Filter>
+    </None>
+    <None Include="..\TbOleDb\DatabaseScript\Upgrade\UpgradeInfo.xml">
+      <Filter>TbOleDb\DatabaseScript\Upgrade</Filter>
+    </None>
+    <None Include="..\TbOleDb\DatabaseScript\Upgrade\All\Release_2\Alter_TB_DBMark.sql">
+      <Filter>TbOleDb\DatabaseScript\Upgrade\All\Release_2</Filter>
+    </None>
+    <None Include="..\TbOleDb\DatabaseScript\Upgrade\Oracle\Release_2\Alter_TB_DBMark.sql">
+      <Filter>TbOleDb\DatabaseScript\Upgrade\Oracle\Release_2</Filter>
+    </None>
+    <None Include="..\TbOleDb\Begincpp.dex">
+      <Filter>TbOleDb\Header Files</Filter>
+    </None>
+    <None Include="..\TbOleDb\Beginh.dex">
+      <Filter>TbOleDb\Header Files</Filter>
+    </None>
+    <None Include="..\TbOleDb\Endh.dex">
+      <Filter>TbOleDb\Header Files</Filter>
+    </None>
+    <None Include="..\TbOleDb\ModuleObjects\DatabaseObjects.xml">
+      <Filter>TbOleDb\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbOleDb\ModuleObjects\WebMethods.xml">
+      <Filter>TbOleDb\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbOleDb\Settings\Settings.config">
+      <Filter>TbOleDb\Settings</Filter>
+    </None>
+    <None Include="..\TbOleDb\Module.config">
+      <Filter>TbOleDb</Filter>
+    </None>
+    <None Include="..\TbGenlib\Settings\Settings.config">
+      <Filter>TbGenlib\Settings</Filter>
+    </None>
+    <None Include="..\TbGenlib\PARSRES.HRC">
+      <Filter>TbGenlib\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="..\TbGenlib\Res\hand.cur">
+      <Filter>TbGenlib\Resource Files\Cursor</Filter>
+    </None>
+    <None Include="..\TbGenlib\ModuleObjects\Enums.xml">
+      <Filter>TbGenlib\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbGenlib\ModuleObjects\fonts.ini">
+      <Filter>TbGenlib\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbGenlib\ModuleObjects\formats.ini">
+      <Filter>TbGenlib\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbGenlib\ModuleObjects\WebMethods.xml">
+      <Filter>TbGenlib\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbGenlib\BEGINCPP.DEX">
+      <Filter>TbGenlib\Header Files</Filter>
+    </None>
+    <None Include="..\TbGenlib\BEGINH.DEX">
+      <Filter>TbGenlib\Header Files</Filter>
+    </None>
+    <None Include="..\TbGenlib\ENDH.DEX">
+      <Filter>TbGenlib\Header Files</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Begincpp.dex">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Beginh.dex">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Endh.dex">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\ModuleObjects\DocumentObjects.xml">
+      <Filter>TbGenlibUI\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\ModuleObjects\WebMethods.xml">
+      <Filter>TbGenlibUI\ModuleObjects</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Amministration.menu">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.System.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.EnumsViewer.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecManageFile.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenText.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.TbEditor.gif">
+      <Filter>TbGenlibUI\Menu</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\FormatDialog.HRC">
+      <Filter>TbGenlibUI\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\Module.config">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlib\Module.config">
+      <Filter>TbGenlib</Filter>
+    </None>
+    <None Include="TBGes.hrc">
+      <Filter>TbGes\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="..\TbGenlib\commands.hrc">
+      <Filter>TbGenlib\Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\FormatDialog.RC">
+      <Filter>TbGenlibUI\Resource Files</Filter>
+    </None>
+    <None Include="XMLControls.rc">
+      <Filter>TbGes\Resource Files</Filter>
+    </None>
+    <None Include="XRefManager.rc">
+      <Filter>TbGes\Resource Files</Filter>
+    </None>
+    <None Include="FieldInspector.rc">
+      <Filter>TbGes\Resource Files</Filter>
+    </None>
+    <None Include="UnpinnedTilesPane.hjson">
+      <Filter>TbGes</Filter>
+    </None>
+    <None Include="UIBusinessServiceProvider.hjson">
+      <Filter>TbGes\BSP</Filter>
+    </None>
+    <None Include="TBActivityDocument.hjson">
+      <Filter>TbGes\ActivityDocument</Filter>
+    </None>
+    <None Include="UIHotFilterDataPicker.hjson">
+      <Filter>TbGes\HotFilter</Filter>
+    </None>
+    <None Include="UIHotFilter.hjson">
+      <Filter>TbGes\HotFilter</Filter>
+    </None>
+    <None Include="TBBaseNavigation.hjson">
+      <Filter>TbGes\BaseNavigation</Filter>
+    </None>
+    <None Include="BARQUERY.HRC">
+      <Filter>TbGes</Filter>
+    </None>
+    <None Include="JsonForms\TbGes\IDD_BROWSER.hjson">
+      <Filter>TbGes</Filter>
+    </None>
+    <None Include="JsonForms\TbGes\IDD_BROWSER.tbjson">
+      <Filter>TbGes</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_ASKCOPYLNK_DLG.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_ASKCOPYLNK_DLG.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN_SAVE.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_EXPLORER_ADMIN_SAVE.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\FontsDialog\IDD_FONT_STYLE.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\FontsDialog\IDD_FONT_STYLE.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\FormatDialog\IDD_FORMAT_STYLE.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\FormatDialog\IDD_FORMAT_STYLE.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_FULL_ADMIN_SAVE.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_FULL_ADMIN_SAVE.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDR_TBEXPLORER_DLG.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDR_TBEXPLORER_DLG.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_SEARCH.hjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="..\TbGenlibUI\JsonForms\TBExplorer\IDD_SEARCH.tbjson">
+      <Filter>TbGenlibUI</Filter>
+    </None>
+    <None Include="JsonForms\TbGes\IDD_MASTER_FRAME.hjson">
+      <Filter>TbGes</Filter>
+    </None>
+    <None Include="JsonForms\TbGes\IDD_MASTER_FRAME.tbjson">
+      <Filter>TbGes</Filter>
+    </None>
+    <None Include="..\TbWoormEngine\Module.config">
+      <Filter>TbWoormEngine\ModuleObjects</Filter>
+    </None>
+    <None Include="Module.config">
+      <Filter>TbGes\ModuleObjects</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BARQUERY.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BARQYDLG.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BROWSER.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBT.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DocRecoveryManager.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EVENTMNG.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EXTDOC.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtDocAbstract.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtDocAdm.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtDocClientDoc.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtDocFinderDoc.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtDocFrame.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtDocView.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldInspector.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FormMng.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FormMngDlg.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HOTLINK.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InterfaceMacros.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordLocker.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReportListDlg.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoapFunctions.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TABBER.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBLREAD.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBLUPDAT.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBRadarInterface.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLControls.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLDocGenerator.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLGesInfo.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLLogManager.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlReferenceObjectsParserEx.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XRefManager.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XSLTMNG.H">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BEColumnInfo.H">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="BODYEDIT.H">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="BodyEditTree.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CTBEDataCodecASCII.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="DBTTreeEdit.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="TBEDataCoDec.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="TbExtBEDefaultCodec.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="TBExtBEDropTarget.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="TBExtBEOleDataSource.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="TBExtBEOleDropSource.h">
+      <Filter>TbGes\BodyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemsListTools.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtDocViewTool.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBTIterator.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NumbererService.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SlaveViewContainer.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeEdit.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParsedPanel.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileDialog.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBGridControl.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBGridControlDataSource.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JSONFormDoc.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynDBT.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonFormEngineEx.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderStrip.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomSaveDialog.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CAddressDlg.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\ActionsRepEngin.h">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\ASKDATA.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\DATAFUNC.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\EVENTS.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\Generic.h">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\INPUTMNG.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\MultiLayout.h">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\PRGDATA.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\PROCDATA.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\QRYDATA.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\QRYENGIN.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\QRYWRKID.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\QueryObject.h">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\RdeProtocolCode.h">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\REPDATA.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\REPENGIN.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\REPFIELD.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\REPORT.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\ReportLink.h">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\REPTABLE.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\REPWRKID.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\RPSYMTBL.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\RULEDATA.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\RULENGIN.H">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\stdafx.h">
+      <Filter>TbWoormEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\ATLSession.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\InterfaceMacros.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\lentbl.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\OleDbMng.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\PerformanceAnalizer.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlAccessor.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlCache.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlCatalog.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlConnect.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\sqllock.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SQLMARK.H">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlObject.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlProviderInfo.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlRec.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlRecoveryManager.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\Sqltable.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\stdafx.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\TbExtensionsInterface.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\WClause.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BarCode.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BarcodeEnums.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\CEFClasses.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\AboutBox.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\AddOnMng.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\AutoExprDlg.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\AutoExpressionMng.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BASEAPP.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BASEDOC.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BaseEventMng.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BASEFRM.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BATCHDLG.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\Command.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\Const.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\DataObjDescriptionEx.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\DiagnosticManager.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\DMSAttachmentInfo.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\EXPPARSE.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\EXPR.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\ExternalControllerInfo.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\FUNPROTO.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\GENERIC.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\hlinkobj.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\InterfaceMacros.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\LayoutContainer.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\MicroareaVisualManager.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TabSelector.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\MESSAGES.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\NumbererInfo.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\OslBaseInterface.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\OslInfo.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\PROFILE.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\SettingsTableManager.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\stdafx.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TABCORE.H">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBCommandInterface.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBExplorerInterface.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TbGenlibSettings.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\HotlinkController.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBLinearGauge.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBParsedProgressBar.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBStrings.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TbWizardMaster.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BaseTileManager.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BaseTileDialog.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\Tile.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TileButtons.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TileDialogPart.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TilePanel.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\ToolBarButton.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\ToolTipCtrl.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\XMLModuleObjectsInfo.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\XmlReferenceObjectsParser.h">
+      <Filter>TbGenlib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\AddressEdit.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\BARCOMBO.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\DirTreeCtrl.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\ExtStatusControlBar.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\HyperLink.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\MiniHtmlStatic.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\PARSBTN.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\PARSCBX.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\PARSCTRL.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\PARSEDT.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\ParsEdtOther.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\PARSLBX.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\PARSOBJ.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\ParsObjManaged.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\RESWALK.H">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\RichEditControl50W.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\StretchableCtrl.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBAutoHideBar.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBBreadCrumb.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBCaptionBar.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBDockPane.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBPropertyGrid.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBSplitterWnd.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBTabWnd.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TBToolBar.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\Tfxdatatip.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\BrowserDlg.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\ContextSelectionDialog.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\FontsDialog.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\FormatDialog.H">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\paddoc.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\SettingsTableManager.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\SoapFunctions.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\stdafx.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\TBExplorer.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\TBExplorerUtility.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlibUI\TBManageFile.h">
+      <Filter>TbGenlibUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\TbTreeCtrl.h">
+      <Filter>TbGenlib\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\ASKDLG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\DISPTBL.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\EDTCMM.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\EDTMNG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\EQNEDIT.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\EVNDLG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\EXPDLG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\ExportSymbols.h">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\ORDDLG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\PROCDLG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\RPSYMDLG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbWoormEngine\TBLDLG.H">
+      <Filter>TbWoormEngine\OldWoormEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="UnpinnedTilesPane.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\HelperExternalReferences.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Aliases.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\DataKeeper.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\HtmlElementCollection.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\HtmlEventHandler.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\LiteHTMLAttributes.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\LiteHTMLCommon.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\LiteHTMLEntityResolver.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\LiteHTMLReader.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\LiteHTMLTag.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlParser\Tree.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="TBHtmlParser.h">
+      <Filter>TbGenlib\Controls\HtmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\RIChecker.h">
+      <Filter>TbOleDb\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSource.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusTile.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PredefinedColors.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BusinessObjectInterface.h">
+      <Filter>TbGes\BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="BusinessServiceProvider.h">
+      <Filter>TbGes\BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="UIBusinessServiceProvider.h">
+      <Filter>TbGes\BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="TBActivityDocument.h">
+      <Filter>TbGes\ActivityDocument</Filter>
+    </ClInclude>
+    <ClInclude Include="HotFilter.h">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="HotFilterDataPicker.h">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="HotFilterManager.h">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHotFilterDataPicker.h">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="DataPickerRecordSet.h">
+      <Filter>TbGes\HotFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="TBBaseNavigation.h">
+      <Filter>TbGes\BaseNavigation</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonFrame.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Validator.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataAdapter.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComposedHotLink.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlBehaviour.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DocumentSession.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbGenlib\Behaviour.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbGes.rc">
+      <Filter>TbGes\Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="BARQUERY.RC">
+      <Filter>TbGes\Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\TbGenlibUI\res\FontFormatToolbar.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbGenlibUI\Res\FontFormatToolbar_Disabled.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbGenlibUI\Res\FontFormatToolbar_Small.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbGenlibUI\Res\FontFormatToolbar_Small_Disabled.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbWoormEngine\RES\CHECK.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbWoormEngine\RES\HIDDEN.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbWoormEngine\RES\KEY.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbWoormEngine\RES\CHECKKEY.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="..\TbWoormEngine\RES\HIDDKEY.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\WIZDOC.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="res\document.ico">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\XREFWIZPRES.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\xrefwizselfk.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\xrefwizseldoc.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\xrefwizoption.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="res\xrefwizsegment.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\xrefwizfinish.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="res\xrefwizuk.bmp">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_TEMP.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_DEFA.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_PRED.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_FILE.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_DEFA_MN.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_PRED_MN.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_EDIT_MN.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_FIND.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BQ_FIND_MN.BMP">
+      <Filter>TbGes\Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\TbGenlib\PARSRES.RC">
+      <Filter>TbGenlib\Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\TbGenlib\Xml\Functions.xml">
+      <Filter>TbGenlib\Xml</Filter>
+    </Xml>
+    <Xml Include="ReferenceObjects\Applications.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </Xml>
+    <Xml Include="ReferenceObjects\Modules.xml">
+      <Filter>TbGes\ReferenceObjects</Filter>
+    </Xml>
+    <Xml Include="ReferenceObjects\ComposedJsonHotLink.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDoJson.txt">
+      <Filter>TbGes</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

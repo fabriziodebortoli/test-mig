@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Roles>
+  <Objects />
+  <Role localize="ReportStudioDeveloper">
+    <Disabled>False</Disabled>
+    <ReadOnly>True</ReadOnly>
+    <Description localizable="true">ReportStudioDeveloper</Description>
+    <Grants>
+      <Grant>
+        <NameSpace>Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont</NameSpace>
+        <TypeId>3</TypeId>
+        <GrantValue>1</GrantValue>
+        <InheritMask>0</InheritMask>
+      </Grant>
+      <Grant>
+        <NameSpace>Framework.TbWoormViewer.TbWoormViewer.ExecNewReport</NameSpace>
+        <TypeId>3</TypeId>
+        <GrantValue>1</GrantValue>
+        <InheritMask>0</InheritMask>
+      </Grant>
+      <Grant>
+        <NameSpace>Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport</NameSpace>
+        <TypeId>3</TypeId>
+        <GrantValue>1</GrantValue>
+        <InheritMask>0</InheritMask>
+      </Grant>
+    </Grants>
+  </Role>
+</Roles>

@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGenlibUI\JsonForms\BrowserDlg\IDD_DLG_BROWSER.hjson>

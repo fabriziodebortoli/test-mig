@@ -1,0 +1,116 @@
+﻿{
+    "id": "IDD_TD_MASSIVEARCHIVE_ADDFILES",
+    "type": 71, /*Tile*/
+    "tileStyle": 2, //TDS_FILTER
+    "pinnable": false,
+    "size": 4, /*TILE_WIDE*/
+    "text": "Add files to attach",
+    "x": 0,
+    "y": 0,
+    "width": 551,
+    "height": 145,
+    "context": "uimassivearchive",
+    "items": [
+        {
+            "id": "IDC_MASSIVEARCHIVE_ADDFILES_BE_FILESTOADD",
+            "type": 18, /*BodyEdit*/
+            "binding": {
+                "datasource": "DBTFilesToAdd"
+            },
+            "name": "BEMassiveArchiveFilesToAdd",
+            "clipChildren": true,
+            "ownerDraw": true,
+            "width": 548,
+            "height": 143,
+            "x": 0,
+            "y": 0,
+            "showHeaderToolbar": true,
+            "allowInsert": false,
+            "allowMultipleSel": false,
+            "addRowEnabled": false,
+            "rowView": "IDD_RW_MASSIVEARCHIVE_FILESTOADD", 
+            "items": [
+                {
+                    "type": "Toolbar", // toolbar del bodyedit
+                    "items": [
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.New.png",
+                            "id": "ID_MASSIVEARCHIVE_BTN_ADD",
+                            "name": "AddFile",
+                            "text": "Add...",
+                            "hint": "Add...",
+                            "type": "ToolbarButton",
+                            "isDropdown": true,
+                            "items": [
+                                {
+                                    "id": "ID_MASSIVEARCHIVE_BTN_ADD_FROM_FILESYSTEM",
+                                    "name": "FromFileSystem",
+                                    "text": "from file system",
+                                    "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Open.png",
+                                    "type": 29 /*MenuItem*/
+                                },
+                                {
+                                    "id": "ID_MASSIVEARCHIVE_BTN_ADD_FROM_DEVICE",
+                                    "name": "FromDevice",
+                                    "text": "from device",
+                                    "icon": "Image.Extensions.ExtensionsImages.Images.20x20.Device.png",
+                                    "type": 29 /*MenuItem*/
+                                }
+                            ]
+                        },
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Select.png",
+                            "id": "ID_MASSIVEARCHIVE_BTN_SELDESEL",
+                            "name": "SelDesel",
+                            "text": "Select",
+                            "type": "ToolbarButton"
+                        }
+                    ]
+                },
+                {
+                    "id": "IDC_MASSIVEARCHIVE_BE_IS_SELECTED",
+                    "binding": {
+                        "datasource": "VIsSelected"
+                    },
+                    "controlClass": "CheckBox",
+                    "name": "IsSelected",
+                    "text": "Sel.",
+                    "type": 22 /*ColTitle*/
+                },
+                {
+                    "id": "IDC_MASSIVEARCHIVE_BE_MASSIVESTATUS",
+                    "binding": {
+                        "datasource": "VMassiveStatus"
+                    },
+                    "controlClass": "StringStatic",
+                    "name": "MassiveStatus",
+                    "text": "Massive Status",
+                    "type": 22, /*ColTitle*/
+                    "chars": 30
+                },
+                {
+                    "id": "IDC_MASSIVEARCHIVE_BE_NAME",
+                    "binding": {
+                        "datasource": "VFileName"
+                    },
+                    "controlClass": "StringStatic",
+                    "name": "Name",
+                    "text": "Name",
+                    "type": 22, /*ColTitle*/
+                    "chars": 100
+                },
+                {
+                    "id": "IDC_MASSIVEARCHIVE_BE_ACTION",
+                    "binding": {
+                        "datasource": "VMassiveAction"
+                    },
+                    "controlClass": "StringStatic",
+                    "name": "MassiveAction",
+                    "text": "Action",
+                    "type": 22, /*ColTitle*/
+                    "chars": 30
+                }
+            ]
+        }
+    ]
+}

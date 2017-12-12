@@ -1,0 +1,69 @@
+﻿{
+  "id": "IDD_WIZARD_FORM_VIEW",
+  "rcId": 1052,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 503,
+  "height": 255,
+  "child": true,
+  "context": "extdoc",
+  "items": [
+    {
+      "id": "IDC_WIZARDBMP",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 107,
+      "height": 193,
+      "tabStop": false,
+      "bitmap": true
+    },
+    {
+      "id": "IDC_WIZARD_TAB",
+      "type": 3,
+      "text": "TabManager",
+      "x": 108,
+      "y": 1,
+      "width": 393,
+      "height": 220,
+      "clipChildren": true
+    },
+    {
+      "id": "IDC_WIZARD_BACK",
+      "type": 3,
+      "text": "< &Back",
+      "x": 108,
+      "y": 252,
+      "width": 70,
+      "height": 14
+    },
+    {
+      "id": "IDC_WIZARD_NEXT",
+      "type": 3,
+      "text": "&Next >",
+      "x": 180,
+      "y": 252,
+      "width": 70,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 252,
+      "y": 252,
+      "width": 70,
+      "height": 14
+    },
+    {
+      "id": "IDC_WIZARD_FINISH",
+      "type": 3,
+      "text": "&Finish",
+      "x": 324,
+      "y": 252,
+      "width": 70,
+      "height": 14
+    }
+  ]
+}

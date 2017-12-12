@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="yes"?>
+<Enums>
+	<Tag name="Delivery Type (PostaLite)" allowISO="IT" value="32766">
+		<Item name="Posta Massiva" value="0" stored="2147352576" />
+		<Item name="Posta Prioritaria" value="1" stored="2147352577" />
+		<Item name="Raccomandata" value="2" stored="2147352578" />
+		<Item name="Raccomandata AR" value="3" stored="2147352579" />
+		<Item name="Fax" value="4" stored="2147352580" allowISO="xxx" />
+	</Tag>
+	<Tag name="Print Type" value="32765">
+		<Item name="Only Front - Black/White" value="0" stored="2147287040" />
+		<Item name="Front/Back - Black/White" value="1" stored="2147287041" />
+		<Item name="Only Front - Colors" value="2" stored="2147287042" />
+		<Item name="Front/Back - Colors" value="3" stored="2147287043" />
+	</Tag>
+	<Tag name="Addresser Type" value="32764">
+		<Item name="No addresser" value="0" stored="2147221504" />
+		<Item name="Use company master data" value="1" stored="2147221505" />
+		<Item name="Use subscriber data" value="2" stored="2147221506" />
+		<Item name="Public Entity data (clause 2b, Law august 13 2010 N°136)" value="3" stored="2147221507" />
+	</Tag>
+  <Tag name="Email Address Type" value="32763">
+    <Item name="All" value="0" stored="2147155968" />
+    <Item name="Normal" value="1" stored="2147155969" />
+    <Item name="Certified" value="2" stored="2147155979" />
+  </Tag>
+</Enums>

@@ -1,0 +1,204 @@
+﻿{
+  "id": "IDD_ASKDIALOG",
+  "rcId": 1100,
+  "type": 66,
+  "text": "Dialog box",
+  "x": 38,
+  "y": 87,
+  "width": 421,
+  "height": 326,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "askdlg",
+  "items": [
+    {
+      "id": "IDC_ASK_DLG_NAME",
+      "type": 13,
+      "x": 4,
+      "y": 14,
+      "width": 198,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_ASK_DLG_TITLE",
+      "type": 13,
+      "x": 4,
+      "y": 41,
+      "width": 198,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_ASK_CAPTION_POSITION",
+      "type": 12,
+      "x": 209,
+      "y": 14,
+      "width": 198,
+      "height": 49,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_ASK_DLG_ONASK",
+      "type": 11,
+      "text": "Dialog box only on event",
+      "x": 209,
+      "y": 42,
+      "width": 199,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 136,
+      "y": 303,
+      "width": 66,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 218,
+      "y": 303,
+      "width": 66,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Name",
+      "x": 4,
+      "y": 5,
+      "width": 195,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Title",
+      "x": 4,
+      "y": 30,
+      "width": 197,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Position of field titles",
+      "x": 209,
+      "y": 3,
+      "width": 199,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_WHEN_EXPR",
+      "type": 13,
+      "x": 5,
+      "y": 143,
+      "width": 405,
+      "height": 47,
+      "autoHScroll": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Displays if:",
+      "x": 6,
+      "y": 131,
+      "width": 304,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ON_EXPR",
+      "type": 13,
+      "x": 6,
+      "y": 206,
+      "width": 405,
+      "height": 47,
+      "autoHScroll": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Display message if data entered are not admissible.",
+      "x": 5,
+      "y": 257,
+      "width": 303,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ABORT_EXPR",
+      "type": 13,
+      "x": 5,
+      "y": 268,
+      "width": 406,
+      "height": 28,
+      "autoHScroll": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 2,
+      "text": "Data are acceptable even if:",
+      "x": 6,
+      "y": 194,
+      "width": 299,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_BEFORE_BLOCK",
+      "type": 13,
+      "x": 4,
+      "y": 71,
+      "width": 198,
+      "height": 55,
+      "autoHScroll": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_AFTER_BLOCK",
+      "type": 13,
+      "x": 209,
+      "y": 71,
+      "width": 198,
+      "height": 55,
+      "autoHScroll": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 2,
+      "text": "Inizialization instructions",
+      "x": 5,
+      "y": 58,
+      "width": 195,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Validation instructions",
+      "x": 211,
+      "y": 58,
+      "width": 195,
+      "height": 8,
+      "textAlign": 0
+    }
+  ]
+}

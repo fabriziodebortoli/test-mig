@@ -1,0 +1,19 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormEngine\JsonForms\EQNEDIT\IDD_EQNEDIT.hjson>
+#include	<TbWoormEngine\JsonForms\EQNEDIT\IDD_EQNEDIT_NO_PUB_NAMES.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_EQNEDIT_FIELD_NAME			GET_ID(ID_EQNEDIT_FIELD_NAME)
+#define	ID_EQNEDIT_MESSAGE			GET_ID(ID_EQNEDIT_MESSAGE)
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBWOORMENGINE
+static UINT IDS_ID_EQNEDIT_FIELD_NAME		=GET_IDS(ID_EQNEDIT_FIELD_NAME, _TB_STRING("Field name"), L"\\Framework\\TbWoormEngine\\EQNEDIT.hjson");
+static UINT IDS_ID_EQNEDIT_MESSAGE		=GET_IDS(ID_EQNEDIT_MESSAGE, _TB_STRING("Message or Description"), L"\\Framework\\TbWoormEngine\\EQNEDIT.hjson");
+#endif
+

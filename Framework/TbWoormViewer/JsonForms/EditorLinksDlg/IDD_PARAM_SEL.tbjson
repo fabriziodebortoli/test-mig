@@ -1,0 +1,102 @@
+﻿{
+  "id": "IDD_PARAM_SEL",
+  "rcId": 1130,
+  "type": 66,
+  "text": "Parameters selection",
+  "x": 0,
+  "y": 0,
+  "width": 277,
+  "height": 219,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "editorlinksdlg",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 76,
+      "y": 183,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 150,
+      "y": 183,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Select Parameter:",
+      "x": 14,
+      "y": 16,
+      "width": 111,
+      "height": 11,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Selected Parameters:",
+      "x": 159,
+      "y": 16,
+      "width": 111,
+      "height": 11,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_LIST_PARAM",
+      "type": 24,
+      "x": 14,
+      "y": 39,
+      "width": 95,
+      "height": 121,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 2,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_LIST_SELECTED_PARAM",
+      "type": 24,
+      "x": 163,
+      "y": 39,
+      "width": 95,
+      "height": 121,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 2,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_BTN_PARAM_ADD",
+      "type": 3,
+      "text": ">>",
+      "x": 124,
+      "y": 75,
+      "width": 25,
+      "height": 14
+    },
+    {
+      "id": "IDC_BTN_PARAM_REMOVE",
+      "type": 3,
+      "text": "<<",
+      "x": 124,
+      "y": 107,
+      "width": 25,
+      "height": 14
+    }
+  ]
+}

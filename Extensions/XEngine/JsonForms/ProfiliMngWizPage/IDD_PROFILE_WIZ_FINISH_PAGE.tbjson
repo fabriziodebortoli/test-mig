@@ -1,0 +1,105 @@
+﻿{
+  "id": "IDD_PROFILE_WIZ_FINISH_PAGE",
+  "rcId": 2234,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 345,
+  "height": 193,
+  "child": true,
+  "enabled": false,
+  "context": "profilimngwizpage",
+  "items": [
+    {
+      "id": "IDC_PROFILE_WIZARD_FINISH",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 107,
+      "height": 193,
+      "tabStop": false,
+      "bitmap": true
+    },
+    {
+      "id": "IDC_STATIC_SAVE_CUSTOM_MSG",
+      "type": 2,
+      "text": "Pressing \"Finish\" the profile will be saved in xml format in the custom structure.",
+      "x": 117,
+      "y": 98,
+      "width": 191,
+      "height": 30,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Confirm the profile and data file names.",
+      "x": 117,
+      "y": 14,
+      "width": 194,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROFMNG_PROFILE_NAME_EDIT",
+      "type": 13,
+      "x": 189,
+      "y": 29,
+      "width": 116,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Data File Name",
+      "x": 117,
+      "y": 52,
+      "width": 67,
+      "height": 10,
+      "centerImage": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROFMNG_DATAURL_EDIT",
+      "type": 13,
+      "x": 190,
+      "y": 49,
+      "width": 116,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Profile Name",
+      "x": 117,
+      "y": 30,
+      "width": 67,
+      "height": 10,
+      "centerImage": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "The choice is only active in Development",
+      "x": 119,
+      "y": 160,
+      "width": 169,
+      "height": 20,
+      "visible": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_SAVE_DEVELOPMENT_MSG",
+      "type": 2,
+      "text": "Pressing \"Finish\" the profile will be saved in xml format in the application structure.",
+      "x": 117,
+      "y": 72,
+      "width": 191,
+      "height": 21,
+      "textAlign": 0
+    }
+  ]
+}

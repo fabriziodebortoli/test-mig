@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UpgradeInfo>
+	<ModuleInfo name="SecurityAdmin" />
+	<DBRel numrel="2">
+		<Level1>
+			<Step numstep="1" script="Upgrade_Release2.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="3">
+		<Level1>
+			<Step numstep="1" script="Alter_MSD_ObjectTypeGrants.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="4">
+		<Level1>
+			<Step numstep="1" script="UpdateDocumentToBatch.sql" />
+			<Step numstep="2" script="UpdateDocumentToFinder.sql" />
+			<Step numstep="3" script="UpdateFunctionToDocument.sql" />
+			<Step numstep="4" script="UpdateFunctionToReport.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="5">
+		<Level1>
+			<Step numstep="1" script="UpdateObjectTypes.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="6">
+		<Level1>
+			<Step numstep="1" script="UpdateGridTypeGrants.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="7">
+		<Level1>
+			<Step numstep="2" script="Extensions_SecurityDocumentsUpdateScript.sql" />
+			<Step numstep="3" script="Extensions_SecurityReferenceObjectsUpdateScript.sql" />
+			<Step numstep="4" script="Extensions_SecurityTablesViewsUpdateScript.sql" />
+			<Step numstep="5" script="Framework_SecurityDocumentsUpdateScript.sql" />
+			<Step numstep="6" script="MagoNet_SecurityDocumentsUpdateScript.sql" />
+			<Step numstep="7" script="MagoNet_SecurityReferenceObjectsUpdateScript.sql" />
+			<Step numstep="8" script="MagoNet_SecurityReportsUpdateScript.sql" />
+			<Step numstep="9" script="MagoNet_SecurityTablesViewsUpdateScript.sql" />
+			<Step numstep="10" script="MagoNet_SecurityWebMethodUpdateScript.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="8">
+		<Level1>
+			<Step numstep="6" script="MSD_GetObjectRoleGrant.sql" />
+			<Step numstep="7" script="MSD_GetObjectUserGrant.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="9">
+		<Level1>
+			<Step numstep="1" script="Update_MSD_ObjectTypeGrants.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="10">
+		<Level1>
+			<Step numstep="1" script="Update_MSD_ObjectTypeGrants.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="11">
+		<Level1>
+			<Step numstep="1" script="INSERT_MSD_ObjectTypeGrants.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="12">
+		<Level1>
+			<Step numstep="1" script="Update_MSD_ObjectUpgradeBrowseGrants.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="13">
+		<Level1>
+			<Step numstep="1" script="UpGrade_MSD_ObjectTypeGrants.sql" />
+			<Step numstep="2" script="UpGrade_MSD_ObjectGrants.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="14">
+		<Level1>
+			<Step numstep="1" script="UPDATE_MSD_Objects.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="15">
+		<Level1>
+			<Step numstep="1" script="UpgradeTypeGrants.sql" />
+			<Step numstep="2" script="MSD_GetSplitRoleGrant.sql" />
+			<Step numstep="3" script="MSD_GetSplitUserGrant.sql" />
+			<Step numstep="4" script="MSD_InsertObject.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="16">
+		<Level1>
+			<Step numstep="1" script="UPDATE_MSD_Objects.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="17">
+		<Level1>
+			<Step numstep="6" script="MSD_GetObjectRoleGrant.sql" />
+			<Step numstep="7" script="MSD_GetObjectUserGrant.sql" />
+			<Step numstep="8" script="MSD_GetSplitRoleGrant.sql" />
+			<Step numstep="9" script="MSD_GetSplitUserGrant.sql" />
+			<Step numstep="10" script="MSD_GetUserGrant.sql" />
+			<Step numstep="11" script="MSD_InsertObject.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="18">
+		<Level1>
+			<Step numstep="1" script="View_Rename.sql" />
+			<Step numstep="2" script="Delete_old_objects.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="19">
+		<Level1>
+			<Step numstep="1" script="MSD_GetSplitRoleGrant.sql" />
+			<Step numstep="2" script="MSD_GetSplitUserGrant.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="20">
+		<Level1>
+			<Step numstep="1" script="Upgrade_Batch.sql" />
+			<Step numstep="2" script="Upgrade_DateEntry.sql" />
+		</Level1>
+	</DBRel>
+	<DBRel numrel="21">
+		<Level1>
+			<Step numstep="1" script="MSD_GetSplitRoleGrant.sql" />
+			<Step numstep="2" script="MSD_GetSplitUserGrant.sql" />
+		</Level1>
+    </DBRel>
+    <DBRel numrel="22">
+		<Level1>
+			<Step numstep="1" script="UpDateMSD_Objects.sql" />
+		</Level1>
+    </DBRel>
+    <DBRel numrel="23">
+		<Level1>
+			<Step numstep="1" script="UpDate_Msd_objects.sql" />
+		</Level1>
+    </DBRel>
+     <DBRel numrel="24">
+		<Level1>
+			<Step numstep="1" script="UpDate_Msd_objects.sql" />
+		</Level1>
+    </DBRel>
+         <DBRel numrel="25">
+		<Level1>
+			<Step numstep="1" script="UpDate_Msd_objects.sql" />
+		</Level1>
+    </DBRel>
+  <DBRel numrel="26">
+    <Level1>
+      <Step numstep="1" script="UpDate_Msd_objects.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="27">
+		<Level1>
+			<Step numstep="1" script="UpDate_Msd_objects.sql" />
+		</Level1>
+	</DBRel>
+  <DBRel numrel="28">
+    <Level1>
+      <Step numstep="1" script="MSD_GetSplitRoleGrant.sql" />
+      <Step numstep="2" script="MSD_GetSplitUserGrant.sql" />
+    </Level1>
+  </DBRel>
+	<DBRel numrel="29">
+		<Level1>
+			<Step numstep="1" script="UpDate_Msd_objects.sql" />
+		</Level1>
+	</DBRel>
+  <DBRel numrel="30">
+    <Level1>
+      <Step numstep="1" script="MSD_InsertObject.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="31">
+    <Level1>
+      <Step numstep="1" script="MSD_GetSplitRoleGrant.sql" />
+      <Step numstep="2" script="MSD_GetSplitUserGrant.sql" />
+      <Step numstep="3" script="MSD_GetUserGrant.sql" />
+      <Step numstep="4" script="MSD_InsertObject.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="32">
+    <Level1>
+      <Step numstep="1" script="MSD_ObjectsType.sql" />
+      <Step numstep="2" script="MSD_InsertObject.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="33">
+    <Level1>
+      <Step numstep="1" script="MSD_ObjectsType.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="34">
+    <Level1>
+      <Step numstep="1" script="MSD_ObjectsType.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="35">
+    <Level1>
+      <Step numstep="1" script="MSD_ObjectTypeGrantDelete.sql" />
+    </Level1>
+  </DBRel>
+   <DBRel numrel="36">
+    <Level1>
+      <Step numstep="1" script="SQLUpDateNameSpace.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="37">
+    <Level1>
+      <Step numstep="1" script="MSD_ProtectedObjects.sql" />
+    </Level1>
+  </DBRel>
+</UpgradeInfo>
