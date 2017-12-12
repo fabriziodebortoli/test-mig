@@ -14,57 +14,9 @@ namespace Microarea.DataService.Managers
         /// <summary>
         /// Data una lista di parametri ritorna un dizionario parametro-valore
         /// </summary>
-        public Dictionary<string, object> GetParameters(IEnumerable<string> parameters, string connectionString)
+        public Dictionary<string, object> GetParameters(string table, string connectionString)
         {
-            return parameters
-                            .Distinct()
-                            .ToDictionary(x => x, x => GetParam(x, connectionString));
-        }
-
-        /// <summary>
-        /// Aggiorna la cache delle tabelle che contengono i parametri specificati
-        /// </summary>
-        public void UpdateCache(IEnumerable<string> parameters, string connectionString)
-        {
-            var toUpdate = parameters
-                   .Where(x => x.Split('.').Length == 2)
-                   .Select(x => x.Split('.')[0])
-                   .Distinct();
-
-            toUpdate.ForEach(x => UpdateCachedParamTable(x, connectionString));
-        }
-
-        /// <summary>
-        /// Dato un parametro ne ritorna il valore (se cachato), altrimenti ottiene i dati da db e ci riprova
-        /// </summary>
-        private object GetParam(string p, string connectionString)
-        {
-            var _p = p.Split('.');
-
-            if (_p.Length != 2) return "unknow param";
-
-            var table = _p[0];
-            var column = _p[1];
-
-            if (_parameters.TryGetValue(table, out Dictionary<string, object> paramTable))
-            {
-                if (paramTable.TryGetValue(column, out object value))
-                {
-                    return value;
-                }
-                return "unknow param";
-            }
-
-            UpdateCachedParamTable(table, connectionString);
-
-            return GetParam(p, connectionString);
-        }
-
-        /// <summary>
-        /// Aggiorna la cache dei parametri per la tabella specificata
-        /// </summary>
-        private void UpdateCachedParamTable(string table, string connectionString)
-        {
+            var result = new Dictionary<string, object>();
             var connection = new SqlConnection(connectionString);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
                  $"select * from MA_{table}", null))
@@ -73,9 +25,11 @@ namespace Microarea.DataService.Managers
                 {
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        _parameters[table][reader.GetName(i)] = reader.GetValue(i);
+                        result[reader.GetName(i)] = reader.GetValue(i);
                     }
                 }
+
+                return result;
             }
         }
     }
