@@ -25,6 +25,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   // dialog
   fields: Array<{label:string, value:string, hide: boolean}>;
   openToggle: boolean;
+  result: boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -32,6 +33,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
     this.serverURLs = [];
     this.instanceSubscriptions = [];
     this.openToggle = false;
+    this.result = false;
     this.initDialogFields();
   }
 
@@ -64,8 +66,6 @@ export class InstanceComponent implements OnInit, OnDestroy {
               err => {
               }
             );
-
-
           },
           err => {
             alert(err);
@@ -89,6 +89,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   //--------------------------------------------------------------------------------
   onCloseCredentialsDialog() {
+
+    if (!this.result) {
+      return;
+    }
+
     let serverUrl: ServerUrl = this.getServerInfoFromDialog(this.fields);
     this.serverURLs.push(serverUrl);
     this.initDialogFields();
