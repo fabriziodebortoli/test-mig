@@ -1,17 +1,8 @@
 import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
-import { isNumeric } from '../../../rxjs.imports';
-import { ContextMenuItem } from './../../models/context-menu-item.model';
-import { FormMode } from './../../../shared/models/form-mode.enum';
+import { ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService, Store, FormMode } from '@taskbuilder/core';
 import { NumbererStateEnum } from './numberer-state.enum';
-import { ControlComponent } from '../control.component';
-
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { LayoutService } from './../../../core/services/layout.service';
-import { EventDataService } from './../../../core/services/eventdata.service';
-import { Store } from './../../../core/services/store.service';
-
-import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
+import { isNumeric } from './../../../rxjs.imports';
 
 export type maskParts = { prefix: string, separator: string, body: string, suffix: string };
 
@@ -37,7 +28,7 @@ export class NumbererComponent extends ControlComponent {
     @Input() selector: any;
 
     @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-    @ViewChild('textbox') textbox: MaskedTextBoxComponent;
+    @ViewChild('textbox') textbox: any;
 
     tbEditIcon = 'tb-edit';
     tbExecuteIcon = 'tb-execute';
