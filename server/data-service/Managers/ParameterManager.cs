@@ -9,8 +9,6 @@ namespace Microarea.DataService.Managers
 {
     public class ParameterManager : IParameterManager
     {
-        private Dictionary<string, Dictionary<string, object>> _parameters = new Dictionary<string, Dictionary<string, object>>();
-
         /// <summary>
         /// Data una lista di parametri ritorna un dizionario parametro-valore
         /// </summary>

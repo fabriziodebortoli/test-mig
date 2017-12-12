@@ -1,22 +1,19 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
-import { AccountingHttpService } from './services/accounting/accounting-http.service';
 import { CoreHttpService } from './services/core/core-http.service';
-import { ManufacturingHttpService } from './services/manufacturing/manufacturing-http.service';
-import { LogisticsHttpService } from './services/logistics/logistics-http.service';
+import { ItemsHttpService } from './services/items/items-http.service';
+import { WmsHttpService } from './services/wms/wms-http.service';
 
-export { AccountingHttpService } from './services/accounting/accounting-http.service';
 export { CoreHttpService } from './services/core/core-http.service';
-export { ManufacturingHttpService } from './services/manufacturing/manufacturing-http.service';
-export { LogisticsHttpService } from './services/logistics/logistics-http.service';
+export { ItemsHttpService } from './services/items/items-http.service';
+export { WmsHttpService } from './services/wms/wms-http.service';
 
 export { ClipboardEventHelper, KeyboardEventHelper } from './u/helpers';
 
 export const ERP_SERVICES = [
-    AccountingHttpService,
     CoreHttpService,
-    ManufacturingHttpService,
-    LogisticsHttpService
+    ItemsHttpService,
+    WmsHttpService
 ];
 
 @NgModule({

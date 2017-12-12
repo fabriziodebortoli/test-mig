@@ -1,5 +1,5 @@
 import { TbComponentService, LayoutService, ControlComponent, EventDataService, Store } from '@taskbuilder/core';
-import { LogisticsHttpService } from '../../../core/services/logistics/logistics-http.service';
+import { WmsHttpService } from '../../../core/services/wms/wms-http.service';
 import { Component, Input, ViewChild, ViewContainerRef, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -19,7 +19,7 @@ export class StrBinEditComponent extends ControlComponent {
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
-        private http: LogisticsHttpService,
+        private http: WmsHttpService,
         private store: Store
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);

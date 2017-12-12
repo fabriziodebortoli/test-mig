@@ -4,21 +4,18 @@ import { Response } from '@angular/http';
 import { HttpService } from '@taskbuilder/core';
 
 @Injectable()
-export class LogisticsHttpService {
+export class ItemsHttpService {
     controllerRoute = '/erp-core/';
 
     constructor(private httpService: HttpService) {
-    }
-
-    checkItemsAutoNumbering(): Observable<Response> {
-        return this.httpService.execPost(this.controllerRoute, 'CheckItemsAutoNumbering');
     }
 
     getItemsSearchList(queryType: string): Observable<Response> {
         return this.httpService.execPost(this.controllerRoute, 'GetItemsSearchList', queryType);
     }
 
-    checkBinUsesStructure(zone: string, storage: string): Observable<Response> {
-        return this.httpService.execPost(this.controllerRoute, 'CheckBinUsesStructure', { 'zone': zone, 'storage': storage });
+    //TODO to be translated in a call to parameters service  
+    checkItemsAutoNumbering(): Observable<Response> {
+        return this.httpService.execPost(this.controllerRoute, 'CheckItemsAutoNumbering');
     }
 }

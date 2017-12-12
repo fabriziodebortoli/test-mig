@@ -9,4 +9,8 @@ export class CoreHttpService {
 
     constructor(private httpService: HttpService) {
     }
+
+    isVatDuplicate(vat: string): Observable<Response> {
+        return this.httpService.execPost(this.controllerRoute, 'CheckVatDuplicate', vat);
+    }
 }
