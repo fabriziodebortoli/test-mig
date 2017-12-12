@@ -154,8 +154,9 @@ IF /i EXIST %DevPath%\Standard\web\.git\* (
 	ECHO.git clone
     git clone https://github.com/Microarea/Taskbuilder.git web
     cd web
-	git checkout dev_2_x
 )
+
+git checkout dev_2_x
 
 @ECHO ON
 

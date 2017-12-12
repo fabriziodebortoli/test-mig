@@ -3185,7 +3185,6 @@ DataObj* DBTSlaveBuffered::GetBindingData(const CString& strParentDataSource, co
 	else //caso del campo di decodifica di hotlink
 	{
 		HotKeyLink* pHotLink = GetDocument()->GetHotLink(sOwnerName);
-		ASSERT(pHotLink);
 		if (pHotLink)
 		{
 			CString sDescri = sOwnerName + _T("_") + sFieldName;
