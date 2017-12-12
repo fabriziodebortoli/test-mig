@@ -1,13 +1,19 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { ERPService } from './services/erp.service';
-export { ERPService } from './services/erp.service';
-import { ErpHttpService } from './services/erp-http.service';
-export { ErpHttpService } from './services/erp-http.service';
+
+import { CoreHttpService } from './services/core/core-http.service';
+import { ItemsHttpService } from './services/items/items-http.service';
+import { WmsHttpService } from './services/wms/wms-http.service';
+
+export { CoreHttpService } from './services/core/core-http.service';
+export { ItemsHttpService } from './services/items/items-http.service';
+export { WmsHttpService } from './services/wms/wms-http.service';
+
 export { ClipboardEventHelper, KeyboardEventHelper } from './u/helpers';
 
 export const ERP_SERVICES = [
-    ERPService,
-    ErpHttpService,
+    CoreHttpService,
+    ItemsHttpService,
+    WmsHttpService
 ];
 
 @NgModule({

@@ -922,19 +922,22 @@ namespace Microarea.AdminServer.Controllers
 				}
 			}*/
 
-			if (
-				((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-				!dbManager.ContextInfo.HasSlaves)
-				||
-				(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-				(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
-				dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY)
-				)
+			if (opRes.Result)
 			{
-				// significa che non e' possibile procedere con l'aggiornamento perche':
-				// - i database sono gia' aggiornati
-				// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
-				opRes.Code = -1;
+				if (
+					((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					!dbManager.ContextInfo.HasSlaves)
+					||
+					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY)
+					)
+				{
+					// significa che non e' possibile procedere con l'aggiornamento perche':
+					// - i database sono gia' aggiornati
+					// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
+					opRes.Code = -1;
+				}
 			}
 
 			//re-imposto il flag UnderMaintenance a false

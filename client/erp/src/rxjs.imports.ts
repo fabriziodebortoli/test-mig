@@ -28,3 +28,4 @@ export * from 'rxjs/Observer';
 export * from 'rxjs/Observable';
 export * from 'rxjs/BehaviorSubject';
 export * from 'rxjs/util/TimeoutError';
+export * from 'rxjs/util/isNumeric';

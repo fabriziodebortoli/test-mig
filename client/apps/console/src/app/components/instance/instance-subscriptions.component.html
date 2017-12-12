@@ -1,0 +1,29 @@
+<div>
+  <div style="width:320px; float: right">
+    <div class="left">
+      <!-- <input type="text" placeholder="available subscriptions" [(ngModel)]="searchString"> -->
+      <admin-input-text 
+        [material]=true 
+        [inputLabel]="'Search subscriptions'" 
+        [(inputData)]="searchString"></admin-input-text>
+    </div>
+    <div class="right" style="margin-top: 14px">
+      <admin-button [buttonText]="'Search'" (click)="doSearchSubscriptions()"></admin-button>
+    </div>
+  </div>
+  <div style="clear: both"></div>
+  <p class="mt20" *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0">Found subscriptions</p>
+  <admin-list 
+    *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0" 
+    [items]="subscriptionsResult" 
+    [columnNames]="columnNamesAccountRoles"
+    [readingData]=readingData
+    (onSelectedItem)="associateSubscription($event)"></admin-list>
+  <p class="m30">Linked to this instances</p>
+  <admin-list 
+    [items]="subscriptions" 
+    [columnNames]="columnNames"
+    [rowCommand]="'delete'"
+    [readingData]=readingDataLinked
+    (onFireRowCommand)="deleteAssociation($event)"></admin-list>
+</div>

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microarea.Common;
 using Microarea.Common.Applications;
 using Microarea.DataService.Managers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Microarea.DataService.Controllers
 {
@@ -18,28 +16,14 @@ namespace Microarea.DataService.Controllers
             _parameterManager = parameterManager;
         }
 
-        [HttpPost]
-        public IActionResult GetParameters([FromBody]string request)
+        [HttpPost("getparameters")]
+        public IActionResult GetParameters([FromBody]string table)
         {
             var ui = GetLoginInformation();
             if (ui == null) return Unauthorized();
 
-            var parameters = JsonConvert.DeserializeObject<List<string>>(request);
-
-            var temp = _parameterManager.GetParameters(parameters, ui.CompanyDbConnection);
+            var temp = _parameterManager.GetParameters(table, ui.CompanyDbConnection);
             return new JsonResult(temp);
-        }
-
-        [HttpPost("update")]
-        public IActionResult UpdateCache([FromBody]string request)
-        {
-            var ui = GetLoginInformation();
-            if (ui == null) return Unauthorized();
-
-            var parameters = JsonConvert.DeserializeObject<List<string>>(request);
-            _parameterManager.UpdateCache(parameters, ui.CompanyDbConnection);
-
-            return Ok();
         }
 
         // TODO: sarebbe meglio mettere questa funzione a fattor comune da qualche parte
