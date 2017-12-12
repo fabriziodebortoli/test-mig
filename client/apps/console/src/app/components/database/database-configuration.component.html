@@ -15,14 +15,14 @@
           <li>Login and user creation</li>
           <li>Table structure creation</li>
         </ul>
-        <admin-button [buttonText]="'SQL Azure'" (click)="configureDatabase(true)" ></admin-button>
+        <admin-button [buttonText]="'SQL Azure'" [primary]=true (click)="configureDatabase(true)" ></admin-button>
       </div>
     </div>
      
     <div class="row adminTile" *ngIf="!isWorking">
       <div class="box" style="width:60%">
         <p>If you prefer to manually configure your databases, continue here.</p>
-        <admin-button [buttonText]="'On-premises'" (click)="configureDatabase(false)" ></admin-button>
+        <admin-button [buttonText]="'On-premises'" [primary]=true (click)="configureDatabase(false)" ></admin-button>
       </div>
     </div>      
   </div>

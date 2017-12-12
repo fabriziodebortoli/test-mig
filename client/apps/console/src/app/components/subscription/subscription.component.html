@@ -53,7 +53,7 @@
     <div *ngIf="databases.length > 0" class="col-xs-12 col-md-12">
       <div *ngIf="!underMaintenance" class="box mt20">
           <h4 class="componentTitle" style="display:inline-block;width:100%">Databases</h4>
-          <admin-list [readingData]=readingData [items]=databases [columnNames]="['Name', 'Description', 'DBServer', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
+          <admin-list [readingData]=readingData [showHeader]=true [items]=databases [columnNames]="['Name', 'Description', 'DBServer', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
       </div>
       <div *ngIf="underMaintenance" class="box mt20">
         <img src="assets/ajax-loader.gif" />

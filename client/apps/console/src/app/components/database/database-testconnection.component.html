@@ -22,7 +22,7 @@
         </div>
         <div *ngIf="!isWorking" class="mt20">
           <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-            <admin-button [buttonText]="'Test connection'" (click)="testConnection()"></admin-button>
+            <admin-button [buttonText]="'Test connection'" [primary]=true (click)="testConnection()"></admin-button>
           </div>
         </div>
         <div *ngIf="isWorking" class="mt20">
@@ -31,4 +31,6 @@
       </div>
     </div>
   </div>
+
+  <admin-dialog [mode]="'message'" [title]="'Test connection'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
 </div>
