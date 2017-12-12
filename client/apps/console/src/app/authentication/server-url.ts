@@ -1,7 +1,8 @@
-enum UrlType {
+export enum UrlType {
     API,
     APP,
-    TBLOADER
+    TBLOADER,
+    DATABASE
 }
 
 export class ServerUrl {

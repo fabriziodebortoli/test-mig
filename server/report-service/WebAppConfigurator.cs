@@ -8,6 +8,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microarea.RSWeb
 {
@@ -17,7 +18,12 @@ namespace Microarea.RSWeb
 		{
             app.Use(RSSocketHandler.Listen);
 		}
-		public void MapRoutes(IRouteBuilder routes)
+
+        public void ConfigureServices(IConfiguration configuration, IServiceCollection services)
+        {
+        }
+
+        public void MapRoutes(IRouteBuilder routes)
 		{
 		}
     }

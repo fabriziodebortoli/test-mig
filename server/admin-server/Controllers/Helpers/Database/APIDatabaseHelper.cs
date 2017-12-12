@@ -7,7 +7,6 @@ using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
@@ -22,7 +21,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 	/// </summary>
 	//============================================================================
 	public class APIDatabaseHelper
-    {
+	{
 		//---------------------------------------------------------------------
 		public static OperationResult CheckDatabases(ExtendedSubscriptionDatabase subDatabase)
 		{
@@ -300,7 +299,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 		public static OperationResult PrecheckSubscriptionDB(ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			// result globale dell'operazione, imposto un numero di codice per capire se ci sono operazioni da eseguire
-			OperationResult opRes = new OperationResult	{ Result = true	};
+			OperationResult opRes = new OperationResult { Result = true };
 
 			List<OperationResult> msgList = new List<OperationResult>();
 
@@ -623,5 +622,48 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 				if (!configList.Contains(dirName))
 					configList.Add(dirName);
 		}
+
+		/// <summary>
+		/// Metodo che si occupa della cancellazione dei contenitori dei database
+		/// Se il provider e' Azure e' necessario effettuare una connessione con le credenziali
+		/// di amministrazione
+		/// </summary>
+		/// <param name="deleteContent"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public static OperationResult DeleteDatabase(DeleteDatabaseBodyContent deleteContent)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// qualcuno deve aver testato la connessione del db admin per Azure
+
+			bool isAzureDB = (deleteContent.Database.Provider == "SQLAzure");
+
+			DatabaseTask dTask = new DatabaseTask(isAzureDB);
+			opRes.Result = dTask.DeleteDatabase(deleteContent);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			return opRes;
+		}
+
+
+		//---------------------------------------------------------------------
+		public static OperationResult DeleteSubscriptionDatabase(SubscriptionDatabase subDatabase, BurgerData burgerData)
+		{
+			OperationResult opRes = new OperationResult();
+
+			try
+			{
+				opRes = subDatabase.Delete(burgerData);
+				opRes.Message = Strings.OperationOK;
+			}
+			catch (Exception exc)
+			{
+				opRes.Result = false;
+				opRes.Message = "DatabaseController.SetUnderMaintenance" + exc.Message;
+			}
+
+			return opRes;
+		}
+
 	}
 }

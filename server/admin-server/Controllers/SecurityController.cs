@@ -149,136 +149,12 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
-        //-----------------------------------------------------------------------------
-        private OperationResult SaveAccountIdentityPack(AccountIdentityPack accountIdentityPack, Account account)
-        {
-            if (accountIdentityPack == null || account == null) return new OperationResult(true, string.Empty,0);//todo verifica
-
-            OperationResult result = account.Save(burgerData);
-            if (result.Result && accountIdentityPack.Subscriptions != null)
-                result = SaveSubscriptions(accountIdentityPack);
-            if (result.Result && accountIdentityPack.Instances != null)
-                result = SaveSubscriptionsInstances(accountIdentityPack);
-            if (result.Result && accountIdentityPack.Subscriptions != null)
-                result = SaveSubscriptionsAccounts(accountIdentityPack);
-            if (result.Result && accountIdentityPack.Roles != null)
-                result = SaveAccountRoles(accountIdentityPack);
-           
-            return result;
-        }
-
-        //-----------------------------------------------------------------------------
-        private OperationResult SaveSubscriptionsInstances(AccountIdentityPack accountIdentityPack)
-        {
-            if (accountIdentityPack == null || accountIdentityPack.Instances == null)
-            {
-                return new OperationResult(false, "Empty Instances", (int)AppReturnCodes.InvalidData);
-            }
-
-            OperationResult result = new OperationResult();
-
-            foreach (Instance i in accountIdentityPack.Instances)
-            {
-                result = i.Save(this.burgerData);
-
-                if (!result.Result)
-                {
-                    return result;
-                }
-            }
-
-            result.Result = true;
-            result.Code = (int)AppReturnCodes.OK;
-            result.Message = AppReturnCodes.OK.ToString();
-
-            return result;
-        }
-
-		// salvo per l'account corrente tutte le subscriptions ad esso associate
-		//-----------------------------------------------------------------------------
-		private OperationResult SaveSubscriptionsAccounts(AccountIdentityPack accountIdentityPack)
-		{
-			if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
-			{
-				return new OperationResult(false, "Empty Subscriptions", (int)AppReturnCodes.InvalidData);
-			}
-
-			OperationResult result = new OperationResult();
-
-			SubscriptionAccount subAccount;
-
-			foreach (Subscription s in accountIdentityPack.Subscriptions)
-			{
-				subAccount = new SubscriptionAccount();
-				subAccount.AccountName = accountIdentityPack.Account.AccountName;
-				subAccount.SubscriptionKey = s.SubscriptionKey;
-                subAccount.Ticks = s.Ticks;
-                result = subAccount.Save(this.burgerData);
-
-				if (!result.Result)
-				{
-					return result;
-				}
-			}
-
-			result.Result = true;
-			result.Code = (int)AppReturnCodes.OK;
-			result.Message = AppReturnCodes.OK.ToString();
-
-			return result;
-		}
-
-		//-----------------------------------------------------------------------------
-		private OperationResult SaveAccountRoles(AccountIdentityPack accountIdentityPack)
-		{
-			if (accountIdentityPack == null || accountIdentityPack.Roles == null)
-			{
-				return new OperationResult(false, "Empty Roles", (int)AppReturnCodes.InvalidData);
-			}
-
-			OperationResult result = new OperationResult();
-
-			Role role;
-			AccountRoles accRole;
-
-			foreach (AccountRoles r in accountIdentityPack.Roles)
-			{
-				// prima inserisco il ruolo (se non esiste)
-				role = new Role();
-				role.RoleName = r.RoleName;
-				if (!role.Save(this.burgerData).Result)
-					continue;
-
-				// poi vado ad inserire le associazioni ruolo/account
-				accRole = new AccountRoles
-				{
-					RoleName = r.RoleName,
-					AccountName = r.AccountName,
-					EntityKey = r.EntityKey,
-					Level = r.Level
-				};
-				result = accRole.Save(this.burgerData);
-
-                if (!result.Result)
-				{
-					return result;
-				}
-			}
-
-			result.Result = true;
-			result.Code = (int)AppReturnCodes.OK;
-			result.Message = AppReturnCodes.OK.ToString();
-
-			return result;
-		}
-
-
         // <summary>
         // Provides change password
         // </summary>
         //-----------------------------------------------------------------------------	
         [HttpPost("/api/password/{instanceKey}")]
-        public IActionResult ApiPassword(string instanceKey, [FromBody] ChangePasswordInfo passwordInfo)
+        public IActionResult ApiChangePassword(string instanceKey, [FromBody] ChangePasswordInfo passwordInfo)
         {
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
@@ -294,7 +170,7 @@ namespace Microarea.AdminServer.Controllers
             {
                 Account account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
 
-                // L'account esiste sul db locale
+                // L'account deve esistere sul db locale perchè il cambio pwd è possibile solo dopo la login
                 if (account != null)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
@@ -302,14 +178,9 @@ namespace Microarea.AdminServer.Controllers
                         new AccountModification(account.AccountName, instanceKey, account.Ticks));
 
                     //TODO verifica valori ritorno
-                    // GWAM call could not end correctly: so we check the object
+                    // se il GWAM non risponde non si deve poter andare avanti, il  cambio pwd si può fare solo se connessi, perlomeno per adesso.
                     if (!responseData.Result)
-                    {
-
-                        //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        //    if (!VerifyPendingFlag(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                    }
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -357,65 +228,6 @@ namespace Microarea.AdminServer.Controllers
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.InvalidUserError, LoginReturnCodes.InvalidUserError.ToString());
         }
 
-       
-
-        //-----------------------------------------------------------------------------	
-        private string GetInstanceSecurityValue(string instancekey)
-        {
-			IInstance iInstance = this.burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND,
-				new WhereCondition[]
-				{
-					new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false)
-				});
-
-			return iInstance.SecurityValue;
-        }
-
-        //-----------------------------------------------------------------------------	
-        private string GetInstanceOrigin(string instancekey)
-        {
-            IInstance instance = GetInstance(instancekey);
-            if (instance == null)
-                return string.Empty;
-
-            return instance.Origin; 
-        }
-
-        //-----------------------------------------------------------------------------	
-        private DateTime GetInstancePendingDate(string instancekey)
-        {
-            Instance instance = (Instance)GetInstance(instancekey);
-            if (instance == null)
-                return DateTime.MinValue;
-
-           if (!instance.VerifyPendingDate())
-                return DateTime.MinValue;
-            return instance.PendingDate;
-        }
-
-        //-----------------------------------------------------------------------------	
-        private IInstance GetInstance(string instancekey)
-        {
-            try
-            {
-                return burgerData.GetObject<Instance, IInstance>(
-                    String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
-                        new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-                //todo log
-                return null;
-            } 
-        }
-
-        /// <summary>
-        /// Check a token
-        /// </summary>
-        /// <returns>
-        /// OperationResult
-        /// </returns>
         [HttpPost("api/token")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiCheckToken(string token, string roleName, string entityKey, string level)
@@ -438,6 +250,30 @@ namespace Microarea.AdminServer.Controllers
 			}
 		}
 
+        [HttpPost("api/forgotPassword/{accountName}/{instanceKey}")]
+        //-----------------------------------------------------------------------------	
+        public IActionResult ApiForgotPassword(string accountName, string instanceKey)
+        {
+            // Used as a response to the front-end.
+            OperationResult opRes = new OperationResult();
+            IInstance instance = this.GetInstance(instanceKey);
+            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
+            try
+            {
+               gc.CreateRecoveryCode(accountName);
+            }
+            catch (Exception e)
+            {
+                opRes.Result = false;
+                opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
+                opRes.Message = string.Format(Strings.ExceptionOccurred, e.Message);
+                _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+            }
+            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+
+        }
+
         [HttpPost("api/recoveryCode")]
         //-----------------------------------------------------------------------------	
         public async Task<IActionResult> ApiCheckRecoveryCode(string accountName, string recoveryCode, string instanceKey)
@@ -450,13 +286,13 @@ namespace Microarea.AdminServer.Controllers
             try
             {
                 Task<string> responseData = await gc.CheckRecoveryCode(accountName, recoveryCode);
-                // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
-                {                    
-					//imposto il flag pending per capire quanto tempo passa fuori copertura
-                    //if (!VerifyPendingFlag(instanceKey))
-                        return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-                }
+                    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+
+                OperationResult opres = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
+                if (!opres.Result)
+                    return SetErrorResponse(bootstrapTokenContainer, (int)opres.Code, Strings.GwamDislikes + opres.Message);
+
             }
             catch { }
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
@@ -487,16 +323,14 @@ namespace Microarea.AdminServer.Controllers
 
             if (account != null)
             {
-                if (account.Disabled || account.Locked)
+                LoginReturnCodes code = account.IsValidUser();
+                if (code != LoginReturnCodes.NoError)
                 {
 					opRes.Result = false;
-					opRes.Code = 0;
-					opRes.Message = String.Format(
-						"Account is {0} {1}",
-						account.Disabled ? "disabled" : String.Empty,
-						account.Locked ? "locked" : String.Empty);
-
-					return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					opRes.Code = (int)code;
+                    opRes.Message = Strings.InvalidUser  +": " + code.ToString();
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);//todo valutare se  avere metodo che traduce codice in stringa( codice esistente altrove)
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 				}
 
 				// TODO optimization
@@ -506,11 +340,14 @@ namespace Microarea.AdminServer.Controllers
 				List<IAccountRoles> accountRoles = this.burgerData.GetList<AccountRoles, IAccountRoles>(
 					String.Format(Queries.SelectAccountRoles, accountName), ModelTables.AccountRoles);
 
-				bool isAdmin = accountRoles.Find(k => k.RoleName == "Admin" && k.Level == "Instance") != null;
+				bool isAdmin = accountRoles.Find(
+					k =>
+					k.RoleName.Equals("Admin", StringComparison.InvariantCultureIgnoreCase) &&
+					k.Level.Equals("INSTANCE", StringComparison.InvariantCultureIgnoreCase)) != null;
 
 				// if the account is an administrator, we look through the InstanceAccounts to find his Instances
 
-                IInstance[] instancesArray = this.GetInstances(accountName, isAdmin);
+				IInstance[] instancesArray = this.GetInstances(accountName, isAdmin);
 
                 opRes = UpdateInstances(instancesArray);
 
@@ -519,14 +356,19 @@ namespace Microarea.AdminServer.Controllers
                     _jsonHelper.AddPlainObject<OperationResult>(opRes);
                     return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                 }
-                
+                if (instancesArray.Length == 0)
+                {
+                    opRes.Result = false;
+                    opRes.Code = (int)AppReturnCodes.NoInstancesAvailable;
+                    opRes.Message = Strings.NoInstancesAvailable;
+                    opRes.Content = instancesArray;
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
                 opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
 				opRes.Content = instancesArray;
-
-				//@@TODO: se instancesArray.Count == 0 ritornare un msg appropriato (se in locale ho l'account ma mancano le tabelle correlate)
-
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -534,36 +376,36 @@ namespace Microarea.AdminServer.Controllers
             // account doesn'exist in Admin BackEnd, so we ask the instances list to GWAM
             gc = new GwamCaller(_httpHelper, GWAMUrl, null);
             Task<string> responseData = await gc.GetInstancesListFromGWAM(accountName);
+            OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-			// GWAM call could not end correctly: so we check the object
-			if (responseData.Status == TaskStatus.Faulted)
+            if (responseData.Status == TaskStatus.Faulted || !opGWAMRes.Result)
 			{
-				opRes.Result = false;
-				opRes.Code = (int)AppReturnCodes.GWAMCommunicationError;
-				opRes.Message = Strings.GWAMCommunicationError;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				_jsonHelper.AddPlainObject<OperationResult>(opGWAMRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
+                List<Instance> instancesArray2 = JsonConvert.DeserializeObject<List<Instance>>(opGWAMRes.Content.ToString()); 
+                // usando List <IInstance>:Exception thrown: 'Newtonsoft.Json.JsonSerializationException' in Newtonsoft.Json.dll
+                // Could not create an instance of type Microarea.AdminServer.Model.Interfaces.IInstance.Type is an interface or abstract class and cannot be instantiated.Path '[0].Ticks', line 3, position 12.The program '[41224] chrome.exe: WebKit' has exited with code -1 (0xffffffff).
 
-			OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
-
-			if (!opGWAMRes.Result)
-			{
-				opRes.Result = false;
-				opRes.Code = (int)AppReturnCodes.InvalidData;
-				opRes.Message = Strings.InvalidAccountName;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			opRes.Result = true;
+                if (instancesArray2.Count == 0)
+                {
+                    opRes.Result = false;
+                    opRes.Code = (int)AppReturnCodes.NoInstancesAvailable;
+                    opRes.Message = Strings.NoInstancesAvailable;
+                    opRes.Content = instancesArray2;
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
+            opRes.Result = true;
 			opRes.Code = (int)AppReturnCodes.OK;
 			opRes.Message = Strings.OperationOK;
-			opRes.Content = opGWAMRes.Content;
+			opRes.Content = instancesArray2;
 			_jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
+        //----------------------------------------------------------------------
+        #region Metodi privati
         //----------------------------------------------------------------------
         private OperationResult UpdateInstances(IInstance[] instancesArray)
         {
@@ -757,5 +599,180 @@ namespace Microarea.AdminServer.Controllers
 
 			return tokenList.ToArray();
         }
+
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveAccountIdentityPack(AccountIdentityPack accountIdentityPack, Account account)
+        {
+            if (accountIdentityPack == null || account == null) return new OperationResult(true, string.Empty, 0);//todo verifica
+
+            OperationResult result = account.Save(burgerData);
+            if (result.Result && accountIdentityPack.Subscriptions != null)
+                result = SaveSubscriptions(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Instances != null)
+                result = SaveSubscriptionsInstances(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Subscriptions != null)
+                result = SaveSubscriptionsAccounts(accountIdentityPack);
+            if (result.Result && accountIdentityPack.Roles != null)
+                result = SaveAccountRoles(accountIdentityPack);
+
+            return result;
+        }
+
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveSubscriptionsInstances(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Instances == null)
+            {
+                return new OperationResult(false, "Empty Instances", (int)AppReturnCodes.InvalidData);
+            }
+
+            OperationResult result = new OperationResult();
+
+            foreach (Instance i in accountIdentityPack.Instances)
+            {
+                result = i.Save(this.burgerData);
+
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+
+            result.Result = true;
+            result.Code = (int)AppReturnCodes.OK;
+            result.Message = AppReturnCodes.OK.ToString();
+
+            return result;
+        }
+
+        // salvo per l'account corrente tutte le subscriptions ad esso associate
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveSubscriptionsAccounts(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
+            {
+                return new OperationResult(false, "Empty Subscriptions", (int)AppReturnCodes.InvalidData);
+            }
+
+            OperationResult result = new OperationResult();
+
+            SubscriptionAccount subAccount;
+
+            foreach (Subscription s in accountIdentityPack.Subscriptions)
+            {
+                subAccount = new SubscriptionAccount();
+                subAccount.AccountName = accountIdentityPack.Account.AccountName;
+                subAccount.SubscriptionKey = s.SubscriptionKey;
+                subAccount.Ticks = s.Ticks;
+                result = subAccount.Save(this.burgerData);
+
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+
+            result.Result = true;
+            result.Code = (int)AppReturnCodes.OK;
+            result.Message = AppReturnCodes.OK.ToString();
+
+            return result;
+        }
+
+        //-----------------------------------------------------------------------------
+        private OperationResult SaveAccountRoles(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Roles == null)
+            {
+                return new OperationResult(false, "Empty Roles", (int)AppReturnCodes.InvalidData);
+            }
+
+            OperationResult result = new OperationResult();
+
+            Role role;
+            AccountRoles accRole;
+
+            foreach (AccountRoles r in accountIdentityPack.Roles)
+            {
+                // prima inserisco il ruolo (se non esiste)
+                role = new Role();
+                role.RoleName = r.RoleName;
+                if (!role.Save(this.burgerData).Result)
+                    continue;
+
+                // poi vado ad inserire le associazioni ruolo/account
+                accRole = new AccountRoles
+                {
+                    RoleName = r.RoleName,
+                    AccountName = r.AccountName,
+                    EntityKey = r.EntityKey,
+                    Level = r.Level
+                };
+                result = accRole.Save(this.burgerData);
+
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+
+            result.Result = true;
+            result.Code = (int)AppReturnCodes.OK;
+            result.Message = AppReturnCodes.OK.ToString();
+
+            return result;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private string GetInstanceSecurityValue(string instancekey)
+        {
+            IInstance iInstance = this.burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND,
+                new WhereCondition[]
+                {
+                    new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false)
+                });
+
+            return iInstance.SecurityValue;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private string GetInstanceOrigin(string instancekey)
+        {
+            IInstance instance = GetInstance(instancekey);
+            if (instance == null)
+                return string.Empty;
+
+            return instance.Origin;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private DateTime GetInstancePendingDate(string instancekey)
+        {
+            Instance instance = (Instance)GetInstance(instancekey);
+            if (instance == null)
+                return DateTime.MinValue;
+
+            if (!instance.VerifyPendingDate())
+                return DateTime.MinValue;
+            return instance.PendingDate;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private IInstance GetInstance(string instancekey)
+        {
+            try
+            {
+                return burgerData.GetObject<Instance, IInstance>(
+                    String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
+                        new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                //todo log
+                return null;
+            }
+        }
+#endregion
     }
 }

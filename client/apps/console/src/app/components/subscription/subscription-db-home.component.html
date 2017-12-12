@@ -14,12 +14,12 @@
       </admin-tab>
       <admin-tab [tabTitle]="'Update structure'">
         <div class="tab-content">
-          <app-database-upgrade [model]="model"></app-database-upgrade>
+          <app-database-upgrade [model]="model" [defaultInfo]=defaultInfo></app-database-upgrade>
         </div>
       </admin-tab>
       <admin-tab [tabTitle]="'Import data'">
         <div class="tab-content">
-          <app-import-data [model]="model"></app-import-data>
+          <app-import-data [model]="model" [defaultInfo]=defaultInfo [sampleInfo]=sampleInfo></app-import-data>
         </div>
       </admin-tab>
       <admin-tab [tabTitle]="'Delete options'">

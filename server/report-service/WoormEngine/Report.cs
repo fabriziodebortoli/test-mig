@@ -296,7 +296,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public void InitReport()
 		{
-            Field rf = symTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_STATUS);
+            Field rf = symTable.Fields.Find(SpecialReportField.NAME.STATUS);
 			Debug.Assert(rf != null);
 
 			reportStatus = (DataEnum)rf.Data;

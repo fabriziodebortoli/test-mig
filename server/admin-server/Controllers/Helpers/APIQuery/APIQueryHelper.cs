@@ -51,6 +51,9 @@ namespace Microarea.AdminServer.Controllers.Helpers.APIQuery
 				case ModelTables.SubscriptionAccounts:
 					opRes.Content = burgerData.GetList<SubscriptionAccount, ISubscriptionAccount>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
 					break;
+				case ModelTables.SubscriptionInstances:
+					opRes.Content = burgerData.GetList<SubscriptionInstance, ISubscriptionInstance>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
+					break;
 				case ModelTables.None:
 				default:
 					opRes.Result = false;

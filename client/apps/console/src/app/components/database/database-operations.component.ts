@@ -22,7 +22,7 @@ export class DatabaseOperationsComponent implements OnInit {
   isWorking: boolean;
 
   //-----------------------------------------------------------------------------	
-  constructor(private modelService: ModelService, private router: Router, ) {
+  constructor(private modelService: ModelService, private router: Router) {
     this.operations = [];
   }
 

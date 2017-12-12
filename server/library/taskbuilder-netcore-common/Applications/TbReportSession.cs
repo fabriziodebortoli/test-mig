@@ -423,7 +423,7 @@ namespace Microarea.Common.Applications
               <Param name="action" type="integer" mode="in" />
          </Function>
         */
-        public static async Task<string> GetHotLinkQuery(TbSession session, string aParams, /*Hotlink.HklAction*/int action, string documentID =  "", string hklName = "")
+        public static async Task<string> GetHotLinkQuery(TbSession session, string aParams, /*Hotlink.HklAction*/int action,string filter = "", string documentID =  "", string hklName = "")
         {
             string ns = session.Namespace;
            
@@ -444,7 +444,10 @@ namespace Microarea.Common.Applications
                     parameters.Add(new KeyValuePair<string, string>("ns", ns));
                     parameters.Add(new KeyValuePair<string, string>("args", aParams));
                     parameters.Add(new KeyValuePair<string, string>("action", action.ToString()));
-                   
+                    if (!String.IsNullOrWhiteSpace(filter))
+                    {
+                        parameters.Add(new KeyValuePair<string, string>("filter", filter.ToString()));
+                    }
                     //se è un hotlink di documento devono essere presenti contemporaneamente l'id del documento e il nome dell'hotlink
                     if (!String.IsNullOrWhiteSpace(documentID) && !String.IsNullOrWhiteSpace(hklName))
                     {

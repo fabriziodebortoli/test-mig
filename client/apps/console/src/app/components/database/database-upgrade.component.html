@@ -2,7 +2,7 @@
 
   <div class="row adminTile">
     <div class="box" style="width:60%">
-      <admin-button [buttonText]="'Check databases structure'" (click)="checkDatabase()" [readOnly]="isCheckDbRunning || isUpdateDbRunning"></admin-button>
+      <admin-button [buttonText]="'Check databases structure'" [primary]=true (click)="checkDatabase()" [readOnly]="isCheckDbRunning || isUpdateDbRunning"></admin-button>
       <admin-list [items]=operationsList [readingData]=isCheckDbRunning [columnNames]="['Message']"></admin-list>
     </div>
   </div>
@@ -18,7 +18,7 @@
           [textField]="'name'" [valueField]="'value'" (selectedValueChange)="onConfigurationChange($event)"></admin-dropdown>
       </div>
       <div class="mt20">
-        <admin-button [buttonText]="'Update databases structure'" (click)="updateDatabase()"></admin-button>
+        <admin-button [buttonText]="'Update databases structure'" [primary]=true (click)="updateDatabase()"></admin-button>
       </div>
     </div>
     <div *ngIf="isUpdateDbRunning" class="mt20">

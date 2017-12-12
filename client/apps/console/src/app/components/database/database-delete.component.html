@@ -12,12 +12,12 @@
             (inputDataChange)="onDeleteSubscriptionDB($event)"></admin-checkbox>
         </div>
         <div class="mt20 pad10">
-          <admin-checkbox [checkText]="'also ERP database container'" [checkId]="'chkDeleteERPDB'" [(checkValue)]="deleteERPDB" (inputDataChange)="onDeleteERPDB($event)"
-            [readOnly]=isReadOnly></admin-checkbox>
+          <admin-checkbox [checkText]="'also ERP database container'" [checkId]="'chkDeleteERPDB'" [(checkValue)]="deleteParams.DeleteERPDatabase"
+            (inputDataChange)="onDeleteERPDB($event)" [readOnly]=isReadOnly></admin-checkbox>
         </div>
         <div class="mt20 pad10">
-          <admin-checkbox [checkText]="'also DMS database container'" [checkId]="'chkDeleteDMSDB'" [(checkValue)]="deleteDMSDB" (inputDataChange)="onDeleteDMSDB($event)"
-            [readOnly]=isReadOnly></admin-checkbox>
+          <admin-checkbox [checkText]="'also DMS database container'" [checkId]="'chkDeleteDMSDB'" [(checkValue)]="deleteParams.DeleteDMSDatabase"
+            (inputDataChange)="onDeleteDMSDB($event)" [readOnly]=isReadOnly></admin-checkbox>
         </div>
       </div>
     </div>
@@ -32,6 +32,8 @@
     </div>
   </div>
 
-  <admin-dialog [mode]="'yesno'" [title]="'Delete'" [message]="msgDelete" [(opened)]=openDeleteDialog [(result)]=dialogResult
-    (onClose)="onCloseDialog($event)"></admin-dialog>
+  <admin-dialog [mode]="'yesno'" [title]="'Delete'" [message]="msgDelete" [(opened)]=openDeleteDialog [(result)]=deleteDialogResult
+    (onClose)="onCloseDeleteDialog($event)"></admin-dialog>
+  <admin-dialog [mode]="'fields'" [title]="'Credentials'" [message]="'Please insert your administrative credentials to connect to server ' + model.DBServer"
+    [(fields)]=credentialsFields [(opened)]=openCredentialsDialog [(result)]=credentialsDialogResult (onClose)="onCloseCredentialsDialog($event)"></admin-dialog>
 </div>

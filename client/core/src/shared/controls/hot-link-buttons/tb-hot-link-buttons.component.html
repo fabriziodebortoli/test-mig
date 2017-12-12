@@ -1,31 +1,46 @@
-<div class="hotlinkContainer" #hotLinkButtons>
-    <button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!(model?.enabled)"></button>
-    <kendo-popup [anchor]="anchor" (blur)="closeOptions()" *ngIf="showOptions$ | async">
-        <div class="searchOptions">
-            Search for:
-            <br>
-            <div *ngFor="let item of selectionTypes" [ngClass]="{'elemSelected': item===selectionType, 'selTypeElem':true}" (click)="selectionTypeChanged(item)">
-                {{item}}
-            </div>
+<ng-template #optionsTemplate>
+    <div class="searchOptions" [ngStyle]="optionsPopupStyle">
+        <strong>Search for</strong>:
+        <br>
+        <div *ngFor="let item of selectionTypes" [ngClass]="{'elemSelected': item===selectionType, 'selTypeElem':true}" (click)="selectionTypeChanged(item)">
+            {{item}}
         </div>
-    </kendo-popup>
-
-    <button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!(model?.enabled)"></button>
-    <div #anchorTable></div>
-    <kendo-popup [anchor]="anchorTable" *ngIf="showTable$ | async" [ngStyle]="popupStyle">
-        <kendo-grid [data]="gridView | async" [pageSize]="pageSize" [selectable]="true" [skip]="paginator.skip" [filter]="filterer.filter"
-            [filterable]="true" (filterChange)="filterChange($event)" [pageable]="{
-                        buttonCount: buttonCount,
-                        info: info,
-                        type: type,
-                        pageSizes: pageSizes,
-                        previousNext: previousNext
-                      }" [height]="300" (pageChange)="pageChange($event)" (selectionChange)="selectionChanged($event)" style="cursor:pointer">
-            <kendo-grid-column *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" [headerStyle]="{'background-color': '#666','color': '#fff','line-height': '1em'}">
-                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                    <div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
-                </ng-template>
-            </kendo-grid-column>
-        </kendo-grid>
-    </kendo-popup>
+    </div>
+</ng-template>
+<ng-template #tableTemplate>
+    <kendo-grid [height]="300"
+        [data]="gridView$ | async"
+        [pageSize]="pageSize"
+        [selectable]="true"
+        [skip]="paginator.skip"
+        [filterable]="true"
+        [filter]="filter"
+        (filterChange)="onFilterChange($event)" 
+        (pageChange)="pageChange($event)" 
+        (selectionChange)="selectionChanged($event)" 
+        [pageable]="{
+            buttonCount: 0,
+            info: false,
+            pageSizes: pageSizes,
+            previousNext: previousNext
+        }" 
+        [ngStyle]="gridStyle | async"
+        >
+        <ng-template kendoGridNoRecordsTemplate>
+            <div class="k-loading-mask k-loading-image k-loading-color"></div>
+        </ng-template>
+        <kendo-grid-column 
+                        *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" 
+                        [width]="auto"
+                        id="{{cmpId + col.id}}"
+                        [headerStyle]="{'background-color': '#666','color': '#fff', 'padding':'5px', 'line-height': '1.5em'}">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
+        </ng-template>
+        </kendo-grid-column>
+    </kendo-grid>
+</ng-template>
+<div class="hotlinkButtonsContainer" #hotLinkButtons>
+    <button #anchorOptions kendoButton (click)="toggleOptions(anchorOptions, optionsTemplate)" [icon]="'more-vertical'" [disabled]="!(slice$ | async).enabled"></button>
+    <button #anchorTable kendoButton (click)="toggleTable(anchorTable, tableTemplate)" [icon]="'search'" [disabled]="!(slice$ | async).enabled"></button>
 </div>

@@ -1,40 +1,97 @@
+<!-- #begin dialogs -->
+
+<admin-dialog 
+  [mode]="'fields'"
+  [title]="'Quick Add Server'" 
+  [message]="''"
+  [(fields)]=fields
+  [(opened)]=openToggle 
+  [(result)]=result
+  (onClose)=onCloseCredentialsDialog()>
+  </admin-dialog>
+
+<!-- #end dialogs -->
+
 <div class="container">
   <h2 class="componentTitle">Instance {{ model.InstanceKey }}</h2>
-  
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <div class="adminTile tileNormal">
-        Main Data
-        <div>
-          <admin-input-text [inputLabel]="'Instance Key'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.InstanceKey"></admin-input-text>
-        </div>
-        <div>
-          <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
-        </div>
-        <div class="mt20">
-          <admin-checkbox [checkText]="'Disabled'" [checkId]="'chkDisabled'" [(checkValue)]="model.Disabled" (inputDataChange)="model.Disabled = $event"></admin-checkbox> 
-        </div>        
-        <div class="mt10">
-          <admin-checkbox [checkText]="'Under maintenance'" [checkId]="'chkUnderMaintenance'" [(checkValue)]="model.UnderMaintenance" (inputDataChange)="model.UnderMaintenance = $event"></admin-checkbox> 
+
+  <admin-tabs>
+    <admin-tab [tabTitle]="'Main Informations'">
+      <div class="tab-content">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="adminTile tileNormal">
+              Main Data
+              <div>
+                <admin-input-text [inputLabel]="'Instance Key'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.InstanceKey"></admin-input-text>
+              </div>
+              <div>
+                <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
+              </div>
+              <div class="mt20">
+                <admin-checkbox [checkText]="'Disabled'" [checkId]="'chkDisabled'" [(checkValue)]="model.Disabled" (inputDataChange)="model.Disabled = $event"></admin-checkbox> 
+              </div>        
+              <div class="mt10">
+                <admin-checkbox [checkText]="'Under maintenance'" [checkId]="'chkUnderMaintenance'" [(checkValue)]="model.UnderMaintenance" (inputDataChange)="model.UnderMaintenance = $event"></admin-checkbox> 
+              </div>        
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="adminTile tileNormal">
+              Identification and Search
+              <div>
+                <admin-input-text [inputLabel]="'Origin'" [textType]="'text'" [(inputData)]="model.Origin"></admin-input-text>
+              </div>
+              <div>
+                <admin-input-text [inputLabel]="'Tags'" [textType]="'text'" [(inputData)]="model.Tags"></admin-input-text>
+              </div>
+            </div>
+          </div>
         </div>        
       </div>
-    </div>
-    
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <div class="adminTile tileNormal">
-        Identification and Search
-        <div>
-          <admin-input-text [inputLabel]="'Origin'" [textType]="'text'" [(inputData)]="model.Origin"></admin-input-text>
-        </div>
-        <div>
-          <admin-input-text [inputLabel]="'Tags'" [textType]="'text'" [(inputData)]="model.Tags"></admin-input-text>
-        </div>
+    </admin-tab>
+    <admin-tab [tabTitle]="'Instance Servers'">
+      <div class="tab-content">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="adminTile tileNormal">
+              <div>
+                <admin-button class="right" [buttonText]="'Add'" (click)="openAddServerDialog()"></admin-button>
+                <admin-list 
+                  [items]=serverURLs
+                  [columnNames]="['appName', 'url', 'urlType']"
+                  [showHeader]=true
+                  [readingData]=readingData>
+                </admin-list>
+              </div>
+            </div>
+          </div>
+        </div>   
       </div>
-    </div>
-  </div>
+    </admin-tab>
+    <admin-tab [tabTitle]="'Subscriptions'">
+      <div class="tab-content">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="adminTile tileNormal">
+              <div>
+                <admin-button class="right" [buttonText]="'Add'" (click)="openAddServerDialog()"></admin-button>
+                <admin-list 
+                  [items]=instanceSubscriptions
+                  [columnNames]="['SubscriptionKey', 'Description']"
+                  [showHeader]=true
+                  [readingData]=readingData>
+                </admin-list>
+              </div>
+            </div>
+          </div>
+        </div>   
+      </div>
+    </admin-tab>    
+  </admin-tabs>
   
   <div class="row center-xs end-sm end-lg">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt20">
       <admin-button [buttonText]="'Save'" (click)="submitInstance()" [primary]="true"></admin-button>
     </div>
   </div>

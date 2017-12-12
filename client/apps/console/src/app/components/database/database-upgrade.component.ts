@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SubscriptionDatabase } from 'app/model/subscriptionDatabase';
 import { ModelService } from '../../services/model.service';
 import { OperationResult } from '../../services/operationResult';
+import { DataChannelService } from '../../services/data-channel.service';
 
 @Component({
   selector: 'app-database-upgrade',
@@ -12,6 +13,7 @@ import { OperationResult } from '../../services/operationResult';
 export class DatabaseUpgradeComponent implements OnInit {
 
   @Input() model: SubscriptionDatabase;
+  @Input() defaultInfo: Object;
 
   isCheckDbRunning: boolean;
   operationsList: OperationResult[];
@@ -21,32 +23,44 @@ export class DatabaseUpgradeComponent implements OnInit {
 
   // default data variables
   importDefaultData: boolean = true;
-  // lista configurazione dati di default (dovrebbe essere ritornata dall'esterno, in base ai folder presenti nell'installazione
-  // per l'ISO stato di attivazione)
-  configurations: Array<{ name: string, value: string }> = [
-    { name: 'Basic', value: 'Basic' },
-    { name: 'Manufacturing-Advanced', value: 'Manufacturing-Advanced' },
-    { name: 'Manufacturing-Basic', value: 'Manufacturing-Basic' }
-  ];
+  // lista configurazioni per i dati di default
+  configurations: Array<{ name: string, value: string }> = [];
   selectedConfiguration: { name: string, value: string };
   //
 
   //-----------------------------------------------------------------------------	
-  constructor(private modelService: ModelService) {
+  constructor(
+    private modelService: ModelService, 
+    private dataChannelService: DataChannelService) {
   }
 
   //-----------------------------------------------------------------------------	
   ngOnInit() {
-
-    this.initOperationsList();
-
-    // init configuration dropdown
-    this.selectedConfiguration = this.configurations[0];
+    // to initialize the default data configurations in dropdown
+    this.dataChannelService.dataChannel.subscribe(
+      (res) => {
+        this.initConfigurationsDropDown();
+      },
+      (err) => { }
+    );
   }
 
   //--------------------------------------------------------------------------------------------------------
-  initOperationsList() {
-    this.operationsList = [];
+  initConfigurationsDropDown() {
+
+    let values: Array<string> = [];
+
+    for (let key in this.defaultInfo) {
+      if (key === 'IT')
+        values = this.defaultInfo[key];
+    }
+
+    // inserisco le configurazioni nella dropdown
+    values.forEach((item, index) => {
+      this.configurations.push({ name: item, value: item })
+    });
+
+    this.selectedConfiguration = this.configurations[0];
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -70,7 +84,7 @@ export class DatabaseUpgradeComponent implements OnInit {
 
     this.canUpdateDb = false;
     this.isCheckDbRunning = true;
-    this.initOperationsList();
+    this.operationsList = [];
 
     let checkDb = this.modelService.checkDatabaseStructure(this.model.SubscriptionKey, this.model).
       subscribe(
@@ -128,7 +142,7 @@ export class DatabaseUpgradeComponent implements OnInit {
         this.isUpdateDbRunning = false;
         console.log(checkDbError);
         alert(checkDbError);
-        this.initOperationsList();
+        this.operationsList = [];
         updateDb.unsubscribe();
       }
       )

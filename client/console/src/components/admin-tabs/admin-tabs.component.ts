@@ -21,9 +21,15 @@ export class AdminTabsComponent implements AfterContentInit {
       let innerTabs = this.tabs.toArray();
       let internalTabComponents = [];
       for (let i = 0; i < innerTabs.length; i++) {
+        if (i === 0) {
+          innerTabs[i].tab.selected = true;
+        }
         internalTabComponents.push(innerTabs[i].tab);
       }
       this.tab.tabs.reset(internalTabComponents);
+      if (innerTabs.length > 0) {
+        this.tab.selectTab(0);
+      }
     });
   }
 }
