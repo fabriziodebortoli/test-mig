@@ -75,17 +75,11 @@
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="adminTile tileNormal">
               <div>
-                <admin-button class="right" [buttonText]="'Add'" (click)="openAddServerDialog()"></admin-button>
-                <admin-list 
-                  [items]=instanceSubscriptions
-                  [columnNames]="['SubscriptionKey', 'Description']"
-                  [showHeader]=true
-                  [readingData]=readingData>
-                </admin-list>
+                <app-instance-subscriptions [instanceKey]="model.InstanceKey" [subscriptions]="instanceSubscriptions"></app-instance-subscriptions>
               </div>
             </div>
           </div>
-        </div>   
+        </div>  
       </div>
     </admin-tab>    
   </admin-tabs>
