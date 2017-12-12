@@ -32,28 +32,8 @@ const MATERIAL_MODULES = [
 
 import { TbIconsModule } from '@taskbuilder/icons';
 
-import { DialogModule } from '@progress/kendo-angular-dialog';
-import { LayoutModule } from '@progress/kendo-angular-layout';
-import { PopupModule } from '@progress/kendo-angular-popup';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-import { InputsModule } from '@progress/kendo-angular-inputs';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { GridModule, GridComponent } from '@progress/kendo-angular-grid';
-import { ChartsModule } from '@progress/kendo-angular-charts';
-import { TreeModule } from 'angular-tree-component';
-
-const KENDO_UI_MODULES = [
-    GridModule,
-    ChartsModule,
-    DialogModule,
-    DateInputsModule,
-    DropDownsModule,
-    InputsModule,
-    LayoutModule,
-    PopupModule,
-    ButtonsModule
-];
+import { TbKendoModule } from './kendo/kendo.module';
+export * from './kendo/kendo.module';
 
 /**
  * Components
@@ -349,10 +329,12 @@ const _MODULES = [
     TbIconsModule
 ];
 
+import { TreeModule } from 'angular-tree-component';
+
 @NgModule({
-    imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
+    imports: [_MODULES, MATERIAL_MODULES, TbKendoModule, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],
-    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
+    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TbKendoModule],
     entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent]
 })
 export class TbSharedModule { }
