@@ -4,6 +4,7 @@ import { ModelService } from './../../services/model.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Instance } from '../../model/instance';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AppSubscription } from '../../model/subscription';
 import { Subscription } from 'rxjs';
 import { ServerUrl, UrlType } from 'app/authentication/server-url';
 
@@ -17,6 +18,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   model: Instance;
   serverURLs: ServerUrl[];
+  instanceSubscriptions: AppSubscription[];
   editing: boolean = false;
   subscription: Subscription;
 
@@ -28,6 +30,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new Instance();
     this.serverURLs = [];
+    this.instanceSubscriptions = [];
     this.openToggle = false;
     this.initDialogFields();
   }
@@ -49,6 +52,20 @@ export class InstanceComponent implements OnInit, OnDestroy {
             }
             
             this.model = instances[0];
+
+            // now we read its subscriptions
+
+            this.modelService.query("subscriptioninstances", { MatchingFields : { InstanceKey: this.model.InstanceKey } }).subscribe(
+              res => {
+                this.instanceSubscriptions = res['Content'];
+                console.log('-----');
+                console.log(this.instanceSubscriptions);
+              },
+              err => {
+              }
+            );
+
+
           },
           err => {
             alert(err);
