@@ -101,7 +101,7 @@
             <admin-button [buttonText]="'Configure Instances'" [primary]=true (click)="goInstanceConfiguration()"></admin-button>
           </ng-template>
           <ng-template #operationFailed>
-            <h3><admin-icon class="warning" [iconSignature]="'done'"></admin-icon>Operation ended with errors</h3>
+            <h3 *ngIf="clusterStep > 2"><admin-icon class="warning" [iconSignature]="'done'"></admin-icon>Operation ended with errors</h3>
             <p *ngIf="errorMessage !== ''">{{ errorMessage }}</p>
           </ng-template>          
         </div>
