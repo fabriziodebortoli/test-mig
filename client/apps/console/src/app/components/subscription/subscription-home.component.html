@@ -1,8 +1,17 @@
-<div class="left">
-    <h1>Subscriptions Management</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <div class="box">
+        <h1 class="mt40">Subscriptions Management</h1>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-6 end-lg">
+      <div class="box mt40">
+        <admin-button routerLink='/subscription' [buttonText]="'New'" [primary]=true></admin-button>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-12">
+      <admin-list [items]=subscriptions [showHeader]=true [readingData]=readingData [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>
+    </div>
+  </div>
 </div>
-<div class="right pt20">
-    <admin-button routerLink='/subscription' [buttonText]="'New'" [primary]=true>New</admin-button>
-</div>
-<hr class="clear">
-<admin-list [items]=subscriptions [showHeader]=true [readingData]=readingData [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>
