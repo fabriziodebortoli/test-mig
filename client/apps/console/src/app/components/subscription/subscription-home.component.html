@@ -5,4 +5,4 @@
     <admin-button routerLink='/subscription' [buttonText]="'New'" [primary]=true>New</admin-button>
 </div>
 <hr class="clear">
-<admin-list [items]=subscriptions [readingData]=readingData [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>
+<admin-list [items]=subscriptions [showHeader]=true [readingData]=readingData [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>
