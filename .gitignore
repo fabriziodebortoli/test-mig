@@ -103,4 +103,4 @@ ipch/
 *.VC.VC.opendb
 
 # Fix file ignorati erroneamente
-!OtherComponents
+!OtherComponents/**
