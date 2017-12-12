@@ -265,6 +265,8 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return ModelTables.RecoveryCode;
                 case "INSTANCES":
                     return ModelTables.Instances;
+				case "SUBSCRIPTIONINSTANCES":
+					return ModelTables.SubscriptionInstances;
                 default:
                     return ModelTables.None;
             }
