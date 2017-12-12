@@ -104,3 +104,4 @@ ipch/
 
 # Fix file ignorati erroneamente
 !OtherComponents/**
+!packages/**
