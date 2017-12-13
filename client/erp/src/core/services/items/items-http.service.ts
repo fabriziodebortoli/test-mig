@@ -15,7 +15,7 @@ export class ItemsHttpService {
     }
 
     //TODO to be translated in a call to parameters service  
-    checkItemsAutoNumbering(): Observable<Response> {
-        return this.httpService.execPost(this.controllerRoute, 'CheckItemsAutoNumbering');
-    }
+    // checkItemsAutoNumbering(): Observable<Response> {
+    //     return this.httpService.execPost(this.controllerRoute, 'CheckItemsAutoNumbering');
+    // }
 }

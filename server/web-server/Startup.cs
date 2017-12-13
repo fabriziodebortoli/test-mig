@@ -12,6 +12,7 @@ using Microarea.AccountManager.Interfaces;
 using Microarea.AccountManager.Library;
 using Microarea.TbLoaderGate;
 using System.Net;
+using Microarea.DataService;
 
 namespace WebApplication
 {
@@ -102,6 +103,8 @@ namespace WebApplication
                 options.IdleTimeout = TimeSpan.FromSeconds(20 * 60);
                 options.Cookie.HttpOnly = true;
             });
+
+            services.AddDataServiceDependencies();
 
             
             foreach (var configurator in configurators)
