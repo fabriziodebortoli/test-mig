@@ -99,6 +99,7 @@ export class DatabaseUpgradeComponent implements OnInit {
         // - i database sono gia' aggiornati
         // - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
         // quindi non e' possibile procedere con l'upgrade
+        // (oppure potrebbe non essere andata a buon fine la connessione ai database della subscription)
         this.canUpdateDb = checkDbResult.Code > -1;
 
         checkDb.unsubscribe();

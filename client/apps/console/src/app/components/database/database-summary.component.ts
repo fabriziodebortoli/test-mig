@@ -77,7 +77,11 @@ export class DatabaseSummaryComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   quickStartDatabase() {
 
-    if (this.subscriptionKey === undefined)
+    // per il momento commentato
+    // da decidere come arricchire le informazioni salvate nei file di configurazione
+    // per fare in modo di eseguire le istruzioni corrette a seconda del provider di database prescelto
+    
+    /*if (this.subscriptionKey === undefined)
       return;
 
     this.isWorking = true;
@@ -95,6 +99,6 @@ export class DatabaseSummaryComponent implements OnInit {
         subs.unsubscribe();
         this.isWorking = false;
       }
-      )
+      )*/
   }
 }
