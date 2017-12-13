@@ -138,12 +138,13 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     await this.loadOptions();
   }
 
-  async toggleTable(anchor, template) {
+  toggleTable(anchor, template) {
     this.closeOptions();
     if (!this.tableSub) {
       this.tableSub = this.showTable$.distinctUntilChanged().subscribe(x => {
         if (x) {
           this.tablePopupRef = this.tablePopupService.open({ anchor: anchor, content: template });
+          this.tablePopupRef.popupOpen.asObservable().subscribe(y => this.loadTable());
         } else {
           if (this.tablePopupRef) {
             this.tablePopupRef.close();
@@ -152,7 +153,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         }
       });
     }
-    if (this.showTableSubj$.value) { this.closeTable(); } else { this.openTable(); await this.loadTable(); }
+    if (this.showTableSubj$.value) { this.closeTable(); } else { this.openTable(); }
   }
 
   closeOptions() { this.showOptionsSubj$.next(false); }
@@ -180,7 +181,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       });
 
     this.subscription = this.paginator.clientData.subscribe((d) => {
-        if (d && d.rows) {
+        if (d && d.rows && d.rows.length > 0) {
           this.selectionColumn = d.key;
           this.gridView$.next({data: d.rows, total: d.total, columns: d.columns });
           this.columns = d.columns;
@@ -220,9 +221,9 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     await this.paginator.pageChange(event.skip, event.take);
   }
 
-  private async loadTable() {
+  private loadTable() {
     this.start();
-    await this.paginator.firstPage();
+    // await this.paginator.firstPage();
   }
 
   selectionTypeChanged(type: string) {
@@ -231,11 +232,16 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   selectionChanged(value: any) {
-    let k = this.gridView$.value.data[this.paginator.getClientPageIndex(value.index)];
-    this.value = k[this.selectionColumn];
+    let idx = this.paginator.getClientPageIndex(value.index);
+    let k = this.gridView$.value.data.slice(idx, idx + 1);
+    this.value = k[0][this.selectionColumn];
     if (this.model) {
       this.model.value = this.value;
       this.eventDataService.change.emit(this.cmpId);
+    }
+    if (this.modelComponent && this.modelComponent.model) {
+      this.modelComponent.model.value = this.value;
+      this.eventDataService.change.emit(this.modelComponent.cmpId)
     }
   }
 

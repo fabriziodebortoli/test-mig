@@ -6,8 +6,8 @@ import { TbHotlinkButtonsComponent, HlComponent } from './../controls/hot-link-b
 import { ControlComponent } from './../controls/control.component';
 import { Store } from '../../core/services/store.service';
 import { createSelector, createSelectorByMap } from '../../shared/commons/selector';
-
 import { EventDataService } from '../../core/services/eventdata.service';
+import { Observable } from './../../rxjs.imports';
 
 export type HlDefinition = { namespace: string, name: string, ctx?: any };
 export type BadHlDefinition = { name: HlDefinition }
@@ -39,7 +39,7 @@ export class TbHotLinkDirective implements OnInit {
     constructor(private viewContainer: ViewContainerRef,
         private cfr: ComponentFactoryResolver,
         private store: Store,
-    private eventDataService: EventDataService) {
+        private eventDataService: EventDataService) {
     }
 
     ngOnInit() {
@@ -55,18 +55,16 @@ export class TbHotLinkDirective implements OnInit {
                 s => this.cmp.instance.modelComponent.model ? { value: this.cmp.instance.modelComponent.model.value,
                                                                 enabled: this.cmp.instance.modelComponent.model.enabled } :
                                                               { value: undefined, enabled: false });
+            this.cmp.instance.slice$ = this.store
+            .select(selector)
+            .startWith( { value: undefined,  enabled: false })
+            .filter(x => !x.value || (x.value !== this.cmp.instance.value));
         } else {
             this.cmp.instance.model = this.model;
-            selector = createSelector(
-                s => this.cmp.instance.model ? this.cmp.instance.model.enabled : false,
-                s => this.cmp.instance.model ? this.cmp.instance.model.value : undefined,
-                s => this.cmp.instance.model ? { value: this.cmp.instance.model.value,
-                                                 enabled: this.cmp.instance.model.enabled } :
-                                               { value: undefined, enabled: false });
+            this.cmp.instance.slice$ = Observable.of(this.model);
         }
 
         this.cmp.instance.namespace = this.namespace;
         this.cmp.instance.name = this.name;
-        this.cmp.instance.slice$ = this.store.select(selector).startWith( { value: undefined,  enabled: false });
     }
 }

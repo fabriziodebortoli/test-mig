@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService } from '@taskbuilder/core';
-import { LogisticsHttpService } from '../../../core/services/logistics/logistics-http.service';
+import { ItemsHttpService } from '../../../core/services/items/items-http.service';
 import { BehaviorSubject } from "../../../rxjs.imports";
 
 @Component({
@@ -15,7 +15,7 @@ export class ItemEditComponent extends ControlComponent {
 
     @Input() public hotLink: { namespace: string, name: string };
 
-    maxLength = 5;
+    maxLength = -1;
 
     itemsAutoNumbering = true;
 
@@ -25,7 +25,7 @@ export class ItemEditComponent extends ControlComponent {
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
         private store: Store,
-        private http: LogisticsHttpService
+        private http: ItemsHttpService
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
     }

@@ -1,6 +1,6 @@
 import { Logger, Store, TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
-import { AccountingHttpService } from '../../../core/services/accounting/accounting-http.service';
+import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import JsVat from './jsvat';
 
 @Component({
@@ -19,7 +19,7 @@ export class VatComponent extends ControlComponent {
     private eventData: EventDataService,
     private logger: Logger,
     tbComponentService: TbComponentService,
-    private http: AccountingHttpService,
+    private http: CoreHttpService,
     changeDetectorRef: ChangeDetectorRef,
     private store: Store) {
     super(layoutService, tbComponentService, changeDetectorRef);
