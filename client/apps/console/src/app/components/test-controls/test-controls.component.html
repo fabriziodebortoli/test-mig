@@ -54,7 +54,8 @@
               [(selectedValue)]="selectedItem" 
               [listItems]="artWorks" 
               [textField]="'name'" 
-              [valueField]="'value'"></admin-dropdown>
+              [valueField]="'value'"
+              [readOnly]=false></admin-dropdown>
             bind: {{ selectedItem.value }}
           </div>
         </div>
