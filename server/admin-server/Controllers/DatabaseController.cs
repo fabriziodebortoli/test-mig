@@ -698,7 +698,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbManager.ContextInfo.MakeCompanyConnection(importDataContent.Database))
+			if (dbManager.ContextInfo.MakeSubscriptionDatabaseConnection(importDataContent.Database))
 			{
 				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
 				importExportManager.SetDefaultDataConfiguration(configuration);
@@ -753,7 +753,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbManager.ContextInfo.MakeCompanyConnection(importDataContent.Database))
+			if (dbManager.ContextInfo.MakeSubscriptionDatabaseConnection(importDataContent.Database))
 			{
 				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
 				importExportManager.SetSampleDataConfiguration(configuration, iso);
@@ -914,7 +914,8 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
 
-			// TODO: dall'attivazione della Subscription devo sapere se 
+			// TODO: dall'attivazione della Subscription devo sapere se provengo da una vecchia versione
+			// forse questo controllo non sara' piu' necessario, dipende cosa verra' deciso a livello commerciale
 			/*if ((dbManager.StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40)
 			{
 				if (!this.canMigrate)
@@ -939,6 +940,8 @@ namespace Microarea.AdminServer.Controllers
 					opRes.Code = -1;
 				}
 			}
+			else // anche se la connessione non e' andata a buon fine ritorno il codice -1 cosi da inibire l'upgrade
+				opRes.Code = -1;
 
 			//re-imposto il flag UnderMaintenance a false
 			APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);
@@ -1008,6 +1011,9 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
 			{
+				//re-imposto il flag UnderMaintenance a false
+				APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);
+
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}

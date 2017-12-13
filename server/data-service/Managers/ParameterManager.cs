@@ -17,7 +17,7 @@ namespace Microarea.DataService.Managers
             var result = new Dictionary<string, object>();
             var connection = new SqlConnection(connectionString);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
-                 $"select * from MA_{table}", null))
+                 $"select * from {table}", null))
             {
                 if (reader.Read())
                 {

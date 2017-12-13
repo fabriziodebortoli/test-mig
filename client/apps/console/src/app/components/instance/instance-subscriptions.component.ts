@@ -27,12 +27,68 @@ export class InstanceSubscriptionsComponent {
   searchString: string;
   readingData: boolean;
   readingDataLinked: boolean;
-  
+
+  // dialog box
+  openToggle: boolean;
+  openYesNoToggle: boolean;
+  dialogTitle: string;
+  dialogMessage: string;
+  dialogResult: boolean;
+  dialogYesNoResult: boolean;
+  subscriptionKey: string;
+
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService) { 
     this.subscriptions = new Array<SubscriptionInstance>();
     this.subscriptionsResult = new Array<AccountRole>();
     this.instanceKey = '';
+    this.openToggle = false;
+    this.openYesNoToggle = false;
+    this.dialogTitle = '';
+    this.dialogMessage = '';
+    this.dialogResult = false;
+    this.dialogYesNoResult = false;
+    this.subscriptionKey = '';
+  }
+
+  //--------------------------------------------------------------------------------
+  messageDialog(title: string, message: string) {
+    this.dialogTitle = title;
+    this.dialogMessage = message;
+    this.openToggle = true;
+  }
+
+  //--------------------------------------------------------------------------------
+  confirmDialog(title: string, message: string) {
+    this.dialogTitle = title;
+    this.dialogMessage = message;
+    this.openYesNoToggle = true;
+  }
+
+  //--------------------------------------------------------------------------------
+  dialogYesNoOnClose() {
+
+    if (!this.dialogYesNoResult) {
+      return;
+    }
+
+    this.readingData = true;
+
+    this.modelService.addInstanceSubscriptionAssociation(this.instanceKey, this.subscriptionKey).subscribe(
+      res => {
+        let subIns:SubscriptionInstance = new SubscriptionInstance();
+        subIns.instanceKey = this.instanceKey;
+        subIns.subscriptionKey = this.subscriptionKey;
+        this.subscriptions.push(subIns);
+        this.readingData = false;
+        this.subscriptionKey = '';
+      },
+      err => {
+        this.messageDialog('Error', 'Oops, something went wrong with your request: ' + err);
+        this.readingData = false;
+        this.subscriptionKey = '';
+      }
+    );
   }
 
   //--------------------------------------------------------------------------------
@@ -60,35 +116,15 @@ export class InstanceSubscriptionsComponent {
         this.readingData = false;
       },
     err => {
-      alert('An error occurred while searching subscriptions');
+      this.messageDialog('Error', 'An error occurred while searching subscriptions');
       this.readingData = false;
     });
   }
 
   //--------------------------------------------------------------------------------
   associateSubscription(item: AccountRole) {
-
-    if(!confirm('This command will associate the subscription ' + item.EntityKey + ' to this instance (' + this.instanceKey + '). Confirm?')) {
-      return;
-    }
-
-    let subs: string[] = [item.EntityKey];
-    this.readingData = true;
-
-    this.modelService.addInstanceSubscriptionAssociation(this.instanceKey, item.EntityKey).subscribe(
-      res => {
-        alert('Association regularly saved.');
-        let subIns:SubscriptionInstance = new SubscriptionInstance();
-        subIns.instanceKey = this.instanceKey;  //TODO URGENT
-        subIns.subscriptionKey = item.EntityKey;
-        this.subscriptions.push(subIns);
-        this.readingData = false;
-      },
-      err => {
-        alert('Oops, something went wrong with your request: ' + err);
-        this.readingData = false;
-      }
-    );
+    this.confirmDialog('Confirm', 'Would you like to associate the subscription ' + item.EntityKey + ' to this instance?');
+    this.subscriptionKey = item.EntityKey;
   }
 
   //--------------------------------------------------------------------------------
@@ -106,7 +142,6 @@ export class InstanceSubscriptionsComponent {
         { MatchingFields : { InstanceKey : this.instanceKey , SubscriptionKey : item.subscriptionKey } } )
       .subscribe(
         res => {
-          alert('Association has been deleted.');
           let index:number = this.subscriptions.findIndex(
             p => p.instanceKey == this.instanceKey && p.subscriptionKey == item.subscriptionKey);
           if (index > -1) {
@@ -115,7 +150,7 @@ export class InstanceSubscriptionsComponent {
           this.readingData = false;
         },
         err => {
-          alert('Oops, something went wrong with your request: ' + err);
+          this.messageDialog('Error', 'Oops, something went wrong with your request: ' + err);
           this.readingData = false;
         }
       );

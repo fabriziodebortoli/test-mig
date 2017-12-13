@@ -42,6 +42,7 @@ export class DatabaseTestconnectionComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
     this.subscriptionKey = this.route.snapshot.queryParams['subscriptionToEdit'];
+    this.selectedProvider = this.providers[1]; // init dropdown with SQL Server provider
   }
 
   //--------------------------------------------------------------------------------------------------------
