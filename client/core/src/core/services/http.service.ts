@@ -138,6 +138,11 @@ export class HttpService {
             .catch(this.handleError);
     }
 
+    execPost(route: string, api: string, obj: any = null): Observable<Response> {
+        const url = this.infoService.getBaseUrl() + route + api;
+        return this.postData(url, JSON.stringify(obj));
+    }
+
     getData(url: string, data: Object): Observable<Response> {
         const headers = new Headers({
             'Authorization': this.infoService.getAuthorization()

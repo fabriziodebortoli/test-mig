@@ -115,6 +115,12 @@ const TB_PAGES = [
     ServerDownPage
 ];
 
+/**
+ * Culture
+ */
+import { LOCALE_ID } from '@angular/core';
+const culture = localStorage.getItem('ui_culture') ? localStorage.getItem('ui_culture') : 'en-EN';
+
 @NgModule({
     imports: [
         TbSharedModule,
@@ -136,7 +142,11 @@ const TB_PAGES = [
         ]),
         HttpModule
     ],
-    providers: [TB_SERVICES, TB_GUARDS],
+    providers: [
+        TB_SERVICES,
+        TB_GUARDS,
+        { provide: LOCALE_ID, useValue: culture }
+    ],
     declarations: [THEME_COMPONENTS, TB_PAGES],
     exports: [TB_PAGES],
     entryComponents: [THEME_COMPONENTS]

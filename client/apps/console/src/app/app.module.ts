@@ -24,6 +24,7 @@ import { AccountsHomeComponent } from './components/account/accounts-home.compon
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { AccountSubscriptionsComponent } from './components/account/account-subscriptions.component';
+import { InstanceSubscriptionsComponent } from './components/instance/instance-subscriptions.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { DatabaseConfigurationComponent } from './components/database/database-configuration.component';
 import { DatabaseTestconnectionComponent } from './components/database/database-testconnection.component';
@@ -57,6 +58,7 @@ import { ActionPanelComponent } from './components/action-panel/action-panel.com
     InstanceHomeComponent,
     SubscriptionComponent,
     AccountSubscriptionsComponent,
+    InstanceSubscriptionsComponent,
     SubscriptionDatabaseComponent,
     DatabaseConfigurationComponent,
     DatabaseTestconnectionComponent,
@@ -76,7 +78,6 @@ import { ActionPanelComponent } from './components/action-panel/action-panel.com
     RouterModule.forRoot(routes),
     HttpModule,
     ConsoleModule
-    //BrowserAnimationsModule
   ],
   providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService, BackendService, DataChannelService],
   bootstrap: [AppComponent]

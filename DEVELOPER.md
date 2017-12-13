@@ -17,7 +17,7 @@ following products on your development machine:
   [Windows](http://windows.github.com)); [GitHub's Guide to Installing
   Git](https://help.github.com/articles/set-up-git) is a good source of information.
 
-* [Node.js](http://nodejs.org), (version `>=6.11`) which is used to run a development web server,
+* [Node.js](http://nodejs.org), (version **LTS**) which is used to run a development web server,
   run tests, and generate distributable files. We also use Node's Package Manager, `npm`
   which comes with Node. Depending on your system, you can install Node either from
   source or as a pre-packaged bundle.

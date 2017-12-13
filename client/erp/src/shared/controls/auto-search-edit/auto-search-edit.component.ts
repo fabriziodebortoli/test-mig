@@ -1,5 +1,5 @@
 import { TbComponentService, LayoutService, ControlComponent, EventDataService, Store } from '@taskbuilder/core';
-import { ErpHttpService } from '../../../core/services/erp-http.service';
+import { ItemsHttpService } from '../../../core/services/items/items-http.service';
 import { Component, Input, ViewChild, ViewContainerRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { StringUtils } from './../../../core/u/string-utils';
 
@@ -18,8 +18,8 @@ export class AutoSearchEditComponent extends ControlComponent {
     constructor(public eventData: EventDataService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
-        changeDetectorRef:ChangeDetectorRef,
-        private http: ErpHttpService,
+        changeDetectorRef: ChangeDetectorRef,
+        private http: ItemsHttpService,
         private store: Store
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
