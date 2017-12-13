@@ -19,7 +19,7 @@ if NOT "%lastline%" == "Compilation finished succesfully" (
     del ".npm-run-build.log"
 )
 
-set "iconsfolder=%cd%"
+set "iconsFolder=%cd%"
 set "repofolder=c:/Microarea/@taskbuilder/ng-icons"
 cd %repofolder%
 @echo Clean library repo
@@ -37,19 +37,20 @@ if NOT "%lastline%" == "Current branch master is up to date." (
 )
 
 @echo Copy dist to library repo
-xcopy %iconsfolder%\dist /y /s /e
+xcopy %iconsFolder%\dist /y /s /e
 
 @echo Git stage and commit
 git add .
 
-REM if NOT "%tag%" == "" (
-REM     git tag -a %tag% -m "%message%"
-REM ) else (
-REM     @echo No tag added
-REM )
-REM git commit -m "%message%"
+if NOT "%tag%" == "" (
+    git tag -a "%tag%" -m "%message%"
+) else (
+    @echo No tag added
+)
+git commit -m "%message%"
 
-REM @echo Push
-REM git push
+@echo Push
+git push
+git push --tags
 
 @echo Completed!
