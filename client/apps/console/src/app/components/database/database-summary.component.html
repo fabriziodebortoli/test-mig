@@ -1,0 +1,33 @@
+<div class="container">
+  <h2 class="componentTitle">Subscription {{ subscriptionKey }} - automatic configuration</h2>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        Summary information
+        <div>
+          <admin-input-text [inputLabel]="'Name'" [textType]="'text'" [(inputData)]="name" [readOnly]=true></admin-input-text>
+        </div>
+        <div>
+          <admin-input-text [inputLabel]="'ERP database name'" [textType]="'text'" [(inputData)]="erpDbName" [readOnly]=true></admin-input-text>
+        </div>
+        <div>
+          <admin-input-text [inputLabel]="'DMS database name'" [textType]="'text'" [(inputData)]="dmsDbName" [readOnly]=true></admin-input-text>
+        </div>
+        <div>
+          <admin-input-text [inputLabel]="'DBOwner'" [textType]="'text'" [(inputData)]="dbOwner" [readOnly]=true></admin-input-text>
+        </div>
+        <div>
+          <admin-list [items]=operationsList [columnNames]="['Message']"></admin-list>
+        </div>
+        <div *ngIf="!isWorking" class="mt20">
+          <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+            <admin-button [buttonText]="'Start'" [primary]=true (click)="quickStartDatabase()"></admin-button>
+          </div>
+        </div>
+        <div *ngIf="isWorking" class="mt20">
+          <img src="assets/ajax-loader.gif" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

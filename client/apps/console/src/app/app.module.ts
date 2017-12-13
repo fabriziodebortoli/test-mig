@@ -40,6 +40,7 @@ import { DataChannelService } from 'app/services/data-channel.service';
 import { ImportDataComponent } from './components/database/import-data.component';
 import { DatabaseDeleteComponent } from './components/database/database-delete.component';
 import { ActionPanelComponent } from './components/action-panel/action-panel.component';
+import { DatabaseSummaryComponent } from './components/database/database-summary.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ActionPanelComponent } from './components/action-panel/action-panel.com
     DatabaseUpgradeComponent,
     ImportDataComponent,
     DatabaseDeleteComponent,
-    ActionPanelComponent
+    ActionPanelComponent,
+    DatabaseSummaryComponent
   ],
   imports: [
     BrowserModule,
