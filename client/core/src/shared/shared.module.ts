@@ -300,8 +300,10 @@ const TB_DIRECTIVES = [
 
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
+import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
+export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
-const TB_PIPES = [TbEnumsPipe];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe];
 
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';

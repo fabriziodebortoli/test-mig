@@ -26,6 +26,19 @@
     margin-bottom: 5px;
 }
 
+.dropDownItem {
+    display:flex;
+    flex: 1
+}
+
+.dropDownItemId {
+    font-weight: bold
+}
+
+.dropDownItemDescription {
+    font-style: italic
+}
+
 .tablePopup {
     max-width: 50%;
     font-size: small;
@@ -54,4 +67,12 @@
 
 ::ng-deep .k-i-loading::before, .k-loading-image::before {
     margin-top: 0.50em;
+}
+
+::ng-deep .dropDownNoData.k-loading-image::after {
+    margin-top: -0.5em;
+}
+
+::ng-deep .dropDownNoData.k-loading-image::before {
+    margin-top: -0.75em;
 }
