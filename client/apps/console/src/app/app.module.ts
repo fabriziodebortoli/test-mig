@@ -24,6 +24,7 @@ import { AccountsHomeComponent } from './components/account/accounts-home.compon
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { AccountSubscriptionsComponent } from './components/account/account-subscriptions.component';
+import { InstanceSubscriptionsComponent } from './components/instance/instance-subscriptions.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { DatabaseConfigurationComponent } from './components/database/database-configuration.component';
 import { DatabaseTestconnectionComponent } from './components/database/database-testconnection.component';
@@ -39,6 +40,7 @@ import { DataChannelService } from 'app/services/data-channel.service';
 import { ImportDataComponent } from './components/database/import-data.component';
 import { DatabaseDeleteComponent } from './components/database/database-delete.component';
 import { ActionPanelComponent } from './components/action-panel/action-panel.component';
+import { DatabaseSummaryComponent } from './components/database/database-summary.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { ActionPanelComponent } from './components/action-panel/action-panel.com
     InstanceHomeComponent,
     SubscriptionComponent,
     AccountSubscriptionsComponent,
+    InstanceSubscriptionsComponent,
     SubscriptionDatabaseComponent,
     DatabaseConfigurationComponent,
     DatabaseTestconnectionComponent,
@@ -68,7 +71,8 @@ import { ActionPanelComponent } from './components/action-panel/action-panel.com
     DatabaseUpgradeComponent,
     ImportDataComponent,
     DatabaseDeleteComponent,
-    ActionPanelComponent
+    ActionPanelComponent,
+    DatabaseSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,6 @@ import { ActionPanelComponent } from './components/action-panel/action-panel.com
     RouterModule.forRoot(routes),
     HttpModule,
     ConsoleModule
-    //BrowserAnimationsModule
   ],
   providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService, BackendService, DataChannelService],
   bootstrap: [AppComponent]

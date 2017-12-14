@@ -32,28 +32,8 @@ const MATERIAL_MODULES = [
 
 import { TbIconsModule } from '@taskbuilder/icons';
 
-import { DialogModule } from '@progress/kendo-angular-dialog';
-import { LayoutModule } from '@progress/kendo-angular-layout';
-import { PopupModule } from '@progress/kendo-angular-popup';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-import { InputsModule } from '@progress/kendo-angular-inputs';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { GridModule, GridComponent } from '@progress/kendo-angular-grid';
-import { ChartsModule } from '@progress/kendo-angular-charts';
-import { TreeModule } from 'angular-tree-component';
-
-const KENDO_UI_MODULES = [
-    GridModule,
-    ChartsModule,
-    DialogModule,
-    DateInputsModule,
-    DropDownsModule,
-    InputsModule,
-    LayoutModule,
-    PopupModule,
-    ButtonsModule
-];
+import { TbKendoModule } from './kendo/kendo.module';
+export * from './kendo/kendo.module';
 
 /**
  * Components
@@ -241,7 +221,6 @@ import { TextComponent } from './controls/text/text.component';
 import { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 import { ControlComponent } from './controls/control.component';
 import { VATCodeComponent } from './controls/vat-code/vat-code.component';
-import { NumbererComponent } from './controls/numberer/numberer.component';
 import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
@@ -281,13 +260,12 @@ export { TextComponent } from './controls/text/text.component';
 export { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 export { ControlComponent } from './controls/control.component';
 export { VATCodeComponent } from './controls/vat-code/vat-code.component';
-export { NumbererComponent } from './controls/numberer/numberer.component';
 export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 
 const TB_CONTROLS = [
-    ControlComponent, VATCodeComponent, NumbererComponent,
+    ControlComponent, VATCodeComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
@@ -322,8 +300,10 @@ const TB_DIRECTIVES = [
 
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
+import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
+export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
-const TB_PIPES = [TbEnumsPipe];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe];
 
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
@@ -336,6 +316,7 @@ export { OperationResult } from './models/operation-result.model';
 export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
+export { FormMode } from './models/form-mode.enum';
 export * from './models/store.models';
 export * from './commons/selector';
 
@@ -350,10 +331,12 @@ const _MODULES = [
     TbIconsModule
 ];
 
+import { TreeModule } from 'angular-tree-component';
+
 @NgModule({
-    imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
+    imports: [_MODULES, MATERIAL_MODULES, TbKendoModule, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],
-    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
+    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TbKendoModule],
     entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent]
 })
 export class TbSharedModule { }

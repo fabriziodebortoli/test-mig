@@ -26,30 +26,8 @@ export class DatabaseConfigurationComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   configureDatabase(automatic: boolean) {
     
-    if (!automatic) {
-      // route to add database
-      this.router.navigate(['/database'], { queryParamsHandling: "preserve" } );
-      return;
-    }
-
-    if (this.subscriptionKey === undefined)
-      return;
-
-    this.isWorking = true;
-      
-    let subs = this.modelService.quickConfigureDatabase(this.subscriptionKey).
-      subscribe(
-        result => {
-          console.log('*** configureDatabase result: ' + result.Message);
-   
-          subs.unsubscribe();
-          this.isWorking = false;
-        },
-        error => {
-          console.log('*** configureDatabase error: ' + error);
-          subs.unsubscribe();
-          this.isWorking = false;
-        }
-    )
+    // if I choose automatic configuration I open the summary component
+    // otherwise I open the database component
+    this.router.navigate(automatic ? ['/database/summary'] : ['/database'], { queryParamsHandling: "preserve" } );
   }
 }

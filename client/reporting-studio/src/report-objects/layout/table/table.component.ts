@@ -9,7 +9,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   selector: 'rs-table',
   templateUrl: './table.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.scss']
 })
 export class ReportTableComponent {
 

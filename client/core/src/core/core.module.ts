@@ -41,6 +41,7 @@ import { SettingsService } from './services/settings.service';
 import { EventManagerService } from './services/event-manager.service';
 import { Store } from './services/store.service';
 import { ThemeService } from './services/theme.service';
+import { ParameterService } from './services/parameters.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -74,9 +75,11 @@ export { SettingsService } from './services/settings.service';
 export { EventManagerService } from './services/event-manager.service';
 export { Store } from './services/store.service';
 export { ThemeService } from './services/theme.service';
+export { ParameterService } from './services/parameters.service';
 
 export const TB_SERVICES = [
-    TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
+    TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService,
+    EnumsService, ParameterService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
     OldLocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
@@ -115,6 +118,12 @@ const TB_PAGES = [
     ServerDownPage
 ];
 
+/**
+ * Culture
+ */
+import { LOCALE_ID } from '@angular/core';
+const culture = localStorage.getItem('ui_culture') ? localStorage.getItem('ui_culture') : 'en-EN';
+
 @NgModule({
     imports: [
         TbSharedModule,
@@ -135,7 +144,11 @@ const TB_PAGES = [
         ]),
         HttpModule
     ],
-    providers: [TB_SERVICES, TB_GUARDS],
+    providers: [
+        TB_SERVICES,
+        TB_GUARDS,
+        { provide: LOCALE_ID, useValue: culture }
+    ],
     declarations: [THEME_COMPONENTS, TB_PAGES],
     exports: [TB_PAGES],
     entryComponents: [THEME_COMPONENTS]

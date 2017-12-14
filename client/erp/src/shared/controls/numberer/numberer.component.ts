@@ -1,17 +1,9 @@
 import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
-import { isNumeric } from '../../../rxjs.imports';
-import { ContextMenuItem } from './../../models/context-menu-item.model';
-import { FormMode } from './../../../shared/models/form-mode.enum';
+import { ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService, Store, FormMode } from '@taskbuilder/core';
 import { NumbererStateEnum } from './numberer-state.enum';
-import { ControlComponent } from '../control.component';
-
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { LayoutService } from './../../../core/services/layout.service';
-import { EventDataService } from './../../../core/services/eventdata.service';
-import { Store } from './../../../core/services/store.service';
-
-import { MaskedTextBoxComponent } from '@progress/kendo-angular-inputs';
+import { isNumeric } from './../../../rxjs.imports';
+import { ParameterService } from '@taskbuilder/core';
 
 export type maskParts = { prefix: string, separator: string, body: string, suffix: string };
 
@@ -37,7 +29,7 @@ export class NumbererComponent extends ControlComponent {
     @Input() selector: any;
 
     @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-    @ViewChild('textbox') textbox: MaskedTextBoxComponent;
+    @ViewChild('textbox') textbox: any;
 
     tbEditIcon = 'tb-edit';
     tbExecuteIcon = 'tb-execute';
@@ -47,7 +39,8 @@ export class NumbererComponent extends ControlComponent {
     private tbMask = '';
     private useFormatMask = false;
     private enableCtrlInEdit = false;
-    private paddingEnabled: boolean = true;
+    private paddingEnabled = true;
+    private subscribedToSelector = false;
 
     numbererContextMenu: ContextMenuItem[] = [];
     menuItemDisablePadding = new ContextMenuItem('disable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
@@ -90,7 +83,20 @@ export class NumbererComponent extends ControlComponent {
             }
         });
 
-        if (this.store && this.selector) {
+        this.getParam();
+
+    }
+
+    async getParam() {
+        let result = await this.parameterService.getParameter('MA_EI_ITParameters.TaxJournal');
+        console.log(result);
+        result = await this.parameterService.getParameter('MA_ItemParameters.ItemAutoNum');
+        let itemAutoNum = (result == '1');
+        console.log(result);
+    }
+
+    subscribeToSelector() {
+        if (!this.subscribedToSelector && this.store && this.selector) {
             this.store
                 .select(this.selector)
                 .select('value')
@@ -104,6 +110,8 @@ export class NumbererComponent extends ControlComponent {
                 .subscribe(
                 (v) => this.onFormModeChanged(v)
                 );
+
+            this.subscribedToSelector = true;
         }
     }
 
@@ -112,6 +120,7 @@ export class NumbererComponent extends ControlComponent {
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
+        private parameterService: ParameterService,
         private store: Store
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
@@ -259,24 +268,19 @@ export class NumbererComponent extends ControlComponent {
 
     repeatChar(char: string, times: number): string {
         return String(char).repeat(times);
-        // let ret = '';
-        // let i: number;
-        // for (i = 1; i <= times; i++)
-        //     ret += char;
-        // return ret;
+    }
+
+    onKeyPress($event) {
+        if ($event.charCode === 95) {
+            $event.preventDefault();
+        }
     }
 
     onKeyDown($event) {
         // VERIFICARE SE SI PUO' FARE CON LA MASCHERA
-
-        //console.log("KeyDown - " + String.fromCharCode($event.keyCode) + ' - code:' + $event.keyCode.toString());
-
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
             $event.preventDefault();
         }
-        // else if ($event.keyCode >= 97 && $event.keyCode <= 122) {
-        //     $event.keyCode -= 32;
-        // }
     }
 
     transformTypedChar(charStr) {
@@ -303,11 +307,17 @@ export class NumbererComponent extends ControlComponent {
     }
 
     ngOnChanges(changes) {
-        console.log('numberer ngOnChanges: ' + JSON.stringify(changes));
+        this.subscribeToSelector();
     }
 
     changeModelValue(value: string) {
-        this.model.value = value;
+        // if a mask with a fixed prefix is set, the textbox return as its value only the changeable part of it
+        // ex. i'm creating a new document with number '17/00001' (fixed part) and the user completes it with a suffix, so the number becomes '17/00001AD'
+        // the textbox return as its value only the suffix 'AD'. this compels me to read the entire value from the native element,
+        // stripping the underscore from it 
+
+        // this.model.value = value;
+        this.model.value = this.textbox.input.nativeElement.value.replace('_', ' ').trim();
         this.valueWasPadded = false;
     }
 

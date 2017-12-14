@@ -5,7 +5,8 @@
     [valueField]="valueField" 
     [(ngModel)]="selectedValue"
     [data]="listItems"
-    (valueChange)="change($event)">
+    (valueChange)="change($event)"
+    [disabled]="readOnly">
   </kendo-dropdownlist>
 </div>
 

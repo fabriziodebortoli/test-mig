@@ -24,6 +24,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.WebSockets.Server" Version="0.1.0" />
+    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.1.2-alpha" />
+    <PackageReference Include="morelinq" Version="2.8.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.0-preview1-25914-04" />
+    <PackageReference Include="Microsoft.Windows.Compatibility.Shims" Version="2.0.0-preview1-25914-04" />
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />

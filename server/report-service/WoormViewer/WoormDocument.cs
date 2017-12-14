@@ -978,7 +978,7 @@ namespace Microarea.RSWeb.WoormViewer
 					return false;
 
                 //skip EABarcode
-                if (baseObject is TextRect ? ((TextRect)baseObject).InternalID == SpecialReportField.REPORT_EABARCODE_ID : false)
+                if (baseObject is TextRect ? ((TextRect)baseObject).InternalID == SpecialReportField.ID.EA_BARCODE : false)
                     continue;
 
 				// trovato elemento, delega a lui la lettura dei suoi dati

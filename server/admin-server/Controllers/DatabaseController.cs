@@ -423,18 +423,22 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Result = dTask.TryToConnect();
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			// controllo che se l'edizione di SQL sia compatibile con il provider prescelto
-			using (SqlConnection connection = new SqlConnection(connectionString))
+			// se sono riuscita a connettermi allora
+			// vado a controllare che se l'edizione di SQL sia compatibile con il provider prescelto
+			if (opRes.Result)
 			{
-				connection.Open();
-				SQLServerEdition sqlEdition = TBCheckDatabase.GetSQLServerEdition(connection);
-				if (
-					(isAzureDB && sqlEdition != SQLServerEdition.SqlAzureV12) ||
-					(!isAzureDB && sqlEdition == SQLServerEdition.SqlAzureV12)
-					)
+				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
-					opRes.Result = false;
-					opRes.Message = "The provider and the edition of SQL Server you are chosen are not compatible. Please choose another one.";
+					connection.Open();
+					SQLServerEdition sqlEdition = TBCheckDatabase.GetSQLServerEdition(connection);
+					if (
+						(isAzureDB && sqlEdition != SQLServerEdition.SqlAzureV12) ||
+						(!isAzureDB && sqlEdition == SQLServerEdition.SqlAzureV12)
+						)
+					{
+						opRes.Result = false;
+						opRes.Message = "The provider and the edition of SQL Server you are chosen are not compatible. Please choose another one.";
+					}
 				}
 			}
 
@@ -694,7 +698,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbManager.ContextInfo.MakeCompanyConnection(importDataContent.Database))
+			if (dbManager.ContextInfo.MakeSubscriptionDatabaseConnection(importDataContent.Database))
 			{
 				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
 				importExportManager.SetDefaultDataConfiguration(configuration);
@@ -749,7 +753,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbManager.ContextInfo.MakeCompanyConnection(importDataContent.Database))
+			if (dbManager.ContextInfo.MakeSubscriptionDatabaseConnection(importDataContent.Database))
 			{
 				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
 				importExportManager.SetSampleDataConfiguration(configuration, iso);
@@ -813,7 +817,7 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		/// <summary>
-		/// Delete the SubscriptionDatabase and, eventually, the database containers
+		/// Delete the SubscriptionDatabase row and, eventually, the database containers
 		/// </summary>
 		/// <param name="subscriptionKey"></param>
 		/// <param name="deleteContent"></param>
@@ -844,20 +848,22 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Code = (int)AppReturnCodes.InvalidData;
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
-			
+
+			// In ogni caso elimino la riga nella tabella MP_SubscriptionDatabases!!!! (meglio farlo subito?)
+			opRes = APIDatabaseHelper.DeleteSubscriptionDatabase(deleteContent.Database, burgerData);
+
 			// se ho scelto di eliminare almeno uno dei contenitori dei database richiamo l'apposito metodo
-			/*if (deleteContent.DeleteParameters.DeleteDMSDatabase || deleteContent.DeleteParameters.DeleteERPDatabase)
-				opRes = APIDatabaseHelper.DeleteDatabase(deleteContent);
+			if (deleteContent.DeleteParameters.DeleteDMSDatabase || deleteContent.DeleteParameters.DeleteERPDatabase)
+				/*opRes =*/ APIDatabaseHelper.DeleteDatabase(deleteContent);
 			
-			if (!opRes.Result)
+			// anche se il result e' false devo procedere ma tenere traccia da qualche parte dell'errore (nell'area notifiche)
+			/*if (!opRes.Result)
 			{
 				opRes.Message = Strings.OperationKO;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}*/
 
-			// Elimino cmq la riga nella tabella MP_SubscriptionDatabases!!!!
-			opRes = APIDatabaseHelper.DeleteSubscriptionDatabase(deleteContent.Database, burgerData);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -908,7 +914,8 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
 
-			// TODO: dall'attivazione della Subscription devo sapere se 
+			// TODO: dall'attivazione della Subscription devo sapere se provengo da una vecchia versione
+			// forse questo controllo non sara' piu' necessario, dipende cosa verra' deciso a livello commerciale
 			/*if ((dbManager.StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40)
 			{
 				if (!this.canMigrate)
@@ -916,20 +923,25 @@ namespace Microarea.AdminServer.Controllers
 				}
 			}*/
 
-			if (
-				((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-				!dbManager.ContextInfo.HasSlaves)
-				||
-				(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-				(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
-				dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY)
-				)
+			if (opRes.Result)
 			{
-				// significa che non e' possibile procedere con l'aggiornamento perche':
-				// - i database sono gia' aggiornati
-				// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
-				opRes.Code = -1;
+				if (
+					((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					!dbManager.ContextInfo.HasSlaves)
+					||
+					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY)
+					)
+				{
+					// significa che non e' possibile procedere con l'aggiornamento perche':
+					// - i database sono gia' aggiornati
+					// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
+					opRes.Code = -1;
+				}
 			}
+			else // anche se la connessione non e' andata a buon fine ritorno il codice -1 cosi da inibire l'upgrade
+				opRes.Code = -1;
 
 			//re-imposto il flag UnderMaintenance a false
 			APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);
@@ -999,6 +1011,9 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
 			{
+				//re-imposto il flag UnderMaintenance a false
+				APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);
+
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}

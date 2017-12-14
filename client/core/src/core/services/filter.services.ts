@@ -1,8 +1,9 @@
 import { Observable, BehaviorSubject } from '../../rxjs.imports';
 import { Injectable, OnDestroy, NgZone } from '@angular/core';
+import * as _ from 'lodash';
 
 export type SimpleFilter = { field?: string | Function; operator: string | Function; value?: any; ignoreCase?: boolean }
-export type CompositeFilter = { logic?: 'or' | 'and', filter?: Array<CompositeFilter|SimpleFilter> }
+export type CompositeFilter = { logic?: 'or' | 'and', filters?: Array<CompositeFilter|SimpleFilter> }
 export function combineFilters<L, R>(left: Observable<L>, right: Observable<R>): Observable<{left?: L, right?: R}> {
     if (!left && !right)  { return Observable.throw('You must specify at least one argument'); }
     if (!left) { return right.map(x => ({ right: x })); }
@@ -24,11 +25,29 @@ export class FilterService implements OnDestroy {
     private _debounced = true;
     private filterSubject$: BehaviorSubject<CompositeFilter>;
     private _filter: CompositeFilter;
+    private _previousFilter: CompositeFilter;
+    private _changedField: string | Function = '';
     public set filter(value: CompositeFilter) {
+        if (this._filter) { this._previousFilter = _.cloneDeep(this._filter); }
         this._filter = value;
+
+        let diff = this._filter.filters[0];
+        if (this._previousFilter) {
+            diff = _.differenceWith(this._previousFilter.filters, this._filter.filters, _.isEqual)[0];
+            if (diff === [] || !diff) { diff = _.differenceWith(this._filter.filters, this._previousFilter.filters, _.isEqual)[0]; }
+        }
+        if (diff && diff as SimpleFilter && (diff as SimpleFilter).field) {
+            this._changedField = (diff as SimpleFilter).field;
+        } else {
+            this._changedField = '';
+        }
     }
     public get filter(): CompositeFilter {
         return this._filter;
+    }
+
+    public get changedField(): string | Function | '' {
+        return this._changedField;
     }
 
     private get filterTyping$(): Observable<any> {
@@ -37,12 +56,12 @@ export class FilterService implements OnDestroy {
 
     public get filterChanged$(): Observable<CompositeFilter> {
         if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configure. Must call configure(...).'); }
-        return this.filterTyping$.filter(x => !x.isFirst).map(x => x.value).do(x => 'FILTER CHANGED: ' + JSON.stringify(x));
+        return this.filterTyping$.filter(x => !x.isFirst).map(x => x.value);
     }
 
     public get filterChanging$(): Observable<void> {
         if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configure. Must call configure(...).'); }
-        return this.filterTyping$.filter(x => x.isFirst).do(x => 'FILTER CHANGED: ' + JSON.stringify(x));
+        return this.filterTyping$.filter(x => x.isFirst);
     }
 
     public configure(debounceTime: number) {

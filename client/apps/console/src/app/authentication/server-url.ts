@@ -1,18 +1,21 @@
-enum UrlType {
+export enum UrlType {
     API,
     APP,
-    TBLOADER
+    TBLOADER,
+    DATABASE
 }
 
+//================================================================================
 export class ServerUrl {
 
-    urlType: UrlType;
-    url: string;
-    appName: string;
+  instanceKey: string;
+  urlType: UrlType;
+  url: string;
 
-    constructor(urlType: UrlType, url: string, appName: string) {
-        this.urlType = urlType;
-        this.url = url;
-        this.appName = appName;
-    }
+  //--------------------------------------------------------------------------------
+  constructor(instanceKey: string, urlType: UrlType, url: string) {
+    this.instanceKey = instanceKey;
+    this.urlType = urlType;
+    this.url = url;
+  }
 }

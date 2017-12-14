@@ -225,37 +225,76 @@ namespace Microarea.RSWeb.WoormViewer
         {
             Name = name;
 
-            AddDummyLayoutFieldRect(woorm);
-            AddDummyCurrentPageFieldRect(woorm);
-        }
+            AddSpecialLayoutFieldRect(woorm);
+            AddSpecialCurrentPageFieldRect(woorm);
+            AddSpecialLastPageFieldRect(woorm);
+            AddSpecialCurrentCopyFieldRect(woorm);
+            AddSpecialOwnerIDFieldRect(woorm);
+            AddSpecialStatusFieldRect(woorm);
+            AddSpecialPrintOnLetterHeadFieldRect(woorm);
+         }
 
+        /// ---------------------------------------------------------------------------------
         /// <summary>
         /// Metodo che aggiunge un campo di tipo FieldRect Dummy nascosto per far si che il valore della variabile CurrentPageNumber 
         /// nella symboltable venga aggiornato su ogni pagina. Se manca l'oggetto grafico il valore non viene aggiornato 
         /// (vedere metodo RDEReader.SetElement che se non trova il corrispondente oggetto grafico del valore di symbolTable
         /// non lo aggiorna)
         /// </summary>
-        /// ---------------------------------------------------------------------------------
-        private void AddDummyCurrentPageFieldRect(WoormDocument woorm)
+        /// 
+        private void AddSpecialCurrentPageFieldRect(WoormDocument woorm)
         {
             FieldRect f = new FieldRect(woorm);
             f.IsHidden = true;
-            f.InternalID = SpecialReportField.REPORT_PAGE_NUMBER_ID;
+            f.InternalID = SpecialReportField.ID.PAGE;
             Add(f);
         }
 
-        /// <summary>
-        /// Metodo che aggiunge un campo di tipo FieldRect Dummy nascosto per far si che il valore della variabile Layout 
-        /// nella symboltable venga aggiornato su ogni pagina. Se manca l'oggetto grafico il valore non viene aggiornato 
-        /// (vedere metodo RDEReader.SetElement che se non trova il corrispondente oggetto grafico del valore di symbolTable
-        /// non lo aggiorna)
-        /// </summary>
-        /// ---------------------------------------------------------------------------------
-        private void AddDummyLayoutFieldRect(WoormDocument woorm)
+        private void AddSpecialLastPageFieldRect(WoormDocument woorm)
         {
             FieldRect f = new FieldRect(woorm);
             f.IsHidden = true;
-            f.InternalID = SpecialReportField.REPORT_LAYOUT_ID;
+            f.InternalID = SpecialReportField.ID.LAST_PAGE;
+            Add(f);
+        }
+
+        private void AddSpecialLayoutFieldRect(WoormDocument woorm)
+        {
+            FieldRect f = new FieldRect(woorm);
+            f.IsHidden = true;
+            f.InternalID = SpecialReportField.ID.LAYOUT;
+            Add(f);
+        }
+
+        private void AddSpecialCurrentCopyFieldRect(WoormDocument woorm)
+        {
+            FieldRect f = new FieldRect(woorm);
+            f.IsHidden = true;
+            f.InternalID = SpecialReportField.ID.CURRENT_COPY;
+            Add(f);
+        }
+
+        private void AddSpecialPrintOnLetterHeadFieldRect(WoormDocument woorm)
+        {
+            FieldRect f = new FieldRect(woorm);
+            f.IsHidden = true;
+            f.InternalID = SpecialReportField.ID.PRINT_ON_LETTERHEAD;
+            Add(f);
+        }
+
+        private void AddSpecialStatusFieldRect(WoormDocument woorm)
+        {
+            FieldRect f = new FieldRect(woorm);
+            f.IsHidden = true;
+            f.InternalID = SpecialReportField.ID.STATUS;
+            Add(f);
+        }
+
+        private void AddSpecialOwnerIDFieldRect(WoormDocument woorm)
+        {
+            FieldRect f = new FieldRect(woorm);
+            f.IsHidden = true;
+            f.InternalID = SpecialReportField.ID.OWNER;
             Add(f);
         }
 

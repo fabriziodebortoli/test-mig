@@ -198,7 +198,21 @@ export class ModelService {
       .map((res: Response) => {
         return res.json();
       })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error (saveInstance)'));
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (setData)'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  consumeToken(accountName: string, permissionToken: string): Observable<OperationResult> {
+
+    if (accountName === '' || permissionToken === '') {
+      return Observable.throw('Invalid input');
+    }
+
+    let baseUrl = environment.gwamAPIUrl + 'permissions/' + accountName + '/' + permissionToken;
+
+    return this.http.delete(baseUrl)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error (consumeToken)'));
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -335,11 +349,11 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string, activationCode: string): Observable<OperationResult> {
+  addInstanceSubscriptionAssociation(instanceKey: string, subscriptionKey: string): Observable<OperationResult> {
 
-    let authorizationHeader = activationCode;
+    let authorizationHeader = this.createAuthorizationHeader('app');
 
-    if (authorizationHeader === '' || authorizationHeader === undefined) {
+    if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
     }
 
@@ -650,7 +664,9 @@ export class ModelService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(environment.adminAPIUrl + 'savecluster', cluster, options)
-      .map((res: Response) => { return res.json; })
+      .map((res: Response) => { 
+        return res.json(); 
+      })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
   }
 

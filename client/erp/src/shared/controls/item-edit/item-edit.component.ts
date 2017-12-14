@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService } from '@taskbuilder/core';
-import { ErpHttpService } from '../../../core/services/erp-http.service';
+import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService, ParameterService } from '@taskbuilder/core';
+//import { ItemsHttpService } from '../../../core/services/items/items-http.service';
 import { BehaviorSubject } from "../../../rxjs.imports";
 
 @Component({
@@ -15,7 +15,7 @@ export class ItemEditComponent extends ControlComponent {
 
     @Input() public hotLink: { namespace: string, name: string };
 
-    maxLength = 5;
+    maxLength = -1;
 
     itemsAutoNumbering = true;
 
@@ -25,7 +25,8 @@ export class ItemEditComponent extends ControlComponent {
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
         private store: Store,
-        private http: ErpHttpService
+        //private http: ItemsHttpService,
+        private parameterService: ParameterService
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
     }
@@ -34,18 +35,14 @@ export class ItemEditComponent extends ControlComponent {
         this.readParams();
     }
 
-    readParams() {
+    async readParams() {
+        let result = await this.parameterService.getParameter('MA_ItemParameters.ItemAutoNum');
+        this.itemsAutoNumbering = (result == '1');
 
-        // this.http.getItemsSearchList("producersByCategory").subscribe(result => {
-        //     let response = result.json();
-        //     console.log(response);
+        // this.http.checkItemsAutoNumbering().subscribe(result => {
+        //     this.itemsAutoNumbering = result.json().itemsAutoNumbering;
+        //     this.changeDetectorRef.detectChanges();
         // })
-
-
-        this.http.checkItemsAutoNumbering().subscribe(result => {
-            this.itemsAutoNumbering = result.json().itemsAutoNumbering;
-            this.changeDetectorRef.detectChanges();
-        })
     }
 }
 

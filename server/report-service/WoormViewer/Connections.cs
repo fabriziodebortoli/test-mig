@@ -1145,7 +1145,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             foreach (ConnectionLinkItem item in this)
             {
-                if (item.Alias == SpecialReportField.REPORT_LINKED_ID)
+                if (item.Alias == SpecialReportField.ID.LINKED_DOC)
                     continue;
 
                 if (connectionType != ConnectionLinkType.Radar)

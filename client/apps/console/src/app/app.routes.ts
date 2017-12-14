@@ -1,3 +1,4 @@
+import { DatabaseSummaryComponent } from './components/database/database-summary.component';
 import {FileUploadComponent} from './components/file-upload/file-upload.component';
 import { DatabaseConfigurationComponent } from './components/database/database-configuration.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
@@ -80,6 +81,12 @@ export const routes: Routes = [
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
     component: DatabaseConfigurationComponent
+  },
+  { 
+    path: 'database/summary', 
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
+    component: DatabaseSummaryComponent
   },
   { 
     path: 'fileUpload', 

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { DatabaseCredentials } from '../../authentication/credentials';
 import { ModelService } from 'app/services/model.service';
+import { DatabaseProvider } from '../components.helper';
 
 @Component({
   selector: 'app-database-testconnection',
@@ -12,62 +13,70 @@ import { ModelService } from 'app/services/model.service';
 })
 
 export class DatabaseTestconnectionComponent implements OnInit {
-  
+
   isWorking: boolean;
   dbCredentials: DatabaseCredentials;
   subscriptionKey: string;
 
-   // dropdown auxiliary variables
-  providers: Array<{ name:string, value:string }> = [
-    { name: 'SQL Azure', value: 'SQLAzure'},
-    { name: 'SQL Server', value: 'SQLServer'}
+  // opendialog variables
+  openMsgDialog: boolean = false;
+  msgDialog: string;
+
+  // dropdown auxiliary variables
+  providers: Array<{ name: string, value: string }> = [
+    { name: 'SQL Azure', value: DatabaseProvider.SQLAZURE },
+    { name: 'SQL Server', value: DatabaseProvider.SQLSERVER }
   ];
 
-  selectedProvider: { name: string, value: string } = { name: '', value: ''};
-  
+  selectedProvider: { name: string, value: string } = { name: '', value: '' };
+
   //--------------------------------------------------------------------------------------------------------
   constructor(
-    private modelService: ModelService, 
-    private databaseService: DatabaseService, 
-    private route: ActivatedRoute) { 
-      this.isWorking = false;
-      this.dbCredentials = new DatabaseCredentials();
+    private modelService: ModelService,
+    private databaseService: DatabaseService,
+    private route: ActivatedRoute) {
+    this.isWorking = false;
+    this.dbCredentials = new DatabaseCredentials();
   }
-  
+
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
     this.subscriptionKey = this.route.snapshot.queryParams['subscriptionToEdit'];
+    this.selectedProvider = this.providers[1]; // init dropdown with SQL Server provider
   }
-  
+
   //--------------------------------------------------------------------------------------------------------
   onKeyUp(event) {
     // if I press Enter I call testConnection method
     if (event.keyCode == 13) {
-      this.testConnection();  
+      this.testConnection();
     }
   }
-  
+
   //--------------------------------------------------------------------------------------------------------
   testConnection() {
-    
+
     this.dbCredentials.Provider = this.selectedProvider.value;
 
     if (this.dbCredentials.Provider == '' || this.dbCredentials.Server == '' || this.dbCredentials.Login == '') {
-      alert('Check credentials first!');
+      this.msgDialog = 'Check your credentials first!';
+      this.openMsgDialog = true;
       return;
     }
 
     this.isWorking = true;
-    
+
     let subs = this.modelService.testConnection(this.subscriptionKey, this.dbCredentials).
-    subscribe(
+      subscribe(
       result => {
         if (result.Result) {
           this.databaseService.dbCredentials = this.dbCredentials;
           this.databaseService.testConnectionOK = true;
         }
-        else
-          alert('Unable to connect! ' + result.Message);
+        else {
+          this.msgDialog = 'Unable to connect! ' + result.Message;
+          this.openMsgDialog = true;
+        }
 
         this.isWorking = false;
         subs.unsubscribe();
@@ -76,6 +85,6 @@ export class DatabaseTestconnectionComponent implements OnInit {
         this.isWorking = false;
         subs.unsubscribe();
       }
-    );
+      );
   }
 }

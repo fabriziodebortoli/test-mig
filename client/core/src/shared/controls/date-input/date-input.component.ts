@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnChanges, OnInit, AfterViewInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, OnInit, AfterViewInit, SimpleChanges, ChangeDetectorRef, Inject } from '@angular/core';
 
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { formatDate } from '@telerik/kendo-intl';
@@ -10,7 +10,9 @@ import { FormattersService } from './../../../core/services/formatters.service';
 
 import { ControlComponent } from './../control.component';
 
-// import { localeIt } from 'yargs';
+// failed test to refresh locale settings immediately after logout-login
+
+// import { LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'tb-date-input',
@@ -21,7 +23,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
   @Input() forCmpID: string;
   @Input() readonly = false;
 
-  formatter: any;
+  formatterProps: any;
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
 
@@ -34,28 +36,34 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef) {
     super(layoutService, tbComponentService, changeDetectorRef);
+
+
+    // failed test to refresh locale settings immediately after logout-login
+
+    // @Inject(LOCALE_ID) private _locale: string
+    // this._locale = localStorage.getItem('ui_culture');
   }
 
   ngOnInit() {
 
-    if (!this.format)
-      this.format = "Date";
+    if (!this.formatter)
+      this.formatter = "Date";
 
-    this.formatter = this.formattersService.getFormatter(this.format);
+    this.formatterProps = this.formattersService.getFormatter(this.formatter);
   }
 
   dateFormatByFormatter() {
     let ret = '', day = '', month = '', year = '';
-    let dateSep1 = this.formatter.refFirstSeparator ? this.formatter.refFirstSeparator : " ";
-    let dateSep2 = this.formatter.refSecondSeparator ? this.formatter.refSecondSeparator : " ";
-    let timeSep = this.formatter.refTimeSeparator ? this.formatter.refTimeSeparator : ":";
+    let dateSep1 = this.formatterProps.refFirstSeparator ? this.formatterProps.refFirstSeparator : " ";
+    let dateSep2 = this.formatterProps.refSecondSeparator ? this.formatterProps.refSecondSeparator : " ";
+    let timeSep = this.formatterProps.refTimeSeparator ? this.formatterProps.refTimeSeparator : ":";
 
-    day = String('d').repeat((<string>this.formatter.DayFormat).length - 3);    // 'DAY99'
-    month = String('M').repeat((<string>this.formatter.MonthFormat).length - 5);  // 'MONTH99'
-    year = String('y').repeat((<string>this.formatter.YearFormat).length - 4);   // 'YEAR99'
+    day = String('d').repeat((<string>this.formatterProps.DayFormat).length - 3);    // 'DAY99'
+    month = String('M').repeat((<string>this.formatterProps.MonthFormat).length - 5);  // 'MONTH99'
+    year = String('y').repeat((<string>this.formatterProps.YearFormat).length - 4);   // 'YEAR99'
 
 
-    switch (this.formatter.FormatType) {
+    switch (this.formatterProps.FormatType) {
       case "DATE_DMY": {
         ret = day + dateSep1 + month + dateSep2 + year;
         break;
@@ -70,11 +78,11 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
       }
     }
 
-    if (this.format === "DateTime") {
+    if (this.formatter === "DateTime") {
       ret = ret + " HH" + timeSep + "mm";
     }
 
-    if (this.format === "DateTimeExtended") {
+    if (this.formatter === "DateTimeExtended") {
       ret = ret + " HH" + timeSep + "mm" + timeSep + "ss";
     }
 
@@ -125,7 +133,10 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
       this.dateFormat = this.dateFormatByFormatter();
     }
     else {
-      switch (this.format) {
+      switch (this.formatter) {
+        case 'Time':
+        case 'ElapsedTime':
+          this.dateFormat = 'HH:mm'; break;
         case 'Date':
           this.dateFormat = 'dd MMM yyyy'; break;
         case 'DateTime':

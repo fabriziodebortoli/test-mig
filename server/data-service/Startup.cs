@@ -44,6 +44,7 @@ namespace Microarea.DataService
                     .AllowCredentials());
             });
 
+
             services.AddMvc();
 
             services.AddMemoryCache();

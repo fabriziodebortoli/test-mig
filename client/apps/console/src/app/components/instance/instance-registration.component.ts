@@ -19,7 +19,6 @@ import { fail } from 'assert';
 
 //================================================================================
 export class InstanceRegistrationComponent implements OnInit, OnDestroy {
-
   model: Instance;
   accountName: string;
   password: string;
@@ -39,6 +38,8 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
   credentialsEnteredFirstTime: boolean;
   obtainingPermission: boolean;
   processEndedWithErrors: boolean;
+  errorMessage: string;
+  operationSuccess: number;
 
   // alert dialog
 
@@ -61,6 +62,8 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       { label: 'username', value:'', hide: false},
       { label: 'password', value:'', hide: true}
     ];
+    this.errorMessage = '';
+    this.operationSuccess = 0;
     this.openToggle = false;
     this.credentialsEnteredFirstTime = false;
     this.obtainingPermission = false;
@@ -150,6 +153,7 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
       },
       err => {
         this.activationCode = '';
+        this.errorMessage = 'An error occurred while contacting GWAM';
         this.busy = false;
         this.obtainingPermission = false;
       }
@@ -194,39 +198,9 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
         }        
 
         this.currentStep++;
-
         this.clusterStep = 1;
 
-        this.modelService.saveCluster(instanceCluster, this.activationCode).retry(3).subscribe(
-          res => { 
-            this.clusterStep = 2;
-            this.busy = false;
-
-            let saveClusterResult: boolean = res['Result'];
-
-            if (!saveClusterResult) {
-              
-            }
-
-            this.modelService.setData({}, true, this.activationCode, this.model.InstanceKey, this.accountName).retry(3).subscribe(
-              res => {
-                this.clusterStep = 3;
-                this.busy = false;
-              },
-              err => {
-                this.clusterStep = 0;
-                this.busy = false;
-              }
-            )
-
-          },
-          err => { 
-            this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
-            this.clusterStep = 0;
-            this.busy = false;
-          }
-        )        
-
+        this.cloneCluster(instanceCluster, this.activationCode);
       },
       err => {
         this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
@@ -236,6 +210,66 @@ export class InstanceRegistrationComponent implements OnInit, OnDestroy {
     );
 
   }
+
+  //--------------------------------------------------------------------------------
+  cloneCluster(instanceCluster: any, permissionToken: string) {
+
+    this.modelService.saveCluster(instanceCluster, permissionToken).subscribe(
+      res => { 
+        this.clusterStep = 2;
+        this.busy = false;
+
+        let saveClusterResult:OperationResult = res;
+
+        if (!saveClusterResult.Result) {
+          this.showDialogMessage('Error', 'An error occurred while replicating instance informations (' + res.Message + ')');
+          // show error with retry
+          return;
+        }
+
+        this.modelService.setData({}, true, permissionToken, this.model.InstanceKey, this.accountName).retry(3).subscribe(
+          res => {
+            this.busy = false;
+            let opRes: OperationResult = res;
+
+            if (!opRes.Result) {
+              this.errorMessage = opRes.Message;
+              this.operationSuccess = -1;
+              this.clusterStep = 3;
+              return;
+            }
+
+            this.clusterStep = 3;
+            this.operationSuccess = 1;
+
+            // instance registration is completed: telling GWAM to free the permission token
+            this.modelService.consumeToken(this.accountName, permissionToken).retry(2).subscribe(
+              res => { console.log('Token consumed');},
+              err => { console.log('Error while consuming token ' + err)}
+            );
+          },
+          err => {
+            this.clusterStep = 0;
+            this.operationSuccess = -1;
+            this.busy = false;
+          }
+        )
+
+      },
+      err => { 
+        this.showDialogMessage('Operation failed', 'Registration of this instance failed.')
+        this.operationSuccess = -1;
+        this.clusterStep = 0;
+        this.busy = false;
+      }
+    )     
+    
+  }  
+
+  //--------------------------------------------------------------------------------
+  goInstanceConfiguration() {
+    this.router.navigateByUrl('/instancesHome');
+  }  
 
   //--------------------------------------------------------------------------------
   ngOnDestroy() {

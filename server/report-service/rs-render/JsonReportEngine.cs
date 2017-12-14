@@ -176,8 +176,8 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.ASK:
                     {
                         //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
-                       /* if (!int.TryParse(msg.page, out pageNum))
-                            break;  */
+                        /* if (!int.TryParse(msg.page, out pageNum))
+                             break;  */
                         List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
                                                         : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
@@ -254,11 +254,11 @@ namespace Microarea.RSWeb.Render
                     {
                         if (pagesSnapshot != null)
                         {
-                            int idx = (pageNum -1) * 2 + 1;
-                            msg.message = pagesSnapshot.pages[idx].ToString();                            
+                            int idx = (pageNum - 1) * 2 + 1;
+                            msg.message = pagesSnapshot.pages[idx].ToString();
                         }
                         else
-                        { 
+                        {
                             msg.message = GetJsonDataPage(pageNum);
                         }
                         msg.page = pageNum.ToString();
@@ -295,12 +295,12 @@ namespace Microarea.RSWeb.Render
                         msg.message = GetExcelDataPage(first, last);
                         break;
                     }
-                case MessageBuilder.CommandType.EXPORTDOCX:
+                /*case MessageBuilder.CommandType.EXPORTDOCX:
                     {
                         msg.page = pageNum.ToString();
                         msg.message = GetDocxDataPage(pageNum);
                         break;
-                    }
+                    }*/
                 case MessageBuilder.CommandType.SNAPSHOT:
                     {
                         //il flag user-allUser è passato insieme al numeroPagina
@@ -309,7 +309,7 @@ namespace Microarea.RSWeb.Render
                         string name = split[1];
                         string user = split[2];
                         if (user.Equals("true"))
-                           forAllUsers = true;
+                            forAllUsers = true;
                         SaveSnapshot(name, forAllUsers);
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
@@ -336,7 +336,7 @@ namespace Microarea.RSWeb.Render
             }
             return msg;
         }
-        
+
         //---------------------------------------------------------------------
         //per debug
         public string GetJsonAskDialog(int index = 0)
@@ -367,7 +367,7 @@ namespace Microarea.RSWeb.Render
                 };
             string result = Path.GetTempPath();
             string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
-            
+
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
             {
                 //crea il documento Excel
@@ -449,7 +449,15 @@ namespace Microarea.RSWeb.Render
                                 {
                                     Objects.Column colData = t.Columns[c];
                                     string v = colData.Cells[r].Value.FormattedData;
-                                    dataCells.Add(ConstructCell(v, spreadsheet.CellValues.String, 1));
+
+                                    /*if (colData.Cells[r].Value.DataType.CompareNoCase("Number"))
+                                        dataCells.Add(ConstructCell(v, CellValues.Number, 3));
+                                    else if (colData.Cells[r].Value.DataType.CompareNoCase("Double"))
+                                        dataCells.Add(ConstructCell(v, CellValues.Number, 4));
+                                    else if (colData.Cells[r].Value.DataType.CompareNoCase("DateTime"))
+                                        dataCells.Add(ConstructCell(v, CellValues.Date, 5));
+                                    else*/
+                                        dataCells.Add(ConstructCell(v, spreadsheet.CellValues.String, 1));
                                 }
                                 row.Append(dataCells);
                                 sheetData.AppendChild(row);
@@ -470,7 +478,7 @@ namespace Microarea.RSWeb.Render
 
         private spreadsheet.Cell ConstructCell(string value, spreadsheet.CellValues dataType, uint styleIndex = 0)
         {
-            return new DocumentFormat.OpenXml.Spreadsheet.Cell()
+            return new spreadsheet.Cell()
             {
                 CellValue = new spreadsheet.CellValue(value),
                 DataType = new EnumValue<spreadsheet.CellValues>(dataType),
@@ -511,10 +519,20 @@ namespace Microarea.RSWeb.Render
                         new spreadsheet.DiagonalBorder())
                 );
 
+            spreadsheet.NumberingFormats numberingFormats = new spreadsheet.NumberingFormats(
+                new spreadsheet.NumberingFormat(), //index 0 default
+                new spreadsheet.NumberingFormat { NumberFormatId = 1, FormatCode = StringValue.FromString("#") }, //index 1
+                new spreadsheet.NumberingFormat { NumberFormatId = 2, FormatCode = StringValue.FromString("?,???") }, //index 2
+                new spreadsheet.NumberingFormat { NumberFormatId = 3, FormatCode = StringValue.FromString("dd/mm/yyyy") } //index 3
+            );
+            
             spreadsheet.CellFormats cellFormats = new spreadsheet.CellFormats(
                     new spreadsheet.CellFormat(), // default
-                    new spreadsheet.CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true }, // body
-                    new spreadsheet.CellFormat { FontId = 1, FillId = 2, BorderId = 1, ApplyFill = true } // header
+                    new spreadsheet.CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true}, // body
+                    new spreadsheet.CellFormat { FontId = 1, FillId = 2, BorderId = 1, ApplyFill = true }, // header
+                    new spreadsheet.CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true, NumberFormatId = 1, ApplyNumberFormat = BooleanValue.FromBoolean(true) }, // body numeric
+                    new spreadsheet.CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true, NumberFormatId = 2, ApplyNumberFormat = BooleanValue.FromBoolean(true) }, // body decimal
+                    new spreadsheet.CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true, NumberFormatId = 3, ApplyNumberFormat = BooleanValue.FromBoolean(true) } // body date
                 );
 
             styleSheet = new spreadsheet.Stylesheet(fonts, fills, borders, cellFormats);
@@ -533,7 +551,7 @@ namespace Microarea.RSWeb.Render
         }
 
 
-        public string GetDocxDataPage(int pageNum)
+        /*public string GetDocxDataPage(int pageNum)
         {
             WoormDocument woorm = StateMachine.Woorm;
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
@@ -639,7 +657,7 @@ namespace Microarea.RSWeb.Render
                 mainPart.Document.Save();
             }
             return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
-        }
+        }*/
 
         //---------------------------------------------------------------------
         //chiamata per snapshot
@@ -649,17 +667,17 @@ namespace Microarea.RSWeb.Render
 
             string file = "{ \"pages\":[";
 
-            for (int i=1; i<= woorm.RdeReader.TotalPages; i++)
+            for (int i = 1; i <= woorm.RdeReader.TotalPages; i++)
             {
                 woorm.LoadPage(i);
 
-               if (i > 1) file += ",";
+                if (i > 1) file += ",";
 
-               file += woorm.ToJson(true);
-               file += ",";
-               file += woorm.ToJson(false);
+                file += woorm.ToJson(true);
+                file += ",";
+                file += woorm.ToJson(false);
 
-                
+
             }
             file += "]}";
             return file;//ToJson(null, false, false, false);
@@ -678,8 +696,8 @@ namespace Microarea.RSWeb.Render
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
             string pages = GetJsonAllPages();
-            string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter)+"_"+name+ ".json";
- 
+            string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter) + "_" + name + ".json";
+
             File.WriteAllText(path, pages);
         }
 
@@ -729,7 +747,7 @@ namespace Microarea.RSWeb.Render
                 string name = nameS.RemoveExtension(".json");
                 s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
             }
-            s = s.Remove(s.Length-1);
+            s = s.Remove(s.Length - 1);
 
             s += "]";
             return s;
@@ -745,8 +763,8 @@ namespace Microarea.RSWeb.Render
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(ReportSession.FilePath, ReportSession.UserInfo.Company, user);
             string completePath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(ReportSession.FilePath), true);
-            
-            using (StreamReader r = new StreamReader(completePath+name+".json"))
+
+            using (StreamReader r = new StreamReader(completePath + name + ".json"))
             {
                 string json = r.ReadToEnd();
                 pagesSnapshot = JsonConvert.DeserializeObject<Snapshot>(json);
@@ -754,6 +772,6 @@ namespace Microarea.RSWeb.Render
                 return pagesSnapshot.pages[0].ToString();
             }
         }
-        
+
     }
 }

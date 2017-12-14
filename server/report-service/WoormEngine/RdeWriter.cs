@@ -349,9 +349,9 @@ namespace Microarea.RSWeb.WoormEngine
 
 				//layout lo scrivo anche come attributo della radice in modo che sia letto come prima cosa dal 
 				//visualizzatore e possa caricare subito l'array degli objects corretto
-				if (id == SpecialReportField.REPORT_LAYOUT_ID)
+				if (id == SpecialReportField.ID.LAYOUT)
 				{
-					LayoutAttribute(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT, o);
+					LayoutAttribute(SpecialReportField.NAME.LAYOUT, o);
 				}
 				return true; 
 			}

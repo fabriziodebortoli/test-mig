@@ -140,7 +140,7 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-        [HttpPost("/api/query/{modelName}/{instanceKey}")]
+        [HttpPost("/api/query/{modelName}/{instanceKey?}")]
         [Produces("application/json")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiQuery(string modelName, string instanceKey, [FromBody] APIQueryData apiQueryData)

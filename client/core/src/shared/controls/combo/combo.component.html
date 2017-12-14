@@ -6,12 +6,14 @@
 </kendo-dropdownlist>-->
 <div class="tb-control tb-combo">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem" (selectionChange)="onChange($event)" (open)="fillListBox()" [popupSettings]="{ height: 300, width: 400 }" [style.width.px]="width">
-        <ng-template kendoDropDownListNoDataTemplate>
-            <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
-        </ng-template>
-        <ng-template [ngIf]="hotLink">
-            <ng-template [tbHotLink]="hotLink" ></ng-template>
-        </ng-template>
-    </kendo-dropdownlist>
+    <ng-template [ngIf]="hotLink">
+        <ng-template [tbHotLink]="hotLink" ></ng-template>
+    </ng-template>
+    <ng-template [ngIf]="!hotLink">
+        <kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem" (selectionChange)="onChange($event)" (open)="fillListBox()" [popupSettings]="{ height: 300, width: 400 }" [style.width.px]="width">
+            <ng-template [ngIf]="!hotLink" kendoDropDownListNoDataTemplate>
+                <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
+            </ng-template>
+        </kendo-dropdownlist>    
+    </ng-template>
 </div>
