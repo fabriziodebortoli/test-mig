@@ -61,5 +61,17 @@
         <ng-template [ngIf]="!hotLink" kendoDropDownListNoDataTemplate>
             <div class="dropDownNoData k-loading-mask k-loading-image k-loading-color"></div>
         </ng-template>
+        <ng-template kendoComboBoxFooterTemplate>
+            <div [style.width.px]="width" 
+                 [style.display]="'flex'" 
+                 [style.background]="'white'"
+                 [style.border-top-style]="'solid'"
+                 [style.border-top-width.px]="1"
+                 [style.border-top-color]="'#E9E9E9'">
+                <button kendoButton (click)="firstDefaultPage()" [icon]="'arrow-end-left'" [disabled]="paginator.isFirstPage" style="flex: 1;"></button>
+                <button kendoButton (click)="prevDefaultPage()" [icon]="'arrow-60-left'" [disabled]="paginator.isFirstPage" style="flex: 1;"></button>
+                <button kendoButton (click)="nextDefaultPage()" [icon]="'arrow-60-right'" [disabled]="paginator.noMorePages" style="flex: 2;"></button>
+            </div>
+        </ng-template>
     </kendo-combobox>
 </div>

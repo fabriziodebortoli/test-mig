@@ -60,6 +60,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private previousNext = true;
   private pageSize = 20;
   private showTableSubj$ = new BehaviorSubject(false);
+  private defaultPageCounter = 0;
 
   private _filter: CompositeFilterDescriptor;
   private get filter(): CompositeFilterDescriptor {
@@ -183,6 +184,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   private start() {
+    this.defaultPageCounter = 0;
     this.filterer.configure(200);
     this.paginator.start(1, this.pageSize,
       combineFilters(this.filterer.filterChanged$, this.slice$)
@@ -238,6 +240,21 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   protected async pageChange(event: PageChangeEvent) {
     await this.paginator.pageChange(event.skip, event.take);
+  }
+
+  protected async nextDefaultPage() {
+    this.defaultPageCounter++;
+    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+  }
+
+  protected async prevDefaultPage() {
+    this.defaultPageCounter--;
+    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+  }
+
+  protected async firstDefaultPage() {
+    this.defaultPageCounter = 0;
+    await this.paginator.pageChange(0, this.pageSize);
   }
 
   private loadTable() {
