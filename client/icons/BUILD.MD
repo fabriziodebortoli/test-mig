@@ -23,10 +23,9 @@ Dop aver creato la nuova folder m4.zip contentente il nuovi file di font (.eot, 
     > **"version": "......."**
     
  - nella folder **Web\client\icons** eseguire i seguenti comandi :
- 
-    > `npm i`
-    > `npm run build`
-    
+   * > *npm i*
+   * > *npm run build*
+
     l'ultimo comando crea una folder **Web\client\icons\dist** il cui contenuto va copiato nella folder **@TaskBuilder\ng-icons**
  
  - A questo punto per rendere permanenti le modifiche occorre fare la
