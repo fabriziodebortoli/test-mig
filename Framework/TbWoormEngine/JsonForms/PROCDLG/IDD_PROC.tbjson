@@ -1,0 +1,122 @@
+﻿{
+  "id": "IDD_PROC",
+  "rcId": 1113,
+  "type": 66,
+  "text": "Procedures",
+  "x": 9,
+  "y": 20,
+  "width": 308,
+  "height": 244,
+  "caption": true,
+  "systemMenu": true,
+  "thickFrame": true,
+  "child": false,
+  "context": "procdlg",
+  "items": [
+    {
+      "id": "IDC_PROC_LIST",
+      "type": 12,
+      "x": 13,
+      "y": 15,
+      "width": 91,
+      "height": 125,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 0,
+      "sort": true,
+      "noIntegralHeight": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_PROC_DEL",
+      "type": 3,
+      "text": "&Delete",
+      "x": 13,
+      "y": 150,
+      "width": 93,
+      "height": 15,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_REN",
+      "type": 3,
+      "text": "&Rename",
+      "x": 13,
+      "y": 171,
+      "width": 93,
+      "height": 15,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_EDIT",
+      "type": 13,
+      "x": 119,
+      "y": 53,
+      "width": 183,
+      "height": 175,
+      "hScroll": true,
+      "vScroll": true,
+      "autoHScroll": true,
+      "autoVScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_PROC_CONF",
+      "type": 3,
+      "text": "Con&firm",
+      "x": 133,
+      "y": 23,
+      "width": 74,
+      "height": 15,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_CANCEL",
+      "type": 3,
+      "text": "Ab&ort",
+      "x": 215,
+      "y": 23,
+      "width": 74,
+      "height": 15,
+      "enabled": false
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 13,
+      "y": 192,
+      "width": 93,
+      "height": 15,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 12,
+      "y": 213,
+      "width": 93,
+      "height": 15
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "text": "&Object Name",
+      "x": 6,
+      "y": 2,
+      "width": 108,
+      "height": 141
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Apply the changes to the selected object",
+      "x": 120,
+      "y": 4,
+      "width": 182,
+      "height": 44
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+
+<div class="tileContainer" ng-repeat="tile in tiles = generalFunctionsService.ToArray(menuService.selectedMenu.Menu) track by tile.node_id" ng-if="ifTileHasObjects(tile) && !tile.hiddenTile " ng-init="SetTileDim()">
+
+    <div>
+        <div class="titlefont">
+            <div class="truncate" tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip="{{::menuService.getTileTooltip(tile)}}" tooltip-popup-delay="500" tooltip-animation="false" ng-bind-html="firstWord(tile.title)"></div>
+        </div>
+        <div class="menuItemImage link" ng-class="{'pinnedImage': pinned, 'unpinnedImage': !pinned}" ng-click="menuService.hideTile(tile);SetTileDim()" uib-tooltip="{{::localizationService.getLocalizedElement('HideTile')}}" tooltip-popup-delay="500" tooltip-append-to-body="true" ng-mouseenter="pinned=true" ng-mouseleave="pinned=false"></div>
+
+    </div>
+    <div class="tileContent">
+
+        <div ng-repeat="object in objects = generalFunctionsService.ToArray(tile.Object)  track by object.node_id " ng-mouseenter="starHover=true" ng-mouseleave="starHover=false">
+
+            <ng-Menuitemelement></ng-Menuitemelement>
+
+        </div>
+
+        <ng-Tilegrouprecursive></ng-Tilegrouprecursive>
+    </div>
+</div>
+
+<div class="tileContainer" ng-if="menuService.selectedMenu.Object != undefined" ng-init="SetTileDim()">
+    <div>
+        <div class="titlefont">
+            <div class="truncate" tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip="{{::menuService.getTileTooltip(menuService.selectedMenu.title)}}" tooltip-popup-delay="500" tooltip-animation="false" ng-bind-html="firstWord(menuService.selectedMenu.title)"></div>
+        </div>
+    </div>
+    <div class="tileContent" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; width: 85%;">
+        <div ng-repeat="object in results =  menuService.selectedMenu.Object  | repeatFilter track by object.node_id" ng-mouseenter="starHover=true" ng-mouseleave="starHover=false">
+
+            <ng-Menuitemelement></ng-Menuitemelement>
+
+        </div>
+
+        <ng-Tilegrouprecursive></ng-Tilegrouprecursive>
+    </div>
+</div>

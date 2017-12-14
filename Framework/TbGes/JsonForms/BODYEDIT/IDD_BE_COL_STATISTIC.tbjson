@@ -1,0 +1,29 @@
+﻿{
+  "id": "IDD_BE_COL_STATISTIC",
+  "rcId": 1053,
+  "type": 66,
+  "text": "Column statistics",
+  "x": 0,
+  "y": 0,
+  "width": 195,
+  "height": 74,
+  "caption": true,
+  "systemMenu": true,
+  "thickFrame": true,
+  "child": false,
+  "context": "bodyedit",
+  "items": [
+    {
+      "id": "IDC_BE_COL_STAT",
+      "type": 13,
+      "x": 0,
+      "y": 0,
+      "width": 195,
+      "height": 74,
+      "vScroll": true,
+      "autoHScroll": true,
+      "readOnly": true,
+      "multiline": true
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\XMLDocGenerator\IDD_DOC_DESCR_PROPPAGE.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_DOCDESCRI_COMBO_DOCS			GET_IDC(IDC_DOCDESCRI_COMBO_DOCS)
+#define	IDC_DOCDESCRI_COMBO_MODS			GET_IDC(IDC_DOCDESCRI_COMBO_MODS)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_DOCDESCRI_LOAD			GET_ID(ID_DOCDESCRI_LOAD)
+#define	ID_DOCDESCRI_SAVE			GET_ID(ID_DOCDESCRI_SAVE)

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainExternalReferences>
+	<DBT namespace="erp.electronicinvoicing_it.addonssales.CDEI_ITSaleDoc.EI DocAdditionalData">
+		<Export>1</Export>
+		<UpdateType>Replace</UpdateType>
+		<ExternalReferences></ExternalReferences>
+	</DBT>
+</MainExternalReferences>

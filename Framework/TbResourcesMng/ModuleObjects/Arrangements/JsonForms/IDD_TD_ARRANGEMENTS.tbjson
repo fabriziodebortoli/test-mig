@@ -1,0 +1,118 @@
+﻿{
+    "id": "IDD_TD_ARRANGEMENTS",
+    "type": 71, /*Tile*/
+    "x": 0,
+    "y": 0,
+    "width": 654,
+    "height": 154,
+    "child": true,
+    "context": "uiarrangements",
+    "name": "Arrangement",
+    "text": "Arrangement",
+    "items": [
+        {
+            "id": "IDC_ARRANGEMENTS_ARRANGEMENT",
+            "type": 13, /*Edit*/
+            "width": 50,
+            "x": 101,
+            "y": 2,
+            "autoHScroll": true,
+            "binding": {
+                "datasource": "Arrangements.Arrangement"
+            },
+            "controlCaption": "Code",
+            "controlClass": "StringEdit",
+            "height": 12
+        },
+        {
+            "id": "IDC_ARRANGEMENTS_DESCRIPTION",
+            "type": 13, /*Edit*/
+            "width": 154,
+            "height": 12,
+            "x": 101,
+            "y": 16,
+            "autoVScroll": true,
+            "binding": {
+                "datasource": "Arrangements.Description"
+            },
+            "controlCaption": "Description",
+            "controlClass": "StringEdit",
+            "multiline": true,
+            "wantReturn": true
+        },
+        {
+            "id": "IDC_ARRANGEMENTS_LEVEL",
+            "type": 13, /*Edit*/
+            "width": 154,
+            "height": 12,
+            "x": 101,
+            "y": 30,
+            "autoVScroll": true,
+            "binding": {
+                "datasource": "Arrangements.ArrangementLevel"
+            },
+            "controlCaption": "Level",
+            "controlClass": "StringEdit",
+            "wantReturn": true
+        },
+        {
+            "id": "IDC_ARRANGEMENTS_WORKINGHUORS",
+            "type": 13, /*Edit*/
+            "height": 12,
+            "width": 75,
+            "x": 101,
+            "y": 44,
+            "autoHScroll": true,
+            "binding": {
+                "datasource": "Arrangements.WorkingHours"
+            },
+            "controlCaption": "Working hours",
+            "controlClass": "ElapsedTimeEdit"
+        },
+        {
+            "id": "IDC_ARRANGEMENTS_BASICPAY",
+            "type": 13, /*Edit*/
+            "width": 84,
+            "height": 12,
+            "x": 101,
+            "y": 58,
+            "autoHScroll": true,
+            "binding": {
+                "datasource": "Arrangements.BasicPay"
+            },
+            "controlCaption": "Basic Pay",
+            "controlClass": "MoneyEdit"
+        },
+        {
+            "id": "IDC_ARRANGEMENTS_TOTALPAY",
+            "type": 13, /*Edit*/
+            "width": 84,
+            "height": 12,
+            "x": 101,
+            "y": 72,
+            "autoHScroll": true,
+            "binding": {
+                "datasource": "Arrangements.TotalPay"
+            },
+            "controlCaption": "Total Pay",
+            "controlClass": "MoneyEdit"
+        },
+        {
+            "id": "IDC_ARRANGEMENTS_ANNOTATIONS",
+            "type": 13, /*Edit*/
+            "width": 154,
+            "height": 24,
+            "x": 101,
+            "y": 86,
+            "autoVScroll": true,
+            "binding": {
+                "datasource": "Arrangements.Notes"
+            },
+            "controlCaption": "Annotations",
+            "controlClass": "StringEdit",
+            "multiline": true,
+            "wantReturn": true
+        }
+    ],
+    "hasStaticArea": true
+}

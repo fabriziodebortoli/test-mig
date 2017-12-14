@@ -1,0 +1,134 @@
+html, body {
+	font-family: 'Roboto', sans-serif; /*MenuCssFontFamily*/
+	background-color: rgba(255,255,255 ,0.3); /*MenuCssBodyBackGroundColor*/
+	color: #000000; /*MenuCssFontColor*/
+}
+
+.tileContainer {
+	background-color: rgba(255, 255, 255, 0.3); /*MenuCssTileContainerBackGroundColor*/
+	color: #000000; /*MenuCssFontColor*/
+	font-size: 14px; /*MenuCssFontSize*/
+}
+
+#modal1-content {
+	background-color: rgba(255, 255, 255, 0.3); /*MenuCssTileContainerBackGroundColor*/
+}
+
+.accordionContent {
+	font-size: 14px; /*MenuCssFontSize*/
+}
+
+/*.footerLayer {
+	background-color: ;MenuCssFooterLayerBackGroundColor
+	}*/
+
+a, a:hover {
+	color: #000000; /*MenuCssFontColor*/
+	font-size: 14px; /*MenuCssFontSize*/
+}
+
+.tileContent a {
+	outline-color: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+}
+
+.footerContainer .dropdown-menu {
+	color: #000000; /*MenuCssDropDownFontColor*/
+}
+
+.onlyThemeBaseColor {
+	color: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+}
+
+.studioSideButtonLabel {
+	background-color: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+}
+
+.frameworkSideButtonLabel {
+	background-color: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+}
+
+
+.backgroundLayer {
+	background-color: rgba(255, 255, 255, 0.8); /*MenuCssHeaderTopBackGroundColor*/
+}
+
+.headerContainer {
+	background-image: url(../Images/OceanTop.png); /*MenuCssHeaderTopBackGroundImageUrl*/
+}
+
+.settingsAndMenuSelector {
+	background-image: url(../Images/OceanBottom.png); /*MenuCssHeaderBottomBackGroundImageUrl*/
+}
+
+.watermark {
+	background: url(../Images/watermark.png) no-repeat right; /*MenuCssBackGroundWatermarkImageUrl*/
+}
+
+::-webkit-scrollbar-thumb {
+	background: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+}
+
+.btn-default {
+	color: white; /*MenuCssHeaderBottomForeColor*/
+}
+
+	.btn-default:hover {
+		background-color: rgba(230, 230, 230, 1); /*MenuCssHeaderBottomHoverBackGroundColor*/
+		color: rgba(0, 0, 0, 0.87); /*MenuCssHeaderBottomHoverForeColor*/
+	}
+
+	.btn-default:focus, .btn-default.active, .hiddenDropdown hr {
+		background-color: black; /*MenuCssHeaderBottomActiveBackGroundColor*/
+		color: white; /*MenuCssHeaderBottomActiveForeColor*/
+		outline-color: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+	}
+
+::-webkit-scrollbar-thumb {
+	background: #0277bd; /*MenuCssGenericScrollBarColor*/
+}
+
+.menuSelectorPanel::-webkit-scrollbar-thumb {
+	background: #0277bd; /*MenuCssMenuSelectorScrollBarColor*/
+}
+
+.btn-default.datePickerButtons:active, .btn-default.datePickerButtons:focus {
+	background-color: rgba(230, 230, 230, 1); /*MenuCssHeaderBottomHoverBackGroundColor*/
+}
+
+.loginButtonEnabled {
+	background-color: #2E83BA; /*MenuCssLoginButtonBackGroundColor*/
+}
+
+.datepicker {
+	outline-color: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+}
+.datePickerButtons:focus:active  {
+             outline-color: #0277bd;
+}
+
+.menuSelectorPanel {
+	background-color: #0277bd; /*MenuCssHeaderBottomBackGroundColor*/
+	/*text-transform: inherit; MenuCssHeaderBottomTextTransform*/
+	/*font-size: 19px; /*MenuCssHeaderBottomMenuSelectorFontSize*/
+}
+
+	.menuSelectorPanel > .btn-default {
+		/*height: 45px; /*MenuCssHeaderBottomMenuSelectorHeight*/
+		/*font-size: 19px; /*MenuCssHeaderBottomSelectedModuleFontSize*/
+	}
+
+.box {
+	/*text-transform: inherit; /*MenuCssHeaderBottomTextTransform*/
+	/*font-size: 18px; /*MenuCssHeaderBottomBoxFontSize*/
+}
+
+.selectedModule {
+	/*text-transform: inherit; /*MenuCssHeaderBottomTextTransform*/
+	/*font-size: 19px; /*MenuCssHeaderBottomSelectedModuleFontSize*/
+}
+
+
+.coloredMenuSeparator {
+	background: -webkit-linear-gradient(0deg, #25b767 0%, #0abaee 33%, #cbcbcb 65%, #000000 100%); /*MenuCssHeaderBottomColoredMenuSeparator*/
+	height: 2px; /*MenuCssHeaderBottomColoredMenuHeight*/
+}

@@ -1,0 +1,74 @@
+﻿{
+  "id": "IDD_BARQUERY_QUERY_RENAME",
+  "rcId": 1048,
+  "type": 66,
+  "text": "Rename Query",
+  "x": 0,
+  "y": 0,
+  "width": 181,
+  "height": 83,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "barquery",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Old Name:",
+      "x": 4,
+      "y": 4,
+      "width": 168,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_BARQUERY_ST_SHOW_NAME",
+      "type": 2,
+      "x": 7,
+      "y": 19,
+      "width": 164,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "&New Name:",
+      "x": 4,
+      "y": 32,
+      "width": 166,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_BARQUERY_EDT_NAME",
+      "type": 13,
+      "x": 3,
+      "y": 43,
+      "width": 170,
+      "height": 14
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 32,
+      "y": 64,
+      "width": 57,
+      "height": 15,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 100,
+      "y": 64,
+      "width": 57,
+      "height": 14
+    }
+  ]
+}

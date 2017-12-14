@@ -1,0 +1,79 @@
+﻿{
+  "id": "IDD_DLGOSL_FORMOBJECTS",
+  "rcId": 2205,
+  "type": 66,
+  "text": "Security: objects in active dataentry",
+  "x": 0,
+  "y": 0,
+  "width": 391,
+  "height": 215,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "osldlg",
+  "items": [
+    {
+      "id": "IDC_DLGOSL_TREE",
+      "type": 26,
+      "text": "Tree1",
+      "x": 4,
+      "y": 3,
+      "width": 382,
+      "height": 162,
+      "border": true,
+      "hScroll": true,
+      "hasButtons": true,
+      "hasLines": true,
+      "linesAtRoot": true
+    },
+    {
+      "id": "IDC_DLGOSL_NAMESPACE",
+      "type": 13,
+      "x": 4,
+      "y": 185,
+      "width": 276,
+      "height": 12,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_DLGOSL_SAVE",
+      "type": 3,
+      "text": "&Save object",
+      "x": 289,
+      "y": 185,
+      "width": 97,
+      "height": 12
+    },
+    {
+      "id": "IDC_DLGOSL_INSERTSUBTREE",
+      "type": 3,
+      "text": "Save &Hierarchy",
+      "x": 290,
+      "y": 170,
+      "width": 97,
+      "height": 12
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Select an object or a hierarchy to set security grants",
+      "x": 5,
+      "y": 170,
+      "width": 278,
+      "height": 14,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DLGOSL_NSPARENT",
+      "type": 13,
+      "x": 4,
+      "y": 199,
+      "width": 381,
+      "height": 12,
+      "autoHScroll": true,
+      "readOnly": true
+    }
+  ]
+}

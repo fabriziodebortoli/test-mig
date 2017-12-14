@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <RM_AbsenceReasons Reason="SCIOPERO" Description="Sciopero" Notes="" TBGuid="11289214-e818-47b6-ae96-08bc76efd995" />
+  <RM_AbsenceReasons Reason="MALATTIA" Description="Malattia" Notes="" TBGuid="eec37b03-c0c1-48e7-824f-8c59090b4b1c" />
+</DataTables>

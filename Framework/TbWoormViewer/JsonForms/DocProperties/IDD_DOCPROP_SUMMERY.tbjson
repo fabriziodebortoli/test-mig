@@ -1,0 +1,140 @@
+﻿{
+  "id": "IDD_DOCPROP_SUMMERY",
+  "rcId": 1126,
+  "type": 66,
+  "text": "Summary",
+  "x": 0,
+  "y": 0,
+  "width": 284,
+  "height": 236,
+  "child": true,
+  "enabled": false,
+  "caption": true,
+  "context": "docproperties",
+  "items": [
+    {
+      "id": "IDC_DOCPROP_TITLE",
+      "type": 13,
+      "x": 8,
+      "y": 15,
+      "width": 270,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_DOCPROP_SUBJECT",
+      "type": 13,
+      "x": 8,
+      "y": 42,
+      "width": 270,
+      "height": 57,
+      "vScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_DOCPROP_AUTHOR",
+      "type": 13,
+      "x": 8,
+      "y": 115,
+      "width": 270,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_DOCPROP_COMPANY",
+      "type": 13,
+      "x": 8,
+      "y": 141,
+      "width": 270,
+      "height": 12
+    },
+    {
+      "id": "IDC_DOCPROP_COMMENTS",
+      "type": 13,
+      "x": 8,
+      "y": 170,
+      "width": 270,
+      "height": 29,
+      "vScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Title",
+      "x": 7,
+      "y": 5,
+      "width": 215,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Subject",
+      "x": 7,
+      "y": 32,
+      "width": 215,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Author",
+      "x": 7,
+      "y": 105,
+      "width": 215,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Company",
+      "x": 7,
+      "y": 131,
+      "width": 215,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Comments",
+      "x": 7,
+      "y": 158,
+      "width": 210,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DOCPROP_NS",
+      "type": 13,
+      "x": 8,
+      "y": 214,
+      "width": 270,
+      "height": 14,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Namespace",
+      "x": 7,
+      "y": 203,
+      "width": 220,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    }
+  ]
+}

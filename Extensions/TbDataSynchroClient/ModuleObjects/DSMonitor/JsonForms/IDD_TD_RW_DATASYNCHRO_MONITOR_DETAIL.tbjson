@@ -1,0 +1,146 @@
+﻿{
+   "context" : "uidsmonitor",
+   "height" : 104,
+   "id" : "IDD_TD_RW_DATASYNCHRO_MONITOR_DETAIL",
+   "items" : [
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.ProviderName"
+         },
+         "border" : true,
+         "controlCaption" : "Provider Name",
+         "controlClass" : "StringStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_PROVIDER",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 105
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.DocNamespace"
+         },
+         "border" : true,
+         "controlCaption" : "Namespace",
+         "controlClass" : "StringStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_NAMESPACE",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 221
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.SynchStatus"
+         },
+         "border" : true,
+         "controlCaption" : "Current Status",
+         "controlClass" : "EnumStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_SYNCH_STATUS",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 105
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.SynchDate"
+         },
+         "border" : true,
+         "controlCaption" : "Date",
+         "controlClass" : "DateStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_SYNCH_DATE",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 57
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.SynchDirection"
+         },
+         "border" : true,
+         "controlCaption" : "Direction",
+         "controlClass" : "EnumStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_SYNCH_DIRECTION",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 105
+      },
+      {
+         "anchor" : "COL2",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.TEnhDS_SynchMessage"
+         },
+         "border" : true,
+         "controlCaption" : "Error Message",
+         "controlClass" : "StringStatic",
+         "group" : true,
+         "height" : 52,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_MSG",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 223
+      },
+      {
+         "anchor" : "COL2",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.WorkerID"
+         },
+         "border" : true,
+         "controlCaption" : "Worker ID",
+         "controlClass" : "IntegerStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_WORKER_ID",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 30
+      },
+      {
+         "anchor" : "COL2",
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.TEnhDS_WorkerDescri"
+         },
+         "border" : true,
+         "controlClass" : "StringStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_WORKER_DESCR",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 190
+      },
+      {
+         "binding" : {
+            "datasource" : "SynchronizationInfoMonitor.LastAction"
+         },
+         "border" : true,
+         "controlCaption" : "Last Action",
+         "controlClass" : "EnumStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATASYNCHRO_MONITOR_DETAIL_LAST_ACTION",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 57,
+         "x" : 428,
+         "y" : 86
+      }
+   ],
+   "size" : 4, /*Wide*/
+   "text" : "Synchronization Data",
+   "type" : 71, /*Tile*/
+   "width" : 654
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+  <ClientDocuments>
+	  <ServerDocument namespace="ERP.Company.Documents.Tax">
+		<ClientDocument namespace="MDC.Core.AddOnsCompany.EITaxCodesAddon" localize="Electronic Invoicing Tax Code Addon" />
+    </ServerDocument>
+  </ClientDocuments>
+</ClientDocumentObjects>

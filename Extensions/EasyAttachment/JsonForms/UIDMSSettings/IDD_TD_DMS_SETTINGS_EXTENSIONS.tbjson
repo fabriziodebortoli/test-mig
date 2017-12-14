@@ -1,0 +1,49 @@
+{
+    "id": "IDD_TD_DMS_SETTINGS_EXTENSIONS", 
+    "type": 71, //tile
+    "name": "Extensions",
+    "text": "Maximum size for file extensions",
+    "context": "uidmssettings",
+    "height": 150,
+    "width": 370,
+    "size": 5, //TILE_AUTOFILL
+    "tileStyle": 6,
+    "child": true,
+    "items": [
+        {
+            "id": "IDC_BE_DMS_SETTINGS_EXTENSIONS",
+            "type": 18,
+            "clipChildren": true,
+            "x": 0,
+            "y": 0,
+            "height": 150,
+            "width": 370,
+            "ownerDraw": true,
+            "vertAlign": 0,
+            "name": "Extensions",
+            "text": "Extensions",
+            "allowCallDialog": false,
+            "allowMultipleSel": false,
+            "allowOrdering": true,
+            "binding": { "datasource": "DMSExtensions" },
+            "items": [
+                {
+                    "type": 22,
+                    "name": "Extension",
+                    "text": "Extension",
+                    "id": "IDC_BE_DMS_SETTINGS_EXTENSION",
+                    "binding": { "datasource": "VExtension" },
+                    "controlClass": "StringEdit"
+                },
+                {
+                    "type": 22,
+                    "name": "MaxSize",
+                    "text": "Maximum size allowed (in MB)",
+                    "id": "IDC_BE_DMS_SETTINGS_MAXSIZE",
+                    "binding": { "datasource": "VMaxSize" },
+                    "controlClass": "IntegerEdit"
+                }
+            ]
+        }
+    ]
+}

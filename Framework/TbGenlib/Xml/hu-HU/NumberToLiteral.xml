@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<LookUp>
+	<NameEntryes>
+		<NameEntry ValInt = "0" ValStr = "nulla" />
+		<NameEntry ValInt = "1" ValStr = "egy" />
+		<NameEntry ValInt = "2" ValStr = "kettõ" />
+		<NameEntry ValInt = "3" ValStr = "három" />
+		<NameEntry ValInt = "4" ValStr = "négy" />
+		<NameEntry ValInt = "5" ValStr = "öt" />
+		<NameEntry ValInt = "6" ValStr = "hat" />
+		<NameEntry ValInt = "7" ValStr = "hét" />
+		<NameEntry ValInt = "8" ValStr = "nyolc" />
+		<NameEntry ValInt = "9" ValStr = "kilenc" />
+		<NameEntry ValInt = "10" ValStr = "tíz" />
+		<NameEntry ValInt = "11" ValStr = "tizenegy" />
+		<NameEntry ValInt = "12" ValStr = "tizenkettõ" />
+		<NameEntry ValInt = "13" ValStr = "tizenhárom" />
+		<NameEntry ValInt = "14" ValStr = "tizennégy" />
+		<NameEntry ValInt = "15" ValStr = "tizenöt" />
+		<NameEntry ValInt = "16" ValStr = "tizenhat" />
+		<NameEntry ValInt = "17" ValStr = "tizenhét" />
+		<NameEntry ValInt = "18" ValStr = "tizennyolc" />
+		<NameEntry ValInt = "19" ValStr = "tizenkilenc" />
+		<NameEntry ValInt = "20" ValStr = "húsz" />
+		<NameEntry ValInt = "21" ValStr = "húszonegy" />
+		<NameEntry ValInt = "22" ValStr = "húszonkettõ" />
+		<NameEntry ValInt = "23" ValStr = "húszonhárom" />
+		<NameEntry ValInt = "24" ValStr = "húszonnégy" />
+		<NameEntry ValInt = "25" ValStr = "húszonöt" />
+		<NameEntry ValInt = "26" ValStr = "húszonhat" />
+		<NameEntry ValInt = "27" ValStr = "húszonhét" />
+		<NameEntry ValInt = "28" ValStr = "húszonnyolc" />
+		<NameEntry ValInt = "29" ValStr = "húszonkilenc" />
+		<NameEntry ValInt = "30" ValStr = "harminc" />
+		<NameEntry ValInt = "40" ValStr = "negyven" />
+		<NameEntry ValInt = "50" ValStr = "ötven" />
+		<NameEntry ValInt = "60" ValStr = "hatvan" />
+		<NameEntry ValInt = "70" ValStr = "hetven" />
+		<NameEntry ValInt = "80" ValStr = "nyolcvan" />
+		<NameEntry ValInt = "90" ValStr = "kilencven" />
+	</NameEntryes>
+	<Groups>
+		<sHundreds value = "száz" />
+		<sThousands value = "ezer" />
+		<sMillions value = "millió" />
+		<sMilliards value = "milliárd" />
+	</Groups>
+	<Parameters>
+		<UnitInvertion value = "false" />
+		<Separator value = "-">
+			<Exeptions>
+				<Digits value = "4" />
+				<Digits value = "5" />
+			</Exeptions>
+		</Separator>
+	</Parameters>
+</LookUp>

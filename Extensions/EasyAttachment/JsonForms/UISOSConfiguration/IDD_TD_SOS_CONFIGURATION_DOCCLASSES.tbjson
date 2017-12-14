@@ -1,0 +1,50 @@
+{
+    "id": "IDD_TD_SOS_CONFIGURATION_DOCCLASSES",
+    "type": 71, //tile
+    "name": "DocumentClasses",
+    "text": "Document classes list",
+    "context": "uisosconfiguration",
+    "width": 370,
+    "height": 150,
+    "size": 5, //TILE_AUTOFILL
+    "tileStyle": 6,
+    "child": true,
+    "items": [
+        {
+            "id": "IDC_BE_SOS_CONFIGURATION_DOCCLASSES",
+            "type": 18,
+            "clipChildren": true,
+            "x": 0,
+            "y": 0,
+            "width": 370,
+            "height": 150,
+            "ownerDraw": true,
+            "vertAlign": 0,
+            "name": "BEDocumentClasses",
+            "allowCallDialog": false,
+            "allowMultipleSel": false,
+            "allowInsert": false,
+            "allowDelete": false,
+            "allowOrdering": true,
+            "binding": { "datasource": "SOSDocClasses" },
+            "items": [
+                {
+                    "type": 22,
+                    "name": "Code",
+                    "text": "Code",
+                    "id": "IDC_BE_SOS_DOCCLASSES_CODE",
+                    "binding": { "datasource": "VCode" },
+                    "controlClass": "StringStatic"
+                },
+                {
+                    "type": 22,
+                    "name": "Description",
+                    "text": "Description",
+                    "id": "IDC_BE_SOS_DOCCLASSES_DESCRIPTION",
+                    "binding": { "datasource": "VDescription" },
+                    "controlClass": "StringStatic"
+                }
+            ]
+        }
+    ]
+}

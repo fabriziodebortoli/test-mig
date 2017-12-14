@@ -1,0 +1,15 @@
+{
+    "href": "M.Framework.TbGes.TbGes.IDD_WIZARD_FRAME",
+    "id": "IDD_MASSIVEARCHIVE_WIZARD",
+    "name": "MassiveArchiveFrame",
+    "wizard": true,
+    "stepper": true,
+    "items": [
+        {
+            "href": "IDD_MASSIVEARCHIVE_TOOLBAR"
+        },
+        {
+            "href": "IDD_MASSIVEARCHIVE_WIZARD_VIEW"
+        }
+    ]
+}

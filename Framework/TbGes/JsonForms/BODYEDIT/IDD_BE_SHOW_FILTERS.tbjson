@@ -1,0 +1,143 @@
+﻿{
+  "id": "IDD_BE_SHOW_FILTERS",
+  "rcId": 1040,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 277,
+  "height": 210,
+  "caption": true,
+  "systemMenu": true,
+  "thickFrame": true,
+  "child": false,
+  "context": "bodyedit",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Column",
+      "x": 2,
+      "y": 4,
+      "width": 84,
+      "height": 13,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_BE_SEARCHIN",
+      "type": 12,
+      "x": 95,
+      "y": 2,
+      "width": 178,
+      "height": 152,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Operator",
+      "x": 2,
+      "y": 20,
+      "width": 84,
+      "height": 13,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_BE_FILTERS_TYPE",
+      "type": 12,
+      "x": 95,
+      "y": 20,
+      "width": 178,
+      "height": 111,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_BE_FILTER_ON_VALUE",
+      "type": 10,
+      "text": "Use text",
+      "x": 2,
+      "y": 39,
+      "width": 84,
+      "height": 13,
+      "tabStop": false,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_BE_TEXT",
+      "type": 13,
+      "x": 95,
+      "y": 39,
+      "width": 178,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_BE_FILTER_ON_ROWS",
+      "type": 10,
+      "text": "Use rows values",
+      "x": 2,
+      "y": 58,
+      "width": 84,
+      "height": 13,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_BE_FILTER_SELECTALL",
+      "type": 11,
+      "text": "Select all",
+      "x": 95,
+      "y": 58,
+      "width": 178,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_BE_FILTERS_MULTISEL",
+      "type": 24,
+      "x": 95,
+      "y": 74,
+      "width": 178,
+      "height": 115,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": false,
+      "hasStrings": true,
+      "noIntegralHeight": true,
+      "ownerDraw": 1
+    },
+    {
+      "id": "IDC_BE_CASE_SENSITIVE",
+      "type": 11,
+      "text": "Case sensitive",
+      "x": 0,
+      "y": 196,
+      "width": 94,
+      "height": 10,
+      "visible": false,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "Apply",
+      "x": 160,
+      "y": 192,
+      "width": 54,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 220,
+      "y": 192,
+      "width": 54,
+      "height": 14
+    }
+  ]
+}

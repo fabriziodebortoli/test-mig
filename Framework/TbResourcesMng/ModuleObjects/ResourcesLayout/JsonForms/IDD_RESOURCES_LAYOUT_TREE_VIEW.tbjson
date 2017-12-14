@@ -1,0 +1,56 @@
+﻿{
+    "id": "IDD_RESOURCES_LAYOUT_TREE_VIEW",
+    "type": 66,
+    "x": 0,
+    "y": 0,
+    "width": 600,
+    "height": 102,
+    "child": true,
+    "context": "uiresourceslayout",
+    "items": [
+      {
+        "id": "IDC_TB_ACTIVITY_DOCUMENT_TG",
+        "name": "ActivityTileGroup",
+        "type": 72 /*TileGroup*/,
+        "x": 0,
+        "y": 0,
+        "hasPinnableTiles": true,
+        "width": 392,
+        "height": 100,
+        "layoutType": 4, /*VBOX*/
+        "clipChildren": true,
+        //"ownsPane": true,
+        "items": [
+          {
+            "id": "IDC_TB_ACTIVITY_DOCUMENT_FILTERS",
+            "name": "filters",
+            "type": 77,
+            "collapsible": true,
+            "showAsTile": true,
+            "layoutType": 1, /*COLUMN*/
+            "layoutAlign": 0, /*BEGIN*/
+            "text": "{{FiltersPanelText}}",
+            "items": [
+              {
+                "type": 78, /*LayoutContainer*/
+                "layoutType": 1, /*COLUMN*/
+                "layoutAlign": 0, /*BEGIN*/
+                "items": [
+                  {
+                    "href": "IDD_TD_RESOURCES_LAYOUT_FILTER_RESOURCES"
+                  },
+                  {
+                    "href": "IDD_TD_RESOURCES_LAYOUT_FILTER_OPTIONS"
+                  }
+                ]
+              }
+            ]
+
+          },
+          {
+            "href": "M.Framework.TbGes.TBBaseNavigation.IDD_TB_BASE_NAVIGATION_TD_TREE"
+          }
+        ]
+      }
+    ]
+}

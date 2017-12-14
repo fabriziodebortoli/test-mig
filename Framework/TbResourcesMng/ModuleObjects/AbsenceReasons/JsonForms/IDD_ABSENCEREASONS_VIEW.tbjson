@@ -1,0 +1,18 @@
+﻿{
+    "id": "IDD_ABSENCEREASONS_VIEW",
+    "name": "AbsenceReasons",
+    "type": 1 /*View*/,
+    "items": [
+        {
+            "id": "IDC_TG_ABSENCEREASONS",
+            "name": "AbsenceReasons",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+                    "href": "IDD_TD_ABSENCEREASONS"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+<%@ WebService Language="C#" CodeBehind="TBTalkieManager.asmx.cs" Class="Microarea.TBTalkieManager.TBTalkieManager" %>

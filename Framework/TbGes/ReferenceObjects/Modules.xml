@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function type="string" namespace="Framework.TbGes.TbGes.Modules" localize="Modules"  >
+    <Param name="Application" type="string" localize="Application" />
+  </Function>
+  <DbField name="Module" />
+  <ComboBox/>
+</HotKeyLink>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<AppMenu>
+  <Application name="Framework" image_namespace="Image.TBF.TBFModule.Images.LogoTBF.png">
+    <Title localizable="true">TaskBuilder Framework</Title>
+    <Group name="Extensions.TBRowSecurity" image_namespace="Image.Extensions.ExtensionsImages.Images.25x25\RowSecurity.png">
+      <Title localizable="true">Security services</Title>
+      <Menu name="Extensions.TBRowSecurity.Procedures">
+        <Title localizable="true">Row Security</Title>
+        <Menu name="Extensions.TBRowSecurity">
+          <Title localizable="true">Procedures</Title>
+       <Function>
+            <Title localizable="true">Configuration and Maintenance</Title>
+            <Object>Extensions.TbRowSecurity.TbRowSecurity.RunRSMaintenance</Object>
+          </Function> 
+         </Menu>
+      </Menu>
+    </Group>
+  </Application>
+</AppMenu>

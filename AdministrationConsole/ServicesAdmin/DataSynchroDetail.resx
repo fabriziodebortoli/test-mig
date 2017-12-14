@@ -1,0 +1,620 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="PanelDataSynchro.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PanelDSDetails.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TabDetails.Appearance" type="System.Windows.Forms.TabAppearance, System.Windows.Forms">
+    <value>FlatButtons</value>
+  </data>
+  <data name="TypeColHeader.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TypeColHeader.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="MessageColHeader.Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="MessageColHeader.Width" type="System.Int32, mscorlib">
+    <value>260</value>
+  </data>
+  <data name="DateColHeader.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateColHeader.Width" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="TimeColHeader.Text" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TimeColHeader.Width" type="System.Int32, mscorlib">
+    <value>70</value>
+  </data>
+  <metadata name="RefreshContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="RefreshToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAiVJREFUOE9jIATq
+        /9czRexNj7SfYs8DFSINxJ7MFrY75rfTYYVPVn19PRNUGDdIPV0g6b4/NNJip/sK482Ox402OJzU3mX1
+        UX+/zSPrtU6uUGXYQefDTqmo66nbDY/aflbdbfhPdY/+P5Vd2v9Udmv+Uz+s/dd8r8W+0FWhzFDlqKDv
+        RbtS1bOyQ96nfN4a7zM/r7xZdY/SZtV9esc1vuufVvpreEbxn8k5lT/mPboJUC2ooPhyWmnoOr/9tn1W
+        /lJ+Cuo8xjwiskmyUl7XjL/Y3lT4Z7RD5qX6JPFpCtHC6lAtqCB0insCvy6/IJQLBqk7wq1s9smeVGsQ
+        qefW4xYDCjFCZLAAFQ8VdigTDkIWeEuLuvGpMBgzsEKFiAP1t6L54ne7O9jXa0lAheAgd3EuH5SJCf7/
+        /89Y8DDKP+qp5UqPE1pH9FNktaFSYNB0tUk1fm54GkM9A2Z6CD/rHB542/6kxR3Ff8Z35f6aHlPcb7PK
+        yDjkSohWysMU29xnuZ3Z19Lu6vipm0C1oALrQxpdmlfk/6helP+nfEnhn8pZ5Q9qZzQv61wxuuxwz+NZ
+        +O3oH0ELgqYyhDJgTwfaU6VkVfer7ZI/q/NP/pj2X/ljuv/kT+j/kz9s8Etph9F9szb7AlEtUTz54T8D
+        o9YiNSflM0a/FZZrPZZqlJ0t0So3V7pfrUAyWcma6JjQXKndrtSl0gPlkg40qxXkNZLEdaBcAoCBAQCL
+        obw7iRAVxgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="RefreshToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 22</value>
+  </data>
+  <data name="RefreshToolStripMenuItem.Text" xml:space="preserve">
+    <value>Refresh (F5)</value>
+  </data>
+  <data name="ClearToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        R0lGODlhEAAQAIT/ABAQEBgYGCEhISkpKTExMTk5OUJCQkpKSlJSUlpaWmNjY2tra3Nzc3t7e4SEhIyM
+        jJSUlJycnKWlpa2trcDAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBF
+        Mi4wAwEBAAAh+QQBAAAUACwAAAAAEAAQAAAImAApCBwooYFBAwMTEmwgkEEDhAopRIAAwYGDBgwWLFCQ
+        ICEDBQo2KkCA4MABAgQYDHwQYaJBjiUNEBAwEIIEBhEKFFgQoCQAAgwHRnAgwYABnggMABigcGjRoz2V
+        Mk0owcEEk0ilKqx69UDWpVuJYo0KNqFTo1+nCnUQAeuApALUCqwYgeSCAkkJFIj4AAKDjwlIdoxIWGFA
+        ADs=
+</value>
+  </data>
+  <data name="ClearToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 22</value>
+  </data>
+  <data name="ClearToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clear log</value>
+  </data>
+  <data name="RefreshContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 48</value>
+  </data>
+  <data name="&gt;&gt;RefreshContextMenuStrip.Name" xml:space="preserve">
+    <value>RefreshContextMenuStrip</value>
+  </data>
+  <data name="&gt;&gt;RefreshContextMenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DSLogListView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="DSLogListView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="DSLogListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>586, 234</value>
+  </data>
+  <data name="DSLogListView.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;DSLogListView.Name" xml:space="preserve">
+    <value>DSLogListView</value>
+  </data>
+  <data name="&gt;&gt;DSLogListView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DSLogListView.Parent" xml:space="preserve">
+    <value>TabPageOpTrace</value>
+  </data>
+  <data name="&gt;&gt;DSLogListView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TabPageOpTrace.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="TabPageOpTrace.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageOpTrace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>592, 240</value>
+  </data>
+  <data name="TabPageOpTrace.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TabPageOpTrace.Text" xml:space="preserve">
+    <value>Operations trace</value>
+  </data>
+  <data name="&gt;&gt;TabPageOpTrace.Name" xml:space="preserve">
+    <value>TabPageOpTrace</value>
+  </data>
+  <data name="&gt;&gt;TabPageOpTrace.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageOpTrace.Parent" xml:space="preserve">
+    <value>TabDetails</value>
+  </data>
+  <data name="&gt;&gt;TabPageOpTrace.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="GBoxActions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="LblInit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="LblInit.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 8.25pt, style=Italic</value>
+  </data>
+  <data name="LblInit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblInit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>136, 16</value>
+  </data>
+  <data name="LblInit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>409, 41</value>
+  </data>
+  <data name="LblInit.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="LblInit.Text" xml:space="preserve">
+    <value>Use this command to reinitialize the web service.</value>
+  </data>
+  <data name="&gt;&gt;LblInit.Name" xml:space="preserve">
+    <value>LblInit</value>
+  </data>
+  <data name="&gt;&gt;LblInit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblInit.Parent" xml:space="preserve">
+    <value>GBoxActions</value>
+  </data>
+  <data name="&gt;&gt;LblInit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BtnInit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnInit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 16</value>
+  </data>
+  <data name="BtnInit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 45</value>
+  </data>
+  <data name="BtnInit.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BtnInit.Text" xml:space="preserve">
+    <value>Init</value>
+  </data>
+  <data name="&gt;&gt;BtnInit.Name" xml:space="preserve">
+    <value>BtnInit</value>
+  </data>
+  <data name="&gt;&gt;BtnInit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnInit.Parent" xml:space="preserve">
+    <value>GBoxActions</value>
+  </data>
+  <data name="&gt;&gt;BtnInit.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="GBoxActions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, -4</value>
+  </data>
+  <data name="GBoxActions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>554, 212</value>
+  </data>
+  <data name="GBoxActions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;GBoxActions.Name" xml:space="preserve">
+    <value>GBoxActions</value>
+  </data>
+  <data name="&gt;&gt;GBoxActions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GBoxActions.Parent" xml:space="preserve">
+    <value>TabPageActions</value>
+  </data>
+  <data name="&gt;&gt;GBoxActions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TabPageActions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="TabPageActions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageActions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>592, 240</value>
+  </data>
+  <data name="TabPageActions.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TabPageActions.Text" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="&gt;&gt;TabPageActions.Name" xml:space="preserve">
+    <value>TabPageActions</value>
+  </data>
+  <data name="&gt;&gt;TabPageActions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageActions.Parent" xml:space="preserve">
+    <value>TabDetails</value>
+  </data>
+  <data name="&gt;&gt;TabPageActions.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TabDetails.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TabDetails.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="TabDetails.Size" type="System.Drawing.Size, System.Drawing">
+    <value>600, 272</value>
+  </data>
+  <data name="TabDetails.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabDetails.Name" xml:space="preserve">
+    <value>TabDetails</value>
+  </data>
+  <data name="&gt;&gt;TabDetails.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabDetails.Parent" xml:space="preserve">
+    <value>PanelDSDetails</value>
+  </data>
+  <data name="&gt;&gt;TabDetails.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="PanelDSDetails.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="PanelDSDetails.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 80</value>
+  </data>
+  <data name="PanelDSDetails.Size" type="System.Drawing.Size, System.Drawing">
+    <value>604, 276</value>
+  </data>
+  <data name="PanelDSDetails.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;PanelDSDetails.Name" xml:space="preserve">
+    <value>PanelDSDetails</value>
+  </data>
+  <data name="&gt;&gt;PanelDSDetails.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PanelDSDetails.Parent" xml:space="preserve">
+    <value>PanelDataSynchro</value>
+  </data>
+  <data name="&gt;&gt;PanelDSDetails.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="DSPictureBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="DSPictureBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>581, 3</value>
+  </data>
+  <data name="DSPictureBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="DSPictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>CenterImage</value>
+  </data>
+  <data name="DSPictureBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;DSPictureBox.Name" xml:space="preserve">
+    <value>DSPictureBox</value>
+  </data>
+  <data name="&gt;&gt;DSPictureBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DSPictureBox.Parent" xml:space="preserve">
+    <value>PanelDSTitle</value>
+  </data>
+  <data name="&gt;&gt;DSPictureBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LblSubtitle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="LblSubtitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblSubtitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 32</value>
+  </data>
+  <data name="LblSubtitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 37</value>
+  </data>
+  <data name="LblSubtitle.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="LblSubtitle.Text" xml:space="preserve">
+    <value>.</value>
+  </data>
+  <data name="&gt;&gt;LblSubtitle.Name" xml:space="preserve">
+    <value>LblSubtitle</value>
+  </data>
+  <data name="&gt;&gt;LblSubtitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblSubtitle.Parent" xml:space="preserve">
+    <value>PanelDSTitle</value>
+  </data>
+  <data name="&gt;&gt;LblSubtitle.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LblTitle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="LblTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Bold</value>
+  </data>
+  <data name="LblTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 9</value>
+  </data>
+  <data name="LblTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 16</value>
+  </data>
+  <data name="LblTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="LblTitle.Text" xml:space="preserve">
+    <value>DataSynchronizer Administrator</value>
+  </data>
+  <data name="&gt;&gt;LblTitle.Name" xml:space="preserve">
+    <value>LblTitle</value>
+  </data>
+  <data name="&gt;&gt;LblTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblTitle.Parent" xml:space="preserve">
+    <value>PanelDSTitle</value>
+  </data>
+  <data name="&gt;&gt;LblTitle.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="PanelDSTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="PanelDSTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="PanelDSTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>604, 80</value>
+  </data>
+  <data name="PanelDSTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;PanelDSTitle.Name" xml:space="preserve">
+    <value>PanelDSTitle</value>
+  </data>
+  <data name="&gt;&gt;PanelDSTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PanelDSTitle.Parent" xml:space="preserve">
+    <value>PanelDataSynchro</value>
+  </data>
+  <data name="&gt;&gt;PanelDSTitle.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="PanelDataSynchro.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="PanelDataSynchro.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="PanelDataSynchro.Size" type="System.Drawing.Size, System.Drawing">
+    <value>604, 356</value>
+  </data>
+  <data name="PanelDataSynchro.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;PanelDataSynchro.Name" xml:space="preserve">
+    <value>PanelDataSynchro</value>
+  </data>
+  <data name="&gt;&gt;PanelDataSynchro.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PanelDataSynchro.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PanelDataSynchro.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>47</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>8, 16</value>
+  </data>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>604, 356</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>DataSynchroDetail</value>
+  </data>
+  <data name="&gt;&gt;TypeColHeader.Name" xml:space="preserve">
+    <value>TypeColHeader</value>
+  </data>
+  <data name="&gt;&gt;TypeColHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MessageColHeader.Name" xml:space="preserve">
+    <value>MessageColHeader</value>
+  </data>
+  <data name="&gt;&gt;MessageColHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DateColHeader.Name" xml:space="preserve">
+    <value>DateColHeader</value>
+  </data>
+  <data name="&gt;&gt;DateColHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TimeColHeader.Name" xml:space="preserve">
+    <value>TimeColHeader</value>
+  </data>
+  <data name="&gt;&gt;TimeColHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RefreshToolStripMenuItem.Name" xml:space="preserve">
+    <value>RefreshToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;RefreshToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ClearToolStripMenuItem.Name" xml:space="preserve">
+    <value>ClearToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;ClearToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>DataSynchroDetail</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

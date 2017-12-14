@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_MESSAGES_LOG			GET_IDD(IDD_MESSAGES_LOG, M.Framework.TbGenlib.MESSAGES)
+#define	IDC_MESSAGES_PLACE_LOG			GET_IDC(IDC_MESSAGES_PLACE_LOG)

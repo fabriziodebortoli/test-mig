@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<DatabaseObjects>
+	<Signature>TbGes</Signature>
+	<Release>400</Release>
+	<Tables>
+    <Table namespace="Framework.TbGes.TbGes.TB_AutoincrementEntities" mastertable="true">
+      <Create release="1" createstep="1" />
+    </Table>
+    <Table namespace="Framework.TbGes.TbGes.TB_AutonumberEntities" mastertable="true">
+			<Create release="1" createstep="1" />
+		</Table>
+    <Table namespace="Framework.TbGes.TbGes.TB_AutonumberEntitiesYears">
+      <Create release="1" createstep="1" />
+    </Table>
+  </Tables>
+</DatabaseObjects>

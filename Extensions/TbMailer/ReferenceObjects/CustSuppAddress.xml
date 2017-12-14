@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<HotKeyLink version="2" accessibility="Public" >
+
+<Function namespace="Extensions.TbMailer.TbMailer.CustSuppAddress" localize="Customer/Supplier's address" type="string">
+  <Param name="p_CustSuppType" type="long" localize="Customer/Suppliers type" value="3211264" optional="true"/>
+  
+  <Param name="localized_StartCustomer" type="string" localize="From Customer" value="From Customer" optional="true"/>
+  <Param name="localized_EndCustomer" type="string" localize="To Customer" value="To Customer" optional="true"/>
+  <Param name="localized_StartSupplier" type="string" localize="From Supplier" value="From Supplier" optional="true"/>
+  <Param name="localized_EndSupplier" type="string" localize="To Supplier" value="To Supplier" optional="true"/>
+</Function>
+
+  <!-- Syntax allows comma separated db tables, the first is the hkl master table -->
+  <DbTable name="MA_CustSupp" loadFullRecord="false" /> 
+  <DbField name="MA_CustSupp.CompanyName"/>
+  <DbFieldDescription name="MA_CustSupp.CustSupp" />
+  
+  <AskRules>
+    <![CDATA[ 
+    Variables 
+      String ask_StartCode [15,1] Alias 1 Hidden Input Init = "" ; 
+      String ask_EndCode [15,1] Alias 2 Hidden Input Init = "" ; 
+    End
+    Dialogs Begin 
+      Dialog AskCustomer "" 
+      Begin 
+         Controls Begin 
+            Begin 
+              ask_StartCode Prompt = (p_CustSuppType == 3211264 ? GetTitle("localized_StartCustomer") : GetTitle("localized_StartSupplier"))
+                  LowerLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ((p_CustSuppType == 3211264 ? 0 : 1), 2 ) ; 
+              ask_EndCode Prompt = (p_CustSuppType == 3211264 ? GetTitle("localized_EndCustomer") : GetTitle("localized_EndSupplier"))
+                  UpperLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ((p_CustSuppType == 3211264 ? 0 : 1), 2 ) ; 
+            End 
+         End 
+      End 
+    End     
+   ]]>
+  </AskRules>
+
+  <SelectionModes>
+    <Mode name="Default" type="query">
+  <![CDATA[  
+SELECT 
+     CustSupp AS CustSupp  { COL MA_CustSupp.CustSupp }
+     ,CompanyName         { COL MA_CustSupp.CompanyName }
+     ,Fax                 { COL MA_CustSupp.Fax }
+     ,Address             { COL MA_CustSupp.Address }
+     ,ZIPCode             { COL MA_CustSupp.ZIPCode }
+     ,City                { COL MA_CustSupp.City }
+     ,County              { COL MA_CustSupp.County }
+     ,Country             { COL MA_CustSupp.Country }
+     ,ContactPerson       { COL MA_CustSupp.ContactPerson }
+     ,Notes               { COL MA_CustSupp.Notes }
+     ,Disabled            { COL MA_CustSupp.Disabled }
+     ,ISOCountryCode      { COL MA_CustSupp.ISOCountryCode }
+     ,1 as sort           
+  FROM MA_CustSupp
+  WHERE 
+  CustSuppType = { IN p_CustSuppType } AND
+  CustSupp BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } 
+  
+UNION SELECT 
+	  CustSupp {+} '-' {+} Branch AS CustSupp
+    ,CompanyName 
+    ,Fax
+    ,Address
+    ,ZIPCode
+    ,City
+    ,County
+    ,Country  
+    ,ContactPerson
+    ,Notes
+    ,Disabled
+    ,ISOCountryCode      
+	  ,3 as sort
+  FROM MA_CustSuppBranches 
+  WHERE 
+  CustSuppType = { IN p_CustSuppType } AND
+  CustSupp BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } 
+  
+UNION SELECT 
+	  MA_CustSuppPeople.CustSupp {+} '-' {+} MA_CustSuppPeople.Branch AS CustSupp 
+    ,'>' {+} MA_CustSuppPeople.Name 
+    ,MA_CustSuppPeople.Fax 
+    ,{ WHEN GetDatabaseType () != "ORACLE" EXPAND { IsNull } ELSE { NVL }} (MA_CustSuppBranches.Address, MA_CustSupp.Address) AS Address
+    ,{ WHEN GetDatabaseType () != "ORACLE" EXPAND { IsNull } ELSE { NVL }} (MA_CustSuppBranches.ZIPCode, MA_CustSupp.ZIPCode) AS ZIPCode
+    ,{ WHEN GetDatabaseType () != "ORACLE" EXPAND { IsNull } ELSE { NVL }} (MA_CustSuppBranches.City, MA_CustSupp.City) AS City
+    ,{ WHEN GetDatabaseType () != "ORACLE" EXPAND { IsNull } ELSE { NVL }} (MA_CustSuppBranches.County, MA_CustSupp.County) AS County
+    ,{ WHEN GetDatabaseType () != "ORACLE" EXPAND { IsNull } ELSE { NVL }} (MA_CustSuppBranches.Country, MA_CustSupp.Country) AS Country  
+    ,MA_CustSuppPeople.WorkingPosition 
+    ,MA_CustSuppPeople.Notes 
+    ,{FALSE} AS Disabled
+    ,{ WHEN GetDatabaseType () != "ORACLE" EXPAND { IsNull } ELSE { NVL }} (MA_CustSuppBranches.ISOCountryCode, MA_CustSupp.ISOCountryCode) AS ISOCountryCode     
+	  ,{ WHEN GetDatabaseType () != "ORACLE" 
+        EXPAND { CASE MA_CustSuppPeople.Branch WHEN '' THEN 2 ELSE 4 END   }
+        ELSE { Decode( MA_CustSuppPeople.Branch, '', 2, ' ', 2, 4) }
+    } AS sort
+    
+  FROM (
+    MA_CustSupp INNER JOIN MA_CustSuppPeople 
+    ON 
+      MA_CustSupp.CustSuppType = MA_CustSuppPeople.CustSuppType AND
+      MA_CustSupp.CustSupp = MA_CustSuppPeople.CustSupp AND
+      MA_CustSupp.CustSuppType = { IN p_CustSuppType } AND
+      MA_CustSupp.CustSupp BETWEEN { IN ask_StartCode } AND { IN ask_EndCode }
+  )
+  LEFT OUTER JOIN MA_CustSuppBranches
+  ON  
+	  MA_CustSuppPeople.CustSupp = MA_CustSuppBranches.CustSupp AND
+	  MA_CustSuppPeople.Branch = MA_CustSuppBranches.Branch AND
+    MA_CustSuppPeople.CustSuppType = MA_CustSuppBranches.CustSuppType 
+  ORDER BY CustSupp, sort
+]]>
+  </Mode>
+
+</SelectionModes>
+
+</HotKeyLink>

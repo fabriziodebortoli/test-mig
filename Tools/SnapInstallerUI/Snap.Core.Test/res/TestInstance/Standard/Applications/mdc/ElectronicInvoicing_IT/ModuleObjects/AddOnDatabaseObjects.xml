@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AddOnDatabaseObjects>
+  <AdditionalColumns>
+    <Table namespace="ERP.CustomersSuppliers.Dbl.MA_CustSupp">
+      <AlterTable namespace="MDC.ElectronicInvoicing_IT.Dbl" release="1" createstep="7" />
+    </Table>
+    <Table namespace="ERP.CustomersSuppliers.Dbl.MA_CustSuppBranches">
+      <AlterTable namespace="MDC.ElectronicInvoicing_IT.Dbl" release="1" createstep="7" />
+    </Table>
+    <Table namespace="ERP.Jobs.Dbl.MA_Jobs">
+      <AlterTable namespace="MDC.ElectronicInvoicing_IT.Dbl" release="1" createstep="8" />
+    </Table>
+    <Table namespace="ERP.SaleOrders.Dbl.MA_SaleOrdDetails">
+      <AlterTable namespace="MDC.ElectronicInvoicing_IT.Dbl" release="4" createstep="9" />
+    </Table>
+    <Table namespace="ERP.Items.Dbl.MA_Items">
+      <AlterTable namespace="MDC.ElectronicInvoicing_IT.Dbl" release="8" createstep="10" />
+    </Table>
+    <Table namespace="ERP.Sales.Dbl.MA_SaleDoc">
+      <AlterTable namespace="MDC.ElectronicInvoicing_IT.Dbl" virtual="true" />
+    </Table>
+  </AdditionalColumns>
+</AddOnDatabaseObjects>

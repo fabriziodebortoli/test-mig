@@ -1,0 +1,37 @@
+{
+  "href": "IDD_TD_HOTFILTER",
+  "items": [
+    {
+      "anchor": "COL1",
+      "controlCaption": "From",
+      "captionAlign": "Left",
+      "captionWidth": 20,
+      "autoHScroll": true,
+      "border": true,
+      "height": 12,
+      "id": "IDC_HFL_RANGE_INT_FROM",
+      "name": "IDC_HFL_RANGE_INT_FROM",
+      "type": 13, /*Edit*/
+      "controlClass": "IntegerEdit",
+      "binding": {
+        "datasource": "{{GetParentName() + '_From'}}"
+      }
+    },
+    {
+      "anchor": "COL1",
+      "controlCaption": "To",
+      "captionAlign": "Left",
+      "captionWidth": 20,
+      "autoHScroll": true,
+      "border": true,
+      "height": 12,
+      "id": "IDC_HFL_RANGE_INT_TO",
+      "name": "IDC_HFL_RANGE_INT_TO",
+      "type": 13, /*Edit*/
+      "controlClass": "IntegerEdit",
+      "binding": {
+        "datasource": "{{GetParentName() + '_To'}}"
+      }
+    }
+  ]
+}

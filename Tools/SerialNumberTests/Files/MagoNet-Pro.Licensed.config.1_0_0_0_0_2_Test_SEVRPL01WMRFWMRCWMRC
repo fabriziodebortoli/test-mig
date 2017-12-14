@@ -1,0 +1,16 @@
+<Configuration>
+  <Product name="MagoNet-Pro" activationversion="2" release="3.1.1.79">
+    <ActivationKeys>
+      <ActivationKey key="Ft27AaiosKW7qKuQ13uCQaK4iL7o/vZiq3bPbdfalloEsn7eJUJ3TlD5YbcDuuh9hyfDtFfnsGwN41kget+eY25uB5+nCnXrcUBs60hTEiYZOs+RUuwzE8Hmko1j97hKrinosaklBZcehuOctOdZtX3+/GxWWiDhNoGyvgejqZM=" internalcode="0110G081" />
+    </ActivationKeys>
+    <SalesModule name="ERP-Pro.Trade Package" internalcode="0110G081">
+      <Serial>L70XBG4PZ17H7YMZ</Serial>
+      <Serial>M3WXBA4UZC7K7FMK</Serial>
+    </SalesModule>
+    <SalesModule name="ERP-Pro.WMS Mobile" internalcode="0110G081">
+      <Serial>YA0XBB4PZ37G7TMT</Serial>
+      <Serial>MA0XBB4PZ37G7QMT</Serial>
+      <Serial>JA0XBB4PZ37G7QMU</Serial>
+    </SalesModule>
+  </Product>
+</Configuration>

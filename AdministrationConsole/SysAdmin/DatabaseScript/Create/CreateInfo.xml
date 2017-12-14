@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CreateInfo>
+	<ModuleInfo name="SysAdmin" />
+	<Level1>
+		<Step numstep="1" script="MSD_DBMark.sql" />
+		<Step numstep="2" script="MSD_Providers.sql" />
+		<Step numstep="3" script="MSD_Logins.sql" />
+		<Step numstep="4" script="MSD_Companies.sql" />
+		<Step numstep="5" script="MSD_CompanyRoles.sql" />
+		<Step numstep="6" script="MSD_CompanyLogins.sql" />
+		<Step numstep="7" script="MSD_CompanyRolesLogins.sql" />
+		<Step numstep="8" script="MSD_LoginsArticles.sql" />
+		<Step numstep="19" script="MSD_Trace.sql" />
+		<Step numstep="20" script="MSD_ADVSecurity.sql" />
+		<Step numstep="21" script="MSD_CompanyDBSlaves.sql" />
+		<Step numstep="22" script="MSD_SlaveLogins.sql" />
+
+		<!-- Stored-procedure -->
+		<Step numstep="9" script="MSD_CloneCompanyRoleGrants.sql" />
+		<Step numstep="10" script="MSD_CloneCompanyLoginGrants.sql" />
+		<Step numstep="11" script="MSD_CloneCompany.sql" />
+		<Step numstep="12" script="MSD_CloneCompanyRole.sql" />
+		<Step numstep="13" script="MSD_DeleteCompanyLogin.sql" />
+		<Step numstep="14" script="MSD_DeleteCompanyRole.sql" />
+		<Step numstep="15" script="MSD_DeleteCompany.sql" />
+		<Step numstep="16" script="MSD_DeleteLogin.sql" />
+		<Step numstep="17" script="MSD_DeleteCompanyRoleLogin.sql" />
+		<Step numstep="23" script="MSD_DeleteSlave.sql" />
+    <Step numstep="24" script="MSD_IMagoMenu.sql" />
+	</Level1>
+	<Level2 />
+</CreateInfo>

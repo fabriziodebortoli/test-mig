@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" CodeBehind="DataSynchronizer.asmx.cs" Class="Microarea.WebServices.DataSynchronizer.MicroareaDataSynchronizer" %>

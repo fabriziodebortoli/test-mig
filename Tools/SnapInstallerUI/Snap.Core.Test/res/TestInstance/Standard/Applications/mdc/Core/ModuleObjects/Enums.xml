@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone="yes"?>
+<Enums>
+   <Tag name="Electroning Invoicing Code Type" value="487" defaultValue="0">
+    Indicates type of code of the electroninc invoice.
+    <Item name="Fiscal Regime"                                        value="0" stored="31916032"/>
+    <Item name="Professional Cash Type"                               value="1" stored="31916033"/>
+    <Item name="Payment Type"                                         value="2" stored="31916034"/>
+    <Item name="Tax Nature"                                           value="3" stored="31916035"/>
+  </Tag>
+
+</Enums>

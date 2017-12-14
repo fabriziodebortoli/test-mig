@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DATA_SYNCHRO_BUTTONS_ACTIONS		GET_IDD(IDD_DATA_SYNCHRO_BUTTONS_ACTIONS, M.Extensions.TbDataSynchroClient.UINotification)
+#define IDC_DS_PROVIDER_COMBO					GET_IDC(IDC_DS_PROVIDER_COMBO)
+

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- File di configurazione che pilota la pubblicazione clickonce-->
+<ClientSetupDefinition xmlns="http://schemas.microarea.it/clientsetup">
+	<Application name="TbAppManager" title="[ProductTitle]" publisher="[ProductPublisher]" prependPublisherToAppTitle="[PrependPublisherToAppTitle]">
+		<Folders>
+			<Folder name="TBApps" optional="false"></Folder>
+			<Folder name="TbAppManager" optional="false"></Folder>
+			<Folder name="TeamViewer" optional="true"></Folder>
+		</Folders>
+		<Prerequisites>
+			<Folder name="DotNetFX461"/>
+			<Folder name="PVRFonts"/>
+			<Folder name="vcredist_x86"/>
+			<Folder name="WindowsInstaller3_1"/>
+		</Prerequisites>
+	</Application>
+</ClientSetupDefinition>

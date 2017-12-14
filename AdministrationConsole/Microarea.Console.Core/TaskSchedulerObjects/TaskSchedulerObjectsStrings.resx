@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutoDelReportHistoryDisabledMsg" xml:space="preserve">
+    <value>The task with code '{0}', company identifier '{1}' and user '{2}' will not be executed because the automatic deletion of report history is not enabled.</value>
+  </data>
+  <data name="BackupCompanyDBFailedErrMsg" xml:space="preserve">
+    <value>Task with code '{0}', company identifier '{1}' and user '{2}' will not be executed correctly because an exception {3} has been thrown during backup of company database.</value>
+  </data>
+  <data name="ConnectionStringMsg" xml:space="preserve">
+    <value>Connection string: 
+{0}</value>
+  </data>
+  <data name="ConnectionToTBLoaderNotOpenedMsg" xml:space="preserve">
+    <value>TBLoader Connection failed.</value>
+  </data>
+  <data name="CyclicRepeatFailedMsgFmt" xml:space="preserve">
+    <value>Cyclic task re-execution setting has failed.
+Code = {0}
+Company ID = {1}
+Login ID = {2}</value>
+  </data>
+  <data name="EmptyCommandMsg" xml:space="preserve">
+    <value>Command specified for the task is missing.</value>
+  </data>
+  <data name="EmptyConnectionStringMsg" xml:space="preserve">
+    <value>Connection string is empty.</value>
+  </data>
+  <data name="ExceptionRaisedMsg" xml:space="preserve">
+    <value>Application has thrown the following exception: 
+{0}</value>
+  </data>
+  <data name="ExistenceCheckFailedMsgFmt" xml:space="preserve">
+    <value>Task {0} existence check has failed.</value>
+  </data>
+  <data name="FrequencyAtHourDescription" xml:space="preserve">
+    <value>, at </value>
+  </data>
+  <data name="FrequencyDailyPeriodDescription" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="FrequencyDayDescription" xml:space="preserve">
+    <value>day</value>
+  </data>
+  <data name="FrequencyDayOfMonthDescription" xml:space="preserve">
+    <value>day </value>
+  </data>
+  <data name="FrequencyDayOfWeekDescription" xml:space="preserve">
+    <value>working day </value>
+  </data>
+  <data name="FrequencyEndAtHourDescription" xml:space="preserve">
+    <value> to </value>
+  </data>
+  <data name="FrequencyEveryHourDescription" xml:space="preserve">
+    <value>, every hour</value>
+  </data>
+  <data name="FrequencyEveryMinuteDescription" xml:space="preserve">
+    <value>, every minute</value>
+  </data>
+  <data name="FrequencyFirstDescription" xml:space="preserve">
+    <value>the 1° </value>
+  </data>
+  <data name="FrequencyFourthDescription" xml:space="preserve">
+    <value>the 4° </value>
+  </data>
+  <data name="FrequencyFridayDescription" xml:space="preserve">
+    <value>friday</value>
+  </data>
+  <data name="FrequencyHoursOfDayDescription" xml:space="preserve">
+    <value>, every {0} hours</value>
+  </data>
+  <data name="FrequencyLastDescription" xml:space="preserve">
+    <value>the last </value>
+  </data>
+  <data name="FrequencyMinutesOfDayDescription" xml:space="preserve">
+    <value>, every {0} minutes</value>
+  </data>
+  <data name="FrequencyMondayDescription" xml:space="preserve">
+    <value>monday</value>
+  </data>
+  <data name="FrequencyMonthDescription" xml:space="preserve">
+    <value>month </value>
+  </data>
+  <data name="FrequencyMonthlyPeriodDescription" xml:space="preserve">
+    <value>months </value>
+  </data>
+  <data name="FrequencyOccursEveryDescription" xml:space="preserve">
+    <value>Occurs every </value>
+  </data>
+  <data name="FrequencySaturdayDescription" xml:space="preserve">
+    <value>saturday</value>
+  </data>
+  <data name="FrequencySecondDescription" xml:space="preserve">
+    <value>the 2° </value>
+  </data>
+  <data name="FrequencyStartAtHourDescription" xml:space="preserve">
+    <value> from </value>
+  </data>
+  <data name="FrequencySundayDescription" xml:space="preserve">
+    <value>sunday</value>
+  </data>
+  <data name="FrequencyThirdDescription" xml:space="preserve">
+    <value>the 3° </value>
+  </data>
+  <data name="FrequencyThursdayDescription" xml:space="preserve">
+    <value>thursday</value>
+  </data>
+  <data name="FrequencyTuesdayDescription" xml:space="preserve">
+    <value>tuesday</value>
+  </data>
+  <data name="FrequencyWednesdayDescription" xml:space="preserve">
+    <value>wednesday</value>
+  </data>
+  <data name="FrequencyWeekDescription" xml:space="preserve">
+    <value>week at </value>
+  </data>
+  <data name="FrequencyWeekendDayDescription" xml:space="preserve">
+    <value>weekend day </value>
+  </data>
+  <data name="FrequencyWeeklyPeriodDescription" xml:space="preserve">
+    <value>weeks at </value>
+  </data>
+  <data name="GenericScheduledTaskExecutionEndedMsg" xml:space="preserve">
+    <value>Scheduled task execution with code '{0}', company '{1}' and login '{2}' has been terminated with completion code {3}.</value>
+  </data>
+  <data name="GetCommandParametersFailedMsg" xml:space="preserve">
+    <value>Command {0} parameter set has failed. 
+Task code = {1} 
+Company ID = {2} 
+Login ID = {3}</value>
+  </data>
+  <data name="ImpersonationFailedDetailedMsg" xml:space="preserve">
+    <value>Windows user impersonation has failed ({0}).</value>
+  </data>
+  <data name="ImpersonationFailedMsg" xml:space="preserve">
+    <value>Windows user impersonation has failed.</value>
+  </data>
+  <data name="InitTbLoginFailedMsg" xml:space="preserve">
+    <value>TaskBuilder initialize procedure has failed.</value>
+  </data>
+  <data name="InsufficientImpersonationLogonDataMsg" xml:space="preserve">
+    <value>Logon data are insufficient to impersonate a Windows user.</value>
+  </data>
+  <data name="InsufficientLoginDataMsg" xml:space="preserve">
+    <value>The login information aren't sufficient.</value>
+  </data>
+  <data name="InvalidBackupFilenameErrMsg" xml:space="preserve">
+    <value>Task with code '{0}', company identifier '{1}' and user '{2}' will not be executed because the file name for save company database is not valid.</value>
+  </data>
+  <data name="InvalidDBConnectionMsg" xml:space="preserve">
+    <value>Database connection is not valid.</value>
+  </data>
+  <data name="InvalidLoginManagerMsg" xml:space="preserve">
+    <value>Login for task '{0}' is failed (company '{1}', user '{2}').</value>
+  </data>
+  <data name="InvalidOperationDuringProcessExecutionFailedMsgFmt" xml:space="preserve">
+    <value>An invalid operation occured during the execution of process {0} in task {1}.</value>
+  </data>
+  <data name="InvalidPathFinderMsg" xml:space="preserve">
+    <value>It's impossible to get path about application.</value>
+  </data>
+  <data name="InvalidSequenceOperationRequestMsg" xml:space="preserve">
+    <value>The requested operation is valid only for a tasks sequence.</value>
+  </data>
+  <data name="InvalidSqlConnectionErrMsg" xml:space="preserve">
+    <value>Database connection isn't set correctly.</value>
+  </data>
+  <data name="InvalidSqlDataReaderErrMsg" xml:space="preserve">
+    <value>Database reader not valid.</value>
+  </data>
+  <data name="InvalidTaskConstruction" xml:space="preserve">
+    <value>Task construction has failed.</value>
+  </data>
+  <data name="InvalidTaskIdErrMsg" xml:space="preserve">
+    <value>The identifier that has been assigned to the task is not valid.</value>
+  </data>
+  <data name="LoadCommandParametersFromFileFailedMsg" xml:space="preserve">
+    <value>Loading from xml file of command parameters has failed. 
+Task code = {0} 
+Company ID = {1} 
+Login  ID = {2} 
+Xml file of parameters = {3}</value>
+  </data>
+  <data name="MessengerServiceNotRunning" xml:space="preserve">
+    <value>The "Messenger" service is not running.</value>
+  </data>
+  <data name="NextRunDateAdjustmentFailedMsg" xml:space="preserve">
+    <value>Updating procedure of dates concerning next task execution has failed.</value>
+  </data>
+  <data name="ProcessExecutionFailedMsgFmt" xml:space="preserve">
+    <value>The execution of process {0} related to task {1} has failed.
+Code = {2}
+Company ID = {3}
+Login ID = {4}</value>
+  </data>
+  <data name="ReportHistoryDeletionFailedMsg" xml:space="preserve">
+    <value>The execution of task with code '{0}', company identifier '{1}' and user '{2}' has failed because an exception has been raised during report history deletion: {3}</value>
+  </data>
+  <data name="RestoreCompanyDBFailedErrMsg" xml:space="preserve">
+    <value>Task with code '{0}', company identifier '{1}' and user '{2}' will not be executed correctly because an exception {3} has been thrown during restore of company database.</value>
+  </data>
+  <data name="SaveCommandParametersToFileFailedMsg" xml:space="preserve">
+    <value>Saving in xml file of command parameters has failed. 
+Task code = {0} 
+Company ID = {1} 
+Login ID = {2} 
+Xml file of parameters = {3}</value>
+  </data>
+  <data name="ScheduledTaskExecutionFailedMsg" xml:space="preserve">
+    <value>Scheduled task execution with code '{0}', company '{1}' and login '{2}' is failed.</value>
+  </data>
+  <data name="ScheduledTaskFoundMsg" xml:space="preserve">
+    <value>Scheduled task with code '{0}', company '{1}' and login '{2}' is to execute.</value>
+  </data>
+  <data name="ScheduledTaskInterruptedExecutionMsg" xml:space="preserve">
+    <value>The execution of the scheduled task sequence with code '{0}', company '{1}' and login '{2}' has been interrupted. One of its tasks has not been successfully executed.</value>
+  </data>
+  <data name="ScheduledTaskPartiallySuccessfullyExecutedMsg" xml:space="preserve">
+    <value>The execution of the scheduled task sequence with code '{0}', company '{1}' and login '{2}' is only partially successfull. Some of its tasks have not been successfully executed.</value>
+  </data>
+  <data name="ScheduledTaskRetryMsg" xml:space="preserve">
+    <value>Attempt nr.{0} of scheduled task execution with code '{1}', company '{2}' and login '{3}'. </value>
+  </data>
+  <data name="ScheduledTaskSuccessfullyExecutedMsg" xml:space="preserve">
+    <value>Scheduled task with code '{0}', company '{1}' and login '{2}' has been successfully executed.</value>
+  </data>
+  <data name="SearchTasksToExecuteTimerInvalidConnectionMsg" xml:space="preserve">
+    <value>Search tasks to execute failure: Invalid database connection.</value>
+  </data>
+  <data name="SearchTasksToExecuteTimerInvalidStateMsg" xml:space="preserve">
+    <value>Search tasks to execute failure: Invalid state argument.</value>
+  </data>
+  <data name="SendMailFailureMsg" xml:space="preserve">
+    <value>The execution of task with code '{0}', company identifier '{1}' and user '{2}' has failed because an exception has been raised during e-mail sending: {3}</value>
+  </data>
+  <data name="SendMailNotificationErrorMsg" xml:space="preserve">
+    <value>The e-mail notification of the task execution is failed (Task code = '{0}', Company identifier = '{1}', User = '{2}')</value>
+  </data>
+  <data name="SendMailUsingSMTPFailureMsg" xml:space="preserve">
+    <value>The task with code '{0}', company identifier '{1}' and user '{2}' did not complete successfully because the initialization of a MAPI Session has failed.</value>
+  </data>
+  <data name="SendMessageFailedMsgFmt" xml:space="preserve">
+    <value>The message sending for task '{0}' has failed: {1}</value>
+  </data>
+  <data name="SmtpSendMailErrorMsg" xml:space="preserve">
+    <value>Error sending mail using SMTP to '{0}': {1}</value>
+  </data>
+  <data name="StartSchedulerAgentMsg" xml:space="preserve">
+    <value>Scheduled activities procedure has been started.</value>
+  </data>
+  <data name="StopSchedulerAgentMsg" xml:space="preserve">
+    <value>Scheduled activities procedure has been stopped.</value>
+  </data>
+  <data name="TaskAlreadyRunningMsg" xml:space="preserve">
+    <value>Scheduled task with code '{0}', company '{1}' and login '{2}' is executing and, therefore, will not be executed again.</value>
+  </data>
+  <data name="TaskCompanyDisabledMsg" xml:space="preserve">
+    <value>The task with code '{0}', company '{1}' and user '{2}' is referred to a company that has been disabled and therefore it will not be executed.</value>
+  </data>
+  <data name="TaskDeleteFailedMsgFmt" xml:space="preserve">
+    <value>Task {0} deleting has failed.</value>
+  </data>
+  <data name="TaskExecutionException" xml:space="preserve">
+    <value>An exception was raised during the execution of the task with code '{0}', company '{1}' and user '{2}': {3}</value>
+  </data>
+  <data name="TaskExecutionFailureNotificationMessageFormat" xml:space="preserve">
+    <value>The execution of {0} task in date {1} at {2} has failed.</value>
+  </data>
+  <data name="TaskExecutionNotificationSubject" xml:space="preserve">
+    <value>Scheduled task execution</value>
+  </data>
+  <data name="TaskGenericExceptionMsg" xml:space="preserve">
+    <value>An exception has been thrown.</value>
+  </data>
+  <data name="TaskInsertionFailedMsgFmt" xml:space="preserve">
+    <value>Task {0} insertion has failed.</value>
+  </data>
+  <data name="TaskLoginDataNotFoundMsg" xml:space="preserve">
+    <value>Connection information for the task with code '{0}', company '{1}' and user '{2}' is not available.</value>
+  </data>
+  <data name="TaskLoginDataNotFoundMsg1" xml:space="preserve">
+    <value>Connection information for the task with code '{0}', company '{1}' and user '{2}' is not available.</value>
+  </data>
+  <data name="TaskNotFound2MsgFmt" xml:space="preserve">
+    <value>The task with code {0}, company ID {1} and login {2} does not exist.</value>
+  </data>
+  <data name="TaskNotFoundMsgFmt" xml:space="preserve">
+    <value>The specified task {0} does not exist.</value>
+  </data>
+  <data name="TaskSuccessfullyExecutedNotificationMessageFormat" xml:space="preserve">
+    <value>The execution of {0} task in date {1} at {2} has successfully completed.</value>
+  </data>
+  <data name="TaskUpdateFailedMsgFmt" xml:space="preserve">
+    <value>Task {0} updating has failed.</value>
+  </data>
+  <data name="TBLoaderConnectionFailedMsg" xml:space="preserve">
+    <value>TaskBuilder connection isn't set correctly.</value>
+  </data>
+  <data name="TBLoaderConnectionFailedMsg1" xml:space="preserve">
+    <value>Connection to TBLoader try has been failed.</value>
+  </data>
+  <data name="TBLoaderConnectionSuccessfullyEstablishedMsg" xml:space="preserve">
+    <value>Connection to TBLoader has been successfully effected.</value>
+  </data>
+  <data name="TryTBLoaderConnection" xml:space="preserve">
+    <value>Attempt to connect to TBLoader... 
+Configuration: 	{0} 
+Company: 	{1} 
+User: 		{2}</value>
+  </data>
+  <data name="UndefinedTaskIdMsg" xml:space="preserve">
+    <value>The task ID is not defined.</value>
+  </data>
+  <data name="WindowsUserImpersonationFailedMsg" xml:space="preserve">
+    <value>Windows User impersonation failed.</value>
+  </data>
+  <data name="WindowsUserSuccessfullyImpersonatedMsg" xml:space="preserve">
+    <value>Windows user impersonate has been successfully executed.</value>
+  </data>
+  <data name="XEngineNotActivatedMsgFmt" xml:space="preserve">
+    <value>Task with code '{0}', company identifier '{1}' and user '{2}' will not be executed because, for authenticaton data of task, 'XEngine' module is not activated.</value>
+  </data>
+</root>

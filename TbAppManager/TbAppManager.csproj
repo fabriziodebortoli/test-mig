@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CC713D22-4B70-461C-ADE9-2E2B4EDE2A5C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>Icons\MenuMngForm.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>TbAppManager</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Microarea.MenuManager</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>Microarea.MenuManager.MenuMngForm</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/TbAppManager/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\Apps\TbAppManager\debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\..\Apps\TbAppManager\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Apitron.PDF.Kit">
+      <HintPath>..\OtherComponents\OcBin\Bin\Release\Apitron.PDF.Kit.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.2.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.2.6\lib\net451\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.18882, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OtherComponents\OcBin\Bin\Release\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="AskClosingMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AskClosingMenu.Designer.cs">
+      <DependentUpon>AskClosingMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrowserDockableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockPaneStripThemeSkin.cs" />
+    <Compile Include="DocumentContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentContent.Designer.cs">
+      <DependentUpon>DocumentContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentInfo.cs" />
+    <Compile Include="MenuEditorDockableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuEditorDockableForm.Designer.cs">
+      <DependentUpon>MenuEditorDockableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuMngWinCtrlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuMngWinCtrlForm.Designer.cs">
+      <DependentUpon>MenuMngWinCtrlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBoxWithIcon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessageBoxWithIcon.designer.cs">
+      <DependentUpon>MessageBoxWithIcon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Payload.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DocumentDockableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentDockableForm.Designer.cs">
+      <DependentUpon>DocumentDockableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenericDockableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenericDockableForm.Designer.cs">
+      <DependentUpon>GenericDockableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuIniSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MenuManagerStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MenuManagerStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuMngForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuMngForm.Designer.cs">
+      <DependentUpon>MenuMngForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\ChooseActionPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\ChooseActionPage.Designer.cs">
+      <DependentUpon>ChooseActionPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\CompanyInfoPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\CompanyInfoPage.Designer.cs">
+      <DependentUpon>CompanyInfoPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\PresentationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\PresentationPage.Designer.cs">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\SerialNumberPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\SerialNumberPage.Designer.cs">
+      <DependentUpon>SerialNumberPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\SummaryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QuickStartWizard\Pages\SummaryPage.Designer.cs">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickStartWizard\QSElaborationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QuickStartWizard\QSElaborationForm.Designer.cs">
+      <DependentUpon>QSElaborationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickStartWizard\QuickStartManager.cs" />
+    <Compile Include="QuickStartWizard\QuickStartSelections.cs" />
+    <Compile Include="QuickStartWizard\QuickStartStrings.Designer.cs" />
+    <Compile Include="QuickStartWizard\QuickStartWizard.cs" />
+    <Compile Include="DocOrganizerPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DocOrganizerPanel.Designer.cs">
+      <DependentUpon>DocOrganizerPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WindowItem.cs" />
+    <EmbeddedResource Include="AskClosingMenu.resx">
+      <DependentUpon>AskClosingMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentContent.resx">
+      <DependentUpon>DocumentContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericDockableForm.resx">
+      <DependentUpon>GenericDockableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuEditorDockableForm.resx">
+      <DependentUpon>MenuEditorDockableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentDockableForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DocumentDockableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Icons\Company.ico" />
+    <EmbeddedResource Include="Icons\MenuMngForm.ico" />
+    <EmbeddedResource Include="Icons\User.ico" />
+    <EmbeddedResource Include="MenuMngForm.resx">
+      <DependentUpon>MenuMngForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageBoxWithIcon.resx">
+      <DependentUpon>MessageBoxWithIcon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickStartWizard\Pages\ChooseActionPage.resx">
+      <DependentUpon>ChooseActionPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickStartWizard\Pages\CompanyInfoPage.resx">
+      <DependentUpon>CompanyInfoPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickStartWizard\Pages\PresentationPage.resx">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickStartWizard\Pages\SerialNumberPage.resx">
+      <DependentUpon>SerialNumberPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickStartWizard\Pages\SummaryPage.resx">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickStartWizard\QSElaborationForm.resx">
+      <DependentUpon>QSElaborationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickStartWizard\QuickStartStrings.resx" />
+    <EmbeddedResource Include="MenuManagerStrings.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuManagerStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocOrganizerPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DocOrganizerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+    <None Include="TbAppManager.setup">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\TBApplicationWrapper\TBApplicationWrapper.vcxproj">
+      <Project>{DB9DB8B8-50A1-468D-A67C-30E96269788A}</Project>
+      <Name>TBApplicationWrapper</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskBuilderNet\Microarea.EasyBuilder\Microarea.EasyBuilder.csproj">
+      <Project>{21823854-D58C-48D8-BF9D-C3E54770063A}</Project>
+      <Name>Microarea.EasyBuilder</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskBuilderNet\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskBuilderNet\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj">
+      <Project>{F2F1C352-B5F8-4E92-A85F-99B012F80504}</Project>
+      <Name>Microarea.TaskBuilderNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskBuilderNet\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskBuilderNet\Microarea.TaskBuilderNet.Licence\Microarea.TaskBuilderNet.Licence.csproj">
+      <Project>{042804B4-7D3B-490B-864D-EFE3F7AC3462}</Project>
+      <Name>Microarea.TaskBuilderNet.Licence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskBuilderNet\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj">
+      <Project>{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}</Project>
+      <Name>Microarea.TaskBuilderNet.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bitmaps\GreenResult.png" />
+    <Content Include="Bitmaps\Information.png" />
+    <Content Include="Bitmaps\Loader.gif" />
+    <Content Include="Bitmaps\Question100.png" />
+    <Content Include="Bitmaps\QuickStartLarge.bmp" />
+    <Content Include="Bitmaps\QuickStartSmall.bmp" />
+    <Content Include="Bitmaps\RedResult.png" />
+    <Content Include="Resources\watermark2.png" />
+    <None Include="Resources\FarfallaOpaca.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

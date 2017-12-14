@@ -1,0 +1,197 @@
+﻿{
+  "id": "IDD_ABOUTBOX",
+  "rcId": 1008,
+  "type": 66,
+  "x": 80,
+  "y": 40,
+  "width": 240,
+  "height": 345,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "basefrm",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "Ok",
+      "x": 194,
+      "y": 323,
+      "width": 40,
+      "height": 14,
+      "textAlign": 1,
+      "default": true
+    },
+    {
+      "id": "IDC_STATIC_COPYRIGHT",
+      "type": 2,
+      "text": "This product is subject to the International Laws on Copyright.",
+      "x": 40,
+      "y": 235,
+      "width": 187,
+      "height": 28,
+      "textAlign": 1
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "The product is under a licence agreement and may be used in accordance with the term of the agreement. It is against law copy or distribute the product if not authorized.",
+      "x": 40,
+      "y": 269,
+      "width": 187,
+      "height": 46,
+      "textAlign": 1
+    },
+    {
+      "id": "IDC_ADD_ON_VERSIONS",
+      "type": 13,
+      "x": 44,
+      "y": 14,
+      "width": 187,
+      "height": 64,
+      "border": false,
+      "vScroll": true,
+      "autoHScroll": true,
+      "autoVScroll": true,
+      "wantReturn": true,
+      "readOnly": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 9,
+      "text": "Installed Products",
+      "x": 37,
+      "y": 5,
+      "width": 197,
+      "height": 79
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 9,
+      "x": 37,
+      "y": 226,
+      "width": 197,
+      "height": 94
+    },
+    {
+      "id": "IDC_LOGO_MICROAREA",
+      "type": 2,
+      "text": "Logo",
+      "x": 3,
+      "y": 63,
+      "width": 30,
+      "height": 210,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Database Provider:",
+      "x": 44,
+      "y": 117,
+      "width": 184,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Product Edition:",
+      "x": 44,
+      "y": 143,
+      "width": 184,
+      "height": 11,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ABOUTBOX_DBTYPE",
+      "type": 2,
+      "x": 44,
+      "y": 128,
+      "width": 187,
+      "height": 14,
+      "border": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ABOUTBOX_EDITION",
+      "type": 2,
+      "x": 44,
+      "y": 154,
+      "width": 187,
+      "height": 14,
+      "border": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 9,
+      "x": 37,
+      "y": 82,
+      "width": 197,
+      "height": 144
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 2,
+      "text": "Installation name:",
+      "x": 44,
+      "y": 170,
+      "width": 184,
+      "height": 11,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ABOUTBOX_INSTALLATION",
+      "type": 2,
+      "x": 44,
+      "y": 181,
+      "width": 187,
+      "height": 14,
+      "border": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 2,
+      "text": "Program State:",
+      "x": 44,
+      "y": 196,
+      "width": 184,
+      "height": 11,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ABOUTBOX_PROGRAMSTATE",
+      "type": 2,
+      "x": 44,
+      "y": 207,
+      "width": 187,
+      "height": 14,
+      "border": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Installation Version:",
+      "x": 44,
+      "y": 90,
+      "width": 184,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ABOUTBOX_VERSION",
+      "type": 2,
+      "x": 44,
+      "y": 101,
+      "width": 187,
+      "height": 14,
+      "border": true,
+      "textAlign": 0
+    }
+  ]
+}

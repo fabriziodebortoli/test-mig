@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_GOTO_PAGE			GET_IDD(IDD_GOTO_PAGE, M.Framework.TbWoormViewer.LISTDLG)
+#define	IDC_GOTO_PAGE			GET_IDC(IDC_GOTO_PAGE)

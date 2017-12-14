@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:Microarea.Web.Services.WebProxyObj_SelectRowAction" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.WebProxyObj_SelectRowAction" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="handle" type="xs:int" />
+  <xs:element name="WindowId" nillable="true" type="xs:string" />
+  <xs:element name="Description" nillable="true" type="xs:base64Binary" />
+</xs:schema>

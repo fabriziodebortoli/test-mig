@@ -1,0 +1,10 @@
+﻿{
+	"href": "M.Framework.TbGes.TbGes.IDD_MASTER_FRAME",
+	"id": "IDD_RESOURCES",
+	"name": "Resources",
+	"items": [
+		{
+			"href": "IDD_RESOURCES_VIEW"
+		}
+	]
+}

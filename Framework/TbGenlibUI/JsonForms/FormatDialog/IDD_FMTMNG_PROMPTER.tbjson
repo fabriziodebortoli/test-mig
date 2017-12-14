@@ -1,0 +1,73 @@
+﻿{
+  "id": "IDD_FMTMNG_PROMPTER",
+  "rcId": 1024,
+  "type": 66,
+  "text": "Format Test",
+  "x": 4,
+  "y": 18,
+  "width": 197,
+  "height": 81,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "formatdialog",
+  "items": [
+    {
+      "id": "IDC_FMTMNG_EDIT_INP",
+      "type": 13,
+      "x": 7,
+      "y": 14,
+      "width": 180,
+      "height": 12
+    },
+    {
+      "id": "IDC_FMTMNG_FORMAT",
+      "type": 3,
+      "text": "&Test",
+      "x": 30,
+      "y": 61,
+      "width": 67,
+      "height": 15,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 101,
+      "y": 61,
+      "width": 67,
+      "height": 15
+    },
+    {
+      "id": "IDC_FMTMNG_EDIT_OUT",
+      "type": 13,
+      "x": 7,
+      "y": 39,
+      "width": 180,
+      "height": 12,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Value",
+      "x": 7,
+      "y": 5,
+      "width": 180,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Result",
+      "x": 7,
+      "y": 30,
+      "width": 185,
+      "height": 8,
+      "textAlign": 0
+    }
+  ]
+}

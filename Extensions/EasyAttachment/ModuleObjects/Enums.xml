@@ -1,0 +1,43 @@
+<?xml version="1.0" standalone="yes"?>
+<Enums>
+  <Tag name="DeleteAttachAction" value="750" defaultValue="1">
+    Indicates the delete action for attachment.
+    <Item name="Delete archived document" value="0" stored="49152000" />
+    <Item name="Keep archived document" value="1" stored="49152001" />
+	<Item name="Ask before delete archived document" value="2" stored="49152002" />
+  </Tag>
+  <Tag name="DuplicateAttachAction" value="751" defaultValue="0">
+	Indicates the duplicate action for attachment.
+	<Item name="Ask before" value="0" stored="49217536" />
+	<Item name="Replace existing document with the new one" value="1" stored="49217537" />
+	<Item name="Keep both document" value="2" stored="49217538" />
+	<Item name="Don't replace and use existing archived document" value="3" stored="49217539" />
+	<Item name="Refuse operation" value="4" stored="49217540" />
+	<Item name="Cancel" value="5" stored="49217541" />
+  </Tag>
+  <Tag name="BarcodeDetectAction" value="752" defaultValue="0">
+	Indicates the barcode detect action.
+	<Item name="First page only" value="0" stored="49283072" />
+	<Item name="Till one valid" value="1" stored="49283073" />
+  </Tag>
+  <Tag name="BookmarkType" value="753" defaultValue="1">
+    Indicates the search field type.
+    <Item name="Key" value="0" stored="49348608" />
+    <Item name="Field" value="1" stored="49348609" />
+    <Item name="Category" value="2" stored="49348610" />
+    <Item name="External" value="3" stored="49348611" />
+    <Item name="SOS Special" value="4" stored="49348612" />
+    <Item name="Variable" value="5" stored="49348613" />
+  </Tag>
+  <Tag name="OperationType" value="754" defaultValue="0">
+    Indicates the operation type used in a search expression.
+    <Item name="==" value="0" stored="49414144" />
+    <Item name="&lt;&gt;" value="1" stored="49414145" />
+    <Item name="LIKE" value="2" stored="49414146" />
+  </Tag>
+  <Tag name="LogicOperator" value="755" defaultValue="0">
+    Indicates the logic operator used in a search expression.
+    <Item name="AND" value="0" stored="49479680" />
+    <Item name="OR" value="1" stored="49479681" />
+  </Tag>
+</Enums>

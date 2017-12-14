@@ -1,0 +1,31 @@
+﻿{
+    "collapsible": false,
+    "height": 50,
+    "id": "IDD_TD_RESOURCES_LAYOUT_SPLITTER",
+    "name": "ResourcesLayoutSplitter",
+    "pinnable": false,
+    "size": 4, /*Wide*/
+    "text": "Detail",
+    "type": 71, /*Tile*/
+    "width": 325,
+    "x": 0,
+    "y": 0,
+    "items": [
+        {
+            "id": "RESOURCES_LAYOUT_SPLITTER",
+            "type": 86 /*Splitter*/,
+            "splitRatio": 0.35,
+            "splitterMode": 1, /*  0 = VERTICAL  1 = HORIZONTAL */
+            "rows": 1,
+            "cols": 2,
+            "items": [
+                {
+                    "href": "IDD_RESOURCES_LAYOUT_TREE_VIEW"
+                },
+                {
+                    "href": "IDD_RESOURCES_LAYOUT_DETAILS_VIEW"
+                }
+            ]
+        }
+    ]
+}

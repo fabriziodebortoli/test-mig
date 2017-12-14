@@ -1,0 +1,10 @@
+﻿{
+    "href": "M.Framework.TbGes.TbGes.IDD_MASTER_FRAME",
+    "id": "IDD_DMS_SETTINGS",
+    "name": "DMSSettings",
+    "items": [
+        {
+            "href": "IDD_DMS_SETTINGS_VIEW"
+        }
+    ]
+}

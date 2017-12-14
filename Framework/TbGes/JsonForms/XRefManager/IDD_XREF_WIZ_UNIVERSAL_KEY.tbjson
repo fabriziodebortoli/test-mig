@@ -1,0 +1,129 @@
+﻿{
+  "id": "IDD_XREF_WIZ_UNIVERSAL_KEY",
+  "rcId": 1086,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 321,
+  "height": 214,
+  "child": true,
+  "enabled": false,
+  "context": "xrefmanager",
+  "items": [
+    {
+      "id": "IDC_XREF_WIZARD_UK",
+      "type": 2,
+      "text": "",
+      "x": 0,
+      "y": 0,
+      "width": 107,
+      "height": 193,
+      "tabStop": false,
+      "bitmap": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Function Name",
+      "x": 113,
+      "y": 30,
+      "width": 90,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Related Document Head Table",
+      "x": 111,
+      "y": 43,
+      "width": 114,
+      "height": 22,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_XREF_WIZ_UK_EXPORT",
+      "type": 11,
+      "text": "Do you want to export the document? ",
+      "x": 113,
+      "y": 67,
+      "width": 207,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Universal Key",
+      "x": 114,
+      "y": 82,
+      "width": 105,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Segments",
+      "x": 220,
+      "y": 82,
+      "width": 100,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_XREF_WIZ_UK_LIST",
+      "type": 24,
+      "x": 114,
+      "y": 93,
+      "width": 96,
+      "height": 110,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_XREF_WIZ_UK_SEGMENT",
+      "type": 24,
+      "x": 219,
+      "y": 93,
+      "width": 96,
+      "height": 110,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_XREF_WIZ_UK_FUNC_NAME",
+      "type": 2,
+      "x": 220,
+      "y": 31,
+      "width": 93,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_XREF_WIZ_UK_TABLE_NAME",
+      "type": 2,
+      "x": 231,
+      "y": 43,
+      "width": 82,
+      "height": 22,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "The referred document has an Universal Key Group, that will be used as group of alternative keys.",
+      "x": 112,
+      "y": 4,
+      "width": 208,
+      "height": 24,
+      "textAlign": 0
+    }
+  ]
+}

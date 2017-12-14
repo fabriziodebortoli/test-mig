@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbMailer\JsonForms\TbMailer\IDD_SEND_EMAIL_DLG.hjson>
+#include	<TbMailer\JsonForms\TbMailer\IDD_SEND_EMAILCHILDS.hjson>
+#include	<TbMailer\JsonForms\TbMailer\IDD_SEND_POSTALITE_DLG.hjson>

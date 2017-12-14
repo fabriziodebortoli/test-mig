@@ -1,0 +1,13 @@
+﻿{
+  "id": "IDD_WIZARD_SEL_USR_CRITERIA_PAGE",
+  "rcId": 2210,
+  "type": 66,
+  "text": "Custom selection criteria",
+  "x": 0,
+  "y": 0,
+  "width": 214,
+  "height": 193,
+  "child": true,
+  "context": "expcriteriadlg",
+  "items": []
+}

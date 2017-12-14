@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ec7bea25-e4df-4ee0-adf9-c73f22346410" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Microarea.Web.Services.wsdl" MetadataType="Wsdl" ID="c3c07f56-8908-4bc4-8bd6-fb023f63c1b5" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="5df6f181-ff31-415c-a44d-6bd8473faa71" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SetTestPlan.xsd" MetadataType="Schema" ID="8b4d852c-f45a-44a3-8529-e792b45a6762" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.xsd" MetadataType="Schema" ID="1b6aae27-66eb-4aba-9343-8164941b367f" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.TaskBuilderNet.Core.SoapCall.xsd" MetadataType="Schema" ID="81fe8746-1ed9-4b72-a1e4-5349cfcd068f" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PlayStep.xsd" MetadataType="Schema" ID="576528be-e2ea-4d48-ab89-33156f9e4d33" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="5668b017-9baf-4127-98ce-b1c8a1291abf" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SetTPManagerHandle.xsd" MetadataType="Schema" ID="424d8764-5b3d-4f81-bd63-f62a56286e2e" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordMessageBox.xsd" MetadataType="Schema" ID="fb024003-6c80-4000-ab13-b05fc336f3d5" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.PlayMessageBox.xsd" MetadataType="Schema" ID="4ab60fd9-929b-4589-90ce-c8f633b3bade" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordParsedAction.xsd" MetadataType="Schema" ID="51e44a8e-e6e5-4792-8bf9-7d234f0be856" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordActivateParsedDialog.xsd" MetadataType="Schema" ID="6181c663-1868-4b37-b9ad-f79562d66f01" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordCloseParsedDialog.xsd" MetadataType="Schema" ID="cd96ab74-d3ca-4daa-8d73-c74e5eca9896" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordOpenDocument.xsd" MetadataType="Schema" ID="d2b8100a-a914-474d-9a80-6a40770e3e3f" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordCloseDocument.xsd" MetadataType="Schema" ID="04c09a49-0650-43bd-822c-41b1fde3d537" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordReportValidation.xsd" MetadataType="Schema" ID="b5a01d5c-1ade-4609-9cf1-c37aed8a3d34" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RecordCloseReport.xsd" MetadataType="Schema" ID="14291b52-e849-4ba2-ba81-64b255e17e65" SourceId="1" SourceUrl="http://localhost:10000/TestManager.TBMacroRecorder.TBMacroRecorder/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

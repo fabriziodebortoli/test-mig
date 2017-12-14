@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_TB_BASE_NAVIGATION_FRAME				GET_IDD(IDD_TB_BASE_NAVIGATION_FRAME, M.Framework.TBGes.TBBaseNavigation)
+#define IDD_TB_BASE_NAVIGATION_TOOLBAR				GET_IDD(IDD_TB_BASE_NAVIGATION_TOOLBAR, M.Framework.TBGes.TBBaseNavigation)

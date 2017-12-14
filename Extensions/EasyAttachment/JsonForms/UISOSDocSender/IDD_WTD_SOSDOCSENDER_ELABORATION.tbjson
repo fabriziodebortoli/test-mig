@@ -1,0 +1,22 @@
+﻿{
+    "id": "IDD_WTD_SOSDOCSENDER_ELABORATION",
+    "type": 66,
+    "text": "Elaboration",
+    "context": "uisosdocsender",
+    "items": [
+        {
+            "id": "IDC_TG_SOSDOCSENDER_ELABORATION",
+            "type": 72, //TileGroup
+            "text": "Elaboration",
+            "layoutType": 4, /*VBOX*/
+            "items": [
+                //{
+                //    "href": "Framework.TbGes.UITileDialog.IDD_TB_HEADER_TILE"
+                //},
+                {
+                    "href": "IDD_TD_SOSDOCSENDER_ELABORATION"
+                }
+            ]
+        }
+    ]
+}

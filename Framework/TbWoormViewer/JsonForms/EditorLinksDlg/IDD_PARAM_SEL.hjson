@@ -1,0 +1,7 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_PARAM_SEL			GET_IDD(IDD_PARAM_SEL, M.Framework.TbWoormViewer.EditorLinksDlg)
+#define	IDC_BTN_PARAM_ADD			GET_IDC(IDC_BTN_PARAM_ADD)
+#define	IDC_BTN_PARAM_REMOVE			GET_IDC(IDC_BTN_PARAM_REMOVE)
+#define	IDC_LIST_PARAM			GET_IDC(IDC_LIST_PARAM)
+#define	IDC_LIST_SELECTED_PARAM			GET_IDC(IDC_LIST_SELECTED_PARAM)

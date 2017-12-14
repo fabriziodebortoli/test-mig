@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SalesModule localize="Digital Communications" edition="Professional" internalcode="0110G081" >
+	<ShortNames>
+		<ShortName name="MDCM" />
+	</ShortNames>
+	<Application container="Applications" name="MDC">
+		<Module name="Core" />
+		<Module name="ElectronicInvoicing">
+			<Allow iso="IT,HU" />
+		</Module>
+		<Module name="ElectronicInvoicing_IT">
+			<Allow iso="IT" />
+		</Module>
+		<Module name="ElectronicInvoicing_HU">
+			<Allow iso="HU" />
+		</Module>
+    <Module name="ElectronicInvoicing_BR">
+      <Allow iso="BR" />
+    </Module>
+		<Module name="FATEL">
+			<Allow iso="IT" />
+		</Module>
+		<Functionality name="EICoding">
+			<Allow iso="IT" />
+		</Functionality>
+	</Application>
+	<IncludeModulesPath path="AddOnsCompany" onselfactivated="true" />
+	<IncludeModulesPath path="AddOnsSales" onselfactivated="true" />
+	<IncludeModulesPath path="AddOnsPurchases" onselfactivated="true" />
+  <IncludeModulesPath path="AddOnsBusiness_BR" onselfactivated="true" />
+	<IncludeModulesPath path="AddOnsCustomerQuotations" onselfactivated="true" />
+	<IncludeModulesPath path="AddOnsSaleOrders" onselfactivated="true" />
+	<IncludeModulesPath path="AddOnsElectronicInvoicing" onselfactivated="true" />
+	<IncludeModulesPath path="AddOnsCustomersSuppliers" onselfactivated="true" />
+	<IncludeModulesPath path="AddOnsJobs" onselfactivated="true" />
+</SalesModule>

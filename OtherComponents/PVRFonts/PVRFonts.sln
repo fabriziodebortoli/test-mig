@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PVRFonts", "PVRFonts.vdproj", "{C4F2120E-5272-402D-B3B7-C5E3B9B1F7DF}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PVRFontsMSM", "PVRFontsMSM.vdproj", "{CD355631-F584-4D72-85FB-14FE9FA5AA63}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://srv-tfs:8080/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = PVRFonts.vdproj
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = PVRFontsMSM.vdproj
+		SccLocalPath2 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4F2120E-5272-402D-B3B7-C5E3B9B1F7DF}.Debug|Default.ActiveCfg = Debug
+		{C4F2120E-5272-402D-B3B7-C5E3B9B1F7DF}.Debug|Default.Build.0 = Debug
+		{C4F2120E-5272-402D-B3B7-C5E3B9B1F7DF}.Release|Default.ActiveCfg = Release
+		{C4F2120E-5272-402D-B3B7-C5E3B9B1F7DF}.Release|Default.Build.0 = Release
+		{CD355631-F584-4D72-85FB-14FE9FA5AA63}.Debug|Default.ActiveCfg = Debug
+		{CD355631-F584-4D72-85FB-14FE9FA5AA63}.Debug|Default.Build.0 = Debug
+		{CD355631-F584-4D72-85FB-14FE9FA5AA63}.Release|Default.ActiveCfg = Release
+		{CD355631-F584-4D72-85FB-14FE9FA5AA63}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

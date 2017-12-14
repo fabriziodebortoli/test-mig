@@ -1,0 +1,101 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+PageLayout "default" 
+	Begin
+		Table (16,7) "Table_9" Alias 9  /* Table_9 */ Origin (5,26) Heights (26,18,33,27) 
+		HideTitle
+			Begin
+				"MA_Items_Item" Alias 5  /* MA_Items_Item */ Width 121 ;
+				"MA_Items_Description" Alias 4  /* MA_Items_Description */ Width 121 ;
+				"MA_Items_BasePrice" Alias 2  /* MA_Items_BasePrice */ Width 177 FormatStyle "Money" Total ;
+				"MA_Items_BaseUoM" Alias 3  /* MA_Items_BaseUoM */ Width 121 ;
+				"MA_Items_ItemType" Alias 6  /* MA_Items_ItemType */ Width 121 ;
+				"MA_Items_Picture" Alias 7  /* MA_Items_Picture */ Width 121 ;
+				"MA_Items_SaleBarCode" Alias 8  /* MA_Items_SaleBarCode */ Width 121 ;
+			End
+
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Table_9 [16] Alias 9 ;
+		End
+
+		Variables
+			String       w_AskItemFrom [15] Alias 1  Hidden  Input ;
+			String       w_AskItemTo [15] Alias 11  Hidden  Input Init = 
+			w_AskItemFrom  ;
+			Money        MA_Items_BasePrice [23] Alias 2  Column ;
+			String       MA_Items_BaseUoM [23] Alias 3  Column ;
+			String       MA_Items_Description [23] Alias 4  Column ;
+			String       MA_Items_Item [23] Alias 5  Column ;
+			String       MA_Items_ItemType [23] Alias 6  Column ;
+			String       MA_Items_Picture [23] Alias 7  Column ;
+			String       MA_Items_SaleBarCode [23] Alias 8  Column ;
+			Money        TotMA_Items_BasePrice = Csum (MA_Items_BasePrice ) Alias 10  ColTotal ;
+		End
+
+		Rules
+			From MA_Items 
+			Select 
+				BasePrice            Into MA_Items_BasePrice ,
+				BaseUoM              Into MA_Items_BaseUoM ,
+				Description          Into MA_Items_Description ,
+				Item                 Into MA_Items_Item ,
+				ItemType             Into MA_Items_ItemType ,
+				Picture              Into MA_Items_Picture ,
+				SaleBarCode          Into MA_Items_SaleBarCode 
+			Where Item >= w_AskItemFrom && Item <= w_AskItemTo  ;
+		End
+
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+						Display TotMA_Items_BasePrice ;
+						Reset TotMA_Items_BasePrice ;
+					End
+				After 
+					Begin
+					End
+
+			Report : Do
+				Always 
+					Begin
+						Eval TotMA_Items_BasePrice ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+						Display TotMA_Items_BasePrice ;
+					End
+				Finalize 
+					Begin
+					End
+		End
+	Dialogs
+		Begin
+			Dialog NoName  
+				Begin
+					Controls
+						Begin
+							Begin  "Items range"  
+								w_AskItemFrom Prompt = "From Item" LowerLimit HotLink ERP.Items.Dbl.DS_ItemsSimple ( 0 , 2 , "" ) ;
+								w_AskItemTo Prompt = "To Item" UpperLimit HotLink ERP.Items.Dbl.DS_ItemsSimple ( 0 , 2 , "" ) ;
+							End
+						End
+				End
+		End
+End
+

@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="ModuleObjects">
+      <UniqueIdentifier>{e24cf2e0-3e88-464d-b524-fb5cdbf61cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{85066f54-704d-445d-a4f4-9f3d94cb9b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dbl">
+      <UniqueIdentifier>{2909e7e0-b84f-4cc8-a9b3-0c03dd14a086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dbl\Header Files">
+      <UniqueIdentifier>{278c4cea-6bd0-433a-93d0-467de1ab5c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dbl\Source Files">
+      <UniqueIdentifier>{9df47751-abdb-400b-999b-6277db4d1d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documents">
+      <UniqueIdentifier>{5bbbad26-fbf6-4c56-bd9a-381ffd0da854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documents\Header Files">
+      <UniqueIdentifier>{ee637f27-7c81-4ec6-ada9-f672627a5281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documents\Source Files">
+      <UniqueIdentifier>{499893ab-15e9-4ba8-bf79-b1d1c5274161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documents\JsonForms">
+      <UniqueIdentifier>{4bda75e3-3f5a-4685-a4af-d15a16a31d20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Begincpp.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Beginh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Endh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Menu\TbResourcesMng.menu">
+      <Filter>Menu</Filter>
+    </None>
+    <None Include="RMControls.hjson" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RMEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TAbsenceReasons.h">
+      <Filter>Dbl\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TCalendars.h">
+      <Filter>Dbl\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TResources.h">
+      <Filter>Dbl\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TWorkers.h">
+      <Filter>Dbl\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DResourceTypes.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIResourceTypes.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DArrangements.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIArrangements.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DAbsenceReasons.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAbsenceReasons.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DResources.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RMFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIResources.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RMControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ADMResourcesMng.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIWorkers.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DWorkers.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIWorkerWindow.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDWorkerWindow.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDWorkerWindow.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDResourcesLayout.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DCalendars.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UICalendars.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RMSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIResourcesLayout.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIResourcesLayoutAction.h">
+      <Filter>Documents\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbResourcesMng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbResourcesMngInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TCalendars.cpp">
+      <Filter>Dbl\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TResources.cpp">
+      <Filter>Dbl\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TWorkers.cpp">
+      <Filter>Dbl\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TAbsenceReasons.cpp">
+      <Filter>Dbl\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DResourceTypes.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIResourceTypes.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DArrangements.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIArrangements.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DAbsenceReasons.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAbsenceReasons.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DResources.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RMFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIResources.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RMControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ADMResourcesMng.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIWorkers.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DWorkers.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIWorkerWindow.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDWorkerWindow.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDWorkerWindow.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDResourcesLayout.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DCalendars.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UICalendars.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbResourcesMngWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RMSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIResourcesLayout.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIResourcesLayoutAction.cpp">
+      <Filter>Documents\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ModuleObjects\Resources\JsonForms\IDD_RESOURCES.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ModuleObjects\AbsenceReasons\JsonForms\IDD_ABSENCEREASONS.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ModuleObjects\Arrangements\JsonForms\IDD_ARRANGEMENTS.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ModuleObjects\Calendars\JsonForms\IDD_CALENDARS.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ModuleObjects\ResourcesLayout\JsonForms\IDD_RESOURCES_LAYOUT.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ModuleObjects\ResourceTypes\JsonForms\IDD_RESOURCETYPES.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ModuleObjects\WorkerWindow\JsonForms\IDD_WORKER_WINDOW.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ModuleObjects\Workers\JsonForms\IDD_WORKERS.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="JsonForms\ResourcesLayoutAction\IDD_RESOURCES_LAYOUT_ACTION.tbjson">
+      <Filter>Documents\JsonForms</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="ModuleObjects\DatabaseObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </Xml>
+    <Xml Include="ModuleObjects\Enums.xml">
+      <Filter>ModuleObjects</Filter>
+    </Xml>
+    <Xml Include="ModuleObjects\DocumentObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </Xml>
+    <Xml Include="ModuleObjects\ClientDocumentObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </Xml>
+    <Xml Include="ModuleObjects\EventHandlerObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </Xml>
+    <Xml Include="ModuleObjects\BehaviourObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbResourcesMng.rc" />
+  </ItemGroup>
+</Project>

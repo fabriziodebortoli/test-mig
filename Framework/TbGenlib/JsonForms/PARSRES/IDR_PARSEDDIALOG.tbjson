@@ -1,0 +1,20 @@
+﻿{
+  "id": "IDR_PARSEDDIALOG",
+  "type": 66,
+  "accelerators": [
+    {
+      "id": "IDOK",
+      "key": 79,
+      "virtualKey": true,
+      "control": true,
+      "noInvert": true
+    },
+    {
+      "id": "IDCANCEL",
+      "key": 65,
+      "virtualKey": true,
+      "control": true,
+      "noInvert": true
+    }
+  ]
+}

@@ -1,0 +1,816 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C42535B-5A05-4880-83E4-45FD598D0E60}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microarea.EasyAttachment</RootNamespace>
+    <AssemblyName>Microarea.EasyAttachment</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Apps\TBApps\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Apps\TBApps\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\Apps\TBApps\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>..\..\..\..\Apps\TBApps\Debug\Microarea.EasyAttachment.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\..\..\Apps\TBApps\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>..\..\..\..\Apps\TBApps\Release\Microarea.EasyAttachment.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SailorsPromises">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\SailorsPromises\net35\SailorsPromises.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessLogic\BarcodeManager.cs" />
+    <Compile Include="BusinessLogic\BaseManager.cs" />
+    <Compile Include="BusinessLogic\CategoryManager.cs" />
+    <Compile Include="BusinessLogic\DatabaseChecker.cs" />
+    <Compile Include="BusinessLogic\DuplicateManager.cs" />
+    <Compile Include="BusinessLogic\DMSOrchestrator.cs" />
+    <Compile Include="BusinessLogic\ArchiveManager.cs" />
+    <Compile Include="BusinessLogic\ERPDocumentManager.cs" />
+    <Compile Include="BusinessLogic\FullTextSearchManager.cs" />
+    <Compile Include="BusinessLogic\OCRManager.cs" />
+    <Compile Include="BusinessLogic\SettingsManager.cs" />
+    <Compile Include="BusinessLogic\SOSManager.cs" />
+    <Compile Include="Components\AttachmentInfo.cs" />
+    <Compile Include="Components\GuidUpdater.cs" />
+    <Compile Include="Components\MultipleScanWithBarcodeAsSeparator.cs" />
+    <Compile Include="Components\MultipleScanWithBarcodeSeparatorSheet.cs" />
+    <Compile Include="Components\CategoryInfo.cs" />
+    <Compile Include="Components\CommonObjects.cs" />
+    <Compile Include="Components\OCRTemplateInfo.cs" />
+    <Compile Include="Components\SettingState.cs" />
+    <Compile Include="Components\SOSDocumentInfo.cs" />
+    <Compile Include="UI\Controls\ArchivedDocumentGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ArchivedDocumentGrid.designer.cs">
+      <DependentUpon>ArchivedDocumentGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\BarcodeDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\BarcodeDetails.Designer.cs">
+      <DependentUpon>BarcodeDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\DocSlideShow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\DocSlideShow.designer.cs">
+      <DependentUpon>DocSlideShow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\DocumentDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\DocumentDetails.designer.cs">
+      <DependentUpon>DocumentDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\DocumentListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\DocumentListItem.designer.cs">
+      <DependentUpon>DocumentListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\PaperyUserCtrl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\PaperyUserCtrl.designer.cs">
+      <DependentUpon>PaperyUserCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ResultDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ResultDataGridView.designer.cs">
+      <DependentUpon>ResultDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SlideShowPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SlideShowPanel.designer.cs">
+      <DependentUpon>SlideShowPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SOSClassesComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SOSDocStatusSearchToolStrip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SOSDocStatusSearchToolStrip.designer.cs">
+      <DependentUpon>SOSDocStatusSearchToolStrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SOSUserCtrl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SOSUserCtrl.Designer.cs">
+      <DependentUpon>SOSUserCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ToolStripSosClassesCombo.cs" />
+    <Compile Include="UI\Controls\DataGridViewCustomButton.cs" />
+    <Compile Include="UI\Controls\ExpandibleCheckBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ExpandibleCheckBox.Designer.cs">
+      <DependentUpon>ExpandibleCheckBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\MassiveAttachDetailsListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\MassiveAttachDetailsListItem.Designer.cs">
+      <DependentUpon>MassiveAttachDetailsListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\MassiveAttachImageList.cs" />
+    <Compile Include="UI\Controls\OCRViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\OCRViewer.Designer.cs">
+      <DependentUpon>OCRViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ToolStripSOSDocStatusSearch.cs" />
+    <Compile Include="UI\Controls\WaitingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\WaitingControl.Designer.cs">
+      <DependentUpon>WaitingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\WorkFlowCtrlMaster.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\WorkFlowCtrlMaster.Designer.cs">
+      <DependentUpon>WorkFlowCtrlMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\Acquisition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\Acquisition.Designer.cs">
+      <DependentUpon>Acquisition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\AttachmentsListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\AttachmentsListForm.Designer.cs">
+      <DependentUpon>AttachmentsListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\BarcodeDetection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\BarcodeDetection.designer.cs">
+      <DependentUpon>BarcodeDetection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\BBSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\BBSettingsForm.Designer.cs">
+      <DependentUpon>BBSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\BBTrayletForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\BBTrayletForm.Designer.cs">
+      <DependentUpon>BBTrayletForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ModifySelectedRows.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ModifySelectedRows.designer.cs">
+      <DependentUpon>ModifySelectedRows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\QuickAttachment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\QuickAttachment.designer.cs">
+      <DependentUpon>QuickAttachment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\CustomFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\CustomFilter.Designer.cs">
+      <DependentUpon>CustomFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttachDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttachDetails.Designer.cs">
+      <DependentUpon>MassiveAttachDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttachResultDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttachResultDetails.Designer.cs">
+      <DependentUpon>MassiveAttachResultDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\DuplicateBarcodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\DuplicateBarcodeForm.Designer.cs">
+      <DependentUpon>DuplicateBarcodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\InvalidBarcode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\InvalidBarcode.Designer.cs">
+      <DependentUpon>InvalidBarcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttach.Designer.cs">
+      <DependentUpon>MassiveAttach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttachResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\MassiveAttachResult.Designer.cs">
+      <DependentUpon>MassiveAttachResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\PaperyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\PaperyForm.Designer.cs">
+      <DependentUpon>PaperyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\DuplicateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\DuplicateForm.Designer.cs">
+      <DependentUpon>DuplicateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ExtensionImageComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ToolStripExtensionImageComboBox.cs" />
+    <Compile Include="Components\MailDataObject.cs" />
+    <Compile Include="UI\Controls\DataGridViewImageButtonColumn.cs" />
+    <Compile Include="Components\ParsedControlWrapper.cs" />
+    <Compile Include="UI\Forms\MonthCalendarForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\MonthCalendarForm.Designer.cs">
+      <DependentUpon>MonthCalendarForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\IExtendedListItem.cs" />
+    <Compile Include="UI\Controls\ExtendedListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ExtendedListView.designer.cs">
+      <DependentUpon>ExtendedListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Utils.cs" />
+    <Compile Include="Components\DragDropData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessLogic\SearchManager.cs" />
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\Controls\ArchivedDocumentGrid.resx">
+      <DependentUpon>ArchivedDocumentGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\BarcodeDetails.resx">
+      <DependentUpon>BarcodeDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\DocSlideShow.resx">
+      <DependentUpon>DocSlideShow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\DocumentDetails.resx">
+      <DependentUpon>DocumentDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\DocumentListItem.resx">
+      <DependentUpon>DocumentListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\PaperyUserCtrl.resx">
+      <DependentUpon>PaperyUserCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ResultDataGridView.resx">
+      <DependentUpon>ResultDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SlideShowPanel.resx">
+      <DependentUpon>SlideShowPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SOSClassesComboBox.resx">
+      <DependentUpon>SOSClassesComboBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ExpandibleCheckBox.resx">
+      <DependentUpon>ExpandibleCheckBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\MassiveAttachDetailsListItem.resx">
+      <DependentUpon>MassiveAttachDetailsListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\OCRViewer.resx">
+      <DependentUpon>OCRViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SOSDocStatusSearchToolStrip.resx">
+      <DependentUpon>SOSDocStatusSearchToolStrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SOSUserCtrl.resx">
+      <DependentUpon>SOSUserCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\WaitingControl.resx">
+      <DependentUpon>WaitingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\WorkFlowCtrlMaster.resx">
+      <DependentUpon>WorkFlowCtrlMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\Acquisition.resx">
+      <DependentUpon>Acquisition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\AttachmentsListForm.resx">
+      <DependentUpon>AttachmentsListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\BarcodeDetection.resx">
+      <DependentUpon>BarcodeDetection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\BBSettingsForm.resx">
+      <DependentUpon>BBSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\BBTrayletForm.resx">
+      <DependentUpon>BBTrayletForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ModifySelectedRows.resx">
+      <DependentUpon>ModifySelectedRows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\QuickAttachment.resx">
+      <DependentUpon>QuickAttachment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\CustomFilter.resx">
+      <DependentUpon>CustomFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\InvalidBarcode.resx">
+      <DependentUpon>InvalidBarcode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\MassiveAttach.resx">
+      <DependentUpon>MassiveAttach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\MassiveAttachDetails.resx">
+      <DependentUpon>MassiveAttachDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\MassiveAttachResult.resx">
+      <DependentUpon>MassiveAttachResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\MassiveAttachResultDetails.resx">
+      <DependentUpon>MassiveAttachResultDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\DuplicateBarcodeForm.resx">
+      <DependentUpon>DuplicateBarcodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\PaperyForm.resx">
+      <DependentUpon>PaperyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Images\Documents.ico" />
+    <EmbeddedResource Include="UI\Forms\DuplicateForm.resx">
+      <DependentUpon>DuplicateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ExtensionImageComboBox.resx">
+      <DependentUpon>ExtensionImageComboBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\MonthCalendarForm.resx">
+      <DependentUpon>MonthCalendarForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ExtendedListView.resx">
+      <DependentUpon>ExtendedListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\TBApplicationWrapper\TBApplicationWrapper.vcxproj">
+      <Project>{DB9DB8B8-50A1-468D-A67C-30E96269788A}</Project>
+      <Name>TBApplicationWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj">
+      <Project>{F2F1C352-B5F8-4E92-A85F-99B012F80504}</Project>
+      <Name>Microarea.TaskBuilderNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj">
+      <Project>{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}</Project>
+      <Name>Microarea.TaskBuilderNet.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.EasyAttachment.Core\Microarea.EasyAttachment.Core.csproj">
+      <Project>{5BE0A2F7-9C66-4990-BAA4-52D0689BA63C}</Project>
+      <Name>Microarea.EasyAttachment.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TBPicComponents\TBPicComponents.csproj">
+      <Project>{d8921294-d302-447e-98d7-c264771b1037}</Project>
+      <Name>TBPicComponents</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UI\Images\infoSmall.png" />
+    <None Include="UI\Images\check_unselected.png" />
+    <None Include="UI\Images\check_selected.png" />
+    <Content Include="UI\Images\Airplane.png" />
+    <Content Include="UI\Images\arrownback16x16.png" />
+    <Content Include="UI\Images\arrownback24x24.png" />
+    <Content Include="UI\Images\arrownext16x16.png" />
+    <Content Include="UI\Images\arrownext24x24.png" />
+    <Content Include="UI\Images\ArrowPageNext16x16.png" />
+    <Content Include="UI\Images\ArrowPageNext24x24.png" />
+    <Content Include="UI\Images\ArrowPagePrevious16x16.png" />
+    <Content Include="UI\Images\ArrowPagePrevious24x24.png" />
+    <None Include="UI\Images\Barcode32x32.png" />
+    <None Include="UI\Images\Barcode48x48.png" />
+    <None Include="UI\Images\Barcode64x64.png" />
+    <None Include="UI\Images\Barcode16x16.png" />
+    <Content Include="UI\Images\Barcode24x24.png" />
+    <Content Include="UI\Images\BarcodeError64x64.png" />
+    <Content Include="UI\Images\BarcodeSubstitution16x16.png" />
+    <Content Include="UI\Images\BarcodeSubstitution32x32.png" />
+    <Content Include="UI\Images\Bookmark24x24.png" />
+    <Content Include="UI\Images\Calendar16x16.png" />
+    <None Include="UI\Images\Category64x64.png" />
+    <None Include="UI\Images\Check16x16.png" />
+    <None Include="UI\Images\Checkbox16.png" />
+    <None Include="UI\Images\Category.ico" />
+    <None Include="UI\Images\DocAddToEval16x16.png" />
+    <None Include="UI\Images\DocKo16x16.png" />
+    <None Include="UI\Images\DocRdy16x16.png" />
+    <None Include="UI\Images\DocRep16x16.png" />
+    <None Include="UI\Images\DocRepSign16x16.png" />
+    <None Include="UI\Images\DocStd16x16.png" />
+    <None Include="UI\Images\DocSign16x16.png" />
+    <Content Include="UI\Images\Database24x24.png" />
+    <None Include="UI\Images\Delete.png" />
+    <None Include="UI\Images\Document1.png" />
+    <None Include="UI\Images\Delete_w.png" />
+    <None Include="UI\Images\Document1_w.png" />
+    <Content Include="UI\Images\Duplicate24x24.png" />
+    <Content Include="UI\Images\Ext_PDFA32x32.png" />
+    <Content Include="UI\Images\DocAttach24x24.png" />
+    <None Include="UI\Images\AddCategory.png" />
+    <None Include="UI\Images\Category16x16.png" />
+    <None Include="UI\Images\Category32x32.png" />
+    <None Include="UI\Images\Exit24.png" />
+    <Content Include="UI\Images\DocAttach48x48.png" />
+    <Content Include="UI\Images\Exit.png" />
+    <Content Include="UI\Images\Ext_AVI16x16.png" />
+    <Content Include="UI\Images\Ext_AVI32x32.png" />
+    <Content Include="UI\Images\Ext_AVI64x64.png" />
+    <Content Include="UI\Images\Ext_Default16x16.png" />
+    <Content Include="UI\Images\Ext_Default32x32.png" />
+    <Content Include="UI\Images\Ext_Default64x64.png" />
+    <Content Include="UI\Images\Ext_GZIP64x64.png" />
+    <Content Include="UI\Images\Ext_MP316x16.png" />
+    <Content Include="UI\Images\Ext_MP332x32.png" />
+    <Content Include="UI\Images\Ext_MP364x64.png" />
+    <Content Include="UI\Images\Ext_MPEG16x16.png" />
+    <Content Include="UI\Images\Ext_MPEG32x32.png" />
+    <Content Include="UI\Images\Ext_MPEG64x64.png" />
+    <None Include="UI\Images\Ext_RTF16x16.png" />
+    <None Include="UI\Images\Ext_RTF32x32.png" />
+    <None Include="UI\Images\Ext_RTF64x64.png" />
+    <Content Include="UI\Images\Ext_TIFF16x16.png" />
+    <Content Include="UI\Images\Ext_TIFF32x32.png" />
+    <Content Include="UI\Images\Ext_TIFF64x64.png" />
+    <Content Include="UI\Images\Ext_WAV16x16.png" />
+    <Content Include="UI\Images\Ext_WAV32x32.png" />
+    <Content Include="UI\Images\Ext_WAV64x64.png" />
+    <Content Include="UI\Images\Ext_WMV16x16.png" />
+    <Content Include="UI\Images\Ext_WMV32x32.png" />
+    <Content Include="UI\Images\Ext_WMV64x64.png" />
+    <None Include="UI\Images\EXT_XML16x16.png" />
+    <None Include="UI\Images\EXT_XML32x32.png" />
+    <None Include="UI\Images\EXT_XML64x64.png" />
+    <Content Include="UI\Images\File.PNG" />
+    <Content Include="UI\Images\Bookmark16x16.png" />
+    <None Include="UI\Images\OCR16x16.png" />
+    <Content Include="UI\Images\Folder92x92.png" />
+    <None Include="UI\Images\Form.png" />
+    <None Include="UI\Images\Form_w.png" />
+    <Content Include="UI\Images\FTS24x24.png" />
+    <EmbeddedResource Include="UI\Images\Green.png" />
+    <Content Include="UI\Images\gridIcon.png" />
+    <None Include="UI\Images\PaperAirplane16x16.png" />
+    <None Include="UI\Images\PaperAirplane24x24.png" />
+    <None Include="UI\Images\PaperAirplane64x64.png" />
+    <Content Include="UI\Images\Help.png" />
+    <None Include="UI\Images\Idle16x16.png" />
+    <Content Include="UI\Images\info.png" />
+    <Content Include="UI\Images\information.png" />
+    <Content Include="UI\Images\KO.png" />
+    <None Include="UI\Images\Loader.gif" />
+    <None Include="UI\Images\Modifying.png" />
+    <None Include="UI\Images\NEW_DocAcquired16x16.png" />
+    <None Include="UI\Images\NEW_DocIdle16x16.png" />
+    <None Include="UI\Images\NEW_DocKo16x16.png" />
+    <None Include="UI\Images\New_DocRdy16x16.png" />
+    <None Include="UI\Images\NEW_DocSent16x16.png" />
+    <None Include="UI\Images\NEW_DocSign16x16.png" />
+    <None Include="UI\Images\NEW_DocStd16x16.png" />
+    <None Include="UI\Images\NEW_DocTemp16x16.png" />
+    <None Include="UI\Images\NEW_DocToResend16x16.png" />
+    <None Include="UI\Images\NEW_DocToSend16x16.png" />
+    <Content Include="UI\Images\loading.GIF" />
+    <Content Include="UI\Images\OK.png" />
+    <Content Include="UI\Images\PaperAirplane48x48.png" />
+    <Content Include="UI\Images\paperclip16.png" />
+    <Content Include="UI\Images\paperclip16OUT.png" />
+    <Content Include="UI\Images\Modifying.png" />
+    <Content Include="UI\Images\Paperclip24x24.png" />
+    <Content Include="UI\Images\Red.png" />
+    <None Include="UI\Images\Refresh.png" />
+    <Content Include="UI\Images\Refresh16x16.png" />
+    <None Include="UI\Images\Scanner_16x16.png" />
+    <None Include="UI\Images\Scanner_24x24.png" />
+    <None Include="UI\Images\Scanner_32x32.png" />
+    <None Include="UI\Images\Sent16x16.png" />
+    <None Include="UI\Images\Refresh_w.png" />
+    <Content Include="UI\Images\slideshow.png" />
+    <None Include="UI\Images\stamp16x16.png" />
+    <None Include="UI\Images\ToSend16x16.png" />
+    <None Include="UI\Images\SOS.ico" />
+    <None Include="UI\Images\SOSMonitor.ico" />
+    <None Include="UI\Images\SOSConfiguration.ico" />
+    <Content Include="UI\Images\SOS24x24.png" />
+    <None Include="UI\Images\Storage24x24.png" />
+    <Content Include="UI\Images\Transparent.png" />
+    <Content Include="UI\Images\SearchSettings16x16.png" />
+    <None Include="UI\Images\Warning24x24.png" />
+    <None Include="UI\Images\UnCheckbox16.png" />
+    <None Include="UI\Images\waiting16x16.png" />
+    <None Include="UI\Images\TransparentOUT.png" />
+    <None Include="UI\Images\Undo.png" />
+    <Content Include="UI\Images\Warning.png" />
+    <Content Include="UI\Images\workflowIcon.png" />
+    <EmbeddedResource Include="UI\Images\Yellow.png" />
+    <Content Include="UI\Images\ZoomInBookmark16x16.png" />
+    <Content Include="UI\Images\ZoomOutBookmark16x16.png" />
+    <None Include="UI\Images\Pin-Smallpng.png" />
+    <None Include="UI\Images\GreenArrow.PNG" />
+    <Content Include="UI\Images\Add16x16.png" />
+    <None Include="UI\Images\ZoomOut16x16.png" />
+    <None Include="UI\Images\ZoomIn16x16.png" />
+    <None Include="UI\Images\AddBinding.bmp" />
+    <None Include="UI\Images\AllUsers16x16.png" />
+    <Content Include="UI\Images\arrowdown16x16.png" />
+    <Content Include="UI\Images\arrowdown24x24.png" />
+    <Content Include="UI\Images\arrowup16x16.png" />
+    <Content Include="UI\Images\arrowup24x24.png" />
+    <None Include="UI\Images\Document-Disabled.png" />
+    <None Include="UI\Images\Folder-Disabled.png" />
+    <None Include="UI\Images\Database16x16.png" />
+    <None Include="UI\Images\Document16x16.png" />
+    <None Include="UI\Images\Folder16x16.png" />
+    <None Include="UI\Images\Document-Disabled16x16.png" />
+    <None Include="UI\Images\Folder-Disabled16x16.png" />
+    <None Include="UI\Images\EasyAttachment.png" />
+    <None Include="UI\Images\EasyAttachment_Disabled.png" />
+    <None Include="UI\Images\EasyAttachment16x16.png" />
+    <None Include="UI\Images\EasyAttachment16x16_Disabled.png" />
+    <None Include="UI\Images\EasyAttachment.ico" />
+    <None Include="UI\Images\Lock.png" />
+    <None Include="UI\Images\Paper-Box-Disabled.png" />
+    <None Include="UI\Images\RecycleBinEmpty.png" />
+    <None Include="UI\Images\Preview16x16.png" />
+    <None Include="UI\Images\Options16x16.png" />
+    <None Include="UI\Images\OpenDoc16x16.png" />
+    <None Include="UI\Images\Paper-Box16x16.png" />
+    <None Include="UI\Images\Paper-Box-Disabled16x16.png" />
+    <None Include="UI\Images\OffSwitch.png" />
+    <None Include="UI\Images\OnSwitch.png" />
+    <Content Include="UI\Images\paperclip.png" />
+    <None Include="UI\Images\Trash.png" />
+    <None Include="UI\Images\Picture128x128 NoBorder.png" />
+    <None Include="UI\Images\User16x16.png" />
+    <None Include="UI\Images\WoormReport.png" />
+    <None Include="UI\Images\WoormReport24.png" />
+    <Content Include="UI\Images\DataEntry32x32.png" />
+    <None Include="UI\Images\DocAttach32x32.png" />
+    <None Include="UI\Images\Delete16x16.png" />
+    <Content Include="UI\Images\Ext_BMP16x16.png" />
+    <Content Include="UI\Images\Ext_BMP32x32.png" />
+    <Content Include="UI\Images\Ext_BMP64x64.png" />
+    <Content Include="UI\Images\Ext_DOC16x16.png" />
+    <Content Include="UI\Images\Ext_DOC32x32.png" />
+    <Content Include="UI\Images\Ext_DOC64x64.png" />
+    <Content Include="UI\Images\Ext_GIF16x16.png" />
+    <Content Include="UI\Images\Ext_GIF32x32.png" />
+    <Content Include="UI\Images\Ext_GIF64x64.png" />
+    <Content Include="UI\Images\Ext_GZIP16x16.png" />
+    <Content Include="UI\Images\Ext_GZIP32x32.png" />
+    <Content Include="UI\Images\Ext_HTML16x16.png" />
+    <Content Include="UI\Images\Ext_HTML32x32.png" />
+    <Content Include="UI\Images\Ext_HTML64x64.png" />
+    <Content Include="UI\Images\Ext_JPG16x16.png" />
+    <Content Include="UI\Images\Ext_JPG32x32.png" />
+    <Content Include="UI\Images\Ext_JPG64x64.png" />
+    <Content Include="UI\Images\Ext_MAIL16x16.png" />
+    <Content Include="UI\Images\Ext_MAIL32x32.png" />
+    <Content Include="UI\Images\Ext_MAIL64x64.png" />
+    <Content Include="UI\Images\Ext_PDF16x16.png" />
+    <Content Include="UI\Images\Ext_PDF32x32.png" />
+    <Content Include="UI\Images\Ext_PDF64x64.png" />
+    <Content Include="UI\Images\Ext_PNG16x16.png" />
+    <Content Include="UI\Images\Ext_PNG32x32.png" />
+    <Content Include="UI\Images\Ext_PNG64x64.png" />
+    <Content Include="UI\Images\Ext_PPT16x16.png" />
+    <Content Include="UI\Images\Ext_PPT32x32.png" />
+    <Content Include="UI\Images\Ext_PPT64x64.png" />
+    <Content Include="UI\Images\Ext_RAR16x16.png" />
+    <Content Include="UI\Images\Ext_RAR32x32.png" />
+    <Content Include="UI\Images\Ext_RAR64x64.png" />
+    <Content Include="UI\Images\Ext_TXT16x16.png" />
+    <Content Include="UI\Images\Ext_TXT32x32.png" />
+    <Content Include="UI\Images\Ext_TXT64x64.png" />
+    <Content Include="UI\Images\Ext_XLS16x16.png" />
+    <Content Include="UI\Images\Ext_XLS32x32.png" />
+    <Content Include="UI\Images\Ext_XLS64x64.png" />
+    <Content Include="UI\Images\Ext_ZIP16x16.png" />
+    <Content Include="UI\Images\Ext_ZIP32x32.png" />
+    <Content Include="UI\Images\Ext_ZIP64x64.png" />
+    <Content Include="UI\Images\Key24x24.png" />
+    <Content Include="UI\Images\Key32x32.png" />
+    <None Include="UI\Images\Picture128x128.png" />
+    <Content Include="UI\Images\Remove16x16.png" />
+    <None Include="UI\Images\Save16x16.png" />
+    <None Include="UI\Images\Save32x32.png" />
+    <None Include="UI\Images\Remove32x32.png" />
+    <None Include="UI\Images\SaveDisk16x16.png" />
+    <Content Include="UI\Images\SaveAll16x16.png" />
+    <Content Include="UI\Images\Search16x16.png" />
+    <Content Include="UI\Images\Search24x24.png" />
+    <Content Include="UI\Images\Search256x256.png" />
+    <Content Include="UI\Images\search32x32.png" />
+    <Content Include="UI\Images\Search48x48.png" />
+    <EmbeddedResource Include="UI\Images\Binding.bmp" />
+    <EmbeddedResource Include="UI\Images\Database.png" />
+    <EmbeddedResource Include="UI\Images\Document.png" />
+    <EmbeddedResource Include="UI\Images\folder.png" />
+    <EmbeddedResource Include="UI\Images\Paper-Box.png" />
+    <Content Include="UI\Images\Paperclip.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

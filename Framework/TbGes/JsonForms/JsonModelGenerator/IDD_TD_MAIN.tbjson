@@ -1,0 +1,22 @@
+﻿{
+   "hasStaticArea" : true,
+   "height" : 48,
+   "id" : "IDD_TD_MAIN",
+   "items" : [
+      {
+         "anchor" : "COL1",
+         "autoHScroll" : true,
+         "binding" : {
+            "datasource" : "NrOfDocuments"
+         },
+         "controlCaption" : "Number of documents",
+         "controlClass" : "PositiveIntEdit",
+         "height" : 13,
+         "id" : "IDC_NRDOCS",
+         "type" : "Edit",
+         "width" : 100
+      }
+   ],
+   "type" : "Tile",
+   "width" : 230
+}

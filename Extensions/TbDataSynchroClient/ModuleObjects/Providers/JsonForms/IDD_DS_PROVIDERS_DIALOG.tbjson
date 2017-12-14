@@ -1,0 +1,25 @@
+﻿{
+  "id": "IDD_DS_PROVIDERS_DIALOG",
+  "type": 66,
+  "text": "Mago - Infinity version control",
+  "x": 0,
+  "y": 0,
+  "width": 188,
+  "height": 76,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "providers",
+  "items": [
+    {
+        "id": "IDC_PROVIDERS_CONTROL_TEXT",
+        "type": 2,
+        "x": 2,
+        "y": 15,
+        "width": 180,
+        "height": 36,
+        "autoHScroll": true
+    }
+  ]
+}

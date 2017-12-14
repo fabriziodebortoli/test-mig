@@ -1,0 +1,218 @@
+﻿{
+  "id": "IDR_RADAR_ACCELERATOR",
+  "type": 66,
+  "accelerators": [
+    {
+      "id": "ID_RADAR_MINUS_LINES",
+      "key": 45
+    },
+    {
+      "id": "ID_RADAR_PLUS_LINES",
+      "key": 43
+    },
+    {
+      "id": "ID_RADAR_ORDER_ASCE",
+      "key": 65,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_FIND_STOP",
+      "key": 66,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_LINK_RADAR",
+      "key": 67,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_EDIT_QUERY",
+      "key": 69,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_FIXED",
+      "key": 70,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_EASY_READING",
+      "key": 76,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_CB_FONT_STYLE",
+      "key": 75,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_TOOLBAR_FIND_PREV",
+      "key": 80,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_EXEC_QUERY",
+      "key": 81,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_TOOLBAR_FIND_NEXT",
+      "key": 83,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_RESIZE_COL",
+      "key": 87,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_ORDER_DESC",
+      "key": 90,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_RADAR_ESCAPE",
+      "key": 27,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_LEFT",
+      "key": 37,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_RIGHT",
+      "key": 39,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_PAGE_LEFT",
+      "key": 37,
+      "virtualKey": true,
+      "control": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_PAGE_RIGHT",
+      "key": 39,
+      "virtualKey": true,
+      "control": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_END",
+      "key": 35,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_HOME",
+      "key": 36,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_SHIFT_LEFT",
+      "key": 37,
+      "virtualKey": true,
+      "shift": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_SHIFT_RIGHT",
+      "key": 39,
+      "virtualKey": true,
+      "shift": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_CONTROL_END",
+      "key": 35,
+      "virtualKey": true,
+      "control": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_CONTROL_HOME",
+      "key": 36,
+      "virtualKey": true,
+      "control": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_DELETE",
+      "key": 46,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_INSERT",
+      "key": 45,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_EDIT",
+      "key": 13,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_PAGE_UP",
+      "key": 33,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_PAGE_DOWN",
+      "key": 34,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_ROW_DOWN",
+      "key": 40,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_ROW_UP",
+      "key": 38,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_FIND_START",
+      "key": 114,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_NEW",
+      "key": 113,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_RADAR_SAVE",
+      "key": 121,
+      "virtualKey": true,
+      "noInvert": true
+    }
+  ]
+}

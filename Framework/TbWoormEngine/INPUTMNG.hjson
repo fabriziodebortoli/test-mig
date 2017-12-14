@@ -1,0 +1,14 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormEngine\JsonForms\INPUTMNG\IDD_INPUT_DLG.hjson>
+#include	<TbWoormEngine\JsonForms\INPUTMNG\IDD_INPUT_DLG_SINGLE.hjson>
+#include	<TbWoormEngine\JsonForms\INPUTMNG\IDD_INPUT_DLG_WITH_TILES.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDB
+//-----------------------------------------------------------------------------------------------------
+#define	IDB_CHECK		1022
+#define	IDB_CHECKKEY		1025
+#define	IDB_HIDDEN		1023
+#define	IDB_HIDDENKEY		1026
+#define	IDB_KEY		1024

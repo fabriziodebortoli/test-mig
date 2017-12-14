@@ -1,0 +1,91 @@
+<html lang="en" ng-app="menuApp">
+<head>
+	<meta charset="utf-8" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Menu</title>
+	<link href="css/menu.css" rel="stylesheet" />
+
+	 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+ <script>
+ 	$(function () {
+ 		$("#history").draggable();
+ 		$("#mostUsed").draggable();
+ 		$("#userInfo").draggable();
+ 		$("#favorites").draggable();
+//		$("#history").resizable();
+//		$("#mostUsed").resizable();
+//		$("#userInfo").resizable();
+//		$("#favorites").resizable();
+ 	});
+</script>
+
+</head>
+<body>
+    <div class="row container-fluid fitDivHeight myDesktop">
+
+        <div>
+            <a href="menu.html">
+                <span class="back col-sm-1"></span>
+                <h3>Back to menu</h3>
+            </a>
+        </div>
+
+        <div class="col-sm-3 divRoundBorder" id="favorites">
+            <div ng-include="'templates/OldMenu/favoritesTemplateMyDesktop.html'">
+            </div>
+        </div>
+
+        <div class="col-sm-3 divRoundBorder" id="history">
+            <div ng-include="'templates/OldMenu/history.html'">
+            </div>
+        </div>
+
+        <div class="col-sm-3 divRoundBorder" id="mostUsed">
+            <div ng-include="'templates/OldMenu/mostUsed.html'">
+            </div>
+        </div>
+
+        <div class="col-sm-3 divRoundBorder" id="userInfo">
+            <div ng-include="'templates/OldMenu/userInfo.html'">
+            </div>
+        </div>
+
+        <div class="col-sm-3 divRoundBorder">
+            <div ng-include="'templates/OldMenu/openDocuments.html'">
+            </div>
+        </div>
+    </div>
+
+
+	<!--libraries-->
+	<script src="libraries/angular.js" type="text/javascript"></script>
+	<script src="libraries/angular-route.js" type="text/javascript"></script>
+	<script src="jquery.min.js" type="text/javascript"></script>
+	<script src="jquery-ui.min.js" type="text/javascript"></script>
+	<script src="libraries/bootstrap.js" type="text/javascript"></script>
+	<script src="libraries/ui-bootstrap-tpls-0.12.1.js" type="text/javascript"></script>
+	<script src="libraries/Spin.js" type="text/javascript"></script>
+	<script src="libraries/Context.js" type="text/javascript"></script>
+    
+
+	<!-- Controllers js -->
+	<script src="js/Controllers/FavoritesController.js" type="text/javascript"></script>
+	<script src="js/Controllers/MostUsedController.js" type="text/javascript"></script>
+	<script src="js/Controllers/UserInfoController.js" type="text/javascript"></script>
+	<script src="js/Controllers/HistoryController.js" type="text/javascript"></script>
+	<script src="js/Controllers/OpenDocumentsController.js" type="text/javascript"></script>
+
+	<!--Services-->
+	<script src="js/Services/ContextMenuDirective.js" type="text/javascript"></script>
+	<script src="js/Services/ImageService.js" type="text/javascript"></script>
+	<script src="js/Services/MenuService.js" type="text/javascript"></script>
+	<script src="js/Services/RoutingProvider.js" type="text/javascript"></script>
+	
+	<script src="js/main.js" type="text/javascript"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="release"
+                 upgradeGuid="484CF5BA-0408-4C05-A489-392628B7A126"
+                 producer="Microarea S.p.A."
+                 productName="Microarea Mago.net InfoBusiness"
+                 setupOutputFileName="MagonetInfoBusiness"
+                 applicationType="addon"
+								 clickOnceClientDeployment="no"
+								 allowUpdates="yes"
+                 producerWebSite="http://www.microarea.it"
+								 certificatePath="..\..\..\..\..\..\Applications\ERP\k.pfx"
+                 >
+	<!--Consideriamo questo path come root di partenza: C:\Development\-->
+	<FileSystemStructure >
+		<IncludeFolder name ="Apps">
+			<IncludeFolder name="Publish">
+				<IncludeFolder name="*-*">
+					<IncludeFile name="IBSuite.*.bin" />
+				</IncludeFolder>
+			</IncludeFolder>
+		</IncludeFolder>
+		<IncludeFolder name="Standard">
+			<IncludeFolder name="Applications">
+				<IncludeFolder name="IBSuite">
+					<IncludeFolder name="*" fragment="yes">
+						<IncludeFolder name="Dictionary" recursive="yes">
+							<IncludeFile name="Dictionary.bin"/>
+						</IncludeFolder>
+						<IncludeFolder name="Modules" recursive="yes">
+							<IncludeFile name="*.csm"/>
+						</IncludeFolder>
+						<IncludeFolder name="Menu">
+							<IncludeFile name="*.menu"/>
+						</IncludeFolder>
+						<IncludeFolder name="Licenses">
+							<IncludeFolder name="*" recursive="yes" featureName="[FOLDERNAME]">
+								<IncludeFile name="*.*"/>
+							</IncludeFolder>
+							<IncludeFile name="*.pdf"/>
+						</IncludeFolder>
+						<IncludeFile name="*.config|*.Solution.xml"/>
+					</IncludeFolder>
+					<IncludeFile name="application.config" />
+				</IncludeFolder>
+			</IncludeFolder>
+		</IncludeFolder>
+	</FileSystemStructure>
+</SetupDefinition>

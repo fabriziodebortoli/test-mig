@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+  <ClientDocuments>
+    <ServerDocument type="family" class="DNotaFiscalForCustomer">
+      <ClientDocument namespace="MDC.ElectronicInvoicing_BR.AddOnsSales.CDEI_BRNotaFiscalForCustomer.h" localize="Electronic Invoicing BR in Nota Fiscal for Customer" />
+    </ServerDocument>
+    <ServerDocument type="family" class="DNotaFiscalForSupplier">
+      <ClientDocument namespace="MDC.ElectronicInvoicing_BR.AddOnsPurchases.CDEI_BRNotaFiscalForSupplier.h" localize="Electronic Invoicing BR in Nota Fiscal for Supplier" />
+    </ServerDocument>
+    <ServerDocument type="family" class="DBRCorrectionLetterForCust">
+      <ClientDocument namespace="MDC.ElectronicInvoicing_BR.AddOnsSales.CDEI_BRCorrectionLetterForCust.h" localize="Electronic Invoicing BR in Correction Letter for Customer" />
+    </ServerDocument>
+    <ServerDocument type="family" class="DBRCorrectionLetterForSupp">
+      <ClientDocument namespace="MDC.ElectronicInvoicing_BR.AddOnsPurchases.CDEI_BRCorrectionLetterForSupp.h" localize="Electronic Invoicing BR in Correction Letter for Supplier" />
+    </ServerDocument>
+    <ServerDocument namespace="ERP.Business_BR.Services.BusinessBRParameters">
+      <ClientDocument namespace="MDC.ElectronicInvoicing_BR.AddOnsBusiness_BR.CDEI_BusinessBRParameters" localize="Electronic Invoicing BR Transmission Parameters" />
+    </ServerDocument>
+  </ClientDocuments>
+</ClientDocumentObjects>

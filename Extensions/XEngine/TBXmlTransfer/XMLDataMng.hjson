@@ -1,0 +1,40 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<XEngine\JsonForms\XMLDataMng\IDD_IMPORT_OUTPUT.hjson>
+#include	<XEngine\JsonForms\XMLDataMng\IDD_IMPORT_RESULT.hjson>
+#include	<XEngine\JsonForms\XMLDataMng\IDR_TB_XMLTRANSFER.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_EDIT1			GET_IDC(IDC_EDIT1)
+#define	IDC_IMPEXP_PROGRESS			GET_IDC(IDC_IMPEXP_PROGRESS)
+#define	IDC_MESSAGES			GET_IDC(IDC_MESSAGES)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDB
+//-----------------------------------------------------------------------------------------------------
+#define	IDB_EXTDOC_EXPORT_XML_DATA_DISABLED_LARGE		2243
+#define	IDB_EXTDOC_EXPORT_XML_DATA_DISABLED_SMALL		2244
+#define	IDB_EXTDOC_EXPORT_XML_DATA_NORMAL_LARGE		2240
+#define	IDB_EXTDOC_EXPORT_XML_DATA_NORMAL_SMALL		2242
+#define	IDB_EXTDOC_IMPORT_XML_DATA_DISABLED_LARGE		2246
+#define	IDB_EXTDOC_IMPORT_XML_DATA_DISABLED_SMALL		2247
+#define	IDB_EXTDOC_IMPORT_XML_DATA_NORMAL_LARGE		2241
+#define	IDB_EXTDOC_IMPORT_XML_DATA_NORMAL_SMALL		2245
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	PNG
+//-----------------------------------------------------------------------------------------------------
+#define	IDB_EXTDOC_EXPORT_XML_DATA		2260
+#define	IDB_EXTDOC_IMPORT_XML_DATA		2261
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBXMLTRANSFER
+static UINT IDS_ID_EXTDOC_IMPORT_XML_DATA		=GET_IDS(ID_EXTDOC_IMPORT_XML_DATA, _TB_STRING("Import data from XML\r\nXML Import (Ctrl+Alt+I)"), L"\\Extensions\\XEngine\\TBXmlTransfer\\XMLDataMng.hjson");
+static UINT IDS_ID_EXTDOC_EXPORT_XML_DATA		=GET_IDS(ID_EXTDOC_EXPORT_XML_DATA, _TB_STRING("Export data on XML\r\nXML Export (Ctrl+Alt+E)"), L"\\Extensions\\XEngine\\TBXmlTransfer\\XMLDataMng.hjson");
+static UINT IDS_IDR_TB_XMLTRANSFER		=GET_IDS(IDR_TB_XMLTRANSFER, _TB_STRING("Data transfer via XML"), L"\\Extensions\\XEngine\\TBXmlTransfer\\XMLDataMng.hjson");
+#endif
+

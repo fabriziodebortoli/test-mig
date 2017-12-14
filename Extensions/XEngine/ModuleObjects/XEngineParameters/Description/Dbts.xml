@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBTs xmlns:sl="urn:TBStringLoader">
+	<Master namespace="Extensions.XEngine.TbXmlTransfer.XEngineParameters.XEParameters">
+		<Title localizable="true">XEParameters</Title>
+		<Table namespace="extensions.xengine.tbxmlenvelope.XE_Parameters">XE_Parameters</Table>
+		<ChooseUpdate>0</ChooseUpdate>
+		<Slaves></Slaves>
+	</Master>
+</DBTs>

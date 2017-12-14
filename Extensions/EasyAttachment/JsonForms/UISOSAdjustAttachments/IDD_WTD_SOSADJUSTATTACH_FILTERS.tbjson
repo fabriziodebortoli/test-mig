@@ -1,0 +1,29 @@
+{
+    "id": "IDD_WTD_SOSADJUSTATTACH_FILTERS",
+    "type": 66,
+    "text": "Filters",
+    "context": "UISOSAdjustAttachments",
+    "items": [
+        {
+            "id": "IDC_TG_SOSADJUSTATTACH_FILTERS",
+            "type": 72, //TileGroup
+            "text": "Filters",
+            "layoutType": 4, /*VBOX*/
+            "items": [
+                {
+                    "href": "M.Framework.TbGes.UITileDialog.IDD_TB_HEADER_TILE"
+                },
+                {
+                    "type": 78, /*LayoutContainer*/
+                    "layoutType": 1, /*COLUMN*/
+                    "layoutAlign": 0, /*BEGIN*/
+                    "items": [
+                        {
+                            "href": "IDD_TD_SOSADJUSTATTACH_DOCCLASSES"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

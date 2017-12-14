@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManifestGenerator", "ManifestGenerator\ManifestGenerator.csproj", "{FE3282A6-C656-4BC8-A388-54CDCF5A8B7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceDeployer", "ClickOnceDeployer\ClickOnceDeployer.csproj", "{A0076F24-44C8-40D9-ABD8-FB4023D037BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generic", "..\..\Library\Generic\Generic.csproj", "{F3A445CD-363D-4DFE-B35B-F27C79CD2AE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBInterfaces", "..\..\Library\TBInterfaces\TBInterfaces.csproj", "{98B88511-350D-4F0D-977D-40F62A179618}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://srv-tfs:8080/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ClickOnceDeployer\\ClickOnceDeployer.csproj
+		SccProjectName1 = ClickOnceDeployer
+		SccLocalPath1 = ClickOnceDeployer
+		SccProjectUniqueName2 = ManifestGenerator\\ManifestGenerator.csproj
+		SccProjectName2 = ManifestGenerator
+		SccLocalPath2 = ManifestGenerator
+		SccProjectUniqueName3 = ..\\..\\Library\\Generic\\Generic.csproj
+		SccProjectName3 = ../../Library/Generic
+		SccLocalPath3 = ..\\..\\Library\\Generic
+		SccProjectUniqueName4 = ..\\..\\Library\\TBInterfaces\\TBInterfaces.csproj
+		SccProjectName4 = ../../Library/TBInterfaces
+		SccLocalPath4 = ..\\..\\Library\\TBInterfaces
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE3282A6-C656-4BC8-A388-54CDCF5A8B7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE3282A6-C656-4BC8-A388-54CDCF5A8B7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE3282A6-C656-4BC8-A388-54CDCF5A8B7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE3282A6-C656-4BC8-A388-54CDCF5A8B7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0076F24-44C8-40D9-ABD8-FB4023D037BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0076F24-44C8-40D9-ABD8-FB4023D037BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0076F24-44C8-40D9-ABD8-FB4023D037BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0076F24-44C8-40D9-ABD8-FB4023D037BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A445CD-363D-4DFE-B35B-F27C79CD2AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A445CD-363D-4DFE-B35B-F27C79CD2AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A445CD-363D-4DFE-B35B-F27C79CD2AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A445CD-363D-4DFE-B35B-F27C79CD2AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98B88511-350D-4F0D-977D-40F62A179618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B88511-350D-4F0D-977D-40F62A179618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B88511-350D-4F0D-977D-40F62A179618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B88511-350D-4F0D-977D-40F62A179618}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

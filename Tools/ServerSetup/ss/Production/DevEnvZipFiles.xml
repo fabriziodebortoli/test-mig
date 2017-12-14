@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="release"
+                 upgradeGuid="53351E04-55B2-41F9-AD84-2C85041CCB12"
+                 producer="Microarea S.p.A."
+                 productName="Mago4 Development Environment"
+                 setupOutputFileName="TaskBuilderStudio_Developer_Edition"
+                 >
+  <!-- Il path come root di partenza e' calcolato automaticamente da CCNet -->
+  <FileSystemStructure>
+    <!-- Copio gli msi di TBS -->
+    <IncludeFolder name="*" recursive="yes">
+      <IncludeFile name="*.exe"/>
+    </IncludeFolder>
+    <!-- Copio gli zip dei sorgenti di TB e di MagoNet -->
+    <IncludeFile name="*.zip"/>
+  </FileSystemStructure>
+</SetupDefinition>

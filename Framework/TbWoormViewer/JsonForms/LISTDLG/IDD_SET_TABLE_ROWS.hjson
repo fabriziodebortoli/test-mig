@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_SET_TABLE_ROWS			GET_IDD(IDD_SET_TABLE_ROWS, M.Framework.TbWoormViewer.LISTDLG)
+#define	IDC_SET_TABLE_ROWS			GET_IDC(IDC_SET_TABLE_ROWS)

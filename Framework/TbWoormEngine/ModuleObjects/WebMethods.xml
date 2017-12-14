@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_Create" type="long" basetype="QueryObject, QueryObjectBase" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Query Object costructor" report="false" inEasyBuilder="false" WCF="true">
+      <Param name="pSymbolTable" type="long" basetype="SymTable, Array, CObArray" mode="in" />
+      <Param name="pSession" type="long" basetype="SqlSession, SqlObject" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_Dispose" type="bool" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Query Object costructor" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_Define" type="bool" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Query Object costructor" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="dsSql" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_GetColumnName" type="string" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Return Column Name" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="index" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_GetData" type="long" basetype="DataObj" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Return Column Data" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="name" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_GetValue" type="string" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Return Column Data in portable string format" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="sName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_Open" type="bool" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Open cursor" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_Close" type="bool" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Close cursor" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_Read" type="bool" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Fetch row" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_ReadOne" type="bool" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Fetch one row" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbWoormEngine.TbWoormEngine.Query_Execute" type="bool" mode="out" sourceInfo="File: Framework\TbWoormEngine\QueryObject.cpp." localize="Execute sql statment" report="false" inEasyBuilder="false" WCF="true" classType="QueryObject, QueryObjectBase">
+      <Param name="handle" type="long" basetype="QueryObject, QueryObjectBase" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+  </Functions>
+</FunctionObjects>

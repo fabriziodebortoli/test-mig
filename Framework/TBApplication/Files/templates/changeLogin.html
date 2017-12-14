@@ -1,0 +1,11 @@
+<div  ng-click="$event.stopPropagation();" class="dropdown-menu-right " id="cldiv">
+    <div class="padded paddedRight">
+        <div>
+            <div class="loginStyleOff link backButtonPadding" ng-click="settingsService.changeLoginChangeVisibility()"></div>
+        </div>
+        <div>
+            <div ng-show="settingsService.loginChangeVisibility" ng-include="'templates/Logincontent.html'">
+            </div>
+        </div>
+    </div>
+</div>

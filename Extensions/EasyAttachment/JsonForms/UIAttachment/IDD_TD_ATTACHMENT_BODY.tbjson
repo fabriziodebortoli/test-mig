@@ -1,0 +1,22 @@
+{
+  "context": "uiattachment",
+  "height": 146,
+  "id": "IDD_TD_ATTACHMENT_BODY",
+  "items": [
+    {
+      "height": 146,
+      "id": "IDC_ATTACHMENT_TILE_MNG",
+      "isText": true,
+      "text": "Tile Manager",
+      "type": 3/*Button*/,
+      "vertAlign": 0,
+      "width": 295,
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "overlapped": true,
+  "tabStop": false,
+  "type": 66/*Panel*/,
+  "width": 295
+}

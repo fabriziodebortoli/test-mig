@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_WEB_FILE_SAVE			GET_IDD(IDD_WEB_FILE_SAVE, M.Framework.TbGeneric.Dialogs)
+#define	IDC_EDIT_FILENAME			GET_IDC(IDC_EDIT_FILENAME)

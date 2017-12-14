@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<AppMenu>
+  <Application name="Framework" image_namespace="Image.TBF.TBFModule.Images.LogoTBF.png">
+    <Title localizable="true">TaskBuilder Framework</Title>
+    <Group name="Extensions.DataSynchro" image_namespace="Image.Extensions.ExtensionsImages.Images.25x25\DataSynchro.png" activation="Extensions.DataSynchroFunctionality">
+      <Title localizable="true">Data Synchronization</Title>
+      <Menu name="DataSynchro" search_command_image="true">
+        <Title localizable="true">Data Synchronization</Title>
+        <Menu name="DSMasters">
+          <Title localizable="true">Data Synchronization</Title>
+          <Document noweb="true" noeasystudio="true">
+            <Title localizable="true">Providers</Title>
+            <Object>Extensions.TbDataSynchroClient.TbDataSynchroClient.Providers</Object>
+          </Document>
+        </Menu>
+      </Menu>
+    </Group>
+  </Application>
+</AppMenu>

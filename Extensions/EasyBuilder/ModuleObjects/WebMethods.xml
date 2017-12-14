@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Extensions.EasyBuilder.TbEasyBuilder.OpenEasyBuilderSettings" type="void" sourceInfo="File: EasyBuilder\TbEasyBuilder\SoapFunctions.cpp." localize="Allow to open EasyStudio settings form" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Extensions.EasyBuilder.TbEasyBuilder.OpenMenuEditor" type="void" sourceInfo="File: EasyBuilder\TbEasyBuilder\SoapFunctions.cpp." localize="Allow to open EasyStudio settings form" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Extensions.EasyBuilder.TbEasyBuilder.OpenCustomizationManager" type="void" sourceInfo="File: EasyBuilder\TbEasyBuilder\SoapFunctions.cpp." localize="Allow to open the Setup Studio" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Extensions.EasyBuilder.TbEasyBuilder.UpdateCatalogIfNeeded" type="void" sourceInfo="File: EasyBuilder\TbEasyBuilder\SoapFunctions.cpp." localize="Allow to apply catalog changes for EasyStudio Customizations" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+  </Functions>
+</FunctionObjects>

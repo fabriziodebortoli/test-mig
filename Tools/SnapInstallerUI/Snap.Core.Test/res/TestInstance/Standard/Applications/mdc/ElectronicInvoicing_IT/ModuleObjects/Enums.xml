@@ -1,0 +1,64 @@
+<?xml version="1.0" standalone="yes"?>
+
+<Enums>
+   <Tag name="Electroning Invoicing Issuer Subject Type" value="489" defaultValue="0">
+    Indicates type of Issuer Subject
+    <Item name="Transferor" value="0" stored="32047104"/>
+    <Item name="Cessionary" value="1" stored="32047105"/>
+    <Item name="Third Intermediary" value="2" stored="32047106"/>
+  </Tag>
+	<Tag name="Type of Xml section" value="488" defaultValue="0">
+		Indicates type of xml section node.
+		<Item name="Electronic Invoicing Header" value="0" stored="31981568"/>
+		<Item name="Electronic Invoicing Document Header" value="1" stored="31981569"/>
+		<Item name="Electronic Invoicing Document Details" value="2" stored="31981570"/>
+		<Item name="Electronic Invoicing Document Payment Schedule" value="3" stored="31981571"/>
+	</Tag>
+  <Tag name="Electronic Invoicing IT Payment Type" value="493" defaultValue="0">
+    Indicates Electronic Invoicing IT Payment Type.
+    <Item name="TP01 - Payment by Installments" value="0" stored="32309248"/>
+    <Item name="TP02 - Full Payment" value="1" stored="32309249"/>
+    <Item name="TP03 - Advance" value="2" stored="32309250"/>
+  </Tag>
+	<Tag name="Fatelweb Return Status Type" value="494" defaultValue="0">
+		Indicates the Return Status type of the XML.
+		<Item name="Customer Info"                                 		    value="0"  stored="32374784"  allowISO="IT" />
+		<Item name="Send Multiple Documents"                              value="1"  stored="32374785"  allowISO="IT" />
+		<Item name="Document Status"                                  		value="2"  stored="32374786"  allowISO="IT" />
+		<Item name="Confirm Document"                                     value="3"  stored="32374787"  allowISO="IT" />
+		<Item name="Document Delete"                                  		value="4"  stored="32374788"  allowISO="IT" />
+		<Item name="Document Info"                                    		value="5"  stored="32374789"  allowISO="IT" />
+		<Item name="Force Document"                                    		value="6"  stored="32374790"  allowISO="IT" />
+	</Tag>
+	<Tag name="Electronic Invoicing IT Payment Reason Type" value="495" defaultValue="27">
+		Indicates Electronic Invoicing IT Payment Reason Type.
+		<Item name="A"  value="0"   stored="32440320"/>
+		<Item name="B"  value="1"   stored="32440321"/>
+		<Item name="C"  value="2"	  stored="32440322"/>
+		<Item name="D"  value="3"	  stored="32440323"/>
+		<Item name="E"  value="4"	  stored="32440324"/>
+		<Item name="G"  value="5"	  stored="32440325"/>
+		<Item name="H"  value="6"	  stored="32440326"/>
+		<Item name="I"	value="7"	  stored="32440327"/>
+		<Item name="L"	value="8"	  stored="32440328"/>
+		<Item name="M"	value="9"	  stored="32440329"/>
+		<Item name="N"	value="10"	stored="32440330"/>
+		<Item name="O"	value="11"	stored="32440331"/>
+		<Item name="P"	value="12"	stored="32440332"/>
+		<Item name="Q"	value="13"	stored="32440333"/>
+		<Item name="R"	value="14"	stored="32440334"/>
+		<Item name="S"	value="15"	stored="32440335"/>
+		<Item name="T"	value="16"	stored="32440336"/>
+		<Item name="U"	value="17"	stored="32440337"/>
+		<Item name="V"	value="18"	stored="32440338"/>
+		<Item name="W"	value="19"	stored="32440339"/>
+		<Item name="X"	value="20"	stored="32440340"/>
+		<Item name="Y"	value="21"	stored="32440341"/>
+		<Item name="Z"	value="22"	stored="32440342"/>
+		<Item name="L1" value="23"	stored="32440343"/>
+		<Item name="M1" value="24"	stored="32440344"/>
+		<Item name="O1" value="25"	stored="32440345"/>
+		<Item name="V1" value="26"	stored="32440346"/>
+    <Item name=" "  value="27"  stored="32440347"/>
+	</Tag>
+</Enums>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Framework.TbResourcesMng.TbResourcesMng.SetWorkerByName" type="bool" mode="out" sourceInfo="File: Framework\TbResourcesMng\RMFunctions.cpp." localize="Set the worker linked to the company login" report="false" inEasyBuilder="false" WCF="true" localizable="true">
+      This method set the worker linked to the company login
+Return value: true if successful otherwise false and the current worker id is set to 0
+      <Param name="aUserName" type="string" mode="in" localize="Company login" /><Param name="aWorkerName" type="string" mode="in" localize="Worker name" /><Param name="aWorkerLastName" type="string" mode="in" localize="Worker lastname" /></Function>
+    <Function namespace="Framework.TbResourcesMng.TbResourcesMng.SetWorkerByID" type="bool" mode="out" sourceInfo="File: Framework\TbResourcesMng\RMFunctions.cpp." localize="Set the worker linked to the company login" report="false" inEasyBuilder="false" WCF="true" localizable="true">
+      This method set the worker linked to the company login
+Return value: true if successful otherwise false and the current worker id is set to 0
+      <Param name="aUserName" type="string" mode="in" localize="Company login" /><Param name="aWorkerID" type="long" mode="in" /></Function>
+    <Function namespace="Framework.TbResourcesMng.TbResourcesMng.GetLoggedWorkerID" type="long" mode="out" sourceInfo="File: Framework\TbResourcesMng\TWorkers.cpp." localize="Logged Worker's ID" report="true" inEasyBuilder="false" WCF="true" localizable="true">
+Return value: Return currently logged Worker's ID
+      </Function>
+    <Function namespace="Framework.TbResourcesMng.TbResourcesMng.GetWorkerName" type="string" mode="out" sourceInfo="File: Framework\TbResourcesMng\TWorkers.cpp." localize="Name of Worker" report="true" inEasyBuilder="false" WCF="true" localizable="true">
+Return value: Return name and last name concatenated
+      <Param name="WorkerID" type="long" mode="in" localize="The ID of Worker" /></Function>
+    <Function namespace="Framework.TbResourcesMng.TbResourcesMng.GetLoggedWorkerName" type="string" mode="out" sourceInfo="File: Framework\TbResourcesMng\TWorkers.cpp." localize="Name of Worker" report="true" inEasyBuilder="false" WCF="true" localizable="true">
+Return value: Return name and last name concatenated
+      </Function>
+  </Functions>
+</FunctionObjects>

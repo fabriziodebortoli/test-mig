@@ -1,0 +1,312 @@
+﻿*|html, *|body, *|div, *|span, *|applet, *|object, *|iframe, *|h1, *|h2, *|h3, *|h4, *|h5, *|h6, *|p, *|blockquote, *|pre, *|a, *|abbr, *|acronym, *|address, *|big, *|cite, *|code, *|del, *|dfn, *|em, *|font, *|img, *|ins, *|kbd, *|q, *|s, *|samp, *|small, *|strike, *|strong, *|sub, *|sup, *|tt, *|var, *|dl, *|dt, *|dd, *|ol, *|ul, *|li, *|fieldset, *|form, *|label, *|legend, *|table, *|caption, *|tbody, *|tfoot, *|thead, *|tr, *|th, *|td {
+  border:  none;
+  margin: 0;
+  padding: 0;
+  outline-color: invert;
+  outline-style: none;
+  outline-width: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+*|*:focus {
+  outline-color: invert;
+  outline-style: none;
+  outline-width: 0;
+}
+*|body {
+  background: #000000 none repeat scroll 0% 50%;
+  line-height: 1;
+  color: black;
+}
+*|ol, *|ul {
+  list-style-type: none;
+  list-style-image: none;
+  list-style-position: outside;
+}
+*|table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+*|caption, *|th, *|td {
+  text-align: left;
+  font-weight: normal;
+}
+*|blockquote:before, *|blockquote:after, *|q:before, *|q:after {
+  content: "";
+}
+*|blockquote, *|q {
+  quotes: "" "";
+}
+
+.container{
+	/* defines general site setup */
+   background: #FFFFFF; 
+   width: 1024px;
+   margin: -20px auto;
+   padding-top: 0;
+}
+
+.content {
+	padding: 10;
+	margin: 20px 20px 0 200px;
+	background: #EEF5F6;
+	border: solid 1px #D6E0E2;
+}
+
+/* Document page CSS */
+.sidebar {
+	position: relative;
+	left: -20px;
+	top: 20px;
+	float: left;
+	width: 140px;
+	background: #EEF5F6;
+	padding: 20px;
+	border: solid 1px #D6E0E2;
+	margin: 0 10px 0 0;
+	text-shadow: 1px 1px 0px rgba(255,255,255,1);
+	box-shadow: inset 0px 0px 0px 1px #fff;
+}
+
+.document {
+    
+}
+
+.documentTitle {
+    border: solid 1px #E0E0E0 ;
+    background: #E0E0E0;
+    padding: 5px 5px 5px 5px;
+    Margin: 5px;
+}
+
+/* Toolbar */
+.ToolBarForm 
+{
+    margin: 10px 10px 10px 10px;
+    font-size: 10px;
+    border: solid 1px #D6E0E2;
+    background: #EEF5F6;
+    /*
+    padding-top: 80px;
+    padding-top: 50px;
+    padding-left: 5px;
+    border: solid 1px #D6E0E2;
+    background: #EEF5F6; 
+    */
+}
+
+.tabber
+{
+    background: #FFFF99;
+}
+
+.tab
+{
+    background: #FFFFCC;
+    margin: 10px 10px 10px 80px;
+}
+
+.messageboxModal
+{
+    filter: alpha(opacity=50);
+	opacity: 0.5;
+	display: none;
+	background: #C8C8C8;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* height: 100%; */
+    /* width:  100%; */
+}
+
+.messageboxUpModal
+{
+    display:block;
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    height: 100%;
+    width:  100%;
+}
+
+.messageBoxWin
+{
+    display:block;
+    padding:30px;
+    border: solid 5px #000000;
+    background: #FFFFFF; 
+    display: none;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.messageBoxWinTop
+{
+	border: solid 1px #000000;
+	background: #FF0000; 
+	position: absolute;
+	top: 0%;
+	left: 0%;
+    height: 100px;
+    width:  100%;	
+}
+
+.report {
+    /* background-color: #0000FF; */
+    height: 800px;
+    margin: 10px 10px 10px 10px;    
+    /* margin: 1em -1em; */
+    /* padding: 0.1em 1em; */
+    position: relative; 
+    overflow-x: scroll;
+}
+
+/* Button */
+.toolbarButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#c71ec7;
+	font-family:arial;
+	font-size:10px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+}
+
+.toolbarButton:hover {
+	background-color:#6b5d5d;
+}
+
+.toolbarButton:active {
+	position:relative;
+	top:1px;
+}
+
+/* Obj render class css */
+
+.group
+{
+	border: solid 1px #000000;
+}
+
+.group H1
+{
+	background-color:#6b5d5d;
+}
+	
+.labelObj 
+{
+}
+
+label	 
+{
+}
+
+.textBoxObj 
+{
+	
+}
+
+.textBoxObj label	 
+{
+	display:block;
+	font-weight:bold;
+	/* text-align:right; */
+	width:300px;
+	float:left;
+}
+
+input {
+    background: rgba(255,255,255,0.5);
+}
+
+.comboBoxObj
+{
+}
+
+.comboBoxObj label	 
+{
+	display:block;
+	font-weight:bold;
+	/* text-align:right; */
+	width:300px;
+	float:left;
+}
+
+.checkBoxObj
+{
+}
+
+.checkBoxObj label	 
+{
+	display:block;
+	font-weight:bold;
+	/* text-align:right; */
+	width:300px;
+	float:left;
+}
+
+.radioObj
+{
+}
+
+.radioObj label	 
+{
+	display:block;
+	font-weight:bold;
+	/* text-align:right; */
+	width:300px;
+	float:left;
+}
+
+.buttonObj
+{
+}
+
+.tableObj
+{
+    overflow: auto;
+}
+
+#table-design {
+	border: 1px solid #DFDFDF;
+	background-color: #F9F9F9;
+	width: 100%;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-family: Arial,"Bitstream Vera Sans",Helvetica,Verdana,sans-serif;
+	color: #333;
+}
+#table-design td, #table-3 th {
+	border-top-color: white;
+	border-bottom: 1px solid #DFDFDF;
+	color: #555;
+}
+#table-design th {
+	text-shadow: rgba(255, 255, 255, 0.796875) 0px 1px 0px;
+	font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+	font-weight: normal;
+	padding: 7px 7px 8px;
+	text-align: left;
+	line-height: 1.3em;
+	font-size: 14px;
+}
+#table-design td {
+	font-size: 12px;
+	padding: 4px 7px 2px;
+	vertical-align: top;
+}

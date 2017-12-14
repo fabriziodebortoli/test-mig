@@ -1,0 +1,64 @@
+﻿{
+  "id": "IDD_RS_GRANTSLAYOUT_CONFLICTS_DLG",
+  "rcId": 2508,
+  "type": 66,
+  "text": "Grants Conflicts",
+  "x": 0,
+  "y": 0,
+  "width": 243,
+  "height": 66,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "uirsgrantslayout",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&Yes",
+      "x": 109,
+      "y": 46,
+      "width": 40,
+      "height": 14
+    },
+    {
+      "id": "IDC_RS_GRANTSLAYOUT_CONFLICTS_SKIP",
+      "type": 3,
+      "text": "&Skip",
+      "x": 155,
+      "y": 46,
+      "width": 40,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 198,
+      "y": 46,
+      "width": 40,
+      "height": 14
+    },
+    {
+      "id": "IDC_RS_GRANTSLAYOUT_CONFLICTS_MSG",
+      "type": 2,
+      "text": "...",
+      "x": 7,
+      "y": 6,
+      "width": 230,
+      "height": 35,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_RS_GRANTSLAYOUT_CONFLICTS_APPLYALL",
+      "type": 11,
+      "text": "Do this for all conflicts",
+      "x": 6,
+      "y": 48,
+      "width": 88,
+      "height": 10,
+      "auto": true
+    }
+  ]
+}

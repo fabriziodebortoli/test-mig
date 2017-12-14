@@ -1,0 +1,11 @@
+<Table Name="MA_EICoding" Module="Core" Document="" AvailableIf="Core" Namespace="Table.MDC.Core.Dbl.MA_EICoding" RuntimeClass="TEICoding" localize="">
+  <Overview localizable="true">Electronic Invoicing Coding</Overview>
+  <Fields>
+    <Column Name="EIType" Type="Enum" Length="0" ReadOnly="" Default="X" Mandatory="X" Enum="Core/487" Reference="" localizable="true">EI Code Type</Column>
+    <Column Name="EICode" Type="String" Length="8" ReadOnly="" Default="" Mandatory="X" Enum="" Reference="" localizable="true">EI Code</Column>
+    <Column Name="Description" Type="String" Length="128" ReadOnly="" Default="" Mandatory="" Enum="" Reference="" localizable="true">EI Code Description</Column>
+    <Column Name="Disabled" Type="bool" Length="1" ReadOnly="" Default="" Mandatory="" Enum="" Reference="" localizable="true">EI Code Disabled</Column>
+  </Fields>
+  <Keys />
+  <Remarks localizable="true">Nothing to remark</Remarks>
+</Table>

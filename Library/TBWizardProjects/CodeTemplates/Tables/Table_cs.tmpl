@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microarea.Framework.TBApplicationWrapper;
+using Microarea.TaskBuilderNet.Model;
+
+namespace @(ApplicationName).@(ModuleName).@(LibrarySourceFolder)
+{
+    //================================================================================================================
+    public class @(TableClassName) : SqlRecord
+    {
+		@(RepeatOnDefinedColumns{\tprivate M@(ColumnDataObjClassName) _f_@(ColumnName);, "\r\n"})
+
+		@(IfIsTBGuidColumnToAdd(\n\t\tprivate MDataGuid _f_TBGuid;))
+
+		@(RepeatOnDefinedColumns{\tpublic virtual M@(ColumnDataObjClassName) f_@(ColumnName) { get { return _f_@(ColumnName); } }, "\r\n\t"})
+		
+		@(IfIsTBGuidColumnToAdd(\n\t\public virtual MDataGuid f_TBGuid { get  { return _f_TBGuid; }}))
+
+        //-----------------------------------------------------------------------------------------------
+		public  @(TableClassName) (System.IntPtr wrappedObject) 
+            :
+            base(wrappedObject)
+        {
+        }
+    
+        //-----------------------------------------------------------------------------------------------
+	    public override void CreateComponents()
+        {
+			@(RepeatOnDefinedColumns{\t _f_@(ColumnName) = new M@(ColumnDataObjClassName)(this.GetFieldPtr("@(ColumnName)")); this.Add(_f_@(ColumnName)); , "\r\n\t"})
+            this.ApplyResources();
+        }
+
+        //-----------------------------------------------------------------------------------------------
+        public override void ApplyResources()
+        {
+           // Microarea.EasyBuilder.CustomizationComponentResourceManager resources = Strings.ResourceManager;
+        }
+
+        //-----------------------------------------------------------------------------------------------
+        public override void ClearComponents()
+        {
+            base.ClearComponents();
+        }
+    }
+}

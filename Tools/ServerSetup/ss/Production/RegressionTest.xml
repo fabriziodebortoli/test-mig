@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="release"
+                 upgradeGuid="4AEF7FAA-1E60-4A82-B6DB-6CF8299D9CA8"
+                 producer="Microarea S.p.A."
+                 productName="Microarea Regression Test"
+                 setupOutputFileName="RegressionTest"
+                 applicationType="addon"
+                 clickOnceClientDeployment="yes"
+								 allowUpdates="no"
+                 producerWebSite="http://www.microarea.it"
+                 >
+	<!--Consideriamo questo path come root di partenza: C:\Development\-->
+	<FileSystemStructure >
+		<IncludeFolder name ="Apps" >
+			<IncludeFolder name="publish">
+				<IncludeFile name="RegressionTest*.dll"/>
+			</IncludeFolder>
+		</IncludeFolder>
+		<IncludeFolder name="Standard">
+			<IncludeFolder name="Applications">
+				<IncludeFolder name="RegressionTest">
+					<IncludeFolder name="*" fragment="yes">
+						<IncludeFolder name="Modules" recursive="yes">
+							<IncludeFile name="*.csm"/>
+						</IncludeFolder>
+						<IncludeFolder name="ModuleObjects">
+							<IncludeFile name="*.xml"/>
+						</IncludeFolder>
+						<IncludeFolder name="Menu|Settings">
+							<IncludeFile name="*.menu|*.config"/>
+						</IncludeFolder>
+						<IncludeFile name="*.config|*.Solution.xml"/>
+						<ExcludeFile name="*.CompatibilityList.config"/>
+					</IncludeFolder>
+					<IncludeFile name="application.config" />
+				</IncludeFolder>
+			</IncludeFolder>
+		</IncludeFolder>
+	</FileSystemStructure>
+</SetupDefinition>

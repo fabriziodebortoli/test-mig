@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DatabaseObjects>
+	<Signature>TbResourcesMng</Signature>
+	<Release>401</Release>
+	<Tables>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_ResourceTypes" mastertable="true">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_Resources" mastertable="true">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_ResourcesDetails">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_ResourcesFields">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_ResourcesAbsences">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_Workers" mastertable="true">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_WorkersDetails">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_WorkersFields">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_WorkersAbsences">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_WorkersArrangements">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_Arrangements" mastertable="true">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_AbsenceReasons" mastertable="true">
+			<Create release="1" createstep="3" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_Calendars" mastertable="true">
+			<Create release="1" createstep="4" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_CalendarsHolidays">
+			<Create release="1" createstep="4" />
+		</Table>
+		<Table namespace="Framework.TbResourcesMng.TbResourcesMng.RM_CalendarsShifts">
+			<Create release="1" createstep="4" />
+		</Table>
+	</Tables>
+</DatabaseObjects>

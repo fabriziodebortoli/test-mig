@@ -1,0 +1,75 @@
+﻿{
+    "id": "IDD_TD_WORKERS_FIELDS",
+    "name": "WorkerFields",
+    "text": "Custom Data",
+    "collapsible": true,
+    "type": 71, /*Tile*/
+    "x": 0,
+    "y": 0,
+    "width": 397,
+    "height": 97,
+    "child": true,
+    "items": [
+        {
+            "binding": {
+                "datasource": "WorkersFields"
+            },
+            "id": "IDC_WRK_FIELDS_BODYEDIT",
+            "name": "BEWorkersFields",
+            "type": 18, /*BodyEdit*/
+            "text": "Workers Fields BodyEdit",
+            "x": 0,
+            "y": 0,
+            "width": 393,
+            "height": 95,
+            "showDataTip": true,
+            "showStatusBar": true,
+            "items": [
+                {
+                    "binding": {
+                        "datasource": "FieldName"
+                    },
+                    "controlClass": "StringEdit",
+                    "id": "IDC_WRK_FIELDS_BE_NAME",
+                    "name": "FieldName",
+                    "text": "Name",
+                    "type": 22 /*ColTitle*/,
+                    "chars": 32,
+                    "rows": 2
+                },
+                {
+                    "binding": {
+                        "datasource": "FieldValue"
+                    },
+                    "controlClass": "StringEdit",
+                    "id": "IDC_WRK_FIELDS_BE_VALUE",
+                    "name": "FieldValue",
+                    "text": "Value",
+                    "type": 22 /*ColTitle*/,
+                    "chars": 64,
+                    "rows": 4
+                },
+                {
+                    "binding": {
+                        "datasource": "HideOnLayout"
+                    },
+                    "controlClass": "CheckBox",
+                    "id": "IDC_WRK_FIELDS_BE_HIDE_ON_LAYOUT",
+                    "name": "HideOnLayout",
+                    "text": "Hide",
+                    "type": 22 /*ColTitle*/
+                },
+                {
+                    "binding": {
+                        "datasource": "Notes"
+                    },
+                    "controlClass": "StringEdit",
+                    "id": "IDC_WRK_FIELDS_BE_NOTES",
+                    "name": "Notes",
+                    "text": "Notes",
+                    "type": 22 /*ColTitle*/
+                }
+            ]
+        }
+    ]
+}

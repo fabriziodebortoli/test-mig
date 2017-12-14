@@ -1,0 +1,14 @@
+{
+	"id": "ID_EXTDOC_TOOLBAR_TOOLS",
+	"items": [
+		{
+			"icon": "Framework.TbFrameworkImages.Images.25x25.Inspect.png",
+			"activation": "Defined('FieldInspector')",
+			"id": "ID_INSPECT",
+			"name": "Inspect",
+			"text": "Inspect field",
+			"type": 15 /*ToolbarButton*/,
+			"category": 5 /*Tools*/
+		}
+	]
+}

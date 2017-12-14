@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- File di configurazione che pilota la pubblicazione clickonce-->
+<ClientSetupDefinition xmlns="http://schemas.microarea.it/clientsetup">
+	<Application name="AdministrationConsoleLite" title="Administration Console Lite" publisher="Microarea">
+		<Folders>
+			<Folder name="TBApps" optional="true"></Folder>
+			<Folder name="AdministrationConsoleLite" optional="false"></Folder>
+			<Folder name="TeamViewer" optional="true"></Folder>
+		</Folders>
+		<Prerequisites>
+			<Folder name="DotNetFX40"/>
+			<Folder name="vcredist_x86"/>
+			<Folder name="WindowsInstaller3_1"/>
+		</Prerequisites>
+	</Application>
+</ClientSetupDefinition>

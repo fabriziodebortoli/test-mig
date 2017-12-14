@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_PROFILE_WIZARD_MASTER			GET_IDD(IDD_PROFILE_WIZARD_MASTER, M.Extensions.XEngine.ProfiliMngWizPage)
+#define	IDC_PROF_WIZ_STATIC_SHEET_RECT			GET_IDC(IDC_PROF_WIZ_STATIC_SHEET_RECT)

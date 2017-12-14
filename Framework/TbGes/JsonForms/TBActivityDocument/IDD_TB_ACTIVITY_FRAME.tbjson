@@ -1,0 +1,10 @@
+﻿{
+	"id": "IDD_TB_ACTIVITY_FRAME",
+	"name": "Activity",
+	"href": "M.Framework.TbGes.TbGes.IDD_BATCH_FRAME",
+	"items": [
+		{
+			"href": "M.Framework.TbGes.TbActivityDocument.IDD_TB_ACTIVITY_TOOLBAR"
+		}
+	]
+}

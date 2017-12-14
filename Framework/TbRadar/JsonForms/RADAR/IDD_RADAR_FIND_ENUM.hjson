@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_RADAR_FIND_ENUM			GET_IDD(IDD_RADAR_FIND_ENUM, M.Framework.TbRadar.RADAR)
+#define	IDC_RADAR_FIND_COMBO			GET_IDC(IDC_RADAR_FIND_COMBO)

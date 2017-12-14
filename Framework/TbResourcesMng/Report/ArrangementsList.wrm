@@ -1,0 +1,138 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7  Rect (54,56,481,753)  ReportTemplate "Report.erp.core.Basic.wrmt" 
+Properties
+	Begin
+		Title "Arrangements List" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "aResource Manager,Configuration" 
+	End
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+PageLayout "default" 
+	Begin
+		Text (716,508,740,539) "{Page} / {Page Number}" 
+
+			Begin
+				Style "PageNumber" 
+				Special
+				Align 2130 ;
+			End
+
+		Text (9,915,37,1041) "{Application Date} {Time}" 
+
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Text (59,9,100,1066) "Arrangements List" 
+
+			Begin
+				Style "ListTitleUnderline" 
+			End
+
+		Text (112,6,140,183) "From" 
+
+			Begin
+			End
+
+		Field (112,182,140,359) Alias 1 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (139,182,167,359) Alias 2 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (139,6,167,183) "To" 
+
+			Begin
+			End
+
+		Table (31,7) "" Alias 10 Origin (6,170) Heights (13,52,15,14) 
+		HideTitle
+		Title FontStyle "Text" ;
+			Begin
+				"Arrangement" Alias 3 Width 109 ;
+				"Description" Alias 4 Width 235 ;
+				"Level" Alias 5 Width 64 ;
+				"Basic Pay" Alias 6 Width 165 FormatStyle "Money" ;
+				"Total Pay" Alias 7 Width 165 FormatStyle "Money" ;
+				"Working Hours" Alias 8 Width 67 FormatStyle "ElapsedTime" ;
+				"Notes" Alias 9 Width 217 ;
+			End
+	End
+
+Report 
+	Begin NoName
+		Tables
+			RM_Arrangements [31] Alias 10 ;
+		End
+
+		Variables
+			String       w_AskFromArrangement [15,1] Alias 1  Input Init = ""  ;
+			String       w_AskToArrangement [15,1] Alias 2  Input Init = ""  ;
+			String       Arrangement [21] Alias 3  Column ;
+			String       Description [46] Alias 4  Column ;
+			String       ArrangementLevel [12] Alias 5  Column ;
+			Money        BasicPay [23] Alias 6  Column ;
+			Money        TotalPay [23] Alias 7  Column ;
+			ElapsedTime  WorkingHours [9] Alias 8  Column ;
+			String       Notes [42] Alias 9  Column ;
+		End
+
+		Rules
+			From RM_Arrangements 
+			Select 
+				Arrangement          Into Arrangement ,
+				Description          Into Description ,
+				ArrangementLevel     Into ArrangementLevel ,
+				BasicPay             Into BasicPay ,
+				TotalPay             Into TotalPay ,
+				WorkingHours         Into WorkingHours ,
+				Notes                Into Notes 
+				Where ( RM_Arrangements.Arrangement Between w_AskFromArrangement And w_AskToArrangement);
+		End
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+					End
+
+			Report : Do
+				Always 
+					Begin
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+	Dialogs
+		Begin
+			Dialog NoName  
+				Begin
+					Controls
+						Begin
+							Begin  "Arrangements"  
+								w_AskFromArrangement Prompt = "From" LowerLimit HotLink Framework.TbResourcesMng.TbResourcesMng.Arrangements ( ) ;
+								w_AskToArrangement Prompt = "To" UpperLimit HotLink Framework.TbResourcesMng.TbResourcesMng.Arrangements ( ) ;
+							End
+						End
+				End
+		End
+End
+

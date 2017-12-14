@@ -1,0 +1,56 @@
+﻿{
+   "height" : 44,
+   "id" : "IDD_EXTDOC_TOOLBAR",
+    "items": [
+        {
+            "id": "ID_EXTDOC_TOOLBAR_MAIN",
+            "items": [
+              {
+                "id": "ID_EXTDOC_FIND",
+                "activation": "false"
+              },
+              {
+                "id": "ID_EXTDOC_RADAR",
+                "activation": "false"
+              },
+              {
+                "id": "ID_EXTDOC_REPORT",
+                "activation": "false"
+              },
+              {
+                "id": "ID_EXTDOC_EXEC_QUERY",
+                "activation": "false"
+              },
+              {
+                "id": "ID_EXTDOC_FIRST",
+                "activation": "false"
+              },
+              {
+                "id": "ID_EXTDOC_PREV",
+                "activation": "false"
+              },
+              {
+                "id": "ID_EXTDOC_NEXT",
+                "activation": "false"
+              },
+              {
+                "id": "ID_EXTDOC_LAST",
+                "activation": "false"
+              }
+            ],
+            "name": "Main",
+            "type": 15 /*Toolbar*/
+        },
+        {
+            "id": "ID_EXTDOC_TOOLBAR_TOOLS",
+            "items": [
+              {
+                "id": "ID_EXTDOC_REFRESH_ROWSET",
+                "activation": "false"
+              }
+            ],
+            "name": "Tools",
+            "type": 15 /*Toolbar*/
+        }
+    ]
+}

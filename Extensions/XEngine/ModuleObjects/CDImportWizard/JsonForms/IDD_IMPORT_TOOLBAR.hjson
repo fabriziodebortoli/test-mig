@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_IMPORT_TOOLBAR	GET_IDD(IDD_IMPORT_TOOLBAR,D.Extensions.XEngine.CDImportWizard)
+#define ID_EXTDOC_TOOLBAR_TOOLS	GET_IDC(ID_EXTDOC_TOOLBAR_TOOLS)
+#define ID_EXTDOC_IMPORT_XML_DATA	GET_ID(ID_EXTDOC_IMPORT_XML_DATA)

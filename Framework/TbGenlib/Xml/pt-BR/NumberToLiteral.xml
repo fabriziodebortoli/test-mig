@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<LookUp>
+	<NameEntryes>
+		<NameEntry ValInt = "0"  ValStr = "Zero" />
+		<NameEntry ValInt = "1"  ValStr = "Um" />
+		<NameEntry ValInt = "2"  ValStr = "Dois" />
+		<NameEntry ValInt = "3"  ValStr = "Tres" />
+		<NameEntry ValInt = "4"  ValStr = "Quatro" />
+		<NameEntry ValInt = "5"  ValStr = "Cinco" />
+		<NameEntry ValInt = "6"  ValStr = "Seis" />
+		<NameEntry ValInt = "7"  ValStr = "Sete" />
+		<NameEntry ValInt = "8"  ValStr = "Oito" />
+		<NameEntry ValInt = "9"  ValStr = "Nove" />
+		<NameEntry ValInt = "10" ValStr = "Dez" />
+		<NameEntry ValInt = "11" ValStr = "Onze" />
+		<NameEntry ValInt = "12" ValStr = "Doze" />
+		<NameEntry ValInt = "13" ValStr = "Treze" />
+		<NameEntry ValInt = "14" ValStr = "Quatorze" />
+		<NameEntry ValInt = "15" ValStr = "Quinze" />
+		<NameEntry ValInt = "16" ValStr = "Dezesseis" />
+		<NameEntry ValInt = "17" ValStr = "Dezessete" />
+		<NameEntry ValInt = "18" ValStr = "Dezoito" />
+		<NameEntry ValInt = "19" ValStr = "Dezenove" />
+		<NameEntry ValInt = "20" ValStr = "Vinte" />
+		<NameEntry ValInt = "30" ValStr = "Trinta" />
+		<NameEntry ValInt = "40" ValStr = "Quarenta" />
+		<NameEntry ValInt = "50" ValStr = "Cinquenta" />
+		<NameEntry ValInt = "60" ValStr = "Sessenta" />
+		<NameEntry ValInt = "70" ValStr = "Setenta" />
+		<NameEntry ValInt = "80" ValStr = "Oitenta" />
+		<NameEntry ValInt = "90" ValStr = "Noventa" />
+		<NameEntry ValInt = "100" ValStr = "Cem" />
+		<NameEntry ValInt = "101" ValStr = "Cento e Um" />
+		<NameEntry ValInt = "102" ValStr = "Cento e Dois" />
+		<NameEntry ValInt = "103" ValStr = "Cento e Tres" />
+		<NameEntry ValInt = "104" ValStr = "Cento e Quatro" />
+		<NameEntry ValInt = "105" ValStr = "Cento e Cinco" />
+		<NameEntry ValInt = "106" ValStr = "Cento e Seis" />
+		<NameEntry ValInt = "107" ValStr = "Cento e Sete" />
+		<NameEntry ValInt = "108" ValStr = "Cento e Oito" />
+		<NameEntry ValInt = "109" ValStr = "Cento e Nove" />
+		<NameEntry ValInt = "110" ValStr = "Cento e Dez" />
+		<NameEntry ValInt = "111" ValStr = "Cento e Onze" />
+		<NameEntry ValInt = "112" ValStr = "Cento e Doze" />
+		<NameEntry ValInt = "113" ValStr = "Cento e Treze" />
+		<NameEntry ValInt = "114" ValStr = "Cento e Quatorze" />
+		<NameEntry ValInt = "115" ValStr = "Cento e Quinze" />
+		<NameEntry ValInt = "116" ValStr = "Cento e Dezesseis" />
+		<NameEntry ValInt = "117" ValStr = "Cento e Dezessete" />
+		<NameEntry ValInt = "118" ValStr = "Cento e Dezoito" />
+		<NameEntry ValInt = "119" ValStr = "Cento e Dezenove" />
+		<NameEntry ValInt = "120" ValStr = "Cento e Vinte" />
+		<NameEntry ValInt = "121" ValStr = "Cento e Vinte e Um" />
+		<NameEntry ValInt = "122" ValStr = "Cento e Vinte e Dois" />
+		<NameEntry ValInt = "123" ValStr = "Cento e Vinte e Tres" />
+		<NameEntry ValInt = "124" ValStr = "Cento e Vinte e Quatro" />
+		<NameEntry ValInt = "125" ValStr = "Cento e Vinte e Cinco" />
+		<NameEntry ValInt = "126" ValStr = "Cento e Vinte e Seis" />
+		<NameEntry ValInt = "127" ValStr = "Cento e Vinte e Sete" />
+		<NameEntry ValInt = "128" ValStr = "Cento e Vinte e Oito" />
+		<NameEntry ValInt = "129" ValStr = "Cento e Vinte e Nove" />
+		<NameEntry ValInt = "130" ValStr = "Cento e Trinta" />
+		<NameEntry ValInt = "131" ValStr = "Cento e Trinta e Um" />
+		<NameEntry ValInt = "132" ValStr = "Cento e Trinta e Dois" />
+		<NameEntry ValInt = "133" ValStr = "Cento e Trinta e Tres" />
+		<NameEntry ValInt = "134" ValStr = "Cento e Trinta e Quatro" />
+		<NameEntry ValInt = "135" ValStr = "Cento e Trinta e Cinco" />
+		<NameEntry ValInt = "136" ValStr = "Cento e Trinta e Seis" />
+		<NameEntry ValInt = "137" ValStr = "Cento e Trinta e Sete" />
+		<NameEntry ValInt = "138" ValStr = "Cento e Trinta e Oito" />
+		<NameEntry ValInt = "139" ValStr = "Cento e Trinta e Nove" />
+		<NameEntry ValInt = "140" ValStr = "Cento e Quarenta" />
+		<NameEntry ValInt = "141" ValStr = "Cento e Quarenta e Um" />
+		<NameEntry ValInt = "142" ValStr = "Cento e Quarenta e Dois" />
+		<NameEntry ValInt = "143" ValStr = "Cento e Quarenta e Tres" />
+		<NameEntry ValInt = "144" ValStr = "Cento e Quarenta e Quatro" />
+		<NameEntry ValInt = "145" ValStr = "Cento e Quarenta e Cinco" />
+		<NameEntry ValInt = "146" ValStr = "Cento e Quarenta e Seis" />
+		<NameEntry ValInt = "147" ValStr = "Cento e Quarenta e Sete" />
+		<NameEntry ValInt = "148" ValStr = "Cento e Quarenta e Oito" />
+		<NameEntry ValInt = "149" ValStr = "Cento e Quarenta e Nove" />
+		<NameEntry ValInt = "150" ValStr = "Cento e Cinquenta" />
+		<NameEntry ValInt = "151" ValStr = "Cento e Cinquenta e Um" />
+		<NameEntry ValInt = "152" ValStr = "Cento e Cinquenta e Dois" />
+		<NameEntry ValInt = "153" ValStr = "Cento e Cinquenta e Tres" />
+		<NameEntry ValInt = "154" ValStr = "Cento e Cinquenta e Quatro" />
+		<NameEntry ValInt = "155" ValStr = "Cento e Cinquenta e Cinco" />
+		<NameEntry ValInt = "156" ValStr = "Cento e Cinquenta e Seis" />
+		<NameEntry ValInt = "157" ValStr = "Cento e Cinquenta e Sete" />
+		<NameEntry ValInt = "158" ValStr = "Cento e Cinquenta e Oito" />
+		<NameEntry ValInt = "159" ValStr = "Cento e Cinquenta e Nove" />
+		<NameEntry ValInt = "160" ValStr = "Cento e Sessenta" />
+		<NameEntry ValInt = "161" ValStr = "Cento e Sessenta e Um" />
+		<NameEntry ValInt = "162" ValStr = "Cento e Sessenta e Dois" />
+		<NameEntry ValInt = "163" ValStr = "Cento e Sessenta e Tres" />
+		<NameEntry ValInt = "164" ValStr = "Cento e Sessenta e Quatro" />
+		<NameEntry ValInt = "165" ValStr = "Cento e Sessenta e Cinco" />
+		<NameEntry ValInt = "166" ValStr = "Cento e Sessenta e Seis" />
+		<NameEntry ValInt = "167" ValStr = "Cento e Sessenta e Sete" />
+		<NameEntry ValInt = "168" ValStr = "Cento e Sessenta e Oito" />
+		<NameEntry ValInt = "169" ValStr = "Cento e Sessenta e Nove" />
+		<NameEntry ValInt = "170" ValStr = "Cento e Setenta" />
+		<NameEntry ValInt = "171" ValStr = "Cento e Setenta e Um" />
+		<NameEntry ValInt = "172" ValStr = "Cento e Setenta e Dois" />
+		<NameEntry ValInt = "173" ValStr = "Cento e Setenta e Tres" />
+		<NameEntry ValInt = "174" ValStr = "Cento e Setenta e Quatro" />
+		<NameEntry ValInt = "175" ValStr = "Cento e Setenta e Cinco" />
+		<NameEntry ValInt = "176" ValStr = "Cento e Setenta e Seis" />
+		<NameEntry ValInt = "177" ValStr = "Cento e Setenta e Sete" />
+		<NameEntry ValInt = "178" ValStr = "Cento e Setenta e Oito" />
+		<NameEntry ValInt = "179" ValStr = "Cento e Setenta e Nove" />
+		<NameEntry ValInt = "180" ValStr = "Cento e Oitenta" />
+		<NameEntry ValInt = "181" ValStr = "Cento e Oitenta e Um" />
+		<NameEntry ValInt = "182" ValStr = "Cento e Oitenta e Dois" />
+		<NameEntry ValInt = "183" ValStr = "Cento e Oitenta e Tres" />
+		<NameEntry ValInt = "184" ValStr = "Cento e Oitenta e Quatro" />
+		<NameEntry ValInt = "185" ValStr = "Cento e Oitenta e Cinco" />
+		<NameEntry ValInt = "186" ValStr = "Cento e Oitenta e Seis" />
+		<NameEntry ValInt = "187" ValStr = "Cento e Oitenta e Sete" />
+		<NameEntry ValInt = "188" ValStr = "Cento e Oitenta e Oito" />
+		<NameEntry ValInt = "189" ValStr = "Cento e Oitenta e Nove" />
+		<NameEntry ValInt = "190" ValStr = "Cento e Noventa" />
+		<NameEntry ValInt = "191" ValStr = "Cento e Noventa e Um" />
+		<NameEntry ValInt = "192" ValStr = "Cento e Noventa e Dois" />
+		<NameEntry ValInt = "193" ValStr = "Cento e Noventa e Tres" />
+		<NameEntry ValInt = "194" ValStr = "Cento e Noventa e Quatro" />
+		<NameEntry ValInt = "195" ValStr = "Cento e Noventa e Cinco" />
+		<NameEntry ValInt = "196" ValStr = "Cento e Noventa e Seis" />
+		<NameEntry ValInt = "197" ValStr = "Cento e Noventa e Sete" />
+		<NameEntry ValInt = "198" ValStr = "Cento e Noventa e Oito" />
+		<NameEntry ValInt = "199" ValStr = "Cento e Noventa e Nove" />
+		
+		<NameEntry ValInt = "200" ValStr = "Duzentos" />
+		<NameEntry ValInt = "300" ValStr = "Trezentos" />
+    	<NameEntry ValInt = "500" ValStr = "Quinhentos" />
+
+    	<NameEntry ValInt = "1000" ValStr = "Um Mil" />
+		<NameEntry ValInt = "1000000" ValStr = "Um Milhao" />
+		<NameEntry ValInt = "1000000000" ValStr = "Um Bilhao" />
+	</NameEntryes>
+	<Groups>
+		<sHundreds value = "centos" useJunction = " e "/>
+		<sThousands value = " Mil " />
+		<sMillions value = " Milhoes " />
+		<sMilliards value = " Bilhoes " />
+	</Groups>
+	<Parameters>
+		<UnitInvertion value = "false" />
+		<Junction value = " e " />
+		<UniversalSeparator value =" e "/>  <!-- Separatore usato per dividere a ogni potenza di dieci ( es. cento SEP venti SEP due) --> 
+		<DecimalLiteral value ="true"/>	<!-- Determina se anche la parte decimale deve essere convertita in lettere -->
+		<CurrencySingular value=" Real"/>
+		<CurrencyPlural value=" Reais"/>
+		<CentesimalSingular value =" Centavo"/>
+		<CentesimalPlural value =" Centavos"/>
+  </Parameters>
+</LookUp>

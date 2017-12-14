@@ -1,0 +1,1623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TaskTabControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="GeneralPropertiesPageContent.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="GeneralPropertiesPageContent.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="GeneralPropertiesPageContent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 9</value>
+  </data>
+  <data name="GeneralPropertiesPageContent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>771, 406</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="GeneralPropertiesPageContent.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPageContent.Name" xml:space="preserve">
+    <value>GeneralPropertiesPageContent</value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPageContent.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.TaskSchedulerWindowsControls.GeneralTaskPropertiesPageContent, Microarea.Console.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPageContent.Parent" xml:space="preserve">
+    <value>GeneralPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPageContent.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="GeneralPropertiesPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="GeneralPropertiesPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>786, 417</value>
+  </data>
+  <data name="GeneralPropertiesPage.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="GeneralPropertiesPage.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="GeneralPropertiesPage.ToolTipText" xml:space="preserve">
+    <value>General task properties </value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPage.Name" xml:space="preserve">
+    <value>GeneralPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPage.Parent" xml:space="preserve">
+    <value>TaskTabControl</value>
+  </data>
+  <data name="&gt;&gt;GeneralPropertiesPage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RunIconizedCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="RunIconizedCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RunIconizedCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>45, 358</value>
+  </data>
+  <data name="RunIconizedCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 22</value>
+  </data>
+  <data name="RunIconizedCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="RunIconizedCheckBox.Text" xml:space="preserve">
+    <value>&amp;Launch minimized window</value>
+  </data>
+  <data name="RunIconizedCheckBox.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;RunIconizedCheckBox.Name" xml:space="preserve">
+    <value>RunIconizedCheckBox</value>
+  </data>
+  <data name="&gt;&gt;RunIconizedCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RunIconizedCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;RunIconizedCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="PrintReportCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="PrintReportCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PrintReportCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 119</value>
+  </data>
+  <data name="PrintReportCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>290, 23</value>
+  </data>
+  <data name="PrintReportCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="PrintReportCheckBox.Text" xml:space="preserve">
+    <value>Prin&amp;t report</value>
+  </data>
+  <data name="&gt;&gt;PrintReportCheckBox.Name" xml:space="preserve">
+    <value>PrintReportCheckBox</value>
+  </data>
+  <data name="&gt;&gt;PrintReportCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PrintReportCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;PrintReportCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NormalReportExecutionRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="NormalReportExecutionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="NormalReportExecutionRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 22</value>
+  </data>
+  <data name="NormalReportExecutionRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>340, 22</value>
+  </data>
+  <data name="NormalReportExecutionRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="NormalReportExecutionRadioButton.Text" xml:space="preserve">
+    <value>S&amp;imple report execution</value>
+  </data>
+  <data name="&gt;&gt;NormalReportExecutionRadioButton.Name" xml:space="preserve">
+    <value>NormalReportExecutionRadioButton</value>
+  </data>
+  <data name="&gt;&gt;NormalReportExecutionRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NormalReportExecutionRadioButton.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;NormalReportExecutionRadioButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ConcatPDFFilesCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="ConcatPDFFilesCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ConcatPDFFilesCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 131</value>
+  </data>
+  <data name="ConcatPDFFilesCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 22</value>
+  </data>
+  <data name="ConcatPDFFilesCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="ConcatPDFFilesCheckBox.Text" xml:space="preserve">
+    <value>Li&amp;nk PDF file</value>
+  </data>
+  <data name="&gt;&gt;ConcatPDFFilesCheckBox.Name" xml:space="preserve">
+    <value>ConcatPDFFilesCheckBox</value>
+  </data>
+  <data name="&gt;&gt;ConcatPDFFilesCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ConcatPDFFilesCheckBox.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ConcatPDFFilesCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ExcelFormatCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="ExcelFormatCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ExcelFormatCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 22</value>
+  </data>
+  <data name="ExcelFormatCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 22</value>
+  </data>
+  <data name="ExcelFormatCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ExcelFormatCheckBox.Text" xml:space="preserve">
+    <value>E&amp;xcel</value>
+  </data>
+  <data name="&gt;&gt;ExcelFormatCheckBox.Name" xml:space="preserve">
+    <value>ExcelFormatCheckBox</value>
+  </data>
+  <data name="&gt;&gt;ExcelFormatCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ExcelFormatCheckBox.Parent" xml:space="preserve">
+    <value>ReportFormatGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ExcelFormatCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RDEFormatCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="RDEFormatCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RDEFormatCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 22</value>
+  </data>
+  <data name="RDEFormatCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 22</value>
+  </data>
+  <data name="RDEFormatCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="RDEFormatCheckBox.Text" xml:space="preserve">
+    <value>R&amp;DE</value>
+  </data>
+  <data name="&gt;&gt;RDEFormatCheckBox.Name" xml:space="preserve">
+    <value>RDEFormatCheckBox</value>
+  </data>
+  <data name="&gt;&gt;RDEFormatCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RDEFormatCheckBox.Parent" xml:space="preserve">
+    <value>ReportFormatGroupBox</value>
+  </data>
+  <data name="&gt;&gt;RDEFormatCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="PDFFormatCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="PDFFormatCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PDFFormatCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 22</value>
+  </data>
+  <data name="PDFFormatCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 22</value>
+  </data>
+  <data name="PDFFormatCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="PDFFormatCheckBox.Text" xml:space="preserve">
+    <value>PD&amp;F</value>
+  </data>
+  <data name="&gt;&gt;PDFFormatCheckBox.Name" xml:space="preserve">
+    <value>PDFFormatCheckBox</value>
+  </data>
+  <data name="&gt;&gt;PDFFormatCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PDFFormatCheckBox.Parent" xml:space="preserve">
+    <value>ReportFormatGroupBox</value>
+  </data>
+  <data name="&gt;&gt;PDFFormatCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ReportFormatGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 103</value>
+  </data>
+  <data name="ReportFormatGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>262, 52</value>
+  </data>
+  <data name="ReportFormatGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="ReportFormatGroupBox.Text" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="&gt;&gt;ReportFormatGroupBox.Name" xml:space="preserve">
+    <value>ReportFormatGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ReportFormatGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReportFormatGroupBox.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ReportFormatGroupBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BrowseReportFileNameButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="BrowseReportFileNameButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BrowseReportFileNameButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>487, 74</value>
+  </data>
+  <data name="BrowseReportFileNameButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 23</value>
+  </data>
+  <data name="BrowseReportFileNameButton.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="BrowseReportFileNameButton.Text" xml:space="preserve">
+    <value>&amp;...</value>
+  </data>
+  <data name="&gt;&gt;BrowseReportFileNameButton.Name" xml:space="preserve">
+    <value>BrowseReportFileNameButton</value>
+  </data>
+  <data name="&gt;&gt;BrowseReportFileNameButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BrowseReportFileNameButton.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;BrowseReportFileNameButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ReportFileNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 74</value>
+  </data>
+  <data name="ReportFileNameTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 23</value>
+  </data>
+  <data name="ReportFileNameTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameTextBox.Name" xml:space="preserve">
+    <value>ReportFileNameTextBox</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameTextBox.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameTextBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ReportFileNameLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReportFileNameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ReportFileNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 76</value>
+  </data>
+  <data name="ReportFileNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 16</value>
+  </data>
+  <data name="ReportFileNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ReportFileNameLabel.Text" xml:space="preserve">
+    <value>File &amp;name:</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameLabel.Name" xml:space="preserve">
+    <value>ReportFileNameLabel</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameLabel.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ReportFileNameLabel.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="SaveReportAsFileRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SaveReportAsFileRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SaveReportAsFileRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 74</value>
+  </data>
+  <data name="SaveReportAsFileRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 23</value>
+  </data>
+  <data name="SaveReportAsFileRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="SaveReportAsFileRadioButton.Text" xml:space="preserve">
+    <value>Sa&amp;ve report in file</value>
+  </data>
+  <data name="&gt;&gt;SaveReportAsFileRadioButton.Name" xml:space="preserve">
+    <value>SaveReportAsFileRadioButton</value>
+  </data>
+  <data name="&gt;&gt;SaveReportAsFileRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SaveReportAsFileRadioButton.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SaveReportAsFileRadioButton.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ReportMailRecipientLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReportMailRecipientLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ReportMailRecipientLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 50</value>
+  </data>
+  <data name="ReportMailRecipientLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 16</value>
+  </data>
+  <data name="ReportMailRecipientLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ReportMailRecipientLabel.Text" xml:space="preserve">
+    <value>&amp;Recipient:</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientLabel.Name" xml:space="preserve">
+    <value>ReportMailRecipientLabel</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientLabel.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientLabel.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="SendMailWithReportAsAttachmentRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SendMailWithReportAsAttachmentRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SendMailWithReportAsAttachmentRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 48</value>
+  </data>
+  <data name="SendMailWithReportAsAttachmentRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 22</value>
+  </data>
+  <data name="SendMailWithReportAsAttachmentRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="SendMailWithReportAsAttachmentRadioButton.Text" xml:space="preserve">
+    <value>Send report with E-&amp;Mail</value>
+  </data>
+  <data name="&gt;&gt;SendMailWithReportAsAttachmentRadioButton.Name" xml:space="preserve">
+    <value>SendMailWithReportAsAttachmentRadioButton</value>
+  </data>
+  <data name="&gt;&gt;SendMailWithReportAsAttachmentRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SendMailWithReportAsAttachmentRadioButton.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SendMailWithReportAsAttachmentRadioButton.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="ReportMailRecipientControl.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="ReportMailRecipientControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 46</value>
+  </data>
+  <data name="ReportMailRecipientControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 27</value>
+  </data>
+  <data name="ReportMailRecipientControl.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientControl.Name" xml:space="preserve">
+    <value>ReportMailRecipientControl</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientControl.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.TaskSchedulerWindowsControls.MailAddressSelectionControl, Microarea.Console.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientControl.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ReportMailRecipientControl.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="CompressAttachmentsCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CompressAttachmentsCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CompressAttachmentsCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 106</value>
+  </data>
+  <data name="CompressAttachmentsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 23</value>
+  </data>
+  <data name="CompressAttachmentsCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CompressAttachmentsCheckBox.Text" xml:space="preserve">
+    <value>Co&amp;mpress attachments</value>
+  </data>
+  <data name="&gt;&gt;CompressAttachmentsCheckBox.Name" xml:space="preserve">
+    <value>CompressAttachmentsCheckBox</value>
+  </data>
+  <data name="&gt;&gt;CompressAttachmentsCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CompressAttachmentsCheckBox.Parent" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CompressAttachmentsCheckBox.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="ReportOptionsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 170</value>
+  </data>
+  <data name="ReportOptionsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>521, 163</value>
+  </data>
+  <data name="ReportOptionsGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="ReportOptionsGroupBox.Text" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="&gt;&gt;ReportOptionsGroupBox.Name" xml:space="preserve">
+    <value>ReportOptionsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;ReportOptionsGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReportOptionsGroupBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;ReportOptionsGroupBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="MessageTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 86</value>
+  </data>
+  <data name="MessageTextBox.MaxLength" type="System.Int32, mscorlib">
+    <value>255</value>
+  </data>
+  <data name="MessageTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="MessageTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>414, 60</value>
+  </data>
+  <data name="MessageTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;MessageTextBox.Name" xml:space="preserve">
+    <value>MessageTextBox</value>
+  </data>
+  <data name="&gt;&gt;MessageTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MessageTextBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;MessageTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CreateNewBrowserInstanceCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CreateNewBrowserInstanceCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CreateNewBrowserInstanceCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>64, 141</value>
+  </data>
+  <data name="CreateNewBrowserInstanceCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>442, 22</value>
+  </data>
+  <data name="CreateNewBrowserInstanceCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="CreateNewBrowserInstanceCheckBox.Text" xml:space="preserve">
+    <value>Open a new bro&amp;wser instance</value>
+  </data>
+  <data name="&gt;&gt;CreateNewBrowserInstanceCheckBox.Name" xml:space="preserve">
+    <value>CreateNewBrowserInstanceCheckBox</value>
+  </data>
+  <data name="&gt;&gt;CreateNewBrowserInstanceCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CreateNewBrowserInstanceCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CreateNewBrowserInstanceCheckBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="WaitForProcessHasExitedCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="WaitForProcessHasExitedCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="WaitForProcessHasExitedCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 97</value>
+  </data>
+  <data name="WaitForProcessHasExitedCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>405, 23</value>
+  </data>
+  <data name="WaitForProcessHasExitedCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="WaitForProcessHasExitedCheckBox.Text" xml:space="preserve">
+    <value>Wai&amp;ting for end of application</value>
+  </data>
+  <data name="&gt;&gt;WaitForProcessHasExitedCheckBox.Name" xml:space="preserve">
+    <value>WaitForProcessHasExitedCheckBox</value>
+  </data>
+  <data name="&gt;&gt;WaitForProcessHasExitedCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;WaitForProcessHasExitedCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;WaitForProcessHasExitedCheckBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CommandParametersButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CommandParametersButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CommandParametersButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>449, 77</value>
+  </data>
+  <data name="CommandParametersButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 28</value>
+  </data>
+  <data name="CommandParametersButton.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="CommandParametersButton.Text" xml:space="preserve">
+    <value>&amp;Parameters...</value>
+  </data>
+  <data name="&gt;&gt;CommandParametersButton.Name" xml:space="preserve">
+    <value>CommandParametersButton</value>
+  </data>
+  <data name="&gt;&gt;CommandParametersButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommandParametersButton.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CommandParametersButton.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CommandTypeComboBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="CommandTypeComboBox.Items" xml:space="preserve">
+    <value>Batch procedure</value>
+  </data>
+  <data name="CommandTypeComboBox.Items1" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="CommandTypeComboBox.Items2" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="CommandTypeComboBox.Items3" xml:space="preserve">
+    <value>Export data</value>
+  </data>
+  <data name="CommandTypeComboBox.Items4" xml:space="preserve">
+    <value>Import data</value>
+  </data>
+  <data name="CommandTypeComboBox.Items5" xml:space="preserve">
+    <value>Executable</value>
+  </data>
+  <data name="CommandTypeComboBox.Items6" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="CommandTypeComboBox.Items7" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="CommandTypeComboBox.Items8" xml:space="preserve">
+    <value>Web Page</value>
+  </data>
+  <data name="CommandTypeComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 14</value>
+  </data>
+  <data name="CommandTypeComboBox.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="CommandTypeComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 24</value>
+  </data>
+  <data name="CommandTypeComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeComboBox.Name" xml:space="preserve">
+    <value>CommandTypeComboBox</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeComboBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeComboBox.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="CommandTypeLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CommandTypeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CommandTypeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 16</value>
+  </data>
+  <data name="CommandTypeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 16</value>
+  </data>
+  <data name="CommandTypeLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CommandTypeLabel.Text" xml:space="preserve">
+    <value>&amp;Type:</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeLabel.Name" xml:space="preserve">
+    <value>CommandTypeLabel</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeLabel.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CommandTypeLabel.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="SelectMenuCommandBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SelectMenuCommandBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SelectMenuCommandBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>394, 11</value>
+  </data>
+  <data name="SelectMenuCommandBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 28</value>
+  </data>
+  <data name="SelectMenuCommandBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="SelectMenuCommandBtn.Text" xml:space="preserve">
+    <value>Select from &amp;menu...</value>
+  </data>
+  <data name="&gt;&gt;SelectMenuCommandBtn.Name" xml:space="preserve">
+    <value>SelectMenuCommandBtn</value>
+  </data>
+  <data name="&gt;&gt;SelectMenuCommandBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SelectMenuCommandBtn.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;SelectMenuCommandBtn.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="SelectCommandButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SelectCommandButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SelectCommandButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>533, 46</value>
+  </data>
+  <data name="SelectCommandButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 24</value>
+  </data>
+  <data name="SelectCommandButton.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="SelectCommandButton.Text" xml:space="preserve">
+    <value>&amp;...</value>
+  </data>
+  <data name="&gt;&gt;SelectCommandButton.Name" xml:space="preserve">
+    <value>SelectCommandButton</value>
+  </data>
+  <data name="&gt;&gt;SelectCommandButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SelectCommandButton.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;SelectCommandButton.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CommandTextBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CommandTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 47</value>
+  </data>
+  <data name="CommandTextBox.MaxLength" type="System.Int32, mscorlib">
+    <value>255</value>
+  </data>
+  <data name="CommandTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CommandTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>375, 23</value>
+  </data>
+  <data name="CommandTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="CommandTextBox.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;CommandTextBox.Name" xml:space="preserve">
+    <value>CommandTextBox</value>
+  </data>
+  <data name="&gt;&gt;CommandTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommandTextBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CommandTextBox.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="CommandLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CommandLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CommandLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 49</value>
+  </data>
+  <data name="CommandLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 16</value>
+  </data>
+  <data name="CommandLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CommandLabel.Text" xml:space="preserve">
+    <value>Comman&amp;d:</value>
+  </data>
+  <data name="&gt;&gt;CommandLabel.Name" xml:space="preserve">
+    <value>CommandLabel</value>
+  </data>
+  <data name="&gt;&gt;CommandLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommandLabel.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CommandLabel.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="CloseOnEndCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CloseOnEndCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CloseOnEndCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 98</value>
+  </data>
+  <data name="CloseOnEndCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>295, 23</value>
+  </data>
+  <data name="CloseOnEndCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="CloseOnEndCheckBox.Text" xml:space="preserve">
+    <value>Clos&amp;e window at process end</value>
+  </data>
+  <data name="&gt;&gt;CloseOnEndCheckBox.Name" xml:space="preserve">
+    <value>CloseOnEndCheckBox</value>
+  </data>
+  <data name="&gt;&gt;CloseOnEndCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CloseOnEndCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CloseOnEndCheckBox.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="MailTaskRecipientsControl.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="MailTaskRecipientsControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 45</value>
+  </data>
+  <data name="MailTaskRecipientsControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>414, 26</value>
+  </data>
+  <data name="MailTaskRecipientsControl.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;MailTaskRecipientsControl.Name" xml:space="preserve">
+    <value>MailTaskRecipientsControl</value>
+  </data>
+  <data name="&gt;&gt;MailTaskRecipientsControl.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.TaskSchedulerWindowsControls.MailAddressSelectionControl, Microarea.Console.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;MailTaskRecipientsControl.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;MailTaskRecipientsControl.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="VerifyCompanyDBBackupCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="VerifyCompanyDBBackupCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="VerifyCompanyDBBackupCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 99</value>
+  </data>
+  <data name="VerifyCompanyDBBackupCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>515, 23</value>
+  </data>
+  <data name="VerifyCompanyDBBackupCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="VerifyCompanyDBBackupCheckBox.Text" xml:space="preserve">
+    <value>Ve&amp;rify backup upon completion</value>
+  </data>
+  <data name="&gt;&gt;VerifyCompanyDBBackupCheckBox.Name" xml:space="preserve">
+    <value>VerifyCompanyDBBackupCheckBox</value>
+  </data>
+  <data name="&gt;&gt;VerifyCompanyDBBackupCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;VerifyCompanyDBBackupCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;VerifyCompanyDBBackupCheckBox.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="OverwriteCompanyDBBackupCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="OverwriteCompanyDBBackupCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OverwriteCompanyDBBackupCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 75</value>
+  </data>
+  <data name="OverwriteCompanyDBBackupCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>515, 23</value>
+  </data>
+  <data name="OverwriteCompanyDBBackupCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="OverwriteCompanyDBBackupCheckBox.Text" xml:space="preserve">
+    <value>O&amp;verwrite existing backup file</value>
+  </data>
+  <data name="&gt;&gt;OverwriteCompanyDBBackupCheckBox.Name" xml:space="preserve">
+    <value>OverwriteCompanyDBBackupCheckBox</value>
+  </data>
+  <data name="&gt;&gt;OverwriteCompanyDBBackupCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OverwriteCompanyDBBackupCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;OverwriteCompanyDBBackupCheckBox.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="ValidateDataCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="ValidateDataCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ValidateDataCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 99</value>
+  </data>
+  <data name="ValidateDataCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>405, 23</value>
+  </data>
+  <data name="ValidateDataCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="ValidateDataCheckBox.Text" xml:space="preserve">
+    <value>Run &amp;validation data</value>
+  </data>
+  <data name="&gt;&gt;ValidateDataCheckBox.Name" xml:space="preserve">
+    <value>ValidateDataCheckBox</value>
+  </data>
+  <data name="&gt;&gt;ValidateDataCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ValidateDataCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;ValidateDataCheckBox.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="UseDefaultBrowserRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="UseDefaultBrowserRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UseDefaultBrowserRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 114</value>
+  </data>
+  <data name="UseDefaultBrowserRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>393, 28</value>
+  </data>
+  <data name="UseDefaultBrowserRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="UseDefaultBrowserRadioButton.Text" xml:space="preserve">
+    <value>Open the default &amp;browser</value>
+  </data>
+  <data name="&gt;&gt;UseDefaultBrowserRadioButton.Name" xml:space="preserve">
+    <value>UseDefaultBrowserRadioButton</value>
+  </data>
+  <data name="&gt;&gt;UseDefaultBrowserRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UseDefaultBrowserRadioButton.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;UseDefaultBrowserRadioButton.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="SetApplicationDateCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SetApplicationDateCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SetApplicationDateCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 75</value>
+  </data>
+  <data name="SetApplicationDateCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>405, 23</value>
+  </data>
+  <data name="SetApplicationDateCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="SetApplicationDateCheckBox.Text" xml:space="preserve">
+    <value>Execute in system &amp;date</value>
+  </data>
+  <data name="&gt;&gt;SetApplicationDateCheckBox.Name" xml:space="preserve">
+    <value>SetApplicationDateCheckBox</value>
+  </data>
+  <data name="&gt;&gt;SetApplicationDateCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SetApplicationDateCheckBox.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;SetApplicationDateCheckBox.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="UseInternetExplorerRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="UseInternetExplorerRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UseInternetExplorerRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 82</value>
+  </data>
+  <data name="UseInternetExplorerRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>393, 28</value>
+  </data>
+  <data name="UseInternetExplorerRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="UseInternetExplorerRadioButton.Text" xml:space="preserve">
+    <value>Open with &amp;Internet Explorer</value>
+  </data>
+  <data name="&gt;&gt;UseInternetExplorerRadioButton.Name" xml:space="preserve">
+    <value>UseInternetExplorerRadioButton</value>
+  </data>
+  <data name="&gt;&gt;UseInternetExplorerRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UseInternetExplorerRadioButton.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;UseInternetExplorerRadioButton.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="MessageTextLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="MessageTextLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="MessageTextLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 86</value>
+  </data>
+  <data name="MessageTextLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 16</value>
+  </data>
+  <data name="MessageTextLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="MessageTextLabel.Text" xml:space="preserve">
+    <value>Me&amp;ssage:</value>
+  </data>
+  <data name="&gt;&gt;MessageTextLabel.Name" xml:space="preserve">
+    <value>MessageTextLabel</value>
+  </data>
+  <data name="&gt;&gt;MessageTextLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MessageTextLabel.Parent" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;MessageTextLabel.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="CommandPropertiesPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="CommandPropertiesPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>786, 417</value>
+  </data>
+  <data name="CommandPropertiesPage.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CommandPropertiesPage.Text" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="CommandPropertiesPage.ToolTipText" xml:space="preserve">
+    <value>Property of command associated to task</value>
+  </data>
+  <data name="&gt;&gt;CommandPropertiesPage.Name" xml:space="preserve">
+    <value>CommandPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;CommandPropertiesPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommandPropertiesPage.Parent" xml:space="preserve">
+    <value>TaskTabControl</value>
+  </data>
+  <data name="&gt;&gt;CommandPropertiesPage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SchedulingPageContent.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="SchedulingPageContent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 7</value>
+  </data>
+  <data name="SchedulingPageContent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>592, 317</value>
+  </data>
+  <data name="SchedulingPageContent.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPageContent.Name" xml:space="preserve">
+    <value>SchedulingPageContent</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPageContent.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.TaskSchedulerWindowsControls.SchedulingPropertiesPageContent, Microarea.Console.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPageContent.Parent" xml:space="preserve">
+    <value>SchedulingPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPageContent.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SchedulingPropertiesPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="SchedulingPropertiesPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>786, 417</value>
+  </data>
+  <data name="SchedulingPropertiesPage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="SchedulingPropertiesPage.Text" xml:space="preserve">
+    <value>Scheduling</value>
+  </data>
+  <data name="SchedulingPropertiesPage.ToolTipText" xml:space="preserve">
+    <value>Scheduling task roles</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPropertiesPage.Name" xml:space="preserve">
+    <value>SchedulingPropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPropertiesPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPropertiesPage.Parent" xml:space="preserve">
+    <value>TaskTabControl</value>
+  </data>
+  <data name="&gt;&gt;SchedulingPropertiesPage.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TaskMailNotificationsPageContent.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TaskMailNotificationsPageContent.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="TaskMailNotificationsPageContent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="TaskMailNotificationsPageContent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>786, 417</value>
+  </data>
+  <data name="TaskMailNotificationsPageContent.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TaskMailNotificationsPageContent.Name" xml:space="preserve">
+    <value>TaskMailNotificationsPageContent</value>
+  </data>
+  <data name="&gt;&gt;TaskMailNotificationsPageContent.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.TaskSchedulerWindowsControls.MailNotificationsPageContent, Microarea.Console.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TaskMailNotificationsPageContent.Parent" xml:space="preserve">
+    <value>NotificationsPage</value>
+  </data>
+  <data name="&gt;&gt;TaskMailNotificationsPageContent.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="NotificationsPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="NotificationsPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>786, 417</value>
+  </data>
+  <data name="NotificationsPage.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="NotificationsPage.Text" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="NotificationsPage.ToolTipText" xml:space="preserve">
+    <value>Notifications at the end of task execution</value>
+  </data>
+  <data name="&gt;&gt;NotificationsPage.Name" xml:space="preserve">
+    <value>NotificationsPage</value>
+  </data>
+  <data name="&gt;&gt;NotificationsPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NotificationsPage.Parent" xml:space="preserve">
+    <value>TaskTabControl</value>
+  </data>
+  <data name="&gt;&gt;NotificationsPage.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TaskTabControl.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>55, 24</value>
+  </data>
+  <data name="TaskTabControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="TaskTabControl.ShowToolTips" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TaskTabControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>794, 449</value>
+  </data>
+  <data name="TaskTabControl.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TaskTabControl.Name" xml:space="preserve">
+    <value>TaskTabControl</value>
+  </data>
+  <data name="&gt;&gt;TaskTabControl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TaskTabControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TaskTabControl.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="OkBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="OkBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="OkBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OkBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 465</value>
+  </data>
+  <data name="OkBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 28</value>
+  </data>
+  <data name="OkBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="OkBtn.Text" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="&gt;&gt;OkBtn.Name" xml:space="preserve">
+    <value>OkBtn</value>
+  </data>
+  <data name="&gt;&gt;OkBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OkBtn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OkBtn.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CancelBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="CancelBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CancelBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CancelBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>515, 465</value>
+  </data>
+  <data name="CancelBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 28</value>
+  </data>
+  <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CancelBtn.Text" xml:space="preserve">
+    <value>C&amp;ancel</value>
+  </data>
+  <data name="&gt;&gt;CancelBtn.Name" xml:space="preserve">
+    <value>CancelBtn</value>
+  </data>
+  <data name="&gt;&gt;CancelBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CancelBtn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CancelBtn.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="taskStatusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>0, 512</value>
+  </metadata>
+  <data name="taskToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 17</value>
+  </data>
+  <data name="taskStatusStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 512</value>
+  </data>
+  <data name="taskStatusStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>815, 22</value>
+  </data>
+  <data name="taskStatusStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="taskStatusStrip.Text" xml:space="preserve">
+    <value>statusStrip1</value>
+  </data>
+  <data name="&gt;&gt;taskStatusStrip.Name" xml:space="preserve">
+    <value>taskStatusStrip</value>
+  </data>
+  <data name="&gt;&gt;taskStatusStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;taskStatusStrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;taskStatusStrip.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
+    <value>7, 16</value>
+  </data>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>815, 534</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAMAICAQAAAAAADoAgAANgAAABAQAAAAAAAAaAUAAB4DAAAgIAAAAAAAAKgIAACGCAAAKAAAACAA
+        AABAAAAAAQAEAAAAAAAAAgAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAIAAAIAAAACAgACAAAAAgACAAICA
+        AACAgIAAwMDAAAAA/wAA/wAAAP//AP8AAAD/AP8A//8AAP///wAAAAAAAAAAAAAAAAAAAAAAd3d3d3d3
+        d3d3d3d3d3d3cHiIiIiIiIiIiIiIiIiIiHB4f/////////////////hweH/////////////////4cHh/
+        /////4AAAAj/////+HB4f////4RMzMzACP////hweH////hMzEREzMCP///4cHh///+EzAT//0TMCP//
+        +HB4f///TMD/+J//TMD///hweH//+EwP//////TAj//4cHh///TMD/P////0zA//+HB4f//0wP//P///
+        /0wP//hweH//9MD5//REj49MD//4cHh///TA+P/0P/+fTA//+HB4f//0wP//9PP//0wP//hweH//9MwP
+        //T///TMD//4cHh///hMD//////0wI//+HB4f///TMD/+Y//TMD///hweH///4TMRP//RMwI///4cHh/
+        ///4TMxERMzAj///+HB4f////4RMzMzECP////hweH//////hERESP/////4cHh/////////////////
+        +HB4d3d3d3d3d3d3d3d3d3hweIiIiIiIiIiIiIiIiIiIcHhERERERERERERAAAAAAHB4RERERERERERE
+        SICICIBweEREREREREREREiAiAiAcHhERERERERERERERERERHB4iIiIiIiIiIiIiIiIiIiAd3d3d3d3
+        d3d3d3d3d3d3dwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAKAAAABAAAAAgAAAAAQAIAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAEAAAAA
+        AAAAAIAAAIAAAACAgACAAAAAgACAAICAAADAwMAAwNzAAPDKpgAEBAQACAgIAAwMDAAREREAFhYWABwc
+        HAAiIiIAKSkpAFVVVQBNTU0AQkJCADk5OQCAfP8AUFD/AJMA1gD/7MwAxtbvANbn5wCQqa0AAAAzAAAA
+        ZgAAAJkAAADMAAAzAAAAMzMAADNmAAAzmQAAM8wAADP/AABmAAAAZjMAAGZmAABmmQAAZswAAGb/AACZ
+        AAAAmTMAAJlmAACZmQAAmcwAAJn/AADMAAAAzDMAAMxmAADMmQAAzMwAAMz/AAD/ZgAA/5kAAP/MADMA
+        AAAzADMAMwBmADMAmQAzAMwAMwD/ADMzAAAzMzMAMzNmADMzmQAzM8wAMzP/ADNmAAAzZjMAM2ZmADNm
+        mQAzZswAM2b/ADOZAAAzmTMAM5lmADOZmQAzmcwAM5n/ADPMAAAzzDMAM8xmADPMmQAzzMwAM8z/ADP/
+        MwAz/2YAM/+ZADP/zAAz//8AZgAAAGYAMwBmAGYAZgCZAGYAzABmAP8AZjMAAGYzMwBmM2YAZjOZAGYz
+        zABmM/8AZmYAAGZmMwBmZmYAZmaZAGZmzABmmQAAZpkzAGaZZgBmmZkAZpnMAGaZ/wBmzAAAZswzAGbM
+        mQBmzMwAZsz/AGb/AABm/zMAZv+ZAGb/zADMAP8A/wDMAJmZAACZM5kAmQCZAJkAzACZAAAAmTMzAJkA
+        ZgCZM8wAmQD/AJlmAACZZjMAmTNmAJlmmQCZZswAmTP/AJmZMwCZmWYAmZmZAJmZzACZmf8AmcwAAJnM
+        MwBmzGYAmcyZAJnMzACZzP8Amf8AAJn/MwCZzGYAmf+ZAJn/zACZ//8AzAAAAJkAMwDMAGYAzACZAMwA
+        zACZMwAAzDMzAMwzZgDMM5kAzDPMAMwz/wDMZgAAzGYzAJlmZgDMZpkAzGbMAJlm/wDMmQAAzJkzAMyZ
+        ZgDMmZkAzJnMAMyZ/wDMzAAAzMwzAMzMZgDMzJkAzMzMAMzM/wDM/wAAzP8zAJn/ZgDM/5kAzP/MAMz/
+        /wDMADMA/wBmAP8AmQDMMwAA/zMzAP8zZgD/M5kA/zPMAP8z/wD/ZgAA/2YzAMxmZgD/ZpkA/2bMAMxm
+        /wD/mQAA/5kzAP+ZZgD/mZkA/5nMAP+Z/wD/zAAA/8wzAP/MZgD/zJkA/8zMAP/M/wD//zMAzP9mAP//
+        mQD//8wAZmb/AGb/ZgBm//8A/2ZmAP9m/wD//2YAIQClAF9fXwB3d3cAhoaGAJaWlgDLy8sAsrKyANfX
+        1wDd3d0A4+PjAOrq6gDx8fEA+Pj4APD7/wCkoKAAgICAAAAA/wAA/wAAAP//AP8AAAD/AP8A//8AAP//
+        /wAAAAAAAAAAAAAAAAAAAAAA7Ovt7O2S7ezs+JKS7O1t6vcH9fX17uzs7ezs9fX18G2S7/X17uq77gfu
+        kRL19Qdtku/185IJ4hkZ9fGu9/UHbZLv9fL34uIZ3Nz1tev1B22S7/Xy7/P1uwCRGe3r9Qdtku/18gf1
+        9eL3beLs7fUHbZLv9fTwGfX19bu1E/H1B22S7/X18vAZ8PAJ7PD19e5t9/fy8vMHB+4H7Qf18vIH6+/P
+        rq6uz+zsz7X4Eupt6vjvoaGhoaGhoaGhz234+EP4koaGhoaGhoaGhoanp8+F6vAH7u7u7u7u7u4HBwfu
+        B+4AAAAAAAAAAAAAAAAAAAAA//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAA//8AACgAAAAgAAAAQAAAAAEACAAAAAAAAAQAAAAAAAAAAAAAAAEAAAAB
+        AAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAwMDAAMDcwADwyqYABAQEAAgICAAMDAwAERERABYW
+        FgAcHBwAIiIiACkpKQBVVVUATU1NAEJCQgA5OTkAgHz/AFBQ/wCTANYA/+zMAMbW7wDW5+cAkKmtAAAA
+        MwAAAGYAAACZAAAAzAAAMwAAADMzAAAzZgAAM5kAADPMAAAz/wAAZgAAAGYzAABmZgAAZpkAAGbMAABm
+        /wAAmQAAAJkzAACZZgAAmZkAAJnMAACZ/wAAzAAAAMwzAADMZgAAzJkAAMzMAADM/wAA/2YAAP+ZAAD/
+        zAAzAAAAMwAzADMAZgAzAJkAMwDMADMA/wAzMwAAMzMzADMzZgAzM5kAMzPMADMz/wAzZgAAM2YzADNm
+        ZgAzZpkAM2bMADNm/wAzmQAAM5kzADOZZgAzmZkAM5nMADOZ/wAzzAAAM8wzADPMZgAzzJkAM8zMADPM
+        /wAz/zMAM/9mADP/mQAz/8wAM///AGYAAABmADMAZgBmAGYAmQBmAMwAZgD/AGYzAABmMzMAZjNmAGYz
+        mQBmM8wAZjP/AGZmAABmZjMAZmZmAGZmmQBmZswAZpkAAGaZMwBmmWYAZpmZAGaZzABmmf8AZswAAGbM
+        MwBmzJkAZszMAGbM/wBm/wAAZv8zAGb/mQBm/8wAzAD/AP8AzACZmQAAmTOZAJkAmQCZAMwAmQAAAJkz
+        MwCZAGYAmTPMAJkA/wCZZgAAmWYzAJkzZgCZZpkAmWbMAJkz/wCZmTMAmZlmAJmZmQCZmcwAmZn/AJnM
+        AACZzDMAZsxmAJnMmQCZzMwAmcz/AJn/AACZ/zMAmcxmAJn/mQCZ/8wAmf//AMwAAACZADMAzABmAMwA
+        mQDMAMwAmTMAAMwzMwDMM2YAzDOZAMwzzADMM/8AzGYAAMxmMwCZZmYAzGaZAMxmzACZZv8AzJkAAMyZ
+        MwDMmWYAzJmZAMyZzADMmf8AzMwAAMzMMwDMzGYAzMyZAMzMzADMzP8AzP8AAMz/MwCZ/2YAzP+ZAMz/
+        zADM//8AzAAzAP8AZgD/AJkAzDMAAP8zMwD/M2YA/zOZAP8zzAD/M/8A/2YAAP9mMwDMZmYA/2aZAP9m
+        zADMZv8A/5kAAP+ZMwD/mWYA/5mZAP+ZzAD/mf8A/8wAAP/MMwD/zGYA/8yZAP/MzAD/zP8A//8zAMz/
+        ZgD//5kA///MAGZm/wBm/2YAZv//AP9mZgD/Zv8A//9mACEApQBfX18Ad3d3AIaGhgCWlpYAy8vLALKy
+        sgDX19cA3d3dAOPj4wDq6uoA8fHxAPj4+ADw+/8ApKCgAICAgAAAAP8AAP8AAAD//wD/AAAA/wD/AP//
+        AAD///8ACgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoK
+        CgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKbW1tbW1tbW1tbW1tbW1tbW1t
+        bW1tbW1tbW1tbW1tbQr37+8HBwcHBwcHBwcHB+/v7+8HBwcHBwcHBwcHB+/3Fe/38vT09PT09PPxB/eS
+        7e3t7Ozs9/D09PT09PT08PcV95Lz///////08Afs7Ozt7e21tW0V7Af////////x9xX3kvP///////D3
+        7Ozs7Oz37e21tbUTEgf///////H3FfeS8//////z75Lt7LUZGZO8GbvttbVt6vD/////8fcV95Lz////
+        /7z39/cJGRkZB/D//xm1tbUS6/L////x9xX3kvP////z7+/3CRkZGQncCQkZ//S1tbUUB/////H3FfeS
+        8/////Dv77sZGRkZGRnc3NwZ/xnttW3s9P//8fcV95Lz////vAfvGeLi4uIZGRkZ3NwZ/7v37G3y///x
+        9xX3kvP///+8B7vi4uLi4uIJCRkZ3Bn/Cfe1Erz///H3FfeS8////wcHB5n0/+Liu+ttkZG0CfOT7bUS
+        vP//8fcV95Lz////vPAHmvP/4uK77RIU65EJ8nTt9+q8///x9xX3kvP///+88Af0////4uLw7RS0CRni
+        u+3t6/L///H3FfeS8////7zwBxn/////4uLi92a0GRm77Ovt9P//8fcV95Lz////8vDxB////////+Li
+        90O7Geztbbz////x9xX3kvP/////vPO83f///////+Litbu17ezt9P////H3FfeS8//////xvPTw3f//
+        /xrz/+IZtZLt7PP/////8fcV95Lz///////wvPTwB90Zmbzdu/f3ku3y///////x9xX3kvP////////w
+        vPPyvLwHB+/v7/f38/////////H3FfftvPLx8fHx8vEH7wfw8Ly8B++S7/Dy8fHx8fHxvPcV7+2SkpKS
+        kpKSkveS7ZL3kpKSku3395KSkpKSkpLv9xXv7/f39/f39/f39/f39/f39/f3tfeSkveSkpKSkvftFbWn
+        oaGhoaGhoaGhoaGhoaGhoaGhp2ZDEEMVEEMVEBMRtaehoaGhoaGhoaGhoaGhoaGhoaGn9/cV7PcT7O/q
+        FBG1p6GhoaGhoaGhoaGhoaGhoaGhoaG192bsters720UEbWnp6enp6enp6enp6enp6enp6enp6enhoan
+        hoanhoYV97W1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW17RXs7e3t7e3t7e3t7e3t7e3t7e3t7e3t
+        7e3t7e3t7e3sE////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>498, 389</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Scheduled Task Properties</value>
+  </data>
+  <data name="&gt;&gt;taskToolStripStatusLabel.Name" xml:space="preserve">
+    <value>taskToolStripStatusLabel</value>
+  </data>
+  <data name="&gt;&gt;taskToolStripStatusLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>TaskPropertiesForm</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

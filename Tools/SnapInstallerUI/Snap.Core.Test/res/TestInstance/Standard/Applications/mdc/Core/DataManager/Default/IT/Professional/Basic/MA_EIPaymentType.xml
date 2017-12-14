@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <MA_EIPaymentType PaymentType="2686976" EICode="MP01" />
+  <MA_EIPaymentType PaymentType="2686983" EICode="MP02" />
+  <MA_EIPaymentType PaymentType="2686984" EICode="MP03" />
+  <MA_EIPaymentType PaymentType="2686982" EICode="MP05" />
+  <MA_EIPaymentType PaymentType="2686986" EICode="MP06" />
+  <MA_EIPaymentType PaymentType="2686993" EICode="MP07" />
+  <MA_EIPaymentType PaymentType="2686992" EICode="MP08" />
+  <MA_EIPaymentType PaymentType="2686989" EICode="MP20" />
+  <MA_EIPaymentType PaymentType="2686997" EICode="MP21" />
+  <MA_EIPaymentType PaymentType="2686981" EICode="MP12" />
+  <MA_EIPaymentType PaymentType="2686988" EICode="MP13" />
+  <MA_EIPaymentType PaymentType="2686994" EICode="MP18" /> 
+</DataTables>

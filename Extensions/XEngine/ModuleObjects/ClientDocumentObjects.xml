@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+	<ClientDocuments>
+		<ServerDocument type="family" class="CAbstractFormDoc">
+			<ClientDocument namespace="Extensions.XEngine.TbXMLTransfer.CDImportWizard" localize="Import"
+					  managedType="MXMLDataImportDoc, TBXMLTransfer">
+				<ViewModes>
+					<Mode name="Default" managedType="MXMLDataImportView, TBXMLTransfer"/>
+				</ViewModes>
+			</ClientDocument>
+			<ClientDocument namespace="Extensions.XEngine.TbXMLTransfer.CDExportWizard" localize="Export"
+					  managedType="MXMLDataExportDoc, TBXMLTransfer">
+				<ViewModes>
+					<Mode name="Default" managedType="MXMLDataExportView, TBXMLTransfer"/>
+				</ViewModes>
+			</ClientDocument>
+			<ClientDocument namespace="Extensions.XEngine.TbXMLTransfer.CDDataManagerInit" localize="DataManager" />
+		</ServerDocument>
+	</ClientDocuments>
+	<ClientForms>
+		<ClientForm name="D.Extensions.XEngine.CDImportWizard.IDD_IMPORT_TOOLBAR" server="IDD_MASTER_FRAME"/>
+		<ClientForm name="D.Extensions.XEngine.CDExportWizard.IDD_EXPORT_TOOLBAR" server="IDD_MASTER_FRAME"/>
+	</ClientForms>
+</ClientDocumentObjects>

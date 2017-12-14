@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_TB_HEADER_TILE				GET_IDD(IDD_TB_HEADER_TILE,  M.Framework.TbGes.UITileDialog)
+#define	IDC_TB_HEADER_TITLE				GET_IDC(IDC_TB_HEADER_TITLE)
+#define	IDC_TB_HEADER_SUBTITLE			GET_IDC(IDC_TB_HEADER_SUBTITLE)

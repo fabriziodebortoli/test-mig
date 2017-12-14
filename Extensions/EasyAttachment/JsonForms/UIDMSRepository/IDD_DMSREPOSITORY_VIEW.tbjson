@@ -1,0 +1,74 @@
+﻿{
+    "id": "IDD_DMSREPOSITORY_VIEW",
+    "name": "DMSRepository",
+    "type": 1 /*View*/,
+    "x": 0,
+    "y": 0,
+    "width": 654,
+    "height": 93,
+    "child": true,
+    "context": "uidmsrepository",
+    "items": [
+        {
+            "id": "IDC_TG_DMSREPOSITORY",
+            "type": 72 /*TileGroup*/,
+            "text": "Selections TileGroup",
+            "x": 0,
+            "y": 1,
+            "width": 654,
+            "height": 91,
+            "clipChildren": true,
+            "layoutType": 4, /*VBOX*/
+            "items": [
+                {
+                    "id": "IDC_TP_DMSREPOSITORY_QUICKSEARCH",
+                    "type": 77 /*TilePanel*/,
+                    "name": "QuickSearch",
+                    "showAsTile": true,
+                    "text": "Quick Search",
+                    "collapsible": true,
+                    "items": [
+                        {
+                            "href": "IDD_TD_DMSREPOSITORY_BASESELECTIONS"
+                        },
+                        {
+                            "href": "IDD_TD_DMSREPOSITORY_FREETEXT"
+                        },
+                        {
+                            "href": "IDD_TD_DMSREPOSITORY_WORKERS"
+                        }
+                    ]
+                }
+                ,
+                {
+                    "id": "IDC_TP_DMSREPOSITORY_ADVANCEDSEARCH",
+                    "type": 77 /*TilePanel*/,
+                    "name": "AdvancedSearch",
+                    "showAsTile": true,
+                    "text": "Advanced Search",
+                    "collapsible": true,
+                    "collapsed": true,
+                    "items": [
+                        {
+                            "href": "IDD_TD_DMSREPOSITORY_ADVANCEDSELECTIONS"
+                        }
+                    ]
+                }
+                ,
+                {
+                    "id": "IDC_TP_DMSREPOSITORY_RESULTS",
+                    "type": 77 /*TilePanel*/,
+                    "name": "Results",
+                    "showAsTile": true,
+                    "text": "Results",
+                    "collapsible": false,
+                    "items": [
+                        {
+                            "href": "IDD_TD_DMSREPOSITORY_RESULTS"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

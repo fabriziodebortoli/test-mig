@@ -1,0 +1,4 @@
+#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_BROWSER	GET_IDD(IDD_BROWSER,M.Framework.TbGes.TbGes)
+#define IDC_WEB_CONTROL	GET_IDC(IDC_WEB_CONTROL)

@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAConnector", "EAConnector\EAConnector.csproj", "{91A2BD4C-6EEB-49FA-818E-AF9AAFE551E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EADesigner", "EADesigner\EADesigner.csproj", "{474A53C9-1770-411D-9F21-74BFA4FBEAC8}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://srv-tfs13:8080/tfs/microarea
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = EAConnector\\EAConnector.csproj
+		SccProjectName1 = EAConnector
+		SccLocalPath1 = EAConnector
+		SccProjectUniqueName2 = EADesigner\\EADesigner.csproj
+		SccProjectName2 = EADesigner
+		SccLocalPath2 = EADesigner
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91A2BD4C-6EEB-49FA-818E-AF9AAFE551E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91A2BD4C-6EEB-49FA-818E-AF9AAFE551E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91A2BD4C-6EEB-49FA-818E-AF9AAFE551E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91A2BD4C-6EEB-49FA-818E-AF9AAFE551E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{474A53C9-1770-411D-9F21-74BFA4FBEAC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{474A53C9-1770-411D-9F21-74BFA4FBEAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{474A53C9-1770-411D-9F21-74BFA4FBEAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{474A53C9-1770-411D-9F21-74BFA4FBEAC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

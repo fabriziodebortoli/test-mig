@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbRadar\JsonForms\BERadar\IDD_BERADAR_MASTER.hjson>

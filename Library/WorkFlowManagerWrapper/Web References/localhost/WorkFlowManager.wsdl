@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Init">
+        <s:complexType />
+      </s:element>
+      <s:element name="InitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InitResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsActivated">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="application" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="functionality" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsActivatedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsActivatedResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActivationState">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetActivationStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetActivationStateResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Login">
+        <s:complexType />
+      </s:element>
+      <s:element name="LoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckActivationTimes">
+        <s:complexType />
+      </s:element>
+      <s:element name="CheckActivationTimesResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="MetodoDaTogliere">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="a" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="b" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="c" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MetodoDaTogliereResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="InitSoapIn">
+    <wsdl:part name="parameters" element="tns:Init" />
+  </wsdl:message>
+  <wsdl:message name="InitSoapOut">
+    <wsdl:part name="parameters" element="tns:InitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsActivatedSoapIn">
+    <wsdl:part name="parameters" element="tns:IsActivated" />
+  </wsdl:message>
+  <wsdl:message name="IsActivatedSoapOut">
+    <wsdl:part name="parameters" element="tns:IsActivatedResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActivationStateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActivationState" />
+  </wsdl:message>
+  <wsdl:message name="GetActivationStateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActivationStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapIn">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckActivationTimesSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckActivationTimes" />
+  </wsdl:message>
+  <wsdl:message name="CheckActivationTimesSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckActivationTimesResponse" />
+  </wsdl:message>
+  <wsdl:message name="MetodoDaTogliereSoapIn">
+    <wsdl:part name="parameters" element="tns:MetodoDaTogliere" />
+  </wsdl:message>
+  <wsdl:message name="MetodoDaTogliereSoapOut">
+    <wsdl:part name="parameters" element="tns:MetodoDaTogliereResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WorkFlowManagerSoap">
+    <wsdl:operation name="Init">
+      <wsdl:input message="tns:InitSoapIn" />
+      <wsdl:output message="tns:InitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsActivated">
+      <wsdl:input message="tns:IsActivatedSoapIn" />
+      <wsdl:output message="tns:IsActivatedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivationState">
+      <wsdl:input message="tns:GetActivationStateSoapIn" />
+      <wsdl:output message="tns:GetActivationStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input message="tns:LoginSoapIn" />
+      <wsdl:output message="tns:LoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckActivationTimes">
+      <wsdl:input message="tns:CheckActivationTimesSoapIn" />
+      <wsdl:output message="tns:CheckActivationTimesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MetodoDaTogliere">
+      <wsdl:input message="tns:MetodoDaTogliereSoapIn" />
+      <wsdl:output message="tns:MetodoDaTogliereSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WorkFlowManagerSoap" type="tns:WorkFlowManagerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="Init">
+      <soap:operation soapAction="http://tempuri.org/Init" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsActivated">
+      <soap:operation soapAction="http://tempuri.org/IsActivated" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivationState">
+      <soap:operation soapAction="http://tempuri.org/GetActivationState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckActivationTimes">
+      <soap:operation soapAction="http://tempuri.org/CheckActivationTimes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MetodoDaTogliere">
+      <soap:operation soapAction="http://tempuri.org/MetodoDaTogliere" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WorkFlowManager">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="WorkFlowManagerSoap" binding="tns:WorkFlowManagerSoap">
+      <soap:address location="http://localhost/Development/WorkFlowManager/WorkFlowManager.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

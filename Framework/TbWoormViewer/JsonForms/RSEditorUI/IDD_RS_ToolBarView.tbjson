@@ -1,0 +1,523 @@
+{
+   "context" : "rseditorui",
+   "height" : 329,
+   "id" : "IDD_RS_ToolBarView",
+   "items" : [
+      {
+         "controlClass" : "LabelStatic",
+         "controlLabel" : "Miscellaneous",
+         "font" : {
+            "bold" : true,
+            "faceName" : "Roboto",
+            "height" : 13
+         },
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_RS_STATIC_MISCELLANEOUS",
+         "linePosition" : 2, /*VCenter*/
+         "tabStop" : true,
+         "text" : "Miscellaneous",
+         "type" : 2, /*Label*/
+         "width" : 108,
+         "x" : 10,
+         "y" : 5
+      },
+      {
+         "height" : 18,
+         "id" : "ID_RS_REMOVE_LAYOUT_OBJECT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 18
+      },
+      {
+         "height" : 18,
+         "id" : "ID_TOGGLE_TRANSPARENT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 99,
+         "y" : 18
+      },
+      {
+         "controlClass" : "LabelStatic",
+         "controlLabel" : "Borders",
+         "font" : {
+            "bold" : true,
+            "faceName" : "Roboto",
+            "height" : 13
+         },
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_RS_STATIC_BORDERS",
+         "linePosition" : 2, /*VCenter*/
+         "tabStop" : true,
+         "text" : "Borders",
+         "type" : 2, /*Label*/
+         "width" : 108,
+         "x" : 10,
+         "y" : 264
+      },
+      {
+         "height" : 18,
+         "id" : "ID_TOGGLE_BORDER_UP",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 277
+      },
+      {
+         "height" : 18,
+         "id" : "ID_TOGGLE_BORDER_DOWN",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 41,
+         "y" : 277
+      },
+      {
+         "height" : 18,
+         "id" : "ID_TOGGLE_BORDER_LEFT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 71,
+         "y" : 277
+      },
+      {
+         "height" : 18,
+         "id" : "ID_TOGGLE_BORDER_RIGHT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 101,
+         "y" : 277
+      },
+      {
+         "height" : 18,
+         "id" : "ID_TOGGLE_BORDER_ALL",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 300
+      },
+      {
+         "controlClass" : "LabelStatic",
+         "controlLabel" : "Size",
+         "font" : {
+            "bold" : true,
+            "faceName" : "Roboto",
+            "height" : 13
+         },
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_RS_STATIC_SIZE",
+         "linePosition" : 2, /*VCenter*/
+         "tabStop" : true,
+         "text" : "Size",
+         "type" : 2, /*Label*/
+         "width" : 108,
+         "x" : 10,
+         "y" : 41
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_SHIFT_UP",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 54
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_SHIFT_DOWN",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 54
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_SHIFT_LEFT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 70,
+         "y" : 54
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_SHIFT_RIGHT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 54
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_CTRL_UP",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 78
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_CTRL_DOWN",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 78
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_CTRL_LEFT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 70,
+         "y" : 78
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_CTRL_RIGHT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 78
+      },
+      {
+         "controlClass" : "LabelStatic",
+         "controlLabel" : "Move",
+         "font" : {
+            "bold" : true,
+            "faceName" : "Roboto",
+            "height" : 13
+         },
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_RS_STATIC_MOVE",
+         "linePosition" : 2, /*VCenter*/
+         "tabStop" : true,
+         "text" : "Move",
+         "type" : 2, /*Label*/
+         "width" : 108,
+         "x" : 10,
+         "y" : 101
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_UP",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 114
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_DOWN",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 114
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_LEFT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 70,
+         "y" : 114
+      },
+      {
+         "height" : 18,
+         "id" : "ID_VK_RIGHT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 114
+      },
+      {
+         "height" : 18,
+         "id" : "ID_COL_LMOVE",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 137
+      },
+      {
+         "height" : 18,
+         "id" : "ID_COL_RMOVE",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 137
+      },
+      {
+         "height" : 18,
+         "id" : "ID_SNAP_TO_GRID",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 137
+      },
+      {
+         "controlClass" : "LabelStatic",
+         "controlLabel" : "Alignment",
+         "font" : {
+            "bold" : true,
+            "faceName" : "Roboto",
+            "height" : 13
+         },
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_RS_STATIC_ALIGNMENT",
+         "linePosition" : 2, /*VCenter*/
+         "tabStop" : true,
+         "text" : "Alignment",
+         "type" : 2, /*Label*/
+         "width" : 108,
+         "x" : 10,
+         "y" : 161
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_HLEFT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 173
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_HRIGHT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 173
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_VTOP",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 70,
+         "y" : 173
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_VBOTTOM",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 173
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_HSPACE_EQUAL",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 196
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_VSPACE_EQUAL",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 196
+      },
+      {
+         "height" : 18,
+         "id" : "ID_LAST_LARGE",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 70,
+         "y" : 196
+      },
+      {
+         "height" : 18,
+         "id" : "ID_LAST_HIGH",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 196
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_STACK_LEFT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 219
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_STACK_RIGHT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 219
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_STACK_TOP",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 70,
+         "y" : 219
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_STACK_BOTTOM",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 219
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_CUT_H_LEFT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 10,
+         "y" : 241
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_CUT_H_RIGHT",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 40,
+         "y" : 241
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_CUT_V_TOP",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 70,
+         "y" : 241
+      },
+      {
+         "height" : 18,
+         "id" : "ID_ALIGN_CUT_V_BOTTOM",
+         "isText" : true,
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 20,
+         "x" : 100,
+         "y" : 241
+      }
+   ],
+   "overlapped" : true,
+   "type" : 66, /*Panel*/
+   "width" : 132
+}

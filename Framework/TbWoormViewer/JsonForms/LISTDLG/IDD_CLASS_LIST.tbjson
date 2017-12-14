@@ -1,0 +1,91 @@
+﻿{
+  "id": "IDD_CLASS_LIST",
+  "rcId": 1161,
+  "type": 66,
+  "text": "Choose object style name",
+  "x": 0,
+  "y": 0,
+  "width": 166,
+  "height": 135,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_GENERIC_LIST",
+      "type": 24,
+      "x": 9,
+      "y": 6,
+      "width": 150,
+      "height": 94,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true,
+      "ownerDraw": 1
+    },
+    {
+      "id": "IDC_CLASS_NEW",
+      "type": 3,
+      "text": "Add",
+      "x": 98,
+      "y": 117,
+      "width": 61,
+      "height": 14,
+      "visible": false
+    },
+    {
+      "id": "IDC_CLASS_NEW_EDIT",
+      "type": 13,
+      "x": 9,
+      "y": 107,
+      "width": 150,
+      "height": 12,
+      "visible": false,
+      "group": true,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 8,
+      "y": 117,
+      "width": 61,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 98,
+      "y": 117,
+      "width": 61,
+      "height": 14
+    },
+    {
+      "id": "IDC_CLASS_SPECIAL_OK",
+      "type": 3,
+      "text": "Copy Object",
+      "x": 98,
+      "y": 117,
+      "width": 61,
+      "height": 14,
+      "visible": false
+    },
+    {
+      "id": "IDC_CLASS_EMPTY",
+      "type": 3,
+      "text": "Empty Style",
+      "x": 9,
+      "y": 117,
+      "width": 61,
+      "height": 14,
+      "visible": false
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+﻿{
+  "id": "IDD_PROC_DELETE",
+  "rcId": 1115,
+  "type": 66,
+  "text": "Delete element",
+  "x": 9,
+  "y": 20,
+  "width": 248,
+  "height": 174,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "procdlg",
+  "items": [
+    {
+      "id": "IDC_PROC_TRIGGEVN_LIST",
+      "type": 24,
+      "x": 129,
+      "y": 13,
+      "width": 111,
+      "height": 95,
+      "enabled": false,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "disableNoScroll": true,
+      "selection": 2,
+      "hasStrings": true
+    },
+    {
+      "id": "IDC_PROC_TRIGGEVN_SEL_ALL",
+      "type": 3,
+      "text": "&Select all",
+      "x": 129,
+      "y": 105,
+      "width": 110,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_TRIGGEVN_DESEL_ALL",
+      "type": 3,
+      "text": "&Deselect all",
+      "x": 129,
+      "y": 120,
+      "width": 110,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 3,
+      "y": 140,
+      "width": 56,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 61,
+      "y": 140,
+      "width": 60,
+      "height": 14
+    },
+    {
+      "id": "IDC_PROC_SEL_ALL",
+      "type": 3,
+      "text": "All",
+      "x": 123,
+      "y": 140,
+      "width": 59,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_DESEL_ALL",
+      "type": 3,
+      "text": "None",
+      "x": 183,
+      "y": 140,
+      "width": 59,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Current element:",
+      "x": 3,
+      "y": 2,
+      "width": 121,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROC_CURRENT_NAME",
+      "type": 13,
+      "x": 3,
+      "y": 12,
+      "width": 118,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_PROC_EVENT_REPORT",
+      "type": 11,
+      "text": "&Report",
+      "x": 6,
+      "y": 39,
+      "width": 109,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PROC_EVENT_NEWPAGE",
+      "type": 11,
+      "text": "&Form Feed",
+      "x": 6,
+      "y": 49,
+      "width": 110,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PROC_TABLEACT_LIST",
+      "type": 24,
+      "x": 5,
+      "y": 72,
+      "width": 111,
+      "height": 29,
+      "enabled": false,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "disableNoScroll": true,
+      "selection": 2,
+      "hasStrings": true
+    },
+    {
+      "id": "IDC_PROC_TABLEACT_SEL_ALL",
+      "type": 3,
+      "text": "Sel&ect all",
+      "x": 6,
+      "y": 105,
+      "width": 110,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_PROC_TABLEACT_DESEL_ALL",
+      "type": 3,
+      "text": "De&select all",
+      "x": 6,
+      "y": 120,
+      "width": 110,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Table Fill",
+      "x": 5,
+      "y": 61,
+      "width": 111,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 9,
+      "text": "Customized Events",
+      "x": 125,
+      "y": 2,
+      "width": 120,
+      "height": 135
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Default Events",
+      "x": 2,
+      "y": 27,
+      "width": 119,
+      "height": 110
+    }
+  ]
+}

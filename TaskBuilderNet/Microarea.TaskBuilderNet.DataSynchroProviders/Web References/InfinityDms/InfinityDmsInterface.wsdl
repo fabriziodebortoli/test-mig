@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:intf="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" targetNamespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types />
+  <wsdl:message name="getFolderPermissionResponse">
+    <wsdl:part name="getFolderPermissionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getListPersonResponse">
+    <wsdl:part name="getListPersonReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFileRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteFileResponse">
+    <wsdl:part name="deleteFileReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVersionIdRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfCodiceId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="uploadDocumentsRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="bDocuments" type="xsd:base64Binary" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+    <wsdl:part name="iAgain" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="setFilePermissionRequest1">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sFolder" type="xsd:string" />
+    <wsdl:part name="sFile" type="xsd:string" />
+    <wsdl:part name="iGroupId" type="xsd:int" />
+    <wsdl:part name="iUserId" type="xsd:int" />
+    <wsdl:part name="sPermission" type="xsd:string" />
+    <wsdl:part name="sValue" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVersionIdByExternalCodeResponse">
+    <wsdl:part name="getAllDocumentVersionIdByExternalCodeReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFolderCompanyResponse">
+    <wsdl:part name="getFolderCompanyReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_SincroAttributeResponse">
+    <wsdl:part name="DmsEasy_SincroAttributeReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getListFileInFolderRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sWithSubfolder" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setPropertyRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sFolder" type="xsd:string" />
+    <wsdl:part name="sFile" type="xsd:string" />
+    <wsdl:part name="sPropertyName" type="xsd:string" />
+    <wsdl:part name="sPropertyValue" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectRequest">
+    <wsdl:part name="sUser" type="xsd:string" />
+    <wsdl:part name="sPwd" type="xsd:string" />
+    <wsdl:part name="sCompanyId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="createCompanyFolderRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sApplicationId" type="xsd:string" />
+    <wsdl:part name="sCompanyOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFilePermissionResponse">
+    <wsdl:part name="getFilePermissionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getUploadResponseResponse">
+    <wsdl:part name="getUploadResponseReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getFileReleaseResponse">
+    <wsdl:part name="getFileReleaseReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="assignSubjectToFileRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+    <wsdl:part name="sSubject" type="xsd:string" />
+    <wsdl:part name="sOwner" type="xsd:string" />
+    <wsdl:part name="sOwnerCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentVersionByExternalCodeResponse">
+    <wsdl:part name="getDocumentVersionByExternalCodeReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentByExternalCodeRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfExternalCode" type="xsd:string" />
+    <wsdl:part name="sVfOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="createDirRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getNumDocDmsEasyResponse">
+    <wsdl:part name="getNumDocDmsEasyReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_SincroClassResponse">
+    <wsdl:part name="DmsEasy_SincroClassReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfCodiceId" type="xsd:string" />
+    <wsdl:part name="sVfAuthCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFolderPermissionRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sFolder" type="xsd:string" />
+    <wsdl:part name="iGroupId" type="xsd:int" />
+    <wsdl:part name="iUserId" type="xsd:int" />
+    <wsdl:part name="sPermission" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteFileRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFileResponse">
+    <wsdl:part name="getFileReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentReleaseResponse">
+    <wsdl:part name="getDocumentReleaseReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVersionIdResponse">
+    <wsdl:part name="getAllDocumentVersionIdReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="connectResponse">
+    <wsdl:part name="connectReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentReleaseRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfCodiceId" type="xsd:string" />
+    <wsdl:part name="sRelease" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getListFileInFolderResponse">
+    <wsdl:part name="getListFileInFolderReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="setFolderPermissionResponse">
+    <wsdl:part name="setFolderPermissionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="uploadDocumentRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="bDocument" type="xsd:base64Binary" />
+    <wsdl:part name="bDescriptor" type="xsd:base64Binary" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+    <wsdl:part name="iAgain" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getFileCrcRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getPropertyResponse">
+    <wsdl:part name="getPropertyReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentReleaseByExternalCodeRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfExternalCode" type="xsd:string" />
+    <wsdl:part name="sVfOwner" type="xsd:string" />
+    <wsdl:part name="sRelease" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setFolderPermissionRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sFolder" type="xsd:string" />
+    <wsdl:part name="iGroupId" type="xsd:int" />
+    <wsdl:part name="iUserId" type="xsd:int" />
+    <wsdl:part name="sPermission" type="xsd:string" />
+    <wsdl:part name="sValue" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getUploadResponseRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sType" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_GetClassRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentoResponse">
+    <wsdl:part name="getDocumentoReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="uploadDocumentResponse">
+    <wsdl:part name="uploadDocumentReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFolderCompanyRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sApplicationId" type="xsd:string" />
+    <wsdl:part name="sCompanyOwnerCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="pingResponse">
+    <wsdl:part name="pingReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="pingRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVerReleaseResponse">
+    <wsdl:part name="getAllDocumentVerReleaseReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="disconnectRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setFilePermissionResponse">
+    <wsdl:part name="setFilePermissionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_GetAttribRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="disconnectResponse">
+    <wsdl:part name="disconnectReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_SincroAttributeRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="bXml" type="xsd:base64Binary" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+    <wsdl:part name="iAgain" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getListPersonRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sOwnerCode" type="xsd:string" />
+    <wsdl:part name="sRole" type="xsd:string" />
+    <wsdl:part name="sApplicationId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_GetClassResponse">
+    <wsdl:part name="DmsEasy_GetClassReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="createDirResponse">
+    <wsdl:part name="createDirReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFilePermissionRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sFolder" type="xsd:string" />
+    <wsdl:part name="sFile" type="xsd:string" />
+    <wsdl:part name="iGroupId" type="xsd:int" />
+    <wsdl:part name="iUserId" type="xsd:int" />
+    <wsdl:part name="sPermission" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRootCompanyResponse">
+    <wsdl:part name="getRootCompanyReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentResponse">
+    <wsdl:part name="getDocumentReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="createCompanyFolderResponse">
+    <wsdl:part name="createCompanyFolderReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVerReleaseRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfCodiceId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="copyFileRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="bFile" type="xsd:base64Binary" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+    <wsdl:part name="iAgain" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getAllFileVerReleaseResponse">
+    <wsdl:part name="getAllFileVerReleaseReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteDirResponse">
+    <wsdl:part name="deleteDirReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRootCompanyRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="copyFileResponse">
+    <wsdl:part name="copyFileReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getNumDocDmsEasyRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sAttributes" type="xsd:string" />
+    <wsdl:part name="sValues" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVersionIdByExternalCodeRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfExternalCode" type="xsd:string" />
+    <wsdl:part name="sVfOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentVersionResponse">
+    <wsdl:part name="getDocumentVersionReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="deleteDirRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+    <wsdl:part name="sRecourse" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_SincroClassRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="bXml" type="xsd:base64Binary" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+    <wsdl:part name="iAgain" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getFileVersionResponse">
+    <wsdl:part name="getFileVersionReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVerReleaseByExternalCodeRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfExternalCode" type="xsd:string" />
+    <wsdl:part name="sVfOwner" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="DmsEasy_GetAttribResponse">
+    <wsdl:part name="DmsEasy_GetAttribReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentByExternalCodeResponse">
+    <wsdl:part name="getDocumentByExternalCodeReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="checkDmsModuleRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentoRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sDocumentId" type="xsd:string" />
+    <wsdl:part name="sAuthCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setFilePermissionRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sFolder" type="xsd:string" />
+    <wsdl:part name="sFile" type="xsd:string" />
+    <wsdl:part name="sLogin" type="xsd:string" />
+    <wsdl:part name="sPermission" type="xsd:string" />
+    <wsdl:part name="sValue" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFileVersionRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+    <wsdl:part name="sVersionId" type="xsd:string" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFileReleaseRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+    <wsdl:part name="sRelease" type="xsd:string" />
+    <wsdl:part name="sFlags" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkDmsModuleResponse">
+    <wsdl:part name="checkDmsModuleReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="assignSubjectToFileResponse">
+    <wsdl:part name="assignSubjectToFileReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getFileCrcResponse">
+    <wsdl:part name="getFileCrcReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllDocumentVerReleaseByExternalCodeResponse">
+    <wsdl:part name="getAllDocumentVerReleaseByExternalCodeReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentVersionByExternalCodeRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfExternalCode" type="xsd:string" />
+    <wsdl:part name="sVfOwner" type="xsd:string" />
+    <wsdl:part name="sVersionId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentReleaseByExternalCodeResponse">
+    <wsdl:part name="getDocumentReleaseByExternalCodeReturn" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentVersionRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sVfCodiceId" type="xsd:string" />
+    <wsdl:part name="sVersionId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllFileVerReleaseRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllFileVersionIdRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sLogicalDir" type="xsd:string" />
+    <wsdl:part name="sLogicalName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getPropertyRequest">
+    <wsdl:part name="sContextId" type="xsd:string" />
+    <wsdl:part name="sFolder" type="xsd:string" />
+    <wsdl:part name="sFile" type="xsd:string" />
+    <wsdl:part name="sPropertyName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllFileVersionIdResponse">
+    <wsdl:part name="getAllFileVersionIdReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="uploadDocumentsResponse">
+    <wsdl:part name="uploadDocumentsReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setFilePermissionResponse1">
+    <wsdl:part name="setFilePermissionReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="setPropertyResponse">
+    <wsdl:part name="setPropertyReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="InfinityDmsInterface">
+    <wsdl:operation name="setProperty" parameterOrder="sContextId sFolder sFile sPropertyName sPropertyValue">
+      <wsdl:input name="setPropertyRequest" message="impl:setPropertyRequest" />
+      <wsdl:output name="setPropertyResponse" message="impl:setPropertyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getProperty" parameterOrder="sContextId sFolder sFile sPropertyName">
+      <wsdl:input name="getPropertyRequest" message="impl:getPropertyRequest" />
+      <wsdl:output name="getPropertyResponse" message="impl:getPropertyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFile" parameterOrder="sContextId sLogicalDir sLogicalName sFlags">
+      <wsdl:input name="getFileRequest" message="impl:getFileRequest" />
+      <wsdl:output name="getFileResponse" message="impl:getFileResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="connect" parameterOrder="sUser sPwd sCompanyId">
+      <wsdl:input name="connectRequest" message="impl:connectRequest" />
+      <wsdl:output name="connectResponse" message="impl:connectResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocument" parameterOrder="sContextId sVfCodiceId sVfAuthCode">
+      <wsdl:input name="getDocumentRequest" message="impl:getDocumentRequest" />
+      <wsdl:output name="getDocumentResponse" message="impl:getDocumentResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteDir" parameterOrder="sContextId sLogicalName sRecourse">
+      <wsdl:input name="deleteDirRequest" message="impl:deleteDirRequest" />
+      <wsdl:output name="deleteDirResponse" message="impl:deleteDirResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="disconnect" parameterOrder="sContextId">
+      <wsdl:input name="disconnectRequest" message="impl:disconnectRequest" />
+      <wsdl:output name="disconnectResponse" message="impl:disconnectResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentVersion" parameterOrder="sContextId sVfCodiceId sVersionId">
+      <wsdl:input name="getDocumentVersionRequest" message="impl:getDocumentVersionRequest" />
+      <wsdl:output name="getDocumentVersionResponse" message="impl:getDocumentVersionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createDir" parameterOrder="sContextId sLogicalName">
+      <wsdl:input name="createDirRequest" message="impl:createDirRequest" />
+      <wsdl:output name="createDirResponse" message="impl:createDirResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteFile" parameterOrder="sContextId sLogicalDir sLogicalName">
+      <wsdl:input name="deleteFileRequest" message="impl:deleteFileRequest" />
+      <wsdl:output name="deleteFileResponse" message="impl:deleteFileResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="copyFile" parameterOrder="sContextId bFile sLogicalDir sLogicalName sFlags iAgain">
+      <wsdl:input name="copyFileRequest" message="impl:copyFileRequest" />
+      <wsdl:output name="copyFileResponse" message="impl:copyFileResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="ping" parameterOrder="sContextId">
+      <wsdl:input name="pingRequest" message="impl:pingRequest" />
+      <wsdl:output name="pingResponse" message="impl:pingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFileVersion" parameterOrder="sContextId sLogicalDir sLogicalName sVersionId sFlags">
+      <wsdl:input name="getFileVersionRequest" message="impl:getFileVersionRequest" />
+      <wsdl:output name="getFileVersionResponse" message="impl:getFileVersionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumento" parameterOrder="sContextId sDocumentId sAuthCode">
+      <wsdl:input name="getDocumentoRequest" message="impl:getDocumentoRequest" />
+      <wsdl:output name="getDocumentoResponse" message="impl:getDocumentoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFileRelease" parameterOrder="sContextId sLogicalDir sLogicalName sRelease sFlags">
+      <wsdl:input name="getFileReleaseRequest" message="impl:getFileReleaseRequest" />
+      <wsdl:output name="getFileReleaseResponse" message="impl:getFileReleaseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllFileVersionId" parameterOrder="sContextId sLogicalDir sLogicalName">
+      <wsdl:input name="getAllFileVersionIdRequest" message="impl:getAllFileVersionIdRequest" />
+      <wsdl:output name="getAllFileVersionIdResponse" message="impl:getAllFileVersionIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllFileVerRelease" parameterOrder="sContextId sLogicalDir sLogicalName">
+      <wsdl:input name="getAllFileVerReleaseRequest" message="impl:getAllFileVerReleaseRequest" />
+      <wsdl:output name="getAllFileVerReleaseResponse" message="impl:getAllFileVerReleaseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentRelease" parameterOrder="sContextId sVfCodiceId sRelease">
+      <wsdl:input name="getDocumentReleaseRequest" message="impl:getDocumentReleaseRequest" />
+      <wsdl:output name="getDocumentReleaseResponse" message="impl:getDocumentReleaseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVersionId" parameterOrder="sContextId sVfCodiceId">
+      <wsdl:input name="getAllDocumentVersionIdRequest" message="impl:getAllDocumentVersionIdRequest" />
+      <wsdl:output name="getAllDocumentVersionIdResponse" message="impl:getAllDocumentVersionIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVerRelease" parameterOrder="sContextId sVfCodiceId">
+      <wsdl:input name="getAllDocumentVerReleaseRequest" message="impl:getAllDocumentVerReleaseRequest" />
+      <wsdl:output name="getAllDocumentVerReleaseResponse" message="impl:getAllDocumentVerReleaseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentVersionByExternalCode" parameterOrder="sContextId sVfExternalCode sVfOwner sVersionId">
+      <wsdl:input name="getDocumentVersionByExternalCodeRequest" message="impl:getDocumentVersionByExternalCodeRequest" />
+      <wsdl:output name="getDocumentVersionByExternalCodeResponse" message="impl:getDocumentVersionByExternalCodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentReleaseByExternalCode" parameterOrder="sContextId sVfExternalCode sVfOwner sRelease">
+      <wsdl:input name="getDocumentReleaseByExternalCodeRequest" message="impl:getDocumentReleaseByExternalCodeRequest" />
+      <wsdl:output name="getDocumentReleaseByExternalCodeResponse" message="impl:getDocumentReleaseByExternalCodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVersionIdByExternalCode" parameterOrder="sContextId sVfExternalCode sVfOwner">
+      <wsdl:input name="getAllDocumentVersionIdByExternalCodeRequest" message="impl:getAllDocumentVersionIdByExternalCodeRequest" />
+      <wsdl:output name="getAllDocumentVersionIdByExternalCodeResponse" message="impl:getAllDocumentVersionIdByExternalCodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVerReleaseByExternalCode" parameterOrder="sContextId sVfExternalCode sVfOwner">
+      <wsdl:input name="getAllDocumentVerReleaseByExternalCodeRequest" message="impl:getAllDocumentVerReleaseByExternalCodeRequest" />
+      <wsdl:output name="getAllDocumentVerReleaseByExternalCodeResponse" message="impl:getAllDocumentVerReleaseByExternalCodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByExternalCode" parameterOrder="sContextId sVfExternalCode sVfOwner">
+      <wsdl:input name="getDocumentByExternalCodeRequest" message="impl:getDocumentByExternalCodeRequest" />
+      <wsdl:output name="getDocumentByExternalCodeResponse" message="impl:getDocumentByExternalCodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFileCrc" parameterOrder="sContextId sLogicalDir sLogicalName">
+      <wsdl:input name="getFileCrcRequest" message="impl:getFileCrcRequest" />
+      <wsdl:output name="getFileCrcResponse" message="impl:getFileCrcResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_SincroAttribute" parameterOrder="sContextId bXml sFlags iAgain">
+      <wsdl:input name="DmsEasy_SincroAttributeRequest" message="impl:DmsEasy_SincroAttributeRequest" />
+      <wsdl:output name="DmsEasy_SincroAttributeResponse" message="impl:DmsEasy_SincroAttributeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_SincroClass" parameterOrder="sContextId bXml sFlags iAgain">
+      <wsdl:input name="DmsEasy_SincroClassRequest" message="impl:DmsEasy_SincroClassRequest" />
+      <wsdl:output name="DmsEasy_SincroClassResponse" message="impl:DmsEasy_SincroClassResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_GetClass" parameterOrder="sContextId">
+      <wsdl:input name="DmsEasy_GetClassRequest" message="impl:DmsEasy_GetClassRequest" />
+      <wsdl:output name="DmsEasy_GetClassResponse" message="impl:DmsEasy_GetClassResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_GetAttrib" parameterOrder="sContextId">
+      <wsdl:input name="DmsEasy_GetAttribRequest" message="impl:DmsEasy_GetAttribRequest" />
+      <wsdl:output name="DmsEasy_GetAttribResponse" message="impl:DmsEasy_GetAttribResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getNumDocDmsEasy" parameterOrder="sContextId sAttributes sValues">
+      <wsdl:input name="getNumDocDmsEasyRequest" message="impl:getNumDocDmsEasyRequest" />
+      <wsdl:output name="getNumDocDmsEasyResponse" message="impl:getNumDocDmsEasyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setFilePermission" parameterOrder="sContextId sFolder sFile sLogin sPermission sValue">
+      <wsdl:input name="setFilePermissionRequest" message="impl:setFilePermissionRequest" />
+      <wsdl:output name="setFilePermissionResponse" message="impl:setFilePermissionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setFilePermission" parameterOrder="sContextId sFolder sFile iGroupId iUserId sPermission sValue">
+      <wsdl:input name="setFilePermissionRequest1" message="impl:setFilePermissionRequest1" />
+      <wsdl:output name="setFilePermissionResponse1" message="impl:setFilePermissionResponse1" />
+    </wsdl:operation>
+    <wsdl:operation name="setFolderPermission" parameterOrder="sContextId sFolder iGroupId iUserId sPermission sValue">
+      <wsdl:input name="setFolderPermissionRequest" message="impl:setFolderPermissionRequest" />
+      <wsdl:output name="setFolderPermissionResponse" message="impl:setFolderPermissionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFilePermission" parameterOrder="sContextId sFolder sFile iGroupId iUserId sPermission">
+      <wsdl:input name="getFilePermissionRequest" message="impl:getFilePermissionRequest" />
+      <wsdl:output name="getFilePermissionResponse" message="impl:getFilePermissionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFolderPermission" parameterOrder="sContextId sFolder iGroupId iUserId sPermission">
+      <wsdl:input name="getFolderPermissionRequest" message="impl:getFolderPermissionRequest" />
+      <wsdl:output name="getFolderPermissionResponse" message="impl:getFolderPermissionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createCompanyFolder" parameterOrder="sContextId sApplicationId sCompanyOwner">
+      <wsdl:input name="createCompanyFolderRequest" message="impl:createCompanyFolderRequest" />
+      <wsdl:output name="createCompanyFolderResponse" message="impl:createCompanyFolderResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFolderCompany" parameterOrder="sContextId sApplicationId sCompanyOwnerCode">
+      <wsdl:input name="getFolderCompanyRequest" message="impl:getFolderCompanyRequest" />
+      <wsdl:output name="getFolderCompanyResponse" message="impl:getFolderCompanyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getRootCompany" parameterOrder="sContextId">
+      <wsdl:input name="getRootCompanyRequest" message="impl:getRootCompanyRequest" />
+      <wsdl:output name="getRootCompanyResponse" message="impl:getRootCompanyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkDmsModule" parameterOrder="sContextId">
+      <wsdl:input name="checkDmsModuleRequest" message="impl:checkDmsModuleRequest" />
+      <wsdl:output name="checkDmsModuleResponse" message="impl:checkDmsModuleResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListPerson" parameterOrder="sContextId sOwnerCode sRole sApplicationId">
+      <wsdl:input name="getListPersonRequest" message="impl:getListPersonRequest" />
+      <wsdl:output name="getListPersonResponse" message="impl:getListPersonResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="assignSubjectToFile" parameterOrder="sContextId sLogicalDir sLogicalName sSubject sOwner sOwnerCode">
+      <wsdl:input name="assignSubjectToFileRequest" message="impl:assignSubjectToFileRequest" />
+      <wsdl:output name="assignSubjectToFileResponse" message="impl:assignSubjectToFileResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="uploadDocuments" parameterOrder="sContextId bDocuments sFlags iAgain">
+      <wsdl:input name="uploadDocumentsRequest" message="impl:uploadDocumentsRequest" />
+      <wsdl:output name="uploadDocumentsResponse" message="impl:uploadDocumentsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="uploadDocument" parameterOrder="sContextId bDocument bDescriptor sFlags iAgain">
+      <wsdl:input name="uploadDocumentRequest" message="impl:uploadDocumentRequest" />
+      <wsdl:output name="uploadDocumentResponse" message="impl:uploadDocumentResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUploadResponse" parameterOrder="sContextId sType">
+      <wsdl:input name="getUploadResponseRequest" message="impl:getUploadResponseRequest" />
+      <wsdl:output name="getUploadResponseResponse" message="impl:getUploadResponseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListFileInFolder" parameterOrder="sContextId sLogicalDir sWithSubfolder">
+      <wsdl:input name="getListFileInFolderRequest" message="impl:getListFileInFolderRequest" />
+      <wsdl:output name="getListFileInFolderResponse" message="impl:getListFileInFolderResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="InfinityDmsInterfaceSoapBinding" type="impl:InfinityDmsInterface">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="setProperty">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setPropertyRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="setPropertyResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProperty">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getPropertyRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getPropertyResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFile">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getFileRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getFileResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="connect">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="connectRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="connectResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDocumentRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDir">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteDirRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="deleteDirResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disconnect">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="disconnectRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="disconnectResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentVersion">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDocumentVersionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentVersionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createDir">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createDirRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="createDirResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteFile">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteFileRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="deleteFileResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="copyFile">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="copyFileRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="copyFileResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ping">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="pingRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="pingResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFileVersion">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getFileVersionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getFileVersionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumento">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDocumentoRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentoResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFileRelease">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getFileReleaseRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getFileReleaseResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllFileVersionId">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllFileVersionIdRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllFileVersionIdResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllFileVerRelease">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllFileVerReleaseRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllFileVerReleaseResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentRelease">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDocumentReleaseRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentReleaseResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVersionId">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllDocumentVersionIdRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllDocumentVersionIdResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVerRelease">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllDocumentVerReleaseRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllDocumentVerReleaseResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentVersionByExternalCode">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDocumentVersionByExternalCodeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentVersionByExternalCodeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentReleaseByExternalCode">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDocumentReleaseByExternalCodeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentReleaseByExternalCodeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVersionIdByExternalCode">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllDocumentVersionIdByExternalCodeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllDocumentVersionIdByExternalCodeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllDocumentVerReleaseByExternalCode">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAllDocumentVerReleaseByExternalCodeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAllDocumentVerReleaseByExternalCodeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByExternalCode">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDocumentByExternalCodeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentByExternalCodeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFileCrc">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getFileCrcRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getFileCrcResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_SincroAttribute">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="DmsEasy_SincroAttributeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="DmsEasy_SincroAttributeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_SincroClass">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="DmsEasy_SincroClassRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="DmsEasy_SincroClassResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_GetClass">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="DmsEasy_GetClassRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="DmsEasy_GetClassResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DmsEasy_GetAttrib">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="DmsEasy_GetAttribRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="DmsEasy_GetAttribResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNumDocDmsEasy">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getNumDocDmsEasyRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getNumDocDmsEasyResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setFilePermission">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setFilePermissionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="setFilePermissionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setFilePermission">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setFilePermissionRequest1">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="setFilePermissionResponse1">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setFolderPermission">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setFolderPermissionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="setFolderPermissionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFilePermission">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getFilePermissionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getFilePermissionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFolderPermission">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getFolderPermissionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getFolderPermissionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createCompanyFolder">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createCompanyFolderRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="createCompanyFolderResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFolderCompany">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getFolderCompanyRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getFolderCompanyResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRootCompany">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getRootCompanyRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getRootCompanyResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkDmsModule">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="checkDmsModuleRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="checkDmsModuleResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListPerson">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getListPersonRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getListPersonResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="assignSubjectToFile">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="assignSubjectToFileRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="assignSubjectToFileResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="uploadDocuments">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="uploadDocumentsRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="uploadDocumentsResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="uploadDocument">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="uploadDocumentRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="uploadDocumentResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUploadResponse">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getUploadResponseRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getUploadResponseResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListFileInFolder">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getListFileInFolderRequest">
+        <wsdlsoap:body use="encoded" namespace="http://services.dmsinterface.infinity.zucchetti.it" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getListFileInFolderResponse">
+        <wsdlsoap:body use="encoded" namespace="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="InfinityDmsInterfaceService">
+    <wsdl:port name="InfinityDmsInterface" binding="impl:InfinityDmsInterfaceSoapBinding">
+      <wsdlsoap:address location="http://srv-infinity:8080/Infinity24/services/InfinityDmsInterface" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c13f93f2-ee22-4bb2-8bd6-a348711404a4}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{f647218c-c2f0-4daa-8a6b-1df12a8700ba}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{aab998a1-d456-4809-8978-c81d21bd0616}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{fa47cdbc-5f44-49ef-8748-6bb39f5ef661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModuleObjects">
+      <UniqueIdentifier>{091bc1ab-e096-4f9c-8ac2-e89642cffd05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{72f9508f-a594-44c5-87bb-0c94f9771d77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{36365b8c-4dff-427c-b9d1-5400527b7287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReferenceObjects">
+      <UniqueIdentifier>{ab944fc6-504c-4449-9c37-6fc05d4fd414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Postalite">
+      <UniqueIdentifier>{20f731a0-9666-4c6e-aaf0-71843cf9681e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript">
+      <UniqueIdentifier>{3ecc45fc-6433-4ccf-a717-f82a2c99f347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create">
+      <UniqueIdentifier>{989821d2-22cb-4b40-9346-a22ddddb3bae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create\All">
+      <UniqueIdentifier>{80b11d88-7d01-4658-b5de-2b303ce9863f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create\Oracle">
+      <UniqueIdentifier>{e7170cc7-7ffb-474d-843f-ff3a30421fea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Report">
+      <UniqueIdentifier>{24a8fc8a-12bb-4419-8415-a08a51876f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\images">
+      <UniqueIdentifier>{28a82695-b97b-45f1-8f95-cdeda8e76f2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataFile">
+      <UniqueIdentifier>{8102c0be-a6c3-4b00-a05a-bef7afa4d10d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CMailConnector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMapiSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralConfigurationDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpConfigurationDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoapFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbMailer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbMailerWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MailerInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PostaliteTables.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="PostaliteSettings.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="PostaliteMailConnectorMethods.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="BDPostaliteDocumentsGraphicNavigation.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="PostaliteSubscribeDlg.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="PostaliteAccountManagementDlg.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="TbSenderInterface.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPostaliteDocumentsGraphicNavigation.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="EMail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SendPostaliteDlg.cpp">
+      <Filter>Postalite</Filter>
+    </ClCompile>
+    <ClCompile Include="CIMagoMailConnector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TbMailer.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ModuleObjects\WebMethods.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="Settings\MailConnector.config">
+      <Filter>Settings</Filter>
+    </None>
+    <None Include="Settings\Smtp.config">
+      <Filter>Settings</Filter>
+    </None>
+    <None Include="Menu\TbMailer.menu">
+      <Filter>Menu</Filter>
+    </None>
+    <None Include="ReferenceObjects\ContactEmails.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\CustSuppEmails.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\ProspectiveSupplierEmails.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\CompanyEmails.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\ProducerEmails.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="Settings\Postalite.config">
+      <Filter>Settings</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\CreateInfo.xml">
+      <Filter>DatabaseScript\Create</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\Oracle\TB_MSGQUEUE.SQL">
+      <Filter>DatabaseScript\Create\Oracle</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\All\TB_MsgQueue.sql">
+      <Filter>DatabaseScript\Create\All</Filter>
+    </None>
+    <None Include="ModuleObjects\DatabaseObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\All\TB_MsgLots.sql">
+      <Filter>DatabaseScript\Create\All</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\Oracle\TB_MSGLOTS.SQL">
+      <Filter>DatabaseScript\Create\Oracle</Filter>
+    </None>
+    <None Include="ReferenceObjects\BankEmails.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\CustSuppAddress.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\CarrierEmails.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\ContactAddress.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\ProspectiveSupplierAddress.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\ProducerAddress.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\CarrierAddress.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\StorageAddress.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\BankAddress.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\DocumentObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="Report\PostaLiteDocumentsList.wrm">
+      <Filter>Report</Filter>
+    </None>
+    <None Include="BDPostaliteDocumentsGraphicNavigation.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="files\images\AllottMessage_24_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\AllottMessage_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\AllottMessage_16_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\AllottMessage_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\CadastralCode.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\ImportMasterData.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CloseEnvelope_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CloseEnvelope_16_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CloseEnvelope_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CloseEnvelope_24_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CollapseNodes_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CollapseNodes_16_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CollapseNodes_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\CollapseNodes_24_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\DeleteMessage_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\DeleteMessage_16_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\DeleteMessage_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\DeleteMessage_24_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\EnvelopeEstimate_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\EnvelopeEstimate_16_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\EnvelopeEstimate_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\EnvelopeEstimate_24_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ExpandNodes_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ExpandNodes_16_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ExpandNodes_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ExpandNodes_24_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Postalite_Logo.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="Res\Postalite_wizard_logo.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendMsgNow_24_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="Res\PostaliteLarge.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Question.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Refresh.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Refresh_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Refresh_16_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Refresh_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\RemoveFromEnv_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\RemoveFromEnv_16_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\RemoveFromEnv_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\RemoveFromEnv_24_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ReopenEnvelope_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ReopenEnvelope_16_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ReopenEnvelope_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\ReopenEnvelope_24_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendEnvNow_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendEnvNow_16_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendEnvNow_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendEnvNow_24_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendMsgNow_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendMsgNow_16_disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\SendMsgNow_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\UpdateEnvStatus_16.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\UpdateEnvStatus_24_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\UpdateEnvStatus_16_Disabled.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\images\UpdateEnvStatus_24.bmp">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\WarningEnvelope.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\UnassignedMessage.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\UnassignedMessages.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\UploadedEnvelope.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\WaitingEnvelope.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Root.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Message.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\LogoPostalite.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\ErrorEnvelope.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\EnvelopeSent.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\Envelope.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="files\Images\ClosedEnvelope.png">
+      <Filter>Resource Files\images</Filter>
+    </None>
+    <None Include="PostaliteAccountManagementDlg.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="ReferenceObjects\Activity.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="Module.config">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ReferenceObjects\LegalStatus.xml">
+      <Filter>ReferenceObjects</Filter>
+    </None>
+    <None Include="DataManager\DataFile\IT\State.xml">
+      <Filter>DataFile</Filter>
+    </None>
+    <None Include="DataManager\DataFile\IT\LegalStatus.xml">
+      <Filter>DataFile</Filter>
+    </None>
+    <None Include="DataManager\DataFile\IT\County.xml">
+      <Filter>DataFile</Filter>
+    </None>
+    <None Include="DataManager\DataFile\IT\City.xml">
+      <Filter>DataFile</Filter>
+    </None>
+    <None Include="DataManager\DataFile\IT\Activity.xml">
+      <Filter>DataFile</Filter>
+    </None>
+    <None Include="Beginh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="endh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="commands.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CMailConnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMapiSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EMail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralConfigurationDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SmtpConfigurationDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SmtpParametersSections.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoapFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostaliteTables.h">
+      <Filter>Postalite</Filter>
+    </ClInclude>
+    <ClInclude Include="PostaliteSettings.h">
+      <Filter>Postalite</Filter>
+    </ClInclude>
+    <ClInclude Include="postalitemailconnectormethods.h">
+      <Filter>Postalite</Filter>
+    </ClInclude>
+    <ClInclude Include="TbSenderInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SendPostaliteDlg.h">
+      <Filter>Postalite</Filter>
+    </ClInclude>
+    <ClInclude Include="BDPostaliteDocumentsGraphicNavigation.h">
+      <Filter>Postalite</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPostaliteDocumentsGraphicNavigation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostaliteAccountManagementDlg.h">
+      <Filter>Postalite</Filter>
+    </ClInclude>
+    <ClInclude Include="PostaliteSubscribeDlg.h">
+      <Filter>Postalite</Filter>
+    </ClInclude>
+    <ClInclude Include="CIMagoMailConnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbMailerLib.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <CustomBuild Include="BDPostaliteDocumentsGraphicNavigation.rc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="PostaliteAccountManagementDlg.rc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

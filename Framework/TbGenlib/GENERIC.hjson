@@ -1,0 +1,7 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_COLLAPSED_BUTTON_RANGE_START			GET_ID(ID_COLLAPSED_BUTTON_RANGE_START)

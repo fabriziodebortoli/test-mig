@@ -1,0 +1,312 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (72,1922,1048,3838) ReportTemplate "Report.erp.core.Ocean.wrmt" 
+
+Properties
+	Begin
+		Title "Customers Electronic Invoicing data" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "Sales,cSales Employee" 
+	End
+
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+PageLayout "default" 
+	Begin
+		Field (9,12,37,1066) Alias 17  /* w_OurRefCompanyName */ 
+			Begin
+				Style "CompanyName" 
+
+			End
+
+		Text (9,940,37,1066) "{Application Date} {Time}" 
+
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Text (15,32,45,1053) "Customers Electronic Invoicing data" 
+
+			Begin
+				Style "ListTitle" 
+			End
+
+		Text (57,31,76,189) "Selections made:" 
+
+			Begin
+				Style "AccessoryDescription" 
+			End
+
+		Text (79,33,99,147) "From Customer" 
+
+			Begin
+			End
+
+		Field (79,147,99,261) Alias 2  /* w_AskCustSuppFrom */ 
+			Begin
+				Align 67684 ;
+			End
+
+		Text (98,33,118,147) "To Customer" 
+			Begin
+			End
+
+		Field (98,147,118,261) Alias 3  /* w_AskCustSuppTo */ 
+			Begin
+				Align 67684 ;
+			End
+
+		Table (30,9) "" Alias 54  /* Table54 */ Origin (31,123) Heights (8,44,18,17) 
+		HideTitle
+		Title FontStyle "Text" ;
+			Begin
+				"Code" Alias 52  /* w_CustSupp */ Width 80 ;
+				"Company Name" Alias 53  /* w_CompanyName */ Width 270 ;
+				"Tax Number\nFiscal Code" Alias 62  /* w_TaxNoFiscalCode */ Width 150 ;
+				"EI Enabled" Alias 56  /* w_ElectronicInvoicing */ Width 60 FormatStyle "Bool"  ;
+				"PA" Alias 57  /* w_PublicAuthority */ Width 0 FormatStyle "Bool" ;
+				"Branch Office" Alias 61  /* w_BranchOffice */ Width 50 ;
+				"EI Office\nCode" Alias 58  /* w_IPACode */ Width 90 ;
+				"Certified Email" Alias 59  /* w_CertifiedEmail */ Width 240 ;
+				"Send\nby PEC" Alias 65  /* w_SendByCertifiedEmail */ Width 60 FormatStyle "Bool"  ;
+			End
+
+			Text (726,9,750,1066) "{Page} / {Page Number}" 
+
+			Begin
+				Style "PageNumber" 
+				Special
+			End
+
+	End
+Links
+	Begin
+		LinkForm "ERP.CustomersSuppliers.Documents.Customers" 
+			On w_CustSupp 
+			When
+				 ( w_AskCustSupType = {49:0} )
+			Begin
+				Enum[49]  /* CustSupp Type */ CustSuppType =  w_AskCustSupType ;
+				String CustSupp =  w_CustSupp ;
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			MA_CustSupp [30] Alias 54 ;
+		End
+
+		Variables
+			String       w_OurRefCompanyName [64] Alias 17 ;
+			String       w_AskCustSuppFrom [8] Alias 2  Input ;
+			String       w_AskCustSuppTo [8] Alias 3  Input Init = w_AskCustSuppFrom  ;
+			Bool         w_AskOnlyWithMissData [21] Alias 44  Hidden  Input Init = TRUE  ;
+			Bool         w_AskSelectAll [22] Alias 45  Hidden  Input Init = TRUE  ;
+			Bool         w_AskPublAuth [22] Alias 46  Hidden  Input Init = FALSE  ;
+			Bool         w_AskNoPublAuth [22] Alias 47  Hidden  Input Init = FALSE  ;
+			Bool         w_AskEnabled [23] Alias 48  Hidden  Input Init = TRUE  ;
+			Bool         w_AskNotEnabled [23] Alias 49  Hidden  Input Init = FALSE  ;
+			Bool         w_AskEIAll [23] Alias 50  Hidden  Input Init = FALSE  ;
+			Enum[49]      /* CustSupp Type */ w_AskCustSupType [15] Alias 51  Hidden  Input Init = { 49 : 0 }  ;
+			String       w_CustSupp [19] Alias 52  Column ;
+			String       w_CompanyName [19] Alias 53  Column ;
+			String       w_TaxIdNumber [19] Alias 55  Hidden ;
+			String       w_FiscalCode [19] Alias 60  Hidden ;
+			Bool         w_ElectronicInvoicing [19] Alias 56  Column ;
+			Bool         w_PublicAuthority [19] Alias 57  Column ;
+			String       w_IPACode [19] Alias 58  Column ;
+			String       w_IPACodeBranch [19] Alias 64  Hidden ;
+			String       w_CertifiedEmail [19] Alias 59  Column ;
+			Bool         w_SendByCertifiedEmail [1] Alias 65 Column ;
+			String       w_BranchOffice [19] Alias 61  Column ;
+			String       w_TaxNoFiscalCode [19] Alias 62  Column ;
+			Bool         w_DisposeOk [1] Alias 41  Hidden ;
+			Bool         w_False [1] Alias 63  Hidden Init = FALSE  ;
+		End
+
+		Rules
+			From MA_Company 
+			Select 
+				CompanyName          Into w_OurRefCompanyName ;
+
+			From MA_CustSupp 
+			Select Not NULL 
+				CustSupp									Into w_CustSupp ,
+				CompanyName									Into w_CompanyName ,
+				TaxIdNumber									Into w_TaxIdNumber ,
+				FiscalCode									Into w_FiscalCode,
+				ElectronicInvoicing							Into w_ElectronicInvoicing ,
+				IPACode										Into w_IPACode,
+				CertifiedEMail								Into w_CertifiedEmail,
+				SendByCertifiedEmail						Into w_SendByCertifiedEmail,
+				SendDocumentsTo								Into w_BranchOffice
+			Where (MA_CustSupp.CustSupp Between w_AskCustSuppFrom And w_AskCustSuppTo ) 
+			    And CustSuppType = { 49 : 0 }				
+				And ( w_AskEIAll == TRUE or ( w_AskEnabled == TRUE And MA_CustSupp.ElectronicInvoicing = TRUE ) or ( w_AskNotEnabled == TRUE And MA_CustSupp.ElectronicInvoicing = FALSE ) ) 
+				And MA_CustSupp.Disabled = FALSE 
+			Order By  MA_CustSupp.CustSupp ;
+		End
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+					End
+				After 
+					Begin					
+					End
+
+			Report : Do
+				Always 
+					Begin						
+						w_TaxNoFiscalCode = ""  ;
+						If ( w_TaxIdNumber <> "" ) 
+							Then w_TaxNoFiscalCode = w_TaxIdNumber  ;
+						If ( w_TaxNoFiscalCode == "" ) 
+							Then w_TaxNoFiscalCode = w_FiscalCode  ;		
+						
+						If ( w_AskCustSupType == { 49 : 0 }  ) 
+						Then 
+							Begin	
+								w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryReadOne ( "PublicAuthority" )  ;
+							End;
+
+						If ( w_BranchOffice <> '' ) 
+						Then 
+							Begin	
+								w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryReadOne ( "BranchOfficeIPACode" )  ;								
+							End;
+
+						If ( w_AskSelectAll == TRUE or (w_AskPublAuth == TRUE And w_PublicAuthority = TRUE) or (w_AskNoPublAuth == TRUE And w_PublicAuthority = FALSE)) 
+						Then 
+							Begin
+								If (w_AskOnlyWithMissData == FALSE or (w_AskOnlyWithMissData == TRUE And ( w_IPACode = '' or (w_IPACode = '0000000' And (w_CertifiedEMail = '' or w_SendByCertifiedEmail = FALSE)))))
+								Then
+									Begin
+										Display w_CustSupp;
+										Display w_CompanyName;
+										Display w_TaxNoFiscalCode;
+										Display w_ElectronicInvoicing;
+										Display w_IPACode;
+										Display w_CertifiedEmail;
+										Display w_SendByCertifiedEmail;
+										Display w_PublicAuthority;
+										NextLine;	
+
+										If (w_BranchOffice <> '')
+										Then 
+											Begin	
+												w_IPACode = w_IPACodeBranch;
+												Display w_BranchOffice;
+												Display w_IPACode;
+												NextLine;	
+											End;
+											
+									End
+								Else
+									If (w_BranchOffice <> '' And (w_AskOnlyWithMissData == FALSE or (w_AskOnlyWithMissData == TRUE And (w_IPACodeBranch = '' or (w_IPACodeBranch = '0000000' And (w_CertifiedEMail = '' or w_SendByCertifiedEmail = FALSE))))))
+									Then
+										Begin
+											Display w_CustSupp;
+											Display w_CompanyName;
+											Display w_TaxNoFiscalCode;
+											Display w_ElectronicInvoicing;
+											Display w_IPACode;
+											Display w_CertifiedEmail;
+											Display w_SendByCertifiedEmail;
+											Display w_PublicAuthority;
+											NextLine;	
+
+											If (w_IPACodeBranch = '' or (w_IPACodeBranch = '0000000' And (w_CertifiedEMail = '' or w_SendByCertifiedEmail = FALSE)))
+											Then 
+											Begin	
+												w_IPACode = w_IPACodeBranch;
+												Display w_BranchOffice;
+												Display w_IPACode;
+												NextLine;	
+											End;	
+										End;
+							End;
+
+										
+
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+
+		Procedures
+		Begin
+			Procedure  w_AskNotEnabled_Changed 
+			Begin
+				w_AskOnlyWithMissData = FALSE;
+			End
+		End
+
+	Queries
+		Begin
+			Query  PublicAuthority
+			Begin
+				{
+				SELECT 
+				PublicAuthority { COL w_PublicAuthority }
+				FROM MA_CustSuppCustomerOptions
+				WHERE	
+						Customer		= {IN w_CustSupp} 
+				}
+			End
+
+			Query  BranchOfficeIPACode
+			Begin
+				{
+				SELECT 
+				IPACode { COL w_IPACodeBranch }
+				FROM MA_CustSuppBranches
+				WHERE	
+						CustSupp		= {IN w_CustSupp} 
+				}
+			End
+		End
+
+	Dialogs
+		Begin
+			Dialog ElectronicInvoicing  "Selections" 
+				Begin
+					Controls
+						Begin
+							Begin  "Customer Type"  	
+								w_AskSelectAll Style = 1 Prompt = "All" ;
+								w_AskPublAuth Style = 1 Prompt = "Public Authorities" ;
+								w_AskNoPublAuth Style = 1 Prompt = "B2B" ;	
+							End
+							Begin  "Customer"  												
+								w_AskCustSuppFrom Prompt = "From" LowerLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp (0 , 2) ;
+								w_AskCustSuppTo Prompt = "To" UpperLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ( 0 , 2 ) ;
+							
+							End
+							Begin  "Electronic Invoicing"  
+								w_AskEnabled Style = 1 Prompt = "Enabled" ;
+								w_AskNotEnabled Style = 1 Prompt = "Not Enabled" ;
+								w_AskEIAll Style = 1 Prompt = "All" ;
+								w_AskOnlyWithMissData Style = 4 Prompt = "Only those with missing data" ReadOnly w_AskNotEnabled == TRUE;
+							End
+						End
+				End
+		End
+End
+

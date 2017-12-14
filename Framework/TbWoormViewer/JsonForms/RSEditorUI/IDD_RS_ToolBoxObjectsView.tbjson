@@ -1,0 +1,23 @@
+{
+   "context" : "rseditorui",
+   "height" : 258,
+   "id" : "IDD_RS_ToolBoxObjectsView",
+  "items": [
+    {
+      "hasButtons": true,
+      "hasLines": true,
+      "height": 256,
+      "iconHeight": 0,
+      "icons": 0,
+      "id": "IDC_RS_Tree",
+      "linesAtRoot": true,
+      "type": 26, /*Tree*/
+      "width": 207,
+      "x": 1,
+      "y": 1
+    }
+  ],
+   "overlapped" : true,
+   "type" : 66, /*Panel*/
+   "width" : 211
+}

@@ -1,0 +1,88 @@
+﻿{
+  "id": "IDD_RADAR_FIND_ENUM",
+  "rcId": 1096,
+  "type": 66,
+  "x": 30,
+  "y": 73,
+  "width": 230,
+  "height": 62,
+  "visible": true,
+  "caption": true,
+  "child": false,
+  "context": "radar",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "F&ind:",
+      "x": 7,
+      "y": 5,
+      "width": 121,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_RADAR_FIND_COMBO",
+      "type": 12,
+      "x": 7,
+      "y": 16,
+      "width": 128,
+      "height": 44,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Direction",
+      "x": 7,
+      "y": 30,
+      "width": 132,
+      "height": 29
+    },
+    {
+      "id": "IDC_RADAR_FIND_UP",
+      "type": 10,
+      "text": "&Up",
+      "x": 14,
+      "y": 41,
+      "width": 50,
+      "height": 12,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADAR_FIND_DOWN",
+      "type": 10,
+      "text": "&Down",
+      "x": 68,
+      "y": 41,
+      "width": 58,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&Find",
+      "x": 149,
+      "y": 14,
+      "width": 74,
+      "height": 14,
+      "group": true,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 149,
+      "y": 34,
+      "width": 74,
+      "height": 14,
+      "group": true
+    }
+  ]
+}

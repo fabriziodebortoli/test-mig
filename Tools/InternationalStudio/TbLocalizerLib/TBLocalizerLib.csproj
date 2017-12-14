@@ -1,0 +1,783 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2917802F-52A0-464E-B9C0-91B5C7A3751E}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>img\App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>TBLocalizerLib</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microarea.Tools.TBLocalizer</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/TBLocalizerLib/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\OtherComponents\Json.Net\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.DirectoryServices">
+      <Name>system.directoryservices</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{dca1dc48-522c-41fa-9e43-3dcce3ed0fe3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{d21fd41d-0c68-40ef-a65a-ccfa47a05f3e}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TaskBuilderNet\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj">
+      <Project>{0b5a421c-8d2b-4eb0-8c96-89b9b8886cd4}</Project>
+      <Name>Microarea.TaskBuilderNet.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Woorm\Microarea.TaskBuilderNet.Woorm.csproj">
+      <Project>{6459dee4-5924-4257-a076-92c714c69d36}</Project>
+      <Name>Microarea.TaskBuilderNet.Woorm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonUtilities\CommonUtilities.csproj">
+      <Project>{F0D5867C-05FA-4E98-B463-98EFE3FA6F6A}</Project>
+      <Name>CommonUtilities</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SourceBinding\SourceBinding.csproj">
+      <Project>{53895CCE-1997-4658-A739-77E71AA66E3E}</Project>
+      <Name>SourceBinding</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <COMReference Include="AxSHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="SHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\TbLocalizerAssemblyInfo.cs">
+      <Link>TbLocalizerAssemblyInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AllStrings.cs" />
+    <Compile Include="AssemblyGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CommonFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataDocumentFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSets\DefaultDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DefaultDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\Hint.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hint.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DemoDialog.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DialogChecker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryConverterStrings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryDocumentFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryPathFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryUpdaterStrings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forms\AddFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddRemoveButtons.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ApplyGlossary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AskHTMLExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AskHTMLExport.Designer.cs">
+      <DependentUpon>AskHTMLExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AskHTMLImport.cs" />
+    <Compile Include="Forms\AskHTMLImport.Designer.cs">
+      <DependentUpon>AskHTMLImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AskUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CategoryFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\CheckDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChooseDictionary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChooseFilterDictionary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChooseFont.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChooseHint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChooseLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChooseMultipleLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChooseOldRootName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DictionaryCreator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\DictionaryGenerationSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DirectoriesSpecifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EnvironmentSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EnvironmentVariableChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FileListOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Finder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FindResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GlossariesManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Glossary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GlossaryApplicationAsk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GlossaryEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InfoViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MissingReferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OldStringsTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OldStringsTree.Designer.cs">
+      <DependentUpon>OldStringsTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProjectFilterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RowViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SetReferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SolutionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ToolsSpecifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TranslationProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TranslationsRecoverer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TranslationsRecoverer.Designer.cs">
+      <DependentUpon>TranslationsRecoverer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Translator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WindowPointCapturer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WoormDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\XmlSpecifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GlossaryFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HtmlWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImportExport.cs" />
+    <Compile Include="IniDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="KnowledgeManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LanguageCode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LocalizerDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LocalState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LowerCaseXmlDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Parser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PathFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProjectDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceIndexDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SatelliteAssemblyBuilder.cs" />
+    <Compile Include="SolutionDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SolutionLocalInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceFileFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TextSearcher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TranslatorCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TreeNodeTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utility.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WordCounter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlSerializableObjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="txt\netcore.csproj" />
+    <EmbeddedResource Include="DictionaryConverterStrings.resx">
+      <DependentUpon>DictionaryConverterStrings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DictionaryUpdaterStrings.resx">
+      <DependentUpon>DictionaryUpdaterStrings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddFilter.resx">
+      <DependentUpon>AddFilter.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddRemoveButtons.resx">
+      <DependentUpon>AddRemoveButtons.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ApplyGlossary.resx">
+      <DependentUpon>ApplyGlossary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AskHTMLExport.resx">
+      <DependentUpon>AskHTMLExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AskHTMLImport.resx">
+      <DependentUpon>AskHTMLImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AskUpdate.resx">
+      <DependentUpon>AskUpdate.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CategoryFilter.resx">
+      <DependentUpon>CategoryFilter.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CheckDialogForm.resx">
+      <DependentUpon>CheckDialogForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChooseDictionary.resx">
+      <DependentUpon>ChooseDictionary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChooseFilterDictionary.resx">
+      <DependentUpon>ChooseFilterDictionary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChooseFont.resx">
+      <DependentUpon>ChooseFont.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChooseHint.resx">
+      <DependentUpon>ChooseHint.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChooseLanguage.resx">
+      <DependentUpon>ChooseLanguage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChooseMultipleLanguage.resx">
+      <DependentUpon>ChooseMultipleLanguage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChooseOldRootName.resx">
+      <DependentUpon>ChooseOldRootName.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DictionaryCreator.resx">
+      <DependentUpon>DictionaryCreator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DictionaryGenerationSettings.resx">
+      <DependentUpon>DictionaryGenerationSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DirectoriesSpecifier.resx">
+      <DependentUpon>DirectoriesSpecifier.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EnvironmentSettingsForm.resx">
+      <DependentUpon>EnvironmentSettingsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EnvironmentVariableChooser.resx">
+      <DependentUpon>EnvironmentVariableChooser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FileListOptions.resx">
+      <DependentUpon>FileListOptions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Finder.resx">
+      <DependentUpon>Finder.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FindResult.resx">
+      <DependentUpon>FindResult.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GlossariesManager.resx">
+      <DependentUpon>GlossariesManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Glossary.resx">
+      <DependentUpon>Glossary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GlossaryApplicationAsk.resx">
+      <DependentUpon>GlossaryApplicationAsk.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GlossaryEntry.resx">
+      <DependentUpon>GlossaryEntry.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InfoViewer.resx">
+      <DependentUpon>InfoViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MissingReferences.resx">
+      <DependentUpon>MissingReferences.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OldStringsTree.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OldStringsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProjectFilterDialog.resx">
+      <DependentUpon>ProjectFilterDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RowViewer.resx">
+      <DependentUpon>RowViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SetReferences.resx">
+      <DependentUpon>SetReferences.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SolutionEditor.resx">
+      <DependentUpon>SolutionEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ToolsSpecifier.resx">
+      <DependentUpon>ToolsSpecifier.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TranslationProgressForm.resx">
+      <DependentUpon>TranslationProgressForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TranslationsRecoverer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TranslationsRecoverer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Translator.resx">
+      <DependentUpon>Translator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WindowPointCapturer.resx">
+      <DependentUpon>WindowPointCapturer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WoormDialog.resx">
+      <DependentUpon>WoormDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\XmlSpecifier.resx">
+      <DependentUpon>XmlSpecifier.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="img\App.ico" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TreeNodeTimer.resx">
+      <DependentUpon>TreeNodeTimer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSLT\LogManager.xsl" />
+    <EmbeddedResource Include="XSLT\ToLower.xslt" />
+    <None Include="DataSets\DefaultDataSet.xsc">
+      <DependentUpon>DefaultDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\DefaultDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <CustomToolNamespace>Microarea.Tools.TBLocalizer</CustomToolNamespace>
+      <LastGenOutput>DefaultDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSets\DefaultDataSet.xss">
+      <DependentUpon>DefaultDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\Hint.xsc">
+      <DependentUpon>Hint.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\Hint.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <CustomToolNamespace>Microarea.Tools.TBLocalizer</CustomToolNamespace>
+      <LastGenOutput>Hint.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSets\Hint.xss">
+      <DependentUpon>Hint.xsd</DependentUpon>
+    </None>
+    <None Include="img\Application.gif" />
+    <None Include="img\BackGround.jpg" />
+    <None Include="img\ClosedFolder.gif" />
+    <None Include="img\db_next_24.gif" />
+    <None Include="img\db_previous_24.gif" />
+    <None Include="img\Dialog.ico" />
+    <None Include="img\DialogBox.gif" />
+    <None Include="img\Dictionary.gif" />
+    <None Include="img\Down.ico" />
+    <None Include="img\earth.gif" />
+    <None Include="img\earth1.gif" />
+    <None Include="img\Enum.bmp" />
+    <None Include="img\Enum.gif" />
+    <None Include="img\File.bmp" />
+    <None Include="img\File.gif" />
+    <None Include="img\FolderClose.gif" />
+    <None Include="img\FolderOpen.gif" />
+    <None Include="img\Hand.gif" />
+    <None Include="img\Help.ico" />
+    <None Include="img\HelpHTMLFile.gif" />
+    <None Include="img\InfoBaloon.GIF" />
+    <None Include="img\Language.bmp" />
+    <None Include="img\Left.ico" />
+    <None Include="img\Lightbulb.gif" />
+    <None Include="img\Menu.bmp" />
+    <None Include="img\Menu.gif" />
+    <None Include="img\MiniLogo.bmp" />
+    <None Include="img\OldStrings.bmp" />
+    <None Include="img\OpenedFolder.gif" />
+    <None Include="img\Project.bmp" />
+    <None Include="img\ProjectTranslation.gif" />
+    <None Include="img\Recycle.ico" />
+    <None Include="img\Reference.bmp" />
+    <None Include="img\ReferenceEmpty.bmp" />
+    <None Include="img\References.bmp" />
+    <None Include="img\ReferencesOpen.bmp" />
+    <None Include="img\Report.bmp" />
+    <None Include="img\Report.gif" />
+    <None Include="img\ResxForm.bmp" />
+    <None Include="img\ResxString.bmp" />
+    <None Include="img\Right.ico" />
+    <None Include="img\Script.bmp" />
+    <None Include="img\Script.gif" />
+    <None Include="img\Selected.gif" />
+    <None Include="img\Solution.bmp" />
+    <None Include="img\Source.ico" />
+    <None Include="img\SourceFile.gif" />
+    <None Include="img\String.gif" />
+    <None Include="img\StringTable.gif" />
+    <None Include="img\ToolBar\Clear.bmp" />
+    <None Include="img\ToolBar\CRLF.bmp" />
+    <None Include="img\ToolBar\Exe.bmp" />
+    <None Include="img\ToolBar\Exit.bmp" />
+    <None Include="img\ToolBar\Filter.bmp" />
+    <None Include="img\ToolBar\FontDialog.bmp" />
+    <None Include="img\ToolBar\HeightMinus.bmp" />
+    <None Include="img\ToolBar\HeightPlus.bmp" />
+    <None Include="img\ToolBar\Languages.bmp" />
+    <None Include="img\ToolBar\Ligthning.bmp" />
+    <None Include="img\ToolBar\MoveDown.bmp" />
+    <None Include="img\ToolBar\MoveLeft.bmp" />
+    <None Include="img\ToolBar\MoveRight.bmp" />
+    <None Include="img\ToolBar\MoveUp.bmp" />
+    <None Include="img\ToolBar\Next.bmp" />
+    <None Include="img\ToolBar\Preview.bmp" />
+    <None Include="img\ToolBar\Previous.bmp" />
+    <None Include="img\ToolBar\Save.bmp" />
+    <None Include="img\ToolBar\Search.bmp" />
+    <None Include="img\ToolBar\Skip.bmp" />
+    <None Include="img\ToolBar\Tool.bmp" />
+    <None Include="img\ToolBar\WidhtMinus.bmp" />
+    <None Include="img\ToolBar\WidhtPlus.bmp" />
+    <None Include="img\TreeProject.bmp" />
+    <None Include="img\Up.ico" />
+    <None Include="img\World.gif" />
+    <None Include="img\Xml.bmp" />
+    <None Include="img\XmlFile.gif" />
+    <None Include="Properties\DataSources\Microarea.Tools.TBLocalizer.Forms.DirectoryPath.datasource" />
+    <None Include="txt\OpenFolderDialog.doc" />
+    <None Include="txt\Promemoria dei vari algoritmi di creazione dei dizionari.doc" />
+    <None Include="txt\Sintassi dei file xml di dizionario.doc" />
+    <None Include="txt\Template.xml" />
+    <None Include="txt\Template.xsl" />
+    <EmbeddedResource Include="img\Merge-CheckOut.bmp" />
+    <EmbeddedResource Include="img\Merge-Readonly.bmp" />
+    <None Include="SatelliteAssemblyBuilder2003.csproj" />
+    <None Include="SatelliteAssemblyBuilder2003.sln" />
+    <Content Include="Tools\SatelliteAssemblyBuilder.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

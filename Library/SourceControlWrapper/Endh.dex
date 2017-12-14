@@ -1,0 +1,19 @@
+//============================================================================
+// module name  : ENDH.DEX
+// author       : Enrico Itri
+// description  : Helper macro per 16/32 bit extension DLL
+// CopyRight (c) 1996 MicroArea srl. All rights reserved
+//============================================================================
+
+//Questo va messo alla fine del .H
+/////////////////////////////////////////////////////////////////////////////
+
+// _AFXDLL support
+/////////////////////////////////////////////////////////////////////////////
+
+#ifdef _AFXDLL
+#		undef AFX_DATA
+#		define AFX_DATA
+#		undef TB_EXPORT
+#		define TB_EXPORT
+#endif

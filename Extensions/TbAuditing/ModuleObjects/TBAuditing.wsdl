@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!-- ATL Server generated Web Service Description -->
+<definitions 
+	xmlns:s="http://www.w3.org/2001/XMLSchema" 
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:s0="urn:Microarea.Web.Services" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:atls="http://tempuri.org/vc/atl/server/"
+	targetNamespace="urn:Microarea.Web.Services" 
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+>
+	<types>
+		<s:schema targetNamespace="urn:Microarea.Web.Services" attributeFormDefault="qualified" elementFormDefault="qualified">
+			<s:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<s:element name="IsTracedTable">
+				<s:complexType>
+					<s:sequence>
+						<s:element name="tableName" type="s:string"/>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="IsTracedTableResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element name="returnValue" type="s:boolean"/>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SetAuditingManager">
+				<s:complexType>
+					<s:sequence>
+						<s:element name="tableName" type="s:string"/>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="SetAuditingManagerResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element name="returnValue" type="s:boolean"/>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="OpenAuditing">
+				<s:complexType>
+					<s:sequence>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="OpenAuditingResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element name="return" type="s:boolean"/>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</types>
+	<message name="IsTracedTableIn">
+		<part name="parameters" element="s0:IsTracedTable"/>
+	</message>
+	<message name="IsTracedTableOut">
+		<part name="parameters" element="s0:IsTracedTableResponse"/>
+	</message>
+	<message name="SetAuditingManagerIn">
+		<part name="parameters" element="s0:SetAuditingManager"/>
+	</message>
+	<message name="SetAuditingManagerOut">
+		<part name="parameters" element="s0:SetAuditingManagerResponse"/>
+	</message>
+	<message name="OpenAuditingIn">
+		<part name="parameters" element="s0:OpenAuditing"/>
+	</message>
+	<message name="OpenAuditingOut">
+		<part name="parameters" element="s0:OpenAuditingResponse"/>
+	</message>
+	<portType name="TBAuditingSoap">
+		<operation name="IsTracedTable">
+			<input message="s0:IsTracedTableIn"/>
+			<output message="s0:IsTracedTableOut"/>
+		</operation>
+		<operation name="SetAuditingManager">
+			<input message="s0:SetAuditingManagerIn"/>
+			<output message="s0:SetAuditingManagerOut"/>
+		</operation>
+		<operation name="OpenAuditing">
+			<input message="s0:OpenAuditingIn"/>
+			<output message="s0:OpenAuditingOut"/>
+		</operation>
+	</portType>
+	<binding name="TBAuditingSoap" type="s0:TBAuditingSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<operation name="IsTracedTable">
+			<soap:operation soapAction="#IsTracedTable" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="SetAuditingManager">
+			<soap:operation soapAction="#SetAuditingManager" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="OpenAuditing">
+			<soap:operation soapAction="#OpenAuditing" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="TBAuditing">
+		<port name="TBAuditingSoap" binding="s0:TBAuditingSoap">
+			<soap:address location="http://usr-bauzoneann1:80/Invoke?Handler="/>
+		</port>
+	</service>
+</definitions>

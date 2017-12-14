@@ -1,0 +1,30 @@
+{
+   "height" : 277,
+   "id" : "IDD_RW_DATAVALIDATION_MONITOR_DETAIL",
+   "items" : [
+      {
+         "height" : 89,
+         "id" : "IDD_HS_DATAVALIDATION_MONITOR_DETAIL",
+         "type" : 79, /*HeaderStrip*/
+         "width" : 57,
+         "x" : 1,
+         "y" : 1
+      },
+      {
+         "height" : 257,
+         "id" : "IDD_TG_DATAVALIDATION_MONITOR_DETAIL",
+         "type" : 72, /*TileGroup*/
+         "width" : 459,
+         "x" : 1,
+        "y": 25,
+        "items": [
+          {
+            "href": "IDD_TD_RW_DATAVALIDATION_MONITOR_DETAIL"
+          }
+        ]
+      }
+   ],
+   "name" : "DValidationDetailRowView",
+   "type" : 66, /*Panel*/
+   "width" : 460
+}

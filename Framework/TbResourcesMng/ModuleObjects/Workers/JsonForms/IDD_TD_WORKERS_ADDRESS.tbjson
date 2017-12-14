@@ -1,0 +1,129 @@
+﻿{
+    "id": "IDD_TD_WORKERS_ADDRESS",
+    "type": 71,
+    "text": "Address",
+    "x": 0,
+    "y": 0,
+    "width": 325,
+    "height": 157,
+    "child": true,
+    "name": "WorkersAddress",
+    "items": [
+        {
+            "id": "IDC_WRK_MASTER_ADDRESS",
+            "controlClass": "AddressEdit",
+            "binding": {
+                "datasource": "Workers.DomicilyAddress"
+            },
+            "controlCaption": "Address",
+            "type": 13,
+            "x": 101,
+            "y": 2,
+            "width": 154,
+            "height": 48,
+            "vScroll": true,
+            "autoVScroll": true,
+            "wantReturn": true,
+            "multiline": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_ADDRESS2",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.Address2"
+            },
+            "controlCaption": "Additional address",
+            "type": 13,
+            "x": 101,
+            "y": 52,
+            "width": 154,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_CITY",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.DomicilyCity"
+            },
+            "controlCaption": "Municipality",
+            "type": 13,
+            "x": 101,
+            "y": 66,
+            "width": 154,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_ZIPCODE",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.DomicilyZip"
+            },
+            "controlCaption": "ZIP Code",
+            "type": 13,
+            "x": 101,
+            "y": 80,
+            "width": 40,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_COUNTY",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.DomicilyCounty"
+            },
+            "controlCaption": "State/County",
+            "type": 13,
+            "x": 101,
+            "y": 94,
+            "width": 154,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_COUNTRY",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.DomicilyCountry"
+            },
+            "controlCaption": "Country",
+            "type": 13,
+            "x": 101,
+            "y": 108,
+            "width": 154,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_LATITUDE",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.Latitude"
+            },
+            "controlCaption": "Latitude",
+            "type": 13,
+            "x": 101,
+            "y": 122,
+            "width": 154,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_WRK_MASTER_LONGITUDE",
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "Workers.Longitude"
+            },
+            "controlCaption": "Longitude",
+            "type": 13,
+            "x": 101,
+            "y": 136,
+            "width": 154,
+            "height": 12,
+            "autoHScroll": true
+        }
+    ],
+    "hasStaticArea": true
+}

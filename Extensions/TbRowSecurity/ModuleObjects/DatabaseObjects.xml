@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseObjects>
+	<Signature>TBRowSecurity</Signature>
+	<Release>1</Release>
+	<Tables>
+		<Table namespace="Extensions.TBRowSecurity.TBRowSecurity.RS_Subjects">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Extensions.TBRowSecurity.TBRowSecurity.RS_SubjectsHierarchy">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Extensions.TBRowSecurity.TBRowSecurity.RS_SubjectsGrants">
+			<Create release="1" createstep="1" />
+		</Table>
+			<Table namespace="Extensions.TBRowSecurity.TBRowSecurity.RS_TmpOldHierarchies">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="Extensions.TBRowSecurity.TBRowSecurity.RS_Configuration" mastertable="true">
+			<Create release="1" createstep="1" />
+		</Table>
+	</Tables>
+	<Views />
+	<Procedures />
+</DatabaseObjects>

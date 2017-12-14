@@ -1,0 +1,92 @@
+{
+  "context": "uiattachment",
+  "height": 134,
+  "id": "IDD_TD_ATTACHMENT_BARCODE",
+  "items": [
+    {
+      "height": 124,
+      "id": "IDC_STATIC_AREA",
+      "tabStop": false,
+      "type": 9/*Group*/,
+      "vertAlign": 0,
+      "width": 100,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "group": true,
+      "height": 8,
+      "id": "IDC_STATIC",
+      "tabStop": false,
+      "text": "Barcode",
+      "textAlign": 2,
+      "type": 2/*Label*/,
+      "width": 98,
+      "y": 4,
+      "x": 0
+    },
+    {
+      "autoVScroll": true,
+      "border": true,
+      "height": 12,
+      "id": "IDC_ATT_BARCODE",
+      "type": 13/*Edit*/,
+      "wantReturn": true,
+      "width": 187,
+      "x": 101,
+      "y": 2
+    },
+    {
+      "clipChildren": true,
+      "height": 44,
+      "id": "IDC_ATT_BARCODEVIEWER",
+      "ownerDraw": true,
+      "text": "BarcodeViewer",
+      "type": 3/*Button*/,
+      "vertAlign": 0,
+      "width": 150,
+      "x": 101,
+      "y": 17
+    },
+    {
+      "group": true,
+      "height": 8,
+      "id": "IDC_ATT_STATIC_BARCODE_NOTES",
+      "tabStop": false,
+      "text": "Notes",
+      "textAlign": 2,
+      "type": 2/*Label*/,
+      "width": 98,
+      "y": 92,
+      "x": 0
+    },
+    {
+      "autoVScroll": true,
+      "border": true,
+      "height": 24,
+      "id": "IDC_ATT_BARCODE_NOTES",
+      "multiline": true,
+      "type": 13/*Edit*/,
+      "wantReturn": true,
+      "width": 187,
+      "x": 101,
+      "y": 92
+    },
+    {
+      "height": 20,
+      "id": "IDC_ATT_DETECT_BARCODE",
+      "isText": true,
+      "multiline": true,
+      "text": "Detect barcode",
+      "textAlign": 1,
+      "type": 3/*Button*/,
+      "vertAlign": 0,
+      "width": 40,
+      "x": 56,
+      "y": 17
+    }
+  ],
+  "tabStop": false,
+  "type": 66/*Panel*/,
+  "width": 294
+}

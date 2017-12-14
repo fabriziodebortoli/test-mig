@@ -1,0 +1,10 @@
+<div ng-class="{companiesDropdown: !isrelogin, companiesDropdownSmall: isrelogin}" name="companyDropdown">
+    <div ng-repeat="company in options" ng-click="setCompany(company)">
+        <a href="javascript:;">
+            <div class="interlinea">
+                <img class="loginStyleCompany companyplaceholder" />
+                <div overflow:hidden">{{company}}</div>
+            </div>
+        </a>
+    </div>
+</div>

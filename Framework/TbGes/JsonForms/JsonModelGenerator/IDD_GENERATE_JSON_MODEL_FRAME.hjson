@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	"IDD_TD_MAIN.hjson"
+#define ID_GENERATE	GET_ID( ID_GENERATE )
+#define IDD_GENERATE_JSON_MODEL_FRAME	GET_IDD( IDD_GENERATE_JSON_MODEL_FRAME, M.Framework.TbGes.JsonModelGenerator )

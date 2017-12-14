@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.microarea.it/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.microarea.it/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.microarea.it/">
+      <s:element name="Crypt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="toCrypt" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CryptResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CryptResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IntegratedSolutionExists">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="solutionName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IntegratedSolutionExistsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IntegratedSolutionExistsResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterIntegratedSolution">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="solutionName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="webServiceUrl" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegisterIntegratedSolutionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RegisterIntegratedSolutionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Login">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Login1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Login1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Login1Result" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="solutions" type="tns:ArrayOfIntegratedSolution" />
+            <s:element minOccurs="0" maxOccurs="1" name="companyCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfIntegratedSolution">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="IntegratedSolution" nillable="true" type="tns:IntegratedSolution" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="IntegratedSolution">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SolutionName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsActive" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsNew" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WebServiceUrl" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SolutionType" type="tns:SolutionType" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductCodes" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="SelectedFreeChars" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="SolutionType">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="VerticalIntegration" />
+          <s:enumeration value="Embedded" />
+          <s:enumeration value="StandAlone" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ProcessModule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="c" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessModuleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProcessModuleResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="c" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CryptSoapIn">
+    <wsdl:part name="parameters" element="tns:Crypt" />
+  </wsdl:message>
+  <wsdl:message name="CryptSoapOut">
+    <wsdl:part name="parameters" element="tns:CryptResponse" />
+  </wsdl:message>
+  <wsdl:message name="IntegratedSolutionExistsSoapIn">
+    <wsdl:part name="parameters" element="tns:IntegratedSolutionExists" />
+  </wsdl:message>
+  <wsdl:message name="IntegratedSolutionExistsSoapOut">
+    <wsdl:part name="parameters" element="tns:IntegratedSolutionExistsResponse" />
+  </wsdl:message>
+  <wsdl:message name="RegisterIntegratedSolutionSoapIn">
+    <wsdl:part name="parameters" element="tns:RegisterIntegratedSolution" />
+  </wsdl:message>
+  <wsdl:message name="RegisterIntegratedSolutionSoapOut">
+    <wsdl:part name="parameters" element="tns:RegisterIntegratedSolutionResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapIn">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="Login1SoapIn">
+    <wsdl:part name="parameters" element="tns:Login1" />
+  </wsdl:message>
+  <wsdl:message name="Login1SoapOut">
+    <wsdl:part name="parameters" element="tns:Login1Response" />
+  </wsdl:message>
+  <wsdl:message name="ProcessModuleSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessModule" />
+  </wsdl:message>
+  <wsdl:message name="ProcessModuleSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessModuleResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Crypter30Soap">
+    <wsdl:operation name="Crypt">
+      <wsdl:input message="tns:CryptSoapIn" />
+      <wsdl:output message="tns:CryptSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IntegratedSolutionExists">
+      <wsdl:input message="tns:IntegratedSolutionExistsSoapIn" />
+      <wsdl:output message="tns:IntegratedSolutionExistsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterIntegratedSolution">
+      <wsdl:input message="tns:RegisterIntegratedSolutionSoapIn" />
+      <wsdl:output message="tns:RegisterIntegratedSolutionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input message="tns:LoginSoapIn" />
+      <wsdl:output message="tns:LoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input name="Login1" message="tns:Login1SoapIn" />
+      <wsdl:output name="Login1" message="tns:Login1SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessModule">
+      <wsdl:input message="tns:ProcessModuleSoapIn" />
+      <wsdl:output message="tns:ProcessModuleSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Crypter30Soap" type="tns:Crypter30Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Crypt">
+      <soap:operation soapAction="http://www.microarea.it/Crypt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IntegratedSolutionExists">
+      <soap:operation soapAction="http://www.microarea.it/IntegratedSolutionExists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterIntegratedSolution">
+      <soap:operation soapAction="http://www.microarea.it/RegisterIntegratedSolution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://www.microarea.it/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://www.microarea.it/Login1" style="document" />
+      <wsdl:input name="Login1">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="Login1">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessModule">
+      <soap:operation soapAction="http://www.microarea.it/ProcessModule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Crypter30Soap12" type="tns:Crypter30Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Crypt">
+      <soap12:operation soapAction="http://www.microarea.it/Crypt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IntegratedSolutionExists">
+      <soap12:operation soapAction="http://www.microarea.it/IntegratedSolutionExists" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterIntegratedSolution">
+      <soap12:operation soapAction="http://www.microarea.it/RegisterIntegratedSolution" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://www.microarea.it/Login" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://www.microarea.it/Login1" style="document" />
+      <wsdl:input name="Login1">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="Login1">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessModule">
+      <soap12:operation soapAction="http://www.microarea.it/ProcessModule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Crypter30">
+    <wsdl:port name="Crypter30Soap" binding="tns:Crypter30Soap">
+      <soap:address location="http://localhost/crypter30/crypter30.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Crypter30Soap12" binding="tns:Crypter30Soap12">
+      <soap12:address location="http://localhost/crypter30/crypter30.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

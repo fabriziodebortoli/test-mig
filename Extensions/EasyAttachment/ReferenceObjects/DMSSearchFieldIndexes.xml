@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function namespace="Extensions.EasyAttachment.TbDMS.DMSSearchFieldIndexes" localize="DMSSearchFieldIndexes" type="string"> 
+  <Param name="FieldName" type="string" localize="The field name" />
+  </Function>
+  <DbField name="DMS_Field.FormattedValue" />
+  <ClassName>HKLSearchFieldIndexes</ClassName>
+</HotKeyLink>

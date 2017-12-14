@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="release"
+                 upgradeGuid="E51B08A3-8D02-44BE-B3BC-85144A6C7EBA"
+                 producer="Microarea"
+                 productName="Mago4"
+                 setupOutputFileName="Mago4"
+                 producerWebSite="http://www.microarea.it"
+                 certificatePath="..\..\..\..\..\..\Applications\ERP\k.pfx"
+                 certificatePassword="TaskBuilder.3"
+				 	       mainAppFileName="TbAppManager.exe"
+					       consoleAppFileName="AdministrationConsole.exe"
+                 >
+  <!--Consideriamo questo path come root di partenza: C:\Development\-->
+  <FileSystemStructure virtualPath="[INSTANCENAME]">
+    <IncludeFolder name ="Apps">
+      <IncludeFolder name="Microarea Diagnostics" recursive="yes">
+        <IncludeFile name="MADICO.msc">
+          <ProgramsMenuShortcut name="Microarea Diagnostics"/>
+        </IncludeFile>
+      </IncludeFolder>
+      <IncludeFolder name="Publish">
+        <IncludeFolder name="*-*" featureName="[FOLDERNAME]" featureDescription="!(loc.LangPackFeature)">
+          <IncludeFile name="*.pdb|*.dll|*.bin|*.config" />
+        </IncludeFolder>
+        <IncludeFolder name="locales">
+          <IncludeFile name="*.pak" />
+        </IncludeFolder>
+        <IncludeFile name="TbAppManager.exe">
+          <DesktopShortcut name="[PRODUCTNAME] Desktop"/>
+          <ProgramsMenuShortcut name="[PRODUCTNAME] Desktop"/>
+        </IncludeFile>
+        <IncludeFile name="AdministrationConsole.exe">
+          <DesktopShortcut name="[PRODUCTNAME] Administration Console"/>
+          <ProgramsMenuShortcut name="[PRODUCTNAME] Administration Console"/>
+        </IncludeFile>
+        <IncludeFile name="AdministrationConsoleLite.ico" featureName="PAAS" installedByDefault="no" hiddenFeature="yes"/>
+        <IncludeFile name="AdministrationConsoleLite.setup" featureName="PAAS" installedByDefault="no" hiddenFeature="yes"/>
+        <IncludeFile name="AdministrationConsoleLite.exe.manifest" featureName="PAAS" installedByDefault="no" hiddenFeature="yes"/>
+        <IncludeFile name="AdministrationConsoleLite.exe" featureName="PAAS" installedByDefault="no" hiddenFeature="yes">
+			    <DesktopShortcut name="[PRODUCTNAME] Administration Console Lite"/>
+			    <ProgramsMenuShortcut name="[PRODUCTNAME] Administration Console Lite"/>
+		    </IncludeFile>
+		  <IncludeFile name="TbLoader.exe">
+          <FirewallException name="Microarea [PRODUCTNAME] SOAP Server" />
+        </IncludeFile>
+        <IncludeFile name="Templates.payload" featureName="pt-BR" />
+        <IncludeFile name="*" />
+        <ExcludeFile name="*.xml"/>
+        <ExcludeFile name="Microarea.TaskBuilderNet.Test.dll"/>
+      </IncludeFolder>
+      <IncludeFolder name="Prerequisites">
+        <IncludeFolder name="Engine" recursive="yes">
+          <IncludeFile name="*" />
+        </IncludeFolder>
+        <IncludeFolder name="Packages">
+          <IncludeFolder name="DotNetFX461" recursive="yes">
+            <IncludeFile name="*" />
+          </IncludeFolder>
+          <IncludeFolder name="vcredist_x86" recursive="yes">
+            <IncludeFile name="*" />
+          </IncludeFolder>
+          <IncludeFolder name="WindowsInstaller3_1" recursive="yes">
+            <IncludeFile name="*" />
+          </IncludeFolder>
+          <IncludeFolder name="PVRFonts" featureName="it-CH" recursive="yes">
+            <IncludeFile name="*" />
+          </IncludeFolder>
+        </IncludeFolder>
+      </IncludeFolder>
+      <IncludeFolder name="ClickOnceDeployer">
+        <IncludeFolder name="*-*" featureName="[FOLDERNAME]" recursive="yes">
+          <IncludeFile name="*" />
+        </IncludeFolder>
+        <IncludeFile name="*.exe|*.dll|*.config"/>
+      </IncludeFolder>
+		  <IncludeFolder name="SnapInstaller">
+        <IncludeFolder name="Licenses">
+          <IncludeFile name="*.txt" />
+        </IncludeFolder>
+        <IncludeFile name="*.exe|*.dll|*.config"/>
+      </IncludeFolder>
+      <IncludeFolder name="ProvisioningConfigurator" featureName="PAAS" installedByDefault="no" hiddenFeature="yes">
+			  <IncludeFolder name="*-*" featureName="[FOLDERNAME]" recursive="yes">
+				  <IncludeFile name="*" />
+			  </IncludeFolder>
+			  <IncludeFile name="*.exe|*.dll|*.config"/>
+		  </IncludeFolder>
+      <IncludeFolder name="Images">
+        <IncludeFile name="*" />
+      </IncludeFolder>
+      <IncludeFolder name="iMagoStudioSetup" recursive="yes">
+        <IncludeFile name="*.exe" />
+      </IncludeFolder>
+      <IncludeFile name="*.application|*.vsto" />
+    </IncludeFolder>
+    <IncludeFolder name="Standard" share="[INSTANCENAME]_Standard">
+      <IncludeFolder name="Applications">
+        <IncludeFolder name="ERP">
+          <IncludeFolder name="*" fragment="yes">
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Files|DatabaseScript|Migration_NET|Migration_ENT|Migration_XP|Menu|ModuleObjects|ReferenceObjects|Settings|Report|Excel|Word|JsonForms|SynchroProviders" recursive="yes">
+              <IncludeFile name="*"/>
+            </IncludeFolder>
+            <IncludeFolder name="DataManager">
+              <IncludeFolder name="Default">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="Sample">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="DataFile" recursive="yes">
+                <IncludeFile name="*"/>
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Modules" recursive="yes">
+              <IncludeFile name="*.csm"/>
+            </IncludeFolder>
+            <ExcludeFolder name="help"/>
+            <IncludeFile name="*.config|*.Brand.xml|*.Solution.xml"/>
+          </IncludeFolder>
+          <IncludeFolder name="Business_BR">
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="DatabaseScript|Migration_NET|Migration_ENT|Migration_XP|Menu|ModuleObjects|ReferenceObjects|Settings|Report|Excel|Word|JsonForms" recursive="yes">
+              <IncludeFile name="*"/>
+            </IncludeFolder>
+            <IncludeFolder name="Files">
+              <IncludeFolder name="Esquemas|ini|SPED_ConfigurationFiles|TecnoSpeed|Templates" recursive="yes" featureName="pt-BR">
+                <IncludeFile name="*"/>
+              </IncludeFolder>
+              <IncludeFolder name="*" recursive="yes">
+                <IncludeFile name="*"/>
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="DataManager">
+              <IncludeFolder name="Default|Sample">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFile name="*" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFile name="module.config"/>
+          </IncludeFolder>
+          <IncludeFolder name="Themes" recursive="yes">
+            <IncludeFile name="*" />
+          </IncludeFolder>
+          <ExcludeFolder name="erppchstub"/>
+          <IncludeFile name="application.config" />
+        </IncludeFolder>
+        <IncludeFolder name="MDC">
+          <IncludeFolder name="*" fragment="yes">
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Files|DatabaseScript|Migration_NET|Migration_ENT|Migration_XP|Menu|ModuleObjects|ReferenceObjects|Settings|Report|Excel|Word|SynchroProviders|JsonForms" recursive="yes">
+              <IncludeFile name="*"/>
+            </IncludeFolder>
+            <IncludeFolder name="DataManager">
+              <IncludeFolder name="Default">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="Sample">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="DataFile" recursive="yes">
+                <IncludeFile name="*"/>
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Modules" recursive="yes">
+              <IncludeFile name="*.csm"/>
+            </IncludeFolder>
+            <IncludeFile name="*.config|Main.Brand.xml|*.Solution.xml"/>
+          </IncludeFolder>
+          <IncludeFolder name="ElectronicInvoicing_BR" fragment="yes" featureName="pt-BR">
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Files|DatabaseScript|Menu|ModuleObjects|ReferenceObjects|Settings|Report|Excel|Word|SynchroProviders|JsonForms" recursive="yes">
+              <IncludeFile name="*"/>
+            </IncludeFolder>
+            <IncludeFolder name="DataManager">
+              <IncludeFolder name="Default">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="Sample">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="DataFile" recursive="yes">
+                <IncludeFile name="*"/>
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFile name="*.config"/>
+          </IncludeFolder>
+          <IncludeFolder name="ElectronicInvoicing_HU" fragment="yes" featureName="hu-HU">
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Files|Menu|ModuleObjects|ReferenceObjects|Settings|Report|Excel|Word|SynchroProviders|JsonForms" recursive="yes">
+              <IncludeFile name="*"/>
+            </IncludeFolder>
+            <IncludeFolder name="DataManager">
+              <IncludeFolder name="Default">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="Sample">
+                <IncludeFolder name="INTL" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+                <IncludeFolder name="*" featureName="[FOLDERNAME]" recursive="yes">
+                  <IncludeFile name="*" />
+                </IncludeFolder>
+              </IncludeFolder>
+              <IncludeFolder name="DataFile" recursive="yes">
+                <IncludeFile name="*"/>
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFile name="*.config"/>
+          </IncludeFolder>
+          <IncludeFile name="Application.config" />
+        </IncludeFolder>
+        <IncludeFolder name="TBF" featureName="TaskBuilder Framework" mandatory="yes">
+          <IncludeFolder name="*" fragment="yes" recursive="yes">
+            <IncludeFile name="*.config|*.png|*.Solution.xml|*.Brand.xml|*.csm|*.menu|*.jpg" />
+          </IncludeFolder>
+          <IncludeFile name="application.config" />
+        </IncludeFolder>
+        <IncludeFolder name="TBS" featureName="TaskBuilder Studio" installedByDefault="no">
+          <IncludeFolder name="*" fragment="yes" recursive="yes">
+            <IncludeFile name="*.config|*.png|*.Solution.xml|*.Brand.xml|*.csm|*.menu|*.bin" />
+          </IncludeFolder>
+          <IncludeFile name="application.config" />
+        </IncludeFolder>
+        <IncludeFolder name="MobileWebServicesProvider" virtualPath="[FOLDERNAME]" fragment="yes" createWebApplication="yes" dedicatedAppPool="yes">
+          <IncludeFolder name="bin|Scripts|Styles|WebTest|Utility">
+            <IncludeFile name="*.aspx|*.css|*.js|*.dll" />
+          </IncludeFolder>
+          <IncludeFile name="Global.asax|*.config" />
+          <ExcludeFile name="*.debug.config|*.release.config" />
+        </IncludeFolder>
+      </IncludeFolder>
+      <IncludeFolder name="TaskBuilder">
+        <IncludeFolder name="Extensions">
+          <IncludeFolder name="*" fragment="yes">
+            <IncludeFolder name="Menu|Files" recursive="yes">
+              <IncludeFile name="*.gif|*.bmp|*.menu|*.png|*.ico"/>
+            </IncludeFolder>
+            <IncludeFolder name="OCR" recursive="yes">
+               <IncludeFile name="*.traineddata" />
+            </IncludeFolder>
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="*" recursive="yes">
+              <IncludeFile name ="*.xsl|*.xml|*.config|*.sql|*.menu|*.ini|*.wrm|*.template|*.tbjson|*.jbnd"/>
+            </IncludeFolder>
+            <IncludeFile name ="*.config"/>
+          </IncludeFolder>
+          <ExcludeFolder name="TbRowSecurity" />
+          <IncludeFile name="*.config" />
+        </IncludeFolder>
+        <IncludeFolder name="Framework">
+          <IncludeFolder name="*" fragment="yes">
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Menu|Files" recursive="yes">
+              <IncludeFile name ="*.gif|*.bmp|*.menu|*.png|*.js|*.css|*.htm*|*.map|*.eot|*.svg|*.ttf|*.woff"/>
+            </IncludeFolder>
+            <IncludeFolder name="*" recursive="yes">
+              <IncludeFile name ="*.xsl|*.xml|*.config|*.sql|*.menu|*.ini|*.wrm|*.tbjson|*.jbnd"/>
+            </IncludeFolder>
+            <IncludeFile name ="*.config"/>
+          </IncludeFolder>
+          <IncludeFolder name="Themes" recursive="yes">
+            <IncludeFile name="*.theme|*.ttf|*.css" />
+          </IncludeFolder>
+          <ExcludeFolder name="tbutility|documentations|tbpchstub" />
+          <IncludeFile name="*.config" />
+        </IncludeFolder>
+        <IncludeFolder name="AdministrationConsole">
+          <IncludeFolder name="*" fragment="yes">
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="*" recursive="yes">
+              <IncludeFile name="*.xml|*.config|*.sql"/>
+              <ExcludeFile name="AdvancedLevel.xml|BaseLevel.xml" />
+            </IncludeFolder>
+            <IncludeFile name ="*.config"/>
+          </IncludeFolder>
+          <ExcludeFolder name="HermesAdmin|RowSecurityToolKit" />
+          <IncludeFile name="*.config" />
+        </IncludeFolder>
+        <IncludeFolder name="OtherComponents">
+          <IncludeFolder name="WinFormsUI">
+            <IncludeFile name="license.txt" />
+          </IncludeFolder>
+        </IncludeFolder>
+        <IncludeFolder name="WebFramework">
+          <IncludeFolder name="EasyLook" virtualPath="[FOLDERNAME]" dedicatedAppPool="no" enable32bit="yes" createWebApplication="yes" fragment="yes">
+            <IncludeFolder name="Bin">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.dll|*.config" />
+              </IncludeFolder>
+              <IncludeFile name ="*.dll|*.config"/>
+            </IncludeFolder>
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Files" recursive="yes">
+              <IncludeFile name="*" />
+            </IncludeFolder>
+            <IncludeFolder name="img" recursive="yes">
+              <IncludeFile name="*" />
+            </IncludeFolder>
+            <IncludeFile name="*.asmx|*.asax|*.config" />
+            <ExcludeFile name="*.debug.*|*.release.*" />
+          </IncludeFolder>
+          <IncludeFolder name="EasyAttachmentSync" virtualPath="[FOLDERNAME]" dedicatedAppPool="yes" enable32bit="no" createWebApplication="yes" fragment="yes">
+            <IncludeFolder name="Bin">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.dll|*.config" />
+              </IncludeFolder>
+              <IncludeFile name ="*.dll|*.config"/>
+            </IncludeFolder>
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Files" recursive="yes">
+              <IncludeFile name="*" />
+            </IncludeFolder>
+            <IncludeFolder name="img" recursive="yes">
+              <IncludeFile name="*" />
+            </IncludeFolder>
+            <IncludeFile name="*.asmx|*.asax|*.aspx|*.ascx|*.config|*.css" />
+            <ExcludeFile name="*.debug.*|*.release.*" />
+          </IncludeFolder>
+          <IncludeFolder name="M4Client|M4Server" virtualPath="[FOLDERNAME]" dedicatedAppPool="yes" enable32bit="no" fragment="yes" createWebApplication="yes" recursive="yes">
+              <IncludeFile name="*" />
+          </IncludeFolder>
+          <IncludeFolder name="*" virtualPath="[FOLDERNAME]" dedicatedAppPool="yes" enable32bit="no" fragment="yes" createWebApplication="yes">
+            <IncludeFolder name="App_Data">
+              <!--EULA non intestata localizzata-->
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.pdf" />
+              </IncludeFolder>
+              <IncludeFile name="*.pdf" />
+              <!--EULA non intestata inglese-->
+            </IncludeFolder>
+            <IncludeFolder name="Bin">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.dll|*.config" />
+              </IncludeFolder>
+              <IncludeFile name ="*.dll|*.config"/>
+            </IncludeFolder>
+            <IncludeFolder name="Dictionary">
+              <IncludeFolder name="*" featureName="[FOLDERNAME]">
+                <IncludeFile name="*.bin" />
+              </IncludeFolder>
+            </IncludeFolder>
+            <IncludeFolder name="Files" recursive="yes">
+              <IncludeFile name="*" />
+            </IncludeFolder>
+            <IncludeFolder name="img" recursive="yes">
+              <IncludeFile name="*" />
+            </IncludeFolder>
+            <IncludeFolder name="Styles" recursive="yes">
+              <IncludeFile name="*.css" />
+            </IncludeFolder>
+            <IncludeFolder name="Services" recursive="yes">
+              <IncludeFile name="*.ashx" />
+            </IncludeFolder>
+            <IncludeFolder name="Scripts" recursive="yes">
+              <IncludeFile name="*.js" />
+            </IncludeFolder>
+            <IncludeFile name="*.asmx|*.asax|*.aspx|*.ascx|*.config|*.css" />
+            <ExcludeFile name="*.debug.*|*.release.*" />
+          </IncludeFolder>
+          <ExcludeFolder name="TBTalkieManager|EasyLookSetup|TBLoaderLauncher|RESTGate|TbHermes|EasyLook|WebTaskScheduler" />
+          <IncludeFile name="*.config" />
+        </IncludeFolder>
+      </IncludeFolder>
+      <IncludeFile name="*.cab"/>
+      <IncludeFile name="*.ver"/>
+    </IncludeFolder>
+    <IncludeFolder name="Custom" share="[INSTANCENAME]_Custom" />
+  </FileSystemStructure>
+  <EventLogStructure>
+    <EventLog log="MA Server" name="TbSender" />
+    <EventLog log="MA Server" name="LoginManager" />
+    <EventLog log="MA Server" name="EasyAttachmentSync" />
+    <EventLog log="MA Server" name="ActivationObject" />
+    <EventLog log="MA Server" name="LockManager" />
+    <EventLog log="MA Server" name="TbServices" />
+    <EventLog log="MA Server" name="FsProvider" />
+    <EventLog log="MA Server" name="ActivationManager" />
+    <EventLog log="MA Server" name="NameSolver" />
+    <EventLog log="MA Server" name="SchedulerAgent" />
+    <EventLog log="MA Server" name="NotificationService" />
+    <EventLog log="MA Server" name="DataSynchronizer" />
+  </EventLogStructure>
+  <InternetShortcutStructure>
+    <!--<InternetShortcut name="Mago4 Web" target="http://[ComputerName]:[DEFAULTWEBSITEPORT]/[INSTANCENAME]/EasyLook/Default.aspx" desktop="yes" pfiles="yes" />-->
+    <InternetShortcut name="Mago4 Desktop Client Setup" target="http://[ComputerName]:[DEFAULTWEBSITEPORT]/[INSTANCENAME]/Index.htm" desktop="no" pfiles="yes" />
+  </InternetShortcutStructure>
+  <MergeModulesDeny>
+    <MergeModule name="Microsoft_VC120_CRT_x64.msm" />
+    <MergeModule name="Microsoft_VC120_MFC_x64.msm" />
+    <MergeModule name="Microsoft_VC140_CRT_x64.msm" />
+    <MergeModule name="Microsoft_VC140_MFC_x64.msm" />
+  </MergeModulesDeny>
+</SetupDefinition>

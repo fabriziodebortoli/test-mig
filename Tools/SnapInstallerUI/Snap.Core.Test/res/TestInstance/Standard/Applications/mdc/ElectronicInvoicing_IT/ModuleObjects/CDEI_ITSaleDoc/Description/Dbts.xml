@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBTs xmlns:sl="urn:TBStringLoader">
+	<Slaves>
+		<SlaveBuffered namespace="erp.electronicinvoicing_it.addonssales.CDEI_ITSaleDoc.EI DocAdditionalData">
+			<Title localizable="true">EI DocAdditionalData</Title>
+			<Table namespace="erp.electronicinvoicing_it.dbl.MA_EI_ITDocAdditionalData">MA_EI_ITDocAdditionalData</Table>
+			<ChooseUpdate>0</ChooseUpdate>
+		</SlaveBuffered>
+	</Slaves>
+</DBTs>

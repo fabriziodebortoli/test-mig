@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CalWithoutAuthentication" xml:space="preserve">
+    <value>An activation for article {0} has been requested without authentication.</value>
+  </data>
+  <data name="Ending" xml:space="preserve">
+    <value>Login Manager has been terminated</value>
+  </data>
+  <data name="ErrCalLicenzaUtente" xml:space="preserve">
+    <value>No "Server" module has CAL associated.</value>
+  </data>
+  <data name="FunctionError" xml:space="preserve">
+    <value>Error in function {0}</value>
+  </data>
+  <data name="ErrPathFinderUninitializated" xml:space="preserve">
+    <value>PathFinder not initialized.</value>
+  </data>
+  <data name="ErrNoUserConfigured" xml:space="preserve">
+    <value>No database user defined  for the LoginId {0}</value>
+  </data>
+  <data name="Initializing" xml:space="preserve">
+    <value>Initializing Login Manager</value>
+  </data>
+  <data name="UserUnknown" xml:space="preserve">
+    <value>User {0} is not inserted in system database.</value>
+  </data>
+  <data name="InitSuccess" xml:space="preserve">
+    <value>Login Manager successfully initialized.</value>
+  </data>
+  <data name="ErrReadingAcivationFile" xml:space="preserve">
+    <value>Error reading activation files.</value>
+  </data>
+  <data name="ResourcesTimeout" xml:space="preserve">
+    <value>Common resources have been locked for a time longer than the timeout</value>
+  </data>
+  <data name="ErrServerKeyEmpty" xml:space="preserve">
+    <value>Help request failed for application {0}, module {1}. No activation key founded.</value>
+  </data>
+  <data name="SysDBConnectionStringEmpty" xml:space="preserve">
+    <value>System database connection string in ServerConnection.config file is empty.</value>
+  </data>
+  <data name="CompanyUnknown" xml:space="preserve">
+    <value>Company {0} is not inserted in system database.</value>
+  </data>
+  <data name="ErrReadingLoginsArticles" xml:space="preserve">
+    <value>Error reading MSD_LoginsArticles table.</value>
+  </data>
+  <data name="FunctionalityNotPresent" xml:space="preserve">
+    <value>The feature {0} doesn't exist in any commercial modules purchased</value>
+  </data>
+  <data name="ErrDBConnectionFailed" xml:space="preserve">
+    <value>System database connection is failed for this reason: {0}</value>
+  </data>
+  <data name="UserNotAuthenticated" xml:space="preserve">
+    <value>User {0} isn't authenticated</value>
+  </data>
+  <data name="InvalidDemoName" xml:space="preserve">
+    <value>Invalid Demo installation name</value>
+  </data>
+  <data name="SysDBInfo" xml:space="preserve">
+    <value> (Server: {0} - Database: {1})</value>
+  </data>
+  <data name="ErrInitAcivationMng" xml:space="preserve">
+    <value>Activation Manager not initialized.</value>
+  </data>
+  <data name="ErrLicenzaUtente" xml:space="preserve">
+    <value>No "Server" module exists in activated configuration.</value>
+  </data>
+  <data name="ErrAssignUserToArticle" xml:space="preserve">
+    <value>Unable to associate user {0} to article {1}.</value>
+  </data>
+  <data name="UnregisteredProduct" xml:space="preserve">
+    <value>Not registered product</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>System database connection has been terminated.</value>
+  </data>
+  <data name="NoMessage" xml:space="preserve">
+    <value>There are no old messages to read.</value>
+  </data>
+  <data name="SmsCodeError" xml:space="preserve">
+    <value>The validation code results to be incorrect. Please check the message again and hence re-enter the code.</value>
+  </data>
+  <data name="SMSOK" xml:space="preserve">
+    <value>Thank you for having verified the authenticity of your {0}! Do not forget you can verify the authenticity of your {0} in an easy and automatic way by enabling an Internet connection on the {0} server pc.</value>
+  </data>
+  <data name="SMSPageTitle" xml:space="preserve">
+    <value>Authenticity validation of your {0} by SMS</value>
+  </data>
+  <data name="SMSPageBtnRegisterText" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="LblRemark1" xml:space="preserve">
+    <value>Cannot send the SMS from the registered mobile number? </value>
+  </data>
+  <data name="LblInfo3" xml:space="preserve">
+    <value>For the cost of the sent SMS please consult your plan.</value>
+  </data>
+  <data name="LblError1" xml:space="preserve">
+    <value> Unfortunately, you cannot proceed with the validation of your {0} by SMS.
+	  The validation process has to be necessarily completed by activating an Internet connection on the {0} server pc.</value>
+  </data>
+  <data name="LblError2" xml:space="preserve">
+    <value>Starting from the next request, you will be able to fulfil the authenticity validation of your {0} by using the SMS service: please verify whether you have activated the service by consulting the {1} website.</value>
+  </data>
+  <data name="LblInsertAndClick" xml:space="preserve">
+    <value>You will receive a code, copy it below and press Validate.</value>
+  </data>
+  <data name="PingFailed1First" xml:space="preserve">
+    <value>The FIRST automatic validation attempt of {0} has failed!</value>
+  </data>
+  <data name="PingFailed1Second" xml:space="preserve">
+    <value>The NEXT TO LAST automatic validation attempt of {0} has failed!</value>
+  </data>
+  <data name="PingFailed1Last" xml:space="preserve">
+    <value>The LAST automatic validation attempt of {0} has failed! </value>
+  </data>
+  <data name="PingFailed2" xml:space="preserve">
+    <value>The authenticity of {0} needs to be verified periodically in order to ensure its complete and safe functioning.</value>
+  </data>
+  <data name="PingFailed3" xml:space="preserve">
+    <value>An active Internet connection on the {0} server is sufficient to automatically validate your {0}.</value>
+  </data>
+  <data name="PingFailed4" xml:space="preserve">
+    <value>The validation service by SMS can be used instead: </value>
+  </data>
+  <data name="PingFailed5" xml:space="preserve">
+    <value>CLICK HERE</value>
+  </data>
+  <data name="PingFailed6" xml:space="preserve">
+    <value>to gain access now.</value>
+  </data>
+  <data name="PingFailed7" xml:space="preserve">
+    <value>Copy and send this message to the IT responsible of your Company.</value>
+  </data>
+  <data name="PingFailed8" xml:space="preserve">
+    <value>The {0} software soon will no longer be available should the authenticity verification not take place!</value>
+  </data>
+  <data name="PingFailed9" xml:space="preserve">
+    <value>Should the application be blocked-up, it is necessary to validate exclusively by Internet from the pull-down menu "Validation" and selecting the "Validate via Internet" voice, or by opening the Administration Console and performing the authenticity validation.</value>
+  </data>
+  <data name="LblSMSNotNeeded" xml:space="preserve">
+    <value>The product is correctly activated! Validation via SMS is not needed.</value>
+  </data>
+  <data name="LblSMSNotReceived1" xml:space="preserve">
+    <value>Not yet received the response?</value>
+  </data>
+  <data name="ValidationOK" xml:space="preserve">
+    <value>Your {0} management software has been successfully validated!</value>
+  </data>
+  <data name="ValidationOKInfo" xml:space="preserve">
+    <value>The authenticity validation provides reassurance on the fact you are utilising an original product software. In order to perform the periodical validation automatically, simply enable an Internet connection on the {0} server pc.</value>
+  </data>
+  <data name="SendSmsInfo1" xml:space="preserve">
+    <value>Send, from your registered mobile number, the following code to {0}. Please preserve the spaces!</value>
+  </data>
+  <data name="ServiceAvaiability" xml:space="preserve">
+    <value>Services available after registration on the Microarea web site.</value>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Example: {0} </value>
+  </data>
+  <data name="LblReceivedError1" xml:space="preserve">
+    <value>Get a response with an error?</value>
+  </data>
+  <data name="LblReceivedError2" xml:space="preserve">
+    <value>Did you register your mobile number on Microarea web site? Did you send the SMS from the registered mobile number? Did you write the SMS correctly? </value>
+  </data>
+  <data name="LblRemark2" xml:space="preserve">
+    <value>Simply add the registered number (with international prefix) at the end of the SMS.</value>
+  </data>
+  <data name="LblSMSNotReceived2" xml:space="preserve">
+    <value>Repeat the procedure. Make sure you enter correctly the code, preserving the spaces in the text, and verify the phone number.</value>
+  </data>
+  <data name="LblSMSNotReceived3" xml:space="preserve">
+    <value>After at least three times that you didn't get any response, try to send the same text to this number {0} and then send send us an email , reporting the error and providing details to {1}</value>
+  </data>
+  <data name="LblSMSNotReceived3Title" xml:space="preserve">
+    <value>Still do not receive any answer anyway?</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>FAQs</value>
+  </data>
+  <data name="SMSInfoVatNumber1" xml:space="preserve">
+    <value>Not yet registered?</value>
+  </data>
+  <data name="SMSInfoVatNumber2" xml:space="preserve">
+    <value>Simply add your Vat Number at the end of the SMS. This is possible for a limited number of times, register your mobile number as soon as possible.</value>
+  </data>
+  <data name="EASyncInitSuccess" xml:space="preserve">
+    <value>EasyAttachmentSync Init() successfully completed.</value>
+  </data>
+  <data name="EASyncInitError" xml:space="preserve">
+    <value>EasyAttachmentSync Init() error: {0}</value>
+  </data>
+  <data name="Case" xml:space="preserve">
+    <value>You can use either uppercase and lowercase letters</value>
+  </data>
+  <data name="ValidationStatus" xml:space="preserve">
+    <value>Validation Status</value>
+  </data>
+  <data name="LblSMSNotSupported" xml:space="preserve">
+    <value>To access this functionality, please contact your reseller.</value>
+  </data>
+	<data name="DSyncInitSuccess" xml:space="preserve">
+    <value>Exchange data connector Init() successfully completed.</value>
+  </data>
+	<data name="DSyncInitError" xml:space="preserve">
+    <value>Exchange data connector Init() error: {0}</value>
+  </data>
+  <data name="NoValidUserLogged" xml:space="preserve">
+    <value>The user is not correctly logged.</value>
+  </data>
+  <data name="NoValidUserLoggedNow" xml:space="preserve">
+    <value>The user is not longer logged correctly.</value>
+  </data>
+  <data name="InfinityUserNotLogged" xml:space="preserve">
+    <value>An Infinity functionality was requested but the currently logged user is not the same connected with Infinity. Please close this instance or start another one with the correct user.</value>
+  </data>
+  <data name="TokenExpired" xml:space="preserve">
+    <value>Infinity token is expired.</value>
+  </data>
+</root>

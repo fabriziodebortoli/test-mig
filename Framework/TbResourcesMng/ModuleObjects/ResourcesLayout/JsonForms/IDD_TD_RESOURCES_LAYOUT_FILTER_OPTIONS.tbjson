@@ -1,0 +1,29 @@
+﻿{
+  "id": "IDD_TD_RESOURCES_LAYOUT_FILTER_OPTIONS",
+  "type": 71, /*Tile*/
+  "x": 0,
+  "y": 0,
+  "width": 161,
+  "height": 44,
+  "child": true,
+  "items": [
+    {
+      "id": "IDC_RESOURCES_LAYOUT_DISABLED_TOO",
+      "binding": { "datasource": "DisabledToo" },
+      "controlClass": "CheckBox",
+      "type": 11,
+      "text": "Also disabled",
+      "x": 4,
+      "y": 4,
+      "width": 93,
+      "height": 10,
+      "auto": true
+    }
+  ],
+  "name": "Options",
+  "size": 1, /*mini*/
+  "text": "Options",
+  "tileStyle": 2, /*Filter*/
+  "pinnable": true,
+  "pinned": false
+}

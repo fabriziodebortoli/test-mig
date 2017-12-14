@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_TBLRULE_RS			GET_IDD(IDD_TBLRULE_RS, M.Framework.TbWoormEngine.TBLDLG)

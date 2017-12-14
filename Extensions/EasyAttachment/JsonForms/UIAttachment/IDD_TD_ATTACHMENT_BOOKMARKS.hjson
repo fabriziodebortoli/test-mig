@@ -1,0 +1,5 @@
+#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_TD_ATTACHMENT_BOOKMARKS	GET_IDD(IDD_TD_ATTACHMENT_BOOKMARKS,M.Extensions.EasyAttachment.UIAttachment)
+#define IDC_ATT_FREE_TAGS	GET_IDC(IDC_ATT_FREE_TAGS)
+#define IDC_ATT_BE_BOOKMARKS	GET_IDC(IDC_ATT_BE_BOOKMARKS)

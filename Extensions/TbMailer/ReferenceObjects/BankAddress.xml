@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink version="2" accessibility="Public" >
+
+<Function namespace="Extensions.TbMailer.TbMailer.BankAddress" localize="Bank's address" type="string">
+</Function>
+
+  <!-- Syntax allows comma separated db tables, the first is the hkl master table -->
+  <DbTable name="MA_Banks"  loadFullRecord="false" /> 
+  <DbField name="MA_Banks.Description"/>
+  <DbFieldDescription name="MA_Banks.Bank" />
+
+  <Events>
+    
+    <Event name="OnAssignSelectedValue" type="bool">
+      <Param name="p_CtrlValue" type="string" localize="Control value" mode="in out" />
+      <Param name="p_HklValue" type="string" localize="Selected value" />
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              if p_CtrlValue != ''
+                then p_CtrlValue = p_CtrlValue + ';' + p_HklValue;
+                else p_CtrlValue = p_HklValue;
+        End
+      ]]>
+      </TbScript>
+    </Event>
+  </Events>
+  
+  <SelectionModes>
+ 
+    <Mode name="Default" type="query">
+  <![CDATA[  
+SELECT 
+  Bank            { COL MA_Banks.Bank }, 
+  Description {+} ' - ' {+} Agency {+} ' - ' {+} Branch   { COL MA_Banks.Description }, 
+  Fax             { COL MA_Banks.Fax }, 
+  Address         { COL MA_Banks.Address },
+  City            { COL MA_Banks.City },
+  ZIPCode         { COL MA_Banks.ZIPCode },
+  County          { COL MA_Banks.County },
+  Country         { COL MA_Banks.Country },
+  IsACompanyBank  { COL MA_Banks.IsACompanyBank },
+  ISOCountryCode  { COL MA_Banks.ISOCountryCode }     
+FROM MA_Banks
+ORDER BY 1
+ ]]>
+  </Mode>
+
+</SelectionModes>
+
+</HotKeyLink>
