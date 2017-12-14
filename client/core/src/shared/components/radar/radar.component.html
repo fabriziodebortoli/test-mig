@@ -4,31 +4,36 @@
     </h5>
 
     <!--todoluca, localizzare nomi colonne se già non localizzate-->
-    <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true" [height]="206" (pageChange)="pageChange($event)" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [selectable]="true" (selectionChange)="selectionChange($event)"
+    <kendo-grid [data]="rows" [pageSize]="pageSize" [skip]="skip" [pageable]="true" [height]="206" (pageChange)="pageChange($event)" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [selectable]="true" (selectionChange)="selectionChange($event)"
         (edit)="editHandler($event)">
 
         <kendo-grid-command-column title="&nbsp;" width="250">
             <ng-template kendoGridCellTemplate>
-                <button kendoGridEditCommand class="k-primary">edit</button>
-                <button kendoGridEditCommand class="k-primary">edit<m4-icon icon="tb-edit"></m4-icon>edit</button>
+                <!--button kendoGridEditCommand class="k-primary">edit</button-->
+                <button kendoGridEditCommand class="k-primary">edit<m4-icon icon="tb-edit"></m4-icon></button>
             </ng-template>
         </kendo-grid-command-column>
-        <ng-template ngFor [ngForOf]="columnInfos" let-column>
-            <kendo-grid-column [ngSwitch]="column.dataType" field="{{column.columnName}}" title="{{column.columnName}}" width="120">
+        <!--ng-template ngFor [ngForOf]="columns" let-column-->
+        <ng-template *ngFor="let column of columns">
+            <kendo-grid-column [ngSwitch]="column.type" field="{{column.id}}" title="{{column.id}}" width="120" [headerClass]="{'tableHeader':true}">
 
-                <ng-template *ngSwitchCase="'String'" kendoGridCellTemplate let-dataItem>
-                    {{dataItem[column.columnName]}}
+                <ng-template *ngSwitchCase="String" kendoGridCellTemplate let-dataItem>
+                    {{dataItem[column.id]}}
                 </ng-template>
 
-                <ng-template *ngSwitchCase="'Bool'" kendoGridCellTemplate let-dataItem>
-                    <input type="checkbox" [checked]="dataItem[column.columnName]" disabled/>
+                <ng-template *ngSwitchCase="Boolean" kendoGridCellTemplate let-dataItem>
+                    <input type="checkbox" [checked]="dataItem[column.id]" disabled/>
                 </ng-template>
 
-                <ng-template *ngSwitchCase="'Date'" kendoGridCellTemplate let-dataItem>
-                    {{dataItem[column.columnName]}}
+                <ng-template *ngSwitchCase="DateTime" kendoGridCellTemplate let-dataItem>
+                    {{dataItem[column.id]}}
                 </ng-template>
 
-                <ng-template *ngSwitchCase="'Enum'" kendoGridCellTemplate let-dataItem>
+                <ng-template *ngSwitchCase="Double" kendoGridCellTemplate let-dataItem>
+                    {{dataItem[column.id]}}
+                </ng-template>
+    
+                <ng-template *ngSwitchCase="DataEnum" kendoGridCellTemplate let-dataItem>
                     {{getEnumValue(dataItem, column)}}
                 </ng-template>
 
