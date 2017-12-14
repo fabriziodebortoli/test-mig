@@ -1,0 +1,40 @@
+{
+   "collapsible" : true,
+   "context" : "uinotification",
+   "height" : 123,
+   "id" : "IDD_DATA_SYNCHRO_HISTORY_IMS",
+  "items": [
+    {
+      "autoVScroll": true,
+      "binding": {
+        "datasource": "SynchMsg"
+      },
+      "controlClass": "StringEdit",
+      "height": 150,
+      "id": "IDC_DS_LASTSYNCH_MSG_IMS",
+      "multiline": true,
+      "readOnly": true,
+      "type": 13, /*Edit*/
+      "vScroll": true,
+      "width": 268,
+      "x": 49,
+      "y": 4
+    },
+    {
+      "height": 12,
+      "id": "IDC_IDC_DS_LASTSYNCH_COPYMSG",
+      "isText": true,
+      "text": "Copy Msg",
+      "textAlign": 1, /*Center*/
+      "type": 3, /*Button*/
+      "vertAlign": 1, /*Center*/
+      "width": 41,
+      "x": 6,
+      "y": 4
+    }
+  ],
+   "name" : "HistoryTileDlg",
+   "text" : "Data Synchronization Status",
+   "type" : 71, /*Tile*/
+   "width" : 325
+}

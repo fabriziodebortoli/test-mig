@@ -1,0 +1,27 @@
+﻿{
+    "id": "IDD_WORKER_WINDOW_VIEW",
+    "name": "WorkerWindow",
+    "type": 1,
+    "text": "Worker Window",
+    "x": 6,
+    "y": 20,
+    "width": 400,
+    "height": 56,
+    "child": true,
+    "items": [
+        {
+            "id": "IDC_TG_WORKER_WINDOW",
+            "type": 72,
+            "text": "Worker",
+            "x": 0,
+            "y": 0,
+            "width": 399,
+            "height": 54,
+            "items": [
+                {
+                    "href": "IDD_TD_WORKER_WINDOW"
+                }
+            ]
+        }
+    ]
+}

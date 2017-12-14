@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CreateInfo>
+	<ModuleInfo name="TbResourcesMng" />
+	<Level1>
+		<Step numstep="1" script="RM_Resources.sql"/>
+		<Step numstep="2" script="RM_Workers.sql"/>
+		<Step numstep="3" script="RM_AbsenceReasons.sql"/>
+		<Step numstep="4" script="RM_Calendars.sql"/>
+	</Level1>
+	<Level2/>
+</CreateInfo>

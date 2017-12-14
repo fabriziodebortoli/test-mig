@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainExternalReferences>
+	<DBT namespace="Framework.TbResourcesMng.TbResourcesMng.Calendars.Calendars">
+		<Export>1</Export>
+		<UpdateType>Replace</UpdateType>
+		<ExternalReferences></ExternalReferences>
+	</DBT>
+	<DBT namespace="Framework.TbResourcesMng.TbResourcesMng.Calendars.CalendarShifts">
+		<Export>1</Export>
+		<UpdateType>Replace</UpdateType>
+		<ExternalReferences></ExternalReferences>
+	</DBT>
+	<DBT namespace="Framework.TbResourcesMng.TbResourcesMng.Calendars.CalendarHolidays">
+		<Export>1</Export>
+		<UpdateType>Replace</UpdateType>
+		<ExternalReferences></ExternalReferences>
+	</DBT>
+</MainExternalReferences>

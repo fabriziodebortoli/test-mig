@@ -1,0 +1,18 @@
+﻿{
+    "id": "IDD_ACQUISITION_FROM_DEVICE_VIEW",
+    "type": "View",
+    "child": true,
+    "items": [
+        {
+            "id": "IDC_TG_ACQUISITION_FROM_DEVICE",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+                    "href": "IDD_TD_ACQUISITION_FROM_DEVICE"
+                }
+            ]
+        }
+    ]
+}
+

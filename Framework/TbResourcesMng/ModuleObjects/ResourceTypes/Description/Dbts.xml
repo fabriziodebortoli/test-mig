@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBTs xmlns:sl="urn:TBStringLoader">
+	<Master namespace="Framework.TbResourcesMng.TbResourcesMng.ResourceTypes.ResourceTypes">
+		<Title localizable="true">ResourceTypes</Title>
+		<Table namespace="framework.tbresourcesmng.tbresourcesmng.RM_ResourceTypes">RM_ResourceTypes</Table>
+		<ChooseUpdate>0</ChooseUpdate>
+		<Slaves></Slaves>
+	</Master>
+</DBTs>

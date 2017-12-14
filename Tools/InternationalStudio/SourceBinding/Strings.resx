@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActionAddProject" xml:space="preserve">
+    <value>Creation of Source Safe project: "{0}".</value>
+  </data>
+  <data name="ActionCheckout" xml:space="preserve">
+    <value>Check out of: "{0}"</value>
+  </data>
+  <data name="NoActionNeeded" xml:space="preserve">
+    <value>No action is needed.</value>
+  </data>
+  <data name="ActionRemove" xml:space="preserve">
+    <value>Removal of: "{0}"</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  
+  <data name="InvalidSourceControlFile" xml:space="preserve">
+    <value>Invalid source control file!</value>
+  </data>
+  <data name="CannotAddToSourceControl" xml:space="preserve">
+    <value>Cannot save changes to file {0} to Source Safe; file is not checked in.</value>
+  </data>
+  <data name="OnlyLocalNode" xml:space="preserve">
+    <value>Only local</value>
+  </data>
+  <data name="MultiplePathError" xml:space="preserve">
+    <value>Cannot edit this component because it is a placeholder that represents several paths.</value>
+  </data>
+  <data name="CheckOutPrompt" xml:space="preserve">
+    <value>Do you want to check out file:
+{0} 
+from source path:
+{1}?</value>
+  </data>
+  <data name="AskRename" xml:space="preserve">
+    <value>Do you want to rename Source Safe item 
+"{0}"
+as 
+"{1}"?</value>
+  </data>
+  <data name="InvalidSolutionPath" xml:space="preserve">
+    <value>The solution path is not valid.</value>
+  </data>
+  <data name="ActionRemoveLocal" xml:space="preserve">
+    <value>Removal of: "{0}"</value>
+  </data>
+  <data name="SourceSafeNotInstalled" xml:space="preserve">
+    <value>The source control program is not installed.</value>
+  </data>
+  <data name="ActionAdd" xml:space="preserve">
+    <value>Insertion of: "{0}"</value>
+    <comment> </comment>
+  </data>
+  <data name="InvalidAddress" xml:space="preserve">
+    <value>No valid service found at '{0}'; please enter a valid address.</value>
+  </data>
+  <data name="CheckOutDifferent" xml:space="preserve">
+    <value>Local file differs from Source Safe file: {0}; are you sure to check it out and loose local changes?</value>
+  </data>
+  <data name="NotBound" xml:space="preserve">
+    <value>(Not bound)</value>
+  </data>
+  <data name="ToolNotFound" xml:space="preserve">
+    <value>No valid comparing tool has been found; do you want to select a new one?</value>
+  </data>
+  <data name="DoubleClickToModify" xml:space="preserve">
+    <value>Double click or use context menu to modify.</value>
+  </data>
+  <data name="ProjectLevel" xml:space="preserve">
+    <value>Project level component</value>
+  </data>
+  <data name="InvalidLocalPaths" xml:space="preserve">
+    <value>The following local paths are not valid:
+{0}
+Please modify source bindings.</value>
+  </data>
+  <data name="CheckedOutNode" xml:space="preserve">
+    <value>File checked out</value>
+  </data>
+  <data name="ActionCreateLocal" xml:space="preserve">
+    <value>Creation of local folder {0}</value>
+  </data>
+  <data name="NoSourceControlFile" xml:space="preserve">
+    <value>Source control file not found.</value>
+  </data>
+  <data name="DangerousActions" xml:space="preserve">
+    <value>WARNING! The following actions are potentially unsafe because they can lead to loss of data.</value>
+  </data>
+  <data name="ProjectNode" xml:space="preserve">
+    <value>Project element</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path: '{0}'</value>
+  </data>
+  <data name="InvalidFile" xml:space="preserve">
+    <value>File not bound</value>
+  </data>
+  
+  <data name="UptudateNode" xml:space="preserve">
+    <value>Up to date file</value>
+  </data>
+  <data name="ActionCheckOutIn" xml:space="preserve">
+    <value>Check out (without getting latest version) and subsequent check in of: "{0}"</value>
+  </data>
+  <data name="SSafeProjectsCreated" xml:space="preserve">
+    <value>Source Safe projects have been successfully created.</value>
+  </data>
+  <data name="SourceSafePathTip" xml:space="preserve">
+    <value>Source Safe path:
+{0}
+local path:
+{1}</value>
+  </data>
+  <data name="PerformActionError" xml:space="preserve">
+    <value>Error executing the following action: {0}.
+Error details: {1}</value>
+  </data>
+  <data name="InvalidSelection" xml:space="preserve">
+    <value>The selected tree item is not valid for this operation.</value>
+  </data>
+  <data name="InvalidDatabase" xml:space="preserve">
+    <value>Invalid SourceSafe database!</value>
+  </data>
+  <data name="SourceSafePath" xml:space="preserve">
+    <value>Current Source Safe path: {0}</value>
+  </data>
+  <data name="CheckOutError" xml:space="preserve">
+    <value>Cannot check out file:
+{0}.
+Reason: {1}.
+</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="InvalidProject" xml:space="preserve">
+    <value>Project not bound</value>
+  </data>
+  <data name="OperationAborted" xml:space="preserve">
+    <value>The operation has been aborted.</value>
+  </data>
+  
+  <data name="DictionarytLevel" xml:space="preserve">
+    <value>Dictionary level component</value>
+  </data>
+  <data name="AddingNode" xml:space="preserve">
+    <value>Adding node: {0}</value>
+  </data>
+  <data name="CheckedOutByAnotherUser" xml:space="preserve">
+    <value>File {0} is currently checked out by another user.</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Ready.</value>
+  </data>
+  <data name="LocalizerComment" xml:space="preserve">
+    <value>Project automatically created by International Studio</value>
+  </data>
+  <data name="InvalidBindingInfo" xml:space="preserve">
+    <value>Source Safe binding information not found for element {0}; please verify source bindings.</value>
+  </data>
+  <data name="PerformingAction" xml:space="preserve">
+    <value>Performing action: {0}</value>
+  </data>
+  
+  <data name="InvalidSourceSafePaths" xml:space="preserve">
+    <value>The following Source Safe paths are not valid:
+{0}
+Please modify source bindings.</value>
+  </data>
+  <data name="ActionCheckIn" xml:space="preserve">
+    <value>Check in of: "{0}"</value>
+  </data>
+  <data name="DangerousActionsQuestion" xml:space="preserve">
+    <value>Do you want to cancel the operation?</value>
+  </data>
+  <data name="RenameInfo" xml:space="preserve">
+    <value>Drag and drop an item over another to perform the renaming of Source Safe elements</value>
+  </data>
+  <data name="ActionGetLatestVersionUndoCheckout" xml:space="preserve">
+    <value>Undo check out and get latest version of: "{0}"</value>
+  </data>
+  <data name="ErrorCreatingProject" xml:space="preserve">
+    <value>The following error occurred creating project '{0}': "{1}"; do you want to continue?</value>
+  </data>
+  
+ 
+  <data name="OnlyInSourceSafeNode" xml:space="preserve">
+    <value>Only in Source Safe</value>
+  </data>
+  <data name="ActionGetLatestVersion" xml:space="preserve">
+    <value>Get latest version of: "{0}"</value>
+  </data>
+  <data name="SolutionLevel" xml:space="preserve">
+    <value>Solution level component</value>
+  </data>
+  <data name="DifferentNode" xml:space="preserve">
+    <value>File differs</value>
+  </data>
+  <data name="OverWriteBindingInfos" xml:space="preserve">
+    <value>Do you want to overwrite local source binding information with the one in Source Safe?</value>
+  </data>
+  <data name="ErrorsOccurred" xml:space="preserve">
+    <value>The following errors occurred:</value>
+  </data>
+  <data name="LocalTip" xml:space="preserve">
+    <value>Local path:
+{0}</value>
+  </data>
+  <data name="CheckingAction" xml:space="preserve">
+    <value>Checking action: {0}</value>
+  </data>
+  <data name="InvalidAddress" xml:space="preserve">
+    <value>No valid service found at '{0}'; please enter a valid address.</value>
+  </data>
+  <data name="FileInUse" xml:space="preserve">
+    <value>File {0} is currently used by another user</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path {0}</value>
+  </data>
+  <data name="FileDialogTitle" xml:space="preserve">
+    <value>Open SourceSafe database</value>
+  </data>
+  <data name="ProjectAlreadyExists" xml:space="preserve">
+    <value>Project already exists</value>
+  </data>
+  <data name="InvalidDatabase" xml:space="preserve">
+    <value>Invalid SourceSafe database!</value>
+  </data>
+  <data name="IniFileMissing" xml:space="preserve">
+    <value>Please insert a valid .ini file for SourceSafe database</value>
+  </data>
+  <data name="CreateProject" xml:space="preserve">
+    <value>The project {0} does not exist; do you want to create it now?</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>The authentication token is not valid</value>
+  </data>
+  <data name="CheckOutFile" xml:space="preserve">
+    <value>CheckOut of file {0}</value>
+  </data>
+  <data name="GenericException" xml:space="preserve">
+    <value>The following exception occurred: {0}; source: {1}</value>
+  </data>
+</root>

@@ -1,0 +1,13 @@
+﻿{
+  "id": "IDD_RS_EditorGridView",
+  "rcId": 43357,
+  "type": 66,
+  "style": 8,
+  "x": 0,
+  "y": 0,
+  "width": 494,
+  "height": 112,
+  "child": true,
+  "context": "rseditorui",
+  "items": []
+}

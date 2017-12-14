@@ -1,0 +1,16 @@
+{
+   "id" : "ID_EXTDOC_BATCH_TOOLBAR_MAIN",
+   "items" : [
+    {
+      "hint": "Attach selected files",
+      "icon": "Framework.TbFrameworkImages.Images.25x25.Attach.png",
+      "id": "ID_DMSREPOSITORY_TOOLBTN_ATTACH",
+      "name": "Attach",
+      "text": "Attach",
+      "type": 15 /*ToolbarButton*/
+    }
+   ],
+   "name" : "Main",
+   "type" : 14 /*Toolbar*/
+
+}

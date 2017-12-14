@@ -1,0 +1,678 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LabelTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="LabelTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 12pt, style=Bold</value>
+  </data>
+  <data name="LabelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LabelTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="LabelTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>591, 24</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LabelTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="LabelTitle.Text" xml:space="preserve">
+    <value>Create a unique database login for more users</value>
+  </data>
+  <data name="LabelTitle.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Name" xml:space="preserve">
+    <value>LabelTitle</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="LblExplication.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblExplication.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 32</value>
+  </data>
+  <data name="LblExplication.Size" type="System.Drawing.Size, System.Drawing">
+    <value>576, 72</value>
+  </data>
+  <data name="LblExplication.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="LblExplication.Text" xml:space="preserve">
+    <value>To enable application users accessing the company data, select their names using the associated checkbox. All users will connect using the same associated database login.</value>
+  </data>
+  <data name="LblExplication.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LblExplication.Name" xml:space="preserve">
+    <value>LblExplication</value>
+  </data>
+  <data name="&gt;&gt;LblExplication.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblExplication.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LblExplication.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CbNTSecurity.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CbNTSecurity.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CbNTSecurity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>331, 178</value>
+  </data>
+  <data name="CbNTSecurity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 19</value>
+  </data>
+  <data name="CbNTSecurity.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CbNTSecurity.Text" xml:space="preserve">
+    <value>Integrated Security</value>
+  </data>
+  <data name="&gt;&gt;CbNTSecurity.Name" xml:space="preserve">
+    <value>CbNTSecurity</value>
+  </data>
+  <data name="&gt;&gt;CbNTSecurity.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CbNTSecurity.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;CbNTSecurity.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 75</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>546, 42</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.Text" xml:space="preserve">
+    <value>Select from the list below one of the available Oracle users. Listed users are not yet associated with a company.</value>
+  </data>
+  <data name="rbSelectExistedOracleUser.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;rbSelectExistedOracleUser.Name" xml:space="preserve">
+    <value>rbSelectExistedOracleUser</value>
+  </data>
+  <data name="&gt;&gt;rbSelectExistedOracleUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbSelectExistedOracleUser.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;rbSelectExistedOracleUser.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="txtNewOracleUser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 177</value>
+  </data>
+  <data name="txtNewOracleUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 23</value>
+  </data>
+  <data name="txtNewOracleUser.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;txtNewOracleUser.Name" xml:space="preserve">
+    <value>txtNewOracleUser</value>
+  </data>
+  <data name="&gt;&gt;txtNewOracleUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtNewOracleUser.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;txtNewOracleUser.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="rbNewOracleUser.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="rbNewOracleUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbNewOracleUser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 154</value>
+  </data>
+  <data name="rbNewOracleUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 20</value>
+  </data>
+  <data name="rbNewOracleUser.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="rbNewOracleUser.Text" xml:space="preserve">
+    <value>New Oracle User</value>
+  </data>
+  <data name="&gt;&gt;rbNewOracleUser.Name" xml:space="preserve">
+    <value>rbNewOracleUser</value>
+  </data>
+  <data name="&gt;&gt;rbNewOracleUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbNewOracleUser.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;rbNewOracleUser.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="BtnOracleConnectionCheck.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="BtnOracleConnectionCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnOracleConnectionCheck.Location" type="System.Drawing.Point, System.Drawing">
+    <value>377, 227</value>
+  </data>
+  <data name="BtnOracleConnectionCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 28</value>
+  </data>
+  <data name="BtnOracleConnectionCheck.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="BtnOracleConnectionCheck.Text" xml:space="preserve">
+    <value>Check connection</value>
+  </data>
+  <data name="&gt;&gt;BtnOracleConnectionCheck.Name" xml:space="preserve">
+    <value>BtnOracleConnectionCheck</value>
+  </data>
+  <data name="&gt;&gt;BtnOracleConnectionCheck.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnOracleConnectionCheck.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;BtnOracleConnectionCheck.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="TextBoxOracleUserPwd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TextBoxOracleUserPwd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 230</value>
+  </data>
+  <data name="TextBoxOracleUserPwd.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="TextBoxOracleUserPwd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 23</value>
+  </data>
+  <data name="TextBoxOracleUserPwd.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleUserPwd.Name" xml:space="preserve">
+    <value>TextBoxOracleUserPwd</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleUserPwd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleUserPwd.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleUserPwd.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="LblOracleService.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblOracleService.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblOracleService.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 21</value>
+  </data>
+  <data name="LblOracleService.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 16</value>
+  </data>
+  <data name="LblOracleService.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="LblOracleService.Text" xml:space="preserve">
+    <value>Oracle Service</value>
+  </data>
+  <data name="&gt;&gt;LblOracleService.Name" xml:space="preserve">
+    <value>LblOracleService</value>
+  </data>
+  <data name="&gt;&gt;LblOracleService.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblOracleService.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;LblOracleService.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TextBoxOracleService.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 43</value>
+  </data>
+  <data name="TextBoxOracleService.Size" type="System.Drawing.Size, System.Drawing">
+    <value>290, 23</value>
+  </data>
+  <data name="TextBoxOracleService.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleService.Name" xml:space="preserve">
+    <value>TextBoxOracleService</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleService.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleService.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOracleService.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ComboOracleLogins.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="ComboOracleLogins.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 120</value>
+  </data>
+  <data name="ComboOracleLogins.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 24</value>
+  </data>
+  <data name="ComboOracleLogins.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;ComboOracleLogins.Name" xml:space="preserve">
+    <value>ComboOracleLogins</value>
+  </data>
+  <data name="&gt;&gt;ComboOracleLogins.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboOracleLogins.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;ComboOracleLogins.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="LblOracleUserPwd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblOracleUserPwd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblOracleUserPwd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 207</value>
+  </data>
+  <data name="LblOracleUserPwd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 16</value>
+  </data>
+  <data name="LblOracleUserPwd.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="LblOracleUserPwd.Text" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="&gt;&gt;LblOracleUserPwd.Name" xml:space="preserve">
+    <value>LblOracleUserPwd</value>
+  </data>
+  <data name="&gt;&gt;LblOracleUserPwd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblOracleUserPwd.Parent" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;LblOracleUserPwd.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="GrBoxOracleConnData.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 110</value>
+  </data>
+  <data name="GrBoxOracleConnData.Size" type="System.Drawing.Size, System.Drawing">
+    <value>572, 264</value>
+  </data>
+  <data name="GrBoxOracleConnData.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="GrBoxOracleConnData.Text" xml:space="preserve">
+    <value>Database connection information</value>
+  </data>
+  <data name="&gt;&gt;GrBoxOracleConnData.Name" xml:space="preserve">
+    <value>GrBoxOracleConnData</value>
+  </data>
+  <data name="&gt;&gt;GrBoxOracleConnData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GrBoxOracleConnData.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GrBoxOracleConnData.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="LblAllUsersJoined.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="LblAllUsersJoined.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblAllUsersJoined.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblAllUsersJoined.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 382</value>
+  </data>
+  <data name="LblAllUsersJoined.Size" type="System.Drawing.Size, System.Drawing">
+    <value>423, 16</value>
+  </data>
+  <data name="LblAllUsersJoined.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="LblAllUsersJoined.Text" xml:space="preserve">
+    <value>All application users are already associated with the company.</value>
+  </data>
+  <data name="LblAllUsersJoined.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="LblAllUsersJoined.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;LblAllUsersJoined.Name" xml:space="preserve">
+    <value>LblAllUsersJoined</value>
+  </data>
+  <data name="&gt;&gt;LblAllUsersJoined.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblAllUsersJoined.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LblAllUsersJoined.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ListViewUsersCompany.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="ListViewUsersCompany.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 406</value>
+  </data>
+  <data name="ListViewUsersCompany.Size" type="System.Drawing.Size, System.Drawing">
+    <value>569, 243</value>
+  </data>
+  <data name="ListViewUsersCompany.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ListViewUsersCompany.Name" xml:space="preserve">
+    <value>ListViewUsersCompany</value>
+  </data>
+  <data name="&gt;&gt;ListViewUsersCompany.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListViewUsersCompany.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ListViewUsersCompany.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="BtnSave.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="BtnSave.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="BtnSave.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnSave.Location" type="System.Drawing.Point, System.Drawing">
+    <value>324, 658</value>
+  </data>
+  <data name="BtnSave.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 24</value>
+  </data>
+  <data name="BtnSave.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="BtnSave.Text" xml:space="preserve">
+    <value>Associate</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.Name" xml:space="preserve">
+    <value>BtnSave</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BtnUnselectAll.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="BtnUnselectAll.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="BtnUnselectAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnUnselectAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>166, 658</value>
+  </data>
+  <data name="BtnUnselectAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 24</value>
+  </data>
+  <data name="BtnUnselectAll.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="BtnUnselectAll.Text" xml:space="preserve">
+    <value>Unselect All</value>
+  </data>
+  <data name="&gt;&gt;BtnUnselectAll.Name" xml:space="preserve">
+    <value>BtnUnselectAll</value>
+  </data>
+  <data name="&gt;&gt;BtnUnselectAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnUnselectAll.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnUnselectAll.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnSelectAll.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="BtnSelectAll.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="BtnSelectAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnSelectAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 658</value>
+  </data>
+  <data name="BtnSelectAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 24</value>
+  </data>
+  <data name="BtnSelectAll.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="BtnSelectAll.Text" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="&gt;&gt;BtnSelectAll.Name" xml:space="preserve">
+    <value>BtnSelectAll</value>
+  </data>
+  <data name="&gt;&gt;BtnSelectAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnSelectAll.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnSelectAll.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
+    <value>7, 16</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>591, 690</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>AddCompanyUserToOracleLogin</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>AddCompanyUserToOracleLogin</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.PlugIns.PlugInsForm, Microarea.Console.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

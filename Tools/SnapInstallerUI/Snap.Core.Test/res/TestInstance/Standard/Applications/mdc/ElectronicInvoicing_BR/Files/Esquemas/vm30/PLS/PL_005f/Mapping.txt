@@ -1,0 +1,11 @@
+[ValidarXML]
+STATUS=consStatServ_v1.07.xsd
+ENVIO=enviNFe_v1.10.xsd
+CONSULTARECIBO=consReciNFe_v1.10.xsd
+CONSULTANF=consSitNFe_v1.07.xsd
+CANCELAMENTO=cancNFe_v1.07.xsd
+INUTILIZACAO=inutNFe_v1.07.xsd
+CONSULTACADASTRO=consCad_v1.01.xsd
+XMLDESTINATARIO=procNFe_v1.10.xsd
+XMLCANCDESTINATARIO=procCancNFe_v1.07.xsd
+XMLSAIDA=nfe_v1.10.xsd

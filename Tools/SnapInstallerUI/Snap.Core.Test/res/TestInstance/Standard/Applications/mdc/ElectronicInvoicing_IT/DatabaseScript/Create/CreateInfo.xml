@@ -1,0 +1,24 @@
+<CreateInfo>
+  <ModuleInfo name="ElectronicInvoicing_IT" />
+  <Level1>
+    <Step numstep="1" script="MA_EI_ITCompany.sql" />
+    <Step numstep="2" script="MA_EI_ITCustSuppAddData.sql" />
+    <Step numstep="3" script="MA_EI_ITAdditionalData.sql" />
+    <Step numstep="4" script="MA_EI_ITDocAdditionalData.sql" />
+    <Step numstep="5" script="MA_EI_ITParameters.sql" />
+    <Step numstep="6" script="MA_EI_ITFatelWebParameters.sql" />
+    <Step numstep="7" script="Alter_MA_CustSupp.sql">
+      <Dependency app="ERP" module="CustomersSuppliers" />
+    </Step>
+    <Step numstep="8" script="Alter_MA_Jobs.sql">
+      <Dependency app="ERP" module="Jobs" />
+    </Step>
+    <Step numstep="9" script="Alter_MA_SaleOrders.sql">
+      <Dependency app="ERP" module="SaleOrders" />
+    </Step>
+    <Step numstep="10" script="Alter_MA_Items.sql">
+      <Dependency app="ERP" module="Items" />
+    </Step>
+  </Level1>
+  <Level2 />
+</CreateInfo>

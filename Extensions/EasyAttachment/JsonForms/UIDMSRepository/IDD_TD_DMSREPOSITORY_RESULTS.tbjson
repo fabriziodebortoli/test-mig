@@ -1,0 +1,283 @@
+﻿{
+    "id": "IDD_TD_DMSREPOSITORY_RESULTS",
+    "type": 71 /*Tile*/,
+    "tileStyle": 2, //TDS_FILTER
+    "pinnable": false,
+    "x": 0,
+    "y": 0,
+    "width": 336,
+    "height": 108,
+    "child": true,
+    "context": "uidmsrepository",
+    "items": [
+        {
+            "id": "IDC_DMSREPOSITORY_BE_RESULTS",
+            "binding": {
+                "datasource": "DBTArchivedDocuments"
+            },
+            "name": "BEArchivedDocuments",
+            "type": 18, /*BodyEdit*/
+            "text": "Archived Documents",
+            "x": 2,
+            "y": 1,
+            "width": 331,
+            "height": 105,
+            "clipChildren": true,
+            "ownerDraw": true,
+            "showHeaderToolbar": true,
+            "rowView": "IDD_DMSREPOSITORY_RESULT_ROWVIEW",
+            "allowInsert": false,
+            "allowDelete": false,
+            "addRowEnabled": false,
+            "deleteRowEnabled": false,
+            "items": [
+                {
+                    "type": "Toolbar", // toolbar del bodyedit
+                    "items": [
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Select.png",
+                            "id": "ID_ARCHDOC_BTN_SELECT_DESELECT",
+                            "name": "SelDesel",
+                            "text": "Deselect",
+                            "hint": "Deselect all",
+                            "type": "ToolbarButton",
+                            "activation": "bOpenAsBrowser"
+                        },
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.New.png",
+                            "id": "ID_ARCHDOC_BTN_NEW",
+                            "name": "NewDocument",
+                            "text": "New...",
+                            "hint": "New...",
+                            "type": "ToolbarButton",
+                            "activation": "!bOpenAsBrowser",
+                            "isDropdown": true,
+                            "items": [
+                                {
+                                    "id": "ID_ARCHDOC_BTN_NEW_FROM_FILESYSTEM",
+                                    "name": "FromFileSystem",
+                                    "text": "from file system",
+                                    "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Open.png",
+                                    "type": 29 /*MenuItem*/
+                                },
+                                {
+                                    "id": "ID_ARCHDOC_BTN_NEW_FROM_DEVICE",
+                                    "name": "FromDevice",
+                                    "text": "from device",
+                                    "icon": "Image.Extensions.ExtensionsImages.Images.20x20.Device.png",
+                                    "type": 29 /*MenuItem*/
+                                }
+                            ]
+                        },
+                      {
+                        "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Edit.png",
+                        "id": "ID_ARCHDOC_BTN_EDIT",
+                        "name": "Edit",
+                        "text": "Edit",
+                        "hint": "Edit document",
+                        "type": "ToolbarButton",
+                        "activation": "!bOpenAsBrowser",
+                        "default": true,
+                        "isDropdown": true,
+                        "items": [
+                          {
+                            "id": "ID_ARCHDOC_BTN_UNDO_CHANGES",
+                            "name": "Undo",
+                            "text": "Undo changes",
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Undo.png",
+                            "type": 29 /*MenuItem*/
+                          }
+                        ]
+                      },
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Picture.png",
+                            "id": "ID_ARCHDOC_BTN_VIEW",
+                            "name": "View",
+                            "text": "View",
+                            "hint": "View document",
+                            "type": "ToolbarButton"
+                        },
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Copy.png",
+                            "id": "ID_ARCHDOC_BTN_COPY_IN",
+                            "name": "CopyIn",
+                            "text": "Copy In",
+                            "hint": "Copy file in specified folder",
+                            "type": "ToolbarButton"
+                        },
+                        {
+                            "icon": "Image.Extensions.ExtensionsImages.Images.25x25.CheckOut.png",
+                            "id": "ID_ARCHDOC_BTN_CHECKOUT",
+                            "name": "CheckOut",
+                            "text": "Check Out",
+                            "hint": "Check Out",
+                            "type": "ToolbarButton",
+                            "activation": "!bOpenAsBrowser"
+                        },
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Undo.png",
+                            "id": "ID_ARCHDOC_BTN_UNDO_CHECKOUT",
+                            "name": "UndoCheckOut",
+                            "text": "Undo",
+                            "hint": "Undo",
+                            "type": "ToolbarButton",
+                            "activation": "!bOpenAsBrowser"
+                        },
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Mail.png",
+                            "id": "ID_ARCHDOC_BTN_SEND",
+                            "name": "Send",
+                            "text": "Send",
+                            "hint": "Send",
+                            "type": "ToolbarButton"
+                        },
+                        {
+                            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Delete.png",
+                            "id": "ID_ARCHDOC_BTN_DELETE",
+                            "name": "Delete",
+                            "text": "Delete",
+                            "hint": "Delete archived document",
+                            "type": "ToolbarButton",
+                            "activation": "!bOpenAsBrowser"
+                        },
+                        {
+                            "icon": "Image.Extensions.ExtensionsImages.Images.25x25.Filter.png",
+                            "id": "ID_ARCHDOC_BTN_FILTERS",
+                            "name": "Filters",
+                            "text": "Filter",
+                            "hint": "Filter documents",
+                            "type": "ToolbarButton",
+                            "isDropdown": true,
+                            "items": [
+                                {
+                                    "id": "ID_ARCHDOC_BTN_SHOW_ONLY_WOORM_REPORT",
+                                    "name": "Report",
+                                    "text": "Hide report",
+                                    "type": 29 /*MenuItem*/
+                                },
+                                {
+                                    "id": "ID_ARCHDOC_BTN_SHOW_ONLY_ATTACHMENTS",
+                                    "name": "Attachments",
+                                    "text": "Hide attachments",
+                                    "type": 29 /*MenuItem*/
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_IS_SELECTED",
+                    "binding": {
+                        "datasource": "VIsSelected"
+                    },
+                    "activation": "bOpenAsBrowser",
+                    "controlClass": "CheckBox",
+                    "name": "IsSelected",
+                    "text": "Sel.",
+                    "type": 22 /*ColTitle*/
+
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_ID",
+                    "binding": {
+                        "datasource": "VArchivedDocId"
+                    },
+                    "controlClass": "LongStatic",
+                    "name": "ID",
+                    "text": "ID",
+                    "type": 22, /*ColTitle*/
+                    "chars": 3
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_IS_ATTACHMENT",
+                    "binding": {
+                        "datasource": "VIsAttachmentBmp"
+                    },
+                    "controlClass": "NamespaceBitmap",
+                    "blackFrame": true,
+                    "name": "IsAttachment",
+                    "text": "Attach",
+                    "type": 22 /*ColTitle*/
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_IS_WOORM_REPORT",
+                    "binding": {
+                        "datasource": "VIsWoormReportBmp"
+                    },
+                    "controlClass": "NamespaceBitmap",
+                    "blackFrame": true,
+                    "name": "IsWoormReport",
+                    "text": "Report",
+                    "type": 22 /*ColTitle*/
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_CHECKOUT",
+                    "binding": {
+                        "datasource": "VCheckOutWorkerBmp"
+                    },
+                    "controlClass": "NamespaceBitmap",
+                    "activation": "!bOpenAsBrowser",
+                    "blackFrame": true,
+                    "name": "CheckOut",
+                    "text": "CheckOut",
+                    "type": 22 /*ColTitle*/
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_NAME",
+                    "binding": {
+                        "datasource": "VName"
+                    },
+                    "controlClass": "StringStatic",
+                    "name": "Name",
+                    "text": "Name",
+                    "type": 22, /*ColTitle*/
+                    "chars": 40
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_DESCRIPTION",
+                    "binding": {
+                        "datasource": "VDescription"
+                    },
+                    "controlClass": "StringStatic",
+                    "name": "Description",
+                    "text": "Description",
+                    "type": 22, /*ColTitle*/
+                    "chars": 40
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_WORKER",
+                    "binding": {
+                        "datasource": "VWorker"
+                    },
+                    "controlClass": "StringStatic",
+                    "name": "Worker",
+                    "text": "Worker",
+                    "type": 22, /*ColTitle*/
+                    "chars": 20
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_CREATION_DATE",
+                    "binding": {
+                        "datasource": "VCreationDate"
+                    },
+                    "controlClass": "DateTimeStatic",
+                    "name": "CreationDate",
+                    "text": "Creation Date",
+                    "type": 22, /*ColTitle*/
+                    "chars": 20
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_BE_ARCHDOC_MODIFIED_DATE",
+                    "binding": {
+                        "datasource": "VModifiedDate"
+                    },
+                    "controlClass": "DateTimeStatic",
+                    "name": "ModifiedDate",
+                    "text": "Modified Date",
+                    "type": 22, /*ColTitle*/
+                    "chars": 20
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<LookUp>
+	<NameEntryes>
+		<NameEntry ValInt = "0" ValStr = "zero" />
+		<NameEntry ValInt = "1" ValStr = "uno" />
+		<NameEntry ValInt = "2" ValStr = "due" />
+		<NameEntry ValInt = "3" ValStr = "tre" />
+		<NameEntry ValInt = "4" ValStr = "quattro" />
+		<NameEntry ValInt = "5" ValStr = "cinque" />
+		<NameEntry ValInt = "6" ValStr = "sei" />
+		<NameEntry ValInt = "7" ValStr = "sette" />
+		<NameEntry ValInt = "8" ValStr = "otto" />
+		<NameEntry ValInt = "9" ValStr = "nove" />
+		<NameEntry ValInt = "10" ValStr = "dieci" />
+		<NameEntry ValInt = "11" ValStr = "undici" />
+		<NameEntry ValInt = "12" ValStr = "dodici" />
+		<NameEntry ValInt = "13" ValStr = "tredici" />
+		<NameEntry ValInt = "14" ValStr = "quattordici" />
+		<NameEntry ValInt = "15" ValStr = "quindici" />
+		<NameEntry ValInt = "16" ValStr = "sedici" />
+		<NameEntry ValInt = "17" ValStr = "diciassette" />
+		<NameEntry ValInt = "18" ValStr = "diciotto" />
+		<NameEntry ValInt = "19" ValStr = "diciannove" />
+		<NameEntry ValInt = "20" ValStr = "venti" />
+		<NameEntry ValInt = "21" ValStr = "ventuno" />
+		<NameEntry ValInt = "28" ValStr = "ventotto" />
+		<NameEntry ValInt = "30" ValStr = "trenta" />
+		<NameEntry ValInt = "31" ValStr = "trentuno" />
+		<NameEntry ValInt = "38" ValStr = "trentotto" />
+		<NameEntry ValInt = "40" ValStr = "quaranta" />
+		<NameEntry ValInt = "41" ValStr = "quarantuno" />
+		<NameEntry ValInt = "48" ValStr = "quarantotto" />
+		<NameEntry ValInt = "50" ValStr = "cinquanta" />
+		<NameEntry ValInt = "51" ValStr = "cinquantuno" />
+		<NameEntry ValInt = "58" ValStr = "cinquantotto" />
+		<NameEntry ValInt = "60" ValStr = "sessanta" />
+		<NameEntry ValInt = "61" ValStr = "sessantuno" />
+		<NameEntry ValInt = "68" ValStr = "sessantotto" />
+		<NameEntry ValInt = "70" ValStr = "settanta" />
+		<NameEntry ValInt = "71" ValStr = "settantuno" />
+		<NameEntry ValInt = "78" ValStr = "settantotto" />
+		<NameEntry ValInt = "80" ValStr = "ottanta" />
+		<NameEntry ValInt = "81" ValStr = "ottantuno" />
+		<NameEntry ValInt = "88" ValStr = "ottantotto" />
+		<NameEntry ValInt = "90" ValStr = "novanta" />
+		<NameEntry ValInt = "91" ValStr = "novantuno" />
+		<NameEntry ValInt = "98" ValStr = "novantotto" />
+		<NameEntry ValInt = "100" ValStr = "cento" />
+		<NameEntry ValInt = "1000" ValStr = "mille" />
+		<NameEntry ValInt = "1000000" ValStr = "unmilione" />
+		<NameEntry ValInt = "1000000000" ValStr = "unmiliardo" />
+	</NameEntryes>
+	<Groups>
+		<sHundreds value = "cento" />
+		<sThousands value = "mila" />
+		<sMillions value = "milioni" />
+		<sMilliards value = "miliardi" />
+	</Groups>
+	<Parameters>
+		<UnitInvertion value = "false" />
+	</Parameters>
+</LookUp>

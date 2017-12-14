@@ -1,0 +1,52 @@
+﻿{
+	"id": "IDD_WIZARD_FRAME",
+	"name": "Wizard",
+	"type": "Frame",
+	"category": "Wizard",
+	"x": 0,
+	"y": 0,
+	"width": 438,
+	"height": 381,
+	"accelerators": [
+		{
+			"id": "ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN",
+			"key": 120,
+			"virtualKey": true,
+			"control": true,
+			"noInvert": true
+		},
+		{
+			"id": "ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN",
+			"key": 120,
+			"virtualKey": true,
+			"alt": true,
+			"noInvert": true
+		},
+		{
+			"id": "ID_EXTDOC_CUSTOMIZE",
+			"key": 119,
+			"virtualKey": true,
+			"control": true,
+			"noInvert": true
+		},
+		{
+			"id": "ID_EXTDOC_PROPERTIES",
+			"key": 13,
+			"virtualKey": true,
+			"alt": true,
+			"noInvert": true
+		},
+		{
+			"id": "ID_FILE_CLOSE",
+			"key": 115,
+			"virtualKey": true,
+			"control": true,
+			"noInvert": true
+		}
+	],
+	"items": [
+		{
+			"href": "M.Framework.TbGes.TbGes.IDD_EXTDOC_WIZARDBATCH_TOOLBAR"
+		}
+	]
+}

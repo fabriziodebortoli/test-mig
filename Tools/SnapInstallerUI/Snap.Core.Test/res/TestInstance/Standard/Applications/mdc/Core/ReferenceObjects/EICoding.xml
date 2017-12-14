@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function namespace="MDC.Core.Dbl.EICoding" localize="Electronic Invoicing Coding" type="string" />
+  <DbField name="MA_EICoding.EICode" />
+  <ComboBox />
+  <ClassName>HKLEICoding</ClassName>
+</HotKeyLink>

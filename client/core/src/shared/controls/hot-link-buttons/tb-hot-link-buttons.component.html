@@ -40,7 +40,38 @@
         </kendo-grid-column>
     </kendo-grid>
 </ng-template>
-<div class="hotlinkButtonsContainer" #hotLinkButtons>
+<div *ngIf="!isAttachedToAComboBox" class="hotlinkButtonsContainer" #hotLinkButtons>
     <button #anchorOptions kendoButton (click)="toggleOptions(anchorOptions, optionsTemplate)" [icon]="'more-vertical'" [disabled]="!(slice$ | async).enabled"></button>
     <button #anchorTable kendoButton (click)="toggleTable(anchorTable, tableTemplate)" [icon]="'search'" [disabled]="!(slice$ | async).enabled"></button>
+</div>
+<div *ngIf="isAttachedToAComboBox" class="hotlinkDropDownContainer" #hotLinkDropDown>
+    <kendo-combobox [data]="gridView$ | async | asDropDownData"
+                    [textField]="'displayString'"
+                    [valueField]="'id'"
+                    (open)="openDropDown()"
+                    (close)="closeDropDown()"
+                    [style.width.px]="width"
+                    [filterable]="true"
+                    (filterChange)="onFilterChange($event)"
+                    [disabled]="!(slice$ | async).enabled">
+        <ng-template kendoDropDownListItemTemplate let-dataItem>
+            <div class="dropDownItem dropDownItemId">{{ dataItem.id }}</div>
+            <div class="dropDownItem dropDownItemDescription">{{ dataItem.displayString }}</div>
+        </ng-template>
+        <ng-template [ngIf]="!hotLink" kendoDropDownListNoDataTemplate>
+            <div class="dropDownNoData k-loading-mask k-loading-image k-loading-color"></div>
+        </ng-template>
+        <ng-template kendoComboBoxFooterTemplate>
+            <div [style.width.px]="width" 
+                 [style.display]="'flex'" 
+                 [style.background]="'white'"
+                 [style.border-top-style]="'solid'"
+                 [style.border-top-width.px]="1"
+                 [style.border-top-color]="'#E9E9E9'">
+                <button kendoButton (click)="firstDefaultPage()" [icon]="'arrow-end-left'" [disabled]="paginator.isFirstPage" style="flex: 1;"></button>
+                <button kendoButton (click)="prevDefaultPage()" [icon]="'arrow-60-left'" [disabled]="paginator.isFirstPage" style="flex: 1;"></button>
+                <button kendoButton (click)="nextDefaultPage()" [icon]="'arrow-60-right'" [disabled]="paginator.noMorePages" style="flex: 2;"></button>
+            </div>
+        </ng-template>
+    </kendo-combobox>
 </div>

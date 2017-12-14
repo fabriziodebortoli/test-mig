@@ -1,0 +1,393 @@
+﻿{
+  "id": "IDD_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_PAGE",
+  "rcId": 2259,
+  "type": 66,
+  "text": "Credit Management",
+  "x": 0,
+  "y": 0,
+  "width": 423,
+  "height": 288,
+  "child": true,
+  "systemMenu": true,
+  "context": "postaliteaccountmanagementdlg",
+  "items": [
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_VIEWCREDIT",
+      "type": 3,
+      "text": "Verify current credit and account status",
+      "x": 244,
+      "y": 21,
+      "width": 170,
+      "height": 15,
+      "multiline": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_CHARGE_AMOUT",
+      "type": 13,
+      "x": 11,
+      "y": 99,
+      "width": 74,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_WIRE_TRANSFER_DETAILS",
+      "type": 3,
+      "text": "Get wire transfer details",
+      "x": 88,
+      "y": 98,
+      "width": 134,
+      "height": 15
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_CLEAR_WIRE_TRANSFER_DETAILS",
+      "type": 3,
+      "text": "Reset details",
+      "x": 349,
+      "y": 99,
+      "width": 64,
+      "height": 15
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_RECHARGE_CONDITIONS_CHECK",
+      "type": 11,
+      "x": 11,
+      "y": 181,
+      "width": 8,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_FILEPATH",
+      "type": 13,
+      "x": 9,
+      "y": 245,
+      "width": 307,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_BROWSE_FILES",
+      "type": 3,
+      "text": "Browse",
+      "x": 319,
+      "y": 244,
+      "width": 76,
+      "height": 16
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_CHARGE",
+      "type": 3,
+      "text": "Recharge",
+      "x": 9,
+      "y": 261,
+      "width": 76,
+      "height": 16
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_AMOUT_CHARGE_STATIC",
+      "type": 13,
+      "x": 108,
+      "y": 119,
+      "width": 58,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true,
+      "textAlign": 2
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_ACTIVATION_AMOUNT_STATIC",
+      "type": 13,
+      "x": 108,
+      "y": 131,
+      "width": 58,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true,
+      "textAlign": 2
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_VAT_AMOUNT_STATIC",
+      "type": 13,
+      "x": 108,
+      "y": 143,
+      "width": 58,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true,
+      "textAlign": 2
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_TOTAL_AMOUT_STATIC",
+      "type": 13,
+      "x": 108,
+      "y": 155,
+      "width": 58,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true,
+      "textAlign": 2
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_BENEFICIARY_STATIC",
+      "type": 13,
+      "x": 255,
+      "y": 118,
+      "width": 157,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_BANK_STATIC",
+      "type": 13,
+      "x": 255,
+      "y": 131,
+      "width": 157,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_IBAN_STATIC",
+      "type": 13,
+      "x": 255,
+      "y": 143,
+      "width": 157,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_WIRE_TRANSFER_REASON_STATIC",
+      "type": 13,
+      "x": 255,
+      "y": 155,
+      "width": 157,
+      "height": 12,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Current Credit [€]",
+      "x": 115,
+      "y": 13,
+      "width": 57,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_CURRENTCREDIT",
+      "type": 2,
+      "text": "Static",
+      "x": 115,
+      "y": 22,
+      "width": 55,
+      "height": 14,
+      "sunken": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Upload the wire transfer pdf using the \"Browse\" and \"Charge\" buttons. ",
+      "x": 9,
+      "y": 233,
+      "width": 370,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Account Status",
+      "x": 11,
+      "y": 13,
+      "width": 93,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_CODESTATE",
+      "type": 2,
+      "text": "Static",
+      "x": 11,
+      "y": 22,
+      "width": 100,
+      "height": 14,
+      "sunken": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_ACCOUNT_STATUS_GROUP",
+      "type": 9,
+      "text": "Account and credit status",
+      "x": 4,
+      "y": 2,
+      "width": 415,
+      "height": 42
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 9,
+      "text": "Charge PostaLite Account",
+      "x": 4,
+      "y": 49,
+      "width": 415,
+      "height": 233
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Credit expiry date",
+      "x": 177,
+      "y": 13,
+      "width": 58,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_CREDIT_EXPIRY_DATE",
+      "type": 2,
+      "text": "Static",
+      "x": 177,
+      "y": 22,
+      "width": 64,
+      "height": 14,
+      "sunken": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 2,
+      "text": "Charge amount [€]",
+      "x": 12,
+      "y": 90,
+      "width": 119,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 2,
+      "text": "Recharge amount [€]",
+      "x": 13,
+      "y": 121,
+      "width": 93,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 2,
+      "text": "Activation amount [€]",
+      "x": 13,
+      "y": 133,
+      "width": 93,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_9",
+      "type": 2,
+      "text": "Vat [%]",
+      "x": 13,
+      "y": 145,
+      "width": 93,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_10",
+      "type": 2,
+      "text": "Total amount [€]",
+      "x": 13,
+      "y": 157,
+      "width": 93,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_11",
+      "type": 2,
+      "text": "Beneficiary",
+      "x": 179,
+      "y": 120,
+      "width": 75,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_12",
+      "type": 2,
+      "text": "IBAN",
+      "x": 179,
+      "y": 145,
+      "width": 75,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_13",
+      "type": 2,
+      "text": "Bank",
+      "x": 179,
+      "y": 133,
+      "width": 75,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_14",
+      "type": 2,
+      "text": "Wire transfer reason",
+      "x": 179,
+      "y": 157,
+      "width": 75,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_15",
+      "type": 2,
+      "text": "In order to charge your account you have to perform a wire transfer. The first step is to specify the amount of the charge and click on the button \"Get wire transfer details\" to retrieve all the info needed for the wire transfer.",
+      "x": 10,
+      "y": 59,
+      "width": 403,
+      "height": 19,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Once the wire transfer is complete, the second step is to upload the wire resulting pdf using the \"Charge\" button.",
+      "x": 10,
+      "y": 76,
+      "width": 402,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_CREDIT_RECHARGE_CONDITIONS",
+      "type": 13,
+      "x": 18,
+      "y": 182,
+      "width": 397,
+      "height": 42,
+      "border": false,
+      "enabled": false,
+      "readOnly": true,
+      "multiline": true
+    }
+  ]
+}

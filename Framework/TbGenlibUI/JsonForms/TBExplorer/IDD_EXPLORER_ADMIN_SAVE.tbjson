@@ -1,0 +1,113 @@
+{
+   "border" : true,
+   "caption" : true,
+   "context" : "tbexplorer",
+   "controlLabel" : "Save for user",
+   "dialogFrame" : true,
+   "height" : 276,
+   "id" : "IDD_EXPLORER_ADMIN_SAVE",
+   "items" : [
+      {
+         "controlLabel" : "Ok",
+         "default" : true,
+         "height" : 14,
+         "id" : "IDOK",
+         "isText" : true,
+         "name" : "IDOK",
+         "text" : "Ok",
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 50,
+         "x" : 51,
+         "y" : 246
+      },
+      {
+         "controlLabel" : "Cancel",
+         "height" : 14,
+         "id" : "IDCANCEL",
+         "isText" : true,
+         "name" : "IDCANCEL",
+         "text" : "Cancel",
+         "type" : 3, /*Button*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 50,
+         "x" : 111,
+         "y" : 246
+      },
+      {
+         "border" : true,
+         "hasStrings" : true,
+         "height" : 190,
+         "id" : "IDC_LISTADMIN_USR_SAVE",
+         "name" : "IDC_LISTADMIN_USR_SAVE",
+         "noIntegralHeight" : true,
+         "ownerDraw" : 1, /*Fixed*/
+         "selection" : 3, /*Multiple*/
+         "sort" : true,
+         "type" : 24, /*List*/
+         "vScroll" : true,
+         "width" : 189,
+         "x" : 10,
+         "y" : 18
+      },
+      {
+         "group" : true,
+         "height" : 9,
+         "id" : "IDC_STATIC",
+         "name" : "IDC_STATIC",
+         "text" : "Select user for save:",
+         "type" : 2, /*Label*/
+         "width" : 183,
+         "x" : 12,
+         "y" : 7
+      },
+      {
+         "controlLabel" : "Save for All Users",
+         "height" : 10,
+         "id" : "IDC_CK_SAVE_ALLUSR",
+         "isText" : true,
+         "multiline" : true,
+         "name" : "IDC_CK_SAVE_ALLUSR",
+         "text" : "Save for All Users",
+         "type" : 11, /*Check*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 186,
+         "x" : 10,
+         "y" : 224
+      },
+      {
+         "controlLabel" : "Save in \"Standard\" file system",
+         "height" : 10,
+         "id" : "IDC_CK_SAVE_STD",
+         "isText" : true,
+         "name" : "IDC_CK_SAVE_STD",
+         "text" : "Save in \"Standard\" file system",
+         "type" : 11, /*Check*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 186,
+         "x" : 10,
+         "y" : 234
+      },
+      {
+         "controlLabel" : "In current language",
+         "height" : 11,
+         "id" : "IDC_CK_SAVE_IN_CURRENT_LANGUAGE",
+         "isText" : true,
+         "multiline" : true,
+         "name" : "IDC_CK_SAVE_IN_CURRENT_LANGUAGE",
+         "text" : "In current language",
+         "type" : 11, /*Check*/
+         "vertAlign" : 0, /*Top*/
+         "width" : 187,
+         "x" : 10,
+         "y" : 213
+      }
+   ],
+   "modalFrame" : true,
+   "name" : "IDD_EXPLORER_ADMIN_SAVE",
+   "overlapped" : true,
+   "systemMenu" : true,
+   "text" : "Save for user",
+   "type" : 66, /*Panel*/
+   "width" : 214
+}

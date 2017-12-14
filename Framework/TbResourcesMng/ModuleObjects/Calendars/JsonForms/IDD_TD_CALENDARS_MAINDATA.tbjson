@@ -1,0 +1,60 @@
+﻿{
+    "id": "IDD_TD_CALENDARS_MAINDATA",
+    "name": "CalendarsMainData",
+    "text": "Main Data",
+    "hasStaticArea": true,
+    "type": 71, /*Tile*/
+    "size": 4, /*Wide*/
+    "x": 6,
+    "y": 20,
+    "width": 654,
+    "height": 47,
+    "child": true,
+    "context": "uicalendars",
+    "items": [
+        {
+            "id": "IDC_CALENDARS_CODE",
+            "binding": {
+                "datasource": "Calendars.Calendar"
+            },
+            "controlCaption": "Code",
+            "controlClass": "StringEdit",
+            "type": 13,
+            "x": 101,
+            "y": 4,
+            "width": 80,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_CALENDARS_DESCRIPTION",
+            "binding": {
+                "datasource": "Calendars.Description"
+            },
+            "controlCaption": "Description",
+            "controlClass": "StringEdit",
+            "type": 13,
+            "x": 101,
+            "y": 18,
+            "width": 154,
+            "height": 12,
+            "autoHScroll": true
+        },
+        {
+            "id": "IDC_CALENDARS_NOTES",
+            "binding": {
+                "datasource": "Calendars.Notes"
+            },
+            "controlCaption": "Notes",
+            "controlClass": "StringEdit",
+            "type": 13,
+            "x": 429,
+            "y": 4,
+            "width": 214,
+            "height": 29,
+            "autoVScroll": true,
+            "wantReturn": true,
+            "multiline": true
+        }
+    ]
+}

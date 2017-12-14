@@ -1,0 +1,444 @@
+﻿{
+  "id": "IDD_EQNEDIT_NO_PUB_NAMES",
+  "rcId": 1104,
+  "type": 66,
+  "text": "Expression Editor",
+  "x": 6,
+  "y": 15,
+  "width": 454,
+  "height": 243,
+  "caption": true,
+  "systemMenu": true,
+  "thickFrame": true,
+  "context": "eqnedit",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "&Expression",
+      "x": 186,
+      "y": 1,
+      "width": 267,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EQNEDIT_EDIT",
+      "type": 13,
+      "x": 186,
+      "y": 9,
+      "width": 267,
+      "height": 222,
+      "vScroll": true,
+      "autoVScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Physical fields",
+      "x": 95,
+      "y": 91,
+      "width": 88,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EQNEDIT_PHISIC_FIELDS",
+      "type": 24,
+      "x": 95,
+      "y": 101,
+      "width": 87,
+      "height": 130,
+      "tabStop": true,
+      "vScroll": true,
+      "hasStrings": true,
+      "noIntegralHeight": true,
+      "ownerDraw": 1
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "&Internal Functions",
+      "x": 95,
+      "y": 1,
+      "width": 89,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EQNEDIT_FUNCTSLB",
+      "type": 24,
+      "x": 96,
+      "y": 9,
+      "width": 86,
+      "height": 62,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_EQNEDIT_TAG_NAME",
+      "type": 12,
+      "x": 2,
+      "y": 132,
+      "width": 89,
+      "height": 98,
+      "tabStop": true,
+      "group": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_EQNEDIT_ITEM_NAME",
+      "type": 30,
+      "x": 2,
+      "y": 149,
+      "width": 89,
+      "height": 82,
+      "border": true,
+      "alignment": 1,
+      "view": 2,
+      "singleSelection": true
+    },
+    {
+      "id": "IDC_CHECK_LONG",
+      "type": 11,
+      "text": "Show enums values",
+      "x": 3,
+      "y": 117,
+      "width": 90,
+      "height": 13,
+      "multiline": true,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 1,
+      "y": 99,
+      "width": 43,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 48,
+      "y": 99,
+      "width": 43,
+      "height": 14
+    },
+    {
+      "id": "IDC_EQNEDIT_SLASH",
+      "type": 3,
+      "text": "/",
+      "x": 2,
+      "y": 2,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_TIMES",
+      "type": 3,
+      "text": "*",
+      "x": 20,
+      "y": 2,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_MINUS",
+      "type": 3,
+      "text": "-",
+      "x": 38,
+      "y": 2,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_PLUS",
+      "type": 3,
+      "text": "+",
+      "x": 56,
+      "y": 2,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_OPENROUND",
+      "type": 3,
+      "text": "(",
+      "x": 2,
+      "y": 28,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_CLOSEROUND",
+      "type": 3,
+      "text": ")",
+      "x": 20,
+      "y": 28,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_OPENG",
+      "type": 3,
+      "text": "{",
+      "x": 2,
+      "y": 41,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_CLOSEG",
+      "type": 3,
+      "text": "}",
+      "x": 20,
+      "y": 41,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_ISNULL",
+      "type": 3,
+      "text": "Is Null",
+      "x": 2,
+      "y": 67,
+      "width": 33,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_QUOTE",
+      "type": 3,
+      "text": "'",
+      "x": 2,
+      "y": 15,
+      "width": 17,
+      "height": 12
+    },
+    {
+      "id": "IDC_EQNEDIT_DQUOTE",
+      "type": 3,
+      "text": "\"",
+      "x": 20,
+      "y": 15,
+      "width": 17,
+      "height": 12
+    },
+    {
+      "id": "IDC_EQNEDIT_PERC",
+      "type": 3,
+      "text": "%",
+      "x": 74,
+      "y": 2,
+      "width": 17,
+      "height": 12
+    },
+    {
+      "id": "IDC_EQNEDIT_COMMA",
+      "type": 3,
+      "text": ",",
+      "x": 38,
+      "y": 15,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_DOT",
+      "type": 3,
+      "text": ".",
+      "x": 56,
+      "y": 15,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_AT",
+      "type": 3,
+      "text": ";",
+      "x": 74,
+      "y": 15,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_EQ",
+      "type": 3,
+      "text": "==",
+      "x": 38,
+      "y": 28,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_LT",
+      "type": 3,
+      "text": "<",
+      "x": 56,
+      "y": 28,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_LE",
+      "type": 3,
+      "text": "<=",
+      "x": 74,
+      "y": 28,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_GE",
+      "type": 3,
+      "text": ">=",
+      "x": 38,
+      "y": 41,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_GT",
+      "type": 3,
+      "text": ">",
+      "x": 56,
+      "y": 41,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_NE",
+      "type": 3,
+      "text": "!=",
+      "x": 74,
+      "y": 41,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_AND",
+      "type": 3,
+      "text": "And",
+      "x": 20,
+      "y": 54,
+      "width": 23,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_OR",
+      "type": 3,
+      "text": "Or",
+      "x": 44,
+      "y": 54,
+      "width": 23,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_NOT",
+      "type": 3,
+      "text": "Not",
+      "x": 68,
+      "y": 54,
+      "width": 23,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_LIKE",
+      "type": 3,
+      "text": "Like",
+      "x": 72,
+      "y": 67,
+      "width": 19,
+      "height": 12
+    },
+    {
+      "id": "IDC_EQNEDIT_BETWEEN",
+      "type": 3,
+      "text": "Between",
+      "x": 36,
+      "y": 67,
+      "width": 35,
+      "height": 12
+    },
+    {
+      "id": "IDC_EQNEDIT_IF",
+      "type": 3,
+      "text": "If",
+      "x": 2,
+      "y": 80,
+      "width": 29,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_ELSE",
+      "type": 3,
+      "text": "Else",
+      "x": 62,
+      "y": 80,
+      "width": 29,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_THEN",
+      "type": 3,
+      "text": "Then",
+      "x": 32,
+      "y": 80,
+      "width": 29,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_ASSIGN",
+      "type": 3,
+      "text": "=",
+      "x": 2,
+      "y": 54,
+      "width": 17,
+      "height": 12,
+      "tabStop": false
+    },
+    {
+      "id": "IDC_EQNEDIT_ENUMSVIEWER",
+      "type": 3,
+      "text": "Enums data type",
+      "x": 95,
+      "y": 73,
+      "width": 87,
+      "height": 14,
+      "default": true
+    }
+  ]
+}

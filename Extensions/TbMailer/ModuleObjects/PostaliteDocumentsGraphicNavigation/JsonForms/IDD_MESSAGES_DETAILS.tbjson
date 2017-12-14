@@ -1,0 +1,25 @@
+﻿{
+  "id": "IDD_MESSAGES_DETAILS",
+  "rcId": 2247,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 316,
+  "height": 183,
+  "child": true,
+  "clipChildren": true,
+  "systemMenu": true,
+  "context": "bdpostalitedocumentsgraphicnavigation",
+  "items": [
+    {
+      "id": "IDC_MESSAGES_BODYEDIT",
+      "type": 3,
+      "x": 7,
+      "y": 7,
+      "width": 302,
+      "height": 169,
+      "clipChildren": true,
+      "ownerDraw": true
+    }
+  ]
+}

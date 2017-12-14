@@ -1,0 +1,24 @@
+﻿{
+  "href": "IDD_TD_HOTFILTER",
+  "items": [
+    {
+      "anchor": "COL1",
+      "hasStrings": true,
+      "id": "IDC_HOTFILTER_ITEMS_LBX",
+      "noIntegralHeight": true,
+      "ownerDraw": 1,
+      "type": 24 /*List*/,
+      "controlClass": "ParsedCheckListBox",
+      "border": false,
+      "width": 152,
+      "height": 55,
+      "vScroll": true,
+      "binding": {
+        "datasource": "{{ GetParentName() + '_List'}}",
+        "hotLink": {
+          "name": "{{GetParentName() + '_List'}}"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UpgradeInfo>
+	<ModuleInfo name="XEngine" />
+	<DBRel numrel="2">
+		<Level1>
+			<Step numstep="1" script="Alter_XE_SiteParams.sql"/>
+		</Level1>
+	</DBRel>
+	<DBRel numrel="3">
+		<Level1>
+			<Step numstep="1" script="Create_XE_Parameters.sql"/>
+		</Level1>
+	</DBRel>
+	<DBRel numrel="400">
+		<Level1>
+			<Step numstep="1" script="Alter_Release_400.sql" />
+		</Level1>
+	</DBRel>
+</UpgradeInfo>

@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDR_EXTDOC_SLAVE_ACCELERATOR			GET_IDR(IDR_EXTDOC_SLAVE_ACCELERATOR, D.Framework.TbGes.XEngineParameters)

@@ -22,6 +22,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     public itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: { namespace: string, name: string };
+    public isCombo = true;
 
     constructor(
         public webSocketService: WebSocketService,

@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\TbGes\IDD_EXTDOC_BREADCRUMB_BAR.hjson>
+#define	IDR_DUMMY_TEMPLATE		638

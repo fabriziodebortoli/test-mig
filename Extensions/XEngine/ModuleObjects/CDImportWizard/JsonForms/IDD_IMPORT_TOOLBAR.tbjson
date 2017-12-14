@@ -1,0 +1,15 @@
+﻿{
+	"id": "ID_EXTDOC_TOOLBAR_TOOLS",
+	"items": [
+		{
+			"hint": "XML import",
+			"icon": "Framework.TbFrameworkImages.Images.25x25.ImportXml.png",
+			"id": "ID_EXTDOC_IMPORT_XML_DATA",
+			"name": "ImportXml",
+			"text": "Import",
+			"type": 15 /*ToolbarButton*/
+		}
+	],
+	"name": "Tools",
+	"type": 14 /*Toolbar*/
+}

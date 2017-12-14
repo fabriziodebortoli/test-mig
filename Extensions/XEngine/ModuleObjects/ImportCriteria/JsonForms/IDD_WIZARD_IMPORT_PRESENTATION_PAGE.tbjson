@@ -1,0 +1,91 @@
+﻿{
+  "id": "IDD_WIZARD_IMPORT_PRESENTATION_PAGE",
+  "rcId": 2220,
+  "type": 66,
+  "text": "Start",
+  "x": 0,
+  "y": 0,
+  "width": 417,
+  "height": 193,
+  "child": true,
+  "context": "impcriteriawiz",
+  "items": [
+    {
+      "id": "IDC_IMPORT_IMPORT",
+      "type": 10,
+      "text": "Import &Data",
+      "x": 30,
+      "y": 61,
+      "width": 175,
+      "height": 10,
+      "tabStop": false,
+      "group": true,
+      "multiline": true,
+      "vertAlign": 0,
+      "auto": true
+    },
+    {
+      "id": "IDC_IMPORT_TUNING",
+      "type": 10,
+      "text": "Import Data and &Tuning",
+      "x": 30,
+      "y": 108,
+      "width": 275,
+      "height": 12,
+      "tabStop": false,
+      "multiline": true,
+      "vertAlign": 0,
+      "auto": true
+    },
+    {
+      "id": "IDC_IMPORT_TUNING_FILE",
+      "type": 2,
+      "text": "Imports data and tunes in order to optimize import performances. \r\nThe result will be saved into the following file and will be used in the next imports: \r\n%s",
+      "x": 38,
+      "y": 131,
+      "width": 365,
+      "height": 50,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_IMPORT_DATA_DESCRI",
+      "type": 2,
+      "text": "Loads data from xml envelopes. ",
+      "x": 39,
+      "y": 77,
+      "width": 171,
+      "height": 14,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PRESENTATION_DESCRI2",
+      "type": 2,
+      "text": "X-Tech® will guide you through the configuration of the selection criteria for the documents to be imported.",
+      "x": 65,
+      "y": 37,
+      "width": 204,
+      "height": 32,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PRESENTATION_DESCRI3",
+      "type": 2,
+      "text": "This procedure will guide you through the proper configuration of all the parameters required for the creation of an import process.",
+      "x": 64,
+      "y": 91,
+      "width": 200,
+      "height": 51,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PRESENTATION_DESCRI1",
+      "type": 2,
+      "text": "This procedure will guide you for the following operations:",
+      "x": 29,
+      "y": 21,
+      "width": 278,
+      "height": 12,
+      "textAlign": 0
+    }
+  ]
+}

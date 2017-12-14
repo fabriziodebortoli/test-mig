@@ -1,0 +1,82 @@
+﻿{
+  "id": "IDD_XREF_WIZ_DOC_SEL",
+  "rcId": 1080,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 321,
+  "height": 214,
+  "child": true,
+  "enabled": false,
+  "context": "xrefmanager",
+  "items": [
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Related Document:",
+      "x": 116,
+      "y": 3,
+      "width": 193,
+      "height": 194
+    },
+    {
+      "id": "IDC_XREF_SEL_APP_DOC_TREECTRL",
+      "type": 26,
+      "x": 122,
+      "y": 12,
+      "width": 181,
+      "height": 142,
+      "border": true,
+      "hasButtons": true,
+      "hasLines": true,
+      "linesAtRoot": true,
+      "alwaysShowSelection": true
+    },
+    {
+      "id": "IDC_XREF_SELPROFILE_COMBO",
+      "type": 12,
+      "x": 142,
+      "y": 181,
+      "width": 135,
+      "height": 60,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_XREF_WIZARD_FINISH",
+      "type": 2,
+      "text": "",
+      "x": 0,
+      "y": 0,
+      "width": 107,
+      "height": 205,
+      "tabStop": false,
+      "bitmap": true
+    },
+    {
+      "id": "IDC_XREF_PREF_PROF_CHECK",
+      "type": 10,
+      "text": "Preferred Profile",
+      "x": 129,
+      "y": 159,
+      "width": 170,
+      "height": 10,
+      "tabStop": false,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_XREF_NO_PREF_PROF_CHECK",
+      "type": 10,
+      "text": "Profile",
+      "x": 129,
+      "y": 170,
+      "width": 170,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    }
+  ]
+}

@@ -60,12 +60,20 @@ export class InstanceComponent implements OnInit, OnDestroy {
             this.modelService.query("subscriptioninstances", { MatchingFields : { InstanceKey: this.model.InstanceKey } }).subscribe(
               res => {
                 this.instanceSubscriptions = res['Content'];
-                console.log('-----');
-                console.log(this.instanceSubscriptions);
               },
               err => {
+                alert('Error occurred while querying GWAM to obtain subscriptions for this instance ' + err);
               }
             );
+
+            this.modelService.query("serverurls", { MatchingFields: { InstanceKey : this.model.InstanceKey} }).subscribe(
+              res => {
+                this.serverURLs = res['Content'];
+              },
+              err => {
+                alert('Error occurred while querying GWAM to obtain instance servers ' + err);
+              }
+            )
           },
           err => {
             alert(err);
@@ -77,8 +85,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
   //--------------------------------------------------------------------------------
   initDialogFields() {
     this.fields = [
-      { label: 'appName', value: '', hide: false },
-      { label: 'url', value: '', hide: false }
+      { label: 'url', value: '', hide: false },
+      { label: 'urlType', value: '0', hide: false }
     ];    
   }
 
@@ -102,24 +110,24 @@ export class InstanceComponent implements OnInit, OnDestroy {
   //--------------------------------------------------------------------------------
   getServerInfoFromDialog(formFields: Array<{label:string, value:string, hide: boolean}>) {
   
-    let appName: string;
     let url: string;
+    let urlType: string;
 
     for (let i=0;i<formFields.length;i++) {
       let item = formFields[i];
 
-      if (item.label === 'appName') {
-        appName  = item.value;
-        continue;
-      }
-
-      if (item.label === 'url') {
+      if (item.label === 'Url') {
         url = item.value;
         continue;
       }
+
+      if (item.label === 'UrlType') {
+        urlType = item.value;
+        continue;
+      }      
     }
 
-    return new ServerUrl(UrlType.TBLOADER, url, appName);
+    return new ServerUrl(this.model.InstanceKey, UrlType.TBLOADER, url);
   }
 
   //--------------------------------------------------------------------------------

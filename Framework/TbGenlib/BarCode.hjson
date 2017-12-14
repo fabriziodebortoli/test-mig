@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGenlib\JsonForms\BarCode\IDD_BARCODE_ATTRS.hjson>
+#include	<TbGenlib\JsonForms\BarCode\IDD_BARCODE_SETTINGS.hjson>

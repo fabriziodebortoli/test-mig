@@ -1,0 +1,6 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_ORDERBY			GET_IDD(IDD_ORDERBY, M.Framework.TbWoormEngine.ORDDLG)
+#define	IDC_FILTER			GET_IDC(IDC_FILTER)
+#define	IDC_GROUPBY			GET_IDC(IDC_GROUPBY)
+#define	IDC_GROUPBY_ACTION			GET_IDC(IDC_GROUPBY_ACTION)

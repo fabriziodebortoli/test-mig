@@ -1,0 +1,7 @@
+; TbRadar.def : Declares the module parameters for the DLL.
+
+LIBRARY      "TbRadar"
+
+EXPORTS
+	InitDynLinkLibrary
+    ; Explicit exports can go here

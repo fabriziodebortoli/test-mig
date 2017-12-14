@@ -1,0 +1,54 @@
+{
+   "collapsible" : true,
+   "height" : 100,
+   "id" : "IDD_DATAVALIDATION_MONITOR_FK_TO_FIX_SUMMARY",
+   "items" : [
+      {
+         "allowDelete" : false,
+        "allowInsert": false,        
+         "binding" : {
+            "datasource" : "ValidationFKToFixSummary"
+         },
+         "height" : 100,
+         "id" : "IDC_DATAVALIDATION_FK_TO_FIX_SUMMARY_BE",
+         "items" : [
+            {
+               "binding" : {
+                  "datasource" : "ValidationFKToFixSummary.DocNamespace"
+               },
+               "controlClass" : "StringStatic",
+               "id" : "IDC_DATAVALIDATION_FK_TO_FIX_SUMMARY_BE_DOCNAMESPACE",
+               "name" : "DocNamespace",
+               "text" : "Namespace",
+               "type" : 22, /*ColTitle*/
+               "width" : 510
+            },
+            {
+                "binding": {
+                    "datasource": "ValidationFKToFixSummary.TEnhDS_Valid_NoFKToFix"
+                },
+                "controlClass": "StringStatic",
+                "id": "IDC_DATAVALIDATION_FK_TO_FIX_SUMMARY_BE_NO",
+                "name": "NoFKToFix",
+                "text": "Entity to insert",
+                "type": 22 /*ColTitle*/
+            }
+         ],
+         "name" : "ValidationFKToFixSummary",
+         "showDataTip" : true,
+         "showFooterToolbar" : false,
+         "showStatusBar" : true,
+         "text" : "Body Edit",
+         "type" : 18, /*BodyEdit*/
+         "width" : 500
+      }
+   ],
+   "name" : "Summary",
+   "text": "Summary",
+   "showDataTip" : true,
+   "showHeaderToolbar" : true,
+   "showStatusBar" : true,
+   "tileStyle" : 1, /*Normal*/
+   "type" : 71, /*Tile*/
+   "width" : 500
+}

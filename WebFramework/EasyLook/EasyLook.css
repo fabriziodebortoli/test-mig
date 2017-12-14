@@ -1,0 +1,33 @@
+.Application_Image
+{
+	filter: Chroma(Color=#FF00FF);
+}
+
+.Application_Element
+{
+	font-family: Verdana, Arial, Times New Roman;
+}
+
+.Command_Element
+{
+	height: 20px;
+	font-family: Verdana, Arial, Times New Roman;
+	font-size: 12px;
+	
+}
+
+.Title_Report_Element
+{
+	height: 25px;
+	font-family: Verdana, Arial, Times New Roman;
+	font-size: 14px;
+	color:Blue;
+}
+
+a:link {color:Blue;}
+
+a:visited {color:Blue}
+
+a:hover {color:Red;}
+
+a:active {color: Red;}

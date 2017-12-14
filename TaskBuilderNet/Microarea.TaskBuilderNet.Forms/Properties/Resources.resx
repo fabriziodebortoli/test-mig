@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddOnFlyString" xml:space="preserve">
+    <value>Add on Fly</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AddressMenu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\addressmenu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddRowGridContextMenuItem" xml:space="preserve">
+    <value>Add row</value>
+  </data>
+  <data name="CodeRadarString" xml:space="preserve">
+    <value>Code Radar</value>
+  </data>
+  <data name="DescriptionRadarString" xml:space="preserve">
+    <value>Description Radar</value>
+  </data>
+  <data name="Hotlink_Lower" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\hotlink_lower.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Hotlink_Upper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\hotlink_upper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpenLinkString" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="QueryManagerString" xml:space="preserve">
+    <value>Query Manager</value>
+  </data>
+  <data name="ToolbarStrings_Customize" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="ToolbarStrings_DefaultNRT" xml:space="preserve">
+    <value>Default NRT</value>
+  </data>
+  <data name="ToolbarStrings_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ToolbarStrings_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ToolbarStrings_ExecuteQuery" xml:space="preserve">
+    <value>Execute query</value>
+  </data>
+  <data name="ToolbarStrings_Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="ToolbarStrings_First" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="ToolbarStrings_FirstRow" xml:space="preserve">
+    <value>First Row</value>
+  </data>
+  <data name="ToolbarStrings_GoToMaster" xml:space="preserve">
+    <value>Main Window</value>
+  </data>
+  <data name="ToolbarStrings_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="ToolbarStrings_Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="ToolbarStrings_LastRow" xml:space="preserve">
+    <value>Last Row</value>
+  </data>
+  <data name="ToolbarStrings_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ToolbarStrings_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ToolbarStrings_NextRow" xml:space="preserve">
+    <value>Next Row</value>
+  </data>
+  <data name="ToolbarStrings_PauseResume" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="ToolbarStrings_Prev" xml:space="preserve">
+    <value>Prev</value>
+  </data>
+  <data name="ToolbarStrings_PrevRow" xml:space="preserve">
+    <value>Previous Row</value>
+  </data>
+  <data name="ToolbarStrings_Radar" xml:space="preserve">
+    <value>Radar</value>
+  </data>
+  <data name="ToolbarStrings_RefreshData" xml:space="preserve">
+    <value>Refresh data</value>
+  </data>
+  <data name="ToolbarStrings_Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="ToolbarStrings_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ToolbarStrings_SearchGeneric" xml:space="preserve">
+    <value>Search generic</value>
+  </data>
+  <data name="ToolbarStrings_SearchSpecific" xml:space="preserve">
+    <value>Search specific</value>
+  </data>
+  <data name="ToolbarStrings_StartStop" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="ToolbarStrings_UndoChanges" xml:space="preserve">
+    <value>Undo changes</value>
+  </data>
+  <data name="Toolbar_Customize" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_customize.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_ExecuteQuery" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_executequery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Finish" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_finish.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_First" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_first.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_FirstRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_firstrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_GoToMaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_gotomaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_HelpOnLine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_helponline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Hourglass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_hourglass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_InsertNewRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_insertnewrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Last" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_last.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_LastRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_lastrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_new.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_next.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_NextRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_nextrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Prev" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_prev.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_PrevRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_prevrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Radar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_radar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_RefreshData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_refreshdata.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_report.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Resume" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_resume.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_RunGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_rungreen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_RunRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_runred.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_SearchGeneric" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_searchgeneric.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_SearchSpecific" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_searchspecific.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolbar_UndoChanges" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbar_undochanges.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InsertRowGridContextMenuItem" xml:space="preserve">
+    <value>Insert row</value>
+  </data>
+  <data name="ToolbarGrid_DeleteRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\ToolbarGrid_DeleteRow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolbarGrid_NewRow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\ToolbarGrid_NewRow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolbarGrid_RowView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\ToolbarGrid_RowView.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolbarGrid_Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\ToolbarGrid_Search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolbarGrid_AlternateColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\ToolbarGrid_AlternateColor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Grid_AlternateColor" xml:space="preserve">
+    <value>Alternate Color</value>
+  </data>
+  <data name="Grid_DecreaseRowHeight" xml:space="preserve">
+    <value>Decrease Row Height</value>
+  </data>
+  <data name="Grid_DeleteRow" xml:space="preserve">
+    <value>Delete Row</value>
+  </data>
+  <data name="Grid_IncreaseRowHeight" xml:space="preserve">
+    <value>Increase Row Height</value>
+  </data>
+  <data name="Grid_RowView" xml:space="preserve">
+    <value>Row View</value>
+  </data>
+  <data name="ToolbarGrid_DecreaseRowHeight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbargrid_decreaserowheight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolbarGrid_IncreaseRowHeight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\toolbargrid_increaserowheight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Lightning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\lightning.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\pencil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="TreeEditDBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\treeeditdbt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TreeEditRecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\treeeditrecord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TreeEditToggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\treeedittoggle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DBTTree_AddNode" xml:space="preserve">
+    <value>Add Node</value>
+  </data>
+  <data name="DBTTree_DeleteNode" xml:space="preserve">
+    <value>Delete Node</value>
+  </data>
+  <data name="DBTTree_ToggleNode" xml:space="preserve">
+    <value>Toggle node expansion</value>
+  </data>
+  <data name="Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\unchecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>

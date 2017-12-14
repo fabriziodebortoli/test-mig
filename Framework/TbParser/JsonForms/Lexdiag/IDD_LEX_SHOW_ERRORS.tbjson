@@ -1,0 +1,156 @@
+﻿{
+  "id": "IDD_LEX_SHOW_ERRORS",
+  "rcId": 1091,
+  "type": 66,
+  "text": "Compile Error",
+  "x": 0,
+  "y": 0,
+  "width": 278,
+  "height": 265,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "lexdiag",
+  "items": [
+    {
+      "id": "IDC_LEX_ERR_FILE_LIST",
+      "type": 24,
+      "style": 128,
+      "x": 4,
+      "y": 7,
+      "width": 271,
+      "height": 118,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "disableNoScroll": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_LEX_ERR_MSG",
+      "type": 13,
+      "x": 9,
+      "y": 143,
+      "width": 262,
+      "height": 38,
+      "tabStop": false,
+      "vScroll": true,
+      "autoHScroll": true,
+      "autoVScroll": true,
+      "readOnly": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_LEX_ERR_FILE",
+      "type": 13,
+      "x": 9,
+      "y": 194,
+      "width": 260,
+      "height": 14,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_LEX_ERR_ROW",
+      "type": 13,
+      "x": 63,
+      "y": 222,
+      "width": 29,
+      "height": 14,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_LEX_ERR_COLUMN",
+      "type": 13,
+      "x": 160,
+      "y": 222,
+      "width": 29,
+      "height": 14,
+      "tabStop": false,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 3,
+      "y": 244,
+      "width": 85,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDC_LEX_EDIT_REPORT",
+      "type": 3,
+      "text": "&Edit",
+      "x": 191,
+      "y": 244,
+      "width": 85,
+      "height": 14
+    },
+    {
+      "id": "IDC_LEX_CLIPBOARD",
+      "type": 3,
+      "text": "&Copy",
+      "x": 97,
+      "y": 244,
+      "width": 85,
+      "height": 14
+    },
+    {
+      "id": "IDC_LEX_ERR_FILE_LABEL",
+      "type": 2,
+      "text": "File",
+      "x": 9,
+      "y": 183,
+      "width": 262,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Line",
+      "x": 65,
+      "y": 211,
+      "width": 90,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Column",
+      "x": 160,
+      "y": 211,
+      "width": 82,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Error",
+      "x": 9,
+      "y": 133,
+      "width": 261,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "x": 4,
+      "y": 126,
+      "width": 271,
+      "height": 114
+    }
+  ]
+}

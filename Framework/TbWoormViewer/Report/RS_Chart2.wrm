@@ -1,0 +1,419 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,-1918,1078,-2) 
+PageLayout "pie" 
+	Begin
+		Table (4,2) "Pie sample" Alias 1  /* Pie sample */ Origin (0,0) Heights (26,18,14,14) 
+			Begin
+				"Category1" Alias 2  /* w_Category1 */ Width 121 ;
+				"Value1" Alias 3  /* w_Value1 */ Width 177 FormatStyle "Double" ;
+			End
+		Chart Chart_21
+			Begin
+				Alias 21 
+				Title "Pie sample"
+				Type 12
+				Rect (1,316,277,772) 
+					Begin
+						Transparent
+						DropShadow 2 Color (127,255,212) 
+					End
+
+				ChartCategories
+					Begin
+							Title "Pie Categories" 
+							DataSource w_Category1
+					End
+				ChartSeries
+					Begin
+							Title "Serie" 
+							DataSource w_Value1
+					End
+					
+				ChartLegend
+					Begin
+						Align 2;
+					End
+			End
+		Table (4,2) "Donut sample" Alias 4  /* Donut sample */ Origin (4,289) Heights (26,18,14,14) 
+			Begin
+				"Category2" Alias 5  /* w_Category2 */ Width 121 ;
+				"Value2" Alias 6  /* w_Value2 */ Width 177 FormatStyle "Double" ;
+			End
+
+
+		Chart Chart_22
+			Begin
+				Alias 22
+				Title "Donut sample"
+				Type 13
+				 Rect (292,314,561,774) 
+
+					Begin
+						Transparent
+						DropShadow 2 Color (255,239,213) 
+					End
+
+				ChartCategories
+					Begin
+							Title "Donut Categories" 
+							DataSource w_Category2
+					End
+				ChartSeries
+					Begin
+							Title "Serie" 
+							DataSource w_Value2
+					End
+					
+				ChartLegend
+					Begin
+							Align 4;
+					End
+			End
+		Chart Chart_26
+			Begin
+				Alias 26 
+				Title "Funnel sample" 
+				 Type 11
+				Rect (617,314,1085,774)
+
+					Begin
+						Transparent
+						DropShadow 2 Color (255,239,213) 
+					End
+
+				ChartCategories
+					Begin
+							Title "Categories" 
+							DataSource w_Category2
+					End
+				ChartSeries
+					Begin
+							Title "Serie" 
+							DataSource w_Value2
+					End
+					
+				ChartLegend
+					Begin
+							Align 4;
+					End
+			End
+	End
+PageLayout "donut_nested" 
+	Begin
+		Table (4,3) "Donut nested sample" Alias 7  /* Donut nested sample */ Origin (22,12) Heights (26,18,17,14) 
+			Begin
+				"Category3" Alias 8  /* w_Category3 */ Width 121 ;
+				"Value2011" Alias 9  /* w_Value2011 */ Width 100 FormatStyle "Double" ;
+				"Value2012" Alias 10  /* w_Value2012 */ Width 113 FormatStyle "Double" ;
+			End
+		Chart Chart_23
+			Begin
+				Alias 23
+				Title "Nested Donut Chart"
+				Type 14 /*TODO 14 per nested*/
+				Rect (192,13,602,748) 
+					Begin
+						Transparent
+						DropShadow 2 Color (216,191,216) 
+					End
+
+				ChartCategories
+					Begin
+							Title "Nested Donut Categories" 
+							DataSource w_Category3
+					End
+				ChartSeries
+					Begin
+							Title "Serie 2011" 
+							DataSource w_Value2011
+					End
+				ChartSeries
+					Begin
+							Title "Serie 2012" 
+							DataSource w_Value2012
+					End
+					
+				ChartLegend
+					Begin
+						Align 4;
+					End
+			End
+	End
+
+	PageLayout "polar_radar" 
+	Begin
+		Chart Chart_25
+			Begin
+				Alias 25
+				Title "Polar Chart" 
+				Type 22
+				 Rect (50,31,550,757) 
+				ChartSeries
+					Begin
+							Title "Polar Serie Line" 
+							DataSource w_arPolarSerieX
+							DataSource w_arPolarSerieL
+							Color (255,144,144) 
+							
+					End
+				ChartSeries
+					Begin
+							Title "Polar Serie Area"
+							Type 23
+							DataSource w_arPolarSerieX
+							DataSource w_arPolarSerieA
+							Transparent 0.5
+					End	
+				ChartSeries
+					Begin
+							Title "Polar Serie Line"
+							DataSource w_arPolarSerieX_1
+							DataSource w_arPolarSerieL_1
+							Transparent 0.6
+							Style 1
+							
+					End
+					
+				ChartLegend
+					Begin
+						Align 4;
+					End
+			End
+		Chart Chart_28
+			Begin
+				Alias 28
+				Title "Radar Chart" 
+				Type 25
+				 Rect (570,31,1000,757) 
+
+				ChartCategories
+					Begin
+							Title "Categories Radar" 
+							DataSource w_arCategoryRadar
+					End
+				ChartSeries
+					Begin
+							Title "Radar Serie Line" 									
+							DataSource w_arRadarSerieL
+					End
+				ChartSeries
+					Begin
+							Title "Radar Serie Area" 
+							Type 26
+							DataSource w_arRadarSerieA
+							Transparent 0.6
+							Style 1				
+					End	
+					
+				ChartLegend
+					Begin
+						Align 1;
+					End
+			End
+	End
+
+PageLayout "default" 
+	Begin
+		Chart Chart_21
+			Begin
+				Alias 21 
+				Title "Multi serie chart"
+				 Type 10
+				Rect (312,31,917,757)
+					Begin
+						Transparent
+						DropShadow 4 Color (240,230,140) 
+					End
+
+				ChartCategories
+					Begin
+							Title "Line Chart" 
+							DataSource w_arCategory4
+					End
+				ChartSeries
+					Begin
+							Title "Serie 5" 
+							Type 7
+							DataSource w_arSerie5
+							Transparent 0.6
+					End
+				ChartSeries
+					Begin
+							Title "Serie 4" 
+							Type 4
+							DataSource w_arSerie4
+					End
+				ChartSeries
+					Begin
+							Title "Serie 1" 
+							DataSource w_arSerie1
+							Style 2
+					End
+				ChartSeries
+					Begin
+							Title "Serie 2" 
+							DataSource w_arSerie2
+							Style 1
+					End
+				ChartSeries
+					Begin
+							Title "Serie 3" 
+							DataSource w_arSerie3
+					End
+											
+				ChartLegend
+					Begin
+						Align 3;
+					End
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Table_Pie [4] Alias 1 PageLayout "pie" ;
+			Table_Donut [4] Alias 4 PageLayout "pie" ;
+			Table_NestedDonut [4] Alias 7 PageLayout "donut_nested" ;
+		End
+
+		Variables
+			String       w_Category1 [23] Alias 2  Column  of Table_Pie ;
+			Double       w_Value1 [23] Alias 3  Column  of Table_Pie ;
+			String       w_Category2 [23] Alias 5  Column  of Table_Donut ;
+			Double       w_Value2 [23] Alias 6  Column  of Table_Donut ;
+			String       w_Category3 [23] Alias 8  Column  of Table_NestedDonut ;
+			Double       w_Value2011 [23] Alias 9  Column  of Table_NestedDonut ;
+			Double       w_Value2012 [23] Alias 10  Column  of Table_NestedDonut ;
+			Array        String       w_arCategory4 [1] Alias 11  Hidden  Input Init = [ 'Jan' , 'Feb' , 'Mar' , 'Apr' , 'May' , 'Jun' , 'Jul' ]  ;
+			Array        Long         w_arSerie1 [1] Alias 12  Hidden  Input Init = [ 123 , 276 , 310 , 212 , 240 , 156 , 110 ]  ;
+			Array        Long         w_arSerie2 [1] Alias 13  Hidden  Input Init = [ 165 , 210 , 287 , 144 , 190 , 167 , 212 ]  ;
+			Array        Long         w_arSerie3 [1] Alias 14  Hidden  Input Init = [ 56 , 140 , 195 , 46 , 123 , 78 , 95 ]  ;
+			Array        Long         w_arSerie4 [1] Alias 15  Hidden  Input Init = [ 90 , 120 , 160 , 280 , 123 , 78 , 195 ]  ;
+			Array        Long         w_arSerie5 [1] Alias 16  Hidden  Input Init = [ 30 , 220 , 160 , 80 , 23 , 48 , 295 ]  ;
+
+			//Array        String       w_arCategory5 [1] Alias 18  Hidden  Input Init = [ 'Service 1' , 'Service 2' , 'Service 3' , 'Service 4' ]  ;
+
+			Array        Long         w_arPolarSerieX [1] Alias 21  Hidden  Input Init = [ 45 , 90 , 135 , 180 , 225 , 270 , 315 ]  ;
+			Array        Long         w_arPolarSerieL [1] Alias 19  Hidden  Input Init = [ 90 , 120 , 160 , 280 , 123 , 78 , 195 ]  ;
+			Array        Long         w_arPolarSerieA [1] Alias 20  Hidden  Input Init = [ 30 , 220 , 160 , 80 , 23 , 48 , 295 ]  ;
+			Array        Double       w_arPolarSerieX_1 [1] Alias 22  Hidden  Input Init = [ 50.4 , 93 , 162 , 184.6 , 225 , 360 ]  ;
+			Array        Long         w_arPolarSerieL_1 [1] Alias 23  Hidden  Input Init = [ 100 , 120 , 140 , 160 , 180 , 200 ]  ;
+
+			Array        String       w_arCategoryRadar [1] Alias 26  Hidden  Input Init = [ 'Sevice 1' , 'Service 2' , 'Service 3' , 'Service 4', 'Service 5' ]  ;
+			Array        Long         w_arRadarSerieL [1] Alias 24  Hidden  Input Init = [ 90 , 120 , 160 , 280, 300  ]  ;
+			Array        Long         w_arRadarSerieA [1] Alias 27  Hidden  Input Init = [ 30 , 220 , 160 , 80, 20 ]  ;
+
+			String       w_CompanyName [64] Alias 71 Hidden;
+		End
+
+		Rules
+			From MA_Company 
+				Select 
+					CompanyName          Into w_CompanyName ;	
+		end
+
+		Events
+			Report : Do
+				Always 
+					Begin
+					End
+				Before 
+					Begin
+						Display w_arCategory4, w_arSerie1,w_arSerie2,w_arSerie3,w_arSerie4,w_arSerie5;
+						
+						FormFeed "pie" ;
+						Call DisplayPieData ;
+						Call DisplayDonutData ;
+						//DisplayChart pippo ;
+
+						FormFeed "donut_nested" ;
+						Call DisplayNestedDonutData ;
+						//Display w_arCategory5 ;
+
+						FormFeed "polar_radar" ;
+
+						Display w_arPolarSerieX, w_arPolarSerieL, w_arPolarSerieA, w_arPolarSerieX_1, w_arPolarSerieL_1;
+						Display w_arCategoryRadar, w_arRadarSerieL, w_arRadarSerieA ;
+					End
+				After 
+					Begin
+						
+					End
+				Finalize 
+					Begin
+					End
+		End
+
+	Procedures
+		Begin
+			Procedure  DisplayPieData 
+				Begin
+					
+					w_Category1 = "Product A"  ;
+					w_Value1 = 10  ;
+					Display w_Category1 ,w_Value1 ;	   
+					NextLine Table_Pie ;
+					w_Category1 = "Product B"  ;
+					w_Value1 = 30  ;
+					Display w_Category1 ,w_Value1 ;
+					NextLine Table_Pie ;
+					w_Category1 = "Product C"  ;
+					w_Value1 = 40  ;
+					Display w_Category1 ,w_Value1 ;
+					NextLine Table_Pie ;
+					w_Category1 = "Product D"  ;
+					w_Value1 = 60  ;
+					Display w_Category1 ,w_Value1 ;
+					NextLine Table_Pie ;
+				End
+
+			Procedure  DisplayDonutData 
+				Begin
+					w_Category2 = "Product A"  ;
+					w_Value2 = 10  ;
+					Display w_Category2 ,w_Value2 ;
+					NextLine Table_Donut ;
+					w_Category2 = "Product B"  ;
+					w_Value2 = 30  ;
+					Display w_Category2 ,w_Value2 ;
+					NextLine Table_Donut ;
+					w_Category2 = "Product C"  ;
+					w_Value2 = 40  ;
+					Display w_Category2 ,w_Value2 ;
+					NextLine Table_Donut ;
+					w_Category2 = "Product D"  ;
+					w_Value2 = 60  ;
+					Display w_Category2 ,w_Value2 ;
+					NextLine Table_Donut ;
+				End
+
+			Procedure  DisplayNestedDonutData 
+				Begin
+					w_Category3 = "Product A"  ;
+					w_Value2011 = 10  ;
+					w_Value2012 = 15  ;
+					Display w_Category3 ,w_Value2011 ,w_Value2012 ;
+					NextLine Table_NestedDonut ;
+					w_Category3 = "Product B"  ;
+					w_Value2011 = 30  ;
+					w_Value2012 = 40  ;
+					Display w_Category3 ,w_Value2011 ,w_Value2012 ;
+					NextLine Table_NestedDonut ;
+					w_Category3 = "Product C"  ;
+					w_Value2011 = 40  ;
+					w_Value2012 = 35  ;
+					Display w_Category3 ,w_Value2011 ,w_Value2012 ;
+					NextLine Table_NestedDonut ;
+					w_Category3 = "Product D"  ;
+					w_Value2011 = 60  ;
+					w_Value2012 = 52  ;
+					Display w_Category3 ,w_Value2011 ,w_Value2012 ;
+					NextLine Table_NestedDonut ;
+				End
+
+		End
+End

@@ -1,0 +1,102 @@
+//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) ReportTemplate "Report.erp.core.Basic.wrmt" 
+
+Properties
+	Begin
+		Title "Titles" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "Accounting" 
+	End
+
+PageLayout "default" 
+	Begin
+		Field (3,27,40,718) Alias 4  /* w_CompanyName */ 
+			Begin
+				Style "CompanyName" 
+			End
+
+		Text (3,593,40,718) "{Application Date} {Time}" 
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Text (44,27,73,717) "Titles" 
+			Begin
+				Style "ListTitleUnderline" 
+			End
+
+		Table (59,2) "" Alias 3  /* Table3 */ Origin (27,91) Heights (19,33,15,14) 
+		HideTitle
+		Title FontStyle "Text" ;
+			Begin
+				"Title" Alias 1  /* w_TitleCode */ Width 107 ;
+				"Description" Alias 2  /* w_Description */ Width 342 ;
+			End
+
+
+		Text (1046,27,1072,718) "{Page} / {Page Number}" 
+			Begin
+				Style "PageNumber" 
+				Special
+			End
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Tabella_1 [59] Alias 3 ;
+		End
+
+		Variables
+			String       w_TitleCode [8] Alias 1  Column ;
+			String       w_Description [32] Alias 2  Column ;
+			String       w_CompanyName [64] Alias 4 ;
+		End
+
+		Rules
+			Query Query_MA_Titles ;
+
+			From MA_Company 
+			Select  Not NULL 
+				CompanyName          Into w_CompanyName ;
+		End
+
+		Group By w_TitleCode Do Ccat (w_Description ) ;
+
+		Events
+			myevent : Breaking w_TitleCode  Do
+				Before 
+					Begin
+						NextLine ;
+					End
+				After 
+					Begin
+					End
+
+		End
+
+	Queries
+		Begin
+			Query  Query_MA_Titles
+			Begin
+				{
+					Select 
+					TitleCode { COL w_TitleCode } 
+					, Description { COL w_Description } 
+					FROM MA_Titles 
+					ORDER BY 
+					MA_Titles.TitleCode
+				}
+			End
+
+		End
+End

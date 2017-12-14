@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TBMobileUI.BaseMenu"
+Style="{StaticResource PageStyle}">
+	<ContentPage.Content>
+		<StackLayout Padding="0,5,0,0">
+			<Grid VerticalOptions="Start" Padding="2,0,2,5">
+				<Grid.Children>
+					<Button x:Name="Logout" Text="Logout" HorizontalOptions="Start" Clicked="OnLogoutClicked" Style="{StaticResource ButtonStyle}"></Button>
+				</Grid.Children>
+			</Grid>
+			<Label Style="{StaticResource LabelStyle}" Text = "Choose document" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
+			<ListView x:Name= "documentList" ItemSelected="OnItemSelected">
+
+			</ListView>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

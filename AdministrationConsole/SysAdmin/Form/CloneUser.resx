@@ -1,0 +1,846 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LabelTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="LabelTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 12pt, style=Bold</value>
+  </data>
+  <data name="LabelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LabelTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="LabelTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>583, 24</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LabelTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="LabelTitle.Text" xml:space="preserve">
+    <value>Clone company user</value>
+  </data>
+  <data name="LabelTitle.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Name" xml:space="preserve">
+    <value>LabelTitle</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="DescriptionLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="DescriptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="DescriptionLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 32</value>
+  </data>
+  <data name="DescriptionLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>564, 67</value>
+  </data>
+  <data name="DescriptionLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="DescriptionLabel.Text" xml:space="preserve">
+    <value>You can clone the data of an existing application user to a company, specifying a new or an existing database login. This procedure considers also the existing roles and grants of SecurityAdmin and SecurityLight PlugIns.</value>
+  </data>
+  <data name="&gt;&gt;DescriptionLabel.Name" xml:space="preserve">
+    <value>DescriptionLabel</value>
+  </data>
+  <data name="&gt;&gt;DescriptionLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DescriptionLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;DescriptionLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="SelectCompanyLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SelectCompanyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SelectCompanyLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 25</value>
+  </data>
+  <data name="SelectCompanyLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 16</value>
+  </data>
+  <data name="SelectCompanyLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="SelectCompanyLabel.Text" xml:space="preserve">
+    <value>Select company where user will be cloned:</value>
+  </data>
+  <data name="&gt;&gt;SelectCompanyLabel.Name" xml:space="preserve">
+    <value>SelectCompanyLabel</value>
+  </data>
+  <data name="&gt;&gt;SelectCompanyLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SelectCompanyLabel.Parent" xml:space="preserve">
+    <value>TargetInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SelectCompanyLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CompaniesComboBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="CompaniesComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 48</value>
+  </data>
+  <data name="CompaniesComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 24</value>
+  </data>
+  <data name="CompaniesComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CompaniesComboBox.Name" xml:space="preserve">
+    <value>CompaniesComboBox</value>
+  </data>
+  <data name="&gt;&gt;CompaniesComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CompaniesComboBox.Parent" xml:space="preserve">
+    <value>TargetInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CompaniesComboBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="UserWinAuthCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UserWinAuthCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="UserWinAuthCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="UserWinAuthCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 21</value>
+  </data>
+  <data name="UserWinAuthCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="UserWinAuthCheckBox.Text" xml:space="preserve">
+    <value>Windows Authentication</value>
+  </data>
+  <data name="&gt;&gt;UserWinAuthCheckBox.Name" xml:space="preserve">
+    <value>UserWinAuthCheckBox</value>
+  </data>
+  <data name="&gt;&gt;UserWinAuthCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserWinAuthCheckBox.Parent" xml:space="preserve">
+    <value>NewUserInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;UserWinAuthCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="UserPasswordTextBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UserPasswordTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 79</value>
+  </data>
+  <data name="UserPasswordTextBox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="UserPasswordTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 23</value>
+  </data>
+  <data name="UserPasswordTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordTextBox.Name" xml:space="preserve">
+    <value>UserPasswordTextBox</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordTextBox.Parent" xml:space="preserve">
+    <value>NewUserInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="UserNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 48</value>
+  </data>
+  <data name="UserNameTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 23</value>
+  </data>
+  <data name="UserNameTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;UserNameTextBox.Name" xml:space="preserve">
+    <value>UserNameTextBox</value>
+  </data>
+  <data name="&gt;&gt;UserNameTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserNameTextBox.Parent" xml:space="preserve">
+    <value>NewUserInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;UserNameTextBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="UserPasswordLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UserPasswordLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UserPasswordLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 83</value>
+  </data>
+  <data name="UserPasswordLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 16</value>
+  </data>
+  <data name="UserPasswordLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="UserPasswordLabel.Text" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="UserPasswordLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordLabel.Name" xml:space="preserve">
+    <value>UserPasswordLabel</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordLabel.Parent" xml:space="preserve">
+    <value>NewUserInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;UserPasswordLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="UserNameLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UserNameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UserNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 52</value>
+  </data>
+  <data name="UserNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 16</value>
+  </data>
+  <data name="UserNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="UserNameLabel.Text" xml:space="preserve">
+    <value>User:</value>
+  </data>
+  <data name="UserNameLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.Name" xml:space="preserve">
+    <value>UserNameLabel</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.Parent" xml:space="preserve">
+    <value>NewUserInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NewUserInfoGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 81</value>
+  </data>
+  <data name="NewUserInfoGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>411, 114</value>
+  </data>
+  <data name="NewUserInfoGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="NewUserInfoGroupBox.Text" xml:space="preserve">
+    <value>Set application user information</value>
+  </data>
+  <data name="&gt;&gt;NewUserInfoGroupBox.Name" xml:space="preserve">
+    <value>NewUserInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;NewUserInfoGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewUserInfoGroupBox.Parent" xml:space="preserve">
+    <value>TargetInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;NewUserInfoGroupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LoginWinAuthCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LoginWinAuthCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="LoginWinAuthCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LoginWinAuthCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 27</value>
+  </data>
+  <data name="LoginWinAuthCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 21</value>
+  </data>
+  <data name="LoginWinAuthCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="LoginWinAuthCheckBox.Text" xml:space="preserve">
+    <value>Windows Authentication</value>
+  </data>
+  <data name="&gt;&gt;LoginWinAuthCheckBox.Name" xml:space="preserve">
+    <value>LoginWinAuthCheckBox</value>
+  </data>
+  <data name="&gt;&gt;LoginWinAuthCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LoginWinAuthCheckBox.Parent" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;LoginWinAuthCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="NewLoginRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="NewLoginRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="NewLoginRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 89</value>
+  </data>
+  <data name="NewLoginRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 18</value>
+  </data>
+  <data name="NewLoginRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="NewLoginRadioButton.Text" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="&gt;&gt;NewLoginRadioButton.Name" xml:space="preserve">
+    <value>NewLoginRadioButton</value>
+  </data>
+  <data name="&gt;&gt;NewLoginRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewLoginRadioButton.Parent" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;NewLoginRadioButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SelectLoginRadioButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SelectLoginRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SelectLoginRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 57</value>
+  </data>
+  <data name="SelectLoginRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 18</value>
+  </data>
+  <data name="SelectLoginRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="SelectLoginRadioButton.Text" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="&gt;&gt;SelectLoginRadioButton.Name" xml:space="preserve">
+    <value>SelectLoginRadioButton</value>
+  </data>
+  <data name="&gt;&gt;SelectLoginRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SelectLoginRadioButton.Parent" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SelectLoginRadioButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="LoginsComboBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="LoginsComboBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="LoginsComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 54</value>
+  </data>
+  <data name="LoginsComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 24</value>
+  </data>
+  <data name="LoginsComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;LoginsComboBox.Name" xml:space="preserve">
+    <value>LoginsComboBox</value>
+  </data>
+  <data name="&gt;&gt;LoginsComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LoginsComboBox.Parent" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;LoginsComboBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="NewLoginTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 84</value>
+  </data>
+  <data name="NewLoginTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 23</value>
+  </data>
+  <data name="NewLoginTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;NewLoginTextBox.Name" xml:space="preserve">
+    <value>NewLoginTextBox</value>
+  </data>
+  <data name="&gt;&gt;NewLoginTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewLoginTextBox.Parent" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;NewLoginTextBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="LoginPasswordTextBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LoginPasswordTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 121</value>
+  </data>
+  <data name="LoginPasswordTextBox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="LoginPasswordTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 23</value>
+  </data>
+  <data name="LoginPasswordTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordTextBox.Name" xml:space="preserve">
+    <value>LoginPasswordTextBox</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordTextBox.Parent" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordTextBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="LoginPasswordLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LoginPasswordLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LoginPasswordLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 125</value>
+  </data>
+  <data name="LoginPasswordLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 16</value>
+  </data>
+  <data name="LoginPasswordLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LoginPasswordLabel.Text" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="LoginPasswordLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordLabel.Name" xml:space="preserve">
+    <value>LoginPasswordLabel</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordLabel.Parent" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;LoginPasswordLabel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="LoginInfoGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 201</value>
+  </data>
+  <data name="LoginInfoGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>411, 161</value>
+  </data>
+  <data name="LoginInfoGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LoginInfoGroupBox.Text" xml:space="preserve">
+    <value>Create/Select database login</value>
+  </data>
+  <data name="&gt;&gt;LoginInfoGroupBox.Name" xml:space="preserve">
+    <value>LoginInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;LoginInfoGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LoginInfoGroupBox.Parent" xml:space="preserve">
+    <value>TargetInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;LoginInfoGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TargetInfoGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 196</value>
+  </data>
+  <data name="TargetInfoGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>442, 378</value>
+  </data>
+  <data name="TargetInfoGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="TargetInfoGroupBox.Text" xml:space="preserve">
+    <value>Target information</value>
+  </data>
+  <data name="&gt;&gt;TargetInfoGroupBox.Name" xml:space="preserve">
+    <value>TargetInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;TargetInfoGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TargetInfoGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TargetInfoGroupBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CloneUserButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="CloneUserButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CloneUserButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 585</value>
+  </data>
+  <data name="CloneUserButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 23</value>
+  </data>
+  <data name="CloneUserButton.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="CloneUserButton.Text" xml:space="preserve">
+    <value>Clone user</value>
+  </data>
+  <data name="&gt;&gt;CloneUserButton.Name" xml:space="preserve">
+    <value>CloneUserButton</value>
+  </data>
+  <data name="&gt;&gt;CloneUserButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CloneUserButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CloneUserButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SourceUserNameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SourceUserNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>154, 51</value>
+  </data>
+  <data name="SourceUserNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 23</value>
+  </data>
+  <data name="SourceUserNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;SourceUserNameLabel.Name" xml:space="preserve">
+    <value>SourceUserNameLabel</value>
+  </data>
+  <data name="&gt;&gt;SourceUserNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourceUserNameLabel.Parent" xml:space="preserve">
+    <value>SourceInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SourceUserNameLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SourceUserLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SourceUserLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SourceUserLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 55</value>
+  </data>
+  <data name="SourceUserLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="SourceUserLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="SourceUserLabel.Text" xml:space="preserve">
+    <value>Application user:</value>
+  </data>
+  <data name="&gt;&gt;SourceUserLabel.Name" xml:space="preserve">
+    <value>SourceUserLabel</value>
+  </data>
+  <data name="&gt;&gt;SourceUserLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourceUserLabel.Parent" xml:space="preserve">
+    <value>SourceInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SourceUserLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SourceCompanyNameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SourceCompanyNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>155, 24</value>
+  </data>
+  <data name="SourceCompanyNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 23</value>
+  </data>
+  <data name="SourceCompanyNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyNameLabel.Name" xml:space="preserve">
+    <value>SourceCompanyNameLabel</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyNameLabel.Parent" xml:space="preserve">
+    <value>SourceInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyNameLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SourceCompanyLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SourceCompanyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SourceCompanyLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 28</value>
+  </data>
+  <data name="SourceCompanyLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 16</value>
+  </data>
+  <data name="SourceCompanyLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="SourceCompanyLabel.Text" xml:space="preserve">
+    <value>Company:</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyLabel.Name" xml:space="preserve">
+    <value>SourceCompanyLabel</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyLabel.Parent" xml:space="preserve">
+    <value>SourceInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SourceCompanyLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="SourceInfoGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 105</value>
+  </data>
+  <data name="SourceInfoGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>442, 87</value>
+  </data>
+  <data name="SourceInfoGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="SourceInfoGroupBox.Text" xml:space="preserve">
+    <value>Selected data details</value>
+  </data>
+  <data name="&gt;&gt;SourceInfoGroupBox.Name" xml:space="preserve">
+    <value>SourceInfoGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SourceInfoGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourceInfoGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;SourceInfoGroupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
+    <value>7, 16</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>583, 616</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>CloneUser</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>CloneUser</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.PlugIns.PlugInsForm, Microarea.Console.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

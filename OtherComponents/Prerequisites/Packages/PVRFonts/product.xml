@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Product
+  xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper"
+  ProductCode="Microarea.PVRFonts"
+>
+
+	<!-- Defines list of files to be copied on build -->
+	<PackageFiles>
+		<PackageFile Name="PVRFonts.msi" PublicKey="3082010a0282010100d5311a51a01e814b25c51ee1225fb484ab7567b267dc2cb6df8d55cd91c2c51e960babd6171c2152873a672c8377dec55baf0a09a8c3610f87b51e0f96698d22fcd8c0ddd4ccafa5c1b3b85a1b17e8ece19d1275126dd4c6367b4aa8175400913b2cce22e3b616f3e0a3eff0be1db99d89ff74f9c39844f27e84eb48db3812870eb30fc3b6f4e8c62ef11d70f8b51692e008e650616963866be4e74b696f5b1a493a923617c0482ff918e6b28530b7c68b71245a89c5511655f9acf397b8c88090c87ef99a8c3c4115e225a482c5b6cce7c4f414fb5e41f875f0ea12e33b8ea91cd8a4e81b7859006e31ab921079427a737ce55e36ad5113930a058c2dcf17410203010001" />
+	</PackageFiles>
+	<InstallChecks>
+		<MsiProductCheck Property="PVRFonts" Product="{3ECCBF29-EA77-416E-B844-3EF562362D30}"/>
+	</InstallChecks>
+	
+	<!-- Defines how to invoke the setup for the Visual C++ 9.0 redist -->
+	<Commands Reboot ="None">
+		<Command PackageFile="PVRFonts.msi" Arguments= '/quiet'>
+			<!-- These checks determine whether the package is to be installed -->
+			<InstallConditions>
+				<!-- Block install if user does not have admin privileges -->
+				<FailIf Property="AdminUser" Compare="ValueEqualTo" Value="false" String="AdminRequired"/>
+				<BypassIf Property="PVRFonts" Compare="VersionGreaterThanOrEqualTo" Value="1.0.0"/>
+			</InstallConditions>
+		</Command>
+	</Commands>
+</Product>

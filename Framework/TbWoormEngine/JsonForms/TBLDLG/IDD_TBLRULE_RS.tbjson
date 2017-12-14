@@ -1,0 +1,228 @@
+﻿{
+  "id": "IDD_TBLRULE_RS",
+  "rcId": 1126,
+  "type": 66,
+  "text": "Fields from Archives",
+  "x": 34,
+  "y": 26,
+  "width": 500,
+  "height": 169,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "tbldlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Modules",
+      "x": 5,
+      "y": 5,
+      "width": 160,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_TABLE_GROUPS",
+      "type": 12,
+      "x": 5,
+      "y": 14,
+      "width": 180,
+      "height": 75,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Archives",
+      "x": 6,
+      "y": 29,
+      "width": 158,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_TABLE_LIST",
+      "type": 24,
+      "style": 128,
+      "x": 6,
+      "y": 39,
+      "width": 178,
+      "height": 104,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "hasStrings": true,
+      "noIntegralHeight": true,
+      "ownerDraw": 1
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Columns",
+      "x": 190,
+      "y": 5,
+      "width": 164,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FIELD_LIST_DUMMY",
+      "type": 24,
+      "style": 128,
+      "x": 188,
+      "y": 14,
+      "width": 178,
+      "height": 129,
+      "visible": false,
+      "enabled": false,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "hasStrings": true,
+      "noIntegralHeight": true,
+      "ownerDraw": 1
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 9,
+      "text": "Show columns",
+      "x": 375,
+      "y": 3,
+      "width": 121,
+      "height": 38
+    },
+    {
+      "id": "IDC_TBLRULE_SHOW_SELECT_FIELD",
+      "type": 10,
+      "text": "Sel&ected",
+      "x": 381,
+      "y": 15,
+      "width": 109,
+      "height": 10,
+      "tabStop": false,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_TBLRULE_SHOW_ALL_FIELD",
+      "type": 10,
+      "text": "&All",
+      "x": 381,
+      "y": 26,
+      "width": 109,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 9,
+      "text": "Field",
+      "x": 375,
+      "y": 42,
+      "width": 121,
+      "height": 68
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 2,
+      "text": "Name",
+      "x": 381,
+      "y": 53,
+      "width": 109,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_TBLFIELD_NAME",
+      "type": 13,
+      "x": 381,
+      "y": 63,
+      "width": 109,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Type",
+      "x": 381,
+      "y": 83,
+      "width": 109,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_TBLFIELD_DATA_TYPE",
+      "type": 12,
+      "x": 381,
+      "y": 92,
+      "width": 109,
+      "height": 65,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_BTN_ADD_LINK",
+      "type": 3,
+      "text": "&Select",
+      "x": 382,
+      "y": 115,
+      "width": 105,
+      "height": 12
+    },
+    {
+      "id": "IDC_BTN_ADD_LINK_HIDDEN",
+      "type": 3,
+      "text": "Select &Hidden",
+      "x": 382,
+      "y": 129,
+      "width": 105,
+      "height": 12
+    },
+    {
+      "id": "IDC_BTN_UNDO",
+      "type": 3,
+      "text": "Deselect",
+      "x": 382,
+      "y": 143,
+      "width": 105,
+      "height": 12
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 250,
+      "y": 150,
+      "width": 34,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 291,
+      "y": 150,
+      "width": 34,
+      "height": 14
+    },
+    {
+      "id": "IDC_APPLY",
+      "type": 3,
+      "text": "A&pply",
+      "x": 332,
+      "y": 150,
+      "width": 34,
+      "height": 14
+    }
+  ]
+}

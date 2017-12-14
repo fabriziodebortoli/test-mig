@@ -1,0 +1,34 @@
+﻿{
+  "id": "IDD_RESOURCES_LAYOUT_MESSAGE_VIEW",
+  "rcId": 11356,
+  "type": 66,
+  "text": "Confirm action",
+  "x": 0,
+  "y": 0,
+  "width": 400,
+  "height": 44,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "thickFrame": false,
+  "modalFrame": true,
+  "child": false,
+  "context": "uiresourceslayout",
+  "items": [
+    {
+      "id": "IDC_TG_RESOURCES_LAYOUT_MESSAGE",
+      "type": 72, /*TileGroup*/
+      "x": 0,
+      "y": 0,
+      "width": 456,
+      "height": 44,
+      "layoutType": 4, /*VBOX*/
+      "clipChildren": true,
+      "items": [
+        {
+          "href": "IDD_TD_RESOURCES_LAYOUT_MESSAGE"
+        }
+      ] 
+    }
+  ]
+}

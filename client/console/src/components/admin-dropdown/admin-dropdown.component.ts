@@ -13,6 +13,7 @@ export class AdminDropDownComponent {
   @Input() textField: string;
   @Input() valueField: string;
   @Input() selectedValue: { name: string, value: string};
+  @Input() readOnly: boolean;
   @Output() selectedValueChange: EventEmitter<any>;
 
   constructor() {
@@ -22,6 +23,7 @@ export class AdminDropDownComponent {
     this.textField = '';
     this.valueField = '';
     this.selectedValueChange = new EventEmitter<any>();
+    this.readOnly = false;
   }
 
   change(event) {

@@ -1,0 +1,470 @@
+<block id="0">
+    <blockId>C</blockId>
+    <blockDescription>Bloco C</blockDescription>
+    <recordId>C170</recordId>
+    <recordDescription>REGISTRO C170: ITENS DO DOCUMENTO</recordDescription>
+    <record>
+        <keys>
+            <key>
+                <keyName>DocType</keyName>
+                <description>Tipo de documento</description>
+                <type>enum</type>
+                <enumAllowedValues>
+                    <value description="Nota Fiscal de clientes">1</value>
+                    <value description="Nota Fiscal de fornecedores">2</value>
+                </enumAllowedValues>
+                <size>1</size>
+            </key>
+            <key>
+                <keyName>DocId</keyName>
+                <description>Número interno do documento</description>
+                <type>numeric</type>
+                <size>15</size>
+            </key>
+            <key>
+                <keyName>LineId</keyName>
+                <description>Numero de linha</description>
+                <type>numeric</type>
+                <size>10</size>
+            </key>
+        </keys>    
+        <field>
+            <name>REG</name>
+            <type>string</type>
+            <defaultValue>C170</defaultValue>
+            <minValue>C170</minValue>
+            <maxValue>C170</maxValue>
+            <description>Texto fixo contendo C170</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>4</size>
+        </field>
+        <field>
+            <name>NUM_ITEM</name>
+            <type>numerico</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Número sequencial do item no documento fiscal</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>3</size>
+        </field>
+        <field>
+            <name>COD_ITEM</name>
+            <type>string</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código do item</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>60</size>
+        </field>
+        <field>
+            <name>DESCR_COMPL</name>
+            <type>string</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Descrição complementar do item como adotado no documento fiscal</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>255</size>
+        </field>
+        <field>
+            <name>QTD</name>
+            <type>numeric</type>
+            <decimalDigits>5</decimalDigits>                        
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Quantidade do item</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>
+        <field>
+            <name>UNID</name>
+            <type>string</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Unidade do item</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>
+        <field>
+            <name>VL_ITEM</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor total do item (mercadorias ou serviços)</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>            
+        <field>
+            <name>VL_DESC</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor do desconto comercial</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>            
+        <field>
+            <name>IND_MOV</name>
+            <type>enum</type>
+            <defaultValue>0</defaultValue>
+            <minValue>0</minValue>
+            <maxValue>1</maxValue>
+            <description>Movimentação física do item/produto</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>1</size>
+            <enumAllowedValues>
+                <value description="Sim">0</value>
+                <value description="Não">1</value>
+            </enumAllowedValues>
+        </field>
+        <field>
+            <name>CST_ICMS</name>
+            <type>onlyDigitsString</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código da Situação Tributária referente ao ICMS</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>3</size>
+        </field>
+        <field>
+            <name>CFOP</name>
+            <type>onlyDigitsString</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código Fiscal de Operação e Prestação</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>4</size>
+        </field>
+        <field>
+            <name>COD_NAT</name>
+            <type>string</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código da natureza da operação</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>10</size>
+        </field>
+        <field>
+            <name>VL_BC_ICMS</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor da base de cálculo do ICMS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>            
+        <field>
+            <name>ALIQ_ICMS</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Alíquota do ICMS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>    
+        <field>
+            <name>VL_ICMS</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor do ICMS creditado/debitado</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>    
+        <field>
+            <name>VL_BC_ICMS_ST</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor da base de cálculo do ICMS ST</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>    
+        <field>
+            <name>ALIQ_ST</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Alíquota do ICMS ST</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>    
+        <field>
+            <name>VL_ICMS_ST</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor do ICMS referente à substituição tributária</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>            
+        <field>
+            <name>IND_APUR</name>
+            <type>enum</type>
+            <defaultValue>0</defaultValue>
+            <minValue>0</minValue>
+            <maxValue>1</maxValue>
+            <description>Indicador de período de apuração do IPI</description>
+            <isMandatory>true</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>1</size>
+            <enumAllowedValues>
+                <value description="Mensal">0</value>
+                <value description="Decendial">1</value>
+            </enumAllowedValues>
+        </field>
+        <field>
+            <name>CST_IPI</name>
+            <type>onlyDigitsString</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código da Situação Tributária referente ao IPI</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>2</size>
+        </field>
+        <field>
+            <name>COD_ENQ</name>
+            <type>string</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código de enquadramento legal do IPI (não preencher)</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>3</size>
+        </field>
+        <field>
+            <name>VL_BC_IPI</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor da base de cálculo do IPI</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>    
+        <field>
+            <name>ALIQ_IPI</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Alíquota do IPI</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>    
+        <field>        
+            <name>VL_IPI</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor do IPI creditado/debitado</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>            
+        <field>
+            <name>CST_PIS</name>
+            <type>onlyDigitsString</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código da Situação Tributária referente ao PIS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>2</size>
+        </field>
+        <field>
+            <name>VL_BC_PIS</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor da base de cálculo do PIS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>    
+        <field>
+            <name>ALIQ_PIS</name>
+            <type>numeric</type>
+            <decimalDigits>4</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Alíquota do PIS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>    
+        <field>
+            <name>QUANT_BC_PIS</name>
+            <type>numeric</type>
+            <decimalDigits>3</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Quantidade – Base de cálculo PIS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>    
+        <field>
+            <name>ALIQ_PIS_2</name>
+            <type>numeric</type>
+            <decimalDigits>4</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Alíquota do PIS (em reais)</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>    
+        <field>        
+            <name>VL_PIS</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor do PIS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>            
+        <field>
+            <name>CST_COFINS</name>
+            <type>onlyDigitsString</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código da Situação Tributária referente ao COFINS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>true</isFixedSize>
+            <size>2</size>
+        </field>
+        <field>
+            <name>VL_BC_COFINS</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor da base de cálculo do COFINS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>    
+        <field>
+            <name>ALIQ_COFINS</name>
+            <type>numeric</type>
+            <decimalDigits>4</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Alíquota do COFINS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>    
+        <field>
+            <name>QUANT_BC_COFINS</name>
+            <type>numeric</type>
+            <decimalDigits>3</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Quantidade – Base de cálculo COFINS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>    
+        <field>
+            <name>ALIQ_COFINS_2</name>
+            <type>numeric</type>
+            <decimalDigits>4</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Alíquota do COFINS (em reais)</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>6</size>
+        </field>    
+        <field>        
+            <name>VL_COFINS</name>
+            <type>numeric</type>
+            <decimalDigits>2</decimalDigits>            
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Valor do COFINS</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>20</size>
+        </field>                    
+        <field>        
+            <name>COD_CTA</name>
+            <type>string</type>
+            <defaultValue></defaultValue>
+            <minValue></minValue>
+            <maxValue></maxValue>
+            <description>Código da conta analítica contábil debitada/creditada</description>
+            <isMandatory>false</isMandatory>
+            <isFixedSize>false</isFixedSize>
+            <size>255</size>
+        </field>                    
+        
+    </record>
+</block>

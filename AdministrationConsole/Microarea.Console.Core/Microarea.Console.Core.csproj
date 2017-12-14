@@ -1,0 +1,926 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4EFCB940-3FC3-429A-8456-08CF2FBB9D89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microarea.Console.Core</RootNamespace>
+    <AssemblyName>Microarea.Console.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Apps\AdministrationConsole\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Apps\AdministrationConsole\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="DataManager\Common\AddWhereClausePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\AddWhereClausePage.Designer.cs">
+      <DependentUpon>AddWhereClausePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\BaseColumnsParamPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\BaseColumnsParamPage.Designer.cs">
+      <DependentUpon>BaseColumnsParamPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\ConfigurationFileParamPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\ConfigurationFileParamPage.Designer.cs">
+      <DependentUpon>ConfigurationFileParamPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\DataManagerWizard.cs" />
+    <Compile Include="DataManager\Common\ErrorParamsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\ErrorParamsPage.Designer.cs">
+      <DependentUpon>ErrorParamsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\ImageListMng.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\ImageListMng.Designer.cs">
+      <DependentUpon>ImageListMng.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\ImportParamsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\ImportParamsPage.Designer.cs">
+      <DependentUpon>ImportParamsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\ScriptBeforeExportPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\ScriptBeforeExportPage.Designer.cs">
+      <DependentUpon>ScriptBeforeExportPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\TablesParamPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\TablesParamPage.Designer.cs">
+      <DependentUpon>TablesParamPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Common\TablesSelectionsListPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Common\TablesSelectionsListPage.Designer.cs">
+      <DependentUpon>TablesSelectionsListPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\DataManager.cs" />
+    <Compile Include="DataManager\Default\BaseColumnsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Default\BaseColumnsPage.Designer.cs">
+      <DependentUpon>BaseColumnsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Default\ChooseOperationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Default\ChooseOperationPage.Designer.cs">
+      <DependentUpon>ChooseOperationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Default\ColumnsSelectionsListPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Default\ColumnsSelectionsListPage.Designer.cs">
+      <DependentUpon>ColumnsSelectionsListPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Default\DefaultWizard.cs" />
+    <Compile Include="DataManager\Default\FilesSelectionPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Default\FilesSelectionPage.Designer.cs">
+      <DependentUpon>FilesSelectionPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Default\PresentationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Default\PresentationPage.Designer.cs">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Default\SummaryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Default\SummaryPage.Designer.cs">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Export\ColumnsSelectionsListPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Export\ColumnsSelectionsListPage.Designer.cs">
+      <DependentUpon>ColumnsSelectionsListPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Export\ExportWizard.cs" />
+    <Compile Include="DataManager\Export\PresentationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Export\PresentationPage.Designer.cs">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Export\SummaryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Export\SummaryPage.Designer.cs">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Export\XmlParamsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Export\XmlParamsPage.Designer.cs">
+      <DependentUpon>XmlParamsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Import\FilesParamPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Import\FilesParamPage.Designer.cs">
+      <DependentUpon>FilesParamPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Import\FilesSelectionPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Import\FilesSelectionPage.Designer.cs">
+      <DependentUpon>FilesSelectionPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Import\ImportWizard.cs" />
+    <Compile Include="DataManager\Import\PresentationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Import\PresentationPage.Designer.cs">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Import\SummaryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Import\SummaryPage.Designer.cs">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Sample\BaseColumnsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Sample\BaseColumnsPage.Designer.cs">
+      <DependentUpon>BaseColumnsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Sample\ChooseOperationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Sample\ChooseOperationPage.Designer.cs">
+      <DependentUpon>ChooseOperationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Sample\PresentationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Sample\PresentationPage.Designer.cs">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\Sample\SampleWizard.cs" />
+    <Compile Include="DataManager\Sample\SummaryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataManager\Sample\SummaryPage.Designer.cs">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\ShowDataSetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataManager\ShowDataSetForm.Designer.cs">
+      <DependentUpon>ShowDataSetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\StartingWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataManager\StartingWizardForm.Designer.cs">
+      <DependentUpon>StartingWizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataManager\DataManagerStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataManagerStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DBLibrary\DbtsObjects.cs" />
+    <Compile Include="DBLibrary\Forms\ExecutionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBLibrary\Forms\ExecutionForm.Designer.cs">
+      <DependentUpon>ExecutionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DBLibrary\Forms\ImageListMng.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DBLibrary\Forms\ImageListMng.Designer.cs">
+      <DependentUpon>ImageListMng.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DBLibrary\DBLibraryStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBLibraryStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DBLibrary\Forms\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBLibrary\Forms\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EventBuilder\CustomAttributes.cs" />
+    <Compile Include="EventBuilder\DynamicEventsArgs.cs" />
+    <Compile Include="EventBuilder\EventBuilder.cs" />
+    <Compile Include="EventBuilder\EventsList.cs" />
+    <Compile Include="EventBuilder\MethodsExecuted.cs" />
+    <Compile Include="EventBuilder\EventBuilderStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventBuilderStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="FileConverter\AskMissingObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileConverter\CPPTableParser.cs" />
+    <Compile Include="FileConverter\FileConverterException.cs" />
+    <Compile Include="FileConverter\FileParser.cs" />
+    <Compile Include="FileConverter\GlobalContext.cs" />
+    <Compile Include="FileConverter\LogManager.cs" />
+    <Compile Include="FileConverter\ObjectParser.cs" />
+    <Compile Include="FileConverter\ObjectTranslator.cs" />
+    <Compile Include="FileConverter\ReportMigrationNet.cs" />
+    <Compile Include="FileConverter\SQLTableParser.cs" />
+    <Compile Include="FileConverter\FileConverterStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileConverterStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="FileConverter\Translator.cs" />
+    <Compile Include="FileConverter\WoormReportParser.cs" />
+    <Compile Include="FileConverter\WRMReportTableParser.cs" />
+    <Compile Include="FileConverter\WrmTableParser.cs" />
+    <Compile Include="FileConverter\XmlTableParser.cs" />
+    <Compile Include="PlugIns\ConsoleEnvironmentInfo.cs" />
+    <Compile Include="PlugIns\ConsoleGUIObjects.cs" />
+    <Compile Include="PlugIns\CustomAttributes.cs" />
+    <Compile Include="PlugIns\LicenceInfo.cs" />
+    <Compile Include="PlugIns\PlugInClass.cs" />
+    <Compile Include="PlugIns\PlugInsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\PlugInsForm.Designer.cs">
+      <DependentUpon>PlugInsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\PlugInsProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PlugIns\PlugInsProgressBar.Designer.cs">
+      <DependentUpon>PlugInsProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\PlugInsTreeNode.cs" />
+    <Compile Include="PlugIns\PlugInsTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PlugIns\PlugInsTreeView.Designer.cs">
+      <DependentUpon>PlugInsTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\PlugInsTreeViewStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlugInsTreeViewStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegressionTestLibrary\Forms\ProcessingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\Forms\ProcessingForm.Designer.cs">
+      <DependentUpon>ProcessingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\RegressionTestLibraryStrings.cs" />
+    <Compile Include="RegressionTestLibrary\RegressionTestManager.cs" />
+    <Compile Include="RegressionTestLibrary\RegressionTestSelections.cs" />
+    <Compile Include="RegressionTestLibrary\RegressionTestWizard.cs" />
+    <Compile Include="RegressionTestLibrary\WizardPages\AreasSelectionsListPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\WizardPages\AreasSelectionsListPage.Designer.cs">
+      <DependentUpon>AreasSelectionsListPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\WizardPages\FoldersSelectionPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\WizardPages\FoldersSelectionPage.Designer.cs">
+      <DependentUpon>FoldersSelectionPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\WizardPages\PresentationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\WizardPages\PresentationPage.Designer.cs">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\WizardPages\SummaryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RegressionTestLibrary\WizardPages\SummaryPage.Designer.cs">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SecurityLibrary\Bit.cs" />
+    <Compile Include="SecurityLibrary\BitmapLoader.cs" />
+    <Compile Include="SecurityLibrary\DataGridDropDownImg.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurityLibrary\DataGridGrants.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurityLibrary\DataGridPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurityLibrary\EllipsisLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurityLibrary\GlobalDataGridGrants.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurityLibrary\SecurityLibraryConst.cs" />
+    <Compile Include="SecurityLibrary\SecurityLibraryStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SecurityLibraryStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\AuthenticationPageContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\AuthenticationPageContent.Designer.cs">
+      <DependentUpon>AuthenticationPageContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SetFunctionParameters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SetFunctionParameters.Designer.cs">
+      <DependentUpon>SetFunctionParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\GeneralTaskPropertiesPageContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\GeneralTaskPropertiesPageContent.Designer.cs">
+      <DependentUpon>GeneralTaskPropertiesPageContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\MailAddressSelectionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\MailAddressSelectionControl.Designer.cs">
+      <DependentUpon>MailAddressSelectionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\MailNotificationsPageContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\MailNotificationsPageContent.Designer.cs">
+      <DependentUpon>MailNotificationsPageContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\RecurringModeSettingsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\RecurringModeSettingsDlg.Designer.cs">
+      <DependentUpon>RecurringModeSettingsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SchedulingPropertiesPageContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SchedulingPropertiesPageContent.Designer.cs">
+      <DependentUpon>SchedulingPropertiesPageContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SelectApplicationCommandDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SelectApplicationCommandDlg.Designer.cs">
+      <DependentUpon>SelectApplicationCommandDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SelectMenuCommandDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SelectMenuCommandDlg.Designer.cs">
+      <DependentUpon>SelectMenuCommandDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SelectWorkstationDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SelectWorkstationDlg.Designer.cs">
+      <DependentUpon>SelectWorkstationDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SetNewTaskCodeDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\SetNewTaskCodeDlg.Designer.cs">
+      <DependentUpon>SetNewTaskCodeDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TaskSchedulerWindowsControlsStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskSchedulerWindowsControlsStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TaskDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TaskDetailsForm.Designer.cs">
+      <DependentUpon>TaskDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TaskPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TaskPropertiesForm.Designer.cs">
+      <DependentUpon>TaskPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TasksSequencesPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TasksSequencesPropertiesForm.Designer.cs">
+      <DependentUpon>TasksSequencesPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TBSchedulerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TBSchedulerControl.Designer.cs">
+      <DependentUpon>TBSchedulerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TBSchedulerGenericInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TBSchedulerGenericInfoControl.Designer.cs">
+      <DependentUpon>TBSchedulerGenericInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TBSchedulerPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TaskSchedulerWindowsControls\TBSchedulerPanel.Designer.cs">
+      <DependentUpon>TBSchedulerPanel.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataManager\Common\AddWhereClausePage.resx">
+      <DependentUpon>AddWhereClausePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\BaseColumnsParamPage.resx">
+      <DependentUpon>BaseColumnsParamPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\ConfigurationFileParamPage.resx">
+      <DependentUpon>ConfigurationFileParamPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\DataManagerWizard.resx">
+      <DependentUpon>DataManagerWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\ErrorParamsPage.resx">
+      <DependentUpon>ErrorParamsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\ImageListMng.resx">
+      <DependentUpon>ImageListMng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\ImportParamsPage.resx">
+      <DependentUpon>ImportParamsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\ScriptBeforeExportPage.resx">
+      <DependentUpon>ScriptBeforeExportPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\TablesParamPage.resx">
+      <DependentUpon>TablesParamPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Common\TablesSelectionsListPage.resx">
+      <DependentUpon>TablesSelectionsListPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Default\BaseColumnsPage.resx">
+      <DependentUpon>BaseColumnsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Default\ChooseOperationPage.resx">
+      <DependentUpon>ChooseOperationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Default\ColumnsSelectionsListPage.resx">
+      <DependentUpon>ColumnsSelectionsListPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Default\FilesSelectionPage.resx">
+      <DependentUpon>FilesSelectionPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Default\PresentationPage.resx">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Default\SummaryPage.resx">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Export\ColumnsSelectionsListPage.resx">
+      <DependentUpon>ColumnsSelectionsListPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Export\PresentationPage.resx">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Export\SummaryPage.resx">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Export\XmlParamsPage.resx">
+      <DependentUpon>XmlParamsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Import\FilesParamPage.resx">
+      <DependentUpon>FilesParamPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Import\FilesSelectionPage.resx">
+      <DependentUpon>FilesSelectionPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Import\PresentationPage.resx">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Import\SummaryPage.resx">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Sample\BaseColumnsPage.resx">
+      <DependentUpon>BaseColumnsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Sample\ChooseOperationPage.resx">
+      <DependentUpon>ChooseOperationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Sample\PresentationPage.resx">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\Sample\SummaryPage.resx">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\ShowDataSetForm.resx">
+      <DependentUpon>ShowDataSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager\StartingWizardForm.resx">
+      <DependentUpon>StartingWizardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DBLibrary\Forms\ExecutionForm.resx">
+      <DependentUpon>ExecutionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DBLibrary\Forms\ImageListMng.resx">
+      <DependentUpon>ImageListMng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DBLibrary\Forms\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\PlugInsForm.resx">
+      <DependentUpon>PlugInsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\PlugInsProgressBar.resx">
+      <DependentUpon>PlugInsProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PlugInsTreeViewStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegressionTestLibrary\Forms\ProcessingForm.resx">
+      <DependentUpon>ProcessingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegressionTestLibrary\RegressionTestWizard.resx">
+      <DependentUpon>RegressionTestWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegressionTestLibrary\WizardPages\AreasSelectionsListPage.resx">
+      <DependentUpon>AreasSelectionsListPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegressionTestLibrary\WizardPages\FoldersSelectionPage.resx">
+      <DependentUpon>FoldersSelectionPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegressionTestLibrary\WizardPages\PresentationPage.resx">
+      <DependentUpon>PresentationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegressionTestLibrary\WizardPages\SummaryPage.resx">
+      <DependentUpon>SummaryPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SecurityLibrary\DataGridDropDownImg.resx">
+      <DependentUpon>DataGridDropDownImg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SecurityLibrary\DataGridGrants.resx">
+      <DependentUpon>DataGridGrants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SecurityLibrary\DataGridPictureBox.resx">
+      <DependentUpon>DataGridPictureBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SecurityLibrary\EllipsisLabel.resx">
+      <DependentUpon>EllipsisLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SecurityLibrary\GlobalDataGridGrants.resx">
+      <DependentUpon>GlobalDataGridGrants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\AuthenticationPageContent.resx">
+      <DependentUpon>AuthenticationPageContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\GeneralTaskPropertiesPageContent.resx">
+      <DependentUpon>GeneralTaskPropertiesPageContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\MailAddressSelectionControl.resx">
+      <DependentUpon>MailAddressSelectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\MailNotificationsPageContent.resx">
+      <DependentUpon>MailNotificationsPageContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\RecurringModeSettingsDlg.resx">
+      <DependentUpon>RecurringModeSettingsDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\SchedulingPropertiesPageContent.resx">
+      <DependentUpon>SchedulingPropertiesPageContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\SelectApplicationCommandDlg.resx">
+      <DependentUpon>SelectApplicationCommandDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\SelectMenuCommandDlg.resx">
+      <DependentUpon>SelectMenuCommandDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\SelectWorkstationDlg.resx">
+      <DependentUpon>SelectWorkstationDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\SetFunctionParameters.resx">
+      <DependentUpon>SetFunctionParameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\SetNewTaskCodeDlg.resx">
+      <DependentUpon>SetNewTaskCodeDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\TaskDetailsForm.resx">
+      <DependentUpon>TaskDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\TaskPropertiesForm.resx">
+      <DependentUpon>TaskPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\TasksSequencesPropertiesForm.resx">
+      <DependentUpon>TasksSequencesPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\TBSchedulerControl.resx">
+      <DependentUpon>TBSchedulerControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\TBSchedulerGenericInfoControl.resx">
+      <DependentUpon>TBSchedulerGenericInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\TBSchedulerPanel.resx">
+      <DependentUpon>TBSchedulerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataManager\Images\Column.bmp" />
+    <EmbeddedResource Include="DataManager\Images\DataManager.ico" />
+    <EmbeddedResource Include="DataManager\Images\DefaultData.bmp" />
+    <EmbeddedResource Include="DataManager\Images\DefaultDataSmall.bmp" />
+    <EmbeddedResource Include="DataManager\Images\ExportData.bmp" />
+    <EmbeddedResource Include="DataManager\Images\ExportDataSmall.bmp" />
+    <EmbeddedResource Include="DataManager\Images\ImportData.bmp" />
+    <EmbeddedResource Include="DataManager\Images\ImportDataSmall.bmp" />
+    <EmbeddedResource Include="DataManager\Images\SampleData.bmp" />
+    <EmbeddedResource Include="DataManager\Images\SampleDataSmall.bmp" />
+    <EmbeddedResource Include="DataManager\Images\SelectedColumn.bmp" />
+    <EmbeddedResource Include="DataManager\Images\Xml.bmp" />
+    <EmbeddedResource Include="DataManager\Images\XmlYellow.bmp" />
+    <EmbeddedResource Include="DataManager\DataManagerStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DataManagerStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Application.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\ArrivalFlag.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Check.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Companies.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Company.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\CompanyToMigrate.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\ConfigSettings.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Database.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\DatabaseBackup.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\DatabaseManagement.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Default.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\DummyState.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\GreenFlag.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\GreenSemaphore.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\GreyFlag.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Information.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Key.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\LightBulb_Green.png" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\LightBulb_Red.png" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Lock.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Logins.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Messages.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Module.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\OrangeFlag.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Profile.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Profiles.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\RedFlag.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\RedSemaphore.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\ResultGreen.png" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\ResultRed.png" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Role.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Roles.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Search.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\SqlServer.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\SqlServerGroup.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\SqlUser.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\StoredProc.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\StoredProcUnchecked.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Table.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\TableUnchecked.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Tools.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Uncheck.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\User.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Users.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\UsersGroup.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\View.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\ViewUnchecked.bmp" />
+    <EmbeddedResource Include="DBLibrary\DBLibraryStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DBLibraryStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventBuilder\EventBuilderStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EventBuilderStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileConverter\AskMissingObject.resx">
+      <DependentUpon>AskMissingObject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileConverter\FileConverterStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileConverterStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegressionTestLibrary\Images\Archivio.bmp" />
+    <EmbeddedResource Include="RegressionTestLibrary\Images\Archivio2.bmp" />
+    <EmbeddedResource Include="RegressionTestLibrary\Images\Cavernicolo.bmp" />
+    <EmbeddedResource Include="RegressionTestLibrary\Images\Ingranaggio.bmp" />
+    <EmbeddedResource Include="RegressionTestLibrary\Images\WinZip.bmp" />
+    <EmbeddedResource Include="SecurityLibrary\img\allowed.bmp" />
+    <EmbeddedResource Include="SecurityLibrary\img\forbidden.bmp" />
+    <EmbeddedResource Include="SecurityLibrary\img\inherit.bmp" />
+    <EmbeddedResource Include="SecurityLibrary\img\notassigned.bmp" />
+    <EmbeddedResource Include="SecurityLibrary\img\notexist.bmp" />
+    <EmbeddedResource Include="SecurityLibrary\SecurityLibraryStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityLibraryStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\Aborted.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\AdjustNextRunDate.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\BlockingTaskInSequence.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\CloneCurrentTask.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\Collapse.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\CurrentTaskProperties.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\CurrentTaskSchedulingDetails.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\DeleteCurrentTask.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ErrorLogMessage.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\Expand.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\Failure.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\GenericTask.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\InformationLogMessage.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\MailAddressBook.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\MoveTaskInSequenceDown.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\MoveTaskInSequenceUp.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\NewScheduledSequence.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\NewScheduledTask.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\NotBlockingTaskInSequence.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\RunCurrentTask.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\Running.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\RunTasksServiceMng.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ScheduledBatch.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ScheduledExecutable.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ScheduledFunction.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ScheduledMail.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ScheduledReport.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ScheduledTask.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ScheduledWebPage.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\SchedulerAgentServiceMng.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\SequenceGridColumnValue.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\SequenceInterrupted.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\SequencePartialSuccess.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\ShowLogMessage.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\Success.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\TaskGridColumnValue.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\TaskMng.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\WaitForNextRetryAttempt.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Bitmaps\WarningLogMessage.bmp" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\Icons\TaskBuilderScheduler.ico" />
+    <EmbeddedResource Include="TaskSchedulerWindowsControls\TaskSchedulerWindowsControlsStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TaskSchedulerWindowsControlsStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj">
+      <Project>{F2F1C352-B5F8-4E92-A85F-99B012F80504}</Project>
+      <Name>Microarea.TaskBuilderNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj">
+      <Project>{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}</Project>
+      <Name>Microarea.TaskBuilderNet.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Woorm\Microarea.TaskBuilderNet.Woorm.csproj">
+      <Project>{6459dee4-5924-4257-a076-92c714c69d36}</Project>
+      <Name>Microarea.TaskBuilderNet.Woorm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Microarea.Console.Core.TaskSchedulerObjects.TaskNotificationRecipient.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PlugIns\Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\MagoNet16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\EasyAttachment16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Error.bmp" />
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\Warning.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\TBSender.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PlugIns\PlugInsTreeViewImages\DataSynchro.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

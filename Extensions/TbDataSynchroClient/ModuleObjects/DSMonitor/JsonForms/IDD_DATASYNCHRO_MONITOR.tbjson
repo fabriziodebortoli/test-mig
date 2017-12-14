@@ -1,0 +1,25 @@
+﻿{
+  "id": "IDD_DATASYNCHRO_MONITOR",
+  "rcId": 2265,
+  "type": 66,
+  "text": "Synchronization Monitor",
+  "x": 0,
+  "y": 0,
+  "width": 500,
+  "height": 290,
+  "child": true,
+  "context": "uidsmonitor",
+  "items": [
+    {
+      "id": "IDC_DS_MONITOR_TILE_GRP",
+      "type": 3,
+      "text": "Tile Group",
+      "x": 200,
+      "y": 0,
+      "width": 500,
+      "height": 290,
+      "clipChildren": true,
+      "ownerDraw": true
+    }
+  ]
+}

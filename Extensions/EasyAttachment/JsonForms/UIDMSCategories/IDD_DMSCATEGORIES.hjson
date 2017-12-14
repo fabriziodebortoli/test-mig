@@ -1,0 +1,29 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DMSCATEGORIES					GET_IDD(IDD_DMSCATEGORIES, M.Extensions.EasyAttachment.UIDMSCategories)
+#define	IDD_DMSCATEGORIES_VIEW				GET_IDD(IDD_DMSCATEGORIES_VIEW, M.Extensions.EasyAttachment.UIDMSCategories)
+
+#define	IDC_TG_DMSCATEGORIES				GET_IDC(IDC_TG_DMSCATEGORIES)
+
+#define	IDD_TD_DMSCATEGORIES_TREE			GET_IDD(IDD_TD_DMSCATEGORIES_TREE, M.Extensions.EasyAttachment.UIDMSCategories)
+#define	IDC_DMSCATEGORIES_TREE				GET_IDC(IDC_DMSCATEGORIES_TREE)
+
+#define IDD_TD_DMSCATEGORIES_DETAILS		GET_IDD(IDD_TD_DMSCATEGORIES_DETAILS,M.Extensions.EasyAttachment.UIDMSCategories)
+#define IDC_DMSCATEGORIES_NAME				GET_IDC(IDC_DMSCATEGORIES_NAME)
+#define IDC_DMSCATEGORIES_DESCRIPTION		GET_IDC(IDC_DMSCATEGORIES_DESCRIPTION)
+#define IDC_DMSCATEGORIES_DISABLED			GET_IDC(IDC_DMSCATEGORIES_DISABLED)
+#define IDC_DMSCATEGORIES_BE_VALUES			GET_IDC(IDC_DMSCATEGORIES_BE_VALUES)
+#define IDC_DMSCATEGORIES_CATEGORY_INUSE	GET_IDC(IDC_DMSCATEGORIES_CATEGORY_INUSE)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_DMSCATEGORIES_BE_DEFAULT	GET_IDC(IDC_DMSCATEGORIES_BE_DEFAULT)
+#define	IDC_DMSCATEGORIES_BE_VALUE		GET_IDC(IDC_DMSCATEGORIES_BE_VALUE)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_LOAD_DMSCATEGORIES_TREE		GET_ID(ID_LOAD_DMSCATEGORIES_TREE)
+#define	ID_SET_CURRENTNODE_TREE			GET_ID(ID_SET_CURRENTNODE_TREE)
+

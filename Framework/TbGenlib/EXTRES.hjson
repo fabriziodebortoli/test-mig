@@ -1,0 +1,53 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_BATCHDLG_CLOSE			GET_IDC(IDC_BATCHDLG_CLOSE)
+#define	IDC_BATCHDLG_PAUSE_RESUME			GET_IDC(IDC_BATCHDLG_PAUSE_RESUME)
+#define	IDC_BATCHDLG_START_STOP			GET_IDC(IDC_BATCHDLG_START_STOP)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_APP_NEW_REPORT			GET_ID(ID_APP_NEW_REPORT)
+#define	ID_APP_OPEN_REPORT			GET_ID(ID_APP_OPEN_REPORT)
+#define	ID_CTRL_BEHAVIOR			GET_ID(ID_CTRL_BEHAVIOR)
+#define	ID_CTRL_BROWSER_LINK			GET_ID(ID_CTRL_BROWSER_LINK)
+#define	ID_CTRL_CALL_LINK			GET_ID(ID_CTRL_CALL_LINK)
+#define	ID_CTRL_EDIT_AUTOMATIC_EXPR			GET_ID(ID_CTRL_EDIT_AUTOMATIC_EXPR)
+#define	ID_CTRL_ENUMSVIEWER			GET_ID(ID_CTRL_ENUMSVIEWER)
+#define	ID_CTRL_FILTER_DROPDOWN			GET_ID(ID_CTRL_FILTER_DROPDOWN)
+
+#define	ID_CTRL_HKLEXTMENU_START			GET_ID_RANGE(ID_CTRL_HKLEXTMENU_START, 15)
+#define	ID_CTRL_HKLEXTMENU_START_01			ID_CTRL_HKLEXTMENU_START +1
+#define	ID_CTRL_HKLEXTMENU_START_02			ID_CTRL_HKLEXTMENU_START +2
+#define	ID_CTRL_HKLEXTMENU_START_03			ID_CTRL_HKLEXTMENU_START +3
+#define	ID_CTRL_HKLEXTMENU_START_04			ID_CTRL_HKLEXTMENU_START +4
+#define	ID_CTRL_HKLEXTMENU_START_05			ID_CTRL_HKLEXTMENU_START +5
+#define	ID_CTRL_HKLEXTMENU_START_06			ID_CTRL_HKLEXTMENU_START +6
+#define	ID_CTRL_HKLEXTMENU_START_07			ID_CTRL_HKLEXTMENU_START +7
+#define	ID_CTRL_HKLEXTMENU_START_08			ID_CTRL_HKLEXTMENU_START +8
+#define	ID_CTRL_HKLEXTMENU_START_09			ID_CTRL_HKLEXTMENU_START +9
+#define	ID_CTRL_HKLEXTMENU_START_10			ID_CTRL_HKLEXTMENU_START +10
+#define	ID_CTRL_HKLEXTMENU_START_11			ID_CTRL_HKLEXTMENU_START +11
+#define	ID_CTRL_HKLEXTMENU_START_12			ID_CTRL_HKLEXTMENU_START +12
+#define	ID_CTRL_HKLEXTMENU_START_13			ID_CTRL_HKLEXTMENU_START +13
+#define	ID_CTRL_HKLEXTMENU_START_14			ID_CTRL_HKLEXTMENU_START +14
+#define	ID_CTRL_HKLEXTMENU_END				ID_CTRL_HKLEXTMENU_START +15
+
+#define	ID_CTRL_SEARCH_ON_LINK_LOWER			GET_ID(ID_CTRL_SEARCH_ON_LINK_LOWER)
+#define	ID_CTRL_SEARCH_ON_LINK_UPPER			GET_ID(ID_CTRL_SEARCH_ON_LINK_UPPER)
+#define	ID_CTRL_SHOWENUMVALUE			GET_ID(ID_CTRL_SHOWENUMVALUE)
+#define	ID_MENU_DATA_FORMATTER_PADDING_ENABLE			GET_ID(ID_MENU_DATA_FORMATTER_PADDING_ENABLE)
+#define	ID_WINDOW_CLOSE_ALL			GET_ID(ID_WINDOW_CLOSE_ALL)
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBGENLIB
+static UINT IDS_ID_APP_NEW_REPORT		=GET_IDS(ID_APP_NEW_REPORT, _TB_STRING("Creates a new report\nNew Report"), L"\\Framework\\TbGenlib\\EXTRES.hjson");
+static UINT IDS_ID_APP_OPEN_REPORT		=GET_IDS(ID_APP_OPEN_REPORT, _TB_STRING("Opens an existing report\nOpen Report"), L"\\Framework\\TbGenlib\\EXTRES.hjson");
+#endif
+

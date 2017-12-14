@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Enums>
+	<Tag name="Synchronization Status" value="480">
+		Indicates the status of a data synchronization action.
+		<Item name="To Synchronize" value="0" stored="31457280" />
+		<Item name="Wait" value="1" stored="31457281" />
+		<Item name="Synchronized" value="2" stored="31457282" />
+		<Item name="No Synchronized" value="3" stored="31457283" />
+		<Item name="Error" value="4" stored="31457284" />
+		<Item name="Excluded" value="5" stored="31457285" />
+	</Tag>
+	<Tag name="Synchronization Direction" value="481">
+		Indicates the direction of a data synchronization action.
+		<Item name="Outbound" value="0" stored="31522816" />
+		<Item name="Inbound" value="1" stored="31522817" />
+	</Tag>
+	<Tag name="Synchronization Action Type" value="482">
+		Indicates the type of a data synchronization action.
+		<Item name="Insert" value="0" stored="31588352" />
+		<Item name="Update" value="1" stored="31588353" />
+		<Item name="Delete" value="2" stored="31588354" />
+		<Item name="Massive" value="3" stored="31588355" />
+		<Item name="Exclude" value="4" stored="31588356" />
+		<Item name="New Attachment" value="5" stored="31588357" />
+		<Item name="Delete Attachment" value="6" stored="31588358" />
+		<Item name="New Collection" value="7" stored="31588359" />
+		<Item name="Update Collection" value="8" stored="31588360" />
+		<Item name="Update Provider" value="9" stored="31588361" />
+	</Tag>
+</Enums>

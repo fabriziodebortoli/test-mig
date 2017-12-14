@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseObjects>
+	<Signature dms="true">DMS</Signature>
+	<Release>403</Release>
+	<Tables>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_Field">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_Collector">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_Collection">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_FieldProperties">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_CollectionsFields">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_ArchivedDocument">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_ArchivedDocContent">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_ErpDocument">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_ErpDocBarcodes">
+			<Create release="2" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_Attachment">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_SearchFieldIndexes">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_AttachmentSearchIndexes">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_ArchivedDocSearchIndexes">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_Settings">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_IndexesSynchronization">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_TextExtensions">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_ArchivedDocTextContent">
+			<Create release="2" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_DocumentToArchive">
+			<Create release="3" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_SOSConfiguration">
+			<Create release="4" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_SOSEnvelope">
+			<Create release="4" createstep="1" />
+		</Table>
+		<Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_SOSDocument">
+			<Create release="4" createstep="1" />
+		</Table>
+    <Table namespace="EasyAttachment.TBDMS.TBDMS.DMS_WFAttachments">
+			<Create release="401" createstep="1" />
+    </Table>
+	</Tables>
+</DatabaseObjects>

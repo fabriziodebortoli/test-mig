@@ -1,0 +1,19 @@
+﻿{
+    "id": "IDD_RESOURCETYPES_VIEW",
+    "type": 1 /*View*/,
+    "name": "ResourceTypes",
+    "items": [
+        {
+            "id": "IDC_TG_RESOURCETYPES",
+            "name": "ResourceTypes",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+                    "href": "IDD_TD_RESOURCETYPES"
+                }
+            ]
+        }
+    ]
+}
+

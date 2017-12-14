@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c96fe49d-abcf-4e04-b7ee-313ea1e19311" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies>
+      <ReferencedAssembly AssemblyName="Microarea.TaskBuilderNet.Interfaces" />
+    </ReferencedAssemblies>
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10000/Framework.TbGes.TbGes/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Microarea.Web.Services.wsdl" MetadataType="Wsdl" ID="03aae08c-2025-4e2c-9edd-eb9ec3d86f8b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bcf2d137-0cdd-4e1c-b6c2-4ab30f2c8ca1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_ResizeColumnAction.xsd" MetadataType="Schema" ID="a8a43611-96ff-4674-8455-134764177dc9" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.xsd" MetadataType="Schema" ID="37253eb4-ba7e-4e05-b066-45f0e41dc702" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.TaskBuilderNet.Core.SoapCall.xsd" MetadataType="Schema" ID="5a9455ef-bc67-43b2-8cd6-a4047a490d60" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_BETreeToggleExpandNodeAction.xsd" MetadataType="Schema" ID="728b676e-8553-43f6-8168-fa850697d386" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoHotLinkAction.xsd" MetadataType="Schema" ID="fadf97c7-a9fd-475f-8e9d-b20d21c253f4" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoSpinAction.xsd" MetadataType="Schema" ID="d944af15-5a48-49ae-b8b4-afb7183cea24" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_ActivateTabPageAction.xsd" MetadataType="Schema" ID="2adddc76-e3a6-4254-b2fc-66cc26b72cbf" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_SelectNodeAction.xsd" MetadataType="Schema" ID="444878b2-778c-4d18-aa61-ddec65e6b476" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_ToggleNodeAction.xsd" MetadataType="Schema" ID="e62814ff-c0f5-476f-9346-4058fc6a949c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_SelectRadarAction.xsd" MetadataType="Schema" ID="d3389371-5fcd-45d0-a7fd-dc0f75033d55" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_MoveRowRadarAction.xsd" MetadataType="Schema" ID="2a7fc4ae-bf6b-4263-ae74-066db64e8e6b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_ClickContextMenuAction.xsd" MetadataType="Schema" ID="dd6db057-daf3-459f-8d0d-843f23e8912b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoMoveBodyPageAction.xsd" MetadataType="Schema" ID="846d2117-d35e-4800-b7b7-c901bdea5cad" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoLinkAction.xsd" MetadataType="Schema" ID="fabc00fc-9c2c-48ca-a489-7c06893e5e9b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoHyperLinkAction.xsd" MetadataType="Schema" ID="bb0f90a7-e1e8-47d1-8fe5-558fb8dee99a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_SelectRowAction.xsd" MetadataType="Schema" ID="fb93bfeb-d51a-4cff-aba4-e683458ea9d1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_GetThreadContextMessages.xsd" MetadataType="Schema" ID="e6fd8c52-8d51-41bb-9333-2d73595b1443" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="59d0122d-297e-4094-ac91-d2d48c499839" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoKeyAction.xsd" MetadataType="Schema" ID="63213a32-5076-45b2-8688-f416cb3dc9f3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_RunDocumentAction.xsd" MetadataType="Schema" ID="9d470d1e-7bb1-487e-96c7-b10155729df0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_RunReportAction.xsd" MetadataType="Schema" ID="9a48eff0-d65c-4842-ac6a-6fc080019ee9" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_RunFunctionAction.xsd" MetadataType="Schema" ID="93a38891-1883-49c0-82ef-49d7149bed9f" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_SelectIndexAction.xsd" MetadataType="Schema" ID="6574185c-54e7-488f-be53-3a573a6bf799" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DblClickItemAction.xsd" MetadataType="Schema" ID="28ba782f-2c5f-4821-8c45-2e1aab15c67c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_NewRowAction.xsd" MetadataType="Schema" ID="4b353600-313c-40b2-876b-f964f97f7021" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoCommandAction.xsd" MetadataType="Schema" ID="44f6e887-e038-40de-a680-d4643cfb249b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoUploadFileAction.xsd" MetadataType="Schema" ID="bc57a74b-efe5-4fe4-8208-8a780f510de5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_MoveToAction.xsd" MetadataType="Schema" ID="7e0b34af-f6e8-4ee6-be1d-214b5f9cb4e3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoCloseAction.xsd" MetadataType="Schema" ID="531525ae-6322-4578-b5f8-d93aafb1e6b4" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_ResizeAction.xsd" MetadataType="Schema" ID="e3db6adf-0ba3-483a-8956-dc428dcddf08" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CreateWebProxy.xsd" MetadataType="Schema" ID="d07b8a0c-4468-4b1a-9d96-6be262bf7263" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CreateWebProxyForThread.xsd" MetadataType="Schema" ID="2022e8e5-7b77-49df-b1db-a8ea75e6c105" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_GetThreadWindowsBinaryDescription.xsd" MetadataType="Schema" ID="49c8e043-aa9f-44bf-a6a4-44a27f55867b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_SetUserInteractionMode.xsd" MetadataType="Schema" ID="fa2ef7be-e680-46f6-963f-601795577659" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_GetCommandLinkUrl.xsd" MetadataType="Schema" ID="0c2edf73-4bb4-40ab-b799-2df9aacfbe7c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_OpenDropdownBtn.xsd" MetadataType="Schema" ID="5b075a4e-d841-4999-9736-229710f964c7" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoContextMenu.xsd" MetadataType="Schema" ID="da08b3a1-d4f3-4498-b6c3-10beb4441842" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_GetTreeViewAdvContextMenu.xsd" MetadataType="Schema" ID="afacda92-e252-4b1b-ac89-d7d4be90a19b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_GetContextMenu.xsd" MetadataType="Schema" ID="bffe1ea6-693c-456b-bfda-966617ccc65b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_DoKey.xsd" MetadataType="Schema" ID="03483937-87c2-4bbc-b9eb-f8f55352d47e" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_GetComboItems.xsd" MetadataType="Schema" ID="54149227-567f-4d0b-b86d-bcb3ff513b75" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.WebProxyObj_SetDate.xsd" MetadataType="Schema" ID="0fcd6024-f761-45ef-8b4a-a526281841be" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetApplicationDate.xsd" MetadataType="Schema" ID="c9f74d4d-25eb-4582-b7c6-04b666a38ae5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetApplicationYear.xsd" MetadataType="Schema" ID="3fe524aa-2f20-46aa-a129-9746ce4424e8" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetApplicationMonth.xsd" MetadataType="Schema" ID="704c8caa-0f46-421f-a54e-acd64d92c5fb" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetApplicationDay.xsd" MetadataType="Schema" ID="174c4f95-c63a-40d5-8429-1ca317f8bc1b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.EnableSoapFunctionExecutionControl.xsd" MetadataType="Schema" ID="36ecede4-3140-4297-9375-6704f0a866a1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CanChangeLogin.xsd" MetadataType="Schema" ID="1cf164ea-119e-4447-aa4b-804314ae6cbf" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ChangeLogin.xsd" MetadataType="Schema" ID="b3c96c6c-fe9a-4b29-b1a2-cdf6c31ca3be" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.IsTBLocked.xsd" MetadataType="Schema" ID="be70beb6-cbf3-4ffa-bee1-24a183288be7" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.LockTB.xsd" MetadataType="Schema" ID="d3acdee8-0e8b-43f2-b78f-aba77b26d2e7" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.UnLockTB.xsd" MetadataType="Schema" ID="447abea2-8889-4f53-9b41-f69d913c28c8" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DisconnectCompany.xsd" MetadataType="Schema" ID="67c23074-0c99-4110-92d8-6cb84bfd5c21" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ReconnectCompany.xsd" MetadataType="Schema" ID="75729c41-ce70-4869-9241-274249370b1c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CanCloseLogin.xsd" MetadataType="Schema" ID="86674048-5715-40fc-a616-f4ba8ace89f4" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.IsLoginValid.xsd" MetadataType="Schema" ID="d85ee5ee-3ef9-43ae-b43a-ec5e3ad11679" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetHotlinkQuery.xsd" MetadataType="Schema" ID="de97d136-025b-4371-82e4-58b6918cc6ca" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetDocumentParameters.xsd" MetadataType="Schema" ID="441ae0fb-c074-4a33-ac5c-c4c0c21962f6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetReportParameters.xsd" MetadataType="Schema" ID="a6c2b105-8069-4c32-bc78-f4c71f9c1000" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunBatchInUnattendedMode.xsd" MetadataType="Schema" ID="bf6c032c-59cd-412b-b9df-ffbcc48673df" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunReportInUnattendedMode.xsd" MetadataType="Schema" ID="b5849ed6-93f2-4cad-ae3b-a5a94e4b916f" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunFunction.xsd" MetadataType="Schema" ID="19d0025c-0ba9-40e7-b6f2-33447e98dbba" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunFunctionInNewThread.xsd" MetadataType="Schema" ID="f059fcbc-4b27-4aef-ba78-bdc0e17da7fe" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunEditor.xsd" MetadataType="Schema" ID="8998ed9e-f36c-4186-99f2-87edf8f438f5" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CloseDocument.xsd" MetadataType="Schema" ID="fd12aed8-ed9b-4bc4-82f0-f9d341ef2bdb" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunIconizedDocument.xsd" MetadataType="Schema" ID="2d478b10-3527-4953-a555-223980ddbecb" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CanCloseDocument.xsd" MetadataType="Schema" ID="25f2a94a-8e04-444e-ac10-437dcd53698d" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.ExistDocument.xsd" MetadataType="Schema" ID="bf556b5a-7307-47aa-a478-3dccdf58ef1a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DestroyDocument.xsd" MetadataType="Schema" ID="9b53f98c-d70e-4db8-b562-f59084e70c8b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CloseAllDocuments.xsd" MetadataType="Schema" ID="a69f8f53-0afb-405e-8475-58f310d6bb23" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetOpenDocuments.xsd" MetadataType="Schema" ID="31d55da2-9468-40f4-ad39-aa92a843f55f" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetApplicationContextMessages.xsd" MetadataType="Schema" ID="6adaef1b-1e50-4334-85cb-e07ecd6f0ba3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetLoginContextMessages.xsd" MetadataType="Schema" ID="39fe9392-6ed1-4f95-9a64-e798c1d9d11a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CanCloseTB.xsd" MetadataType="Schema" ID="3975c881-560f-45f3-82fb-792314429b5a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.KillThread.xsd" MetadataType="Schema" ID="8b7835b4-e927-4f7a-afd2-9d7011c3ad6d" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.StopThread.xsd" MetadataType="Schema" ID="00887c82-9563-4bf4-832c-14786cfdc2a1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CanStopThread.xsd" MetadataType="Schema" ID="4c66585d-1701-4ee9-8210-60eaa3860184" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetActiveThreads.xsd" MetadataType="Schema" ID="68494d13-eb42-4be5-9dc6-5c1814fda059" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetLoginActiveThreads.xsd" MetadataType="Schema" ID="e3bebd7e-db60-4bf5-865c-79058c1742db" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetDocumentThreads.xsd" MetadataType="Schema" ID="a1071973-f9ac-49f4-87df-f48baf5155ad" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SetMenuHandle.xsd" MetadataType="Schema" ID="fcb08fbf-715b-4c82-b303-907040e96040" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SetDocumentInForeground.xsd" MetadataType="Schema" ID="96b046d8-306e-4d1f-bfca-05d30be15b37" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetCurrentUser.xsd" MetadataType="Schema" ID="e21e7e86-83a4-4870-936d-7671ae65b807" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunDocument.xsd" MetadataType="Schema" ID="ddea836f-6286-4ffe-a160-3cba04be2fe3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunReport.xsd" MetadataType="Schema" ID="2cb6ec03-28c4-4c3b-835c-493e81e7f71d" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.RunReportFromWoormInfo.xsd" MetadataType="Schema" ID="8cc8107e-ae2b-4ca8-ad05-792511690bb0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_PressToolbarButton.xsd" MetadataType="Schema" ID="a9fdff6d-bfe2-43d4-b567-1520aba4c99c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_GetMaster.xsd" MetadataType="Schema" ID="ee759823-0cd8-4d55-b7a3-2801900488cd" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_GetHotLinkValue.xsd" MetadataType="Schema" ID="6fb3922e-999d-49fe-af0c-870b52df3797" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_GetFieldData.xsd" MetadataType="Schema" ID="5a975855-bdff-4672-b8b0-81a4bcbcc98d" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_GetFieldValue.xsd" MetadataType="Schema" ID="c8813e63-db99-418e-bc74-b3199ae75c1e" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_SetFieldValue.xsd" MetadataType="Schema" ID="3369502e-4a00-4dab-ac2a-cf755d72db2f" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_GetConnection.xsd" MetadataType="Schema" ID="bfb0d58a-069e-416c-ae72-ae899664af6a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.HotKeyLink_SetParamValue.xsd" MetadataType="Schema" ID="940d6794-12a0-4817-80ed-013cee5cdf8c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetLogins.xsd" MetadataType="Schema" ID="4a352cfd-6e92-4709-8ff3-7545ff2285b6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SetUserInteractionMode.xsd" MetadataType="Schema" ID="4b57f412-2490-46de-ace2-f061c0c207bb" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.UseRemoteInterface.xsd" MetadataType="Schema" ID="d7ef0277-76bc-4dad-951c-31ce01a49f26" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.Login.xsd" MetadataType="Schema" ID="32556fc3-1f37-423d-bfc0-76d20f8aeb02" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetProcessID.xsd" MetadataType="Schema" ID="d20b5371-e08a-46f9-96cf-792562391197" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTObject_GetRecord.xsd" MetadataType="Schema" ID="0b446770-15a5-4d7d-adf4-0c8b96424d3b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTObject_GetTable.xsd" MetadataType="Schema" ID="11a64031-80df-428c-b6b4-63c7ba215866" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_AddRecord.xsd" MetadataType="Schema" ID="961cd6db-c67b-4d53-8953-7b6e73026911" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_GetRow.xsd" MetadataType="Schema" ID="b10e8f95-f132-4bc3-a06a-483cf1d8ee45" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_GetCurrentRow.xsd" MetadataType="Schema" ID="0ed47a90-d53e-4ecb-9db7-86f38f0302ab" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_SetCurrentRow.xsd" MetadataType="Schema" ID="2f3f7df2-ed74-4b8b-ac80-891c4f62d143" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_GetCurrentRowIndex.xsd" MetadataType="Schema" ID="064b39b3-e74f-41aa-87f2-01141d114ee9" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_GetSize.xsd" MetadataType="Schema" ID="7dca6085-5362-4187-986a-9d59a3413bd4" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_InsertRecord.xsd" MetadataType="Schema" ID="6c249749-63c5-44bd-b246-597e2b1ffbee" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_DeleteRecord.xsd" MetadataType="Schema" ID="4fb6d05c-a888-4350-b9cf-8a76944cb7a6" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.DBTSlaveBuffered_RemoveAll.xsd" MetadataType="Schema" ID="63060af9-a18d-4995-bf2d-3b5b3293ecba" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CAbstractFormDoc_ActivateTab.xsd" MetadataType="Schema" ID="521f6cf8-5b48-4209-9b24-f3239f1c4a11" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbGes.TbGes/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

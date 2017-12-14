@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="menuApp">
+<head>
+	<meta charset="utf-8" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Menu</title>
+	<link href="css/menu.css" rel="stylesheet" />
+    <link href="LoadCustomTheme/Default.menu.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div class="fitDivHeight allPanels">
+        <div class="fitDivHeight">
+            <div class="col-sm-2 col-lg-3 col-xs-1 hidden-xs leftPanel" id="leftPanel" ng-include="'templates/OldMenu/leftPanel.html'" context-menu="menuService.emptyContextMenu" />
+        </div>
+        <div class="fitDivHeight">
+            <div class="col-sm-8 col-lg-7 col-xs-12 centerPanel" id="centerPanel" ng-include="'templates/OldMenu/centerPanel.html'" context-menu="menuService.emptyContextMenu" />
+        </div>
+        <div class="fitDivHeight">
+            <div class="col-sm-2 col-lg-2 col-xs-1 hidden-xs rightPanel" id="screenshotsPanel" ng-include="'templates/OldMenu/rightPanel.html'" context-menu="menuService.emptyContextMenu" />
+        </div>
+    </div>
+
+	<!--libraries-->
+    <script src="libraries/angular.min.js" type="text/javascript"></script>
+    <script src="libraries/angular-route.min.js" type="text/javascript"></script>
+    <script src="libraries/jquery.min.js" type="text/javascript"></script>
+    <script src="libraries/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="libraries/bootstrap.min.js" type="text/javascript"></script>
+    <script src="libraries/ui-bootstrap-tpls.min.js" type="text/javascript"></script>
+    <script src="libraries/draganddrop.js" type="text/javascript"></script>
+    <script src="libraries/contextMenu.js" type="text/javascript"></script>
+
+	<script src="js/tbwebsockets.js" type="text/javascript"></script>
+	<!-- Controllers js -->
+    <script src="js/Controllers/OldControllers/BrandController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/CenterPanelController.js" type="text/javascript"></script>
+	<script src="js/Controllers/OldControllers/NavBarController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/EnvironmentMenuController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/MenuController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/ListViewMenuTemplateController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/ListViewMenuController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/DatePickerController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/UserInfoController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/HistoryController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/LeftPanelGroupsController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/AllMenuController.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/ModalControllers.js" type="text/javascript"></script>
+    <script src="js/Controllers/OldControllers/NotificationsController.js" type="text/javascript"></script>
+    <script src="js/Controllers/Common/OpenDocumentsController.js" type="text/javascript"></script>
+    <script src="js/Controllers/Common/SearchController.js" type="text/javascript"></script>
+    <script src="js/Controllers/Common/MostUsedController.js" type="text/javascript"></script>
+    <script src="js/Controllers/Common/FavoritesController.js" type="text/javascript"></script>
+
+
+	<!--Services-->
+	<script src="js/Services/ImageService.js" type="text/javascript"></script>
+    <script src="js/Services/SettingsService.js" type="text/javascript"></script>
+	<script src="js/Services/MenuService.js" type="text/javascript"></script>
+    <script src="js/Services/LocalizationService.js" type="text/javascript"></script>
+	<script src="js/Services/RoutingProvider.js" type="text/javascript"></script>
+    <script src="js/Services/GeneralFunctionsService.js" type="text/javascript"></script>
+    <script src="js/Services/LoggingService.js" type="text/javascript"></script>
+
+	<script src="js/menu.js" type="text/javascript"></script>
+
+</body>
+</html>
+

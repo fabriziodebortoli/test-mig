@@ -57,6 +57,14 @@ export class PaginatorService implements OnDestroy {
         return this._clientData.asObservable().filter(x => !x.ignore);
     }
 
+    public get isFirstPage(): boolean {
+        return this.clientStartOffset === 0 && this.currentServerPageNumber === 0;
+    }
+
+    public get noMorePages(): boolean {
+        return this.sizeOfLastServer !== null;
+    }
+
     constructor(private ngZone: NgZone) {
         this.configurationChanged.subscribe(c => {
             this.clientEndOffset = 0;

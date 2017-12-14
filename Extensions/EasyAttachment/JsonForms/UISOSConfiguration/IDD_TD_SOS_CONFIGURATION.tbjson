@@ -1,0 +1,171 @@
+{
+    "id": "IDD_TD_SOS_CONFIGURATION",
+    "type": 71 /*Tile*/,
+    "width": 200,
+    "height": 160,
+    "hasTitle": false,
+    "child": true,
+    "size": 2, //TILE_STANDARD
+    "context": "uisosconfiguration",
+    "items": [
+        {
+            "id": "IDC_SOS_CONFIGURATION_PROPERTY_GRID",
+            "type": 80,
+            "blackFrame": true,
+            "x": 0,
+            "y": 0,
+            "width": 481,
+            "height": 160,
+            "tabStop": false,
+            "visible": false,
+            "name": "SOSConfigurationPropertyGrid",
+            "items": [
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "SOSServiceInfo",
+                    "text": "SOS Service information",
+                    "hint": "SOS Service information",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_SUBJECT",
+                            "text": "Subject Code",
+                            "hint": "Entity that owns the documents that will be put in SOS storage.",
+                            "controlClass": "StringEdit",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VSubjectCode"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_ANCESTOR",
+                            "text": "Ancestor Code",
+                            "hint": "Entity that manages the documents that will be put in SOS storage (coincides with the subject).",
+                            "controlClass": "StringStatic",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VAncestorCode"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_KEEPER",
+                            "text": "Keeper Code",
+                            "hint": "Entity that takes responsibility for the preservation of the documents of its customers.",
+                            "controlClass": "StringStatic",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VKeeperCode"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_SOS_URL",
+                            "text": "SOS Web Service",
+                            "hint": "URL of SOS Web Service.",
+                            "controlClass": "StringEdit",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VSOSWebServiceUrl"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "SOSCredentials",
+                    "text": "MySOS credentials",
+                    "hint": "MySOS credentials",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_MYSOS_USER",
+                            "text": "User name",
+                            "hint": "User name to access to SOS Service.",
+                            "controlClass": "StringEdit",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VMySOSUser"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_MYSOS_PASSWORD",
+                            "text": "Password",
+                            "hint": "Password to access to SOS Service.",
+                            "controlClass": "StringEdit",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VMySOSPassword"
+                            },
+                            "password": true
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "DispatchParameters",
+                    "text": "Dispatch parameters",
+                    "hint": "Dispatch parameters",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_CHUNK_DIMENSION",
+                            "text": "Chunk Dimension (in MB)",
+                            "hint": "The maximum dimension allowed for a chunk (in MB).",
+                            "controlClass": "LongEdit",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VChunkDimension",
+                                "buttonId": 32767 //BTN_SPIN_ID
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_ENVELOPE_DIMENSION",
+                            "text": "Envelope Dimension (in MB)",
+                            "hint": "The maximum dimension allowed for an envelope (in MB).",
+                            "controlClass": "LongEdit",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VEnvelopeDimension",
+                                "buttonId": 32767 //BTN_SPIN_ID
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "FTP",
+                    "text": "FTP",
+                    "hint": "FTP",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_FTP_SEND",
+                            "text": "Send documents to SOS using FTP client",
+                            "hint": "Allows to send documents to SOS using FTP client.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VFTPSend"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_FTP_SHARED_FOLDER",
+                            "text": "Shared folder",
+                            "hint": "Path of shared folder from where the zip envelope will be uploaded to SOS FTP.\r\nThe folder must have Read/Write access.",
+                            "controlClass": "BrowsePathEdit",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VFTPSharedFolder"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_SOS_CONFIGURATION_FTP_UPDATE_DAY_OF_WEEK",
+                            "text": "Update day of week",
+                            "hint": "Day of week when update envelope status.",
+                            "controlClass": "IntWeekDaysCombo",
+                            "binding": {
+                                "datasource": "SOSConfiguration.VFTPUpdateDayOfWeek"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

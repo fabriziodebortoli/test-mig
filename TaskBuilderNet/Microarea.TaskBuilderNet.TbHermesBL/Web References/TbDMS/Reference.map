@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?wsdl" filename="TbDMS.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd18" filename="Extensions.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd2" filename="Extensions0.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd14" filename="Extensions1.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd25" filename="Extensions2.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd7" filename="Extensions3.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd21" filename="Extensions4.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd20" filename="Extensions5.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd23" filename="Extensions6.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd22" filename="Extensions7.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?disco" filename="Extensions.disco" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd19" filename="Extensions8.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd1" filename="Extensions9.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd15" filename="Extensions10.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd6" filename="Extensions11.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd17" filename="Extensions12.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd16" filename="Extensions13.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd11" filename="Extensions14.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd10" filename="Extensions15.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd13" filename="Extensions16.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd12" filename="Extensions17.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd24" filename="Extensions18.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd0" filename="Extensions19.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd5" filename="Extensions20.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd9" filename="Extensions21.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd4" filename="Extensions22.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd8" filename="Extensions23.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS?xsd=xsd3" filename="Extensions24.xsd" />
+  </Results>
+</DiscoveryClientResultsFile>

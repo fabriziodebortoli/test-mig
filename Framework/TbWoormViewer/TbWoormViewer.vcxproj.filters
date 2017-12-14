@@ -1,0 +1,961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{01dab1ce-2f6e-4eac-b05b-949ceba2ba33}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4abc9174-db4c-4e34-ac42-4c4bf9af4004}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{bfcc44ae-25b5-495a-8090-6fe38b5c91de}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{33c9ba17-1afe-4cfb-a89b-d45abd578a50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Icon">
+      <UniqueIdentifier>{1961aa35-1e3b-463f-9e2d-0becde6de2f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Cursor">
+      <UniqueIdentifier>{56ffc1b3-554e-452a-a2fd-f005df54e016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Bitmap">
+      <UniqueIdentifier>{3c719a1c-4ced-48eb-9100-71eb39eeef1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModuleObjects">
+      <UniqueIdentifier>{441fbc7a-ff19-4de0-a67a-391ee6ff7c8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{3fb9767b-3e6b-46fa-93f5-4b0199df0072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{71b83ce5-544b-4768-b57b-aee379ed1d03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files">
+      <UniqueIdentifier>{269fc026-a6d3-4a3b-b9ea-9c7e85703520}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Images">
+      <UniqueIdentifier>{99360b69-6d1b-4363-8a01-8bd3b723db10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RSEditor">
+      <UniqueIdentifier>{b3da86f4-6352-443a-9ab4-80ac1d486333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{36c9de98-881e-4cd6-ab86-c2ebf4423557}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Xml">
+      <UniqueIdentifier>{e6387dac-3084-4df7-93d9-e8439cc166de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JsonForms">
+      <UniqueIdentifier>{2cfee727-4240-4033-9eb5-7f0b37b7bb74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JsonForms\RSEditorUI">
+      <UniqueIdentifier>{ef9f5e2d-41b6-4fe6-952e-c7286973f342}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="COLORCBX.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DocProperties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorLinksDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpExter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EXPORT.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LISTDLG.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCLRDLG.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MULSELOB.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pageinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoapFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBPrintDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbWoormViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbWoormViewerInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbWoormViewerWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WOORMDOC.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WOORMDOC_FunExt.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WOORMFRM.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WoormInfoViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WOORMINI.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WOORMVW.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WrmBlockModifier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TABLE1.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TABLE2.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TEXTOBJ.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="SINGLEOB.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Repeater.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="RECTOBJ.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="COLUMN.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="CELL.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BORDPEN.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BODYPARS.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BASEOBJ.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="VIEWPARS.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ALGOPARS.CPP">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="RSEditView.cpp">
+      <Filter>RSEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomEditCtrl.cpp">
+      <Filter>RSEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlOutlineParser.cpp">
+      <Filter>RSEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="RSEditView_LoadSave.cpp">
+      <Filter>RSEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="RSEditor_Property.cpp">
+      <Filter>RSEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="RSEditorUI.cpp">
+      <Filter>RSEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPdfSharp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Chart.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalFunctionsTestSuite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TbWoormViewer.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="BEGINCPP.DEX">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="BEGINH.DEX">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="ENDH.DEX">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="BASEOBJ.HRC">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="COLORCBX.HRC">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="PageInfo.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="RECTOBJ.HRC">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="TABLE1.HRC">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="WOORMDOC.HRC">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="WOORMFRM.HRC">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="res\DOCPROP_.ICO">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\EDITOR.ICO">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\Landscap.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\Pgsample.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\Portrait.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="Res\Report.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="Res\ReportAllUsers.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="Res\ReportCurrentUser.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\ARRWHORZ.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\ARRWMOVE.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\ARRWNESW.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\ARRWNWSE.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\ARRWVERT.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\BUTTON.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\COLSIZE.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\FIELD.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\FILE.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\GRAPHIC.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\SQRRECT.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\TABLE.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\TBLADDRW.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\TEXT.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\TITLEUP.CUR">
+      <Filter>Resource Files\Cursor</Filter>
+    </None>
+    <None Include="res\BRUSH1.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\BRUSH2.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\CHARTBAR.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\CHARTPEN.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\CHARTWID.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\CUTBMPBAR.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\FILLEDSQ.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\LISTBAR.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ListBar_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ListBar_Small.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ListBar_Small_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ObjectBar.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ObjectBar_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ObjectBar_Small.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ObjectBar_Small_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\PALETTE.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Palette_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Sizebar.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\SizeBar_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\SQUARE.BMP">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\WoormExportExcel.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\WoormExportHtml.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\WoormExportPdf.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\WoormExportText.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\WoormExportWord.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\WoormSendEmail.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="ModuleObjects\DocumentObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\Enums.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\WebMethods.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="Settings\Woorm.config">
+      <Filter>Settings</Filter>
+    </None>
+    <None Include="Module.config" />
+    <None Include="res\RecValidationDisabledLarge.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\RecValidationDisabledSmall.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\RecValidationNormalLarge.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\RecValidationNormalSmall.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\InsertValidationDisabledLarge.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Attachment_Small.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Attachment_Small_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Attachment_Large.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Attachment_Large_Disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\MailField.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ColumnPinned.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ColumnSplitter.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\anchor.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\anchorleft.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\HiddenField.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\HiddenFieldExpr.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Locked.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\repeater.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\RepeaterField.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\RepeaterBig.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\chart.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Next.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Prev.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Files\Images\AddTotal.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\AllowEditing.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\BorderAll.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\BorderDown.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\BorderLeft.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\BorderRight.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\BorderUp.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ColDelete.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CtrlDown.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CtrlLeft.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CtrlRight.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CtrlUp.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CutHLeft.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CutHRight.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CutVBottom.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\CutVTop.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\DataField.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\EasyReading.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Editing.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ExpField.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ExportData.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\FileClose.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\FileRect.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\FixedDown.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\FixedUp.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\GraphRect.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Help.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\HiddenField.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\HLeft.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\HRight.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\HSpaceEqual.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\LastHigh.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\LastLarg.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Lmove.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\MinusLines.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Next.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\OrderAsce.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\OrderDesc.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\PageDown.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\PageEnd.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\PageHome.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\PageUp.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Pause.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\PlusLines.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Prev.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\PrevAsk.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Preview.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Print.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\PrintPreview.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Repeater.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Resume.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\RMove.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Run.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Save.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ShiftDown.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ShiftLeft.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ShiftRight.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ShiftUp.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\SnapToGrid.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\SqlRect.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\StackBottom.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\StackLeft.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\StackRight.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\StackTop.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\Stop.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\TableDataField.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\TextRect.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\ToggleTransparent.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VarFile.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VBottom.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VkDown.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VkLeft.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VkRight.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VkUp.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VSpaceEqual.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="Files\Images\VTop.bmp">
+      <Filter>Files\Images</Filter>
+    </None>
+    <None Include="commands.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="tbwoormviewer.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="BASEOBJ.RC">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="RECTOBJ.RC">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="WOORMDOC.RC">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="WOORMFRM.RC">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="COLORCBX.RC">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PageInfo.rc">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="JsonForms\WOORMDOC\IDR_LISTER.hjson">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="JsonForms\WOORMDOC\IDR_LISTER.tbjson">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorDiagnosticView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorDiagnosticView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorGridView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorGridView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorParametersView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorParametersView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorToolView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EditorToolView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EngineTreeView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_EngineTreeView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_LayoutTreeView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_LayoutTreeView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ObjectPropertyView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ObjectPropertyView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ReportTreeView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ReportTreeView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ToolBoxDBView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ToolBoxDBView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ToolBoxObjectsView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ToolBoxObjectsView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="RECTOBJ.hjson">
+      <Filter>JsonForms</Filter>
+    </None>
+    <None Include="RSEditorUI.hjson">
+      <Filter>JsonForms</Filter>
+    </None>
+    <None Include="WOORMDOC.hjson">
+      <Filter>JsonForms</Filter>
+    </None>
+    <None Include="WOORMFRM.hjson">
+      <Filter>JsonForms</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ToolBarView.hjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="JsonForms\RSEditorUI\IDD_RS_ToolBarView.tbjson">
+      <Filter>JsonForms\RSEditorUI</Filter>
+    </None>
+    <None Include="Settings\Barcode2D.config">
+      <Filter>Settings</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="COLORCBX.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DocProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorLinksDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpExter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EXPORT.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LISTDLG.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MCLRDLG.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MULSELOB.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PAGEINFO.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PredefinedWoormFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoapFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBPrintDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WOORMDOC.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WOORMFRM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WoormInfoViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WOORMINI.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WOORMVW.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrmBlockModifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RSEditorUI.h">
+      <Filter>RSEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="BASEOBJ.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="BORDPEN.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CELL.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="COLUMN.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="RECTOBJ.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Repeater.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SINGLEOB.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TABLE.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TEXTOBJ.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="VIEWPARS.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ALGOPARS.H">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="RSEditView.h">
+      <Filter>RSEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomEditCtrl.h">
+      <Filter>RSEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlOutlineParser.h">
+      <Filter>RSEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="RSEditor_Property.h">
+      <Filter>RSEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPdfSharp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chart.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ExternalFunctionsTestSuite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbWoormViewer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\WoormExportExcel.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportconcatPdf.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportemail.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportHtml.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportOfficeCalc.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportOpenoffice.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportsavePdf.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportText.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportWord.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportXml.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\WoormExportopenOfficeWriter.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </Image>
+    <Image Include="res\tools_page1hc.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Xml\SqlLanguage.xml">
+      <Filter>Xml</Filter>
+    </Xml>
+    <Xml Include="Xml\WoormLanguage.xml">
+      <Filter>Xml</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+	<Documents>
+		<Document namespace="Extensions.TbDataSynchroClient.TbDataSynchroClient.Providers" localize="Data Synchronization Providers" classhierarchy="DProviders" dynamic="false">
+			<ViewModes>
+				<Mode name="Default" schedulable="false" />
+				<Mode name="BackGround" schedulable="false" />
+			</ViewModes>
+		</Document>
+    <Document namespace="Extensions.TbDataSynchroClient.TbDataSynchroClient.DSMonitor" localize="Data Synchronization Monitor" classhierarchy="DSMonitor" dynamic="false">
+      <ViewModes>
+        <Mode name="Default"/>
+        <Mode name="BackGround"/>
+      </ViewModes>
+    </Document>    
+    <Document namespace="Extensions.TbDataSynchroClient.TbDataSynchroClient.DValidationMonitor" localize="Data Validation Monitor" classhierarchy="DValidationMonitor" dynamic="false">
+      <ViewModes>
+        <Mode name="Default"/>
+        <Mode name="BackGround"/>
+      </ViewModes>
+    </Document>
+	</Documents>
+</DocumentObjects>

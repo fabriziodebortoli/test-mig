@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="GENSECR" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="3" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="GENSECR" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="4" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="GENSECR" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="5" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="0" ChildResourceType="02" ChildResourceCode="GENSECR" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="2" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="0" ChildResourceType="01" ChildResourceCode="PERSONNE" ChildWorkerID="0"/>
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="0" ChildResourceType="01" ChildResourceCode="MARKSALE" ChildWorkerID="0"/>
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="0" ChildResourceType="01" ChildResourceCode="ADMNCONT" ChildWorkerID="0"/>
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="ADMNCONT" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="6"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="ADMNCONT" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="7"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="ADMNCONT" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="8"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="MARKSALE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="9"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="PERSONNE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="10" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="PERSONNE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="11" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="MARKSALE" IsWorker="0" ChildResourceType="02" ChildResourceCode="MARKETIN" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="MARKSALE" IsWorker="0" ChildResourceType="02" ChildResourceCode="SALES" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="MARKETIN" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="12" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="SALES" IsWorker="0" ChildResourceType="02" ChildResourceCode="HOME" ChildWorkerID="0"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="SALES" IsWorker="0" ChildResourceType="02" ChildResourceCode="INTERNAT" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="INTERNAT" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="13" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="INTERNAT" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="14"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="INTERNAT" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="15"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="HOME" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="16"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="HOME" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="17"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="HOME" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="18"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="HOME" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="19" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="HOME" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="20"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="MARKETIN" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="21"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="MARKETIN" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="22"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="RESEARCH" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="23"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="RESEARCH" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="24" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="RESEARCH" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="25"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="PRODUCTI" IsWorker="0" ChildResourceType="04" ChildResourceCode="PROCESSI" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="PRODUCTI" IsWorker="0" ChildResourceType="04" ChildResourceCode="ASSEMBLA" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="PRODUCTI" IsWorker="0" ChildResourceType="04" ChildResourceCode="QUALSYST" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="26"  />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="27"  />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="28"  />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="29" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="30"  />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="31"  />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="QUALSYST" IsWorker="0" ChildResourceType="02" ChildResourceCode="QUALITY" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="QUALSYST" IsWorker="0" ChildResourceType="02" ChildResourceCode="SAFETY" ChildWorkerID="0"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="QUALITY" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="32"  />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="SAFETY" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="33"  />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="INVENTOR" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="34" />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="INVENTOR" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="35" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="ASSEMBLA" IsWorker="0" ChildResourceType="05" ChildResourceCode="FACIMAIN" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="ASSEMBLA" IsWorker="0" ChildResourceType="03" ChildResourceCode="ASSLINES" ChildWorkerID="0"  />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="FACIMAIN" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="36"  />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="FACIMAIN" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="37" />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="A-LINE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="38" />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="A-LINE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="39" />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="A-LINE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="40" />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="B-LINE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="41" />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="B-LINE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="42" />
+  <RM_ResourcesDetails ResourceType="05" ResourceCode="B-LINE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="43" />
+  <RM_ResourcesDetails ResourceType="03" ResourceCode="ASSLINES" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="44"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="45"  />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="PRODUCTI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="46" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="0" ChildResourceType="01" ChildResourceCode="PRODUCTI" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="GENERAL" IsWorker="0" ChildResourceType="01" ChildResourceCode="RESEARCH" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="01" ResourceCode="PERSONNE" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="6" />
+  <RM_ResourcesDetails ResourceType="02" ResourceCode="SALES" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="9" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="ASSEMBLA" IsWorker="0" ChildResourceType="05" ChildResourceCode="INVENTOR" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="03" ResourceCode="ASSLINES" IsWorker="0" ChildResourceType="05" ChildResourceCode="A-LINE" ChildWorkerID="0" />
+  <RM_ResourcesDetails ResourceType="03" ResourceCode="ASSLINES" IsWorker="0" ChildResourceType="05" ChildResourceCode="B-LINE" ChildWorkerID="0"  />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="36" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="42" />
+  <RM_ResourcesDetails ResourceType="04" ResourceCode="PROCESSI" IsWorker="1" ChildResourceType="" ChildResourceCode="" ChildWorkerID="43" />
+</DataTables>

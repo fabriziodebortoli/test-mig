@@ -1,0 +1,87 @@
+//=============================================================================
+// module name  : @(DocumentClassName).cpp
+//=============================================================================
+#include "stdafx.h"
+
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(DocumentClassName).h>
+
+//TBWIZ-INJECT{@(DocumentClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#ifdef _DEBUG
+#undef THIS_FILE                                                        
+static char THIS_FILE[] = __FILE__;     
+#endif                                
+
+///////////////////////////////////////////////////////////////////////////////
+//			Class @(DocumentClassName) Implementation				
+///////////////////////////////////////////////////////////////////////////////
+//
+//-----------------------------------------------------------------------------
+IMPLEMENT_DYNCREATE(@(DocumentClassName), CAbstractFormDoc)
+
+BEGIN_MESSAGE_MAP(@(DocumentClassName), CAbstractFormDoc)
+	//{{AFX_MSG_MAP(@(DocumentClassName))
+	//TBWIZ-INJECT{@(DocumentClassName)(MessageMap)
+	//TBWIZ-INJECT}
+	//}}AFX_MSG_MAP
+END_MESSAGE_MAP()
+
+//----------------------------------------------------------------------------
+@(DocumentClassName)::@(DocumentClassName)()
+{ 
+	m_bBatch = TRUE;
+
+	//TBWIZ-INJECT{@(DocumentClassName)(Constructor)
+	//TBWIZ-INJECT}
+}
+
+//-----------------------------------------------------------------------------
+BOOL @(DocumentClassName)::OnAttachData()
+{            
+	SetFormTitle (_TB("@(DocumentTitle)"));
+
+	//TBWIZ-INJECT{@(DocumentClassName)(OnAttachData)
+	//TBWIZ-INJECT}
+
+	return TRUE;
+} 
+
+//----------------------------------------------------------------------------
+void @(DocumentClassName)::OnBatchExecute()
+{ 
+	//TBWIZ-INJECT{@(DocumentClassName)(OnBatchExecute)
+	//TBWIZ-INJECT}
+
+	UpdateDataView();
+
+	m_pMessages->Show(TRUE);
+}
+
+//----------------------------------------------------------------------------
+BOOL @(DocumentClassName)::InitDocument()
+{
+	//TBWIZ-INJECT{@(DocumentClassName)(InitDocument)
+	//TBWIZ-INJECT}
+
+	return CAbstractFormDoc::InitDocument();
+}
+
+//----------------------------------------------------------------------------
+void @(DocumentClassName)::DeleteContents()
+{
+	//TBWIZ-INJECT{@(DocumentClassName)(DeleteContents)
+	//TBWIZ-INJECT}
+
+	CAbstractFormDoc::DeleteContents();
+}
+
+//-----------------------------------------------------------------------------
+void @(DocumentClassName)::DisableControlsForBatch()
+{
+	//TBWIZ-INJECT{@(DocumentClassName)(DisableControlsForBatch)
+	//TBWIZ-INJECT}
+}
+
+//TBWIZ-INJECT{@(DocumentClassName)(AdditionalCode)
+//TBWIZ-INJECT}

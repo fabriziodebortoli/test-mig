@@ -1,0 +1,44 @@
+﻿{
+  "id": "IDD_WIZARD_PRESENTATION_PAGE",
+  "rcId": 2211,
+  "type": 66,
+  "text": "Presentation",
+  "x": 0,
+  "y": 0,
+  "width": 224,
+  "height": 193,
+  "child": true,
+  "context": "expcriteriadlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "The export process creates xml files whose collection represents an envelope saved in the file system as folder containing the xml files logically grouped.",
+      "x": 7,
+      "y": 10,
+      "width": 211,
+      "height": 33,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "This procedure will guide to properly set all parameters required for the creation of an export process.",
+      "x": 7,
+      "y": 49,
+      "width": 211,
+      "height": 36,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "This Wizard will prompt you for the following information:\n\n\t-  how many documents you want to export \n\t-  which export profile you want to use \n\t-  which export criteria you want to apply",
+      "x": 7,
+      "y": 83,
+      "width": 211,
+      "height": 50,
+      "textAlign": 0
+    }
+  ]
+}

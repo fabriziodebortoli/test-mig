@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainExternalReferences>
+	<DBT namespace="Framework.TbResourcesMng.TbResourcesMng.AbsenceReasons.AbsenceReasons">
+		<Export>1</Export>
+		<UpdateType>Replace</UpdateType>
+		<ExternalReferences></ExternalReferences>
+	</DBT>
+</MainExternalReferences>

@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ShowCurrTaskDetailsLinkLabelToolTipText" xml:space="preserve">
+    <value>Show scheduling details of the selected task</value>
+  </data>
+  <data name="HideEventLogEntriesLinkLabelText" xml:space="preserve">
+    <value>Hide event log</value>
+  </data>
+  <data name="BatchCommandType" xml:space="preserve">
+    <value>Batch procedure</value>
+  </data>
+  <data name="MAPILogonFailureErrMsg" xml:space="preserve">
+    <value>Opening of a Simple MAPI session failed.</value>
+  </data>
+  <data name="InvalidEmailAddressErrMsg" xml:space="preserve">
+    <value>The format of the address {0} is invalid.</value>
+  </data>
+  <data name="NoMenuCommandSelectionErrMsg" xml:space="preserve">
+    <value>No menu command selected</value>
+  </data>
+  <data name="MessageCommandType" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="EmptyCodeErrMsg" xml:space="preserve">
+    <value>You must specify a code.</value>
+  </data>
+  <data name="SecurityExceptionErrMsg" xml:space="preserve">
+    <value>Security violation: "{0}"</value>
+  </data>
+  <data name="ShowEventLogEntriesLinkLabelToolTipText" xml:space="preserve">
+    <value>Show event log</value>
+  </data>
+  <data name="EventLogMsgTimeColumnHeaderText" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="NewTaskLinkLabelToolTipText" xml:space="preserve">
+    <value>Create new scheduled task</value>
+  </data>
+  <data name="CannotDeleteTaskCaption" xml:space="preserve">
+    <value>The task cannot be deleted</value>
+  </data>
+  <data name="SearchOnDemandTasksFailedErrMsgFmt" xml:space="preserve">
+    <value>Search of available tasks scheduled 'on demand' is failed: "{0}"</value>
+  </data>
+  <data name="VoidSequenceConfirmSavingCaption" xml:space="preserve">
+    <value>Saving empty sequence</value>
+  </data>
+  <data name="TaskCommandLabelText" xml:space="preserve">
+    <value>Command:</value>
+  </data>
+  <data name="ConnectionErrorMsgFmt" xml:space="preserve">
+    <value>Error connection database: "{0}"</value>
+  </data>
+  <data name="InsertTaskFailedErrorMsgFmt" xml:space="preserve">
+    <value>Insert of task is failed: "{0}"</value>
+  </data>
+  <data name="InvalidCommandErrMsgFmt" xml:space="preserve">
+    <value>{0} command is invalid.</value>
+  </data>
+  <data name="DataGridEnabledColumnHeaderText" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="VoidSequenceConfirmSavingWarningMsg" xml:space="preserve">
+    <value>The sequence is empty. Do you want to continue to save it?</value>
+  </data>
+  <data name="OpenExeFileDialogFilter" xml:space="preserve">
+    <value>Executable Files (*.exe)|*.exe|All Files (*.*)|*.*</value>
+  </data>
+  <data name="NotShowingAdvancedDetailsButtonText" xml:space="preserve">
+    <value>&lt;&lt; Ad&amp;vanced</value>
+  </data>
+  <data name="TaskPropertiesMenuItemText" xml:space="preserve">
+    <value>&amp;Properties</value>
+  </data>
+  <data name="NewTasksSequenceLinkLabelToolTipText" xml:space="preserve">
+    <value>Create new scheduled tasks sequence</value>
+  </data>
+  <data name="TasksMngPanelTitle" xml:space="preserve">
+    <value>Tasks Management</value>
+  </data>
+  <data name="RunCurrentTaskOnDemandFailedErrMsgFmt" xml:space="preserve">
+    <value>'On demand' scheduled task execution is failed: "{0}"</value>
+  </data>
+  <data name="AdjustTasksNextRunDateCaption" xml:space="preserve">
+    <value>Updating procedure of execution date</value>
+  </data>
+  <data name="OnceFrequencyDescriptionFmt" xml:space="preserve">
+    <value>Day {0} at {1}.</value>
+  </data>
+  <data name="NotShowingAdvancedPropertiesButtonText" xml:space="preserve">
+    <value>Ad&amp;vanced &gt;&gt;</value>
+  </data>
+  <data name="ShowEventLogEntriesLinkLabelText" xml:space="preserve">
+    <value>Show event log</value>
+  </data>
+  <data name="TasksGridCaption" xml:space="preserve">
+    <value>Scheduled tasks</value>
+  </data>
+  <data name="StartStopSchedulerAgentLToolTipText" xml:space="preserve">
+    <value>Run procedure for start activities</value>
+  </data>
+  <data name="CloneTaskMenuItemText" xml:space="preserve">
+    <value>&amp;Clone</value>
+  </data>
+  <data name="InvalidBackupFilenameErrMsgFmt" xml:space="preserve">
+    <value>The string "{0}" does not represent a valid filename.</value>
+  </data>
+  <data name="MailAddressesSelectionButtonToolTipText" xml:space="preserve">
+    <value>Browsing e-mail address book</value>
+  </data>
+  <data name="CurrTaskPropertiesLinkLabelToolTipText" xml:space="preserve">
+    <value>Edit properties of the selected task</value>
+  </data>
+  <data name="AdjustTasksNextRunDateToolTipText" xml:space="preserve">
+    <value>Update next execution date of those tasks whose schedulation date is elapsed without running</value>
+  </data>
+  <data name="SaveScheduledTasksEventLogQuestion" xml:space="preserve">
+    <value>Save "{0}" before delete it?</value>
+  </data>
+  <data name="DifferentCommandTypeWarningcaption" xml:space="preserve">
+    <value>Invalid command type</value>
+  </data>
+  <data name="NoCommandSelectionWarningMsg" xml:space="preserve">
+    <value>You must specify a command.</value>
+  </data>
+  <data name="ExecutableCommandType" xml:space="preserve">
+    <value>Executable</value>
+  </data>
+  <data name="BackupEventLogErrorMsg" xml:space="preserve">
+    <value>Save of events log "{0}" in file {1} is failed.
+{2}</value>
+  </data>
+  <data name="DataGridLastRunDateColumnHeaderText" xml:space="preserve">
+    <value>Last run</value>
+  </data>
+  <data name="TaskInSequencePropertiesMenuItemText" xml:space="preserve">
+    <value>&amp;Properties</value>
+  </data>
+  <data name="SaveScheduledTasksEventLogCaption" xml:space="preserve">
+    <value>Save events log</value>
+  </data>
+  <data name="CloneCurrentTaskLinkLabelToolTipText" xml:space="preserve">
+    <value>Clone selected task</value>
+  </data>
+  <data name="GetCommandParametersFailedErrMsg" xml:space="preserve">
+    <value>Parameters setting has been canceled.</value>
+  </data>
+  <data name="DataGridCommandColumnHeaderText" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="TaskDetailsMenuItemText" xml:space="preserve">
+    <value>&amp;Details</value>
+  </data>
+  <data name="SelectXmlImportExportCommandLabelText" xml:space="preserve">
+    <value>&amp;Document:</value>
+  </data>
+  <data name="CannotChangeTasksSchedulationWarningMsg" xml:space="preserve">
+    <value>The task is involved in a sequence.
+Therefore you can't modify its scheduling, that will remain "on demand".</value>
+  </data>
+  <data name="NewTasksSequenceDlgTitle" xml:space="preserve">
+    <value>New Tasks Sequence Properties</value>
+  </data>
+  <data name="OpenAllFilesDialogFilter" xml:space="preserve">
+    <value>All files (*.*)|*.*</value>
+  </data>
+  <data name="ClearEventLogMenuItemText" xml:space="preserve">
+    <value>&amp;Delete all events</value>
+  </data>
+  <data name="RefreshEventLogMenuItemText" xml:space="preserve">
+    <value>&amp;Refresh F5</value>
+  </data>
+  <data name="FrequencyMonthlyPeriodDescription" xml:space="preserve">
+    <value>months</value>
+  </data>
+  <data name="MailCommandType" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="ExistingTaskPropertiesDlgTitle" xml:space="preserve">
+    <value>Scheduled Task Properties</value>
+  </data>
+  <data name="StopRunTasksLabelText" xml:space="preserve">
+    <value>Stop procedure for start activities</value>
+  </data>
+  <data name="TaskRecipientsLabelText" xml:space="preserve">
+    <value>Recipient:</value>
+  </data>
+  <data name="RecipientAlreadyPresentWarningMsg" xml:space="preserve">
+    <value>The recipient {0} already exists in the list.</value>
+  </data>
+  <data name="OnceFrequencyTypeDescription" xml:space="preserve">
+    <value>Once</value>
+  </data>
+  <data name="OnDemandFrequencyTypeDescription" xml:space="preserve">
+    <value>On request</value>
+  </data>
+  <data name="NewTaskOnDemandInsertionFailedErrMsgFmt" xml:space="preserve">
+    <value>Insert of a new task scheduled 'on demand' is failed: "{0}"</value>
+  </data>
+  <data name="ExistingTasksSequencePropertiesDlgTitle" xml:space="preserve">
+    <value>Tasks Sequence Properties</value>
+  </data>
+  <data name="EventLogMsgDateColumnHeaderText" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="ConfirmTaskDeletionMsg" xml:space="preserve">
+    <value>Are you sure do you want delete '{0}' task?</value>
+  </data>
+  <data name="WeeklyFrequencyWithoutDaySpecification" xml:space="preserve">
+    <value>In order to properly set the weekly frequency it is necessary to specify on which days the task must be executed.
+Please, specify at least one day of the week. </value>
+  </data>
+  <data name="ShowingAdvancedPropertiesButtonText" xml:space="preserve">
+    <value>&lt;&lt; Ad&amp;vanced</value>
+  </data>
+  <data name="BackupCompanyDBType" xml:space="preserve">
+    <value>Backup Database</value>
+  </data>
+  <data name="SelectBatchCommandLabelText" xml:space="preserve">
+    <value>&amp;Procedure:</value>
+  </data>
+  <data name="DataGridNextRunDateColumnHeaderText" xml:space="preserve">
+    <value>Next run</value>
+  </data>
+  <data name="ShowingAdvancedDetailsButtonText" xml:space="preserve">
+    <value>&lt;&lt; A&amp;dvanced</value>
+  </data>
+  <data name="DifferentCommandTypeWarningMsg" xml:space="preserve">
+    <value>The selected command type differs from the type of the current task.
+Do you want modify this one as a consequence?</value>
+  </data>
+  <data name="StartRunTasksLabelText" xml:space="preserve">
+    <value>Run procedure for start activities</value>
+  </data>
+  <data name="DataGridTypeColumnHeaderText" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="SelectFunctionCommandLabelText" xml:space="preserve">
+    <value>&amp;Function:</value>
+  </data>
+  <data name="DelRunnedReportsCommandType" xml:space="preserve">
+    <value>Delete Report history</value>
+  </data>
+  <data name="UpdateTaskPropertiesFailedErrMsgFmt" xml:space="preserve">
+    <value>Update of task's properties is failed: "{0}"</value>
+  </data>
+  <data name="AdjustTasksNextRunDateMsg" xml:space="preserve">
+    <value>The date of next execution of some activities with periodical scheduling can be pass without its was really happen.
+It's starting the procedure for update automatically these dates.
+Do you want to continue?</value>
+  </data>
+  <data name="RunTaskMenuItemText" xml:space="preserve">
+    <value>R&amp;un</value>
+  </data>
+  <data name="ClearLastRunCompletitionLevelText" xml:space="preserve">
+    <value>Clear status</value>
+  </data>
+  <data name="BackupCompanyDBFilenameLabelText" xml:space="preserve">
+    <value>File:</value>
+  </data>
+  <data name="CodeAlreadyUsedErrMsgFmt" xml:space="preserve">
+    <value>The code {0} has been already assigned to another task or its first {1} characters match with those of the code of another task.</value>
+  </data>
+  <data name="EventLogMsgTypeColumnHeaderText" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="MenuCommandTypeInvalidErrMsg" xml:space="preserve">
+    <value>The selected command type is not valid: it isn't a schedulable command. The command must be referred to a batch procedure, a function, a report or an executable file.</value>
+  </data>
+  <data name="NoEntriesInScheduledTasksEventLog" xml:space="preserve">
+    <value>There aren't messages in events log related procedure of starting scheduled tasks.</value>
+  </data>
+  <data name="InvalidURIErrMsgFmt" xml:space="preserve">
+    <value>The string "{0}" is not a valid URI (Uniform Resource Identifier).</value>
+  </data>
+  <data name="EventLogMsgTextColumnHeaderText" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="NoWorkstationFoundMsg" xml:space="preserve">
+    <value>Network workstations not found.</value>
+  </data>
+  <data name="CannotChangeTasksSchedulationCaption" xml:space="preserve">
+    <value>Task scheduling not modifiable.</value>
+  </data>
+  <data name="RemoveTaskMenuItemText" xml:space="preserve">
+    <value>De&amp;lete</value>
+  </data>
+  <data name="DataExportCommandType" xml:space="preserve">
+    <value>Export data</value>
+  </data>
+  <data name="DataImportCommandType" xml:space="preserve">
+    <value>Import data</value>
+  </data>
+  <data name="ClearEventLogErrorMsg" xml:space="preserve">
+    <value>Deleting of events failed.
+{0}</value>
+  </data>
+  <data name="WebPageCommandType" xml:space="preserve">
+    <value>Web Page</value>
+  </data>
+  <data name="ReportCommandType" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="InsertTasksSequenceFailedErrorMsgFmt" xml:space="preserve">
+    <value>Insert of task sequence is failed: "{0}"</value>
+  </data>
+  <data name="MAPIResolveNameFailureErrMsg" xml:space="preserve">
+    <value>Could not resolve the address {0}.</value>
+  </data>
+  <data name="NoWorkstationFoundCaption" xml:space="preserve">
+    <value>Network workstation selection failed</value>
+  </data>
+  <data name="TasksSequencesGridCaption" xml:space="preserve">
+    <value>Scheduled activities sequences</value>
+  </data>
+  <data name="DeleteCurrentTaskLinkLabelToolTipText" xml:space="preserve">
+    <value>Delete selected task</value>
+  </data>
+  <data name="FunctionCommandType" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="InvalidFrequencySettingsCaption" xml:space="preserve">
+    <value>Invalid Frquency Settings</value>
+  </data>
+  <data name="RunCurrentTaskLinkLabelToolTipText" xml:space="preserve">
+    <value>Execute current task if it's scheduled 'on demand'</value>
+  </data>
+  <data name="DataGridCodeColumnHeaderText" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="HowToRunTaskOnDemandDescription" xml:space="preserve">
+    <value>Selecting activities and "Execute" command from contextual menu.</value>
+  </data>
+  <data name="SelectReportCommandLabelText" xml:space="preserve">
+    <value>&amp;Report:</value>
+  </data>
+  <data name="AdjustTasksNextRunDateFailedErrMsgFmt" xml:space="preserve">
+    <value>Update of next execution dates for the scheduled tasks is failed: "{0}"</value>
+  </data>
+  <data name="BlockingTaskInSequenceMenuItemText" xml:space="preserve">
+    <value>&amp;Blocking</value>
+  </data>
+  <data name="NewTaskDlgTitle" xml:space="preserve">
+    <value>New Task</value>
+  </data>
+  <data name="RestoreCompanyDBType" xml:space="preserve">
+    <value>Restore Database</value>
+  </data>
+  <data name="SaveScheduledTasksEventLogFilter" xml:space="preserve">
+    <value>Event Register (*.evt)|*.evt|Text (tab-delimited) (*.txt)|*.txt|CSV (comma-delimited) (*.csv)|*.csv</value>
+  </data>
+  <data name="ConfirmTaskDeletionCaption" xml:space="preserve">
+    <value>Delete task</value>
+  </data>
+  <data name="NoScheduledTasksEventLog" xml:space="preserve">
+    <value>Events log related procedure of starting scheduled tasks not found.</value>
+  </data>
+  <data name="CannotDeleteTaskInSequenceWarningMsg" xml:space="preserve">
+    <value>The task is involved in a sequence.
+Therefore, except you exclude it from all sequences referring to its, it's impossible to delete it.</value>
+  </data>
+  <data name="DataGridDescriptionColumnHeaderText" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="RunTasksMngPanelTitle" xml:space="preserve">
+    <value>Tasks Execution</value>
+  </data>
+  <data name="TaskURLLabelText" xml:space="preserve">
+    <value>URL:</value>
+  </data>
+  <data name="RecurringFrequencyTypeDescription" xml:space="preserve">
+    <value>Periodic</value>
+  </data>
+  <data name="InsertAttachmentFormat" xml:space="preserve">
+    <value>Please choose at least one attachment format.</value>
+  </data>
+  <data name="InsertEMailAddress" xml:space="preserve">
+    <value>Please insert the recipient's mail address.</value>
+  </data>
+  <data name="EmptyCommandErrMsg" xml:space="preserve">
+    <value>You must specify a command.</value>
+  </data>
+  <data name="TaskIsRunning" xml:space="preserve">
+    <value>The Task appears running. Do you want to reset its state anyway?</value>
+  </data>
+  <data name="ChangeTaskState" xml:space="preserve">
+    <value>Confirm change to Task's state</value>
+  </data>
+  <data name="ParName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ParTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="ParType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ParValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+</root>

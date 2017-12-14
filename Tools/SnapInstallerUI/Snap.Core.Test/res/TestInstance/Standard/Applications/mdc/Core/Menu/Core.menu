@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<AppMenu>
+  <Application name="ERP">
+    <Title localizable="true">Mago.NET</Title>
+    <Group name="ERP.Services">
+      <Title localizable="true">Parameters and Services</Title>
+      <Menu name = "Parameters" >
+        <Title localizable="true">Parameters</Title>
+        <Menu name = "ElectronicInvoicing"  insert_after="Sales" activation="MDC.EICoding">
+          <Title localizable="true">Electronic Invoicing</Title>
+          <Document>
+            <Title localizable="true">Electronic Invoicing Parameters</Title>
+            <Object>MDC.Core.Services.EIParameters</Object>
+          </Document>
+          <Document>
+            <Title localizable="true">Coding</Title>
+            <Object>MDC.Core.Documents.EICoding</Object>
+          </Document>
+          <Document>
+            <Title localizable="true">Payment Type Transcoding</Title>
+            <Object>MDC.Core.Documents.EIPaymentType</Object>
+          </Document>
+        </Menu>
+      </Menu>
+    </Group>
+  </Application>
+</AppMenu>

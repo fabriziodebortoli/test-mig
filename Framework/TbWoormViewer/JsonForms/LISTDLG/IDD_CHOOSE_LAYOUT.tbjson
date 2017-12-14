@@ -1,0 +1,58 @@
+﻿{
+  "id": "IDD_CHOOSE_LAYOUT",
+  "rcId": 1162,
+  "type": 66,
+  "text": "Choose source object",
+  "x": 0,
+  "y": 0,
+  "width": 249,
+  "height": 140,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Source Layout",
+      "x": 12,
+      "y": 22,
+      "width": 223,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_CMB_LAYOUTS",
+      "type": 12,
+      "x": 12,
+      "y": 32,
+      "width": 223,
+      "height": 30,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 68,
+      "y": 117,
+      "width": 40,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 139,
+      "y": 117,
+      "width": 40,
+      "height": 14
+    }
+  ]
+}

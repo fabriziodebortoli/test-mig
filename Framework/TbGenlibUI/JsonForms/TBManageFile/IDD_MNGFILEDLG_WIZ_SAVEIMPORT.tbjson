@@ -1,0 +1,118 @@
+﻿{
+  "id": "IDD_MNGFILEDLG_WIZ_SAVEIMPORT",
+  "rcId": 1041,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 350,
+  "height": 210,
+  "child": true,
+  "enabled": false,
+  "systemMenu": true,
+  "context": "tbmanagefile",
+  "items": [
+    {
+      "id": "IDC_SAVEFILEDLG_CMBAPP",
+      "type": 12,
+      "x": 84,
+      "y": 19,
+      "width": 134,
+      "height": 68,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_SAVEFILEDLG_LISTMOD",
+      "type": 24,
+      "x": 84,
+      "y": 48,
+      "width": 133,
+      "height": 156,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_SAVEFILEDLG_RDALLUSR",
+      "type": 10,
+      "text": "All users",
+      "x": 221,
+      "y": 21,
+      "width": 118,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_SAVEFILEDLG_RDUSR",
+      "type": 10,
+      "text": "User:",
+      "x": 221,
+      "y": 34,
+      "width": 117,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Target application:",
+      "x": 85,
+      "y": 9,
+      "width": 124,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Target module:",
+      "x": 86,
+      "y": 38,
+      "width": 123,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Save for user:",
+      "x": 223,
+      "y": 9,
+      "width": 116,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_SAVEFILEDLG_LISTUSR",
+      "type": 24,
+      "x": 221,
+      "y": 48,
+      "width": 124,
+      "height": 156,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 3,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_IMAGE",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 81,
+      "height": 213,
+      "tabStop": false,
+      "bitmap": true
+    }
+  ]
+}

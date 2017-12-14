@@ -1,0 +1,23 @@
+﻿{
+  "id": "IDD_RS_GRANTSLAYOUT_ENTITIES",
+  "rcId": 2506,
+  "type": 66,
+  "text": "Entities",
+  "x": 0,
+  "y": 0,
+  "width": 195,
+  "height": 170,
+  "child": true,
+  "context": "uirsgrantslayout",
+  "items": [
+    {
+      "id": "IDC_RS_GRANTSLAYOUT_BE_GRANTS",
+      "type": 3,
+      "text": "Grants BodyEdit",
+      "x": 11,
+      "y": 8,
+      "width": 167,
+      "height": 149
+    }
+  ]
+}

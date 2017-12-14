@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="release"
+                 upgradeGuid="94003900-4A72-4209-99B9-C7C1BCF7927F"
+                 producer="Microarea S.p.A."
+                 productName="Microarea Mago.net Server"
+                 setupOutputFileName="Magonet"
+                 producerWebSite="http://www.microarea.it"
+                 >
+	<!--Consideriamo questo path come root di partenza: C:\Development -->
+	<FileSystemStructure>
+    <IncludeFolder name="Apps">
+		  <IncludeFolder name="ClickOnceDeployer">
+			  <IncludeFile name="*.dll|*.exe"/>
+			  <ExcludeFile name="Interop.WindowsInstaller.dll|*.manifest|DocumentFormat.OpenXml.dll|Newtonsoft.*|ServiceStack.Text.dll|XSockets.*"/>
+		  </IncludeFolder>
+		  <IncludeFolder name="MagicDocumentsExcel">
+			  <IncludeFolder name="Release">
+				  <IncludeFile name="*.dll"/>
+				  <ExcludeFile name="WeifenLuo.WinFormsUI.Docking.dll|Mono.Cecil.dll|log4net.dll|ICSharpCode.TextEditor.dll|ICSharpCode.SharpDevelop.Dom.dll|ICSharpCode.NRefactory.dll|AjaxControlToolkit.dll|MySql.Data.dll|*.manifest|*.vsto|DocumentFormat.OpenXml.dll"/>
+			  </IncludeFolder>
+		  </IncludeFolder>
+		  <IncludeFolder name="MagicDocumentsWord">
+			  <IncludeFolder name="Release">
+				  <IncludeFile name="*.dll"/>
+				  <ExcludeFile name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll|WeifenLuo.WinFormsUI.Docking.dll|Mono.Cecil.dll|log4net.dll|ICSharpCode.TextEditor.dll|ICSharpCode.SharpDevelop.Dom.dll|ICSharpCode.NRefactory.dll|AjaxControlToolkit.dll|MySql.Data.dll|*.manifest|*.vsto|DocumentFormat.OpenXml.dll"/>
+			  </IncludeFolder>
+		  </IncludeFolder>
+		  <IncludeFolder name="TbAppManager">
+			  <IncludeFolder name="Release">
+				  <IncludeFile name="*.dll|*.exe"/>
+				  <ExcludeFile name="WeifenLuo.WinFormsUI.Docking.dll|Mono.Cecil.dll|log4net.dll|ICSharpCode.TextEditor.dll|ICSharpCode.SharpDevelop.Dom.dll|ICSharpCode.NRefactory.dll|Interop.WindowsInstaller.dll|AjaxControlToolkit.dll|MySql.Data.dll|*.manifest|*.config"/>
+			  </IncludeFolder>
+		  </IncludeFolder>
+		  <IncludeFolder name="AdministrationConsole">
+			  <IncludeFolder name="Release">
+				  <IncludeFile name="*.dll|*.exe"/>
+				  <ExcludeFile name="WeifenLuo.WinFormsUI.Docking.dll|PdfSharp.dll|Mono.Cecil.dll|log4net.dll|ICSharpCode.TextEditor.dll|ICSharpCode.SharpDevelop.Dom.dll|ICSharpCode.NRefactory.dll|AjaxControlToolkit.dll|MySql.Data.dll|*.manifest|*.vsto|DocumentFormat.OpenXml.dll"/>
+			  </IncludeFolder>
+		  </IncludeFolder>
+		  <IncludeFolder name="TBApps">
+			  <IncludeFolder name="Release">
+				  <IncludeFile name="*.dll|TbLoader.exe|TbCEFProcess.exe"/>
+				  <ExcludeFile name="WeifenLuo.WinFormsUI.Docking.dll|VIBlendUtilities.dll|VIBlendControls.dll|PdfSharp.dll|MySql.Data.dll|Mono.Cecil.dll|LumenWorks.Framework.IO.dll|log4net.dll|ICSharpCode.TextEditor.dll|ICSharpCode.SharpDevelop.Dom.dll|ICSharpCode.NRefactory.dll|GdPicture.*.dll|DocumentFormat.OpenXml.dll|BCLW32.DLL|AjaxControlToolkit.dll|AGCSN.dll|Aga.Controls.dll|DocumentFormat.OpenXml.dll|Newtonsoft.*|ServiceStack.Text.dll|XSockets.*|d3dcompiler_43.dll|d3dcompiler_47.dll|libcef.dll|libEGL.dll|libGLESv2.dll|TbCEFProcess.exe|widevinecdmadapter.dll"/>
+			  </IncludeFolder>
+		  </IncludeFolder>
+    </IncludeFolder>
+    <IncludeFolder name="Standard">
+      <IncludeFolder name="TaskBuilder">
+        <IncludeFolder name="WebFramework">
+          <IncludeFolder name="*">
+            <IncludeFolder name="bin">
+              <IncludeFile name="Microarea.*.dll|TBPicComponents.dll|NotificationService.dll|Crypto.dll|WebTaskScheduler.dll" />
+              <ExcludeFile name="Microarea.TaskBuilderNet.ParametersManager.dll" />
+            </IncludeFolder>
+          </IncludeFolder>
+        </IncludeFolder>
+      </IncludeFolder>
+    </IncludeFolder>
+	</FileSystemStructure>
+</SetupDefinition>

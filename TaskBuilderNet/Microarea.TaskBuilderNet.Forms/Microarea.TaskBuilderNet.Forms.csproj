@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{03920D0A-1AB9-4F1E-AA15-C2544F3CAB78}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microarea.TaskBuilderNet.Forms</RootNamespace>
+    <AssemblyName>Microarea.TaskBuilderNet.Forms</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Apps\TBApps\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Apps\TBApps\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\Apps\TBApps\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>..\..\..\..\Apps\TBApps\Debug\Microarea.TaskBuilderNet.Forms.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\..\..\Apps\TBApps\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>..\..\..\..\Apps\TBApps\Release\Microarea.TaskBuilderNet.Forms.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="Telerik.WinControls, Version=2013.2.612.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2013.2.612.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2013.2.612.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2013.2.612.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\Telerik.WinControls.UI.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RichTextBox, Version=2013.2.612.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\Telerik.WinControls.RichTextBox.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="Containers\UIDocumentPart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Containers\UIDocumentPart.Designer.cs">
+      <DependentUpon>UIDocumentPart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Containers\UIDynamicRowView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Containers\UIDynamicRowView.Designer.cs">
+      <DependentUpon>UIDynamicRowView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Containers\UIDynamicView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Containers\UIDynamicView.Designer.cs">
+      <DependentUpon>UIDynamicView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Containers\UITabDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UIClickablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIDBTTree\UIDBTTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIDropDownList\UICheckedDropDownVisualItem.cs" />
+    <Compile Include="Controls\UIDropDownList\UIMultiSelectionDropDownEditorElement.cs" />
+    <Compile Include="Controls\UIDropDownList\UIDropDownList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIDropDownList\UIDropDownStyle.cs" />
+    <Compile Include="Controls\UIDropDownList\UIDropListDataItem.cs" />
+    <Compile Include="Controls\UIDropDownList\UIEditableDropDownList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIDropDownList\UIMultiSelectionDropDownList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIMenuItem.cs" />
+    <Compile Include="Controls\UIPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIAutoCompleteBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UISeparator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UITextBoxControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIGrid\StandardInputBehaviour.cs" />
+    <Compile Include="Controls\UIGrid\UICheckBoxColumn.cs" />
+    <Compile Include="Controls\UIGrid\UIDateTimeColumn.cs" />
+    <Compile Include="Controls\UIGrid\UIDropDownColumn.cs" />
+    <Compile Include="Controls\UIGrid\UIGridEditor.cs" />
+    <Compile Include="Controls\UIContextMenuManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIGrid\UIGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIGrid\UIGrid.Designer.cs">
+      <DependentUpon>UIGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UIGrid\UIGridToolbarContainer.cs" />
+    <Compile Include="Controls\UIGrid\UITextBoxColumn.cs" />
+    <Compile Include="Controls\UILabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIDateTimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UITabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UITabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataBindingHelper.cs" />
+    <Compile Include="EventArgs.cs" />
+    <Compile Include="Controls\UIButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UICheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIDropDownList\UISingleSelectionDropDownList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UITemplateCollection.cs" />
+    <Compile Include="Controls\UITextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UIToolbarItem.cs" />
+    <Compile Include="Controls\UITree\UITree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UITree\UITreeLineStyle.cs" />
+    <Compile Include="Controls\UITree\UITreeNode.cs" />
+    <Compile Include="Controls\UITree\UITreeViewElement.cs" />
+    <Compile Include="DataBinding\TBBinding.cs" />
+    <Compile Include="Designers\UIGridColumnsDesigner.cs" />
+    <Compile Include="ImageLoader.cs" />
+    <Compile Include="InputStrategies\SizeHelper.cs" />
+    <Compile Include="Extenders\TBWinButtonExtender.cs" />
+    <Compile Include="Extenders\TBWinStatusButtonExtender.cs" />
+    <Compile Include="Extenders\TBWinExtender.cs" />
+    <Compile Include="Extenders\TBWinAddressExtender.cs" />
+    <Compile Include="IUIControlExtensionsMethods.cs" />
+    <Compile Include="Designers\UITabControlDesigner.cs" />
+    <Compile Include="InputStrategies\TBInputStrategies.cs" />
+    <Compile Include="Extenders\TBThemeManager.cs" />
+    <Compile Include="Extenders\TBWinNumbererExtender.cs" />
+    <Compile Include="TBCUIs\TBWFCUIDBTTree.cs" />
+    <Compile Include="TBCUIs\TBWFCUIDateTimePicker.cs" />
+    <Compile Include="Extenders\TBWinHyperLinkExtender.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Containers\UIClientDocPart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UIToolbar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extenders\TBWinDiagnosticExtender.cs" />
+    <Compile Include="Containers\UIUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Containers\UIUserControl.Designer.cs">
+      <DependentUpon>UIUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TBCUIs\TBWFCUIControl.cs" />
+    <Compile Include="Containers\UIForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Containers\UIForm.Designer.cs">
+      <DependentUpon>UIForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extenders\TBWinHotLinkExtender.cs" />
+    <Compile Include="TBCUIs\TBWFCUIGrid.cs" />
+    <Compile Include="TBCUIs\TBWFCUIRichTextBox.cs" />
+    <Compile Include="TBCUIs\TBWFCUITabber.cs" />
+    <Compile Include="TBCUIs\WFUIExtendersManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Hotlink_Lower.png" />
+    <None Include="Images\Hotlink_Upper.png" />
+    <None Include="Images\Toolbar_Customize.png" />
+    <None Include="Images\Toolbar_Delete.png" />
+    <None Include="Images\Toolbar_Edit.png" />
+    <None Include="Images\Toolbar_ExecuteQuery.png" />
+    <None Include="Images\Toolbar_Finish.png" />
+    <None Include="Images\Toolbar_First.png" />
+    <None Include="Images\Toolbar_HelpOnLine.png" />
+    <None Include="Images\Toolbar_Last.png" />
+    <None Include="Images\Toolbar_New.png" />
+    <None Include="Images\Toolbar_Next.png" />
+    <None Include="Images\Toolbar_Prev.png" />
+    <None Include="Images\Toolbar_Radar.png" />
+    <None Include="Images\Toolbar_RefreshData.png" />
+    <None Include="Images\Toolbar_Report.png" />
+    <None Include="Images\Toolbar_Save.png" />
+    <None Include="Images\Toolbar_SearchGeneric.png" />
+    <None Include="Images\Toolbar_SearchSpecific.png" />
+    <None Include="Images\Toolbar_UndoChanges.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Containers\UIDynamicRowView.resx">
+      <DependentUpon>UIDynamicRowView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UIToolbar.resx">
+      <DependentUpon>UIToolbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Containers\UIUserControl.resx">
+      <DependentUpon>UIUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Containers\UIForm.resx">
+      <DependentUpon>UIForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\TBApplicationWrapper\TBApplicationWrapper.vcxproj">
+      <Project>{DB9DB8B8-50A1-468D-A67C-30E96269788A}</Project>
+      <Name>TBApplicationWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\TbGenLibManaged\TbGenLibManaged.vcxproj">
+      <Project>{28ED1A12-014C-4331-B17F-E58554094B8A}</Project>
+      <Name>TbGenLibManaged</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Model\Microarea.TaskBuilderNet.Model.csproj">
+      <Project>{B0697589-AADA-4684-9CC9-A43E1C6DF839}</Project>
+      <Name>Microarea.TaskBuilderNet.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj">
+      <Project>{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}</Project>
+      <Name>Microarea.TaskBuilderNet.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Toolbar_Hourglass.png" />
+    <None Include="Images\Toolbar_RunGreen.png" />
+    <None Include="Images\Toolbar_RunRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Checked.png" />
+    <Content Include="Images\TreeEditDBT.png" />
+    <Content Include="Images\TreeEditRecord.png" />
+    <Content Include="Images\TreeEditToggle.png" />
+    <Content Include="Images\Unchecked.png" />
+    <None Include="Images\Pencil.png" />
+    <None Include="Images\Lightning.png" />
+    <None Include="Images\Toolbar_FirstRow.png" />
+    <None Include="Images\Toolbar_GoToMaster.png" />
+    <None Include="Images\Toolbar_InsertNewRow.png" />
+    <None Include="Images\Toolbar_LastRow.png" />
+    <None Include="Images\Toolbar_NextRow.png" />
+    <None Include="Images\Toolbar_PrevRow.png" />
+    <None Include="Images\AddressMenu.png" />
+    <Content Include="Images\ToolbarGrid_DecreaseRowHeight.png" />
+    <Content Include="Images\ToolbarGrid_DeleteRow.png" />
+    <Content Include="Images\ToolbarGrid_AlternateColor.png" />
+    <Content Include="Images\ToolbarGrid_IncreaseRowHeight.png" />
+    <Content Include="Images\ToolbarGrid_NewRow.png" />
+    <Content Include="Images\ToolbarGrid_RowView.png" />
+    <Content Include="Images\ToolbarGrid_Search.png" />
+    <Content Include="Images\Toolbar_Resume.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

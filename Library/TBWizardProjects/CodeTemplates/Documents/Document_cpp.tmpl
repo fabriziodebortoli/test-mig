@@ -1,0 +1,222 @@
+//=============================================================================
+// module name  : @(DocumentClassName).cpp
+//=============================================================================
+
+#include "stdafx.h" 
+
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(DocumentClassName).h>
+@(DeleteDuplicatedLines(@(+)
+@(ActOnMaster(@(+)
+@(RepeatOnApplicationHotLinkColumns{#include <@(ColumnHotLinkModuleName)\@(ColumnHotLinkLibrarySourceFolder)\@(ColumnHotLinkParentFileName).h>, "\r\n"})\n@(+)
+@(RepeatOnReferencedHotLinkIncludeFiles{#include "@(RelativeFileName)", "\r\n"})\n@(+)
+))@(+)
+@(RepeatOnTabbedPanes{@(+)
+@(RepeatOnApplicationHotLinkColumns{#include <@(ColumnHotLinkModuleName)\@(ColumnHotLinkLibrarySourceFolder)\@(ColumnHotLinkParentFileName).h>, "\r\n"})\n@(+)
+@(RepeatOnReferencedHotLinkIncludeFiles{#include "@(RelativeFileName)", "\r\n"})\n@(+)
+, "\r\n"})))
+
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(DocumentViewFileName).hrc>
+
+//TBWIZ-INJECT{@(DocumentClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__; 
+#endif
+
+@(IfHKLDefined(static TCHAR szParam[] = _T("Param");\n))
+///////////////////////////////////////////////////////////////////////////////
+//							@(DocumentClassName)
+///////////////////////////////////////////////////////////////////////////////
+IMPLEMENT_DYNCREATE(@(DocumentClassName), CAbstractFormDoc)
+
+//-----------------------------------------------------------------------------
+BEGIN_MESSAGE_MAP(@(DocumentClassName), CAbstractFormDoc)
+@(_NOEMPTYLINES:ActOnMaster(@(_NOEMPTYLINES:RepeatOnHotLinkColumns{@(IfColumnShowsHotLinkDescription{\tON_EN_VALUE_CHANGED	(IDC_@@(_RB(_)DocumentName)_@@(ColumnName), On@(DBTName)@(ColumnName)Changed)\n}), "\r\n"})))
+@(_NOEMPTYLINES:RepeatOnTabbedPanes(@(_NOEMPTYLINES:RepeatOnHotLinkColumns{@(IfColumnShowsHotLinkDescription{\tON_EN_VALUE_CHANGED	(IDC_@@(_RB(_)DocumentName)_@@(_RB(_)TabbedPaneName)_@@(ColumnName), On@(TabbedPaneName)@(ColumnName)Changed)}), "\r\n"}), "\r\n"))
+	//TBWIZ-INJECT{@(DocumentClassName)(MessageMap)
+	//TBWIZ-INJECT}
+END_MESSAGE_MAP()                                           
+
+//------------------------------------------------------------------------------ 
+@(DocumentClassName)::@(DocumentClassName)()
+{
+	//TBWIZ-INJECT{@(DocumentClassName)(Constructor)
+	//TBWIZ-INJECT}
+}
+
+//------------------------------------------------------------------------------ 
+@(DocumentClassName)::~@(DocumentClassName)()
+{
+	//TBWIZ-INJECT{@(DocumentClassName)(Destructor)
+	//TBWIZ-INJECT}
+}
+
+//-----------------------------------------------------------------------------
+BOOL @(DocumentClassName)::OnAttachData()
+{              
+	SetFormTitle (_TB("@(DocumentTitle)"));
+
+	m_p@(MasterDBTClassName) = new @(MasterDBTClassName)(RUNTIME_CLASS(@(MasterTableClassName)), this); 
+
+@(RepeatOnDBTSlaves{@(+)
+	@(_NOEMPTYLINES:IfIsDBTRecordNotToEnhance(@(+)
+		\tm_p@(DBTClassName) = new @(DBTClassName)(RUNTIME_CLASS(@(TableClassName)), this);\n@(+) 
+	))@(+)
+	@(_NOEMPTYLINES:IfIsDBTRecordToEnhance(@(+)
+		\tm_p@(DBTClassName) = new @(DBTClassName)(RUNTIME_CLASS(TEnhanced@(DBTClassName)@(TableClassName)), this);\n@(+) 
+	))@(+)
+	\tm_p@(MasterDBTClassName)->Attach(m_p@(DBTClassName));\n@(+)
+, "\r\n"})
+@(ActOnMaster(@(RepeatOnHotLinkColumns{@(+)
+	\tm_pHKL@(ColumnName) = new @(ColumnHKLClassName);\n@(+)
+	\tAttach(m_pHKL@(ColumnName));\n@(+)
+	,"\r\n"})))
+@(RepeatOnTabbedPanes{@(+)
+	@(RepeatOnHotLinkColumns{@(+)
+		\tm_pHKL@(_RB(_)TabbedPaneName)@(ColumnName) = new @(ColumnHKLClassName);\n@(+)
+		\tAttach(m_pHKL@(_RB(_)TabbedPaneName)@(ColumnName));\n@(+)
+	,"\r\n"})@(+)
+, "\r\n"})
+	//TBWIZ-INJECT{@(DocumentClassName)(OnAttachData)
+	//TBWIZ-INJECT}
+
+	return Attach(m_p@(MasterDBTClassName));
+}
+
+//-----------------------------------------------------------------------------
+BOOL @(DocumentClassName)::OnInitAuxData()
+{    
+@(_NOEMPTYLINES:ActOnMaster(@(_NOEMPTYLINES:RepeatOnHotLinkColumns{@(IfColumnShowsHotLinkDescription{\tm_@(_RB(_)DBTName)@(ColumnName)HotLinkDescription.Clear();\n}),"\r\n"})))
+@(_NOEMPTYLINES:RepeatOnTabbedPanes(@(_NOEMPTYLINES:IfNotDBTSlaveBuffered(@(RepeatOnHotLinkColumns{@(IfColumnShowsHotLinkDescription{\tm_@(_RB(_)TabbedPaneName)@(ColumnName)HotLinkDescription.Clear();\n}),""}))), "\r\n"))
+
+	//TBWIZ-INJECT{@(DocumentClassName)(OnInitAuxData)
+	//TBWIZ-INJECT}
+
+	return TRUE;
+}
+ 
+//-----------------------------------------------------------------------------
+BOOL @(DocumentClassName)::OnPrepareAuxData()
+{
+@(_NOEMPTYLINES:ActOnMaster(@(+)
+	@(_NOEMPTYLINES:RepeatOnHotLinkColumns{@(+)
+		@(IfColumnShowsHotLinkDescription{@(+)
+			\tm_pHKL@(ColumnName)->FindRecord(&GetMasterRecord()->f_@(ColumnName));\n@(+)
+			\tm_@(_RB(_)DBTName)@(ColumnName)HotLinkDescription = m_pHKL@(ColumnName)->GetRecord()->f_@(ColumnHKLDescriptionColumnName);\n@(+)
+		})@(+)
+	,"\r\n"})@(+)
+))
+@(_NOEMPTYLINES:RepeatOnTabbedPanes(@(+)
+	@(_NOEMPTYLINES:IfNotDBTSlaveBuffered(@(RepeatOnHotLinkColumns{@(+)
+		@(IfColumnShowsHotLinkDescription{@(+)
+			\tm_pHKL@(_RB(_)TabbedPaneName)@(ColumnName)->FindRecord(&Get@(DBTClassName)Record()->f_@(ColumnName));\n@(+)
+			\tm_@(_RB(_)TabbedPaneName)@(ColumnName)HotLinkDescription = m_pHKL@(_RB(_)TabbedPaneName)@(ColumnName)->GetRecord()->f_@(ColumnHKLDescriptionColumnName);\n@(+)
+		})@(+)
+	,"\r\n"})))@(+)
+, "\r\n"))
+
+	//TBWIZ-INJECT{@(DocumentClassName)(OnPrepareAuxData)
+	//TBWIZ-INJECT}
+
+	return TRUE;
+}
+
+@(_NOEMPTYLINES:ActOnMaster(@(_NOEMPTYLINES:RepeatOnHotLinkColumns{@(IfColumnShowsHotLinkDescription{@(+)
+//-----------------------------------------------------------------------------\n@(+)
+void @(DocumentClassName)::On@(DBTName)@(ColumnName)Changed()\n@(+)
+{\n@(+)
+	\tm_@(_RB(_)DBTName)@(ColumnName)HotLinkDescription = m_pHKL@(ColumnName)->GetRecord()->f_@(ColumnHKLDescriptionColumnName);\n@(+)
+\n@(+)
+\n@(+)
+	\t//TBWIZ-INJECT{@(DocumentClassName)(On@(DBTName)@(ColumnName)Changed)\n@(+)
+	\t//TBWIZ-INJECT}\n@(+)
+\n@(+)
+	\tUpdateDataView();\n@(+)
+}\n@(+)
+}),"\r\n"})))
+
+@(_NOEMPTYLINES:RepeatOnTabbedPanes(@(_NOEMPTYLINES:RepeatOnHotLinkColumns{@(IfColumnShowsHotLinkDescription{@(+)
+//-----------------------------------------------------------------------------\n@(+)
+void @(DocumentClassName)::On@(TabbedPaneName)@(ColumnName)Changed()\n@(+)
+{\n@(+)
+	@(IfNotDBTSlaveBuffered(\tm_@(_RB(_)TabbedPaneName)@(ColumnName)HotLinkDescription = m_pHKL@(_RB(_)TabbedPaneName)@(ColumnName)->GetRecord()->f_@(ColumnHKLDescriptionColumnName);\n))@(+)
+	@(IfDBTSlaveBuffered(\tTEnhanced@(DBTClassName)@(TableClassName)* pCurrentRecord = m_p@(DBTClassName)->GetCurrent@(TableName)();\n\tpCurrentRecord->l_@(ColumnHKLTableName)@(ColumnHKLDescriptionColumnName) = m_pHKL@(_RB(_)TabbedPaneName)@(ColumnName)->GetRecord()->f_@(ColumnHKLDescriptionColumnName);))@(+)
+\n@(+)
+\n@(+)
+	\t//TBWIZ-INJECT{@(DocumentClassName)(On@(TabbedPaneName)@(ColumnName)Changed)\n@(+)
+	\t//TBWIZ-INJECT}\n@(+)
+\n@(+)
+	\tUpdateDataView();\n@(+)
+}\n@(+)
+}),"\r\n"})))
+
+@(IfHKLDefined())
+@(IfHKLDefined(/////////////////////////////////////////////////////////////////////////////))
+@(IfHKLDefined(//			class  @(DocumentHKLClassName) implementation))
+@(IfHKLDefined(/////////////////////////////////////////////////////////////////////////////))
+@(IfHKLDefined(IMPLEMENT_DYNCREATE (@(DocumentHKLClassName), HotKeyLink)))
+@(IfHKLDefined())
+@(IfHKLDefined(//------------------------------------------------------------------------------))
+@(IfHKLDefined(@(DocumentHKLClassName)::@(DocumentHKLClassName)()))
+@(IfHKLDefined(	:))
+@(IfHKLDefined(	HotKeyLink (RUNTIME_CLASS(@(MasterTableClassName)), _NS_DOC("@(DocumentNameSpace)"))))
+@(IfHKLDefined({))
+@(IfHKLDefined(}))
+@(IfHKLDefined())
+@(IfHKLDefined(//------------------------------------------------------------------------------))
+@(IfHKLDefined(void @(DocumentHKLClassName)::OnDefineQuery (SelectionType nQuerySelection)))
+@(IfHKLDefined({))
+@(IfHKLDefined(	m_pTable->SelectAll	();))
+@(IfHKLDefined(	switch (nQuerySelection)))
+@(IfHKLDefined(	{))
+@(IfHKLDefined(		case DIRECT_ACCESS:))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(		case COMBO_ACCESS:))))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(		case UPPER_BUTTON:))))
+@(IfHKLDefined(			m_pTable->AddSortColumn(GetRecord()->f_@(HKLCodeColumnName));))
+@(IfHKLDefined(			m_pTable->AddFilterColumn(GetRecord()->f_@(HKLCodeColumnName));))
+@(IfHKLDefined(			m_pTable->AddParam(szParam, GetRecord()->f_@(HKLCodeColumnName));))
+@(IfHKLDefined(			break;))
+@(IfHKLDefined())
+@(IfHKLDefined(@(IfHKLCodeIsTextual(		case COMBO_ACCESS:))))
+@(IfHKLDefined(@(IfHKLCodeIsTextual(		case UPPER_BUTTON:))))
+@(IfHKLDefined(@(IfHKLCodeIsTextual(			m_pTable->AddSortColumn(GetRecord()->f_@(HKLCodeColumnName));))))
+@(IfHKLDefined(@(IfHKLCodeIsTextual(			m_pTable->AddFilterLike(GetRecord()->f_@(HKLCodeColumnName));))))
+@(IfHKLDefined(@(IfHKLCodeIsTextual(			m_pTable->AddParam(szParam, GetRecord()->f_@(HKLCodeColumnName));))))
+@(IfHKLDefined(@(IfHKLCodeIsTextual(			break;))))
+@(IfHKLDefined(@(IfHKLCodeIsTextual())))
+@(IfHKLDefined(		case LOWER_BUTTON:))
+@(IfHKLDefined(			m_pTable->AddSortColumn		(GetRecord()->f_@(HKLDescriptionColumnName));))
+@(IfHKLDefined(			m_pTable->AddFilterLike		(GetRecord()->f_@(HKLDescriptionColumnName));))
+@(IfHKLDefined(			m_pTable->AddParam			(szParam, GetRecord()->f_@(HKLDescriptionColumnName));))
+@(IfHKLDefined(			break;))
+@(IfHKLDefined(	}))
+@(IfHKLDefined(}))
+@(IfHKLDefined())
+@(IfHKLDefined(//------------------------------------------------------------------------------))
+@(IfHKLDefined(void @(DocumentHKLClassName)::OnPrepareQuery (DataObj* pDataObj, SelectionType nQuerySelection)))
+@(IfHKLDefined({ ))
+@(IfHKLDefined(	ASSERT(pDataObj && pDataObj->IsKindOf(RUNTIME_CLASS(@(HKLCodeColumnDataObjClassName))));))
+@(IfHKLDefined(	switch (nQuerySelection)))
+@(IfHKLDefined(	{))
+@(IfHKLDefined(		case DIRECT_ACCESS:))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(		case COMBO_ACCESS:))))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(		case UPPER_BUTTON:))))
+@(IfHKLDefined(			m_pTable->SetParamValue(szParam, *pDataObj);))
+@(IfHKLDefined(			break;))
+@(IfHKLDefined())
+@(IfHKLDefined(@(IfHKLCodeIsTextual(		case COMBO_ACCESS:))))
+@(IfHKLDefined(@(IfHKLCodeIsTextual(		case UPPER_BUTTON:))))
+@(IfHKLDefined(		case LOWER_BUTTON:))
+@(IfHKLDefined(@(IfHKLCodeIsTextual(			m_pTable->SetParamLike(szParam, *pDataObj);))))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(			{))))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(				DataStr tmpDataStr(pDataObj->Str());))))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(				m_pTable->SetParamLike(szParam, tmpDataStr);))))
+@(IfHKLDefined(@(IfHKLCodeIsNotTextual(			}))))
+@(IfHKLDefined(			break;))
+@(IfHKLDefined(	}))
+@(IfHKLDefined(}))
+
+//TBWIZ-INJECT{@(DocumentClassName)(AdditionalCode)
+//TBWIZ-INJECT}

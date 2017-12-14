@@ -1,0 +1,18 @@
+{
+  "id": "IDD_RESOURCES_LAYOUT_ACTION_VIEW",
+  "type": "View",
+  "tabStop": false,
+  "text": "Confirm action",
+  "items": [
+    {
+      "id": "IDC_TG_RESOURCES_LAYOUT_ACTION",
+      "type": "TileGroup",
+      "layoutType": 4 /*VBOX*/,
+      "items": [
+        {
+          "href": "IDD_TD_RESOURCES_LAYOUT_ACTION"
+        }
+      ]
+    }
+  ]
+}

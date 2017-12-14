@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://tempuri.org/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://tempuri.org/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="InitLock">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InitLockResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InitLockResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveLockEntries">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveLockEntriesResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="LockRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="processId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="connection" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LockRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LockRecordResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="processId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="connection" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockRecordResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsRecordLocked">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsRecordLockedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsRecordLockedResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLockInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLockInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLockInfoResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="lockDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="processId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="userId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllDocument">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="processId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="connection" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllDocumentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllDocumentResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAll">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="processId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="connection" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCurrentConnection">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="processId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="connection" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCurrentConnectionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForCurrentConnectionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCurrentProcess">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="userId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="processId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCurrentProcessResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForCurrentProcessResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </types>
+  <message name="InitLockSoapIn">
+    <part name="parameters" element="s0:InitLock" />
+  </message>
+  <message name="InitLockSoapOut">
+    <part name="parameters" element="s0:InitLockResponse" />
+  </message>
+  <message name="SaveLockEntriesSoapIn">
+    <part name="parameters" element="s0:SaveLockEntries" />
+  </message>
+  <message name="SaveLockEntriesSoapOut">
+    <part name="parameters" element="s0:SaveLockEntriesResponse" />
+  </message>
+  <message name="LockRecordSoapIn">
+    <part name="parameters" element="s0:LockRecord" />
+  </message>
+  <message name="LockRecordSoapOut">
+    <part name="parameters" element="s0:LockRecordResponse" />
+  </message>
+  <message name="UnlockRecordSoapIn">
+    <part name="parameters" element="s0:UnlockRecord" />
+  </message>
+  <message name="UnlockRecordSoapOut">
+    <part name="parameters" element="s0:UnlockRecordResponse" />
+  </message>
+  <message name="IsRecordLockedSoapIn">
+    <part name="parameters" element="s0:IsRecordLocked" />
+  </message>
+  <message name="IsRecordLockedSoapOut">
+    <part name="parameters" element="s0:IsRecordLockedResponse" />
+  </message>
+  <message name="GetLockInfoSoapIn">
+    <part name="parameters" element="s0:GetLockInfo" />
+  </message>
+  <message name="GetLockInfoSoapOut">
+    <part name="parameters" element="s0:GetLockInfoResponse" />
+  </message>
+  <message name="UnlockAllDocumentSoapIn">
+    <part name="parameters" element="s0:UnlockAllDocument" />
+  </message>
+  <message name="UnlockAllDocumentSoapOut">
+    <part name="parameters" element="s0:UnlockAllDocumentResponse" />
+  </message>
+  <message name="UnlockAllSoapIn">
+    <part name="parameters" element="s0:UnlockAll" />
+  </message>
+  <message name="UnlockAllSoapOut">
+    <part name="parameters" element="s0:UnlockAllResponse" />
+  </message>
+  <message name="UnlockAllForCurrentConnectionSoapIn">
+    <part name="parameters" element="s0:UnlockAllForCurrentConnection" />
+  </message>
+  <message name="UnlockAllForCurrentConnectionSoapOut">
+    <part name="parameters" element="s0:UnlockAllForCurrentConnectionResponse" />
+  </message>
+  <message name="UnlockAllForCurrentProcessSoapIn">
+    <part name="parameters" element="s0:UnlockAllForCurrentProcess" />
+  </message>
+  <message name="UnlockAllForCurrentProcessSoapOut">
+    <part name="parameters" element="s0:UnlockAllForCurrentProcessResponse" />
+  </message>
+  <portType name="MicroareaLockManagerSoap">
+    <operation name="InitLock">
+      <input message="s0:InitLockSoapIn" />
+      <output message="s0:InitLockSoapOut" />
+    </operation>
+    <operation name="SaveLockEntries">
+      <input message="s0:SaveLockEntriesSoapIn" />
+      <output message="s0:SaveLockEntriesSoapOut" />
+    </operation>
+    <operation name="LockRecord">
+      <input message="s0:LockRecordSoapIn" />
+      <output message="s0:LockRecordSoapOut" />
+    </operation>
+    <operation name="UnlockRecord">
+      <input message="s0:UnlockRecordSoapIn" />
+      <output message="s0:UnlockRecordSoapOut" />
+    </operation>
+    <operation name="IsRecordLocked">
+      <input message="s0:IsRecordLockedSoapIn" />
+      <output message="s0:IsRecordLockedSoapOut" />
+    </operation>
+    <operation name="GetLockInfo">
+      <input message="s0:GetLockInfoSoapIn" />
+      <output message="s0:GetLockInfoSoapOut" />
+    </operation>
+    <operation name="UnlockAllDocument">
+      <input message="s0:UnlockAllDocumentSoapIn" />
+      <output message="s0:UnlockAllDocumentSoapOut" />
+    </operation>
+    <operation name="UnlockAll">
+      <input message="s0:UnlockAllSoapIn" />
+      <output message="s0:UnlockAllSoapOut" />
+    </operation>
+    <operation name="UnlockAllForCurrentConnection">
+      <input message="s0:UnlockAllForCurrentConnectionSoapIn" />
+      <output message="s0:UnlockAllForCurrentConnectionSoapOut" />
+    </operation>
+    <operation name="UnlockAllForCurrentProcess">
+      <input message="s0:UnlockAllForCurrentProcessSoapIn" />
+      <output message="s0:UnlockAllForCurrentProcessSoapOut" />
+    </operation>
+  </portType>
+  <binding name="MicroareaLockManagerSoap" type="s0:MicroareaLockManagerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="InitLock">
+      <soap:operation soapAction="http://tempuri.org/InitLock" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SaveLockEntries">
+      <soap:operation soapAction="http://tempuri.org/SaveLockEntries" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="LockRecord">
+      <soap:operation soapAction="http://tempuri.org/LockRecord" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UnlockRecord">
+      <soap:operation soapAction="http://tempuri.org/UnlockRecord" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IsRecordLocked">
+      <soap:operation soapAction="http://tempuri.org/IsRecordLocked" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetLockInfo">
+      <soap:operation soapAction="http://tempuri.org/GetLockInfo" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UnlockAllDocument">
+      <soap:operation soapAction="http://tempuri.org/UnlockAllDocument" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UnlockAll">
+      <soap:operation soapAction="http://tempuri.org/UnlockAll" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UnlockAllForCurrentConnection">
+      <soap:operation soapAction="http://tempuri.org/UnlockAllForCurrentConnection" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UnlockAllForCurrentProcess">
+      <soap:operation soapAction="http://tempuri.org/UnlockAllForCurrentProcess" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="MicroareaLockManager">
+    <port name="MicroareaLockManagerSoap" binding="s0:MicroareaLockManagerSoap">
+      <soap:address location="http://localhost/MicroareaLockManager/MicroareaLockManager.asmx" />
+    </port>
+  </service>
+</definitions>

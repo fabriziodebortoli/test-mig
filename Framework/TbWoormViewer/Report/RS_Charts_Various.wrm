@@ -1,0 +1,124 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,1922,1038,3838) 
+PageLayout "default" 
+	Begin
+		Chart Chart_1
+			Begin
+				Alias 1
+				Title "vendite" 
+				Type 1
+				Rect (37,45,327,761) 
+					Begin
+						Transparent 
+					End
+				ChartCategories
+					Begin
+						Title "clienti" 
+						DataSource myCategory
+					End
+				ChartSeries
+					Begin
+						Title "serie vendite" 
+						Type 15
+						DataSource w_double1
+						DataSource w_double_2
+						Label True
+					End
+				ChartLegend
+					Begin
+						Align 4 ;
+					End
+			End
+		Chart Chart_6
+			Begin
+				Alias 6
+				Title "" 
+				Type 7
+				Rect (366,45,658,760) 
+					Begin
+						Transparent 
+					End
+				ChartCategories
+					Begin
+						Title "clienti" 
+						DataSource myCategory
+					End
+				ChartSeries
+					Begin
+						Title "vendite 1" 
+						DataSource w_double_2
+						Color (127,255,212) 
+						Transparent 0.4
+						Label False
+					End
+				ChartSeries
+					Begin
+						Title "vendite 2" 
+						Type 10
+						DataSource w_double1
+						Style 1
+						Label True
+					End
+				ChartLegend
+					Begin
+						Align 4 ;
+					End
+			End
+		Chart Chart_7
+			Begin
+				Alias 7
+				Title "" 
+				Type 12
+				Rect (676,42,947,766) 
+					Begin
+						Transparent 
+					End
+				ChartCategories
+					Begin
+						DataSource myCategory
+					End
+				ChartSeries
+					Begin
+						Title "vendite" 
+						DataSource w_double1
+						Color w_colors2
+						Label True
+					End
+				ChartLegend
+					Begin
+						Align 3 ;
+					End
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			Array        String       myCategory [15] Alias 3  Hidden  Input Init = ["cliente 1" , "cliente 2" , "cliente 3" , "cliente 4"] ;
+			Array        Double       w_double1 [23] Alias 4  Hidden  Input Init = [1.0 , 2.4 , 1.5 , 1.7] ;
+			Array        Double       w_double_2 [23] Alias 5  Hidden  Input Init = [2.6 , 1.4 , 1.9 , 2.7] ;
+			Array        Long         w_colors2 [12] Alias 7  Hidden  Input Init = [Rgb ( 200 , 100 , 100 ) , Rgb ( 255 , 100 , 0 ) , Rgb ( 100 , 0 , 0 ) , Rgb ( 150 , 50 , 10 )] ;
+		End
+		
+		Events
+			Report : Do
+				Always 
+					Begin
+					End
+				Before 
+					Begin
+						Display myCategory ,w_double1 ,w_double_2, w_colors2;
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+End
+

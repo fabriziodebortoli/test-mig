@@ -1,0 +1,47 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\XMLControls\IDD_DBT_APPEND_XREFS.hjson>
+#include	<TbGes\JsonForms\XMLControls\IDD_DBT_FIXED_FIELDS.hjson>
+#include	<TbGes\JsonForms\XMLControls\IDD_DBT_HKL_FIELDS.hjson>
+#include	<TbGes\JsonForms\XMLControls\IDD_DBT_HOTLINKS.hjson>
+#include	<TbGes\JsonForms\XMLControls\IDD_DBT_PROPERTIES.hjson>
+#include	<TbGes\JsonForms\XMLControls\IDD_DBT_SINGLE_HOTLINK.hjson>
+#include	<TbGes\JsonForms\XMLControls\IDD_DBT_UK_GROUP_PROPERTIES.hjson>
+#include	<TbGes\JsonForms\XMLControls\IDD_UNIVERSAL_KEY_PROPERTIES.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_DBT_HKL_CHECK			GET_IDC(IDC_DBT_HKL_CHECK)
+#define	IDC_DBT_PROPS_EXPORT_CHKBOX			GET_IDC(IDC_DBT_PROPS_EXPORT_CHKBOX)
+#define	IDC_HKL_FIELD_REMOVE			GET_IDC(IDC_HKL_FIELD_REMOVE)
+#define	IDC_HKL_FIELDS_ASSOCIATION			GET_IDC(IDC_HKL_FIELDS_ASSOCIATION)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_DOC_TREE_DBT_ALL_XREF			GET_ID(ID_DOC_TREE_DBT_ALL_XREF)
+#define	ID_DOC_TREE_DBT_APPEND_XREF			GET_ID(ID_DOC_TREE_DBT_APPEND_XREF)
+#define	ID_DOC_TREE_DBT_FIXED_FIELD			GET_ID(ID_DOC_TREE_DBT_FIXED_FIELD)
+#define	ID_DOC_TREE_DBT_HKL			GET_ID(ID_DOC_TREE_DBT_HKL)
+#define	ID_DOC_TREE_DBT_NEW_UK_GROUP			GET_ID(ID_DOC_TREE_DBT_NEW_UK_GROUP)
+#define	ID_DOC_TREE_DBT_NEW_XREF			GET_ID(ID_DOC_TREE_DBT_NEW_XREF)
+#define	ID_DOC_TREE_DBT_NO_XREF			GET_ID(ID_DOC_TREE_DBT_NO_XREF)
+#define	ID_DOC_TREE_DBT_PROPERTIES			GET_ID(ID_DOC_TREE_DBT_PROPERTIES)
+#define	ID_DOC_TREE_UK_GROUP_MODIFY_GROUP			GET_ID(ID_DOC_TREE_UK_GROUP_MODIFY_GROUP)
+#define	ID_DOC_TREE_UK_GROUP_NEW_UK_ELEMENT			GET_ID(ID_DOC_TREE_UK_GROUP_NEW_UK_ELEMENT)
+#define	ID_DOC_TREE_UK_GROUP_REMOVE_GROUP			GET_ID(ID_DOC_TREE_UK_GROUP_REMOVE_GROUP)
+#define	ID_DOC_TREE_UK_MODIFY_UK_ELEMENT			GET_ID(ID_DOC_TREE_UK_MODIFY_UK_ELEMENT)
+#define	ID_DOC_TREE_UK_REMOVE_UK_ELEMENT			GET_ID(ID_DOC_TREE_UK_REMOVE_UK_ELEMENT)
+#define	ID_DOC_TREE_XREF_EXPORT_XREF			GET_ID(ID_DOC_TREE_XREF_EXPORT_XREF)
+#define	ID_DOC_TREE_XREF_HKL			GET_ID(ID_DOC_TREE_XREF_HKL)
+#define	ID_DOC_TREE_XREF_MODIFY_XREF			GET_ID(ID_DOC_TREE_XREF_MODIFY_XREF)
+#define	ID_DOC_TREE_XREF_NOT_EXPORT_XREF			GET_ID(ID_DOC_TREE_XREF_NOT_EXPORT_XREF)
+#define	ID_DOC_TREE_XREF_REMOVE_XREF			GET_ID(ID_DOC_TREE_XREF_REMOVE_XREF)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDI
+//-----------------------------------------------------------------------------------------------------
+#define	IDI_ADDON		2232
+#define	IDI_DOCUMENT		2234
+#define	IDI_MODULE		2233

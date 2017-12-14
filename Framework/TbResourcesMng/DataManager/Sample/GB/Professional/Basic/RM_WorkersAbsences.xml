@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <RM_WorkersAbsences WorkerID="28" Reason="DISEASE" StartingDate="2009-09-28T00:00:00+02:00" EndingDate="2009-10-04T00:00:00+02:00" Manager="46" Notes="" />
+  <RM_WorkersAbsences WorkerID="36" Reason="STRIKE" StartingDate="2010-04-14T00:00:00+02:00" EndingDate="2010-04-14T23:59:00+02:00" Manager="46" Notes=""  />
+</DataTables>

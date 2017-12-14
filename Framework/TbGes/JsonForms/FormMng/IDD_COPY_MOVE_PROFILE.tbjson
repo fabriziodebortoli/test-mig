@@ -1,0 +1,132 @@
+﻿{
+  "id": "IDD_COPY_MOVE_PROFILE",
+  "rcId": 1062,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 220,
+  "height": 279,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "formmng",
+  "items": [
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Target",
+      "x": 8,
+      "y": 5,
+      "width": 204,
+      "height": 104
+    },
+    {
+      "id": "IDC_RADIO_COPYMOVEDLG_USR",
+      "type": 10,
+      "text": "User:",
+      "x": 11,
+      "y": 16,
+      "width": 49,
+      "height": 10,
+      "tabStop": false,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADIO_COPYMOVEDLG_ALLUSRS",
+      "type": 10,
+      "text": "All users",
+      "x": 76,
+      "y": 16,
+      "width": 68,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADIO_COPYMOVEDLG_STD",
+      "type": 10,
+      "text": "Standard",
+      "x": 154,
+      "y": 16,
+      "width": 53,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_USR",
+      "type": 2,
+      "text": "Select one or more users:",
+      "x": 14,
+      "y": 28,
+      "width": 170,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_GROUP_PROF",
+      "type": 9,
+      "text": "Export profiles existing in:",
+      "x": 8,
+      "y": 116,
+      "width": 204,
+      "height": 129
+    },
+    {
+      "id": "IDC_COPYMOVEPROFILEDLG_LIST_PROFILE",
+      "type": 24,
+      "x": 11,
+      "y": 126,
+      "width": 196,
+      "height": 113,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 59,
+      "y": 258,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 116,
+      "y": 258,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_USR_PROFILE",
+      "type": 2,
+      "x": 114,
+      "y": 114,
+      "width": 92,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_COPYMOVEPROFILEDLG_LIST_USR",
+      "type": 30,
+      "x": 11,
+      "y": 39,
+      "width": 196,
+      "height": 66,
+      "border": true,
+      "alignment": 1,
+      "noColumnHeader": true,
+      "view": 2,
+      "alwaysShowSelection": true
+    }
+  ]
+}

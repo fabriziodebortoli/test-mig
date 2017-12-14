@@ -1,0 +1,11 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbOleDb\JsonForms\SqlRecoveryManager\IDD_RCVRYMNG.hjson>
+#include	<TbOleDb\JsonForms\SqlRecoveryManager\IDD_RCVRYMNGASK.hjson>
+#include	<TbOleDb\JsonForms\SqlRecoveryManager\IDD_RCVRYMNGRESULT.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_BUTTON1			GET_IDC(IDC_BUTTON1)
+#define	IDC_SYSLINK1			GET_IDC(IDC_SYSLINK1)

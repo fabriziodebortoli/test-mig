@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Microarea.Internals.PingImporter.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PingImporter_it_microarea_www_Registration" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://www.microarea.it/Registration/Registration.asmx</Value>
+    </Setting>
+    <Setting Name="ftpHostName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">194.242.61.188</Value>
+    </Setting>
+    <Setting Name="pingWebServerHostName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">www.microarea.it</Value>
+    </Setting>
+    <Setting Name="userName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">iproev68</Value>
+    </Setting>
+    <Setting Name="password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">gCXdkKSH00</Value>
+    </Setting>
+    <Setting Name="authenticationToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">1CCAF7DA-6289-422E-B907-9F07270D8424</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

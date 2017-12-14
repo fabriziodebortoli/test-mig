@@ -1,0 +1,888 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LockPictureBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="LockPictureBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="LockPictureBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 46</value>
+  </data>
+  <data name="LockPictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LockPictureBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <metadata name="toolTipSetGrants.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="LockPictureBox.ToolTip" xml:space="preserve">
+    <value>The current object is protected</value>
+  </data>
+  <data name="&gt;&gt;LockPictureBox.Name" xml:space="preserve">
+    <value>LockPictureBox</value>
+  </data>
+  <data name="&gt;&gt;LockPictureBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LockPictureBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LockPictureBox.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="ShowRolesButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="ShowRolesButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="ShowRolesButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ShowRolesButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 128</value>
+  </data>
+  <data name="ShowRolesButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 26</value>
+  </data>
+  <data name="ShowRolesButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ShowRolesButton.Text" xml:space="preserve">
+    <value>Show/Hide User's role grants</value>
+  </data>
+  <data name="ShowRolesButton.ToolTip" xml:space="preserve">
+    <value>Show/Hide user's grants inherits by user's roles</value>
+  </data>
+  <data name="&gt;&gt;ShowRolesButton.Name" xml:space="preserve">
+    <value>ShowRolesButton</value>
+  </data>
+  <data name="&gt;&gt;ShowRolesButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShowRolesButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ShowRolesButton.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.Name" xml:space="preserve">
+    <value>NothingLabel</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.Name" xml:space="preserve">
+    <value>NotDefined</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.Name" xml:space="preserve">
+    <value>InheritLabe</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.Name" xml:space="preserve">
+    <value>ForbiddenLabel</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.Name" xml:space="preserve">
+    <value>AllowedLabel</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.Name" xml:space="preserve">
+    <value>pctNothing</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;pctNa.Name" xml:space="preserve">
+    <value>pctNa</value>
+  </data>
+  <data name="&gt;&gt;pctNa.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctNa.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctNa.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.Name" xml:space="preserve">
+    <value>pctInherit</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.Name" xml:space="preserve">
+    <value>pctForbidden</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.Name" xml:space="preserve">
+    <value>pctAllowed</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="GroupLegend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 280</value>
+  </data>
+  <data name="GroupLegend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 128</value>
+  </data>
+  <data name="GroupLegend.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="GroupLegend.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;GroupLegend.Name" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;GroupLegend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupLegend.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupLegend.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="NothingLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="NothingLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="NothingLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 104</value>
+  </data>
+  <data name="NothingLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 16</value>
+  </data>
+  <data name="NothingLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="NothingLabel.Text" xml:space="preserve">
+    <value>Not assigned</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.Name" xml:space="preserve">
+    <value>NothingLabel</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;NothingLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="NotDefined.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="NotDefined.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="NotDefined.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 80</value>
+  </data>
+  <data name="NotDefined.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 16</value>
+  </data>
+  <data name="NotDefined.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="NotDefined.Text" xml:space="preserve">
+    <value>Not defined</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.Name" xml:space="preserve">
+    <value>NotDefined</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;NotDefined.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="InheritLabe.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="InheritLabe.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="InheritLabe.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 56</value>
+  </data>
+  <data name="InheritLabe.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 16</value>
+  </data>
+  <data name="InheritLabe.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="InheritLabe.Text" xml:space="preserve">
+    <value>Inherit</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.Name" xml:space="preserve">
+    <value>InheritLabe</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;InheritLabe.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ForbiddenLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="ForbiddenLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ForbiddenLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 32</value>
+  </data>
+  <data name="ForbiddenLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 16</value>
+  </data>
+  <data name="ForbiddenLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ForbiddenLabel.Text" xml:space="preserve">
+    <value>Deny</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.Name" xml:space="preserve">
+    <value>ForbiddenLabel</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;ForbiddenLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="AllowedLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="AllowedLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="AllowedLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 8</value>
+  </data>
+  <data name="AllowedLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 16</value>
+  </data>
+  <data name="AllowedLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="AllowedLabel.Text" xml:space="preserve">
+    <value>Allowed</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.Name" xml:space="preserve">
+    <value>AllowedLabel</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;AllowedLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="pctNothing.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pctNothing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 104</value>
+  </data>
+  <data name="pctNothing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="pctNothing.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.Name" xml:space="preserve">
+    <value>pctNothing</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctNothing.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="pctNa.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pctNa.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 80</value>
+  </data>
+  <data name="pctNa.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="pctNa.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;pctNa.Name" xml:space="preserve">
+    <value>pctNa</value>
+  </data>
+  <data name="&gt;&gt;pctNa.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctNa.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctNa.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="pctInherit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pctInherit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 56</value>
+  </data>
+  <data name="pctInherit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="pctInherit.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.Name" xml:space="preserve">
+    <value>pctInherit</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctInherit.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="pctForbidden.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pctForbidden.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 32</value>
+  </data>
+  <data name="pctForbidden.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="pctForbidden.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.Name" xml:space="preserve">
+    <value>pctForbidden</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctForbidden.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="pctAllowed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pctAllowed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 8</value>
+  </data>
+  <data name="pctAllowed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="pctAllowed.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.Name" xml:space="preserve">
+    <value>pctAllowed</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.Parent" xml:space="preserve">
+    <value>GroupLegend</value>
+  </data>
+  <data name="&gt;&gt;pctAllowed.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="NamespaceLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>56, 8</value>
+  </data>
+  <data name="NamespaceLabel.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NamespaceLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>504, 56</value>
+  </data>
+  <data name="NamespaceLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="NamespaceLabel.Text" xml:space="preserve">
+    <value>Object namespace</value>
+  </data>
+  <data name="NamespaceLabel.ToolTip" xml:space="preserve">
+    <value>Description and namespace of the current object</value>
+  </data>
+  <data name="&gt;&gt;NamespaceLabel.Name" xml:space="preserve">
+    <value>NamespaceLabel</value>
+  </data>
+  <data name="&gt;&gt;NamespaceLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NamespaceLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;NamespaceLabel.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="AllowAllButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="AllowAllButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk02BQAAAAAAADYEAAAoAAAAEAAAABAAAAABAAgAAAAAAAAAAADEDgAAxA4AAAABAAAAAQAA/////8LC
+        wv8AAP//QYL//4L/AP8A/wD/gkEA/4KCgv//goL/ggCC/wCCgv//AP//AACC/wCCAP//AIL/AEGC/03K
+        1//Kysr/Sb7K/03S3/+mhmn/WdI5/+eujv+ujmn/48Km/03b5/++vr7/Xa4o/7q6uv9NTcb/pqaS/+PK
+        tv9ZVd//cec9/0lR0v9NRa7/baq+///Spv+2vq7/jo6K/0k9nv9RSbb/QUEA/45pTf9xxtL/47aW/8bG
+        xv/O0s7/SbbG/56env9Nztv/5+fn/1lZ5//bror//9+u/+Pj3/9VUc7/XV3r/2nSLf+S93X/YY6a/1HC
+        Pf+2koL/wram/6ampv9FQY7/ztLj/0mOmv9dwi3/PTmS/5p5Xf9BQZ7/YbYg/9umff9R3+//TVXf/762
+        sv9Z40H/876W/3HCzv9BOZr/29vb/22isv9JRbL/tpJt/01Nvv9JQab/6+vv/33vTf+ikor/wqaW/6aO
+        ff/Xzsr/hoaG/+Oujv/f69///+O2/3l5ef+6km3/49/b/66urv9htsb/YeNB/9fX1//7vpL/VZ4c/6rK
+        ov9NfYr/PTWC/9u2lv9ZqiT/nqKS/+fSvv+6yrr/lpKW/4ZlUf9VTb7/Wbot/5ZxWf9160X/29LK///K
+        jv/CmnH/TUm2/2XGIP9lyi3/XaYk/11hWf/n29L/gs7S/+f37/+uhl3/nveC/9e2ov9xqrb/yp6K/4qu
+        hv+ussr/vtu6/1lVov/3soL/OSBx/2XvVf/7ypb/Udfj/2Gmsv+2trb/rram/5JpRf95gnn/RUWm/8qi
+        df+upqL/UbbG/+Pj7/9tprr/mrKS/8K+vv/n49//ivNl/4JhRf+eosb/YYaS/9emiv9NUa7/ppqK/1mu
+        IP9NorL/noZ1/03Gzv+mfV3/Ycrf/0mCFP9tssL/aaq2/13rTf9VUcr/TUlx/9vCsv8cFFn/YZJR///b
+        pv/G18r/KCiS/7q6zv/G7/P/29/S/2muUf9Rkhz/ebLC/7aahv+ieVH/ko6S/6bn6/9lpiT/VZIx/2Fh
+        Yf8oWQD/bW2i/7a23/99qmn/UU1d/zl1AP9ZbUn/HBhx/zk9tv+2rqb//9Ke/5ZtRf/Kvrr/pqKu/7Lv
+        8/9Jmqr/WVmK/4K+wv+ivp7/eVU5/7qilv9Joij/xpp9/++yiv+uopr/ropp/y1tHP9hrr7/TbIt/1mi
+        JP89eTX/zuPO/5ZxUf+a5+//YdLn/11Zef+SXS3/bWVt/01Fov9t1yj/SUm+/1WqRf9tmqr//86m/9fK
+        wv8xhiT/lsZ9/1l5gv8UFGX/YcLX/y2mIP9NyjX/QXkA/22Snv9RfSj/wpZx/zUolv95dYb/ZZpV/wAA
+        AAAAAAAAAAAAAAAAAAAAAAAAagAAAAAAAAAAAAAAAAAAAPeIAAAAAAAAAAAAAAAAAGoNDfMAAAAAAAAA
+        AAAAAADuDQ33agAAAAAAAAAAAABqDe7zDbsAAAAAAAAAAABqDQ1qAMgNagAAAAAAAAAAaojzAAAA99pq
+        AAAAAAAAAAAAAAAAAGoNu+QAAAAAAAAAAAAAAAAAag3zAAAAAAAAAAAAAAAAAABqDWoAAAAAAAAAAAAA
+        AAAAAGoNagAAAAAAAAAAAAAAAAAAatpqAAAAAAAAAAAAAAAAAACK7moAAAAAAAAAAAAAAAAAAOSIigAA
+        AAAAAAAAAAAAAAAAAIo=
+</value>
+  </data>
+  <data name="AllowAllButton.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="AllowAllButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="AllowAllButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 216</value>
+  </data>
+  <data name="AllowAllButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 26</value>
+  </data>
+  <data name="AllowAllButton.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="AllowAllButton.Text" xml:space="preserve">
+    <value>Allow All</value>
+  </data>
+  <data name="&gt;&gt;AllowAllButton.Name" xml:space="preserve">
+    <value>AllowAllButton</value>
+  </data>
+  <data name="&gt;&gt;AllowAllButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AllowAllButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;AllowAllButton.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="DenyAllButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="DenyAllButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="DenyAllButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 248</value>
+  </data>
+  <data name="DenyAllButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 26</value>
+  </data>
+  <data name="DenyAllButton.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="DenyAllButton.Text" xml:space="preserve">
+    <value>Deny All</value>
+  </data>
+  <data name="&gt;&gt;DenyAllButton.Name" xml:space="preserve">
+    <value>DenyAllButton</value>
+  </data>
+  <data name="&gt;&gt;DenyAllButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DenyAllButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;DenyAllButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="UserLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UserLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UserLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 72</value>
+  </data>
+  <data name="UserLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 17</value>
+  </data>
+  <data name="UserLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="UserLabel.Text" xml:space="preserve">
+    <value>Users:</value>
+  </data>
+  <data name="&gt;&gt;UserLabel.Name" xml:space="preserve">
+    <value>UserLabel</value>
+  </data>
+  <data name="&gt;&gt;UserLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;UserLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="UsersComboBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="UsersComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 96</value>
+  </data>
+  <data name="UsersComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 24</value>
+  </data>
+  <data name="UsersComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="UsersComboBox.ToolTip" xml:space="preserve">
+    <value>It allows to admin grants, only on current objects, for an other user</value>
+  </data>
+  <data name="&gt;&gt;UsersComboBox.Name" xml:space="preserve">
+    <value>UsersComboBox</value>
+  </data>
+  <data name="&gt;&gt;UsersComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UsersComboBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;UsersComboBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RolesLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RolesLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 160</value>
+  </data>
+  <data name="RolesLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 24</value>
+  </data>
+  <data name="RolesLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="RolesLabel.Text" xml:space="preserve">
+    <value>Roles:</value>
+  </data>
+  <data name="&gt;&gt;RolesLabel.Name" xml:space="preserve">
+    <value>RolesLabel</value>
+  </data>
+  <data name="&gt;&gt;RolesLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RolesLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RolesLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RolesComboBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="RolesComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 184</value>
+  </data>
+  <data name="RolesComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 24</value>
+  </data>
+  <data name="RolesComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="RolesComboBox.ToolTip" xml:space="preserve">
+    <value>It allows to admin grants, only on current objects, for an other role</value>
+  </data>
+  <data name="&gt;&gt;RolesComboBox.Name" xml:space="preserve">
+    <value>RolesComboBox</value>
+  </data>
+  <data name="&gt;&gt;RolesComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RolesComboBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RolesComboBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CurrentUserPictureWithBalloon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>470, 65</value>
+  </data>
+  <data name="CurrentUserPictureWithBalloon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 24</value>
+  </data>
+  <data name="CurrentUserPictureWithBalloon.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="CurrentUserPictureWithBalloon.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CurrentUserPictureWithBalloon.Name" xml:space="preserve">
+    <value>CurrentUserPictureWithBalloon</value>
+  </data>
+  <data name="&gt;&gt;CurrentUserPictureWithBalloon.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.UI.WinControls.PictureWithBalloon, Microarea.TaskBuilderNet.UI, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CurrentUserPictureWithBalloon.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CurrentUserPictureWithBalloon.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>628, 480</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10pt</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>OSL Security</value>
+  </data>
+  <data name="&gt;&gt;toolTipSetGrants.Name" xml:space="preserve">
+    <value>toolTipSetGrants</value>
+  </data>
+  <data name="&gt;&gt;toolTipSetGrants.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SetGrants</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.PlugIns.PlugInsForm, Microarea.Console.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

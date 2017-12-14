@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_WIZARD_IMPORT_START_PAGE			GET_IDD(IDD_WIZARD_IMPORT_START_PAGE, D.Extensions.XEngine.ImportCriteria)
+#define	IDC_IMPORT_DOWLOAD_BTN			GET_IDC(IDC_IMPORT_DOWLOAD_BTN)
+#define	IDC_IMPORT_NO_DOWLOAD_BTN			GET_IDC(IDC_IMPORT_NO_DOWLOAD_BTN)

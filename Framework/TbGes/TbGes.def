@@ -1,0 +1,7 @@
+; TbGes.def : dichiara i parametri di modulo per la DLL.
+
+LIBRARY      "TbGes"
+
+EXPORTS
+	InitDynLinkLibrary
+    ; Inserire qui le esportazioni esplicite

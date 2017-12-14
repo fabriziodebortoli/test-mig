@@ -1,0 +1,16 @@
+﻿{
+   "id" : "ID_EXTDOC_TOOLBAR_MAIN",
+   "items" : [
+      {
+         "hint" : "Reload SOS document classes",
+         "icon" : "Framework.TbFrameworkImages.Images.25x25.Refresh.png",
+         "id" : "ID_SOS_CONFIGURATION_RELOAD_DOC_CLASSES",
+         "name" : "SOSConfigurationReloadDocClasses",
+         "text" : "Reload",
+         "type" : 15 /*ToolbarButton*/
+      }
+   ],
+   "name" : "Main",
+   "type" : 14 /*Toolbar*/
+
+}

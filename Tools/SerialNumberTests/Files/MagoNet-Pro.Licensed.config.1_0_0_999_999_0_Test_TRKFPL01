@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Product name="MagoNet-Pro" activationversion="2">
+    <ActivationKeys />
+    <SalesModule name="ERP-Pro.Trade Package.Overload" internalcode="0110G081">
+      <Serial>770XBG4PZW7G7TM7</Serial>
+      <Serial>M3WXBA4UZC7K7FMK</Serial>
+    </SalesModule>
+  </Product>
+</Configuration>

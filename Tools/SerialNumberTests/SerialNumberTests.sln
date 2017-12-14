@@ -1,0 +1,112 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialNumberTests", "SerialNumberTests.csproj", "{7903D842-89AF-4548-B764-D628F0A1A7F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginManager", "..\..\WebFramework\LoginManager\LoginManager.csproj", "{6A29D025-C34D-4F3A-867B-CD8B3E72F759}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microarea.TaskBuilderNet.Core", "..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj", "{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microarea.TaskBuilderNet.ParametersManager", "..\..\TaskBuilderNet\Microarea.TaskBuilderNet.ParametersManager\Microarea.TaskBuilderNet.ParametersManager.csproj", "{BEFDB95F-5504-4C27-993B-094C069CB8BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microarea.TaskBuilderNet.UI", "..\..\TaskBuilderNet\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj", "{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microarea.TaskBuilderNet.Licence", "..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Licence\Microarea.TaskBuilderNet.Licence.csproj", "{042804B4-7D3B-490B-864D-EFE3F7AC3462}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microarea.TaskBuilderNet.Interfaces", "..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj", "{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microarea.TaskBuilderNet.Woorm", "..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Woorm\Microarea.TaskBuilderNet.Woorm.csproj", "{6459DEE4-5924-4257-A076-92C714C69D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microarea.TaskBuilderNet.Data", "..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj", "{F2F1C352-B5F8-4E92-A85F-99B012F80504}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://srv-tfs8:8080/
+		SccProjectUniqueName0 = ..\\..\\WebFramework\\LoginManager\\LoginManager.csproj
+		SccProjectName0 = ../../WebFramework/LoginManager
+		SccAuxPath0 = http://srv-tfs8:8080
+		SccLocalPath0 = ..\\..\\WebFramework\\LoginManager
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Core\\Microarea.TaskBuilderNet.Core.csproj
+		SccProjectName1 = ../../TaskBuilderNet/Microarea.TaskBuilderNet.Core
+		SccAuxPath1 = http://srv-tfs8:8080
+		SccLocalPath1 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Core
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.ParametersManager\\Microarea.TaskBuilderNet.ParametersManager.csproj
+		SccProjectName2 = ../../TaskBuilderNet/Microarea.TaskBuilderNet.ParametersManager
+		SccAuxPath2 = http://srv-tfs8:8080
+		SccLocalPath2 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.ParametersManager
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.UI\\Microarea.TaskBuilderNet.UI.csproj
+		SccProjectName3 = ../../TaskBuilderNet/Microarea.TaskBuilderNet.UI
+		SccAuxPath3 = http://srv-tfs8:8080
+		SccLocalPath3 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.UI
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName4 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Licence\\Microarea.TaskBuilderNet.Licence.csproj
+		SccProjectName4 = ../../TaskBuilderNet/Microarea.TaskBuilderNet.Licence
+		SccAuxPath4 = http://srv-tfs8:8080
+		SccLocalPath4 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Licence
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName5 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Interfaces\\Microarea.TaskBuilderNet.Interfaces.csproj
+		SccProjectName5 = ../../TaskBuilderNet/Microarea.TaskBuilderNet.Interfaces
+		SccAuxPath5 = http://srv-tfs8:8080
+		SccLocalPath5 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Interfaces
+		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName6 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Woorm\\Microarea.TaskBuilderNet.Woorm.csproj
+		SccProjectName6 = ../../TaskBuilderNet/Microarea.TaskBuilderNet.Woorm
+		SccAuxPath6 = http://srv-tfs8:8080
+		SccLocalPath6 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Woorm
+		SccProvider6 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName7 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Data\\Microarea.TaskBuilderNet.Data.csproj
+		SccProjectName7 = ../../TaskBuilderNet/Microarea.TaskBuilderNet.Data
+		SccAuxPath7 = http://srv-tfs8:8080
+		SccLocalPath7 = ..\\..\\TaskBuilderNet\\Microarea.TaskBuilderNet.Data
+		SccProvider7 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7903D842-89AF-4548-B764-D628F0A1A7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7903D842-89AF-4548-B764-D628F0A1A7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7903D842-89AF-4548-B764-D628F0A1A7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7903D842-89AF-4548-B764-D628F0A1A7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A29D025-C34D-4F3A-867B-CD8B3E72F759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A29D025-C34D-4F3A-867B-CD8B3E72F759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A29D025-C34D-4F3A-867B-CD8B3E72F759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A29D025-C34D-4F3A-867B-CD8B3E72F759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEFDB95F-5504-4C27-993B-094C069CB8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFDB95F-5504-4C27-993B-094C069CB8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFDB95F-5504-4C27-993B-094C069CB8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFDB95F-5504-4C27-993B-094C069CB8BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{042804B4-7D3B-490B-864D-EFE3F7AC3462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042804B4-7D3B-490B-864D-EFE3F7AC3462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042804B4-7D3B-490B-864D-EFE3F7AC3462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042804B4-7D3B-490B-864D-EFE3F7AC3462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6459DEE4-5924-4257-A076-92C714C69D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6459DEE4-5924-4257-A076-92C714C69D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6459DEE4-5924-4257-A076-92C714C69D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6459DEE4-5924-4257-A076-92C714C69D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2F1C352-B5F8-4E92-A85F-99B012F80504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F1C352-B5F8-4E92-A85F-99B012F80504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F1C352-B5F8-4E92-A85F-99B012F80504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F1C352-B5F8-4E92-A85F-99B012F80504}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

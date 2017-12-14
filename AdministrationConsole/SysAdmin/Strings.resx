@@ -1,0 +1,1398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DatabaseExistsOnServer" xml:space="preserve">
+    <value>Database {0} exists on server {1}</value>
+  </data>
+  <data name="CannotReadingCompanyInfo" xml:space="preserve">
+    <value>Unable to read company data</value>
+  </data>
+  <data name="AddCompany" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="ConnectionUpdated" xml:space="preserve">
+    <value>The selected data will be available at the next login.</value>
+  </data>
+  <data name="DeleteCompany" xml:space="preserve">
+    <value>Delete company</value>
+  </data>
+  <data name="RoleAddedAlreadyExists" xml:space="preserve">
+    <value>Unable to add the role '{0}', because the specified name already exists.</value>
+  </data>
+  <data name="CompanyDbOwner" xml:space="preserve">
+    <value>The application user who will be owner and administrator of the company database</value>
+  </data>
+  <data name="DatabaseEmpty" xml:space="preserve">
+    <value>No company name provided!</value>
+  </data>
+  <data name="OverwriteExistingBakFile" xml:space="preserve">
+    <value>Replace the backup file with the new one</value>
+  </data>
+  <data name="CheckCompanyDb" xml:space="preserve">
+    <value>Checking company database</value>
+  </data>
+  <data name="RoleNameToolTip" xml:space="preserve">
+    <value>The role name</value>
+  </data>
+  <data name="DifferentDbo" xml:space="preserve">
+    <value>Warning! The owner of database {0} will be modified from {1} into {2}. </value>
+  </data>
+  <data name="TargetLogin" xml:space="preserve">
+    <value>Target Login</value>
+  </data>
+  <data name="OperationEndedSuccessfully" xml:space="preserve">
+    <value>{0} of database {1} ended successfully!</value>
+  </data>
+  <data name="MicroareaAdmin" xml:space="preserve">
+    <value>Company database logins</value>
+  </data>
+  <data name="LoadPropertiesForDatabase" xml:space="preserve">
+    <value>Loading properties for the database {0}</value>
+  </data>
+  <data name="NoLoginSpecified" xml:space="preserve">
+    <value>Specify the login name</value>
+  </data>
+  <data name="NewDataBase" xml:space="preserve">
+    <value>Create new database</value>
+  </data>
+  <data name="DeleteCompanyDb" xml:space="preserve">
+    <value>Do you really want to delete the database of the selected company? Warning! If you choose yes, all data managed by the application will be lost!
+It could take few minutes.</value>
+  </data>
+  <data name="CreateCompanyDBStructure" xml:space="preserve">
+    <value>Do you want to continue creating company database structure?</value>
+  </data>
+  <data name="ActionCheck" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="WrongUser" xml:space="preserve">
+    <value>It is not possible to connect to the server {0} with the user {1}:
+user does not exist or his password is wrong. Do you want to add the user?</value>
+  </data>
+  <data name="UserPwdNeverExpiredToolTip" xml:space="preserve">
+    <value>By selecting this checkbox, 
+the validity of the user's password 
+will never expire</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="EmptyDatabaseLogin" xml:space="preserve">
+    <value>New database login is empty!</value>
+  </data>
+  <data name="ErrorInMsdbConnection" xml:space="preserve">
+    <value>An error occurred during connection to msdb system database.</value>
+  </data>
+  <data name="DataBaseAlreadyExist" xml:space="preserve">
+    <value>The database {0} already exists! Do you want to replace it? Warning! This action will delete all data of the company database {0}.</value>
+  </data>
+  <data name="OracleUserId" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="NotSelectedDatabaseLogin" xml:space="preserve">
+    <value>No database login selected!</value>
+  </data>
+  <data name="DBUser" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="PasswordNeverExpire" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="CannotConnectWithSystemDb" xml:space="preserve">
+    <value>Unable to connect to the System database</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="CompanyDboExists" xml:space="preserve">
+    <value>'{0}' is the dbowner of database {1}</value>
+  </data>
+  <data name="NodeRoot" xml:space="preserve">
+    <value>System Administrator</value>
+  </data>
+  <data name="InfoConnectionNotUpdated" xml:space="preserve">
+    <value>Connection information not updated</value>
+  </data>
+  <data name="Domain" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="SuccessRestore" xml:space="preserve">
+    <value>Database restore completed</value>
+  </data>
+  <data name="ModifyAction" xml:space="preserve">
+    <value>save</value>
+  </data>
+  <data name="AskIfDeleteCompanyUser" xml:space="preserve">
+    <value>Are you sure you want to delete the associated user?</value>
+  </data>
+  <data name="AskBeforeDropLogin" xml:space="preserve">
+    <value>Do you want to delete also the logins used by users to connect to the company database? Warning! In case of multi-user login, also associations of users connecting to companies on the same server will be deleted, and these users will not be able to cannot any more.</value>
+  </data>
+  <data name="RoleDescriptionToolTip" xml:space="preserve">
+    <value>(Optional) The role description</value>
+  </data>
+  <data name="ErrorDuringReadingServerProperties" xml:space="preserve">
+    <value>Error during read of server properties </value>
+  </data>
+  <data name="AbortingDBModify" xml:space="preserve">
+    <value>The modification process of the database will be stopped</value>
+  </data>
+  <data name="NotExistLogins" xml:space="preserve">
+    <value>There are no logins available</value>
+  </data>
+  <data name="NotSelectedCompanyUsers" xml:space="preserve">
+    <value>To associate one or more application users with a company, you have to select at least one from the application users list.</value>
+  </data>
+  <data name="DefaultCollation" xml:space="preserve">
+    <value>Name of default collation: {0}</value>
+  </data>
+  <data name="CloneCompany" xml:space="preserve">
+    <value>Clone company</value>
+  </data>
+  <data name="WrongOracleDatabaseVersion" xml:space="preserve">
+    <value>Warning! Selected database server for creating the company database is not an ORACLE server (as required by the licence). Unable to continue!</value>
+  </data>
+  <data name="NodeCompanyUsers" xml:space="preserve">
+    <value>Associated users</value>
+  </data>
+  <data name="CompanyIsUnicode" xml:space="preserve">
+    <value>The 'Use Unicode character set' checkbox in the company parameters is selected</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Error code</value>
+  </data>
+  <data name="CannotChangePwdOfLoginMessage" xml:space="preserve">
+    <value>Unable to complete the process of changing password</value>
+  </data>
+  <data name="RestoreDataBase" xml:space="preserve">
+    <value>Restore database</value>
+  </data>
+  <data name="EmptyNewDataBaseName" xml:space="preserve">
+    <value>You must specify a name for the new company database!</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>&amp;Logoff</value>
+  </data>
+  <data name="NoPermissionUser" xml:space="preserve">
+    <value>Warning! User {0} has not Server Roles required to run the requested operation. Do you want to proceed with assignation of these roles? Choosing "No" the operation will be interrupted.</value>
+  </data>
+  <data name="UserDescriptionToolTip" xml:space="preserve">
+    <value>(Optional) A description for the application user</value>
+  </data>
+  <data name="DeleteUser" xml:space="preserve">
+    <value>Delete user</value>
+  </data>
+  <data name="DeleteRole" xml:space="preserve">
+    <value>Delete role</value>
+  </data>
+  <data name="JoinUserCompany" xml:space="preserve">
+    <value>Associating a user to a company</value>
+  </data>
+  <data name="CannotPerformChecks" xml:space="preserve">
+    <value>Unable to proceed with the checking process. Unable to read the master company data and/or company associated users</value>
+  </data>
+  <data name="DeleteTitleMenu" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="PlugInUnLoaded" xml:space="preserve">
+    <value>{0} has logged out</value>
+  </data>
+  <data name="CannotContactSystemDatabase" xml:space="preserve">
+    <value>Unable to contact the System database</value>
+  </data>
+  <data name="NotSelectedCompanyUsersToModify" xml:space="preserve">
+    <value>To modify the association, you have to select at least a user from the list.</value>
+  </data>
+  <data name="AddNewUser" xml:space="preserve">
+    <value>Add a new user</value>
+  </data>
+  <data name="AlreadyExistLoginIntoDb" xml:space="preserve">
+    <value>The login {0} is already associated to company database.</value>
+  </data>
+  <data name="Provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="MessageForSystemRestore" xml:space="preserve">
+    <value>To make the restoration of system database data, you have to quit from the Console, and to use native administration tools of your database. For details, contact the technical support service.</value>
+  </data>
+  <data name="NodeCompanies" xml:space="preserve">
+    <value>Companies</value>
+  </data>
+  <data name="WrongCharactersInCompanyName" xml:space="preserve">
+    <value>The company name has invalid characters!</value>
+  </data>
+  <data name="AfterDisabledUser" xml:space="preserve">
+    <value>The user {0} has been disabled and will not be able to connect to the company {1}.</value>
+  </data>
+  <data name="StateCheck" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Undefined" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
+  <data name="UserMustChangePwdUserToolTip" xml:space="preserve">
+    <value>By selecting this checkbox, 
+the user will have to change his password 
+at his next connection</value>
+  </data>
+  <data name="AfterCompanySuccessModifying" xml:space="preserve">
+    <value>Company {0} is modified</value>
+  </data>
+  <data name="CompanyWithSameName" xml:space="preserve">
+    <value>A company with the same name already exists, unable to proceed</value>
+  </data>
+  <data name="BackupProcessName" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="WrongItalianDBVersion" xml:space="preserve">
+    <value>The selected database is not compatible with the current program version. Do you want to continue? Answering 'Yes' you cannot use this company until you will execute the Data Migration process. Answering 'No' you have to select another compatible database.</value>
+  </data>
+  <data name="DbIsUnicode" xml:space="preserve">
+    <value>Warning! The selected database uses the Unicode character set</value>
+  </data>
+  <data name="LogFileName" xml:space="preserve">
+    <value>Log file name</value>
+  </data>
+  <data name="AskBeforeDeleteOracleLogin" xml:space="preserve">
+    <value>Warning! All selected users will be deleted, and will not be able to connect to the company any more! Are you sure you want to proceed?</value>
+  </data>
+  <data name="LabelCompanyInserting" xml:space="preserve">
+    <value>Insert new Company</value>
+  </data>
+  <data name="UnableToReadSystemDatabaseVersion" xml:space="preserve">
+    <value>Warning! Unable to evaluate the database version of the current installation.</value>
+  </data>
+  <data name="CompanyUserExists" xml:space="preserve">
+    <value>The user {0} (with login {1}) is currently associated to database</value>
+  </data>
+  <data name="AskIfInsertingUserWithParam" xml:space="preserve">
+    <value>User {0} does not exist on server {1}. Proceed inserting it?</value>
+  </data>
+  <data name="CannotSaveConnectionInfo" xml:space="preserve">
+    <value>It's required to disconnect the users from the application in order to save new connection information. The connection will be performed without saving these information.</value>
+  </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>New user</value>
+  </data>
+  <data name="NewRole" xml:space="preserve">
+    <value>New role</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server SQL</value>
+  </data>
+  <data name="DefinedInto" xml:space="preserve">
+    <value>Defined in</value>
+  </data>
+  <data name="DatabaseCreated" xml:space="preserve">
+    <value>The System database {0} was successfully created </value>
+  </data>
+  <data name="AbortingDBCreation" xml:space="preserve">
+    <value>The database creation process is stopped!</value>
+  </data>
+  <data name="UserExistInCompanyDb" xml:space="preserve">
+    <value>Warning: The user is already associated with the company. The operation will be terminated.</value>
+  </data>
+  <data name="NotSelectedLogins" xml:space="preserve">
+    <value>No login selected!</value>
+  </data>
+  <data name="CannotReadConfigFile" xml:space="preserve">
+    <value>Unable to read the file containing the information about last connection! Please enter these information.</value>
+  </data>
+  <data name="CannotClone" xml:space="preserve">
+    <value>Unable to proceed with the clonation process</value>
+  </data>
+  <data name="MinPwdLenghtToolTip" xml:space="preserve">
+    <value>Password must contain at least the specified number of characters</value>
+  </data>
+  <data name="NotExistLogin" xml:space="preserve">
+    <value>Warning! The login does not exist!</value>
+  </data>
+  <data name="WrongSaPassword" xml:space="preserve">
+    <value>Unable to connect to the server {0} as user {1}. The password is incorrect</value>
+  </data>
+  <data name="NotExistCompanyDboDuringCheck" xml:space="preserve">
+    <value>The company database owner is {0} instead of {1}</value>
+  </data>
+  <data name="NewSystemDbToolTip" xml:space="preserve">
+    <value>Select this option if you want to create a new System database</value>
+  </data>
+  <data name="UnableToDropSqlLogin" xml:space="preserve">
+    <value>Unable to delete user {0} login in the company {1} (database {2}). The user will not be able anyhow to connect to the company, because he will be deleted from the associated users list.</value>
+  </data>
+  <data name="ExplanationForChangePassword" xml:space="preserve">
+    <value>Warning! Changing this password will affect every application user of this company and every companies on server {0} who uses this login. Are you sure you want to proceed?</value>
+  </data>
+  <data name="CannotAddLogin" xml:space="preserve">
+    <value>Unable to add the login '{0}'!</value>
+  </data>
+  <data name="CannotClonedSa" xml:space="preserve">
+    <value>Unable to associate 'sa' user with the database. User 'sa' can only be the database owner. The operation will be interrupted.</value>
+  </data>
+  <data name="NotExistCompanyDbDuringCheck" xml:space="preserve">
+    <value>Database {0} does not exist on server {1}</value>
+  </data>
+  <data name="CannotChangePwdOfLogin" xml:space="preserve">
+    <value>Warning! The selected login {0} cannot connect to server. Verify its password</value>
+  </data>
+  <data name="CompanyHasSetUpdating" xml:space="preserve">
+    <value>The current company has set the flag Updating</value>
+  </data>
+  <data name="ApplicationUserIsDisabled" xml:space="preserve">
+    <value>The application login ({0}) is disabled: the user will neither be able to connect to any company nor to enable associations, while its login is disabled.</value>
+  </data>
+  <data name="CannotChangeDbOwnerProperties" xml:space="preserve">
+    <value>Warning! the selected user {0} is the owner of company database</value>
+  </data>
+  <data name="CompanyIsDeleted" xml:space="preserve">
+    <value>The company data was deleted</value>
+  </data>
+  <data name="PreferredLanguageCompany" xml:space="preserve">
+    <value>The preferred language for applications used by the company; if no language has is selected, it will be defaulted to the language selected during the installation process.</value>
+  </data>
+  <data name="ForceRestoreInfo" xml:space="preserve">
+    <value>Force the restore over an existing database</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="DeleteDataBaseObject" xml:space="preserve">
+    <value>Delete database objects</value>
+  </data>
+  <data name="BackupDatabase" xml:space="preserve">
+    <value>Backup database</value>
+  </data>
+  <data name="EditionOfSqlServerInstance" xml:space="preserve">
+    <value>Edition of Microsoft® SQL Server™ instance: {0}</value>
+  </data>
+  <data name="UserDisabledToolTip" xml:space="preserve">
+    <value>By selecting this checkbox, 
+the application user will be disabled and 
+will not be able to connect 
+to the company any more.</value>
+  </data>
+  <data name="ReadConfigFile" xml:space="preserve">
+    <value>An error occurred while reading the ServerConnection.config. file</value>
+  </data>
+  <data name="DatabaseSystemDbToolTip" xml:space="preserve">
+    <value>The name of the System database</value>
+  </data>
+  <data name="ExistUser" xml:space="preserve">
+    <value>The user {0} already exists. Unable to continue </value>
+  </data>
+  <data name="RestoreProcessName" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="ServerSystemDbToolTip" xml:space="preserve">
+    <value>The name of the server where the System database is on, or where you want to create the new one.</value>
+  </data>
+  <data name="AskIfInsertingUser" xml:space="preserve">
+    <value>Warning! User does not exist, proceed inserting it?</value>
+  </data>
+  <data name="CheckJoinedCompanyUsers" xml:space="preserve">
+    <value>Checking company database users and logins</value>
+  </data>
+  <data name="CannotDeleteCompany" xml:space="preserve">
+    <value>Unable to delete company data</value>
+  </data>
+  <data name="CopyAction" xml:space="preserve">
+    <value>Copy action</value>
+  </data>
+  <data name="OpenBackupFileDlgTitle" xml:space="preserve">
+    <value>Set backup file name</value>
+  </data>
+  <data name="EmptyDataBaseServer" xml:space="preserve">
+    <value>You must select one of the available servers!</value>
+  </data>
+  <data name="InsertingServerDbCompanyToolTip" xml:space="preserve">
+    <value>Select a server where to create the company database</value>
+  </data>
+  <data name="CheckDbownerCompany" xml:space="preserve">
+    <value>Checking company database owner</value>
+  </data>
+  <data name="CannotDeleteCompanyUser" xml:space="preserve">
+    <value>Unable to delete the user {0}</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Password expiration</value>
+  </data>
+  <data name="CompanyIsNotUnicode" xml:space="preserve">
+    <value>The 'Use Unicode character set' checkbox in the company parameters is not selected</value>
+  </data>
+  <data name="LoginAdministration" xml:space="preserve">
+    <value>Logins maintenance</value>
+  </data>
+  <data name="ModifyCompanyUsers" xml:space="preserve">
+    <value>Modify the associations of company {0} (created on server {1})</value>
+  </data>
+  <data name="ProgressDuringCopyTables" xml:space="preserve">
+    <value>Copying data...</value>
+  </data>
+  <data name="BackupSystemDatabase" xml:space="preserve">
+    <value>Backup of &amp;System database</value>
+  </data>
+  <data name="UserPwdExpirationDateToolTip" xml:space="preserve">
+    <value>After this date, the validity of the 
+user’s password will expire
+</value>
+  </data>
+  <data name="DuringConnection" xml:space="preserve">
+    <value>An error occurred while connecting to the server {0}! Error: {1}</value>
+  </data>
+  <data name="CannotVerifyNTUser" xml:space="preserve">
+    <value>Impossible to verify if user {0} is uncorrectly set in domain/workgroup {1}</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="ErrDataBaseConnection" xml:space="preserve">
+    <value>Unable to connect to the database {0}. Please check the connection data!</value>
+  </data>
+  <data name="NotEqualPassword" xml:space="preserve">
+    <value>Warning! The password is invalid! Unable to save the data!</value>
+  </data>
+  <data name="NrMaxLoginFailedToolTip" xml:space="preserve">
+    <value>User login will be locked after the specified number of failed login attempts</value>
+  </data>
+  <data name="AskBeforeDeleteLogin" xml:space="preserve">
+    <value>Warning! All users who connect themselves to this company database (or to any other database on server {0}) will not be able to connect to the company any more! Are you sure you want to proceed?</value>
+  </data>
+  <data name="ErrEmptyCompany" xml:space="preserve">
+    <value>The company name is missing!</value>
+  </data>
+  <data name="PhysicalFileNameCol" xml:space="preserve">
+    <value>Move to physical file name</value>
+  </data>
+  <data name="ConnectToMasterDB" xml:space="preserve">
+    <value>Connecting to master database on server {0}</value>
+  </data>
+  <data name="FileNotExists" xml:space="preserve">
+    <value>Attention: you must specify an existing backup file for database {0}!</value>
+  </data>
+  <data name="ProviderReading" xml:space="preserve">
+    <value>There is no information about selected provider!</value>
+  </data>
+  <data name="LoadingInfoFromSysDB" xml:space="preserve">
+    <value>Loading information from system database</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="EmptyBackupFolder" xml:space="preserve">
+    <value>You have to select a folder where to save the database backup!</value>
+  </data>
+  <data name="NodeUsers" xml:space="preserve">
+    <value>Application Users</value>
+  </data>
+  <data name="NodeRoles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="UserPasswordToolTip" xml:space="preserve">
+    <value>(Optional) If selected, this will be the user's password </value>
+  </data>
+  <data name="SqlApplicationUsersToolTip" xml:space="preserve">
+    <value>The application user selected from this list will become the company database owner</value>
+  </data>
+  <data name="BackupNameEmpty" xml:space="preserve">
+    <value>Backup file name is required!</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="ErrorDuringReadingServerVersion" xml:space="preserve">
+    <value>Error during reading server version </value>
+  </data>
+  <data name="CheckCompanyData" xml:space="preserve">
+    <value>Checking entered data</value>
+  </data>
+  <data name="InvalidDatabase" xml:space="preserve">
+    <value>The database ({0}) cannot to be selected as database for the company</value>
+  </data>
+  <data name="JoinRole" xml:space="preserve">
+    <value>Associate user to roles</value>
+  </data>
+  <data name="EmailUserToolTip" xml:space="preserve">
+    <value>(Optional) E-mail of the application user</value>
+  </data>
+  <data name="CannotAssociateUserToCompany" xml:space="preserve">
+    <value>Unable to associate application user {0} with company {1} (database {2})!</value>
+  </data>
+  <data name="AddNewLogin" xml:space="preserve">
+    <value>Create a new login</value>
+  </data>
+  <data name="FailedOracleConnection" xml:space="preserve">
+    <value>The connection to the provider Oracle and to the company {0} has failed!</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="EmptyOracleOwnerName" xml:space="preserve">
+    <value>You have to specify a name for the user (already configured in the Oracle company database) who will connect to the company database</value>
+  </data>
+  <data name="BackupFileName" xml:space="preserve">
+    <value>You have to select a backup file (*.bak)</value>
+  </data>
+  <data name="BackupFilePath" xml:space="preserve">
+    <value>Backup file path</value>
+  </data>
+  <data name="UnableToPerformRestore" xml:space="preserve">
+    <value>Unable to restore the data!</value>
+  </data>
+  <data name="PasswordsAreTheSame" xml:space="preserve">
+    <value>The passwords are the same!  
+No changes to perform</value>
+  </data>
+  <data name="UserSystemDbToolTip" xml:space="preserve">
+    <value>A user who can connect to the server 
+where the System database is on
+(if the user does not exist, a new one 
+will be created)</value>
+  </data>
+  <data name="ErrorDuringReadingDbProperties" xml:space="preserve">
+    <value>Error during read of database properties </value>
+  </data>
+  <data name="NotSelectedSQLServer" xml:space="preserve">
+    <value>No SQL Server selected</value>
+  </data>
+  <data name="OracleApplicationUsersToolTip" xml:space="preserve">
+    <value>The application user selected will be the owner of the company database</value>
+  </data>
+  <data name="CannotConnectToServerWithUser" xml:space="preserve">
+    <value>Unable to connect to the server {1} with user {0}</value>
+  </data>
+  <data name="BackupName" xml:space="preserve">
+    <value>The name of the database that has to be restored is required!</value>
+  </data>
+  <data name="AskLoginAndPwd" xml:space="preserve">
+    <value>Enter a valid user name and password (optional) to log in and connect to server {0}</value>
+  </data>
+  <data name="CloneRole" xml:space="preserve">
+    <value>Clone role</value>
+  </data>
+  <data name="CloneUser" xml:space="preserve">
+    <value>Clone user</value>
+  </data>
+  <data name="Procedure" xml:space="preserve">
+    <value>Store Procedure or RPC</value>
+  </data>
+  <data name="CompanyNameModifyingToolTip" xml:space="preserve">
+    <value>The company name</value>
+  </data>
+  <data name="ButtonNtUserToolTip" xml:space="preserve">
+    <value>List of users in Integrated Security mode</value>
+  </data>
+  <data name="DBAuthentication" xml:space="preserve">
+    <value>Windows Authentication</value>
+  </data>
+  <data name="DataFileName" xml:space="preserve">
+    <value>Data file name</value>
+  </data>
+  <data name="CannotDisableLogin" xml:space="preserve">
+    <value>Unable to disable the user {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="CannotDisableAndDeleteLogin" xml:space="preserve">
+    <value>Cannot disable users, and drop logins</value>
+  </data>
+  <data name="PreferredLanguageUserToolTip" xml:space="preserve">
+    <value>User’s language. If no language is selected, it will be defaulted to the company language.</value>
+  </data>
+  <data name="NotExistCompanyUsersDuringCheck" xml:space="preserve">
+    <value>There are no associated users</value>
+  </data>
+  <data name="UnableToDropSynonyms" xml:space="preserve">
+    <value>Unable to delete the synonyms of the user {0} in the company {1} (database {2})</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>Class</value>
+  </data>
+  <data name="RoleDisabledToolTip" xml:space="preserve">
+    <value>Select this checkbox if you want to disable the role</value>
+  </data>
+  <data name="LogOn" xml:space="preserve">
+    <value>&amp;Logon</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>Disconnection from System Administration plug-in</value>
+  </data>
+  <data name="AddOracleUsersToLogins" xml:space="preserve">
+    <value>Associate one or more users to a login (service {0})</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>System &amp;Administrator</value>
+  </data>
+  <data name="CannotDeleteLogin" xml:space="preserve">
+    <value>Unable to delete the login {0}</value>
+  </data>
+  <data name="OracleProvider" xml:space="preserve">
+    <value>Provider Oracle</value>
+  </data>
+  <data name="NodeRootToolTip" xml:space="preserve">
+    <value>Administration of companies, databases and users</value>
+  </data>
+  <data name="AfterDeleteUser" xml:space="preserve">
+    <value>The user {0} has been deleted and will not be able to connect to the company {1}</value>
+  </data>
+  <data name="CheckIntegrity" xml:space="preserve">
+    <value>Data integrity check</value>
+  </data>
+  <data name="ExistCompanyDataBaseToolTip" xml:space="preserve">
+    <value>Select this option if you want to assign 
+an already existing database to the company 
+(the database has to be on the selected server)</value>
+  </data>
+  <data name="UserJoin" xml:space="preserve">
+    <value>Associate application users</value>
+  </data>
+  <data name="WrongDatabaseCultureSetting" xml:space="preserve">
+    <value>The DatabaseCulture specified for this company is not compatible with collation of selected database. Choosing 'Yes' old DatabaseCulture will be overritten with a new one compatible with selected database. Do you want to continue?</value>
+  </data>
+  <data name="PasswordIsEmpty" xml:space="preserve">
+    <value>(the password is empty)</value>
+  </data>
+  <data name="BackupFileNameEmpty" xml:space="preserve">
+    <value>Backup destination is required!</value>
+  </data>
+  <data name="AddUsersToLogins" xml:space="preserve">
+    <value>Associate more users to a login (server {0})</value>
+  </data>
+  <data name="AddUsersToLoginsPostgre" xml:space="preserve">
+    <value>Associate more users to a login (server {0})</value>
+  </data>
+  <data name="NotExistCompanyLoginDuringCheck" xml:space="preserve">
+    <value>The login {0} does not exist on server</value>
+  </data>
+  <data name="NTUsersToolTip" xml:space="preserve">
+    <value>The user will connect to applications 
+using the Integrated Authentication mode. 
+The login will be either in &lt;domain name&gt;\&lt;user name&gt; 
+or in &lt;computer name&gt;\&lt;user name&gt; form</value>
+  </data>
+  <data name="NoDestinationRole" xml:space="preserve">
+    <value>Warning! You have to specify a destination role</value>
+  </data>
+  <data name="AfterDeleteLogin" xml:space="preserve">
+    <value>The login {0} has been deleted.</value>
+  </data>
+  <data name="StartingCompanyDbCheck" xml:space="preserve">
+    <value>Beginning the check for company {0}</value>
+  </data>
+  <data name="NewEasyLookUser" xml:space="preserve">
+    <value>Create EasyLookSystem user</value>
+  </data>
+  <data name="NoDateValue" xml:space="preserve">
+    <value>The entry {0} is not a valid date format!</value>
+  </data>
+  <data name="AskIfDeleteMoreCompanies" xml:space="preserve">
+    <value>Warning! More companies are connected to the database {0}, do you want to continue with deletion process? All companies masters will be deleted</value>
+  </data>
+  <data name="OracleLoginsToolTip" xml:space="preserve">
+    <value>Name of the user (chosen among those actually configured on the Oracle server not yet associated with any company), that the selected application user will use for connecting to the company</value>
+  </data>
+  <data name="WrongCharactersInPwd" xml:space="preserve">
+    <value>Password must contain three 
+of the following four combinations: 
+upper characters, lower characters, 
+numbers and symbol!</value>
+  </data>
+  <data name="SuccessBackup" xml:space="preserve">
+    <value>Database backup process completed</value>
+  </data>
+  <data name="LogicalFileNameCol" xml:space="preserve">
+    <value>Logical file name</value>
+  </data>
+  <data name="PlugInLoaded" xml:space="preserve">
+    <value>{0} has logged in</value>
+  </data>
+  <data name="UnableToModifyOracleUser" xml:space="preserve">
+    <value>Unable to modify the user {0} and his connection information</value>
+  </data>
+  <data name="BackupRestoreTitleMenu" xml:space="preserve">
+    <value>Backup/Restore database</value>
+  </data>
+  <data name="WrongDatabaseVersion" xml:space="preserve">
+    <value>The database version does not match the licence version! Unable to continue!</value>
+  </data>
+  <data name="UserCloned" xml:space="preserve">
+    <value>An error occured while cloning the user {0}</value>
+  </data>
+  <data name="OracleServiceToolTip" xml:space="preserve">
+    <value>Oracle service (during the company modify process, is not possible to modify this information)</value>
+  </data>
+  <data name="EmptyDestCompanyName" xml:space="preserve">
+    <value>You must specify a name for the destination company!</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version: {0}</value>
+  </data>
+  <data name="LineNumber" xml:space="preserve">
+    <value>Line number where error code was generated</value>
+  </data>
+  <data name="ChangeDbo" xml:space="preserve">
+    <value>Change the database owner</value>
+  </data>
+  <data name="WrongLoginName" xml:space="preserve">
+    <value>Login name can not be '{0}'</value>
+  </data>
+  <data name="ConfirmExit" xml:space="preserve">
+    <value>Do you want to leave plug-in {0}?</value>
+  </data>
+  <data name="CannotCloneRoleIntoSameCompany" xml:space="preserve">
+    <value>Warning! Source and destination companies are the same, and source role name and new role name are the same. Unable to clone the role!</value>
+  </data>
+  <data name="NoAvailableUsers" xml:space="preserve">
+    <value>All available application users have been already assigned to companies which use the Oracle provider! Unable to assign the same user to two or more Oracle company!</value>
+  </data>
+  <data name="AddUsersToLogin" xml:space="preserve">
+    <value>Associate each user to a login (server {0}) </value>
+  </data>
+  <data name="AddUsersToLoginPostgre" xml:space="preserve">
+    <value>Associate each user to a login (server {0}) </value>
+  </data>
+  <data name="CannotCompanySave" xml:space="preserve">
+    <value>Unable to {0} the company {1}</value>
+  </data>
+  <data name="TitleInsertingNewRole" xml:space="preserve">
+    <value>Add a new role</value>
+  </data>
+  <data name="TitleInsertingNewUser" xml:space="preserve">
+    <value>Add a new application user</value>
+  </data>
+  <data name="WrongCharactersInDatabaseName" xml:space="preserve">
+    <value>The database name has invalid characters!</value>
+  </data>
+  <data name="LabelCompanyModifying" xml:space="preserve">
+    <value>Modify the company {0}</value>
+  </data>
+  <data name="DBObjectsDeleted" xml:space="preserve">
+    <value>Database objects have been deleted.</value>
+  </data>
+  <data name="DbIsNotUnicode" xml:space="preserve">
+    <value>Warning! The selected database does not use the Unicode character set</value>
+  </data>
+  <data name="RoleModifiedAlreadyExists" xml:space="preserve">
+    <value>Unable to modify the role, because the specified name '{0}' already exists.</value>
+  </data>
+  <data name="NewCompanyDatabaseToolTip" xml:space="preserve">
+    <value>Select this option if you want to create 
+a new database for the company 
+on the specified server</value>
+  </data>
+  <data name="OracleUserPasswordToolTip" xml:space="preserve">
+    <value>Password of the Oracle user</value>
+  </data>
+  <data name="WrongCharactersInUserName" xml:space="preserve">
+    <value>The user name contains invalid characters!</value>
+  </data>
+  <data name="EmptyDboName" xml:space="preserve">
+    <value>You must select the owner of the new company database!</value>
+  </data>
+  <data name="CompanyLoginExists" xml:space="preserve">
+    <value>The login {0} is currently existing on server</value>
+  </data>
+  <data name="NotSelectedProvider" xml:space="preserve">
+    <value>No provider selected!</value>
+  </data>
+  <data name="DataBaseName" xml:space="preserve">
+    <value>Database name</value>
+  </data>
+  <data name="EmptyBackupFile" xml:space="preserve">
+    <value>A backup file name is required for database {0}!</value>
+  </data>
+  <data name="DuplicateBackupFileNames" xml:space="preserve">
+    <value>The backup file names must be different!</value>
+  </data>
+  <data name="NoBackupsSelected" xml:space="preserve">
+    <value>No backup files were selected!</value>
+  </data>
+  <data name="NewGuestUser" xml:space="preserve">
+    <value>Create anonymous user</value>
+  </data>
+  <data name="DeleteCompanyMsg" xml:space="preserve">
+    <value>Are you sure you want to delete the company? This will erase all the company data, such as roles, and users associated with the company. Continue?</value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>Warning! The password for the user {0}, saved in the application user record, does not match the one saved in the SQL Server! Unable to continue!</value>
+  </data>
+  <data name="WrongCharactersInOracleServiceName" xml:space="preserve">
+    <value>The name of the Oracle Service contains wrong characters!</value>
+  </data>
+  <data name="EmptyCompany" xml:space="preserve">
+    <value>Please insert company name!</value>
+  </data>
+  <data name="AskIfDeleteRole" xml:space="preserve">
+    <value>Are you sure you want to delete the role?</value>
+  </data>
+  <data name="AskIfDeleteUser" xml:space="preserve">
+    <value>Are you sure you want to delete the application user?</value>
+  </data>
+  <data name="CheckDatabaseStructure" xml:space="preserve">
+    <value>Checking database structure</value>
+  </data>
+  <data name="UserDomainToolTip" xml:space="preserve">
+    <value>The NT Domain, computer or workgroup where the application user belongs to</value>
+  </data>
+  <data name="AuthenticationTokenNotValid" xml:space="preserve">
+    <value>This functionality requires a valid authentication, so this operation will not be executed.</value>
+  </data>
+  <data name="UserPwdSystemDbToolTip" xml:space="preserve">
+    <value>(Optional) The password used to connect to the System database</value>
+  </data>
+  <data name="ProgressWaiting" xml:space="preserve">
+    <value>Waiting...</value>
+  </data>
+  <data name="DbLoginAdministration" xml:space="preserve">
+    <value>Administration of logins of the server {0}</value>
+  </data>
+  <data name="MaxTimePassword" xml:space="preserve">
+    <value>Password expiration</value>
+  </data>
+  <data name="NoDataBaseSelected" xml:space="preserve">
+    <value>You have to select a database!</value>
+  </data>
+  <data name="UnableToCreateSynonyms" xml:space="preserve">
+    <value>Unable to create the synonym for the user {0} in the {1} company database</value>
+  </data>
+  <data name="ExistLoggedUsers" xml:space="preserve">
+    <value>Warning! There are users connected to the application. Do you want to disconnect them?</value>
+  </data>
+  <data name="UserCannotChangePwdToolTip" xml:space="preserve">
+    <value>By selecting this checkbox, 
+the user will never be able 
+to modify his password </value>
+  </data>
+  <data name="NotSelectedDatabase" xml:space="preserve">
+    <value>No existing database selected!</value>
+  </data>
+  <data name="ModifyingServerDbCompanyToolTip" xml:space="preserve">
+    <value>The server where the company database is on (during the modify process cannot be changed this information)</value>
+  </data>
+  <data name="CompanyUserReading" xml:space="preserve">
+    <value>Unable to read information about the association between company and user! No association of this type exists in the database!</value>
+  </data>
+  <data name="SystemDatabaseEmpty" xml:space="preserve">
+    <value>No name provided for the system database </value>
+  </data>
+  <data name="PwdTimeLenghtToolTip" xml:space="preserve">
+    <value>After this time, password will expire</value>
+  </data>
+  <data name="AskBeforeDisableUser" xml:space="preserve">
+    <value>Warning! If you disable the user, user will not able to connect to the company anymore. Do you want to continue? </value>
+  </data>
+  <data name="NodeRolesToolTip" xml:space="preserve">
+    <value>Administration of the roles for company {0}</value>
+  </data>
+  <data name="NoEmptyValue" xml:space="preserve">
+    <value>The entry {0} cannot be empty!</value>
+  </data>
+  <data name="ExistedSystemDbToolTip" xml:space="preserve">
+    <value>Select this option if you want to connect 
+to an existing System database</value>
+  </data>
+  <data name="DatabaseStatus" xml:space="preserve">
+    <value>Database status: {0}</value>
+  </data>
+  <data name="NotExistCompanyUserDuringCheck" xml:space="preserve">
+    <value>The user {0} is not associated with the company database</value>
+  </data>
+  <data name="WrongCharactersInOracleOwnerName" xml:space="preserve">
+    <value>The name of the user selected to connect to the company has wrong characters!</value>
+  </data>
+  <data name="EndingCompanyDbCheck" xml:space="preserve">
+    <value>Data check completed</value>
+  </data>
+  <data name="WrongUnicodeSetting" xml:space="preserve">
+    <value>Unable to proceed, it is needed to select a database created in {0} format!</value>
+  </data>
+  <data name="EmptyOracleOwnerPwd" xml:space="preserve">
+    <value>The password of user selected to connect to company database cannot be empty! Moreover, this password has to match the previous password configured for the user (the users has to exist in the Oracle company database).</value>
+  </data>
+  <data name="OracleUserAlreadyExists" xml:space="preserve">
+    <value>There is already a user or role with that name ({0}). Please specify a different user name.</value>
+  </data>
+  <data name="UserNameToolTip" xml:space="preserve">
+    <value>The application user's name</value>
+  </data>
+  <data name="EmptyOracleServiceName" xml:space="preserve">
+    <value>You have to specify the Oracle service name where the company database was created!</value>
+  </data>
+  <data name="NoInformationAvailable" xml:space="preserve">
+    <value>no information available</value>
+  </data>
+  <data name="EmptyDomain" xml:space="preserve">
+    <value>No domain or workgroup selected.</value>
+  </data>
+  <data name="SQLUsersToolTip" xml:space="preserve">
+    <value>The user will connect to applications 
+without using the Integrated Authentication mode. 
+In this case, if needed, it is possible 
+to set up a custom password</value>
+  </data>
+  <data name="NotUnicodeSetting" xml:space="preserve">
+    <value>Ascii</value>
+  </data>
+  <data name="CreationAction" xml:space="preserve">
+    <value>create</value>
+  </data>
+  <data name="AskIfDisableUsers" xml:space="preserve">
+    <value>Do you want disable users? In this way, data will not be deleted, but users will not able to connect anymore</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="OraclePassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="DeleteAllObjectsMsg" xml:space="preserve">
+    <value>All non-system database objects such as tables, stored procedures and views will be deleted. Continue?</value>
+  </data>
+  <data name="ForbiddedNtUser" xml:space="preserve">
+    <value>The user selected to connect to Oracle cannot be a
+user in Windows Authentication mode!</value>
+  </data>
+  <data name="ModifyConfigFile" xml:space="preserve">
+    <value>General settings</value>
+  </data>
+  <data name="CannotCreateCompanyUser" xml:space="preserve">
+    <value>Unable to create the user {0} in company {1}</value>
+  </data>
+  <data name="TargetCompany" xml:space="preserve">
+    <value>Target Company</value>
+  </data>
+  <data name="SettingsStrongPwdToolTip" xml:space="preserve">
+    <value>If selected, passwords must contain at least three of the four characters combinations: upper characters, lower characters, numbers and symbols.
+The minimum password lenght will have to be at least 8 characters.</value>
+  </data>
+  <data name="DescriptionCompanyToolTip" xml:space="preserve">
+    <value>(Optional) A description for the company</value>
+  </data>
+  <data name="SameSourceDestCompany" xml:space="preserve">
+    <value>The names of target and source companies cannot be the same!</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="StartBkpRestoreProcess" xml:space="preserve">
+    <value>Are you sure you want to proceed with {0} operation?</value>
+  </data>
+  <data name="FailedOracleConnectionDetail" xml:space="preserve">
+    <value>Unable to connect to the provider Oracle with the following information:</value>
+  </data>
+  <data name="UserPwdDateCannotChangeToolTip" xml:space="preserve">
+    <value>By selecting this checkbox, the user 
+will not be able to connect to the company 
+any more after the expiration date</value>
+  </data>
+  <data name="LoadPropertiesForServer" xml:space="preserve">
+    <value>Loading properties for server {0}</value>
+  </data>
+  <data name="WrongCharactersInLoginName" xml:space="preserve">
+    <value>The login name contains invalid characters!</value>
+  </data>
+  <data name="CreateNewSystemDataBase" xml:space="preserve">
+    <value>Do you want to create a new System database ({0}) ?</value>
+  </data>
+  <data name="NodeProviders" xml:space="preserve">
+    <value>Database providers</value>
+  </data>
+  <data name="ModifyUserJoin" xml:space="preserve">
+    <value>Change associations</value>
+  </data>
+  <data name="NoExistUser" xml:space="preserve">
+    <value>The user {0} does not exist within the Domain or Workgroup! Unable to continue. Please check the provided name and/or the network connectivity.</value>
+  </data>
+  <data name="AfterCompanySuccessInserting" xml:space="preserve">
+    <value>Company {0} is created</value>
+  </data>
+  <data name="ServerName" xml:space="preserve">
+    <value>Server name</value>
+  </data>
+  <data name="NudMaxTbLoaderToolTip" xml:space="preserve">
+    <value>Maximum number of EasyLook connection to a single Application server. When this number is over, another Application server instance will be created.</value>
+  </data>
+  <data name="UnableToPerformBackup" xml:space="preserve">
+    <value>Unable to perform backup!</value>
+  </data>
+  <data name="UseConstParameter" xml:space="preserve">
+    <value>UseConstParameter</value>
+  </data>
+  <data name="CannotEnableLogin" xml:space="preserve">
+    <value>Cannot enable the user {0}</value>
+  </data>
+  <data name="ProgressDuringCheck" xml:space="preserve">
+    <value>Check in progress ...</value>
+  </data>
+  <data name="OracleServiceInsertingToolTip" xml:space="preserve">
+    <value>Oracle service to which you want to connect</value>
+  </data>
+  <data name="CannotModifyLogin" xml:space="preserve">
+    <value>Unable to modify the user {0}</value>
+  </data>
+  <data name="WrongCharactersInDomainUser" xml:space="preserve">
+    <value>The domain name contains invalid characters!</value>
+  </data>
+  <data name="OracleConnectionButtonToolTip" xml:space="preserve">
+    <value>Push the button to try to connect to the Oracle service with the selected user/password information</value>
+  </data>
+  <data name="NewCompany" xml:space="preserve">
+    <value>New company</value>
+  </data>
+  <data name="UserPasswordNotMatch" xml:space="preserve">
+    <value>The password you have specified for the user {0} does not match the one stored in the system database. Please check it!</value>
+  </data>
+  <data name="DeleteCompanyToolTip" xml:space="preserve">
+    <value>Remove a company (and, if needed, its database)</value>
+  </data>
+  <data name="StoredProcedure" xml:space="preserve">
+    <value>Stored Procedure</value>
+  </data>
+  <data name="TitleModifyingUser" xml:space="preserve">
+    <value>Modify the company user {0}</value>
+  </data>
+  <data name="TitleModifyingRole" xml:space="preserve">
+    <value>Modify the role {0}</value>
+  </data>
+  <data name="FilePosition" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="AskStartCompanyCheck" xml:space="preserve">
+    <value>Do you want to start the check procedure for the company {0}?</value>
+  </data>
+  <data name="StripTrailingSpaces" xml:space="preserve">
+    <value>StripTrailingSpaces</value>
+  </data>
+  <data name="UnicodeSetting" xml:space="preserve">
+    <value>Unicode</value>
+  </data>
+  <data name="TitleAddLoginToCompany" xml:space="preserve">
+    <value>Add a login on the server {0}</value>
+  </data>
+  <data name="TitleModifyCompanyUsersToLogin" xml:space="preserve">
+    <value>Modify an existing multi-user database login</value>
+  </data>
+  <data name="VerifyBackupInfo" xml:space="preserve">
+    <value>Specify that the media integrity of the backup is verified upon completion</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="NoPasswordLength" xml:space="preserve">
+    <value>The password length has to be at least of {0} characters!</value>
+  </data>
+  <data name="CannotDeleatedOldDbo" xml:space="preserve">
+    <value>Warning! Unable to delete the previous database owner of the company (user {0})</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="AskIfInsertingNTUser" xml:space="preserve">
+    <value>Do you want to continue with insertion? If you insert an uncorrect user, it will not be possibile to associate it with created companies</value>
+  </data>
+  <data name="AskIfDeleteCompanyUserRole" xml:space="preserve">
+    <value>Are you sure you want to delete the user having the company role?</value>
+  </data>
+  <data name="LoginNotExistInDatabase" xml:space="preserve">
+    <value>Warning! The login of selected user {0} does not exist into the database {1}</value>
+  </data>
+  <data name="RoleClonedAlreadyExists" xml:space="preserve">
+    <value>Unable to clone the role '{0}', because another role with the same name has been already associated to '{1}' company.</value>
+  </data>
+  <data name="RoleExist" xml:space="preserve">
+    <value>Role already present in this company</value>
+  </data>
+  <data name="DBSizeError" xml:space="preserve">
+    <value>The size of the database you are using exceed the maximum allowed size (2GB). To continue you have to upgrade your server to the newest version SQLServer.</value>
+  </data>
+  <data name="ServerCollationCaseSensitive" xml:space="preserve">
+    <value> - Warning: collation is Case Sensitive!</value>
+  </data>
+  <data name="IncompatibleCollationSetting" xml:space="preserve">
+    <value>The collation of selected database is no compatible with the setting of the company. So you have to choose another one.</value>
+  </data>
+  <data name="MissingDatabaseCulture" xml:space="preserve">
+    <value>You have to specify a culture to associate to database.</value>
+  </data>
+  <data name="DBCultureInconsistent" xml:space="preserve">
+    <value>The culture of database ({0}) is not in line with company parameter setting ({1})!</value>
+  </data>
+  <data name="DoesNotUse" xml:space="preserve">
+    <value>does not use</value>
+  </data>
+  <data name="FlagUnicodeInconsistent" xml:space="preserve">
+    <value>The database {0} Unicode character set and this is not in line with company parameter setting!</value>
+  </data>
+  <data name="SupportColCollationInconsistent" xml:space="preserve">
+    <value>Inconsistent values between SupportColumnCollation in system db and the database collation!</value>
+  </data>
+  <data name="Uses" xml:space="preserve">
+    <value>uses</value>
+  </data>
+  <data name="NoServerSelected" xml:space="preserve">
+    <value>You have to select a SQL server!</value>
+  </data>
+  <data name="ErrorDeletingEasyLookSystem" xml:space="preserve">
+    <value>Unable to delete EasyLookSystem user automatically.If you want you can delete it manually.</value>
+  </data>
+  <data name="DataFileNotFound" xml:space="preserve">
+    <value>The data file name is incomplete or missing!</value>
+  </data>
+  <data name="LogFileNotFound" xml:space="preserve">
+    <value>The log file name is incomplete or missing!</value>
+  </data>
+  <data name="MaxSizeLimitDataFile" xml:space="preserve">
+    <value>The maximum size for data file dimension is 2048 MB! You have to modify its initial size.</value>
+  </data>
+  <data name="AbortingDatabaseCreation" xml:space="preserve">
+    <value>The database creation will be interrupted.</value>
+  </data>
+  <data name="AbortingDbCreationTitle" xml:space="preserve">
+    <value>The data needed for the database creation are incomplete or missing</value>
+  </data>
+  <data name="DirectorySelection" xml:space="preserve">
+    <value>Please select the directory to save the database</value>
+  </data>
+  <data name="IntegratedSecurityModeOnly" xml:space="preserve">
+    <value>The selected server {0} is running in Windows Authentication mode (and not in Mixed Mode): unable to connect! Contact your System Administrator to modify server settings.</value>
+  </data>
+  <data name="ErrCompanyDBIsNotFree" xml:space="preserve">
+    <value>Attention: one or more users are connected to the company database. Unable to continue the elaboration.</value>
+  </data>
+  <data name="UserPrivateAreaAdminToolTip" xml:space="preserve">
+    <value>By selecting this checkbox the user is enabled to manage the private area on producer Website</value>
+  </data>
+  <data name="PreferredLanguage" xml:space="preserve">
+    <value>Preferred language</value>
+  </data>
+  <data name="RegionalSettings" xml:space="preserve">
+    <value>Regional settings</value>
+  </data>
+  <data name="CAL" xml:space="preserve">
+    <value>CAL</value>
+  </data>
+  <data name="CALNamed" xml:space="preserve">
+    <value>Named</value>
+  </data>
+  <data name="CALFloating" xml:space="preserve">
+    <value>Floating</value>
+  </data>
+  <data name="CALEasyLook" xml:space="preserve">
+    <value>EasyLook</value>
+  </data>
+  <data name="CreateDBFormTitle" xml:space="preserve">
+    <value>Creation parameters for '{0}' database</value>
+  </data>
+  <data name="WrongDMSUnicodeSetting" xml:space="preserve">
+    <value>Unable to proceed: it is needed to select a DMS database with the same Unicode format of company database!</value>
+  </data>
+  <data name="IncompatibleCollationSettingForDMS" xml:space="preserve">
+    <value>The DatabaseCulture specified for this company is not compatible with collation of selected DMS database. Please choose another valid database.</value>
+  </data>
+  <data name="WrongDatabaseCultureSettingWithDMS" xml:space="preserve">
+    <value>The DatabaseCulture specified for this company is not compatible with collation of selected database. Because exists also an DMS database it is not possible to save this company. Please select another valid database.</value>
+  </data>
+  <data name="CompanyAndDMSDbWithSameName" xml:space="preserve">
+    <value>Warning! Company and DMS databases have the same name ({0}). Please change one of them to proceed!</value>
+  </data>
+  <data name="LoginAdvancedOptions" xml:space="preserve">
+    <value>Login advanced options</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="ExecutingBackupDB" xml:space="preserve">
+    <value>Executing backup of {0} database...</value>
+  </data>
+  <data name="VerifyingBackupFile" xml:space="preserve">
+    <value>Verifying backup file {0}...</value>
+  </data>
+  <data name="BackupFileAlreadyExists" xml:space="preserve">
+    <value>The file {0} already exists! Please choose another one or check '{1}' check-box.</value>
+  </data>
+  <data name="ExecutingRestoreDB" xml:space="preserve">
+    <value>Executing restore of {0} database...</value>
+  </data>
+  <data name="DeleteSlaveAfterRestore" xml:space="preserve">
+    <value>The company parameters are not compatible with current 
+	DMS database. So the DMS company link has been deleted (but the database always exists on server!).</value>
+  </data>
+  <data name="RestoreFilesListValid" xml:space="preserve">
+    <value>You have to specify valid logical and physical files!</value>
+  </data>
+  <data name="InvalidSQLVersionForDMSDb" xml:space="preserve">
+    <value>DMS database can only be created on SQL Server 2005 or later versions. Please choose another server.</value>
+  </data>
+  <data name="EBDeveloper" xml:space="preserve">
+    <value>TBS Developer</value>
+  </data>
+  <data name="CompanyUseEasyAttachment" xml:space="preserve">
+    <value>Use DMS</value>
+  </data>
+  <data name="WrongLoginOnCompanyDB" xml:space="preserve">
+    <value>Selected database '{0}' may already be used as company database. Do you want to proceed?</value>
+  </data>
+  <data name="Switchoff" xml:space="preserve">
+    <value>Disable 'Remember me'</value>
+  </data>
+  <data name="Switchon" xml:space="preserve">
+    <value>Enable 'Remember me'</value>
+  </data>
+  <data name="SettingsAutologinToolTip" xml:space="preserve">
+    <value>By selecting this checkbox the user is enabled to autologin without insert password each time</value>
+  </data>
+  <data name="WarnConnectingToSQL2012Server" xml:space="preserve">
+    <value>You are attempting to connect to a SQL Server 2012 edition or later versions, but your serial numbers are not valid. Therefore you will not be able to use Mago.net connected with this company. Are you sure to continue?</value>
+  </data>
+  <data name="InvalidEmailAddress" xml:space="preserve">
+    <value>The SMTP Email address, for sending email when validation fails, has invalid format.</value>
+  </data>
+  <data name="SMTPAddressEmpty" xml:space="preserve">
+    <value>The SMTP Email address, for sending email when validation fails, is empty.</value>
+  </data>
+  <data name="PostgrePasswordIsEmpty" xml:space="preserve">
+    <value>Impossible to assign a user with an empty password to this company. Please, add a password to a user account!</value>
+  </data>
+  <data name="ImpossibleCreateUserWithEmptyPassword" xml:space="preserve">
+    <value>Impossible to create a user with an empty password for this company. Please, provide a password!</value>
+  </data>
+  <data name="PostgreEmptyPort" xml:space="preserve">
+    <value>The port value can not be empty!</value>
+  </data>
+  <data name="PostgrePortBadValue" xml:space="preserve">
+    <value>The value for the port must be integer!</value>
+  </data>
+	<data name="NoPermissionUserLite" xml:space="preserve">
+    <value>Warning! User '{0}' has not the role 'db_owner' requested. Please specify a valid user.</value>
+  </data>
+	<data name="SqlLoginNotExistsInDb" xml:space="preserve">
+    <value>Specified login '{0}' is not associated to database '{1}'. Unable to proceed.</value>
+  </data>
+	<data name="SqlUserNotExistsInDb" xml:space="preserve">
+    <value>Specified user '{0}' is not associated to database '{1}'. Unable to proceed.</value>
+  </data>
+</root>

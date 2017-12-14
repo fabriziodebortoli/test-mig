@@ -1,0 +1,39 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_ATTACHMENT.hjson>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_TD_ATTACHMENT_BARCODE.hjson>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_TD_ATTACHMENT_BODY.hjson>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_TD_ATTACHMENT_BOOKMARKS.hjson>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_TD_ATTACHMENT_DETAILS.hjson>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_TD_ATTACHMENT_PREVIEW.hjson>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_TD_ATTACHMENT_SOS.hjson>
+#include	<EasyAttachment\JsonForms\UIAttachment\IDD_TD_ATTACHMENTS_LIST.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_ATT_BE_BOOKMARK_DESCRI			GET_IDC(IDC_ATT_BE_BOOKMARK_DESCRI)
+#define	IDC_ATT_BE_BOOKMARK_TYPE			GET_IDC(IDC_ATT_BE_BOOKMARK_TYPE)
+#define	IDC_ATT_BE_BOOKMARK_VALUE			GET_IDC(IDC_ATT_BE_BOOKMARK_VALUE)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_DMS_CHECKIN_ATTACHMENT		GET_ID(ID_DMS_CHECKIN_ATTACHMENT)
+#define	ID_DMS_CHECKOUT_ATTACHMENT		GET_ID(ID_DMS_CHECKOUT_ATTACHMENT)
+#define	ID_DMS_DELETE_ATTACHMENT		GET_ID(ID_DMS_DELETE_ATTACHMENT)
+#define	ID_DMS_EDIT_ATTACHMENT			GET_ID(ID_DMS_EDIT_ATTACHMENT)
+#define	ID_DMS_NEW_ATT_DEVICE			GET_ID(ID_DMS_NEW_ATT_DEVICE)
+#define	ID_DMS_NEW_ATT_FILESYSTEM		GET_ID(ID_DMS_NEW_ATT_FILESYSTEM)
+#define	ID_DMS_NEW_ATT_PAPERY			GET_ID(ID_DMS_NEW_ATT_PAPERY)
+#define	ID_DMS_RUN_PAPERY_REPORT		GET_ID(ID_DMS_RUN_PAPERY_REPORT)
+#define	ID_DMS_NEW_ATT_REPOSITORY		GET_ID(ID_DMS_NEW_ATT_REPOSITORY)
+#define	ID_DMS_NEW_ATTACHMENT			GET_ID(ID_DMS_NEW_ATTACHMENT)
+#define	ID_DMS_RELOAD_ATTACHMENTS		GET_ID(ID_DMS_RELOAD_ATTACHMENTS)
+#define	ID_DMS_SAVE_ATTACHMENT			GET_ID(ID_DMS_SAVE_ATTACHMENT)
+#define	ID_DMS_SEND_ATTACHMENT			GET_ID(ID_DMS_SEND_ATTACHMENT)
+#define	ID_DMS_UNDOCHANGES_ATTACHMENT	GET_ID(ID_DMS_UNDOCHANGES_ATTACHMENT)
+#define	ID_DMS_UNDOCHECKOUT_ATTACHMENT	GET_ID(ID_DMS_UNDOCHECKOUT_ATTACHMENT)
+#define	ID_DMS_VIEW_ATTACHMENT			GET_ID(ID_DMS_VIEW_ATTACHMENT)
+#define	ID_DMS_COPY_ATTACHMENT			GET_ID(ID_DMS_COPY_ATTACHMENT)
+

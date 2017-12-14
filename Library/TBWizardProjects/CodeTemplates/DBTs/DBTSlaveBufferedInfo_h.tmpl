@@ -1,0 +1,78 @@
+//=============================================================================
+// module name  : @(DBTClassName).h
+//=============================================================================
+#pragma once
+
+@(DeleteDuplicatedLines{@(+)
+#include @(IfIsNotTableReferenced(<@(TableModuleName)\@(TableLibrarySourceFolder)\@(TableClassName).h>))@(IfIsTableReferenced("@(ReferencedTableHeaderRelativePath)"))\n@(+)  
+#include "@(MasterTableHeaderRelativePath)"\n@(+)
+@(IfShowsAdditionalColumns(@(RepeatOnVisibleAdditionalColumnsInfo{#include <@(AdditionalColumnsModuleName)\@(AdditionalColumnsLibrarySourceFolder)\@(AdditionalColumnsClassName).h>, "\r\n"})\n))@(+)
+})
+
+//TBWIZ-INJECT{@(DBTClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#include "beginh.dex"
+
+@(_NOEMPTYLINES:IfIsDBTRecordToEnhance(@(+)
+//////////////////////////////////////////////////////////////////////////////\n@(+)
+//	  TEnhanced@(DBTClassName)@(TableClassName) class declaration\n@(+)
+//////////////////////////////////////////////////////////////////////////////\n@(+)
+class TB_EXPORT TEnhanced@(DBTClassName)@(TableClassName) : public @(TableClassName)\n@(+)
+{\n@(+)
+	DECLARE_DYNCREATE(TEnhanced@(DBTClassName)@(TableClassName))\n@(+)
+\n@(+)
+public:\n@(+)
+	@(DeleteDuplicatedLines(@(_NOEMPTYLINES:RepeatOnApplicationHotLinkColumns{@(IfColumnShowsHotLinkDescription{\t@(ColumnDataObjClassName) l_@(ColumnHKLTableName)@(ColumnHKLDescriptionColumnName);\n}), "\r\n"})))@(+)
+\n@(+)
+public:\n@(+)
+	\tTEnhanced@(DBTClassName)@(TableClassName)(BOOL bCallInit = TRUE);\n@(+)
+\n@(+)
+public:\n@(+)
+	\tvirtual void BindRecord();\n@(+)
+};\n@(+)
+))
+
+//////////////////////////////////////////////////////////////////////////////
+//             @(DBTClassName) class declaration
+//////////////////////////////////////////////////////////////////////////////
+class TB_EXPORT @(DBTClassName) : public DBTSlaveBuffered
+{ 
+	DECLARE_DYNAMIC(@(DBTClassName))
+
+public:
+	@(DBTClassName)(CRuntimeClass*, CAbstractFormDoc*);
+
+public:
+	@(MasterTableClassName)* GetMasterRecord () const { return  (@(MasterTableClassName)*) m_pDBTMaster->GetRecord(); }
+
+@(_NOEMPTYLINES:IfIsDBTRecordNotToEnhance(@(+)
+	\t@(TableClassName)* Get@(TableClassName) () const { return (@(TableClassName)*)GetRecord(); }\n@(+)
+	\t@(TableClassName)* Get@(TableClassName) (int nRow) const { return (@(TableClassName)*)GetRow(nRow); }\n@(+)
+	\t@(TableClassName)* GetCurrent@(TableName)() const { return (@(TableClassName)*)GetCurrentRow(); }\n@(+)
+))
+@(_NOEMPTYLINES:IfIsDBTRecordToEnhance(@(+)
+	\tTEnhanced@(DBTClassName)@(TableClassName)* Get@(TableClassName) () const { return (TEnhanced@(DBTClassName)@(TableClassName)*)GetRecord(); }\n@(+)
+	\tTEnhanced@(DBTClassName)@(TableClassName)* Get@(TableClassName) (int nRow) const { return (TEnhanced@(DBTClassName)@(TableClassName)*)GetRow(nRow); }\n@(+)
+	\tTEnhanced@(DBTClassName)@(TableClassName)* GetCurrent@(TableName)() const { return (TEnhanced@(DBTClassName)@(TableClassName)*)GetCurrentRow(); }\n@(+)
+))
+
+protected:
+	virtual	void		OnDefineQuery	();
+	virtual	void		OnPrepareQuery	();
+
+	virtual DataObj*	OnCheckPrimaryKey	(int /*nRow*/, SqlRecord*);
+	virtual void		OnPreparePrimaryKey	(int /*nRow*/, SqlRecord*);
+	virtual CString 	GetDuplicateKeyMsg	(SqlRecord*);
+	virtual DataObj*	GetDuplicateKeyPos	(SqlRecord*);
+	virtual BOOL 		IsEmptyData			();
+	virtual void		OnPrepareAuxColumns (SqlRecord*);
+
+	//TBWIZ-INJECT{@(DBTClassName)(AdditionalMembers)
+	//TBWIZ-INJECT}
+};
+
+//TBWIZ-INJECT{@(DBTClassName)(AdditionalDeclarations)
+//TBWIZ-INJECT}
+
+#include "endh.dex"

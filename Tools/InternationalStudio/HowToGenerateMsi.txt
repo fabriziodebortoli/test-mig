@@ -1,0 +1,24 @@
+﻿PREREQUISITI:
+-------------
+ - Avere Wix toolset 3.11 installato sulla propria macchina (http://wixtoolset.org/)
+ -> installare anche l'estensione per il VS2017
+
+ATTENZIONE: 
+nella solution sono referenziati 6 csproj di taskbuilderNet, 
+inoltre viene referenziata la dll c++ TbStringLoader dalla cartella Libraries poiche non si riesce a ricompilare in questo path.
+Viene anche utilizzata la dll Newtonsoft.json (sempre presa dalla cartella libraries)
+
+GENERAZIONE MSI:
+----------------
+ - Nella solution di Taskbuilder3 sincronizzare tutti i sorgenti 
+ - Ricompilare in RELEASE il solo progetto TbStringLoader
+ - Prendere in out il file InternationalStudio\Libraries\TbStringLoader.dll
+ - Sovrascrivere la dll con quella appena compilata al punto precedente
+
+ - Prendere in out il file InternationalStudio\InternationalStudioSetup\Files.wxs
+
+ - Lanciare un Rebuild All in release
+
+ - Checkinare il file di cui sopra
+ 
+ - Distribuire l'MSI generato in \InternationalStudio\InternationalStudioSetup\bin\Release

@@ -1,0 +1,9 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_GOOGLE_SEARCH_ADDRESS			GET_ID(ID_GOOGLE_SEARCH_ADDRESS)
+#define	ID_GOOGLE_SHOW_MAP			GET_ID(ID_GOOGLE_SHOW_MAP)
+#define	ID_GOOGLE_SHOW_SATELLITE			GET_ID(ID_GOOGLE_SHOW_SATELLITE)

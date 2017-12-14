@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+  <Documents>
+    <Document namespace="Extensions.TbMailer.TbMailer.PostaliteDocumentsGraphicNavigation" localize="PostaLite documents graphic navigation" classhierarchy="BDPostaliteDocumentsGraphicNavigation" dynamic="false" defaultsecurityroles="aMailConnector Parameter Manager">
+      <ViewModes>
+        <Mode name="Default" type="batch" />
+      </ViewModes>
+    </Document>
+	  <Document namespace="Extensions.TbMailer.TbMailer.PostaliteAccountManagementWizard" localize="PostaLite Account Management" classhierarchy="PostaliteAccountManagementWizard" dynamic="false" defaultsecurityroles="aMailConnector Parameter Manager">
+      <ViewModes>
+			  <Mode name="Default" type="batch" />
+		  </ViewModes>
+	  </Document>
+  </Documents>
+</DocumentObjects>

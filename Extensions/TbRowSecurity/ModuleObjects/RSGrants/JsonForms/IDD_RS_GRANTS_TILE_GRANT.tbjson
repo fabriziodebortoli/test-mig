@@ -1,0 +1,91 @@
+{
+   "height" : 177,
+   "id" : "IDD_RS_GRANTS_TILE_GRANT",
+   "items" : [
+      {
+         "height" : 177,
+         "id" : "IDC_STATIC_AREA",
+         "textAlign" : 1, /*Center*/
+         "type" : 9, /*Group*/
+         "width" : 100
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_RS_GRANTS_STATIC_TYPE",
+         "text" : "Grant type",
+         "type" : 2, /*Label*/
+         "width" : 35,
+         "x" : 61,
+         "y" : 11
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_RS_GRANTS_STATIC_DESCRI",
+         "text" : "Description",
+         "type" : 2, /*Label*/
+         "width" : 40,
+         "x" : 57,
+         "y" : 59
+      },
+      {
+         "bitmap" : true,
+         "centerImage" : true,
+         "group" : true,
+         "height" : 32,
+         "id" : "IDC_RS_GRANTS_PICTURE",
+         "notify" : true,
+         "type" : 2, /*Label*/
+         "width" : 33,
+         "x" : 2,
+         "y" : 8
+      },
+      {
+         "auto" : true,
+         "comboType" : 2, /*DropDownList*/
+         "height" : 30,
+         "id" : "IDC_RS_GRANTS_COMBO",
+         "sort" : true,
+         "type" : 12, /*Combo*/
+         "vScroll" : true,
+         "width" : 127,
+         "x" : 102,
+         "y" : 11
+      },
+      {
+         "group" : true,
+         "height" : 32,
+         "id" : "IDC_RS_GRANTS_DESCRI",
+         "text" : "GrantDescri",
+         "type" : 2, /*Label*/
+         "width" : 127,
+         "x" : 102,
+         "y" : 59
+      },
+      {
+         "group" : true,
+         "height" : 32,
+         "id" : "IDC_RS_GRANTS_INHERITED",
+         "text" : "GrantInherited ",
+         "type" : 2, /*Label*/
+         "width" : 127,
+         "x" : 102,
+         "y" : 104
+      },
+      {
+         "height" : 13,
+         "id" : "IDC_RS_GRANTS_APPLY_BTN",
+         "isText" : true,
+         "text" : "Apply",
+         "textAlign" : 1, /*Center*/
+         "type" : 3, /*Button*/
+         "vertAlign" : 1, /*Center*/
+         "width" : 47,
+         "x" : 182,
+         "y" : 28
+      }
+   ],
+   "type" : 71, /*Tile*/
+   "width" : 233
+}

@@ -1,0 +1,90 @@
+{
+    "id": "IDD_TD_PAPERY",
+    "type": "Tile",
+    "size": "Mini", //Standard
+    "context": "uipaperydlg",
+    "tabStop": false,
+    "width": 225,
+    "height": 138,
+    "hasStaticArea": true,
+    "text": "Add papery",
+    "items": [
+        {
+            "id": "IDC_PAPERY_INFO",
+            "type": "Label",
+            "controlClass": "StringStatic",
+            "group": true,
+            "height": 16,
+            "tabStop": false,
+            "text": "Here you can specify the barcode which identifies the papery you want archive.",
+            "textAlign": 1,
+            "width": 203,
+            "x": 5,
+            "y": 14
+        },
+        {
+            "id": "IDC_PAPERY_DESCRIPTION",
+            "type": "Label",
+            "controlClass": "StringStatic",
+            "binding": {
+                "datasource": "sPaperyDescripion"
+            },
+            "group": true,
+            "height": 8,
+            "tabStop": false,
+            "textAlign": 1,
+            "width": 211,
+            "x": 5,
+            "y": 34
+        },
+        {
+            "id": "IDC_PAPERY_BARCODE_VALUE",
+            "type": "Edit",
+            "binding": {
+                "datasource": "sPaperyBarcodeValue"
+            },
+            "controlCaption": "Value",
+            "controlClass": "StringEdit",
+            "width": 152,
+            "height": 12,
+            "autoVScroll": true,
+            "border": true,
+            "wantReturn": true,
+            "upperCase": true,
+            "x": 65,
+            "y": 47,
+            "chars": 17
+        },
+        {
+            "id": "IDC_PAPERY_BARCODEVIEWER",
+            "type": 2,
+            "controlClass": "TBDMSBarcodeViewer",
+            "binding": {
+                "datasource": "PaperyBarcodeViewer"
+            },
+            "text": "BarcodeViewer",
+            "clipChildren": true,
+            "ownerDraw": true,
+            "width": 152,
+            "height": 57,
+            "x": 50,
+            "y": 61
+        },
+        {
+            "id": "IDC_PAPERY_NOTES",
+            "type": "Edit",
+            "binding": {
+                "datasource": "sPaperyNotes"
+            },
+            "controlCaption": "Notes",
+            "controlClass": "StringEdit",
+            "width": 153,
+            "height": 24,
+            "autoVScroll": true,
+            "border": true,
+            "wantReturn": true,
+            "x": 65,
+            "y": 119
+        }
+    ]
+}

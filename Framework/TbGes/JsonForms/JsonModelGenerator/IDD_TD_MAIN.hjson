@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_TD_MAIN	GET_IDD(IDD_TD_MAIN,M.Framework.TbGes.JsonModelGenerator)
+#define IDC_NRDOCS	GET_IDC(IDC_NRDOCS)

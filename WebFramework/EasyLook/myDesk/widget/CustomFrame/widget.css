@@ -1,0 +1,39 @@
+
+.customFrame {
+    background:#FFFFFF;
+    height:270px;  
+    width: 500px;  
+    padding:5px 0;
+}
+
+.customFrameRequest
+{
+	background:#FFFFFF;
+	height:30px;  
+	width: 90%;
+}
+
+.customFrameRequest input
+{
+	width: 80%; 
+	height: 100%;
+	border:2px solid #456879;
+	border-radius:10px;
+}
+
+.customFrameGo
+{
+	width: 20px; 
+	background: #CAD7F3;
+	text-align: center;
+	border: 1px solid #000000;
+	padding: 2px 10px 2px 10px; 
+	font-weight: bold;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+
+
+

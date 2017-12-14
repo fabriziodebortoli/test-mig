@@ -1,0 +1,109 @@
+﻿{
+  "id": "IDD_DBT_PROPERTIES",
+  "rcId": 1073,
+  "type": 66,
+  "text": "DBT Properties",
+  "x": 0,
+  "y": 0,
+  "width": 165,
+  "height": 157,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "xmlcontrols",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Table name",
+      "x": 8,
+      "y": 3,
+      "width": 129,
+      "height": 8,
+      "centerImage": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DBT_PROPS_TABLENAME_STATIC",
+      "type": 2,
+      "x": 19,
+      "y": 15,
+      "width": 129,
+      "height": 12,
+      "border": true,
+      "centerImage": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Type",
+      "x": 8,
+      "y": 32,
+      "width": 129,
+      "height": 8,
+      "centerImage": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DBT_PROPS_TYPE_STATIC",
+      "type": 2,
+      "x": 19,
+      "y": 43,
+      "width": 129,
+      "height": 12,
+      "border": true,
+      "centerImage": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 45,
+      "y": 142,
+      "width": 56,
+      "height": 12,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 103,
+      "y": 142,
+      "width": 57,
+      "height": 12
+    },
+    {
+      "id": "IDC_DBT_PROPS_UPDATE_CHKBOX",
+      "type": 11,
+      "text": "Enable the choice for this DBT",
+      "x": 20,
+      "y": 121,
+      "width": 126,
+      "height": 10,
+      "vertAlign": 1,
+      "auto": true
+    },
+    {
+      "id": "IDC_DBT_PROPS_UPDATE_STATIC",
+      "type": 2,
+      "text": "In the export profile the user can choose if the import procedure of an existing document applies only the changed data or a complete replacement.",
+      "x": 9,
+      "y": 72,
+      "width": 144,
+      "height": 46,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_DBT_PROPS_GROUP_STATIC",
+      "type": 9,
+      "x": 5,
+      "y": 63,
+      "width": 156,
+      "height": 75
+    }
+  ]
+}

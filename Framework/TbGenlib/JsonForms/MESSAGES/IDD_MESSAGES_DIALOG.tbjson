@@ -1,0 +1,29 @@
+﻿{
+  "id": "IDD_MESSAGES_DIALOG",
+  "rcId": 1015,
+  "type": 66,
+  "text": "Messages",
+  "x": 0,
+  "y": 0,
+  "width": 369,
+  "height": 168,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "messages",
+  "items": [
+    {
+      "id": "IDC_MESSAGES_PLACE_REPORT",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 369,
+      "height": 168,
+      "visible": false,
+      "tabStop": false,
+      "blackFrame": true
+    }
+  ]
+}

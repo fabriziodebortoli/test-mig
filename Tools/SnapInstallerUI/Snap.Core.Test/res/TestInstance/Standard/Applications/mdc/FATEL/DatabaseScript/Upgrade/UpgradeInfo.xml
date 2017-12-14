@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UpgradeInfo>
+  <ModuleInfo name="FATEL" />
+  <DBRel numrel="2">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_CustSuppBranches.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="3">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_FEPAParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="4">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_FEPAParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="5">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_FEPAParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="6">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_CustSupp.sql" />
+      <Step numstep="2" script="Alter_MA_CustSuppBranches.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="7">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_SaleDoc.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="8">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_SaleDoc.sql" >
+        <Dependency app="MDC" module="Core" rel="1" />
+        <Dependency app="MDC" module="ElectronicInvoicing_IT" rel="1" />
+      </Step>
+      <Step numstep="2" script="Alter_MA_FEPAParameters.sql" >
+        <Dependency app="MDC" module="ElectronicInvoicing_IT" rel="1" />
+      </Step>
+      <Step numstep="3" script="Alter_MA_CustSupp.sql" >
+        <Dependency app="ERP" module="CustomersSuppliers" />
+        <Dependency app="MDC" module="ElectronicInvoicing_IT" rel="1" />
+      </Step>
+    </Level1>
+  </DBRel>
+  <DBRel numrel="9">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_FEPAParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="10">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_FEPAParameters.sql" />
+    </Level1>
+  </DBRel>
+</UpgradeInfo>

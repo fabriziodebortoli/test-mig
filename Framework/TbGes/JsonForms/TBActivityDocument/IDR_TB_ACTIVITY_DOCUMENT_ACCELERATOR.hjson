@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDR_TB_ACTIVITY_DOCUMENT_ACCELERATOR					GET_IDR(IDR_TB_ACTIVITY_DOCUMENT_ACCELERATOR, M.Framework.TbGes.TbActivityDocument)
+

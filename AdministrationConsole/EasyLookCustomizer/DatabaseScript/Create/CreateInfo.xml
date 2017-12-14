@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CreateInfo>
+	<ModuleInfo name="EasyLookCustomizer" />
+	<Level1>
+		<Step numstep="1" script="MSD_EasyLookCustomSettings.sql">
+			<Dependency app="AdministrationConsole" module="SysAdmin"/>
+		</Step>
+	</Level1>
+	<Level2 />
+</CreateInfo>

@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGenlib\JsonForms\DirTreeCtrl\IDD_CHOOSE_DIR.hjson>

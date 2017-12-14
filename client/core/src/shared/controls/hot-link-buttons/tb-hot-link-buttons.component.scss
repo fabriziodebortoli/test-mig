@@ -26,14 +26,33 @@
     margin-bottom: 5px;
 }
 
+.dropDownItem {
+    display:flex;
+    flex: 1
+}
+
+
+.dropDownItemId {
+    font-weight: bold
+}
+
+.dropDownItemDescription {
+    font-style: italic
+}
+
+.comboBoxPageNavigationButton {
+    display:flex;
+    flex: 1;
+    flex-direction: column;
+}
+
 .tablePopup {
     max-width: 50%;
     font-size: small;
 }
 
-.optionsPopup {
-    background-color: white;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.03), 0 4px 5px 0 rgba(0, 0, 0, 0.04);
+::ng-deep .k-animation-container-shown, .k-animation-container > .k-popup {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 ::ng-deep a.k-link.k-pager-nav.k-pager-last {
@@ -54,4 +73,12 @@
 
 ::ng-deep .k-i-loading::before, .k-loading-image::before {
     margin-top: 0.50em;
+}
+
+::ng-deep .dropDownNoData.k-loading-image::after {
+    margin-top: -0.5em;
+}
+
+::ng-deep .dropDownNoData.k-loading-image::before {
+    margin-top: -0.75em;
 }

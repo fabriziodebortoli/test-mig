@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{E09F2C4B-174C-4965-AD29-3767E94CC00F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TBMobileUI</RootNamespace>
+    <AssemblyName>TBMobileUI</AssemblyName>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BindingManager.cs" />
+    <Compile Include="GestureFrame.cs" />
+    <Compile Include="BaseApp.cs" />
+    <Compile Include="BaseController.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentListView.xaml.cs">
+      <DependentUpon>DocumentListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseMenu.xaml.cs">
+      <DependentUpon>BaseMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentPage.cs">
+      <DependentUpon>DocumentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditRow.xaml.cs">
+      <DependentUpon>EditRow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MarkupExtensions.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\Xamarin.Forms.1.3.1.6296\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.3.1.6296\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Import Project="..\MobileApp\MobileApp\packages\Xamarin.Forms.1.3.4.6332\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\MobileApp\MobileApp\packages\Xamarin.Forms.1.3.4.6332\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <ItemGroup>
+    <EmbeddedResource Include="Settings.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentListView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRow.xaml" />
+    <EmbeddedResource Include="LogoMicroarea.png">
+      <LogicalName>LogoMicroarea.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogoMago.png">
+      <LogicalName>LogoMago.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Company.gif">
+      <LogicalName>Company.gif</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User.gif">
+      <LogicalName>User.gif</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Password.png">
+      <LogicalName>Password.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIBodyEdit.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TBMobile\TBMobile.csproj">
+      <Project>{422482E3-E935-4178-A4BA-B5B1920BD2AE}</Project>
+      <Name>TBMobile</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\MobileApp\MobileApp\packages\Xamarin.Forms.1.3.4.6332\lib\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\MobileApp\MobileApp\packages\Xamarin.Forms.1.3.4.6332\lib\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Compile Include="UIBodyEdit.xaml.cs">
+      <DependentUpon>UIBodyEdit.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

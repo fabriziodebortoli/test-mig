@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+  <ClientDocuments>
+    <ServerDocument type="family" class="CAbstractFormDoc">
+      <ClientDocument namespace="Framework.TbResourcesMng.TbResourcesMng.CDWorkerWindow" localize="Worker window" />
+    </ServerDocument>
+  </ClientDocuments>
+</ClientDocumentObjects>

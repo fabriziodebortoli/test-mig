@@ -1,0 +1,29 @@
+﻿{
+    "id": "IDD_TD_RESOURCES_LAYOUT_PICTURE",
+    "type": 71,
+    "x": 0,
+    "y": 0,
+    "collapsible": true,
+    "width": 272,
+    "height": 86,
+    "text": "{{TileImageCaption}}",
+    "child": true,
+    "context": "uiresourceslayout",
+    "items": [
+        {
+            "id": "IDC_RESOURCES_LAYOUT_PICTURE",
+            "type": 2,
+            "x": 0,
+            "y": 0,
+            "width": 272,
+            "height": 86,
+            "border": true,
+            "tabStop": false,
+            "bitmap": true,
+            "centerImage": true,
+            "notify": true,
+            "controlClass": "ResourcesPictureStatic",
+            "binding": { "datasource": "DetailImage" }
+        }
+    ]
+}

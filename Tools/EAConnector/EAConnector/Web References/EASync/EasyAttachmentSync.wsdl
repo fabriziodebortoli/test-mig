@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://microarea.it/EasyAttachmentSync/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://microarea.it/EasyAttachmentSync/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microarea.it/EasyAttachmentSync/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="Init">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InitResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsAlive">
+        <s:complexType />
+      </s:element>
+      <s:element name="IsAliveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAliveResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Clear">
+        <s:complexType />
+      </s:element>
+      <s:element name="ClearResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ClearResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFTSEnabled">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFTSEnabledResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsFTSEnabledResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stop">
+        <s:complexType />
+      </s:element>
+      <s:element name="StopResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StopResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuspendFTS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="suspend" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuspendFTSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SuspendFTSResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateDefaultSearchIndexes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateDefaultSearchIndexesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateDefaultSearchIndexesResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnqueueAttachmentsToSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="attachmentIds" type="tns:ArrayOfInt" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="EnqueueAttachmentsToSendResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="UpdateSOSDocumentsStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSOSDocumentsStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateSOSDocumentsStatusResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateFieldsValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateFieldsValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateFieldsValueResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NewAttachmentById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="attachmentId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="workerId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="comments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NewAttachmentByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="NewAttachmentByIdResult" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Approve">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="attachmentId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="requesterUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="approvalUserName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="approvalStatus" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="approvalComments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApproveResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDescription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="attachmentId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="requesterUserName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDescriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDescriptionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="workerId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="firstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUserResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="attachmentId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="workerId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Notify">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="workflowID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="InitSoapIn">
+    <wsdl:part name="parameters" element="tns:Init" />
+  </wsdl:message>
+  <wsdl:message name="InitSoapOut">
+    <wsdl:part name="parameters" element="tns:InitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsAliveSoapIn">
+    <wsdl:part name="parameters" element="tns:IsAlive" />
+  </wsdl:message>
+  <wsdl:message name="IsAliveSoapOut">
+    <wsdl:part name="parameters" element="tns:IsAliveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ClearSoapIn">
+    <wsdl:part name="parameters" element="tns:Clear" />
+  </wsdl:message>
+  <wsdl:message name="ClearSoapOut">
+    <wsdl:part name="parameters" element="tns:ClearResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsFTSEnabledSoapIn">
+    <wsdl:part name="parameters" element="tns:IsFTSEnabled" />
+  </wsdl:message>
+  <wsdl:message name="IsFTSEnabledSoapOut">
+    <wsdl:part name="parameters" element="tns:IsFTSEnabledResponse" />
+  </wsdl:message>
+  <wsdl:message name="StopSoapIn">
+    <wsdl:part name="parameters" element="tns:Stop" />
+  </wsdl:message>
+  <wsdl:message name="StopSoapOut">
+    <wsdl:part name="parameters" element="tns:StopResponse" />
+  </wsdl:message>
+  <wsdl:message name="SuspendFTSSoapIn">
+    <wsdl:part name="parameters" element="tns:SuspendFTS" />
+  </wsdl:message>
+  <wsdl:message name="SuspendFTSSoapOut">
+    <wsdl:part name="parameters" element="tns:SuspendFTSResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateDefaultSearchIndexesSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateDefaultSearchIndexes" />
+  </wsdl:message>
+  <wsdl:message name="UpdateDefaultSearchIndexesSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateDefaultSearchIndexesResponse" />
+  </wsdl:message>
+  <wsdl:message name="EnqueueAttachmentsToSendSoapIn">
+    <wsdl:part name="parameters" element="tns:EnqueueAttachmentsToSend" />
+  </wsdl:message>
+  <wsdl:message name="EnqueueAttachmentsToSendSoapOut">
+    <wsdl:part name="parameters" element="tns:EnqueueAttachmentsToSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSOSDocumentsStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateSOSDocumentsStatus" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSOSDocumentsStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateSOSDocumentsStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateFieldsValueSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateFieldsValue" />
+  </wsdl:message>
+  <wsdl:message name="UpdateFieldsValueSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateFieldsValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="NewAttachmentByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:NewAttachmentById" />
+  </wsdl:message>
+  <wsdl:message name="NewAttachmentByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:NewAttachmentByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApproveSoapIn">
+    <wsdl:part name="parameters" element="tns:Approve" />
+  </wsdl:message>
+  <wsdl:message name="ApproveSoapOut">
+    <wsdl:part name="parameters" element="tns:ApproveResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDescriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDescription" />
+  </wsdl:message>
+  <wsdl:message name="GetDescriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddUserSoapIn">
+    <wsdl:part name="parameters" element="tns:AddUser" />
+  </wsdl:message>
+  <wsdl:message name="AddUserSoapOut">
+    <wsdl:part name="parameters" element="tns:AddUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifySoapIn">
+    <wsdl:part name="parameters" element="tns:Notify" />
+  </wsdl:message>
+  <wsdl:message name="NotifySoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MicroareaEasyAttachmentSyncSoap">
+    <wsdl:operation name="Init">
+      <wsdl:input message="tns:InitSoapIn" />
+      <wsdl:output message="tns:InitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <wsdl:input message="tns:IsAliveSoapIn" />
+      <wsdl:output message="tns:IsAliveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Clear">
+      <wsdl:input message="tns:ClearSoapIn" />
+      <wsdl:output message="tns:ClearSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsFTSEnabled">
+      <wsdl:input message="tns:IsFTSEnabledSoapIn" />
+      <wsdl:output message="tns:IsFTSEnabledSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <wsdl:input message="tns:StopSoapIn" />
+      <wsdl:output message="tns:StopSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuspendFTS">
+      <wsdl:input message="tns:SuspendFTSSoapIn" />
+      <wsdl:output message="tns:SuspendFTSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDefaultSearchIndexes">
+      <wsdl:input message="tns:UpdateDefaultSearchIndexesSoapIn" />
+      <wsdl:output message="tns:UpdateDefaultSearchIndexesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnqueueAttachmentsToSend">
+      <wsdl:input message="tns:EnqueueAttachmentsToSendSoapIn" />
+      <wsdl:output message="tns:EnqueueAttachmentsToSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSOSDocumentsStatus">
+      <wsdl:input message="tns:UpdateSOSDocumentsStatusSoapIn" />
+      <wsdl:output message="tns:UpdateSOSDocumentsStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFieldsValue">
+      <wsdl:input message="tns:UpdateFieldsValueSoapIn" />
+      <wsdl:output message="tns:UpdateFieldsValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NewAttachmentById">
+      <wsdl:input message="tns:NewAttachmentByIdSoapIn" />
+      <wsdl:output message="tns:NewAttachmentByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Approve">
+      <wsdl:input message="tns:ApproveSoapIn" />
+      <wsdl:output message="tns:ApproveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDescription">
+      <wsdl:input message="tns:GetDescriptionSoapIn" />
+      <wsdl:output message="tns:GetDescriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <wsdl:input message="tns:AddUserSoapIn" />
+      <wsdl:output message="tns:AddUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <wsdl:input message="tns:GetStatusSoapIn" />
+      <wsdl:output message="tns:GetStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Notify">
+      <wsdl:input message="tns:NotifySoapIn" />
+      <wsdl:output message="tns:NotifySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MicroareaEasyAttachmentSyncSoap" type="tns:MicroareaEasyAttachmentSyncSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Init">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/Init" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/IsAlive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Clear">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/Clear" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFTSEnabled">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/IsFTSEnabled" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/Stop" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuspendFTS">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/SuspendFTS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDefaultSearchIndexes">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/UpdateDefaultSearchIndexes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnqueueAttachmentsToSend">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/EnqueueAttachmentsToSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSOSDocumentsStatus">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/UpdateSOSDocumentsStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFieldsValue">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/UpdateFieldsValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewAttachmentById">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/NewAttachmentById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Approve">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/Approve" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDescription">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/GetDescription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/AddUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/GetStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Notify">
+      <soap:operation soapAction="http://microarea.it/EasyAttachmentSync/Notify" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MicroareaEasyAttachmentSyncSoap12" type="tns:MicroareaEasyAttachmentSyncSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Init">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/Init" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/IsAlive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Clear">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/Clear" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFTSEnabled">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/IsFTSEnabled" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/Stop" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuspendFTS">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/SuspendFTS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDefaultSearchIndexes">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/UpdateDefaultSearchIndexes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnqueueAttachmentsToSend">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/EnqueueAttachmentsToSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSOSDocumentsStatus">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/UpdateSOSDocumentsStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFieldsValue">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/UpdateFieldsValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewAttachmentById">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/NewAttachmentById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Approve">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/Approve" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDescription">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/GetDescription" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/AddUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/GetStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Notify">
+      <soap12:operation soapAction="http://microarea.it/EasyAttachmentSync/Notify" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MicroareaEasyAttachmentSync">
+    <wsdl:port name="MicroareaEasyAttachmentSyncSoap" binding="tns:MicroareaEasyAttachmentSyncSoap">
+      <soap:address location="http://localhost/DEVELOPMENT_3X_EA/EasyAttachmentSync/EasyAttachmentSync.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MicroareaEasyAttachmentSyncSoap12" binding="tns:MicroareaEasyAttachmentSyncSoap12">
+      <soap12:address location="http://localhost/DEVELOPMENT_3X_EA/EasyAttachmentSync/EasyAttachmentSync.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

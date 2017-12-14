@@ -1,0 +1,13 @@
+﻿{
+  "id": "IDD_DEFAULT_TEMPLATE",
+  "rcId": 1010,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 599,
+  "height": 357,
+  "child": true,
+  "systemMenu": true,
+  "context": "basefrm",
+  "items": []
+}

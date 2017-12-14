@@ -6,7 +6,7 @@ namespace Microarea.DataService
 {
     public static class Extensions
     {
-        public static IServiceCollection AddDependencies(this IServiceCollection _this)
+        public static IServiceCollection AddDataServiceDependencies(this IServiceCollection _this)
         {
             _this.AddSingleton<IParameterManager, ParameterManager>();
 

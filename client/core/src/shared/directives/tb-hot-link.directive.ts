@@ -49,6 +49,9 @@ export class TbHotLinkDirective implements OnInit {
         if (!this.model) {
             let ancestor = (this.viewContainer as any)._view.component as HlComponent;
             if (ancestor) { this.cmp.instance.modelComponent = ancestor; }
+            if (this.cmp.instance.modelComponent.isCombo) {
+                console.log('COMBO ATTACH!');
+            }
             selector = createSelector(
                 s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.enabled : false,
                 s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : undefined,

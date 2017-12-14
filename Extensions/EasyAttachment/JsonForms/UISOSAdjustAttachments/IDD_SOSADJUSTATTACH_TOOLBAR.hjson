@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_SOSADJUSTATTACH_TOOLBAR	GET_IDD(IDD_SOSADJUSTATTACH_TOOLBAR,M.Extensions.EasyAttachment.UISOSAdjustAttachments)
+

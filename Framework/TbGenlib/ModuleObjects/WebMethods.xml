@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Framework.TbGenlib.TbGenlib.TBApplicationsComboHelper_Create" type="long" basetype="CTBApplicationsComboHelper, CTBUIControllerHelper, CCmdTarget" mode="out" sourceInfo="File: Framework\TbGenlib\AddOnMng.cpp." report="true" WCF="true" />
+    <Function namespace="Framework.TbGenlib.TbGenlib.TBApplicationsComboHelper_Dispose" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\AddOnMng.cpp." report="true" WCF="true" classType="CTBApplicationsComboHelper, CTBUIControllerHelper, CCmdTarget">
+      <Param name="handle" type="long" basetype="CTBApplicationsComboHelper, CTBUIControllerHelper, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.TBApplicationsComboHelper_OnFillListBox" type="void" sourceInfo="File: Framework\TbGenlib\AddOnMng.cpp." report="false" WCF="true" securityhidden="true" classType="CTBApplicationsComboHelper, CTBUIControllerHelper, CCmdTarget">
+      <Param name="handle" type="long" basetype="CTBApplicationsComboHelper, CTBUIControllerHelper, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CTBUIController_AddControlItemStr" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\TBUIController.cpp." report="true" WCF="true" securityhidden="true" classType="CTBUIController">
+      <Param name="handle" type="long" basetype="CTBUIController" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDescription" type="string" mode="in" />
+      <Param name="aKey" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CTBUIController_AddControlItemPerc" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\TBUIController.cpp." report="true" WCF="true" securityhidden="true" classType="CTBUIController">
+      <Param name="handle" type="long" basetype="CTBUIController" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDescription" type="string" mode="in" />
+      <Param name="aKey" type="percent" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CTBUIController_AddControlItemInt" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\TBUIController.cpp." report="true" WCF="true" securityhidden="true" classType="CTBUIController">
+      <Param name="handle" type="long" basetype="CTBUIController" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDescription" type="string" mode="in" />
+      <Param name="aKey" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CTBUIController_AddControlItemLong" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\TBUIController.cpp." report="true" WCF="true" securityhidden="true" classType="CTBUIController">
+      <Param name="handle" type="long" basetype="CTBUIController" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDescription" type="string" mode="in" />
+      <Param name="aKey" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CTBUIController_AddControlItemEnum" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\TBUIController.cpp." report="true" WCF="true" securityhidden="true" classType="CTBUIController">
+      <Param name="handle" type="long" basetype="CTBUIController" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDescription" type="string" mode="in" />
+      <Param name="aKey" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CTBUIController_SetErrorMessage" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\TBUIController.cpp." report="true" WCF="true" securityhidden="true" classType="CTBUIController">
+      <Param name="handle" type="long" basetype="CTBUIController" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aMessage" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CTBUIController_SetWarningMessage" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\TBUIController.cpp." report="true" WCF="true" securityhidden="true" classType="CTBUIController">
+      <Param name="handle" type="long" basetype="CTBUIController" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aMessage" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlib.TbGenlib.CBaseDocument_GetMethods" type="bool" mode="out" sourceInfo="File: Framework\TbGenlib\Basedoc.cpp." localize="It retrives ownerid's namespace web-methods list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="arMethods" type="array" basetype="string" mode="in out" />
+    </Function>
+  </Functions>
+</FunctionObjects>

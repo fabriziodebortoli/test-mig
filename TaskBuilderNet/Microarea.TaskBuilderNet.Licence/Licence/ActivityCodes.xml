@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ActivityCodes setup_time="2007-11-03T18:49:35">
+	<BusinessAreasGroups value="000" localize="Other">
+		<BusinessAreas value="001" localize="Not defined" />
+		<BusinessAreas value="006" localize="Microarea Reseller" />
+		<BusinessAreas value="007" localize="Accident prevention" />
+		<BusinessAreas value="012" localize="Weapons and munition" />
+		<BusinessAreas value="013" localize="Sampling goods" />
+		<BusinessAreas value="015" localize="Lotto - offices" />
+		<BusinessAreas value="016" localize="Tobacco" />
+		<BusinessAreas value="017" localize="Second-hand shops" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="001" localize="Fashion">
+		<BusinessAreas value="001" localize="Clothes" />
+		<BusinessAreas value="003" localize="Underwear" />
+		<BusinessAreas value="004" localize="Bags" />
+		<BusinessAreas value="005" localize="Shoes" />
+		<BusinessAreas value="007" localize="Socks and Stocking" />
+		<BusinessAreas value="008" localize="Shirts" />
+		<BusinessAreas value="009" localize="Hats" />
+		<BusinessAreas value="012" localize="Belts and braces" />
+		<BusinessAreas value="014" localize="Ties and Scarf" />
+		<BusinessAreas value="015" localize="Spuns and textiles" />
+		<BusinessAreas value="016" localize="Knitted goods" />
+		<BusinessAreas value="018" localize="Leather goods" />
+		<BusinessAreas value="020" localize="Furs" />
+		<BusinessAreas value="023" localize="Suitcases" />
+		<BusinessAreas value="027" localize="Flocking" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="002" localize="Purification plants">
+		<BusinessAreas value="001" localize="Drinking water - companies" />
+		<BusinessAreas value="002" localize="Water softening" />
+		<BusinessAreas value="003" localize="Purification plants" />
+		<BusinessAreas value="004" localize="Tanks" />
+		<BusinessAreas value="005" localize="Artesian wells" />
+		<BusinessAreas value="006" localize="Sewerage system cleaning" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="003" localize="Logistics">
+		<BusinessAreas value="001" localize="Containers" />
+		<BusinessAreas value="002" localize="Packing" />
+		<BusinessAreas value="004" localize="Bus services" />
+		<BusinessAreas value="005" localize="Garage and parking services" />
+		<BusinessAreas value="006" localize="Transporting and road haulage" />
+		<BusinessAreas value="007" localize="Courier" />
+		<BusinessAreas value="008" localize="Air lines" />
+		<BusinessAreas value="009" localize="Airport services" />
+		<BusinessAreas value="010" localize="Port (harbour) services" />
+		<BusinessAreas value="011" localize="International consignment" />
+		<BusinessAreas value="012" localize="Mechanical transportation" />
+		<BusinessAreas value="013" localize="Transportation" />
+		<BusinessAreas value="014" localize="Public transportation" />
+		<BusinessAreas value="015" localize="Elevator trays" />
+		<BusinessAreas value="016" localize="Storage for third party" />
+		<BusinessAreas value="018" localize="Import/Export" />
+		<BusinessAreas value="019" localize="Post franking machine" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="004" localize="Agencies">
+		<BusinessAreas value="001" localize="Insurance" />
+		<BusinessAreas value="002" localize="School of motoring" />
+		<BusinessAreas value="003" localize="Marine agency" />
+		<BusinessAreas value="004" localize="Detective agency" />
+		<BusinessAreas value="005" localize="Travel agency" />
+		<BusinessAreas value="006" localize="Performing Arts companies" />
+		<BusinessAreas value="007" localize="Commerce agency" />
+		<BusinessAreas value="008" localize="Real estate agency" />
+		<BusinessAreas value="009" localize="Furnishing offices" />
+		<BusinessAreas value="010" localize="Commercial offices" />
+		<BusinessAreas value="011" localize="Delegation offices" />
+		<BusinessAreas value="012" localize="Press agency" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="005" localize="Research">
+		<BusinessAreas value="001" localize="Scientific" />
+		<BusinessAreas value="002" localize="Medical" />
+		<BusinessAreas value="003" localize="University" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="006" localize="Paper &amp; Wood">
+		<BusinessAreas value="001" localize="Wallpaper" />
+		<BusinessAreas value="002" localize="Cartonbox" />
+		<BusinessAreas value="004" localize="Hygiene papers" />
+		<BusinessAreas value="005" localize="Maps" />
+		<BusinessAreas value="006" localize="Paper and cardboard industry" />
+		<BusinessAreas value="008" localize="Box &amp; Can products" />
+		<BusinessAreas value="009" localize="Wood products" />
+		<BusinessAreas value="010" localize="Sawmill" />
+		<BusinessAreas value="013" localize="Wood production" />
+		<BusinessAreas value="014" localize="Packing industry" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="007" localize="Agriculture, Farming,  Zootechnics">
+		<BusinessAreas value="001" localize="Agricultural tools" />
+		<BusinessAreas value="002" localize="Agricultural products" />
+		<BusinessAreas value="003" localize="Agricultural agency" />
+		<BusinessAreas value="004" localize="Florist accessory" />
+		<BusinessAreas value="005" localize="Flowers and Plants" />
+		<BusinessAreas value="006" localize="Gardening" />
+		<BusinessAreas value="007" localize="Sements and bulbs" />
+		<BusinessAreas value="008" localize="Semenzaio plants and flowers" />
+		<BusinessAreas value="010" localize="Domestic animals" />
+		<BusinessAreas value="011" localize="Aviculture" />
+		<BusinessAreas value="012" localize="Livestock - farm" />
+		<BusinessAreas value="013" localize="Dung &amp; fertilizer" />
+		<BusinessAreas value="014" localize="Riding schools, stables" />
+		<BusinessAreas value="015" localize="Zootechnic products" />
+		<BusinessAreas value="016" localize="Feeds &amp; fodders" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="008" localize="Chemical/petrochemical/pharmaceutical industry">
+		<BusinessAreas value="001" localize="Abrasive" />
+		<BusinessAreas value="002" localize="Chemical Analysis" />
+		<BusinessAreas value="003" localize="Capsule" />
+		<BusinessAreas value="004" localize="Petroliferous" />
+		<BusinessAreas value="005" localize="Petrochemical" />
+		<BusinessAreas value="006" localize="Chemical products" />
+		<BusinessAreas value="007" localize="Industrial salt products" />
+		<BusinessAreas value="008" localize="Biotechnology" />
+		<BusinessAreas value="009" localize="Chemical plants" />
+		<BusinessAreas value="010" localize="Petrolchemical/petroliferous industry" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="009" localize="Food">
+		<BusinessAreas value="001" localize="Foodstuffs" />
+		<BusinessAreas value="002" localize="Biscuits and crackers" />
+		<BusinessAreas value="003" localize="Buther, fresh meat products" />
+		<BusinessAreas value="004" localize="Frozen foods" />
+		<BusinessAreas value="005" localize="Dairy, milk and derived products" />
+		<BusinessAreas value="006" localize="Cereals and grains" />
+		<BusinessAreas value="007" localize="Wafers" />
+		<BusinessAreas value="008" localize="Sweets" />
+		<BusinessAreas value="011" localize="Wine cellars" />
+		<BusinessAreas value="013" localize="Fruits and vegetables" />
+		<BusinessAreas value="014" localize="Dry fruits" />
+		<BusinessAreas value="015" localize="Mushroom &amp; Truffle" />
+		<BusinessAreas value="016" localize="Gastronomy" />
+		<BusinessAreas value="017" localize="Ice creams" />
+		<BusinessAreas value="021" localize="Honey and bee products" />
+		<BusinessAreas value="022" localize="Oil foods" />
+		<BusinessAreas value="024" localize="Baker" />
+		<BusinessAreas value="026" localize="Pasta foods" />
+		<BusinessAreas value="027" localize="Pasta and cake shops" />
+		<BusinessAreas value="028" localize="Frozen and Fresh fishes" />
+		<BusinessAreas value="029" localize="Poultry shop" />
+		<BusinessAreas value="030" localize="Salami and hams" />
+		<BusinessAreas value="031" localize="Eggs" />
+		<BusinessAreas value="032" localize="Sugar" />
+		<BusinessAreas value="033" localize="Animal foodstuffs" />
+		<BusinessAreas value="035" localize="Mill" />
+		<BusinessAreas value="038" localize="Spices" />
+		<BusinessAreas value="040" localize="Foodstuff package" />
+		<BusinessAreas value="041" localize="Plastic package products for foodstuff" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="010" localize="Environment &amp; Ecology">
+		<BusinessAreas value="001" localize="Asbestos - reclamation" />
+		<BusinessAreas value="002" localize="Reclamation and irrigation" />
+		<BusinessAreas value="003" localize="Disinfection" />
+		<BusinessAreas value="004" localize="Ecology" />
+		<BusinessAreas value="005" localize="Geology" />
+		<BusinessAreas value="006" localize="Landscaping services" />
+		<BusinessAreas value="007" localize="Civil protection" />
+		<BusinessAreas value="010" localize="Industrial recycling" />
+		<BusinessAreas value="011" localize="Civil waste" />
+		<BusinessAreas value="012" localize="Industrial waste" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="011" localize="Plastic and rubber industry">
+		<BusinessAreas value="001" localize="Bags and envelops" />
+		<BusinessAreas value="002" localize="Rubber - diverse produts" />
+		<BusinessAreas value="003" localize="Rubber - technical items" />
+		<BusinessAreas value="004" localize="Washer taps" />
+		<BusinessAreas value="005" localize="Plastic products" />
+		<BusinessAreas value="007" localize="Sack" />
+		<BusinessAreas value="008" localize="Plastic stamped materials" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="012" localize="Safety">
+		<BusinessAreas value="001" localize="Security services" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="013" localize="Furnishing &amp; Design">
+		<BusinessAreas value="001" localize="Decorative aquarium" />
+		<BusinessAreas value="002" localize="Furnishing" />
+		<BusinessAreas value="003" localize="Bath - Furnishing and accessories" />
+		<BusinessAreas value="004" localize="Designer Studio" />
+		<BusinessAreas value="005" localize="Sanitary" />
+		<BusinessAreas value="006" localize="Mattress" />
+		<BusinessAreas value="007" localize="Garden furnishing" />
+		<BusinessAreas value="008" localize="Carpets" />
+		<BusinessAreas value="009" localize="Carpets and rugs" />
+		<BusinessAreas value="010" localize="Underwear" />
+		<BusinessAreas value="011" localize="Curtaining" />
+		<BusinessAreas value="012" localize="Tapestry (Wall paper)" />
+		<BusinessAreas value="014" localize="Nets for beds" />
+		<BusinessAreas value="015" localize="Frames and poles" />
+		<BusinessAreas value="018" localize="Kitchen accessories" />
+		<BusinessAreas value="019" localize="Flexible wall products" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="014" localize="Arts &amp; Culture">
+		<BusinessAreas value="001" localize="Gallery of Arts" />
+		<BusinessAreas value="002" localize="Bookshops" />
+		<BusinessAreas value="003" localize="Rgistration sounds" />
+		<BusinessAreas value="004" localize="Scenography Studio" />
+		<BusinessAreas value="005" localize="Theaters" />
+		<BusinessAreas value="006" localize="Antique trade" />
+		<BusinessAreas value="007" localize="Restoration Arts" />
+		<BusinessAreas value="008" localize="Numismatics" />
+		<BusinessAreas value="009" localize="Disks, CDs" />
+		<BusinessAreas value="010" localize="Musical groups" />
+		<BusinessAreas value="011" localize="Musical instruments" />
+		<BusinessAreas value="012" localize="Phitalely" />
+		<BusinessAreas value="013" localize="Model-making" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="015" localize="Medical products">
+		<BusinessAreas value="001" localize="Aerosol &amp; Spray" />
+		<BusinessAreas value="002" localize="Wheelchair" />
+		<BusinessAreas value="003" localize="Electromedical devices" />
+		<BusinessAreas value="004" localize="Medical items" />
+		<BusinessAreas value="005" localize="Dentis devices" />
+		<BusinessAreas value="006" localize="Ortophaedy items" />
+		<BusinessAreas value="007" localize="Pharmacology products" />
+		<BusinessAreas value="008" localize="Veterinary Services" />
+		<BusinessAreas value="009" localize="Veterinary Products" />
+		<BusinessAreas value="010" localize="Herbalist shop" />
+		<BusinessAreas value="011" localize="Pharmacy" />
+		<BusinessAreas value="012" localize="Suppliers for hospitals" />
+		<BusinessAreas value="013" localize="Scientific items" />
+		<BusinessAreas value="014" localize="Neonatal products" />
+		<BusinessAreas value="015" localize="Items for measurement and control" />
+		<BusinessAreas value="016" localize="Manometer" />
+		<BusinessAreas value="017" localize="Thermometer" />
+		<BusinessAreas value="018" localize="Items and accessories for Laboratory" />
+		<BusinessAreas value="030" localize="Medical and nursing services" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="016" localize="Items for pets">
+		<BusinessAreas value="001" localize="Food cans" />
+		<BusinessAreas value="002" localize="Accessories" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="019" localize="Handicraft">
+		<BusinessAreas value="001" localize="Typical handicrafts" />
+		<BusinessAreas value="002" localize="Bricolage and do it yourself" />
+		<BusinessAreas value="003" localize="Carpenter" />
+		<BusinessAreas value="004" localize="Iron products" />
+		<BusinessAreas value="005" localize="Colours and paints" />
+		<BusinessAreas value="006" localize="Polishing products" />
+		<BusinessAreas value="007" localize="Model and plastic products" />
+		<BusinessAreas value="008" localize="Creator" />
+		<BusinessAreas value="009" localize="Metal cuts" />
+		<BusinessAreas value="010" localize="Other Tools" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="021" localize="Associations and Cooperatives">
+		<BusinessAreas value="001" localize="Artistical Associations" />
+		<BusinessAreas value="002" localize="Cultural Associations" />
+		<BusinessAreas value="003" localize="Association sectors" />
+		<BusinessAreas value="004" localize="Beneficial Associations" />
+		<BusinessAreas value="005" localize="Voluntary service Associations" />
+		<BusinessAreas value="006" localize="Recreation Centers" />
+		<BusinessAreas value="007" localize="Labour Unions" />
+		<BusinessAreas value="008" localize="Social Associations" />
+		<BusinessAreas value="009" localize="Sport Clubs" />
+		<BusinessAreas value="010" localize="Social basements" />
+		<BusinessAreas value="011" localize="Musical publisher Studio" />
+		<BusinessAreas value="012" localize="Consortium" />
+		<BusinessAreas value="013" localize="Production co-operative" />
+		<BusinessAreas value="014" localize="Service co-operative" />
+		<BusinessAreas value="015" localize="Domestic co-operative" />
+		<BusinessAreas value="016" localize="Labour co-operative" />
+		<BusinessAreas value="017" localize="Social co-operative" />
+		<BusinessAreas value="018" localize="Soliderity Associations" />
+		<BusinessAreas value="019" localize="Supermarkets" />
+		<BusinessAreas value="020" localize="Typography" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="022" localize="Motor vehicles">
+		<BusinessAreas value="001" localize="Pneumatics equipments" />
+		<BusinessAreas value="002" localize="Automobile accessories" />
+		<BusinessAreas value="003" localize="Automobile shops" />
+		<BusinessAreas value="005" localize="Carwash" />
+		<BusinessAreas value="006" localize="Automobiles" />
+		<BusinessAreas value="008" localize="Autoradio" />
+		<BusinessAreas value="009" localize="Industrial Autovehicles" />
+		<BusinessAreas value="010" localize="Caravan and campers" />
+		<BusinessAreas value="011" localize="Auto bodywork" />
+		<BusinessAreas value="012" localize="Pads" />
+		<BusinessAreas value="014" localize="Electrical repair shops for Automobiles" />
+		<BusinessAreas value="016" localize="Breaks and gears" />
+		<BusinessAreas value="017" localize="Motobike accessories" />
+		<BusinessAreas value="018" localize="Motobikes and tricars" />
+		<BusinessAreas value="019" localize="Pneumatics" />
+		<BusinessAreas value="020" localize="Automobile replacement" />
+		<BusinessAreas value="021" localize="Dampers" />
+		<BusinessAreas value="024" localize="Motobikes and components" />
+		<BusinessAreas value="025" localize="Lubricating oil" />
+		<BusinessAreas value="026" localize="Pump injection" />
+		<BusinessAreas value="028" localize="Motobike adjustment" />
+		<BusinessAreas value="029" localize="Battery and accumulator" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="023" localize="Stationery and Toys">
+		<BusinessAreas value="001" localize="Diary and Calendars" />
+		<BusinessAreas value="002" localize="Gift items" />
+		<BusinessAreas value="003" localize="Festival items" />
+		<BusinessAreas value="004" localize="Containers" />
+		<BusinessAreas value="005" localize="Flags and banners" />
+		<BusinessAreas value="006" localize="Stationery" />
+		<BusinessAreas value="007" localize="Stationery shop" />
+		<BusinessAreas value="008" localize="Stickers and labers" />
+		<BusinessAreas value="009" localize="Cloth labels" />
+		<BusinessAreas value="010" localize="Toys" />
+		<BusinessAreas value="011" localize="Badges" />
+		<BusinessAreas value="012" localize="Cups and medals" />
+		<BusinessAreas value="013" localize="Ball pens" />
+		<BusinessAreas value="014" localize="Blackboard" />
+		<BusinessAreas value="015" localize="Display and stands" />
+		<BusinessAreas value="016" localize="Plate" />
+		<BusinessAreas value="017" localize="Safe" />
+		<BusinessAreas value="018" localize="Consumption materials for printers" />
+		<BusinessAreas value="019" localize="Price tags" />
+		<BusinessAreas value="020" localize="Modules" />
+		<BusinessAreas value="021" localize="Stamps and numberer" />
+		<BusinessAreas value="022" localize="Consumption materials for photocopy machines" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="024" localize="Energy sources">
+		<BusinessAreas value="001" localize="Heating products" />
+		<BusinessAreas value="002" localize="Petrol" />
+		<BusinessAreas value="003" localize="Station services" />
+		<BusinessAreas value="004" localize="Gas, methane" />
+		<BusinessAreas value="005" localize="Heating warehouses" />
+		<BusinessAreas value="006" localize="Electrical energy" />
+		<BusinessAreas value="007" localize="Gasoline" />
+		<BusinessAreas value="008" localize="Solar energy" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="025" localize="Consulting">
+		<BusinessAreas value="001" localize="Patrimonial agency" />
+		<BusinessAreas value="002" localize="Quality certification" />
+		<BusinessAreas value="003" localize="Agricultural consulting" />
+		<BusinessAreas value="004" localize="Administrative consulting" />
+		<BusinessAreas value="005" localize="Insurance consulting" />
+		<BusinessAreas value="006" localize="Corporate consulting" />
+		<BusinessAreas value="007" localize="Commercial consulting" />
+		<BusinessAreas value="008" localize="Occupation consulting" />
+		<BusinessAreas value="009" localize="Fiscal consulting" />
+		<BusinessAreas value="010" localize="Industrial consulting" />
+		<BusinessAreas value="011" localize="Special consulting" />
+		<BusinessAreas value="012" localize="Franchising" />
+		<BusinessAreas value="013" localize="Skill and assessment centers" />
+		<BusinessAreas value="014" localize="Translation and interpreter agency" />
+		<BusinessAreas value="015" localize="Real estate agency" />
+		<BusinessAreas value="016" localize="Technical/Economical assistance" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="026" localize="Building Industry">
+		<BusinessAreas value="001" localize="Asphalt and bitumen" />
+		<BusinessAreas value="002" localize="Road tunneling and drilling" />
+		<BusinessAreas value="003" localize="Structural works" />
+		<BusinessAreas value="004" localize="Hand-made cements" />
+		<BusinessAreas value="005" localize="Glues and stickers" />
+		<BusinessAreas value="006" localize="Colours and paints" />
+		<BusinessAreas value="007" localize="Building materials" />
+		<BusinessAreas value="008" localize="Engineering society" />
+		<BusinessAreas value="009" localize="Building companies" />
+		<BusinessAreas value="010" localize="Industrial maintenance" />
+		<BusinessAreas value="011" localize="Floors" />
+		<BusinessAreas value="012" localize="Scaffold for buildings" />
+		<BusinessAreas value="013" localize="Prefabricated buildings" />
+		<BusinessAreas value="014" localize="Covering" />
+		<BusinessAreas value="015" localize="Sands and gravels" />
+		<BusinessAreas value="016" localize="Traffic signs" />
+		<BusinessAreas value="017" localize="Road maintenance" />
+		<BusinessAreas value="018" localize="Drilling" />
+		<BusinessAreas value="019" localize="Painting" />
+		<BusinessAreas value="020" localize="Thermal insulating" />
+		<BusinessAreas value="021" localize="Fencing" />
+		<BusinessAreas value="022" localize="Digging and demoliotion" />
+		<BusinessAreas value="023" localize="Panels" />
+		<BusinessAreas value="024" localize="Granite" />
+		<BusinessAreas value="025" localize="Mining and mines" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="028" localize="Household appliances and tools">
+		<BusinessAreas value="001" localize="Slicer" />
+		<BusinessAreas value="002" localize="Balance and scales" />
+		<BusinessAreas value="005" localize="Centrifuge" />
+		<BusinessAreas value="006" localize="Packing/wrapping machine" />
+		<BusinessAreas value="007" localize="Electrodomestic products" />
+		<BusinessAreas value="008" localize="Domestic frigo" />
+		<BusinessAreas value="009" localize="Industrial frigo" />
+		<BusinessAreas value="010" localize="Coffee machines" />
+		<BusinessAreas value="011" localize="Taps and fittings" />
+		<BusinessAreas value="012" localize="Scale" />
+		<BusinessAreas value="013" localize="Magnatic and calamite equipments" />
+		<BusinessAreas value="015" localize="Containers" />
+		<BusinessAreas value="016" localize="Bits and pieces" />
+		<BusinessAreas value="017" localize="Metal bottles" />
+		<BusinessAreas value="018" localize="Tv and Radio pole" />
+		<BusinessAreas value="019" localize="Electronic equipments" />
+		<BusinessAreas value="020" localize="Radio amateur equipments" />
+		<BusinessAreas value="021" localize="Sterephony and hi-fi" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="029" localize="Household appliances and tools">
+		<BusinessAreas value="001" localize="Candles and torches" />
+		<BusinessAreas value="002" localize="Household items" />
+		<BusinessAreas value="003" localize="Mosquito curtains" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="030" localize="Beauty &amp; Fitness">
+		<BusinessAreas value="001" localize="Beauty Center" />
+		<BusinessAreas value="002" localize="Gymnasium" />
+		<BusinessAreas value="003" localize="Hairdresser" />
+		<BusinessAreas value="004" localize="Thermal baths" />
+		<BusinessAreas value="005" localize="Hairdresser suppliers" />
+		<BusinessAreas value="006" localize="Cosmetics" />
+		<BusinessAreas value="007" localize="Essences" />
+		<BusinessAreas value="008" localize="Perfumery" />
+		<BusinessAreas value="009" localize="Soaps" />
+		<BusinessAreas value="010" localize="Technical equipment repair services" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="031" localize="Events">
+		<BusinessAreas value="001" localize="Sweets (candy shops)" />
+		<BusinessAreas value="002" localize="Funeral items" />
+		<BusinessAreas value="003" localize="Funeral rites" />
+		<BusinessAreas value="004" localize="Religious items" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="032" localize="Hardware and electric store">
+		<BusinessAreas value="001" localize="Electric equipments" />
+		<BusinessAreas value="002" localize="Electric materials" />
+		<BusinessAreas value="003" localize="Hardwares" />
+		<BusinessAreas value="004" localize="Filters" />
+		<BusinessAreas value="005" localize="Electrical panels" />
+		<BusinessAreas value="006" localize="Locks and keys" />
+		<BusinessAreas value="007" localize="Bolts and screws" />
+		<BusinessAreas value="008" localize="Industrial technical products" />
+		<BusinessAreas value="009" localize="Electricity" />
+		<BusinessAreas value="010" localize="Lamps" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="036" localize="Bottling and beverage">
+		<BusinessAreas value="001" localize="Mineral waters" />
+		<BusinessAreas value="002" localize="Alcohol beverage" />
+		<BusinessAreas value="003" localize="Soft drinks" />
+		<BusinessAreas value="005" localize="Beer" />
+		<BusinessAreas value="006" localize="Cask, barrel, can" />
+		<BusinessAreas value="007" localize="Bottles and flasks" />
+		<BusinessAreas value="009" localize="Bottling" />
+		<BusinessAreas value="010" localize="Liqueur" />
+		<BusinessAreas value="012" localize="Wines and champaigns" />
+		<BusinessAreas value="013" localize="Free Plants" />
+		<BusinessAreas value="014" localize="Cork and agglomerate" />
+		<BusinessAreas value="015" localize="Taps and Stopper" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="037" localize="Door and window frames">
+		<BusinessAreas value="001" localize="Persiane rolling" />
+		<BusinessAreas value="002" localize="Door" />
+		<BusinessAreas value="003" localize="Shutters and frames" />
+		<BusinessAreas value="004" localize="Electronic gate" />
+		<BusinessAreas value="005" localize="Electronic door" />
+		<BusinessAreas value="006" localize="Automatism for shutters" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="038" localize="Plant engineering">
+		<BusinessAreas value="001" localize="Burglar alarm" />
+		<BusinessAreas value="002" localize="Fire-prevention" />
+		<BusinessAreas value="003" localize="Aspiration" />
+		<BusinessAreas value="004" localize="Boiler and gas burner" />
+		<BusinessAreas value="005" localize="Interphone" />
+		<BusinessAreas value="006" localize="Conditioning" />
+		<BusinessAreas value="007" localize="Lighting" />
+		<BusinessAreas value="008" localize="Electric" />
+		<BusinessAreas value="009" localize="Hydraulic" />
+		<BusinessAreas value="010" localize="Watering" />
+		<BusinessAreas value="011" localize="Heating system" />
+		<BusinessAreas value="014" localize="Stove" />
+		<BusinessAreas value="015" localize="Ventilation" />
+		<BusinessAreas value="016" localize="Elevator" />
+		<BusinessAreas value="021" localize="Hydraulic materials" />
+		<BusinessAreas value="022" localize="Hydraulic and Panels" />
+		<BusinessAreas value="023" localize="Thermotechnics" />
+		<BusinessAreas value="024" localize="Drying system" />
+		<BusinessAreas value="025" localize="Painting" />
+		<BusinessAreas value="026" localize="Pump" />
+		<BusinessAreas value="027" localize="Auto shops" />
+		<BusinessAreas value="028" localize="Electrical repair shops for cars" />
+		<BusinessAreas value="029" localize="Beer" />
+		<BusinessAreas value="030" localize="X-ray" />
+		<BusinessAreas value="031" localize="Laundry" />
+		<BusinessAreas value="032" localize="Radiology" />
+		<BusinessAreas value="033" localize="Compressore air-gas" />
+		<BusinessAreas value="034" localize="Warehousing" />
+		<BusinessAreas value="035" localize="Graphic Arts" />
+		<BusinessAreas value="036" localize="Audio-visual equipments" />
+		<BusinessAreas value="037" localize="Ceramics" />
+		<BusinessAreas value="038" localize="Consulting" />
+		<BusinessAreas value="039" localize="Paper treatments" />
+		<BusinessAreas value="040" localize="Security systems" />
+		<BusinessAreas value="041" localize="Ligthing system" />
+		<BusinessAreas value="042" localize="Lubrification plants" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="039" localize="Cleaning agencies">
+		<BusinessAreas value="001" localize="Cleaning products" />
+		<BusinessAreas value="002" localize="Detersive and detergents" />
+		<BusinessAreas value="003" localize="Cleaning agency" />
+		<BusinessAreas value="004" localize="Brush" />
+		<BusinessAreas value="005" localize="Carpet cleaner" />
+		<BusinessAreas value="006" localize="Solvent and diluent" />
+		<BusinessAreas value="007" localize="Cleaning machine" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="045" localize="Banks">
+		<BusinessAreas value="001" localize="Bank and Credit instituations" />
+		<BusinessAreas value="002" localize="Money treatment" />
+		<BusinessAreas value="003" localize="Loans and aids" />
+		<BusinessAreas value="004" localize="Return credits" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="046" localize="Public agencies">
+		<BusinessAreas value="001" localize="Chamber of Commerce" />
+		<BusinessAreas value="002" localize="Governence serivces" />
+		<BusinessAreas value="003" localize="Congress and conference" />
+		<BusinessAreas value="004" localize="International public agencies" />
+		<BusinessAreas value="005" localize="Religious public angencies" />
+		<BusinessAreas value="006" localize="Turistic public agency" />
+		<BusinessAreas value="007" localize="Exhibitions - organizer" />
+		<BusinessAreas value="008" localize="Scientific research" />
+		<BusinessAreas value="009" localize="Public security services" />
+		<BusinessAreas value="010" localize="Commission - consulting" />
+		<BusinessAreas value="011" localize="Benefitial institution" />
+		<BusinessAreas value="012" localize="Accident prevention" />
+		<BusinessAreas value="013" localize="Breakdown services" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="047" localize="Education">
+		<BusinessAreas value="001" localize="Driving school" />
+		<BusinessAreas value="002" localize="Library" />
+		<BusinessAreas value="003" localize="Board of Schools" />
+		<BusinessAreas value="004" localize="Dancing Studio" />
+		<BusinessAreas value="005" localize="Language Studio" />
+		<BusinessAreas value="006" localize="Music school" />
+		<BusinessAreas value="007" localize="Business training Studio" />
+		<BusinessAreas value="008" localize="Private school" />
+		<BusinessAreas value="009" localize="Vocational school" />
+		<BusinessAreas value="010" localize="Public school" />
+		<BusinessAreas value="011" localize="University" />
+		<BusinessAreas value="012" localize="Military school" />
+		<BusinessAreas value="013" localize="Tools for Teaching method" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="048" localize="Dry cleaner">
+		<BusinessAreas value="001" localize="Laundry" />
+		<BusinessAreas value="003" localize="Industrial laundry" />
+		<BusinessAreas value="007" localize="Ironing" />
+		<BusinessAreas value="008" localize="Dry cleaner" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="049" localize="Tailoring">
+		<BusinessAreas value="001" localize="Tracery" />
+		<BusinessAreas value="002" localize="Tailor" />
+		<BusinessAreas value="003" localize="Bottoms" />
+		<BusinessAreas value="004" localize="Haberdasher" />
+		<BusinessAreas value="005" localize="Passementerie" />
+		<BusinessAreas value="006" localize="Sewing machine" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="050" localize="Medicine and Health">
+		<BusinessAreas value="001" localize="Ambulance and Councillor" />
+		<BusinessAreas value="002" localize="Clinical analysis" />
+		<BusinessAreas value="003" localize="Local corporate Health Institution" />
+		<BusinessAreas value="004" localize="Private clinics" />
+		<BusinessAreas value="005" localize="Retired house" />
+		<BusinessAreas value="006" localize="Dentist" />
+		<BusinessAreas value="007" localize="Kinesitherapy" />
+		<BusinessAreas value="008" localize="Oculist" />
+		<BusinessAreas value="009" localize="General medical services" />
+		<BusinessAreas value="010" localize="Products for dentist" />
+		<BusinessAreas value="011" localize="Hospitals" />
+		<BusinessAreas value="012" localize="First-aid services" />
+		<BusinessAreas value="013" localize="Associations" />
+		<BusinessAreas value="014" localize="X-ray studio" />
+		<BusinessAreas value="015" localize="Biomedical" />
+		<BusinessAreas value="016" localize="Optics" />
+		<BusinessAreas value="017" localize="Medicine" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="054" localize="Sailing and Aeronautics">
+		<BusinessAreas value="001" localize="Aeronautics industry" />
+		<BusinessAreas value="002" localize="Ship captain/owner" />
+		<BusinessAreas value="003" localize="Navy yard" />
+		<BusinessAreas value="004" localize="Sailing - equipments" />
+		<BusinessAreas value="005" localize="Naval navigation systems" />
+		<BusinessAreas value="006" localize="Suppliers for Boards" />
+		<BusinessAreas value="007" localize="Naval rigging" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="055" localize="Rent, Transportation and Porterage">
+		<BusinessAreas value="001" localize="Porterage services" />
+		<BusinessAreas value="002" localize="Transportation" />
+		<BusinessAreas value="003" localize="Videocassette" />
+		<BusinessAreas value="005" localize="Car renting" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="056" localize="Jeweller's craft">
+		<BusinessAreas value="001" localize="Silversmith" />
+		<BusinessAreas value="002" localize="Trinkets" />
+		<BusinessAreas value="004" localize="Jewellery" />
+		<BusinessAreas value="006" localize="Goldsmith" />
+		<BusinessAreas value="007" localize="Watch making shops" />
+		<BusinessAreas value="009" localize="Supplier for watch makers" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="061" localize="Advertising and Graphic Arts">
+		<BusinessAreas value="001" localize="Decorations" />
+		<BusinessAreas value="002" localize="Graphic arts" />
+		<BusinessAreas value="003" localize="Products for printing works" />
+		<BusinessAreas value="004" localize="Advertisement - articles" />
+		<BusinessAreas value="005" localize="Advertisement - notes" />
+		<BusinessAreas value="006" localize="Reproduction design" />
+		<BusinessAreas value="007" localize="Artistical stamps" />
+		<BusinessAreas value="008" localize="Window decorator" />
+		<BusinessAreas value="009" localize="Advertisement - consulting" />
+		<BusinessAreas value="010" localize="Marketing" />
+		<BusinessAreas value="011" localize="Stand design and preparation" />
+		<BusinessAreas value="012" localize="Audio-visual realization" />
+		<BusinessAreas value="013" localize="Audio-visual equipments" />
+		<BusinessAreas value="014" localize="Advertisement - agency" />
+		<BusinessAreas value="015" localize="Printer" />
+		<BusinessAreas value="016" localize="Plastic cards, magnets and badges" />
+		<BusinessAreas value="017" localize="Machine for graphic arts" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="062" localize="Public catering and Tourism">
+		<BusinessAreas value="001" localize="Bar and Coffee" />
+		<BusinessAreas value="002" localize="Restaurants" />
+		<BusinessAreas value="003" localize="Restaurant / caterings" />
+		<BusinessAreas value="004" localize="Coffee store" />
+		<BusinessAreas value="005" localize="Agriturism" />
+		<BusinessAreas value="006" localize="Hotels" />
+		<BusinessAreas value="007" localize="Camping and youth hostels" />
+		<BusinessAreas value="008" localize="Hotel supplier" />
+		<BusinessAreas value="009" localize="Equipments for restaurants" />
+		<BusinessAreas value="010" localize="Corporate catering" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="065" localize="Sport/Camping/Gardening">
+		<BusinessAreas value="001" localize="Sport items" />
+		<BusinessAreas value="002" localize="Bicycle" />
+		<BusinessAreas value="003" localize="Accessories for bicycles" />
+		<BusinessAreas value="004" localize="Fishing and hunting items" />
+		<BusinessAreas value="005" localize="Fireplace and BBQ" />
+		<BusinessAreas value="006" localize="Campaign items" />
+		<BusinessAreas value="007" localize="Toys for parks" />
+		<BusinessAreas value="008" localize="Scuba-diving equipments" />
+		<BusinessAreas value="009" localize="Umbrella" />
+		<BusinessAreas value="010" localize="Gardenning - equipments" />
+		<BusinessAreas value="011" localize="Grills and B&amp;Q" />
+		<BusinessAreas value="012" localize="Metal nets" />
+		<BusinessAreas value="013" localize="Waterproof drop curtain" />
+		<BusinessAreas value="014" localize="Ropes and strings" />
+		<BusinessAreas value="015" localize="Sport fields" />
+		<BusinessAreas value="016" localize="Cable way and ski lift" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="066" localize="Press, Publishing">
+		<BusinessAreas value="001" localize="Typing office" />
+		<BusinessAreas value="002" localize="Drawing and graphic arts" />
+		<BusinessAreas value="003" localize="Photocomposition" />
+		<BusinessAreas value="004" localize="Photocopy machine" />
+		<BusinessAreas value="005" localize="Photocopy services" />
+		<BusinessAreas value="006" localize="Photography studio" />
+		<BusinessAreas value="007" localize="Photography equipments" />
+		<BusinessAreas value="008" localize="Industrial photography" />
+		<BusinessAreas value="009" localize="Photogravure" />
+		<BusinessAreas value="010" localize="Photolytic substance" />
+		<BusinessAreas value="011" localize="Photoreproduction" />
+		<BusinessAreas value="012" localize="Bindery" />
+		<BusinessAreas value="013" localize="Lithoghraphy" />
+		<BusinessAreas value="014" localize="Rotogravure process" />
+		<BusinessAreas value="015" localize="Serigraphy machines" />
+		<BusinessAreas value="016" localize="Serigraphy" />
+		<BusinessAreas value="017" localize="Typographycs" />
+		<BusinessAreas value="018" localize="Publishing house" />
+		<BusinessAreas value="019" localize="Publishing studio" />
+		<BusinessAreas value="020" localize="Journals and magazine" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="068" localize="Consulting">
+		<BusinessAreas value="001" localize="Architect Studio" />
+		<BusinessAreas value="002" localize="Lawyer studio" />
+		<BusinessAreas value="003" localize="Account consulting" />
+		<BusinessAreas value="004" localize="Geometer studio" />
+		<BusinessAreas value="005" localize="Engineering" />
+		<BusinessAreas value="006" localize="Notary public" />
+		<BusinessAreas value="007" localize="Book-keeping/Accounting agency" />
+		<BusinessAreas value="008" localize="Industrial technical studio" />
+		<BusinessAreas value="009" localize="Agents" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="070" localize="ICT and consulting">
+		<BusinessAreas value="001" localize="Telecommunication" />
+		<BusinessAreas value="002" localize="Telephone - accessories" />
+		<BusinessAreas value="003" localize="Telephone networks" />
+		<BusinessAreas value="004" localize="Internet and telematics" />
+		<BusinessAreas value="005" localize="Macchine for offices" />
+		<BusinessAreas value="006" localize="Office suppliers" />
+		<BusinessAreas value="007" localize="Elaboration data" />
+		<BusinessAreas value="008" localize="Informatics - consulting" />
+		<BusinessAreas value="009" localize="Personal computers" />
+		<BusinessAreas value="010" localize="Electronic publishing houses" />
+		<BusinessAreas value="011" localize="Videogames" />
+		<BusinessAreas value="015" localize="Floppy, CD ROM" />
+		<BusinessAreas value="016" localize="Hardware and Software" />
+		<BusinessAreas value="020" localize="Telephone services" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="072" localize="Marble, Glass and Pottery">
+		<BusinessAreas value="001" localize="Pottery" />
+		<BusinessAreas value="003" localize="Pottery arts" />
+		<BusinessAreas value="004" localize="Crystalware" />
+		<BusinessAreas value="005" localize="China" />
+		<BusinessAreas value="007" localize="Clay" />
+		<BusinessAreas value="008" localize="Art glass" />
+		<BusinessAreas value="009" localize="Glasses and glass merchant" />
+		<BusinessAreas value="012" localize="Marbles and allieds" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="073" localize="Mechanics,  metallurgical,  iron and steel industry">
+		<BusinessAreas value="001" localize="Iron manufacturing" />
+		<BusinessAreas value="002" localize="Moulds" />
+		<BusinessAreas value="003" localize="Welding" />
+		<BusinessAreas value="004" localize="Steels" />
+		<BusinessAreas value="006" localize="Tools sharpening" />
+		<BusinessAreas value="007" localize="Furnaces" />
+		<BusinessAreas value="008" localize="Aluminium and alloys" />
+		<BusinessAreas value="009" localize="Tecnical industrial goods" />
+		<BusinessAreas value="010" localize="Mechanical equipments" />
+		<BusinessAreas value="011" localize="Chroming and nickelling" />
+		<BusinessAreas value="012" localize="Industrial diamonds" />
+		<BusinessAreas value="013" localize="Foundries" />
+		<BusinessAreas value="014" localize="Foundries plants" />
+		<BusinessAreas value="015" localize="Metallic cables" />
+		<BusinessAreas value="016" localize="Galvanic technology" />
+		<BusinessAreas value="017" localize="Joints" />
+		<BusinessAreas value="018" localize="Gears" />
+		<BusinessAreas value="019" localize="Plates" />
+		<BusinessAreas value="020" localize="Machines tool" />
+		<BusinessAreas value="021" localize="Metals and alloys" />
+		<BusinessAreas value="022" localize="Metallization" />
+		<BusinessAreas value="023" localize="Springs" />
+		<BusinessAreas value="024" localize="Industrial assemblies" />
+		<BusinessAreas value="025" localize="Belt conveyers" />
+		<BusinessAreas value="026" localize="Anodic oxidation" />
+		<BusinessAreas value="027" localize="Brass" />
+		<BusinessAreas value="028" localize="Pumps" />
+		<BusinessAreas value="029" localize="Press" />
+		<BusinessAreas value="030" localize="Connections and valves" />
+		<BusinessAreas value="031" localize="Speed reducers" />
+		<BusinessAreas value="032" localize="Welders" />
+		<BusinessAreas value="033" localize="Metallic shelves" />
+		<BusinessAreas value="034" localize="Saws" />
+		<BusinessAreas value="035" localize="Iron and steel industry" />
+		<BusinessAreas value="036" localize="Iron and steel industry" />
+		<BusinessAreas value="037" localize="Tin and alloys" />
+		<BusinessAreas value="038" localize="Metallic stamps" />
+		<BusinessAreas value="039" localize="Turning" />
+		<BusinessAreas value="040" localize="Drawn iron" />
+		<BusinessAreas value="041" localize="Piping" />
+		<BusinessAreas value="042" localize="Turbines" />
+		<BusinessAreas value="043" localize="Valves" />
+		<BusinessAreas value="044" localize="Electrolytic zincing" />
+		<BusinessAreas value="045" localize="Section bars" />
+		<BusinessAreas value="046" localize="Ribbons" />
+		<BusinessAreas value="048" localize="Metal shearing" />
+		<BusinessAreas value="049" localize="Food machinery" />
+		<BusinessAreas value="050" localize="Dairy machinery" />
+		<BusinessAreas value="051" localize="Bakery machinery" />
+		<BusinessAreas value="052" localize="Pasta factory machinery" />
+		<BusinessAreas value="053" localize="Ice-cream parlour machinery" />
+		<BusinessAreas value="054" localize="Zootechnics plants" />
+		<BusinessAreas value="055" localize="Labelling machinery" />
+		<BusinessAreas value="056" localize="Building machinery" />
+		<BusinessAreas value="057" localize="Paint factory machinery" />
+		<BusinessAreas value="058" localize="Drilling machinery" />
+		<BusinessAreas value="059" localize="Tools" />
+		<BusinessAreas value="060" localize="Oil-pressure plants" />
+		<BusinessAreas value="061" localize="Machine shops" />
+		<BusinessAreas value="062" localize="Third parties assemblage" />
+		<BusinessAreas value="063" localize="Industrial grindings" />
+		<BusinessAreas value="064" localize="Industrial supplies" />
+		<BusinessAreas value="065" localize="Shoes" />
+		<BusinessAreas value="066" localize="Clothes" />
+		<BusinessAreas value="067" localize="Tannery machinery" />
+		<BusinessAreas value="068" localize="Textile machinery" />
+		<BusinessAreas value="069" localize="Packaging machinery" />
+		<BusinessAreas value="070" localize="Paper and cardboard industry machinery" />
+		<BusinessAreas value="071" localize="Wood machinery" />
+		<BusinessAreas value="072" localize="Wood machinery" />
+		<BusinessAreas value="073" localize="Agricultural machinery" />
+		<BusinessAreas value="074" localize="Farmaceutical machinery" />
+		<BusinessAreas value="075" localize="Vending machines" />
+		<BusinessAreas value="076" localize="Mill machinery" />
+		<BusinessAreas value="077" localize="Eenology machinery" />
+		<BusinessAreas value="078" localize="Jewels machinery" />
+		<BusinessAreas value="079" localize="Silver machinery" />
+		<BusinessAreas value="080" localize="Graphic arts machinery" />
+		<BusinessAreas value="081" localize="Laundry machinery" />
+		<BusinessAreas value="083" localize="Marble machinery" />
+		<BusinessAreas value="084" localize="Glassworks machinery" />
+		<BusinessAreas value="085" localize="Hat factory machinery" />
+		<BusinessAreas value="086" localize="Metal structural work" />
+		<BusinessAreas value="087" localize="Precision mechanics" />
+		<BusinessAreas value="090" localize="Automations" />
+		<BusinessAreas value="100" localize="Robots" />
+		<BusinessAreas value="101" localize="Transformer" />
+		<BusinessAreas value="102" localize="Energy transformer" />
+		<BusinessAreas value="103" localize="Battery" />
+	</BusinessAreasGroups>
+	<BusinessAreasGroups value="074" localize="Electronics industry">
+		<BusinessAreas value="001" localize="Cash register" />
+		<BusinessAreas value="002" localize="Electric cable and conductor" />
+		<BusinessAreas value="003" localize="Electric components" />
+		<BusinessAreas value="004" localize="Electromechanics" />
+		<BusinessAreas value="005" localize="Industrial Electronics" />
+		<BusinessAreas value="006" localize="Electrotechnics" />
+		<BusinessAreas value="007" localize="Generator" />
+		<BusinessAreas value="008" localize="Electric insulator" />
+		<BusinessAreas value="009" localize="Electronic transformator" />
+		<BusinessAreas value="010" localize="Laser - equipments" />
+		<BusinessAreas value="011" localize="Circuit forms" />
+		<BusinessAreas value="012" localize="Automation and Robotics" />
+		<BusinessAreas value="014" localize="Resistance" />
+		<BusinessAreas value="015" localize="Electronic components" />
+	</BusinessAreasGroups>
+</ActivityCodes>

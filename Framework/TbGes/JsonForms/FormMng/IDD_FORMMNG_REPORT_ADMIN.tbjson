@@ -1,0 +1,191 @@
+﻿{
+  "id": "IDD_FORMMNG_REPORT_ADMIN",
+  "rcId": 1060,
+  "type": 66,
+  "text": "Management tool - Document Report",
+  "x": 0,
+  "y": 0,
+  "width": 487,
+  "height": 309,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "formmng",
+  "items": [
+    {
+      "id": "IDC_FORMMNG_LISTAPPS",
+      "type": 30,
+      "x": 4,
+      "y": 34,
+      "width": 62,
+      "height": 224,
+      "border": true,
+      "autoArrange": true,
+      "noColumnHeader": true,
+      "alwaysShowSelection": true,
+      "singleSelection": true
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_LIST_DOC",
+      "type": 24,
+      "x": 74,
+      "y": 46,
+      "width": 139,
+      "height": 208,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_TREE",
+      "type": 26,
+      "x": 219,
+      "y": 46,
+      "width": 191,
+      "height": 208,
+      "border": true,
+      "hScroll": true,
+      "editLabels": true
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_ADD",
+      "type": 3,
+      "text": "Add",
+      "x": 412,
+      "y": 87,
+      "width": 68,
+      "height": 14
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_DELETE",
+      "type": 3,
+      "text": "Delete",
+      "x": 412,
+      "y": 67,
+      "width": 68,
+      "height": 14
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_RENAME",
+      "type": 3,
+      "text": "Rename",
+      "x": 412,
+      "y": 47,
+      "width": 68,
+      "height": 14
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_SAVE",
+      "type": 3,
+      "text": "Save",
+      "x": 334,
+      "y": 265,
+      "width": 57,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 397,
+      "y": 265,
+      "width": 57,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_DOC",
+      "type": 2,
+      "text": "Documents",
+      "x": 76,
+      "y": 35,
+      "width": 134,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "x": 69,
+      "y": 31,
+      "width": 148,
+      "height": 229
+    },
+    {
+      "id": "IDC_STATIC_ELEMENT",
+      "type": 2,
+      "text": "Report",
+      "x": 220,
+      "y": 35,
+      "width": 139,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_MODIFY",
+      "type": 3,
+      "text": "Edit",
+      "x": 412,
+      "y": 167,
+      "width": 68,
+      "height": 14
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_NEW",
+      "type": 3,
+      "text": "New",
+      "x": 412,
+      "y": 147,
+      "width": 68,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "x": 218,
+      "y": 31,
+      "width": 265,
+      "height": 229
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_CLONE",
+      "type": 3,
+      "text": "Clone",
+      "x": 412,
+      "y": 127,
+      "width": 68,
+      "height": 14
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_COPYIN",
+      "type": 3,
+      "text": "Copy",
+      "x": 412,
+      "y": 187,
+      "width": 68,
+      "height": 14
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_MOVEIN",
+      "type": 3,
+      "text": "Move",
+      "x": 412,
+      "y": 207,
+      "width": 68,
+      "height": 14,
+      "visible": false
+    },
+    {
+      "id": "IDC_FORMMNG_ADM_BTN_ADD_AUDIT",
+      "type": 3,
+      "text": "Audit Report",
+      "x": 412,
+      "y": 107,
+      "width": 68,
+      "height": 14,
+      "visible": false
+    }
+  ]
+}

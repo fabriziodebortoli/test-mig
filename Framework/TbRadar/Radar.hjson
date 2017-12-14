@@ -1,0 +1,69 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbRadar\JsonForms\RADAR\IDD_RADAR_FIND_ENUM.hjson>
+#include	<TbRadar\JsonForms\RADAR\IDD_RADAR_FIND_NUMERIC.hjson>
+#include	<TbRadar\JsonForms\RADAR\IDD_RADAR_FIND_STR.hjson>
+#include	<TbRadar\JsonForms\RADAR\IDD_RADAR_INSERT_DELETED_COLUMNS.hjson>
+#include	<TbRadar\JsonForms\RADAR\IDD_RADAR_RESIZE_COLUMNS.hjson>
+#include	<TbRadar\JsonForms\RADAR\IDR_RADAR_ACCELERATOR.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_RA_VSCROLLBAR			GET_IDC(IDC_RA_VSCROLLBAR)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_RADAR_EXCEL			GET_ID(ID_RADAR_EXCEL)
+#define	ID_RADAR_FIND_LABEL			GET_ID(ID_RADAR_FIND_LABEL)
+#define	ID_RADAR_INDICATOR_MSG			GET_ID(ID_RADAR_INDICATOR_MSG)
+#define	ID_RADAR_ODS			GET_ID(ID_RADAR_ODS)
+#define	ID_RADAR_WND_MESSAGES			GET_ID(ID_RADAR_WND_MESSAGES)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC_CURSOR
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_RADAR_COL_RESIZE		1503
+#define	IDC_RADAR_INS_DEL_COL		1504
+#define	IDC_RADAR_LB_SEL_COL		1502
+#define	IDC_RADAR_LB_SEL_ROW		1501
+#define	IDC_RADAR_TIB_SEL_COL		1500
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBRADAR
+static UINT IDS_ID_RADAR_INDICATOR_MSG		=GET_IDS(ID_RADAR_INDICATOR_MSG, _TB_STRING(" "), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_FIXED		=GET_IDS(ID_RADAR_FIXED, _TB_STRING("Leave radar always open (Ctrl F)\r\nFix Radar (Ctrl F)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_TOOLBAR_FIND_NEXT		=GET_IDS(ID_TOOLBAR_FIND_NEXT, _TB_STRING("Search next record (Ctrl S)\r\nSearch Next (Ctrl S)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_EXCEL		=GET_IDS(ID_RADAR_EXCEL, _TB_STRING("Export to Excel\r\nExport to Excel"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_ODS		=GET_IDS(ID_RADAR_ODS, _TB_STRING("Export to Open Office Calc\r\nExport to Open Office Calc"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_EXEC_QUERY		=GET_IDS(ID_RADAR_EXEC_QUERY, _TB_STRING("Execute the query currently selected (Ctrl-Q)\r\nExecute Query (Ctrl-Q)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_EDIT_QUERY		=GET_IDS(ID_RADAR_EDIT_QUERY, _TB_STRING("Enable to edit or add a query (Ctrl-E)\r\nEdit Query (Ctrl-E)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_TOOLBAR_FIND_PREV		=GET_IDS(ID_TOOLBAR_FIND_PREV, _TB_STRING("Search previous record (Ctrl P)\r\nSearch Previous (Ctrl P)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_LINK_RADAR		=GET_IDS(ID_RADAR_LINK_RADAR, _TB_STRING("Connect the radar to the document (Ctrl C)\r\nConnect Radar (Ctrl C)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_NEW		=GET_IDS(ID_RADAR_NEW, _TB_STRING("Enter new record (F2)\r\nNew Record (F2)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_EDIT		=GET_IDS(ID_RADAR_EDIT, _TB_STRING("Edit current record (Enter)\r\nEdit Record (Enter)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_FIND_START		=GET_IDS(ID_RADAR_FIND_START, _TB_STRING("Search for data in the selected columns (F3)\r\nSearch Data (F3)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_FIND_STOP		=GET_IDS(ID_RADAR_FIND_STOP, _TB_STRING("Interrupt the search (Ctrl B)\r\nInterrupt Search (Ctrl B) "), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_ORDER_DESC		=GET_IDS(ID_RADAR_ORDER_DESC, _TB_STRING("Sort values in descending order (Ctrl Z)\r\nSort Descending (Ctrl Z)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_ORDER_ASCE		=GET_IDS(ID_RADAR_ORDER_ASCE, _TB_STRING("Sort values in ascending order (Ctrl A)\r\nSort Ascending (Ctrl A) "), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_DELETE		=GET_IDS(ID_RADAR_DELETE, _TB_STRING("Delete one or more selected columns (Del)\r\nDelete Selected (Del)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_INSERT		=GET_IDS(ID_RADAR_INSERT, _TB_STRING("Insert one or more columns (Ins)\r\nInsert Columns (Ins)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_CB_FONT_STYLE		=GET_IDS(ID_RADAR_CB_FONT_STYLE, _TB_STRING("Change font format (Ctrl K)\r\nFont Format (Ctrl K)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_SAVE		=GET_IDS(ID_RADAR_SAVE, _TB_STRING("Save the current graphic configuration (F10)\r\nSave Graphic Attributes (F10)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_RESIZE_COL		=GET_IDS(ID_RADAR_RESIZE_COL, _TB_STRING("Modify the width of one or more columns (Ctrl W)\r\nColumns Width (Ctrl W)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_SHIFT_LEFT		=GET_IDS(ID_RADAR_SHIFT_LEFT, _TB_STRING("Shift the column left (SHIFT <-)\r\nShift Left (SHIFT <-)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_SHIFT_RIGHT		=GET_IDS(ID_RADAR_SHIFT_RIGHT, _TB_STRING("Shift the column right (SHIFT ->)\r\nShift Right (SHIFT ->)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_MINUS_LINES		=GET_IDS(ID_RADAR_MINUS_LINES, _TB_STRING("Decrease the row width (-)\r\nDecrease (-)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_PLUS_LINES		=GET_IDS(ID_RADAR_PLUS_LINES, _TB_STRING("Increase the row width (+)\r\nIncrease (+)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_EASY_READING		=GET_IDS(ID_RADAR_EASY_READING, _TB_STRING("Enable/disable easy reading (Ctrl L)\r\nEasy Reading (Ctrl L)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_PAGE_UP		=GET_IDS(ID_RADAR_PAGE_UP, _TB_STRING("Previous page (PageUp)\r\nPrevious Page (PageUp)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_ROW_UP		=GET_IDS(ID_RADAR_ROW_UP, _TB_STRING("Previous row\r\nPrevious row\r\n"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_ROW_DOWN		=GET_IDS(ID_RADAR_ROW_DOWN, _TB_STRING("Next row\r\nNext row"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_PAGE_DOWN		=GET_IDS(ID_RADAR_PAGE_DOWN, _TB_STRING("Next page (PageDown)\r\nNext Page (PageDown)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_HOME		=GET_IDS(ID_RADAR_HOME, _TB_STRING("Go to table beginning (Home)\r\nTable Beginning (Home)\r\n"), L"\\Framework\\TbRadar\\RADAR.hjson");
+static UINT IDS_ID_RADAR_END		=GET_IDS(ID_RADAR_END, _TB_STRING("Go to table end (End)\r\nTable End (End)"), L"\\Framework\\TbRadar\\RADAR.hjson");
+#endif
+

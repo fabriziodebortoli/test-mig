@@ -1,0 +1,231 @@
+﻿{
+  "id": "IDD_FORMMNG_BODY",
+  "rcId": 1056,
+  "type": 66,
+  "text": "Grids",
+  "x": 0,
+  "y": 0,
+  "width": 423,
+  "height": 206,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "formmng",
+  "items": [
+    {
+      "id": "IDC_FORMMNG_TREE",
+      "type": 26,
+      "text": "Tree1",
+      "x": 7,
+      "y": 9,
+      "width": 227,
+      "height": 191,
+      "border": true,
+      "hasButtons": true,
+      "hasLines": true,
+      "linesAtRoot": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "text": "Grid Properties",
+      "x": 236,
+      "y": 7,
+      "width": 183,
+      "height": 51
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "&Title",
+      "x": 242,
+      "y": 17,
+      "width": 167,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FORMMNG_BODY_NAME",
+      "type": 13,
+      "x": 242,
+      "y": 28,
+      "width": 167,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 9,
+      "text": "Column Properties",
+      "x": 235,
+      "y": 59,
+      "width": 183,
+      "height": 141
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "T&itle",
+      "x": 241,
+      "y": 69,
+      "width": 166,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FORMMNG_COL_NAME",
+      "type": 13,
+      "x": 242,
+      "y": 79,
+      "width": 167,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_FORMMNG_COL_VISIBLE",
+      "type": 11,
+      "text": "&Visible",
+      "x": 241,
+      "y": 101,
+      "width": 74,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_FORMMNG_COL_EDITABLE",
+      "type": 11,
+      "text": "&Editable",
+      "x": 241,
+      "y": 111,
+      "width": 71,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_FORMMNG_COL_VISIBLE2",
+      "type": 11,
+      "text": "Visible",
+      "x": 324,
+      "y": 101,
+      "width": 88,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_FORMMNG_COL_EDITABLE2",
+      "type": 11,
+      "text": "Editable",
+      "x": 324,
+      "y": 111,
+      "width": 88,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_FORMMNG_RESETDEFAULT",
+      "type": 3,
+      "text": "&Reset Default Values",
+      "x": 244,
+      "y": 42,
+      "width": 166,
+      "height": 12
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Position",
+      "x": 241,
+      "y": 122,
+      "width": 124,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FORMMNG_COL_ORDER",
+      "type": 13,
+      "x": 241,
+      "y": 133,
+      "width": 27,
+      "height": 12,
+      "autoHScroll": true,
+      "readOnly": true,
+      "number": true
+    },
+    {
+      "id": "IDC_FORMMNG_COL_SPINORDER",
+      "type": 33,
+      "text": "Spin1",
+      "x": 270,
+      "y": 133,
+      "width": 11,
+      "height": 12,
+      "tabStop": false,
+      "align": 1,
+      "arrowKeys": true,
+      "autoBuddy": true,
+      "noThousands": true,
+      "setBuddyInteger": true
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 2,
+      "text": "Size",
+      "x": 241,
+      "y": 147,
+      "width": 121,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FORMMNG_COL_WIDTH",
+      "type": 13,
+      "x": 241,
+      "y": 157,
+      "width": 38,
+      "height": 12,
+      "autoHScroll": true,
+      "number": true
+    },
+    {
+      "id": "IDC_FORMMNG_COL_DEFAULTORDER",
+      "type": 2,
+      "x": 326,
+      "y": 133,
+      "width": 38,
+      "height": 12,
+      "sunken": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FORMMNG_COL_DEFAULTWIDTH",
+      "type": 2,
+      "x": 326,
+      "y": 156,
+      "width": 38,
+      "height": 12,
+      "sunken": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FORMMNG_COL_DEFAULTNAME",
+      "type": 13,
+      "x": 241,
+      "y": 172,
+      "width": 169,
+      "height": 24,
+      "autoVScroll": true,
+      "readOnly": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Default Values",
+      "x": 320,
+      "y": 91,
+      "width": 97,
+      "height": 80
+    }
+  ]
+}

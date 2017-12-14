@@ -1,0 +1,41 @@
+﻿{
+  "id": "IDR_EDITOR",
+  "type": 66,
+  "accelerators": [
+    {
+      "id": "ID_FILE_SAVE",
+      "key": 113,
+      "virtualKey": true,
+      "noInvert": true
+    },
+    {
+      "id": "ID_EDIT_UNDO",
+      "key": 8,
+      "virtualKey": true,
+      "alt": true
+    },
+    {
+      "id": "ID_EDIT_CUT",
+      "key": 46,
+      "virtualKey": true,
+      "shift": true
+    },
+    {
+      "id": "ID_EDIT_CUT",
+      "key": 46,
+      "virtualKey": true
+    },
+    {
+      "id": "ID_EDIT_COPY",
+      "key": 45,
+      "virtualKey": true,
+      "control": true
+    },
+    {
+      "id": "ID_EDIT_PASTE",
+      "key": 45,
+      "virtualKey": true,
+      "shift": true
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+   "context" : "uirsgrants",
+   "height" : 177,
+   "id" : "IDD_RS_GRANTS_TILE_TREE",
+   "items" : [
+      {
+         "height" : 149,
+         "id" : "IDC_RS_GRANTS_TREE",
+         "type" : 2, /*Label*/
+         "width" : 321,
+         "x" : 3,
+         "y" : 28
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_RS_GRANTS_PROTECTED_CHECK",
+         "text" : "This record is under protection",
+         "type" : 11, /*Check*/
+         "width" : 204,
+         "x" : 3,
+         "y" : 10
+      }
+   ],
+   "type" : 66, /*Panel*/
+   "width" : 325,
+   "x" : 6,
+   "y" : 20
+}

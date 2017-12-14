@@ -1,0 +1,161 @@
+﻿{
+  "id": "IDD_MESSAGES_MANAGEMENT",
+  "rcId": 2246,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 336,
+  "height": 220,
+  "child": true,
+  "context": "bdpostalitedocumentsgraphicnavigation",
+  "items": [
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_SHOWONLYTOSEND",
+      "type": 11,
+      "text": "Show unsent messages only",
+      "x": 5,
+      "y": 3,
+      "width": 118,
+      "height": 16,
+      "multiline": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_TREECONTROL",
+      "type": 2,
+      "x": 3,
+      "y": 80,
+      "width": 329,
+      "height": 136,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_FILTERBYDATE_FIELD_FROM",
+      "type": 13,
+      "x": 132,
+      "y": 33,
+      "width": 62,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_FILTERBYDATE_CHECK",
+      "type": 11,
+      "text": "Show messages:",
+      "x": 133,
+      "y": 13,
+      "width": 70,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_FILTERBYWORKER_CHECK",
+      "type": 11,
+      "text": "Filter messages by worker",
+      "x": 5,
+      "y": 23,
+      "width": 117,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_FILTERBYWORKER",
+      "type": 12,
+      "x": 5,
+      "y": 34,
+      "width": 107,
+      "height": 30,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "From",
+      "x": 133,
+      "y": 24,
+      "width": 17,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_FILTERBYDATE_FIELD_TO",
+      "type": 13,
+      "x": 199,
+      "y": 33,
+      "width": 62,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "To",
+      "x": 199,
+      "y": 24,
+      "width": 9,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 9,
+      "text": "Date filter",
+      "x": 126,
+      "y": 2,
+      "width": 139,
+      "height": 48
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_REFRESH_DATA",
+      "type": 3,
+      "text": "Refresh data",
+      "x": 266,
+      "y": 17,
+      "width": 67,
+      "height": 25,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Estimate cost of unsent envelopes [€]",
+      "x": 126,
+      "y": 53,
+      "width": 146,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_CURRENT_CREDIT",
+      "type": 13,
+      "x": 5,
+      "y": 61,
+      "width": 46,
+      "height": 14,
+      "autoHScroll": true,
+      "textAlign": 2
+    },
+    {
+      "id": "IDC_MESSAGES_MANAGEMENT_UNSENT_MESSAGE_COST",
+      "type": 13,
+      "x": 126,
+      "y": 61,
+      "width": 42,
+      "height": 14,
+      "autoHScroll": true,
+      "textAlign": 2
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Current credit [€]",
+      "x": 5,
+      "y": 53,
+      "width": 73,
+      "height": 8,
+      "textAlign": 0
+    }
+  ]
+}

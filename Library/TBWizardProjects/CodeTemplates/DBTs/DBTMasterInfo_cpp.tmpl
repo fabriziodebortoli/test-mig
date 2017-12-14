@@ -1,0 +1,106 @@
+//=============================================================================
+// module name  : @(DBTClassName).cpp
+//=============================================================================
+#include "stdafx.h"
+
+// local declarations
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(DBTClassName).h>  
+
+//TBWIZ-INJECT{@(DBTClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+@(RepeatOnPrimaryKeySegments{static TCHAR szParam@(ColumnName)[] = _T("@(ColumnName)");, "\r\n"})
+//////////////////////////////////////////////////////////////////////////////
+//             class @(DBTClassName) implementation
+//////////////////////////////////////////////////////////////////////////////
+IMPLEMENT_DYNAMIC(@(DBTClassName), DBTMaster)
+
+//-----------------------------------------------------------------------------	
+@(DBTClassName)::@(DBTClassName)
+	(
+		CRuntimeClass*		pClass, 
+		CAbstractFormDoc*	pDocument
+	)
+	:
+	DBTMaster (pClass, pDocument, _NS_DBT("@(DBTName)"))
+{
+}
+
+//-----------------------------------------------------------------------------
+void @(DBTClassName)::OnDefineQuery ()
+{ 
+	@(TableClassName)* pRecord = Get@(TableClassName)();
+	
+	m_pTable->SelectAll();
+
+@(RepeatOnPrimaryKeySegments{\tm_pTable->AddFilterColumn(@(IfIsNotTableReferenced(pRecord->f_@(ColumnName)))@(IfIsTableReferenced(*pRecord->GetDataObjFromColumnName(_T("@(ColumnName)")))));, "\r\n"})
+	
+@(RepeatOnPrimaryKeySegments{\tm_pTable->AddParam(szParam@(ColumnName), @(IfIsNotTableReferenced(pRecord->f_@(ColumnName)))@(IfIsTableReferenced(*pRecord->GetDataObjFromColumnName(_T("@(ColumnName)")))));, "\r\n"})
+}
+
+//-----------------------------------------------------------------------------	
+BOOL @(DBTClassName)::OnCheckPrimaryKey()
+{   
+	@(TableClassName)* pRecord = Get@(TableClassName)();
+
+@(RepeatOnPrimaryKeySegments{\tif (@(IfIsNotTableReferenced(pRecord->f_@(ColumnName).))@(IfIsTableReferenced(pRecord->GetDataObjFromColumnName(_T("@(ColumnName)"))->))IsEmpty())\n\t{\n\t\tSetError(_TB("Empty primary key segment."));\n\t\treturn FALSE;\n\t}, "\r\n"})
+
+    return TRUE;
+}
+
+//-----------------------------------------------------------------------------	
+void @(DBTClassName)::OnPreparePrimaryKey ()
+{ 
+}
+
+//-----------------------------------------------------------------------------
+void @(DBTClassName)::OnPrepareQuery ()
+{
+	@(TableClassName)* pRecord = Get@(TableClassName)();
+	
+@(RepeatOnPrimaryKeySegments{\tm_pTable->SetParamValue(szParam@(ColumnName), @(IfIsNotTableReferenced(pRecord->f_@(ColumnName)))@(IfIsTableReferenced(*pRecord->GetDataObjFromColumnName(_T("@(ColumnName)")))));, "\r\n"})
+}
+
+//-----------------------------------------------------------------------------
+void @(DBTClassName)::OnPrepareBrowser (SqlTable* pTable)
+{
+	@(TableClassName)* pRecord = (@(TableClassName)*)pTable->GetRecord();
+	
+	pTable->SelectAll();
+
+@(RepeatOnPrimaryKeySegments{\tpTable->AddSortColumn(@(IfIsNotTableReferenced(pRecord->f_@(ColumnName)))@(IfIsTableReferenced(*pRecord->GetDataObjFromColumnName(_T("@(ColumnName)")))));, "\r\n"})
+}
+
+//-----------------------------------------------------------------------------
+void @(DBTClassName)::OnPrepareFindQuery (SqlTable* pTable)
+{
+	@(TableClassName)* pRecord = (@(TableClassName)*)pTable->GetRecord();
+
+	pTable->SelectAll();
+
+@(RepeatOnPrimaryKeySegments{\tpTable->AddSortColumn(@(IfIsNotTableReferenced(pRecord->f_@(ColumnName)))@(IfIsTableReferenced(*pRecord->GetDataObjFromColumnName(_T("@(ColumnName)")))));, "\r\n"})
+}
+
+//-----------------------------------------------------------------------------
+void @(DBTClassName)::OnEnableControlsForFind ()
+{
+	@(TableClassName)* pRecord = Get@(TableClassName)();
+
+@(RepeatOnFindableColumns{\t@(IfIsNotTableReferenced(pRecord->f_@(ColumnName).))@(IfIsTableReferenced(pRecord->GetDataObjFromColumnName(_T("@(ColumnName)"))->))SetFindable();, "\r\n"})
+}
+
+//-----------------------------------------------------------------------------
+void @(DBTClassName)::OnDisableControlsForEdit()
+{
+	@(TableClassName)* pRecord = Get@(TableClassName)();
+	
+@(RepeatOnPrimaryKeySegments{\t@(IfIsNotTableReferenced(pRecord->f_@(ColumnName).))@(IfIsTableReferenced(pRecord->GetDataObjFromColumnName(_T("@(ColumnName)"))->))SetReadOnly(TRUE);, "\r\n"})
+}
+
+//TBWIZ-INJECT{@(DBTClassName)(AdditionalCode)
+//TBWIZ-INJECT}

@@ -15,7 +15,7 @@ import { PaginatorService, ServerNeededParams } from '../../../core/services/pag
 import { FilterService, combineFilters } from '../../../core/services/filter.services';
 import * as _ from 'lodash';
 
-export type HlComponent = { model: any, slice$?: any, cmpId: string };
+export type HlComponent = { model: any, slice$?: any, cmpId: string, isCombo?: boolean };
 
 @Component({
   selector: 'tb-hotlink-buttons',
@@ -60,6 +60,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private previousNext = true;
   private pageSize = 20;
   private showTableSubj$ = new BehaviorSubject(false);
+  private defaultPageCounter = 0;
 
   private _filter: CompositeFilterDescriptor;
   private get filter(): CompositeFilterDescriptor {
@@ -121,6 +122,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
+  get isAttachedToAComboBox(): boolean {
+    if (this.modelComponent && this.modelComponent.isCombo) { return true; }
+    return false;
+  }
+
   async toggleOptions(anchor, template) {
     this.closeTable();
     if (!this.optionsSub) {
@@ -156,6 +162,14 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if (this.showTableSubj$.value) { this.closeTable(); } else { this.openTable(); }
   }
 
+  async openDropDown() {
+    this.start();
+  }
+
+  closeDropDown() {
+    this.stop();
+  }
+
   closeOptions() { this.showOptionsSubj$.next(false); }
   openOptions() { this.showOptionsSubj$.next(true); }
   closeTable() { this.showTableSubj$.next(false); this.stop(); }
@@ -165,7 +179,12 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     return {'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)'};
   }
 
+  getDataItem(d: any): any {
+    return d;
+  }
+
   private start() {
+    this.defaultPageCounter = 0;
     this.filterer.configure(200);
     this.paginator.start(1, this.pageSize,
       combineFilters(this.filterer.filterChanged$, this.slice$)
@@ -189,9 +208,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
           this.closeOptions();
         }
         setTimeout(() => {
-          let filters = this.tablePopupRef.popupElement.querySelectorAll('[kendofilterinput]');
-          if (filters && filters[this.changedFilterIndex]) {
-            (filters[this.changedFilterIndex] as HTMLElement).focus();
+          if (this.tablePopupRef) {
+            let filters = this.tablePopupRef.popupElement.querySelectorAll('[kendofilterinput]');
+            if (filters && filters[this.changedFilterIndex]) {
+              (filters[this.changedFilterIndex] as HTMLElement).focus();
+            }
           }
         }, 100);
     });
@@ -221,9 +242,23 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     await this.paginator.pageChange(event.skip, event.take);
   }
 
+  protected async nextDefaultPage() {
+    this.defaultPageCounter++;
+    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+  }
+
+  protected async prevDefaultPage() {
+    this.defaultPageCounter--;
+    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+  }
+
+  protected async firstDefaultPage() {
+    this.defaultPageCounter = 0;
+    await this.paginator.pageChange(0, this.pageSize);
+  }
+
   private loadTable() {
     this.start();
-    // await this.paginator.firstPage();
   }
 
   selectionTypeChanged(type: string) {

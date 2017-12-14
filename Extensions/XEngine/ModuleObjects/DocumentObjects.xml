@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+	<Documents>
+		<Document namespace="Extensions.XEngine.TbXmlTransfer.ExportCriteria" localize="Export criteria" classhierarchy="CExpCriteriaWizardDoc" defaultsecurityroles="Configuration,aXtech Parameter Manager">
+			<ViewModes>
+				<Mode name="Default" type="batch" />
+			</ViewModes>
+		</Document>
+		<Document namespace="Extensions.XEngine.TbXmlTransfer.ImportCriteria" localize="Import criteria" classhierarchy="CImpCriteriaWizardDoc" defaultsecurityroles="Configuration,aXtech Parameter Manager">
+			<ViewModes>
+				<Mode name="Default" type="batch" />
+			</ViewModes>
+		</Document>
+		<Document namespace="Extensions.XEngine.TbXmlTransfer.XEngineParameters" localize="XEngine parameters" classhierarchy="DParameters" defaultsecurityroles="Configuration,aXtech Parameter Manager">
+			<ViewModes>
+				<Mode name="Default" />
+			</ViewModes>
+		</Document>
+	</Documents>
+</DocumentObjects>

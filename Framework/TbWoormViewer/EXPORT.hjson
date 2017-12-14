@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormViewer\JsonForms\EXPORT\IDD_EXCEL_FORMATTER.hjson>
+#include	<TbWoormViewer\JsonForms\EXPORT\IDD_EXPORTINFO.hjson>
+#include	<TbWoormViewer\JsonForms\EXPORT\IDD_FINDWORD.hjson>

@@ -1,0 +1,21 @@
+﻿{
+  "id": "IDD_BMP_CUT",
+  "rcId": 1178,
+  "type": 66,
+  "text": "Cut Bitmap",
+  "x": 0,
+  "y": 0,
+  "width": 442,
+  "height": 233,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "maximizeBox": true,
+  "thickFrame": true,
+  "hScroll": true,
+  "vScroll": true,
+  "child": false,
+  "center": true,
+  "context": "rectobj",
+  "items": []
+}

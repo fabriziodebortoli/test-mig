@@ -1,0 +1,180 @@
+﻿{
+   "hasStaticArea" : true,
+   "height" : 104,
+   "id" : "IDD_TD_RW_DATAVALIDATION_MONITOR_DETAIL",
+   "items" : [
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.ProviderName"
+         },
+         "border" : true,
+         "controlCaption" : "Provider Name",
+         "controlClass" : "StringStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_PROVIDER",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 105,
+         "x" : 101,
+         "y" : 2
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.DocNamespace"
+         },
+         "border" : true,
+         "controlCaption" : "Namespace",
+         "controlClass" : "StringStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_NAMESPACE",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 221,
+         "x" : 101,
+         "y" : 16
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.ActionName"
+         },
+         "border" : true,
+         "controlCaption" : "Action Name",
+         "controlClass" : "StringStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_NAMESPACE1",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 221,
+         "x" : 101,
+         "y" : 30
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.FKError"
+         },
+         "controlClass" : "CheckBox",
+         "height" : 10,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_FK",
+         "isText" : true,
+         "labelOnLeft" : true,
+         "text" : "Integrity Referential Error  ",
+         "textAlign" : 1, /*Center*/
+         "type" : 11, /*Check*/
+         "vertAlign" : 1, /*Center*/
+         "width" : 109,
+         "y" : 57
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.XSDError"
+         },
+         "controlClass" : "CheckBox",
+         "height" : 10,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_XSD",
+         "isText" : true,
+         "labelOnLeft" : true,
+         "text" : "Format Error  ",
+         "textAlign" : 1, /*Center*/
+         "type" : 11, /*Check*/
+         "vertAlign" : 1, /*Center*/
+         "width" : 109,
+         "y" : 45
+      },
+      {
+         "anchor" : "COL1",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.UsedForFilter"
+         },
+         "controlClass" : "CheckBox",
+         "height" : 10,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_EXCLUDED",
+         "isText" : true,
+         "labelOnLeft" : true,
+         "text" : "Used for Filter ",
+         "textAlign" : 1, /*Center*/
+         "type" : 11, /*Check*/
+         "vertAlign" : 1, /*Center*/
+         "width" : 109,
+         "y" : 69
+      },
+      {
+         "anchor" : "COL2",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.ValidationDate"
+         },
+         "border" : true,
+         "controlCaption" : "Date",
+         "controlClass" : "DateStatic",
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_DATE",
+         "tabStop" : true,
+         "type" : 2, /*Label*/
+         "width" : 57,
+         "x" : 428,
+         "y" : 2
+      },
+      {
+         "anchor" : "COL2",
+         "binding" : {
+            "datasource" : "ValidationInfoMonitor.TEnhDS_Valid_FormattedMsgError"
+         },
+         "controlCaption" : "Error Message",
+         "controlClass" : "StringEdit",
+         "group" : true,
+         "height" : 52,
+         "id" : "IDC_RW_DATAVALIDATION_MONITOR_DETAIL_MSG",
+         "multiline" : true,
+         "type" : 13, /*Edit*/
+         "vScroll" : true,
+         "width" : 223,
+         "x" : 428,
+         "y" : 16
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_4",
+         "tabStop" : true,
+         "text" : "Provider Name",
+         "textAlign" : 2, /*Right*/
+         "type" : 2, /*Label*/
+         "width" : 98,
+         "y" : 4
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_6",
+         "tabStop" : true,
+         "text" : "Namespace",
+         "textAlign" : 2, /*Right*/
+         "type" : 2, /*Label*/
+         "width" : 98,
+         "y" : 18
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_8",
+         "tabStop" : true,
+         "text" : "Action Name",
+         "textAlign" : 2, /*Right*/
+         "type" : 2, /*Label*/
+         "width" : 98,
+         "y" : 31
+      }
+   ],
+   "size" : 4, /*Wide*/
+   "text" : "Validation Data",
+   "type" : 71, /*Tile*/
+   "width" : 654
+}

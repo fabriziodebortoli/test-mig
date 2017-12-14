@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_WOORMVIEWERDLG			GET_IDD(IDD_WOORMVIEWERDLG, M.Framework.TbWoormViewer.WoormInfoViewer)
+#define	IDC_LISTWOORMPARAM			GET_IDC(IDC_LISTWOORMPARAM)

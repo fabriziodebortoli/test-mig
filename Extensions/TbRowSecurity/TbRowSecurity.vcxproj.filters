@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="RSManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RSTables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbRowSecurity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbRowSecurityInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RSStructures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIRSGrants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbRowSecurityWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDRSGrants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDRSMaintenance.cpp" />
+    <ClCompile Include="UIRSMaintenance.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RSManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBRowSecurityEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RSTables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RSStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRSGrants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDRSGrants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDRSMaintenance.h" />
+    <ClInclude Include="UIRSMaintenance.h" />
+    <ClInclude Include="TbRowSecurityInterface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbRowSecurity.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Beginh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="endh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="TBRowSecurity.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ModuleObjects\ClientDocumentObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\EventHandlerObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\DatabaseObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\Enums.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\DocumentObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\WebMethods.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="Res\BE_CopyGrants.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Res\BE_CopyGrants_disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Res\BE_CopyGrants_down.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Res\BE_PasteGrants_down.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Res\BE_PasteGrants.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Res\BE_PasteGrants_disabled.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Res\OpenGrantsForm.png">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm_Protected.png" />
+    <None Include="res\OpenGrantsForm.bmp" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="UIRSMaintenance.hjson" />
+    <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{fa99d9ab-a861-4bee-b902-8f7019992af0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4c0da8ea-2d94-436c-99da-edaf6739b3d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModuleObjects">
+      <UniqueIdentifier>{ed24c734-6c86-48e6-b27a-b384bbf51673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{d21fe409-c195-40ce-b826-0f7d72d3034a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Bitmap">
+      <UniqueIdentifier>{7e3896c5-1fbb-4f17-b297-9c8a84b8c0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{88b1407f-33f4-4072-9f31-ab99e1485115}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

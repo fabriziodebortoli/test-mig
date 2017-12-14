@@ -1,0 +1,66 @@
+{
+    "id": "IDD_TD_RESOURCES_OTHER_DATA",
+    "type": 71,
+    "text": "Other Data",
+    "x": 0,
+    "y": 0,
+    "width": 401,
+    "height": 40,
+    "child": true,
+    "name": "ResourcesOtherData",
+    "items": [
+        {
+            "id": "IDC_RSS_GEN_MANAGER",
+            "controlClass": "LongComboDropDownList",
+            "binding": {
+                "datasource": "Resources.Manager",
+                "hotLink": "WorkersManager",
+                "buttonId": 0
+            },
+            "type": 12,
+            "x": 101,
+            "y": 4,
+            "width": 56,
+            "height": 33,
+            "tabStop": true,
+            "vScroll": true,
+            "comboType": 2,
+            "auto": true,
+            "controlCaption": "Manager"
+        },
+        {
+            "id": "IDC_RSS_GEN_MANAGER_DESC",
+            "controlClass": "WorkerStatic",
+            "binding": {
+                "datasource": "Resources.ManagerDesc"
+            },
+            "type": 2,
+            "x": 164,
+            "y": 4,
+            "width": 201,
+            "height": 12,
+            "border": true,
+            "group": false,
+            "notify": true,
+            "noPrefix": true,
+            "textAlign": 0
+        },
+        {
+            "id": "IDC_RSS_GEN_HIDE_ON_LAYOUT",
+            "controlClass": "CheckBox",
+            "binding": {
+                "datasource": "Resources.HideOnLayout"
+            },
+            "type": 11,
+            "text": "Hide on Layout  ",
+            "x": 1,
+            "y": 19,
+            "width": 108,
+            "height": 8,
+            "textAlign": 2,
+            "auto": true,
+            "labelOnLeft": true
+        }
+    ],
+    "hasStaticArea": true
+}

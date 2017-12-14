@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://microarea.it/DataSynchronizer/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://microarea.it/DataSynchronizer/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microarea.it/DataSynchronizer/">
+      <s:element name="Init">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="windowsAuthentication" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InitResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Reboot">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rebootToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RebootResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RebootResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Notify">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="logID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="onlyForDMS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="iMagoConfigurations" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="NotifyResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsAlive">
+        <s:complexType />
+      </s:element>
+      <s:element name="IsAliveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAliveResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsMassiveSynchronizing">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsMassiveSynchronizingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsMassiveSynchronizingResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsMassiveValidating">
+        <s:complexType />
+      </s:element>
+      <s:element name="IsMassiveValidatingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsMassiveValidatingResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SynchronizeOutbound">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SynchronizeOutboundResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SynchronizeOutboundResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SynchronizeErrorsRecovery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SynchronizeErrorsRecoveryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SynchronizeErrorsRecoveryResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetProviderParameters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IAFModule" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parameters" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetProviderParametersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetProviderParametersResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestProviderParameters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parameters" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestProviderParametersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TestProviderParametersResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionsForDocument">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docNamespace" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionsForDocumentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionsForDocumentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateDocument">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nameSpace" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="guidDoc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serializedErrors" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="workerId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateDocumentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidateDocumentResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateOutbound">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bCheckFK" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="bCheckXSD" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="filters" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serializedTree" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="workerId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateOutboundResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidateOutboundResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateExternalServer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="extservername" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="connstr" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateExternalServerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateExternalServerResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckCompaniesToBeMapped">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckCompaniesToBeMappedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckCompaniesToBeMappedResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="companylist" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MapCompany">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="appreg" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="magocompany" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="infinitycompany" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="taxid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MapCompanyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MapCompanyResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadActionPackage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="actionpath" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadActionPackageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UploadActionPackageResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetConvergenceCriteria">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlCriteria" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetConvergenceCriteriaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetConvergenceCriteriaResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConvergenceCriteria">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="actionName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConvergenceCriteriaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetConvergenceCriteriaResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlCriteria" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetGadgetPerm">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetGadgetPermResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetGadgetPermResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PurgeSynchroConnectorLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PurgeSynchroConnectorLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PurgeSynchroConnectorLogResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="InitSoapIn">
+    <wsdl:part name="parameters" element="tns:Init" />
+  </wsdl:message>
+  <wsdl:message name="InitSoapOut">
+    <wsdl:part name="parameters" element="tns:InitResponse" />
+  </wsdl:message>
+  <wsdl:message name="RebootSoapIn">
+    <wsdl:part name="parameters" element="tns:Reboot" />
+  </wsdl:message>
+  <wsdl:message name="RebootSoapOut">
+    <wsdl:part name="parameters" element="tns:RebootResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifySoapIn">
+    <wsdl:part name="parameters" element="tns:Notify" />
+  </wsdl:message>
+  <wsdl:message name="NotifySoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsAliveSoapIn">
+    <wsdl:part name="parameters" element="tns:IsAlive" />
+  </wsdl:message>
+  <wsdl:message name="IsAliveSoapOut">
+    <wsdl:part name="parameters" element="tns:IsAliveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsMassiveSynchronizingSoapIn">
+    <wsdl:part name="parameters" element="tns:IsMassiveSynchronizing" />
+  </wsdl:message>
+  <wsdl:message name="IsMassiveSynchronizingSoapOut">
+    <wsdl:part name="parameters" element="tns:IsMassiveSynchronizingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsMassiveValidatingSoapIn">
+    <wsdl:part name="parameters" element="tns:IsMassiveValidating" />
+  </wsdl:message>
+  <wsdl:message name="IsMassiveValidatingSoapOut">
+    <wsdl:part name="parameters" element="tns:IsMassiveValidatingResponse" />
+  </wsdl:message>
+  <wsdl:message name="SynchronizeOutboundSoapIn">
+    <wsdl:part name="parameters" element="tns:SynchronizeOutbound" />
+  </wsdl:message>
+  <wsdl:message name="SynchronizeOutboundSoapOut">
+    <wsdl:part name="parameters" element="tns:SynchronizeOutboundResponse" />
+  </wsdl:message>
+  <wsdl:message name="SynchronizeErrorsRecoverySoapIn">
+    <wsdl:part name="parameters" element="tns:SynchronizeErrorsRecovery" />
+  </wsdl:message>
+  <wsdl:message name="SynchronizeErrorsRecoverySoapOut">
+    <wsdl:part name="parameters" element="tns:SynchronizeErrorsRecoveryResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetProviderParametersSoapIn">
+    <wsdl:part name="parameters" element="tns:SetProviderParameters" />
+  </wsdl:message>
+  <wsdl:message name="SetProviderParametersSoapOut">
+    <wsdl:part name="parameters" element="tns:SetProviderParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestProviderParametersSoapIn">
+    <wsdl:part name="parameters" element="tns:TestProviderParameters" />
+  </wsdl:message>
+  <wsdl:message name="TestProviderParametersSoapOut">
+    <wsdl:part name="parameters" element="tns:TestProviderParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionsForDocumentSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActionsForDocument" />
+  </wsdl:message>
+  <wsdl:message name="GetActionsForDocumentSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionsForDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidateDocumentSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateDocument" />
+  </wsdl:message>
+  <wsdl:message name="ValidateDocumentSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidateOutboundSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateOutbound" />
+  </wsdl:message>
+  <wsdl:message name="ValidateOutboundSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateOutboundResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateExternalServerSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateExternalServer" />
+  </wsdl:message>
+  <wsdl:message name="CreateExternalServerSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateExternalServerResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckCompaniesToBeMappedSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckCompaniesToBeMapped" />
+  </wsdl:message>
+  <wsdl:message name="CheckCompaniesToBeMappedSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckCompaniesToBeMappedResponse" />
+  </wsdl:message>
+  <wsdl:message name="MapCompanySoapIn">
+    <wsdl:part name="parameters" element="tns:MapCompany" />
+  </wsdl:message>
+  <wsdl:message name="MapCompanySoapOut">
+    <wsdl:part name="parameters" element="tns:MapCompanyResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadActionPackageSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadActionPackage" />
+  </wsdl:message>
+  <wsdl:message name="UploadActionPackageSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadActionPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetConvergenceCriteriaSoapIn">
+    <wsdl:part name="parameters" element="tns:SetConvergenceCriteria" />
+  </wsdl:message>
+  <wsdl:message name="SetConvergenceCriteriaSoapOut">
+    <wsdl:part name="parameters" element="tns:SetConvergenceCriteriaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConvergenceCriteriaSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConvergenceCriteria" />
+  </wsdl:message>
+  <wsdl:message name="GetConvergenceCriteriaSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConvergenceCriteriaResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetGadgetPermSoapIn">
+    <wsdl:part name="parameters" element="tns:SetGadgetPerm" />
+  </wsdl:message>
+  <wsdl:message name="SetGadgetPermSoapOut">
+    <wsdl:part name="parameters" element="tns:SetGadgetPermResponse" />
+  </wsdl:message>
+  <wsdl:message name="PurgeSynchroConnectorLogSoapIn">
+    <wsdl:part name="parameters" element="tns:PurgeSynchroConnectorLog" />
+  </wsdl:message>
+  <wsdl:message name="PurgeSynchroConnectorLogSoapOut">
+    <wsdl:part name="parameters" element="tns:PurgeSynchroConnectorLogResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MicroareaDataSynchronizerSoap">
+    <wsdl:operation name="Init">
+      <wsdl:input message="tns:InitSoapIn" />
+      <wsdl:output message="tns:InitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Reboot">
+      <wsdl:input message="tns:RebootSoapIn" />
+      <wsdl:output message="tns:RebootSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Notify">
+      <wsdl:input message="tns:NotifySoapIn" />
+      <wsdl:output message="tns:NotifySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <wsdl:input message="tns:IsAliveSoapIn" />
+      <wsdl:output message="tns:IsAliveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsMassiveSynchronizing">
+      <wsdl:input message="tns:IsMassiveSynchronizingSoapIn" />
+      <wsdl:output message="tns:IsMassiveSynchronizingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsMassiveValidating">
+      <wsdl:input message="tns:IsMassiveValidatingSoapIn" />
+      <wsdl:output message="tns:IsMassiveValidatingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SynchronizeOutbound">
+      <wsdl:input message="tns:SynchronizeOutboundSoapIn" />
+      <wsdl:output message="tns:SynchronizeOutboundSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SynchronizeErrorsRecovery">
+      <wsdl:input message="tns:SynchronizeErrorsRecoverySoapIn" />
+      <wsdl:output message="tns:SynchronizeErrorsRecoverySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetProviderParameters">
+      <wsdl:input message="tns:SetProviderParametersSoapIn" />
+      <wsdl:output message="tns:SetProviderParametersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestProviderParameters">
+      <wsdl:input message="tns:TestProviderParametersSoapIn" />
+      <wsdl:output message="tns:TestProviderParametersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionsForDocument">
+      <wsdl:input message="tns:GetActionsForDocumentSoapIn" />
+      <wsdl:output message="tns:GetActionsForDocumentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateDocument">
+      <wsdl:input message="tns:ValidateDocumentSoapIn" />
+      <wsdl:output message="tns:ValidateDocumentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateOutbound">
+      <wsdl:input message="tns:ValidateOutboundSoapIn" />
+      <wsdl:output message="tns:ValidateOutboundSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateExternalServer">
+      <wsdl:input message="tns:CreateExternalServerSoapIn" />
+      <wsdl:output message="tns:CreateExternalServerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckCompaniesToBeMapped">
+      <wsdl:input message="tns:CheckCompaniesToBeMappedSoapIn" />
+      <wsdl:output message="tns:CheckCompaniesToBeMappedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MapCompany">
+      <wsdl:input message="tns:MapCompanySoapIn" />
+      <wsdl:output message="tns:MapCompanySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadActionPackage">
+      <wsdl:input message="tns:UploadActionPackageSoapIn" />
+      <wsdl:output message="tns:UploadActionPackageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetConvergenceCriteria">
+      <wsdl:input message="tns:SetConvergenceCriteriaSoapIn" />
+      <wsdl:output message="tns:SetConvergenceCriteriaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConvergenceCriteria">
+      <wsdl:input message="tns:GetConvergenceCriteriaSoapIn" />
+      <wsdl:output message="tns:GetConvergenceCriteriaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetGadgetPerm">
+      <wsdl:input message="tns:SetGadgetPermSoapIn" />
+      <wsdl:output message="tns:SetGadgetPermSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PurgeSynchroConnectorLog">
+      <wsdl:input message="tns:PurgeSynchroConnectorLogSoapIn" />
+      <wsdl:output message="tns:PurgeSynchroConnectorLogSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MicroareaDataSynchronizerSoap" type="tns:MicroareaDataSynchronizerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Init">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/Init" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reboot">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/Reboot" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Notify">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/Notify" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/IsAlive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsMassiveSynchronizing">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/IsMassiveSynchronizing" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsMassiveValidating">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/IsMassiveValidating" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SynchronizeOutbound">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/SynchronizeOutbound" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SynchronizeErrorsRecovery">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/SynchronizeErrorsRecovery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetProviderParameters">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/SetProviderParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestProviderParameters">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/TestProviderParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionsForDocument">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/GetActionsForDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateDocument">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/ValidateDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateOutbound">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/ValidateOutbound" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateExternalServer">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/CreateExternalServer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCompaniesToBeMapped">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/CheckCompaniesToBeMapped" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MapCompany">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/MapCompany" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadActionPackage">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/UploadActionPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetConvergenceCriteria">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/SetConvergenceCriteria" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConvergenceCriteria">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/GetConvergenceCriteria" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetGadgetPerm">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/SetGadgetPerm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PurgeSynchroConnectorLog">
+      <soap:operation soapAction="http://microarea.it/DataSynchronizer/PurgeSynchroConnectorLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MicroareaDataSynchronizerSoap12" type="tns:MicroareaDataSynchronizerSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Init">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/Init" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reboot">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/Reboot" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Notify">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/Notify" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/IsAlive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsMassiveSynchronizing">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/IsMassiveSynchronizing" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsMassiveValidating">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/IsMassiveValidating" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SynchronizeOutbound">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/SynchronizeOutbound" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SynchronizeErrorsRecovery">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/SynchronizeErrorsRecovery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetProviderParameters">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/SetProviderParameters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestProviderParameters">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/TestProviderParameters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionsForDocument">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/GetActionsForDocument" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateDocument">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/ValidateDocument" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateOutbound">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/ValidateOutbound" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateExternalServer">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/CreateExternalServer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCompaniesToBeMapped">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/CheckCompaniesToBeMapped" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MapCompany">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/MapCompany" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadActionPackage">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/UploadActionPackage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetConvergenceCriteria">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/SetConvergenceCriteria" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConvergenceCriteria">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/GetConvergenceCriteria" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetGadgetPerm">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/SetGadgetPerm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PurgeSynchroConnectorLog">
+      <soap12:operation soapAction="http://microarea.it/DataSynchronizer/PurgeSynchroConnectorLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MicroareaDataSynchronizer">
+    <wsdl:port name="MicroareaDataSynchronizerSoap" binding="tns:MicroareaDataSynchronizerSoap">
+      <soap:address location="http://localhost/Development_4_1_x/DataSynchronizer/DataSynchronizer.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MicroareaDataSynchronizerSoap12" binding="tns:MicroareaDataSynchronizerSoap12">
+      <soap12:address location="http://localhost/Development_4_1_x/DataSynchronizer/DataSynchronizer.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

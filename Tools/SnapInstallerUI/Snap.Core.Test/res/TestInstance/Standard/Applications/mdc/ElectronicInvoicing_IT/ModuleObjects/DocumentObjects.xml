@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+	<Documents>
+		<Document namespace="MDC.ElectronicInvoicing_IT.Services.EI_ITAdditionalData" localize="Additional Data for Electronic Invoicing" classhierarchy="DEI_ITAdditionalData" defaultsecurityroles="MDC,cMDC Employee">
+			<InterfaceClass>ADMEI_ITAdditionalDataObj</InterfaceClass>
+			<ViewModes>
+				<Mode name="Default" />
+				<Mode name="BackGround" />
+			</ViewModes>
+		</Document>
+		<Document namespace="MDC.ElectronicInvoicing_IT.Services.EI_ITUpdateVersionAdditionalData" localize="Update Version for Additiona Data" classhierarchy="BDEI_ITUpdateVersionAdditionalData" defaultsecurityroles="MDC,cMDC Employee">
+			<InterfaceClass>ADMEI_ITUpdateVersionAdditionalDataObj</InterfaceClass>
+			<ViewModes>
+				<Mode name="Default" type="batch" />
+				<Mode name="BackGround" type="batch" />
+			</ViewModes>
+		</Document>
+  </Documents>
+</DocumentObjects>

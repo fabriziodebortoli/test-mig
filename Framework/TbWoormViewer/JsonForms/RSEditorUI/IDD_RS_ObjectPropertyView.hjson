@@ -1,0 +1,7 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_RS_ObjectPropertyView			GET_IDD(IDD_RS_ObjectPropertyView, M.Framework.TbWoormViewer.RSEditorUI)
+#define	IDC_RS_PropertyGrid			GET_IDC(IDC_RS_PropertyGrid)
+#define	IDC_RS_PropertyGridAUX			GET_IDC(IDC_RS_PropertyGridAUX)
+#define	IDC_RS_TabbedBar			GET_IDC(IDC_RS_TabbedBar)
+

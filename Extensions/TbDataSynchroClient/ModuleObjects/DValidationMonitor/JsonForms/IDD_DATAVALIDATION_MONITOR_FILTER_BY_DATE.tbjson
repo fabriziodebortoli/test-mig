@@ -1,0 +1,78 @@
+﻿{
+  "id": "IDD_DATAVALIDATION_MONITOR_FILTER_BY_DATE",
+  "rcId": 14132,
+  "type": 71,
+  "x": 0,
+  "y": 0,
+  "width": 161,
+  "height": 50,
+  "name": "DataValidationMonitorFilterByDate",
+  "text": "Validation Date",
+  "size": 1, //tile mini
+  "pinnable": false,
+  "tileStyle": 2,  //TDS_FILTER
+  "child": true,
+  "items": [
+    {
+      "id": "IDC_DATAVALIDATION_MONITOR_ALL_DATE",
+      "type": 10,
+      "controlClass": "RadioButton",
+      "binding" : { "datasource" : "bAllDate" },
+      "text": "All",
+      "x": 4,
+      "y": 2,
+      "width": 46,
+      "height": 10,
+      "tabStop": false,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_DATAVALIDATION_MONITOR_SEL_DATE",
+      "type": 10,
+      "controlClass": "RadioButton",
+      "binding": { "datasource": "bSelectionDate" },
+      "text": "From",
+      "x": 4,
+      "y": 16,
+      "width": 31,
+      "height": 8,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_DATAVALIDATION_MONITOR_FROM_DATE",
+      "type": 13,
+      "autoHScroll" : true,
+      "binding" : { "datasource" : "DateFrom" },
+      "border" : true,
+      "controlClass" : "DateEdit",
+      "x": 38,
+      "y": 16,
+      "width": 57,
+      "height": 12
+    },
+    {
+      "id": "IDC_DATAVALIDATION_MONITOR_TO_DATE",
+      "type": 13,
+      "autoHScroll" : true,
+      "binding" : { "datasource" : "DateTo" },
+      "border" : true,
+      "controlClass" : "DateEdit",
+      "x": 38,
+      "y": 30,
+      "width": 57,
+      "height": 12
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "To",
+      "x": 14,
+      "y": 32,
+      "width": 20,
+      "height": 8,
+      "textAlign": 0
+    }
+  ]
+}

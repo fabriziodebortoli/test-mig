@@ -1,0 +1,21 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\FieldInspector\IDD_FIELDINSPECTOR.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_INSPECT			GET_ID(ID_INSPECT)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC_CURSOR
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_VIEWFINDER		1251
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBGES
+static UINT IDS_ID_INSPECT		=GET_IDS(ID_INSPECT, _TB_STRING("Inspect Field Properties\r\nInspect Field Properties"), L"\\Framework\\TbGes\\FieldInspector.hjson");
+#endif
+

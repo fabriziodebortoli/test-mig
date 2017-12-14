@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_PROFILES_USER_CRITERIA_MNG			GET_IDD(IDD_PROFILES_USER_CRITERIA_MNG, M.Extensions.XEngine.ProfiliMngWizPage)
+#define	IDC_USER_CRITERIA_MNG_BTN_TEST			GET_IDC(IDC_USER_CRITERIA_MNG_BTN_TEST)

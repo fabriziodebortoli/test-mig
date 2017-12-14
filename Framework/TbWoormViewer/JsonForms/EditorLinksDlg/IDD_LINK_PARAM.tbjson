@@ -1,0 +1,239 @@
+﻿{
+  "id": "IDD_LINK_PARAM",
+  "rcId": 1129,
+  "type": 66,
+  "text": "LinkForm/LinkReport Parameters management ",
+  "x": 0,
+  "y": 0,
+  "width": 334,
+  "height": 340,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "editorlinksdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "On",
+      "x": 14,
+      "y": 15,
+      "width": 187,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_LINK_ON",
+      "type": 13,
+      "x": 14,
+      "y": 27,
+      "width": 187,
+      "height": 12,
+      "enabled": false,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_NS",
+      "type": 2,
+      "text": "Namespace",
+      "x": 14,
+      "y": 43,
+      "width": 187,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_NSLINK",
+      "type": 13,
+      "x": 14,
+      "y": 55,
+      "width": 291,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_BTN_TBEXPL",
+      "type": 3,
+      "text": "...",
+      "x": 309,
+      "y": 55,
+      "width": 18,
+      "height": 12
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "When",
+      "x": 14,
+      "y": 71,
+      "width": 187,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_LINK_WHEN",
+      "type": 13,
+      "x": 15,
+      "y": 81,
+      "width": 312,
+      "height": 25,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Before link actions",
+      "x": 15,
+      "y": 110,
+      "width": 138,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_LINK_BEFORE",
+      "type": 13,
+      "x": 14,
+      "y": 121,
+      "width": 152,
+      "height": 25,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "After link actions",
+      "x": 175,
+      "y": 110,
+      "width": 140,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_LINK_AFTER",
+      "type": 13,
+      "x": 174,
+      "y": 121,
+      "width": 152,
+      "height": 25,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_BTN_ADD_PARAM",
+      "type": 3,
+      "text": "Add parameter",
+      "x": 14,
+      "y": 150,
+      "width": 92,
+      "height": 16
+    },
+    {
+      "id": "IDC_BTN_LOADPARAM",
+      "type": 3,
+      "text": "Load Parameters",
+      "x": 235,
+      "y": 150,
+      "width": 92,
+      "height": 16
+    },
+    {
+      "id": "IDC_LIST_PARAMEXPR",
+      "type": 30,
+      "x": 14,
+      "y": 170,
+      "width": 313,
+      "height": 74,
+      "border": true,
+      "alignment": 1,
+      "view": 2,
+      "singleSelection": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Parameter's expression on",
+      "x": 14,
+      "y": 253,
+      "width": 143,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_VAR",
+      "type": 13,
+      "x": 191,
+      "y": 252,
+      "width": 136,
+      "height": 12,
+      "enabled": false,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_EDIT_ITEMEXPR",
+      "type": 13,
+      "x": 14,
+      "y": 272,
+      "width": 256,
+      "height": 39,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_BTN_APPLY_ITEMEXPR",
+      "type": 3,
+      "text": "Apply",
+      "x": 279,
+      "y": 272,
+      "width": 48,
+      "height": 16
+    },
+    {
+      "id": "IDC_BTN_REMOVE_PARAM",
+      "type": 3,
+      "text": "Remove",
+      "x": 279,
+      "y": 295,
+      "width": 48,
+      "height": 16
+    },
+    {
+      "id": "IDC_BTN_DELLINK",
+      "type": 3,
+      "text": "Delete Link",
+      "x": 67,
+      "y": 316,
+      "width": 50,
+      "height": 16
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 142,
+      "y": 317,
+      "width": 50,
+      "height": 16,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 217,
+      "y": 317,
+      "width": 50,
+      "height": 16
+    }
+  ]
+}

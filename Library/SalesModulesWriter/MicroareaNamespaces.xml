@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AllowedTB>
+  <Application container="TaskBuilder.Net" name="Setup">
+    <Module name="MAClientSetup" />
+    <Module name="MicroareaClientSetup" />
+  </Application>
+   <Application container="TaskBuilder" name="Setup">
+    <Module name="MAClientSetup" />
+    <Module name="MicroareaClientSetup" />
+  </Application>
+  <Application container="TaskBuilder.Net" name="ClientNet">
+  <Functionality name="LicenzaUtente" /> 
+  <Module name="Start" /> 
+  <Module name="MenuManager" /> 
+  <Module name="EnumsViewer" /> 
+  </Application>
+  <Application container="TaskBuilder" name="ClientNet">
+  <Functionality name="LicenzaUtente" /> 
+  <Module name="Start" /> 
+  <Module name="MenuManager" /> 
+  <Module name="EnumsViewer" /> 
+  </Application>
+ <Application container="TaskBuilder.Net" name="MicroareaConsole">
+  <Module name="ApplicationDBAdmin" /> 
+  <Module name="MicroareaConsole" /> 
+  <Module name="SysAdmin" /> 
+  <Module name="ServicesAdmin" /> 
+  </Application>
+ <Application container="TaskBuilder" name="MicroareaConsole">
+  <Module name="ApplicationDBAdmin" /> 
+  <Module name="MicroareaConsole" /> 
+  <Module name="SysAdmin" /> 
+  <Module name="ServicesAdmin" /> 
+  </Application>
+  <Application container="TaskBuilder.Net" name="WebFramework">
+  <Module name="LockManager" /> 
+  <Module name="LoginManager" /> 
+  <Module name="TbServices" /> 
+  </Application>
+ <Application container="TaskBuilder" name="WebFramework">
+  <Module name="LockManager" /> 
+  <Module name="LoginManager" /> 
+  <Module name="TbServices" /> 
+  </Application>
+<Application container="TaskBuilder" name="Framework">
+		<Module name="TbApplication" />
+		<Module name="TbApplicationWrapper" />
+		<Module name="TbClientCore" />
+		<Module name="TbGeneric" />
+		<Module name="TbGenlib" />
+		<Module name="TbGenlibManaged" /> 
+		<Module name="TbGenlibUI" />
+		<Module name="TbGes" />
+		<Module name="TbLoader" />
+		<Module name="TbNameSolver" />
+		<Module name="TbOleDb" />
+		<Module name="TbParser" />
+		<Module name="TbRadar" />
+		<Module name="TbSoapListener" />
+		<Module name="TbSoapClientInterface" />
+		<Module name="TbStringLoader" />
+		<Module name="TbWebServicesWrappers" />
+		<Module name="TbWoormEngine" />
+		<Module name="TbWoormViewer" />
+		<Module name="TbWrapperClass" />
+		<Module name="TbXmlCore" />
+		<Functionality name="ReportEditor" />
+	</Application>
+ <Application container="TaskBuilder" name="OtherComponents">
+  <Module name="OcBin" /> 
+  </Application>
+ <Application container="TaskBuilder" name="Extensions">
+  <Module name="StringLoader" /> 
+  <Module name="XEngine" /> 
+  <Module name="TbMultiChart" /> 
+  </Application>
+  </AllowedTB>

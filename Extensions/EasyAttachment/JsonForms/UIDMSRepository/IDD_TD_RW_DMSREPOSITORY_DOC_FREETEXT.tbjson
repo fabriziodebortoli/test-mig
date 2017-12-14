@@ -1,0 +1,95 @@
+﻿{
+    "id": "IDD_TD_RW_DMSREPOSITORY_DOC_FREETEXT",
+    "type": 71 /*Tile*/,
+    "x": 0,
+    "y": 0,
+    "width": 325,
+    "height": 134,
+    "child": true,
+    "context": "uidmsrepository",
+    "hasStaticArea": true,
+    "hasTitle": false,
+    "items": [
+        {
+            "id": "IDC_DMSREPOSITORY_DOC_FREETEXT",
+            "type": 13,
+            "controlClass": "StringEdit",
+            "binding": {
+                "datasource": "DocFreeTag"
+            },
+            "controlCaption": "Free tags",
+            "x": 101,
+            "y": 2,
+            "width": 187,
+            "height": 26,
+            "autoVScroll": true,
+            "wantReturn": true,
+            "multiline": true
+        },
+        {
+            "id": "IDC_DMSREPOSITORY_DOC_BE_CATEGORIES",
+            "type": 18, /*BodyEdit*/
+            "name": "Bookmarks",
+            "text": "Categories",
+            "x": 3,
+            "y": 30,
+            "width": 318,
+            "height": 101,
+            "clipChildren": true,
+            "ownerDraw": true,
+            "allowCallDialog": false,
+            "allowMultipleSel": false,
+            "allowSearch": false,
+            "binding": {
+                "datasource": "Bookmarks"
+            },
+            "items": [
+                {
+                    "id": "IDC_ATT_BE_BOOKMARK_TYPE",
+                    "type": 22 /*ColTitle*/,
+                    "controlClass": "EnumCombo",
+                    "itemSource": {
+                        "name": "BookmarkTypeItemSource",
+                        "namespace": "Extensions.EasyAttachment.TbDMS.BookmarkTypeItemSource"
+                    },
+                    "binding": {
+                        "datasource": "VFieldGroup"
+                    },
+                    "name": "GroupType",
+                    "text": "Type",
+                    "chars": 30
+                },
+                {
+                    "id": "IDC_ATT_BE_BOOKMARK_DESCRI",
+                    "type": 22 /*ColTitle*/,
+                    "controlClass": "StringComboDropDownList",
+                    "itemSource": {
+                        "name": "SearchFieldsItemSource",
+                        "namespace": "Extensions.EasyAttachment.TbDMS.SearchFieldsItemSource"
+                    },
+                    "binding": {
+                        "datasource": "VFieldName"
+                    },
+                    "name": "Description",
+                    "text": "Description",
+                    "chars": 30
+                },
+                {
+                    "id": "IDC_ATT_BE_BOOKMARK_VALUE",
+                    "type": 22 /*ColTitle*/,
+                    "controlClass": "StringComboDropDownList",
+                    "itemSource": {
+                        "name": "SearchFieldValuesItemSource",
+                        "namespace": "Extensions.EasyAttachment.TbDMS.SearchFieldValuesItemSource"
+                    },
+                    "binding": {
+                        "datasource": "VFormattedValue"
+                    },
+                    "name": "FormattedValue",
+                    "text": "Value",
+                    "chars": 40
+                }
+            ]
+        }
+    ]
+}

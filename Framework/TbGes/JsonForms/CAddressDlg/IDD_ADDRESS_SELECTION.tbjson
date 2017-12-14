@@ -1,0 +1,57 @@
+﻿{
+  "id": "IDD_ADDRESS_SELECTION",
+  "rcId": 1004,
+  "type": 66,
+  "text": "Address Selection",
+  "x": 0,
+  "y": 0,
+  "width": 400,
+  "height": 150,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "caddressdlg",
+  "items": [
+    {
+      "id": "IDC_ADDRESS_LIST",
+      "type": 24,
+      "x": 2,
+      "y": 3,
+      "width": 350,
+      "height": 145,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 356,
+      "y": 4,
+      "width": 40,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 356,
+      "y": 24,
+      "width": 40,
+      "height": 14
+    },
+    {
+      "id": "ID_ADDRESS_SELECTION_SHOW_MAP",
+      "type": 3,
+      "text": "&Show",
+      "x": 356,
+      "y": 134,
+      "width": 40,
+      "height": 14
+    }
+  ]
+}
