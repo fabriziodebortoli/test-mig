@@ -160,30 +160,6 @@ namespace Microarea.AdminServer.Model
         }
 
         //--------------------------------------------------------------------------------
-        public bool CheckPassword(string password)
-        {
-            // calculating password hash
-            Byte[] salt = Salt;
-            //siccome il salt a null viene in save sostituito con  array vuoto devo controllare sia null sia array vuoto
-            string passwordToCheck = (salt != null && salt.Length > 0) ? SecurityManager.HashThis(password, salt) : password;
-
-            if (Password == passwordToCheck) return true;
-
-            AddWrongPwdLoginCount();
-            return false;
-
-        }
-
-        //--------------------------------------------------------------------------------
-        public void ResetPassword(string pwd)
-        {
-            Password = pwd;
-            ResetPasswordExpirationDate();
-            MustChangePassword = false;
-            ClearWrongPwdLoginCount();
-        }
-
-        //--------------------------------------------------------------------------------
         public bool IsPasswordExpirated()
         {
             // La data è inferiore ad adesso, ma comunque non è il min value che è il default
@@ -191,54 +167,55 @@ namespace Microarea.AdminServer.Model
                 passwordExpirationDate > BurgerData.MinDateTimeValue;
         }
 
+       
         //--------------------------------------------------------------------------------
-        public void ResetPasswordExpirationDate()
+        private bool CheckPassword(string password, out bool needtosave)
         {
-            passwordExpirationDate = DateTime.UtcNow.AddDays(passwordDuration);
-        }
+            needtosave = false;
+            // calculating password hash
+            //siccome il salt a null viene in save sostituito con array vuoto devo controllare sia null sia array vuoto
+            string passwordToCheck = (Salt != null && Salt.Length > 0) ? SecurityManager.HashThis(password, Salt) : password;
 
-        //--------------------------------------------------------------------------------
-        public void AddWrongPwdLoginCount()
-        {
-            Locked = (++LoginFailedCount >= MAX_PASSWORD_ERROR);
-        }
-
-        //--------------------------------------------------------------------------------
-        public void ClearWrongPwdLoginCount()
-        {
-            Locked = false;
-            LoginFailedCount = 0;
-
-        }
-
-        //--------------------------------------------------------------------------------
-        public LoginReturnCodes IsValidUser()
-        {
-            if (ExpirationDate < DateTime.UtcNow)
-                return LoginReturnCodes.UserExpired;
-
-            if (Locked)
-                return LoginReturnCodes.LoginLocked;
-
-            if (Disabled)
-                return LoginReturnCodes.UserNotAllowed;
-
-            if (!CheckPassword(password))
-                return LoginReturnCodes.InvalidUserError;
-
-            if (MustChangePassword)
-                return LoginReturnCodes.UserMustChangePasswordError;
-
-            if (IsPasswordExpirated())
+            if (Password == passwordToCheck)
             {
-                if (CannotChangePassword)
-                    return LoginReturnCodes.CannotChangePasswordError;
-                return LoginReturnCodes.UserMustChangePasswordError;
+                needtosave = ClearWrongPwdLoginCount();
+                return true;
             }
 
-            return LoginReturnCodes.NoError;
+            needtosave = AddWrongPwdLoginCount();
+            return false;
+
         }
-        
+
+        //--------------------------------------------------------------------------------
+        private bool ClearWrongPwdLoginCount()
+        {
+            bool res = false;
+            if (Locked)
+            {
+                res = true;
+                Locked = false;
+            }
+            if (LoginFailedCount != 0)
+            {
+                res = true;
+                LoginFailedCount = 0;
+            }
+            return res;
+        }
+
+        //--------------------------------------------------------------------------------
+        private bool AddWrongPwdLoginCount()
+        {
+            return Locked = (++LoginFailedCount >= MAX_PASSWORD_ERROR);
+        }
+
+        //--------------------------------------------------------------------------------
+        internal LoginReturnCodes IsValidUser()
+        {
+            return VerifyCredential(password, null);
+        }
+
         //--------------------------------------------------------------------------------
         public LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata)
         {
@@ -250,18 +227,15 @@ namespace Microarea.AdminServer.Model
 
             if (Disabled)
                 return LoginReturnCodes.UserNotAllowed;
+            bool needtosave = false;
+            bool checkPwd = CheckPassword(password, out needtosave);
 
-            if (CheckPassword(password))
-            {
-                if (!Save(burgerdata).Result)
-                    return LoginReturnCodes.ErrorSavingAccount;
-            }
-            else
-                return LoginReturnCodes.InvalidUserError;
-
-            ClearWrongPwdLoginCount();
-            if (!Save(burgerdata).Result)
+            //salvo le modifiche ai contatori dopo check password, solo se modificati.
+            if (burgerdata != null && needtosave && !Save(burgerdata).Result)
                 return LoginReturnCodes.ErrorSavingAccount;
+
+            if (!checkPwd)
+                return LoginReturnCodes.InvalidUserError;
 
             if (MustChangePassword)
                 return LoginReturnCodes.UserMustChangePasswordError;
@@ -277,38 +251,21 @@ namespace Microarea.AdminServer.Model
         }
 
 		//--------------------------------------------------------------------------------
-		internal LoginReturnCodes ChangePassword(ChangePasswordInfo passwordInfo, BurgerData burgerdata)
-        {
-            if (ExpirationDate < DateTime.UtcNow)
-                return LoginReturnCodes.UserExpired;
+		public bool IsInstanceAdmin(BurgerData burgerData)
+		{
+            List<IAccountRoles> accountRoles = burgerData.GetList<AccountRoles, IAccountRoles>(
+                String.Format(Queries.SelectAccountRoles, accountName), ModelTables.AccountRoles);
 
-            if (Locked)
-                return LoginReturnCodes.LoginLocked;
+            bool isAdmin = accountRoles.Find(
+                k =>
+                k.RoleName.Equals("Admin", StringComparison.InvariantCultureIgnoreCase) &&
+                k.Level.Equals("INSTANCE", StringComparison.InvariantCultureIgnoreCase)) != null;
 
-            if (CannotChangePassword)
-                return LoginReturnCodes.CannotChangePasswordError;
-
-            if (Disabled)
-                return LoginReturnCodes.UserNotAllowed;
-
-            if (Password != passwordInfo.Password)
-            {
-                AddWrongPwdLoginCount();
-                if (!Save(burgerdata).Result)
-                    return LoginReturnCodes.ErrorSavingAccount;
-
-                return LoginReturnCodes.InvalidUserError;
-            }
-            ResetPassword(passwordInfo.NewPassword);
-
-            if (!Save(burgerdata).Result)
-                return LoginReturnCodes.ErrorSavingAccount;
-
-            return LoginReturnCodes.NoError;
+            return isAdmin;
         }
 
-		//--------------------------------------------------------------------------------
-		public OperationResult Delete(BurgerData burgerData)
+        //--------------------------------------------------------------------------------
+        public OperationResult Delete(BurgerData burgerData)
 		{
 			OperationResult opRes = new OperationResult();
 			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();

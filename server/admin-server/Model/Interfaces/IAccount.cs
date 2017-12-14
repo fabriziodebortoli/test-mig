@@ -29,7 +29,6 @@ namespace Microarea.AdminServer.Model.Interfaces
 		DateTime ExpirationDate { get; set; }
 		string ParentAccount { get; set; }
 		bool Confirmed { get; set; }
-		void ResetPasswordExpirationDate();
         LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata);
         string VATNr { get; set; }
     }
