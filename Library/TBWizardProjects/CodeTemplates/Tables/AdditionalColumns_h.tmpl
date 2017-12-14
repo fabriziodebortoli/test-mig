@@ -1,0 +1,34 @@
+//=============================================================================
+// module name: @(AdditionalColumnsClassName).h
+//=============================================================================
+
+#pragma once
+
+#include @(IfIsNotTableReferenced(<@(TableModuleName)\@(TableLibrarySourceFolder)\@(TableClassName).h>))@(IfIsTableReferenced("@(ReferencedTableHeaderRelativePath)"))
+
+//TBWIZ-INJECT{@(AdditionalColumnsClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#include "beginh.dex"
+
+//////////////////////////////////////////////////////////////////////////////
+//             		@(AdditionalColumnsClassName) Declaration
+//////////////////////////////////////////////////////////////////////////////
+class TB_EXPORT @(AdditionalColumnsClassName): public SqlAddOnFieldsColumn
+{
+	DECLARE_DYNCREATE(@(AdditionalColumnsClassName))
+
+public:
+@(RepeatOnColumns{\t@(ColumnDataObjClassName) f_@(ColumnName);, "\r\n"})
+
+public:
+	@(AdditionalColumnsClassName)();
+
+public:   
+	virtual void InitAddOnFields();
+	virtual int	 BindAddOnFields(int nStartPos =0);
+
+	//TBWIZ-INJECT{@(AdditionalColumnsClassName)(AdditionalMembers)
+	//TBWIZ-INJECT}
+};
+#include "endh.dex"

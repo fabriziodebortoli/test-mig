@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function namespace="Framework.TbResourcesMng.TbResourcesMng.Workers" localize="Workers" type="long">
+    <Param name="Active" type="integer" localize="0 (Active) / 1 (Disabled) / 2 (Both)" />
+  </Function>
+  <DbField name="RM_Workers.WorkerID" />
+  <DbFieldDescription name="RM_Workers.Name" />
+  <ComboBox>
+	  <Column source="RM_Workers.LastName" />
+	  <Column source="RM_Workers.Name" />
+	  <Column localize="(" />
+	  <Column source="RM_Workers.WorkerID" />
+	  <Column localize=")" />
+	</ComboBox>	
+  <ClassName>HKLWorkers</ClassName>
+</HotKeyLink>
+
+

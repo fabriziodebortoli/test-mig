@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDC_DEVICE_BTN_SCAN		GET_ID(IDC_DEVICE_BTN_SCAN)
+#define IDC_DEVICE_BTN_CANCEL	GET_ID(IDC_DEVICE_BTN_CANCEL)
+

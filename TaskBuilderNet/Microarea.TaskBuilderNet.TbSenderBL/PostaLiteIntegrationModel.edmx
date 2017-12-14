@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PostaLiteIntegrationModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2000" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="PostaLiteIntegrationModelStoreContainer">
+          <EntitySet Name="MA_Company" EntityType="PostaLiteIntegrationModel.Store.MA_Company" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TB_MsgLots" EntityType="PostaLiteIntegrationModel.Store.TB_MsgLots" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TB_MsgQueue" EntityType="PostaLiteIntegrationModel.Store.TB_MsgQueue" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="MA_Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="TitleCode" Type="varchar" MaxLength="8" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="128" />
+          <Property Name="TaxIdNumber" Type="varchar" MaxLength="15" />
+          <Property Name="FiscalCode" Type="varchar" MaxLength="16" />
+          <Property Name="Address" Type="varchar" MaxLength="128" />
+          <Property Name="ZIPCode" Type="varchar" MaxLength="8" />
+          <Property Name="City" Type="varchar" MaxLength="32" />
+          <Property Name="County" Type="varchar" MaxLength="3" />
+          <Property Name="Country" Type="varchar" MaxLength="64" />
+          <Property Name="Telephone1" Type="varchar" MaxLength="20" />
+          <Property Name="Telephone2" Type="varchar" MaxLength="20" />
+          <Property Name="Telex" Type="varchar" MaxLength="16" />
+          <Property Name="Fax" Type="varchar" MaxLength="16" />
+          <Property Name="Internet" Type="varchar" MaxLength="32" />
+          <Property Name="EMail" Type="varchar" MaxLength="64" />
+          <Property Name="ISOCountryCode" Type="varchar" MaxLength="2" />
+          <Property Name="SIACode" Type="varchar" MaxLength="5" />
+          <Property Name="CourtRegistrationId" Type="varchar" MaxLength="12" />
+          <Property Name="ENASARCORegistrationId" Type="varchar" MaxLength="16" />
+          <Property Name="Court" Type="varchar" MaxLength="16" />
+          <Property Name="TaxPayerCode" Type="varchar" MaxLength="10" />
+          <Property Name="TaxCANo" Type="varchar" MaxLength="19" />
+          <Property Name="CollectorsOffice" Type="varchar" MaxLength="32" />
+          <Property Name="NaturalPerson" Type="char" MaxLength="1" />
+          <Property Name="BusinessCode" Type="varchar" MaxLength="5" />
+          <Property Name="BusinessKind" Type="varchar" MaxLength="30" />
+          <Property Name="TaxOffice" Type="varchar" MaxLength="32" />
+          <Property Name="LegalNature" Type="varchar" MaxLength="2" />
+          <Property Name="RevenueOfficeCounty" Type="varchar" MaxLength="15" />
+          <Property Name="LicenceNumber" Type="varchar" MaxLength="10" />
+          <Property Name="LicenceDate" Type="datetime" />
+          <Property Name="TerritoryType" Type="int" />
+          <Property Name="BusinessInMoreLocations" Type="char" MaxLength="1" />
+          <Property Name="PartialBookKeeping" Type="char" MaxLength="1" />
+          <Property Name="SeasonalBusiness" Type="char" MaxLength="1" />
+          <Property Name="Artisan" Type="char" MaxLength="1" />
+          <Property Name="ChambOfCommRegistrNo" Type="varchar" MaxLength="20" />
+          <Property Name="ArtisanRegistrNo" Type="varchar" MaxLength="12" />
+          <Property Name="CommRegisetrRegistrNo" Type="varchar" MaxLength="12" />
+          <Property Name="AuthorizationCode" Type="varchar" MaxLength="3" />
+          <Property Name="SocialSecurityId" Type="varchar" MaxLength="17" />
+          <Property Name="SocialInsuranceId" Type="varchar" MaxLength="16" />
+          <Property Name="RegionCode" Type="varchar" MaxLength="3" />
+          <Property Name="SocialInsuranceBranch" Type="varchar" MaxLength="5" />
+          <Property Name="INPDAIENPALSEntity" Type="varchar" MaxLength="4" />
+          <Property Name="INPDAIENPALSBranch" Type="varchar" MaxLength="5" />
+          <Property Name="SocialSecurityCode" Type="varchar" MaxLength="6" />
+          <Property Name="ChambOfCommArea" Type="varchar" MaxLength="32" />
+          <Property Name="ArtisanArea" Type="varchar" MaxLength="32" />
+          <Property Name="INPDAIENPALSCode" Type="varchar" MaxLength="16" />
+          <Property Name="SubscriberChargeCode" Type="smallint" />
+          <Property Name="SubscriberFiscalCode" Type="varchar" MaxLength="16" />
+          <Property Name="NIPEu" Type="varchar" MaxLength="15" />
+          <Property Name="LastSubId" Type="int" />
+          <Property Name="TBGuid" Type="uniqueidentifier" />
+          <Property Name="Capital" Type="float" />
+          <Property Name="FullyPaidUpCapital" Type="char" MaxLength="1" />
+          <Property Name="CompanyRegistrNo" Type="varchar" MaxLength="10" />
+          <Property Name="CooperativeRegistrNo" Type="varchar" MaxLength="10" />
+          <Property Name="ImportExportLicence" Type="varchar" MaxLength="10" />
+          <Property Name="BusinessCodeAteco" Type="varchar" MaxLength="6" />
+          <Property Name="LoadingPlace" Type="varchar" MaxLength="8" />
+          <Property Name="LoaderType" Type="int" />
+          <Property Name="LoaderCode" Type="varchar" MaxLength="12" />
+          <Property Name="LoaderBranch" Type="varchar" MaxLength="8" />
+          <Property Name="IntrastatUserCode" Type="varchar" MaxLength="4" />
+          <Property Name="CustomsSectionCode" Type="varchar" MaxLength="6" />
+          <Property Name="CustomsTaxIdNumber" Type="varchar" MaxLength="16" />
+          <Property Name="IntrastatProgNo" Type="int" />
+          <Property Name="IntrastatOutputPath" Type="varchar" MaxLength="256" />
+          <Property Name="CBICode" Type="varchar" MaxLength="10" />
+          <Property Name="CertifiedEMail" Type="varchar" MaxLength="64" />
+          <Property Name="FatherName" Type="varchar" MaxLength="64" />
+          <Property Name="TBCreated" Type="datetime" Nullable="false" />
+          <Property Name="TBModified" Type="datetime" Nullable="false" />
+          <Property Name="TBCreatedID" Type="int" Nullable="false" />
+          <Property Name="TBModifiedID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_MsgLots">
+          <Key>
+            <PropertyRef Name="LotID" />
+          </Key>
+          <Property Name="LotID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="2000" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IdExt" Type="int" Nullable="false" />
+          <Property Name="StatusExt" Type="int" Nullable="false" />
+          <Property Name="StatusDescriptionExt" Type="varchar" Nullable="false" MaxLength="64" />
+          <Property Name="ErrorExt" Type="int" Nullable="false" />
+          <Property Name="DeliveryType" Type="int" Nullable="false" />
+          <Property Name="PrintType" Type="int" Nullable="false" />
+          <Property Name="TotalAmount" Type="float" Nullable="false" />
+          <Property Name="PrintAmount" Type="float" Nullable="false" />
+          <Property Name="PostageAmount" Type="float" Nullable="false" />
+          <Property Name="SendAfter" Type="datetime" />
+          <Property Name="TotalPages" Type="int" Nullable="false" />
+          <Property Name="Fax" Type="varchar" Nullable="false" MaxLength="16" />
+          <Property Name="Addressee" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="Address" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="Zip" Type="varchar" Nullable="false" MaxLength="8" />
+          <Property Name="City" Type="varchar" Nullable="false" MaxLength="32" />
+          <Property Name="County" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="Country" Type="varchar" Nullable="false" MaxLength="64" />
+          <Property Name="AddresseeNamespace" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="AddresseePrimaryKey" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="Incongruous" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="TBCreated" Type="datetime" Nullable="false" />
+          <Property Name="TBModified" Type="datetime" Nullable="false" />
+          <Property Name="TBCreatedID" Type="int" Nullable="false" />
+          <Property Name="TBModifiedID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_MsgQueue">
+          <Key>
+            <PropertyRef Name="MsgID" />
+          </Key>
+          <Property Name="MsgID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LotId" Type="int" />
+          <Property Name="Fax" Type="varchar" Nullable="false" MaxLength="16" />
+          <Property Name="Addressee" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="Address" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="Zip" Type="varchar" Nullable="false" MaxLength="8" />
+          <Property Name="City" Type="varchar" Nullable="false" MaxLength="32" />
+          <Property Name="County" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="Country" Type="varchar" Nullable="false" MaxLength="64" />
+          <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="2000" />
+          <Property Name="DocNamespace" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="DocPrimaryKey" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="AddresseeNamespace" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="AddresseePrimaryKey" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="DocFileName" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="DocPages" Type="int" Nullable="false" />
+          <Property Name="DocSize" Type="int" Nullable="false" />
+          <Property Name="DeliveryType" Type="int" Nullable="false" />
+          <Property Name="PrintType" Type="int" Nullable="false" />
+          <Property Name="DocImage" Type="image" />
+          <Property Name="TBCreated" Type="datetime" Nullable="false" />
+          <Property Name="TBModified" Type="datetime" Nullable="false" />
+          <Property Name="TBCreatedID" Type="int" Nullable="false" />
+          <Property Name="TBModifiedID" Type="int" Nullable="false" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PostaLiteIntegrationModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="PostaLiteIntegrationEntities">
+          <EntitySet Name="MA_Company" EntityType="PostaLiteIntegrationModel.MA_Company" />
+          <EntitySet Name="TB_MsgQueue" EntityType="PostaLiteIntegrationModel.TB_MsgQueue" />
+          <EntitySet Name="TB_MsgLots" EntityType="PostaLiteIntegrationModel.TB_MsgLots" />
+        </EntityContainer>
+        <EntityType Name="MA_Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <Property Type="String" Name="TitleCode" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CompanyName" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TaxIdNumber" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FiscalCode" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Address" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZIPCode" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="City" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="County" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Country" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Telephone1" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Telephone2" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Telex" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Fax" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Internet" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EMail" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ISOCountryCode" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SIACode" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CourtRegistrationId" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ENASARCORegistrationId" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Court" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TaxPayerCode" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TaxCANo" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CollectorsOffice" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="NaturalPerson" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="BusinessCode" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BusinessKind" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TaxOffice" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LegalNature" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RevenueOfficeCounty" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LicenceNumber" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LicenceDate" />
+          <Property Type="Int32" Name="TerritoryType" />
+          <Property Type="String" Name="BusinessInMoreLocations" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="PartialBookKeeping" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="SeasonalBusiness" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Artisan" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="ChambOfCommRegistrNo" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ArtisanRegistrNo" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CommRegisetrRegistrNo" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AuthorizationCode" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SocialSecurityId" MaxLength="17" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SocialInsuranceId" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RegionCode" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SocialInsuranceBranch" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="INPDAIENPALSEntity" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="INPDAIENPALSBranch" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SocialSecurityCode" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ChambOfCommArea" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ArtisanArea" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="INPDAIENPALSCode" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="Int16" Name="SubscriberChargeCode" />
+          <Property Type="String" Name="SubscriberFiscalCode" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="NIPEu" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="LastSubId" />
+          <Property Type="Guid" Name="TBGuid" />
+          <Property Type="Double" Name="Capital" />
+          <Property Type="String" Name="FullyPaidUpCapital" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="CompanyRegistrNo" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CooperativeRegistrNo" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ImportExportLicence" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BusinessCodeAteco" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LoadingPlace" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="LoaderType" />
+          <Property Type="String" Name="LoaderCode" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LoaderBranch" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IntrastatUserCode" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CustomsSectionCode" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CustomsTaxIdNumber" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="IntrastatProgNo" />
+          <Property Type="String" Name="IntrastatOutputPath" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CBICode" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CertifiedEMail" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FatherName" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="TBCreated" Nullable="false" />
+          <Property Type="DateTime" Name="TBModified" Nullable="false" />
+          <Property Type="Int32" Name="TBCreatedID" Nullable="false" />
+          <Property Type="Int32" Name="TBModifiedID" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_MsgQueue">
+          <Key>
+            <PropertyRef Name="MsgID" />
+          </Key>
+          <Property Type="Int32" Name="MsgID" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="LotId" />
+          <Property Type="String" Name="Fax" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Addressee" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Zip" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="County" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Country" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Subject" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DocNamespace" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DocPrimaryKey" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AddresseeNamespace" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AddresseePrimaryKey" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DocFileName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="DocPages" Nullable="false" />
+          <Property Type="Int32" Name="DocSize" Nullable="false" />
+          <Property Type="Int32" Name="DeliveryType" Nullable="false" />
+          <Property Type="Int32" Name="PrintType" Nullable="false" />
+          <Property Type="Binary" Name="DocImage" MaxLength="Max" FixedLength="false" />
+          <Property Type="DateTime" Name="TBCreated" Nullable="false" />
+          <Property Type="DateTime" Name="TBModified" Nullable="false" />
+          <Property Type="Int32" Name="TBCreatedID" Nullable="false" />
+          <Property Type="Int32" Name="TBModifiedID" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_MsgLots">
+          <Key>
+            <PropertyRef Name="LotID" />
+          </Key>
+          <Property Type="Int32" Name="LotID" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="IdExt" Nullable="false" />
+          <Property Type="Int32" Name="StatusExt" Nullable="false" />
+          <Property Type="String" Name="StatusDescriptionExt" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ErrorExt" Nullable="false" />
+          <Property Type="Int32" Name="DeliveryType" Nullable="false" />
+          <Property Type="Int32" Name="PrintType" Nullable="false" />
+          <Property Type="Double" Name="TotalAmount" Nullable="false" />
+          <Property Type="Double" Name="PrintAmount" Nullable="false" />
+          <Property Type="Double" Name="PostageAmount" Nullable="false" />
+          <Property Type="DateTime" Name="SendAfter" />
+          <Property Type="Int32" Name="TotalPages" Nullable="false" />
+          <Property Type="String" Name="Fax" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Addressee" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Zip" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="County" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Country" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AddresseeNamespace" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AddresseePrimaryKey" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Incongruous" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="DateTime" Name="TBCreated" Nullable="false" />
+          <Property Type="DateTime" Name="TBModified" Nullable="false" />
+          <Property Type="Int32" Name="TBCreatedID" Nullable="false" />
+          <Property Type="Int32" Name="TBModifiedID" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PostaLiteIntegrationModelStoreContainer" CdmEntityContainer="PostaLiteIntegrationEntities">
+          <EntitySetMapping Name="MA_Company">
+            <EntityTypeMapping TypeName="PostaLiteIntegrationModel.MA_Company">
+              <MappingFragment StoreEntitySet="MA_Company">
+                <ScalarProperty Name="TBModifiedID" ColumnName="TBModifiedID" />
+                <ScalarProperty Name="TBCreatedID" ColumnName="TBCreatedID" />
+                <ScalarProperty Name="TBModified" ColumnName="TBModified" />
+                <ScalarProperty Name="TBCreated" ColumnName="TBCreated" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="CertifiedEMail" ColumnName="CertifiedEMail" />
+                <ScalarProperty Name="CBICode" ColumnName="CBICode" />
+                <ScalarProperty Name="IntrastatOutputPath" ColumnName="IntrastatOutputPath" />
+                <ScalarProperty Name="IntrastatProgNo" ColumnName="IntrastatProgNo" />
+                <ScalarProperty Name="CustomsTaxIdNumber" ColumnName="CustomsTaxIdNumber" />
+                <ScalarProperty Name="CustomsSectionCode" ColumnName="CustomsSectionCode" />
+                <ScalarProperty Name="IntrastatUserCode" ColumnName="IntrastatUserCode" />
+                <ScalarProperty Name="LoaderBranch" ColumnName="LoaderBranch" />
+                <ScalarProperty Name="LoaderCode" ColumnName="LoaderCode" />
+                <ScalarProperty Name="LoaderType" ColumnName="LoaderType" />
+                <ScalarProperty Name="LoadingPlace" ColumnName="LoadingPlace" />
+                <ScalarProperty Name="BusinessCodeAteco" ColumnName="BusinessCodeAteco" />
+                <ScalarProperty Name="ImportExportLicence" ColumnName="ImportExportLicence" />
+                <ScalarProperty Name="CooperativeRegistrNo" ColumnName="CooperativeRegistrNo" />
+                <ScalarProperty Name="CompanyRegistrNo" ColumnName="CompanyRegistrNo" />
+                <ScalarProperty Name="FullyPaidUpCapital" ColumnName="FullyPaidUpCapital" />
+                <ScalarProperty Name="Capital" ColumnName="Capital" />
+                <ScalarProperty Name="TBGuid" ColumnName="TBGuid" />
+                <ScalarProperty Name="LastSubId" ColumnName="LastSubId" />
+                <ScalarProperty Name="NIPEu" ColumnName="NIPEu" />
+                <ScalarProperty Name="SubscriberFiscalCode" ColumnName="SubscriberFiscalCode" />
+                <ScalarProperty Name="SubscriberChargeCode" ColumnName="SubscriberChargeCode" />
+                <ScalarProperty Name="INPDAIENPALSCode" ColumnName="INPDAIENPALSCode" />
+                <ScalarProperty Name="ArtisanArea" ColumnName="ArtisanArea" />
+                <ScalarProperty Name="ChambOfCommArea" ColumnName="ChambOfCommArea" />
+                <ScalarProperty Name="SocialSecurityCode" ColumnName="SocialSecurityCode" />
+                <ScalarProperty Name="INPDAIENPALSBranch" ColumnName="INPDAIENPALSBranch" />
+                <ScalarProperty Name="INPDAIENPALSEntity" ColumnName="INPDAIENPALSEntity" />
+                <ScalarProperty Name="SocialInsuranceBranch" ColumnName="SocialInsuranceBranch" />
+                <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+                <ScalarProperty Name="SocialInsuranceId" ColumnName="SocialInsuranceId" />
+                <ScalarProperty Name="SocialSecurityId" ColumnName="SocialSecurityId" />
+                <ScalarProperty Name="AuthorizationCode" ColumnName="AuthorizationCode" />
+                <ScalarProperty Name="CommRegisetrRegistrNo" ColumnName="CommRegisetrRegistrNo" />
+                <ScalarProperty Name="ArtisanRegistrNo" ColumnName="ArtisanRegistrNo" />
+                <ScalarProperty Name="ChambOfCommRegistrNo" ColumnName="ChambOfCommRegistrNo" />
+                <ScalarProperty Name="Artisan" ColumnName="Artisan" />
+                <ScalarProperty Name="SeasonalBusiness" ColumnName="SeasonalBusiness" />
+                <ScalarProperty Name="PartialBookKeeping" ColumnName="PartialBookKeeping" />
+                <ScalarProperty Name="BusinessInMoreLocations" ColumnName="BusinessInMoreLocations" />
+                <ScalarProperty Name="TerritoryType" ColumnName="TerritoryType" />
+                <ScalarProperty Name="LicenceDate" ColumnName="LicenceDate" />
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+                <ScalarProperty Name="RevenueOfficeCounty" ColumnName="RevenueOfficeCounty" />
+                <ScalarProperty Name="LegalNature" ColumnName="LegalNature" />
+                <ScalarProperty Name="TaxOffice" ColumnName="TaxOffice" />
+                <ScalarProperty Name="BusinessKind" ColumnName="BusinessKind" />
+                <ScalarProperty Name="BusinessCode" ColumnName="BusinessCode" />
+                <ScalarProperty Name="NaturalPerson" ColumnName="NaturalPerson" />
+                <ScalarProperty Name="CollectorsOffice" ColumnName="CollectorsOffice" />
+                <ScalarProperty Name="TaxCANo" ColumnName="TaxCANo" />
+                <ScalarProperty Name="TaxPayerCode" ColumnName="TaxPayerCode" />
+                <ScalarProperty Name="Court" ColumnName="Court" />
+                <ScalarProperty Name="ENASARCORegistrationId" ColumnName="ENASARCORegistrationId" />
+                <ScalarProperty Name="CourtRegistrationId" ColumnName="CourtRegistrationId" />
+                <ScalarProperty Name="SIACode" ColumnName="SIACode" />
+                <ScalarProperty Name="ISOCountryCode" ColumnName="ISOCountryCode" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Internet" ColumnName="Internet" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Telex" ColumnName="Telex" />
+                <ScalarProperty Name="Telephone2" ColumnName="Telephone2" />
+                <ScalarProperty Name="Telephone1" ColumnName="Telephone1" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="ZIPCode" ColumnName="ZIPCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="FiscalCode" ColumnName="FiscalCode" />
+                <ScalarProperty Name="TaxIdNumber" ColumnName="TaxIdNumber" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="TitleCode" ColumnName="TitleCode" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_MsgQueue">
+            <EntityTypeMapping TypeName="PostaLiteIntegrationModel.TB_MsgQueue">
+              <MappingFragment StoreEntitySet="TB_MsgQueue">
+                <ScalarProperty Name="TBModifiedID" ColumnName="TBModifiedID" />
+                <ScalarProperty Name="TBCreatedID" ColumnName="TBCreatedID" />
+                <ScalarProperty Name="TBModified" ColumnName="TBModified" />
+                <ScalarProperty Name="TBCreated" ColumnName="TBCreated" />
+                <ScalarProperty Name="DocImage" ColumnName="DocImage" />
+                <ScalarProperty Name="PrintType" ColumnName="PrintType" />
+                <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
+                <ScalarProperty Name="DocSize" ColumnName="DocSize" />
+                <ScalarProperty Name="DocPages" ColumnName="DocPages" />
+                <ScalarProperty Name="DocFileName" ColumnName="DocFileName" />
+                <ScalarProperty Name="AddresseePrimaryKey" ColumnName="AddresseePrimaryKey" />
+                <ScalarProperty Name="AddresseeNamespace" ColumnName="AddresseeNamespace" />
+                <ScalarProperty Name="DocPrimaryKey" ColumnName="DocPrimaryKey" />
+                <ScalarProperty Name="DocNamespace" ColumnName="DocNamespace" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="LotId" ColumnName="LotId" />
+                <ScalarProperty Name="MsgID" ColumnName="MsgID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_MsgLots">
+            <EntityTypeMapping TypeName="PostaLiteIntegrationModel.TB_MsgLots">
+              <MappingFragment StoreEntitySet="TB_MsgLots">
+                <ScalarProperty Name="TBModifiedID" ColumnName="TBModifiedID" />
+                <ScalarProperty Name="TBCreatedID" ColumnName="TBCreatedID" />
+                <ScalarProperty Name="TBModified" ColumnName="TBModified" />
+                <ScalarProperty Name="TBCreated" ColumnName="TBCreated" />
+                <ScalarProperty Name="Incongruous" ColumnName="Incongruous" />
+                <ScalarProperty Name="AddresseePrimaryKey" ColumnName="AddresseePrimaryKey" />
+                <ScalarProperty Name="AddresseeNamespace" ColumnName="AddresseeNamespace" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="TotalPages" ColumnName="TotalPages" />
+                <ScalarProperty Name="SendAfter" ColumnName="SendAfter" />
+                <ScalarProperty Name="PostageAmount" ColumnName="PostageAmount" />
+                <ScalarProperty Name="PrintAmount" ColumnName="PrintAmount" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="PrintType" ColumnName="PrintType" />
+                <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
+                <ScalarProperty Name="ErrorExt" ColumnName="ErrorExt" />
+                <ScalarProperty Name="StatusDescriptionExt" ColumnName="StatusDescriptionExt" />
+                <ScalarProperty Name="StatusExt" ColumnName="StatusExt" />
+                <ScalarProperty Name="IdExt" ColumnName="IdExt" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LotID" ColumnName="LotID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="PostaLiteIntegrationModel" ZoomLevel="58">
+        <EntityTypeShape EntityType="PostaLiteIntegrationModel.MA_Company" Width="1.5" PointX="5.375" PointY="0.75" Height="16.018291015625003" />
+        <EntityTypeShape EntityType="PostaLiteIntegrationModel.TB_MsgQueue" Width="1.5" PointX="2.75" PointY="0.75" Height="5.634013671875" />
+        <EntityTypeShape EntityType="PostaLiteIntegrationModel.TB_MsgLots" Width="1.5" PointX="0.5" PointY="0.75" Height="6.4032194010416674" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

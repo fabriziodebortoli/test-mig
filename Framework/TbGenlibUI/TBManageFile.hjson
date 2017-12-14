@@ -1,0 +1,7 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGenlibUI\JsonForms\TBManageFile\IDD_MANAGEFILE_WIZ_FINISH.hjson>
+#include	<TbGenlibUI\JsonForms\TBManageFile\IDD_MANAGEFILE_WIZ_PRESENTATION.hjson>
+#include	<TbGenlibUI\JsonForms\TBManageFile\IDD_MANAGEFILE_WIZ_SEARCH.hjson>
+#include	<TbGenlibUI\JsonForms\TBManageFile\IDD_MANAGEFILE_WIZARD_MASTER.hjson>
+#include	<TbGenlibUI\JsonForms\TBManageFile\IDD_MNGFILEDLG_WIZ_SAVEIMPORT.hjson>

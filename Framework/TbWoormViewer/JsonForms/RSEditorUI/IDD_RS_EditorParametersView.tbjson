@@ -1,0 +1,13 @@
+﻿{
+  "id": "IDD_RS_EditorParametersView",
+  "rcId": 101,
+  "type": 66,
+  "style": 8,
+  "x": 0,
+  "y": 0,
+  "width": 194,
+  "height": 306,
+  "child": true,
+  "context": "rseditorui",
+  "items": []
+}

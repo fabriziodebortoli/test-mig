@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MsgStatusBarStartCheckDB" xml:space="preserve">
+    <value>Checking database version in progress...</value>
+  </data>
+  <data name="MsgUpdateSysDBCompleteWithErrors" xml:space="preserve">
+    <value>Check and upgrade system database failed.</value>
+  </data>
+  <data name="ErrConnectCompanyDB" xml:space="preserve">
+    <value>Error during the connection of company database.</value>
+  </data>
+  <data name="DetailsContextMenu" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="ElabFormColFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="MsgUpdateDBCompleteWithErrors" xml:space="preserve">
+    <value>Check and upgrade company database completed with errors.</value>
+  </data>
+  <data name="ErrCompanyDBIsNotFree" xml:space="preserve">
+    <value>Attention: one or more users are connected to the company database. Unable to continue the elaboration.</value>
+  </data>
+  <data name="LblUpdate" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="MsgStatusBarStartUpdateDB" xml:space="preserve">
+    <value>Check and upgrade company database in progress...</value>
+  </data>
+  <data name="FormInfosWithErrors" xml:space="preserve">
+    <value>The data for one or more modules were not properly loaded. Impossible to proceed the elaboration.</value>
+  </data>
+  <data name="ElabFormColScript" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="ErrInsertingTableDBMark" xml:space="preserve">
+    <value>Error during INSERT statement in table {0}</value>
+  </data>
+  <data name="MsgUpdateSysDBCompleteWithSuccess" xml:space="preserve">
+    <value>Check and upgrade system database completed.</value>
+  </data>
+  <data name="MsgStatusBarStartWizard" xml:space="preserve">
+    <value>Start opening form for wizard selection.</value>
+  </data>
+  <data name="FormStartElaboration" xml:space="preserve">
+    <value>To start elaboration press the button.</value>
+  </data>
+  <data name="OpensWithExplorerContextMenu" xml:space="preserve">
+    <value>Open with Internet Explorer</value>
+  </data>
+  <data name="MsgStatusBarEnd" xml:space="preserve">
+    <value>Check and upgrade company database finished.</value>
+  </data>
+  <data name="DBFormInformation" xml:space="preserve">
+    <value>Information:</value>
+  </data>
+  <data name="ElabFormColDetails" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DatabaseManagerMenu" xml:space="preserve">
+    <value>Create or upgrade company database structure</value>
+  </data>
+  <data name="MsgErrorConnectionSysDB" xml:space="preserve">
+    <value>Attention: the connection to system database {0} with user {1} is failed.</value>
+  </data>
+  <data name="MsgNotStopElaboration" xml:space="preserve">
+    <value>Work in progress... Wait the end to exit.</value>
+  </data>
+  <data name="ElabFormColModule" xml:space="preserve">
+    <value>Module</value>
+  </data>
+  <data name="OpensWithNotePadContextMenu" xml:space="preserve">
+    <value>Open with Notepad</value>
+  </data>
+  <data name="MsgImportFilesNotExist" xml:space="preserve">
+    <value>No default data exist for the company language.</value>
+  </data>
+  <data name="LblCreate" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="MsgStatusBarEndCheckDB" xml:space="preserve">
+    <value>Checking database version finished.</value>
+  </data>
+  <data name="ErrStopWizard" xml:space="preserve">
+    <value>Database doesn't contain any table! It's impossible to start procedure.</value>
+  </data>
+  <data name="ElabFormColStep" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="MsgUpdateDBComplete" xml:space="preserve">
+    <value>Check and upgrade company database completed.</value>
+  </data>
+  <data name="LblErrorColon" xml:space="preserve">
+    <value>Error:</value>
+  </data>
+  <data name="MsgUpdateDBFailed" xml:space="preserve">
+    <value>Check and upgrade company database failed.</value>
+  </data>
+  <data name="PathCopyContextMenu" xml:space="preserve">
+    <value>Copy path</value>
+  </data>
+  <data name="MsgStatusBarEndWizard" xml:space="preserve">
+    <value>Stop opening form for wizard selection.</value>
+  </data>
+  <data name="DBFormUpdateButtonText" xml:space="preserve">
+    <value>{0} &amp;database</value>
+  </data>
+  <data name="ErrUpdatingSystemDB" xml:space="preserve">
+    <value>An error occurred updating system database. Unable to proceed.</value>
+  </data>
+  <data name="ErrCheckingSystemDB" xml:space="preserve">
+    <value>An error occurs during check system database structure.</value>
+  </data>
+  <data name="ElabFormColApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="MViewContextMenu" xml:space="preserve">
+    <value>Oracle Schema optimization procedure</value>
+  </data>
+  <data name="LblAttention" xml:space="preserve">
+    <value>Warning!</value>
+  </data>
+  <data name="LblError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrCheckingCompanyDB" xml:space="preserve">
+    <value>An error occurs during check company database structure.</value>
+  </data>
+  <data name="MsgUpdateDBCompleteWithSuccess" xml:space="preserve">
+    <value>Check and upgrade company database successfully completed.</value>
+  </data>
+  <data name="MsgStartUpgradeDatabase" xml:space="preserve">
+    <value>Do you want to proceed the company database upgrade?</value>
+  </data>
+  <data name="CompanyDataMenu" xml:space="preserve">
+    <value>Manage company data</value>
+  </data>
+  <data name="MsgErrorDBNotExist" xml:space="preserve">
+    <value>Warning: no database on the specified server!</value>
+  </data>
+  <data name="StartMViewCreationProcess" xml:space="preserve">
+    <value>Do you want to start the procedure?</value>
+  </data>
+  <data name="NoAvailableMViews" xml:space="preserve">
+    <value>No materialized views exist in the schema. Unable to proceed!</value>
+  </data>
+	<data name="UpdateOracleMatViews" xml:space="preserve">
+    <value>The structure of traced table could be changed.
+To ensure the correctness of traced data, before exit you have to run the procedure to update existing Oracle materialized views.</value>
+  </data>
+  <data name="RewindDatabaseContextMenu" xml:space="preserve">
+    <value>Rewind the database to previous version</value>
+  </data>
+  <data name="MsgStartRewindDatabase" xml:space="preserve">
+    <value>Do you want to proceed with rewind the company database version?</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Loader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Loader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>

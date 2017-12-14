@@ -1,0 +1,74 @@
+﻿{
+	"title": "Titles document",
+	"master": {
+		"name": "titles",
+		"table": "MA_TITLES",
+		"type": 1,
+		"fields": [
+			{
+				"name": "TitleCode",
+				"type": 0,
+				"dataType": 1,
+				"key": false,
+				"length": 0
+			},
+			{
+				"name": "Description",
+				"type": 0,
+				"dataType": 1,
+				"key": false,
+				"length": 0
+			}
+		],
+		"browserQuery": {
+			"where": [
+				{
+					"type": 2,
+					"field": "TitleCode",
+					"value": "g",
+					"op": ">"
+				}
+			]
+		},
+		"dbts": [
+			{
+				"name": "titlelanguages",
+				"table": "MA_TITLESLANG",
+				"type": 3,
+				"fields": [
+					{
+						"name": "TitleCode",
+						"type": 0,
+						"dataType": 1,
+						"key": false,
+						"length": 0
+					},
+					{
+						"name": "Language",
+						"type": 0,
+						"dataType": 1,
+						"key": false,
+						"length": 0
+					},
+					{
+						"name": "Description",
+						"type": 0,
+						"dataType": 1,
+						"key": false,
+						"length": 0
+					}
+				],
+				"query": {
+					"where": [
+						{
+							"type": 3,
+							"field": "TitleCode",
+							"value": "TitleCode",
+							"op": ""
+						}
+					]
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CreateInfo>
+	<ModuleInfo name="TaskScheduler" />
+	<Level1>
+		<Step numstep="1" script="MSD_ScheduledTasks.sql">
+			<Dependency app="AdministrationConsole" module="SysAdmin"/>
+		</Step>
+		<Step numstep="2" script="MSD_ScheduledSequences.sql">
+			<Dependency app="AdministrationConsole" module="SysAdmin"/>
+		</Step>
+		<Step numstep="3" script="MSD_SchedulerMailNotifications.sql">
+			<Dependency app="AdministrationConsole" module="SysAdmin"/>
+		</Step>
+	</Level1>
+	<Level2 />
+</CreateInfo>

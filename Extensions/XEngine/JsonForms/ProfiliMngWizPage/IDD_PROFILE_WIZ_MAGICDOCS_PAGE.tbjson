@@ -1,0 +1,95 @@
+﻿{
+  "id": "IDD_PROFILE_WIZ_MAGICDOCS_PAGE",
+  "rcId": 2237,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 345,
+  "height": 193,
+  "child": true,
+  "enabled": false,
+  "context": "profilimngwizpage",
+  "items": [
+    {
+      "id": "IDC_PROFILE_WIZARD_MAGICDOCS",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 107,
+      "height": 193,
+      "tabStop": false,
+      "bitmap": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "With the Postable property data handled by web service can be sent and saved using the transaction process of the document.\r\nDeselecting the property it is impossible the posting and saving of data.\r\n",
+      "x": 119,
+      "y": 6,
+      "width": 216,
+      "height": 42,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "With the PostBack property saved data are immediatly returned to web service for displaying the values that are automatic generated during the document saving.",
+      "x": 119,
+      "y": 59,
+      "width": 216,
+      "height": 45,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 9,
+      "text": "Properties",
+      "x": 119,
+      "y": 116,
+      "width": 219,
+      "height": 68
+    },
+    {
+      "id": "IDC_PROFMNG_POSTABLE_CHECK",
+      "type": 11,
+      "text": "Allow data posting (Postable)",
+      "x": 134,
+      "y": 133,
+      "width": 168,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PROFMNG_POSTBACK_CHECK",
+      "type": 11,
+      "text": "Allow data refreshing after posting (PostBack)",
+      "x": 134,
+      "y": 149,
+      "width": 168,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Attention please, the elaboration time is sensitively increased.",
+      "x": 119,
+      "y": 91,
+      "width": 202,
+      "height": 18,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROFMNG_NOEXTREF_CHECK",
+      "type": 11,
+      "text": "Exclude External References during PostBack to increase performance",
+      "x": 143,
+      "y": 160,
+      "width": 188,
+      "height": 20,
+      "enabled": false,
+      "multiline": true,
+      "auto": true
+    }
+  ]
+}

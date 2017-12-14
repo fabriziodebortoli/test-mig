@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_MESSAGES_DETAILS			GET_IDD(IDD_MESSAGES_DETAILS, D.Extensions.TbMailer.PostaliteDocumentsGraphicNavigation)
+#define	IDC_MESSAGES_BODYEDIT			GET_IDC(IDC_MESSAGES_BODYEDIT)

@@ -1,0 +1,5 @@
+#pragma once
+
+
+#define IDR_CUT_TOOLBAR                 1179
+#define ID_BMP_DOPASTE					33303

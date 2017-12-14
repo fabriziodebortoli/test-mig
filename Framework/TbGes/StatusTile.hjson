@@ -1,0 +1,9 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\StatusTile\IDD_CIRCULAR_CONTROL_STATUS.hjson>
+#include	<TbGes\JsonForms\StatusTile\IDD_CONTROL_STATUS.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_CONTROL_LABEL_CLICKABLE			GET_IDC(IDC_CONTROL_LABEL_CLICKABLE)

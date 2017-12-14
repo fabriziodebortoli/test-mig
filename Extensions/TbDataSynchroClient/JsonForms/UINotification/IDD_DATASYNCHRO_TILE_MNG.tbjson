@@ -1,0 +1,23 @@
+﻿{
+  "id": "IDD_DATASYNCHRO_TILE_MNG",
+  "rcId": 11425,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 393,
+  "height": 97,
+  "child": true,
+  "context": "uiproviders",
+  "items": [
+    {
+      "id": "IDC_DATA_SYNCHRO_TILE_MNG",
+      "type": 3,
+      "isText" : true,
+      "text": "Data Synchro Tabber",
+      "x": 0,
+      "y": 0,
+      "width": 393,
+      "height": 97
+    }
+  ]
+}

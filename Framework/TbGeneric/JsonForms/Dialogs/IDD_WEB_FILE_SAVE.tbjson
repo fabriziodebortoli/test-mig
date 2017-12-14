@@ -1,0 +1,59 @@
+﻿{
+  "id": "IDD_WEB_FILE_SAVE",
+  "rcId": 1002,
+  "type": 66,
+  "text": "Download",
+  "x": 32,
+  "y": 32,
+  "width": 237,
+  "height": 87,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "dialogs",
+  "items": [
+    {
+      "id": "1089",
+      "type": 2,
+      "text": "File name:",
+      "x": 7,
+      "y": 28,
+      "width": 58,
+      "height": 8,
+      "notify": true,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_FILENAME",
+      "type": 13,
+      "x": 65,
+      "y": 27,
+      "width": 157,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "Download",
+      "x": 59,
+      "y": 62,
+      "width": 50,
+      "height": 14,
+      "group": true,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 129,
+      "y": 62,
+      "width": 50,
+      "height": 14,
+      "group": true
+    }
+  ]
+}

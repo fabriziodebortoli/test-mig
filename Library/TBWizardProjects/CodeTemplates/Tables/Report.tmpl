@@ -1,0 +1,26 @@
+Release 7 Rect (54,56,481,753)
+PageLayout "Default"
+Begin
+	Table (20,@(DefinedColumnsCount)) "@(TableName)" Alias 1 Origin (14,14) Heights (18,32,26,14)
+		Begin
+@(RepeatOnDefinedColumns{\t\t\t"@(ColumnName)" Alias @(WoormColumnCounter) Width @(WoormColumnDefaultWidth) FormatStyle "@(ColumnDefaultFormatStyle)";, "\r\n"})
+		End
+End
+
+Report
+	Begin NoName
+		Tables
+			Table_@(TableName) [@(DefinedColumnsCount)] Alias 1 ;
+		End
+
+		Variables
+@(RepeatOnDefinedColumns{\t\t\t@(WoormColumnType) @(TableName)_@(ColumnName) [@(WoormColumnDefaultLength)] Alias @(WoormColumnCounter) Column of Table_@(TableName);, "\r\n"})
+		End
+
+		Rules
+			From @(TableName)
+			Select  Not NULL
+@(RepeatOnDefinedColumns{\t\t\t@(TableName).@(ColumnName) Into @(TableName)_@(ColumnName), ",\r\n"});
+		End
+
+	End

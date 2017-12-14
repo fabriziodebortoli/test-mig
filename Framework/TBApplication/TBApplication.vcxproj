@@ -1,0 +1,711 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseDebugInfo|Win32">
+      <Configuration>ReleaseDebugInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{23709D30-596B-4A9D-869E-F23FDD7B67F9}</ProjectGuid>
+    <RootNamespace>TaskBuilder</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Keyword>MFCDLLProj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TBAppsBin)\debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Obj\Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TBAppsBin)\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Obj\Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">$(TBAppsBin)\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Obj\ReleaseDebugInfo\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TbOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AFXEXT;_TBAPPLICATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalOptions>/Zm130 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OutDir);$(TbOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TBApplication.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalDependencies>Psapi.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TbOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;_TBAPPLICATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OutDir);$(TbOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TBApplication.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <GenerateMapFile>true</GenerateMapFile>
+      <AdditionalDependencies>Psapi.lib;</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TbOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;_TBAPPLICATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(TbOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TBApplication.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Link>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TbClientCore\TbClientCore.vcxproj">
+      <Project>{d971152d-aed9-45dd-af87-1e788d6f950a}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbFrameworkImages\TbFrameworkImages.vcxproj">
+      <Project>{fa802c42-4615-4053-985a-70dc6b15784a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\TbGeneric\TbGeneric.vcxproj">
+      <Project>{2ec6864f-a6d1-4cb1-9a5a-4bffc02e696e}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbGes\TbGes.vcxproj">
+      <Project>{39a7eb20-843d-4fd2-adb6-fd543c30a709}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbNameSolver\TbNameSolver.vcxproj">
+      <Project>{a53bba7f-1b6f-4137-af4e-63c2f44be5d5}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbParser\TbParser.vcxproj">
+      <Project>{9288c505-54e3-4a11-af9a-e18a3ae1c1e0}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbRadar\TbRadar.vcxproj">
+      <Project>{d962ed67-a1bf-4863-9df8-b93fce175d7c}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbWebServicesWrappers\TbWebServicesWrappers.vcxproj">
+      <Project>{85411506-b033-420f-b360-b1fda8e198d8}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbWoormViewer\TbWoormViewer.vcxproj">
+      <Project>{273ec28f-29d6-4d5e-9ae8-00e7eecef1ba}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbXmlCore\TbXmlCore.vcxproj">
+      <Project>{fcd1c83e-7b0a-484f-8e1a-b2b742df619a}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TBStringLoader\TBStringLoader.vcxproj">
+      <Project>{562e38dc-4acf-4f5b-a2a8-c7b59e8badc9}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\TbGenLibManaged\TbGenLibManaged.vcxproj">
+      <Project>{28ed1a12-014c-4331-b17f-e58554094b8a}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <Private>true</Private>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ApplicationsLoader.cpp" />
+    <ClCompile Include="CDesignManipulator.cpp" />
+    <ClCompile Include="DocumentThread.cpp" />
+    <ClCompile Include="FileSystemDriver.cpp" />
+    <ClCompile Include="FileSystemManager.cpp" />
+    <ClCompile Include="TBGenericHandler.cpp" />
+    <ClCompile Include="TbMenuHandler.cpp" />
+    <ClCompile Include="TbMenuHandlerGDI.cpp" />
+    <ClCompile Include="LibrariesLoader.cpp" />
+    <ClCompile Include="LoginThread.cpp" />
+    <ClCompile Include="StackWalker.cpp">
+      <DisableSpecificWarnings>4091</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TaskBuilderApp.cpp" />
+    <ClCompile Include="TBApplication.cpp" />
+    <ClCompile Include="TbCommandManager.cpp" />
+    <ClCompile Include="TBSocketHandler.cpp" />
+    <ClCompile Include="TBWebHandler.cpp" />
+    <ClCompile Include="ThreadMainWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\const.js" />
+    <None Include="Files\controls\TBControl.js" />
+    <None Include="Files\css\bootstrap.css" />
+    <None Include="Files\css\bootstrap.css.map" />
+    <None Include="Files\css\context.bootstrap.css" />
+    <None Include="Files\css\datepicker.css" />
+    <None Include="Files\css\general.css" />
+    <None Include="Files\css\login.css" />
+    <None Include="Files\css\loginStyle.css" />
+    <None Include="Files\css\menu.css" />
+    <None Include="Files\css\objectImagesOld.css" />
+    <None Include="Files\css\objectImages.css" />
+    <None Include="Files\css\overrides.css" />
+    <None Include="Files\documentevents.js" />
+    <None Include="Files\formatters.js" />
+    <None Include="Files\FormatterTypes.js" />
+    <None Include="Files\js\Controllers\CalendarController.js" />
+    <None Include="Files\js\Controllers\CentralPanelController.js" />
+    <None Include="Files\js\Controllers\Common\CustomizationContextController.js" />
+    <None Include="Files\js\Controllers\Common\ESCloneDocumentController.js" />
+    <None Include="Files\js\Controllers\Common\ItemOptionsController.js" />
+    <None Include="Files\js\Controllers\ImageLoginController.js" />
+    <None Include="Files\js\Controllers\LoginHostController.js" />
+    <None Include="Files\js\Controllers\MainMenuController.js" />
+    <None Include="Files\js\Controllers\NotificationController.js" />
+    <None Include="Files\js\Controllers\TbfSidedropController.js" />
+    <None Include="Files\js\Controllers\TbsSidedropController.js" />
+    <None Include="Files\js\Controllers\UserController.js" />
+    <None Include="Files\js\MenuWidget.js" />
+    <None Include="Files\js\newMenu.js" />
+    <None Include="Files\js\Services\EasyStudioService.js" />
+    <None Include="Files\js\Services\RoutingProviderWidget.js" />
+    <None Include="Files\Libraries\angular-aria.min.js" />
+    <None Include="Files\Libraries\angular-highlightjs.min.js" />
+    <None Include="Files\Libraries\angular-material-icons.min.js" />
+    <None Include="Files\Libraries\angular-material.min.css" />
+    <None Include="Files\Libraries\angular-material.min.js" />
+    <None Include="Files\Libraries\angular-messages.min.js" />
+    <None Include="Files\Libraries\angular-animate.1.5.5.min.js" />
+    <None Include="Files\Libraries\angular-aria.1.5.5.min.js" />
+    <None Include="Files\Libraries\angular-material.1.1.0.min.js" />
+    <None Include="Files\Libraries\angular-messages.1.5.5.min.js" />
+    <None Include="Files\Libraries\angular-route.min.js.map" />
+    <None Include="Files\Libraries\angular.1.5.5.min.js" />
+    <None Include="Files\Libraries\angular.min.js.map" />
+    <None Include="Files\Libraries\bootstrap-datepicker.js" />
+    <None Include="Files\Libraries\bootstrap.min.css" />
+    <None Include="Files\Libraries\bootstrap.min.js" />
+    <None Include="Files\Libraries\contextMenu.js" />
+    <None Include="Files\Libraries\jquery-ui.js" />
+    <None Include="Files\Libraries\jquery-ui.min.js" />
+    <None Include="Files\Libraries\jquery.min.js" />
+    <None Include="Files\MenuWidget.html" />
+    <None Include="Files\noMenu.html" />
+    <None Include="Files\serverMonitor.js" />
+    <None Include="Files\serverMonitor.html" />
+    <None Include="Files\tbfMenu.html" />
+    <None Include="Files\Images\Font\MenuIcons.eot" />
+    <None Include="Files\Images\Font\MenuIcons.svg" />
+    <None Include="Files\Images\Font\MenuIcons.woff" />
+    <None Include="Files\Images\Font\MenuIcons_cb8517f725be1cd339e9f3f06101d3de.eot" />
+    <None Include="Files\Images\Font\MenuIcons_cb8517f725be1cd339e9f3f06101d3de.svg" />
+    <None Include="Files\Images\Font\MenuIcons_cb8517f725be1cd339e9f3f06101d3de.woff" />
+    <None Include="Files\Images\Font\preview.html" />
+    <None Include="Files\Images\Font\styles.css" />
+    <None Include="Files\Images\Font\styles.scss" />
+    <None Include="Files\Images\glyphicons-halflings-regular.eot" />
+    <None Include="Files\Images\glyphicons-halflings-regular.svg" />
+    <None Include="Files\Images\glyphicons-halflings-regular.woff" />
+    <None Include="Files\js\Controllers\ChangePasswordController.js" />
+    <None Include="Files\js\Controllers\ChangeThemeController.js" />
+    <None Include="Files\js\Controllers\Common\SearchController.js" />
+    <None Include="Files\js\Controllers\FooterController.js" />
+    <None Include="Files\js\Controllers\HiddenTilesController.js" />
+    <None Include="Files\js\Controllers\TbfNavBarController.js" />
+    <None Include="Files\js\Controllers\NewMenuTemplateController.js" />
+    <None Include="Files\js\Controllers\ProductInfoController.js" />
+    <None Include="Files\js\Controllers\NewNavBarController.js" />
+    <None Include="Files\js\Services\LoggingService.js" />
+    <None Include="Files\js\tbfMenu.js" />
+    <None Include="Files\Libraries\angular-animate.min.js" />
+    <None Include="Files\Libraries\angular-route.min.js" />
+    <None Include="Files\Libraries\angular.min.js" />
+    <None Include="Files\Libraries\ui-bootstrap-tpls.min.js" />
+    <None Include="Files\loginHost.html" />
+    <None Include="Files\messagesHelper.js" />
+    <None Include="Files\newMenu.html" />
+    <None Include="Files\ImagesOld\glyphicons-halflings-regular.eot" />
+    <None Include="Files\ImagesOld\glyphicons-halflings-regular.svg" />
+    <None Include="Files\ImagesOld\glyphicons-halflings-regular.woff" />
+    <None Include="Files\js\Controllers\Common\FavoritesController.js" />
+    <None Include="Files\js\Controllers\LoginController.js" />
+    <None Include="Files\js\Controllers\Common\MostUsedController.js" />
+    <None Include="Files\js\login.js" />
+    <None Include="Files\js\Services\GeneralFunctionsService.js" />
+    <None Include="Files\js\Services\ImageService.js" />
+    <None Include="Files\js\Services\LocalizationService.js" />
+    <None Include="Files\js\Services\MenuService.js" />
+    <None Include="Files\js\Services\RoutingProvider.js" />
+    <None Include="Files\js\Services\SettingsService.js" />
+    <None Include="Files\Libraries\angular-route.js" />
+    <None Include="Files\Libraries\bootstrap.js" />
+    <None Include="Files\Libraries\draganddrop.js" />
+    <None Include="Files\Libraries\ui-bootstrap-tpls.js" />
+    <None Include="Files\templates\alert.html" />
+    <None Include="Files\templates\balloon.html" />
+    <None Include="Files\templates\changeLogin.html" />
+    <None Include="Files\templates\changePasswordModal.html" />
+    <None Include="Files\templates\changeThemeDropdown.html" />
+    <None Include="Files\templates\Common\cloneDocumentDialog.html" />
+    <None Include="Files\templates\Common\customizationContext.html">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Files\templates\Common\customizationContextDialog.html">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Files\templates\Common\itemCustomizationsDropdown.html" />
+    <None Include="Files\templates\Common\menuItemElement.html" />
+    <None Include="Files\templates\dateDropdown.html" />
+    <None Include="Files\templates\frameworkDropdown.html" />
+    <None Include="Files\templates\hiddenTilesDropDown.html" />
+    <None Include="Files\templates\login.html" />
+    <None Include="Files\templates\applicationDropdown.html" />
+    <None Include="Files\templates\changePassword.html" />
+    <None Include="Files\templates\Common\advancedSearch.html" />
+    <None Include="Files\templates\companyDropdown.html" />
+    <None Include="Files\templates\favoritesDropdown.html" />
+    <None Include="Files\templates\footer.html" />
+    <None Include="Files\templates\groupDropdown.html" />
+    <None Include="Files\templates\loginContent.html" />
+    <None Include="Files\templates\loginOptionsDropdown.html" />
+    <None Include="Files\templates\diagnostic.html" />
+    <None Include="Files\templates\MenuTemplateWidget.html" />
+    <None Include="Files\templates\studioDropdown.html" />
+    <None Include="Files\templates\tbfApplicationDropdown.html" />
+    <None Include="Files\templates\mostUsedDropDown.html" />
+    <None Include="Files\templates\newHubApplicationContainer.html" />
+    <None Include="Files\templates\newIconsGroupRecursive.html" />
+    <None Include="Files\templates\newMenuTemplate.html" />
+    <None Include="Files\templates\newTileGroupRecursive.html" />
+    <None Include="Files\templates\tbfNavBarTemplate.html" />
+    <None Include="Files\templates\Common\menuItemImage.html" />
+    <None Include="Files\templates\newNavBarTemplate.html" />
+    <None Include="Files\templates\newIconsGroup.html" />
+    <None Include="Files\templates\newTileGroup.html" />
+    <None Include="Files\templates\newViewerSelector.html" />
+    <None Include="Files\templates\Common\searchItem.html" />
+    <None Include="Files\templates\productInfoDropdown.html" />
+    <None Include="Files\templates\userDropdown.html" />
+    <None Include="Files\test.html" />
+    <None Include="Files\Utils.js" />
+    <None Include="Files\validators.js" />
+    <None Include="Files\js\tbwebsockets.js" />
+    <None Include="Files\widget\Controllers\widgetController.js" />
+    <None Include="Files\widget\Css\widget.css" />
+    <None Include="Files\widget\Ico\Add icon - Icon search engine.url" />
+    <None Include="Files\widget\Module\Calculator\widget.css" />
+    <None Include="Files\widget\Module\Calculator\widget.html" />
+    <None Include="Files\widget\Module\Calculator\widget.js" />
+    <None Include="Files\widget\Module\Calendar\widget.css" />
+    <None Include="Files\widget\Module\Calendar\widget.html" />
+    <None Include="Files\widget\Module\Calendar\widget.js" />
+    <None Include="Files\widget\Module\Clock\media\Clock.psd" />
+    <None Include="Files\widget\Module\Clock\widget.css" />
+    <None Include="Files\widget\Module\Clock\widget.html" />
+    <None Include="Files\widget\Module\Clock\widget.js" />
+    <None Include="Files\widget\widget.html" />
+    <None Include="Files\widget\widget.json" />
+    <None Include="TBApplication.def" />
+    <None Include="BEGINH.DEX" />
+    <None Include="ENDH.DEX" />
+    <None Include="Module.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ApplicationsLoader.h" />
+    <ClInclude Include="CDesignManipulator.h" />
+    <ClInclude Include="DocumentThread.h" />
+    <ClInclude Include="FileSystemDriver.h" />
+    <ClInclude Include="FileSystemManager.h" />
+    <ClInclude Include="TBGenericHandler.h" />
+    <ClInclude Include="TbMenuHandler.h" />
+    <ClInclude Include="TbMenuHandlerGDI.h" />
+    <ClInclude Include="LibrariesLoader.h" />
+    <ClInclude Include="LoginThread.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="StackWalker.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TaskBuilderApp.h" />
+    <ClInclude Include="TbCommandManager.h" />
+    <ClInclude Include="TBSocketHandler.h" />
+    <ClInclude Include="TBWebHandler.h" />
+    <ClInclude Include="ThreadMainWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TBApplication.rc">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir);$(TbFramework);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">$(IntDir);$(TbFramework);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir);$(TbFramework);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Files\ajax-loader.gif" />
+    <Image Include="Files\ImagesOld\Back.png" />
+    <Image Include="Files\ImagesOld\Batch.png" />
+    <Image Include="Files\ImagesOld\CollapseAll.png" />
+    <Image Include="Files\ImagesOld\Default.png" />
+    <Image Include="Files\ImagesOld\Document.png" />
+    <Image Include="Files\ImagesOld\EmptyStar.png" />
+    <Image Include="Files\ImagesOld\Environment.png" />
+    <Image Include="Files\ImagesOld\ExpandAll.png" />
+    <Image Include="Files\ImagesOld\FilledStar.png" />
+    <Image Include="Files\ImagesOld\FullMenu.png" />
+    <Image Include="Files\ImagesOld\Function.png" />
+    <Image Include="Files\ImagesOld\JustAdded.png" />
+    <Image Include="Files\ImagesOld\LeftArrow.png" />
+    <Image Include="Files\ImagesOld\loading.GIF" />
+    <Image Include="Files\ImagesOld\loading32.gif" />
+    <Image Include="Files\ImagesOld\Notify.png" />
+    <Image Include="Files\ImagesOld\OfficeItem.png" />
+    <Image Include="Files\ImagesOld\Options.png" />
+    <Image Include="Files\ImagesOld\Pin.png" />
+    <Image Include="Files\ImagesOld\PinnedMenu.png" />
+    <Image Include="Files\ImagesOld\ProductInfo.png" />
+    <Image Include="Files\ImagesOld\ReleaseInfo.png" />
+    <Image Include="Files\ImagesOld\Report.png" />
+    <Image Include="Files\ImagesOld\RightArrow.png" />
+    <Image Include="Files\ImagesOld\ShowAll.png" />
+    <Image Include="Files\ImagesOld\Squares.png" />
+    <Image Include="Files\ImagesOld\StartMenu.png" />
+    <Image Include="Files\ImagesOld\Thumbnail.png" />
+    <Image Include="Files\ImagesOld\Unknown.png" />
+    <Image Include="Files\ImagesOld\unpin.png" />
+    <Image Include="Files\ImagesOld\Wizard.png" />
+    <Image Include="Files\ImagesOld\Worker.png" />
+    <Image Include="Files\Images\ActivateViaInternet.png" />
+    <Image Include="Files\Images\ActivateViaInternet32.png" />
+    <Image Include="Files\Images\ActivateViaSms.png" />
+    <Image Include="Files\Images\ActivateViaSms32.png" />
+    <Image Include="Files\Images\AppTemplateExcel.png" />
+    <Image Include="Files\Images\AppTemplateWord.png" />
+    <Image Include="Files\Images\arcticBottom.png" />
+    <Image Include="Files\Images\arcticTop.png" />
+    <Image Include="Files\Images\Back.png" />
+    <Image Include="Files\Images\Batch.png" />
+    <Image Include="Files\Images\borealisBottom.png" />
+    <Image Include="Files\Images\borealisTop.png" />
+    <Image Include="Files\Images\calendar.png" />
+    <Image Include="Files\Images\ChangePsw.png" />
+    <Image Include="Files\Images\ChangePsw32.png" />
+    <Image Include="Files\Images\ChangeUser.png" />
+    <Image Include="Files\Images\ChangeUser32.png" />
+    <Image Include="Files\Images\Checked16.png" />
+    <Image Include="Files\Images\ChooseCompany.png" />
+    <Image Include="Files\Images\ChooseCompanyFilled.png" />
+    <Image Include="Files\Images\ClearCachedData.png" />
+    <Image Include="Files\Images\CollapseAll.png" />
+    <Image Include="Files\Images\Default.png" />
+    <Image Include="Files\Images\Document.png" />
+    <Image Include="Files\Images\Domain32.png" />
+    <Image Include="Files\Images\Down.png" />
+    <Image Include="Files\Images\EasyStudio.png" />
+    <Image Include="Files\Images\EmptyStar.png" />
+    <Image Include="Files\Images\Environment.png" />
+    <Image Include="Files\Images\escape.png" />
+    <Image Include="Files\Images\ExpandAll.png" />
+    <Image Include="Files\Images\FilledStar.png" />
+    <Image Include="Files\Images\Footer.png" />
+    <Image Include="Files\Images\FullMenu.png" />
+    <Image Include="Files\Images\Function.png" />
+    <Image Include="Files\Images\Help.png" />
+    <Image Include="Files\Images\Hide.png" />
+    <Image Include="Files\Images\Info32.png" />
+    <Image Include="Files\Images\JustAdded.png" />
+    <Image Include="Files\Images\LeftArrow.png" />
+    <Image Include="Files\Images\Load.gif" />
+    <Image Include="Files\Images\loading.GIF" />
+    <Image Include="Files\Images\loading32.gif" />
+    <Image Include="Files\Images\LoginBlueDarker.png" />
+    <Image Include="Files\Images\LoginGray.png" />
+    <Image Include="Files\Images\LogoMagoNet,.png" />
+    <Image Include="Files\Images\LogoTBSSmall.png" />
+    <Image Include="Files\Images\Mail.png" />
+    <Image Include="Files\Images\Mail32.png" />
+    <Image Include="Files\Images\MostUsed.png" />
+    <Image Include="Files\Images\Login.png" />
+    <Image Include="Files\Images\LogoMagoNet.png" />
+    <Image Include="Files\Images\NewLogin.png" />
+    <Image Include="Files\Images\NewLogin32.png" />
+    <Image Include="Files\Images\Notify.png" />
+    <Image Include="Files\Images\OfficeItem.png" />
+    <Image Include="Files\Images\OpenDocuments.png" />
+    <Image Include="Files\Images\Options.png" />
+    <Image Include="Files\Images\Password.png" />
+    <Image Include="Files\Images\Pin.png" />
+    <Image Include="Files\Images\PinnedMenu.png" />
+    <Image Include="Files\Images\ProductInfo.png" />
+    <Image Include="Files\Images\Refresh.png" />
+    <Image Include="Files\Images\Refresh32.png" />
+    <Image Include="Files\Images\ReleaseInfo.png" />
+    <Image Include="Files\Images\Report.png" />
+    <Image Include="Files\Images\Right.png" />
+    <Image Include="Files\Images\RightArrow.png" />
+    <Image Include="Files\Images\Show.png" />
+    <Image Include="Files\Images\settings.png" />
+    <Image Include="Files\Images\SettingsFilled.png" />
+    <Image Include="Files\Images\ShowAll.png" />
+    <Image Include="Files\Images\Squares.png" />
+    <Image Include="Files\Images\StartMenu.png" />
+    <Image Include="Files\Images\tbf.png" />
+    <Image Include="Files\Images\tbs.png" />
+    <Image Include="Files\Images\Thumbnail.png" />
+    <Image Include="Files\Images\UnChecked16.png" />
+    <Image Include="Files\Images\Unknown.png" />
+    <Image Include="Files\Images\unpin.png" />
+    <Image Include="Files\Images\User.png" />
+    <Image Include="Files\Images\UserName.png" />
+    <Image Include="Files\Images\UserNameFilled.png" />
+    <Image Include="Files\Images\watermark.png" />
+    <Image Include="Files\Images\Wizard.png" />
+    <Image Include="Files\Images\Worker.png" />
+    <Image Include="Files\widget\Ico\add.png" />
+    <Image Include="Files\widget\Ico\Close.png" />
+    <Image Include="Files\widget\Ico\ok.png" />
+    <Image Include="Files\widget\Ico\Open.png" />
+    <Image Include="Files\widget\Ico\remove.png" />
+    <Image Include="Files\widget\Module\Calendar\ico.png" />
+    <Image Include="Files\widget\Module\Clock\ico.png" />
+    <Image Include="Files\widget\Module\Clock\media\clockface.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Files\ImagesOld\glyphicons-halflings-regular.ttf" />
+    <Font Include="Files\Images\Font\MenuIcons.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-Bold.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-BoldItalic.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-ExtraBold.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-ExtraBoldItalic.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-Italic.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-Light.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-LightItalic.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-Regular.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-Semibold.ttf" />
+    <Font Include="Files\Images\Font\OpenSans-SemiboldItalic.ttf" />
+    <Font Include="Files\Images\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Files\Libraries\AngularJsLicence.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="TBApplication.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

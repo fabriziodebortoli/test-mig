@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ChangeIdentityAppPool" xml:space="preserve">
+    <value>Please change the Identity of application pool, in which the EasyAttachmentSync application runs, to Windows Authentication user.(Probably the dbowner of database '{0}' is a Windows Authentication login)</value>
+  </data>
+  <data name="CheckDBExist" xml:space="preserve">
+    <value>Please check if database '{0}' on server '{1}' exists or if the server is responding</value>
+  </data>
+  <data name="CheckTablesExist" xml:space="preserve">
+    <value>Please check if database '{0}' on server '{1}' contains valid tables</value>
+  </data>
+  <data name="LMInit" xml:space="preserve">
+    <value>LoginManager Init</value>
+  </data>
+  <data name="MethodEndedWithError" xml:space="preserve">
+    <value>{0} ended with errors</value>
+  </data>
+  <data name="MethodErrorWithDetail" xml:space="preserve">
+    <value>{0} error: {1}</value>
+  </data>
+  <data name="MethodExceptionWithDetail" xml:space="preserve">
+    <value>{0} exception: {1}</value>
+  </data>
+  <data name="RunSynchronizeDB" xml:space="preserve">
+    <value>Run Synchronize process for database '{0}' on server '{1}'</value>
+  </data>
+  <data name="SynchronizeEndedWithError" xml:space="preserve">
+    <value>EasyAttachmentSync: Synchronize operation completed with error (Database '{0}' - Server '{1}')</value>
+  </data>
+  <data name="SynchronizeSuccessfullyCompleted" xml:space="preserve">
+    <value>EasyAttachmentSync: Synchronize operation successfully completed (Database '{0}' - Server '{1}')</value>
+  </data>
+  <data name="FTSChecking" xml:space="preserve">
+    <value>Checking Full-Text Search options for database '{0}' on server '{1}'</value>
+  </data>
+  <data name="FTSNotInstalled" xml:space="preserve">
+    <value>Full-Text Search component is not installed or cannot be loaded (for database '{0}' on server '{1}')</value>
+  </data>
+  <data name="FTSEnableError" xml:space="preserve">
+    <value>An error occurred during enabling of full-text component for database '{0}' on server '{1}'</value>
+  </data>
+  <data name="FTSClearDmsListWithSuccess" xml:space="preserve">
+    <value>DMS databases information successfully initialized!</value>
+  </data>
+  <data name="FTSClearDmsListWithError" xml:space="preserve">
+    <value>Unable to initialize DMS databases information! Please try again in a few minutes.</value>
+  </data>
+  <data name="FTSUpdating" xml:space="preserve">
+    <value>Full-Text Search options update for database '{0}' on server '{1}' has been successfully completed</value>
+  </data>
+  <data name="UnableToStopEASync" xml:space="preserve">
+    <value>Unable to stop EasyAttachmentSync because Synchronize process is running! Please try again in a few minutes.</value>
+  </data>
+  <data name="StoppingEASync" xml:space="preserve">
+    <value>EasyAttachmentSync stopping successfully completed</value>
+  </data>
+  <data name="EASyncInit" xml:space="preserve">
+    <value>EasyAttachmentSync web service initializing completed!</value>
+  </data>
+  <data name="UpdateDefaultSearchIndexes" xml:space="preserve">
+    <value>EasyAttachmentSync: UpdateDefaultSearchIndexes completed (Database '{0}' - Server: '{1}')</value>
+  </data>
+  <data name="SOSErrorSemplice" xml:space="preserve">
+    <value>An error occurred during Spedizione Semplice of file {0}</value>
+  </data>
+  <data name="SOSErrorSequenza" xml:space="preserve">
+    <value>An error occurred calling Sequenza webmethod</value>
+  </data>
+  <data name="SOSErrorFrammentata" xml:space="preserve">
+    <value>An error occurred during Spedizione Frammentata of file {0} (chunk nr. {1})</value>
+  </data>
+  <data name="SOSErrorFrammentataAttempt" xml:space="preserve">
+    <value>An error occurred during Spedizione Frammentata of file {0} (chunk nr. {1} - attempt nr. {2})</value>
+  </data>
+  <data name="SOSLastUpdateDocRequested" xml:space="preserve">
+    <value>Last dispatch status update performed on {0}</value>
+  </data>
+  <data name="SOSUpdateDocWithError" xml:space="preserve">
+    <value>An error occurred during dispatch status update</value>
+  </data>
+  <data name="SOSRunUpdateDocumentStatus" xml:space="preserve">
+    <value>Run Update SOS documents status process for database '{0}' on server '{1}'</value>
+  </data>
+  <data name="SOSRunUpdateDocumentStatusEndedWithError" xml:space="preserve">
+    <value>Update SOS documents status process completed with error (Database '{0}' - Server '{1}')</value>
+  </data>
+  <data name="SOSRunUpdateDocumentStatusSuccessfullyCompleted" xml:space="preserve">
+    <value> Update SOS documents status process successfully completed (Database '{0}' - Server '{1}')</value>
+  </data>
+  <data name="SOSErrorStatoSpedizione" xml:space="preserve">
+    <value>An error occurred calling StatoSpedizione webmethod for file {0}</value>
+  </data>
+  <data name="ArchiveDocToResend" xml:space="preserve">
+    <value>Unable to prepare the document {0} for SOS, it needs to be resent! ({1})</value>
+  </data>
+  <data name="BBCheckBBServices" xml:space="preserve">
+    <value>Check that Brain Business is correctly installed and all services are started</value>
+  </data>
+  <data name="BBCheckCompanyConnection" xml:space="preserve">
+    <value>Check that you have registered the connection on BrainBusiness Studio for this company ({0})</value>
+  </data>
+  <data name="BBDmsInfoRetrievalError" xml:space="preserve">
+    <value>Error n°{0} while retrieving dmsInfo by CompanyId</value>
+  </data>
+  <data name="BBSendEventError" xml:space="preserve">
+    <value>Error n°{0} while sending the event</value>
+  </data>
+</root>

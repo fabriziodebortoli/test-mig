@@ -1,0 +1,15 @@
+﻿
+      {
+         "id" : "ID_EXTDOC_BATCH_TOOLBAR_MAIN",
+         "items" : [
+          {
+            "id": "ID_TB_ACTIVITY_FRAME_LOAD_DATA",
+            "visible": false
+          },
+          {
+            "id": "ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION",
+            "visible": false
+          }
+         ]
+      }
+  

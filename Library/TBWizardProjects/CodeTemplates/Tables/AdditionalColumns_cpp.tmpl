@@ -1,0 +1,46 @@
+//=============================================================================
+// module name: @(AdditionalColumnsClassName).cpp
+//=============================================================================
+#include "stdafx.h"  
+
+@(IfContainsDataEnums(@(RepeatOnUsedEnumsModules{#include <@(ModuleName)\@(ModuleName)Enums.h>, "\r\n"})\n))
+// Database declarations
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(AdditionalColumnsClassName).h>  
+
+//TBWIZ-INJECT{@(AdditionalColumnsClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+@(RepeatOnReferencedEnums{#define E_@@(_RB(_)_NOINVCHARS:EnumName)_DEFAULT (DWORD)MAKELONG(@(EnumDefaultItemValue), @(EnumValue)), "\r\n"})
+
+//////////////////////////////////////////////////////////////////////////////
+//             		@(AdditionalColumnsClassName) Implementation
+//////////////////////////////////////////////////////////////////////////////
+IMPLEMENT_DYNCREATE(@(AdditionalColumnsClassName), SqlAddOnFieldsColumn) 
+//---------------------------------------------------------------------------
+@(AdditionalColumnsClassName)::@(AdditionalColumnsClassName)()@(IfContainsDataEnums(\n\t:\n@(RepeatOnDataEnumColumns{\tf_@(ColumnName) (E_@@(_RB(_)_NOINVCHARS:EnumName)_DEFAULT), ",\r\n"})))
+{
+	//TBWIZ-INJECT{@(AdditionalColumnsClassName)(Constructor)
+	//TBWIZ-INJECT}
+}
+
+//--------------------------------------------------------------------------
+void @(AdditionalColumnsClassName)::InitAddOnFields()
+{
+	//TBWIZ-INJECT{@(AdditionalColumnsClassName)(InitAddOnFields)
+	//TBWIZ-INJECT}
+}
+
+//-----------------------------------------------------------------
+int @(AdditionalColumnsClassName)::BindAddOnFields(int nStartPos /*=0*/)
+{
+	BEGIN_BIND_ADDON_FIELDS(nStartPos);
+@(RepeatOnColumns{\t\tBIND_ADDON_DATA (_NS_FLD("@(ColumnName)"), f_@(ColumnName));, "\r\n"})
+	//TBWIZ-INJECT{@(TableClassName)BindAddOnFields(BindAddOnFields)
+	//TBWIZ-INJECT}
+	END_BIND_ADDON_FIELDS();
+}

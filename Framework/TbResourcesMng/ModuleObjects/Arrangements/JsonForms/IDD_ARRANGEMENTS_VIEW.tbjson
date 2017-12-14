@@ -1,0 +1,18 @@
+﻿{
+    "id": "IDD_ARRANGEMENTS_VIEW",
+    "name": "Arrangements",
+    "type": 1 /*View*/,
+    "items": [
+        {
+            "id": "IDC_TG_ARRANGEMENTS",
+            "name": "Arrangements",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+                    "href": "IDD_TD_ARRANGEMENTS"
+                }
+            ]
+        }
+    ]
+}

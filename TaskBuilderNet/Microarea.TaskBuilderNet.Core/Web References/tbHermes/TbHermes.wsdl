@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://microarea.it/TbHermes/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://microarea.it/TbHermes/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microarea.it/TbHermes/">
+      <s:element name="IsAlive">
+        <s:complexType />
+      </s:element>
+      <s:element name="IsAliveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAliveResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WakeUp">
+        <s:complexType />
+      </s:element>
+      <s:element name="WakeUpResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Init">
+        <s:complexType />
+      </s:element>
+      <s:element name="InitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InitResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUpdatedStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clientIdentifier" type="tns:ClientIdentifier" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ClientIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Worker" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MailAccount" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUpdatedStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUpdatedStatusResult" type="tns:ServiceStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceStatus">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="InternetConnectionAvailable" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastMailUpdate" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UploadMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailMessage" type="tns:MailMessage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="MailMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="From" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Sent" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UploadMessageResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="IsAliveSoapIn">
+    <wsdl:part name="parameters" element="tns:IsAlive" />
+  </wsdl:message>
+  <wsdl:message name="IsAliveSoapOut">
+    <wsdl:part name="parameters" element="tns:IsAliveResponse" />
+  </wsdl:message>
+  <wsdl:message name="WakeUpSoapIn">
+    <wsdl:part name="parameters" element="tns:WakeUp" />
+  </wsdl:message>
+  <wsdl:message name="WakeUpSoapOut">
+    <wsdl:part name="parameters" element="tns:WakeUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="InitSoapIn">
+    <wsdl:part name="parameters" element="tns:Init" />
+  </wsdl:message>
+  <wsdl:message name="InitSoapOut">
+    <wsdl:part name="parameters" element="tns:InitResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUpdatedStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUpdatedStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetUpdatedStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUpdatedStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadMessage" />
+  </wsdl:message>
+  <wsdl:message name="UploadMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadMessageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="TbHermesSoap">
+    <wsdl:operation name="IsAlive">
+      <wsdl:input message="tns:IsAliveSoapIn" />
+      <wsdl:output message="tns:IsAliveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WakeUp">
+      <wsdl:input message="tns:WakeUpSoapIn" />
+      <wsdl:output message="tns:WakeUpSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Init">
+      <wsdl:input message="tns:InitSoapIn" />
+      <wsdl:output message="tns:InitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdatedStatus">
+      <wsdl:input message="tns:GetUpdatedStatusSoapIn" />
+      <wsdl:output message="tns:GetUpdatedStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadMessage">
+      <wsdl:input message="tns:UploadMessageSoapIn" />
+      <wsdl:output message="tns:UploadMessageSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TbHermesSoap" type="tns:TbHermesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IsAlive">
+      <soap:operation soapAction="http://microarea.it/TbHermes/IsAlive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WakeUp">
+      <soap:operation soapAction="http://microarea.it/TbHermes/WakeUp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Init">
+      <soap:operation soapAction="http://microarea.it/TbHermes/Init" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdatedStatus">
+      <soap:operation soapAction="http://microarea.it/TbHermes/GetUpdatedStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadMessage">
+      <soap:operation soapAction="http://microarea.it/TbHermes/UploadMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TbHermesSoap12" type="tns:TbHermesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IsAlive">
+      <soap12:operation soapAction="http://microarea.it/TbHermes/IsAlive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WakeUp">
+      <soap12:operation soapAction="http://microarea.it/TbHermes/WakeUp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Init">
+      <soap12:operation soapAction="http://microarea.it/TbHermes/Init" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdatedStatus">
+      <soap12:operation soapAction="http://microarea.it/TbHermes/GetUpdatedStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadMessage">
+      <soap12:operation soapAction="http://microarea.it/TbHermes/UploadMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TbHermes">
+    <wsdl:port name="TbHermesSoap" binding="tns:TbHermesSoap">
+      <soap:address location="http://localhost:81/DevMZP/TbHermes/TbHermes.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TbHermesSoap12" binding="tns:TbHermesSoap12">
+      <soap12:address location="http://localhost:81/DevMZP/TbHermes/TbHermes.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

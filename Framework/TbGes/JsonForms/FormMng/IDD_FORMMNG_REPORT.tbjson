@@ -1,0 +1,77 @@
+﻿{
+  "id": "IDD_FORMMNG_REPORT",
+  "rcId": 1059,
+  "type": 66,
+  "text": "Document Report",
+  "x": 0,
+  "y": 0,
+  "width": 423,
+  "height": 198,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "formmng",
+  "items": [
+    {
+      "id": "IDC_FORMMNG_REPORT_LIST",
+      "type": 26,
+      "text": "Tree1",
+      "x": 8,
+      "y": 4,
+      "width": 271,
+      "height": 186,
+      "border": true,
+      "editLabels": true
+    },
+    {
+      "id": "IDC_FORMMNG_REPORT_NEW",
+      "type": 3,
+      "text": "&Add",
+      "x": 310,
+      "y": 7,
+      "width": 84,
+      "height": 14
+    },
+    {
+      "id": "IDC_FORMMNG_REPORT_REPSEL",
+      "type": 13,
+      "x": 285,
+      "y": 149,
+      "width": 130,
+      "height": 14,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_FORMMNG_REPORT_REPNAME",
+      "type": 13,
+      "x": 285,
+      "y": 178,
+      "width": 130,
+      "height": 14,
+      "autoHScroll": true,
+      "readOnly": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Selected report:",
+      "x": 285,
+      "y": 139,
+      "width": 130,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Report name:",
+      "x": 285,
+      "y": 168,
+      "width": 130,
+      "height": 8,
+      "textAlign": 0
+    }
+  ]
+}

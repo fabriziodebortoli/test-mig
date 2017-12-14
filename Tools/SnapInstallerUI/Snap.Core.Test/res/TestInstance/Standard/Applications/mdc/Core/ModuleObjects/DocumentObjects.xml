@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+	<Documents>
+		<Document namespace="MDC.Core.Documents.EICoding" localize="Electronic Invoicing Coding" classhierarchy="DEICoding" defaultsecurityroles="MDC,cMDC Employee">
+			<InterfaceClass>ADMEICodingObj</InterfaceClass>
+			<ViewModes>
+				<Mode name="Default" />
+				<Mode name="BackGround" />
+			</ViewModes>
+		</Document>
+		<Document namespace="MDC.Core.Documents.EIPaymentType" localize="Electronic Invoicing Payment Type Conversion" classhierarchy="DEIPaymentType" defaultsecurityroles="MDC,cMDC Employee">
+			<InterfaceClass>ADMEIPaymentTypeObj</InterfaceClass>
+			<ViewModes>
+				<Mode name="Default" />
+				<Mode name="BackGround" />
+			</ViewModes>
+		</Document>
+		<Document namespace="MDC.Core.Services.EIParameters" localize="Electronic Invoicing Parameters" classhierarchy="DEIParameters" defaultsecurityroles="MDC">
+			<InterfaceClass>ADMEIParametersObj</InterfaceClass>
+			<ViewModes>
+				<Mode name="Default" />
+				<Mode name="BackGround" />
+			</ViewModes>
+		</Document>
+		<Document namespace="MDC.Core.Components.AttachmentManager" localize="Attachment Window" classhierarchy="Attachment" defaultsecurityroles="MDC">
+			<ViewModes>
+				<Mode name="Default" />
+			</ViewModes>
+		</Document>
+	</Documents>
+</DocumentObjects>

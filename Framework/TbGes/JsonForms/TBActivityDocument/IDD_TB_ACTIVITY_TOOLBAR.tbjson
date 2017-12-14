@@ -1,0 +1,43 @@
+﻿      {
+         "id" : "ID_EXTDOC_BATCH_TOOLBAR_MAIN",
+         "items" : [
+          {
+            "icon": "Framework.TbFrameworkImages.Images.25x25.Extract.png",
+            "id": "ID_TB_ACTIVITY_FRAME_LOAD_DATA",
+            "name": "ActivityFrameLoadData",
+            "text": "Extract",
+            "type": 15 /*ToolbarButton*/
+          },
+          {
+            "icon": "Framework.TbFrameworkImages.Images.25x25.Undo.png",
+            "id": "ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION",
+            "name": "ActivityFrameUndo",
+            "text": "Undo",
+            "type": 15 /*ToolbarButton*/
+          },
+          {
+            "icon": "Framework.TbFrameworkImages.Images.25x25.StopExtract.png",
+            "id": "ID_TB_ACTIVITY_FRAME_LOAD_STOP",
+            "name": "ActivityFrameStop",
+            "text": "Stop",
+            "type": 15 /*ToolbarButton*/
+          },
+          {
+            "icon": "Framework.TbFrameworkImages.Images.25x25.ProcessPause.png",
+            "id": "ID_TB_ACTIVITY_FRAME_LOAD_PAUSE",
+            "name": "ActivityFramePause",
+            "text": "Pause",
+            "type": 15 /*ToolbarButton*/
+          },
+          {
+              "icon" : "Framework.TbFrameworkImages.Images.25x25.ProcessRun.png",
+              "id" : "ID_TB_ACTIVITY_FRAME_LOAD_RESUME",
+              "name" : "ActivityFrameResume",
+              "text" : "Resume",
+              "type" : 15 /*ToolbarButton*/
+          }
+         ],
+         "name" : "Main",
+         "type" : 14 /*Toolbar*/
+      }
+  

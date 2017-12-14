@@ -1,0 +1,159 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "@(ClientDocumentViewFileName).hrc"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE @(CultureLanguageIdentifier), @(CultureSubLanguageIdentifier)
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "@(ClientDocumentViewFileName).hrc\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+@(IsSlaveFormViewToCreate{@(+)
+IDD_@@(_RB(_)ClientDocumentName)_SLAVEFORMVIEW DIALOGEX 0, 0, @(SlaveFormViewWidth), @(SlaveFormViewHeight)\n@(+)
+STYLE DS_SETFONT | WS_CHILD\n@(+)
+FONT @(FontSize), "@(FontName)", @(FontWeight), @(FontIsItalic), @(FontCharSet)\n@(+)
+BEGIN\n@(+)
+	@(IsTabberToCreate(@(+)
+    \tPUSHBUTTON "",IDC_@@(_RB(_)ClientDocumentName)_TAB,@(TabberLeft),@(TabberTop),@(TabberWidth),@(TabberHeight),WS_CLIPCHILDREN\n@(+)
+	))@(+)
+END\n\n@(+)
+})
+@(RepeatOnTabbedPanes{@(+)
+@(IfNotDBTSlaveBuffered(\n@(+)
+IDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName) DIALOGEX 0, 0, @(TabbedPaneWidth), @(TabbedPaneHeight)\n@(+)
+STYLE DS_SETFONT | WS_CHILD\n@(+)
+FONT @(FontSize), "@(FontName)", @(FontWeight), @(FontIsItalic), @(FontCharSet)\n@(+)
+BEGIN\n@(+)
+@(RepeatOnLabels{@(+)
+	\tLTEXT\t"@(ColumnLabelTitle)",IDC_STATIC,@(ColumnLabelLeft),@(ColumnLabelTop),@(ColumnLabelWidth),@(ColumnLabelHeight)\n@(+)
+))@(+)
+@(RepeatOnVisibleColumns{@(+)
+	@(IfNotBoolColumn(@(+)
+		\t@(ColumnControlName) IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_@@(ColumnName),@(ColumnControlLeft),@(ColumnControlTop),@(ColumnControlWidth),@(ColumnControlHeight), WS_TABSTOP | @(ColumnControlStyles)@(+)
+		@(IfColumnShowsHotLinkDescription{\n\tLTEXT\t"",IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_@@(ColumnName)_HOTLINK_DESCRIPTION_LABEL,@(HotLinkDescriptionLabelLeft),@(ColumnLabelTop),@(HotLinkDescriptionLabelWidth),@(HotLinkDescriptionLabelHeigth)})@(+)
+	))@(+)
+	@(IfBoolColumn(\tPUSHBUTTON "@(ColumnTitle)",IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_@@(ColumnName),@(ColumnControlLeft),@(ColumnControlTop),@(ColumnControlWidth),@(ColumnControlHeight),WS_TABSTOP | BS_AUTOCHECKBOX)),@(+)
+	"\r\n"})\n@(+)
+END\n))@(+)
+@(IfDBTSlaveBuffered(\n@(+)
+IDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName) DIALOGEX 0, 0, @(TabbedPaneWidth), @(TabbedPaneHeight)\n@(+)
+STYLE DS_SETFONT | WS_CHILD\n@(+)
+FONT @(FontSize), "@(FontName)", @(FontWeight), @(FontIsItalic), @(FontCharSet)\n@(+)
+BEGIN\n@(+)
+    \tCONTROL "",IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_BODY_EDIT,"Button",BS_OWNERDRAW | WS_CLIPCHILDREN | WS_TABSTOP,@(BodyEditLeft),@(BodyEditTop),@(BodyEditWidth),@(BodyEditHeight)\n@(+)
+END\n@(+)
+@(IfCreateRowForm(\n@(+)
+IDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_ROW_FORM DIALOGEX 0, 0, @(DBTRowFormWidth), @(DBTRowFormHeight)\n@(+)
+STYLE DS_SETFONT | WS_CHILD\n@(+)
+FONT @(FontSize), "@(FontName)", @(FontWeight), @(FontIsItalic), @(FontCharSet)\n@(+)
+BEGIN\n@(+)
+@(RepeatOnLabels{@(+)
+	\tLTEXT\t"@(ColumnLabelTitle)",IDC_STATIC,@(ColumnLabelLeft),@(ColumnLabelTop),@(ColumnLabelWidth),@(ColumnLabelHeight)\n@(+)
+))@(+)
+@(_NOEMPTYLINES:RepeatOnRowFormColumns{@(+)
+	@(IfNotBoolColumn(@(+)
+		\t@(ColumnControlName) IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_ROW_FORM_@@(ColumnName),@(ColumnControlLeft),@(ColumnControlTop),@(ColumnControlWidth),@(ColumnControlHeight), WS_TABSTOP | @(ColumnControlStyles)@(+)
+	))@(+)
+	@(IfBoolColumn(\tPUSHBUTTON "@(ColumnTitle)",IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_@@(ColumnName),@(ColumnControlLeft),@(ColumnControlTop),@(ColumnControlWidth),@(ColumnControlHeight),WS_TABSTOP | BS_AUTOCHECKBOX)),@(+)
+"\r\n"})\n@(+)
+END\n@(+)
+))@(+)
+))@(+)
+,"\r\n"})
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+@(IsSlaveFormViewToCreate{@(+)
+\tIDD_@@(_RB(_)ClientDocumentName)_SLAVEFORMVIEW, DIALOG\n@(+)
+\tBEGIN\n@(+)
+\tEND,@(+)
+})
+@(RepeatOnTabbedPanes{@(+)
+\tIDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName), DIALOG\n@(+)
+\tBEGIN\n@(+)
+\tEND,@(+)
+"\r\n"})
+END
+#endif    // APSTUDIO_INVOKED
+
+@(IsSlaveFormViewToCreate{@(+)
+/////////////////////////////////////////////////////////////////////////////\n@(+)
+//\n@(+)
+// Bitmap\n@(+)
+//\n@(+)
+\n@(+)
+IDB_@@(_RB(_)ClientDocumentName)_BUTTON_NORMAL_LARGE BITMAP MOVEABLE PURE "res\\@@(ClientDocumentClassName)Large.bmp"\n@(+)
+IDB_@@(_RB(_)ClientDocumentName)_BUTTON_NORMAL_SMALL BITMAP MOVEABLE PURE "res\\@@(ClientDocumentClassName)Small.bmp"\n@(+)
+IDB_@@(_RB(_)ClientDocumentName)_BUTTON_DISABLED_LARGE BITMAP MOVEABLE PURE "res\\@@(ClientDocumentClassName)LargeDisabled.bmp"\n@(+)
+IDB_@@(_RB(_)ClientDocumentName)_BUTTON_DISABLED_SMALL BITMAP MOVEABLE PURE "res\\@@(ClientDocumentClassName)SmallDisabled.bmp"\n@(+)
+\n@(+)
+})
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+@(IsSlaveFormViewToCreate(IDD_@@(_RB(_)ClientDocumentName)_SLAVEFORMVIEW "@(ClientDocumentTitle)"))
+@(RepeatOnTabbedPanes{\tIDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName) "@(TabTitle)","\r\n"})
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

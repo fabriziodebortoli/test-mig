@@ -1,0 +1,23 @@
+{
+    "id": "IDD_SOS_CONFIGURATION_VIEW",
+    "type": 1 /*View*/,
+    "child": true,
+    "name": "DMSSOSConfiguration",
+    "context": "uisosconfiguration",
+    "items": [
+    {
+        "id": "IDC_TG_SOS_CONFIGURATION",
+        "name": "DMSSOSConfiguration",
+        "type": 72 /*TileGroup*/,
+        "layoutType": 4 /*VBOX*/,
+        "items": [
+                {
+                    "href": "IDD_TD_SOS_CONFIGURATION"
+                },
+                {
+                    "href": "IDD_TD_SOS_CONFIGURATION_DOCCLASSES"
+                }
+            ]
+    }
+    ]
+}

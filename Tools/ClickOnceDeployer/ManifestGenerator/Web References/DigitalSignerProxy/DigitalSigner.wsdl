@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.microarea.it/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.microarea.it/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.microarea.it/">
+      <s:element name="SignBootstrapper">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="string1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string3" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SignBootstrapperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SignBootstrapperResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SignClickOnceManifest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="string1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string3" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SignClickOnceManifestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SignClickOnceManifestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SignBootstrapperSoapIn">
+    <wsdl:part name="parameters" element="tns:SignBootstrapper" />
+  </wsdl:message>
+  <wsdl:message name="SignBootstrapperSoapOut">
+    <wsdl:part name="parameters" element="tns:SignBootstrapperResponse" />
+  </wsdl:message>
+  <wsdl:message name="SignClickOnceManifestSoapIn">
+    <wsdl:part name="parameters" element="tns:SignClickOnceManifest" />
+  </wsdl:message>
+  <wsdl:message name="SignClickOnceManifestSoapOut">
+    <wsdl:part name="parameters" element="tns:SignClickOnceManifestResponse" />
+  </wsdl:message>
+  <wsdl:portType name="DigitalSignerSoap">
+    <wsdl:operation name="SignBootstrapper">
+      <wsdl:input message="tns:SignBootstrapperSoapIn" />
+      <wsdl:output message="tns:SignBootstrapperSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SignClickOnceManifest">
+      <wsdl:input message="tns:SignClickOnceManifestSoapIn" />
+      <wsdl:output message="tns:SignClickOnceManifestSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DigitalSignerSoap" type="tns:DigitalSignerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SignBootstrapper">
+      <soap:operation soapAction="http://www.microarea.it/SignBootstrapper" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignClickOnceManifest">
+      <soap:operation soapAction="http://www.microarea.it/SignClickOnceManifest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DigitalSignerSoap12" type="tns:DigitalSignerSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SignBootstrapper">
+      <soap12:operation soapAction="http://www.microarea.it/SignBootstrapper" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignClickOnceManifest">
+      <soap12:operation soapAction="http://www.microarea.it/SignClickOnceManifest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DigitalSigner">
+    <wsdl:port name="DigitalSignerSoap" binding="tns:DigitalSignerSoap">
+      <soap:address location="http://localhost/DigitalSigner/DigitalSigner.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DigitalSignerSoap12" binding="tns:DigitalSignerSoap12">
+      <soap12:address location="http://localhost/DigitalSigner/DigitalSigner.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,6 @@
+﻿<Product localize="Digital Communications Professional Edition" activationversion="2" prodid="DC" editionid="PRO" >
+	<!-- Warning! This is the order in which MDCModules appear in setup screen, please don't change -->
+	<SalesModule name="MDC" defaultdemo="false" >
+		<Allow iso="IT,HU,BR" />
+	</SalesModule>
+</Product>

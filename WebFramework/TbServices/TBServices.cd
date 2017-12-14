@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Microarea.WebServices.TbServices.TbServices" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAAAgIBEKAAAAkEIACBQAEiAABBiQACAAEGAgAAAAA=</HashCode>
+      <FileName>TbServices.asmx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.WebServices.TbServices.TbLoaderInfo">
+    <Position X="2.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACQAAAIEEMAgAAACAAgCAkAAAgAAIIBQAFAA=</HashCode>
+      <FileName>TbLoaderInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.WebServices.TbServices.TbLoginInfo">
+    <Position X="4.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAIAAUAEAAEIBAAAgAAAAAAAABAQAAQQ=</HashCode>
+      <FileName>TbLoaderInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.WebServices.TbServices.TBServicesDiagnostic">
+    <Position X="6.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABQBAAAAAAAAAAAAAAAAAAAAAAAAABAAQA=</HashCode>
+      <FileName>TBServicesDiagnostic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

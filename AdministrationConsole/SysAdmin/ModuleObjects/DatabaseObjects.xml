@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DatabaseObjects>
+	<Signature>SysAdmin</Signature>
+	<Release>34</Release>
+	<Tables>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_DBMark">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_Providers">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_Logins">
+			<Create release="1" createstep="3" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_Companies">
+			<Create release="1" createstep="4" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CompanyRoles">
+			<Create release="1" createstep="5" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CompanyLogins">
+			<Create release="1" createstep="6" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CompanyRolesLogins">
+			<Create release="1" createstep="7" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_LoginsArticles">
+			<Create release="1" createstep="8" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_Trace">
+			<Create release="6" createstep="19" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_ADVSecurity">
+			<Create release="11" createstep="20" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CompanyDBSlaves">
+			<Create release="25" createstep="21" />
+		</Table>
+		<Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_SlaveLogins">
+			<Create release="25" createstep="22" />
+		</Table>
+    <Table namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_IMagoMenu">
+      <Create release="33" createstep="24" />
+    </Table>
+	</Tables>
+	<Views />
+	<Procedures>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CloneCompanyRoleGrants">
+			<Create release="1" createstep="9" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CloneCompanyLoginGrants">
+			<Create release="17" createstep="10" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CloneCompany">
+			<Create release="1" createstep="11" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_CloneCompanyRole">
+			<Create release="18" createstep="12" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_DeleteCompanyLogin">
+			<Create release="1" createstep="13" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_DeleteCompanyRole">
+			<Create release="1" createstep="14" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_DeleteCompany">
+			<Create release="1" createstep="15" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_DeleteLogin">
+			<Create release="1" createstep="16" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_DeleteCompanyRoleLogin">
+			<Create release="1" createstep="17" />
+		</Procedure>
+		<Procedure namespace="MicroareaConsole.SysAdmin.SysAdmin.MSD_DeleteCompanyRoleLogin">
+			<Create release="25" createstep="23" />
+		</Procedure>
+	</Procedures>
+</DatabaseObjects>

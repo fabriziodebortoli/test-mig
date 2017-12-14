@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DATAVALIDATION_MONITOR			GET_IDD(IDD_DATAVALIDATION_MONITOR, D.Extensions.TbDataSynchroClient.DValidationMonitor)
+

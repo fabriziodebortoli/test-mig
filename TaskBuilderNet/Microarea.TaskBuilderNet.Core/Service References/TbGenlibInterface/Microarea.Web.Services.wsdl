@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:tns="urn:Microarea.Web.Services" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" name="TbGenlibUI" targetNamespace="urn:Microarea.Web.Services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:Microarea.Web.Services/Imports">
+      <xsd:import namespace="urn:Microarea.Web.Services" />
+      <xsd:import namespace="urn:Microarea.Web.Services.ExecOpenText" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="urn:Microarea.Web.Services.ExecOpenFormatter" />
+      <xsd:import namespace="urn:Microarea.Web.Services.ExecOpenFont" />
+      <xsd:import namespace="urn:Microarea.Web.Services.ExecManageFile" />
+      <xsd:import namespace="urn:Microarea.Web.Services.EnumsViewer" />
+      <xsd:import namespace="urn:Microarea.Web.Services.SetApplicationDate" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ExecOpenTextIn" />
+  <wsdl:message name="ExecOpenTextIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenTextOut">
+    <wsdl:part xmlns:q1="urn:Microarea.Web.Services.ExecOpenText" name="return" element="q1:return" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenTextOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_ExecOpenText_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q2:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenFormatterIn" />
+  <wsdl:message name="ExecOpenFormatterIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenFormatterOut">
+    <wsdl:part xmlns:q3="urn:Microarea.Web.Services.ExecOpenFormatter" name="return" element="q3:return" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenFormatterOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_ExecOpenFormatter_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q4:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenFontIn" />
+  <wsdl:message name="ExecOpenFontIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenFontOut">
+    <wsdl:part xmlns:q5="urn:Microarea.Web.Services.ExecOpenFont" name="return" element="q5:return" />
+  </wsdl:message>
+  <wsdl:message name="ExecOpenFontOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_ExecOpenFont_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q6:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="ExecManageFileIn" />
+  <wsdl:message name="ExecManageFileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ExecManageFileOut">
+    <wsdl:part xmlns:q7="urn:Microarea.Web.Services.ExecManageFile" name="return" element="q7:return" />
+  </wsdl:message>
+  <wsdl:message name="ExecManageFileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_ExecManageFile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q8:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="EnumsViewerIn" />
+  <wsdl:message name="EnumsViewerIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="EnumsViewerOut">
+    <wsdl:part xmlns:q9="urn:Microarea.Web.Services.EnumsViewer" name="return" element="q9:return" />
+  </wsdl:message>
+  <wsdl:message name="EnumsViewerOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_EnumsViewer_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q10:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="SetApplicationDateIn">
+    <wsdl:part xmlns:q11="urn:Microarea.Web.Services.SetApplicationDate" name="aDate" element="q11:aDate" />
+  </wsdl:message>
+  <wsdl:message name="SetApplicationDateIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetApplicationDateOut" />
+  <wsdl:message name="SetApplicationDateOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_SetApplicationDate_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q12:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="SetApplicationDateToSystemDateIn" />
+  <wsdl:message name="SetApplicationDateToSystemDateIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetApplicationDateToSystemDateOut" />
+  <wsdl:message name="SetApplicationDateToSystemDateOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_SetApplicationDateToSystemDate_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q13:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="ShowAboutFrameworkIn" />
+  <wsdl:message name="ShowAboutFrameworkIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ShowAboutFrameworkOut" />
+  <wsdl:message name="ShowAboutFrameworkOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TbGenlibUI_ShowAboutFramework_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q14:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:portType name="TbGenlibUI">
+    <wsdl:operation name="ExecOpenText">
+      <wsdl:input wsaw:Action="#ExecOpenText" name="ExecOpenTextIn" message="tns:ExecOpenTextIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecOpenTextResponse" name="ExecOpenTextOut" message="tns:ExecOpenTextOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecOpenTextTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_ExecOpenText_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecOpenFormatter">
+      <wsdl:input wsaw:Action="#ExecOpenFormatter" name="ExecOpenFormatterIn" message="tns:ExecOpenFormatterIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecOpenFormatterResponse" name="ExecOpenFormatterOut" message="tns:ExecOpenFormatterOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecOpenFormatterTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_ExecOpenFormatter_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecOpenFont">
+      <wsdl:input wsaw:Action="#ExecOpenFont" name="ExecOpenFontIn" message="tns:ExecOpenFontIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecOpenFontResponse" name="ExecOpenFontOut" message="tns:ExecOpenFontOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecOpenFontTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_ExecOpenFont_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecManageFile">
+      <wsdl:input wsaw:Action="#ExecManageFile" name="ExecManageFileIn" message="tns:ExecManageFileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecManageFileResponse" name="ExecManageFileOut" message="tns:ExecManageFileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ExecManageFileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_ExecManageFile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EnumsViewer">
+      <wsdl:input wsaw:Action="#EnumsViewer" name="EnumsViewerIn" message="tns:EnumsViewerIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/EnumsViewerResponse" name="EnumsViewerOut" message="tns:EnumsViewerOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/EnumsViewerTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_EnumsViewer_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetApplicationDate">
+      <wsdl:input wsaw:Action="#SetApplicationDate" name="SetApplicationDateIn" message="tns:SetApplicationDateIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/SetApplicationDateResponse" name="SetApplicationDateOut" message="tns:SetApplicationDateOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/SetApplicationDateTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_SetApplicationDate_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetApplicationDateToSystemDate">
+      <wsdl:input wsaw:Action="#SetApplicationDateToSystemDate" name="SetApplicationDateToSystemDateIn" message="tns:SetApplicationDateToSystemDateIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/SetApplicationDateToSystemDateResponse" name="SetApplicationDateToSystemDateOut" message="tns:SetApplicationDateToSystemDateOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/SetApplicationDateToSystemDateTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_SetApplicationDateToSystemDate_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ShowAboutFramework">
+      <wsdl:input wsaw:Action="#ShowAboutFramework" name="ShowAboutFrameworkIn" message="tns:ShowAboutFrameworkIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ShowAboutFrameworkResponse" name="ShowAboutFrameworkOut" message="tns:ShowAboutFrameworkOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TbGenlibUI/ShowAboutFrameworkTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TbGenlibUI_ShowAboutFramework_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TbGenlibUISoap" type="tns:TbGenlibUI">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExecOpenText">
+      <soap:operation soapAction="#ExecOpenText" style="document" />
+      <wsdl:input name="ExecOpenTextIn">
+        <soap:header message="tns:ExecOpenTextIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ExecOpenTextOut">
+        <soap:header message="tns:ExecOpenTextOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ExecOpenFormatter">
+      <soap:operation soapAction="#ExecOpenFormatter" style="document" />
+      <wsdl:input name="ExecOpenFormatterIn">
+        <soap:header message="tns:ExecOpenFormatterIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ExecOpenFormatterOut">
+        <soap:header message="tns:ExecOpenFormatterOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ExecOpenFont">
+      <soap:operation soapAction="#ExecOpenFont" style="document" />
+      <wsdl:input name="ExecOpenFontIn">
+        <soap:header message="tns:ExecOpenFontIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ExecOpenFontOut">
+        <soap:header message="tns:ExecOpenFontOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ExecManageFile">
+      <soap:operation soapAction="#ExecManageFile" style="document" />
+      <wsdl:input name="ExecManageFileIn">
+        <soap:header message="tns:ExecManageFileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ExecManageFileOut">
+        <soap:header message="tns:ExecManageFileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EnumsViewer">
+      <soap:operation soapAction="#EnumsViewer" style="document" />
+      <wsdl:input name="EnumsViewerIn">
+        <soap:header message="tns:EnumsViewerIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EnumsViewerOut">
+        <soap:header message="tns:EnumsViewerOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SetApplicationDate">
+      <soap:operation soapAction="#SetApplicationDate" style="document" />
+      <wsdl:input name="SetApplicationDateIn">
+        <soap:header message="tns:SetApplicationDateIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="SetApplicationDateOut">
+        <soap:header message="tns:SetApplicationDateOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SetApplicationDateToSystemDate">
+      <soap:operation soapAction="#SetApplicationDateToSystemDate" style="document" />
+      <wsdl:input name="SetApplicationDateToSystemDateIn">
+        <soap:header message="tns:SetApplicationDateToSystemDateIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="SetApplicationDateToSystemDateOut">
+        <soap:header message="tns:SetApplicationDateToSystemDateOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ShowAboutFramework">
+      <soap:operation soapAction="#ShowAboutFramework" style="document" />
+      <wsdl:input name="ShowAboutFrameworkIn">
+        <soap:header message="tns:ShowAboutFrameworkIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ShowAboutFrameworkOut">
+        <soap:header message="tns:ShowAboutFrameworkOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TbGenlibUI">
+    <wsdl:port name="TbGenlibUISoap" binding="tns:TbGenlibUISoap">
+      <soap:address location="http://usr-bruniluca:10000/Framework.TbGenlibUI.TbGenlibUI/TbGenlibUI" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.microarea.it/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.microarea.it/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.microarea.it/">
+      <s:element name="Track">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="amountCharge" type="s:decimal" />
+            <s:element minOccurs="1" maxOccurs="1" name="amountActivation" type="s:decimal" />
+            <s:element minOccurs="1" maxOccurs="1" name="vat" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalAmount" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TrackResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="LogInvalidDocumentFormat">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lotID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="details" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LogInvalidDocumentFormatResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="TrackSoapIn">
+    <wsdl:part name="parameters" element="tns:Track" />
+  </wsdl:message>
+  <wsdl:message name="TrackSoapOut">
+    <wsdl:part name="parameters" element="tns:TrackResponse" />
+  </wsdl:message>
+  <wsdl:message name="LogInvalidDocumentFormatSoapIn">
+    <wsdl:part name="parameters" element="tns:LogInvalidDocumentFormat" />
+  </wsdl:message>
+  <wsdl:message name="LogInvalidDocumentFormatSoapOut">
+    <wsdl:part name="parameters" element="tns:LogInvalidDocumentFormatResponse" />
+  </wsdl:message>
+  <wsdl:portType name="TrackerSoap">
+    <wsdl:operation name="Track">
+      <wsdl:input message="tns:TrackSoapIn" />
+      <wsdl:output message="tns:TrackSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LogInvalidDocumentFormat">
+      <wsdl:input message="tns:LogInvalidDocumentFormatSoapIn" />
+      <wsdl:output message="tns:LogInvalidDocumentFormatSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TrackerSoap" type="tns:TrackerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Track">
+      <soap:operation soapAction="http://www.microarea.it/Track" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogInvalidDocumentFormat">
+      <soap:operation soapAction="http://www.microarea.it/LogInvalidDocumentFormat" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TrackerSoap12" type="tns:TrackerSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Track">
+      <soap12:operation soapAction="http://www.microarea.it/Track" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogInvalidDocumentFormat">
+      <soap12:operation soapAction="http://www.microarea.it/LogInvalidDocumentFormat" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tracker">
+    <wsdl:port name="TrackerSoap" binding="tns:TrackerSoap">
+      <soap:address location="http://localhost/PostaLiteTrackerWS/Tracker.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TrackerSoap12" binding="tns:TrackerSoap12">
+      <soap12:address location="http://localhost/PostaLiteTrackerWS/Tracker.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

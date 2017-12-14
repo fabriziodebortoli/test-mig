@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_FILE_SYSTEM_CACHE			GET_IDD(IDD_FILE_SYSTEM_CACHE, M.Framework.TbGeneric.Dialogs)
+#define	IDC_FILE_SYSTEM_CACHE_OPERATION			GET_IDC(IDC_FILE_SYSTEM_CACHE_OPERATION)

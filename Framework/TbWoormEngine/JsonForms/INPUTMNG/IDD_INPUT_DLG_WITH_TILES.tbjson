@@ -1,0 +1,25 @@
+﻿{
+  "id": "IDD_INPUT_DLG_WITH_TILES",
+  "rcId": 1110,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 0,
+  "height": 0,
+  "caption": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "inputmng",
+  "items": [
+    {
+      "id": "IDC_INPUT_DLG_WITH_TILES_TILE_GROUP",
+      "type": 3,
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "clipChildren": true,
+      "ownerDraw": true
+    }
+  ]
+}

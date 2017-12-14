@@ -1,0 +1,69 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,1922,1038,3838) 
+PageLayout "default" 
+	Begin
+		Chart Chart_5
+			Begin
+				Alias 5
+				Title "vendite" 
+				Type 5
+				Rect (39,85,377,645) 
+					Begin
+
+					End
+				ChartCategories
+					Begin
+						DataSource w_category
+					End
+				ChartSeries
+					Begin
+						Title "serie_1" 
+						Type 5
+						DataSource w_db_1
+						Group 1
+						Transparent 0.6
+						Label True
+					End
+				ChartSeries
+					Begin
+						Title "serie_2" 
+						DataSource w_db_2
+						Group 1
+						Color (102,205,170) 
+						Transparent 0.6
+						Label True
+					End
+				ChartSeries
+					Begin
+						Title "serie_a" 
+						DataSource w_db_3
+						Group 2
+						Color (255,228,225) 
+						Label True
+					End
+				ChartSeries
+					Begin
+						Title "serie_b" 
+						DataSource w_db_1
+						Group 2
+						Color (255,182,193)
+						Label True
+					End
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			Array        Double       w_db_1 [23] Alias 1  Hidden  Input Init = [1.3 , 4.2 , 4.5 , 6.8 , 7.9] ;
+			Array        String       w_category [15] Alias 2  Hidden  Input Init = ["service a" , "service b" , "service c" , "service d" , "service e"] ;
+			Array        Double       w_db_2 [23] Alias 3  Hidden  Input Init = [4.3 , 5.5 , 1.7 , 3.9 , 3.3] ;
+			Array        Double       w_db_3 [23] Alias 4  Hidden  Input Init = [3.4 , 5.8 , 9.2 , 3.7 , 2.2] ;
+		End
+
+End
+

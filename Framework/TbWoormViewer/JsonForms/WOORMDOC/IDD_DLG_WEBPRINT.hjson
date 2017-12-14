@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DLG_WEBPRINT			GET_IDD(IDD_DLG_WEBPRINT, M.Framework.TbWoormViewer.WOORMDOC)

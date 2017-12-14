@@ -1,0 +1,70 @@
+﻿{
+  "id": "IDD_MANAGEFILE_WIZ_SEARCH",
+  "rcId": 1045,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 350,
+  "height": 210,
+  "child": true,
+  "enabled": false,
+  "systemMenu": true,
+  "context": "tbmanagefile",
+  "items": [
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Object type to copy in structure:",
+      "x": 118,
+      "y": 6,
+      "width": 209,
+      "height": 8,
+      "textAlign": 1
+    },
+    {
+      "id": "IDC_MNGFILEDLG_CMBOBJ",
+      "type": 12,
+      "x": 157,
+      "y": 15,
+      "width": 131,
+      "height": 58,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_MNGFILEDLG_BTNSEL",
+      "type": 3,
+      "text": "Find object",
+      "x": 159,
+      "y": 36,
+      "width": 130,
+      "height": 14
+    },
+    {
+      "id": "IDC_MNGFILEDLG_LIST",
+      "type": 24,
+      "x": 103,
+      "y": 56,
+      "width": 226,
+      "height": 148,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_IMAGE",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 81,
+      "height": 213,
+      "tabStop": false,
+      "bitmap": true
+    }
+  ]
+}

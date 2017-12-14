@@ -1,0 +1,62 @@
+//=============================================================================
+// module name  : @(DocumentViewFileName).cpp
+//=============================================================================
+#include "stdafx.h"
+
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(DocumentClassName).h>
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(DocumentViewFileName).h>
+
+#include <@(ModuleName)\@(LibrarySourceFolder)\@(DocumentClassName).hrc> 
+
+//TBWIZ-INJECT{@(DocumentViewClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#ifdef _DEBUG
+#undef THIS_FILE                                                        
+static char THIS_FILE[] = __FILE__;     
+#endif                                
+
+///////////////////////////////////////////////////////////////////////////////
+//			Class @(DocumentViewClassName) Implementation				
+///////////////////////////////////////////////////////////////////////////////
+IMPLEMENT_DYNCREATE(@(DocumentViewClassName), CMasterFormView)
+
+//-----------------------------------------------------------------------------
+BEGIN_MESSAGE_MAP(@(DocumentViewClassName), CMasterFormView)
+	//{{AFX_MSG_MAP(@(DocumentViewClassName))
+	//TBWIZ-INJECT{@(DocumentViewClassName)(MessageMap)
+	//TBWIZ-INJECT}
+	//}}AFX_MSG_MAP
+END_MESSAGE_MAP()
+
+//-----------------------------------------------------------------------------
+ @(DocumentClassName)* @(DocumentViewClassName)::GetDocument() const
+ { 
+	 return (@(DocumentClassName)*)m_pDocument; 
+ }
+
+//-----------------------------------------------------------------------------
+@(DocumentViewClassName)::@(DocumentViewClassName)()
+	:
+	CMasterFormView(_NS_VIEW("@(DocumentName)"), IDD_@@(_RB(_)DocumentName))
+{
+	//TBWIZ-INJECT{@(DocumentViewClassName)(Constructor)
+	//TBWIZ-INJECT}
+}
+
+//-----------------------------------------------------------------------------
+void @(DocumentViewClassName)::OnSetBatchButtonIDS()
+{  	
+	//TBWIZ-INJECT{@(DocumentViewClassName)(OnSetBatchButtonIDS)
+	//TBWIZ-INJECT}
+}
+
+//-----------------------------------------------------------------------------
+void @(DocumentViewClassName)::BuildDataControlLinks()
+{     
+	//TBWIZ-INJECT{@(DocumentViewClassName)(BuildDataControlLinks)
+	//TBWIZ-INJECT}
+}
+
+//TBWIZ-INJECT{@(DocumentViewClassName)(AdditionalCode)
+//TBWIZ-INJECT}

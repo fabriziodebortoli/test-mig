@@ -1,0 +1,34 @@
+﻿{
+  "id": "IDD_INPUT_DLG_SINGLE",
+  "rcId": 1110,
+  "type": 66,
+  "x": 18,
+  "y": 18,
+  "width": 102,
+  "height": 19,
+  "caption": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "inputmng",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 0,
+      "y": 0,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 51,
+      "y": 0,
+      "width": 50,
+      "height": 14
+    }
+  ]
+}

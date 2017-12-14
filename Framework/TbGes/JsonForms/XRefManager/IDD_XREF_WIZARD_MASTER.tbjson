@@ -1,0 +1,63 @@
+﻿{
+  "id": "IDD_XREF_WIZARD_MASTER",
+  "rcId": 1083,
+  "type": 66,
+  "text": "Link Creation Wizard",
+  "x": 0,
+  "y": 0,
+  "width": 322,
+  "height": 271,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "xrefmanager",
+  "items": [
+    {
+      "id": "IDC_XREF_WIZ_STATIC_SHEET_RECT",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 322,
+      "height": 242,
+      "tabStop": false,
+      "etchedFrame": 0
+    },
+    {
+      "id": "IDNO",
+      "type": 3,
+      "text": "< &Back",
+      "x": 101,
+      "y": 248,
+      "width": 54,
+      "height": 14
+    },
+    {
+      "id": "IDYES",
+      "type": 3,
+      "text": "&Next >",
+      "x": 155,
+      "y": 248,
+      "width": 54,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 210,
+      "y": 248,
+      "width": 54,
+      "height": 14
+    },
+    {
+      "id": "IDCLOSE",
+      "type": 3,
+      "text": "&Finish",
+      "x": 265,
+      "y": 248,
+      "width": 54,
+      "height": 14
+    }
+  ]
+}

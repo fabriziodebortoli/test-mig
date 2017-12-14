@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ShortcutsComboBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <metadata name="ShortcutContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>155, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ShortcutsComboBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ShortcutsComboBox.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ShortcutsComboBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="ShortcutsComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 1</value>
+  </data>
+  <data name="ShortcutsComboBox.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="ShortcutsComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>290, 26</value>
+  </data>
+  <data name="ShortcutsComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ShortcutsComboBox.Name" xml:space="preserve">
+    <value>ShortcutsComboBox</value>
+  </data>
+  <data name="&gt;&gt;ShortcutsComboBox.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.UI.MenuManagerWindowsControls.MenuShortcutsComboBox, Microarea.TaskBuilderNet.UI.MenuManagerWindowsControls, Version=3.0.3525.20122, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ShortcutsComboBox.Parent" xml:space="preserve">
+    <value>ComboPanel</value>
+  </data>
+  <data name="&gt;&gt;ShortcutsComboBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ComboPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ComboPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ComboPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>318, 28</value>
+  </data>
+  <data name="ComboPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ComboPanel.Name" xml:space="preserve">
+    <value>ComboPanel</value>
+  </data>
+  <data name="&gt;&gt;ComboPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ComboPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="ShortcutToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="RunShortcutButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="RunShortcutButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk3GBQAAAAAAADYEAAAoAAAAFAAAABQAAAABAAgAAAAAAAAAAAB0EgAAdBIAAAABAAAAAQAA/////9vr
+        7//X6+//0ufr/77S2//X5+v/up59/7rKzv/X6+v/xtvf/87j5/+GYU3/+862///Ouv/7zrr/xt/f/9Lr
+        6///28r/2+/v//vOsv9Npk3/OQBp/57n6/9VqlX//9fC///Xxv9FokX/MZox///Svv/3yrL/SaZJ/wAA
+        AP/718r/+9K+/2WyZf/Syo7//9e6/+/39///zrb/+86+/zmOzv//0rb/UapR/0GiQf/zxrL/9866/xR1
+        FP//0sL/FG0U/zWaNf/zyrr/886+/0WmRf8AAGn/OZ45/yiWKP+6jkH/+8qy/3G6cf/7yq7/IIog/wBx
+        AP9Zqln/+86u/6Lr7/8AqgD/AJYA/2m2af/70sL/HI4c/xymHP8ApgD/LZYt//fKtv8UlhT/PaI9/zma
+        Of9ttm3/JIok/z2ePf91unX/QaZB/55pAP9hruv/gsrr/9euaf+CQQD/eb55//fKuv/S567/0uPS/zkA
+        AP9hAAD/YQBB/wBBkv8AbQD//9Ky//fOvv/X67L/FLIU/xSaFP+Wypb/TapN/wCKAP8crhz//9/S/2Gu
+        Yf//0sb/FK4U/y2OLf9Jokn/6/P3/yiiJP/70rb/UaZR/ySSJP8gniD/AJIA//PKtv8AQY7/HHEc/4rG
+        iv8cshz/FHkU/yiKKP8AZQD//9vO/47Gjv81rjX////7/77r7/9haQD/Wa5Z/9frzv+m16b/AGmu/xyy
+        IP8AeQD/SapJ/zlBaf8gliD/gkFB/xR9FP8xljH/gs7v/9/v3/+iaQD/HIIc/0GqQf8kqiT/++ff/zkA
+        Qf8gpiD/II4g/9LOjv8UcRT/Ya7v/87fzv9FqkX/YbJh/zF9Mf8gcSD/KI4o/1WuWf8UphT/SaZN/4bC
+        hv8tmij/YUFB/1GmTf8tni3/HHEU//vbyv/3xrL/OaY5/7bbtv8cohz/AGkA/xSKFP8Ukhz/IHUg/xSm
+        HP8AngD/XapZ/5rOmv9Bqj3/gr6C//fGrv8UaRT/gs7r/yiSKP/3yq7/IIYg/12uXf+e6+//NY41/2my
+        af8oeSj/FJIU/7rr6//S587/0q5p/5LKkv81ojX/HKoc/12uYf8UqhT/JKIk/xxtHP/S687/RapJ/xyW
+        HP89qkH/9+Pb/1WqWf8UohT/KJoo/zmiOf8cnhz/FIYU/xx1HP99vn3/Xapd/7rn6/8AAAD/AAAA/wAA
+        AP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAA
+        AP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/2Ua
+        28XFk9zck5OTk9vb22dnZ4nebWdOTk5tbW1OTmdCs0pktrZCZ4nDRW1ISI8xjzFPFEvaRqRHR0dCZ8Nz
+        SDFPT09LqqZvnULPRmxHR7Znj0hPSxoaGhpkkYGBnbZobGxBR2ePjxoapaWlGku6kYGBnUFBbEFHZ0xP
+        GhoUFBSlZrZ5kYGBnUFBbKSyTE8US8tLy6rPz0LdkYGBhoBBtbJMGhrdZWV/ZXl5ed2GgYGBhmZkshoa
+        tp2BgYGBgYGBgYGBgYGBhkKyTBq2nYGBgYGBgYGBgYGBgYFltrIaFBciUFBQTcRNahRlgYGBecvaRRoU
+        FxcUFB4rS0tCZW+BgWWqtnRFcsFNIsHBwalytoZvgYGGtmSqSE4XTd1QTWrBchSGb4Elr0KqMY+PfMHd
+        pt1QImpqFJGBJa9CGk9PMY98anl5pt1QTSLBZZEHthQaGk8xSE5NZbhlplBQTU0iwaMXqRQUGk+PbVBl
+        uHndUE1NTSIizRcqqRQaMW2yhnlQQ8G3F2ZmZmZmGktLTzFIsmo=
+</value>
+  </data>
+  <data name="RunShortcutButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RunShortcutButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>290, 2</value>
+  </data>
+  <data name="RunShortcutButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 24</value>
+  </data>
+  <data name="RunShortcutButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;RunShortcutButton.Name" xml:space="preserve">
+    <value>RunShortcutButton</value>
+  </data>
+  <data name="&gt;&gt;RunShortcutButton.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.UI.MenuManagerWindowsControls.MenuShortcutsRunButton, Microarea.TaskBuilderNet.UI.MenuManagerWindowsControls, Version=3.0.3525.20122, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;RunShortcutButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RunShortcutButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>318, 28</value>
+  </data>
+  <data name="&gt;&gt;ShortcutContextMenu.Name" xml:space="preserve">
+    <value>ShortcutContextMenu</value>
+  </data>
+  <data name="&gt;&gt;ShortcutContextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenu, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShortcutToolTip.Name" xml:space="preserve">
+    <value>ShortcutToolTip</value>
+  </data>
+  <data name="&gt;&gt;ShortcutToolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>MenuShortcutsCompositeComboBox</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

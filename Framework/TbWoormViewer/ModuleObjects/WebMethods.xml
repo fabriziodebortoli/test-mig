@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- WARNING on regeneration process: there are some elements/attributes added by manual interaction -->
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetFrom" group="Mail" type="bool" securityhidden="true">
+      <Param name="From" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetSubject" group="Mail" type="bool" securityhidden="true">
+      <Param name="Subject" type="string" mode="in" />
+      <Param name="Append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetBody" group="Mail" type="bool" securityhidden="true">
+      <Param name="Body" type="string" mode="in" />
+      <Param name="Append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetMapiProfile" group="Mail" type="bool" securityhidden="true">
+      <Param name="MapiProfile" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetBodyTemplateFileName" group="Mail" type="bool" securityhidden="true">
+      <Param name="BodyTemplateFileName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetTo" group="Mail" type="bool" securityhidden="true">
+      <Param name="To" type="string" mode="in" />
+      <Param name="Append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetCc" group="Mail" type="bool" securityhidden="true">
+      <Param name="Cc" type="string" mode="in" />
+      <Param name="Append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetBcc" group="Mail" type="bool" securityhidden="true">
+      <Param name="Bcc" type="string" mode="in" />
+      <Param name="Append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetToCertified" group="Mail" type="bool" securityhidden="true">
+      <Param name="To" type="string" mode="in" />
+      <Param name="Append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetCertifiedFilter" group="Mail" type="bool" securityhidden="true">
+      <Param name="Filter" type="enum" basetype="32763" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetAttachment" group="Mail" type="bool" securityhidden="true">
+      <Param name="Attachment" type="string" mode="in" />
+      <Param name="AttachmentTitle" type="string" mode="in" />
+      <Param name="Append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetBodyParameter" group="Mail" type="bool" securityhidden="true">
+      <Param name="Name" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSend" group="Mail" type="bool" localize="Woorm predefined function to send an Email">
+      <Param name="AttachRDE" type="bool" mode="in" />
+      <Param name="AttachPDF" type="bool" mode="in" />
+      <Param name="Compress" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSendEx" group="Mail" type="bool" localize="Woorm predefined function to send an Email">
+      <Param name="exportType" type="string" mode="in" localize="'type'|ConcatPDF=1/0|Zip=1/0|" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.MailSetAttachmentReportName" group="Mail" type="bool" securityhidden="true" localize="Woorm predefined function to set the name of  the main attached report">
+      <Param name="AttachmentReportName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ReportSaveAs" type="bool" localize="Woorm predefined function to serialize the report">
+      <Param name="fileName" type="string" mode="in" localize="Output file path or namespace" />
+      <Param name="exportType" type="string" mode="in" localize="One from PDF|RDE|XLSX|DOCX|ODS|ODT|CSV|TXT|XML|FULL_XML|HTML" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ReportSaveAsAndAttach" type="bool" localize="Woorm predefined function to auto serialize the caller report on end print and attach to the document">
+      <Param name="fileName" type="string" mode="in" localize="Output file path or namespace" />
+      <Param name="exportType" type="string" mode="in" localize="One from PDF|RDE|XLSX|DOCX|ODS|ODT|CSV|TXT|XML|FULL_XML|HTML" />
+      <Param name="documentHandle" type="long" mode="in" localize="handle of the valid document used to attach the report" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ArchiveReport" type="bool" localize="Woorm predefined function to auto archive the caller report on end run">
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GeneratePapery" type="bool" localize="Woorm predefined function to generate a papery on end run">
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.RunReport" type="bool" localize="Woorm predefined function to run a sub-report">
+      <Param name="Namespace" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.RunDocument" group="Advanced" type="long" basetype="CAbstractFormDoc, CBaseDocument" localize="Woorm predefined function to run a document">
+      <Param name="Namespace" type="string" mode="in" localize="Document namespace" />
+      <Param name="ViewMode" type="string" mode="in" localize="Default|BackGround" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.BrowseDocument" group="Advanced" type="bool" localize="Woorm predefined function to browse a document.Indicates the keys after the handle as: 'KeyName1', value1, 'KeyName2', value2'">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CBaseDocument" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CloseDocument" group="Advanced" type="bool" localize="Woorm predefined function to close a document">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CBaseDocument" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.RunProgram" type="bool" localize="Woorm Predefined function to run an external executable program">
+      <Param name="cmd" type="string" mode="in" />
+      <Param name="cmdLine" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExpandTemplate" type="bool" localize="Woorm predefined function to expand a template document such as 'Mail Merge'" securityhidden="true" report="false">
+      <Param name="sourceNamespace" type="string" mode="in" />
+      <Param name="targetNamespace" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetTableRows" type="integer" localize="Woorm predefined function to get the table's rows number" securityhidden="true">
+      <Param name="TableName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetTableCurrentRow" type="integer" localize="Woorm predefined function to get the table's current row number" securityhidden="true">
+      <Param name="TableName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CurrentRowContainsCellTail" type="bool" localize="Woorm predefined function to check the table's current row contains cell tail string" securityhidden="true">
+      <Param name="TableName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CurrentRowContainsCellSubTotal" type="bool" localize="Woorm predefined function to check the table's current row contains cell subtotal" securityhidden="true">
+      <Param name="TableName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetRows" type="integer" localize="Woorm predefined function to get the table's rows number" securityhidden="true">
+      <Param name="id" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetCurrentRow" type="integer" localize="Woorm predefined function to get the table's current row number" securityhidden="true">
+      <Param name="id" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetReportPath" type="string" localize="Woorm Predefined function to get the caller report path" securityhidden="true">
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetReportNamespace" type="string" localize="Woorm Predefined function to get the caller report namespace" securityhidden="true">
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetReportName" type="string" localize="Woorm Predefined function to get the caller report name" securityhidden="true">
+      <Param name="StripExtension" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetReportModuleNamespace" type="string" localize="Woorm Predefined function to get the caller module namespace" securityhidden="true">
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetPrinterName" type="string" localize="Woorm Predefined function to get the selected printer name" securityhidden="true">
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetOwnerNamespace" type="string" localize="Woorm Predefined function to get the caller document namespace" securityhidden="true">
+      <Param name="docHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.IsAutoPrint" type="bool" localize="Woorm Predefined function to get the value of AutoPrint flag " securityhidden="true">
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryOpen" type="bool" localize="It open a cursor on a SQL SELECT statment to select data">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsOpen" type="bool" localize="It checkes a woorm query object open status" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryClose" type="bool" localize="It releases a woorm query object resources" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryRead" type="bool" localize="It fetches a row by an opened woorm query object " securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryReadOne" type="bool" localize="Open a woorm query object, fetch a single row and close" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryExecute" type="bool" localize="It executes a SQL statement such as INSERT,UPDATE,DELETE, etc.">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryCall" type="bool" localize="It executes a SQL stored procedure.">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <!--   
+ 
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsFailed" type="bool" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsEof" type="bool" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryGetSqlString" type="string" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryGetErrorInfo" type="string" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+    -->
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.UpdateOutputParametersEvenIfReportDoesNotFetchRecords" type="bool" mode="out" localize="Update output parameters even if the report does not fetch records" securityhidden="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.SkipContext" group="Advanced" type="bool" localize="The report skips the thread context filter" securityhidden="true" report="false" />
+    <!--
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecUpgradeReport" type="bool" mode="out" sourceInfo="Project: TbWoormViewer - source file: SoapFunctions.cpp." localize="Allow to update old report syntax" report="false" />
+    -->
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QuerySetConnection" group="Advanced" type="bool" localize="Set a specific sql connection to the woorm query object">
+      <Param name="queryName" type="string" mode="in" />
+      <Param name="connection" type="long" mode="in" basetype="SqlSession, SqlObject" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QuerySetCursorType" group="Advanced" type="bool" localize="Set a specific cursor type to the woorm query object">
+      <Param name="queryName" type="string" mode="in" />
+      <Param name="cursor" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetConnection" group="Advanced" type="long" localize="Get sql connection handle" baseType="SqlSession, SqlObject">
+      <Param name="ownerid" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.OpenConnection" group="Advanced" type="long" localize="Get a new sql connection handle" baseType="SqlSession, SqlObject">
+      <Param name="connectionString" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ConnectionLockRecord" group="Advanced" type="bool" localize="Taskbuilder lock record">
+      <Param name="Connection" type="long" mode="in" basetype="SqlSession, SqlObject" localize="Sql Connection handle or 0" />
+      <Param name="Table" type="string" mode="in" localize="Db table name" />
+      <Param name="LockKeyMsg" type="string" mode="in out" localize="Lock key description error when it fails on lock" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ConnectionUnlockRecord" group="Advanced" type="bool" localize="Taskbuilder unlock record">
+      <Param name="Connection" type="long" mode="in" basetype="SqlSession, SqlObject" localize="Sql Connection handle or 0" />
+      <Param name="Table" type="string" mode="in" localize="Db table name" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ConnectionUnlockAll" group="Advanced" type="bool" localize="Taskbuilder unlock all records">
+      <Param name="Connection" type="long" mode="in" basetype="SqlSession, SqlObject" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ConnectionBeginTrans" group="Advanced" type="bool" localize="Execute Begin Transaction on sql connection">
+      <Param name="Connection" type="long" mode="in" basetype="SqlSession, SqlObject" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ConnectionCommit" group="Advanced" type="bool" localize="Execute Commit on sql connection">
+      <Param name="Connection" type="long" mode="in" basetype="SqlSession, SqlObject" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ConnectionRollback" group="Advanced" type="bool" localize="Execute Rollback on sql connection">
+      <Param name="Connection" type="long" mode="in" basetype="SqlSession, SqlObject" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ConnectionClose" group="Advanced" type="bool" localize="Close the sql connection">
+      <Param name="Connection" type="long" mode="in" basetype="SqlSession, SqlObject" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteSetAddressee" group="PostaLite" type="bool" report="true" localize="Woorm predefined function to set the Addresee/Address for PostaLite services">
+      <Param name="Addressee" type="string" mode="in" />
+      <Param name="Address" type="string" mode="in" />
+      <Param name="City" type="string" mode="in" />
+      <Param name="County" type="string" mode="in" />
+      <Param name="Country" type="string" mode="in" />
+      <Param name="ZipCode" type="string" mode="in" />
+      <Param name="Fax" type="string" mode="in" />
+      <Param name="ISOCode" type="string" mode="in" />
+      <Param name="append" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteSetSendType" group="PostaLite" type="bool" report="true" localize="Woorm predefined function to set the Send Type for PostaLite services">
+      <Param name="DeliveryType" type="enum" basetype="32766" mode="in" />
+      <Param name="PrintType" type="enum" basetype="32765" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteSend" group="PostaLite" type="bool" localize="Woorm predefined function to send the report by PostaLite services">
+      <Param name="DeliveryType" type="enum" basetype="32766" mode="in" />
+      <Param name="PrintType" type="enum" basetype="32765" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.SendMail" group="Mail" type="bool" mode="out" localize="Woorm predefined function to send an email without the caller report" report="true">
+      <Param name="From" type="string" mode="in" />
+      <Param name="To" type="string" mode="in" />
+      <Param name="Cc" type="string" mode="in" />
+      <Param name="Bcc" type="string" mode="in" />
+      <Param name="Subject" type="string" mode="in" />
+      <Param name="Body" type="string" mode="in" />
+      <Param name="Attachments" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_Create" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="out" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Object with information about execution of one or more report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="reportNamespace" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_Dispose" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Object with information about execution of one or more report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_AddReport" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Add an element to list report to run" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="reportNamespace" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetAutoPrint" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Set automatic print report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="autoPrint" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetNoPrintDialog" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Disable visualisation of print window" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="noPrintDialog" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetCloseOnEndPrint" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Close automatically report when print is finished" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="closeOnEndPrint" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetIconized" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Run report in backgruond" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="iconized" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetHideFrame" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Hide report window" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="hideFrame" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetSilentMode" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Set unattended report mode" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="silent" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetSendEmail" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Send report by e-mail" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="sendEmail" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetAttachRDE" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Enclose to e-mail report in RDE format" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="attachRDE" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetAttachPDF" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Enclose to e-mail report in PDF format" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="attachPDF" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetAttachOther" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Enclose to e-mail report in specified format" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="attachOther" type="bool" mode="in" />
+      <Param name="expType" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetArchivePdfFormat" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Archive in PDF format using Easy Attachment" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="archive" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetCompressAttach" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Compress enclosures send by e-mail" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="compressAttach" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetOnePrintDialog" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Show only one print window in case of multiple reports" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="onePrintDialog" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetUniqueMail" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Send more reports using one e-mail" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="uniqueMail" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetConcatPDF" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="In case of print of more reports in PDF format, this will be queueing in a single file" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="concatPDF" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetPDFOutput" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Print report on PDF file" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="PDFOutput" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetPDFOutputPreview" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Show report preview in PDF format" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="PDFOutputPreview" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_AddOutputFileName" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Allow to set file name on which report will be printed" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="fileName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetRDEOutput" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Save the report in RDE file format" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="RDEOutput" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetExcelOutput" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Save the report in Ms. Excel file format" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="ExcelOutput" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_MailTo" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Manage e-mail \&quot;To\&quot; list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="to" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_MailCc" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Manage e-mail \&quot;Cc\&quot; list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="cc" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_MailBcc" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Manage e-mail \&quot;Bcc\&quot; list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="bcc" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_MailAttach" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Manage e-mail attachments" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="file" type="string" mode="in" />
+      <Param name="title" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_MailSubject" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Manage e-mail \&quot;Subject\&quot;" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="subject" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_MailBody" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Manage e-mail \&quot;Body\&quot;" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="body" type="string" mode="in" />
+      <Param name="isHtml" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_AddParameter" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Add report parameter by ref(in-out) call mode" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="paramName" type="string" mode="in" />
+      <Param name="value" type="long" basetype="DataObj, CContextObject" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetParamValue" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Set report parameter value" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="paramName" type="string" mode="in" />
+      <Param name="value" type="long" basetype="DataObj, CContextObject" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetUICulture" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Allow to set User Interface Culture which report will be printed" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="culture" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetPrinterName" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Set the Printer will be used by report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="name" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormInfo_SetExportOutputType" type="void" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Set the export type (&quot;PDF&quot;, &quot;RDE&quot;, &quot;XLS&quot;, &quot;DOC&quot;, &quot;CSV&quot;, &quot;HTML&quot;)" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormInfo, CFunctionDescription, CBaseDescription">
+      <Param name="handle" type="long" basetype="CWoormInfo, CFunctionDescription, CBaseDescription" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="expType" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormDoc_Close" group="Advanced" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Close the Report" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormDoc, CWoormDocObj, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CWoormDoc, CWoormDocObj, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.CWoormDoc_Print" group="Advanced" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\WOORMDOC.CPP." localize="Print the Report" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CWoormDoc, CWoormDocObj, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CWoormDoc, CWoormDocObj, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="bClose" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecNewReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to generate a new report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="docHandle" type="long" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to open an existing report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="reportNameSpace" type="string" mode="in" />
+      <Param name="docHandle" type="long" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecUpgradeReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to check syntax reports" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.IsUserReportsDeveloper" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow user to develop reports" report="false" inEasyBuilder="false" WCF="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetCompanyInfo" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Get Company Info by Tag" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="tagProperty" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetDocumentMethods" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="It retrives ownerid's namespace web-methods list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="handleDoc" type="long" mode="in" />
+      <Param name="arMethods" type="array" basetype="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.IsPostaLiteEnabled" group="PostaLite" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="It retrives PostaLite enable state" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeDeliveryType" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite DeliveryType" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="deliveryType" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodePrintType" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite Print Type" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="printType" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeStatus" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite envelope status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="status" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeCodeState" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite user status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="codeState" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeStatusExt" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite document external status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="status" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeErrorExt" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite document's external error" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="error" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_Bold" group="MiniHtml" type="string" mode="out" localize="Html add bold attribute to current font" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="txt" type="string" mode="in" />
+      <TbScript><![CDATA[ 
+          return "<b>" + txt + "</b>";
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_Italic" group="MiniHtml" type="string" mode="out" localize="Html add italic attribute to current font" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="txt" type="string" mode="in" />
+      <TbScript><![CDATA[ 
+          return "<i>" + txt + "</i>";
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_Underline" group="MiniHtml" type="string" mode="out" localize="Html add underline attribute to current font" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="txt" type="string" mode="in" />
+      <TbScript><![CDATA[ 
+          return "<u>" + txt + "</u>";
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_Strike" group="MiniHtml" type="string" mode="out" localize="Html add strike attribute to current font" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="txt" type="string" mode="in" />
+      <TbScript><![CDATA[ 
+          return "<s>" + txt + "</s>";
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_NewLine" group="MiniHtml" type="string" mode="out" localize="Html new line tag" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <TbScript><![CDATA[ 
+          return "<Br>";
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_ColorRGB" group="MiniHtml" type="string" mode="out" localize="Format html hexadecimal color" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="rgbColor" type="long" mode="in" />
+      <TbScript><![CDATA[ 
+          return Format(rgbColor, '#%06x');
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_Color" group="MiniHtml" type="string" mode="out" localize="Format html hexadecimal color" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="r" type="integer" mode="in" />
+      <Param name="g" type="integer" mode="in" />
+      <Param name="b" type="integer" mode="in" />
+      <TbScript><![CDATA[ 
+          return Framework.TbWoormViewer.TbWoormViewer.H_ColorRGB(Rgb(r,g,b));
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_Font" group="MiniHtml" type="string" mode="out" localize="Html create new colored font" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="txt" type="string" mode="in" />
+      <Param name="faceName" type="string" mode="in" />
+      <Param name="fontSize" type="integer" mode="in" />
+      <Param name="fontColor" type="long" mode="in" value="0" />
+      <TbScript><![CDATA[ 
+           return "<font face='" + faceName + "' size='" + format(fontSize) + "' color='" + Framework.TbWoormViewer.TbWoormViewer.H_ColorRGB(fontColor) + "' >" + txt + "</font>";
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_HDiv" group="MiniHtml" type="string" mode="out" localize="Html create new horizontal div" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
+      <Param name="txt" type="string" mode="in" />
+      <Param name="width" type="integer" mode="in" />
+      <Param name="align" type="string" mode="in" value="left" />
+      <Param name="overflow" type="bool" mode="in" value="false" />
+      <Param name="fontColor" type="long" mode="in" value="-1" />
+      <Param name="bkgColor" type="long" mode="in" value="-1" />
+      <TbScript><![CDATA[ 
+           string div = "<div style='width:" + format(width) + "px;text-align:" + align + ";";
+           div = div + (overflow ? "overflow:auto;" : "float:left;" );  
+           if fontColor != -1 then div = div + "color:" + Framework.TbWoormViewer.TbWoormViewer.H_ColorRGB(fontColor) + ";";
+           if bkgColor != -1 then div = div + "background-color:" + Framework.TbWoormViewer.TbWoormViewer.H_ColorRGB(bkgColor) + ";";
+           div = div + "'>" + txt + "</div>";
+           return div; 
+      ]]></TbScript>
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.TestDataLngParameter" type="long" mode="out" sourceInfo="File: Framework\TbWoormViewer\ExternalFunctionsTestSuite.cpp." localize="Test DataLng param" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="longParamIn" type="long" mode="in" />
+      <Param name="longParamInOut" type="long" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.TestDataStrParameter" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\ExternalFunctionsTestSuite.cpp." localize="Test DataStr param" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="strParamIn" type="string" mode="in" />
+      <Param name="strParamInOut" type="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.TestDataArrayParameter" type="array" basetype="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\ExternalFunctionsTestSuite.cpp." localize="Test DataArray param" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="arIntegerParamIn" type="array" basetype="integer" mode="in" />
+      <Param name="arIntegerParamInOut" type="array" basetype="integer" mode="in out" />
+      <Param name="arStringParamIn" type="array" basetype="string" mode="in" />
+      <Param name="arStringParamInOut" type="array" basetype="string" mode="in out" />
+    </Function>
+  </Functions>
+</FunctionObjects>

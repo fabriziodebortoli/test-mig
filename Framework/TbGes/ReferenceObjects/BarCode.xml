@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function type="string" namespace="Framework.TbGes.TbGes.BarCode" localize="Bar Code" />
+  <DbField name="BarCode" />
+  <ComboBox/>
+</HotKeyLink>

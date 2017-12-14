@@ -1,0 +1,42 @@
+﻿{
+    "id": "IDD_TD_MASSIVEARCHIVE_RW_BARCODE",
+    "type": 71 /*Tile*/,
+    "context": "uimassiveattach",
+    "width": 325,
+    "height": 177,
+    "x": 0,
+    "y": 0,
+    "hasStaticArea": true,
+    "text": "Barcode",
+    "items": [
+        {
+            "id": "IDC_MASSIVEARCHIVE_RW_BARCODE",
+            "type": 2, /*Label*/
+            "controlClass": "StringStatic",
+            "binding": {
+                "datasource": "DocBarcodeValue"
+            },
+            "controlCaption": "Value",
+            "group": true,
+            "height": 8,
+            "width": 187,
+            "x": 101,
+            "y": 4
+        },
+        {
+            "id": "IDC_MASSIVEARCHIVE_RW_BARCODEVIEWER",
+            "type": 2,
+            "controlClass": "TBDMSBarcodeViewer",
+            "binding": {
+                "datasource": "DocBarcodeValueViewer"
+            },
+            "text": "BarcodeViewer",
+            "clipChildren": true,
+            "ownerDraw": true,
+            "width": 216,
+            "height": 100,
+            "x": 101,
+            "y": 20
+        }
+    ]
+}

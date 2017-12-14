@@ -1,0 +1,39 @@
+﻿{
+  "id": "IDD_WEB_FILE_UPLOAD",
+  "rcId": 1009,
+  "type": 66,
+  "text": "Upload",
+  "x": 32,
+  "y": 32,
+  "width": 237,
+  "height": 137,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "dialogs",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "Upload",
+      "x": 39,
+      "y": 82,
+      "width": 50,
+      "height": 14,
+      "group": true,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 94,
+      "y": 112,
+      "width": 50,
+      "height": 14,
+      "group": true
+    }
+  ]
+}

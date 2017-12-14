@@ -1,0 +1,244 @@
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[SEC_EnumObjectType]'))
+drop view dbo.SEC_EnumObjectType
+go
+
+CREATE VIEW dbo.SEC_EnumObjectType
+AS
+  SELECT
+    3 AS [Function],
+    4 AS Report,
+    5 AS Document,
+    7 AS Batch,
+    8 As Tab,
+    15 As Bodyedit,
+    16 As BodyeditColumn,
+    17 As [Control],
+    10 As [DBTable],
+    11 As Hotlink,
+    13 As [DBView],
+    21 As FinderDocument
+ GO
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[SEC_EnumGrantType]'))
+drop view dbo.SEC_EnumGrantType
+go
+
+CREATE VIEW dbo.SEC_EnumGrantType
+AS
+  SELECT
+    1 AS [Execute],
+    2 AS Edit,
+    4 AS New,
+
+    8 AS [Delete],
+    16 As [Browse],
+    32 As CustomizeForm,
+
+    64 As EditQuery,
+    128 As [Import],
+    256 As [Export],
+    512 As SilentMode,
+    1024 As ExtendedBrowse,
+
+    8 As DeleteRow,
+    16 As AddRow,
+    32 As ShowRowView
+    
+go
+
+IF OBJECT_ID (N'dbo.SEC_DecodeOneGrant', N'FN') IS NOT NULL
+drop FUNCTION dbo.SEC_DecodeOneGrant
+GO
+
+CREATE FUNCTION dbo.SEC_DecodeOneGrant 
+(
+	@type int, @bitMask int
+)
+RETURNS varchar(32)
+AS
+BEGIN
+	RETURN CASE 
+		WHEN @bitMask = (SELECT [Execute] FROM SEC_EnumGrantType) THEN 'Execute'
+		WHEN @bitMask = (SELECT [Edit] FROM SEC_EnumGrantType) THEN 'Edit'
+		WHEN @bitMask = (SELECT [New] FROM SEC_EnumGrantType) THEN 'New'
+
+		WHEN @type <> (SELECT Bodyedit FROM SEC_EnumObjectType) AND
+		           @bitMask = (SELECT [Delete] FROM SEC_EnumGrantType) THEN 'Delete'
+		WHEN @type <> (SELECT Bodyedit FROM SEC_EnumObjectType) AND
+		           @bitMask = (SELECT [Browse] FROM SEC_EnumGrantType) THEN 'Browse'
+		WHEN @type <> (SELECT Bodyedit FROM SEC_EnumObjectType) AND
+		           @bitMask = (SELECT [CustomizeForm] FROM SEC_EnumGrantType) THEN 'CustomizeForm'
+
+		WHEN @type = (SELECT Bodyedit FROM SEC_EnumObjectType) AND
+		           @bitMask = (SELECT [DeleteRow] FROM SEC_EnumGrantType) THEN 'DeleteRow'
+		WHEN @type = (SELECT Bodyedit FROM SEC_EnumObjectType) AND
+		           @bitMask = (SELECT [AddRow] FROM SEC_EnumGrantType) THEN 'AddRow'
+		WHEN @type = (SELECT Bodyedit FROM SEC_EnumObjectType) AND
+		           @bitMask = (SELECT [ShowRowView] FROM SEC_EnumGrantType) THEN 'ShowRowView'
+
+		WHEN @bitMask = (SELECT [EditQuery] FROM SEC_EnumGrantType) THEN 'EditQuery'
+		WHEN @bitMask = (SELECT [Import] FROM SEC_EnumGrantType) THEN 'Import'
+		WHEN @bitMask = (SELECT [Export] FROM SEC_EnumGrantType) THEN 'Export'
+		WHEN @bitMask = (SELECT [SilentMode] FROM SEC_EnumGrantType) THEN 'SilentMode'
+		WHEN @bitMask = (SELECT [ExtendedBrowse] FROM SEC_EnumGrantType) THEN 'ExtendedBrowse'
+		ELSE ''
+		END
+END
+GO
+
+IF OBJECT_ID (N'dbo.SEC_DecodeGrants', N'FN') IS NOT NULL
+drop FUNCTION dbo.SEC_DecodeGrants
+GO
+-- versione abbandonata
+CREATE FUNCTION dbo.SEC_DecodeGrants 
+(
+	@type int, @grants int, @inheritmask int
+)
+RETURNS varchar(255)
+AS
+BEGIN
+	DECLARE @DescrGrants varchar(255)
+	DECLARE @bitmask int
+
+	set @DescrGrants = ''
+
+-- TODO occorre testare tutti i tipi di oggetto e tutti i tipi di permessi
+	if (@type = (select Document from dbo.SEC_EnumObjectType)) 
+	begin
+		set @bitmask = (select [Execute] from dbo.SEC_EnumGrantType);
+		
+		IF ((@bitmask & @inheritmask) <> 0)
+		BEGIN
+			set @DescrGrants = @DescrGrants + 'inherit Execute'
+		END
+		ELSE
+		BEGIN
+			IF (@DescrGrants != '') 
+			BEGIN
+				SET set @DescrGrants = @DescrGrants + ', '
+			END
+
+			IF ((@bitmask & @grants) <> 0)
+			BEGIN
+				set @DescrGrants = @DescrGrants + 'Execute'
+			END
+			ELSE
+			BEGIN
+				set @DescrGrants = @DescrGrants + 'Deny Execute'
+			END
+		END
+	end
+
+	RETURN @DescrGrants
+
+END
+GO
+
+IF OBJECT_ID (N'dbo.SEC_DecodeGrants2', N'FN') IS NOT NULL
+DROP FUNCTION SEC_DecodeGrants2
+GO
+
+CREATE FUNCTION dbo.SEC_DecodeGrants2 
+(
+	@type int, @grants int, @inheritmask int
+)
+RETURNS varchar(512)
+AS
+BEGIN
+	DECLARE @DescrGrants varchar(512)
+	DECLARE @DescrOneGrant varchar(32)
+	DECLARE @bitmask int
+	DECLARE @i int
+
+	SET @DescrGrants = ''
+
+	SET @i = 0
+	SET @bitmask = 1
+	WHILE @i < 11
+	BEGIN
+		SET @DescrOneGrant = dbo.SEC_DecodeOneGrant (@type, @bitmask)
+		
+		IF ((@bitmask & @inheritmask) <> 0)
+		BEGIN
+			IF (@DescrGrants != '') 
+			BEGIN
+				SET set @DescrGrants = @DescrGrants + ', '
+			END
+			set @DescrGrants = @DescrGrants + 'inherit ' + @DescrOneGrant
+		END
+		ELSE
+		BEGIN
+			IF (@DescrGrants != '') 
+			BEGIN
+				SET set @DescrGrants = @DescrGrants + ', '
+			END
+			IF ((@bitmask & @grants) <> 0)
+			BEGIN
+				set @DescrGrants = @DescrGrants + @DescrOneGrant
+			END
+			ELSE
+			BEGIN
+				set @DescrGrants = @DescrGrants + 'Deny ' + @DescrOneGrant
+			END
+		END
+		SET @bitmask = @bitmask * 2
+		SET @i = @i + 1
+	END
+
+	-- Return the result of the function
+	RETURN @DescrGrants
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[SEC_ShowGrants]'))
+DROP VIEW dbo.SEC_ShowGrants
+GO
+
+CREATE VIEW dbo.SEC_ShowGrants AS
+select 
+dbo.MSD_Objects.[NameSpace], dbo.MSD_Objects.[Localize],
+dbo.MSD_ObjectTypes.*, 
+dbo.MSD_ObjectGrants.*,
+dbo.SEC_DecodeGrants2(dbo.MSD_ObjectTypes.Type, dbo.MSD_ObjectGrants.Grants, dbo.MSD_ObjectGrants.InheritMask) AS DescriptionGrants
+from
+dbo.MSD_Objects, dbo.MSD_ObjectTypes, dbo.MSD_ObjectGrants
+where 
+dbo.MSD_ObjectGrants.ObjectId = dbo.MSD_Objects.ObjectId and
+dbo.MSD_Objects.TypeId = dbo.MSD_ObjectTypes.TypeId 
+GO
+
+/* ---- test on my sysdb, ID are variables */
+SELECT * FROM dbo.SEC_ShowGrants
+WHERE 
+CompanyId = 3 and
+RoleId = 25
+GO
+
+/* ---- Remove a group of objects by like on namespace
+delete
+from [dbo].[MSD_Objects]
+where parentid in
+(select objectid from [dbo].[MSD_Objects]
+ inner join [dbo].[MSD_ObjectTypes]
+on [dbo].[MSD_Objects].TypeId = [dbo].[MSD_ObjectTypes].TypeId
+and [MSD_ObjectTypes].[Type] = 8 and parentid = 0
+)
+
+delete
+from [dbo].[MSD_ObjectGrants]
+where objectid in (select objectid from MSD_Objects 
+where [NameSpace] like '%')
+go
+
+delete
+from [dbo].[MSD_ProtectedObjects]
+where objectid in (select objectid from MSD_Objects 
+where [NameSpace] like '%')
+go
+
+delete
+from [dbo].[MSD_Objects]
+where objectid in (select objectid from MSD_Objects 
+where [NameSpace] like '%')
+
+*/

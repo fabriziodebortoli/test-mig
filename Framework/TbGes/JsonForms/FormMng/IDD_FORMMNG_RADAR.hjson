@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_FORMMNG_RADAR			GET_IDD(IDD_FORMMNG_RADAR, M.Framework.TbGes.FormMng)
+#define	IDC_FORMMNG_RADAR_LIST			GET_IDC(IDC_FORMMNG_RADAR_LIST)

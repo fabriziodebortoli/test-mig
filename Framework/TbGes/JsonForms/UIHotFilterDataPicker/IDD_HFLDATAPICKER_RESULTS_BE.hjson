@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_HFLDATAPICKER_RESULTS_BE			GET_IDD(IDD_HFLDATAPICKER_RESULTS_BE, M.Framework.TbGes.UIHotFilterDataPicker)
+#define	IDC_HFLDATAPICKER_RESULTS_BE			GET_IDC(IDC_HFLDATAPICKER_RESULTS_BE)

@@ -1,0 +1,32 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormEngine\JsonForms\TBLDLG\IDD_ADD_CALCULATE_COLUMN.hjson>
+#include	<TbWoormEngine\JsonForms\TBLDLG\IDD_ADD_JOIN.hjson>
+#include	<TbWoormEngine\JsonForms\TBLDLG\IDD_MOD_TBLRULE.hjson>
+#include	<TbWoormEngine\JsonForms\TBLDLG\IDD_MOD_TBLRULE_EX.hjson>
+#include	<TbWoormEngine\JsonForms\TBLDLG\IDD_TBLRULE.hjson>
+#include	<TbWoormEngine\JsonForms\TBLDLG\IDD_TBLRULE_EX.hjson>
+#include	<TbWoormEngine\JsonForms\TBLDLG\IDD_TBLRULE_RS.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_EDIT1			GET_IDC(IDC_EDIT1)
+#define	IDC_FIELD_LIST			GET_IDC(IDC_FIELD_LIST)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_TBLDLG_INDICATOR_FIELD_NAME			GET_ID(ID_TBLDLG_INDICATOR_FIELD_NAME)
+#define	ID_TBLDLG_INDICATOR_MESSAGE			GET_ID(ID_TBLDLG_INDICATOR_MESSAGE)
+#define	ID_TBLDLG_INDICATOR_TABLE_NAME			GET_ID(ID_TBLDLG_INDICATOR_TABLE_NAME)
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBWOORMENGINE
+static UINT IDS_ID_TBLDLG_INDICATOR_TABLE_NAME		=GET_IDS(ID_TBLDLG_INDICATOR_TABLE_NAME, _TB_STRING("Table Name"), L"\\Framework\\TbWoormEngine\\TBLDLG.hjson");
+static UINT IDS_ID_TBLDLG_INDICATOR_FIELD_NAME		=GET_IDS(ID_TBLDLG_INDICATOR_FIELD_NAME, _TB_STRING("Show field name"), L"\\Framework\\TbWoormEngine\\TBLDLG.hjson");
+static UINT IDS_ID_TBLDLG_INDICATOR_MESSAGE		=GET_IDS(ID_TBLDLG_INDICATOR_MESSAGE, _TB_STRING("Generic message"), L"\\Framework\\TbWoormEngine\\TBLDLG.hjson");
+#endif
+

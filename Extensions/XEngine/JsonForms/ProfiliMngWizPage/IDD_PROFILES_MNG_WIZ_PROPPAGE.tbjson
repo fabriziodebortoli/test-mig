@@ -1,0 +1,188 @@
+﻿{
+  "id": "IDD_PROFILES_MNG_WIZ_PROPPAGE",
+  "rcId": 2226,
+  "type": 66,
+  "text": "Export Profiles",
+  "x": 0,
+  "y": 0,
+  "width": 425,
+  "height": 204,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "profilimngwizpage",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "x": 5,
+      "y": 0,
+      "width": 266,
+      "height": 153
+    },
+    {
+      "id": "IDC_PROFMNGWIZ_NEW_PROF",
+      "type": 3,
+      "text": "&New",
+      "x": 213,
+      "y": 11,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_PROFMNGWIZ_MOD_PROF",
+      "type": 3,
+      "text": "&Edit",
+      "x": 213,
+      "y": 33,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_PROFMNGWIZ_DEL_PROF",
+      "type": 3,
+      "text": "&Remove",
+      "x": 213,
+      "y": 55,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_PROFMNGWIZ_CLONE_PROF",
+      "type": 3,
+      "text": "&Clone",
+      "x": 213,
+      "y": 77,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_PROFMNGWIZ_RENAME_PROF",
+      "type": 3,
+      "text": "Ren&ame",
+      "x": 213,
+      "y": 99,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 9,
+      "x": 275,
+      "y": 0,
+      "width": 144,
+      "height": 153
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Each document is associated to profiles describing the collection of the data for an export process and the relationships between them.",
+      "x": 281,
+      "y": 12,
+      "width": 131,
+      "height": 38,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "In addition to the default profiles you can define custom profiles.",
+      "x": 281,
+      "y": 53,
+      "width": 131,
+      "height": 33,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "The user can select only ONE preferred profile from all the profiles related to a document. Such profile is normally applied as default to an export process whenever other settings are specified.",
+      "x": 281,
+      "y": 89,
+      "width": 131,
+      "height": 47,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 8,
+      "x": 14,
+      "y": 124,
+      "width": 20,
+      "height": 20
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 2,
+      "text": "Standard Profile",
+      "x": 36,
+      "y": 130,
+      "width": 61,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 8,
+      "x": 97,
+      "y": 124,
+      "width": 20,
+      "height": 20
+    },
+    {
+      "id": "IDC_STATIC_9",
+      "type": 2,
+      "text": "User Profile",
+      "x": 119,
+      "y": 130,
+      "width": 56,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_10",
+      "type": 8,
+      "x": 178,
+      "y": 124,
+      "width": 20,
+      "height": 20,
+      "transparent": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Preferred Profile",
+      "x": 200,
+      "y": 130,
+      "width": 70,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROFMNGWIZ_LISTCTRL",
+      "type": 26,
+      "style": 512,
+      "x": 9,
+      "y": 9,
+      "width": 198,
+      "height": 104,
+      "border": true,
+      "disableDragDrop": true,
+      "editLabels": true,
+      "alwaysShowSelection": true
+    },
+    {
+      "id": "IDC_STATIC_ADMIN_MSG",
+      "type": 2,
+      "text": "Attention please!This form allows you to save the profile only for the logged user.\n For a full management use the administration tools \"Export Profiles Management\"",
+      "x": 6,
+      "y": 162,
+      "width": 411,
+      "height": 27,
+      "border": true,
+      "visible": false,
+      "textAlign": 0
+    }
+  ]
+}

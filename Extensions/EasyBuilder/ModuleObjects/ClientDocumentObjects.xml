@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+  <ClientDocuments>
+    <ServerDocument type="family" class="CAbstractFormDoc">
+      <ClientDocument namespace="Extensions.EasyBuilder.TbEasyBuilder.CDEasyBuilder" localize="EasyBuilder connector" />
+    </ServerDocument>
+  </ClientDocuments>
+  <ClientForms>
+    <ClientForm name="D.Extensions.EasyBuilder.CDEasyBuilder.IDD_EASYSTUDIO_TOOLBAR" server="IDD_MASTER_FRAME" />
+  </ClientForms>
+</ClientDocumentObjects>

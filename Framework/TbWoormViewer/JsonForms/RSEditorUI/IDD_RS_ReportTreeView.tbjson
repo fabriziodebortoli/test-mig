@@ -1,0 +1,34 @@
+{
+   "context" : "rseditorui",
+   "height" : 258,
+   "id" : "IDD_RS_ReportTreeView",
+   "items" : [
+      {
+        "autoHScroll" : true,
+        "border" : true,
+        // "controlClass" : "StringEdit",
+        "height" : 12,
+        "id" : "IDC_RS_Tree_Finder",
+        "type" : 13, /*Edit*/
+        "width" : 207,
+        "x" : 1,
+        "y" : 1
+     },
+     {
+        "border" : true,
+        "hasButtons" : true,
+        "hasLines" : true,
+        "height" : 243,
+        "iconHeight" : 0,
+        "icons" : 0,
+        "id" : "IDC_RS_Tree",
+        "linesAtRoot" : true,
+        "type" : 26, /*Tree*/
+        "width" : 207,
+        "y": 14,
+        "x":  1
+      }
+    ],
+   "type" : 66, /*Panel*/
+   "width" : 211
+}

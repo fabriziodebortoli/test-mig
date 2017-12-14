@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+  <Documents>
+    <Document namespace="MDC.FATEL.Services.FATELAdditionalData" localize="Import Additional Data From FATEL" classhierarchy="BDFATELAdditionalData" defaultsecurityroles="MDC">
+    <InterfaceClass />
+      <ViewModes>
+        <Mode name="Default" />
+      </ViewModes>
+    </Document>
+  </Documents>
+</DocumentObjects>

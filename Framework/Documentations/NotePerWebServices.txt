@@ -1,0 +1,161 @@
+Il presente documento descrive la metodologia per esporre una funzione, creata all'interno di un'applicazione C++
+basata su TaskBuilder, a chiamate che utilizzino il protocollo SOAP.
+
+Condizioni di base: 
+
+1) la funzione da esporre alle chiamate SOAP deve utilizzare i tipi base di TaskBuilder (DataObj).
+Di seguito sono elencati i tipi supportati:
+- Tutti i tipi derivati da DataObj descritti in TBGeneric\DataObj.h
+- L'array DataObjArray
+
+2) la funzione deve essere dichiarata in un file .h ed implementata in un file .cpp (non sono ammesse
+implementazioni all'interno di un unico file). La funzione può eventualmente appartenere ad una classe:
+in tal caso deve avere specificatore di accesso 'public' e la classe di appartenenza deve essere istanziabile 
+con un costruttore di dafault privo di parametri, fatte salve le eccezioni più avanti trattate
+
+3) la definizione della funzione all'interno del file .cpp deve essere preceduta dal commento : //[TBWebMethod]
+
+4) per alcuni tipologie di DataObj, occorre anteporre al tipo, nel prototipo della funzione,
+un commento con uno specificatore di tipo base; questo è dovuto al fatto che il DataObj non identifica univocamente 
+un tipo base. Di seguito sono specificati in cui ciò si verifica:
+	- il tipo DataDate può rappresentare un 'time', un 'date' oppure un 'dateTime'
+	- il tipo DataLng può rappresentare un 'long' o un 'elapsedTime'
+	- il tipo DataEnum deve essere associato all'istanza specifica di enumerativo che rappresenta
+	- il tipo DataObjArray può contenere uno qualsiasi dei tipi rappresentati dai vari DataObj
+Per specificare un tipo base occorre come già detto inserire, subito dopo la dichiarazione di tipo, un commento contenente, 
+fra parentesi quadre, il tipo base desiderato; es.:
+
+//[TBWebMethod]
+DataLng/*[elapsedTime]*/ TestDataLng (DataLng/*[elapsedTime]*/  input)
+{
+	...
+}
+	
+Di seguito è riportata la tabella dei tipi base associati ai vari DataObj (laddove necessario specificarne uno)
+
+	DataLng			[elapsedTime], [long] 			[long] è il default e può essere omesso
+	
+	DataDate		[dateTime], [date], [time]		[date] è il default
+	
+	DataEnum		[<enumerativo>]				<enumerativo> è definito dal programmatore;
+									nessun default
+	
+	DataObjArray		[string], [integer], [long], [double],	nessun default
+				[percent], [quantity], [money], 
+				[uuid], [date], [time], [dateTime], 
+				[bool], [elapsedTime]
+ 
+5) Se non si desidera rendere visibile la funzione a Woorm occorre usare la sintassi:
+	//[TBWebMethod(woorm_method=false)]
+nella dichiarazione di web method, di default la funzione è visibile a Woorm
+
+6) E' supportato il passaggio di parametri utilizzando i puntatori (*) oppure i refenence (&); se l'argomento
+è un puntatore od un reference, la variabile è considerata di tipo [in, out], altrimenti il tipo è [in] (solo ingresso)
+
+
+Per esporre le funzioni così predisposte alle chiamate SOAP occorre:
+
+1) Installare il plugin di Visual Studio (Microarea Addin) che aggiungerà un'appropriata voce al menu 'Tools'; per installare
+il plugin si consiglia di aprire la relativa solution nell'ambiente di sviluppo e compilarne la versione più recente; la solution
+si trova nel progetto di Source Safe Standard\Tools.Net\MicroareaAddin (MicroareaAddin.sln) e contiene due progetti:
+	- il progetto dell'addin vero e proprio
+	- il progetto di setup
+Compilando la versione di release di entrambi e cliccando col tasto destro del mouse sul progetto di setup è possibile 
+effettuare l'installazione; affinché il plugin sia caricato una volta installato occorre uscire e rientrare nell'ambiente 
+di sviluppo. Si consiglia di effettuare il setup dall'ambiente di sviluppo perché più veloce: se è già presente una versione installata
+del plugin, questa viene rimossa in automatico da Visual Studio.
+
+2) selezionare i(l) file .cpp contenenti le funzioni 
+
+3) lanciare il comando 'Tools | Generate/Update Webservice Interface File'
+
+L'output della procedura consiste in:
+
+1) la creazione (o aggiornamento) del file SoapInterface.cpp, che espone le funzioni alla chiamata SOAP
+
+2) la creazione (o aggiornamento) del file ModuleObjects\WebMethods.xml contenente la informazioni relative alle funzioni
+esposte
+
+
+IMPORTANTE: POICHé I NOMI DEI PARAMETRI DELLE FUNZIONI CPP SONO ANCHE QUELLI ESPOSTI A LIVELLO DI WEB SERVICE, 
+I NOMI DEVONO ESSERE ATTRIBUITI SEGUENTO LA CAMEL CONVENTION 
+(ES. va bene: nomeParametroUno; NON VANNO BENE: NomeParametroUno, parametrouno, PARAMETROUNO).
+
+NON DEVONO IN NESSUN CASO ESSERE UTILIZZATI PREFISSI CHE INDICHINO IL TIPO DEL PARAMETRO (STILE DI NOTAZIONE
+UNGARA: strNome, bBooleano, ecc.).
+
+
+CASI PARTICOLARI: FUNZIONI CHE NECESSITANO DI UN CONTESTO DI ESECUZIONE
+
+Per alcune funzioni è necessario avere a disposizione un contesto di esecuzione, ossia un'area di memoria in
+cui salvare dati e oggetti di lavoro da condividere fra una chiamata e l'altra della funzione.
+
+Con la precedente gestione delle funzioni esterne, il contesto poteva essere creato implicitamente utilizzando 
+la classe 'FunctionDataInterface' passata alla funzione, che conteneva sia le variabili in ingresso e uscita della funzione, 
+sia la logica di gestione del contesto.
+
+Con la nuova gestione SOAP, il contesto deve essere creato ESPLICITAMENTE DENTRO IL REPORT utilizzando apposite 
+funzioni esterne costruttore. La funzione costruttore, invocata tipicamente nella fase iniziale di esecuzione
+del report, restituisce un handle di contesto: tale handle deve poi essere passato come argomento a tutte le funzioni
+esterne che si appoggiano a quel determinato contesto.
+
+Per esporre un contesto utilizzabile all'interno di un report (ma più genericamente da qualsiasi client SOAP) occorre:
+
+1) creare una classe di gestione del contesto; la classe dovrà essere dichiarata in un file .h ed implementata in un
+file .cpp; LA CLASSE DEVE DERIVARE, DIRETTAMENTE O INDIRETTAMENTE, DA COBject
+
+2) marcare il costruttore della classe (o i costruttori, se sono molteplici) come [TBWebMethod]; i costruttori
+[TBWebMethod] con parametri devono obbligatoriamente utilizzare i DataObj; se è presente più di un costruttore,
+non necessariamente tutti devono essere [TBWebMethod]
+
+3) definire tutte le funzioni esterne che necessitano del contesto all'interno della suddetta classe e marcarle 
+con [TBWebMethod]; 
+
+4) lanciare il tool di generazione dell'interfaccia SOAP; questo produrrà:
+	
+	- tante funzioni quante sono quelle marcate come [TBWebMethod]; ogni funzione generata avrà un parametro aggiuntivo
+	rispetto a quelli dichiarati in origine che servirà per ospitare l'handle di contesto; le funzioni avranno 
+	per nome <nome_classe>_Create nel caso di funzioni costruttore, <nome_classe>__nome_funzione> negli altri casi
+	
+	- una funzione <nome_classe>_Dispose per la deallocazione del contesto
+
+All'interno del report, occorrerà:
+
+1) allocare il contesto nella fase iniziale del report memorizzandone l'handle in una 
+variabile Long del report; es. handle = <nome_classe>_Create()
+
+2) invocare le funzioni passando l'handle di contesto;  es. <nome_classe>_<nome_funzione>(handle, ...)
+
+3) deallocare il contesto quando non più necessario; es. <nome_classe>_Dispose(handle)
+	
+
+ESISTE UN CASO PARTICOLARE DI FUNZIONE CHE NECESSITA DI CONTESTO: LA FUNZIONE DI DOCUMENTO.
+
+Per le funzioni di documento, il contesto è rappresentato dal documento stesso; per queste non occorre invocare 
+una funzione di allocazione, in quanto normalmente è il documento ad instanziare il report e pertanto
+in questo caso prima nasce il contesto, poi il report.
+
+Le funzioni di documento sono gestite in modo analogo a quelle che utilizzano il contesto; il costruttore del documento deve
+essere marcato come [TBWebMethod] e così pure tutte le funzioni esterne in esso contenute; esistono due importanti differenze:
+
+1) il documento non può essere istanziato facendo una semplice new della classe, ma occorre avere a disposizione
+un template di documento: pertanto, all'attributo [TBWebMethod] occorre passare come argomento il nome del template
+del documento (lo stesso indicato in fase di registrazione del template nell'interfaccia del modulo con la macro 
+BEGIN_DOCUMENT); i template associati ad un documento possono essere più di uno. Esempio:
+
+[TBWebMethod name="Clienti", name="ClientiRidotto"]
+CMyDocument::CMyDocument()
+
+
+2) non occorre instanziare il contesto all'interno del report (ovviamente nel caso in cui questo sia stato
+lanciato dal documento in questione): l'handle di contesto da passare alle funzioni esterne
+è in questo caso recuperabile utilizzando la variabile di ambiente OwnerID del report (definita di default).
+
+
+ESEMPI:
+
+- Il report "ordini con funzione di documento.wrm" di TestApplication\TaDataEntry\TaOrdini utilizza una funzione esterna di documento
+
+- Il report "TestContesto.wrm" di TestApplicationAddOnApp\TAFrameWork esemplifica la gestione di un contesto di chiamata
+
+- I files SoapFunctions.h, .cpp dei vari moduli e DEOrdini.h, .cpp del modulo ordini espongono le funzioni invocabili tramite SOAP

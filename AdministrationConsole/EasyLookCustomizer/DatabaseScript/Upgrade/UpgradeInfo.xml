@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UpgradeInfo>
+	<ModuleInfo name="EasyLookCustomizer" />
+	<DBRel numrel="2">
+		<Level1>
+			<Step numstep="1" script="Alter_MSD_EasyLookCustomSettings.sql"/>
+		</Level1>
+	</DBRel>
+	<DBRel numrel="3">
+		<Level1>
+			<Step numstep="1" script="Alter_MSD_EasyLookCustomSettings.sql"/>
+		</Level1>
+	</DBRel>
+	<DBRel numrel="4">
+		<Level1>
+			<Step numstep="1" script="Alter_MSD_EasyLookCustomSettings.sql"/>
+		</Level1>
+	</DBRel>
+</UpgradeInfo>

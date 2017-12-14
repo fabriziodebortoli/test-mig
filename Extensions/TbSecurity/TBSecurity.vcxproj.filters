@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{a3c25d5f-fd75-44ea-b631-108744b00fd1}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{5049636e-0645-4fd7-bf9b-701c2bb45cd1}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8003e41c-992b-4ac6-8aa4-bfdc4671c5ba}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{078dbf97-16f6-4dd2-b95f-570ebfb29182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Bitmap">
+      <UniqueIdentifier>{8d08c787-7f3d-4558-81bc-5fc7ccfa872c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModuleObjects">
+      <UniqueIdentifier>{b6c09686-d617-4f2b-9b92-26c24f744914}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="OslDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OslSecurityInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SecurityInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoapFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBSecurity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbSecurityWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TBSecurity.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Beginh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="endh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="res\OslDlgTreeImageList.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="ModuleObjects\WebMethods.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="Module.config" />
+    <None Include="res\OslDlgtreeImageList_new.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OslDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OslSecurityInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoapFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TBSecurity.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

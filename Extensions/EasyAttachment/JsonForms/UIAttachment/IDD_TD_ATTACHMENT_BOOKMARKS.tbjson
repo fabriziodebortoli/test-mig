@@ -1,0 +1,57 @@
+{
+  "context": "uiattachment",
+  "height": 134,
+  "id": "IDD_TD_ATTACHMENT_BOOKMARKS",
+  "items": [
+    {
+      "height": 28,
+      "id": "IDC_STATIC_AREA",
+      "tabStop": false,
+      "type": 9/*Group*/,
+      "vertAlign": 0,
+      "width": 100,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "group": true,
+      "height": 9,
+      "id": "IDC_STATIC",
+      "tabStop": false,
+      "text": "Free tags",
+      "textAlign": 2,
+      "type": 2/*Label*/,
+      "width": 98,
+      "y": 4,
+      "x": 0
+    },
+    {
+      "autoVScroll": true,
+      "border": true,
+      "height": 26,
+      "id": "IDC_ATT_FREE_TAGS",
+      "multiline": true,
+      "type": 13/*Edit*/,
+      "wantReturn": true,
+      "width": 187,
+      "x": 101,
+      "y": 2
+    },
+    {
+      "clipChildren": true,
+      "height": 101,
+      "id": "IDC_ATT_BE_BOOKMARKS",
+      "ownerDraw": true,
+      "text": "Bookmarks BodyEdit",
+      "type": 3/*Button*/,
+      "vertAlign": 0,
+      "width": 295,
+      "y": 30,
+      "x": 0
+    }
+  ],
+  "overlapped": true,
+  "tabStop": false,
+  "type": 66/*Panel*/,
+  "width": 295
+}

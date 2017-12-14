@@ -1,0 +1,213 @@
+{
+   "caption" : true,
+   "child" : false,
+   "context" : "barcode",
+   "height" : 174,
+   "id" : "IDD_BARCODE_SETTINGS",
+   "items" : [
+      {
+         "height" : -4,
+         "id" : "IDC_STATIC_1",
+         "type" : 9, /*Group*/
+         "visible" : false,
+         "width" : 135,
+         "x" : 4,
+         "y" : 101
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_2",
+         "text" : "Barcode value",
+         "type" : 2, /*Label*/
+         "width" : 196,
+         "x" : 6,
+         "y" : 8
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_BC_VALUE_EDIT",
+         "type" : 13, /*Edit*/
+         "width" : 160,
+         "x" : 5,
+         "y" : 18
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_3",
+         "text" : "&Type",
+         "type" : 2, /*Label*/
+         "width" : 97,
+         "x" : 175,
+         "y" : 8
+      },
+      {
+         "comboType" : 2, /*DropDownList*/
+         "height" : 12,
+         "id" : "IDC_BC_TYPE_COMBO",
+         "type" : 12, /*Combo*/
+         "vScroll" : true,
+         "width" : 106,
+         "x" : 175,
+         "y" : 18
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_4",
+         "text" : "Thin bar thickness",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 70,
+         "x" : 23,
+         "y" : 194
+      },
+      {
+         "autoHScroll" : true,
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_BC_BARWIDTH_EDIT",
+         "type" : 13, /*Edit*/
+         "visible" : false,
+         "width" : 69,
+         "x" : 25,
+         "y" : 202
+      },
+    {
+      "height": 49,
+      "id": "IDC_STATIC_5",
+      "text": "Orientation",
+      "type": 9, /*Group*/
+      "visible": false,
+      "width": 123,
+      "x": 7,
+      "y": 5
+    },
+    {
+      "group": true,
+      "height": 11,
+      "id": "IDC_BC_HORZ_RADIOBTN",
+      "tabStop": false,
+      "text": "Landscape",
+      "type": 10, /*Radio*/
+      "visible": false,
+      "width": 109,
+      "x": 13,
+      "y": 19
+    },
+    {
+      "height": 13,
+      "id": "IDC_BC_VERT_RADIOBTN",
+      "tabStop": false,
+      "text": "Portrait",
+      "type": 10, /*Radio*/
+      "visible": false,
+      "width": 107,
+      "x": 13,
+      "y": 34
+    },
+    {
+      "height": 15,
+      "id": "IDC_BC_SHOWLAB_CHECKBOX",
+      "text": "Show text",
+      "type": 11, /*Check*/
+      "visible": false,
+      "width": 103,
+      "x": 141,
+      "y": 39
+    },
+      {
+         "border" : true,
+         "group" : true,
+         "height" : 120,
+         "id" : "IDC_BC_TEST_STATIC",
+         "type" : 2, /*Label*/
+         "whiteFrame" : true,
+         "width" : 186,
+         "x" : 4,
+         "y" : 35
+      },
+      {
+         "default" : true,
+         "height" : 14,
+         "id" : "IDOK",
+         "text" : "&OK",
+         "type" : 3, /*Button*/
+         "width" : 56,
+         "x" : 80,
+         "y" : 159
+      },
+      {
+         "height" : 14,
+         "id" : "IDCANCEL",
+         "text" : "&Cancel",
+         "type" : 3, /*Button*/
+         "width" : 61,
+         "x" : 150,
+         "y" : 159
+      },
+      {
+         "comboType" : 2, /*DropDownList*/
+         "height" : 12,
+         "id" : "IDC_BC_CHECKSUM_COMBO",
+         "type" : 12, /*Combo*/
+         "vScroll" : true,
+         "visible" : false,
+         "width" : 83,
+         "x" : 23,
+         "y" : 222
+      },
+      {
+         "group" : true,
+         "height" : 10,
+         "id" : "IDC_STATIC_6",
+         "text" : "Checksum Digit Module",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 87,
+         "x" : 23,
+         "y" : 212
+      },
+      {
+         "group" : true,
+         "height" : 10,
+         "id" : "IDC_STATIC",
+         "text" : "Bars Height",
+         "type" : 2, /*Label*/
+         "visible" : false,
+         "width" : 92,
+         "x" : 25,
+         "y" : 253
+      },
+      {
+         "autoHScroll" : true,
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_BC_HEIGHT_EDIT",
+         "type" : 13, /*Edit*/
+         "visible" : false,
+         "width" : 59,
+         "x" : 25,
+         "y" : 265
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_BC_CUSTOM_BARS_HEIGHT",
+         "text" : "Customize  Bars Height",
+         "type" : 11, /*Check*/
+         "visible" : false,
+         "width" : 94,
+         "x" : 25,
+         "y" : 239
+      }
+   ],
+   "modalFrame" : true,
+   "systemMenu" : true,
+   "text" : "Barcode setting",
+   "type" : 66, /*Panel*/
+   "width" : 180,
+   "x" : 30,
+   "y" : 30
+}

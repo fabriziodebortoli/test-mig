@@ -1,0 +1,25 @@
+﻿#pragma once
+#ifdef JSON_FORMS
+
+#include	<TbNameSolver\TBResourcesMap.h>
+
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATASYNCHRO_VIEW.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATASYNCHRO_TOOLBAR.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATASYNCHRO_DOCK_PANE.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATA_SYNCHRO_STATUS.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATA_SYNCHRO_HISTORY.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATASYNCHRO_TILE_MNG.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATA_SYNCHRO_ACTIONS.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATA_SYNCHRO_INFO.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATA_VALIDATION_STATUS.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATA_SYNCHRO_HISTORY_IMS_HINTS.hjson>
+#include	<TbDataSynchroClient\JsonForms\UINotification\IDD_DATA_SYNCHRO_HISTORY_IMS.hjson>
+
+//	Type ID
+#define ID_FORCE_SYNCHRONIZATION			GET_ID(ID_FORCE_SYNCHRONIZATION)
+#define ID_FORCE_VALIDATION					GET_ID(ID_FORCE_VALIDATION)
+#define ID_DS_REFRESH_BTN					GET_ID(ID_DS_REFRESH_BTN)
+#define ID_DATA_SYNC_NOTIFICATION_TIMER		GET_ID(ID_DATA_SYNC_NOTIFICATION_TIMER)
+#else
+#include "UIProviders.hrc"
+#endif //JSON_FORMS

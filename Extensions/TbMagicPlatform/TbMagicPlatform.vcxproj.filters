@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f8541726-54f5-4b03-8392-086cd60a879d}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0c99d353-cbf7-4051-9345-64457909e62e}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{bfa69944-4fb6-400b-a134-b019f77d76ff}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="ModuleObjects">
+      <UniqueIdentifier>{6ce66b75-d2c5-45bb-b987-50f82ede2fa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript">
+      <UniqueIdentifier>{8108be27-5bfe-429c-a038-589f6edbfd31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create">
+      <UniqueIdentifier>{75202a5a-e012-4eaa-84bf-3e4c3354480b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create\All">
+      <UniqueIdentifier>{1056f074-418a-4be1-ab64-ddf8c2315fc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create\Oracle">
+      <UniqueIdentifier>{981ff21f-5103-407f-98cd-dbf31680e3a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CDBone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDTrigger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSubscriptionData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbMagicPlatformInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TExtGuid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CDBone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDTrigger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSubscriptionData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TExtGuid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbMagicPlatform.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModuleObjects\ClientDocumentObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\DatabaseObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\CreateInfo.xml">
+      <Filter>DatabaseScript\Create</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\All\TB_ExtGuid.sql">
+      <Filter>DatabaseScript\Create\All</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\Oracle\TB_ExtGuid.sql">
+      <Filter>DatabaseScript\Create\Oracle</Filter>
+    </None>
+    <None Include="Module.config" />
+  </ItemGroup>
+</Project>

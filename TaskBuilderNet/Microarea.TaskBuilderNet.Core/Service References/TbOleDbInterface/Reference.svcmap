@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="dd89b1a4-49f4-4d91-a0ad-7c1551ee2f0b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies>
+      <ReferencedAssembly AssemblyName="Microarea.TaskBuilderNet.Interfaces" />
+    </ReferencedAssemblies>
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Microarea.Web.Services.wsdl" MetadataType="Wsdl" ID="6385a15b-3761-412d-ac52-d241bde8e98a" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bc131207-6f9c-42e4-a681-037159dd4110" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SqlRecord_SetStorable.xsd" MetadataType="Schema" ID="4bb5d523-5a8b-4a20-80d9-20757a0b2ab1" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.xsd" MetadataType="Schema" ID="4d468072-8e78-4bb3-b463-09bfc18591f8" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.TaskBuilderNet.Core.SoapCall.xsd" MetadataType="Schema" ID="c82a5469-bc7f-4d11-bcd1-e66733594cb8" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SqlRecord_Copy.xsd" MetadataType="Schema" ID="4293a7af-1c2f-4632-8346-a5758105ad07" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetConnection.xsd" MetadataType="Schema" ID="b4678fd1-894f-4c51-bf9a-09576deb2c32" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.OpenConnection.xsd" MetadataType="Schema" ID="857aef12-7d75-4eea-8267-9b83c0bcc4da" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.CreateRecord.xsd" MetadataType="Schema" ID="ab36ef3c-965b-4bbe-bce7-518c69e7d4a3" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.Connection_Close.xsd" MetadataType="Schema" ID="d8114726-07a6-4335-abb6-1ce664985457" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.Connection_BeginTransaction.xsd" MetadataType="Schema" ID="e2d9c85a-5e21-4923-8d85-8f0aacddadcf" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.Connection_Commit.xsd" MetadataType="Schema" ID="3dca0a63-6b44-4a5d-a894-3a53cf4d007c" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.Connection_Rollback.xsd" MetadataType="Schema" ID="f8e8f3d4-51f9-4a65-89e4-6a101ce1862e" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="4082b38c-9821-48d1-a374-5f49bef035cc" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.GetExtraFiltering.xsd" MetadataType="Schema" ID="7723c778-343e-424a-829b-68f2da54d685" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SqlRecord_Clone.xsd" MetadataType="Schema" ID="2ef4a24d-5c8f-41b1-9bb6-dfe4670716b0" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SqlRecord_GetFieldValue.xsd" MetadataType="Schema" ID="6201fd03-27eb-4f93-902b-9483b9fdb4f7" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SqlRecord_SetFieldValue.xsd" MetadataType="Schema" ID="3c0d5598-04d9-4972-b4eb-68bc9a6bb02b" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+    <MetadataFile FileName="Microarea.Web.Services.SqlRecord_IsStorable.xsd" MetadataType="Schema" ID="39da20a9-0118-4fe5-8ef5-685caf3e6014" SourceId="1" SourceUrl="http://localhost:10000/Framework.TbOleDb.TbOleDb/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

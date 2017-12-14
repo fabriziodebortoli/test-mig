@@ -1,0 +1,32 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGenlibUI\JsonForms\FontsDialog\IDD_FONT_STYLE.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_STATIC_EDIT_FONT			GET_IDC(IDC_STATIC_EDIT_FONT)
+#define	IDC_STATIC_NON_EDIT_FONT			GET_IDC(IDC_STATIC_NON_EDIT_FONT)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_APPAREAFONT			GET_ID(ID_APPAREAFONT)
+#define	ID_COPYFONT			GET_ID(ID_COPYFONT)
+#define	ID_CUTFONT			GET_ID(ID_CUTFONT)
+#define	ID_DELETEFONT			GET_ID(ID_DELETEFONT)
+#define	ID_ESCAPEMENT_FONT			GET_ID(ID_ESCAPEMENT_FONT)
+#define	ID_FONT_APPLYIN			GET_ID(ID_FONT_APPLYIN)
+#define	ID_FONT_COPY			GET_ID(ID_FONT_COPY)
+#define	ID_FONT_CUT			GET_ID(ID_FONT_CUT)
+#define	ID_FONT_DELETE			GET_ID(ID_FONT_DELETE)
+#define	ID_FONT_FILTERTREE			GET_ID(ID_FONT_FILTERTREE)
+#define	ID_FONT_HELP			GET_ID(ID_FONT_HELP)
+#define	ID_FONT_OPEN			GET_ID(ID_FONT_OPEN)
+#define	ID_FONT_PASTE			GET_ID(ID_FONT_PASTE)
+#define	ID_FONT_RENAME			GET_ID(ID_FONT_RENAME)
+#define	ID_OPENFONT			GET_ID(ID_OPENFONT)
+#define	ID_PASTEFONT			GET_ID(ID_PASTEFONT)
+#define	ID_REFRESHFONT			GET_ID(ID_REFRESHFONT)
+#define	ID_RENAMEFONT			GET_ID(ID_RENAMEFONT)
+#define ID_APPLY_ALLCOLUM		GET_ID(ID_APPLY_ALLCOLUM)

@@ -1,0 +1,55 @@
+﻿{
+  "id": "IDD_APP_DATE",
+  "rcId": 1009,
+  "type": 66,
+  "text": "Operation Date",
+  "x": 9,
+  "y": 21,
+  "width": 151,
+  "height": 54,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "basefrm",
+  "items": [
+    {
+      "id": "IDC_APP_DATE",
+      "type": 13,
+      "x": 47,
+      "y": 18,
+      "width": 57,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 11,
+      "y": 37,
+      "width": 59,
+      "height": 12,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 81,
+      "y": 37,
+      "width": 59,
+      "height": 12
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Operation &Date",
+      "x": 5,
+      "y": 5,
+      "width": 141,
+      "height": 8,
+      "textAlign": 1
+    }
+  ]
+}

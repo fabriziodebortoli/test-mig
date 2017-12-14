@@ -1,0 +1,85 @@
+﻿{
+  "id": "IDD_BORDERS",
+  "rcId": 1142,
+  "type": 66,
+  "text": "Borders",
+  "x": 55,
+  "y": 38,
+  "width": 105,
+  "height": 100,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_BORDER_LEFT",
+      "type": 11,
+      "text": "&Left",
+      "x": 12,
+      "y": 17,
+      "width": 86,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_BORDER_RIGHT",
+      "type": 11,
+      "text": "&Right",
+      "x": 12,
+      "y": 32,
+      "width": 86,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_BORDER_TOP",
+      "type": 11,
+      "text": "To&p",
+      "x": 12,
+      "y": 47,
+      "width": 86,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_BORDER_BOTTOM",
+      "type": 11,
+      "text": "&Bottom",
+      "x": 12,
+      "y": 62,
+      "width": 86,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Borders",
+      "x": 5,
+      "y": 3,
+      "width": 97,
+      "height": 73
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 3,
+      "y": 83,
+      "width": 48,
+      "height": 13,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 53,
+      "y": 83,
+      "width": 48,
+      "height": 13
+    }
+  ]
+}

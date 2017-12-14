@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<HotKeyLink version="2" accessibility="Public" >
+
+<Function namespace="Extensions.TbMailer.TbMailer.CustSuppEmails" localize="Customer/Supplier's email address" type="string">
+  <Param name="p_CustSuppType" type="long" localize="Customer/Suppliers type" value="3211264" optional="true"/>
+  
+  <Param name="localized_StartCustomer" type="string" localize="From Customer" value="From Customer" optional="true"/>
+  <Param name="localized_EndCustomer" type="string" localize="To Customer" value="To Customer" optional="true"/>
+  <Param name="localized_StartSupplier" type="string" localize="From Supplier" value="From Supplier" optional="true"/>
+  <Param name="localized_EndSupplier" type="string" localize="To Supplier" value="To Supplier" optional="true"/>
+</Function>
+
+  <!-- Syntax allows comma separated db tables, the first is the hkl master table -->
+  <DbTable name="MA_CustSupp" loadFullRecord="false" /> 
+  <DbField name="MA_CustSupp.Email"/>
+  <DbFieldDescription name="MA_CustSupp.CompanyName" />
+
+  <Events>
+    <Event name="IsValid" type="bool">
+       <TbScript>
+        <![CDATA[ 
+        Begin
+              return MA_CustSupp.EMail != '';
+        End
+      ]]>
+      </TbScript>
+    </Event>
+    <Event name="OnAssignSelectedValue" type="bool">
+      <Param name="p_CtrlValue" type="string" localize="Control value" mode="in out" />
+      <Param name="p_HklValue" type="string" localize="Selected value" />
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              if p_CtrlValue != ''
+                then p_CtrlValue = p_CtrlValue + ';' + p_HklValue;
+                else p_CtrlValue = p_HklValue;
+        End
+      ]]>
+      </TbScript>
+    </Event>
+  </Events>
+  
+  <AskRules>
+    <![CDATA[ 
+    Variables 
+      String ask_StartCode [15,1] Alias 1 Hidden Input Init = "" ; 
+      String ask_EndCode [15,1] Alias 2 Hidden Input Init = "" ; 
+    End
+    Dialogs Begin 
+      Dialog AskCustomer "" 
+      Begin 
+         Controls Begin 
+            Begin 
+              ask_StartCode Prompt = (p_CustSuppType == 3211264 ? GetTitle("localized_StartCustomer") : GetTitle("localized_StartSupplier"))
+                  LowerLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ((p_CustSuppType == 3211264 ? 0 : 1), 2 ) ; 
+              ask_EndCode Prompt = (p_CustSuppType == 3211264 ? GetTitle("localized_EndCustomer") : GetTitle("localized_EndSupplier"))
+                  UpperLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ((p_CustSuppType == 3211264 ? 0 : 1), 2 ) ; 
+            End 
+         End 
+      End 
+    End     
+   ]]>
+  </AskRules>
+
+  <SelectionModes>
+ 
+    <Mode name="Default" type="query">
+  <![CDATA[  
+SELECT 
+     CustSupp AS CustSupp { COL MA_CustSupp.CustSupp }
+     ,CompanyName         { COL MA_CustSupp.CompanyName }
+     ,EMail {+} 
+       { WHEN GetDatabaseType ( ) != "ORACLE" 
+          EXPAND { CASE MA_CustSupp.CertifiedEMail WHEN '' THEN '' ELSE ';[C]' + MA_CustSupp.CertifiedEMail END   }
+          ELSE { Decode( MA_CustSupp.CertifiedEMail, '', '',  ';[C]' + MA_CustSupp.CertifiedEMail) }
+        }  { COL MA_CustSupp.EMail }
+     ,Address             { COL MA_CustSupp.Address }
+     ,ZIPCode             { COL MA_CustSupp.ZIPCode }
+     ,City                { COL MA_CustSupp.City }
+     ,County              { COL MA_CustSupp.County }
+     ,Country             { COL MA_CustSupp.Country }
+     ,ContactPerson       { COL MA_CustSupp.ContactPerson }
+     ,Notes               { COL MA_CustSupp.Notes }
+     ,Disabled            { COL MA_CustSupp.Disabled }
+     ,1 as sort           
+  FROM MA_CustSupp
+  WHERE 
+  CustSuppType = { IN p_CustSuppType } AND
+  CustSupp BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } AND
+  (EMail <> {''} OR CertifiedEMail <> {''} OR EXISTS (
+    SELECT Email FROM MA_CustSuppPeople
+    WHERE
+      MA_CustSuppPeople.CustSuppType = MA_CustSupp.CustSuppType AND
+      MA_CustSuppPeople.CustSupp = MA_CustSupp.CustSupp AND
+      MA_CustSuppPeople.Email <> {''}
+      ) OR EXISTS (
+    SELECT Email FROM MA_CustSuppBranches
+    WHERE
+      MA_CustSuppBranches.CustSuppType = MA_CustSupp.CustSuppType AND
+      MA_CustSuppBranches.CustSupp = MA_CustSupp.CustSupp AND
+      MA_CustSuppBranches.Email <> {''}
+      )
+   )
+   
+UNION SELECT 
+	  CustSupp {+} '-' {+} Branch AS CustSupp 
+    ,CompanyName 
+    ,EMail
+    ,Address
+    ,ZIPCode
+    ,City
+    ,County
+    ,Country  
+    ,ContactPerson
+    ,Notes
+    ,Disabled
+	  ,3 as sort
+  FROM MA_CustSuppBranches 
+  WHERE 
+  CustSuppType = { IN p_CustSuppType } AND
+  CustSupp BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } AND
+  (EMail <> {''} OR EXISTS (
+    SELECT Email FROM MA_CustSuppPeople
+    WHERE
+      MA_CustSuppPeople.CustSuppType = MA_CustSuppBranches.CustSuppType AND
+      MA_CustSuppPeople.CustSupp = MA_CustSuppBranches.CustSupp AND
+      MA_CustSuppPeople.Branch = MA_CustSuppBranches.Branch AND
+      MA_CustSuppPeople.Email <> {''}
+    )
+  )
+UNION SELECT 
+	  MA_CustSuppPeople.CustSupp {+} '-' {+} MA_CustSuppPeople.Branch AS CustSupp 
+    ,'>' {+} MA_CustSuppPeople.Name 
+    ,MA_CustSuppPeople.EMail 
+    ,{''} AS Address
+    ,{''} AS ZIPCode
+    ,{''} AS City
+    ,{''} AS County
+    ,{''} AS Country  
+    ,WorkingPosition 
+    ,MA_CustSuppPeople.Notes 
+    ,{FALSE} AS Disabled
+	  , { WHEN GetDatabaseType ( ) != "ORACLE" 
+        EXPAND { CASE MA_CustSuppPeople.Branch WHEN '' THEN 2 ELSE 4 END   }
+        ELSE { Decode( MA_CustSuppPeople.Branch, '', 2, ' ', 2, 4) }
+    } AS sort
+    
+  FROM MA_CustSuppPeople 
+  LEFT OUTER JOIN MA_CustSuppBranches
+  ON  
+	  MA_CustSuppPeople.CustSupp = MA_CustSuppBranches.CustSupp AND
+	  MA_CustSuppPeople.Branch = MA_CustSuppBranches.Branch AND
+    MA_CustSuppPeople.CustSuppType = MA_CustSuppBranches.CustSuppType 
+  WHERE 
+	  MA_CustSuppPeople.CustSuppType = { IN p_CustSuppType } AND
+    MA_CustSuppPeople.CustSupp BETWEEN { IN ask_StartCode } AND  { IN ask_EndCode } AND
+	  MA_CustSuppPeople.EMail <> {''}
+  ORDER BY CustSupp, sort
+]]>
+  </Mode>
+
+</SelectionModes>
+
+</HotKeyLink>

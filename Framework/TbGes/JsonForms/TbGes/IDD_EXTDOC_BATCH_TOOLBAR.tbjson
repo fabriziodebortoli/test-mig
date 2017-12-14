@@ -1,0 +1,89 @@
+﻿{
+	"id": "IDD_EXTDOC_BATCH_TOOLBAR",
+	"items": [
+		{
+			"id": "ID_EXTDOC_BATCH_TOOLBAR_MAIN",
+			"items": [
+				{
+					"hint": "Open the report related to the document",
+					"icon": "Framework.TbFrameworkImages.Images.25x25.Print.png",
+					"id": "ID_EXTDOC_REPORT",
+					"isDropdown": true,
+					"name": "Print",
+					"text": "Print",
+					"type": 15 /*ToolbarButton*/
+				},
+				{
+					"id": "ID_SEPARATOR",
+					"isSeparator": true,
+					"type": 15 /*ToolbarButton*/
+				},
+				{
+					"hint": "Run or interrupt the process",
+					"icon": "Framework.TbFrameworkImages.Images.25x25.Start.png",
+					"id": "ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN",
+					"name": "BatchStop",
+					"text": "Start",
+					"type": 15 /*ToolbarButton*/
+				},
+				{
+					"hint": "Pause or resume the process",
+					"icon": "Framework.TbFrameworkImages.Images.25x25.Resume.png",
+					"id": "ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN",
+					"name": "BatchPause",
+					"text": "Pause",
+					"type": 15 /*ToolbarButton*/
+				},
+				{
+					"alignRight": true,
+					"hint": "Exit",
+					"icon": "Framework.TbFrameworkImages.Images.25x25.Exit.png",
+					"id": "ID_EXTDOC_EXIT",
+					"name": "Exit",
+					"text": "Exit",
+					"type": 15 /*ToolbarButton*/
+				}
+			],
+			"name": "Main",
+			"text": "Main",
+			"type": 14 /*Toolbar*/
+		},
+		{
+			"id": "ID_EXTDOC_BATCH_TOOLBAR_TOOLS",
+			"items": [
+				{
+					"hint": "Customize the document",
+					"icon": "Framework.TbFrameworkImages.Images.25x25.Customize.png",
+					"id": "ID_EXTDOC_CUSTOMIZE",
+					"name": "Customize",
+					"text": "Customize",
+					"type": 15 /*ToolbarButton*/
+				},
+				{
+					"alignRight": true,
+					"hint": "Share document link",
+					"icon": "Framework.TbFrameworkImages.Images.25x25.SocialShare.png",
+					"id": "ID_ACTIONS_COPY",
+					"name": "ShareDocument",
+					"text": "Share",
+					"type": 15 /*ToolbarButton*/
+				},
+				{
+					"alignRight": true,
+					"hint": "Exit",
+					"icon": "Framework.TbFrameworkImages.Images.25x25.Exit.png",
+					"id": "ID_EXTDOC_EXIT",
+					"name": "Exit",
+					"text": "Exit",
+					"type": 15 /*ToolbarButton*/
+				}
+			],
+			"name": "Tools",
+			"text": "Tools",
+			"type": 14 /*Toolbar*/
+		}
+	],
+	"name": "AbstractFormDoc",
+	"type": 67, /*TabbedToolbar*/
+	"width": 57
+}

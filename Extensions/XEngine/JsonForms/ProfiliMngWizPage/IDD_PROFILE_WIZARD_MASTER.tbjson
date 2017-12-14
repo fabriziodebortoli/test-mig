@@ -1,0 +1,63 @@
+﻿{
+  "id": "IDD_PROFILE_WIZARD_MASTER",
+  "rcId": 2227,
+  "type": 66,
+  "text": "Export Profile Wizard",
+  "x": 0,
+  "y": 0,
+  "width": 341,
+  "height": 222,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "profilimngwizpage",
+  "items": [
+    {
+      "id": "IDC_PROF_WIZ_STATIC_SHEET_RECT",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 341,
+      "height": 193,
+      "tabStop": false,
+      "etchedFrame": 0
+    },
+    {
+      "id": "IDNO",
+      "type": 3,
+      "text": "< &Back",
+      "x": 105,
+      "y": 200,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDYES",
+      "type": 3,
+      "text": "&Next >",
+      "x": 155,
+      "y": 200,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 210,
+      "y": 200,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDCLOSE",
+      "type": 3,
+      "text": "&Finish",
+      "x": 265,
+      "y": 200,
+      "width": 50,
+      "height": 14
+    }
+  ]
+}

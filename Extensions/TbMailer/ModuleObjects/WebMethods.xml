@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Extensions.TbMailer.TbMailer.StartMailConnector" type="bool" mode="out" sourceInfo="File: Extensions\TbMailer\SoapFunctions.cpp." localize="Initialize Mail Connector extension" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Extensions.TbMailer.TbMailer.ConfigureSmtpParameter" type="bool" mode="out" sourceInfo="File: Extensions\TbMailer\SoapFunctions.cpp." localize="SMTP Send Settings Configuration" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aMailConnector Parameter Manager" />
+    <Function namespace="Extensions.TbMailer.TbMailer.ConfigureMailParameters" type="bool" mode="out" sourceInfo="File: Extensions\TbMailer\SoapFunctions.cpp." localize="Mail Settings Configuration" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aMailConnector Parameter Manager" />
+    <Function namespace="Extensions.TbMailer.TbMailer.PostaLiteSubscribe" type="bool" mode="out" sourceInfo="File: Extensions\TbMailer\PostaLiteMailConnectorMethods.cpp." localize="Subscribe PostaLite services" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aMailConnector Parameter Manager" />
+    <Function namespace="Extensions.TbMailer.TbMailer.GetPostaLiteDocument" type="bool" mode="out" sourceInfo="File: Extensions\TbMailer\PostaLiteMailConnectorMethods.cpp." localize="Get PostaLite msg's document" report="true" inEasyBuilder="false" WCF="true" defaultsecurityroles="aMailConnector Parameter Manager">
+      <Param name="msgID" type="long" mode="in" />
+      <Param name="tempFileName" type="string" mode="in out" />
+    </Function>
+  </Functions>
+</FunctionObjects>

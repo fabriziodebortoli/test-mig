@@ -1,0 +1,89 @@
+In TbGenlib.cpp mettere la gestione delle hookbox e degli spin
+In stdafx.h
+mettere :
+	#ifndef OEMRESOURCE
+	#define OEMRESOURCE			// To use any of the OBM_ constants, the constant 
+								// OEMRESOURCE must be defined before the Windows.h 
+								// header file is included
+	#endif
+	#include <TbGenlib\Src\toolbarx.h>	// 16Bit wrapper per tips e fly
+
+trasformare da
+	#define _WIN32_IE 0x0400	// Modificarlo con il valore appropriato per Internet Explorer 5.0 o versioni successive.
+in
+	#define _WIN32_IE 0x0500	// Modificarlo con il valore appropriato per Internet Explorer 5.0 o versioni successive.
+
+
+1)Creare una blank solution.
+2)Aggiungerci un project c++ MFC dll (selezionare  MFC extensions prima del finish)
+3)Proprietà C++-general mettere a NO la voce detect 64 bit portability
+4)Proprietà C++-Preprocessor definire la macro di esportazione simboli dalla dll (quella dichiarata in beginh.dex)
+	senza perdersi in release:
+			_WINDOWS;NDEBUG;_AFXEXT
+	ed in debug:
+			_WINDOWS;_DEBUG;_AFXEXT
+5)Proprietà Language: la gestione del WCHAR come "tipoincorporato=no" 
+6)includere tutti i file
+7)Escludere tutti i file *.rc ausiliari dalla compilazione 
+	(lasciare solo quello di progetto: es TbGenlib.rc in cui vanno inclusi quelli esclusi)
+
+
+IN PARTICOLARE PER GENLIB:
+Escludere dalla generazione il file attiva.c nella TbGenlib
+File dib.c proprietà eliminare il precompiled header (stdafx.h) della TbGenlib
+
+
+Ambiente VisualStudioNet (Tools->Options->Projects->VC++ Directories)
+
+	Library Files
+		C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\Framework\Lib\$(OutDir)
+		C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\OtherComponents\OcLib
+	
+	Include Files
+		C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\Framework
+		C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\OtherComponents\OcDev
+
+Linker:
+	Mettere le dipendenze dalle altre dll nella forma : 
+		TbXmlCore.lib
+		tab32d20.lib 
+		mtree32.lib 
+		BCLW32.lib 
+		version.lib 
+		odbc32.lib 
+		winmm.lib 
+		ltwvc_n.lib 
+		mpr.lib 
+		Vfw32.lib 
+		msxml2.lib 
+		zlib.lib
+
+	per le Dll extensions di Tb aggiugere la dipendenza nell'Input-link
+		es: x TbGenlib
+		 ..\lib\$(OutDir)\TbXmlCore.lib ..\lib\$(OutDir)\TbWrapperClass.lib
+
+Aggiungere un evento di post link: "CopyLibrary" con il contenuto
+	call %MicroareaUtility%\CopyDll.bat $(InputDir) $(OutDir) $(InputName) $(TargetExt)
+	
+Aggiungere tre variabili di ambiente per la installazione del client 
+	MicroareaClient=C:\MicroareaClient
+    MicroareaServer=C:\MicroareaServer
+    MicroareaVersion=Sviluppo
+	
+Aggiungere una variabile di environment MicroareaUtility che punta alla directory di installazione del server dove sono le utility
+
+	MicroareaUtility=%MicroareaServer%\%MicroareaVersion%\Running\Standard\TaskBuilder\Framework\TbUtility
+
+Mettere la Path delle Lib di OcBin nella Path di sistema
+	%MicroareaServer%\%MicroareaVersion%\Running\Standard\TaskBuilder\OtherComponents\OcBin
+
+						=========== 00000 ==================
+						
+Progetto TbLoader
+=================
+	Per lanciare TbLoader in Debug occorre mettere come path di esecuzione:
+		C:\MicroareaClient\Sviluppo\Debug
+	E nei parametri della command line occorre mettere il Tba di riferimento, ad esempio:
+		C:\MicroareaServer\Sviluppo\Running\Standard\AddOnApplications\WoormXp\Woorm\main\woorm.tba
+
+

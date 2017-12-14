@@ -1,0 +1,16 @@
+﻿{
+	"id": "ID_EXTDOC_TOOLBAR_TOOLS",
+	"items": [
+    {
+      "isDropdown": true,
+      "hint": "EasyStudio",
+      "icon": "Framework.TbFrameworkImages.Images.25x25.EasyStudio.png",
+      "id": "ID_FORM_EDITOR_EDIT",
+      "name": "TbEasyBuilder",
+      "text": "EasyStudio",
+      "type": 15
+    }
+	],
+	"name": "Tools",
+	"type": 14 /*Toolbar*/
+}

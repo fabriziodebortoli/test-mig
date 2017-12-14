@@ -1,0 +1,38 @@
+﻿{
+  "id": "IDD_RS_EngineTreeView",
+  "rcId": 21169,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 211,
+  "height": 258,
+  "child": true,
+  "context": "rseditorui",
+  "items": [
+    {
+      "autoHScroll": true,
+      "border": true,
+      //"controlClass": "StringEdit",
+      "height": 12,
+      "id": "IDC_RS_Tree_Finder",
+      "type": 13, /*Edit*/
+      "width": 207,
+      "x": 1,
+      "y": 1
+    },
+    {
+      "border": true,
+      "hasButtons": true,
+      "hasLines": true,
+      "height": 243,
+      "iconHeight": 0,
+      "icons": 0,
+      "id": "IDC_RS_Tree",
+      "linesAtRoot": true,
+      "type": 26, /*Tree*/
+      "width": 207,
+      "y": 14,
+      "x": 1
+    } 
+  ]
+}

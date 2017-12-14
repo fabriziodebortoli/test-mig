@@ -1,0 +1,1068 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CannotReplace" xml:space="preserve">
+    <value>Cannot replace '{0}' in file {1}; translation not found in dictionary.</value>
+  </data>
+  <data name="DamagedFile" xml:space="preserve">
+    <value>Selected file is damaged or contains corrupted data.</value>
+  </data>
+  <data name="ErrorParsingFormatters" xml:space="preserve">
+    <value>Error parsing formatters: {0}</value>
+  </data>
+  <data name="AddressError" xml:space="preserve">
+    <value>The URL specified for this tool is not valid: {0}.</value>
+  </data>
+  <data name="MissingTranslation" xml:space="preserve">
+    <value>The following translation has not been found in the parsed wrm file: 
+'{0}'</value>
+  </data>
+  <data name="DictionaryAlreadyExisting" xml:space="preserve">
+    <value>Dictionary '{0}' already exists for project '{1}'.</value>
+  </data>
+  <data name="SolutionModified" xml:space="preserve">
+    <value>Solution file has been modified, it has not been saved.</value>
+  </data>
+  <data name="ReferencesNotFound" xml:space="preserve">
+    <value>Project {0} references not found:</value>
+  </data>
+  <data name="ProcessNotFound" xml:space="preserve">
+    <value>No active valid process found!</value>
+  </data>
+  <data name="WarningDictionaryFile" xml:space="preserve">
+    <value>WARNING! If unmanaged dictionary file name is not equal to '{0}' the dictionary may become UNUSABLE.
+You should change this information only for Standard\Solutions files.
+Are you sure to continue?</value>
+  </data>
+  <data name="CopyingReferences" xml:space="preserve">
+    <value>Copying referenced assemblies...</value>
+  </data>
+  <data name="TranslationProgress" xml:space="preserve">
+    <value>Translation progress</value>
+  </data>
+  <data name="PreviewError" xml:space="preserve">
+    <value>Unable to show the preview.</value>
+  </data>
+  <data name="StringName" xml:space="preserve">
+    <value>String identifier: '{0}'</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Procedure failed</value>
+  </data>
+  <data name="CircularReference" xml:space="preserve">
+    <value>Circular references are not allowed!</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="ErrorLoadingGlossary" xml:space="preserve">
+    <value>Error loading Glossary for language: {0}.</value>
+  </data>
+  <data name="NoProjectSelected" xml:space="preserve">
+    <value>No selected project!</value>
+  </data>
+  <data name="ErrorCopyingDictionary" xml:space="preserve">
+    <value>Error copying dictionary '{0}'...</value>
+  </data>
+  <data name="TypeNotValid" xml:space="preserve">
+    <value>Please, type a valid name!</value>
+  </data>
+  <data name="MainFormCaption" xml:space="preserve">
+    <value>Dictionary Generator</value>
+  </data>
+  <data name="FileReaderError" xml:space="preserve">
+    <value>Exception reading file {0}</value>
+  </data>
+  <data name="ModuleNotFound" xml:space="preserve">
+    <value>Module not found. Preview will not be shown.</value>
+  </data>
+  <data name="WantToMigrateDictionaryPath" xml:space="preserve">
+    <value>Dictionary root path has been changed; do you want to copy existing dictionaries to the new location?</value>
+  </data>
+  <data name="BuildNotEnabled" xml:space="preserve">
+    <value>This kind of build is not enabled; to perform this action you have first to enable it from the environment settings menu.</value>
+  </data>
+  <data name="ErrorReadingConfigFile" xml:space="preserve">
+    <value>An error occurred reading configuration File. Some custom setting could have been lost.</value>
+  </data>
+  <data name="EntireSolution" xml:space="preserve">
+    <value>The entire solution (for current language)</value>
+  </data>
+  <data name="CurrentFolder" xml:space="preserve">
+    <value>Current folder</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CurrentFile" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="EmptyDataGridTitle" xml:space="preserve">
+    <value>No saved solutions</value>
+  </data>
+  <data name="NoTemplate" xml:space="preserve">
+    <value>It is impossible to create a dictionary, there is no existing dictionary to use as template.</value>
+  </data>
+  <data name="FileNotValid" xml:space="preserve">
+    <value>File non valid: {0}</value>
+  </data>
+  <data name="NoSelectedDirectories" xml:space="preserve">
+    <value>No directories specified!</value>
+  </data>
+  <data name="SaveSolutionCaption" xml:space="preserve">
+    <value>Save solution file</value>
+  </data>
+  <data name="SingleHintChoice" xml:space="preserve">
+    <value>Choose a single hint that you want to use to translate '{0}'.</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File not found: {0} </value>
+  </data>
+  <data name="GlossaryComboItems" xml:space="preserve">
+    <value>Choose an item{0}file{0}folder{0}project{0}solution</value>
+  </data>
+  <data name="NotValidGlossary" xml:space="preserve">
+    <value>This glossary file is not valid, because related xsl file is missing.</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Translation table related to item {0}.{1}Put your translation in the right column.</value>
+  </data>
+  <data name="SuggestionCaption" xml:space="preserve">
+    <value>Suggestion</value>
+  </data>
+  <data name="ModuleInfoNull" xml:space="preserve">
+    <value>ModuleInfo for {0} is null.</value>
+  </data>
+  <data name="CantEditBaseDictionary" xml:space="preserve">
+    <value>You cannot edit this dictionary because it is used as base language template.</value>
+  </data>
+  <data name="NoFindResult" xml:space="preserve">
+    <value>No occurrence of '{0}' found.</value>
+  </data>
+  <data name="CorruptedFile" xml:space="preserve">
+    <value>File corrupted: {0}.</value>
+  </data>
+  <data name="SaveFileError" xml:space="preserve">
+    <value>Error saving file {0}</value>
+  </data>
+  <data name="DictionaryFileError" xml:space="preserve">
+    <value>Error generating dictionary file: {0}</value>
+  </data>
+  <data name="NoSelectedItem" xml:space="preserve">
+    <value>No item has been selected.</value>
+  </data>
+  <data name="NoSelectedNode" xml:space="preserve">
+    <value>There aren't  selected tree nodes</value>
+  </data>
+  <data name="ErrorProcessingFile" xml:space="preserve">
+    <value>Error processing file: {0};
+{1}.</value>
+  </data>
+  <data name="ProcedureSuccessfully" xml:space="preserve">
+    <value>Procedure completed successfully</value>
+  </data>
+  <data name="CurrentProject" xml:space="preserve">
+    <value>Current project (for current language)</value>
+  </data>
+  <data name="GlossaryCaption" xml:space="preserve">
+    <value>Glossary</value>
+  </data>
+  <data name="ErrorApplyTranslation" xml:space="preserve">
+    <value>Error applying automatic translation:
+'{0}'</value>
+  </data>
+  <data name="RetrievingFiles" xml:space="preserve">
+    <value>Retrieving source files...</value>
+  </data>
+  <data name="ParseError" xml:space="preserve">
+    <value>Error processing file: {0}.</value>
+  </data>
+  <data name="SaveDirectoriesQuestion" xml:space="preserve">
+    <value>Do you want to save this list of directories?</value>
+  </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>No items have been found</value>
+  </data>
+  <data name="ChooseLanguage" xml:space="preserve">
+    <value>Choose Language</value>
+  </data>
+  <data name="CurrentResource" xml:space="preserve">
+    <value>All the translation tables with the same resource type in this project (for current language)</value>
+  </data>
+  <data name="ProjectFiles" xml:space="preserve">
+    <value>Project files</value>
+  </data>
+  <data name="ExtractingStringFrom" xml:space="preserve">
+    <value>Extracting strings from '{0}'...</value>
+  </data>
+  <data name="AllFiles" xml:space="preserve">
+    <value>All files</value>
+  </data>
+  <data name="BuildingDictionary" xml:space="preserve">
+    <value>Building dictionary for '{0}'</value>
+  </data>
+  <data name="ParametersError" xml:space="preserve">
+    <value>There are invalid parameters.</value>
+  </data>
+  <data name="SearchingMessage" xml:space="preserve">
+    <value>Searching in file {0}...</value>
+  </data>
+  <data name="Glossary" xml:space="preserve">
+    <value>Glossary</value>
+  </data>
+  <data name="CannotLoadIndex" xml:space="preserve">
+    <value>Cannot load resource index for dictionary '{0}'</value>
+  </data>
+  <data name="CopyingDictionary" xml:space="preserve">
+    <value>Copying dictionary '{0}'...</value>
+  </data>
+  <data name="RepeatedExtension" xml:space="preserve">
+    <value>This extension is already in list.</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="ProcedureAborted" xml:space="preserve">
+    <value>Procedure interrupted by the user.</value>
+  </data>
+  <data name="ModifiedPrj" xml:space="preserve">
+    <value>Solution {0}:
+Properties and\or references should be updated for the projects:{1}</value>
+  </data>
+  <data name="ApplyToAllDictionaries" xml:space="preserve">
+    <value>Do you want to apply changes to all dictionaries?</value>
+  </data>
+  <data name="ProgressForSolution" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="TBLoaderConnectionLost" xml:space="preserve">
+    <value>TBLoader application connection has been lost</value>
+  </data>
+  <data name="GlossaryProblem" xml:space="preserve">
+    <value>Problem saving glossary updates, some of these could not be saved. </value>
+  </data>
+  <data name="WrongCreateTable" xml:space="preserve">
+    <value>Error parsing CREATE TABLE statement in file {0}.</value>
+  </data>
+  <data name="NoFilterSelected" xml:space="preserve">
+    <value>No filter selected.</value>
+  </data>
+  <data name="Suggestion" xml:space="preserve">
+    <value>Suggestion:
+   {0}
+Do you want accept this?</value>
+  </data>
+  <data name="HtmlTagsChanged" xml:space="preserve">
+    <value>WARNING! If you modify HTML tags in your translation, the page may change its behaviour; are you sure to continue?</value>
+  </data>
+  <data name="Solution" xml:space="preserve">
+    <value>Solution</value>
+  </data>
+  <data name="GlossaryNotSaved" xml:space="preserve">
+    <value>Glossary saving failed</value>
+  </data>
+  <data name="CurrentCellError" xml:space="preserve">
+    <value>An error occurred during setting of current cell.</value>
+  </data>
+  <data name="OverwriteTranslation" xml:space="preserve">
+    <value>Translation for string "{0}" already exists in resource file "{1}";
+current translation: "{2}";
+suggested translation: "{3}".
+Do you want to apply the new translation?</value>
+  </data>
+  <data name="Coherence" xml:space="preserve">
+    <value>(COHERENCE)</value>
+  </data>
+  <data name="OperationCompleted" xml:space="preserve">
+    <value>The operation has been completed</value>
+  </data>
+  <data name="PreparingAssembly" xml:space="preserve">
+    <value>{1}: preparing satellite assemblies for: {0}</value>
+  </data>
+  <data name="ErrorWritingReference" xml:space="preserve">
+    <value>Error writing referenced files to dictionary: '{0}'</value>
+  </data>
+  <data name="GlossaryId" xml:space="preserve">
+    <value>Glossary language: {0}</value>
+  </data>
+  <data name="WarningIgnoreSpaces" xml:space="preserve">
+    <value>some blank characters have been introduced or removed</value>
+  </data>
+  <data name="IdNotFound" xml:space="preserve">
+    <value>ID not found: {0}</value>
+  </data>
+  <data name="RepeatedEntry" xml:space="preserve">
+    <value>Already in list!</value>
+  </data>
+  <data name="PreviewNotAvailable" xml:space="preserve">
+    <value>Preview not available for this type of resource.</value>
+  </data>
+  <data name="XmlFiles" xml:space="preserve">
+    <value>XML files</value>
+  </data>
+  <data name="ProcessingNode" xml:space="preserve">
+    <value>Processing node '{0}'...</value>
+  </data>
+  <data name="NoDictionaryFiles" xml:space="preserve">
+    <value>No dictionary files have been found</value>
+  </data>
+  <data name="NoInvalidStrings" xml:space="preserve">
+    <value>All the string items in the selected project(s) are valid.</value>
+  </data>
+  <data name="ConfirmAbort" xml:space="preserve">
+    <value>Do you really want to stop the procedure?</value>
+  </data>
+  <data name="AmpersandRepetition" xml:space="preserve">
+    <value>There are {0} ampersand repetition before letter {1} in item {2}:{3}</value>
+  </data>
+  <data name="CreatingSolution" xml:space="preserve">
+    <value>Creating new solution '{0}'...</value>
+  </data>
+  <data name="Numbers" xml:space="preserve">
+    <value>(numbers: {0})</value>
+  </data>
+  <data name="ProjectAlreadyExists" xml:space="preserve">
+    <value>Project {0} already exists; do you want to  overwrite it?</value>
+  </data>
+  <data name="TranslatorAlreadyOpen" xml:space="preserve">
+    <value>Cannot move! Another translation table is using the resource you requested; this one will be activated.</value>
+  </data>
+  <data name="NoFileToModify" xml:space="preserve">
+    <value>There are no files to modify!</value>
+  </data>
+  <data name="ProjectParsingText" xml:space="preserve">
+    <value>Parsing File : </value>
+  </data>
+  <data name="SaveTranslationsQuestion" xml:space="preserve">
+    <value>Would you like to save your changes?</value>
+  </data>
+  <data name="ErrorParsingDictionaryFile" xml:space="preserve">
+    <value>Error parsing dictionary file: '{0}'</value>
+  </data>
+  <data name="ProcedureEnded" xml:space="preserve">
+    <value>Procedure terminated</value>
+  </data>
+  <data name="TBLoaderNotFound" xml:space="preserve">
+    <value>No active TBLoader application found</value>
+  </data>
+  <data name="SetNullSettings" xml:space="preserve">
+    <value>Do you want to restore current control settings?</value>
+  </data>
+  <data name="ReportCompileError" xml:space="preserve">
+    <value>Error compiling report: {0}.</value>
+  </data>
+  <data name="BaseStringsNotFound" xml:space="preserve">
+    <value>The selected item cannot be opened.</value>
+  </data>
+  <data name="ProjectNotValid" xml:space="preserve">
+    <value>Project not valid,can't find module.config or a valid project file.</value>
+  </data>
+  <data name="RemoveProjectQuestion" xml:space="preserve">
+    <value>Projects: {0} will be removed permanently from this solution. Do you want to continue?</value>
+  </data>
+  <data name="PlaceHolderErrorSpec" xml:space="preserve">
+    <value>{0} in base-language text: {1}</value>
+  </data>
+  <data name="NotEditable" xml:space="preserve">
+    <value>You can't perform this operation because you don't have source files installed.</value>
+  </data>
+  <data name="UpdateMessage" xml:space="preserve">
+    <value>Calculating translation progress information...
+You can safely continue working while this operation is being carried out.</value>
+  </data>
+  <data name="FilesFound" xml:space="preserve">
+    <value>Found {0} files:</value>
+  </data>
+  <data name="ReportLoadError" xml:space="preserve">
+    <value>Error loading report: {0}.</value>
+  </data>
+  <data name="StringNotFound" xml:space="preserve">
+    <value>No strings to translate were found; no dictionary was created for '{0}', read log files for more information.</value>
+  </data>
+  <data name="ModuleInfoError" xml:space="preserve">
+    <value>Error reading information for module {0}.</value>
+  </data>
+  <data name="CopyingAssembly" xml:space="preserve">
+    <value>Copying assembly to target destination...</value>
+  </data>
+  <data name="FileTypeNotSupported" xml:space="preserve">
+    <value>This type of file is not supported</value>
+  </data>
+  <data name="TranslationTableOptions" xml:space="preserve">
+    <value>File '{0}' contains a list of translation tables related to {1}. You can view them with your browser.</value>
+  </data>
+  <data name="DetectedTranslations" xml:space="preserve">
+    <value>Detected {0} translations in {1}. Translations will be made permanent by saving.</value>
+  </data>
+  <data name="InvalidSolution" xml:space="preserve">
+    <value>There is not a valid active solution; please open or create a new one.</value>
+  </data>
+  <data name="SelectNewSolutionPath" xml:space="preserve">
+    <value>Please select new solution's path</value>
+  </data>
+  <data name="RetypeExtension" xml:space="preserve">
+    <value>Extension contains invalid characters. Please retype.</value>
+  </data>
+  <data name="CurrentTranslationTable" xml:space="preserve">
+    <value>Current translation table</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Not available.</value>
+  </data>
+  <data name="TypeExtension" xml:space="preserve">
+    <value>Please type a valid extension.</value>
+  </data>
+  <data name="ReadOnlyFiles" xml:space="preserve">
+    <value>Cannot apply changes, file
+{0}
+is read only.</value>
+  </data>
+  <data name="ReadOnlyIndex" xml:space="preserve">
+    <value>Unable to delete resources index file, it may be read-only.</value>
+  </data>
+  <data name="DataGridTitle" xml:space="preserve">
+    <value>Recent solutions</value>
+  </data>
+  <data name="EnglishDictionaryNotFound" xml:space="preserve">
+    <value>English dictionary not found for project: '{0}'.</value>
+  </data>
+  <data name="LogViewTitle" xml:space="preserve">
+    <value>Open log</value>
+  </data>
+  <data name="UnreachSolution" xml:space="preserve">
+    <value>Selected solution does not exist or is not a tblsln file or is not in the correct directory.</value>
+  </data>
+  <data name="OpenProjectCaption" xml:space="preserve">
+    <value>Open project</value>
+  </data>
+  <data name="ExternalGlossaryNotLoaded" xml:space="preserve">
+    <value>It is not possible to load an external glossary:
+{0}</value>
+  </data>
+  <data name="StringsNotFound" xml:space="preserve">
+    <value>There are no strings to show.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="CantLoadSourceSafe" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="TblprjIncomplete" xml:space="preserve">
+    <value>Failure! File tblprj in {0} is incomplete.</value>
+  </data>
+  <data name="Words" xml:space="preserve">
+    <value>Total words: {0}</value>
+  </data>
+  <data name="NoSelectedExtension" xml:space="preserve">
+    <value>No extension is selected.</value>
+  </data>
+  <data name="TranslationProgressExplication" xml:space="preserve">
+    <value>There are {0} translated strings over {1} for dictionary '{2}'.
+Percentage: {3:0.000}%</value>
+  </data>
+  <data name="SaveNotImplemented" xml:space="preserve">
+    <value>You can only save using a file name</value>
+  </data>
+  <data name="InfoCaption" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="DifferentFileExists" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ParsingFile" xml:space="preserve">
+    <value>Parsing file '{0}'...</value>
+  </data>
+  <data name="ConfirmModifyNoTemporary" xml:space="preserve">
+    <value>If you check this flag, all the automatic translations performed using the glossary procedure will be made permanent. Are you sure to continue?</value>
+  </data>
+  <data name="SelectZip" xml:space="preserve">
+    <value>Select the file to uncompress</value>
+  </data>
+  <data name="WithError" xml:space="preserve">
+    <value>with warnings</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Do you really want to delete {0}? All data will be lost!</value>
+  </data>
+  <data name="AddProjectCaption" xml:space="preserve">
+    <value>Add project</value>
+  </data>
+  <data name="AddGlossaryCaption" xml:space="preserve">
+    <value>Add glossary</value>
+  </data>
+  <data name="GlossaryBackupFailure" xml:space="preserve">
+    <value> Glossary backup failed.</value>
+  </data>
+  <data name="BaseLanguageCaption" xml:space="preserve">
+    <value>Base Language</value>
+  </data>
+  <data name="EmptyFileName" xml:space="preserve">
+    <value>File name is empty</value>
+  </data>
+  <data name="Occurrencies" xml:space="preserve">
+    <value>Number of occurrencies: {0}.</value>
+  </data>
+  <data name="TranslatorCaption" xml:space="preserve">
+    <value>Translator</value>
+  </data>
+  <data name="DictionaryAlreadyExists" xml:space="preserve">
+    <value>Dictionary {0} already exists; do you want to  overwrite it?</value>
+  </data>
+  <data name="IndexCopyFailed" xml:space="preserve">
+    <value>IndexResource copy failed</value>
+  </data>
+  <data name="AlreadyInGlossary" xml:space="preserve">
+    <value>String '{0}' already exists with the same translation.</value>
+  </data>
+  <data name="WarningIgnorePunctuation" xml:space="preserve">
+    <value>some punctuation marks have been introduced or removed</value>
+  </data>
+  <data name="WrongCreateView" xml:space="preserve">
+    <value>Error parsing CREATE VIEW statement in file {0}.</value>
+  </data>
+  <data name="NotConsistentXml" xml:space="preserve">
+    <value>Xml not consistent in {0}</value>
+  </data>
+  <data name="CurrentSolution" xml:space="preserve">
+    <value>Current solution</value>
+  </data>
+  <data name="ParsingFiles" xml:space="preserve">
+    <value>Parsing source files...</value>
+  </data>
+  <data name="BaseLanguagePathNotFound" xml:space="preserve">
+    <value>Cannot find path:
+{0}.
+Please verify that you have the base language dictionary ({1}) in your file system.</value>
+  </data>
+  <data name="Sequence" xml:space="preserve">
+    <value>(SEQUENCE)</value>
+  </data>
+  <data name="FilterComboItems" xml:space="preserve">
+    <value>All{0}Only valid{0}Only not valid</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>{0}Error deleting file: {1}. Message: {2}</value>
+  </data>
+  <data name="ErrorRefreshingTree" xml:space="preserve">
+    <value>An error occurred refreshing tree view: '{0}'.</value>
+  </data>
+  <data name="AutomaticTranslation" xml:space="preserve">
+    <value>Warning, this procedure fills all empty target strings using previous translations (when existing), and all related items will be translated completely. Do you want translations to be marked as temporary?</value>
+  </data>
+  <data name="AutomaticJsonTranslation" xml:space="preserve">
+    <value>Warning, this procedure fills all json target strings using dialog translations (when existing), and all related items will be translated completely. Do you want to overwrite existing translations? (press 'yes' to overwrite, 'no' to translate only empty items, 'cancel' to abort the operation).</value>
+  </data>
+  <data name="ApplyGlossaryTo" xml:space="preserve">
+    <value>Apply glossary to '{0}'...</value>
+  </data>
+  <data name="ErrorCopyingProject" xml:space="preserve">
+    <value>Error copying project '{0}'...</value>
+  </data>
+  <data name="FileChanged" xml:space="preserve">
+    <value>Cannot save file {0} because it has been changed by latest check out operation.</value>
+  </data>
+  <data name="DeletingProblem" xml:space="preserve">
+    <value>Problem deleting folder. Please, retry.</value>
+  </data>
+  <data name="SeeWordLog" xml:space="preserve">
+    <value>Words have been listed in file {0}.</value>
+  </data>
+  <data name="TxtFiles" xml:space="preserve">
+    <value>TXT files</value>
+  </data>
+  <data name="ErrorCompilingDictionary" xml:space="preserve">
+    <value>Error compiling dictionary: '{0}'</value>
+  </data>
+  <data name="SearchingNode" xml:space="preserve">
+    <value>Found {0} occurrencies until now; searching in node {1}... </value>
+  </data>
+  <data name="HashCodeConflict" xml:space="preserve">
+    <value>Hash code conflict detected for dictionary file '{0}'</value>
+  </data>
+  <data name="WrongAlterTable" xml:space="preserve">
+    <value>Error parsing ALTER TABLE statement in file {0}.</value>
+  </data>
+  <data name="OperationStopped" xml:space="preserve">
+    <value>The operation has been stopped without saving any modification.</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>ver. </value>
+  </data>
+  <data name="ZipFiles" xml:space="preserve">
+    <value>ZIP files</value>
+  </data>
+  <data name="PrjNotLinedUp" xml:space="preserve">
+    <value>Some projects are not lined up with sources, a check is suggested:  {0}</value>
+  </data>
+  <data name="AmpersandNoRepetition" xml:space="preserve">
+    <value>There are not ampersand conflicts.</value>
+  </data>
+  <data name="NonRepeatedWords" xml:space="preserve">
+    <value>Total non repeated words: {0}</value>
+  </data>
+  <data name="ReplaceWith" xml:space="preserve">
+    <value>Replace with...</value>
+  </data>
+  <data name="UnauthorizedAccessException" xml:space="preserve">
+    <value>Unauthorized Access Exception for files: {0}</value>
+  </data>
+  <data name="RepeatedProject" xml:space="preserve">
+    <value>Selected project is already in this solution!</value>
+  </data>
+  <data name="ExtractingStrings" xml:space="preserve">
+    <value>Extracting strings...</value>
+  </data>
+  <data name="NoOperation" xml:space="preserve">
+    <value>No operation needed.</value>
+  </data>
+  <data name="ErrorCompilingFile" xml:space="preserve">
+    <value>Error compiling file '{0}'</value>
+  </data>
+  <data name="BuildSolution" xml:space="preserve">
+    <value>Do you want to perform the selected build?</value>
+  </data>
+  <data name="ErrorCaption" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="PlaceHoldersError" xml:space="preserve">
+    <value>There are {0} placeholder error in item {1}:{2}</value>
+  </data>
+  <data name="PlaceHoldersExplication" xml:space="preserve">
+    <value>There are two kind of error: {0} warns about errors in placeholder sequence, in this case Developers have to correct these errors; {1} warns about errors in translation, dictionary file has probably been modified outside "International Studio", in this case Translators have to correct these errors.</value>
+  </data>
+  <data name="HtmFiles" xml:space="preserve">
+    <value>HTM files</value>
+  </data>
+  <data name="AddedToGlossary" xml:space="preserve">
+    <value>Added: '{0}' - '{1}'.</value>
+  </data>
+  <data name="SavingStrings" xml:space="preserve">
+    <value>Saving strings...</value>
+  </data>
+  <data name="CantFindModule" xml:space="preserve">
+    <value>Cannot find module: {0}</value>
+  </data>
+  <data name="WarningCaption" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="TranslationTable" xml:space="preserve">
+    <value>International Studio - Translation Table</value>
+  </data>
+  <data name="ConsiderTemporary" xml:space="preserve">
+    <value>Do you want to consider temporary flagged strings as translated?</value>
+  </data>
+  <data name="GlossaryEntryNotFound" xml:space="preserve">
+    <value>No glossary entry for string '{0}'.</value>
+  </data>
+  <data name="SupportLanguageCaption" xml:space="preserve">
+    <value>Support Language</value>
+  </data>
+  <data name="MultipleHintsChoice" xml:space="preserve">
+    <value>Choose hints that you want to accept to translate '{0}'.</value>
+  </data>
+  <data name="TranslationNotValid" xml:space="preserve">
+    <value>This translation is not valid. 
+If the base string contains expressions ({0}, {3-%s} or similar) or HTML tags, you must maintain them also in the target string.</value>
+  </data>
+  <data name="OverwriteQuestion" xml:space="preserve">
+    <value>Destination element '{0}' already exists. Overwrite?</value>
+  </data>
+  <data name="IncludeNotFound" xml:space="preserve">
+    <value>Include file not found: {0}</value>
+  </data>
+  <data name="ChooseFolderCaption" xml:space="preserve">
+    <value>Choose folder. Currently selected folder is {0}
+		</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>Resource not found.</value>
+  </data>
+  <data name="NoDictionaries" xml:space="preserve">
+    <value>There are no dictionary to apply the glossary</value>
+  </data>
+  <data name="InvalidEntry" xml:space="preserve">
+    <value>Invalid entry: '{0}'.</value>
+  </data>
+  <data name="GlossaryNotLoaded" xml:space="preserve">
+    <value>It is not possible to load glossary. A backup copy will be saved in {0}.</value>
+  </data>
+  <data name="SourcesNotFound" xml:space="preserve">
+    <value>No valid source file found at {0}.</value>
+  </data>
+  <data name="NoLanguages" xml:space="preserve">
+    <value>There aren't languages for this project</value>
+  </data>
+  <data name="OpeningSolution" xml:space="preserve">
+    <value>Opening new solution '{0}'...</value>
+  </data>
+  <data name="MostRepeatedWords" xml:space="preserve">
+    <value>Most repeated words: </value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="ConfigNotSaved" xml:space="preserve">
+    <value>An error occurred saving configuration File. Some custom setting could have been not saved.</value>
+  </data>
+  <data name="FileNotLoad" xml:space="preserve">
+    <value>Error loading file {0}</value>
+  </data>
+  <data name="ReferencesProblem" xml:space="preserve">
+    <value>References for project {0} do not load correctly, assembly could not be created successfully.</value>
+  </data>
+  <data name="SelectItem" xml:space="preserve">
+    <value>Select an item</value>
+  </data>
+  <data name="BuildingAssembly" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="DictionaryNotExist" xml:space="preserve">
+    <value>Dictionary {0} does not exist.</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="ReadLog" xml:space="preserve">
+    <value>Log File Link : {0}.</value>
+  </data>
+  <data name="Unzipping" xml:space="preserve">
+    <value>Unzip Dictionary</value>
+  </data>
+  <data name="UnzippingLocationConfirm" xml:space="preserve">
+    <value>Unzip Dictionary in {0}. Continue?</value>
+  </data>
+  <data name="LogView" xml:space="preserve">
+    <value>Do you want to view only errors and warnings?</value>
+  </data>
+  <data name="InvalidArgument" xml:space="preserve">
+    <value>Invalid argument</value>
+  </data>
+  <data name="CannotSave" xml:space="preserve">
+    <value>Cannot save document to file: '{0}'.</value>
+  </data>
+  <data name="LanguageCaption" xml:space="preserve">
+    <value>Dictionary Language</value>
+  </data>
+  <data name="SolutionFiles" xml:space="preserve">
+    <value>Solution files (*{0})|*{1}</value>
+  </data>
+  <data name="WarningBaseChanged" xml:space="preserve">
+    <value>WARNING! Base language of this entry has been subject to the following changes:
+{0}
+Remove the temporary flag to accept changes.</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Failure!</value>
+  </data>
+  <data name="CreationCompleted" xml:space="preserve">
+    <value>Dictionary '{0}' is completed {1}, read log.</value>
+  </data>
+  <data name="CheckAll" xml:space="preserve">
+    <value>Check all</value>
+  </data>
+  <data name="WarningIgnoreCase" xml:space="preserve">
+    <value>upper/lower case has changed</value>
+  </data>
+  <data name="RemoveUpdateMessage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Successfully" xml:space="preserve">
+    <value>successfully</value>
+  </data>
+  <data name="ConfirmConvertBaseLanguage" xml:space="preserve">
+    <value>Every dictionary will be modified, base language will become English. Do you want to continue with this procedure?</value>
+  </data>
+  <data name="CopyTranslation" xml:space="preserve">
+    <value>Warning, this procedure fills all empty target strings using the selected dictionary, and all related items will be translated completely. Do you want to continue?</value>
+  </data>
+  <data name="PlaceHoldersNoError" xml:space="preserve">
+    <value>There are not placeholder error.</value>
+  </data>
+  <data name="NotAddedToGlossary" xml:space="preserve">
+    <value>String '{0}' not added because target string is null.</value>
+  </data>
+  <data name="SaveFileList" xml:space="preserve">
+    <value>Save file list</value>
+  </data>
+  <data name="CopyingProject" xml:space="preserve">
+    <value>Copying project '{0}'...</value>
+  </data>
+  <data name="SatelliteProcedure" xml:space="preserve">
+    <value>Dictionaries correctly generated : {0}; dictionaries with errors: {1}</value>
+  </data>
+  <data name="ReopenSolution" xml:space="preserve">
+    <value>If you want your changes to take effect you have to reopen the solution. Reopen the solution now?</value>
+  </data>
+  <data name="UnexistingFile" xml:space="preserve">
+    <value>The file {0} does not exist.</value>
+  </data>
+  <data name="CategoryFilter" xml:space="preserve">
+    <value>Category filter: </value>
+  </data>
+  <data name="ZipLocation" xml:space="preserve">
+    <value>You can find zipped dictionary in {0}.</value>
+  </data>
+  <data name="EmptyModuleName" xml:space="preserve">
+    <value>Module name is empty.</value>
+  </data>
+  <data name="ErrorParsingFont" xml:space="preserve">
+    <value>Error parsing fonts: {0}</value>
+  </data>
+  <data name="TargetLanguageCaption" xml:space="preserve">
+    <value>Target Language</value>
+  </data>
+  <data name="ReplaceAll" xml:space="preserve">
+    <value>Are you sure to save replacements? These changes cannot be undone.</value>
+  </data>
+  <data name="RebuildSolution" xml:space="preserve">
+    <value>Do you want to rebuild satellite assemblies for selected projects now?</value>
+  </data>
+  <data name="ConfirmDeleteDictionary2" xml:space="preserve">
+    <value>Deleting a dictionary will permanently destroy all information stored in it. Do you want to cancel this operation?</value>
+  </data>
+  <data name="ConfirmDeleteDictionary3" xml:space="preserve">
+    <value>You are about to delete a base language dictionary; this implies deleting all the associated target language dictionaries, thus loosing every translation.
+Are you sure to continue?</value>
+  </data>
+  <data name="ConfirmDeleteDictionary1" xml:space="preserve">
+    <value>Do you really want to delete dictionary {0}?</value>
+  </data>
+  <data name="DictionaryGenerationError" xml:space="preserve">
+    <value>Error generating dictionary folder: {0}</value>
+  </data>
+  <data name="NoSuggestion" xml:space="preserve">
+    <value>No suggestion.</value>
+  </data>
+  <data name="UnCheckAll" xml:space="preserve">
+    <value>Uncheck all</value>
+  </data>
+  <data name="DictionaryGenerationQuestion" xml:space="preserve">
+    <value>Projects involved in this operation for language(s): {0} are: {1}.
+The solution and all project files will be saved.
+Do you want to continue?</value>
+  </data>
+  <data name="ErrorReadingFile" xml:space="preserve">
+    <value>Error reading file:
+{0}.
+{1}.</value>
+  </data>
+  <data name="GeneratingHint" xml:space="preserve">
+    <value>Please wait, gathering necessary information...</value>
+  </data>
+  <data name="ProjectFileNotExist" xml:space="preserve">
+    <value>Project's file doesn't exist: {0}.</value>
+  </data>
+  <data name="FileListOptions" xml:space="preserve">
+    <value>File {0} contains a list of file related to {1}.</value>
+  </data>
+  <data name="UnzippingLocation" xml:space="preserve">
+    <value>Select a path where unzip the dictionary</value>
+  </data>
+  <data name="ProjectFileNotValid" xml:space="preserve">
+    <value>Project file {0} is not valid, procedure stopped.</value>
+  </data>
+  <data name="GlossarySupport" xml:space="preserve">
+    <value>Support language: {0}</value>
+  </data>
+  <data name="UpdatedFile" xml:space="preserve">
+    <value>Updated file: '{0}'</value>
+  </data>
+  <data name="FolderCreationError" xml:space="preserve">
+    <value>Error creating folder {0}</value>
+  </data>
+  <data name="LanguageUnavailable" xml:space="preserve">
+    <value>Dictionaries for language {0} are not available.</value>
+  </data>
+  <data name="FileUnderSourceControl" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="SaveSolutionQuestion" xml:space="preserve">
+    <value>Do you want to save solution {0}?</value>
+  </data>
+  <data name="ConfirmSaveOldStrings" xml:space="preserve">
+    <value>Are you sure to save changes? All strings in the recycle bin will be lost!</value>
+  </data>
+  <data name="FontSobstitutionEnded" xml:space="preserve">
+    <value>Font '{0}' replaced with font '{1}'.
+{2} occurrences replaced.</value>
+  </data>
+  <data name="SavingPrj" xml:space="preserve">
+    <value>The following tblprj files have been modified:
+{0}
+Do you want to save them? </value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ContinueWithMissingRefences" xml:space="preserve">
+    <value>Do you want to create dictionary for this project anyway?</value>
+  </data>
+  <data name="BeginDictionaryProcedure" xml:space="preserve">
+    <value>Begin creating dictionary '{0}' for project '{1}'</value>
+  </data>
+  <data name="ProcedureEndedWithErrors" xml:space="preserve">
+    <value>Procedure terminated with errors</value>
+  </data>
+  <data name="ConfirmDeleteReferences" xml:space="preserve">
+    <value>Warning: node {0} is referenced by nodes:
+{1}
+which may be using its translations.
+Deleting it my result in loss of translations; do you wanto to continue?</value>
+  </data>
+  <data name="InvalidNode" xml:space="preserve">
+    <value>Invalid node: '{0}'</value>
+  </data>
+  <data name="NodeNotFound" xml:space="preserve">
+    <value>Node not found: '{0}'</value>
+  </data>
+  <data name="StringNodeAlreadyTranslated" xml:space="preserve">
+    <value>String node with id: '{0}' already translated ('{1}').</value>
+  </data>
+  <data name="StringNodeNotFound" xml:space="preserve">
+    <value>String node with id: '{0}' not found ('{1}').</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Ready.</value>
+  </data>
+  <data name="CsvFiles" xml:space="preserve">
+    <value>CSV Files</value>
+  </data>
+  <data name="ConfirmPurge1" xml:space="preserve">
+    <value>Warning! This operation will erase all invalid strings and the corresponding translation for ALL languages. Are you sure to continue?</value>
+  </data>
+  <data name="ConfirmPurge2" xml:space="preserve">
+    <value>Translation for invalid strings may be useful to help translating new strings; consider that the purge operation is IRREVERSIBLE, do you want to cancel?</value>
+  </data>
+  <data name="Purging" xml:space="preserve">
+    <value>Purging file {0}...</value>
+  </data>
+  <data name="BaseStringsDoNotMatch" xml:space="preserve">
+    <value>WARNING! Translation found for id {0}, but base strings do not match.
+Original: '{1}'
+Found: '{2}'</value>
+  </data>
+  <data name="TranslationApplied" xml:space="preserve">
+    <value>The translation has been applied, but set as temporary: '{0}'</value>
+  </data>
+  <data name="TranslationSkipped" xml:space="preserve">
+    <value>The string has not been translated</value>
+  </data>
+</root>

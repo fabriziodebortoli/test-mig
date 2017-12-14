@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DMSREPOSITORY_BROWSER	GET_IDD(IDD_DMSREPOSITORY_BROWSER, M.Extensions.EasyAttachment.UIDMSRepository)
+

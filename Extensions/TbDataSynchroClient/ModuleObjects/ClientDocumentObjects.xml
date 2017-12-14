@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+  <ClientDocuments>
+    <ServerDocument type="family" class="CAbstractFormDoc">
+      <ClientDocument namespace="Extensions.TBDataSynchroClient.TBDataSynchroClient.CDNotification" localize="Notify client action" />
+    </ServerDocument>
+    <ServerDocument type="family" class="CAbstractFormDoc">
+      <ClientDocument namespace="Extensions.TBDataSynchroClient.TBDataSynchroClient.CDUpdateTBModifiedMaster" localize="Update TBModified Master Table" />
+    </ServerDocument>
+  </ClientDocuments>
+<ClientForms>
+  <ClientForm server="IDD_MASTER_FRAME" name="M.Extensions.TBDataSynchroClient.UINotification.IDD_DATASYNCHRO_DOCK_PANE" />
+</ClientForms>
+</ClientDocumentObjects>

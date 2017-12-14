@@ -1,0 +1,14 @@
+﻿{
+  "id": "IDD_INPUT_DLG",
+  "rcId": 1110,
+  "type": 66,
+  "x": 18,
+  "y": 18,
+  "width": 50,
+  "height": 58,
+  "child": true,
+  "context": "inputmng",
+  "items": [
+    
+  ]
+}

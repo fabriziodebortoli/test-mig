@@ -1,0 +1,5 @@
+@(IfExistsAlterTable{ALTER TABLE "@@(TableName)"\n@(+)
+ADD @(RepeatOnColumns{"@@(ColumnName)" @@(ColumnDBFullDataType)@(IfIsCollateSensitive{ /*[SKIPUNICODE]*/})@(IfHasDefaultValue{ DEFAULT(@(ColumnDBDefaultValue))}) @(ColumnDBNullableAttribute), ",\r\n"})\n@(+)
+GO\n@(+)
+@(IfUpdateColumnNeeded{@(RepeatOnColumns{UPDATE "@@(TableName)" \nSET "@@(TableName)"."@@(ColumnName)" = (@(SetValue))@(IfExistsWhereClause{\nWHERE "@@(WhereTableName)"."@@(WhereColumnName)" @(WhereValue)})\nGO\n, "\r\n"})})})
+@(IfExistsUnrelatedUpdates{UPDATE "@@(UpdateTableName)" \nSET "@@(UpdateTableName)"."@@(UpdateColumnName)" = (@(SetValue))@(IfExistsWhereClause{\nWHERE "@@(WhereTableName)"."@@(WhereColumnName)" @(WhereValue)})\nGO\n})

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBMobile", "TBMobile\TBMobile.csproj", "{422482E3-E935-4178-A4BA-B5B1920BD2AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileTestProject", "MobileTestProject\MobileTestProject.csproj", "{FAB9BC41-7102-4734-8F1A-6DC28507386B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBMobileUI", "TBMobileUI\TBMobileUI.csproj", "{E09F2C4B-174C-4965-AD29-3767E94CC00F}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://srv-tfs13:8080/tfs/microarea
+		SccProjectUniqueName0 = TBMobile\\TBMobile.csproj
+		SccProjectName0 = TBMobile
+		SccLocalPath0 = TBMobile
+		SccProjectUniqueName1 = MobileTestProject\\MobileTestProject.csproj
+		SccProjectName1 = MobileTestProject
+		SccLocalPath1 = MobileTestProject
+		SccLocalPath2 = .
+		SccProjectUniqueName3 = TBMobileUI\\TBMobileUI.csproj
+		SccProjectName3 = TBMobileUI
+		SccLocalPath3 = TBMobileUI
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{422482E3-E935-4178-A4BA-B5B1920BD2AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422482E3-E935-4178-A4BA-B5B1920BD2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{422482E3-E935-4178-A4BA-B5B1920BD2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422482E3-E935-4178-A4BA-B5B1920BD2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB9BC41-7102-4734-8F1A-6DC28507386B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB9BC41-7102-4734-8F1A-6DC28507386B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB9BC41-7102-4734-8F1A-6DC28507386B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB9BC41-7102-4734-8F1A-6DC28507386B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E09F2C4B-174C-4965-AD29-3767E94CC00F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09F2C4B-174C-4965-AD29-3767E94CC00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09F2C4B-174C-4965-AD29-3767E94CC00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09F2C4B-174C-4965-AD29-3767E94CC00F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = TBMobile.csproj
+	EndGlobalSection
+EndGlobal

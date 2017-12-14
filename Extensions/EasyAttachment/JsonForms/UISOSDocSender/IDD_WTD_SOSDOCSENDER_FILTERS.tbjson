@@ -1,0 +1,35 @@
+﻿{
+    "id": "IDD_WTD_SOSDOCSENDER_FILTERS",
+    "type": 66,
+    "text": "Filters",
+    "context": "UISOSDocSender",
+    "items": [
+        {
+            "id": "IDC_TG_SOSDOCSENDER_FILTERS",
+            "type": 72, //TileGroup
+            "text": "Filters",
+            "layoutType": 4, /*VBOX*/
+            "items": [
+                {
+                    "href": "M.Framework.TbGes.UITileDialog.IDD_TB_HEADER_TILE"
+                },
+                {
+                    "type": 78, /*LayoutContainer*/
+                    "layoutType": 1, /*COLUMN*/
+                    "layoutAlign": 0, /*BEGIN*/
+                    "items": [
+                        {
+                            "href": "IDD_TD_SOSDOCSENDER_ACTIONS"
+                        },
+                        {
+                            "href": "IDD_TD_SOSDOCSENDER_DOCCLASSES"
+                        },
+                        {
+                            "href": "IDD_TD_SOSDOCSENDER_DOCSTATUS"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDR_PARSEDDIALOG			GET_IDR(IDR_PARSEDDIALOG, M.Framework.TbGenlib.PARSRES)

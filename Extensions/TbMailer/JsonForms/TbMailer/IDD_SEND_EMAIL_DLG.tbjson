@@ -1,0 +1,198 @@
+﻿{
+   "caption" : true,
+   "child" : false,
+   "context" : "tbmailer",
+   "height" : 305,
+   "id" : "IDD_SEND_EMAIL_DLG",
+   "items" : [
+      {
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_STATIC_1",
+         "text" : "&From:...",
+         "type" : 2, /*Label*/
+         "width" : 66,
+         "x" : 2,
+         "y" : 5
+      },
+      {
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_STATIC_2",
+         "text" : "To:...",
+         "type" : 2, /*Label*/
+         "width" : 67,
+         "x" : 2,
+         "y" : 19
+      },
+      {
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_STATIC_3",
+         "text" : "CC:...",
+         "type" : 2, /*Label*/
+         "width" : 67,
+         "x" : 2,
+         "y" : 35
+      },
+      {
+         "group" : true,
+         "height" : 12,
+         "id" : "IDC_STATIC_4",
+         "text" : "BCC:...",
+         "type" : 2, /*Label*/
+         "width" : 67,
+         "x" : 2,
+         "y" : 51
+      },
+      {
+         "autoHScroll" : true,
+         "enabled" : false,
+         "height" : 12,
+         "id" : "IDC_FROM",
+         "type" : 13, /*Edit*/
+         "width" : 268,
+         "x" : 73,
+         "y" : 2
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 12,
+         "id" : "IDC_TO1",
+         "type" : 13, /*Edit*/
+         "width" : 269,
+         "x" : 73,
+         "y" : 17
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 12,
+         "id" : "IDC_CC1",
+         "type" : 13, /*Edit*/
+         "width" : 269,
+         "x" : 73,
+         "y" : 33
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 12,
+         "id" : "IDC_BCC1",
+         "type" : 13, /*Edit*/
+         "width" : 269,
+         "x" : 73,
+         "y" : 49
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC",
+         "text" : "&Object:...",
+         "type" : 2, /*Label*/
+         "width" : 68,
+         "x" : 2,
+         "y" : 67
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 12,
+         "id" : "IDC_SUBJECT1",
+         "type" : 13, /*Edit*/
+         "width" : 269,
+         "x" : 73,
+         "y" : 65
+      },
+      {
+         "acceptFiles" : true,
+         "height" : 33,
+         "id" : "IDC_ATTACHMENTS",
+         "multiline" : true,
+         "type" : 13, /*Edit*/
+         "vScroll" : true,
+         "wantReturn" : true,
+         "width" : 269,
+         "x" : 73,
+         "y" : 82
+      },
+      {
+         "height" : 12,
+         "id" : "IDC_FINDFILE",
+         "text" : "&Attachments:",
+         "type" : 3, /*Button*/
+         "width" : 67,
+         "x" : 2,
+         "y" : 82
+      },
+      {
+         "hScroll" : true,
+         "height" : 106,
+         "id" : "IDC_CONTENTS",
+         "multiline" : true,
+         "type" : 13, /*Edit*/
+         "vScroll" : true,
+         "width" : 343,
+         "x" : 2,
+         "y" : 164
+      },
+      {
+         "height" : 13,
+         "id" : "IDC_CHECK_RDE",
+         "text" : "Attach report in &RDE format",
+         "type" : 11, /*Check*/
+         "width" : 164,
+         "x" : 3,
+         "y" : 118
+      },
+      {
+         "height" : 13,
+         "id" : "IDC_CHECK_PDF",
+         "text" : "Attach report in &PDF format",
+         "type" : 11, /*Check*/
+         "width" : 164,
+         "x" : 3,
+         "y" : 132
+      },
+      {
+         "height" : 13,
+         "id" : "IDC_CHECK_COMPRESS",
+         "text" : "Compress attached report",
+         "type" : 11, /*Check*/
+         "width" : 164,
+         "x" : 176,
+         "y" : 118
+      },
+      {
+         "height" : 13,
+         "id" : "IDC_CHECK_CONCAT_PDF",
+         "text" : "Append PDF attachments",
+         "type" : 11, /*Check*/
+         "width" : 164,
+         "x" : 176,
+         "y" : 132
+      },
+      {
+         "height" : 13,
+         "id" : "IDC_CHECK_REQUEST_DELIVERY_NOTIFICATION",
+         "text" : "Request delivery notification",
+         "type" : 11, /*Check*/
+         "width" : 164,
+         "x" : 3,
+         "y" : 146
+      },
+      {
+         "height" : 13,
+         "id" : "IDC_CHECK_REQUEST_READ_NOTIFICATION",
+         "text" : "Request read notification",
+         "type" : 11, /*Check*/
+         "width" : 164,
+         "x" : 176,
+         "y" : 146
+      }
+   ],
+   "modalFrame" : true,
+   "systemMenu" : true,
+   "text" : "Send Email",
+   "type" : 66, /*Panel*/
+   "width" : 352,
+   "x" : 0,
+   "y" : 0
+}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.microarea.it/SNGenerator/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.microarea.it/SNGenerator/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.microarea.it/SNGenerator/">
+      <s:element name="GetSerialNumbers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="string1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string3" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSerialNumbersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSerialNumbersResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="string3" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetSerialNumbersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSerialNumbers" />
+  </wsdl:message>
+  <wsdl:message name="GetSerialNumbersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSerialNumbersResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SNGenerator30Soap">
+    <wsdl:operation name="GetSerialNumbers">
+      <wsdl:input message="tns:GetSerialNumbersSoapIn" />
+      <wsdl:output message="tns:GetSerialNumbersSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SNGenerator30Soap" type="tns:SNGenerator30Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSerialNumbers">
+      <soap:operation soapAction="http://www.microarea.it/SNGenerator/GetSerialNumbers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SNGenerator30Soap12" type="tns:SNGenerator30Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSerialNumbers">
+      <soap12:operation soapAction="http://www.microarea.it/SNGenerator/GetSerialNumbers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SNGenerator30">
+    <wsdl:port name="SNGenerator30Soap" binding="tns:SNGenerator30Soap">
+      <soap:address location="http://www.microarea.it/sngenerator30/sngenerator30.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SNGenerator30Soap12" binding="tns:SNGenerator30Soap12">
+      <soap12:address location="http://www.microarea.it/sngenerator30/sngenerator30.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

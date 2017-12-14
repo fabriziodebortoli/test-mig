@@ -1,0 +1,133 @@
+{
+    "id": "IDD_TD_DMSREPOSITORY_ADVANCEDSELECTIONS",
+    "type": 71 /*Tile*/,
+    "tileStyle": 2, //TDS_FILTER
+    "pinnable": false,
+    "size": 1, /*TILE_MINI*/
+    "width": 535,
+    "height": 128,
+    "context": "uidmsrepository",
+    "items": [
+        {
+            "id": "IDC_STATIC_SEARCH_IN_SEPARATOR",
+            "type": 2, /*Label*/
+            "controlClass": "LabelStatic",
+            "linePosition": 1 /*LP_TOP=1*/,
+            "group": true,
+            "width": 170,
+            "height": 8,
+            "text": "Search in:",
+            "x": 2,
+            "y": 4
+        },
+        {
+            "id": "IDC_DMSREPOSITORY_ADVSEL_ALLDOCUMENTS",
+            "type": 10, /*Radio*/
+            "controlClass": "CheckBox",
+            "binding": {
+                "datasource": "bAllRepository"
+            },
+            "tabStop": false,
+            "text": "entire repository",
+            "textAlign": 3, /*Left*/
+            "width": 170,
+            "height": 10,
+            "x": 3,
+            "y": 16
+        },
+        {
+            "id": "IDC_DMSREPOSITORY_ADVSEL_ONLYCOLLECTION",
+            "type": 10, /*Radio*/
+            "controlClass": "CheckBox",
+            "binding": {
+                "datasource": "bOnlyCollection"
+            },
+            "width": 170,
+            "height": 10,
+            "tabStop": false,
+            "text": "the following collection",
+            "textAlign": 3, /*Left*/
+            "x": 3,
+            "y": 30
+        },
+        {
+            "id": "IDC_DMSREPOSITORY_ADVSEL_COLLECTIONS",
+            "type": 12, /*Combo*/
+            "comboType": 2, /*DropDownList*/
+            "controlClass": "StringComboDropDownList",
+            "itemSource": {
+                "name": "CollectionsItemSource",
+                "namespace": "Extensions.EasyAttachment.TbDMS.CollectionsItemSource"
+            },
+            "binding": {
+                "datasource": "DocNamespace"
+            },
+            "sort": true,
+            "vScroll": true,
+            "width": 163,
+            "height": 12,
+            "x": 3,
+            "y": 46
+        },
+        {
+            "group": true,
+            "height": 8,
+            "id": "IDC_STATIC",
+            "text": "Compose the search conditions",
+            "type": 2, /*Label*/
+            "controlClass": "LabelStatic",
+            "width": 172,
+            "x": 187,
+            "y": 4
+        },
+        {
+            "id": "IDC_DMSREPOSITORY_BE_SEARCHFIELDS_CONDITION",
+            "binding": {
+                "datasource": "DBTSearchFieldsConditions"
+            },
+            "name": "BESearchFieldsCondition",
+            "type": 18, /*BodyEdit*/
+            "clipChildren": true,
+            "width": 345,
+            "height": 112,
+            "ownerDraw": true,
+            "x": 187,
+            "y": 13,
+            "allowMultipleSel": false,
+            "items": [
+                {
+                    "id": "IDC_DMSREPOSITORY_SEARCH_CONDITION_DESCRI",
+                    "binding": {
+                        "datasource": "VFieldDescription",
+                        "hotLink": "DMSFields"
+                    },
+                    "controlClass": "StringEdit",
+                    "name": "FieldDescription",
+                    "text": "Description",
+                    "type": 22 /*ColTitle*/,
+                    "chars": 60,
+                    "rows": 1
+                },
+                {
+                    "id": "IDC_DMSREPOSITORY_SEARCH_CONDITION_VALUE",
+                  "binding": {
+                    "datasource": "VFormattedValue",
+                    "hotLink": {
+                      "name": "SearchFieldIndexes",
+                      "namespace": "Extensions.EasyAttachment.TbDMS.DMSSearchFieldIndexes",
+                      "mustExistData": true,
+                      "enableAddOnFly": false
+                    }
+                    
+                  },
+                    "controlClass": "StringEdit",
+                    "name": "FormattedValue",
+                    "text": "Value",
+                    "type": 22 /*ColTitle*/,
+                    "chars": 80,
+                    "rows": 1
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3FD5FA9F-3C06-4DB9-98B8-BC9EB87D80E4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microarea.TaskBuilderNet.TbHermesBL</RootNamespace>
+    <AssemblyName>Microarea.TaskBuilderNet.TbHermesBL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Google.Apis.1.9.0\lib\net40\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Google.Apis.Auth.1.9.0\lib\net40\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Google.Apis.Auth.1.9.0\lib\net40\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Calendar.v3, Version=1.9.0.109, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Google.Apis.Calendar.v3.1.9.0.1090\lib\portable-net40+sl50+win+wpa81+wp80\Google.Apis.Calendar.v3.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Google.Apis.Core.1.9.0\lib\portable-net40+sl50+win+wpa81+wp80\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Google.Apis.1.9.0\lib\net40\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Mail, Version=3.0.13115.2223, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\LimiLabs\Mail\Redistributables\Mail.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Zlib.Portable, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\GoogleCalendar\Zlib.Portable.1.10.0\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="CalendarFunctions.cs" />
+    <Compile Include="ClientIdentifier.cs" />
+    <Compile Include="Config\HermesSettings.cs" />
+    <Compile Include="Config\HermesSettingsProvider.cs" />
+    <Compile Include="Config\IHermesSettingsProvider.cs" />
+    <Compile Include="ConnectionHelper.cs" />
+    <Compile Include="CultureByCompany.cs" />
+    <Compile Include="DMS_ArchivedDocContent.cs">
+      <DependentUpon>EasyAttachment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DMS_ArchivedDocument.cs">
+      <DependentUpon>EasyAttachment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DMS_Attachment.cs">
+      <DependentUpon>EasyAttachment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DMS_DocumentToArchive.cs">
+      <DependentUpon>EasyAttachment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EasyAttachment.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EasyAttachment.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EasyAttachment.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EasyAttachment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EasyAttachment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EasyAttachment.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EasyAttachmentManager.cs" />
+    <Compile Include="Encrypter.cs" />
+    <Compile Include="HermesEngine.cs" />
+    <Compile Include="ILockerClient.cs" />
+    <Compile Include="IOM_MailAccount.cs" />
+    <Compile Include="LoginManagerConnector.cs" />
+    <Compile Include="Mailbox.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mailbox.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mailbox.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mailbox.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mailbox.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MailFunctions.cs" />
+    <Compile Include="MailHolder.cs" />
+    <Compile Include="MailLogListener.cs" />
+    <Compile Include="MailMessage.cs" />
+    <Compile Include="MZPcmpDMSEntitiesExt.cs" />
+    <Compile Include="MZP_CompanyEntitiesExt.cs" />
+    <Compile Include="OM_Commitments.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_CommitmentsExt.cs" />
+    <Compile Include="OM_CommitmentsWorkers.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_CommitmentsWorkersExt.cs" />
+    <Compile Include="OM_Facilities.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_FacilitiesDetails.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_FacilitiesDetailsExt.cs" />
+    <Compile Include="OM_FacilitiesExt.cs" />
+    <Compile Include="OM_GoogleAccounts.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_GoogleAccountsExt.cs" />
+    <Compile Include="OM_GoogleCalendars.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_GoogleCalendarsEvents.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_GoogleCalendarsEventsExt.cs" />
+    <Compile Include="OM_GoogleCalendarsExt.cs" />
+    <Compile Include="OM_GoogleEvents.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_GoogleEventsExt.cs" />
+    <Compile Include="OM_MailFooter.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailFooterExt.cs" />
+    <Compile Include="OM_MailMessageAddresses.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailMessageAddressesExt.cs" />
+    <Compile Include="OM_MailMessageAttachments.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailMessageAttachmentsExt.cs" />
+    <Compile Include="OM_MailMessageHTML.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailMessageHTMLExt.cs" />
+    <Compile Include="OM_MailMessageLinks.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailMessageLinksExt.cs" />
+    <Compile Include="OM_MailMessagePop3.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailMessagePop3Ext.cs" />
+    <Compile Include="OM_MailMessages.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailMessagesExt.cs" />
+    <Compile Include="OM_MailMessageWorkers.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MailMessageWorkersExt.cs" />
+    <Compile Include="OM_MastersContacts.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_MastersContactsExt.cs" />
+    <Compile Include="OM_ModulesOFM.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_ModulesOFMExt.cs" />
+    <Compile Include="OM_WorkerAccounts.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkerAccountsExt.cs" />
+    <Compile Include="OM_Workers.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersAlerts.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersAlertsExt.cs" />
+    <Compile Include="OM_WorkersCalendars.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersCalendarsExt.cs" />
+    <Compile Include="OM_WorkersExt.cs" />
+    <Compile Include="OM_WorkersMailRules.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersMailRulesExt.cs" />
+    <Compile Include="OM_WorkersMailRulesFilters.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersMailRulesFiltersExt.cs" />
+    <Compile Include="OM_WorkersMailRulesMastersLinked.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersMailRulesMastersLinkedExt.cs" />
+    <Compile Include="OM_WorkersMailRulesWorkerShared.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersMailRulesWorkerSharedExt.cs" />
+    <Compile Include="OM_WorkersPreferencesDetails.cs">
+      <DependentUpon>Mailbox.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OM_WorkersPreferencesDetailsExt.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceStatus.cs" />
+    <Compile Include="TimerManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web References\tbDms\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj">
+      <Project>{F2F1C352-B5F8-4E92-A85F-99B012F80504}</Project>
+      <Name>Microarea.TaskBuilderNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Mailbox.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Mailbox.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="EasyAttachment.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EasyAttachment.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EasyAttachment.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EasyAttachment.Context.cs</LastGenOutput>
+      <DependentUpon>EasyAttachment.edmx</DependentUpon>
+    </None>
+    <None Include="EasyAttachment.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EasyAttachment.cs</LastGenOutput>
+      <DependentUpon>EasyAttachment.edmx</DependentUpon>
+    </None>
+    <None Include="Mailbox.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mailbox.Context.cs</LastGenOutput>
+      <DependentUpon>Mailbox.edmx</DependentUpon>
+    </None>
+    <None Include="Mailbox.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mailbox.cs</LastGenOutput>
+      <DependentUpon>Mailbox.edmx</DependentUpon>
+    </None>
+    <None Include="MZPcmpDMSEntities.datasource" />
+    <None Include="MZP_CompanyEntities.datasource" />
+    <None Include="NuGet.Config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\tbDms\Extensions.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions15.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions16.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions17.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions18.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions19.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions20.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions21.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions22.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions23.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions24.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Extensions9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\tbDms\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\tbDms\TbDMS.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost:10000/Extensions.EasyAttachment.TBDMS">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\tbDms\</RelPath>
+      <UpdateFromURL>http://localhost:10000/Extensions.EasyAttachment.TBDMS</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_TbHermesBL_tbDms_TbDMS</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\tbDms\Extensions.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

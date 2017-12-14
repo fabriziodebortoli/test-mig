@@ -1,0 +1,221 @@
+﻿//==============================================================================
+// CopyRight (c) 1993-2000 Microarea SpA. All rights reserved
+//==============================================================================
+
+Release 6 Maximized 
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+PageLayout "Default" 
+	Begin
+		Text (106,68,126,144) "@TODATE" 
+			Begin
+				Align 2128 ;
+				Borders (1,1,1,0) ;
+			End
+
+		Text (24,65,54,727) "@TABLETITLE @AUDIT_TABLENAME" 
+			Begin
+				Align 2128 ;
+				FontStyle "ListTitle" ;
+				Borders (0,0,0,0) ;
+			End
+
+		Text (81,68,102,144) "@FROMDATE" 
+			Begin
+				Align 2128 ;
+				Borders (1,1,1,0) ;
+			End
+
+		Field (108,786,129,805) Alias 14 FormatStyle "Bool"  Borders (1,0,1,1) ;
+		 
+		Text (108,710,129,786) "@CHANGEKEY" 
+			Begin
+				Align 2128 ;
+				Borders (1,1,1,0) ;
+			End
+
+		Text (79,710,102,786) "@DELETED" 
+			Begin
+				Align 2128 ;
+				Borders (1,1,1,0) ;
+			End
+
+		Field (79,786,102,805) Alias 13 FormatStyle "Bool"  Borders (1,0,1,1) ;
+		 
+		Field (80,668,101,687) Alias 11 FormatStyle "Bool"  Borders (1,0,1,1) ;
+		 
+		Field (107,667,129,687) Alias 12 FormatStyle "Bool"  Borders (1,0,1,1) ;
+		 
+		Text (107,591,129,667) "@UPDATED" 
+			Begin
+				Align 2128 ;
+				Borders (1,1,1,0) ;
+			End
+
+		Text (80,592,101,668) "@INSERTED" 
+			Begin
+				Align 2128 ;
+				Borders (1,1,1,0) ;
+			End
+
+		Field (81,144,102,292) Alias 19 FormatStyle "DateTime"  Borders (1,0,1,1) ;
+		 
+		Field (106,142,126,291) Alias 20 FormatStyle "DateTime"  Borders (1,0,1,1) ;
+		 
+		Text (81,360,102,429) "@USER" 
+			Begin
+				Align 2128 ;
+				Borders (1,1,1,0) ;
+			End
+
+		Field (81,427,102,569) Alias 16  Borders (1,0,1,1) ;
+		 
+		Table (30, @COUNT) "@AUDIT_TABLENAME" Alias 1 Origin (12,143) Heights (14,34,20,14) 
+		HideTitle
+			Begin
+				"@OPERATIONDATA" Alias 2 Width 108 FormatStyle "DateTime" ;
+				"@USER" Alias 21 Width 114 ;
+				"@OPERATION" Alias 22 Width 82 ;
+				"@DOCUMENT" Alias 24 Width 82 ;
+				"@APPLICATION" Alias 25 Width 80 ;
+				"@MODULE" Alias 26 Width 98 ;		
+				"AU_OperationType" Alias 3 Width 0 FormatStyle "Integer" Total Hidden Width 10 ;
+				"Namespace" Alias 5 Width 0 Hidden Width 98 ;		
+				@COLUMNS 
+			End
+	End
+
+Links
+	Begin
+		LinkForm Alias 5 
+			On Alias 24
+			When String Alias 5 != "" And Long Alias 3 != 3
+		Begin
+			@PKCOLUMNS 
+		End	
+	End
+
+Report 
+	Begin NoName
+		Tables
+			@AUDIT_TABLENAME [30] Alias 1 ;
+		End
+
+		Variables
+			DateTime     AU_OperationData [10] Alias 2  Column ;
+			Integer      AU_OperationType [12] Alias 3  Column ;
+			Long         AU_NameSpaceID [12] Alias 4  Hidden ;
+			String       Namespace [64] Alias 5 Column ;
+			Bool         AllUser_Ask [2] Alias 6  Hidden  Input Init = TRUE  ;
+			Bool         InsertRow_Ask [2] Alias 7  Hidden  Input Init = TRUE  ;
+			Bool         UpdateRow_Ask [2] Alias 8  Hidden  Input Init = TRUE  ;
+			Bool         DeleteRow_Ask [2] Alias 9  Hidden  Input Init = TRUE  ;
+			Bool         ChangeKey_Ask [2] Alias 10  Hidden  Input Init = TRUE  ;
+			Bool         InsertRow [2] Alias 11 ;
+			Bool         UpdateRow [2] Alias 12 ;
+			Bool         DeleteRow [2] Alias 13 ;
+			Bool         ChangeKeyRow [2] Alias 14 ;
+			String       User_Ask [15] Alias 15  Hidden  Input Init = ""  ;
+			String       UserName [15] Alias 16 ;
+			DateTime     FromDate_Ask [14] Alias 17  Hidden  Input Init = DateTime ( )  ;
+			DateTime     ToDate_Ask [14] Alias 18  Hidden  Input Init = DateTime ( )  ;
+			DateTime     FromDate [14] Alias 19 ;
+			DateTime     ToDate [14] Alias 20 ;
+			String       AU_LoginName [29] Alias 21  Column ;
+			String       OperationDescri [20] Alias 22  Column ;
+			Long         ID [12] Alias 23  Hidden ;
+			String       DocumentName [15] = GetDocumentTitleFromNs ( Namespace )  Alias 24  Column ;	
+			String       ApplicationName [29] = GetApplicationTitleFromNs ( Namespace )  Alias 25  Column ;
+			String       ModuleName [18] = GetModuleTitleFromNs ( Namespace )  Alias 26  Column ;
+			@VARIABLES
+		End
+
+		Rules
+			From @AUDIT_TABLENAME 
+			Select 
+				AU_OperationData     Into AU_OperationData ,
+				AU_OperationType     Into AU_OperationType ,
+				AU_NameSpaceID       Into AU_NameSpaceID ,
+				AU_LoginName         Into AU_LoginName, 
+				@TABLEFIELDS
+				Where @AUDIT_TABLENAME.AU_OperationData Between FromDate_Ask And ToDate_Ask And ( AllUser_Ask == true Or @AUDIT_TABLENAME.AU_LoginName == User_Ask ) And ( ( InsertRow_Ask == true And UpdateRow_Ask == true And DeleteRow_Ask == true And ChangeKey_Ask == true ) Or ( ( InsertRow_Ask == true And @AUDIT_TABLENAME.AU_OperationType == 1 ) Or ( UpdateRow_Ask == true And @AUDIT_TABLENAME.AU_OperationType == 2 ) Or ( DeleteRow_Ask == true And @AUDIT_TABLENAME.AU_OperationType == 3 ) Or ( ChangeKey_Ask == true And @AUDIT_TABLENAME.AU_OperationType == 4 ) ) ) @WHERECLAUSE;
+
+			From AUDIT_Namespaces 
+			Select  Not NULL
+				Namespace            Into Namespace ,
+				ID                   Into ID 
+				Where AUDIT_Namespaces.ID == AU_NameSpaceID  ;
+
+			InsertRow = InsertRow_Ask  ;
+
+			UpdateRow = UpdateRow_Ask  ;
+
+			DeleteRow = DeleteRow_Ask  ;
+
+			ChangeKeyRow = ChangeKey_Ask  ;
+
+			If ( AllUser_Ask == false ) 
+				Then UserName = User_Ask  
+				Else UserName = " "  ;
+
+			FromDate = FromDate_Ask  ;
+
+			ToDate = ToDate_Ask  ;
+		End
+
+
+		Events
+			Report : Do
+				Always 
+					Begin
+						If ( AU_OperationType == 1 ) 
+							Then OperationDescri = "@INSERT"  ;
+						If ( AU_OperationType == 2 ) 
+							Then OperationDescri = "@UPDATE"  ;
+						If ( AU_OperationType == 3 ) 
+							Then OperationDescri = "@DELETE"  ;
+						If ( AU_OperationType == 4 ) 
+							Then OperationDescri = "@CHANGEKEY"  ;
+						Eval DocumentName ;
+						Eval ApplicationName ;
+						Eval ModuleName ;
+						DisplayTableRow ;
+						NextLine ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+					End
+		End
+		Dialogs
+			Begin
+				Dialog DatiTracciatura  "@FILTERTITLE" 
+					Begin
+						Before 
+							Begin
+							End
+						Controls
+							Begin
+								Begin  "@DATERANGE"  
+									FromDate_Ask Prompt = "@FROMDATE" LowerLimit ;
+									ToDate_Ask Prompt = "@TODATE" UpperLimit ;
+								End
+								Begin  "@USER"  
+									AllUser_Ask Prompt = "@ALL" ;
+									User_Ask Style = 8 Prompt = "" ReadOnly = AllUser_Ask == true  HotLink Framework.TbGes.TbGes.Users( ) ;
+								End
+								Begin  "@ROWS"  
+									InsertRow_Ask Prompt = "@INSERTED" ;
+									UpdateRow_Ask Prompt = "@UPDATED" ;
+									DeleteRow_Ask Prompt = "@DELETED" ;
+									ChangeKey_Ask Prompt = "@CHANGEKEY" ;
+								End
+							End
+						After 
+							Begin
+							End
+					End
+			End
+	End
+

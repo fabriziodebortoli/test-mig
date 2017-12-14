@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_CHOOSE_OBJECT			GET_IDD(IDD_CHOOSE_OBJECT, M.Framework.TbWoormViewer.LISTDLG)
+#define	IDC_CMB_LEFTCOLUMNS			GET_IDC(IDC_CMB_LEFTCOLUMNS)
+#define	IDC_CMB_TABLES			GET_IDC(IDC_CMB_TABLES)

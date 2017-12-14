@@ -1,0 +1,89 @@
+﻿{
+  "id": "IDD_FIND_DLG_ENUM",
+  "type": 66,
+  "x": 30,
+  "y": 73,
+  "width": 191,
+  "height": 43,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "pageinfo",
+  "items": [
+    {
+      "id": "1136",
+      "type": 12,
+      "x": 3,
+      "y": 22,
+      "width": 72,
+      "height": 44,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 1,
+      "sort": true
+    },
+    {
+      "id": "1056",
+      "type": 10,
+      "text": "&Up",
+      "x": 83,
+      "y": 12,
+      "width": 45,
+      "height": 10,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "1057",
+      "type": 10,
+      "text": "&Down",
+      "x": 83,
+      "y": 24,
+      "width": 44,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "Find &where",
+      "x": 135,
+      "y": 7,
+      "width": 54,
+      "height": 12,
+      "group": true,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 135,
+      "y": 22,
+      "width": 54,
+      "height": 12,
+      "group": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "&Find:",
+      "x": 3,
+      "y": 11,
+      "width": 72,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "1072",
+      "type": 9,
+      "text": "Direction",
+      "x": 80,
+      "y": 3,
+      "width": 51,
+      "height": 34
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function namespace="MDC.ElectronicInvoicing_IT.Dbl.SaleDocForElectronicInvoicing" localize="MDC Document for Electronic Invoicing" type="string"/>
+  <DbField name="MA_SaleDoc.DocNo" />
+  <ClassName>HKLSaleDocForElectronicInvoicing</ClassName>
+</HotKeyLink>

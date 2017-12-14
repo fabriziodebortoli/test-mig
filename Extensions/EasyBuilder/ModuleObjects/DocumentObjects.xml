@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+  <Documents>
+    <Document namespace="Extensions.EasyBuilder.TbEasyBuilder.NewDocument" localize="Template for creating new EasyStudio documents" classhierarchy="CNewDocument" dynamic="false" securityhidden="true">
+      <ViewModes>
+        <Mode name="Default"  />
+      </ViewModes>
+    </Document>
+    <Document namespace="Extensions.EasyBuilder.TbEasyBuilder.EasyStudioDesigner" localize="EasyStudio JSON Designer" classhierarchy="CNewDocument" dynamic="false" securityhidden="true">
+      <ViewModes>
+        <Mode name="Default"  />
+      </ViewModes>
+    </Document>
+    <Document namespace="Extensions.EasyBuilder.TbEasyBuilder.NewBatchDocument" localize="Template for creating new EasyBuilder batch documents" classhierarchy="CNewDocument" dynamic="false" securityhidden="true">
+	  <ViewModes>
+		<Mode name="Batch"  />
+	  </ViewModes>
+	</Document>
+  </Documents>
+</DocumentObjects>

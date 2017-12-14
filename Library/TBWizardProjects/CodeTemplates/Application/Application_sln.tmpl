@@ -1,0 +1,32 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+@(RepeatOnModules{@(+)
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "@(ModuleName)", "@(ModuleName)", "@(ModuleGuid)"\n@(+)
+EndProject\n@(+)
+@(RepeatOnLibraries{@(+)
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "@(LibraryName)", "@(RelativeLibrarySourceFolder)@(LibraryName).vcxproj", "@(LibraryGuid)"\n@(+)
+EndProject@(+)
+, "\r\n"@(+)
+}), "\r\n"})
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+@(RepeatOnModules{@(RepeatOnLibraries{@(+)
+\t\t@(LibraryGuid).Debug|Win32.ActiveCfg = Debug|Win32\n@(+)
+\t\t@(LibraryGuid).Debug|Win32.Build.0 = Debug|Win32\n@(+)
+\t\t@(LibraryGuid).Release|Win32.ActiveCfg = Release|Win32\n@(+)
+\t\t@(LibraryGuid).Release|Win32.Build.0 = Release|Win32@(+)
+, "\r\n"@(+)
+}), "\r\n"})
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+@(RepeatOnModules{@(RepeatOnLibraries{\t\t@(LibraryGuid) = @(ModuleGuid), "\r\n"}), "\r\n"})
+	EndGlobalSection
+EndGlobal

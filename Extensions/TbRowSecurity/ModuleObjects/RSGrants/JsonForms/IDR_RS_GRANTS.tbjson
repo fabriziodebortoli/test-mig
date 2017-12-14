@@ -1,0 +1,14 @@
+﻿{
+  "id": "IDR_RS_GRANTS",
+  "type": 66,
+  "accelerators": [
+    {
+      "id": "ID_RS_OPEN_GRANTS_FORM",
+      "key": 71,
+      "virtualKey": true,
+      "control": true,
+      "alt": true,
+      "noInvert": true
+    }
+  ]
+}

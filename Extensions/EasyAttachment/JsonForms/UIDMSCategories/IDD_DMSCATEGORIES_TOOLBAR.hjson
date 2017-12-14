@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_DMSCATEGORIES_TOOLBAR	GET_IDD(IDD_DMSCATEGORIES_TOOLBAR, M.Extensions.EasyAttachment.UIDMSCategories)
+

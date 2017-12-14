@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Images">
+      <UniqueIdentifier>{b3db40b4-d51c-480e-ac15-b3b6b8af1eb0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CLockStructureViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBApplicationWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBProxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MDataObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MDBTObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MDocument.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MParsedControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MSqlCatalog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MSqlRecord.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MFormatters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UITypeEditors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenericControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MTabber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MWorkers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MSqlTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MBodyEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBParsedControlHost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EBHotKeyLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MDataManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MEasyBuilderContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MGenericDataManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BusinessObjectParams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MWoormInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MStringList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MParsedControlsExtenders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EBEnumsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MTreeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MToolbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyBuilderComponents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Attributes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MSymbolTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CEFBrowserWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MTileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MTileDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MTileGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MTilePanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MHotLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBToolStripMenuItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBCmdUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MLayoutContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MControlsExtenders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MAccelerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MPropertyGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MHeaderStrip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowWrapperContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializationAddOnService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyStudioTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MExpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TBApplicationWrapper.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Module.config" />
+    <None Include="BEGINH.DEX" />
+    <None Include="ENDH.DEX" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CLockStructureViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBApplicationWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MDataObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MDBTObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MDocument.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MParsedControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MSqlCatalog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MSqlRecord.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MFormatters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UITypeEditors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTabber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MWorkers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MSqlTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MBodyEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBParsedControlHost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EBHotKeyLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MDataManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MEasyBuilderContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MGenericDataManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BusinessObjectParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MWoormInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MStringList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MParsedControlsExtenders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EBEnumsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTreeView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MToolbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventsMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyBuilderComponents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Attributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msymboltable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EBEventArgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CEFBrowserWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTileDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTileGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTilePanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MHotLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBToolStripMenuItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBCmdUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MLayoutContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MControlsExtenders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MAccelerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MPropertyGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MHeaderStrip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.hjson">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowWrapperContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializationAddOnService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyStudioTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MExpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TBApplicationWrapper.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <_EmbedManagedResourceFile Include="Images\ControlClass.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MBodyEdit.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MCheckBox.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MLabel.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MParsedCombo.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MParsedEdit.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MParsedListBox.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MParsedStatic.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MPushButton.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MRadioButton.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MTab.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MTabber.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\HiddenField.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Application.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Document.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Module.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MToolbar.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MTreeView.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MTileManager.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MTileGroup.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.Control.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MParsedGroupBox.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MPropertyGrid.png">
+      <Filter>Images</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MTilePanel.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericCheckBox.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericRadioButton.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericTreeView.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MPanel.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.MHeaderStrip.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericComboBox.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericEdit.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericGroupBox.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericListBox.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericListCtrl.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+    <_EmbedManagedResourceFile Include="Images\Microarea.Framework.TBApplicationWrapper.GenericPushButton.png">
+      <Filter>Resource Files</Filter>
+    </_EmbedManagedResourceFile>
+  </ItemGroup>
+</Project>

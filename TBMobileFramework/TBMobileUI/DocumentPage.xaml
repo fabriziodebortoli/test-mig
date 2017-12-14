@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TBMobileUI.DocumentPage"
+Style="{StaticResource PageStyle}" xmlns:y ="clr-namespace:TBMobileUI;assembly=TBMobileUI">
+	<ContentPage.Content>
+		<StackLayout>
+			<StackLayout.Children>
+				<Grid x:Name="UpToolbar" VerticalOptions="Start" Padding="2,5,2,0">
+					<Grid.Children>
+						<Button x:Name="Back" Text="&lt;&lt; Back" Style="{StaticResource ButtonStyle}" HorizontalOptions="Start" Clicked="OnBackClicked"></Button>
+					</Grid.Children>
+				</Grid>
+				<y:GestureFrame x:Name="frame" VerticalOptions="Center">
+					<y:GestureFrame.Content>
+						<Grid>
+							<Grid.Children>
+								<StackLayout x:Name="container">
+								</StackLayout>
+								<ActivityIndicator x:Name="indicator" IsRunning="false" VerticalOptions="End" HorizontalOptions="Center"></ActivityIndicator>
+							</Grid.Children>
+						</Grid>
+					</y:GestureFrame.Content>
+				</y:GestureFrame>
+				<Grid x:Name="BottomToolbar" VerticalOptions="End" Padding="2,5,2,5">
+					<Grid.Children>
+						<Button x:Name="Save" Text="Save" Style="{StaticResource ButtonStyle}" Grid.Column="0" Clicked="OnSaveClicked"></Button>
+						<Button x:Name="Edit" Text="Edit" Style="{StaticResource ButtonStyle}" Grid.Column="0" Clicked="OnEditClicked"></Button>
+						<Button x:Name="Delete" Text="Delete" Style="{StaticResource ButtonStyle}" Grid.Column="3" Clicked="OnDeleteClicked"></Button>
+						<Button x:Name="Cancel" Text="Cancel" Style="{StaticResource ButtonStyle}" Grid.Column="3" Clicked="OnCancelClicked"></Button>
+					</Grid.Children>
+				</Grid>
+			</StackLayout.Children>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

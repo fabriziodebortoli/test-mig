@@ -1,0 +1,20 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<XEngine\ModuleObjects\XEngineParameters\JsonForms\IDD_TD_XE_PARAMETERS.hjson>
+#include	<XEngine\ModuleObjects\XEngineParameters\JsonForms\IDD_XE_PARAMETERS.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_XE_PARAMS_DOMAIN_NAME			GET_IDC(IDC_XE_PARAMS_DOMAIN_NAME)
+#define	IDC_XE_PARAMS_ENCODING_TYPE			GET_IDC(IDC_XE_PARAMS_ENCODING_TYPE)
+#define	IDC_XE_PARAMS_ENV_PADDING_NR			GET_IDC(IDC_XE_PARAMS_ENV_PADDING_NR)
+#define	IDC_XE_PARAMS_EXPORT_PATH			GET_IDC(IDC_XE_PARAMS_EXPORT_PATH)
+#define	IDC_XE_PARAMS_IMPORT_PATH			GET_IDC(IDC_XE_PARAMS_IMPORT_PATH)
+#define	IDC_XE_PARAMS_MAX_DOC			GET_IDC(IDC_XE_PARAMS_MAX_DOC)
+#define	IDC_XE_PARAMS_MAX_KBYTE			GET_IDC(IDC_XE_PARAMS_MAX_KBYTE)
+#define	IDC_XE_PARAMS_SITE_CODE			GET_IDC(IDC_XE_PARAMS_SITE_CODE)
+#define	IDC_XE_PARAMS_SITE_NAME			GET_IDC(IDC_XE_PARAMS_SITE_NAME)
+#define	IDC_XE_PARAMS_USE_ATTRIBUTE			GET_IDC(IDC_XE_PARAMS_USE_ATTRIBUTE)
+#define	IDC_XE_PARAMS_USE_ENUM_AS_NUM			GET_IDC(IDC_XE_PARAMS_USE_ENUM_AS_NUM)
+#define	IDC_XE_PARAMS_USE_ENV_CLASS_EXT			GET_IDC(IDC_XE_PARAMS_USE_ENV_CLASS_EXT)

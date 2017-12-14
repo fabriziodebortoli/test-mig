@@ -1,0 +1,134 @@
+﻿{
+  "id": "IDD_RADAR_INSERT_DELETED_COLUMNS",
+  "rcId": 1093,
+  "type": 66,
+  "text": "Insert Deleted Columns",
+  "x": 0,
+  "y": 0,
+  "width": 177,
+  "height": 198,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "radar",
+  "items": [
+    {
+      "id": "IDC_RADAR_INS_RB_TAIL",
+      "type": 10,
+      "text": "Table Bottom",
+      "x": 9,
+      "y": 18,
+      "width": 142,
+      "height": 10,
+      "enabled": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADAR_INS_RB_HEAD",
+      "type": 10,
+      "text": "Table Top",
+      "x": 9,
+      "y": 29,
+      "width": 142,
+      "height": 10,
+      "enabled": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADAR_INS_RB_NEXT_COL",
+      "type": 10,
+      "text": "Column right",
+      "x": 9,
+      "y": 40,
+      "width": 142,
+      "height": 10,
+      "enabled": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADAR_INS_RB_PREV_COL",
+      "type": 10,
+      "text": "Column left",
+      "x": 9,
+      "y": 51,
+      "width": 142,
+      "height": 10,
+      "enabled": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADAR_INS_CKB_MOUSE",
+      "type": 11,
+      "text": "With Mouse",
+      "x": 5,
+      "y": 74,
+      "width": 158,
+      "height": 10,
+      "enabled": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADAR_INS_LISTBOX",
+      "type": 24,
+      "x": 5,
+      "y": 91,
+      "width": 164,
+      "height": 74,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 3,
+      "hasStrings": true
+    },
+    {
+      "id": "IDC_RADAR_INS_BT_DES_ALL",
+      "type": 3,
+      "text": "&Deselect All",
+      "x": 1,
+      "y": 161,
+      "width": 87,
+      "height": 14,
+      "enabled": false
+    },
+    {
+      "id": "IDC_RADAR_INS_BT_SEL_ALL",
+      "type": 3,
+      "text": "&Select All",
+      "x": 89,
+      "y": 161,
+      "width": 87,
+      "height": 14
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 1,
+      "y": 179,
+      "width": 87,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 89,
+      "y": 179,
+      "width": 87,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Default",
+      "x": 5,
+      "y": 4,
+      "width": 168,
+      "height": 65
+    }
+  ]
+}

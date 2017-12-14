@@ -1,0 +1,55 @@
+﻿{
+  "id": "IDD_SINGLELINE_TEXT",
+  "rcId": 1146,
+  "type": 66,
+  "text": "Data Text",
+  "x": 59,
+  "y": 37,
+  "width": 164,
+  "height": 54,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "&Description",
+      "x": 8,
+      "y": 5,
+      "width": 150,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_TEXTDATA",
+      "type": 13,
+      "x": 7,
+      "y": 16,
+      "width": 151,
+      "height": 13,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 8,
+      "y": 33,
+      "width": 65,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 94,
+      "y": 33,
+      "width": 65,
+      "height": 14
+    }
+  ]
+}

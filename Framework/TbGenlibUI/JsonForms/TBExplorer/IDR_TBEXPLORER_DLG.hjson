@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDC_BTN_SEARCH			GET_ID(IDC_BTN_SEARCH)
+#define	IDC_BTN_STYLE			GET_ID(IDC_BTN_STYLE)

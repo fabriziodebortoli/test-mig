@@ -1,0 +1,268 @@
+﻿{
+  "id": "IDD_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE_PAGE3",
+  "rcId": 2257,
+  "type": 66,
+  "text": "Subscribe: sender data",
+  "x": 0,
+  "y": 0,
+  "width": 410,
+  "height": 192,
+  "child": true,
+  "systemMenu": true,
+  "context": "postaliteaccountmanagementdlg",
+  "items": [
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_LOAD_FROM_COMPANY",
+      "type": 3,
+      "x": 364,
+      "y": 43,
+      "width": 17,
+      "height": 15,
+      "ownerDraw": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_COMPANYNAME",
+      "type": 13,
+      "x": 19,
+      "y": 63,
+      "width": 145,
+      "height": 13,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_ADDRESS",
+      "type": 13,
+      "x": 173,
+      "y": 63,
+      "width": 209,
+      "height": 13,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_CITY",
+      "type": 12,
+      "x": 19,
+      "y": 92,
+      "width": 146,
+      "height": 30,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 1,
+      "sort": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_COUNTY",
+      "type": 12,
+      "x": 173,
+      "y": 92,
+      "width": 42,
+      "height": 30,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 1,
+      "sort": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_ZIPCODE",
+      "type": 13,
+      "x": 222,
+      "y": 92,
+      "width": 43,
+      "height": 13,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_COUNTRY",
+      "type": 12,
+      "x": 281,
+      "y": 92,
+      "width": 99,
+      "height": 30,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 1,
+      "sort": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_TAXIDNUMBER",
+      "type": 13,
+      "x": 19,
+      "y": 117,
+      "width": 146,
+      "height": 13,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_FISCAL_CODE",
+      "type": 13,
+      "x": 173,
+      "y": 117,
+      "width": 209,
+      "height": 13,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_LEGAL_STATUS",
+      "type": 12,
+      "x": 19,
+      "y": 146,
+      "width": 57,
+      "height": 18,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_ACTIVITY",
+      "type": 12,
+      "x": 108,
+      "y": 146,
+      "width": 57,
+      "height": 18,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_POSTALITE_ACCOUNT_MANAGEMENT_SUBSCRIBE3_SENDER_EMAIL",
+      "type": 13,
+      "x": 173,
+      "y": 146,
+      "width": 208,
+      "height": 13,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "text": "Law august 13 2010 N°136",
+      "x": 11,
+      "y": 11,
+      "width": 383,
+      "height": 175
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Legal status",
+      "x": 20,
+      "y": 137,
+      "width": 74,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "County",
+      "x": 174,
+      "y": 83,
+      "width": 42,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Email",
+      "x": 174,
+      "y": 137,
+      "width": 180,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Country",
+      "x": 281,
+      "y": 83,
+      "width": 91,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 2,
+      "text": "Activity",
+      "x": 109,
+      "y": 137,
+      "width": 56,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 2,
+      "text": "Company name",
+      "x": 20,
+      "y": 54,
+      "width": 144,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 2,
+      "text": "City",
+      "x": 20,
+      "y": 83,
+      "width": 142,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_9",
+      "type": 2,
+      "text": "Address",
+      "x": 174,
+      "y": 54,
+      "width": 161,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_10",
+      "type": 2,
+      "text": "Zip Code",
+      "x": 223,
+      "y": 83,
+      "width": 54,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_11",
+      "type": 2,
+      "text": "Vat number",
+      "x": 19,
+      "y": 108,
+      "width": 87,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_12",
+      "type": 2,
+      "text": "Here follows the Public Entity identifying data which the contract refers to (as stated in the clause 2b)",
+      "x": 21,
+      "y": 31,
+      "width": 367,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Fiscal code",
+      "x": 174,
+      "y": 108,
+      "width": 87,
+      "height": 8,
+      "textAlign": 0
+    }
+  ]
+}

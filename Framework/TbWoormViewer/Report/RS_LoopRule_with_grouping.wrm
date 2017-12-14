@@ -1,0 +1,132 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+PageLayout "default" 
+	Begin
+		Table (10,9) "Table_3" Alias 3  /* Table_3 */ Origin (19,42) Heights (26,18,19,14) 
+		HideTitle
+			Begin
+				"Code" Alias 2  /* w_Code */ Width 121 ;
+				"CAT" Alias 16  /* w_Cat */ Width 121 ;
+				"SUM" Alias 7  /* w_SUM */ Width 95 FormatStyle "Double" Total ;
+				"AVG" Alias 9  /* w_AVG */ Width 105 FormatStyle "Double" Total ;
+				"MIN" Alias 14  /* w_MIN */ Width 121 ;
+				"MAX" Alias 15  /* w_MAX */ Width 124 FormatStyle "Double" ;
+				"FIRST" Alias 11  /* w_FIRST */ Width 121 ;
+				"LAST" Alias 12  /* w_LAST */ Width 100 FormatStyle "Long" ;
+				"w_count" Alias 4  /* w_count */ Width 58 FormatStyle "Integer" ;
+			End
+
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Table_3 [10] Alias 3 ;
+		End
+
+		Variables
+			String       w_Code [23] Alias 2  Column ;
+			Integer      w_count [6] Alias 4  Column ;
+			Double       w_SUM [23] Alias 7  Column ;
+			Double       w_TotSUM = Csum (w_SUM ) Alias 8  ColTotal ;
+			Double       w_AVG [23] Alias 9  Column ;
+			Double       w_TotAVG = Csum (w_AVG ) Alias 10  ColTotal ;
+			String       w_FIRST [23] Alias 11  Column ;
+			Long         w_LAST [12] Alias 12  Column ;
+			String       w_MIN [23] Alias 14  Column ;
+			Double       w_MAX [23] Alias 15  Column ;
+			String       w_Cat [23] Alias 16  Column ;
+			Array        String       arCode [23] Alias 100  Hidden  Input Init = [ "000" , "001" , "001" , "002" , "002" , "002" , "003" ] ;
+			Array        Quantity     arSum [23] Alias 101  Hidden  Input Init = [ 1 , 10 , 40 , 100 , 500 , 600 , 1000 ] ;
+			Array        Money        arAvg [23] Alias 102  Hidden  Input Init = [ 1 , 10 , 40 , 100 , 500 , 600 , 1000 ] ;
+			Array        String       arCat [23] Alias 103  Hidden  Input Init = [ "0" , "1.1" , "1.2" , "2.1" , "2.2" , "2.3" , "3.1" ] ;
+			Array        String       arFirst [23] Alias 104  Hidden  Input Init = [ "zero" , "first" , "last" , "aaa" , "bbb" , "zzz" , "CCC" ] ;
+			Array        Long         arLast [23] Alias 105  Hidden  Input Init = [ 9 , 100 , 99 , 1 , 2 , 9 , 50 ] ;
+			Array        String       arMin [23] Alias 106  Hidden  Input Init = [ "0" , "5" , "3" , "107" , "194" , "200" , "tre" ] ;
+			Array        Double       arMax [23] Alias 107  Hidden  Input Init = [ 9 , 10 , 5 , 20 , 8 , 99 , 33 ] ;
+			Integer      i [1] Alias 200  Hidden ;
+		End
+
+		Rules
+			w_count = 0 ;
+
+			For
+
+				Begin
+					i = 0 ;
+				End
+			While i < arCode.Size ( ) Do
+
+				Begin
+					w_Code = arCode [ i ] ;
+					w_SUM = arSum [ i ] ;
+					w_AVG = arAvg [ i ] ;
+					w_MIN = arMin [ i ] ;
+					w_MAX = arMax [ i ] ;
+					w_FIRST = arFirst [ i ] ;
+					w_LAST = arLast [ i ] ;
+					w_Cat = arCat [ i ] ;
+				End
+			Continue
+
+				Begin
+					i = i + 1 ;
+				End
+			;
+		End
+
+		Group By w_Code Do 
+			Begin
+				CCount (w_count ) ;
+				Csum (w_SUM ) ;
+				CAvg (w_Avg ) ;
+				Cmin (w_Min ) ;
+				Cmax (w_Max ) ;
+				Ccat (w_Cat ) ;
+				CFirst (w_First ) ;
+				CLast (w_Last ) ;
+			End
+
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+						Display w_TotSUM ;
+						Reset w_TotSUM ;
+						Display w_TotAVG ;
+						Reset w_TotAVG ;
+					End
+				After 
+					Begin
+					End
+
+			Report : Do
+				Always 
+					Begin
+						Eval w_TotSUM ;
+						Eval w_TotAVG ;
+						DisplayTableRow ;
+						NextLine ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+						Display w_TotSUM ;
+						Display w_TotAVG ;
+					End
+				Finalize 
+					Begin
+					End
+		End
+End
+

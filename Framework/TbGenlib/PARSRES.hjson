@@ -1,0 +1,38 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGenlib\JsonForms\PARSRES\IDD_ENTITIES_FORMATMASKS.hjson>
+#include	<TbGenlib\JsonForms\PARSRES\IDR_PARSEDDIALOG.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_BROWSE_FILES			GET_ID(ID_BROWSE_FILES)
+#define	ID_BROWSE_LINK			GET_ID(ID_BROWSE_LINK)
+#define	ID_BTN_ADDRESSLIST			GET_ID(ID_BTN_ADDRESSLIST)
+#define	ID_BTN_CALENDAR			GET_ID(ID_BTN_CALENDAR)
+#define	ID_BTN_COLOR			GET_ID(ID_BTN_COLOR)
+#define	ID_DOCUMENT_SEARCH			GET_ID(ID_DOCUMENT_SEARCH)
+#define	ID_FOLLOW_HYPERLINK			GET_ID(ID_FOLLOW_HYPERLINK)
+#define	ID_INVERT_SELECTION			GET_ID(ID_INVERT_SELECTION)
+#define	ID_MENU_ADD_ELEMENT			GET_ID(ID_MENU_ADD_ELEMENT)
+#define	ID_MENU_REMOVE_ELEMENT			GET_ID(ID_MENU_REMOVE_ELEMENT)
+#define	ID_ODF_SEARCH			GET_ID(ID_ODF_SEARCH)
+#define	ID_OTHER_SEARCH			GET_ID(ID_OTHER_SEARCH)
+#define	ID_PARSEDT_CTRL_MENU_BEST			GET_ID(ID_PARSEDT_CTRL_MENU_BEST)
+#define	ID_PARSEDT_CTRL_MENU_HORIZONTAL			GET_ID(ID_PARSEDT_CTRL_MENU_HORIZONTAL)
+#define	ID_PARSEDT_CTRL_MENU_NORMAL			GET_ID(ID_PARSEDT_CTRL_MENU_NORMAL)
+#define	ID_PARSEDT_CTRL_MENU_VERTICAL			GET_ID(ID_PARSEDT_CTRL_MENU_VERTICAL)
+#define	ID_PDF_SEARCH			GET_ID(ID_PDF_SEARCH)
+#define	ID_PICTURE_SEARCH			GET_ID(ID_PICTURE_SEARCH)
+#define	ID_REPORT_SEARCH			GET_ID(ID_REPORT_SEARCH)
+#define	ID_RTF_SEARCH			GET_ID(ID_RTF_SEARCH)
+#define	ID_SELECT_ALL			GET_ID(ID_SELECT_ALL)
+#define	ID_TEXT_SEARCH			GET_ID(ID_TEXT_SEARCH)
+#define	ID_TILE_COLLAPSE_BUTTON			GET_ID(ID_TILE_COLLAPSE_BUTTON)
+#define	ID_UNSELECT_ALL			GET_ID(ID_UNSELECT_ALL)
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC_CURSOR
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_TB_HAND		1060
+#define	IDC_BE_DELETE							GET_IDC(IDC_BE_DELETE)

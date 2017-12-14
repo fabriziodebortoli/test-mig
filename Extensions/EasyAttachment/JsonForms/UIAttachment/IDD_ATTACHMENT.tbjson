@@ -1,0 +1,23 @@
+{
+  "context": "uiattachment",
+  "height": 189,
+  "id": "IDD_ATTACHMENT",
+  "items": [
+    {
+      "acceptFiles": true,
+      "height": 188,
+      "id": "IDC_ATTACHMENT_HEAD",
+      "isText": true,
+      "text": "Group",
+      "type": 3/*Button*/,
+      "vertAlign": 0,
+      "width": 294,
+      "x": 1,
+      "y": 0
+    }
+  ],
+  "overlapped": true,
+  "tabStop": false,
+  "type": 66/*Panel*/,
+  "width": 295
+}

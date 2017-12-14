@@ -1,0 +1,52 @@
+﻿{
+    "context": "uiattachment",
+    "id": "IDD_TD_ATTACHMENTS_LIST",
+    "items": [
+        {
+            "acceptFiles": true,
+            "hasStrings": true,
+            "height": 133,
+            "id": "IDC_ATTACHMENTS_LISTBOX",
+            "noIntegralHeight": true,
+            "ownerDraw": "Fixed",
+            "type": "List",
+            "vScroll": true,
+            "width": 282,
+            "x": 0,
+            "y": 14
+        },
+        {
+            "group": true,
+            "height": 8,
+            "id": "IDC_ATTACHMENTS_COUNT",
+            "type": "Label",
+            "width": 93,
+            "x": 2,
+            "y": 3
+        },
+        {
+            "height": 12,
+            "id": "IDC_ATTACHMENTS_MAX_NR",
+            "type": "Edit",
+            "width": 25,
+            "x": 219,
+            "y": 1
+        },
+        {
+            "group": true,
+            "height": 8,
+            "id": "IDC_STATIC",
+            "text": "Max nr. elements to load",
+            "textAlign": "Right",
+            "type": "Label",
+            "width": 105,
+            "x": 108,
+            "y": 3
+        }
+    ],
+    "type": "Panel",
+    "height": 109,
+    "width": 282,
+    "x": 6,
+    "y": 20
+}

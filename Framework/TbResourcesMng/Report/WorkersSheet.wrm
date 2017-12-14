@@ -1,0 +1,812 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (72,1282,992,2558) ReportTemplate "Report.erp.core.Basic.wrmt" 
+
+Properties
+	Begin
+		Title "Workers" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "aResource Manager,Configuration" 
+	End
+
+FormatStyles 
+	Begin
+		Bool "BoolX"   Logic  "X" "" ;
+	End
+
+PageLayout "customdata" 
+	Begin
+		Text (9,590,37,716) "{Application Date} {Time}" 
+
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Field (59,9,100,768) Alias 34  /* w_WorkerTitle */ 
+			Begin
+				Style "ListTitleUnderline" 
+
+			End
+
+		Table (57,3) "" Alias 12  /* Table12 */ Origin (10,137) Heights (8,29,14,14) 
+		HideTitle
+		Title FontStyle "Text" ;
+			Begin
+				"Name" Alias 8  /* w_FieldName */ Width 165 ;
+				"Value" Alias 9  /* w_FieldValue */ Width 177 ;
+				"Notes" Alias 10  /* w_Notes */ Width 418 ;
+			End
+
+
+		Text (1043,316,1064,392) "{Page} / {Page Number}" 
+
+			Begin
+				Style "PageNumber" 
+				Special
+			End
+
+	End
+PageLayout "default" 
+	Begin
+		Text (9,590,37,716) "{Application Date} {Time}" 
+
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Field (88,10,135,768) Alias 34  /* w_WorkerTitle */ 
+			Begin
+				Style "ListTitleUnderline" 
+
+			End
+
+		Text (158,617,186,726) "Worker" 
+
+			Begin
+			End
+
+		Field (158,731,186,768) Alias 7  /* w_WorkerID */ FormatStyle "Long" 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (195,616,223,725) "Register" 
+
+			Begin
+			End
+
+		Field (195,731,223,768) Alias 35  /* w_RegisterNumber */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (228,474,497,768) Alias 41  /* w_WorkerImage */ 
+			Begin
+				Transparent
+				Bitmap
+				Proportional Align 2128 ;
+
+			End
+
+		Text (230,10,258,119) "Gender" 
+
+			Begin
+			End
+
+		Field (230,125,258,439) Alias 43  /* w_Gender */ FormatStyle "Enum" 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (269,10,297,119) "Civil Status" 
+
+			Begin
+			End
+
+		Field (269,125,297,439) Alias 44  /* w_CivilStatus */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (308,10,336,119) "Fiscal Code" 
+
+			Begin
+			End
+
+		Field (308,125,336,439) Alias 46  /* w_DomicilyFC */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (350,10,378,119) "Address" 
+
+			Begin
+			End
+
+		Field (350,125,393,439) Alias 66  /* w_CompleteAddress */ 
+			Begin
+				Style "SingleField" 
+				Align 67652 ;
+
+			End
+
+		Field (396,125,432,313) Alias 62  /* w_Address2 */ 
+			Begin
+				Align 67652 ;
+				
+			End
+
+		Field (396,315,432,440) Alias 64  /* w_District */ 
+			Begin
+				Align 67652 ;
+				Hidden
+				 When
+				w_IsActivatedMasterBr == FALSE  ;
+			End
+
+		Field (437,125,469,216) Alias 47  /* w_DomicilyZip */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (437,218,469,310) Alias 45  /* w_DomicilyCity */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (437,312,469,344) Alias 48  /* DomicilyCounty */ 
+			Begin
+				Style "SingleField" 
+				Hidden
+				 When
+				
+				w_IsActivatedMasterBr == TRUE  ;
+
+			End
+
+		Field (437,312,469,344) Alias 65  /* w_FederalState */ 
+			Begin
+				Hidden
+				 When
+				
+				w_IsActivatedMasterBr == FALSE  ;
+
+			End
+
+		Field (437,346,469,441) Alias 49  /* w_DomicilyCountry */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (479,124,507,438) Alias 5  /* w_Email */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (483,10,511,119) "Email" 
+
+			Begin
+			End
+
+		Text (516,10,544,119) "Skype" 
+
+			Begin
+			End
+
+		Field (516,125,544,439) Alias 36  /* w_SkypeID */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (527,481,546,496) Alias 2  /* w_Disabled */ FormatStyle "BoolX" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Bitmap
+				Proportional 
+			End
+
+		Text (527,509,546,598) "Disabled" 
+
+			Begin
+				Style "AccessoryDescription" 
+			End
+
+		Text (551,10,579,119) "Website" 
+
+			Begin
+			End
+
+		Field (551,125,579,439) Alias 51  /* w_URL */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (640,62,672,208) Alias 4  /* w_Telephone1 */ 
+			Begin
+				Style "SingleField" 
+				Label "Home" 
+			End
+
+		Field (640,264,672,410) Alias 38  /* w_Telephone3 */ 
+			Begin
+				Style "SingleField" 
+				Label "FAX" 
+			End
+
+		Field (680,62,712,208) Alias 37  /* w_Telephone2 */ 
+			Begin
+				Style "SingleField" 
+				Label "Mobile" 
+			End
+
+		Field (680,264,712,410) Alias 39  /* w_Telephone4 */ 
+			Begin
+				Style "SingleField" 
+				Label "Office" 
+			End
+
+		Text (619,17,726,440) Ratio (19,19) "Telephone Numbers: " 
+
+			Begin
+				Style "SingleField" 
+				Transparent
+			End
+
+		Field (619,537,647,751) Alias 58  /* w_CompleteEmail */ 
+			Begin
+				Hidden
+				 
+			End
+
+		Text (775,10,803,119) "Notes" 
+
+			Begin
+			End
+
+		Field (811,10,864,743) Alias 50  /* w_WorkerNotes */ 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (1043,316,1064,392) "{Page} / {Page Number}" 
+
+			Begin
+				Style "PageNumber" 
+				Special
+			End
+
+	End
+PageLayout "Arrangements" 
+	Begin
+		Text (9,590,37,716) "{Application Date} {Time}" 
+
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Field (59,9,100,768) Alias 34  /* w_WorkerTitle */ 
+			Begin
+				Style "ListTitleUnderline" 
+
+			End
+
+		Table (47,7) "" Alias 30  /* Table30 */ Origin (9,137) Heights (8,27,16,14) 
+		HideTitle
+		Title FontStyle "Text" ;
+			Begin
+				"Arrangement" Alias 23  /* w_Arrangement */ Width 109 ;
+				"Level" Alias 24  /* w_ArrangementLevel */ Width 51 ;
+				"Basic Pay" Alias 25  /* w_BasicPay */ Width 110 FormatStyle "Money" ;
+				"Total Pay" Alias 26  /* w_TotalPay */ Width 110 FormatStyle "Money" ;
+				"From" Alias 27  /* w_FromDate */ Width 75 FormatStyle "Date" ;
+				"To" Alias 28  /* w_ToDate */ Width 75 FormatStyle "Date" ;
+				"Notes" Alias 29  /* w_WorkersArrangementNotes */ Width 231 ;
+			End
+
+
+		Text (1043,316,1064,392) "{Page} / {Page Number}" 
+
+			Begin
+				Style "PageNumber" 
+				Special
+			End
+
+	End
+
+PageLayout "WorkersDetails" 
+	Begin
+		Text (9,590,37,716) "{Application Date} {Time}" 
+
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Field (90,15,137,763) Alias 46  /* w_WorkerTitle */ 
+			Begin
+				Style "ListTitleUnderline" 
+
+			End
+
+		Table (57,6) "" Alias 29  /* Table29 */ Origin (15,152) Heights (8,43,14,14) 
+		HideTitle
+		Title FontStyle "Text" ;
+			Begin
+				"WorkerId" Alias 67  /* WorkerId_RM_WorkersDetails */ Width 109 ;
+				"Description" Alias 68  /* w_WorkerDescri */ Width 109 ;
+				"Child Resource Type" Alias 69  /* ChildResourceType */ Width 109 ;
+				"Child Resource Code" Alias 70  /* ChildResourceCode */ Width 109 ;
+				"Child Worker" Alias 71  /* ChildWorkerID */ Width 88 FormatStyle "Long" ;
+				"Description" Alias 72  /* w_ChildWorkerDescri */ Width 226 ;
+			End
+
+		Text (1043,316,1064,392) "{Page} / {Page Number}" 
+
+			Begin
+				Style "PageNumber" 
+				Special
+			End
+	End
+
+Links
+	Begin
+		LinkForm "Document.Framework.TbResourcesMng.TbResourcesMng.Workers" 
+			On w_WorkerID 
+			Begin
+				Long WorkerID =  w_WorkerID ;
+			End
+
+		LinkUrl  w_CompleteEmail 
+			On w_Email 
+			Begin
+			End
+
+		LinkUrl  w_URL 
+			On w_URL 
+			Begin
+			End
+
+		LinkUrl 4 w_CompleteAddress 
+			On w_CompleteAddress 
+			Begin
+				String county =  DomicilyCounty ;
+				String zipcode =  w_DomicilyZip ;
+				String city =  w_DomicilyCity ;
+				String country =  w_DomicilyCountry ;
+			End
+	End
+
+Report 
+	Begin NoName
+		Tables
+			RM_WorkersFields [57] Alias 12 PageLayout "CustomData" ;
+			RM_WorkersDetails [57] Alias 29 PageLayout "WorkersDetails" ;
+			RM_WorkersArrangements [47] Alias 30 PageLayout "Arrangements" ;
+		End
+
+		Variables
+			String       w_Name [15] Alias 1  Hidden ;
+			Bool         w_Disabled [3] Alias 2 ;
+			String       w_DomicilyAddress [15] Alias 3  Hidden ;
+			String       w_Telephone1 [15] Alias 4 ;
+			String       w_Email [15] Alias 5 ;
+			String       w_LastName [15] Alias 6  Hidden ;
+			Long         w_WorkerID [12] Alias 7 ;
+			String       w_FieldName [32] Alias 8  Column  of RM_WorkersFields ;
+			String       w_FieldValue [34] Alias 9  Column  of RM_WorkersFields ;
+			String       w_Notes [82] Alias 10  Column  of RM_WorkersFields ;
+			Bool         w_HideOnLayout [3] Alias 11  Hidden ;
+			String       WorkerId_RM_WorkersDetails [15] Alias 67  Column  of RM_WorkersDetails ;
+			String       w_WorkerDescri [44] Alias 68  Column  of RM_WorkersDetails ;
+			String       ChildResourceType [15] Alias 69  Column  of RM_WorkersDetails ;
+			String       ChildResourceCode [21] Alias 70  Column  of RM_WorkersDetails ;
+			Long         ChildWorkerID [12] Alias 71  Column  of RM_WorkersDetails ;
+			String       w_ChildWorkerDescri [44] Alias 72  Column  of RM_WorkersDetails ;
+			String       w_Arrangement [21] Alias 23  Column  of RM_WorkersArrangements ;
+			String       w_ArrangementLevel [9] Alias 24  Column  of RM_WorkersArrangements ;
+			Money        w_BasicPay [23] Alias 25  Column  of RM_WorkersArrangements ;
+			Money        w_TotalPay [23] Alias 26  Column  of RM_WorkersArrangements ;
+			Date         w_FromDate [10] Alias 27  Column  of RM_WorkersArrangements ;
+			Date         w_ToDate [10] Alias 28  Column  of RM_WorkersArrangements ;
+			String       w_WorkersArrangementNotes [45] Alias 29  Column  of RM_WorkersArrangements ;
+			Long         w_ArrangmentWorkerID [12] Alias 31  Hidden ;
+			Bool         F_ok [2] Alias 32  Hidden ;
+			Long         w_FieldsWorkerID [12] Alias 33  Hidden ;
+			String       w_WorkerTitle [20] Alias 34 ;
+			String       w_RegisterNumber [15] Alias 35 ;
+			String       w_SkypeID [15] Alias 36 ;
+			String       w_Telephone2 [15] Alias 37 ;
+			String       w_Telephone3 [15] Alias 38 ;
+			String       w_Telephone4 [15] Alias 39 ;
+			String       w_ImagePath [15] Alias 40  Hidden ;
+			String       w_WorkerImage [15] Alias 41 ;
+			String       w_EmptyWorkerImage [15] Alias 42  Hidden Init = "Image.Framework.TbFrameworkImages.Images.Glyph.Worker_Big.png"  ;
+			Enum[32]      /* Gender */ w_Gender [15] Alias 43 ;
+			String       w_CivilStatus [15] Alias 44 ;
+			String       w_DomicilyCity [15] Alias 45 ;
+			String       w_DomicilyFC [15] Alias 46 ;
+			String       w_DomicilyZip [15] Alias 47 ;
+			String       DomicilyCounty [15] Alias 48 ;
+			String       w_DomicilyCountry [15] Alias 49 ;
+			String       w_WorkerNotes [15] Alias 50 ;
+			String       w_URL [15] Alias 51 ;
+			Long         w_askFromWorker [12] Alias 52  Hidden  Input Init = 0  ;
+			Long         w_askToWorker [12] Alias 53  Hidden  Input Init = 0  ;
+			Bool         w_AskDialog [1] Alias 54  Hidden Init = TRUE  ;
+			Bool         w_UseWorkerIdFilter [1] Alias 55  Hidden  Input Init = FALSE  ;
+			Long         w_WorkerIdFilter [12] Alias 56  Hidden ;
+			Bool         w_askAllWorkers [3] Alias 57  Hidden  Input Init = TRUE  ;
+			String       w_CompleteEmail [15] Alias 58 ;
+			Bool         w_IsFirstTime [2] Alias 59  Hidden Init = true  ;
+			Bool         w_IsActivatedMasterBr [1] Alias 61  Hidden  Input Init = IsActivated ( "ERP" , "MasterData_BR" )  ;
+			String       w_Address2 [15] Alias 62 ;
+			String       w_StreetNo [15] Alias 63  Hidden ;
+			String       w_District [15] Alias 64 ;
+			String       w_FederalState [15] Alias 65 ;
+			String       w_CompleteAddress [202] Alias 66 ;
+			String       Name [15] Alias 73  Hidden ;
+			String       LastName [15] Alias 74  Hidden ;
+		End
+
+		Rules
+			From RM_Workers 
+			Select 
+				Name                 Into w_Name ,
+				Disabled             Into w_Disabled ,
+				DomicilyAddress      Into w_DomicilyAddress ,
+				Telephone1           Into w_Telephone1 ,
+				Email                Into w_Email ,
+				LastName             Into w_LastName ,
+				WorkerID             Into w_WorkerID ,
+				RegisterNumber       Into w_RegisterNumber ,
+				SkypeID              Into w_SkypeID ,
+				Telephone2           Into w_Telephone2 ,
+				Telephone3           Into w_Telephone3 ,
+				Telephone4           Into w_Telephone4 ,
+				ImagePath            Into w_ImagePath ,
+				Gender               Into w_Gender ,
+				CivilStatus          Into w_CivilStatus ,
+				DomicilyCity         Into w_DomicilyCity ,
+				DomicilyFC           Into w_DomicilyFC ,
+				DomicilyZip          Into w_DomicilyZip ,
+				DomicilyCounty       Into DomicilyCounty ,
+				DomicilyCountry      Into w_DomicilyCountry ,
+				Notes                Into w_WorkerNotes ,
+				URL                  Into w_URL ,
+				Address2             Into w_Address2 ,
+				StreetNo             Into w_StreetNo ,
+				District             Into w_District ,
+				FederalState         Into w_FederalState 
+			Where ( 
+				( 
+				( w_UseWorkerIdFilter == true ) And ( RM_Workers.WorkerID == w_WorkerIdFilter ) 
+				) 
+				or 
+				( 
+				( w_UseWorkerIdFilter == false ) 
+				And 
+				( 
+				( w_askAllWorkers == true ) or ( RM_Workers.WorkerID Between w_askFromWorker And w_askToWorker ) 
+				) 
+				) 
+				)  
+			Order By RM_Workers.WorkerID ;
+
+			w_CompleteEmail = "mailto:" + w_Email  ;
+		End
+
+
+		Events
+			Report : Do
+				Always 
+					Begin
+						w_CompleteAddress = w_DomicilyAddress  ;
+						If ( w_StreetNo <> "" ) 
+							Then w_CompleteAddress = w_CompleteAddress + " " + w_StreetNo  ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+						Call DisplayWorker ;
+					End
+				Finalize 
+					Begin
+					End
+			ChageWorker : Breaking w_WorkerID  Do
+				Before 
+					Begin
+						Call DisplayWorker ;
+						FormFeed "default" ;
+					End
+				After 
+					Begin
+					End
+
+		End
+
+	Procedures
+		Begin
+			Procedure  RunQueryWorkerDescription 
+				Begin
+					F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryReadOne ( "q_WorkerDescription" )  ;
+				End
+
+			Procedure  RunQueryWorkersFields 
+				Begin
+					F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryOpen ( "q_WorkersFields" )  ;
+					w_IsFirstTime = true  ;
+					While F_ok 
+						Do 
+							Begin
+								F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryRead ( "q_WorkersFields" )  ;
+								If ( F_ok and w_IsFirstTime ) 
+									Then 
+										Begin
+											FormFeed "Customdata" ;
+											Reset w_WorkerTitle ;
+											w_IsFirstTime = false  ;
+										End ;
+								If F_ok 
+									Then 
+										Begin
+											Call DisplayCustomFieldsRow ;
+											NextLine RM_WorkersFields ;
+											Call ResetCustomFieldsRow ;
+										End ;
+							End ;
+					F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryClose ( "q_WorkersFields" )  ;
+				End
+
+			Procedure  RunQueryWorkersDetails 
+				Begin
+					F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryOpen ( "q_WorkersDetails" )  ;
+					w_IsFirstTime = true  ;
+					While F_ok 
+						Do 
+							Begin
+								F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryRead ( "q_WorkersDetails" )  ;
+								If ( F_ok and w_IsFirstTime ) 
+									Then 
+										Begin
+											FormFeed "WorkersDetails" ;
+											w_IsFirstTime = false  ;
+										End ;
+								If F_ok 
+									Then 
+										Begin
+											Call DisplayWorkersDetails ;
+											NextLine RM_WorkersDetails ;
+											Call ResetWorkersDetails ;
+										End ;
+							End ;
+					F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryClose ( "q_WorkersDetails" )  ;
+				End
+
+			Procedure  RunQueryWorkersArrangement 
+				Begin
+					F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryOpen ( "q_WorkersArrangement" )  ;
+					w_IsFirstTime = true  ;
+					While F_ok 
+						Do 
+							Begin
+								F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryRead ( "q_WorkersArrangement" )  ;
+								If ( F_ok and w_IsFirstTime ) 
+									Then 
+										Begin
+											FormFeed "Arrangements" ;
+											Reset w_WorkerTitle ;
+											w_IsFirstTime = false  ;
+										End ;
+								If F_ok 
+									Then 
+										Begin
+											Call DisplayWorkersArrangement ;
+											NextLine RM_WorkersArrangements ;
+											Call ResetWorkersArrangement ;
+										End ;
+							End ;
+					F_ok = Framework.TbWoormViewer.TbWoormViewer.QueryClose ( "q_WorkersArrangement" )  ;
+				End
+
+			Procedure  DisplayWorkersFields 
+				Begin
+					w_WorkerTitle = w_Name + " " + w_LastName  ;
+					If ( w_ImagePath == "" ) 
+						Then w_WorkerImage = w_EmptyWorkerImage  ;
+						Else w_WorkerImage = w_ImagePath  ;
+					Display w_WorkerTitle ;
+					Display w_Disabled ;
+					Display w_LastName ;
+					Display w_Name ;
+					Display w_DomicilyAddress ;
+					Display w_WorkerID ;
+					Display w_Email ;
+					Display w_ImagePath ;
+				End
+
+			Procedure  DisplayCustomFieldsRow 
+				Begin
+					w_WorkerTitle = w_Name + " " + w_LastName + Localize ( ": Custom Data" )  ;
+					Display w_WorkerTitle ;
+					Display w_FieldName ;
+					Display w_FieldValue ;
+					Display w_HideOnLayout ;
+				End
+
+			Procedure  ResetCustomFieldsRow 
+				Begin
+					Reset w_FieldName ;
+					Reset w_FieldValue ;
+					Reset w_HideOnLayout ;
+					Reset w_WorkerTitle ;
+				End
+
+			Procedure  DisplayWorkersArrangement 
+				Begin
+					w_WorkerTitle = w_Name + " " + w_LastName + Localize ( ": Arrangement" )  ;
+					Display w_WorkerTitle ;
+					Display w_Arrangement ;
+					Display w_ArrangementLevel ;
+					Display w_BasicPay ;
+					Display w_TotalPay ;
+					Display w_FromDate ;
+					Display w_ToDate ;
+					Display w_WorkersArrangementNotes ;
+					Display w_ArrangmentWorkerID ;
+					Display w_Notes ;
+				End
+
+			Procedure  ResetWorkersArrangement 
+				Begin
+					Reset w_Arrangement ;
+					Reset w_ArrangementLevel ;
+					Reset w_BasicPay ;
+					Reset w_TotalPay ;
+					Reset w_FromDate ;
+					Reset w_ToDate ;
+					Reset w_WorkersArrangementNotes ;
+					Reset w_ArrangmentWorkerID ;
+					Reset w_Notes ;
+					Reset w_WorkerTitle ;
+				End
+
+		Procedure  DisplayWorkersDetails 
+				Begin
+					w_WorkerTitle = w_Name + " " + w_LastName + Localize ( ": Resources" )  ;
+					Display WorkerId_RM_WorkersDetails ;
+					w_WorkerDescri = w_LastName + " " + w_Name  ;
+					Display w_WorkerDescri ;
+					Display ChildResourceType ;
+					Display ChildResourceCode ;
+					Display ChildWorkerID ;
+					Call RunQueryWorkerDescription ;
+					w_ChildWorkerDescri = LastName + " " + Name  ;
+					Display w_ChildWorkerDescri ;
+				End
+
+		Procedure  ResetWorkersDetails 
+				Begin
+					Reset WorkerId_RM_WorkersDetails ;
+					Reset w_WorkerDescri ;
+					Reset ChildResourceType ;
+					Reset ChildResourceCode ;
+					Reset ChildWorkerID ;
+					Reset w_ChildWorkerDescri ;
+				End
+
+		Procedure  DisplayWorker 
+				Begin
+					Call DisplayWorkersFields ;
+					Call RunQueryWorkersFields ;
+					Call RunQueryWorkersDetails ;
+					Call RunQueryWorkersArrangement ;
+				End
+		End
+
+	Queries
+		Begin
+			Query  q_WorkersFields
+			Begin
+				{
+					Select 
+					RM_WorkersFields.FieldName { COL w_FieldName } , 
+					RM_WorkersFields.FieldValue { COL w_FieldValue } , 
+					RM_WorkersFields.HideOnLayout { COL w_HideOnLayout } , 
+					RM_WorkersFields.Notes { COL w_Notes } , 
+					RM_WorkersFields.WorkerID { COL w_FieldsWorkerID } 
+					From RM_WorkersFields 
+					Where RM_WorkersFields.WorkerID = { IN w_WorkerID } 
+					Order By RM_WorkersFields.Line
+				}
+			End
+
+			Query  q_WorkersDetails
+			Begin
+				{
+					Select 
+					RM_WorkersDetails.WorkerId { COL WorkerId_RM_WorkersDetails } , 
+					RM_WorkersDetails.ChildResourceType { COL ChildResourceType } , 
+					RM_WorkersDetails.ChildResourceCode { COL ChildResourceCode } , 
+					RM_WorkersDetails.ChildWorkerId { COL ChildWorkerID } 
+					From RM_WorkersDetails 
+					Where RM_WorkersDetails.WorkerId = { IN w_WorkerID }
+				}
+			End
+
+			Query  q_WorkersArrangement
+			Begin
+				{
+					Select 
+					RM_WorkersArrangements.Arrangement { COL w_Arrangement } , 
+					RM_WorkersArrangements.ArrangementLevel { COL w_ArrangementLevel } , 
+					RM_WorkersArrangements.BasicPay { COL w_BasicPay } , 
+					RM_WorkersArrangements.TotalPay { COL w_TotalPay } , 
+					RM_WorkersArrangements.FromDate { COL w_FromDate } , 
+					RM_WorkersArrangements.ToDate { COL w_ToDate } , 
+					RM_WorkersArrangements.Notes { COL w_WorkersArrangementNotes } , 
+					RM_WorkersArrangements.WorkerID { COL w_ArrangmentWorkerID } , 
+					RM_WorkersArrangements.Notes { COL w_Notes } 
+					From RM_WorkersArrangements 
+					Where RM_WorkersArrangements.WorkerID = { IN w_WorkerID } 
+					Order By RM_WorkersArrangements.Line
+				}
+			End
+
+			Query  q_WorkerDescription
+			Begin
+				{
+					Select 
+					RM_Workers.Name { COL Name } , 
+					RM_Workers.LastName { COL LastName } 
+					From RM_Workers 
+					Where RM_Workers.WorkerID = { IN ChildWorkerID }
+				}
+			End
+
+		End
+	Dialogs
+		Begin
+			Dialog NoName  "Selections" 
+				Begin
+					Before 
+						Begin
+						End
+					When w_AskDialog 
+					Controls
+						Begin
+							Begin  "Workers"  
+								w_askAllWorkers Prompt = "All Workers" ;
+								w_askFromWorker Style = 8 Prompt = "From" LowerLimit ReadOnly w_askAllWorkers == TRUE  HotLink Framework.TbResourcesMng.TbResourcesMng.Workers ( 0 ) ;
+								w_askToWorker Style = 8 Prompt = "To" UpperLimit ReadOnly w_askAllWorkers == TRUE  HotLink Framework.TbResourcesMng.TbResourcesMng.Workers ( 0 ) ;
+							End
+						End
+					After 
+						Begin
+						End
+				End
+		End
+End
+

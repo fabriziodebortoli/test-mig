@@ -1,0 +1,29 @@
+<div ng-controller="HubCenterPanelController">
+    <div class="hubAapplicationArea">
+        <h2>
+            <a href="newMenu.html">Mago 4</a>
+        </h2>
+    </div>
+
+    <!--<div class="col-sm-12">
+        <tabset type="pills" class="primaryTab" >
+            <tab heading="{{group.title}}" ng-repeat="group in appMenu.Application.Group | repeatFilter">
+                <div ng-include="'templates/newViewerSelector.html' ">
+                </div>
+
+                <div class="col-sm-12 centerColor" ng-repeat="menu in group.Menu | repeatFilter">
+                    <div ng-include="'templates/newTileGroup.html'" class="headerColor"></div>
+                </div>
+            </tab>
+        </tabset>
+    </div>-->
+
+    <div class="col-sm-12 environmentArea">
+        <div ng-repeat="group in appMenu.Application.Group | repeatFilter">
+            <div class="headerColor" ng-repeat="menu in group.Menu | repeatFilter">
+                <div ng-include="'templates/newTileGroup.html'" class="headerColor" onselectstart="return false;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

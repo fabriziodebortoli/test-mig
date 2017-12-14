@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UpgradeInfo>
+  <ModuleInfo name="ElectronicInvoicing_IT" />
+  <DBRel numrel="2">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_EI_ITParameters.sql" />
+      <Step numstep="2" script="Alter_MA_Jobs.sql" />
+      <Step numstep="3" script="Alter_MA_AddData.sql" />
+      <Step numstep="4" script="Alter_MA_EI_ITFatelWebParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="3">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_EI_ITFatelWebParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="4">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_SaleOrders.sql" >
+        <Dependency app="ERP" module="SaleOrders" rel="51" />
+      </Step>
+      <Step numstep="2" script="Alter_MA_EI_ITParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="5">
+    <Level1>
+        <Step numstep="1" script="Alter_MA_EI_ITCompany.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="6">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_EI_ITParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="7">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_EI_ITParameters.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="8">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_Items.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="9">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_SaleOrdDetails.sql" />
+    </Level1>
+  </DBRel>
+  <DBRel numrel="10">
+    <Level1>
+      <Step numstep="1" script="Alter_MA_CustSupp.sql" />
+      <Step numstep="2" script="Alter_MA_EI_ITFatelWebParameters.sql" />
+    </Level1>
+  </DBRel>
+</UpgradeInfo>

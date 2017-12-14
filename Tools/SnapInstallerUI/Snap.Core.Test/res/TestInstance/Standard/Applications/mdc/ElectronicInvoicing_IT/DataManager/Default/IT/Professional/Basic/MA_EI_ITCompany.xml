@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <MA_EI_ITCompany CompanyId="0" SenderISOCountryCode="IT" SenderFiscalCodeID="" LastSentNo="1" FiscalRegime="RF01" PermanentBranchCode="" IssuerSubject="32047104" Disabled="0" FDISOCountryCode="" FDFiscalCodeID="" FDFiscalCode="" FDNaturalPerson="0" FDCompanyName="" FDName="" FDLastName="" FDTitleCode="" FDEORICode="" TIISOCountryCode="" TIFiscalCodeID="" TIFiscalCode="" TINaturalPerson="0" TICompanyName="" TIName="" TILastName="" TITitleCode="" TIEORICode=""/>
+</DataTables>

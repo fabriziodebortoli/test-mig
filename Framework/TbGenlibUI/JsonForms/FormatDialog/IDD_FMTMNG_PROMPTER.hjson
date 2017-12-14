@@ -1,0 +1,6 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_FMTMNG_PROMPTER			GET_IDD(IDD_FMTMNG_PROMPTER, M.Framework.TbGenlibUI.FormatDialog)
+#define	IDC_FMTMNG_EDIT_INP			GET_IDC(IDC_FMTMNG_EDIT_INP)
+#define	IDC_FMTMNG_EDIT_OUT			GET_IDC(IDC_FMTMNG_EDIT_OUT)
+#define	IDC_FMTMNG_FORMAT			GET_IDC(IDC_FMTMNG_FORMAT)

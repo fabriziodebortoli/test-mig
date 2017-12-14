@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="ModuleObjects">
+      <UniqueIdentifier>{aa3bb104-8b34-4de1-9628-5788ee7939c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript">
+      <UniqueIdentifier>{042f9a1c-e937-43a6-97a0-7269c5b72f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create">
+      <UniqueIdentifier>{fdbf91f9-fa01-4693-a10e-073acb2c3c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create\ALL">
+      <UniqueIdentifier>{49caa289-1eab-497d-a75f-db9799490346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseScript\Create\Oracle">
+      <UniqueIdentifier>{ed63637d-0b19-4541-8cd6-8abbd73ad7c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Report">
+      <UniqueIdentifier>{1c284b0a-a215-4ee0-bb6b-707918045751}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AuditingInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AuditingManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AuditReportGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AuditTables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoapFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBAuditing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbAuditingWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TBAuditing.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Beginh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="endh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="ModuleObjects\DatabaseObjects.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="ModuleObjects\WebMethods.xml">
+      <Filter>ModuleObjects</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\CreateInfo.xml">
+      <Filter>DatabaseScript\Create</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\All\CreateTables.sql">
+      <Filter>DatabaseScript\Create\ALL</Filter>
+    </None>
+    <None Include="DatabaseScript\Create\Oracle\CREATETABLES.sql">
+      <Filter>DatabaseScript\Create\Oracle</Filter>
+    </None>
+    <None Include="Report\AuditReport.template">
+      <Filter>Report</Filter>
+    </None>
+    <None Include="Report\LocalizeReportTitles.xml">
+      <Filter>Report</Filter>
+    </None>
+    <None Include="Module.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AuditReportGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AuditTables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TBAuditing.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="AuditingManager.h">
+      <Filter>Header Files</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="SoapFunctions.h">
+      <Filter>Header Files</Filter>
+    </CustomBuildStep>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,63 @@
+﻿{
+   "collapsible" : true,
+   "context" : "uicalendars",
+   "height" : 141,
+   "id" : "IDD_TD_CALENDARS_HOLIDAYS",
+   "items" : [
+      {
+         "binding" : {
+            "datasource" : "CalendarHolidays"
+         },
+         "height" : 138,
+         "id" : "IDC_CALENDARS_BE_HOLIDAYS",
+         "items" : [
+            {
+               "binding" : {
+                  "datasource" : "StartingDay"
+               },
+               "controlClass" : "DateTimeEdit",
+               "id" : "IDC_CALENDARS_HOLIDAYS_START_DATE",
+               "name" : "StartingDay",
+               "text" : "From\nday - hour",
+               "type" : 22 /*ColTitle*/
+            },
+            {
+               "binding" : {
+                  "datasource" : "EndingDay"
+               },
+               "controlClass" : "DateTimeEdit",
+               "id" : "IDC_CALENDARS_HOLIDAYS_END_DATE",
+               "name" : "EndingDay",
+               "text" : "To\nday - hour",
+               "type" : 22 /*ColTitle*/
+            },
+            {
+               "binding" : {
+                  "datasource" : "ReasonOfExclusion"
+               },
+               "chars" : 32,
+               "controlClass" : "StringEdit",
+               "id" : "IDC_CALENDARS_HOLIDAYS_REASON",
+               "name" : "Reason",
+               "rows" : 2,
+               "text" : "Reason",
+               "type" : 22 /*ColTitle*/
+            }
+         ],
+         "name" : "BECalendarsHolidays",
+         "showDataTip" : true,
+         "showStatusBar" : true,
+         "text" : "Holidays BodyEdit",
+         "type" : 18, /*BodyEdit*/
+         "width" : 258,
+         "x" : 0,
+         "y" : 2
+      }
+   ],
+   "name" : "Holidays",
+   "text" : "Holidays",
+   "type" : 71, /*Tile*/
+   "width" : 259,
+   "x" : 0,
+   "y" : 0
+}

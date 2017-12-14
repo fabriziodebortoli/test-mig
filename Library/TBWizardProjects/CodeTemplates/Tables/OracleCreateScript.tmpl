@@ -1,0 +1,15 @@
+CREATE TABLE "@@(TableName)" ( 
+@(RepeatOnColumns{\t"@@(ColumnName)" @(ColumnDBFullDataType)@(IfIsCollateSensitive{ /*[SKIPUNICODE]*/})@(IfHasDefaultValue{ DEFAULT(@(ColumnDBDefaultValue))}) @(ColumnDBNullableAttribute), ",\r\n"})@(IfConstraintDefined{,})
+@(IfPrimaryKeyDefined{\tCONSTRAINT "@@(TablePrimaryKeyConstraintName)" PRIMARY KEY \n(})
+@(IfPrimaryKeyDefined{@(RepeatOnPrimaryKeySegments{\t\t"@@(ColumnName)", ",\r\n"})})
+@(IfPrimaryKeyDefined{\t)})@(RepeatOnForeignKeys{@(IfPrimaryKeyDefined{,})\n@(+)
+\tCONSTRAINT "@@(ConstraintName)" FOREIGN KEY \n(\n@(+)
+        \t\t@(RepeatOnForeignKeySegments{"@@(ColumnName)", ",\r\n"})\n@(+)
+    \t) REFERENCES "@@(ReferencedTableName)" (\n@(+)
+        \t\t@(RepeatOnForeignKeySegments{"@@(ReferencedColumnName)", ",\r\n"})\n@(+)
+    \t)@(IfCommaNeeded{,})})
+)
+GO
+@(IfIndexDefined{@(RepeatOnIndex {CREATE @(IfIndexUnique{UNIQUE}) INDEX "@@(IndexName)" ON "@@(TableName)"( @(RepeatOnIndexSegments {"@@(ColumnName)", ","}))\n GO,"\r\n"})})
+
+

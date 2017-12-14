@@ -1,0 +1,2028 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microarea.TaskBuilderNet.Core</RootNamespace>
+    <AssemblyName>Microarea.TaskBuilderNet.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Apps\TBApps\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Apps\TBApps\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Fleck">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\Fleck.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
+      <SpecificVersion>true</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.CSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\ICSharpCode.NRefactory.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.81.0.1407, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\OtherComponents\Json.Net\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SailorsPromises, Version=1.0.5302.42915, Culture=neutral, PublicKeyToken=c446f2ef1fc4c6fe, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\SailorsPromises\net35\SailorsPromises.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="ApplicationsWinUI\EnumsViewer\EnumsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationsWinUI\EnumsViewer\EnumsDialog.Designer.cs">
+      <DependentUpon>EnumsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationsWinUI\EnumsViewer\EnumsViewerAppInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationsWinUI\EnumsViewer\EnumsViewerAppInfo.Designer.cs">
+      <DependentUpon>EnumsViewerAppInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationsWinUI\EnumsViewer\EnumsViewerManager.cs" />
+    <Compile Include="ApplicationsWinUI\ApplicationsWinUIStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApplicationsWinUIStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\BaseObjConsts.cs" />
+    <Compile Include="Applications\Borders.cs" />
+    <Compile Include="Applications\Defaults.cs" />
+    <Compile Include="Applications\Enums.cs">
+    </Compile>
+    <Compile Include="Applications\FontStyles.cs" />
+    <Compile Include="Applications\FormatStyles.cs" />
+    <Compile Include="Applications\Functions.cs" />
+    <Compile Include="Applications\Parsers.cs" />
+    <Compile Include="Applications\ReferenceObjects.cs" />
+    <Compile Include="Applications\ResourceHandler.cs" />
+    <Compile Include="Applications\RunnedReports.cs" />
+    <Compile Include="Applications\TbReportSession.cs" />
+    <Compile Include="Applications\ApplicationsStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApplicationsStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\TBWebContext.cs" />
+    <Compile Include="Applications\UserInfo.cs" />
+    <Compile Include="ComponentModel\ComponentModelHelper.cs" />
+    <Compile Include="CoreTypes\DataArray.cs" />
+    <Compile Include="CoreTypes\DataEnum.cs" />
+    <Compile Include="CoreTypes\DataObj.cs" />
+    <Compile Include="CoreTypes\DataType.cs" />
+    <Compile Include="CoreTypes\DateTimeFunctions.cs" />
+    <Compile Include="CoreTypes\ExpressionItems.cs" />
+    <Compile Include="CoreTypes\FunctionPrototype.cs" />
+    <Compile Include="CoreTypes\GraphicUtility.cs" />
+    <Compile Include="CoreTypes\ObjectHelper.cs" />
+    <Compile Include="CoreTypes\PathFunctions.cs" />
+    <Compile Include="CoreTypes\SoapTypes.cs" />
+    <Compile Include="CoreTypes\CoreTypeStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CoreTypeStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="CoreTypes\UnitConversion.cs" />
+    <Compile Include="CoreTypes\XmlTokens.cs" />
+    <Compile Include="CoreTypes\XsdSchemaHelper.cs" />
+    <Compile Include="DiagnosticManager\CrashInfo.cs" />
+    <Compile Include="DiagnosticManager\DiagnosticManager.cs" />
+    <Compile Include="DiagnosticManager\SOSLogWriter.cs" />
+    <Compile Include="DiagnosticUI\ConstantStrings.cs" />
+    <Compile Include="DiagnosticUI\DiagnosticBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiagnosticUI\DiagnosticBox.Designer.cs">
+      <DependentUpon>DiagnosticBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticUI\DiagnosticView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiagnosticUI\DiagnosticView.Designer.cs">
+      <DependentUpon>DiagnosticView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticUI\DiagnosticViewer.cs" />
+    <Compile Include="DiagnosticUI\EventLogger.cs" />
+    <Compile Include="DiagnosticUI\ExceptionBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiagnosticUI\ExceptionBox.Designer.cs">
+      <DependentUpon>ExceptionBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticUI\LogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiagnosticUI\LogViewer.Designer.cs">
+      <DependentUpon>LogViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticUI\MessageDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiagnosticUI\MessageDetail.Designer.cs">
+      <DependentUpon>MessageDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticUI\MessagesListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DiagnosticUI\MessagesListBox.Designer.cs">
+      <DependentUpon>MessagesListBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticUI\ParseMessageEventArgs.cs" />
+    <Compile Include="DiagnosticUI\ResizableListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DiagnosticUI\ResizableListBox.Designer.cs">
+      <DependentUpon>ResizableListBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticUI\DiagnosticViewerStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DiagnosticViewerStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="EasyBuilder\AssembliesLoader.cs" />
+    <Compile Include="EasyBuilder\BaseCustomizationContext.cs" />
+    <Compile Include="EasyBuilder\BaseDeclarator.cs" />
+    <Compile Include="EasyBuilder\AstFacilities.cs" />
+    <Compile Include="EasyBuilder\Refactor\ChangeRequest.cs" />
+    <Compile Include="EasyBuilder\Refactor\Changes.cs" />
+    <Compile Include="EasyBuilder\Refactor\VersionChanges.cs" />
+    <Compile Include="EasyBuilder\BaseContextFunctions.cs" />
+    <Compile Include="EasyBuilder\BaseContextItem.cs" />
+    <Compile Include="EasyBuilder\DescriptionProvider.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderApps.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderBehaviour.cs" />
+    <Compile Include="EasyBuilder\EasyStudioCalSoldOutLicenseException.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderComponent.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderComponentExtender.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderEventDescriptor.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderPropertiesManager.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EasyBuilderStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="EasyBuilder\EasyBuilderTypeDescriptor.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderPropertyDescriptor.cs" />
+    <Compile Include="EasyBuilder\EBCategories.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EBCategories.resx</DependentUpon>
+    </Compile>
+    <Compile Include="EasyBuilder\EBLink.cs" />
+    <Compile Include="EasyBuilder\EnumsDeclarator.cs" />
+    <Compile Include="EasyBuilder\EventArgs.cs" />
+    <Compile Include="EasyBuilder\EnumsHelper.cs" />
+    <Compile Include="EasyBuilder\EventInfo.cs" />
+    <Compile Include="EasyBuilder\ExpandiblePropertyObjects.cs" />
+    <Compile Include="EasyBuilder\RecordBindingList.cs" />
+    <Compile Include="EasyStudioServer\Serializers\ApplicationSerializer.cs" />
+    <Compile Include="EasyStudioServer\Serializers\DefaultSerializerAttribute.cs" />
+    <Compile Include="EasyStudioServer\Serializers\Serializer.cs" />
+    <Compile Include="EasyStudioServer\Serializers\SerializerException.cs" />
+    <Compile Include="EasyStudioServer\Serializers\TbDocumentSerializer.cs" />
+    <Compile Include="EasyStudioServer\ServicesManager.cs" />
+    <Compile Include="EasyStudioServer\Services\ApplicationService.cs" />
+    <Compile Include="EasyStudioServer\Component.cs" />
+    <Compile Include="EasyStudioServer\Serializers\DocumentSerializer.cs" />
+    <Compile Include="EasyStudioServer\Serializers\BaseDocumentSerializer.cs" />
+    <Compile Include="EasyStudioServer\Services\DocumentService.cs" />
+    <Compile Include="EasyStudioServer\Services\TemplateCodeService.cs" />
+    <Compile Include="EasyStudioServer\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="GenericForms\LoginFacilities.cs" />
+    <Compile Include="EasyBuilder\IEventNameGenerator.cs" />
+    <Compile Include="EasyBuilder\MSILReader.cs" />
+    <Compile Include="EasyBuilder\NotEasyStudioDeveloperLicenseException.cs" />
+    <Compile Include="GenericForms\ThemedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenericForms\ThemedForm.Designer.cs">
+      <DependentUpon>ThemedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\Activation.cs" />
+    <Compile Include="Generic\AesCrypto.cs" />
+    <Compile Include="Generic\ApplicationSemaphore.cs" />
+    <Compile Include="Generic\BalloonDataBag.cs" />
+    <Compile Include="Generic\BinaryParser.cs" />
+    <Compile Include="Generic\Calendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generic\Calendar.Designer.cs">
+      <DependentUpon>Calendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\ClickOnceDeploy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generic\ClickOnceDeploy.Designer.cs">
+      <DependentUpon>ClickOnceDeploy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\CommandLineHelper.cs" />
+    <Compile Include="Generic\GenericBrand.cs" />
+    <Compile Include="Generic\IZipDriver.cs" />
+    <Compile Include="Generic\JsonUtilities.cs" />
+    <Compile Include="Generic\ReflectionUtils.cs" />
+    <Compile Include="Generic\ComboBoxItem.cs" />
+    <Compile Include="Generic\CompressedFile.cs" />
+    <Compile Include="Generic\CopyUtils.cs" />
+    <Compile Include="Generic\EventHandlers.cs" />
+    <Compile Include="Generic\HttpHelper.cs" />
+    <Compile Include="Generic\MenuStaticFunctions.cs" />
+    <Compile Include="Generic\RemoteClients.cs" />
+    <Compile Include="Generic\TBLinkHelper.cs" />
+    <Compile Include="Generic\TbSenderDatabaseInfo.cs" />
+    <Compile Include="Generic\Crypto.cs" />
+    <Compile Include="EasyBuilder\CustomAttributes.cs" />
+    <Compile Include="Generic\DateRangeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generic\DateRangeSelector.Designer.cs">
+      <DependentUpon>DateRangeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\DmsDatabaseInfo.cs" />
+    <Compile Include="Generic\ExtensionMethods.cs" />
+    <Compile Include="Generic\InstallationData.cs" />
+    <Compile Include="Generic\MD5.cs" />
+    <Compile Include="Generic\SafeThreadCallContext.cs" />
+    <Compile Include="EasyBuilder\EasyBuilderSerializer.cs" />
+    <Compile Include="HashAlgorithms\CRC.cs" />
+    <Compile Include="IFilter\ComHelper.cs" />
+    <Compile Include="IFilter\FilterLoader.cs" />
+    <Compile Include="IFilter\FilterReader.cs" />
+    <Compile Include="IFilter\IFilter.cs" />
+    <Compile Include="Localization\LocalizedAttributes.cs" />
+    <Compile Include="Generic\PopupContainer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generic\PopupContainer.Designer.cs">
+      <DependentUpon>PopupContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\DateRangeStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateRangeStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\DictionaryFunctions.cs" />
+    <Compile Include="Generic\DirectoryIterator.cs" />
+    <Compile Include="Generic\DisplayDelegate.cs" />
+    <Compile Include="Generic\Envelope.cs" />
+    <Compile Include="Generic\EscapeManager.cs" />
+    <Compile Include="Generic\ExternalAPI.cs" />
+    <Compile Include="Generic\Generic.cs" />
+    <Compile Include="Generic\HelpManager.cs" />
+    <Compile Include="Generic\ImagesHelper.cs" />
+    <Compile Include="Generic\InstallationVersion.cs" />
+    <Compile Include="Generic\IntegratedSolutions.cs" />
+    <Compile Include="Generic\JavaScriptMinifier.cs" />
+    <Compile Include="Generic\LocalMachine.cs" />
+    <Compile Include="Generic\NameSpace.cs" />
+    <Compile Include="Generic\ProcessInfo.cs" />
+    <Compile Include="Generic\Proxies.cs" />
+    <Compile Include="Generic\RegexTextReplacer.cs" />
+    <Compile Include="Generic\RequirementCheck.cs" />
+    <Compile Include="Generic\RouteTracer.cs" />
+    <Compile Include="Generic\RSA.cs" />
+    <Compile Include="Generic\SafeGui.cs" />
+    <Compile Include="Generic\SmoothProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Generic\SmoothProgressBar.Designer.cs">
+      <DependentUpon>SmoothProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\Storer.cs" />
+    <Compile Include="Generic\GenericStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenericStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\Trace.cs" />
+    <Compile Include="Lexan\Fsm.cs" />
+    <Compile Include="Lexan\Language.cs" />
+    <Compile Include="Lexan\Parser.cs" />
+    <Compile Include="Lexan\ParserBuffer.cs" />
+    <Compile Include="Lexan\Preprocessor.cs" />
+    <Compile Include="Lexan\LexanStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LexanStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Lexan\Unparser.cs" />
+    <Compile Include="Localization\ResourceHelper.cs" />
+    <Compile Include="MenuManagerLoader\MagoMenuParser.cs" />
+    <Compile Include="MenuManagerLoader\MenuConverter.cs" />
+    <Compile Include="MenuManagerLoader\MenuManagerLoaderStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MenuManagerLoaderStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuManagerLoader\MenuMngLoader.cs" />
+    <Compile Include="MenuManagerLoader\MenuSearchEngine.cs" />
+    <Compile Include="MenuManagerLoader\MenuSecurityFilter.cs" />
+    <Compile Include="MenuManagerLoader\MenuXmlNode.cs" />
+    <Compile Include="MenuManagerLoader\MenuXmlParser.cs" />
+    <Compile Include="MenuManagerLoader\NewMenuFunctions.cs" />
+    <Compile Include="MenuManagerLoader\NewMenuLoader.cs" />
+    <Compile Include="MenuManagerLoader\NewMenuSaver.cs" />
+    <Compile Include="NameSolver\AddOnDatabaseObjectsInfo.cs" />
+    <Compile Include="NameSolver\ApplicationConfigInfo.cs" />
+    <Compile Include="NameSolver\ApplicationInfo.cs" />
+    <Compile Include="NameSolver\BaseApplicationInfo.cs" />
+    <Compile Include="NameSolver\BasePathFinder.cs" />
+    <Compile Include="NameSolver\BehaviourObjectsInfo.cs" />
+    <Compile Include="NameSolver\BrandInfo.cs" />
+    <Compile Include="NameSolver\ClientObjectInfo.cs" />
+    <Compile Include="NameSolver\Common.cs" />
+    <Compile Include="NameSolver\DatabaseObjectsInfo.cs" />
+    <Compile Include="NameSolver\DBObjectInfo.cs" />
+    <Compile Include="NameSolver\DefaultTheme.cs" />
+    <Compile Include="NameSolver\ParameterSettings.cs" />
+    <Compile Include="NameSolver\ParameterSettings.Load.cs">
+      <DependentUpon>ParameterSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NameSolver\DocumentsObjectInfo.cs" />
+    <Compile Include="NameSolver\LoadException.cs" />
+    <Compile Include="NameSolver\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="NameSolver\ModuleConfigInfo.cs" />
+    <Compile Include="NameSolver\ParseException.cs" />
+    <Compile Include="NameSolver\PathFinder.cs" />
+    <Compile Include="NameSolver\ReferenceObjectParser.cs" />
+    <Compile Include="NameSolver\RowSecurityObjectsInfo.cs" />
+    <Compile Include="NameSolver\ServerConnectionInfo.cs" />
+    <Compile Include="NameSolver\SettingsConfigInfo.cs" />
+    <Compile Include="NameSolver\SolutionInfo.cs" />
+    <Compile Include="NameSolver\StringsOfSeparatedValuesHelper.cs" />
+    <Compile Include="NameSolver\WebMethodsInfo.cs" />
+    <Compile Include="NotificationManager\BBNotificationModule.cs" />
+    <Compile Include="NotificationManager\BaseNotificationModule.cs" />
+    <Compile Include="NotificationManager\ChatNotificationModule.cs" />
+    <Compile Include="NotificationManager\DraggablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotificationManager\GenericNotificationModule.cs" />
+    <Compile Include="NotificationManager\MessagesManager.cs" />
+    <Compile Include="NotificationManager\NotificationManager.cs" />
+    <Compile Include="NotificationManager\NotificationManagerStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotificationManagerStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationManager\NotificationManagerUtility.cs" />
+    <Compile Include="NotificationManager\PopupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OpenXML\ExcelDocument.cs" />
+    <Compile Include="OpenXML\ExcelExport.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SecurityLayer\SecuredCommand.cs" />
+    <Compile Include="SecurityLayer\SecuredCommandDBInfo.cs" />
+    <Compile Include="SecurityLayer\SecurityLightMenuLoader.cs" />
+    <Compile Include="SecurityLayer\SecurityManager.cs" />
+    <Compile Include="SecurityLayer\SecurityRolesCommonFunctions.cs" />
+    <Compile Include="SecurityLayer\SLDenyFile.cs" />
+    <Compile Include="SecurityLayer\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SerializableTypes\ApplicationCache.cs" />
+    <Compile Include="SerializableTypes\LoggedUser.cs" />
+    <Compile Include="SerializableTypes\Serializable.cs" />
+    <Compile Include="SerializableTypes\SerializableEndPoint.cs" />
+    <Compile Include="Service References\dsSync\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ERPCustomersSuppliersDbl\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ErpItemsServices\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ErpPricePoliciesComponents\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\NotificationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TbDMSInterface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TbGenlibInterface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TbGesInterface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TbMacroRecorderInterface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TbOleDbInterface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TbWoormViewerInterface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TbXmlTransferInterface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SoapCall\SoapCallStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoapCallStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StringLoader\StringLoaderStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringLoaderStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TaskschedulerEngine\ScheduledSequencesEngine.cs" />
+    <Compile Include="TaskschedulerEngine\TaskNotificationRecipientEngine.cs" />
+    <Compile Include="TaskschedulerEngine\TaskschedulerDBEngine.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerDBEngineStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskSchedulerDBEngineStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\LogFile.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\MailUtilities.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\NetSendMessage.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\ScheduledSequences.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\ScheduledTaskObj.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\TaskExecutionEngine.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\TaskNotifications.cs" />
+    <Compile Include="TaskschedulerEngine\TaskSchedulerObjects\TaskSchedulerObjectsStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskSchedulerObjectsStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\eaSync\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\lockMng\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <WebReferences Include="Web References\" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecurityLayer\SecurityLayer.cs" />
+    <Compile Include="SoapCall\AccessControlEntry.cs" />
+    <Compile Include="SoapCall\AccessControlList.cs" />
+    <Compile Include="SoapCall\DynamicObject.cs" />
+    <Compile Include="SoapCall\DynamicProxy.cs" />
+    <Compile Include="SoapCall\DynamicProxyException.cs" />
+    <Compile Include="SoapCall\DynamicProxyFactory.cs" />
+    <Compile Include="SoapCall\DynamicProxyFactoryOptions.cs" />
+    <Compile Include="SoapCall\HttpApi.cs" />
+    <Compile Include="SoapCall\SecurityDescriptor.cs" />
+    <Compile Include="SoapCall\SecurityIdentity.cs" />
+    <Compile Include="SoapCall\SoapClient.cs" />
+    <Compile Include="SoapCall\Util.cs" />
+    <Compile Include="SoapCall\WCFService.cs" />
+    <Compile Include="SoapCall\WCFServiceRegister.cs" />
+    <Compile Include="SoapCall\WCFSoapClient.cs" />
+    <Compile Include="StringLoader\DatabaseLocalizer.cs" />
+    <Compile Include="StringLoader\DictionaryDataSet.Designer.cs" />
+    <Compile Include="StringLoader\DictionarySerializer.cs" />
+    <Compile Include="StringLoader\DictionaryViewerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StringLoader\DictionaryViewerControl.Designer.cs">
+      <DependentUpon>DictionaryViewerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StringLoader\EnumLocalizer.cs" />
+    <Compile Include="StringLoader\Helper.cs" />
+    <Compile Include="StringLoader\LocalizableXMLDocument.cs" />
+    <Compile Include="StringLoader\LocalizerConnector.cs" />
+    <Compile Include="StringLoader\ObjectLocalizer.cs" />
+    <Compile Include="StringLoader\SatelliteAssemblyDataSet.Designer.cs" />
+    <Compile Include="StringLoader\StringLoader.cs" />
+    <Compile Include="StringLoader\WoormLocalizer.cs" />
+    <Compile Include="Web References\easylook\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\loginMng\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\MicroareaBackend\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\sosProxy\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\tbHermes\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\tbLoaderLauncher\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\tbSender\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\tbService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WebServicesWrapper\DataSynchronizerWrapper.cs" />
+    <Compile Include="WebServicesWrapper\NotificationServiceWrapper.cs" />
+    <Compile Include="WebServicesWrapper\ProcessWMI.cs" />
+    <Compile Include="WebServicesWrapper\Configuration.cs" />
+    <Compile Include="WebServicesWrapper\ITbWebService.cs" />
+    <Compile Include="WebServicesWrapper\SOSProxyWrapper.cs" />
+    <Compile Include="WebServicesWrapper\EasyLookWrapper.cs" />
+    <Compile Include="WebServicesWrapper\EASyncWrapper.cs" />
+    <Compile Include="WebServicesWrapper\LockManagerWrapper.cs" />
+    <Compile Include="WebServicesWrapper\LoginManagerWrapper.cs" />
+    <Compile Include="WebServicesWrapper\LoginManagerWrapperStrings.cs" />
+    <Compile Include="WebServicesWrapper\LoginProperties.cs" />
+    <Compile Include="WebServicesWrapper\Session.cs" />
+    <Compile Include="WebServicesWrapper\SessionFactory.cs" />
+    <Compile Include="WebServicesWrapper\TbHermesWrapper.cs" />
+    <Compile Include="WebServicesWrapper\TBLoaderLauncherWrapper.cs" />
+    <Compile Include="WebServicesWrapper\TbSenderWrapper.cs" />
+    <Compile Include="WebServicesWrapper\WebServicesWrapperStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebServicesWrapperStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WebServicesWrapper\TbApplicationClientInterface.cs" />
+    <Compile Include="WebServicesWrapper\TbLoaderClientInterface.cs" />
+    <Compile Include="WebServicesWrapper\TbServices.cs" />
+    <Compile Include="WebServicesWrapper\TBWebProxy.cs" />
+    <Compile Include="WebServicesWrapper\WoormInfo.cs" />
+    <Compile Include="WebSockets\ServerWebSocketConnector.cs" />
+    <Compile Include="XmlPersister\SerializerUtility.cs" />
+    <Compile Include="XmlPersister\State.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/development/EasyAttachmentSync/EasyAttachmentSync.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\eaSync\</RelPath>
+      <UpdateFromURL>http://localhost/development/EasyAttachmentSync/EasyAttachmentSync.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_eaSync_MicroareaEasyAttachmentSync</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/Development/EasyLook/EasyLookService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\easylook\</RelPath>
+      <UpdateFromURL>http://localhost/Development/EasyLook/EasyLookService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_Library_WebServicesWrapper_easylook_EasyLookService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/Development/LockManager/LockManager.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\lockMng\</RelPath>
+      <UpdateFromURL>http://localhost/Development/LockManager/LockManager.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_lockMng_MicroareaLockManager</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/Development/LoginManager/LoginManager.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\loginMng\</RelPath>
+      <UpdateFromURL>http://localhost/Development/LoginManager/LoginManager.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_loginMng_MicroareaLoginManager</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/development/TbServices/TbServices.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\tbService\</RelPath>
+      <UpdateFromURL>http://localhost/development/TbServices/TbServices.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_tbService_TbServices</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/Development/tbsender/plproxy.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\tbSender\</RelPath>
+      <UpdateFromURL>http://localhost/Development/tbsender/plproxy.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_tbSender_PLProxy</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/Development_X/TBLoaderLauncher/TbLoaderLauncher.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\tbLoaderLauncher\</RelPath>
+      <UpdateFromURL>http://localhost/Development_X/TBLoaderLauncher/TbLoaderLauncher.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_tbLoaderLauncher_TBLoaderLauncher</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/Development/TbSender/SOSProxy.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\sosProxy\</RelPath>
+      <UpdateFromURL>http://localhost/Development/TbSender/SOSProxy.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_sosProxy_SOSProxy</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost:81/DevMZP/TbHermes/TbHermes.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\tbHermes\</RelPath>
+      <UpdateFromURL>http://localhost:81/DevMZP/TbHermes/TbHermes.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_tbHermes_TbHermes</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://usr-canessamat/Registration/Registration.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MicroareaBackend\</RelPath>
+      <UpdateFromURL>http://usr-canessamat/Registration/Registration.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_MicroareaBackend_Registration</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EasyBuilder\Refactor\VersionChanges.xsc">
+      <DependentUpon>VersionChanges.xsd</DependentUpon>
+    </None>
+    <None Include="EasyBuilder\Refactor\VersionChanges.xsd">
+      <LastGenOutput>VersionChanges.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="EasyBuilder\Refactor\VersionChanges.xss">
+      <DependentUpon>VersionChanges.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\DataSources\Microarea.TaskBuilderNet.Interfaces.Father.datasource" />
+    <None Include="Properties\DataSources\Microarea.TaskBuilderNet.Interfaces.GenericNotify.datasource" />
+    <None Include="Service References\dsSync\DataSynchronizer1.wsdl" />
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.CheckCompaniesToBeMappedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.CreateExternalServerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.GetActionsForDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.GetConvergenceCriteriaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.InitResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.MapCompanyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.NotifyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.RebootResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.SetConvergenceCriteriaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.SetGadgetPermResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.SetProviderParametersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.SynchronizeErrorsRecoveryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.SynchronizeOutboundResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.TestProviderParametersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.UploadActionPackageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.ValidateDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\dsSync\Microarea.TaskBuilderNet.Core.dsSync.ValidateOutboundResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\CustomersSuppliersDbl.wsdl" />
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\Microarea.TaskBuilderNet.Core.ERPCustomersSuppliersDbl.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ErpItemsServices\ERP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpItemsServices\ERP1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpItemsServices\ERP2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpItemsServices\ERP3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpItemsServices\ItemsServices.wsdl" />
+    <None Include="Service References\ErpItemsServices\Microarea.TaskBuilderNet.Core.ErpItemsServices.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\ERP9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\Microarea.TaskBuilderNet.Core.ErpPricePoliciesComponents.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\PricePoliciesComponents.wsdl" />
+    <None Include="Service References\NotificationService\Microarea.TaskBuilderNet.Core.NotificationService.MyBBFormInstance.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NotificationService\Microarea.TaskBuilderNet.Core.NotificationService.MyBBFormSchema.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NotificationService\NoficationService.wsdl" />
+    <None Include="Service References\NotificationService\NotificationService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificationService\NotificationService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificationService\NotificationService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificationService\NotificationService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificationService\NotificationService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2834.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2835.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2836.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2837.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2838.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2839.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2840.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2841.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2842.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2843.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2844.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2845.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2846.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2847.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2848.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2849.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2850.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2851.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2852.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2853.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2854.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2855.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2856.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2857.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2858.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2859.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2860.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2861.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2862.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2863.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2864.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2865.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2866.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Extensions2867.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbDMSInterface\Microarea.TaskBuilderNet.Core.TbDMSInterface.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TbDMSInterface\TbDMS.wsdl" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_ActivateTab.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_PressToolbarButton.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetLogins.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunIconizedDocument.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoUploadFileAction.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_GetTreeViewAdvContextMenu.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_RunFunctionAction.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_RunReportAction.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.TaskBuilderNet.Core.SoapCall.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.TaskBuilderNet.Core.TbOleDbInterface.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.Connection_BeginTransaction.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.Connection_Close.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.Connection_Commit.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.Connection_Rollback.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.CreateRecord.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.GetConnection.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.GetExtraFiltering.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.OpenConnection.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.SqlRecord_Clone.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.SqlRecord_Copy.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.SqlRecord_GetFieldValue.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.SqlRecord_IsStorable.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.SqlRecord_SetFieldValue.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.SqlRecord_SetStorable.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.wsdl" />
+    <None Include="Service References\TbOleDbInterface\Microarea.Web.Services.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbOleDbInterface\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.BrowseDocument.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ConnectionClose.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ConnectionLockRecord1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ConnectionUnlockRecord1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CurrentRowContainsCellSubTotal1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CurrentRowContainsCellTail1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormDoc_Close.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormDoc_Print.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_MailBody.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_MailSubject.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetArchivePdfFormat.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetAttachOther.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetExportOutputType.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetPrinterName.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetSilentMode.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetUICulture.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ExpandTemplate1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetCurrentRow1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetDocumentMethods.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetPrinterName1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetReportName1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetRows1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.IsPostaLiteEnabled1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSendEx1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetBodyParameter1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetCertifiedFilter1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetToCertified1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.OpenConnection.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteDecodeCodeState1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteDecodeDeliveryType1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteDecodeErrorExt1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteDecodePrintType1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteDecodeStatus1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteDecodeStatusExt1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteSend1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteSetAddressee1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.PostaLiteSetSendType1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QueryCall1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ReportSaveAs.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.SendMail1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.SkipContext1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\eaSync\EasyAttachmentSync.wsdl" />
+    <None Include="Web References\eaSync\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\loginMng\DmsDatabaseInfo.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\LoginProperties.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\TbSenderDatabaseInfo.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\MicroareaBackend\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\MicroareaBackend\Registration.wsdl" />
+    <None Include="Web References\MicroareaBackend\ResponseBag.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\sosProxy\ClasseDocumentale.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\sosProxy\EsitoSpedizione.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\sosProxy\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\sosProxy\RispostaSpedizione.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\sosProxy\SOSProxy.wsdl" />
+    <None Include="Web References\sosProxy\StatoSpedizione.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\sosProxy\Ticket.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\tbHermes\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\tbHermes\ServiceStatus.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\tbHermes\TbHermes.wsdl" />
+    <None Include="Web References\tbLoaderLauncher\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\tbLoaderLauncher\TbLoaderLauncher.wsdl" />
+    <None Include="Web References\tbSender\plproxy.wsdl" />
+    <None Include="Web References\tbSender\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\tbService\DiagnosticSimpleItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\tbService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\tbService\TbServices.disco" />
+    <None Include="Web References\tbService\WCFBinding.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\tbHermes\TbHermes.disco" />
+    <None Include="Web References\tbLoaderLauncher\TbLoaderLauncher.disco" />
+    <None Include="Web References\sosProxy\SOSProxy.disco" />
+    <None Include="Web References\tbSender\plproxy.disco" />
+    <None Include="Web References\MicroareaBackend\Registration.disco" />
+    <None Include="Web References\eaSync\EasyAttachmentSync.disco" />
+    <None Include="Generic\Generic.cd" />
+    <None Include="NameSolver\NameSolver.cd" />
+    <None Include="StringLoader\DictionaryDataSet.xsc">
+      <DependentUpon>DictionaryDataSet.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\DataManager.png" />
+    <Content Include="Generic\RemoteClients.xml" />
+    <None Include="Service References\TbOleDbInterface\configuration91.svcinfo" />
+    <None Include="Service References\TbOleDbInterface\configuration.svcinfo" />
+    <None Include="Service References\TbOleDbInterface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\TbDMSInterface\configuration91.svcinfo" />
+    <None Include="Service References\TbDMSInterface\configuration.svcinfo" />
+    <None Include="Service References\TbDMSInterface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ErpPricePoliciesComponents\configuration91.svcinfo" />
+    <None Include="Service References\ErpPricePoliciesComponents\configuration.svcinfo" />
+    <None Include="Service References\ErpPricePoliciesComponents\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ErpItemsServices\ERP.disco" />
+    <None Include="Service References\ErpItemsServices\configuration91.svcinfo" />
+    <None Include="Service References\ErpItemsServices\configuration.svcinfo" />
+    <None Include="Service References\ErpItemsServices\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ERPCustomersSuppliersDbl\ERP.disco" />
+    <None Include="Service References\ERPCustomersSuppliersDbl\configuration91.svcinfo" />
+    <None Include="Service References\ERPCustomersSuppliersDbl\configuration.svcinfo" />
+    <None Include="Service References\ERPCustomersSuppliersDbl\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\NotificationService\NotificationService.disco" />
+    <None Include="Service References\NotificationService\configuration91.svcinfo" />
+    <None Include="Service References\NotificationService\configuration.svcinfo" />
+    <None Include="Service References\NotificationService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="NotificationManager\Images\Cursor-Move-blu-16.png" />
+    <Content Include="NotificationManager\Images\CloseWindows-blu.png" />
+    <Content Include="NotificationManager\Images\CloseWindows_w.png" />
+    <Content Include="NotificationManager\Images\Cursor-Move-white-16.png" />
+    <Content Include="NotificationManager\Images\Minimize-blu.png" />
+    <Content Include="NotificationManager\Images\Minimize-w.png" />
+    <None Include="Service References\dsSync\configuration91.svcinfo" />
+    <None Include="Service References\dsSync\configuration.svcinfo" />
+    <None Include="Service References\dsSync\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\dsSync\DataSynchronizer1.disco" />
+    <Content Include="StringLoader\DictionaryDataSet.xsd">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="StringLoader\DictionaryDataSet.xsx">
+      <DependentUpon>DictionaryDataSet.xsd</DependentUpon>
+    </None>
+    <Content Include="StringLoader\SatelliteAssemblyDataSet.xsd">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="StringLoader\SatelliteAssemblyDataSet.xsx">
+      <DependentUpon>SatelliteAssemblyDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Web References\easylook\EasyLookService.wsdl" />
+    <None Include="Web References\easylook\Reference.map" />
+    <None Include="Web References\tbService\TbServices.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DiagnosticUI\DiagnosticBox.resx">
+      <DependentUpon>DiagnosticBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiagnosticUI\DiagnosticView.resx">
+      <DependentUpon>DiagnosticView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiagnosticUI\ExceptionBox.resx">
+      <DependentUpon>ExceptionBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiagnosticUI\LogViewer.resx">
+      <DependentUpon>LogViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiagnosticUI\MessageDetail.resx">
+      <DependentUpon>MessageDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiagnosticUI\MessagesListBox.resx">
+      <DependentUpon>MessagesListBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiagnosticUI\ResizableListBox.resx">
+      <DependentUpon>ResizableListBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EasyBuilder\EasyBuilderStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EasyBuilderStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EasyBuilder\EBCategories.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EBCategories.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EasyStudioServer\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic\Calendar.resx">
+      <DependentUpon>Calendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic\ClickOnceDeploy.resx">
+      <DependentUpon>ClickOnceDeploy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic\DateRangeSelector.resx">
+      <DependentUpon>DateRangeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NameSolver\Messages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationManager\NotificationManagerStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NotificationManagerStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringLoader\DictionaryViewerControl.resx">
+      <DependentUpon>DictionaryViewerControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\EnumsDialog.resx">
+      <DependentUpon>EnumsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\EnumsViewerAppInfo.resx">
+      <DependentUpon>EnumsViewerAppInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationsWinUI\ApplicationsWinUIStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationsWinUIStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\ApplicationsStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationsStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CoreTypes\CoreTypeStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CoreTypeStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiagnosticUI\Icons\DiagnosticMessages.ico" />
+    <EmbeddedResource Include="DiagnosticUI\img\MessageImages\Error.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\MessageImages\Information.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\MessageImages\Warning.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\ApplicationXml.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\CopyPath.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\DatabaseXml.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\DeleteFile.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Error.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\GenericXml.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\IExplorer.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Information.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Next.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Open.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Order.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\OrderByDate.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\OrderByType.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Preview.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Previous.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\RecycleBinEmpty.png" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Save.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Search.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\img\ToolBar\Warning.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\Resources\Company.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\AppInfo.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\AppInfo16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\ClearHistory.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\ClearHistory16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\ClearSelections.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\ClearSelections16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Collapse.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Collapse16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Copy.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Copy16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\CopyAsDbValues.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\CopyAsDbValues16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\CopyAsNames.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\CopyAsNames16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\CopyAsWoorm.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\CopyAsWoorm16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\EnumsViewer.gif" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\EnumsViewer.ico" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Exit.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Exit16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Filters.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Filters16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Find.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Find16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Help.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Help16x16.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Save.bmp" />
+    <EmbeddedResource Include="ApplicationsWinUI\EnumsViewer\images\Save16x16.bmp" />
+    <EmbeddedResource Include="DiagnosticUI\DiagnosticViewerStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DiagnosticViewerStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic\PopupContainer.resx">
+      <DependentUpon>PopupContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic\DateRangeStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DateRangeStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic\SmoothProgressBar.resx">
+      <DependentUpon>SmoothProgressBar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic\GenericStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GenericStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lexan\LexanStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LexanStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuManagerLoader\MenuManagerLoaderStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuManagerLoaderStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SecurityLayer\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoapCall\SoapCallStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoapCallStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringLoader\StringLoaderStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StringLoaderStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskschedulerEngine\TaskSchedulerDBEngineStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TaskSchedulerDBEngineStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskschedulerEngine\TaskSchedulerObjects\TaskSchedulerObjectsStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TaskSchedulerObjectsStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WebServicesWrapper\WebServicesWrapperStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WebServicesWrapperStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Service References\TbGenlibInterface\Microarea.TaskBuilderNet.Core.SoapCall.xsd" />
+    <None Include="Service References\TbGenlibInterface\Microarea.TaskBuilderNet.Core.TbGenlibInterface.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.EnumsViewer.xsd" />
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.ExecManageFile.xsd" />
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.ExecOpenFont.xsd" />
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.ExecOpenFormatter.xsd" />
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.ExecOpenText.xsd" />
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.SetApplicationDate.xsd" />
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.wsdl" />
+    <None Include="Service References\TbGenlibInterface\Microarea.Web.Services.xsd" />
+    <None Include="Service References\TbGenlibInterface\service.xsd" />
+    <None Include="Service References\TbGesInterface\configuration91.svcinfo" />
+    <None Include="Service References\TbGesInterface\configuration.svcinfo" />
+    <None Include="Service References\TbGesInterface\Microarea.TaskBuilderNet.Core.SoapCall.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.TaskBuilderNet.Core.TbGesInterface.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunFunctionInNewThread.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_ActivateTabPageAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_BETreeToggleExpandNodeAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_ClickContextMenuAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DblClickItemAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoCloseAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoCommandAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoHotLinkAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoHyperLinkAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoKeyAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoLinkAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoMoveBodyPageAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoSpinAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_GetThreadWindowsBinaryDescription.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_MoveRowRadarAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_MoveToAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_NewRowAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_ResizeAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_ResizeColumnAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_RunDocumentAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_SelectIndexAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_SelectNodeAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_SelectRadarAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_SelectRowAction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_SetDate.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_ToggleNodeAction.xsd" />
+    <None Include="Service References\TbGesInterface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\TbGenlibInterface\configuration91.svcinfo" />
+    <None Include="Service References\TbGenlibInterface\configuration.svcinfo" />
+    <None Include="Service References\TbGenlibInterface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\TbMacroRecorderInterface\Arrays.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.TaskBuilderNet.Core.SoapCall.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.TaskBuilderNet.Core.TbMacroRecorderInterface.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.PlayMessageBox.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.PlayStep.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordActivateParsedDialog.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordCloseDocument.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordCloseParsedDialog.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordCloseReport.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordMessageBox.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordOpenDocument.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordParsedAction.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.RecordReportValidation.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.SetTestPlan.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.SetTPManagerHandle.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.wsdl" />
+    <None Include="Service References\TbMacroRecorderInterface\Microarea.Web.Services.xsd" />
+    <None Include="Service References\TbMacroRecorderInterface\service.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\configuration91.svcinfo" />
+    <None Include="Service References\TbWoormViewerInterface\configuration.svcinfo" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.TaskBuilderNet.Core.SoapCall.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.TaskBuilderNet.Core.TbWoormViewerInterface.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QuerySetCursorType.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\TbXmlTransferInterface\configuration91.svcinfo" />
+    <None Include="Service References\TbXmlTransferInterface\configuration.svcinfo" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.TaskBuilderNet.Core.SoapCall.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.TaskBuilderNet.Core.TbXmlTransferInterface.TBHeaderInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TbXmlTransferInterface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\TbMacroRecorderInterface\configuration91.svcinfo" />
+    <None Include="Service References\TbMacroRecorderInterface\configuration.svcinfo" />
+    <None Include="Service References\TbMacroRecorderInterface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\dsSync\DataSynchronizer.disco" />
+    <Content Include="Web References\easylook\EasyLookService.disco" />
+    <None Include="Service References\TbGesInterface\Arrays.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_GetConnection.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_GetFieldData.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_GetFieldValue.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_GetHotLinkValue.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_GetMaster.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CAbstractFormDoc_SetFieldValue.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CanChangeLogin.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CanCloseDocument.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CanCloseLogin.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CanCloseTB.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CanStopThread.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.ChangeLogin.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CloseAllDocuments.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CloseDocument.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CreateWebProxy.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.CreateWebProxyForThread.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTObject_GetRecord.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTObject_GetTable.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_AddRecord.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_DeleteRecord.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_GetCurrentRow.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_GetCurrentRowIndex.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_GetRow.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_GetSize.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_InsertRecord.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_RemoveAll.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DBTSlaveBuffered_SetCurrentRow.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DestroyDocument.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.DisconnectCompany.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.EnableSoapFunctionExecutionControl.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.ExistDocument.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetActiveThreads.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetApplicationContextMessages.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetApplicationDate.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetApplicationDay.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetApplicationMonth.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetApplicationYear.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetCurrentUser.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetDocumentParameters.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetDocumentThreads.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetHotlinkQuery.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetLoginActiveThreads.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetLoginContextMessages.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetOpenDocuments.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetProcessID.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.GetReportParameters.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.HotKeyLink_SetParamValue.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.IsLoginValid.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.IsTBLocked.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.KillThread.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.LockTB.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.Login.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.ReconnectCompany.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunBatchInUnattendedMode.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunDocument.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunEditor.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunFunction.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunReport.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunReportFromWoormInfo.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.RunReportInUnattendedMode.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.SetDocumentInForeground.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.SetMenuHandle.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.SetUserInteractionMode.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.StopThread.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.UnLockTB.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.UseRemoteInterface.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoContextMenu.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_DoKey.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_GetComboItems.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_GetCommandLinkUrl.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_GetContextMenu.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_GetThreadContextMessages.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_OpenDropdownBtn.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.WebProxyObj_SetUserInteractionMode.xsd" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.wsdl" />
+    <None Include="Service References\TbGesInterface\Microarea.Web.Services.xsd" />
+    <None Include="Service References\TbGesInterface\service.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ConnectionBeginTrans.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ConnectionCommit.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ConnectionRollback.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ConnectionUnlockAll.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_AddOutputFileName.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_AddParameter.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_AddReport.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_Create.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_Dispose.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_MailAttach.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_MailBcc.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_MailCc.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_MailTo.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetAttachPDF.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetAttachRDE.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetAutoPrint.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetCloseOnEndPrint.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetCompressAttach.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetConcatPDF.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetExcelOutput.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetHideFrame.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetIconized.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetNoPrintDialog.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetOnePrintDialog.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetParamValue.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetPDFOutput.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetPDFOutputPreview.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetRDEOutput.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetSendEmail.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.CWoormInfo_SetUniqueMail.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ExecNewReport.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ExecOpenReport.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.ExecUpgradeReport.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetConnection.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetOwnerNamespace.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetReportModuleNamespace.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetReportNamespace.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetReportPath.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetTableCurrentRow.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.GetTableRows.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.IsAutoPrint.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.IsUserReportsDeveloper.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSend.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetAttachment.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetAttachmentReportName.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetBcc.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetBody.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetBodyTemplateFileName.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetCc.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetFrom.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetMapiProfile.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetSubject.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.MailSetTo.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QueryClose.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QueryExecute.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QueryIsOpen.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QueryOpen.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QueryRead.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QueryReadOne.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.QuerySetConnection.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.RunDocument.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.RunProgram.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.RunReport.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.UpdateOutputParametersEvenIfReportDoesNotFetchRecords.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.wsdl" />
+    <None Include="Service References\TbWoormViewerInterface\Microarea.Web.Services.xsd" />
+    <None Include="Service References\TbWoormViewerInterface\service.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Arrays.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.CloneExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.CopyExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.CreateSmartXSD.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.DeleteExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetData.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetDocumentSchema.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetExportProfileList.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetExportProfilesPath.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetReportSchema.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetSiteCode.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetXMLExportParameters.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetXMLHotLink.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetXMLImportParameters.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.GetXMLParameters.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.Import.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.ModifyExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.MoveExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.NewExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.OpenDocumentAndImport.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.RenameExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.RunXMLExportInUnattendedMode.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.RunXMLImportInUnattendedMode.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.SetData.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.ShowExportProfile.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.wsdl" />
+    <None Include="Service References\TbXmlTransferInterface\Microarea.Web.Services.xsd" />
+    <None Include="Service References\TbXmlTransferInterface\service.xsd" />
+    <None Include="Web References\loginMng\ActivationState.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\Advertisement.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\DBNetworkType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\LoginManager.disco" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\lockMng\LockManager.disco" />
+    <None Include="Web References\lockMng\LockManager.wsdl" />
+    <None Include="Web References\lockMng\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\loginMng\LoginManager.wsdl" />
+    <None Include="Web References\loginMng\ModuleNameInfo.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\ProxySettings.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\loginMng\SerialNumberType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\loginMng\SlotType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\dsSync\" />
+    <WCFMetadataStorage Include="Service References\ERPCustomersSuppliersDbl\" />
+    <WCFMetadataStorage Include="Service References\ErpItemsServices\" />
+    <WCFMetadataStorage Include="Service References\ErpPricePoliciesComponents\" />
+    <WCFMetadataStorage Include="Service References\NotificationService\" />
+    <WCFMetadataStorage Include="Service References\TbDMSInterface\" />
+    <WCFMetadataStorage Include="Service References\TbGenlibInterface\" />
+    <WCFMetadataStorage Include="Service References\TbGesInterface\" />
+    <WCFMetadataStorage Include="Service References\TbMacroRecorderInterface\" />
+    <WCFMetadataStorage Include="Service References\TbOleDbInterface\" />
+    <WCFMetadataStorage Include="Service References\TbWoormViewerInterface\" />
+    <WCFMetadataStorage Include="Service References\TbXmlTransferInterface\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{d21fd41d-0c68-40ef-a65a-ccfa47a05f3e}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

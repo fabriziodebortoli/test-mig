@@ -1,0 +1,94 @@
+﻿{
+  "id": "IDD_EXCEL_FORMATTER",
+  "rcId": 1137,
+  "type": 66,
+  "text": "Set Microsoft Excel's format cell",
+  "x": 25,
+  "y": 30,
+  "width": 188,
+  "height": 127,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "export",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Date",
+      "x": 13,
+      "y": 23,
+      "width": 68,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EXCEL_FORMAT_DATE",
+      "type": 13,
+      "x": 89,
+      "y": 21,
+      "width": 81,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "DateTime",
+      "x": 13,
+      "y": 44,
+      "width": 68,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EXCEL_FORMAT_DATETIME",
+      "type": 13,
+      "x": 89,
+      "y": 41,
+      "width": 81,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Time",
+      "x": 13,
+      "y": 64,
+      "width": 68,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EXCEL_FORMAT_TIME",
+      "type": 13,
+      "x": 89,
+      "y": 61,
+      "width": 81,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 22,
+      "y": 99,
+      "width": 68,
+      "height": 14,
+      "group": true,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 98,
+      "y": 99,
+      "width": 68,
+      "height": 14
+    }
+  ]
+}

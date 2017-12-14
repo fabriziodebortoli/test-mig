@@ -1,0 +1,8 @@
+<Table Name="MA_EI_ITCompany" Module="ElectronicInvoicing_IT" Document="" AvailableIf="ElectronicInvoicing_IT" Namespace="Table.MDC.ElectronicInvoicing_IT.Dbl.MA_EI_ITCompany" RuntimeClass="TEI_ITCompany" localize="">
+  <Overview localizable="true">EORI Code Number</Overview>
+  <Fields>
+    <Column Name="TIEORICode" Type="String" Length="17" ReadOnly="" Default="" Mandatory="" Enum="" Reference="" localizable="true">EORI Code Number</Column>
+  </Fields>
+  <Keys />
+  <Remarks localizable="true">Nothing to remark</Remarks>
+</Table>

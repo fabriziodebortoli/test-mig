@@ -1,0 +1,103 @@
+﻿{
+    "id": "IDD_TD_WORKERS_ABSENCES",
+    "name": "WorkerAbsences",
+    "text": "Absences",
+    "collapsible": true,
+    "collapsed": true,
+    "type": 71, /*Tile*/
+    "x": 0,
+    "y": 0,
+    "width": 397,
+    "height": 97,
+    "child": true,
+    "items": [
+        {
+            "binding": {
+                "datasource": "WorkersAbsences"
+            },
+            "id": "IDC_WRK_ABSENCES_BODYEDIT",
+            "name": "BEWorkersAbsences",
+            "type": 18, /*BodyEdit*/
+            "text": "Workers Absences BodyEdit",
+            "x": 0,
+            "y": 0,
+            "width": 393,
+            "height": 95,
+            "showDataTip": true,
+            "showStatusBar": true,
+            "items": [
+              {
+                "binding": {
+                  "datasource": "Reason",
+                  "mustExistData": true,
+                  "hotLink": {
+                    "name": "AbsenceReasons",
+                    "namespace": "Framework.TbResourcesMng.TbResourcesMng.AbsenceReasons",
+                    "mustExistData": true,
+                    "enableAddOnFly": false
+                  }
+                },
+                "controlClass": "StringEdit",
+                "id": "IDC_WRK_ABSENCES_BE_REASON",
+                "name": "Reason",
+                "text": "Reason",
+                "type": 22 /*ColTitle*/
+              },
+                {
+                    "binding": {
+                        "datasource": "Manager",
+                        "hotLink": "Workers",
+                        "buttonId": 0
+                    },
+                    "controlClass": "LongComboDropDownList",
+                    "id": "IDC_WRK_ABSENCES_BE_MANAGER",
+                    "name": "Manager",
+                    "text": "Manager",
+                    "type": 22,
+                    "comboType": 2
+                },
+                {
+                    "binding": {
+                        "datasource": "ManagerDesc"
+                    },
+                    "controlClass": "StringStatic",
+                    "id": "IDC_WRK_ABSENCES_BE_MANAGER_DESC",
+                    "name": "ManagerDesc",
+                    "text": "Manager Name",
+                    "type": 22 /*ColTitle*/
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_WRK_ABSENCES_BE_STARTDATE",
+                    "text": "Start",
+                    "controlClass": "DateTimeEdit",
+                    "name": "FromDate",
+                    "binding": {
+                        "datasource": "StartingDate"
+                    }
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_WRK_ABSENCES_BE_TODATE",
+                    "text": "End",
+                    "controlClass": "DateTimeEdit",
+                    "name": "EndDate",
+                    "binding": {
+                        "datasource": "EndingDate"
+                    }
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_WRK_ABSENCES_BE_NOTES",
+                    "text": "Notes",
+                    "style": 3,
+                    "controlClass": "StringEdit",
+                    "name": "Notes",
+                    "binding": {
+                        "datasource": "Notes"
+                    }
+                }
+            ]
+        }
+    ]
+}

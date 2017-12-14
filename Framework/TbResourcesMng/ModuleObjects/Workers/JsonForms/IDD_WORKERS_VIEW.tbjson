@@ -1,0 +1,98 @@
+﻿{
+    "id": "IDD_WORKERS_VIEW",
+    "name": "Workers",
+    "type": 1,
+    "x": 0,
+    "y": 0,
+    "width": 438,
+    "height": 381,
+    "child": true,
+    "items": [
+        {
+            "id": "IDC_WORKERS_HEADERSTRIP",
+            "type": 79, /*HeaderStrip*/
+            "x": 0,
+            "y": 0,
+            "width": 438,
+            "height": 57,
+            "binding": {
+                "datasource": "Workers.Title,Workers.Name,Workers.LastName"
+            }
+        },
+        {
+            "id": "IDC_TG_WORKERS",
+            "type": 76 /*TileManager*/,
+            "x": 0,
+            "y": 58,
+            "width": 438,
+            "height": 316,
+            "name": "Workers",
+            "items": [
+                {
+                    "id": "IDD_TG_WORKERS_MAIN_DATA",
+                    "text": "&Main Data",
+                    "tooltip": "Main Data",
+                    "type": 72, /*TileGroup*/
+                    "name": "MainData",
+                    "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Master.png",
+                    "layoutType": 4, /*VBOX*/
+                    "items": [
+                        {
+                            "href": "IDD_TD_WORKERS_MAINDATA"
+                        },
+                        {
+                            "type": 78, /*LayoutContainer*/
+                            "layoutType": 1, /*COLUMN*/
+                            "collapsible": true,
+                            "items": [
+                                {
+                                    "href": "IDD_TD_WORKERS_ADDRESS"
+                                },
+                                {
+                                    "href": "IDD_TD_WORKERS_CONTACTS"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "IDD_TG_WORKERS_OTHER_DATA",
+                    "text": "&Other Data",
+                    "tooltip": "Other Data",
+                    "type": 72, /*TileGroup*/
+                    "layoutType": 4, /*VBOX*/
+                    "name": "OtherData",
+                    "icon": "Image.Framework.TbFrameworkImages.Images.25x25.MasterMore.png",
+                    "items": [
+                        {
+                            "href": "IDD_TD_WORKERS_OTHERDATA"
+                        },
+                        {
+                            "href": "IDD_TD_WORKERS_ARRANGEMENT"
+                        },
+                        {
+                            "href": "IDD_TD_WORKERS_ABSENCES"
+                        },
+                        {
+                            "href": "IDD_TD_WORKERS_FIELDS"
+                        }
+                    ]
+                },
+                {
+                    "id": "IDD_TG_WORKERS_CHILD_RESOURCES",
+                    "text": "&Child Resources",
+                    "tooltip": "Child Resources",
+                    "type": 72, /*TileGroup*/
+                    "layoutType": 4, /*VBOX*/
+                    "name": "Details",
+                    "icon": "Image.Framework.TbFrameworkImages.Images.25x25.ChildResource.png",
+                    "items": [
+                        {
+                            "href": "IDD_TD_WORKERS_DETAILS"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

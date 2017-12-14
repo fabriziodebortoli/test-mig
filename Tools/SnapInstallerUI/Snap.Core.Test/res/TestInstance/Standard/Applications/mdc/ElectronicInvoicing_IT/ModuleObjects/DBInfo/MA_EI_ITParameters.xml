@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Table Name="MA_EI_ITParameters" Module="ElectronicInvoicing_IT" Document="Document.MDC.ElectronicInvoicing_IT.AddOnsElectronicInvoicing.CDEI_ITParameters" Namespace="Table.MDC.ElectronicInvoicing_IT.Dbl.MA_EI_ITParameters" RuntimeClass="TEI_ITParameters" localize="Electronic Invoicing Parameters" Reference="">
+  <Overview localizable="true">This table contains the parameters about FATEL connection and additional info for the documents to be send</Overview>
+  <Fields>
+    <Column Name="ParametersId" Type="Long" Length="0" ReadOnly="X" Mandatory="X" Default="X" Enum="" Reference="" localizable="true">Field only for internal use.</Column>
+    <Column Name="TaxJournal" Type="String" Length="8" ReadOnly="" Mandatory="" Default="" Enum="" Reference="Table.ERP.IdsMng.Dbl.MA_TaxJournal" localizable="true">Tax register used for documents to be send to FATEL</Column>
+    <Column Name="ContractProjectFromOrders" Type="Bool" Length="1" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">CIG/CUP retrieved from order</Column>
+    <Column Name="ContractProjectFromJobs" Type="Bool" Length="1" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">CIG/CUP retrieved from jobs</Column>
+    <Column Name="SetItemCode" Type="Bool" Length="1" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Send Item Code</Column>
+    <Column Name="ItemCodeType" Type="String" Length="128" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">Item Code Value to send </Column>
+    <Column Name="Link" Type="String" Length="32" ReadOnly="" Mandatory="" Default="" Enum="" Reference="" localizable="true">URL used to retrieve IPA Code (if not set will be used the following url: http://www.indicepa.gov.it/ricerca-altre-cf) </Column>
+    </Fields>
+  <Keys>
+    <Key Name="PK_EI_ITParameters" Type="Primary">
+      <Column Name="ParametersId" localizable="true" />
+    </Key>
+  </Keys>
+  <Remarks localizable="true">Nothing to remark.</Remarks>
+</Table>

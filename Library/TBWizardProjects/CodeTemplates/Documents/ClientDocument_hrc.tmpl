@@ -1,0 +1,39 @@
+//{{NO_DEPENDENCIES}}
+// Microsoft Developer Studio generated include file.
+// Used by @(ClientDocumentClassName).rc
+//
+
+@(IsSlaveFormViewToCreate(@(+)
+#define IDD_@@(_RB(_)ClientDocumentName)_SLAVEFORMVIEW @(ClientDocumentSlaveFormViewId)\n@(+)
+#define ID_@@(_RB(_)ClientDocumentName)_COMMAND @(ClientDocumentCommandId)\n@(+)
+#define IDB_@@(_RB(_)ClientDocumentName)_BUTTON_NORMAL_LARGE @(ToolBarButtonLargeId)\n@(+)
+#define IDB_@@(_RB(_)ClientDocumentName)_BUTTON_NORMAL_SMALL @(ToolBarButtonSmallId)\n@(+)
+#define IDB_@@(_RB(_)ClientDocumentName)_BUTTON_DISABLED_LARGE @(ToolBarButtonLargeDisabledId)\n@(+)
+#define IDB_@@(_RB(_)ClientDocumentName)_BUTTON_DISABLED_SMALL @(ToolBarButtonSmallDisabledId)\n@(+)
+@(IsTabberToCreate(#define IDC_@@(_RB(_)ClientDocumentName)_TAB @(TabberControlId)\n))@(+)
+))
+@(RepeatOnTabbedPanes{@(+)
+	#define IDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName) @(FormId)\n@(+)
+	@(_NOEMPTYLINES:IfDBTSlaveBuffered(@(+)
+		@(IfCreateRowForm(@(+)
+			#define IDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_ROW_FORM @(BodyEditRowFormDialogId)\n@(+)
+		))@(+)
+	#define IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_BODY_EDIT @(BodyEditControlId)\n@(+)
+	))@(+)
+	@(RepeatOnVisibleColumns{#define IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_@@(ColumnName) @(ColumnControlId)@(IfColumnShowsHotLinkDescription{\n#define IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_@@(ColumnName)_HOTLINK_DESCRIPTION_LABEL @(ColumnHotLinkDescriptionLabelId)}),"\r\n"})\n@(+)
+,"\r\n"})
+@(RepeatOnTabbedPanes{@(_NOEMPTYLINES:IfDBTSlaveBuffered(@(IfCreateRowForm(@(+)
+	#define IDD_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_ROW_FORM @(BodyEditRowFormDialogId)\n@(+)
+	@(RepeatOnRowFormColumns{#define IDC_@@(_RB(_)ClientDocumentName)_@@(_RB(_)TabbedPaneName)_ROW_FORM_@@(ColumnName) @(ColumnControlId),"\r\n"})\n@(+)
+)))),"\r\n"})
+
+// Next default values for new objects
+// 
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+#define _APS_NEXT_RESOURCE_VALUE @(ClientDocumentNextResourceValue)
+#define _APS_NEXT_COMMAND_VALUE  @(ClientDocumentNextCommandValue)
+#define _APS_NEXT_CONTROL_VALUE  @(ClientDocumentNextControlValue)
+#define _APS_NEXT_SYMED_VALUE    @(ClientDocumentNextSymedValue)
+#endif
+#endif

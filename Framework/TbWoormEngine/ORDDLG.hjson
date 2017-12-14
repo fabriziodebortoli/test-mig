@@ -1,0 +1,9 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormEngine\JsonForms\ORDDLG\IDD_ORDERBY.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_DESCENDING			GET_IDC(IDC_DESCENDING)
+#define	IDC_ORDERBY			GET_IDC(IDC_ORDERBY)

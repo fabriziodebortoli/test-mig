@@ -1,0 +1,58 @@
+﻿{
+  "id": "IDD_WIZARD_IMPORT_SUMMARY_PAGE",
+  "rcId": 2218,
+  "type": 66,
+  "text": "Summary of selections made",
+  "x": 0,
+  "y": 0,
+  "width": 270,
+  "height": 193,
+  "child": true,
+  "context": "impcriteriawiz",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "You selected the following items:",
+      "x": 9,
+      "y": 12,
+      "width": 240,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Press end to terminate",
+      "x": 9,
+      "y": 172,
+      "width": 109,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_IMPORT_SUMMARY_STATIC",
+      "type": 13,
+      "x": 2,
+      "y": 29,
+      "width": 264,
+      "height": 137,
+      "hScroll": true,
+      "vScroll": true,
+      "autoHScroll": true,
+      "autoVScroll": true,
+      "readOnly": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_IMPORT_VALIDATE_CHK",
+      "type": 11,
+      "text": "Validate",
+      "x": 124,
+      "y": 172,
+      "width": 141,
+      "height": 12,
+      "auto": true
+    }
+  ]
+}

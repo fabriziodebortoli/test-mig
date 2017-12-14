@@ -1,0 +1,124 @@
+﻿{
+  "id": "IDD_ADD_MOD_LINK",
+  "rcId": 1128,
+  "type": 66,
+  "text": "LinkReport/LinkForm management",
+  "x": 0,
+  "y": 0,
+  "width": 429,
+  "height": 265,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "editorlinksdlg",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "Configure Link",
+      "x": 127,
+      "y": 244,
+      "width": 73,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 233,
+      "y": 244,
+      "width": 73,
+      "height": 14
+    },
+    {
+      "id": "IDC_RADIO_NEWLINKREP",
+      "type": 10,
+      "text": "Add link to Report",
+      "x": 19,
+      "y": 25,
+      "width": 129,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADIONEW_LINKFORM",
+      "type": 10,
+      "text": "Add link to Form",
+      "x": 19,
+      "y": 38,
+      "width": 119,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADIO_MODLINK",
+      "type": 10,
+      "text": "Modify existing link",
+      "x": 19,
+      "y": 110,
+      "width": 262,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_LISTCTRL_WHENLINK",
+      "type": 30,
+      "x": 27,
+      "y": 128,
+      "width": 395,
+      "height": 101,
+      "border": true,
+      "alignment": 1,
+      "view": 2
+    },
+    {
+      "id": "IDC_RADIONEW_LINKFUNCTION",
+      "type": 10,
+      "text": "Add link to Function",
+      "x": 19,
+      "y": 51,
+      "width": 114,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_RADIONEW_LINKURL",
+      "type": 10,
+      "text": "Add link to URL",
+      "x": 19,
+      "y": 64,
+      "width": 88,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_CHECK_VARIABLE",
+      "type": 11,
+      "text": "Linked object by variable",
+      "x": 188,
+      "y": 44,
+      "width": 115,
+      "height": 16,
+      "auto": true
+    },
+    {
+      "id": "IDC_LINKURL_TYPE",
+      "type": 12,
+      "x": 34,
+      "y": 82,
+      "width": 71,
+      "height": 50,
+      "enabled": false,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    }
+  ]
+}

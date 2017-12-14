@@ -1,0 +1,963 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:tns="urn:Microarea.Web.Services" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" name="TBXmlTransfer" targetNamespace="urn:Microarea.Web.Services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:Microarea.Web.Services/Imports">
+      <xsd:import namespace="urn:Microarea.Web.Services.DeleteExportProfile" />
+      <xsd:import namespace="urn:Microarea.Web.Services" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RenameExportProfile" />
+      <xsd:import namespace="urn:Microarea.Web.Services.ModifyExportProfile" />
+      <xsd:import namespace="urn:Microarea.Web.Services.ShowExportProfile" />
+      <xsd:import namespace="urn:Microarea.Web.Services.CopyExportProfile" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="urn:Microarea.Web.Services.MoveExportProfile" />
+      <xsd:import namespace="urn:Microarea.Web.Services.CreateSmartXSD" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetDocumentSchema" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetReportSchema" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetSiteCode" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetExportProfileList" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetExportProfilesPath" />
+      <xsd:import namespace="urn:Microarea.Web.Services.OpenDocumentAndImport" />
+      <xsd:import namespace="urn:Microarea.Web.Services.Import" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetXMLExportParameters" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetXMLImportParameters" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetData" />
+      <xsd:import namespace="urn:Microarea.Web.Services.SetData" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetXMLParameters" />
+      <xsd:import namespace="urn:Microarea.Web.Services.GetXMLHotLink" />
+      <xsd:import namespace="urn:Microarea.Web.Services.NewExportProfile" />
+      <xsd:import namespace="urn:Microarea.Web.Services.CloneExportProfile" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="DeleteExportProfileIn">
+    <wsdl:part xmlns:q1="urn:Microarea.Web.Services.DeleteExportProfile" name="documentNamespace" element="q1:documentNamespace" />
+    <wsdl:part xmlns:q2="urn:Microarea.Web.Services.DeleteExportProfile" name="profilePath" element="q2:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="DeleteExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="DeleteExportProfileOut">
+    <wsdl:part xmlns:q3="urn:Microarea.Web.Services.DeleteExportProfile" name="return" element="q3:return" />
+  </wsdl:message>
+  <wsdl:message name="DeleteExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_DeleteExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q4:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RenameExportProfileIn">
+    <wsdl:part xmlns:q5="urn:Microarea.Web.Services.RenameExportProfile" name="documentNamespace" element="q5:documentNamespace" />
+    <wsdl:part xmlns:q6="urn:Microarea.Web.Services.RenameExportProfile" name="profilePath" element="q6:profilePath" />
+    <wsdl:part xmlns:q7="urn:Microarea.Web.Services.RenameExportProfile" name="newName" element="q7:newName" />
+  </wsdl:message>
+  <wsdl:message name="RenameExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RenameExportProfileOut">
+    <wsdl:part xmlns:q8="urn:Microarea.Web.Services.RenameExportProfile" name="return" element="q8:return" />
+    <wsdl:part xmlns:q9="urn:Microarea.Web.Services.RenameExportProfile" name="profilePath" element="q9:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="RenameExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_RenameExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q10:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="ModifyExportProfileIn">
+    <wsdl:part xmlns:q11="urn:Microarea.Web.Services.ModifyExportProfile" name="documentNamespace" element="q11:documentNamespace" />
+    <wsdl:part xmlns:q12="urn:Microarea.Web.Services.ModifyExportProfile" name="profilePath" element="q12:profilePath" />
+    <wsdl:part xmlns:q13="urn:Microarea.Web.Services.ModifyExportProfile" name="posType" element="q13:posType" />
+    <wsdl:part xmlns:q14="urn:Microarea.Web.Services.ModifyExportProfile" name="userName" element="q14:userName" />
+  </wsdl:message>
+  <wsdl:message name="ModifyExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ModifyExportProfileOut">
+    <wsdl:part xmlns:q15="urn:Microarea.Web.Services.ModifyExportProfile" name="return" element="q15:return" />
+    <wsdl:part xmlns:q16="urn:Microarea.Web.Services.ModifyExportProfile" name="profilePath" element="q16:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="ModifyExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_ModifyExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q17:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="ShowExportProfileIn">
+    <wsdl:part xmlns:q18="urn:Microarea.Web.Services.ShowExportProfile" name="documentNamespace" element="q18:documentNamespace" />
+    <wsdl:part xmlns:q19="urn:Microarea.Web.Services.ShowExportProfile" name="profilePath" element="q19:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="ShowExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ShowExportProfileOut">
+    <wsdl:part xmlns:q20="urn:Microarea.Web.Services.ShowExportProfile" name="return" element="q20:return" />
+  </wsdl:message>
+  <wsdl:message name="ShowExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_ShowExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q21:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="CopyExportProfileIn">
+    <wsdl:part xmlns:q22="urn:Microarea.Web.Services.CopyExportProfile" name="documentNamespace" element="q22:documentNamespace" />
+    <wsdl:part xmlns:q23="urn:Microarea.Web.Services.CopyExportProfile" name="profilePath" element="q23:profilePath" />
+    <wsdl:part xmlns:q24="urn:Microarea.Web.Services.CopyExportProfile" name="posType" element="q24:posType" />
+    <wsdl:part xmlns:q25="urn:Microarea.Web.Services.CopyExportProfile" name="userArray" element="q25:userArray" />
+  </wsdl:message>
+  <wsdl:message name="CopyExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="CopyExportProfileOut">
+    <wsdl:part xmlns:q26="urn:Microarea.Web.Services.CopyExportProfile" name="return" element="q26:return" />
+  </wsdl:message>
+  <wsdl:message name="CopyExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_CopyExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q27:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="MoveExportProfileIn">
+    <wsdl:part xmlns:q28="urn:Microarea.Web.Services.MoveExportProfile" name="documentNamespace" element="q28:documentNamespace" />
+    <wsdl:part xmlns:q29="urn:Microarea.Web.Services.MoveExportProfile" name="profilePath" element="q29:profilePath" />
+    <wsdl:part xmlns:q30="urn:Microarea.Web.Services.MoveExportProfile" name="posType" element="q30:posType" />
+    <wsdl:part xmlns:q31="urn:Microarea.Web.Services.MoveExportProfile" name="userArray" element="q31:userArray" />
+  </wsdl:message>
+  <wsdl:message name="MoveExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="MoveExportProfileOut">
+    <wsdl:part xmlns:q32="urn:Microarea.Web.Services.MoveExportProfile" name="return" element="q32:return" />
+  </wsdl:message>
+  <wsdl:message name="MoveExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_MoveExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q33="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q33:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="CreateSmartXSDIn">
+    <wsdl:part xmlns:q34="urn:Microarea.Web.Services.CreateSmartXSD" name="documentNamespace" element="q34:documentNamespace" />
+    <wsdl:part xmlns:q35="urn:Microarea.Web.Services.CreateSmartXSD" name="profilePath" element="q35:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="CreateSmartXSDIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="CreateSmartXSDOut">
+    <wsdl:part xmlns:q36="urn:Microarea.Web.Services.CreateSmartXSD" name="return" element="q36:return" />
+    <wsdl:part xmlns:q37="urn:Microarea.Web.Services.CreateSmartXSD" name="profilePath" element="q37:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="CreateSmartXSDOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_CreateSmartXSD_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q38="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q38:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentSchemaIn">
+    <wsdl:part xmlns:q39="urn:Microarea.Web.Services.GetDocumentSchema" name="documentNamespace" element="q39:documentNamespace" />
+    <wsdl:part xmlns:q40="urn:Microarea.Web.Services.GetDocumentSchema" name="profileName" element="q40:profileName" />
+    <wsdl:part xmlns:q41="urn:Microarea.Web.Services.GetDocumentSchema" name="forUser" element="q41:forUser" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentSchemaIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentSchemaOut">
+    <wsdl:part xmlns:q42="urn:Microarea.Web.Services.GetDocumentSchema" name="return" element="q42:return" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentSchemaOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetDocumentSchema_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q43="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q43:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetReportSchemaIn">
+    <wsdl:part xmlns:q44="urn:Microarea.Web.Services.GetReportSchema" name="reportNamespace" element="q44:reportNamespace" />
+    <wsdl:part xmlns:q45="urn:Microarea.Web.Services.GetReportSchema" name="forUser" element="q45:forUser" />
+  </wsdl:message>
+  <wsdl:message name="GetReportSchemaIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetReportSchemaOut">
+    <wsdl:part xmlns:q46="urn:Microarea.Web.Services.GetReportSchema" name="return" element="q46:return" />
+  </wsdl:message>
+  <wsdl:message name="GetReportSchemaOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetReportSchema_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q47="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q47:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="CloseLatestDocumentIn" />
+  <wsdl:message name="CloseLatestDocumentIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="CloseLatestDocumentOut" />
+  <wsdl:message name="CloseLatestDocumentOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_CloseLatestDocument_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q48="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q48:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetSiteCodeIn" />
+  <wsdl:message name="GetSiteCodeIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetSiteCodeOut">
+    <wsdl:part xmlns:q49="urn:Microarea.Web.Services.GetSiteCode" name="return" element="q49:return" />
+  </wsdl:message>
+  <wsdl:message name="GetSiteCodeOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetSiteCode_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q50="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q50:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfileListIn">
+    <wsdl:part xmlns:q51="urn:Microarea.Web.Services.GetExportProfileList" name="documentNamespace" element="q51:documentNamespace" />
+    <wsdl:part xmlns:q52="urn:Microarea.Web.Services.GetExportProfileList" name="posType" element="q52:posType" />
+    <wsdl:part xmlns:q53="urn:Microarea.Web.Services.GetExportProfileList" name="userName" element="q53:userName" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfileListIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfileListOut">
+    <wsdl:part xmlns:q54="urn:Microarea.Web.Services.GetExportProfileList" name="return" element="q54:return" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfileListOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetExportProfileList_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q55="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q55:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfilesPathIn">
+    <wsdl:part xmlns:q56="urn:Microarea.Web.Services.GetExportProfilesPath" name="documentNamespace" element="q56:documentNamespace" />
+    <wsdl:part xmlns:q57="urn:Microarea.Web.Services.GetExportProfilesPath" name="posType" element="q57:posType" />
+    <wsdl:part xmlns:q58="urn:Microarea.Web.Services.GetExportProfilesPath" name="userName" element="q58:userName" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfilesPathIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfilesPathOut">
+    <wsdl:part xmlns:q59="urn:Microarea.Web.Services.GetExportProfilesPath" name="return" element="q59:return" />
+  </wsdl:message>
+  <wsdl:message name="GetExportProfilesPathOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetExportProfilesPath_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q60="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q60:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="OpenDocumentAndImportIn">
+    <wsdl:part xmlns:q61="urn:Microarea.Web.Services.OpenDocumentAndImport" name="documentNamespace" element="q61:documentNamespace" />
+    <wsdl:part xmlns:q62="urn:Microarea.Web.Services.OpenDocumentAndImport" name="envelopeFolder" element="q62:envelopeFolder" />
+    <wsdl:part xmlns:q63="urn:Microarea.Web.Services.OpenDocumentAndImport" name="resultDescription" element="q63:resultDescription" />
+  </wsdl:message>
+  <wsdl:message name="OpenDocumentAndImportIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="OpenDocumentAndImportOut">
+    <wsdl:part xmlns:q64="urn:Microarea.Web.Services.OpenDocumentAndImport" name="return" element="q64:return" />
+    <wsdl:part xmlns:q65="urn:Microarea.Web.Services.OpenDocumentAndImport" name="resultDescription" element="q65:resultDescription" />
+  </wsdl:message>
+  <wsdl:message name="OpenDocumentAndImportOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_OpenDocumentAndImport_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q66="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q66:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="ImportIn">
+    <wsdl:part xmlns:q67="urn:Microarea.Web.Services.Import" name="documentHandle" element="q67:documentHandle" />
+    <wsdl:part xmlns:q68="urn:Microarea.Web.Services.Import" name="envelopeFolder" element="q68:envelopeFolder" />
+    <wsdl:part xmlns:q69="urn:Microarea.Web.Services.Import" name="resultDescription" element="q69:resultDescription" />
+  </wsdl:message>
+  <wsdl:message name="ImportIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="ImportOut">
+    <wsdl:part xmlns:q70="urn:Microarea.Web.Services.Import" name="return" element="q70:return" />
+    <wsdl:part xmlns:q71="urn:Microarea.Web.Services.Import" name="resultDescription" element="q71:resultDescription" />
+  </wsdl:message>
+  <wsdl:message name="ImportOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_Import_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q72="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q72:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLExportParametersIn">
+    <wsdl:part xmlns:q73="urn:Microarea.Web.Services.GetXMLExportParameters" name="documentNamespace" element="q73:documentNamespace" />
+    <wsdl:part xmlns:q74="urn:Microarea.Web.Services.GetXMLExportParameters" name="xmlParams" element="q74:xmlParams" />
+    <wsdl:part xmlns:q75="urn:Microarea.Web.Services.GetXMLExportParameters" name="messages" element="q75:messages" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLExportParametersIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLExportParametersOut">
+    <wsdl:part xmlns:q76="urn:Microarea.Web.Services.GetXMLExportParameters" name="return" element="q76:return" />
+    <wsdl:part xmlns:q77="urn:Microarea.Web.Services.GetXMLExportParameters" name="xmlParams" element="q77:xmlParams" />
+    <wsdl:part xmlns:q78="urn:Microarea.Web.Services.GetXMLExportParameters" name="messages" element="q78:messages" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLExportParametersOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetXMLExportParameters_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q79="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q79:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLImportParametersIn">
+    <wsdl:part xmlns:q80="urn:Microarea.Web.Services.GetXMLImportParameters" name="documentNamespace" element="q80:documentNamespace" />
+    <wsdl:part xmlns:q81="urn:Microarea.Web.Services.GetXMLImportParameters" name="xmlParams" element="q81:xmlParams" />
+    <wsdl:part xmlns:q82="urn:Microarea.Web.Services.GetXMLImportParameters" name="messages" element="q82:messages" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLImportParametersIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLImportParametersOut">
+    <wsdl:part xmlns:q83="urn:Microarea.Web.Services.GetXMLImportParameters" name="return" element="q83:return" />
+    <wsdl:part xmlns:q84="urn:Microarea.Web.Services.GetXMLImportParameters" name="xmlParams" element="q84:xmlParams" />
+    <wsdl:part xmlns:q85="urn:Microarea.Web.Services.GetXMLImportParameters" name="messages" element="q85:messages" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLImportParametersOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetXMLImportParameters_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q86="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q86:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLExportInUnattendedModeIn">
+    <wsdl:part xmlns:q87="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" name="documentNamespace" element="q87:documentNamespace" />
+    <wsdl:part xmlns:q88="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" name="xmlParams" element="q88:xmlParams" />
+    <wsdl:part xmlns:q89="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" name="documentHandle" element="q89:documentHandle" />
+    <wsdl:part xmlns:q90="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" name="messages" element="q90:messages" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLExportInUnattendedModeIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLExportInUnattendedModeOut">
+    <wsdl:part xmlns:q91="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" name="return" element="q91:return" />
+    <wsdl:part xmlns:q92="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" name="documentHandle" element="q92:documentHandle" />
+    <wsdl:part xmlns:q93="urn:Microarea.Web.Services.RunXMLExportInUnattendedMode" name="messages" element="q93:messages" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLExportInUnattendedModeOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_RunXMLExportInUnattendedMode_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q94="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q94:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLImportInUnattendedModeIn">
+    <wsdl:part xmlns:q95="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="documentNamespace" element="q95:documentNamespace" />
+    <wsdl:part xmlns:q96="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="downloadEnvelopes" element="q96:downloadEnvelopes" />
+    <wsdl:part xmlns:q97="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="validateData" element="q97:validateData" />
+    <wsdl:part xmlns:q98="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="xmlParams" element="q98:xmlParams" />
+    <wsdl:part xmlns:q99="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="documentHandle" element="q99:documentHandle" />
+    <wsdl:part xmlns:q100="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="messages" element="q100:messages" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLImportInUnattendedModeIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLImportInUnattendedModeOut">
+    <wsdl:part xmlns:q101="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="return" element="q101:return" />
+    <wsdl:part xmlns:q102="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="documentHandle" element="q102:documentHandle" />
+    <wsdl:part xmlns:q103="urn:Microarea.Web.Services.RunXMLImportInUnattendedMode" name="messages" element="q103:messages" />
+  </wsdl:message>
+  <wsdl:message name="RunXMLImportInUnattendedModeOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_RunXMLImportInUnattendedMode_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q104="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q104:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetDataIn">
+    <wsdl:part xmlns:q105="urn:Microarea.Web.Services.GetData" name="param" element="q105:param" />
+    <wsdl:part xmlns:q106="urn:Microarea.Web.Services.GetData" name="useApproximation" element="q106:useApproximation" />
+    <wsdl:part xmlns:q107="urn:Microarea.Web.Services.GetData" name="loginName" element="q107:loginName" />
+    <wsdl:part xmlns:q108="urn:Microarea.Web.Services.GetData" name="result" element="q108:result" />
+  </wsdl:message>
+  <wsdl:message name="GetDataIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetDataOut">
+    <wsdl:part xmlns:q109="urn:Microarea.Web.Services.GetData" name="return" element="q109:return" />
+    <wsdl:part xmlns:q110="urn:Microarea.Web.Services.GetData" name="result" element="q110:result" />
+  </wsdl:message>
+  <wsdl:message name="GetDataOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetData_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q111="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q111:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="SetDataIn">
+    <wsdl:part xmlns:q112="urn:Microarea.Web.Services.SetData" name="data" element="q112:data" />
+    <wsdl:part xmlns:q113="urn:Microarea.Web.Services.SetData" name="saveAction" element="q113:saveAction" />
+    <wsdl:part xmlns:q114="urn:Microarea.Web.Services.SetData" name="loginName" element="q114:loginName" />
+    <wsdl:part xmlns:q115="urn:Microarea.Web.Services.SetData" name="result" element="q115:result" />
+  </wsdl:message>
+  <wsdl:message name="SetDataIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetDataOut">
+    <wsdl:part xmlns:q116="urn:Microarea.Web.Services.SetData" name="return" element="q116:return" />
+    <wsdl:part xmlns:q117="urn:Microarea.Web.Services.SetData" name="result" element="q117:result" />
+  </wsdl:message>
+  <wsdl:message name="SetDataOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_SetData_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q118="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q118:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLParametersIn">
+    <wsdl:part xmlns:q119="urn:Microarea.Web.Services.GetXMLParameters" name="param" element="q119:param" />
+    <wsdl:part xmlns:q120="urn:Microarea.Web.Services.GetXMLParameters" name="useApproximation" element="q120:useApproximation" />
+    <wsdl:part xmlns:q121="urn:Microarea.Web.Services.GetXMLParameters" name="loginName" element="q121:loginName" />
+    <wsdl:part xmlns:q122="urn:Microarea.Web.Services.GetXMLParameters" name="result" element="q122:result" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLParametersIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLParametersOut">
+    <wsdl:part xmlns:q123="urn:Microarea.Web.Services.GetXMLParameters" name="return" element="q123:return" />
+    <wsdl:part xmlns:q124="urn:Microarea.Web.Services.GetXMLParameters" name="result" element="q124:result" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLParametersOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetXMLParameters_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q125="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q125:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLHotLinkIn">
+    <wsdl:part xmlns:q126="urn:Microarea.Web.Services.GetXMLHotLink" name="documentNamespace" element="q126:documentNamespace" />
+    <wsdl:part xmlns:q127="urn:Microarea.Web.Services.GetXMLHotLink" name="nsUri" element="q127:nsUri" />
+    <wsdl:part xmlns:q128="urn:Microarea.Web.Services.GetXMLHotLink" name="fieldXPath" element="q128:fieldXPath" />
+    <wsdl:part xmlns:q129="urn:Microarea.Web.Services.GetXMLHotLink" name="loginName" element="q129:loginName" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLHotLinkIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLHotLinkOut">
+    <wsdl:part xmlns:q130="urn:Microarea.Web.Services.GetXMLHotLink" name="return" element="q130:return" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLHotLinkOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_GetXMLHotLink_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q131="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q131:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="NewExportProfileIn">
+    <wsdl:part xmlns:q132="urn:Microarea.Web.Services.NewExportProfile" name="documentNamespace" element="q132:documentNamespace" />
+    <wsdl:part xmlns:q133="urn:Microarea.Web.Services.NewExportProfile" name="newProfileName" element="q133:newProfileName" />
+    <wsdl:part xmlns:q134="urn:Microarea.Web.Services.NewExportProfile" name="posType" element="q134:posType" />
+    <wsdl:part xmlns:q135="urn:Microarea.Web.Services.NewExportProfile" name="userName" element="q135:userName" />
+    <wsdl:part xmlns:q136="urn:Microarea.Web.Services.NewExportProfile" name="profilePath" element="q136:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="NewExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="NewExportProfileOut">
+    <wsdl:part xmlns:q137="urn:Microarea.Web.Services.NewExportProfile" name="return" element="q137:return" />
+    <wsdl:part xmlns:q138="urn:Microarea.Web.Services.NewExportProfile" name="profilePath" element="q138:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="NewExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_NewExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q139="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q139:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="CloneExportProfileIn">
+    <wsdl:part xmlns:q140="urn:Microarea.Web.Services.CloneExportProfile" name="documentNamespace" element="q140:documentNamespace" />
+    <wsdl:part xmlns:q141="urn:Microarea.Web.Services.CloneExportProfile" name="profilePath" element="q141:profilePath" />
+    <wsdl:part xmlns:q142="urn:Microarea.Web.Services.CloneExportProfile" name="posType" element="q142:posType" />
+    <wsdl:part xmlns:q143="urn:Microarea.Web.Services.CloneExportProfile" name="userName" element="q143:userName" />
+  </wsdl:message>
+  <wsdl:message name="CloneExportProfileIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="CloneExportProfileOut">
+    <wsdl:part xmlns:q144="urn:Microarea.Web.Services.CloneExportProfile" name="return" element="q144:return" />
+    <wsdl:part xmlns:q145="urn:Microarea.Web.Services.CloneExportProfile" name="profilePath" element="q145:profilePath" />
+  </wsdl:message>
+  <wsdl:message name="CloneExportProfileOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBXmlTransfer_CloneExportProfile_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q146="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q146:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:portType name="TBXmlTransfer">
+    <wsdl:operation name="DeleteExportProfile">
+      <wsdl:input wsaw:Action="#DeleteExportProfile" name="DeleteExportProfileIn" message="tns:DeleteExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/DeleteExportProfileResponse" name="DeleteExportProfileOut" message="tns:DeleteExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/DeleteExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_DeleteExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenameExportProfile">
+      <wsdl:input wsaw:Action="#RenameExportProfile" name="RenameExportProfileIn" message="tns:RenameExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/RenameExportProfileResponse" name="RenameExportProfileOut" message="tns:RenameExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/RenameExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_RenameExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyExportProfile">
+      <wsdl:input wsaw:Action="#ModifyExportProfile" name="ModifyExportProfileIn" message="tns:ModifyExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/ModifyExportProfileResponse" name="ModifyExportProfileOut" message="tns:ModifyExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/ModifyExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_ModifyExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ShowExportProfile">
+      <wsdl:input wsaw:Action="#ShowExportProfile" name="ShowExportProfileIn" message="tns:ShowExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/ShowExportProfileResponse" name="ShowExportProfileOut" message="tns:ShowExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/ShowExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_ShowExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyExportProfile">
+      <wsdl:input wsaw:Action="#CopyExportProfile" name="CopyExportProfileIn" message="tns:CopyExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CopyExportProfileResponse" name="CopyExportProfileOut" message="tns:CopyExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CopyExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_CopyExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveExportProfile">
+      <wsdl:input wsaw:Action="#MoveExportProfile" name="MoveExportProfileIn" message="tns:MoveExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/MoveExportProfileResponse" name="MoveExportProfileOut" message="tns:MoveExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/MoveExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_MoveExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateSmartXSD">
+      <wsdl:input wsaw:Action="#CreateSmartXSD" name="CreateSmartXSDIn" message="tns:CreateSmartXSDIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CreateSmartXSDResponse" name="CreateSmartXSDOut" message="tns:CreateSmartXSDOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CreateSmartXSDTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_CreateSmartXSD_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentSchema">
+      <wsdl:input wsaw:Action="#GetDocumentSchema" name="GetDocumentSchemaIn" message="tns:GetDocumentSchemaIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetDocumentSchemaResponse" name="GetDocumentSchemaOut" message="tns:GetDocumentSchemaOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetDocumentSchemaTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetDocumentSchema_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReportSchema">
+      <wsdl:input wsaw:Action="#GetReportSchema" name="GetReportSchemaIn" message="tns:GetReportSchemaIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetReportSchemaResponse" name="GetReportSchemaOut" message="tns:GetReportSchemaOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetReportSchemaTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetReportSchema_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseLatestDocument">
+      <wsdl:input wsaw:Action="#CloseLatestDocument" name="CloseLatestDocumentIn" message="tns:CloseLatestDocumentIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CloseLatestDocumentResponse" name="CloseLatestDocumentOut" message="tns:CloseLatestDocumentOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CloseLatestDocumentTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_CloseLatestDocument_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSiteCode">
+      <wsdl:input wsaw:Action="#GetSiteCode" name="GetSiteCodeIn" message="tns:GetSiteCodeIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetSiteCodeResponse" name="GetSiteCodeOut" message="tns:GetSiteCodeOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetSiteCodeTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetSiteCode_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExportProfileList">
+      <wsdl:input wsaw:Action="#GetExportProfileList" name="GetExportProfileListIn" message="tns:GetExportProfileListIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetExportProfileListResponse" name="GetExportProfileListOut" message="tns:GetExportProfileListOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetExportProfileListTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetExportProfileList_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExportProfilesPath">
+      <wsdl:input wsaw:Action="#GetExportProfilesPath" name="GetExportProfilesPathIn" message="tns:GetExportProfilesPathIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetExportProfilesPathResponse" name="GetExportProfilesPathOut" message="tns:GetExportProfilesPathOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetExportProfilesPathTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetExportProfilesPath_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenDocumentAndImport">
+      <wsdl:input wsaw:Action="#OpenDocumentAndImport" name="OpenDocumentAndImportIn" message="tns:OpenDocumentAndImportIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/OpenDocumentAndImportResponse" name="OpenDocumentAndImportOut" message="tns:OpenDocumentAndImportOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/OpenDocumentAndImportTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_OpenDocumentAndImport_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Import">
+      <wsdl:input wsaw:Action="#Import" name="ImportIn" message="tns:ImportIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/ImportResponse" name="ImportOut" message="tns:ImportOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/ImportTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_Import_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLExportParameters">
+      <wsdl:input wsaw:Action="#GetXMLExportParameters" name="GetXMLExportParametersIn" message="tns:GetXMLExportParametersIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLExportParametersResponse" name="GetXMLExportParametersOut" message="tns:GetXMLExportParametersOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLExportParametersTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetXMLExportParameters_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLImportParameters">
+      <wsdl:input wsaw:Action="#GetXMLImportParameters" name="GetXMLImportParametersIn" message="tns:GetXMLImportParametersIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLImportParametersResponse" name="GetXMLImportParametersOut" message="tns:GetXMLImportParametersOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLImportParametersTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetXMLImportParameters_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RunXMLExportInUnattendedMode">
+      <wsdl:input wsaw:Action="#RunXMLExportInUnattendedMode" name="RunXMLExportInUnattendedModeIn" message="tns:RunXMLExportInUnattendedModeIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/RunXMLExportInUnattendedModeResponse" name="RunXMLExportInUnattendedModeOut" message="tns:RunXMLExportInUnattendedModeOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/RunXMLExportInUnattendedModeTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_RunXMLExportInUnattendedMode_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RunXMLImportInUnattendedMode">
+      <wsdl:input wsaw:Action="#RunXMLImportInUnattendedMode" name="RunXMLImportInUnattendedModeIn" message="tns:RunXMLImportInUnattendedModeIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/RunXMLImportInUnattendedModeResponse" name="RunXMLImportInUnattendedModeOut" message="tns:RunXMLImportInUnattendedModeOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/RunXMLImportInUnattendedModeTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_RunXMLImportInUnattendedMode_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <wsdl:input wsaw:Action="#GetData" name="GetDataIn" message="tns:GetDataIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetDataResponse" name="GetDataOut" message="tns:GetDataOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetDataTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetData_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetData">
+      <wsdl:input wsaw:Action="#SetData" name="SetDataIn" message="tns:SetDataIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/SetDataResponse" name="SetDataOut" message="tns:SetDataOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/SetDataTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_SetData_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLParameters">
+      <wsdl:input wsaw:Action="#GetXMLParameters" name="GetXMLParametersIn" message="tns:GetXMLParametersIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLParametersResponse" name="GetXMLParametersOut" message="tns:GetXMLParametersOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLParametersTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetXMLParameters_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLHotLink">
+      <wsdl:input wsaw:Action="#GetXMLHotLink" name="GetXMLHotLinkIn" message="tns:GetXMLHotLinkIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLHotLinkResponse" name="GetXMLHotLinkOut" message="tns:GetXMLHotLinkOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/GetXMLHotLinkTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_GetXMLHotLink_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NewExportProfile">
+      <wsdl:input wsaw:Action="#NewExportProfile" name="NewExportProfileIn" message="tns:NewExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/NewExportProfileResponse" name="NewExportProfileOut" message="tns:NewExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/NewExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_NewExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CloneExportProfile">
+      <wsdl:input wsaw:Action="#CloneExportProfile" name="CloneExportProfileIn" message="tns:CloneExportProfileIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CloneExportProfileResponse" name="CloneExportProfileOut" message="tns:CloneExportProfileOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBXmlTransfer/CloneExportProfileTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBXmlTransfer_CloneExportProfile_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TBXmlTransferSoap" type="tns:TBXmlTransfer">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="DeleteExportProfile">
+      <soap:operation soapAction="#DeleteExportProfile" style="document" />
+      <wsdl:input name="DeleteExportProfileIn">
+        <soap:header message="tns:DeleteExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="DeleteExportProfileOut">
+        <soap:header message="tns:DeleteExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RenameExportProfile">
+      <soap:operation soapAction="#RenameExportProfile" style="document" />
+      <wsdl:input name="RenameExportProfileIn">
+        <soap:header message="tns:RenameExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RenameExportProfileOut">
+        <soap:header message="tns:RenameExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyExportProfile">
+      <soap:operation soapAction="#ModifyExportProfile" style="document" />
+      <wsdl:input name="ModifyExportProfileIn">
+        <soap:header message="tns:ModifyExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ModifyExportProfileOut">
+        <soap:header message="tns:ModifyExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ShowExportProfile">
+      <soap:operation soapAction="#ShowExportProfile" style="document" />
+      <wsdl:input name="ShowExportProfileIn">
+        <soap:header message="tns:ShowExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ShowExportProfileOut">
+        <soap:header message="tns:ShowExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CopyExportProfile">
+      <soap:operation soapAction="#CopyExportProfile" style="document" />
+      <wsdl:input name="CopyExportProfileIn">
+        <soap:header message="tns:CopyExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CopyExportProfileOut">
+        <soap:header message="tns:CopyExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MoveExportProfile">
+      <soap:operation soapAction="#MoveExportProfile" style="document" />
+      <wsdl:input name="MoveExportProfileIn">
+        <soap:header message="tns:MoveExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="MoveExportProfileOut">
+        <soap:header message="tns:MoveExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSmartXSD">
+      <soap:operation soapAction="#CreateSmartXSD" style="document" />
+      <wsdl:input name="CreateSmartXSDIn">
+        <soap:header message="tns:CreateSmartXSDIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CreateSmartXSDOut">
+        <soap:header message="tns:CreateSmartXSDOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentSchema">
+      <soap:operation soapAction="#GetDocumentSchema" style="document" />
+      <wsdl:input name="GetDocumentSchemaIn">
+        <soap:header message="tns:GetDocumentSchemaIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetDocumentSchemaOut">
+        <soap:header message="tns:GetDocumentSchemaOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetReportSchema">
+      <soap:operation soapAction="#GetReportSchema" style="document" />
+      <wsdl:input name="GetReportSchemaIn">
+        <soap:header message="tns:GetReportSchemaIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetReportSchemaOut">
+        <soap:header message="tns:GetReportSchemaOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CloseLatestDocument">
+      <soap:operation soapAction="#CloseLatestDocument" style="document" />
+      <wsdl:input name="CloseLatestDocumentIn">
+        <soap:header message="tns:CloseLatestDocumentIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CloseLatestDocumentOut">
+        <soap:header message="tns:CloseLatestDocumentOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetSiteCode">
+      <soap:operation soapAction="#GetSiteCode" style="document" />
+      <wsdl:input name="GetSiteCodeIn">
+        <soap:header message="tns:GetSiteCodeIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetSiteCodeOut">
+        <soap:header message="tns:GetSiteCodeOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetExportProfileList">
+      <soap:operation soapAction="#GetExportProfileList" style="document" />
+      <wsdl:input name="GetExportProfileListIn">
+        <soap:header message="tns:GetExportProfileListIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetExportProfileListOut">
+        <soap:header message="tns:GetExportProfileListOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetExportProfilesPath">
+      <soap:operation soapAction="#GetExportProfilesPath" style="document" />
+      <wsdl:input name="GetExportProfilesPathIn">
+        <soap:header message="tns:GetExportProfilesPathIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetExportProfilesPathOut">
+        <soap:header message="tns:GetExportProfilesPathOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="OpenDocumentAndImport">
+      <soap:operation soapAction="#OpenDocumentAndImport" style="document" />
+      <wsdl:input name="OpenDocumentAndImportIn">
+        <soap:header message="tns:OpenDocumentAndImportIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="OpenDocumentAndImportOut">
+        <soap:header message="tns:OpenDocumentAndImportOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Import">
+      <soap:operation soapAction="#Import" style="document" />
+      <wsdl:input name="ImportIn">
+        <soap:header message="tns:ImportIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ImportOut">
+        <soap:header message="tns:ImportOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLExportParameters">
+      <soap:operation soapAction="#GetXMLExportParameters" style="document" />
+      <wsdl:input name="GetXMLExportParametersIn">
+        <soap:header message="tns:GetXMLExportParametersIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetXMLExportParametersOut">
+        <soap:header message="tns:GetXMLExportParametersOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLImportParameters">
+      <soap:operation soapAction="#GetXMLImportParameters" style="document" />
+      <wsdl:input name="GetXMLImportParametersIn">
+        <soap:header message="tns:GetXMLImportParametersIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetXMLImportParametersOut">
+        <soap:header message="tns:GetXMLImportParametersOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RunXMLExportInUnattendedMode">
+      <soap:operation soapAction="#RunXMLExportInUnattendedMode" style="document" />
+      <wsdl:input name="RunXMLExportInUnattendedModeIn">
+        <soap:header message="tns:RunXMLExportInUnattendedModeIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RunXMLExportInUnattendedModeOut">
+        <soap:header message="tns:RunXMLExportInUnattendedModeOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RunXMLImportInUnattendedMode">
+      <soap:operation soapAction="#RunXMLImportInUnattendedMode" style="document" />
+      <wsdl:input name="RunXMLImportInUnattendedModeIn">
+        <soap:header message="tns:RunXMLImportInUnattendedModeIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RunXMLImportInUnattendedModeOut">
+        <soap:header message="tns:RunXMLImportInUnattendedModeOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <soap:operation soapAction="#GetData" style="document" />
+      <wsdl:input name="GetDataIn">
+        <soap:header message="tns:GetDataIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetDataOut">
+        <soap:header message="tns:GetDataOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SetData">
+      <soap:operation soapAction="#SetData" style="document" />
+      <wsdl:input name="SetDataIn">
+        <soap:header message="tns:SetDataIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="SetDataOut">
+        <soap:header message="tns:SetDataOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLParameters">
+      <soap:operation soapAction="#GetXMLParameters" style="document" />
+      <wsdl:input name="GetXMLParametersIn">
+        <soap:header message="tns:GetXMLParametersIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetXMLParametersOut">
+        <soap:header message="tns:GetXMLParametersOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetXMLHotLink">
+      <soap:operation soapAction="#GetXMLHotLink" style="document" />
+      <wsdl:input name="GetXMLHotLinkIn">
+        <soap:header message="tns:GetXMLHotLinkIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetXMLHotLinkOut">
+        <soap:header message="tns:GetXMLHotLinkOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="NewExportProfile">
+      <soap:operation soapAction="#NewExportProfile" style="document" />
+      <wsdl:input name="NewExportProfileIn">
+        <soap:header message="tns:NewExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="NewExportProfileOut">
+        <soap:header message="tns:NewExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CloneExportProfile">
+      <soap:operation soapAction="#CloneExportProfile" style="document" />
+      <wsdl:input name="CloneExportProfileIn">
+        <soap:header message="tns:CloneExportProfileIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CloneExportProfileOut">
+        <soap:header message="tns:CloneExportProfileOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TBXmlTransfer">
+    <wsdl:port name="TBXmlTransferSoap" binding="tns:TBXmlTransferSoap">
+      <soap:address location="http://usr-bruniluca:10000/Extensions.XEngine.TBXmlTransfer/TBXmlTransfer" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

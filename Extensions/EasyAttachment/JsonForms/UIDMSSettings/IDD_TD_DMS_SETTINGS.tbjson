@@ -1,0 +1,362 @@
+{
+    "id": "IDD_TD_DMS_SETTINGS",
+    "type": 71, //tile
+    "name": "General",
+    "height": 250,
+    "width": 481,
+    "size": 2, //TILE_STANDARD
+    "hasTitle": false,
+    "tileStyle": 6,
+    "child": true,
+    "context": "uidmssettings",
+    "items": [
+        {
+            "id": "IDC_DMS_SETTINGS_PROPERTY_GRID",
+            "type": 80,
+            "x": 0,
+            "y": 0,
+            "width": 481,
+            "height": 250,
+            "visible": false,
+            "blackFrame": true,
+            "name": "DMSSettingsPropertyGrid",
+            "items": [
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "General",
+                    "text": "General",
+                    "hint": "General",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_DPI_QUALITY_IMAGE",
+                            "text": "Quality image in DPI",
+                            "hint": "This is the resolution in DPI (dots per inch) for image management. In case of failure to read the barcode you can increase this value, but remember this can generate a memory overhead.",
+                            "controlClass": "IntegerEdit",
+                            "binding": {
+                                "datasource": "Settings.VDpiQualityImage"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_ENABLE_ATTACH_FROM_REPOSITORY",
+                            "text": "Allows attaching from repository",
+                            "hint": "Allows to create an attachment choosing a document from the repository.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VEnableToAttachFromRepository"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_SHOW_ONLY_MY_DOCS",
+                            "text": "Show own documents",
+                            "hint": "The logged user can see only his archived documents.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VShowOnlyMyArchivedDocs"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_EXCLUDED_EXTENSIONS",
+                            "text": "Excluded extensions (use ; as separator)",
+                            "hint": "You can specify a list of file extensions not allowed as attachment (use ; as separator, e.g. bak;avi)",
+                            "controlClass": "StringEdit",
+                            "binding": {
+                                "datasource": "Settings.VExcludedExtensions"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_DISABLE_ATTACH_FROM_REPORT",
+                            "text": "Disable report archiving",
+                            "hint": "Hides the ability to archive from report.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VDisableAttachFromReport"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "Attachments",
+                    "text": "Attachments",
+                    "hint": "Attachments",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_ENABLE_BOOKMARK_EMPTY_VALUES",
+                            "text": "Allows saving empty bookmarks",
+                            "hint": "Choose if you want or not save bookmarks with empty values (to avoid having search indexes with no values).",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VEnableBookmarkEmptyValues"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_DELETE_ATTACH_ACTION",
+                            "text": "Deleting attachment",
+                            "hint": "Action to execute when an attachment is deleted.",
+                            "controlClass": "EnumCombo",
+                            "binding": {
+                                "datasource": "Settings.VDeletingAttachmentAction"
+                            }
+                        },
+                        {
+                            "type": 81, // PropertyGridItem
+                            "name": "DuplicateAttachment",
+                            "text": "If the attachment is duplicated",
+                            "hint": "Action to do when the attachment is duplicated",
+                            "items": [
+                                {
+                                    "type": 81,
+                                    "id": "IDC_DMS_SETTINGS_DUPLICATE_ACTION_FOR_DOC",
+                                    "text": "Interactive documents",
+                                    "hint": "Action for interactive documents.",
+                                    "controlClass": "EnumCombo",
+                                    "itemSource": {
+                                        "name": "AttachOptionForDocItemSource",
+                                        "namespace": "Extensions.EasyAttachment.TbDMS.AttachOptionForDocItemSource"
+                                    },
+                                    "binding": {
+                                        "datasource": "Settings.VDuplicateActionForDoc"
+                                    }
+                                },
+                                {
+                                    "type": 81,
+                                    "id": "IDC_DMS_SETTINGS_DUPLICATE_ACTION_FOR_BATCH",
+                                    "text": "Batch documents",
+                                    "hint": "Action for batch documents.",
+                                    "controlClass": "EnumCombo",
+                                    "itemSource": {
+                                        "name": "AttachOptionForBatchItemSource",
+                                        "namespace": "Extensions.EasyAttachment.TbDMS.AttachOptionForBatchItemSource"
+                                    },
+                                    "binding": {
+                                        "datasource": "Settings.VDuplicateActionForBatch"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "FullTextSearch",
+                    "text": "Full-Text Search",
+                    "hint": "Full-Text Search",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_ENABLE_FTS",
+                            "text": "Enable Full-Text Search",
+                            "hint": "This option (enabled ONLY if the Full-Text component is installed and configured) enables the Full-Text Search, so it allows you to search within the content of the document.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VEnableFTS"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_FTS_NOT_CONSIDER_PDF",
+                            "text": "Not consider PDF and image file type",
+                            "hint": "Choose this option if you want disable full-text search for PDF and image file type.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VSNotConsiderPdF"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "Barcode",
+                    "text": "Barcode",
+                    "hint": "Barcode management",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_ENABLE_BARCODE",
+                            "text": "Enable barcode",
+                            "hint": "Enable the barcode management.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VEnableBarcode"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_AUTOMATIC_BARCODE_DETECTION",
+                            "text": "Automatic detection mode",
+                            "hint": "Choose if you want or not the automatic barcode detection.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VAutomaticBarcodeDetection"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_BARCODE_DETECTION_ACTION",
+                            "text": "Detect barcode in",
+                            "hint": "For multi-page documents it is useful to parameterize in which pages you want to search barcode.\nThis operation is very costly in terms of performance and with this parameter you can limit your search to only the first page of documents.",
+                            "controlClass": "EnumCombo",
+                            "binding": {
+                                "datasource": "Settings.VBarcodeDetectionAction"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_BARCODE_TYPE",
+                            "text": "Barcode type",
+                            "hint": "The barcode types allowed are: CODE39, CODE128, EAN128.",
+                            "controlClass": "EnumCombo",
+                            "itemSource": {
+                                "name": "BCTypeItemSource",
+                                "namespace": "Extensions.EasyAttachment.TbDMS.BCTypeItemSource"
+                            },
+                            "binding": {
+                                "datasource": "Settings.VBarcodeType"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_BARCODE_PREFIX",
+                            "text": "Barcode prefix",
+                            "hint": "You can specify a prefix for your barcode. It is uppercase and can contain up to 5 characters.",
+                            "controlClass": "StringEdit",
+                            "binding": {
+                                "datasource": "Settings.VBarcodePrefix"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_PRINT_BARCODE_IN_REPORT",
+                            "text": "Always print barcode in report",
+                            "hint": "Choose this option if you want to print ALWAYS the barcode in archived reports.",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VPrintBarcodeInReport"
+                            }
+                        },
+                        {
+                            "type": 81, // PropertyGridItem
+                            "name": "DuplicateBarcode",
+                            "text": "If detected barcode is already assigned to another document",
+                            "hint": "Action to do if detected barcode is already assigned to another archived document.",
+                            "items": [
+                                {
+                                    "type": 81,
+                                    "id": "IDC_DMS_SETTINGS_BC_ACTION_FOR_DOC",
+                                    "text": "Interactive documents",
+                                    "hint": "Action for interactive documents.",
+                                    "controlClass": "EnumCombo",
+                                    "itemSource": {
+                                        "name": "BCOptionForDocItemSource",
+                                        "namespace": "Extensions.EasyAttachment.TbDMS.BCOptionForDocItemSource"
+                                    },
+                                    "binding": {
+                                        "datasource": "Settings.VBCActionForDocument"
+                                    }
+                                },
+                                {
+                                    "type": 81,
+                                    "id": "IDC_DMS_SETTINGS_BC_ACTION_FOR_BATCH",
+                                    "text": "Batch documents",
+                                    "hint": "Action for batch documents.",
+                                    "controlClass": "EnumCombo",
+                                    "itemSource": {
+                                        "name": "BCOptionForBatchItemSource",
+                                        "namespace": "Extensions.EasyAttachment.TbDMS.BCOptionForBatchItemSource"
+                                    },
+                                    "binding": {
+                                        "datasource": "Settings.VBCActionForBatch"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "SOSOption",
+                    "text": "SOS Connector",
+                    "hint": "SOS Connector",
+                    "activation": "Extensions.SOSConnectorFunctionality && bDMSSOSEnable",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_ENABLE_SOS",
+                            "text": "Enable SOS",
+                            "hint": "Enable SOS",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VEnableSOS"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_MAX_ELEMENTS_IN_ENVELOPE",
+                            "text": "Max number of documents in envelope",
+                            "hint": "Maximum number of documents for an envelope, selected from SOS document sender.",
+                            "controlClass": "IntegerEdit",
+                            "binding": {
+                                "datasource": "Settings.VMaxElementsInEnvelope"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "Storage",
+                    "text": "Storage to file system",
+                    "hint": "Storage to file system",
+                    "activation": "Extensions.FileSystemStorage",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_STORAGE_TO_FILESYSTEM",
+                            "text": "Enable storage to file system",
+                            "hint": "Enable store archived documents in file system",
+                            "controlClass": "CheckBox",
+                            "binding": {
+                                "datasource": "Settings.VStorageToFileSystem"
+                            }
+                        },
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_STORAGE_FOLDER_PATH",
+                            "text": "Storage folder path",
+                            "hint": "Path of shared folder (with Full access grants). It can contain up to 256 characters.",
+                            "controlClass": "BrowsePathEdit",
+                            "binding": {
+                                "datasource": "Settings.VStorageFolderPath"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": 81, // PropertyGridItem
+                    "name": "AttachmentPanelOption",
+                    "text": "Attachment panel options",
+                    "hint": "Attachment panel options",
+                    "items": [
+                        {
+                            "type": 81,
+                            "id": "IDC_DMS_SETTINGS_MAX_NR_ATTACHMENTS",
+                            "text": "Max number of elements shown in Attachments pane",
+                            "hint": "Maximum number of elements shown in Attachment docking pane.",
+                            "controlClass": "IntegerEdit",
+                            "binding": {
+                                "datasource": "Settings.VMaxDocNumber",
+                                "buttonId": 32767 //BTN_SPIN_ID
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

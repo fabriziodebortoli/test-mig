@@ -1,0 +1,37 @@
+﻿{
+  "id": "IDD_RS_EditorToolView",
+  "rcId": 21173,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 211,
+  "height": 258,
+  "child": true,
+  "context": "rseditorui",
+  "items": [
+    {
+      "autoHScroll": true,
+      "border": true,
+      //"controlClass": "StringEdit",
+      "height": 12,
+      "id": "IDC_RS_Tree_Finder",
+      "type": 13, /*Edit*/
+      "width": 199,
+      "x": 1,
+      "y": 1
+    },
+    {
+      "id": "IDC_RS_Tree",
+      "type": 26, /*Tree*/
+      "border": true,
+      "hasButtons": true,
+      "hasLines": true,
+      "height": 234,
+      "linesAtRoot": true,
+      "hScroll": true,
+      "width": 200,
+      "x": 0,
+      "y": 14
+    }
+  ]
+}
