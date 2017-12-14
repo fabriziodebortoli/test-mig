@@ -285,7 +285,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 
 			defaultSel.ImportSel.DeleteTableContext = parameters.DeleteTableContext;
 			defaultSel.ImportSel.DisableCheckFK = true;
-			defaultSel.ImportSel.NoOptional = true;
+			defaultSel.ImportSel.NoOptional = parameters.NoOptional;
 			defaultSel.ImportSel.IsSilent = true; // imposto che si tratta di elaborazione silente
 
 			// in questo caso pre-carico tutti i file a monte (perche' non arrivo da un wizard con le selezioni dei file)

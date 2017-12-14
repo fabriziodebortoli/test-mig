@@ -51,6 +51,7 @@ namespace Microarea.Common.Applications
         public const string TbLoginRoute = "tb/document/initTBLogin/";
         public const string TbRunFunctionRoute = "tb/document/runFunction/";
         public const string TbHotlinkQueryRoute = "tb/document/getHotlinkQuery/";
+        public const string TbRadarQueryRoute = "tb/document/getRadarQuery/";
         public const string TbAssignWoormParametersRoute = "tb/document/assignWoormParameters/";
 
         public const string TbInstanceKey = "tbLoaderName";
@@ -476,6 +477,56 @@ namespace Microarea.Common.Applications
                 }
             }
         }
+
+        public static async Task<string> GetRadarQuery(TbSession session, string documentID, string name = "")
+        {
+            string ns = session.Namespace;
+
+            /*TODO RSWEB REFACTORING estrarre metodo usato anche da runfunction, assignwoormparameter ecc..*/
+            bool retLogin = TbSession.TbLogin(session).Result;
+            if (!retLogin)
+                return null;
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
+
+                    List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
+
+                    //TODO RSWEB controllare che serva qui l'auth token
+                     parameters.Add(new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken));
+                    parameters.Add(new KeyValuePair<string, string>("cmpId", documentID));
+
+                    if (!String.IsNullOrWhiteSpace(name))
+                    {
+                        parameters.Add(new KeyValuePair<string, string>("name", name.ToString()));
+                    }
+                    
+                    var content = new FormUrlEncodedContent(parameters);
+
+                    AddAuthorizationHeader(session, client);
+                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbRadarQueryRoute, content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    return stringResponse;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"GetRadarQuery Request exception: {e.Message}");
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"GetRadarQuery Request exception: {e.Message}");
+                    return null;
+                }
+            }
+        }
+
         //-------------------------------------------------------------------------------------------------
         private static void AddAuthorizationHeader(TbSession session, HttpClient client)
         {
