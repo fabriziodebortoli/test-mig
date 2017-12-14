@@ -21,6 +21,7 @@ export class ImportDataComponent implements OnInit {
   isImporting: boolean = false;
 
   importDefaultData: boolean = true;
+  importDefaultOptionalData: boolean = false;
   importSampleData: boolean = false;
 
   // options
@@ -67,17 +68,34 @@ export class ImportDataComponent implements OnInit {
   }
 
   //--------------------------------------------------------------------------------------------------------
+  onImportDefaultOptionalDataChanged(setImportDefaultOptionalData: boolean) {
+    
+    this.importDefaultOptionalData = setImportDefaultOptionalData;
+
+    this.importDefaultData = !setImportDefaultOptionalData;
+    this.importSampleData = !setImportDefaultOptionalData;
+  
+    this.onSelectedCountryChange(this.selectedCountry);
+  }
+
+  //--------------------------------------------------------------------------------------------------------
   onImportDefaultDataChanged(setImportDefaultData: boolean) {
+
     this.importDefaultData = setImportDefaultData;
-    this.importSampleData = !this.importDefaultData;
+
+    this.importDefaultOptionalData = !setImportDefaultData;
+    this.importSampleData = !setImportDefaultData;
 
     this.onSelectedCountryChange(this.selectedCountry);
   }
 
   //--------------------------------------------------------------------------------------------------------
   onImportSampleDataChanged(setImportSampleData: boolean) {
+
     this.importSampleData = setImportSampleData;
-    this.importDefaultData = !this.importSampleData;
+
+    this.importDefaultData = !setImportSampleData;
+    this.importDefaultOptionalData = !setImportSampleData;
 
     this.onSelectedCountryChange(this.selectedCountry);
   }
@@ -89,7 +107,7 @@ export class ImportDataComponent implements OnInit {
 
     let values: Array<string> = [];
 
-    if (this.importDefaultData) {
+    if (this.importDefaultData || this.importDefaultOptionalData) {
       for (let key in this.defaultInfo) {
         if (key === this.selectedCountry.name)
           values = this.defaultInfo[key];
@@ -139,6 +157,8 @@ export class ImportDataComponent implements OnInit {
       return;
     }
 
+    this.importParams.NoOptional = !this.importDefaultOptionalData;
+
     let importBodyContent: ImportDataBodyContent = new ImportDataBodyContent();
     importBodyContent.Database = this.model;
     importBodyContent.ImportParameters = this.importParams;
@@ -146,7 +166,7 @@ export class ImportDataComponent implements OnInit {
     this.isImporting = true;
 
     let importData = this.modelService.importData(this.model.SubscriptionKey,
-      this.importDefaultData,
+      !this.importSampleData,
       this.selectedConfiguration.value,
       this.selectedCountry.value,
       importBodyContent).
