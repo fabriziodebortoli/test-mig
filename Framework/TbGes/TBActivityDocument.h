@@ -179,6 +179,7 @@ private:
 	BOOL						DispatchOnBeforeLoadDBT		();
 	BOOL						DispatchOnLoadDBT			();
 	BOOL						DispatchOnAfterLoadDBT		();
+	BOOL						DispatchOnBeforeUndoExtraction();
 				
 public:
 	void						SetHeaderTitle(DataStr sTitle, BOOL bBold = FALSE)

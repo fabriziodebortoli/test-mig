@@ -18,6 +18,8 @@
 #include "Validator.h"
 #include "ComposedHotLink.h"
 #include "ControlBehaviour.h"
+#include "JsonFrame.h"
+#include "JsonForms\JsonModelGenerator\IDD_GENERATE_JSON_MODEL_FRAME.hjson"
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -49,6 +51,7 @@ BEGIN_ADDON_INTERFACE()
 
 	//-----------------------------------------------------------------------------
 	BEGIN_TEMPLATE()
+		REGISTER_SLAVE_JSON_TEMPLATE(IDD_GENERATE_JSON_MODEL_FRAME);
 		BEGIN_DOCUMENT (_NS_DOC("TbDynamicDocument"), TPL_NO_PROTECTION)
 			REGISTER_MASTER_TEMPLATE	(szDefaultViewMode,		CDynamicFormDoc,	CMasterFrame,	CDynamicFormView)
 			REGISTER_BKGROUND_TEMPLATE	(szBackgroundViewMode, CDynamicFormDoc)

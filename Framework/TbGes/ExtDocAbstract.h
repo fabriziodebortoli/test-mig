@@ -254,6 +254,7 @@ class TB_EXPORT CAbstractFormDoc : public CAbstractDoc, public IBehaviourContext
 	friend class CJsonContext;
 	friend class CClientDoc;
 	friend class CBusinessServiceProviderObj;
+	friend class CJsonModelGenerator;
 	friend class CMasterFrame;
 	friend class DBTSlaveBuffered;
 

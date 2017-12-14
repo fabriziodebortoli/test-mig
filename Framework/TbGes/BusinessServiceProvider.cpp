@@ -32,7 +32,7 @@ int CBSPArray::Add(CBusinessServiceProviderObj* pBSP, BOOL bCheckDuplicates /*= 
 				pBSP = NULL;
 				return -1;
 			}
-	return Array::Add(pBSP);
+	return __super::Add(pBSP);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -164,8 +164,13 @@ BOOL  CBusinessServiceProviderClientDoc::IsBadCmdMsg(UINT nID)
 //-----------------------------------------------------------------------------
 BOOL CBusinessServiceProviderClientDoc::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
+	//dalla documentazione:
+	// pHandlerInfo
+	// If not NULL, OnCmdMsg fills in the pTarget and pmf members of the pHandlerInfo structure instead of dispatching the command.
+	// Typically, this parameter should be NULL.
+
 	// vedo se si tratta di un comando che gestisco io (e lo gestisco)
-	if (nCode == CN_COMMAND && OnCommand(nID))
+	if (nCode == CN_COMMAND && !pExtra && OnCommand(nID))
 		return TRUE;			//gestito
 
 	// Se si tratta di un comando di update, seguo il giro normale, che eventualmente chiamarà il mio OnUpdateShowUI
@@ -176,6 +181,8 @@ BOOL CBusinessServiceProviderClientDoc::OnCmdMsg(UINT nID, int nCode, void* pExt
 //-----------------------------------------------------------------------------
 BOOL CBusinessServiceProviderClientDoc::OnCommand(UINT nID)
 {
+	if (!m_pBSP)
+		return FALSE;
 	CString strEvent;
 
 	if (
@@ -619,6 +626,13 @@ void CBusinessServiceProviderObj::SetBEJsonButton
 }
 
 //-----------------------------------------------------------------------------
+void CBusinessServiceProviderObj::DeclareVariable(const CString & sName, DataObj* pDataObj)
+{
+	m_pCallerDoc->DeclareVariable(sName, pDataObj);
+	m_arVariables.Add(sName);
+}
+
+//-----------------------------------------------------------------------------
 void CBusinessServiceProviderObj::EnableBEButtonUI(BOOL bEnabled)
 {
 	if (m_pBEBtn)
@@ -639,6 +653,30 @@ CBusinessServiceProviderObj::~CBusinessServiceProviderObj()
 	{
 		ASSERT(FALSE);
 		TRACE("E' necessario chiamare la OnBeforeDocument prima di distruggere il BSP");
+	}
+	if (m_pCallerDoc)
+	{
+		if (m_pClientDoc && m_pCallerDoc->m_pClientDocs)
+		{
+			for (int i = 0; i < m_pCallerDoc->m_pClientDocs->GetSize(); i++)
+				if (m_pCallerDoc->m_pClientDocs->GetAt(i) == m_pClientDoc)
+				{
+					m_pCallerDoc->m_pClientDocs->RemoveAt(i);
+					break;
+				}
+		}
+		if (m_pCallerDoc->m_pBSPs)
+		{
+			for (int i = 0; i < m_pCallerDoc->m_pBSPs->GetSize(); i++)
+				if (m_pCallerDoc->m_pBSPs->GetAt(i) == this)
+				{
+					m_pCallerDoc->m_pBSPs->RemoveAt(i);
+					break;
+				}
+		}
+
+		for (int i = 0; i < m_arVariables.GetCount(); i++)
+			m_pCallerDoc->RemoveVariable(m_arVariables[i]);
 	}
 }
 

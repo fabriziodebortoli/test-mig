@@ -457,10 +457,10 @@ namespace Microarea.EasyBuilder.UI
 		{
 		}
 
-		/// <remarks/>
+	/*	/// <remarks/>
 		public bool Foo1 { get; set; }
 		/// <remarks/>
-		public bool Foo2 { get; set; }
+		public bool Foo2 { get; set; }*/
 
 		/// <remarks/>
 		public static DocOutObj GetDocOutObj() { return new DocOutObj(AllowedTypes.Toolbar, "IDD_TOOLBAR_DEFAULT"); }

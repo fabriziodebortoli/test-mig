@@ -1355,7 +1355,11 @@ namespace Microarea.TbJson
             if (!string.IsNullOrEmpty(cmpId))
                 htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
 
-            WriteAttribute(jObj, Constants.width, Constants.width);
+			WriteAttribute(jObj, Constants.minValue, Constants.minValue);
+			WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
+			WriteAttribute(jObj, Constants.decimals, Constants.decimals);
+
+			WriteAttribute(jObj, Constants.width, Constants.width);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
             WriteBindingAttributes(jObj);

@@ -1002,6 +1002,16 @@ BOOL CClientDocArray::OnBeforeLoadDBT()
 	return TRUE;
 }
 
+//----------------------------------------------------------------------------------
+BOOL CClientDocArray::OnBeforeUndoExtraction()
+{
+	for (int i = 0; i <= GetUpperBound(); i++)
+		if (!GetAt(i)->OnBeforeUndoExtraction())
+			return FALSE;
+
+	return TRUE;
+}
+
 //-------------------------------------------------------------------------------
 BOOL CClientDocArray::OnLoadDBT()
 {

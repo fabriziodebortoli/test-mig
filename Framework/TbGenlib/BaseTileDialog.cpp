@@ -807,7 +807,7 @@ void CBaseTileDialog::LinkControlsToParts(CRect& rectActual, int& bottomLine, in
 			if (
 				IsStretchableControl(pCtrl) &&  //anchor  only edit, combo and boolbutton
 				anchorSize != 0 &&
-				/*pParsed && pParsed->m_bRightAnchor*/
+				pParsed && 
 				r.right >= aTileRect.Width() - anchorSize
 				)
 			{

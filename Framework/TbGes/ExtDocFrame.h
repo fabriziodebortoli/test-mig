@@ -224,7 +224,7 @@ public:
 	virtual void SetStatusBarText	(const CString& strText);
 	virtual BOOL OnPopulatedDropDown    (UINT nIdCommand);
 	virtual CPoint GetPositionSwitchTo();
-
+	void DoModal();
 	//{{AFX_MSG(CAbstractFormFrame)
 	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
 	afx_msg BOOL OnHelpInfo			(HELPINFO* pHelpInfo);

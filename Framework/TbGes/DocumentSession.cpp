@@ -243,11 +243,7 @@ resp.CloseObject();
 //--------------------------------------------------------------------------------
 CDocumentSession::CDocumentSession(DWORD nLoginThreadID)
 	:
-	m_nLoginThreadID(nLoginThreadID),
-	m_nDocumentThreadID(0),
-	m_nSuspendPushToClient(0),
-	m_bUpdateUINeeded(false),
-	m_bIgnoreModelChanges(false)
+	m_nLoginThreadID(nLoginThreadID)
 {
 	Init();
 	m_nDocumentThreadID = AfxGetThread()->m_nThreadID;
@@ -630,7 +626,7 @@ void CDocumentSession::PushDataToClients()
 		{
 			IJsonModelProvider* pProvider = m_arJsonModelsToNotify[i];
 			resp.OpenObject(i);
-			pProvider->GetJson(resp, TRUE);
+			pProvider->GetJson(resp, m_bPushOnlyWebBoundData);
 			resp.CloseObject();
 		}
 		resp.CloseArray();
@@ -707,7 +703,7 @@ void CDocumentSession::PushBehavioursToClient(IBehaviourContext* pContext)
 		{
 			IJsonModelProvider* pProvider = dynamic_cast<IJsonModelProvider*>(pConsumer->GetRequests().GetAt(r));
 			if (pProvider)
-				pProvider->GetJson(resp, TRUE);
+				pProvider->GetJson(resp, m_bPushOnlyWebBoundData);
 		}
 	}
 
@@ -730,7 +726,7 @@ void CDocumentSession::PushBehavioursToClient(IBehaviourContext* pContext)
 		for (int c = 0; c < pService->GetLinkedControls()->GetCount(); c++)
 		{
 			aRequest.SetEntity(pService->GetLinkedControls()->GetAt(c));
-			aRequest.GetJson(resp, TRUE);
+			aRequest.GetJson(resp, m_bPushOnlyWebBoundData);
 		}
 	}
 
@@ -746,7 +742,7 @@ void CDocumentSession::PushBehavioursToClient(IBehaviourContext* pContext)
 CRecordingDocumentSession::CRecordingDocumentSession()
 	: CDocumentSession(AfxGetLoginContext()->m_nThreadID)
 {
-	
+	m_bPushOnlyWebBoundData = false;
 }
 
 //----------------------------------------------------------------------------
@@ -757,6 +753,7 @@ void CRecordingDocumentSession::PushToClients(CJsonSerializer& resp)
 //----------------------------------------------------------------------------
 void CRecordingDocumentSession::Start()
 {
+	m_nItems = 0;
 	m_Serializer.Clear();
 	m_Serializer.OpenArray(_T("items"));
 }

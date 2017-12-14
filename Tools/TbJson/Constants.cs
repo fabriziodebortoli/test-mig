@@ -81,7 +81,7 @@
         internal const string enableHotLink = "enableHotLink";
         internal const string autoFind = "autoFind";
 
-        internal const string tsAppsPath = "taskbuilder\\client\\web-form\\src\\app\\applications";
+        internal const string tsAppsPath = "web\\client\\web-form\\src\\app\\applications";
         internal const string name = "name";
         internal const string value = "value";
         internal const string columns = "columns";
@@ -111,6 +111,7 @@
 
         internal const string maxValue = "maxValue";
         internal const string minValue = "minValue";
+		internal const string decimals = "decimals";
 
         internal const string ngTag = "ng-tag";
         internal const string ngTemplate = "ng-template";

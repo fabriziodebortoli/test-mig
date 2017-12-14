@@ -870,6 +870,9 @@
     <ClCompile Include="..\TbGenlib\Behaviour.cpp">
       <Filter>TbGes\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CJsonModelGenerator.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TbGes.def">
@@ -1967,6 +1970,9 @@
       <Filter>TbGes\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\TbGenlib\Behaviour.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CJsonModelGenerator.h">
       <Filter>TbGes\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

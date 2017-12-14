@@ -160,7 +160,7 @@ public:
 	BOOL				m_bNoCancOnWarning = FALSE;		// non visualizza il bottone di Cancel sui messaggi di Warning
 
 	BOOL DataChanged() {
-		return m_pOldCtrlData != NULL && !m_pOldCtrlData->IsEqual(*m_pCtrlData);
+		return m_pOldCtrlData != NULL && m_pCtrlData != NULL && !m_pOldCtrlData->IsEqual(*m_pCtrlData);
 	}
 };
 

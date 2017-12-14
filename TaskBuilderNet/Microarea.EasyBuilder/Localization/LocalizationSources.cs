@@ -173,18 +173,58 @@ namespace Microarea.EasyBuilder.Localization
 			return resource.TrimStart('.');
 		}
 
-		/// <summary>
-		/// Adds a localizable string.
-		/// </summary>
-		/// <param name="culture">The culture identifying the dictionary where to add the string</param>
-		/// <param name="name">The name of the string to be added</param>
-		/// <param name="value">The value of the string to be added</param>
-		/// <param name="onlyIfNotExisting">Treu to add the string only if it does not exist yet, otherwise false.</param>
-		/// <remarks>If the string exists and onlyIfNotExisting is false, then the old string value is replaced.</remarks>
-		//-------------------------------------------------------------------------------
-		// Aggiunge una stringa localizzabile nel dizionario appropriato, che verrà poi 
-		// inserito in un file di risorsa (.resources) quando viene compilato l'assembly
-		public void AddLocalizableString(string culture, string name, string value, bool onlyIfNotExisting)
+        /// <summary>
+        /// Adds a localizable string in all dictionaries. Used for localizable properties controls.
+        /// </summary>
+        /// <param name="culture">The current culture</param>
+        /// <param name="name">The name of the string to be added</param>
+        /// <param name="value">The value of the string to be added</param>
+        /// <remarks>If the string exists???chiedere a BRU</remarks>
+        //-------------------------------------------------------------------------------
+        public void AddLocalizableString(string culture, string name, string value)
+        {
+            Dictionary dictLang = null;
+            Dictionaries.TryGetValue(culture, out dictLang);
+
+            string oldValue = "";
+            bool bOK = dictLang.TryGetValue(name, out oldValue);
+
+            if (string.IsNullOrEmpty(culture)/* && value.CompareNoCase(dictLang[name])*/)    //invariant culture
+            {
+                //se l'invariant culture e <> da esistente => riscrivo tutto
+                //altrimenti non faccio niente
+                if (!bOK || string.Compare(value, oldValue, false) != 0)
+                    foreach (Dictionary dict in dictionaries.Values)
+                        dict[name] = value;
+                else
+                {
+                    //verifico altri dizionari => se vuoti => scrivo
+                    foreach (Dictionary dict in Dictionaries.Values)
+                    {
+                        bOK = dict.TryGetValue(name, out oldValue);
+                        if (!bOK || string.IsNullOrEmpty(oldValue))
+                            dict[name] = value;
+                    }
+                }
+                return;
+            }
+            
+            //culture different from invariant => riscrivo solo la stessa
+            dictLang[name] = value;
+        }
+
+        /// <summary>
+        /// Adds a localizable string.
+        /// </summary>
+        /// <param name="culture">The culture identifying the dictionary where to add the string</param>
+        /// <param name="name">The name of the string to be added</param>
+        /// <param name="value">The value of the string to be added</param>
+        /// <param name="onlyIfNotExisting">Treu to add the string only if it does not exist yet, otherwise false.</param>
+        /// <remarks>If the string exists and onlyIfNotExisting is false, then the old string value is replaced.</remarks>
+        //-------------------------------------------------------------------------------
+        // Aggiunge una stringa localizzabile nel dizionario appropriato, che verrà poi 
+        // inserito in un file di risorsa (.resources) quando viene compilato l'assembly
+        public void AddLocalizableString(string culture, string name, string value, bool onlyIfNotExisting)
 		{
 			Dictionary dictionary;
 			if (!dictionaries.TryGetValue(culture, out dictionary))
@@ -254,11 +294,23 @@ namespace Microarea.EasyBuilder.Localization
 		public void AddLocalizableLanguage(string culture)
 		{
 			Dictionary dictionary;
-			if (!dictionaries.TryGetValue(culture, out dictionary))
-			{
-				dictionary = new Dictionary();
-				dictionaries[culture] = dictionary;
-			}
+            if (!dictionaries.TryGetValue(culture, out dictionary))
+            {
+                dictionary = new Dictionary();
+                dictionaries[culture] = dictionary;
+            }
+            
+            //copia tutta la invariant nella nuova lingua
+            if (!dictionaries.TryGetValue("", out dictionary))
+                return;
+
+            Dictionary cultureDictionary = new Dictionary();
+
+            foreach (string key in dictionary.Keys)
+                cultureDictionary[key] = dictionary[key];
+            
+            dictionaries[culture] = cultureDictionary;
+            
 		}
 
 		/// <summary>
@@ -304,11 +356,34 @@ namespace Microarea.EasyBuilder.Localization
 			}
 		}
 
-		/// <summary>
-		/// Ritorna la lista di lingue che la customizzazione già include (non include la invariant culture)
+        /// <summary>
+		/// Removes all strings corrisponding to a control
 		/// </summary>
-		//-----------------------------------------------------------------------------
-		public List<CultureInfo> GetLocalizedLanguages()
+		/// <param name="name">The name of the control to be removed.</param>
+		//-------------------------------------------------------------------------------
+        public void RemoveControlLocalization(string name)
+        {
+            foreach (Dictionary dictLang in Dictionaries.Values)
+            {
+                var dictEnumerator = dictLang.GetEnumerator();
+                while (dictEnumerator.MoveNext())
+                {
+                    var keyValuePair = dictEnumerator.Current;
+                    if (keyValuePair.Key.StartsWith(name, StringComparison.InvariantCulture))
+                    {
+                        dictLang.Remove(keyValuePair.Key);
+                        dictEnumerator = dictLang.GetEnumerator();
+                    }
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la lista di lingue che la customizzazione già include (non include la invariant culture)
+        /// </summary>
+        //-----------------------------------------------------------------------------
+        public List<CultureInfo> GetLocalizedLanguages()
 		{
 			List<CultureInfo> languages = new List<CultureInfo>();
 			foreach (string language in dictionaries.Keys)

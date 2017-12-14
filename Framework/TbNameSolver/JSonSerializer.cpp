@@ -562,6 +562,22 @@ CString CJsonSerializer::Escape(LPCTSTR sValue)
 	return str;
 }
 
+
+//-----------------------------------------------------------------------------
+void CJsonSerializer::Clear()
+{
+	__super::Clear();
+	Reset();
+}
+
+//-----------------------------------------------------------------------------
+void CJsonSerializer::Reset()
+{
+	while (!m_Stack.empty())
+		m_Stack.pop();
+	m_Stack.push(&m_Root);
+}
+
 //-----------------------------------------------------------------------------
 void CJsonSerializer::WriteValue(int index, Json::Value value, LPCTSTR sComment /*= NULL*/)
 {

@@ -1006,6 +1006,15 @@ namespace Microarea.EasyBuilder.UI
 				return;
 
 			Thread.CurrentThread.CurrentUICulture = (CultureInfo)tscomboLanguages.SelectedItem;
+
+            if (localization != null)
+            {
+                Localization myLocalization = localization.HostedControl as Localization;
+
+                if (myLocalization != null)
+                    myLocalization.PopulateStrings(((CultureInfo)tscomboLanguages.SelectedItem).Name);
+            }
+            
 		}
 
 		//--------------------------------------------------------------------------------

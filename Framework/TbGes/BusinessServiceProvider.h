@@ -17,14 +17,15 @@
 
 #define DECLARE_VAR_WITH_PREFIX_BSP_JSON(prefix, nameVar, pDoc)	ASSERT(pDoc); pDoc->DeclareVariable(prefix#nameVar, &m_##nameVar);
 
+#define DECLARE_VAR_BSP(a) m_pCallerDoc->DeclareVariable(_T(#a), &m_##a);
+
 //////////////////////////////////////////////////////////////////////////////
 //					CBSPArray definition
 //////////////////////////////////////////////////////////////////////////////
 //
-class TB_EXPORT CBSPArray : public Array
+class TB_EXPORT CBSPArray : public CArray<CBusinessServiceProviderObj*>
 {
 public:
-	CBusinessServiceProviderObj* GetAt	(int nIndex) const { return (CBusinessServiceProviderObj*) Array::GetAt(nIndex);}
 	int						 	 Add	(CBusinessServiceProviderObj* pBSP, BOOL bCheckDuplicates = TRUE); 
 };
 
@@ -155,7 +156,7 @@ class TB_EXPORT CBusinessServiceProviderObj : public CEventManager
 	friend class CBusinessServiceProviderFrame;
 	friend class CBusinessServiceProviderDoc;
 	friend class CBusinessServiceProviderDockPane;
-
+	CStringArray m_arVariables;
 public:
 	// available styles for the UI
 	enum UIStyle { NONE, POPUP, BE_POPUP, STATUS_TILE, PANE, TAB_PANE, JSON_PANE };
@@ -245,7 +246,7 @@ public:
 				const   UINT						nRowChangedBE = 0,
 				const	UINT						nDocAccelIDR = 0
 		);
-
+	void DeclareVariable(const CString& sName, DataObj* pDataObj);
 	virtual void EnableBEButtonUI(BOOL bEnabled);
 
 	// retrieve the BSP underneath the passed view (must be CBusinessServiceProviderView or CBusinessServiceProviderPaneView)
@@ -323,6 +324,7 @@ protected:// Funzioni reimplementabili per agire in modo analogo ad un ClientDoc
 	virtual BOOL OnOkEdit						() { return TRUE; }
 	virtual BOOL OnOkNewRecord					() { return TRUE; }
 	virtual BOOL OnBeforeEscape					() { return TRUE; }
+	virtual BOOL OnBeforeUndoExtraction			() { return TRUE; }
 
 	virtual	BOOL OnBeforeOkTransaction			() { return TRUE; }
 	virtual	BOOL OnOkTransaction				() { return TRUE; }
@@ -545,6 +547,7 @@ protected:
 	virtual BOOL OnOkEdit					() { return m_pBSP->OnOkEdit(); }
 	virtual BOOL OnOkNewRecord				() { return m_pBSP->OnOkNewRecord(); }
 	virtual BOOL OnBeforeEscape				() { return m_pBSP->OnBeforeEscape(); }
+	virtual BOOL OnBeforeUndoExtraction()		{ return m_pBSP->OnBeforeUndoExtraction(); }
 
 	virtual	BOOL OnBeforeOkTransaction		() { return m_pBSP->OnBeforeOkTransaction(); }
 	virtual	BOOL OnOkTransaction			() { return m_pBSP->OnOkTransaction(); }

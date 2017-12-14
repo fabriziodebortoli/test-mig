@@ -482,6 +482,7 @@
     <ClCompile Include="BusinessObjectInterface.cpp" />
     <ClCompile Include="BusinessServiceProvider.cpp" />
     <ClCompile Include="CAddressDlg.cpp" />
+    <ClCompile Include="CJsonModelGenerator.cpp" />
     <ClCompile Include="ComposedHotLink.cpp" />
     <ClCompile Include="ControlBehaviour.cpp" />
     <ClCompile Include="CustomSaveDialog.cpp" />
@@ -515,6 +516,7 @@
     <ClCompile Include="HtmlParser\LiteHTMLEntityResolver.cpp" />
     <ClCompile Include="HtmlParser\LiteHTMLReader.cpp" />
     <ClInclude Include="..\TbGenlib\Behaviour.h" />
+    <ClInclude Include="CJsonModelGenerator.h" />
     <ClInclude Include="ComposedHotLink.h" />
     <ClInclude Include="ControlBehaviour.h" />
     <ClInclude Include="DataAdapter.h" />

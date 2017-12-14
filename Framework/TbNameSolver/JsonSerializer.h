@@ -71,8 +71,8 @@ public:
 	void Patch(CJsonWrapper& patch);
 	CString GetJson() const;
 	bool IsEmpty() { return m_Root.size() == 0; }
-	void Clear();
 	void operator = (const CJsonWrapper& other);
+	virtual void Clear();
 	virtual void Assign (const CJsonWrapper& other);
 	virtual Json::Value& GetCurrent();
 };
@@ -142,6 +142,10 @@ public:
 	void WriteDouble(int index, double dValue, LPCTSTR sComment = NULL);
 	void WriteDouble(LPCTSTR sName, double dValue, LPCTSTR sComment=NULL);
 	void WriteJsonFragment(LPCTSTR sName, LPCTSTR sFragment);
+	void Reset();
+
+	virtual void Clear();
+
 private:	
 
 	CString Escape(LPCTSTR sValue);

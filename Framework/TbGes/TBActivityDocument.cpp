@@ -510,6 +510,13 @@ BOOL CTBActivityDocument::DispatchOnAfterLoadDBT()
 	return bOK && m_pClientDocs->OnAfterLoadDBT();
 }
 
+//-------------------------------------------------------------------------------------------------
+BOOL CTBActivityDocument::DispatchOnBeforeUndoExtraction()
+{
+	BOOL bOK = BeforeUndoExtraction();
+	return bOK && m_pClientDocs->OnBeforeUndoExtraction();
+}
+
 //-----------------------------------------------------------------------------------------------
 void CTBActivityDocument::OnUpdateLoadDataStart(CCmdUI* pCmdUI)
 {
@@ -995,7 +1002,7 @@ void CTBActivityDocument::DoUndoExtraction()
 {
 	EnsureExistancePanels();
 
-	if (!BeforeUndoExtraction())
+	if (!DispatchOnBeforeUndoExtraction())
 		return;
 
 	if (!OnClearDBT())

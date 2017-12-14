@@ -58,22 +58,33 @@ namespace Microarea.EasyBuilder.Localization
 
 			this.service = service;
 			service.ComponentChanged += new ComponentChangedEventHandler(ComponentChanged);
+            service.ComponentRemoved += new ComponentEventHandler(ComponentRemoved);
 		}
 
-		//---------------------------------------------------------------------
-		/// <summary>
-		/// Unregisters the event handler to the
-		/// IComponentChangeService.ComponentChanged event registered
-		/// with the call to the ListenToComponentEvents method.
-		/// </summary>
-		/// <seealso cref="System.ComponentModel.Design.IComponentChangeService"/>
-		public void UnlistenToComponentEvents()
+        void ComponentRemoved(object sender, ComponentEventArgs e)
+        {
+            EasyBuilderComponent ctrl = e.Component as EasyBuilderComponent;
+            if (ctrl == null || ctrl.Site == null || !ctrl.Site.DesignMode)
+                return;
+
+            sources.Localization.RemoveControlLocalization(ctrl.Site.Name);
+        }
+
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Unregisters the event handler to the
+        /// IComponentChangeService.ComponentChanged event registered
+        /// with the call to the ListenToComponentEvents method.
+        /// </summary>
+        /// <seealso cref="System.ComponentModel.Design.IComponentChangeService"/>
+        public void UnlistenToComponentEvents()
 		{
 			if (service == null)
 				return;
 
 			service.ComponentChanged -= new ComponentChangedEventHandler(ComponentChanged);
-		}
+            service.ComponentRemoved -= new ComponentEventHandler(ComponentRemoved);
+        }
 
 		//---------------------------------------------------------------------
 		void ComponentChanged(object sender, ComponentChangedEventArgs e)
@@ -135,15 +146,9 @@ namespace Microarea.EasyBuilder.Localization
 			}
 			else if (isLocalizable)
 			{
-				//Se la proprietà è localizzabile applico la gestione delle risorse.
-				sources.Localization.AddLocalizableString(
-					Thread.CurrentThread.CurrentUICulture.Name,
-					String.Concat(ctrl.Site.Name, '.', pDesc.Name),
-					e.NewValue as string,
-					false
-					);
-				
-				OnLocalizationChanged();
+                //Se la proprietà è localizzabile applico la gestione delle risorse.
+                sources.Localization.AddLocalizableString(Thread.CurrentThread.CurrentUICulture.Name, String.Concat(ctrl.Site.Name, '.', pDesc.Name), e.NewValue as string);
+                OnLocalizationChanged();
 			}
 		}
 

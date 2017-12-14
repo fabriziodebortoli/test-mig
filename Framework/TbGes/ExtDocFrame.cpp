@@ -1278,6 +1278,22 @@ void CAbstractFormFrame::SetStatusBarText(const CString& strText)
 }
 
 //-----------------------------------------------------------------------------
+void CAbstractFormFrame::DoModal()
+{
+	CDockableFrame* pDockableParent = GetDockableParent();
+	BOOL wasDisabled = FALSE;
+	if (pDockableParent)
+		wasDisabled = pDockableParent->EnableWindow(FALSE);
+
+	TBEventDisposablePtr<CAbstractFormFrame> frame = this;
+	CPushMessageLoopDepthMng __pushLoopDepth(MODAL_STATE);
+	AfxGetThreadContext()->RaiseCallBreakEvent();
+	CTBWinThread::LoopUntil(&frame.m_Disposed);
+
+	if (pDockableParent)
+		pDockableParent->EnableWindow(!wasDisabled);
+}
+//-----------------------------------------------------------------------------
 BOOL CAbstractFormFrame::CreateAccelerator()
 {
 	if (LoadAccelTable(MAKEINTRESOURCE(IDR_EXTDOC)))

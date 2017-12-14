@@ -77,6 +77,7 @@
 #include "ControlBehaviour.h"
 #include "BusinessServiceProvider.h"
 #include "DocumentSession.h"
+#include "CJsonModelGenerator.h"
 //................................. resources
 #include "extdoc.hjson" //JSON AUTOMATIC UPDATE
 #include "formmng.hjson"
@@ -559,6 +560,8 @@ CAbstractFormDoc::~CAbstractFormDoc()
 
 	//SAFE_DELETE(m_pMessages);
 	SAFE_DELETE(m_pClientDocs);
+	while (m_pBSPs->GetSize())
+		delete m_pBSPs->GetAt(0);//il distruttore si rimuoverà dall'array
 
 	SAFE_DELETE(m_pBSPs);
 	SAFE_DELETE(m_pHotFilterManager);
@@ -1860,66 +1863,12 @@ void CAbstractFormDoc::OnCustomize()
 {
 	Customize();
 }
+
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::OnGenerateJsonModel()
 {
-	CJsonParser dummy;
-	
-	CString sPath = AfxGetPathFinder()->GetStandardPath() + _T("\\web\\server\\web-server\\mock\\") + GetNamespace().ToString();
-	if (!ExistPath(sPath))
-		CreateDirectoryTree(sPath);
-
-	CRecordingDocumentSession session;
-	session.Start();
-	session.OnAddThreadWindow(GetFrameHandle());
-	session.PushWindowsToClients();
-	session.Stop();
-	session.Save(sPath + _T("\\runDocument.json"));
-	
-	session.Start();
-	ResetJsonData(dummy);
-	session.PushDataToClients(this);
-	session.PushMessageMapToClients(this);
-	session.PushActivationDataToClients();
-	session.PushButtonsStateToClients(GetFrameHandle());
-	session.Stop();
-	
-	int nCount = 10;
-	if (m_pDBTMaster->GetRecord()->IsEmpty())
-		OnFirstRecord();
-
-	for (int i = 0; i < nCount; i++)
-	{
-		if (m_pDBTMaster->GetRecord()->IsEmpty())
-			break;
-
-		ResetJsonData(dummy);
-		session.Start();
-		session.PushDataToClients(this);
-		OnEditRecord();
-		session.PushDataToClients(this);
-		GoInBrowseMode();
-		session.Stop();
-		CString strKey;
-		const CUIntArray& idx = m_pDBTMaster->GetRecord()->GetPrimaryKeyIndexes();
-		for (int i = 0; i < idx.GetSize(); i++)
-		{
-			SqlRecordItem* pItem = m_pDBTMaster->GetRecord()->GetAt(idx.GetAt(i));
-			ASSERT_VALID(pItem);
-
-			CString sv(pItem->GetDataObj()->Str(0, 0));
-			if (i > 0)
-				strKey += _T("_");
-			strKey += sv;
-		}
-
-		ReplaceFileInvalidChars(strKey, _T('_'));		
-
-		session.Save(sPath + _T("\\") + strKey + _T(".json"));
-		OnNextRecord();
-	}
-	
-	
+	CJsonModelGenerator bsp(this);
+	bsp.Generate();
 	
 }
 // MagoXp equivalent behaviour: open report list
@@ -3064,18 +3013,7 @@ CView* CAbstractFormDoc::CreateSlaveView
 		//se sono modale, ciclo finché la finestra non viene chiusa
 		if (bModal)
 		{
-			CDockableFrame* pDockableParent = ((CAbstractFormFrame*)pNewFrame)->GetDockableParent();
-			BOOL wasDisabled = FALSE;
-			if (pDockableParent)
-				wasDisabled = pDockableParent->EnableWindow(FALSE);
-
-			TBEventDisposablePtr<CAbstractFormFrame> frame = (CAbstractFormFrame*)pNewFrame;
-			CPushMessageLoopDepthMng __pushLoopDepth(MODAL_STATE);
-			AfxGetThreadContext()->RaiseCallBreakEvent();
-			CTBWinThread::LoopUntil(&frame.m_Disposed);
-
-			if (pDockableParent)
-				pDockableParent->EnableWindow(!wasDisabled);
+			((CAbstractFormFrame*)pNewFrame)->DoModal();
 			return NULL;
 		}
 		return pView;

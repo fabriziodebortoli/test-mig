@@ -505,6 +505,7 @@ protected:
 	virtual BOOL		OnBeforeLoadDBT			() { return TRUE; }
 	virtual BOOL		OnLoadDBT				() { return TRUE;}
 	virtual BOOL		OnAfterLoadDBT			() { return TRUE; }
+	virtual BOOL		OnBeforeUndoExtraction	() { return TRUE; }
 	///////////////////////////
 
 	//per cambiare il colore alle celle dei bodyedit
@@ -652,7 +653,7 @@ public:
 	virtual void		OnActivate			(CAbstractFormFrame* pFrame, UINT nState, CWnd* pWndOther, BOOL bMinimized) {}
 	
 	virtual  BOOL		OnBeforeEscape		() { return TRUE; }
-
+	
 	virtual SymTable*	GetSymTable			() { return m_pServerDocument ? m_pServerDocument->GetSymTable() : NULL; }
 
 protected:
@@ -837,6 +838,7 @@ public:
 	BOOL OnBeforeLoadDBT();
 	BOOL OnLoadDBT();
 	BOOL OnAfterLoadDBT();
+	BOOL OnBeforeUndoExtraction();
 
 protected:
 	BOOL OnBeforeDeleteRow		(DBTSlaveBuffered*, int /*nRow*/);
@@ -916,7 +918,7 @@ protected:
 	BOOL OnValidatePasteDBTRows (RecordArray& arRows,	CTBEDataCoDecRecordToValidate&);
 	BOOL OnValidatePasteDBTRows (SqlRecord* pRec,		CTBEDataCoDecRecordToValidate&);
 	
-	BOOL OnBeforeEscape	();
+	BOOL OnBeforeEscape			();
 	void OnBuildingSecurityTree	(CTBTreeCtrl* pTree, Array* arInfoTreeItems);
 
 public:

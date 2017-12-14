@@ -1970,21 +1970,25 @@ namespace Microarea.MenuManager
 			if (currentLoginManager == null)
 				currentLoginManager = new LoginManager();
 
+            //rimuovo eventuali lock cadaveri da sessioni scadute
+            LockManager lockManager = new LockManager(BasePathFinder.BasePathFinderInstance.LockManagerUrl);
+            lockManager.RemoveUnusedLocks();
+
             //logout dal menu html, lascia il currentLoginManager in uno stato sbagliato, lo ripristino
-			if (currentLoginManager.LoginManagerState != LoginManagerState.Logged || authToken != currentLoginManager.AuthenticationToken)
+            if (currentLoginManager.LoginManagerState != LoginManagerState.Logged || authToken != currentLoginManager.AuthenticationToken)
 			{
 				currentLoginManager.GetLoginInformation(authToken);
 				SetCurrentLoginData(currentLoginManager);
-			}	
+			}
 
-			/*if (!CheckDatabaseInternal())
+            /*if (!CheckDatabaseInternal())
 			{
 				currentLoginManager.LogOff();
 				DiagnosticViewer.ShowDiagnostic(maServerDiagnostic);
 				return false;
 			}*/
             //TESTImmediateBalloon();
-			DictionaryFunctions.SetCultureInfo(currentPreferredLanguage, currentApplicationLanguage);
+            DictionaryFunctions.SetCultureInfo(currentPreferredLanguage, currentApplicationLanguage);
 			if (menuBrowserForm != null)
                 menuBrowserForm.ApplyResources();
 

@@ -29,9 +29,9 @@ public:
 class TB_EXPORT CDocumentSession : public CDocumentSessionObj
 {
 private:
-	int							m_nSuspendPushToClient;
-	bool						m_bUpdateUINeeded;
-	bool						m_bIgnoreModelChanges;
+	int							m_nSuspendPushToClient = 0;
+	bool						m_bUpdateUINeeded = false;
+	bool						m_bIgnoreModelChanges = false;
 	
 	int							m_nMessageType = 0;
 	bool						m_bDiagnosticResult = false;
@@ -40,11 +40,15 @@ private:
 	CTBEvent					m_ModalClosed;
 
 	DWORD						m_nLoginThreadID;
-	DWORD						m_nDocumentThreadID;
+	DWORD						m_nDocumentThreadID = 0;
 	CArray<HWND>				m_arWindowsToNotifyForCreation;//finestre la cui creazione necessita di essere notificata al client
 	CArray<HWND>				m_arWindowsToNotifyForActivation;//finestre le cui espressioni di attivazione necessitano di essere notificata al client
 	CArray<IJsonModelProvider*>	m_arJsonModelsToNotify;//modelli dati che necessitano di essere notificati al client
 	CArray<IJsonModelProvider*>	m_arJsonModelsToUpdate;//modelli dati che necessitano di essere aggiornati con i dati arrivati dal client
+
+protected:
+	bool						m_bPushOnlyWebBoundData = true;//ottimizzazione: per mandare i soli dati usati dal client
+
 public:
 	CDocumentSession (DWORD nLoginThreadID);
 	~CDocumentSession ();
