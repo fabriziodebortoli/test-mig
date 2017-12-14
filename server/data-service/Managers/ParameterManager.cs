@@ -9,8 +9,6 @@ namespace Microarea.DataService.Managers
 {
     public class ParameterManager : IParameterManager
     {
-        private Dictionary<string, Dictionary<string, object>> _parameters = new Dictionary<string, Dictionary<string, object>>();
-
         /// <summary>
         /// Data una lista di parametri ritorna un dizionario parametro-valore
         /// </summary>
@@ -19,7 +17,7 @@ namespace Microarea.DataService.Managers
             var result = new Dictionary<string, object>();
             var connection = new SqlConnection(connectionString);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
-                 $"select * from MA_{table}", null))
+                 $"select * from {table}", null))
             {
                 if (reader.Read())
                 {

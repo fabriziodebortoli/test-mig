@@ -1,5 +1,4 @@
-<div class="container" *ngIf="!databaseService.needsAskCredentials || databaseService.testConnectionOK">
-
+<!-- <div *ngIf="!databaseService.needsAskCredentials || databaseService.testConnectionOK"> -->
   <div *ngIf="!checkDbIsStarted">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -17,7 +16,7 @@
         <div class="adminTile half-tile">
           Parameters
           <div>
-            <admin-dropdown [inputLabel]="'Provider'" [(selectedValue)]="selectedProvider" [listItems]="providers" [textField]="'name'"
+            <admin-dropdown [inputLabel]="'Provider'" [(selectedValue)]="selectedProvider" [listItems]="providers" [textField]="'name'" [readOnly]=editing
               [valueField]="'value'" (selectedValueChange)="onProviderValueChange($event)"></admin-dropdown>
           </div>
           <div class="m30">
@@ -55,4 +54,4 @@
   </div>
 
   <admin-dialog [mode]="'message'" [title]="'Save'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
-</div>
+<!-- </div> -->

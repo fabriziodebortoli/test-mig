@@ -3,6 +3,7 @@ using Microarea.Common;
 using Microarea.Common.Applications;
 using Microarea.DataService.Managers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace Microarea.DataService.Controllers
 {
@@ -16,13 +17,13 @@ namespace Microarea.DataService.Controllers
             _parameterManager = parameterManager;
         }
 
-        [HttpPost("getparameters")]
-        public IActionResult GetParameters([FromBody]string table)
+        [Route("getparameters")]
+        public IActionResult GetParameters([FromBody] JObject value)
         {
             var ui = GetLoginInformation();
             if (ui == null) return Unauthorized();
 
-            var temp = _parameterManager.GetParameters(table, ui.CompanyDbConnection);
+            var temp = _parameterManager.GetParameters(value["table"].ToString(), ui.CompanyDbConnection);
             return new JsonResult(temp);
         }
 

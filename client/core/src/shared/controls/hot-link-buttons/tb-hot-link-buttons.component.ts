@@ -15,7 +15,7 @@ import { PaginatorService, ServerNeededParams } from '../../../core/services/pag
 import { FilterService, combineFilters } from '../../../core/services/filter.services';
 import * as _ from 'lodash';
 
-export type HlComponent = { model: any, slice$?: any, cmpId: string };
+export type HlComponent = { model: any, slice$?: any, cmpId: string, isCombo?: boolean };
 
 @Component({
   selector: 'tb-hotlink-buttons',
@@ -121,6 +121,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
+  get isAttachedToAComboBox(): boolean {
+    if (this.modelComponent && this.modelComponent.isCombo) { return true; }
+    return false;
+  }
+
   async toggleOptions(anchor, template) {
     this.closeTable();
     if (!this.optionsSub) {
@@ -138,12 +143,13 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     await this.loadOptions();
   }
 
-  async toggleTable(anchor, template) {
+  toggleTable(anchor, template) {
     this.closeOptions();
     if (!this.tableSub) {
       this.tableSub = this.showTable$.distinctUntilChanged().subscribe(x => {
         if (x) {
           this.tablePopupRef = this.tablePopupService.open({ anchor: anchor, content: template });
+          this.tablePopupRef.popupOpen.asObservable().subscribe(y => this.loadTable());
         } else {
           if (this.tablePopupRef) {
             this.tablePopupRef.close();
@@ -152,7 +158,15 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         }
       });
     }
-    if (this.showTableSubj$.value) { this.closeTable(); } else { this.openTable(); await this.loadTable(); }
+    if (this.showTableSubj$.value) { this.closeTable(); } else { this.openTable(); }
+  }
+
+  async openDropDown() {
+    this.start();
+  }
+
+  closeDropDown() {
+    this.stop();
   }
 
   closeOptions() { this.showOptionsSubj$.next(false); }
@@ -162,6 +176,10 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   closePopups() { this.closeOptions(); this.closeTable(); }
   get optionsPopupStyle(): any {
     return {'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)'};
+  }
+
+  getDataItem(d: any): any {
+    return d;
   }
 
   private start() {
@@ -180,7 +198,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       });
 
     this.subscription = this.paginator.clientData.subscribe((d) => {
-        if (d && d.rows) {
+        if (d && d.rows && d.rows.length > 0) {
           this.selectionColumn = d.key;
           this.gridView$.next({data: d.rows, total: d.total, columns: d.columns });
           this.columns = d.columns;
@@ -188,9 +206,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
           this.closeOptions();
         }
         setTimeout(() => {
-          let filters = this.tablePopupRef.popupElement.querySelectorAll('[kendofilterinput]');
-          if (filters && filters[this.changedFilterIndex]) {
-            (filters[this.changedFilterIndex] as HTMLElement).focus();
+          if (this.tablePopupRef) {
+            let filters = this.tablePopupRef.popupElement.querySelectorAll('[kendofilterinput]');
+            if (filters && filters[this.changedFilterIndex]) {
+              (filters[this.changedFilterIndex] as HTMLElement).focus();
+            }
           }
         }, 100);
     });
@@ -220,9 +240,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     await this.paginator.pageChange(event.skip, event.take);
   }
 
-  private async loadTable() {
+  private loadTable() {
     this.start();
-    await this.paginator.firstPage();
   }
 
   selectionTypeChanged(type: string) {
@@ -231,11 +250,16 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   selectionChanged(value: any) {
-    let k = this.gridView$.value.data[this.paginator.getClientPageIndex(value.index)];
-    this.value = k[this.selectionColumn];
+    let idx = this.paginator.getClientPageIndex(value.index);
+    let k = this.gridView$.value.data.slice(idx, idx + 1);
+    this.value = k[0][this.selectionColumn];
     if (this.model) {
       this.model.value = this.value;
       this.eventDataService.change.emit(this.cmpId);
+    }
+    if (this.modelComponent && this.modelComponent.model) {
+      this.modelComponent.model.value = this.value;
+      this.eventDataService.change.emit(this.modelComponent.cmpId)
     }
   }
 

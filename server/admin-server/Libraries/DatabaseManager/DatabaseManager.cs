@@ -280,7 +280,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		{
 			bool result = false;
 
-			if (contextInfo.MakeCompanyConnection(subDatabase))
+			if (contextInfo.MakeSubscriptionDatabaseConnection(subDatabase))
 			{
 				result = CheckDBStructure(KindOfDatabase.Company);
 
@@ -297,6 +297,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					if (result && contextInfo.HasSlaves)
 						result = CheckDBStructure(KindOfDatabase.Dms);
 				}
+			}
+			else
+			{
+				if (contextInfo.Diagnostic.Error)
+					DBManagerDiagnostic.Set(contextInfo.Diagnostic);
 			}
 
 			contextInfo.CloseConnection();

@@ -1,3 +1,23 @@
+<!-- begin dialog section -->
+
+<admin-dialog 
+  [mode]="'message'"
+  [title]="dialogTitle" 
+  [message]="dialogMessage"
+  [(opened)]=openToggle>
+  </admin-dialog>
+
+<admin-dialog 
+  [mode]="'yesno'"
+  [title]="dialogTitle" 
+  [message]="dialogMessage"
+  [(opened)]=openYesNoToggle
+  [(result)]=dialogYesNoResult
+  (onClose)=dialogYesNoOnClose()>
+  </admin-dialog>  
+
+<!-- end dialog section -->
+
 <div>
   <div style="width:320px; float: right">
     <div class="left">

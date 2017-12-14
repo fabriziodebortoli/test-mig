@@ -476,7 +476,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		}
 
 		//---------------------------------------------------------------------------
-		public bool MakeCompanyConnection(ISubscriptionDatabase subDatabase)
+		public bool MakeSubscriptionDatabaseConnection(ISubscriptionDatabase subDatabase)
 		{
 			connectAzDB = string.Format(NameSolverDatabaseStrings.SQLConnection, subDatabase.DBServer, subDatabase.DBName, subDatabase.DBOwner, subDatabase.DBPassword);
 
