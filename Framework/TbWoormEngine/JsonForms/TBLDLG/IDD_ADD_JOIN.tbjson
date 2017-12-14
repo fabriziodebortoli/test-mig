@@ -1,0 +1,117 @@
+﻿{
+  "id": "IDD_ADD_JOIN",
+  "rcId": 1125,
+  "type": 66,
+  "text": "Add Join Relation",
+  "x": 0,
+  "y": 0,
+  "width": 432,
+  "height": 247,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "tbldlg",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 149,
+      "y": 218,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 220,
+      "y": 218,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_CBX_GROUPTABLES",
+      "type": 12,
+      "x": 7,
+      "y": 22,
+      "width": 180,
+      "height": 60,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    },
+    {
+      "id": "IDC_LIST_TABLESJOIN",
+      "type": 24,
+      "exStyle": 64,
+      "x": 7,
+      "y": 49,
+      "width": 180,
+      "height": 156,
+      "border": true,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 2,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_LIST_TABLES_JOINED",
+      "type": 24,
+      "x": 238,
+      "y": 49,
+      "width": 179,
+      "height": 156,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "selection": 2,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_BTN_JOIN_ADD",
+      "type": 3,
+      "text": ">>",
+      "x": 196,
+      "y": 87,
+      "width": 32,
+      "height": 16
+    },
+    {
+      "id": "IDC_BTN_JOIN_REM",
+      "type": 3,
+      "text": "<<",
+      "x": 196,
+      "y": 114,
+      "width": 32,
+      "height": 15
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Select module and table",
+      "x": 7,
+      "y": 7,
+      "width": 179,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Selected tables:",
+      "x": 240,
+      "y": 31,
+      "width": 179,
+      "height": 9,
+      "textAlign": 0
+    }
+  ]
+}

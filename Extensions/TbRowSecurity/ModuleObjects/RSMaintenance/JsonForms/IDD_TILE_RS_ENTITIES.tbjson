@@ -1,0 +1,17 @@
+{
+   "context" : "uirsmaintenance",
+   "height" : 177,
+   "id" : "IDD_TILE_RS_ENTITIES",
+   "items" : [
+    {
+        "clipChildren": true,
+        "height": 175,
+        "id": "IDC_ENTITIES_BE",
+        "ownerDraw": true,
+        "type": 3, /*Button*/
+        "width": 186
+    }
+   ],
+   "type" : 66, /*Panel*/
+   "width" : 188
+}

@@ -47,11 +47,11 @@ export class DataService extends DocumentService {
     return this.http.get(url, { headers: this.createAuthorizationHeader(), withCredentials: true }).map((res: Response) => res.json());
   }
 
-  getRadarData(params: URLSearchParams) {
-    let url: string = this.infoService.getBaseUrl() + '/data-service/radar';// /' + params.get('query');
+    getRadarData(params: URLSearchParams /*nameSpace: string, type: string*/) {
+        let url: string = this.infoService.getBaseUrl() + '/data-service/radar/'/*/nameSpace/type*/;// /' + params.get('query');
     let options = { headers: this.createAuthorizationHeader(), withCredentials: true };
 
-    return this.http.post(url, params, options).map((res: Response) => res.json());
+    return this.http.get(url, { headers: this.createAuthorizationHeader(), search: params, withCredentials: true }).map((res: Response) => res.json());
   }
 
 }

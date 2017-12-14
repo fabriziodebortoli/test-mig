@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Microarea.TaskBuilderNet.Interfaces</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microarea.TaskBuilderNet.Interfaces</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <SignAssembly>false</SignAssembly>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\..\Apps\TBApps\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\..\..\Apps\TBApps\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="DiagnosticSimpleItems.cs" />
+    <Compile Include="DiagnosticSimpleItems.Designer.cs" />
+    <Compile Include="EasyStudioServer\IApplicationSerializer.cs" />
+    <Compile Include="EasyStudioServer\IDocumentSerializer.cs" />
+    <Compile Include="EasyStudioServer\IComponent.cs" />
+    <Compile Include="EasyStudioServer\IComponents.cs" />
+    <Compile Include="EasyStudioServer\ISerializer.cs" />
+    <Compile Include="EasyStudioServer\IService.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="IApplicationInfo.cs" />
+    <Compile Include="IBaseSynchroProvider.cs" />
+    <Compile Include="ICustomizationContext.cs" />
+    <Compile Include="ICustomList.cs" />
+    <Compile Include="ICustomListItem.cs" />
+    <Compile Include="ICustomListManager.cs" />
+    <Compile Include="IDocumentController.cs" />
+    <Compile Include="IDocumentToSync.cs" />
+    <Compile Include="IDocumentView.cs" />
+    <Compile Include="IEasyBuilderApp.cs" />
+    <Compile Include="IEasyBuilderDataTypeProperties.cs" />
+    <Compile Include="IEBLink.cs" />
+    <Compile Include="IHttpDocumentHandler.cs" />
+    <Compile Include="ILoginManager.cs" />
+    <Compile Include="INotifications.cs" />
+    <Compile Include="IProviderLogWriter.cs" />
+    <Compile Include="IRenamedCompany.cs" />
+    <Compile Include="IRICheckNode.cs" />
+    <Compile Include="ISecurity.cs" />
+    <Compile Include="ITbServices.cs" />
+    <Compile Include="ITheme.cs" />
+    <Compile Include="IValidationProxy.cs" />
+    <Compile Include="Model\IMHotlink.cs" />
+    <Compile Include="Model\IDataBinding.cs" />
+    <Compile Include="IEasyBuilderComponentExtender.cs" />
+    <Compile Include="Model\IItemsSource.cs" />
+    <Compile Include="Model\IModelRoot.cs" />
+    <Compile Include="Model\IRecord.cs" />
+    <Compile Include="Model\IDocumentDataModel.cs" />
+    <Compile Include="IAdvertisement.cs" />
+    <Compile Include="IAdvertisementBody.cs" />
+    <Compile Include="IApplicationBrandInfo.cs" />
+    <Compile Include="IBrandInfo.cs" />
+    <Compile Include="IDetailedException.cs" />
+    <Compile Include="IDiagnostic.cs" />
+    <Compile Include="IDiagnosticElements.cs" />
+    <Compile Include="IDiagnosticItem.cs" />
+    <Compile Include="IDiagnosticItems.cs" />
+    <Compile Include="IDiagnosticSimpleItem.cs" />
+    <Compile Include="IExtendedInfo.cs" />
+    <Compile Include="IExtendedInfoItem.cs" />
+    <Compile Include="ILocalizationBag.cs" />
+    <Compile Include="ILogWriter.cs" />
+    <Compile Include="IModuleInfo.cs" />
+    <Compile Include="IPathFinder.cs" />
+    <Compile Include="ISession.cs" />
+    <Compile Include="ISessionFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Enums.cs" />
+    <Compile Include="IAddOnDatabaseObjectsInfo.cs" />
+    <Compile Include="IApplicationConfigInfo.cs" />
+    <Compile Include="IBaseApplicationInfo.cs" />
+    <Compile Include="IBaseModuleInfo.cs" />
+    <Compile Include="IBrandLoader.cs" />
+    <Compile Include="IClientDocumentsObjectInfo.cs" />
+    <Compile Include="IDatabaseObjectsInfo.cs" />
+    <Compile Include="Model\IDataObj.cs" />
+    <Compile Include="IDocumentInfo.cs" />
+    <Compile Include="IDocumentsObjectInfo.cs" />
+    <Compile Include="IFunctionPrototype.cs" />
+    <Compile Include="ILibraryInfo.cs" />
+    <Compile Include="ILocalizer.cs" />
+    <Compile Include="IModule.cs" />
+    <Compile Include="IModuleConfigInfo.cs" />
+    <Compile Include="INameSpace.cs" />
+    <Compile Include="INameSpaceType.cs" />
+    <Compile Include="IServerConnectionInfo.cs" />
+    <Compile Include="IDbObjectInfo.cs" />
+    <Compile Include="IMenuXmlParser.cs" />
+    <Compile Include="ITbLoaderClient.cs" />
+    <Compile Include="IViewMode.cs" />
+    <Compile Include="IWebMethodsInfo.cs" />
+    <Compile Include="IXmlPersistable.cs" />
+    <Compile Include="IBasePathFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Strings.cs" />
+    <Compile Include="TBApplicationProxy.cs" />
+    <Compile Include="TBLoaderCommand.cs" />
+    <Compile Include="View\IControlClass.cs" />
+    <Compile Include="View\IEasyBuilderContainer.cs" />
+    <Compile Include="View\ITBComponentChangeService.cs" />
+    <Compile Include="View\ITBSite.cs" />
+    <Compile Include="View\IWindowWrapper.cs" />
+    <Compile Include="View\IWindowWrapperContainer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ActivationDataReplacement.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DiagnosticSimpleItems.resx" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

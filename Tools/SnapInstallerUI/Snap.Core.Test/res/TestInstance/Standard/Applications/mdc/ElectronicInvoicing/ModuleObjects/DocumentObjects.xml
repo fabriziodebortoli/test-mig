@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+	<Documents>
+		<Document namespace="MDC.ElectronicInvoicing.BatchDocuments.EIChecks" localize="Electronic Invoice Check" classhierarchy="BDEIChecks" defaultsecurityroles="MDC">
+			<InterfaceClass>ADMEIChecksObj</InterfaceClass>
+			<ViewModes>
+				<Mode name="Default" type="batch" />
+				<Mode name="BackGround" type="batch" />
+			</ViewModes>
+		</Document>
+		<Document namespace="MDC.ElectronicInvoicing.BatchDocuments.EITrasmission" localize="Electronic Invoice Trasmission" classhierarchy="BDEITrasmission" defaultsecurityroles="MDC">
+			<InterfaceClass>ADMEITrasmissionObj</InterfaceClass>
+			<ViewModes>
+				<Mode name="Default" type="batch" />
+				<Mode name="BackGround" type="batch" />
+			</ViewModes>
+		</Document>
+	</Documents>
+</DocumentObjects>

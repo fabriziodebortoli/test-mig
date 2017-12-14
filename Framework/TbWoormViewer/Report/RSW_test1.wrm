@@ -1,0 +1,335 @@
+//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) ReportTemplate "Report.erp.core.Basic.wrmt" 
+
+Properties
+	Begin
+		Title "Totali portafoglio clienti" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "Sales,cSales Employee" 
+	End
+
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+FontStyles 
+	Begin
+		"SubTotalNumber"  Facename "Open Sans"  Size 10 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+	End
+
+FormatStyles 
+	Begin
+		Bool "Bool"  Bitmap  Logic "Image.Framework.TbFrameworkImages.Images.20x20.ok.png" "Image.Framework.TbFrameworkImages.20x20.CloseWindows.png" ;
+	End
+
+PageLayout "default" 
+	Begin
+		Field (6,5,22,1075) Alias 72  /* w_AppDate */ FormatStyle "Date" 
+			Begin
+				Style "Date" 
+
+			End
+
+		Field (6,5,22,1075) Alias 71  /* w_OurRefCompanyName */ 
+			Begin
+				Style "CompanyName" 
+
+			End
+
+		Text (18,5,48,1075) "Totali portafoglio clienti" 
+			Begin
+				Style "ListTitle" 
+			End
+
+		Text (45,5,64,1075) "Fatture immediate" 
+			Begin
+				Style "ListSubTitle" 
+			End
+
+		Text (66,5,82,141) "selezioni effettuate:" 
+			Begin
+				Style "AccessoryDescription" 
+			End
+
+		Field (68,989,91,1077) Alias 94  /* w_CallOtherReport */ FormatStyle "Bool" 
+			Begin
+				Hidden  
+			End
+
+		Text (84,5,104,105) "Dalla data" 
+			Begin
+			End
+
+		Field (84,104,104,204) Alias 14  /* w_FirstDay */ FormatStyle "Date" 
+			Begin
+				Style "SingleField" 
+				Align 67686 ;
+
+			End
+
+		Text (84,226,104,326) "Alla data" 
+			Begin
+			End
+
+		Field (84,325,104,425) Alias 15  /* w_LastDays */ FormatStyle "Date" 
+			Begin
+				Style "SingleField" 
+				Align 67686 ;
+
+			End
+
+		Table (26,9) "" Alias 2  /* Table2 */ Origin (8,138) Heights (20,25,20,23) 
+		Title
+			Begin
+				FontStyle "Text" ;
+				Pen (218,112,214) Size 3;
+			End
+			Begin
+				"Cliente" Alias 1  /* w_CustomerSupplier */ Width 100 VMergeEqualCell ;
+				"Ragione sociale" Alias 10  /* w_CompanyName */ Width 195 Break VMergeEqualCell ;
+				"w_DocumentType" Alias 7  /* w_DocumentType */ Width 114 FormatStyle "Enum" ;
+				"Emesse" Alias 16  /* w_InvoicesIssued */ Width 80 FormatStyle "Integer" Total ;
+				"e_TotaleDocumento" Alias 143  /* e_TotaleDocumento */ Width 116 FormatStyle "Money" Total ;
+				"Totale merce" Alias 82  /* w_TotGoodsAmountInLire */ Width 120 FormatStyle "Money" Total ;
+				"Totale servizi" Alias 84  /* w_ServiceAmountsInLire */ Width 122 FormatStyle "Money" Total ;
+				"Totale" Alias 22  /* w_TotGoodsAmountServiceAmounts */ Width 120 FormatStyle "Money" Total ;
+				"w_odd" Alias 146  /* w_odd */ Width 138 FormatStyle "Bool" Bitmap Proportional ;
+				ColumnPen
+					Begin
+						Column (0,4)  Pen (218,165,32) Size 3 ;
+						Column (5,8)  Pen (64,224,208) Size 3 ;
+					End
+				Title
+					Begin
+						Column (0,4)  Pen (0,206,209) Size 3 ;
+						Column (5,8)  Pen (255,0,0) Size 3 ;
+					End
+				SubTotal Column (4)  TextColor (186,85,211) ;
+				ColTotal
+					Begin
+						Column (0,2)  Pen (173,216,230) Size 3 ;
+						Column (3,4)  Pen (173,216,230) Size 3 ;
+						Column (5,7)  TextColor (148,0,211) Pen (0,191,255) ;
+						Column (8)  TextColor (148,0,211) Align 2149 ;
+					End
+
+				Body
+					Begin
+						Cell (1,4)  FontStyle "SubTotalNumber"  ;
+						Cell (0,8,25,8)  Align 2149 ;
+					End
+
+			End
+
+
+		Field (739,5,758,1075) Alias 73  /* w_NrPage */ FormatStyle "Integer" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "AccessoryDescription" ;
+
+			End
+
+	End
+Links
+	Begin
+		LinkReport "ERP.Sales.InvoicesPortfolio" 
+			On w_CustomerSupplier 
+			Begin
+				Bool w_CalledFromOtherReport = w_CallOtherReport ;
+				Date w_FirstDay = w_FirstDay ;
+				Date w_LastDay = w_LastDays ;
+				String w_IsFirstCustomer = w_CustomerSupplier ;
+				String w_LastCustomer = w_CustomerSupplier ;
+				Bool w_TaxAccrualDateDelivery = w_TaxAccrualDateDelivery ;
+				Bool w_NotTaxAccrualDateDelivery = w_NotTaxAccrualDateDelivery ;
+				Bool w_OnlyInvoice = w_OnlyInvoice ;
+				Bool w_OnlyProtocol = w_OnlyProtocol ;
+				Bool w_Both = w_Both ;
+			End
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Tabella_1 [26] Alias 2 ;
+		End
+
+		Variables
+			String       w_CustomerSupplier [8] Alias 1  Column ;
+			Long         w_IdentifierDocument [10] Alias 3  Hidden ;
+			Money        w_DocTot [15] Alias 4  Hidden ;
+			Enum[52]      /* Document Type */ w_DocumentType [15] Alias 7  Column ;
+			String       w_CompanyName [38,1] Alias 10  Column ;
+			Date         w_Date [19] Alias 105  Hidden ;
+			Date         w_DocumentDate [19] Alias 106  Hidden ;
+			Date         w_DepartureDate [19] Alias 107  Hidden ;
+			Bool         w_IsActivatedTaxAccrualDateDelivery [1] Alias 108  Hidden  Input Init = IsActivated ( "ERP" , "TaxAccrualDateDelivery" )  ;
+			Bool         w_TaxAccrualDateDelivery [1] Alias 109  Hidden  Input Init = w_IsActivatedTaxAccrualDateDelivery  ;
+			Bool         w_NotTaxAccrualDateDelivery [1] Alias 110  Hidden  Input Init = Not w_IsActivatedTaxAccrualDateDelivery  ;
+			Date         w_FirstDay [8] Alias 14  Input Init = 
+			DATE ( 01 , 01 , 2000 )  ;
+			Date         w_LastDays [8] Alias 15  Input Init = 
+			DATE ( 31 , 12 , 2018 )  ;
+			Integer      w_InvoicesIssued [6] Alias 16  Column ;
+			Integer      w_TotInvoicesIssued = Csum (w_InvoicesIssued ) Alias 17  ColTotal ;
+			Money        w_Totgoodsamount [15] Alias 18  Hidden ;
+			Money        w_Serviceamounts [15] Alias 20  Hidden ;
+			Money        w_TotServiceAmounts = Csum (w_Serviceamounts ) Alias 21  Hidden ;
+			Money        w_TotGoodsAmountServiceAmounts [15] Alias 22  Column ;
+			Money        w_TotTotGoodsAmountServiceAmounts = Csum (w_TotGoodsAmountServiceAmounts ) Alias 23  ColTotal ;
+			String       w_OurRefCompanyName [64] Alias 71 ;
+			Date         w_AppDate [8] Alias 72 Init = AppDate ( )  ;
+			Integer      w_NrPage [6] = w_NrPage + 1  Alias 73 Init = 1  ;
+			Enum[49]      /* CustSupp Type */ w_Custsupptype [10] Alias 74  Hidden ;
+			Money        w_TotDocTot = Csum (w_DocTot ) Alias 75  Hidden ;
+			String       w_Currency [8] Alias 76  Hidden ;
+			Date         w_Fixingdte [19] Alias 77  Hidden ;
+			Money        w_Fixing [15] Alias 78  Hidden ;
+			Money        w_TotGoodsAmountInLire [15] Alias 82  Column ;
+			Money        w_TotTotGoodsAmountInLire = Csum (w_TotGoodsAmountInLire ) Alias 83  ColTotal ;
+			Money        w_ServiceAmountsInLire [15] Alias 84  Column ;
+			Money        w_TotServiceAmountsInLire = Csum (w_ServiceAmountsInLire ) Alias 85  ColTotal ;
+			String       w_BaseCurr [1] Alias 86  Hidden  Input Init = ""  ;
+			String       w_Symbol [1] Alias 87  Hidden  Input Init = ""  ;
+			Bool         w_Fixingismanual [1] Alias 88  Hidden ;
+			Double       w_Fixing_Doc [15] Alias 89  Hidden ;
+			Double       w_TotFixing_Doc = Csum (w_Fixing_Doc ) Alias 91  Hidden ;
+			Bool         w_DisposeOk [1] Alias 93  Hidden ;
+			Bool         w_CallOtherReport [1] Alias 94 Init = TRUE  ;
+			Bool         w_OnlyInvoice [1] Alias 111  Hidden  Input Init = FALSE  ;
+			Bool         w_OnlyProtocol [1] Alias 112  Hidden  Input Init = FALSE  ;
+			Bool         w_Both [1] Alias 113  Hidden  Input Init = TRUE  ;
+			Money        e_TotaleDocumento [23] Alias 143  Column ;
+			Money        Tote_TotaleDocumento = Csum (e_TotaleDocumento ) Alias 144  ColTotal ;
+			Money        SubTotal_e_TotaleDocumento [23] = Csum (e_TotaleDocumento ) Alias 145  SubTotal ;
+			Bool         w_odd [3] Alias 146  Column ;
+			Double       w_calc [23] Alias 147  Hidden ;
+			Double       Totw_calc = Csum (w_calc ) Alias 148  Hidden ;
+		End
+
+		Rules
+			From MA_SaleDoc 
+			Select  Not NULL 
+				CustSupp             Into w_CustomerSupplier ,
+				SaleDocId            Into w_IdentifierDocument ,
+				DocumentType         Into w_DocumentType ,
+				DocumentDate         Into w_DocumentDate ,
+				DepartureDate        Into w_DepartureDate ,
+				CustSuppType         Into w_Custsupptype ,
+				Currency             Into w_Currency ,
+				FixingDate           Into w_Fixingdte ,
+				FixingIsManual       Into w_Fixingismanual ,
+				Fixing               Into w_Fixing_Doc 
+			Where If w_TaxAccrualDateDelivery 
+				Then Native 
+				( MA_SaleDoc.DocumentType = {52:2} OR MA_SaleDoc.DocumentType = {52:4} ) 
+				And MA_SaleDoc.DepartureDate >= w_FirstDay And MA_SaleDoc.DepartureDate <= w_LastDays 
+				Else Native 
+				( MA_SaleDoc.DocumentType = {52:2} OR MA_SaleDoc.DocumentType = {52:4} ) 
+				And MA_SaleDoc.DocumentDate >= w_FirstDay And MA_SaleDoc.DocumentDate <= w_LastDays 
+				And ( w_Both = TRUE Or 
+				( w_OnlyInvoice = TRUE And MA_SaleDoc.TaxJournal NOT IN ( Select MA_TaxJournals.TaxJournal From MA_TaxJournals Where MA_TaxJournals.AutomaticNumbering = TRUE And MA_TaxJournals.IsAProtocol = TRUE ) ) 
+				Or ( w_OnlyProtocol = TRUE And MA_SaleDoc.TaxJournal IN ( Select MA_TaxJournals.TaxJournal From MA_TaxJournals Where MA_TaxJournals.AutomaticNumbering = TRUE And MA_TaxJournals.IsAProtocol = TRUE ) ) )  
+			Order By  MA_SaleDoc.CustSuppType, MA_SaleDoc.CustSupp,ContentOf ( w_TaxAccrualDateDelivery ? "MA_SaleDoc.DepartureDate" : "MA_SaleDoc.DocumentDate" )  ;
+
+			w_Date = w_TaxAccrualDateDelivery ? w_DepartureDate : w_DocumentDate  ;
+
+			From MA_SaleDocSummary 
+			Select 
+				TotalAmount          Into w_DocTot ,
+				GoodsAmount          Into w_Totgoodsamount ,
+				ServiceAmounts       Into w_Serviceamounts 
+			Where MA_SaleDocSummary.SaleDocId == w_IdentifierDocument  ;
+
+			From MA_CustSupp 
+			Select 
+				CompanyName          Into w_CompanyName 
+			Where MA_CustSupp.CustSuppType == w_Custsupptype And MA_CustSupp.CustSupp == w_CustomerSupplier  ;
+
+			From MA_Company 
+			Select 
+				CompanyName          Into w_OurRefCompanyName ;
+
+			w_InvoicesIssued = 1  ;
+
+			w_TotGoodsAmountServiceAmounts = 0  ;
+
+			If w_DocumentType = {52:2} 
+				Then e_TotaleDocumento = w_DocTot  
+				Else e_TotaleDocumento = w_DocTot * ( - 1 )  ;
+
+			w_odd = (flong ( e_TotaleDocumento ) % 2 ) == 1  ;
+		End
+
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+						
+
+						Display w_NrPage ;
+						Display w_TotInvoicesIssued ;
+						Display w_TotServiceAmounts ;
+						Display w_TotTotGoodsAmountServiceAmounts ;
+						Display w_TotTotGoodsAmountInLire ;
+						Display w_TotServiceAmountsInLire ;
+						Display w_TotFixing_Doc ;
+						Reset w_TotFixing_Doc ;
+						Display Tote_TotaleDocumento ;
+						Reset Tote_TotaleDocumento ;
+					End
+				After 
+					Begin
+						Eval w_NrPage ;
+					End
+
+			Report : Do
+				Always 
+					Begin
+						Eval w_TotInvoicesIssued ;
+						Eval w_TotServiceAmounts ;
+						Eval w_TotTotGoodsAmountServiceAmounts ;
+						Eval w_TotTotGoodsAmountInLire ;
+						Eval w_TotServiceAmountsInLire ;
+						Eval w_TotFixing_Doc ;
+						Eval Tote_TotaleDocumento ;
+						Eval SubTotal_e_TotaleDocumento ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+						Display w_NrPage ;
+						Display w_TotInvoicesIssued ;
+						Display w_TotServiceAmounts ;
+						Display w_TotTotGoodsAmountServiceAmounts ;
+						Display w_TotTotGoodsAmountInLire ;
+						Display w_TotServiceAmountsInLire ;
+						Display w_TotFixing_Doc ;
+						Display Tote_TotaleDocumento ;
+					End
+				Finalize 
+					Begin
+					End
+			BreakingCustSupp : Breaking w_CustomerSupplier  Do
+				Before 
+					Begin
+						Display SubTotal_e_TotaleDocumento ;
+						Reset SubTotal_e_TotaleDocumento ;
+						NextLine ;
+						InterLine ;
+					End
+				After 
+					Begin
+					End
+
+		End
+End

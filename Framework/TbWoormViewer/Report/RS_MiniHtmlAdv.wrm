@@ -1,0 +1,184 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,-1918,1038,-2) 
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+FontStyles 
+	Begin
+		"HtmlColumn"  Facename "Segoe UI"  Size 19 Style (0,0,0,400,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"TextHtml"  Facename "Calibri"  Size 19 Style (0,0,0,400,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+	End
+
+PageLayout "default" 
+	Begin
+		Text (11,10,228,264) 
+			Begin
+				"Campo di Testo" 
+				"<font face=''Verdana'' size=''16'' color=''green'' >" 
+				"<br>Campo di Testo" 
+				"<br>{EVAL woorm.H_Bold(''bold text'')}" 
+				"<br>{EVAL woorm.H_Bold(''italic text'')}" 
+				"</font>" 
+			End
+
+			Begin
+				TextColor (210,105,30) ;
+				Special
+				FontStyle "TextHtml" ;
+				Html
+			End
+
+		Text (14,273,83,1074) 
+			Begin
+				"<div style=''width:100px;float:left;text-align:left''>" 
+				"left" 
+				"</div>" 
+				"<div style=''width:140px;float:left;text-align:center;background-color:bisque;''>" 
+				"center" 
+				"</div>" 
+				"<div style=''width:100px;float:left;text-align:right;background-color:aquamarine;''>" 
+				"right" 
+				"</div>" 
+				"<div style=''overflow:auto;text-align:right;background-color:yellow;''>" 
+				"last - check other text aligments too" 
+				"</div>" 
+			End
+
+			Begin
+				Html
+			End
+
+		Text (88,271,227,1076) 
+			Begin
+				"<div style=''width:200px;float:left;text-align:left''>" 
+				"        <i>Object  1</i>" 
+				"    </div>" 
+				"    <div style=''width:200px;float:left;text-align:center;background-color:bisque;''>" 
+				"        <b>Object  2<b>" 
+				"    </div>" 
+				"    <div style=''width:200px;float:left;text-align:right;''>" 
+				"        <u>Object  3</u>" 
+				"    </div>" 
+				"    <div style=''overflow:auto;text-align:right;background-color:yellow;''>" 
+				"         <s>Object  4</s>" 
+				"    </div>" 
+				"<br>" 
+				"  <font size=''24''>" 
+				"  <div style=''width:200px;float:left;text-align:left;color:red;background-color:green;''>" 
+				"        uno" 
+				"    </div>" 
+				"     </font>" 
+				"     <font size=''12''>" 
+				"    <div style=''width:200px;float:left;text-align:center''>" 
+				"      seconda cella" 
+				"    </div>" 
+				"    <div style=''width:200px;float:left;text-align:right''>" 
+				"        <span style=''color:#FF0000;background-color:#80BFFF;''>tre</span>" 
+				"    </div>" 
+				"<div style=''overflow:auto;text-align:right;background-color:yellow;''>" 
+				"         <s>4</s>" 
+				"    </div>" 
+				"    </font>" 
+			End
+
+			Begin
+				Html
+			End
+
+		Table (13,3) "Table_4" Alias 4  /* Table_4 */ Origin (15,210) Heights (26,18,38,14) 
+		HideTitle
+			Begin
+				"MA_Items_Item" Alias 3  /* MA_Items_Item */ Width 109 ;
+				"MA_Items_Description" Alias 1  /* MA_Items_Description */ Width 259 ;
+				"Html Description" Alias 5  /* w_HtmlDescription */ Width 363 Break Html ;
+
+				Body Cell (0,2,12,2)  FontStyle "HtmlColumn"  ;
+
+			End
+
+
+		Field (237,847,747,1072) Alias 9  /* w_FieldHtml */ 
+			Begin
+				Transparent
+				TextColor (153,50,204) ;
+				BkgColor (255,255,0) ;
+				FontStyle "TextHtml" ;
+				Html 
+			End
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Table_4 [13] Alias 4 ;
+		End
+
+		Variables
+			String       MA_Items_Description [51] Alias 1  Column ;
+			String       MA_Items_Item [21] Alias 3  Column ;
+			String       w_HtmlDescription [32,1] Alias 5  Column ;
+			String       w_FieldHtml [15] Alias 9 Init = 
+			woorm.H_Bold ( "Bold text" ) + woorm.H_NewLine ( ) + 
+			woorm.H_Underline ( "Underline text" ) + woorm.H_NewLine ( ) + 
+			woorm.H_Italic ( "Italic text" ) + woorm.H_NewLine ( ) + 
+			woorm.H_Strike ( "Strike text" ) + woorm.H_NewLine ( ) + 
+			"<a style='color:#0000FF'><ol type='1'><li> uno<ul style='list-style-type:disc'>" + 
+			"<li>sub1</li><li>sub2</li><li>sub3</li></ul></li><li>due</li><li>tre</li></ol></a>"  ;
+			Array        String       arHtmlDescriptions [15] Alias 10  Hidden  Input ;
+			Long         counter [12] Alias 11  Hidden Init = 0  ;
+		End
+
+		Rules
+			From MA_Items 
+			Select 
+				Description          Into MA_Items_Description ,
+				Item                 Into MA_Items_Item ;
+
+			counter = counter + 1  ;
+		End
+
+
+		Events
+			Report : Do
+				Always 
+					Begin
+						Call SetColumnHtmlDescr ;
+					End
+				Before 
+					Begin
+						Call LoadHtmlDescription ;
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+
+	Procedures
+		Begin
+			Procedure  SetColumnHtmlDescr 
+				Begin
+					If counter <= arHtmlDescriptions.Size ( ) 
+						Then w_HtmlDescription = arHtmlDescriptions [ counter - 1 ]  ;
+						Else w_HtmlDescription = ""  ;
+				End
+
+			Procedure  LoadHtmlDescription 
+				Begin
+					//Do arHtmlDescriptions.Add ( "****" )  ;
+					Do arHtmlDescriptions.Add ( "Cialda diametro <font size='16' color='BLUE'>20</font>" )  ;
+					Do arHtmlDescriptions.Add ( "Cialda diametro <font size='20' color='GREEN'>25</font>" )  ;
+					Do arHtmlDescriptions.Add ( "Vite lunghezza <u><b>mm 30</b></u>" )  ;
+					Do arHtmlDescriptions.Add ( "Vite lunghezza <a style='background-color:#0000FF'> <font size='20' color='GREEN'><i>mm</i> <b>40</b></font></a>" )  ;
+					Do arHtmlDescriptions.Add ( "<a style='background-color:#80BFFF'><i>Ingredienti Prodotto: </i></a>farina, <b>cioccolato</b>, <a style='color:#FF0000'>nocciole</a>, zucchero" )  ;
+				End
+
+		End
+End
+

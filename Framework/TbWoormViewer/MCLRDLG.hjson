@@ -1,0 +1,12 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_COLOR_4.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_COLOR_CELL.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_COLOR_COLUMN.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_COLOR_COLUMN_TITLE.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_COLOR_SUBTOTAL.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_COLOR_TABLE_TITLE.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_COLOR_TOTAL.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_DROP_SHADOW.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_DYNAMIC_CELL_BORDERS.hjson>
+#include	<TbWoormViewer\JsonForms\MCLRDLG\IDD_DYNAMIC_FONTSTYLE_COLUMN.hjson>

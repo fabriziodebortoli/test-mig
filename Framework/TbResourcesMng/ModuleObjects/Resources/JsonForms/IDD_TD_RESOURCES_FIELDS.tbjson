@@ -1,0 +1,75 @@
+{
+	"id": "IDD_TD_RESOURCES_FIELDS",
+	"type": 71,
+	"text": "Custom Data",
+	"x": 0,
+	"y": 0,
+	"width": 397,
+	"height": 97,
+	"collapsible": true,
+	"child": true,
+	"name": "ResourcesFields",
+	"items": [
+		{
+			"id": "IDC_RESOURCES_FIELDS_BODYEDIT",
+			"type": 18,
+			"x": 0,
+			"y": 0,
+			"width": 393,
+			"height": 95,
+			"clipChildren": true,
+			"ownerDraw": true,
+			"name": "ResourcesFields",
+			"binding": {
+				"datasource": "ResourcesFields"
+			},
+			"items": [
+				{
+					"type": 22,
+					"id": "IDC_RSS_FIELDS_NAME",
+					"text": "Name",
+					"controlClass": "StringEdit",
+					"chars": 32,
+					"rows": 2,
+					"name": "FieldName",
+					"binding": {
+						"datasource": "FieldName"
+					}
+				},
+				{
+					"type": 22,
+					"id": "IDC_RSS_FIELDS_VALUE",
+					"text": "Value",
+					"controlClass": "StringEdit",
+					"chars": 64,
+					"rows": 4,
+					"name": "FieldValue",
+					"binding": {
+						"datasource": "FieldValue"
+					}
+				},
+				{
+					"type": 22,
+					"id": "IDC_RSS_FIELDS_HIDE_ON_LAYOUT",
+					"text": "Hide",
+					"controlClass": "CheckBox",
+					"name": "HideOnLayout",
+					"binding": {
+						"datasource": "HideOnLayout"
+					}
+				},
+				{
+					"type": 22,
+					"id": "IDC_RSS_FIELDS_NOTES",
+					"text": "Notes",
+					"controlClass": "StringEdit",
+					"name": "Notes",
+					"binding": {
+						"datasource": "Notes"
+					}
+				}
+
+			]
+		}
+	]
+}

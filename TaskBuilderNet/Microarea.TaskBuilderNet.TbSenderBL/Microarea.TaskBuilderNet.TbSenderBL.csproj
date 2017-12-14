@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{645A03C9-F4AF-46BF-8F7A-B8672A04149D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microarea.TaskBuilderNet.TbSenderBL</RootNamespace>
+    <AssemblyName>Microarea.TaskBuilderNet.TbSenderBL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PdfSharp-gdi">
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\PdfSharp-gdi.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="ConnectionHelper.cs" />
+    <Compile Include="CultureByCompany.cs" />
+    <Compile Include="Exceptions\CreditException.cs" />
+    <Compile Include="DateTimeProvider.cs" />
+    <Compile Include="Exceptions\PostaLiteErrorException.cs" />
+    <Compile Include="Exceptions\PostaLiteException.cs" />
+    <Compile Include="Exceptions\PostaLiteUserException.cs" />
+    <Compile Include="Exceptions\TbSenderException.cs" />
+    <Compile Include="IDateTimeProvider.cs" />
+    <Compile Include="ITbSenderCompanyParameters.cs" />
+    <Compile Include="LocalizedStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizedStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LoginManagerConnector.cs" />
+    <Compile Include="MA_CompanyExt.cs" />
+    <Compile Include="PostaliteSettings.cs" />
+    <Compile Include="PostaLite\ErrorMessages.cs" />
+    <Compile Include="PostaLite\IChargeTracker.cs" />
+    <Compile Include="PostaLite\IEstimateCharge.cs" />
+    <Compile Include="PostaLite\IInvalidDocumentNotifier.cs" />
+    <Compile Include="PostaLite\IntEnums.cs" />
+    <Compile Include="PostaLite\ISentLot.cs" />
+    <Compile Include="PostaLite\LocalizedPLErrorMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizedPLErrorMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PostaLite\PostaLiteInterfaceExt.cs" />
+    <Compile Include="PostaLite\SentLot.cs" />
+    <Compile Include="PostaliteSettingsHelper.cs" />
+    <Compile Include="PostaLite\TrackerExt.cs" />
+    <Compile Include="SOS\SOSEngine.cs" />
+    <Compile Include="SOS\SOSParser.cs" />
+    <Compile Include="TB_MsgLotsExt.cs" />
+    <Compile Include="ICredentialsProvider.cs" />
+    <Compile Include="LotStatus.cs" />
+    <Compile Include="MsgHelper.cs" />
+    <Compile Include="Pdf\PdfCoverData.cs" />
+    <Compile Include="Pdf\PdfHelper.cs" />
+    <Compile Include="PostaLiteIntegrationModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PostaLiteIntegrationModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="PostaLite\CreditState.cs" />
+    <Compile Include="PostaLite\Estimate.cs" />
+    <Compile Include="PostaLite\FileMessage.cs" />
+    <Compile Include="PostaLite\IEstimate.cs" />
+    <Compile Include="PostaLite\IFileMessage.cs" />
+    <Compile Include="PostaLite\ILotInfo.cs" />
+    <Compile Include="PostaLite\ILotState.cs" />
+    <Compile Include="PostaLite\ISubscriberInfo.cs" />
+    <Compile Include="PostaLite\ICreditState.cs" />
+    <Compile Include="PostaLite\IPostaLiteService.cs" />
+    <Compile Include="PostaLite\IUserCredentials.cs" />
+    <Compile Include="PostaLite\LotInfo.cs" />
+    <Compile Include="PostaLite\LotState.cs" />
+    <Compile Include="PostaLite\SubscriberInfo.cs" />
+    <Compile Include="PostaLite\PostaLiteServiceWrapper.cs" />
+    <Compile Include="PostaLite\UserCredentials.cs" />
+    <Compile Include="SenderEngine.cs" />
+    <Compile Include="SubscriptionEngine.cs" />
+    <Compile Include="TB_MsgQueueExt.cs" />
+    <Compile Include="TimerManager.cs" />
+    <Compile Include="Web References\it.sostitutivazucchetti.infinity\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\postalite.api\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\PostaLiteTracker\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="PostaLiteIntegrationModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PostaLiteIntegrationModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\it.sostitutivazucchetti.infinity\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\it.sostitutivazucchetti.infinity\ws_as_servizio.wsdl" />
+    <None Include="Web References\postalite.api\CreditState1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\postalite.api\Estimate1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\postalite.api\EstimateCharge.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\postalite.api\LegalInfos.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\postalite.api\LotState1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\postalite.api\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\postalite.api\SentLot1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\postalite.api\service_test.wsdl" />
+    <None Include="Web References\postalite.api\SubscriberInfo1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\postalite.api\UserCredentials1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\PostaLiteTracker\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\PostaLiteTracker\Tracker.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/PostaLiteTrackerWS/Tracker.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\PostaLiteTracker\</RelPath>
+      <UpdateFromURL>http://localhost/PostaLiteTrackerWS/Tracker.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_TbSenderBL_PostaLiteTracker_Tracker</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://www.PostaLite.it/webservices/service_test.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\postalite.api\</RelPath>
+      <UpdateFromURL>http://www.PostaLite.it/webservices/service_test.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_TbSenderBL_mock_postalite_api_PostaLiteService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://infinity.sostitutivazucchetti.it/SOS/services/ws_as_servizio%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\it.sostitutivazucchetti.infinity\</RelPath>
+      <UpdateFromURL>https://infinity.sostitutivazucchetti.it/SOS/services/ws_as_servizio%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Microarea_TaskBuilderNet_TbSenderBL_it_sostitutivazucchetti_infinity_ws_as_servizioService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LocalizedStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PostaLite\LocalizedPLErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizedPLErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\postalite.api\service_test.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\PostaLiteTracker\Tracker.disco" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

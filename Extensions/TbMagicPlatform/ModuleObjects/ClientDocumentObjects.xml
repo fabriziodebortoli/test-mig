@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+  <ClientDocuments>
+    <ServerDocument type="family" class="CAbstractFormDoc">
+      <ClientDocument namespace="Extensions.TbMagicPlatform.TbMagicPlatform.CDTrigger" localize="Triggers" />
+      <ClientDocument namespace="Extensions.TbMagicPlatform.TbMagicPlatform.CDBone" localize="Business Object Notification Event" />
+    </ServerDocument>
+  </ClientDocuments>
+</ClientDocumentObjects>

@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_PROC_RENAME			GET_IDD(IDD_PROC_RENAME, M.Framework.TbWoormEngine.PROCDLG)
+#define	IDC_PROC_NEW_NAME			GET_IDC(IDC_PROC_NEW_NAME)

@@ -1,0 +1,19 @@
+﻿{
+  "id": "IDD_DLG_BROWSER",
+  "rcId": 1016,
+  "type": 66,
+  "text": "Task Builder",
+  "x": 0,
+  "y": 0,
+  "width": 350,
+  "height": 197,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "maximizeBox": true,
+  "minimizeBox": true,
+  "thickFrame": true,
+  "child": false,
+  "context": "browserdlg",
+  "items": []
+}

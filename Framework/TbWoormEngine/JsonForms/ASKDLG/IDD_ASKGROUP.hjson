@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_ASKGROUP			GET_IDD(IDD_ASKGROUP, M.Framework.TbWoormEngine.ASKDLG)
+#define	IDC_GROUP_BTN_SHOW_TITLE			GET_IDC(IDC_GROUP_BTN_SHOW_TITLE)
+#define	IDC_GROUP_TITLE			GET_IDC(IDC_GROUP_TITLE)

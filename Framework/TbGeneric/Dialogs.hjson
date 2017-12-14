@@ -1,0 +1,11 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGeneric\JsonForms\Dialogs\IDD_FILE_SYSTEM_CACHE.hjson>
+#include	<TbGeneric\JsonForms\Dialogs\IDD_WEB_FILE_SAVE.hjson>
+#include	<TbGeneric\JsonForms\Dialogs\IDD_WEB_FILE_UPLOAD.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_FILE_SYSTEM_CACHE_PROGRESS			GET_IDC(IDC_FILE_SYSTEM_CACHE_PROGRESS)
+#define	IDC_LABEL_WNDTBLOADER			GET_IDC(IDC_LABEL_WNDTBLOADER)

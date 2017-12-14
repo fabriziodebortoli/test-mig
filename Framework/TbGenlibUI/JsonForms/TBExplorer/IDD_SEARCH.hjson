@@ -1,0 +1,7 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_SEARCH			GET_IDD(IDD_SEARCH, M.Framework.TbGenlibUI.TBExplorer)
+#define	IDC_COMBO_EXT			GET_IDC(IDC_COMBO_EXT)
+#define	IDC_LIST_RESULT			GET_IDC(IDC_LIST_RESULT)
+#define	IDC_SEARCH_NAME			GET_IDC(IDC_SEARCH_NAME)
+#define	IDC_TREE			GET_IDC(IDC_TREE)

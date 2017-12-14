@@ -1,0 +1,70 @@
+﻿{
+  "id": "IDD_DATASYNCHRO_MONITOR_DETAIL_DOC_SUMMARY_IMS",
+  "type": 71,
+  "text": "Summary",
+  "name": "Summary",
+  "x": 0,
+  "y": 0,
+  "tileStyle": 1,
+  "width": 500,
+   "height" : 50,
+  "child": true,
+  "collapsible": true,
+  "collapsed": false,
+  "size": 2,
+  "context": "uidsmonitor",
+  "items": [
+    {
+        "id": "IDC_DS_MONITOR_RECOVERY_ERR_BE",
+        "type": 18,
+        "text": "Body Edit",
+        "x": 0,
+        "y": 0,
+        "width": 500,
+        "height": 50,
+        "clipChildren": true,
+        "ownerDraw": true,
+        "enlargeLastStringColumn": true,
+        "allowInsert": false,
+        "allowDelete": false,
+        "allowAdd": false,
+        "showFooterToolbar": false,
+        "name": "MonitorDocSummaryBodyEdit",
+        "binding": { "datasource": "SynchroMonitorDocSummaryIMS" },
+        "items": [
+            {
+                "type": 22,
+                "controlClass": "NamespaceBitmap",
+                "binding": { "datasource": "SynchroMonitorDocSummaryIMS.SynchStatusBmp" },
+                "id": "IDC_DS_MONITOR_ERR_BE_SYNCHSTATUS_BTM",
+                "text": " ",
+                "name": "StatusBmp"
+            },
+            {
+                "type": 22,
+                "controlClass": "StringStatic",
+                "binding": { "datasource": "NsWithFlows" },
+                "id": "IDC_DS_MONITOR_ERR_BE_DOC_NAMESPACE",
+                "text": "Document Namespace",
+                "name": "DocNamespace"
+            },
+            {
+                "type": 22,
+                "controlClass": "StringStatic",
+                "binding": { "datasource": "NoDocStatusSynchro" },
+                "id": "IDC_DS_MONITOR_ERR_BE_NO_DOC_STATUS_SYNCHRO",
+                "text": "Nr. Document",
+                "name": "NoDocStatusSynchro"
+            },
+            {
+                "type": 22,
+                "controlClass": "StringStatic",
+                "binding": { "datasource": "NoDocStatusError" },
+                "id": "IDC_DS_MONITOR_ERR_BE_NO_DOC_STATUS_ERROR",
+                "text": "Nr. document with error",
+                "name": "NoDocStatusError"
+            }
+        ]
+    }
+  ]
+}

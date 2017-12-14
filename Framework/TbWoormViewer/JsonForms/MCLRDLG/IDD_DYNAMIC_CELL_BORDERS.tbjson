@@ -1,0 +1,79 @@
+﻿{
+  "id": "IDD_DYNAMIC_CELL_BORDERS",
+  "rcId": 1175,
+  "type": 66,
+  "text": "Conditional Cell Borders",
+  "x": 90,
+  "y": 105,
+  "width": 224,
+  "height": 163,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "mclrdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "Show Borders:",
+      "x": 10,
+      "y": 10,
+      "width": 205,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_EDIT_FORECOLOR_EXPR",
+      "type": 13,
+      "x": 10,
+      "y": 24,
+      "width": 206,
+      "height": 50,
+      "vScroll": true,
+      "autoHScroll": true,
+      "wantReturn": true,
+      "multiline": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "You have to write a string expression to enum the bordered sides",
+      "x": 11,
+      "y": 82,
+      "width": 204,
+      "height": 30,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_COLOR_BTN0",
+      "type": 11,
+      "text": "Apply to &All Column",
+      "x": 11,
+      "y": 118,
+      "width": 201,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 59,
+      "y": 137,
+      "width": 48,
+      "height": 15,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 118,
+      "y": 137,
+      "width": 50,
+      "height": 15
+    }
+  ]
+}

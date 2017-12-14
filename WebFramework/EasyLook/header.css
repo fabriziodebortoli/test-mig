@@ -1,0 +1,21 @@
+body		{font-family: Verdana,Arial,Helvetia,sans-serif; font-size: 10px; text-align: justify; position: absolute; top: 0px; left: 0px; margin: 0px; border: 0px; width: 100%; padding: 4px;}
+.cell		{vertical-align: top; font-family: Verdana,Arial,Helvetia,sans-serif; font-size: 10px;}
+.cell2		{vertical-align:middle; font-family: Verdana,Arial,Helvetia,sans-serif; font-size: 10px;}
+form		{border: 0px; padding: 0px; margin: 0px;}
+/* definisce lo stile della textbox*/
+.TextBoxStyle {
+				vertical-align:bottom;
+				}
+A, A:link, A:visited, A:active, A:hover {text-decoration: none;}
+A, a:link  {color: #FFFFFF;}
+a:visited  {color: #FFFFFF;}
+a:hover    {color: red;}
+a:active   {color: red;}
+ /* crea un bordo di dimensione 1*/
+.border1     {background: #FFFFFF; 
+		      font-size: 10px; 
+	          color: #000080; 
+	          border-top:2px solid #3366FF;
+	          border-left:2px solid #3366FF; 
+	          border-bottom:2px solid #3366FF; 
+	          border-right:2px solid #3366FF;}  

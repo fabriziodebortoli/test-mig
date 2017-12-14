@@ -1,0 +1,13 @@
+﻿{
+    "href": "M.Framework.TbGes.TbGes.IDD_MASTER_FRAME",
+    "id": "IDD_SOS_CONFIGURATION",
+    "name": "DMSSOSConfiguration",
+    "items": [
+        {
+            "href": "IDD_SOS_CONFIGURATION_TOOLBAR"
+        },
+        {
+            "href": "IDD_SOS_CONFIGURATION_VIEW"
+        }
+    ]
+}

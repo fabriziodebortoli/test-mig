@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="yes"?>
+<Enums>
+  <Tag name="Report Status" value="65520">
+		<Item name="Success" value="0" stored="-1048576" />
+		<Item name="No Data Found" value="1" stored="-1048575" />
+		<Item name="Fatal Error" value="2" stored="-1048574" />
+		<Item name="User aborted" value="3" stored="-1048573" />
+		<Item name="Printing Preview" value="4" stored="-1048572" />
+		<Item name="Script aborted" value="5" stored="-1048571" />
+		<Item name="Script calls Quit" value="6" stored="-1048570" />
+	</Tag>
+</Enums>

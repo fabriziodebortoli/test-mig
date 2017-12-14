@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SendRequestButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="SendRequestButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="SendRequestButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>83, 172</value>
+  </data>
+  <data name="SendRequestButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 31</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SendRequestButton.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="SendRequestButton.Text" xml:space="preserve">
+    <value>Send Approval Request</value>
+  </data>
+  <data name="&gt;&gt;SendRequestButton.Name" xml:space="preserve">
+    <value>SendRequestButton</value>
+  </data>
+  <data name="&gt;&gt;SendRequestButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SendRequestButton.Parent" xml:space="preserve">
+    <value>WFPanel1</value>
+  </data>
+  <data name="&gt;&gt;SendRequestButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RequestCommentsTxt.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="RequestCommentsTxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 46</value>
+  </data>
+  <data name="RequestCommentsTxt.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>17, 19, 17, 19</value>
+  </data>
+  <data name="RequestCommentsTxt.MaxLength" type="System.Int32, mscorlib">
+    <value>1023</value>
+  </data>
+  <data name="RequestCommentsTxt.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RequestCommentsTxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 103</value>
+  </data>
+  <data name="RequestCommentsTxt.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsTxt.Name" xml:space="preserve">
+    <value>RequestCommentsTxt</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsTxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsTxt.Parent" xml:space="preserve">
+    <value>WFPanel1</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsTxt.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RequestCommentsLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RequestCommentsLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RequestCommentsLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 10</value>
+  </data>
+  <data name="RequestCommentsLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 17</value>
+  </data>
+  <data name="RequestCommentsLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="RequestCommentsLbl.Text" xml:space="preserve">
+    <value>Your Comments:</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsLbl.Name" xml:space="preserve">
+    <value>RequestCommentsLbl</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsLbl.Parent" xml:space="preserve">
+    <value>WFPanel1</value>
+  </data>
+  <data name="&gt;&gt;RequestCommentsLbl.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="WFPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="WFPanel1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="WFPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="WFPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 215</value>
+  </data>
+  <data name="WFPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;WFPanel1.Name" xml:space="preserve">
+    <value>WFPanel1</value>
+  </data>
+  <data name="&gt;&gt;WFPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;WFPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;WFPanel1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RequestDateTxt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RequestDateTxt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RequestDateTxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 104</value>
+  </data>
+  <data name="RequestDateTxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 17</value>
+  </data>
+  <data name="RequestDateTxt.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="RequestDateTxt.Text" xml:space="preserve">
+    <value>&lt;requestDate&gt;</value>
+  </data>
+  <data name="&gt;&gt;RequestDateTxt.Name" xml:space="preserve">
+    <value>RequestDateTxt</value>
+  </data>
+  <data name="&gt;&gt;RequestDateTxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RequestDateTxt.Parent" xml:space="preserve">
+    <value>WFPanel2</value>
+  </data>
+  <data name="&gt;&gt;RequestDateTxt.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RequestDateLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RequestDateLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RequestDateLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 87</value>
+  </data>
+  <data name="RequestDateLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 17</value>
+  </data>
+  <data name="RequestDateLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="RequestDateLbl.Text" xml:space="preserve">
+    <value>Request Date:</value>
+  </data>
+  <data name="&gt;&gt;RequestDateLbl.Name" xml:space="preserve">
+    <value>RequestDateLbl</value>
+  </data>
+  <data name="&gt;&gt;RequestDateLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RequestDateLbl.Parent" xml:space="preserve">
+    <value>WFPanel2</value>
+  </data>
+  <data name="&gt;&gt;RequestDateLbl.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="StatusProgressBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="StatusProgressBar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="StatusProgressBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 9</value>
+  </data>
+  <data name="StatusProgressBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 31</value>
+  </data>
+  <data name="StatusProgressBar.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;StatusProgressBar.Name" xml:space="preserve">
+    <value>StatusProgressBar</value>
+  </data>
+  <data name="&gt;&gt;StatusProgressBar.Type" xml:space="preserve">
+    <value>Microarea.EasyAttachment.UI.Forms.ColoredProgressBar, Microarea.EasyAttachment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;StatusProgressBar.Parent" xml:space="preserve">
+    <value>WFPanel2</value>
+  </data>
+  <data name="&gt;&gt;StatusProgressBar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="WFPanel3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="ApprovalCommentsTxt.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="ApprovalCommentsTxt.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ApprovalCommentsTxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 120</value>
+  </data>
+  <data name="ApprovalCommentsTxt.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ApprovalCommentsTxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 107</value>
+  </data>
+  <data name="ApprovalCommentsTxt.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsTxt.Name" xml:space="preserve">
+    <value>ApprovalCommentsTxt</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsTxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsTxt.Parent" xml:space="preserve">
+    <value>WFPanel3</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsTxt.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ApprovalCommentsLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ApprovalCommentsLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ApprovalCommentsLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 100</value>
+  </data>
+  <data name="ApprovalCommentsLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 17</value>
+  </data>
+  <data name="ApprovalCommentsLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ApprovalCommentsLbl.Text" xml:space="preserve">
+    <value>Approver's Comments:</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsLbl.Name" xml:space="preserve">
+    <value>ApprovalCommentsLbl</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsLbl.Parent" xml:space="preserve">
+    <value>WFPanel3</value>
+  </data>
+  <data name="&gt;&gt;ApprovalCommentsLbl.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ApprovalDateTxt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ApprovalDateTxt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ApprovalDateTxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 73</value>
+  </data>
+  <data name="ApprovalDateTxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 17</value>
+  </data>
+  <data name="ApprovalDateTxt.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ApprovalDateTxt.Text" xml:space="preserve">
+    <value>&lt;approvalDate&gt;</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateTxt.Name" xml:space="preserve">
+    <value>ApprovalDateTxt</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateTxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateTxt.Parent" xml:space="preserve">
+    <value>WFPanel3</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateTxt.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ApprovalDateLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ApprovalDateLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ApprovalDateLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 56</value>
+  </data>
+  <data name="ApprovalDateLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 17</value>
+  </data>
+  <data name="ApprovalDateLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ApprovalDateLbl.Text" xml:space="preserve">
+    <value>Approval Date:</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateLbl.Name" xml:space="preserve">
+    <value>ApprovalDateLbl</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateLbl.Parent" xml:space="preserve">
+    <value>WFPanel3</value>
+  </data>
+  <data name="&gt;&gt;ApprovalDateLbl.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ApproverNameTxt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ApproverNameTxt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ApproverNameTxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 28</value>
+  </data>
+  <data name="ApproverNameTxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 17</value>
+  </data>
+  <data name="ApproverNameTxt.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ApproverNameTxt.Text" xml:space="preserve">
+    <value>&lt;approverName&gt;</value>
+  </data>
+  <data name="&gt;&gt;ApproverNameTxt.Name" xml:space="preserve">
+    <value>ApproverNameTxt</value>
+  </data>
+  <data name="&gt;&gt;ApproverNameTxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ApproverNameTxt.Parent" xml:space="preserve">
+    <value>WFPanel3</value>
+  </data>
+  <data name="&gt;&gt;ApproverNameTxt.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ByLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ByLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ByLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 11</value>
+  </data>
+  <data name="ByLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 17</value>
+  </data>
+  <data name="ByLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ByLbl.Text" xml:space="preserve">
+    <value>Approver Name:</value>
+  </data>
+  <data name="&gt;&gt;ByLbl.Name" xml:space="preserve">
+    <value>ByLbl</value>
+  </data>
+  <data name="&gt;&gt;ByLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ByLbl.Parent" xml:space="preserve">
+    <value>WFPanel3</value>
+  </data>
+  <data name="&gt;&gt;ByLbl.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="WFPanel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 125</value>
+  </data>
+  <data name="WFPanel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 244</value>
+  </data>
+  <data name="WFPanel3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="WFPanel3.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;WFPanel3.Name" xml:space="preserve">
+    <value>WFPanel3</value>
+  </data>
+  <data name="&gt;&gt;WFPanel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;WFPanel3.Parent" xml:space="preserve">
+    <value>WFPanel2</value>
+  </data>
+  <data name="&gt;&gt;WFPanel3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="StatusTxt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="StatusTxt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="StatusTxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 60</value>
+  </data>
+  <data name="StatusTxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 17</value>
+  </data>
+  <data name="StatusTxt.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="StatusTxt.Text" xml:space="preserve">
+    <value>&lt;status&gt;</value>
+  </data>
+  <data name="&gt;&gt;StatusTxt.Name" xml:space="preserve">
+    <value>StatusTxt</value>
+  </data>
+  <data name="&gt;&gt;StatusTxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusTxt.Parent" xml:space="preserve">
+    <value>WFPanel2</value>
+  </data>
+  <data name="&gt;&gt;StatusTxt.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Statuslbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Statuslbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Statuslbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 43</value>
+  </data>
+  <data name="Statuslbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 17</value>
+  </data>
+  <data name="Statuslbl.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Statuslbl.Text" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="&gt;&gt;Statuslbl.Name" xml:space="preserve">
+    <value>Statuslbl</value>
+  </data>
+  <data name="&gt;&gt;Statuslbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Statuslbl.Parent" xml:space="preserve">
+    <value>WFPanel2</value>
+  </data>
+  <data name="&gt;&gt;Statuslbl.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="WFPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="WFPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 215</value>
+  </data>
+  <data name="WFPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 414</value>
+  </data>
+  <data name="WFPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="WFPanel2.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;WFPanel2.Name" xml:space="preserve">
+    <value>WFPanel2</value>
+  </data>
+  <data name="&gt;&gt;WFPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;WFPanel2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;WFPanel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="MsgLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="MsgLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="MsgLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="MsgLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 612</value>
+  </data>
+  <data name="MsgLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 17</value>
+  </data>
+  <data name="MsgLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="MsgLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopRight</value>
+  </data>
+  <data name="&gt;&gt;MsgLabel.Name" xml:space="preserve">
+    <value>MsgLabel</value>
+  </data>
+  <data name="&gt;&gt;MsgLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MsgLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;MsgLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="StatusProgressBarTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 17</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 629</value>
+  </data>
+  <data name="&gt;&gt;StatusProgressBarTooltip.Name" xml:space="preserve">
+    <value>StatusProgressBarTooltip</value>
+  </data>
+  <data name="&gt;&gt;StatusProgressBarTooltip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>WorkFlowCtrlMaster</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

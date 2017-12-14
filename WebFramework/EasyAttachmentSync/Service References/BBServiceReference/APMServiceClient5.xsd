@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/PAT.Workflow.Runtime.Services" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PAT.Workflow.Runtime.Services" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8081/APMServiceClient?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:8081/APMServiceClient?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:8081/APMServiceClient?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects" />
+  <xs:complexType name="WorkflowContext">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApplicationConnectionCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ApplicationProviderEventID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ApplicationProviderID" type="ser:guid" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Parameters" nillable="true" type="q1:ArrayOfKeyValueOfstringanyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WorkflowContext" nillable="true" type="tns:WorkflowContext" />
+  <xs:complexType name="ApplicationContext">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ObjectID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObjectType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ApplicationContext" nillable="true" type="tns:ApplicationContext" />
+  <xs:complexType name="WorkFlowInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DateCompleted" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DateCreated" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DateLastUpdated" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DateStarted" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DefinitionID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Exists" type="xs:boolean" />
+      <xs:element minOccurs="0" name="FormInstances" nillable="true" type="tns:ArrayOfFormInstanceInfo" />
+      <xs:element minOccurs="0" name="Milestones" nillable="true" type="tns:ArrayOfMilestoneInfo" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObjectID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObjectType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WorkFlowID" type="ser:guid" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/PAT.CRM.WSC4.WorkflowObjects" minOccurs="0" name="WorkflowStatus" type="q2:WorkflowStatus" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WorkFlowInfo" nillable="true" type="tns:WorkFlowInfo" />
+  <xs:complexType name="ArrayOfFormInstanceInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FormInstanceInfo" nillable="true" type="tns:FormInstanceInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFormInstanceInfo" nillable="true" type="tns:ArrayOfFormInstanceInfo" />
+  <xs:complexType name="FormInstanceInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DateProcessed" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DateSubmitted" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FormInstanceID" type="xs:int" />
+      <xs:element minOccurs="0" name="NotificationOnly" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Processed" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WorkFlowID" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FormInstanceInfo" nillable="true" type="tns:FormInstanceInfo" />
+  <xs:complexType name="ArrayOfMilestoneInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MilestoneInfo" nillable="true" type="tns:MilestoneInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMilestoneInfo" nillable="true" type="tns:ArrayOfMilestoneInfo" />
+  <xs:complexType name="MilestoneInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Key" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MilestoneID" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Parameters" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tag" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MilestoneInfo" nillable="true" type="tns:MilestoneInfo" />
+  <xs:complexType name="ArrayOfWorkFlowInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="WorkFlowInfo" nillable="true" type="tns:WorkFlowInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfWorkFlowInfo" nillable="true" type="tns:ArrayOfWorkFlowInfo" />
+</xs:schema>

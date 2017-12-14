@@ -1,0 +1,94 @@
+﻿
+      {
+         "id" : "ID_EXTDOC_BATCH_TOOLBAR_MAIN",
+        "items": [
+            {
+                "icon": "Framework.TbFrameworkImages.Images.25x25.Extract.png",
+                "id": "ID_RESOURCES_LAYOUT_TB_LOAD_DATA",
+                "name": "BatchFrameLoadData",
+                "text": "Extract",
+                "type": 15 /*ToolbarButton*/
+            },
+            {
+                "id": "ID_SEPARATOR",
+                "isSeparator": true,
+                "type": 15 /*ToolbarButton*/
+            },
+            {
+                "id": "ID_TB_BASE_NAVIGATION_ACTIONS",
+              "items": [
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_OPEN",
+                  "text": "Open",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty"
+                },
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_NEWRESOURCE",
+                  "text": "New resource",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty && bUserIsAdmin"
+                },
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_NEWWORKER",
+                  "text": "New worker",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty && bUserIsAdmin"
+                },
+                {
+                  "type": "MenuItem",
+                  "isSeparator": true
+                },
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_DISABLE",
+                  "text": "Enable/Disable",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty && bUserIsAdmin && bNodeKeyCanBeDisabled"
+                },
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_INTERNET",
+                  "text": "Open website",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty"
+                },
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_MAIL",
+                  "text": "Send Email",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty"
+                },
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_MAP",
+                  "text": "Show map",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty"
+                },
+                {
+                  "id": "ID_RESOURCES_LAYOUT_TB_SATELLITE",
+                  "text": "Show satellite view",
+                  "type": "MenuItem",
+                  "activation": "!bNodeKeyIsEmpty"
+                }
+              ]
+            },
+          {
+            "id": "ID_TB_BASE_NAVIGATION_SHOW_DETAILS",
+            "activation": "false"
+          },
+          {
+            "id": "ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN",
+            "activation": "false"
+          },
+          {
+            "id": "ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN",
+            "activation": "false"
+          },
+          {
+            "id": "ID_EXTDOC_REPORT",
+            "activation": "false"
+          }
+        ],
+         "name" : "Main",
+         "type" : 14 /*Toolbar*/
+      }
+  

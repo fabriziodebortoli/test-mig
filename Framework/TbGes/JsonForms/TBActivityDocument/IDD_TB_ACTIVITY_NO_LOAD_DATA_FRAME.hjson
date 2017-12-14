@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDD_TB_ACTIVITY_NO_LOAD_DATA_FRAME				GET_IDD(IDD_TB_ACTIVITY_NO_LOAD_DATA_FRAME, M.Framework.TBGes.TBActivityDocument)
+

@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f6e45135-1942-488b-9a8a-5f13bd85e3b3}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{cfba4673-1c09-46cc-bd6e-4e40a4ee2cbc}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{fade9255-25a9-4c08-9d90-115f79151601}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Header %28hrc%29">
+      <UniqueIdentifier>{204243b7-9e46-4db8-8ec8-f74c89b65b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Bitmap">
+      <UniqueIdentifier>{7fb01fee-0f8e-4938-b73b-5ad0a2c5a9d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Icon">
+      <UniqueIdentifier>{da4acd35-df27-48a2-95ea-110269cc075e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ExpCriteriaDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpCriteriaObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpCriteriaWiz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenFunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImpCriteriaWiz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfiliMngWizPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoapFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TbXMLTransfer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBXMLTransferInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XEngineTBXmlTransferWCFInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLCodingRules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLDataMng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLDataMngExport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLDataMngImport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLEvents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLImpExpDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLProfileInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLSmartDataMng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TBXMLTransfer.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Beginh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="endh.dex">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="ExpCriteriaDlg.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="ImpCriteriaWiz.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="ProfiliMngWizPage.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="XMLDataMng.hrc">
+      <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="res\docgener.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ExportXMLDisabledLarge.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ExportXMLDisabledSmall.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ExportXMLNormalLarge.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ExportXMLNormalSmall.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ImportXMLDisabledLarge.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ImportXMLDisabledSmall.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ImportXMLNormalLarge.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\ImportXMLNormalSmall.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_ChooseParam.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_dbt.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_exp_prop.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_field.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_finish.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_presentation.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_tree.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\prof_wiz_XRef.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\siteprop.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\transfprop.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizbalancing.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpbrowsepath.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpdownload.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpprogress.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpseldocs.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpselpending.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpstart.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpsummary.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizimpwait.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizselapp.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizselaudit.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizseldoc.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizselprof.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizseluser.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\wizselvalues.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\Xcritbar.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\xrefwizpres.bmp">
+      <Filter>Resource Files\Bitmap</Filter>
+    </None>
+    <None Include="res\addon.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\DBT.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\dbt_mast_exp.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\dbt_slav_buf_exp.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\dbt_slav_exp.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\dbtbuffered.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\dbtmaster.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\dbtslave.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\document.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\envclass.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\envelope.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\extref.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\module.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\profcust.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\profile.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\profnorm.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\profpref.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\segment.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\server_p.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\server_r.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\server_s.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\server_u.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\site.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\ProcessingAvi.avi" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ExpCriteriaDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpCriteriaObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpCriteriaWiz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenFunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImpCriteriaWiz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProfiliMngWizPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoapFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLCodingRules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLDataMng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLImpExpDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLProfileInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLTransferTags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLTransferVer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ExpCriteriaDlg.rc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ImpCriteriaWiz.rc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ProfiliMngWizPage.rc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <ResourceCompile Include="TbXMLTransfer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <CustomBuild Include="XMLDataMng.rc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\ExportXML.png" />
+    <Image Include="res\ImportXML.png" />
+  </ItemGroup>
+</Project>

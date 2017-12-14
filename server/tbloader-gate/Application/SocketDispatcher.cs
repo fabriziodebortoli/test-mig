@@ -43,6 +43,7 @@ namespace Microarea.TbLoaderGate
 			}
 		}
 	}
+
 	public class SocketDispatcher
 	{
 		private readonly IHostingEnvironment hostingEnvironment;
@@ -68,7 +69,6 @@ namespace Microarea.TbLoaderGate
 
 		const string setClientWebSocketName = "SetClientWebSocketName";
 		static Dictionary<string, WebSocketCouple> socketMap = new Dictionary<string, WebSocketCouple>();
-
 
 		public static async Task<String> ReadString(WebSocket ws)
 		{
@@ -242,8 +242,8 @@ namespace Microarea.TbLoaderGate
 			{
 				Debug.WriteLine(ex.ToString());
 			}
-
 		}
+
 		private static void DisconnectOtherSocket(string coupleName, WebSocket webSocket)
 		{
 			WebSocketCouple couple = GetWebCouple(coupleName);

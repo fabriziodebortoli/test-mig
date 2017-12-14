@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ReportObjects>
+  <Reports defaultReport="Framework.TbResourcesMng.WorkersSheet">
+    <Report namespace="Framework.TbResourcesMng.WorkersSheet" localize="Workers Sheet">
+    </Report>
+  </Reports>
+</ReportObjects>

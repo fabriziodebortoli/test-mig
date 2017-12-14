@@ -1,0 +1,84 @@
+﻿{
+  "id": "IDD_DATA_SYNCHRO_INFO",
+  "rcId": 11425,
+  "type": 71,
+  "x": 0,
+  "y": 0,
+  "width": 397,
+  "height": 97,
+  "child": true,
+  "collapsible": false,
+  "collapsed": false,
+  "name": "AttachmentsTileDlg",
+  "size": 5,
+  "hasTitle": false,
+  "context": "uinotification",
+  "items": [
+    {
+      "id": "IDC_DS_ATTACHMENTS_BE",
+      "type": 18,
+      "x": 0,
+      "y": 0,
+      "width": 397,
+      "height": 97,
+      "clipChildren": true,
+      "ownerDraw": true,
+      "enlargeLastColumn": true,
+      "showHeaderToolbar": false, 
+      "showFooterToolbar": true,
+      "allowMultipleSel": false,
+      "allowInsert": false,
+      "allowDelete": false,
+      "allowCallDialog": false,
+      "allowSearch": false,
+      "addRowEnabled": false,
+      "name": "DSAttachmentsBE",
+      "binding": { "datasource": "DSAttachmentsSynchroInfo" },
+      "items": [
+          {
+            "id": "IDC_DS_ATT_STATUS",
+            "type": 22,
+            "controlClass": "NamespaceBitmap",
+            "binding": { "datasource": "DSAttachmentsSynchroInfo.l_TEnhDS_SynchStatusBmp" },
+            "text": "Status",
+            "name": "Status"
+          },
+          {
+            "id": "IDC_DS_ATT_NAME",
+            "type": 22,
+            "controlClass": "StringStatic",
+            "binding": { "datasource": "DSAttachmentsSynchroInfo.l_TEnhDS_FileName" },
+            "text": "Name",
+            "name": "Name",
+            "width": 240
+          },
+          {
+            "id": "IDC_DS_ATT_DESCRI",
+            "type": 22,
+            "controlClass": "StringStatic",
+            "binding": { "datasource": "DSAttachmentsSynchroInfo.l_TEnhDS_AttDescri" },
+            "text": "Description",
+            "name": "Description",
+            "width": 240
+          },
+          {
+            "id": "IDC_DS_ATT_WORKER",
+            "type": 22,
+            "controlClass": "StringStatic",
+            "binding": { "datasource": "DSAttachmentsSynchroInfo.TEnhDS_WorkerDescri" },
+            "text": "Worker",
+            "name": "Worker",
+            "width": 240
+          },
+          {
+            "id": "IDC_DS_ATT_ATTACHMENTID",
+            "type": 22,
+            "controlClass": "LongStatic",
+            "binding": { "datasource": "DSAttachmentsSynchroInfo.AttachmentID" },
+            "text": "Attachment ID",
+            "name": "ID"
+          }
+          ]
+        }
+  ]
+}

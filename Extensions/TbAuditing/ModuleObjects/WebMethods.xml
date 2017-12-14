@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Extensions.TbAuditing.TbAuditing.OpenAuditing" type="bool" mode="out" sourceInfo="File: Extensions\TbAuditing\SoapFunctions.cpp." report="false" WCF="true" securityhidden="true" />
+    <Function namespace="Extensions.TbAuditing.TbAuditing.CloseAuditing" type="bool" mode="out" sourceInfo="File: Extensions\TbAuditing\SoapFunctions.cpp." report="false" WCF="true" securityhidden="true" />
+  </Functions>
+</FunctionObjects>

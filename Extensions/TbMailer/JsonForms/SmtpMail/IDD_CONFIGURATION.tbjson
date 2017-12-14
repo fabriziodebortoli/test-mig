@@ -1,0 +1,393 @@
+﻿{
+  "id": "IDD_CONFIGURATION",
+  "rcId": 2203,
+  "type": 66,
+  "text": "SMTP parameters configuration",
+  "x": 0,
+  "y": 0,
+  "width": 451,
+  "height": 308,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "smtpmail",
+  "items": [
+    {
+      "id": "IDC_SEPARATOR1",
+      "type": 2,
+      "text": "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
+      "x": 7,
+      "y": 50,
+      "width": 440,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "text": "Sender",
+      "x": 7,
+      "y": 60,
+      "width": 440,
+      "height": 80
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Sender &description",
+      "x": 17,
+      "y": 71,
+      "width": 186,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_NAME",
+      "type": 13,
+      "x": 17,
+      "y": 81,
+      "width": 187,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Sender &Email",
+      "x": 212,
+      "y": 71,
+      "width": 227,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_ADDRESS",
+      "type": 13,
+      "x": 212,
+      "y": 81,
+      "width": 207,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_SMTP_CHOOSE_SENDER_EMAIL",
+      "type": 3,
+      "text": "...",
+      "x": 421,
+      "y": 81,
+      "width": 19,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "A&ddressee description",
+      "x": 17,
+      "y": 103,
+      "width": 185,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_CBX_CONFIGURATION",
+      "type": 12,
+      "x": 65,
+      "y": 29,
+      "width": 93,
+      "height": 30,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_REPLYTONAME",
+      "type": 13,
+      "x": 17,
+      "y": 114,
+      "width": 187,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "&Reply to Email",
+      "x": 212,
+      "y": 103,
+      "width": 228,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_REPLYTOADDRESS",
+      "type": 13,
+      "x": 212,
+      "y": 114,
+      "width": 208,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_SMTP_CHOOSE_REPLYTO_EMAIL",
+      "type": 3,
+      "text": "...",
+      "x": 422,
+      "y": 114,
+      "width": 19,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 9,
+      "text": "Server",
+      "x": 7,
+      "y": 142,
+      "width": 440,
+      "height": 93
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 2,
+      "text": "&Server",
+      "x": 15,
+      "y": 157,
+      "width": 171,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_HOST",
+      "type": 13,
+      "x": 15,
+      "y": 168,
+      "width": 154,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 2,
+      "text": "&Port",
+      "x": 195,
+      "y": 156,
+      "width": 84,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PORT",
+      "type": 12,
+      "x": 193,
+      "y": 168,
+      "width": 70,
+      "height": 14,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 1,
+      "sort": true
+    },
+    {
+      "id": "IDC_EXPLICIT_SSL",
+      "type": 11,
+      "text": "Use Explicit SSL",
+      "x": 15,
+      "y": 188,
+      "width": 170,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_9",
+      "type": 2,
+      "text": "&User",
+      "x": 15,
+      "y": 203,
+      "width": 170,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_USERNAME",
+      "type": 13,
+      "x": 15,
+      "y": 215,
+      "width": 153,
+      "height": 14,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_STATIC_10",
+      "type": 2,
+      "text": "&Password",
+      "x": 195,
+      "y": 203,
+      "width": 220,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PASSWORD",
+      "type": 13,
+      "x": 193,
+      "y": 215,
+      "width": 153,
+      "height": 14,
+      "autoHScroll": true,
+      "password": true
+    },
+    {
+      "id": "IDC_STATIC_11",
+      "type": 9,
+      "text": "Misc",
+      "x": 7,
+      "y": 238,
+      "width": 440,
+      "height": 34
+    },
+    {
+      "id": "IDC_MIME",
+      "type": 11,
+      "text": "&MIME messages coding",
+      "x": 17,
+      "y": 251,
+      "width": 191,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_HTML",
+      "type": 11,
+      "text": "Send messages with &HTML format",
+      "x": 217,
+      "y": 251,
+      "width": 205,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_12",
+      "type": 2,
+      "text": "Timeout (ms)",
+      "x": 348,
+      "y": 156,
+      "width": 90,
+      "height": 12,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_TIMEOUT",
+      "type": 13,
+      "x": 347,
+      "y": 168,
+      "width": 70,
+      "height": 14,
+      "autoHScroll": true,
+      "number": true
+    },
+    {
+      "id": "IDC_IMPLICIT_SSL",
+      "type": 11,
+      "text": "Use Implicit SSL",
+      "x": 194,
+      "y": 188,
+      "width": 246,
+      "height": 10,
+      "multiline": true,
+      "vertAlign": 0,
+      "textAlign": 0,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 235,
+      "y": 287,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 314,
+      "y": 287,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_13",
+      "type": 9,
+      "text": "Accounts",
+      "x": 7,
+      "y": 4,
+      "width": 436,
+      "height": 40
+    },
+    {
+      "id": "IDC_ACCOUNT_DEFAULT",
+      "type": 10,
+      "text": "Default",
+      "x": 15,
+      "y": 18,
+      "width": 151,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_ACCOUNT_CERTIFIED",
+      "type": 10,
+      "text": "Certified",
+      "x": 235,
+      "y": 18,
+      "width": 196,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_APPLY",
+      "type": 3,
+      "text": "Apply",
+      "x": 156,
+      "y": 287,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_CBX_AUTH_TYPE",
+      "type": 12,
+      "x": 265,
+      "y": 169,
+      "width": 100,
+      "height": 30,
+      "visible": false,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Authentication type",
+      "x": 266,
+      "y": 156,
+      "width": 97,
+      "height": 8,
+      "visible": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_TEST",
+      "type": 3,
+      "text": "&Test",
+      "x": 77,
+      "y": 287,
+      "width": 50,
+      "height": 14
+    }
+  ]
+}

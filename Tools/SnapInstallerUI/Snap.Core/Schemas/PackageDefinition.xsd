@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://schemas.microarea.it/setup"
+           xmlns="http://schemas.microarea.it/setup">
+  <xs:annotation>
+    <xs:documentation>
+      Copyright (c) Microarea S.p.A.  All rights reserved.
+    </xs:documentation>
+  </xs:annotation>
+	<xs:element name="PackageDefinition">
+		<xs:annotation>
+			<xs:documentation>
+				Root element of the package definition xml file
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="FileSystemStructure" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+      <xs:attribute name="id" type="xs:string" use="required" />
+      <xs:attribute name="version" type="xs:integer" use="required" />
+      <xs:attribute name="title" type="xs:string" use="required" />
+			<xs:attribute name="producer" type="xs:string" use="required" />
+			<xs:attribute name="product" type="xs:string" use="required" />
+      <xs:attribute name="productversion" type="Version" use="required" />
+			<xs:attribute name="description" type="xs:string" />
+      <xs:attribute name="iconUrl" type="xs:string" />
+      <xs:attribute name="releaseNotesUrl" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+  <xs:simpleType name="YesNoType">
+    <xs:restriction base='xs:NMTOKEN'>
+      <xs:enumeration value="no"/>
+      <xs:enumeration value="yes"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="RecursiveType">
+    <xs:restriction base='xs:NMTOKEN'>
+      <xs:enumeration value="no"/>
+      <xs:enumeration value="yes"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Version">
+    <xs:annotation>
+      <xs:documentation>Values of this type will look like: "3.0.*" or "2.12.6"</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]+\.[0-9]+\.(\*|[0-9]+)"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="IncludeFolder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="IncludeFolder" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="ExcludeFolder" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="IncludeFile" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="ExcludeFile" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="recursive" type="RecursiveType" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ExcludeFolder">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+	<xs:element name="IncludeFile">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+	</xs:element>
+
+	<xs:element name="ExcludeFile">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="FileSystemStructure">
+    <xs:annotation>
+      <xs:documentation>
+        Defines the structure of the file system to be included in the setup.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="IncludeFolder" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="ExcludeFolder" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="IncludeFile" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="ExcludeFile" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

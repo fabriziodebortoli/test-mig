@@ -1,0 +1,43 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+
+#include	<TbGes\JsonForms\TbActivityDocument\IDD_TB_ACTIVITY_DOCUMENT_TD_PROGRESS.hjson>
+#include	<TbGes\JsonForms\TbActivityDocument\IDD_TB_ACTIVITY_DOCUMENT_TD_GRID_SUMMARY.hjson>
+#include	<TbGes\JsonForms\TbActivityDocument\IDD_TB_ACTIVITY_FRAME.hjson>
+#include	<TbGes\JsonForms\TbActivityDocument\IDD_TB_ACTIVITY_NO_LOAD_DATA_FRAME.hjson>
+#include	<TbGes\JsonForms\TbActivityDocument\IDR_TB_ACTIVITY_DOCUMENT_ACCELERATOR.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define IDC_TB_ACTIVITY_DOCUMENT_TG			GET_IDC(IDC_TB_ACTIVITY_DOCUMENT_TG)
+#define IDC_TB_ACTIVITY_DOCUMENT_FILTERS	GET_IDC(IDC_TB_ACTIVITY_DOCUMENT_FILTERS)
+#define IDC_TB_ACTIVITY_DOCUMENT_ACTIONS	GET_IDC(IDC_TB_ACTIVITY_DOCUMENT_ACTIONS)
+#define IDC_TB_ACTIVITY_DOCUMENT_FOOTER		GET_IDC(IDC_TB_ACTIVITY_DOCUMENT_FOOTER)
+#define IDC_TB_ACTIVITY_DOCUMENT_GRID		GET_IDC(IDC_TB_ACTIVITY_DOCUMENT_GRID)
+#define IDC_TB_ACTIVITY_DOCUMENT_LEGEND		GET_IDC(IDC_TB_ACTIVITY_DOCUMENT_LEGEND)		
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	ID
+//-----------------------------------------------------------------------------------------------------
+#define	ID_TB_ACTIVITY_FRAME_LOAD_DATA							GET_ID(ID_TB_ACTIVITY_FRAME_LOAD_DATA)
+#define	ID_TB_ACTIVITY_FRAME_LOAD_PAUSE							GET_ID(ID_TB_ACTIVITY_FRAME_LOAD_PAUSE)
+#define ID_TB_ACTIVITY_FRAME_LOAD_RESUME						GET_ID(ID_TB_ACTIVITY_FRAME_LOAD_RESUME)
+#define ID_TB_ACTIVITY_FRAME_LOAD_STOP							GET_ID(ID_TB_ACTIVITY_FRAME_LOAD_STOP)
+#define	ID_TB_ACTIVITY_FRAME_ADD_DATA							GET_ID(ID_TB_ACTIVITY_FRAME_ADD_DATA)
+#define	ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION					GET_ID(ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION)
+#define	ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT			GET_ID(ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT)
+
+//-----------------------------------------------------------------------------------------------------
+//Strings:
+//-----------------------------------------------------------------------------------------------------
+#ifdef _TBGES
+static UINT IDS_ID_TB_ACTIVITY_FRAME_LOAD_DATA					=GET_IDS(ID_TB_ACTIVITY_FRAME_LOAD_DATA,				_TB_STRING("Extract Data\nExtract Data (Ctrl-Alt-E)"),					L"\\Framework\\TbGes\\TBActivityDocument.hjson");
+static UINT IDS_ID_TB_ACTIVITY_FRAME_ADD_DATA					=GET_IDS(ID_TB_ACTIVITY_FRAME_ADD_DATA,					_TB_STRING("Add Data\nAdd Data (Ctrl-Alt-A)"),							L"\\Framework\\TbGes\\TBActivityDocument.hjson");
+static UINT IDS_ID_TB_ACTIVITY_FRAME_LOAD_PAUSE					=GET_IDS(ID_TB_ACTIVITY_FRAME_LOAD_PAUSE,				_TB_STRING("Pause\nPause (Ctrl-Alt-P)"),								L"\\Framework\\TbGes\\TBActivityDocument.hjson");
+static UINT IDS_ID_TB_ACTIVITY_FRAME_LOAD_RESUME				=GET_IDS(ID_TB_ACTIVITY_FRAME_LOAD_RESUME,				_TB_STRING("Resume\nResume (Ctrl-Alt-R)"),								L"\\Framework\\TbGes\\TBActivityDocument.hjson");
+static UINT IDS_ID_TB_ACTIVITY_FRAME_LOAD_STOP					=GET_IDS(ID_TB_ACTIVITY_FRAME_LOAD_STOP,				_TB_STRING("Stop\nStop (Ctrl-Alt-F)"),								L"\\Framework\\TbGes\\TBActivityDocument.hjson");
+static UINT IDS_ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION			=GET_IDS(ID_TB_ACTIVITY_FRAME_UNDO_EXTRACTION,			_TB_STRING("Undo Extraction\nUndo Extraction (Ctrl-Alt-U)"),			L"\\Framework\\TbGes\\TBActivityDocument.hjson");
+static UINT IDS_ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT	=GET_IDS(ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT,	_TB_STRING("Select\nSelect (Ctrl-Alt-T)"),								L"\\Framework\\TbGes\\TBActivityDocument.hjson");
+#endif
+

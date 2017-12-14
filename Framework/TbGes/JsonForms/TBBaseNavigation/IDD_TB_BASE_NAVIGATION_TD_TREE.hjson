@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_TB_BASE_NAVIGATION_TD_TREE		GET_IDD(IDD_TB_BASE_NAVIGATION_TD_TREE, M.Framework.TbGes.TBBaseNavigation)
+#define	IDC_TB_BASE_NAVIGATION_TREE			GET_IDC(IDC_TB_BASE_NAVIGATION_TREE)

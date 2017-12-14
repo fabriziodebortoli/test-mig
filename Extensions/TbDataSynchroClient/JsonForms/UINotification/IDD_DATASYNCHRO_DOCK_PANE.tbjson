@@ -1,0 +1,21 @@
+{
+    "id": "IDD_MASTER_FRAME",
+    "items": [
+        {
+            "id": "IDD_DATASYNCHRO_DOCK_PANE",
+            "type": "DockingPane",
+            "text": "Data Synchronizer",
+            "name": "DataSynchronizer",
+            "activation": "Defined('bDataSynchroEnabled')",
+            "width": 550,
+            "items": [
+                {
+                    "href": "M.Extensions.TBDataSynchroClient.UINotification.IDD_DATASYNCHRO_TOOLBAR"
+                },
+                {
+                    "href": "M.Extensions.TBDataSynchroClient.UINotification.IDD_DATASYNCHRO_VIEW"
+                }
+            ]
+        }
+    ]
+}

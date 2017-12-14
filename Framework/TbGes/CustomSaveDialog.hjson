@@ -1,0 +1,3 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbGes\JsonForms\CustomSaveDialog\IDD_CUSTOMSAVEDLG_SAVE.hjson>

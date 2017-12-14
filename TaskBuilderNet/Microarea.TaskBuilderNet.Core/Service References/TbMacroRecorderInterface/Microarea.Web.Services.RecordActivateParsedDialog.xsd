@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:Microarea.Web.Services.RecordActivateParsedDialog" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.RecordActivateParsedDialog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="nID" type="xs:int" />
+  <xs:element name="pDialog" type="xs:int" />
+</xs:schema>

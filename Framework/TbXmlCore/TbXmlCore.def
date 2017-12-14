@@ -1,0 +1,7 @@
+; TbXmlCore.def : dichiara i parametri di modulo per la DLL.
+
+LIBRARY      "TbXmlCore"
+
+EXPORTS
+	InitDynLinkLibrary
+    ; Inserire qui le esportazioni esplicite

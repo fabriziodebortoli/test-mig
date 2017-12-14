@@ -149,85 +149,6 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
-        // <summary>
-        // Provides change password
-        // </summary>
-        //-----------------------------------------------------------------------------	
-        [HttpPost("/api/password/{instanceKey}")]
-        public IActionResult ApiChangePassword(string instanceKey, [FromBody] ChangePasswordInfo passwordInfo)
-        {
-            // Used as a response to the front-end.
-            BootstrapToken bootstrapToken = new BootstrapToken();
-            BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
-
-            if (passwordInfo == null || String.IsNullOrEmpty(passwordInfo.AccountName))
-            {
-                return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
-            }
-            IInstance instance = this.GetInstance(instanceKey);
-            GwamCaller gc = new GwamCaller(_httpHelper, this.GWAMUrl, instance);
-            try
-            {
-                Account account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
-
-                // L'account deve esistere sul db locale perchè il cambio pwd è possibile solo dopo la login
-                if (account != null)
-                {
-                    // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    OperationResult responseData = gc.VerifyAccountModificationGWAM(
-                        new AccountModification(account.AccountName, instanceKey, account.Ticks));
-
-                    //TODO verifica valori ritorno
-                    // se il GWAM non risponde non si deve poter andare avanti, il  cambio pwd si può fare solo se connessi, perlomeno per adesso.
-                    if (!responseData.Result)
-                        return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-
-                    // Used as a container for the GWAM response.
-                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Content as string);
-
-                    if (accountIdentityPack == null)
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.UnknownError);
-                    }
-                    // Se sul gwam corrisponde... 
-                    if (accountIdentityPack.Result)
-                    {
-
-                        if (accountIdentityPack.Account != null)
-                        {
-                            // Salvo l'Account in locale.
-                            account = accountIdentityPack.Account;
-                            (account).Save(burgerData);
-                        }
-                    }
-                    else
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);
-                    }
-                    LoginReturnCodes res = (account).ChangePassword(passwordInfo, burgerData);
-
-                    if (res != LoginReturnCodes.NoError)
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)res, res.ToString());
-                    }
-
-                    // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(account, bootstrapToken, instance))
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
-                    }
-                    return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.OK);
-                }
-            }
-            catch (Exception exc)
-            {
-                return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.GenericLoginFailure, "080 ApiAccounts Exception: " + exc.Message, 500);
-            }
-            // L'utente che sta cercando di cambiare a password non è in locale, ma secondo me è una situzione di eccezione
-            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.InvalidUserError, LoginReturnCodes.InvalidUserError.ToString());
-        }
-
         [HttpPost("api/token")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiCheckToken(string token, string roleName, string entityKey, string level)
@@ -335,27 +256,8 @@ namespace Microarea.AdminServer.Controllers
 
 				// TODO optimization
 
-				// getting roles
-
-				List<IAccountRoles> accountRoles = this.burgerData.GetList<AccountRoles, IAccountRoles>(
-					String.Format(Queries.SelectAccountRoles, accountName), ModelTables.AccountRoles);
-
-				bool isAdmin = accountRoles.Find(
-					k =>
-					k.RoleName.Equals("Admin", StringComparison.InvariantCultureIgnoreCase) &&
-					k.Level.Equals("INSTANCE", StringComparison.InvariantCultureIgnoreCase)) != null;
-
 				// if the account is an administrator, we look through the InstanceAccounts to find his Instances
-
-				IInstance[] instancesArray = this.GetInstances(accountName, isAdmin);
-
-                opRes = UpdateInstances(instancesArray);
-
-                if (!opRes.Result)
-                {
-                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
-                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                }
+				IInstance[] instancesArray = this.GetInstances(accountName, account.IsInstanceAdmin(burgerData));
                 if (instancesArray.Length == 0)
                 {
                     opRes.Result = false;
@@ -365,7 +267,15 @@ namespace Microarea.AdminServer.Controllers
                     _jsonHelper.AddPlainObject<OperationResult>(opRes);
                     return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                 }
-                opRes.Result = true;
+
+                opRes = UpdateInstances(instancesArray);
+
+                if (!opRes.Result)
+                {
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
+
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
 				opRes.Content = instancesArray;
@@ -383,19 +293,20 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddPlainObject<OperationResult>(opGWAMRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
-                List<Instance> instancesArray2 = JsonConvert.DeserializeObject<List<Instance>>(opGWAMRes.Content.ToString()); 
-                // usando List <IInstance>:Exception thrown: 'Newtonsoft.Json.JsonSerializationException' in Newtonsoft.Json.dll
-                // Could not create an instance of type Microarea.AdminServer.Model.Interfaces.IInstance.Type is an interface or abstract class and cannot be instantiated.Path '[0].Ticks', line 3, position 12.The program '[41224] chrome.exe: WebKit' has exited with code -1 (0xffffffff).
+            List<Instance> instancesArray2 = JsonConvert.DeserializeObject<List<Instance>>(opGWAMRes.Content.ToString());
+            // usando List <IInstance>:Exception thrown: 'Newtonsoft.Json.JsonSerializationException' in Newtonsoft.Json.dll
+            // Could not create an instance of type Microarea.AdminServer.Model.Interfaces.IInstance.Type is an interface or abstract class and cannot be instantiated.Path '[0].Ticks', line 3, position 12.The program '[41224] chrome.exe: WebKit' has exited with code -1 (0xffffffff).
 
-                if (instancesArray2.Count == 0)
-                {
-                    opRes.Result = false;
-                    opRes.Code = (int)AppReturnCodes.NoInstancesAvailable;
-                    opRes.Message = Strings.NoInstancesAvailable;
-                    opRes.Content = instancesArray2;
-                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
-                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                }
+            if (instancesArray2.Count == 0)
+            {
+                opRes.Result = false;
+                opRes.Code = (int)AppReturnCodes.NoInstancesAvailable;
+                opRes.Message = Strings.NoInstancesAvailable;
+                opRes.Content = instancesArray2;
+                _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+            }
+
             opRes.Result = true;
 			opRes.Code = (int)AppReturnCodes.OK;
 			opRes.Message = Strings.OperationOK;

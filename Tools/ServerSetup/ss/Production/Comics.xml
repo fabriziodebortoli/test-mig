@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="release"
+                 upgradeGuid="B56F2137-E3FB-4F16-8947-63616AD02B1B"
+                 producer="Microarea S.p.A."
+                 productName="Microarea Comics"
+                 setupOutputFileName="MicroareaComics"
+                 applicationType="addon"
+                 producerWebSite="http://www.microarea.it"
+                 >
+	<!--Consideriamo questo path come root di partenza: C:\Development\-->
+	<FileSystemStructure >
+		<IncludeFolder name ="Apps" >
+			<IncludeFolder name="publish">
+				<IncludeFile name="Check*.dll"/>
+			</IncludeFolder>
+		</IncludeFolder>
+		<IncludeFolder name="Standard">
+			<IncludeFolder name="Applications">
+				<IncludeFolder name="Comics">
+					<IncludeFolder name="*" fragment="yes">
+						<IncludeFolder name="Modules" recursive="yes">
+							<IncludeFile name="*.csm"/>
+						</IncludeFolder>
+						<IncludeFolder name="DatabaseScript" recursive="yes">
+							<IncludeFile name="*.sql|*.xml"/>
+						</IncludeFolder>
+						<IncludeFolder name="Files" recursive="yes">
+							<IncludeFile name="*.bmp"/>
+						</IncludeFolder>
+						<IncludeFolder name="Report" recursive="yes">
+							<IncludeFile name="*.wrm"/>
+						</IncludeFolder>
+						<IncludeFolder name="ModuleObjects">
+							<IncludeFile name="*.xml"/>
+						</IncludeFolder>
+						<IncludeFolder name="ReferenceObjects">
+							<IncludeFile name="*.xml"/>
+						</IncludeFolder>
+						<IncludeFolder name="Menu|Settings">
+							<IncludeFile name="*.menu|*.config"/>
+						</IncludeFolder>
+						<IncludeFile name="*.config|*.Solution.xml"/>
+						<ExcludeFile name="*.CompatibilityList.config"/>
+					</IncludeFolder>
+					<IncludeFile name="application.config" />
+				</IncludeFolder>
+			</IncludeFolder>
+		</IncludeFolder>
+	</FileSystemStructure>
+</SetupDefinition>

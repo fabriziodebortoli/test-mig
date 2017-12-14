@@ -1,0 +1,41 @@
+﻿{
+  "id": "IDD_TB_ACTIVITY_DOCUMENT_TD_PROGRESS",
+  "rcId": 7137,
+  "type": 71,
+  "x": 0,
+  "y": 0,
+  "width": 600,
+  "height": 250,
+  "child": true,
+  "name": "ActivityDocumentResultsGaugeTileDlg",
+  "text": "Result",
+  "collapsible": false,
+  "collapsed": false,
+  "size": 2,  //tile standard
+  "context": "tbactivitydocument",
+  "items": [
+    {
+      "id": "IDC_TB_ACTIVITY_DOCUMENT_PROGRESS",
+      "type": 2,
+      "x": 4,
+      "y": 14,
+      "width": 587,
+      "height": 12,
+      "tabStop": false,
+      "controlClass": "TBLinearGaugeCtrl",
+      "binding": { "datasource": "nCurrentElement"},
+      "blackFrame": true
+    },
+    {
+      "id": "IDC_TB_ACTIVITY_DOCUMENT_PROGRESS_STATIC",
+      "type": 2,
+      "x": 4,
+      "y": 2,
+      "width": 587,
+      "controlClass": "StringStatic",
+      "binding": { "datasource": "GaugeDescription" },
+      "height": 10,
+      "textAlign": 0
+    }
+  ]
+}

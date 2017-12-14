@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://tempuri.org/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://tempuri.org/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Init">
+        <s:complexType />
+      </s:element>
+      <s:element name="InitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InitResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetServerTime">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetServerTimeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetServerTimeResult" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsumeFunctionality">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="functionality" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsumeFunctionalityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConsumeFunctionalityResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOslStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOslStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetOslStatusResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="security" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="activity" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPasswordInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPasswordInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetPasswordInfoResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserCannotChangePassword" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserMustChangePassword" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExpiredDatePassword" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="PasswordNeverExpired" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExpiredDateCannotChange" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChangePasswordResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Login">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="winNTAuth" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="computerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="tbPortNumber" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginResult" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="isAdmin" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnumCompanies">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnumCompaniesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnumCompaniesResult" type="s0:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="EnumAllUsers">
+        <s:complexType />
+      </s:element>
+      <s:element name="EnumAllUsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnumAllUsersResult" type="s0:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnumUsers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="winNTAuth" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnumUsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnumUsersResult" type="s0:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyUsers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyUsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCompanyUsersResult" type="s0:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLoginId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLoginIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLoginIdResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="winNTAuth" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCompanyIDResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCompanyInfoResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="companyName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dbName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dbServer" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="providerId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCompanyNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsAdmin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsAdminResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAdminResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLoginName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLoginNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLoginNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyConnectionString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyConnectionStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCompanyConnectionStringResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsUserPresent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="winNTAuth" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsUserPresentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsUserPresentResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsValidUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="winNTAuth" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsValidUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsValidUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProviderInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="providerID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProviderInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetProviderInfoResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="providerDescription" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="useConstParameter" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="stripTrailingSpaces" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConnectionParams">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="companyID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConnectionParamsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetConnectionParamsResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="useKeyedUpdate" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="transactionUse" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserLanguages">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="companyID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserLanguagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserLanguagesResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="preferredLanguage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="alternativeLanguage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogOff">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogOffResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ShutDown">
+        <s:complexType />
+      </s:element>
+      <s:element name="ShutDownResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ShutDownResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </types>
+  <message name="InitSoapIn">
+    <part name="parameters" element="s0:Init" />
+  </message>
+  <message name="InitSoapOut">
+    <part name="parameters" element="s0:InitResponse" />
+  </message>
+  <message name="GetServerTimeSoapIn">
+    <part name="parameters" element="s0:GetServerTime" />
+  </message>
+  <message name="GetServerTimeSoapOut">
+    <part name="parameters" element="s0:GetServerTimeResponse" />
+  </message>
+  <message name="ConsumeFunctionalitySoapIn">
+    <part name="parameters" element="s0:ConsumeFunctionality" />
+  </message>
+  <message name="ConsumeFunctionalitySoapOut">
+    <part name="parameters" element="s0:ConsumeFunctionalityResponse" />
+  </message>
+  <message name="GetOslStatusSoapIn">
+    <part name="parameters" element="s0:GetOslStatus" />
+  </message>
+  <message name="GetOslStatusSoapOut">
+    <part name="parameters" element="s0:GetOslStatusResponse" />
+  </message>
+  <message name="GetPasswordInfoSoapIn">
+    <part name="parameters" element="s0:GetPasswordInfo" />
+  </message>
+  <message name="GetPasswordInfoSoapOut">
+    <part name="parameters" element="s0:GetPasswordInfoResponse" />
+  </message>
+  <message name="ChangePasswordSoapIn">
+    <part name="parameters" element="s0:ChangePassword" />
+  </message>
+  <message name="ChangePasswordSoapOut">
+    <part name="parameters" element="s0:ChangePasswordResponse" />
+  </message>
+  <message name="LoginSoapIn">
+    <part name="parameters" element="s0:Login" />
+  </message>
+  <message name="LoginSoapOut">
+    <part name="parameters" element="s0:LoginResponse" />
+  </message>
+  <message name="EnumCompaniesSoapIn">
+    <part name="parameters" element="s0:EnumCompanies" />
+  </message>
+  <message name="EnumCompaniesSoapOut">
+    <part name="parameters" element="s0:EnumCompaniesResponse" />
+  </message>
+  <message name="EnumAllUsersSoapIn">
+    <part name="parameters" element="s0:EnumAllUsers" />
+  </message>
+  <message name="EnumAllUsersSoapOut">
+    <part name="parameters" element="s0:EnumAllUsersResponse" />
+  </message>
+  <message name="EnumUsersSoapIn">
+    <part name="parameters" element="s0:EnumUsers" />
+  </message>
+  <message name="EnumUsersSoapOut">
+    <part name="parameters" element="s0:EnumUsersResponse" />
+  </message>
+  <message name="GetCompanyUsersSoapIn">
+    <part name="parameters" element="s0:GetCompanyUsers" />
+  </message>
+  <message name="GetCompanyUsersSoapOut">
+    <part name="parameters" element="s0:GetCompanyUsersResponse" />
+  </message>
+  <message name="GetLoginIdSoapIn">
+    <part name="parameters" element="s0:GetLoginId" />
+  </message>
+  <message name="GetLoginIdSoapOut">
+    <part name="parameters" element="s0:GetLoginIdResponse" />
+  </message>
+  <message name="GetCompanyIDSoapIn">
+    <part name="parameters" element="s0:GetCompanyID" />
+  </message>
+  <message name="GetCompanyIDSoapOut">
+    <part name="parameters" element="s0:GetCompanyIDResponse" />
+  </message>
+  <message name="GetCompanyInfoSoapIn">
+    <part name="parameters" element="s0:GetCompanyInfo" />
+  </message>
+  <message name="GetCompanyInfoSoapOut">
+    <part name="parameters" element="s0:GetCompanyInfoResponse" />
+  </message>
+  <message name="GetCompanyNameSoapIn">
+    <part name="parameters" element="s0:GetCompanyName" />
+  </message>
+  <message name="GetCompanyNameSoapOut">
+    <part name="parameters" element="s0:GetCompanyNameResponse" />
+  </message>
+  <message name="IsAdminSoapIn">
+    <part name="parameters" element="s0:IsAdmin" />
+  </message>
+  <message name="IsAdminSoapOut">
+    <part name="parameters" element="s0:IsAdminResponse" />
+  </message>
+  <message name="GetLoginNameSoapIn">
+    <part name="parameters" element="s0:GetLoginName" />
+  </message>
+  <message name="GetLoginNameSoapOut">
+    <part name="parameters" element="s0:GetLoginNameResponse" />
+  </message>
+  <message name="GetCompanyConnectionStringSoapIn">
+    <part name="parameters" element="s0:GetCompanyConnectionString" />
+  </message>
+  <message name="GetCompanyConnectionStringSoapOut">
+    <part name="parameters" element="s0:GetCompanyConnectionStringResponse" />
+  </message>
+  <message name="IsUserPresentSoapIn">
+    <part name="parameters" element="s0:IsUserPresent" />
+  </message>
+  <message name="IsUserPresentSoapOut">
+    <part name="parameters" element="s0:IsUserPresentResponse" />
+  </message>
+  <message name="IsValidUserSoapIn">
+    <part name="parameters" element="s0:IsValidUser" />
+  </message>
+  <message name="IsValidUserSoapOut">
+    <part name="parameters" element="s0:IsValidUserResponse" />
+  </message>
+  <message name="GetProviderInfoSoapIn">
+    <part name="parameters" element="s0:GetProviderInfo" />
+  </message>
+  <message name="GetProviderInfoSoapOut">
+    <part name="parameters" element="s0:GetProviderInfoResponse" />
+  </message>
+  <message name="GetConnectionParamsSoapIn">
+    <part name="parameters" element="s0:GetConnectionParams" />
+  </message>
+  <message name="GetConnectionParamsSoapOut">
+    <part name="parameters" element="s0:GetConnectionParamsResponse" />
+  </message>
+  <message name="GetUserLanguagesSoapIn">
+    <part name="parameters" element="s0:GetUserLanguages" />
+  </message>
+  <message name="GetUserLanguagesSoapOut">
+    <part name="parameters" element="s0:GetUserLanguagesResponse" />
+  </message>
+  <message name="LogOffSoapIn">
+    <part name="parameters" element="s0:LogOff" />
+  </message>
+  <message name="LogOffSoapOut">
+    <part name="parameters" element="s0:LogOffResponse" />
+  </message>
+  <message name="ShutDownSoapIn">
+    <part name="parameters" element="s0:ShutDown" />
+  </message>
+  <message name="ShutDownSoapOut">
+    <part name="parameters" element="s0:ShutDownResponse" />
+  </message>
+  <portType name="MicroareaLoginManagerSoap">
+    <operation name="Init">
+      <input message="s0:InitSoapIn" />
+      <output message="s0:InitSoapOut" />
+    </operation>
+    <operation name="GetServerTime">
+      <input message="s0:GetServerTimeSoapIn" />
+      <output message="s0:GetServerTimeSoapOut" />
+    </operation>
+    <operation name="ConsumeFunctionality">
+      <input message="s0:ConsumeFunctionalitySoapIn" />
+      <output message="s0:ConsumeFunctionalitySoapOut" />
+    </operation>
+    <operation name="GetOslStatus">
+      <input message="s0:GetOslStatusSoapIn" />
+      <output message="s0:GetOslStatusSoapOut" />
+    </operation>
+    <operation name="GetPasswordInfo">
+      <input message="s0:GetPasswordInfoSoapIn" />
+      <output message="s0:GetPasswordInfoSoapOut" />
+    </operation>
+    <operation name="ChangePassword">
+      <input message="s0:ChangePasswordSoapIn" />
+      <output message="s0:ChangePasswordSoapOut" />
+    </operation>
+    <operation name="Login">
+      <input message="s0:LoginSoapIn" />
+      <output message="s0:LoginSoapOut" />
+    </operation>
+    <operation name="EnumCompanies">
+      <input message="s0:EnumCompaniesSoapIn" />
+      <output message="s0:EnumCompaniesSoapOut" />
+    </operation>
+    <operation name="EnumAllUsers">
+      <input message="s0:EnumAllUsersSoapIn" />
+      <output message="s0:EnumAllUsersSoapOut" />
+    </operation>
+    <operation name="EnumUsers">
+      <input message="s0:EnumUsersSoapIn" />
+      <output message="s0:EnumUsersSoapOut" />
+    </operation>
+    <operation name="GetCompanyUsers">
+      <input message="s0:GetCompanyUsersSoapIn" />
+      <output message="s0:GetCompanyUsersSoapOut" />
+    </operation>
+    <operation name="GetLoginId">
+      <input message="s0:GetLoginIdSoapIn" />
+      <output message="s0:GetLoginIdSoapOut" />
+    </operation>
+    <operation name="GetCompanyID">
+      <input message="s0:GetCompanyIDSoapIn" />
+      <output message="s0:GetCompanyIDSoapOut" />
+    </operation>
+    <operation name="GetCompanyInfo">
+      <input message="s0:GetCompanyInfoSoapIn" />
+      <output message="s0:GetCompanyInfoSoapOut" />
+    </operation>
+    <operation name="GetCompanyName">
+      <input message="s0:GetCompanyNameSoapIn" />
+      <output message="s0:GetCompanyNameSoapOut" />
+    </operation>
+    <operation name="IsAdmin">
+      <input message="s0:IsAdminSoapIn" />
+      <output message="s0:IsAdminSoapOut" />
+    </operation>
+    <operation name="GetLoginName">
+      <input message="s0:GetLoginNameSoapIn" />
+      <output message="s0:GetLoginNameSoapOut" />
+    </operation>
+    <operation name="GetCompanyConnectionString">
+      <input message="s0:GetCompanyConnectionStringSoapIn" />
+      <output message="s0:GetCompanyConnectionStringSoapOut" />
+    </operation>
+    <operation name="IsUserPresent">
+      <input message="s0:IsUserPresentSoapIn" />
+      <output message="s0:IsUserPresentSoapOut" />
+    </operation>
+    <operation name="IsValidUser">
+      <input message="s0:IsValidUserSoapIn" />
+      <output message="s0:IsValidUserSoapOut" />
+    </operation>
+    <operation name="GetProviderInfo">
+      <input message="s0:GetProviderInfoSoapIn" />
+      <output message="s0:GetProviderInfoSoapOut" />
+    </operation>
+    <operation name="GetConnectionParams">
+      <input message="s0:GetConnectionParamsSoapIn" />
+      <output message="s0:GetConnectionParamsSoapOut" />
+    </operation>
+    <operation name="GetUserLanguages">
+      <input message="s0:GetUserLanguagesSoapIn" />
+      <output message="s0:GetUserLanguagesSoapOut" />
+    </operation>
+    <operation name="LogOff">
+      <input message="s0:LogOffSoapIn" />
+      <output message="s0:LogOffSoapOut" />
+    </operation>
+    <operation name="ShutDown">
+      <input message="s0:ShutDownSoapIn" />
+      <output message="s0:ShutDownSoapOut" />
+    </operation>
+  </portType>
+  <binding name="MicroareaLoginManagerSoap" type="s0:MicroareaLoginManagerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="Init">
+      <soap:operation soapAction="http://tempuri.org/Init" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetServerTime">
+      <soap:operation soapAction="http://tempuri.org/GetServerTime" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ConsumeFunctionality">
+      <soap:operation soapAction="http://tempuri.org/ConsumeFunctionality" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetOslStatus">
+      <soap:operation soapAction="http://tempuri.org/GetOslStatus" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetPasswordInfo">
+      <soap:operation soapAction="http://tempuri.org/GetPasswordInfo" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ChangePassword">
+      <soap:operation soapAction="http://tempuri.org/ChangePassword" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/Login" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="EnumCompanies">
+      <soap:operation soapAction="http://tempuri.org/EnumCompanies" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="EnumAllUsers">
+      <soap:operation soapAction="http://tempuri.org/EnumAllUsers" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="EnumUsers">
+      <soap:operation soapAction="http://tempuri.org/EnumUsers" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCompanyUsers">
+      <soap:operation soapAction="http://tempuri.org/GetCompanyUsers" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetLoginId">
+      <soap:operation soapAction="http://tempuri.org/GetLoginId" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCompanyID">
+      <soap:operation soapAction="http://tempuri.org/GetCompanyID" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCompanyInfo">
+      <soap:operation soapAction="http://tempuri.org/GetCompanyInfo" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCompanyName">
+      <soap:operation soapAction="http://tempuri.org/GetCompanyName" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IsAdmin">
+      <soap:operation soapAction="http://tempuri.org/IsAdmin" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetLoginName">
+      <soap:operation soapAction="http://tempuri.org/GetLoginName" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCompanyConnectionString">
+      <soap:operation soapAction="http://tempuri.org/GetCompanyConnectionString" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IsUserPresent">
+      <soap:operation soapAction="http://tempuri.org/IsUserPresent" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IsValidUser">
+      <soap:operation soapAction="http://tempuri.org/IsValidUser" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetProviderInfo">
+      <soap:operation soapAction="http://tempuri.org/GetProviderInfo" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetConnectionParams">
+      <soap:operation soapAction="http://tempuri.org/GetConnectionParams" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetUserLanguages">
+      <soap:operation soapAction="http://tempuri.org/GetUserLanguages" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="LogOff">
+      <soap:operation soapAction="http://tempuri.org/LogOff" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ShutDown">
+      <soap:operation soapAction="http://tempuri.org/ShutDown" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="MicroareaLoginManager">
+    <port name="MicroareaLoginManagerSoap" binding="s0:MicroareaLoginManagerSoap">
+      <soap:address location="http://localhost/MicroareaLoginManager/MicroareaLoginManager.asmx" />
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,824 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.Accelerator" Collapsed="true">
+    <Position X="69" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAEAAAEAQAAAAEAAAAAAEAAAAEAAAAAAAAAAE=</HashCode>
+      <FileName>Accelerators.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.AcceleratorDescriptionComparer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="70.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Accelerators.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.AcceleratorManager" Collapsed="true">
+    <Position X="72.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAABAgA=</HashCode>
+      <FileName>Accelerators.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.Action" Collapsed="true">
+    <Position X="25.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAQAAAAAABAAAAAAAAAAAAACBAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.RunDocumentAction" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.AttachToDocumentAction" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TabChangedAction" Collapsed="true">
+    <Position X="34.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQBAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.HotLinkAction" Collapsed="true">
+    <Position X="45.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAQACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.SpinAction" Collapsed="true">
+    <Position X="41" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.DoCommandAction" Collapsed="true">
+    <Position X="38.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ClickMenuAction" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAARAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.CloseAction" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ResizeAction" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAQAgAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.NewRowAction" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.MoveBodyPageAction" Collapsed="true">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.MoveToAction" Collapsed="true">
+    <Position X="27.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.SelectIndexAction" Collapsed="true">
+    <Position X="36.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.DblClickItemAction" Collapsed="true">
+    <Position X="43.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ToggleNodeAction" Collapsed="true">
+    <Position X="32" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.SelectNodeAction" Collapsed="true">
+    <Position X="47.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.DoKeyDownAction" Collapsed="true">
+    <Position X="50" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAIAAAADAQAABAAAIAAAAAAAiAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.RadarSelectAction" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.DoLinkAction" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAABAQAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.DoHyperLinkAction" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.SelectRowAction" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ResizeColumnAction" Collapsed="true">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.PingAction" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Actions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.DocumentBag" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="74.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgACAwAEAAGAEAAQAAABEAAAgQQAAABCBAoAA=</HashCode>
+      <FileName>DocumentBag.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.Extensions" Collapsed="true">
+    <Position X="70.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAIAgAAAAAEAAAAIUAAAAAABBAAAAAAAAA=</HashCode>
+      <FileName>Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.Resource" Collapsed="true">
+    <Position X="72.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAAEAAAAAABAQAAAAAJEBAIAQQIAAAAIAAAAAAgAKE=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TbWebFormResourceProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="70.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAACAAAAEAAAAABABAAAIAAAAA=</HashCode>
+      <FileName>ResourceProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.DynamicImageButton" Collapsed="true">
+    <Position X="69" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBUpdatePanel" Collapsed="true">
+    <Position X="33.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAQBAAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBWebControl" Collapsed="true">
+    <Position X="33.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARkQAAQoBgAAKAhEEAEIRVAAMANAARQBCBFAoEAidAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBLabel" Collapsed="true">
+    <Position X="8" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAEAAAAAQAAAAAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTextBox" Collapsed="true">
+    <Position X="12.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACCIEAAAAIFAAAAAQAAAQAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBBorderPanel" Collapsed="true">
+    <Position X="35" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAABBAAgAAAAAAAAAAAAAEAAQABAAAMAEAgKAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBPanel" Collapsed="true">
+    <Position X="33.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAQBAAAAIQAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBScrollPanel" Collapsed="true">
+    <Position X="42.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBAbstractButton" Collapsed="true">
+    <Position X="62" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBImage">
+    <Position X="1.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAACAAAAAAAAABAAAAEAAAAAQAAAAAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBReport" Collapsed="true">
+    <Position X="1.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAgAIAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBButton" Collapsed="true">
+    <Position X="59.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAABAAAAAAAAAAAAAAAAAEAAAAAQAAAAAgEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBPdfButton" Collapsed="true">
+    <Position X="57.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBSaveFileButton" Collapsed="true">
+    <Position X="59.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBGroupBox" Collapsed="true">
+    <Position X="10.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAQQAAAAAAUAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBRadioButton" Collapsed="true">
+    <Position X="64.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAQAAAAAAEAAAAI=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBCheckBox" Collapsed="true">
+    <Position X="66.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAQAAAAAAEEAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBToolbar" Collapsed="true">
+    <Position X="37.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQCAAAAAAAAAAAABIAAAAQAQEAAAAAAAABAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBToolbarButton" Collapsed="true">
+    <Position X="55.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEAAABAAAAAAAAAAAAABgACEAIAAQQAAABAKEIAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBHotLink" Collapsed="true">
+    <Position X="53" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAABAAAAAAQAAAAAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBListBox" Collapsed="true">
+    <Position X="3.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAgAAQAAAgAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBChecklListBox" Collapsed="true">
+    <Position X="39.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAQAAAAAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBMenu" Collapsed="true">
+    <Position X="14.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBRadar" Collapsed="true">
+    <Position X="41.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAQAAAAAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBListControl" Collapsed="true">
+    <Position X="21.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAFIAAAACCAAAAAAAAAABAAIAIIAACQAAAAAAEAQAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBListControlDetails" Collapsed="true">
+    <Position X="26" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAQAAIAAAEAAAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBSpinControl" Collapsed="true">
+    <Position X="32.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAAAEACAAA=</HashCode>
+      <FileName>TBControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBDropDownList" Collapsed="true">
+    <Position X="12.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACIgAAAAIAAAAAAQABAAAgEAAAAA=</HashCode>
+      <FileName>TBDropDownList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBFieldSet" Collapsed="true">
+    <Position X="70.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAACAAAACAAAAAAACAA=</HashCode>
+      <FileName>TBFieldSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBForm" Collapsed="true">
+    <Position X="49.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAEASgVRACwEAGCAAEAEEEAAOAIAQhAAAEgEAhaAQ=</HashCode>
+      <FileName>TBForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBMainForm" Collapsed="true">
+    <Position X="50.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAIQAAAAAAAAAAAAA=</HashCode>
+      <FileName>TBForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ServerFormatter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="74.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>TBFormatter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TbActionProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="76" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAACAIAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>TBFormatter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBGridContainer" Collapsed="true">
+    <Position X="17" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIIggAACAAAAAAAAACAAAAQAAAAAAAQACAAAgUQAAEA=</HashCode>
+      <FileName>TBGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBGrid" Collapsed="true">
+    <Position X="44" Y="16" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAQABAABAAAAAAAQAAAAQFEAAkAAAAQICAAAoEGAAAA=</HashCode>
+      <FileName>TBGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBGridColTitle" Collapsed="true">
+    <Position X="23.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAEAAAAQAAAEABAAAQAABAAAEAABAA=</HashCode>
+      <FileName>TBGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBGridCell" Collapsed="true">
+    <Position X="28.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAACAAAgQEAAAAAAAAQBABAAAEAABAA=</HashCode>
+      <FileName>TBGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBBodyEditButton" Collapsed="true">
+    <Position X="62" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAIEAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>TBGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBContextMenu" Collapsed="true">
+    <Position X="69" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAABAQAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TBMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBMessageControl" Collapsed="true">
+    <Position X="48.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAwAIAAAAEAAAAAEAAAAAIASAAAAQAAAQAAA=</HashCode>
+      <FileName>TBMessageControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTabContainer" Collapsed="true">
+    <Position X="72.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAQAAQAAAAAAAAAAAAAAQABAAEBAAAQAA=</HashCode>
+      <FileName>TBTabContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTabPanel" Collapsed="true">
+    <Position X="76" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAIAAAAAAAAAAAACAAAAgAAAAAAAAAAAgAA=</HashCode>
+      <FileName>TBTabContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTabContainerStyle" Collapsed="true">
+    <Position X="74.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>TBTabContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTabber" Collapsed="true">
+    <Position X="5.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAABAAAAAAAAAAAEAAAAAEAAAAAQAAAAAoAAAAAA=</HashCode>
+      <FileName>TBTabContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTabberPanel" Collapsed="true">
+    <Position X="19.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIEAAAAA=</HashCode>
+      <FileName>TBTabContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTreeView" Collapsed="true">
+    <Position X="46.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAACAAAAAAAEAAAABIAIAAAAQAAAEAIAIRAAA=</HashCode>
+      <FileName>TBTreeView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBTreeNode" Collapsed="true">
+    <Position X="30.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAlAAAAAAAAAABAAAAAABAAAAAIAAAQCAQSQAEIAAAI=</HashCode>
+      <FileName>TBTreeView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TBWebFormControl" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="69" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>eYEECBDElQ+4CAoEAkADEKALIlEoBCdkRAgEBBITMCY=</HashCode>
+      <FileName>TBWebFormServerControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndObjDescriptionContainerRoot">
+    <Position X="4" Y="16.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAIAAgAAAAAAAAAAAAAAIAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndObjDescriptionContainer">
+    <Position X="4" Y="14.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.GenericDescription" Collapsed="true">
+    <Position X="25.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAACAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.AcceleratorDescription" Collapsed="true">
+    <Position X="50" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAQgAAAAIAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndObjDescription" Collapsed="true">
+    <Position X="21.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAASAoQABIQAAJAEAABAAkAAAAAIAAAAARRAKAAAYBA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndImageDescription" Collapsed="true">
+    <Position X="6" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAABAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndButtonDescription" Collapsed="true">
+    <Position X="2.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.LinkDescription" Collapsed="true">
+    <Position X="47.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABIAAAAAAAAAAAEAAAAAAAgAAAARAAAAAYAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndReportDescription" Collapsed="true">
+    <Position X="7.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAACABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndPdfButtonDescription" Collapsed="true">
+    <Position X="0.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndSaveFileButtonDescription" Collapsed="true">
+    <Position X="2.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAEAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TextObjDescription" Collapsed="true">
+    <Position X="27.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAACAAAAAAIBAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TabberDescription" Collapsed="true">
+    <Position X="36.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.TabDescription" Collapsed="true">
+    <Position X="43.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAgAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndCheckRadioDescription" Collapsed="true">
+    <Position X="34.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ItemDescription" Collapsed="true">
+    <Position X="45.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ItemListBoxDescription" Collapsed="true">
+    <Position X="45.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABACAAAAAI=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ItemCheckListDescription" Collapsed="true">
+    <Position X="45.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAACAAACAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ListDescription" Collapsed="true">
+    <Position X="18.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndTreeCtrlDescription" Collapsed="true">
+    <Position X="9.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAACAAAAAAAAAAAAAAAAAAAABAAAAQAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndTreeNodeDescription" Collapsed="true">
+    <Position X="32" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAkAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAATAAAAAAAI=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ToolbarDescription" Collapsed="true">
+    <Position X="5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAABAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ToolbarBtnDescription" Collapsed="true">
+    <Position X="38.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAIAAAAAAAAAQBAAAABAAAAAAAg=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ComboDescription" Collapsed="true">
+    <Position X="27.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABCAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndBodyElementDescription" Collapsed="true">
+    <Position X="41" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAMAAAAAIAAggAAAEHAEAAgAEAABAAAAAAAE=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndBodyTableDescription" Collapsed="true">
+    <Position X="29.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAEAEAAAAAAAAAAAAAAAAAAAABIAAAgAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndBodyDescription" Collapsed="true">
+    <Position X="23" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABAAAACAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.MenuDescription" Collapsed="true">
+    <Position X="14" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAACABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.MenuItemDescription" Collapsed="true">
+    <Position X="16.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAACAAAIAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.WndRadarTableDescription" Collapsed="true">
+    <Position X="20.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAQAAAAAAAAAAgAABAAAAAAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ListCtrlItemDescription" Collapsed="true">
+    <Position X="25.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAIAAACAAAAAAAAAAABAAAAAAAI=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ListCtrlDescription" Collapsed="true">
+    <Position X="11.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAACAAAAAAAAAAAEAAEAAAAAABAAAAQAAA=</HashCode>
+      <FileName>WindowDescriptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.Images" Collapsed="true">
+    <Position X="2.75" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAAAAEAAAAAAACQAAAIEAIAAAEAAAQSQAAEAAA=</HashCode>
+      <FileName>Images.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ITBWebControl" Collapsed="true">
+    <Position X="70.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAgAAAAAAAEAAAAQAAAAAEAAAABAAEAAAAgYAA=</HashCode>
+      <FileName>ITBWebControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ICommand" Collapsed="true">
+    <Position X="69" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>ITBWebControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.ITreeItem" Collapsed="true">
+    <Position X="72.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>TBTreeView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Microarea.TaskBuilderNet.UI.TBWebFormControl.VirtualKey" Collapsed="true">
+    <Position X="69" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAQCAAAAAAAAABQAAAAAgAAAAAAAAAAAAAAAAAgI=</HashCode>
+      <FileName>Accelerators.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

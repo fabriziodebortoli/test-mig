@@ -1,0 +1,24 @@
+﻿{
+  "id": "IDD_HFLDATAPICKER_RESULTS_BE",
+  "rcId": 7555,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 500,
+  "height": 260,
+  "child": true,
+  "context": "uihotfilterdatapicker",
+  "items": [
+    {
+      "id": "IDC_HFLDATAPICKER_RESULTS_BE",
+      "type": 3,
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 261,
+      "tabStop": false,
+      "clipChildren": true,
+      "ownerDraw": true
+    }
+  ]
+}

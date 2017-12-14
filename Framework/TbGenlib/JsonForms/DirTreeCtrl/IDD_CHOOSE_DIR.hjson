@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_CHOOSE_DIR			GET_IDD(IDD_CHOOSE_DIR, M.Framework.TbGenlib.DirTreeCtrl)
+#define	IDC_DIRTREE_CTRL			GET_IDC(IDC_DIRTREE_CTRL)
+#define	IDC_SEL_DIR_NAME			GET_IDC(IDC_SEL_DIR_NAME)

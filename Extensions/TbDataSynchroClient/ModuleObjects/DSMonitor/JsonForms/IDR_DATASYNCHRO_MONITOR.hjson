@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define IDR_DATASYNCHRO_MONITOR	GET_IDD(IDR_DATASYNCHRO_MONITOR,D.Extensions.TbDataSynchroClient.DSMonitor)
+#define ID_MONITOR_OPEN_DOCUMENT	GET_ID(ID_MONITOR_OPEN_DOCUMENT)
+#define ID_MONITOR_COPY_MSG			GET_ID(ID_MONITOR_COPY_MSG)

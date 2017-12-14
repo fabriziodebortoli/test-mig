@@ -1,0 +1,18 @@
+{
+   "context" : "uirsgrants",
+   "height" : 200,
+   "id" : "IDD_RS_GRANTS_DLG",
+   "items" : [
+      {
+         "height" : 200,
+         "id" : "IDC_RS_GRANTS_TILEGROUP",
+         "type" : 3, /*Button*/
+         "width" : 697
+      }
+   ],
+   "text" : "Grants",
+   "type" : 66, /*Panel*/
+   "width" : 700,
+   "x" : 6,
+   "y" : 20
+}

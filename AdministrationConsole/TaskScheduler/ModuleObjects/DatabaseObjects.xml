@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DatabaseObjects>
+	<Signature>TaskScheduler</Signature>
+	<Release>4</Release>
+	<Tables>
+		<Table namespace="MicroareaConsole.TaskScheduler.TaskScheduler.MSD_ScheduledTasks">
+			<Create release="1" createstep="1" />
+		</Table>
+		<Table namespace="MicroareaConsole.TaskScheduler.TaskScheduler.MSD_ScheduledSequences">
+			<Create release="1" createstep="2" />
+		</Table>
+		<Table namespace="MicroareaConsole.TaskScheduler.TaskScheduler.MSD_SchedulerMailNotifications">
+			<Create release="1" createstep="3" />
+		</Table>
+	</Tables>
+	<Views />
+	<Procedures />
+</DatabaseObjects>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:Microarea.Web.Services.GetXMLParameters" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.GetXMLParameters" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="param" nillable="true" type="xs:string" />
+  <xs:element name="useApproximation" type="xs:boolean" />
+  <xs:element name="loginName" nillable="true" type="xs:string" />
+  <xs:element name="result" nillable="true" type="xs:string" />
+  <xs:element name="return" type="xs:boolean" />
+</xs:schema>

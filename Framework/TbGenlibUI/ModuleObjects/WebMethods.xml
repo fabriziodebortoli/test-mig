@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <!--Esempio di chiamata a servizio esterno
+			Function namespace="Framework.TbGenlibUI.TbGenlibUI.Test" service="WebService1/Service1.asmx" server="srv-myserver" serviceNamespace="http://tempuri.org/" type="bool"  />-->
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.ExecOpenText" type="bool" mode="out" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Opening a text file" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aUnprotected Report Manager" />
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter" type="bool" mode="out" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Opening format window" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aUnprotected Report Manager" securityhidden="true" />
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont" type="bool" mode="out" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Opening font style window" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aUnprotected Report Manager" securityhidden="true" />
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.ExecManageFile" type="bool" mode="out" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Opening manage file window" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aUnprotected Report Manager" />
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.EnumsViewer" type="bool" mode="out" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Opening font style window" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aUnprotected Report Manager" />
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.SetApplicationDate" type="void" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Set application date" report="false" inEasyBuilder="false" WCF="true">
+      <Param name="aDate" type="date" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.SetApplicationDateToSystemDate" type="void" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Set application date like system date" report="false" inEasyBuilder="false" WCF="true" />
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.SetApplicationDate2" type="date" mode="out" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Set application date" report="true" inEasyBuilder="false" WCF="true">
+      <Param name="aDate" type="date" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.ShowAboutFramework" type="void" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Show information about framework" report="false" inEasyBuilder="false" WCF="true" />
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.ExecOpenReport" type="bool" mode="out" sourceInfo="File: Framework\TbGenlibUI\SoapFunctions.cpp." localize="Opening a report file" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aUnprotected Report Manager">
+      <Param name="reportNamespace" type="string" mode="in out" />
+      <Param name="reportPath" type="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGenlibUI.TbGenlibUI.SetApplicationDateIMago" type="void" sourceInfo="File: Framework\TbGenlibUI\TbGenlibUISoapFunctions.cpp." localize="Set application date" report="false" inEasyBuilder="false" WCF="true">
+      <Param name="aDate" type="date" mode="in" />
+    </Function>
+  </Functions>
+</FunctionObjects>

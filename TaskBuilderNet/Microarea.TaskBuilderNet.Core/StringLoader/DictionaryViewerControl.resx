@@ -1,0 +1,762 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="btnOpenDictionary.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnOpenDictionary.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnOpenDictionary.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="btnOpenDictionary.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 23</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnOpenDictionary.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnOpenDictionary.Text" xml:space="preserve">
+    <value>Open dictionary...</value>
+  </data>
+  <data name="&gt;&gt;btnOpenDictionary.Name" xml:space="preserve">
+    <value>btnOpenDictionary</value>
+  </data>
+  <data name="&gt;&gt;btnOpenDictionary.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnOpenDictionary.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnOpenDictionary.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="openFileDialog.Filter" xml:space="preserve">
+    <value>Dictionary files (*dictionary.bin; *.dll; *.exe)|*dictionary.bin; *.dll; *.exe</value>
+  </data>
+  <metadata name="dgDictionaryItems.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="dgDictionaryItems.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <metadata name="dictionaryHeadDataView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>141, 17</value>
+  </metadata>
+  <metadata name="dictionaryDataSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>314, 17</value>
+  </metadata>
+  <data name="dgDictionaryItems.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 100</value>
+  </data>
+  <data name="dgDictionaryItems.Size" type="System.Drawing.Size, System.Drawing">
+    <value>600, 140</value>
+  </data>
+  <data name="dgDictionaryItems.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="autoSizeTextColumnStyle10.HeaderText" xml:space="preserve">
+    <value>Resource Name</value>
+  </data>
+  <data name="autoSizeTextColumnStyle10.MappingName" xml:space="preserve">
+    <value>resourceName</value>
+  </data>
+  <data name="autoSizeTextColumnStyle10.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle11.HeaderText" xml:space="preserve">
+    <value>Resource Id </value>
+  </data>
+  <data name="autoSizeTextColumnStyle11.MappingName" xml:space="preserve">
+    <value>resourceID</value>
+  </data>
+  <data name="autoSizeTextColumnStyle11.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="dataGridTableStyle2.PreferredColumnWidth" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle100.HeaderText" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="autoSizeTextColumnStyle100.MappingName" xml:space="preserve">
+    <value>typeDescription</value>
+  </data>
+  <data name="autoSizeTextColumnStyle100.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle101.HeaderText" xml:space="preserve">
+    <value>File Identifier</value>
+  </data>
+  <data name="autoSizeTextColumnStyle101.MappingName" xml:space="preserve">
+    <value>id</value>
+  </data>
+  <data name="autoSizeTextColumnStyle101.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle102.HeaderText" xml:space="preserve">
+    <value>Resource Name</value>
+  </data>
+  <data name="autoSizeTextColumnStyle102.MappingName" xml:space="preserve">
+    <value>name</value>
+  </data>
+  <data name="autoSizeTextColumnStyle102.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="dataGridTableDictMaster.PreferredColumnWidth" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItems.Name" xml:space="preserve">
+    <value>dgDictionaryItems</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItems.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGrid, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItems.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItems.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="dgDictionaryItemRows.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="dgDictionaryItemRows.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <metadata name="dictionaryRowDataView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 54</value>
+  </metadata>
+  <data name="dgDictionaryItemRows.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 232</value>
+  </data>
+  <data name="dgDictionaryItemRows.Size" type="System.Drawing.Size, System.Drawing">
+    <value>600, 150</value>
+  </data>
+  <data name="dgDictionaryItemRows.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="autoSizeTextColumnStyle110.HeaderText" xml:space="preserve">
+    <value>Base string</value>
+  </data>
+  <data name="autoSizeTextColumnStyle110.MappingName" xml:space="preserve">
+    <value>base</value>
+  </data>
+  <data name="autoSizeTextColumnStyle110.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle111.HeaderText" xml:space="preserve">
+    <value>Target string</value>
+  </data>
+  <data name="autoSizeTextColumnStyle111.MappingName" xml:space="preserve">
+    <value>target</value>
+  </data>
+  <data name="autoSizeTextColumnStyle111.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="dataGridTableStyleDictSlave.PreferredColumnWidth" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle121.HeaderText" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="autoSizeTextColumnStyle121.MappingName" xml:space="preserve">
+    <value>name</value>
+  </data>
+  <data name="autoSizeTextColumnStyle121.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle122.HeaderText" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="autoSizeTextColumnStyle122.MappingName" xml:space="preserve">
+    <value>value</value>
+  </data>
+  <data name="autoSizeTextColumnStyle122.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="autoSizeTextColumnStyle123.HeaderText" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="autoSizeTextColumnStyle123.MappingName" xml:space="preserve">
+    <value>type</value>
+  </data>
+  <data name="autoSizeTextColumnStyle123.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="dataGridTableStyleSattSlave.PreferredColumnWidth" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItemRows.Name" xml:space="preserve">
+    <value>dgDictionaryItemRows</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItemRows.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGrid, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItemRows.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dgDictionaryItemRows.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="checkedListBoxFilter.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="checkedListBoxFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 32</value>
+  </data>
+  <data name="checkedListBoxFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 49</value>
+  </data>
+  <data name="checkedListBoxFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;checkedListBoxFilter.Name" xml:space="preserve">
+    <value>checkedListBoxFilter</value>
+  </data>
+  <data name="&gt;&gt;checkedListBoxFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkedListBoxFilter.Parent" xml:space="preserve">
+    <value>panelDictionary</value>
+  </data>
+  <data name="&gt;&gt;checkedListBoxFilter.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <metadata name="txtBoxId.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="txtBoxId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 32</value>
+  </data>
+  <data name="txtBoxId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 20</value>
+  </data>
+  <data name="txtBoxId.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;txtBoxId.Name" xml:space="preserve">
+    <value>txtBoxId</value>
+  </data>
+  <data name="&gt;&gt;txtBoxId.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtBoxId.Parent" xml:space="preserve">
+    <value>panelDictionary</value>
+  </data>
+  <data name="&gt;&gt;txtBoxId.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="txtBoxName.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="txtBoxName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 76</value>
+  </data>
+  <data name="txtBoxName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 20</value>
+  </data>
+  <data name="txtBoxName.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;txtBoxName.Name" xml:space="preserve">
+    <value>txtBoxName</value>
+  </data>
+  <data name="&gt;&gt;txtBoxName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtBoxName.Parent" xml:space="preserve">
+    <value>panelDictionary</value>
+  </data>
+  <data name="&gt;&gt;txtBoxName.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="LabelId.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="LabelId.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LabelId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 16</value>
+  </data>
+  <data name="LabelId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 16</value>
+  </data>
+  <data name="LabelId.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="LabelId.Text" xml:space="preserve">
+    <value>File identifier</value>
+  </data>
+  <data name="&gt;&gt;LabelId.Name" xml:space="preserve">
+    <value>LabelId</value>
+  </data>
+  <data name="&gt;&gt;LabelId.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelId.Parent" xml:space="preserve">
+    <value>panelDictionary</value>
+  </data>
+  <data name="&gt;&gt;LabelId.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <metadata name="labelName.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="labelName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 56</value>
+  </data>
+  <data name="labelName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 16</value>
+  </data>
+  <data name="labelName.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="labelName.Text" xml:space="preserve">
+    <value>Resource name</value>
+  </data>
+  <data name="&gt;&gt;labelName.Name" xml:space="preserve">
+    <value>labelName</value>
+  </data>
+  <data name="&gt;&gt;labelName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelName.Parent" xml:space="preserve">
+    <value>panelDictionary</value>
+  </data>
+  <data name="&gt;&gt;labelName.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="satelliteAssemblyDataSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>185, 54</value>
+  </metadata>
+  <metadata name="satelliteHeadDataView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>361, 54</value>
+  </metadata>
+  <metadata name="satelliteRowDataView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 91</value>
+  </metadata>
+  <metadata name="panelDictionary.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="labelType.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="labelType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="labelType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 16</value>
+  </data>
+  <data name="labelType.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="labelType.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="&gt;&gt;labelType.Name" xml:space="preserve">
+    <value>labelType</value>
+  </data>
+  <data name="&gt;&gt;labelType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelType.Parent" xml:space="preserve">
+    <value>panelDictionary</value>
+  </data>
+  <data name="&gt;&gt;labelType.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelDictionary.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelDictionary.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 0</value>
+  </data>
+  <data name="panelDictionary.Size" type="System.Drawing.Size, System.Drawing">
+    <value>400, 96</value>
+  </data>
+  <data name="panelDictionary.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;panelDictionary.Name" xml:space="preserve">
+    <value>panelDictionary</value>
+  </data>
+  <data name="&gt;&gt;panelDictionary.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelDictionary.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelDictionary.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="panelSatellite.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="textBoxType.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="textBoxType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 32</value>
+  </data>
+  <data name="textBoxType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 20</value>
+  </data>
+  <data name="textBoxType.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;textBoxType.Name" xml:space="preserve">
+    <value>textBoxType</value>
+  </data>
+  <data name="&gt;&gt;textBoxType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBoxType.Parent" xml:space="preserve">
+    <value>panelSatellite</value>
+  </data>
+  <data name="&gt;&gt;textBoxType.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="lblType.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="lblType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="lblType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 16</value>
+  </data>
+  <data name="lblType.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblType.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="&gt;&gt;lblType.Name" xml:space="preserve">
+    <value>lblType</value>
+  </data>
+  <data name="&gt;&gt;lblType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblType.Parent" xml:space="preserve">
+    <value>panelSatellite</value>
+  </data>
+  <data name="&gt;&gt;lblType.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelSatellite.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelSatellite.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 40</value>
+  </data>
+  <data name="panelSatellite.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 56</value>
+  </data>
+  <data name="panelSatellite.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panelSatellite.Name" xml:space="preserve">
+    <value>panelSatellite</value>
+  </data>
+  <data name="&gt;&gt;panelSatellite.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelSatellite.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelSatellite.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="dataGridTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>Resource Name</value>
+  </data>
+  <data name="dataGridTextBoxColumn1.MappingName" xml:space="preserve">
+    <value>name</value>
+  </data>
+  <data name="dataGridTextBoxColumn1.Width" type="System.Int32, mscorlib">
+    <value>75</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>104</value>
+  </metadata>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>600, 400</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog.Name" xml:space="preserve">
+    <value>openFileDialog</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dictionaryHeadDataView.Name" xml:space="preserve">
+    <value>dictionaryHeadDataView</value>
+  </data>
+  <data name="&gt;&gt;dictionaryHeadDataView.Type" xml:space="preserve">
+    <value>System.Data.DataView, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dictionaryDataSet.Name" xml:space="preserve">
+    <value>dictionaryDataSet</value>
+  </data>
+  <data name="&gt;&gt;dictionaryDataSet.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.DictionaryDataSet, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableStyle2.Name" xml:space="preserve">
+    <value>dataGridTableStyle2</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableStyle2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridTableStyle, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle10.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle10</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle10.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle11.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle11</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle11.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableDictMaster.Name" xml:space="preserve">
+    <value>dataGridTableDictMaster</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableDictMaster.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridTableStyle, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle100.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle100</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle100.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle101.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle101</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle101.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle102.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle102</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle102.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dictionaryRowDataView.Name" xml:space="preserve">
+    <value>dictionaryRowDataView</value>
+  </data>
+  <data name="&gt;&gt;dictionaryRowDataView.Type" xml:space="preserve">
+    <value>System.Data.DataView, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableStyleDictSlave.Name" xml:space="preserve">
+    <value>dataGridTableStyleDictSlave</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableStyleDictSlave.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridTableStyle, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle110.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle110</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle110.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle111.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle111</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle111.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableStyleSattSlave.Name" xml:space="preserve">
+    <value>dataGridTableStyleSattSlave</value>
+  </data>
+  <data name="&gt;&gt;dataGridTableStyleSattSlave.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridTableStyle, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle121.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle121</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle121.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle122.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle122</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle122.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle123.Name" xml:space="preserve">
+    <value>autoSizeTextColumnStyle123</value>
+  </data>
+  <data name="&gt;&gt;autoSizeTextColumnStyle123.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;satelliteAssemblyDataSet.Name" xml:space="preserve">
+    <value>satelliteAssemblyDataSet</value>
+  </data>
+  <data name="&gt;&gt;satelliteAssemblyDataSet.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.SatelliteAssemblyDataSet, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;satelliteHeadDataView.Name" xml:space="preserve">
+    <value>satelliteHeadDataView</value>
+  </data>
+  <data name="&gt;&gt;satelliteHeadDataView.Type" xml:space="preserve">
+    <value>System.Data.DataView, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;satelliteRowDataView.Name" xml:space="preserve">
+    <value>satelliteRowDataView</value>
+  </data>
+  <data name="&gt;&gt;satelliteRowDataView.Type" xml:space="preserve">
+    <value>System.Data.DataView, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dataGridTextBoxColumn1.Name" xml:space="preserve">
+    <value>dataGridTextBoxColumn1</value>
+  </data>
+  <data name="&gt;&gt;dataGridTextBoxColumn1.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.Core.StringLoader.AutoSizeTextColumnStyle, Microarea.TaskBuilderNet.Core, Version=3.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>DictionaryViewerControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

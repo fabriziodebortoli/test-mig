@@ -33,20 +33,4 @@ namespace Microarea.AdminServer.Controllers.Helpers
             this.Ticks = ticks;
         }
     }
-
-    //================================================================================
-    public class ChangePasswordInfo
-    {
-        public string AccountName;
-        public string Password;
-        public string NewPassword;
-        //-----------------------------------------------------------------------------	
-        public ChangePasswordInfo(string accountName, string newpwd, string oldpwd)
-        {
-            NewPassword = newpwd;
-            AccountName = accountName;
-            Password = oldpwd;
-        }
-
-    }
 }

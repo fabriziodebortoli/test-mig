@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClientDocumentObjects>
+  <ClientDocuments>
+    <ServerDocument type="family" class="CAbstractFormDoc">
+			<ClientDocument namespace="Extensions.EasyAttachment.TbDMS.CDDMS"
+											localize="EasyAttachment Gate"
+											managedType="MDMSDoc, TbDMS">
+				<ViewModes>
+					<Mode name="Default" managedType="MDMSView, TbDMS"/>
+				</ViewModes>
+			</ClientDocument>
+
+	</ServerDocument>
+  </ClientDocuments>
+</ClientDocumentObjects>

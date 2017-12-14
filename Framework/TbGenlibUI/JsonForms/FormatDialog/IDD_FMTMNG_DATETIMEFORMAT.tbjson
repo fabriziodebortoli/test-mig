@@ -1,0 +1,362 @@
+﻿{
+  "id": "IDD_FMTMNG_DATETIMEFORMAT",
+  "rcId": 1029,
+  "type": 66,
+  "text": "Format Style Type",
+  "x": 53,
+  "y": 18,
+  "width": 232,
+  "height": 233,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "formatdialog",
+  "items": [
+    {
+      "id": "IDC_FMTMNG_WIDTH",
+      "type": 13,
+      "x": 10,
+      "y": 22,
+      "width": 72,
+      "height": 12
+    },
+    {
+      "id": "IDC_FMTMNG_PADLEFT",
+      "type": 10,
+      "text": "&Left",
+      "x": 10,
+      "y": 62,
+      "width": 77,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_FMTMNG_PADRIGHT",
+      "type": 10,
+      "text": "&Right",
+      "x": 10,
+      "y": 74,
+      "width": 78,
+      "height": 10,
+      "tabStop": false,
+      "auto": true
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_ORDER",
+      "type": 12,
+      "x": 97,
+      "y": 22,
+      "width": 82,
+      "height": 42,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_WEEKDAY",
+      "type": 12,
+      "x": 97,
+      "y": 45,
+      "width": 82,
+      "height": 36,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_1COMBO",
+      "type": 12,
+      "x": 97,
+      "y": 71,
+      "width": 30,
+      "height": 36,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_1SEP",
+      "type": 13,
+      "x": 129,
+      "y": 71,
+      "width": 10,
+      "height": 12
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_2COMBO",
+      "type": 12,
+      "x": 141,
+      "y": 71,
+      "width": 34,
+      "height": 57,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_2SEP",
+      "type": 13,
+      "x": 179,
+      "y": 71,
+      "width": 10,
+      "height": 12
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_3COMBO",
+      "type": 12,
+      "x": 191,
+      "y": 71,
+      "width": 32,
+      "height": 36,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_FMTMNG_TIME_FORMAT",
+      "type": 12,
+      "x": 10,
+      "y": 109,
+      "width": 120,
+      "height": 65,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 1,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_FMTMNG_TIME_SEP",
+      "type": 13,
+      "x": 135,
+      "y": 109,
+      "width": 17,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_FMTMNG_TIME_AM_STR",
+      "type": 13,
+      "x": 10,
+      "y": 134,
+      "width": 73,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_FMTMNG_TIME_PM_STR",
+      "type": 13,
+      "x": 91,
+      "y": 134,
+      "width": 73,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_FMTMNG_PREFIX",
+      "type": 13,
+      "x": 10,
+      "y": 172,
+      "width": 212,
+      "height": 12
+    },
+    {
+      "id": "IDC_FMTMNG_POSTFIX",
+      "type": 13,
+      "x": 10,
+      "y": 198,
+      "width": 212,
+      "height": 12
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 93,
+      "y": 216,
+      "width": 64,
+      "height": 15,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 163,
+      "y": 216,
+      "width": 64,
+      "height": 15
+    },
+    {
+      "id": "IDC_FMTMNG_TEST",
+      "type": 3,
+      "text": "&Test",
+      "x": 7,
+      "y": 216,
+      "width": 64,
+      "height": 15
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "&Order",
+      "x": 97,
+      "y": 13,
+      "width": 127,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "Week days",
+      "x": 97,
+      "y": 36,
+      "width": 127,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "&Format",
+      "x": 10,
+      "y": 100,
+      "width": 117,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Sep&arator",
+      "x": 134,
+      "y": 100,
+      "width": 89,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 2,
+      "text": "Postfix: an&timeridian and postmeridian",
+      "x": 10,
+      "y": 124,
+      "width": 215,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_6",
+      "type": 9,
+      "text": "Date",
+      "x": 93,
+      "y": 4,
+      "width": 136,
+      "height": 84
+    },
+    {
+      "id": "IDC_STATIC_7",
+      "type": 9,
+      "text": "Time",
+      "x": 6,
+      "y": 91,
+      "width": 223,
+      "height": 59
+    },
+    {
+      "id": "IDC_STATIC_8",
+      "type": 2,
+      "text": "&Width",
+      "x": 10,
+      "y": 12,
+      "width": 77,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_9",
+      "type": 9,
+      "x": 6,
+      "y": 3,
+      "width": 86,
+      "height": 85
+    },
+    {
+      "id": "IDC_STATIC_PAD",
+      "type": 2,
+      "text": "Alignment:",
+      "x": 10,
+      "y": 51,
+      "width": 75,
+      "height": 11,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_10",
+      "type": 2,
+      "text": "&Prologue",
+      "x": 10,
+      "y": 162,
+      "width": 211,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_11",
+      "type": 2,
+      "text": "&Epilogue",
+      "x": 10,
+      "y": 188,
+      "width": 211,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Borders",
+      "x": 6,
+      "y": 153,
+      "width": 223,
+      "height": 60
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_1LABEL",
+      "type": 2,
+      "text": "day",
+      "x": 98,
+      "y": 61,
+      "width": 41,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_2LABEL",
+      "type": 2,
+      "text": "month",
+      "x": 143,
+      "y": 61,
+      "width": 44,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_FMTMNG_DATE_3LABEL",
+      "type": 2,
+      "text": "year",
+      "x": 192,
+      "y": 61,
+      "width": 32,
+      "height": 8,
+      "group": false,
+      "textAlign": 0
+    }
+  ]
+}

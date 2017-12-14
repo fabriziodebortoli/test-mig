@@ -1,0 +1,48 @@
+{
+  "collapsed": false,
+  "collapsible": true,
+  "context": "uinotification",
+  "height": 47,
+  "id": "IDD_DATA_VALIDATION_STATUS",
+  "items": [
+
+    {
+      "binding": {
+        "datasource": "ValidationStatusPicture"
+      },
+      "bitmap": true,
+      "controlClass": "PictureStatic",
+      "group": true,
+      "height": 16,
+      "id": "IDC_DS_VALIDATIONSTATUS_PICTURE",
+      "name": "ValidationStatusPicture",
+      "type": 2, /*Label*/
+      "width": 16,
+      "x": 10,
+      "y": 4
+    },
+    {
+      "binding": {
+        "datasource": "ValidationStatus"
+      },
+      "controlClass": "StringEdit",
+      "group": true,
+      "height": 37,
+      "id": "IDC_DS_LASTVALIDATION_STATUS",
+      "multiline": true,
+      "name": "ValidationStatusNS",
+      "readOnly": true,
+      "type": 13, /*Edit*/
+      "vScroll": true,
+      "width": 287,
+      "x": 31,
+      "y": 4
+    }
+  ],
+  "name": "DataValidationStatusTileDlg",
+  "text": "Data Validation Status",
+  "type": 71, /*Tile*/
+  "width": 325,
+  "x": 0,
+  "y": 0
+}

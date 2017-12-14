@@ -1,0 +1,207 @@
+﻿{
+  "id": "IDD_CELL_ALIGN",
+  "rcId": 1152,
+  "type": 66,
+  "text": "Cell Alignment",
+  "x": 48,
+  "y": 14,
+  "width": 149,
+  "height": 199,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "text": "Orientation",
+      "x": 3,
+      "y": 0,
+      "width": 144,
+      "height": 97
+    },
+    {
+      "id": "IDC_DT_NOPREFIX",
+      "type": 11,
+      "text": "Without &Prefix",
+      "x": 8,
+      "y": 12,
+      "width": 118,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_EXPANDTABS",
+      "type": 11,
+      "text": "Expand &Tab",
+      "x": 8,
+      "y": 22,
+      "width": 118,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_WORDBREAK",
+      "type": 11,
+      "text": "Wr&ap",
+      "x": 8,
+      "y": 32,
+      "width": 118,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_MULTILINE",
+      "type": 10,
+      "text": "&Multiline",
+      "x": 7,
+      "y": 42,
+      "width": 118,
+      "height": 10,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_SINGLELINE",
+      "type": 10,
+      "text": "Single &Line",
+      "x": 7,
+      "y": 52,
+      "width": 118,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_90",
+      "type": 11,
+      "text": "90°",
+      "x": 8,
+      "y": 68,
+      "width": 81,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_270",
+      "type": 11,
+      "text": "270°",
+      "x": 8,
+      "y": 81,
+      "width": 80,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 9,
+      "text": "Landscape",
+      "x": 3,
+      "y": 105,
+      "width": 71,
+      "height": 49
+    },
+    {
+      "id": "IDC_DT_LEFT",
+      "type": 10,
+      "text": "Left",
+      "x": 7,
+      "y": 127,
+      "width": 62,
+      "height": 10,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_CENTER",
+      "type": 10,
+      "text": "&Centered",
+      "x": 7,
+      "y": 115,
+      "width": 64,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_RIGHT",
+      "type": 10,
+      "text": "Right",
+      "x": 7,
+      "y": 139,
+      "width": 64,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Portrait",
+      "x": 77,
+      "y": 105,
+      "width": 70,
+      "height": 49
+    },
+    {
+      "id": "IDC_DT_TOP",
+      "type": 10,
+      "text": "To&p",
+      "x": 80,
+      "y": 127,
+      "width": 63,
+      "height": 10,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_VCENTER",
+      "type": 10,
+      "text": "&Centered",
+      "x": 80,
+      "y": 115,
+      "width": 62,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DT_BOTTOM",
+      "type": 10,
+      "text": "&Bottom",
+      "x": 80,
+      "y": 139,
+      "width": 64,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_ALL_COLUMNS",
+      "type": 11,
+      "text": "Apply to en&tire Row",
+      "x": 6,
+      "y": 158,
+      "width": 141,
+      "height": 16,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 11,
+      "y": 178,
+      "width": 58,
+      "height": 15,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 79,
+      "y": 178,
+      "width": 58,
+      "height": 15
+    }
+  ]
+}

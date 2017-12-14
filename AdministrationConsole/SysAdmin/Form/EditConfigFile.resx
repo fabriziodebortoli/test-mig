@@ -1,0 +1,1867 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LblPreferredLanguage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="LblPreferredLanguage.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LblPreferredLanguage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblPreferredLanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 56</value>
+  </data>
+  <data name="LblPreferredLanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 16</value>
+  </data>
+  <data name="LblPreferredLanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="LblPreferredLanguage.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LblPreferredLanguage.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LblPreferredLanguage.Name" xml:space="preserve">
+    <value>LblPreferredLanguage</value>
+  </data>
+  <data name="&gt;&gt;LblPreferredLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblPreferredLanguage.Parent" xml:space="preserve">
+    <value>GroupBoxLanguage</value>
+  </data>
+  <data name="&gt;&gt;LblPreferredLanguage.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="LabelTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="LabelTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 12pt, style=Bold</value>
+  </data>
+  <data name="LabelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LabelTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="LabelTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>687, 24</value>
+  </data>
+  <data name="LabelTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="LabelTitle.Text" xml:space="preserve">
+    <value>General settings</value>
+  </data>
+  <data name="LabelTitle.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Name" xml:space="preserve">
+    <value>LabelTitle</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LabelTitle.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="GroupBoxLanguage.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cultureUICombo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 75</value>
+  </data>
+  <data name="cultureUICombo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 24</value>
+  </data>
+  <data name="cultureUICombo.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;cultureUICombo.Name" xml:space="preserve">
+    <value>cultureUICombo</value>
+  </data>
+  <data name="&gt;&gt;cultureUICombo.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.UI.WinControls.Combo.CultureUICombo, Microarea.TaskBuilderNet.UI, Version=3.12.7.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;cultureUICombo.Parent" xml:space="preserve">
+    <value>GroupBoxLanguage</value>
+  </data>
+  <data name="&gt;&gt;cultureUICombo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cultureApplicationCombo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="cultureApplicationCombo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>243, 51</value>
+  </data>
+  <data name="cultureApplicationCombo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>347, 52</value>
+  </data>
+  <data name="cultureApplicationCombo.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;cultureApplicationCombo.Name" xml:space="preserve">
+    <value>cultureApplicationCombo</value>
+  </data>
+  <data name="&gt;&gt;cultureApplicationCombo.Type" xml:space="preserve">
+    <value>Microarea.TaskBuilderNet.UI.WinControls.Combo.NativeCultureCombo, Microarea.TaskBuilderNet.UI, Version=3.12.7.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;cultureApplicationCombo.Parent" xml:space="preserve">
+    <value>GroupBoxLanguage</value>
+  </data>
+  <data name="&gt;&gt;cultureApplicationCombo.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 18</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>643, 34</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>This option enables setting language and regional options for the Administration Console and its plug-ins.</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>GroupBoxLanguage</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="GroupBoxLanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 29</value>
+  </data>
+  <data name="GroupBoxLanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>668, 110</value>
+  </data>
+  <data name="GroupBoxLanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="GroupBoxLanguage.Text" xml:space="preserve">
+    <value>Language and regional settings</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxLanguage.Name" xml:space="preserve">
+    <value>GroupBoxLanguage</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxLanguage.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxLanguage.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="GroupPolicyPwdUser.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="nudMaxLoginFailed.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudMaxLoginFailed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>429, 42</value>
+  </data>
+  <data name="nudMaxLoginFailed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudMaxLoginFailed.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="nudMaxLoginFailed.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginFailed.Name" xml:space="preserve">
+    <value>nudMaxLoginFailed</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginFailed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginFailed.Parent" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginFailed.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>429, 21</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 16</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.Text" xml:space="preserve">
+    <value>Maximum failed logins</value>
+  </data>
+  <data name="LblNrMaxLoginFailed.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LblNrMaxLoginFailed.Name" xml:space="preserve">
+    <value>LblNrMaxLoginFailed</value>
+  </data>
+  <data name="&gt;&gt;LblNrMaxLoginFailed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblNrMaxLoginFailed.Parent" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;LblNrMaxLoginFailed.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="nudPwdTimeLenght.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudPwdTimeLenght.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 42</value>
+  </data>
+  <data name="nudPwdTimeLenght.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudPwdTimeLenght.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="nudPwdTimeLenght.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudPwdTimeLenght.Name" xml:space="preserve">
+    <value>nudPwdTimeLenght</value>
+  </data>
+  <data name="&gt;&gt;nudPwdTimeLenght.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudPwdTimeLenght.Parent" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;nudPwdTimeLenght.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="LblPwdDuration.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblPwdDuration.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="LblPwdDuration.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblPwdDuration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 21</value>
+  </data>
+  <data name="LblPwdDuration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 16</value>
+  </data>
+  <data name="LblPwdDuration.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="LblPwdDuration.Text" xml:space="preserve">
+    <value>Expiration (days)</value>
+  </data>
+  <data name="LblPwdDuration.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LblPwdDuration.Name" xml:space="preserve">
+    <value>LblPwdDuration</value>
+  </data>
+  <data name="&gt;&gt;LblPwdDuration.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblPwdDuration.Parent" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;LblPwdDuration.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="LblPwdMinLenght.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblPwdMinLenght.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="LblPwdMinLenght.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblPwdMinLenght.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 21</value>
+  </data>
+  <data name="LblPwdMinLenght.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 16</value>
+  </data>
+  <data name="LblPwdMinLenght.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="LblPwdMinLenght.Text" xml:space="preserve">
+    <value>Minimum length</value>
+  </data>
+  <data name="LblPwdMinLenght.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LblPwdMinLenght.Name" xml:space="preserve">
+    <value>LblPwdMinLenght</value>
+  </data>
+  <data name="&gt;&gt;LblPwdMinLenght.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblPwdMinLenght.Parent" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;LblPwdMinLenght.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="nudMinPwdLenght.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudMinPwdLenght.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 42</value>
+  </data>
+  <data name="nudMinPwdLenght.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudMinPwdLenght.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="nudMinPwdLenght.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudMinPwdLenght.Name" xml:space="preserve">
+    <value>nudMinPwdLenght</value>
+  </data>
+  <data name="&gt;&gt;nudMinPwdLenght.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudMinPwdLenght.Parent" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;nudMinPwdLenght.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="cbUseStrongPwd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cbUseStrongPwd.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="cbUseStrongPwd.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="cbUseStrongPwd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cbUseStrongPwd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 69</value>
+  </data>
+  <data name="cbUseStrongPwd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>647, 19</value>
+  </data>
+  <data name="cbUseStrongPwd.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="cbUseStrongPwd.Text" xml:space="preserve">
+    <value>Passwords must meet complexity requirements</value>
+  </data>
+  <data name="&gt;&gt;cbUseStrongPwd.Name" xml:space="preserve">
+    <value>cbUseStrongPwd</value>
+  </data>
+  <data name="&gt;&gt;cbUseStrongPwd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbUseStrongPwd.Parent" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;cbUseStrongPwd.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="GroupPolicyPwdUser.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="GroupPolicyPwdUser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 141</value>
+  </data>
+  <data name="GroupPolicyPwdUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>668, 94</value>
+  </data>
+  <data name="GroupPolicyPwdUser.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="GroupPolicyPwdUser.Text" xml:space="preserve">
+    <value>Password policies</value>
+  </data>
+  <data name="&gt;&gt;GroupPolicyPwdUser.Name" xml:space="preserve">
+    <value>GroupPolicyPwdUser</value>
+  </data>
+  <data name="&gt;&gt;GroupPolicyPwdUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupPolicyPwdUser.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupPolicyPwdUser.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CbAutologin.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CbAutologin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CbAutologin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 26</value>
+  </data>
+  <data name="CbAutologin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 20</value>
+  </data>
+  <data name="CbAutologin.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CbAutologin.Text" xml:space="preserve">
+    <value>Allow Autologin</value>
+  </data>
+  <data name="&gt;&gt;CbAutologin.Name" xml:space="preserve">
+    <value>CbAutologin</value>
+  </data>
+  <data name="&gt;&gt;CbAutologin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CbAutologin.Parent" xml:space="preserve">
+    <value>GBoxOtherSettings</value>
+  </data>
+  <data name="&gt;&gt;CbAutologin.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="PbAutologin.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+      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
+      TkSuQmCC
+    </value>
+  </data>
+  <data name="PbAutologin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PbAutologin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 20</value>
+  </data>
+  <data name="PbAutologin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 31</value>
+  </data>
+  <data name="PbAutologin.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <data name="PbAutologin.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;PbAutologin.Name" xml:space="preserve">
+    <value>PbAutologin</value>
+  </data>
+  <data name="&gt;&gt;PbAutologin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PbAutologin.Parent" xml:space="preserve">
+    <value>GBoxOtherSettings</value>
+  </data>
+  <data name="&gt;&gt;PbAutologin.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="nudTBLoaderTimeout.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudTBLoaderTimeout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 91</value>
+  </data>
+  <data name="nudTBLoaderTimeout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudTBLoaderTimeout.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="nudTBLoaderTimeout.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudTBLoaderTimeout.Name" xml:space="preserve">
+    <value>nudTBLoaderTimeout</value>
+  </data>
+  <data name="&gt;&gt;nudTBLoaderTimeout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudTBLoaderTimeout.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;nudTBLoaderTimeout.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="nudMaxLoginPerTBLoader.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudMaxLoginPerTBLoader.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 43</value>
+  </data>
+  <data name="nudMaxLoginPerTBLoader.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudMaxLoginPerTBLoader.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="nudMaxLoginPerTBLoader.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginPerTBLoader.Name" xml:space="preserve">
+    <value>nudMaxLoginPerTBLoader</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginPerTBLoader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginPerTBLoader.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;nudMaxLoginPerTBLoader.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="LblTBLoaderTimeout.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblTBLoaderTimeout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblTBLoaderTimeout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 72</value>
+  </data>
+  <data name="LblTBLoaderTimeout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 16</value>
+  </data>
+  <data name="LblTBLoaderTimeout.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LblTBLoaderTimeout.Text" xml:space="preserve">
+    <value>TBLoader timeout (minutes)</value>
+  </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="LblTBLoaderTimeout.ToolTip" xml:space="preserve">
+    <value>The amount of inactivity time in minutes before the process closes itself (use -1 means that the process will never auto close itself)</value>
+  </data>
+  <data name="&gt;&gt;LblTBLoaderTimeout.Name" xml:space="preserve">
+    <value>LblTBLoaderTimeout</value>
+  </data>
+  <data name="&gt;&gt;LblTBLoaderTimeout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblTBLoaderTimeout.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;LblTBLoaderTimeout.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="LblMaxLoginPerTBLoader.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblMaxLoginPerTBLoader.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 24</value>
+  </data>
+  <data name="LblMaxLoginPerTBLoader.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 16</value>
+  </data>
+  <data name="LblMaxLoginPerTBLoader.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="LblMaxLoginPerTBLoader.Text" xml:space="preserve">
+    <value>Maximum logins per Application Server</value>
+  </data>
+  <data name="&gt;&gt;LblMaxLoginPerTBLoader.Name" xml:space="preserve">
+    <value>LblMaxLoginPerTBLoader</value>
+  </data>
+  <data name="&gt;&gt;LblMaxLoginPerTBLoader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblMaxLoginPerTBLoader.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;LblMaxLoginPerTBLoader.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="nudMaxTbLoader.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudMaxTbLoader.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 43</value>
+  </data>
+  <data name="nudMaxTbLoader.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudMaxTbLoader.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="nudMaxTbLoader.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudMaxTbLoader.Name" xml:space="preserve">
+    <value>nudMaxTbLoader</value>
+  </data>
+  <data name="&gt;&gt;nudMaxTbLoader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudMaxTbLoader.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;nudMaxTbLoader.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="LblMaxTbLoader.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="LblMaxTbLoader.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblMaxTbLoader.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="LblMaxTbLoader.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblMaxTbLoader.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 24</value>
+  </data>
+  <data name="LblMaxTbLoader.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 16</value>
+  </data>
+  <data name="LblMaxTbLoader.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="LblMaxTbLoader.Text" xml:space="preserve">
+    <value>Maximum Application Servers</value>
+  </data>
+  <data name="LblMaxTbLoader.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LblMaxTbLoader.Name" xml:space="preserve">
+    <value>LblMaxTbLoader</value>
+  </data>
+  <data name="&gt;&gt;LblMaxTbLoader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblMaxTbLoader.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;LblMaxTbLoader.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="LblDefaultWcfCallTimeout.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblDefaultWcfCallTimeout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblDefaultWcfCallTimeout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 72</value>
+  </data>
+  <data name="LblDefaultWcfCallTimeout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>273, 16</value>
+  </data>
+  <data name="LblDefaultWcfCallTimeout.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="LblDefaultWcfCallTimeout.Text" xml:space="preserve">
+    <value>Timeout for WCF service calls (minutes)</value>
+  </data>
+  <data name="LblDefaultWcfCallTimeout.ToolTip" xml:space="preserve">
+    <value>The amount of time in minutes for WCF service calls not related to data transfer (such as CreateTB, CloseTB, etc.)</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultWcfCallTimeout.Name" xml:space="preserve">
+    <value>LblDefaultWcfCallTimeout</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultWcfCallTimeout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultWcfCallTimeout.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultWcfCallTimeout.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="LblDefaultDataTransferWcfCall.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblDefaultDataTransferWcfCall.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblDefaultDataTransferWcfCall.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 123</value>
+  </data>
+  <data name="LblDefaultDataTransferWcfCall.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 16</value>
+  </data>
+  <data name="LblDefaultDataTransferWcfCall.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="LblDefaultDataTransferWcfCall.Text" xml:space="preserve">
+    <value>Timeout for data transfer WCF service calls (minutes)</value>
+  </data>
+  <data name="LblDefaultDataTransferWcfCall.ToolTip" xml:space="preserve">
+    <value>The amount of time in minutes for WCF service calls related to data transfer (such as SetData, GetData, etc.)</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultDataTransferWcfCall.Name" xml:space="preserve">
+    <value>LblDefaultDataTransferWcfCall</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultDataTransferWcfCall.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultDataTransferWcfCall.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;LblDefaultDataTransferWcfCall.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="numericUpDown1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="numericUpDown1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>453, 39</value>
+  </data>
+  <data name="numericUpDown1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 23</value>
+  </data>
+  <data name="numericUpDown1.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="numericUpDown1.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="numericUpDown1.ToolTip" xml:space="preserve">
+    <value>Maximum value of minutes after which the WMS CAL is considered purgeable because it is not working.</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown1.Name" xml:space="preserve">
+    <value>numericUpDown1</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown1.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>450, 20</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 16</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Mobile CAL expiry time</value>
+  </data>
+  <data name="label5.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LMLogCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LMLogCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="LMLogCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>246, 29</value>
+  </data>
+  <data name="LMLogCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 21</value>
+  </data>
+  <data name="LMLogCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="LMLogCheckBox.Text" xml:space="preserve">
+    <value>LoginManager</value>
+  </data>
+  <data name="&gt;&gt;LMLogCheckBox.Name" xml:space="preserve">
+    <value>LMLogCheckBox</value>
+  </data>
+  <data name="&gt;&gt;LMLogCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LMLogCheckBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;LMLogCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="LblEnableVerboseLog.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblEnableVerboseLog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblEnableVerboseLog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>246, 13</value>
+  </data>
+  <data name="LblEnableVerboseLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 16</value>
+  </data>
+  <data name="LblEnableVerboseLog.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LblEnableVerboseLog.Text" xml:space="preserve">
+    <value>Enable verbose logging</value>
+  </data>
+  <data name="&gt;&gt;LblEnableVerboseLog.Name" xml:space="preserve">
+    <value>LblEnableVerboseLog</value>
+  </data>
+  <data name="&gt;&gt;LblEnableVerboseLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblEnableVerboseLog.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;LblEnableVerboseLog.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="nudWebServicesTimeOut.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudWebServicesTimeOut.Location" type="System.Drawing.Point, System.Drawing">
+    <value>103, 39</value>
+  </data>
+  <data name="nudWebServicesTimeOut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 23</value>
+  </data>
+  <data name="nudWebServicesTimeOut.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="nudWebServicesTimeOut.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesTimeOut.Name" xml:space="preserve">
+    <value>nudWebServicesTimeOut</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesTimeOut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesTimeOut.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesTimeOut.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="nudWebServicesPort.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudWebServicesPort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 39</value>
+  </data>
+  <data name="nudWebServicesPort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudWebServicesPort.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="nudWebServicesPort.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesPort.Name" xml:space="preserve">
+    <value>nudWebServicesPort</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesPort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesPort.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;nudWebServicesPort.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>103, 20</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 16</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
+  <data name="label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 20</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 16</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="EALogCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="EALogCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="EALogCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="EALogCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>246, 47</value>
+  </data>
+  <data name="EALogCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>175, 21</value>
+  </data>
+  <data name="EALogCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="EALogCheckBox.Text" xml:space="preserve">
+    <value>EasyAttachmentSync</value>
+  </data>
+  <data name="&gt;&gt;EALogCheckBox.Name" xml:space="preserve">
+    <value>EALogCheckBox</value>
+  </data>
+  <data name="&gt;&gt;EALogCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EALogCheckBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;EALogCheckBox.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 332</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>668, 71</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Web Services properties</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="SMTPGroupBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="SMTPFrom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>335, 38</value>
+  </data>
+  <data name="SMTPFrom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>315, 23</value>
+  </data>
+  <data name="SMTPFrom.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;SMTPFrom.Name" xml:space="preserve">
+    <value>SMTPFrom</value>
+  </data>
+  <data name="&gt;&gt;SMTPFrom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPFrom.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPFrom.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>335, 19</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 16</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>From Address</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SMTPPortNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>546, 106</value>
+  </data>
+  <data name="SMTPPortNumericUpDown.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="SMTPPortNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="SMTPPortNumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="SMTPPortNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;SMTPPortNumericUpDown.Name" xml:space="preserve">
+    <value>SMTPPortNumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;SMTPPortNumericUpDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPPortNumericUpDown.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPPortNumericUpDown.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SMTPDomainsComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 106</value>
+  </data>
+  <data name="SMTPDomainsComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 24</value>
+  </data>
+  <data name="SMTPDomainsComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;SMTPDomainsComboBox.Name" xml:space="preserve">
+    <value>SMTPDomainsComboBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPDomainsComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPDomainsComboBox.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPDomainsComboBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="SMTPPasswordTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>372, 106</value>
+  </data>
+  <data name="SMTPPasswordTextBox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="SMTPPasswordTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 23</value>
+  </data>
+  <data name="SMTPPasswordTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;SMTPPasswordTextBox.Name" xml:space="preserve">
+    <value>SMTPPasswordTextBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPPasswordTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPPasswordTextBox.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPPasswordTextBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="SMTPUserNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>190, 106</value>
+  </data>
+  <data name="SMTPUserNameTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 23</value>
+  </data>
+  <data name="SMTPUserNameTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;SMTPUserNameTextBox.Name" xml:space="preserve">
+    <value>SMTPUserNameTextBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPUserNameTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPUserNameTextBox.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPUserNameTextBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="PortLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PortLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PortLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>543, 88</value>
+  </data>
+  <data name="PortLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 16</value>
+  </data>
+  <data name="PortLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="PortLabel.Text" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="&gt;&gt;PortLabel.Name" xml:space="preserve">
+    <value>PortLabel</value>
+  </data>
+  <data name="&gt;&gt;PortLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PortLabel.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;PortLabel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="PasswordLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PasswordLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PasswordLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>369, 88</value>
+  </data>
+  <data name="PasswordLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 16</value>
+  </data>
+  <data name="PasswordLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="PasswordLabel.Text" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="&gt;&gt;PasswordLabel.Name" xml:space="preserve">
+    <value>PasswordLabel</value>
+  </data>
+  <data name="&gt;&gt;PasswordLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PasswordLabel.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;PasswordLabel.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="UserNameLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UserNameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UserNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>187, 88</value>
+  </data>
+  <data name="UserNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 16</value>
+  </data>
+  <data name="UserNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="UserNameLabel.Text" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.Name" xml:space="preserve">
+    <value>UserNameLabel</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;UserNameLabel.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="DomainLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="DomainLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 88</value>
+  </data>
+  <data name="DomainLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 16</value>
+  </data>
+  <data name="DomainLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="DomainLabel.Text" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="&gt;&gt;DomainLabel.Name" xml:space="preserve">
+    <value>DomainLabel</value>
+  </data>
+  <data name="&gt;&gt;DomainLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DomainLabel.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;DomainLabel.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="SMTPUseSSLCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SMTPUseSSLCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>250, 66</value>
+  </data>
+  <data name="SMTPUseSSLCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 21</value>
+  </data>
+  <data name="SMTPUseSSLCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="SMTPUseSSLCheckBox.Text" xml:space="preserve">
+    <value>Use SSL</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSSLCheckBox.Name" xml:space="preserve">
+    <value>SMTPUseSSLCheckBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSSLCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSSLCheckBox.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSSLCheckBox.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="SMTPUseSpecificCredentialsCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 66</value>
+  </data>
+  <data name="SMTPUseSpecificCredentialsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 21</value>
+  </data>
+  <data name="SMTPUseSpecificCredentialsCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="SMTPUseSpecificCredentialsCheckBox.Text" xml:space="preserve">
+    <value>Use Specific Credentials</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSpecificCredentialsCheckBox.Name" xml:space="preserve">
+    <value>SMTPUseSpecificCredentialsCheckBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSpecificCredentialsCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSpecificCredentialsCheckBox.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPUseSpecificCredentialsCheckBox.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="SMTPRelayServerTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 38</value>
+  </data>
+  <data name="SMTPRelayServerTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>315, 23</value>
+  </data>
+  <data name="SMTPRelayServerTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerTextBox.Name" xml:space="preserve">
+    <value>SMTPRelayServerTextBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerTextBox.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerTextBox.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="SMTPRelayServerLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SMTPRelayServerLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="SMTPRelayServerLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SMTPRelayServerLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 19</value>
+  </data>
+  <data name="SMTPRelayServerLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 16</value>
+  </data>
+  <data name="SMTPRelayServerLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="SMTPRelayServerLabel.Text" xml:space="preserve">
+    <value>SMTP Relay Mail Server </value>
+  </data>
+  <data name="SMTPRelayServerLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomLeft</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerLabel.Name" xml:space="preserve">
+    <value>SMTPRelayServerLabel</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerLabel.Parent" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPRelayServerLabel.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="SMTPGroupBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="SMTPGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 580</value>
+  </data>
+  <data name="SMTPGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>668, 138</value>
+  </data>
+  <data name="SMTPGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="SMTPGroupBox.Text" xml:space="preserve">
+    <value>SMTP properties</value>
+  </data>
+  <data name="&gt;&gt;SMTPGroupBox.Name" xml:space="preserve">
+    <value>SMTPGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SMTPGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SMTPGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;SMTPGroupBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="GroupTBLoaderParameters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="nudTBWCFDataTransferTimeout.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudTBWCFDataTransferTimeout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 142</value>
+  </data>
+  <data name="nudTBWCFDataTransferTimeout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudTBWCFDataTransferTimeout.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="nudTBWCFDataTransferTimeout.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDataTransferTimeout.Name" xml:space="preserve">
+    <value>nudTBWCFDataTransferTimeout</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDataTransferTimeout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDataTransferTimeout.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDataTransferTimeout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="nudTBWCFDefaultTimeout.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="nudTBWCFDefaultTimeout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 91</value>
+  </data>
+  <data name="nudTBWCFDefaultTimeout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="nudTBWCFDefaultTimeout.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="nudTBWCFDefaultTimeout.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDefaultTimeout.Name" xml:space="preserve">
+    <value>nudTBWCFDefaultTimeout</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDefaultTimeout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDefaultTimeout.Parent" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;nudTBWCFDefaultTimeout.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="GroupTBLoaderParameters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 405</value>
+  </data>
+  <data name="GroupTBLoaderParameters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>668, 171</value>
+  </data>
+  <data name="GroupTBLoaderParameters.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="GroupTBLoaderParameters.Text" xml:space="preserve">
+    <value>TBLoader/EasyLook Parameters and Load Balancing</value>
+  </data>
+  <data name="&gt;&gt;GroupTBLoaderParameters.Name" xml:space="preserve">
+    <value>GroupTBLoaderParameters</value>
+  </data>
+  <data name="&gt;&gt;GroupTBLoaderParameters.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupTBLoaderParameters.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupTBLoaderParameters.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LblDBSizeMaxLevel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblDBSizeMaxLevel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 16</value>
+  </data>
+  <data name="LblDBSizeMaxLevel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>329, 16</value>
+  </data>
+  <data name="LblDBSizeMaxLevel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="LblDBSizeMaxLevel.Text" xml:space="preserve">
+    <value>Warn if database size exceeds this value (in GB)</value>
+  </data>
+  <data name="&gt;&gt;LblDBSizeMaxLevel.Name" xml:space="preserve">
+    <value>LblDBSizeMaxLevel</value>
+  </data>
+  <data name="&gt;&gt;LblDBSizeMaxLevel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblDBSizeMaxLevel.Parent" xml:space="preserve">
+    <value>GBoxOtherSettings</value>
+  </data>
+  <data name="&gt;&gt;LblDBSizeMaxLevel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="GBoxOtherSettings.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="NudDBSizeLevel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="NudDBSizeLevel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 35</value>
+  </data>
+  <data name="NudDBSizeLevel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="NudDBSizeLevel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="NudDBSizeLevel.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;NudDBSizeLevel.Name" xml:space="preserve">
+    <value>NudDBSizeLevel</value>
+  </data>
+  <data name="&gt;&gt;NudDBSizeLevel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NudDBSizeLevel.Parent" xml:space="preserve">
+    <value>GBoxOtherSettings</value>
+  </data>
+  <data name="&gt;&gt;NudDBSizeLevel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TxtPingMailRecipient.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="TxtPingMailRecipient.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TxtPingMailRecipient.Location" type="System.Drawing.Point, System.Drawing">
+    <value>372, 65</value>
+  </data>
+  <data name="TxtPingMailRecipient.Size" type="System.Drawing.Size, System.Drawing">
+    <value>290, 23</value>
+  </data>
+  <data name="TxtPingMailRecipient.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;TxtPingMailRecipient.Name" xml:space="preserve">
+    <value>TxtPingMailRecipient</value>
+  </data>
+  <data name="&gt;&gt;TxtPingMailRecipient.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtPingMailRecipient.Parent" xml:space="preserve">
+    <value>GBoxOtherSettings</value>
+  </data>
+  <data name="&gt;&gt;TxtPingMailRecipient.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CkbSendPingMail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CkbSendPingMail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 66</value>
+  </data>
+  <data name="CkbSendPingMail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 21</value>
+  </data>
+  <data name="CkbSendPingMail.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="CkbSendPingMail.Text" xml:space="preserve">
+    <value>Send SMTP Email on failed validation to:</value>
+  </data>
+  <data name="&gt;&gt;CkbSendPingMail.Name" xml:space="preserve">
+    <value>CkbSendPingMail</value>
+  </data>
+  <data name="&gt;&gt;CkbSendPingMail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CkbSendPingMail.Parent" xml:space="preserve">
+    <value>GBoxOtherSettings</value>
+  </data>
+  <data name="&gt;&gt;CkbSendPingMail.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="GBoxOtherSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 237</value>
+  </data>
+  <data name="GBoxOtherSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>668, 93</value>
+  </data>
+  <data name="GBoxOtherSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="GBoxOtherSettings.Text" xml:space="preserve">
+    <value>Other settings</value>
+  </data>
+  <data name="&gt;&gt;GBoxOtherSettings.Name" xml:space="preserve">
+    <value>GBoxOtherSettings</value>
+  </data>
+  <data name="&gt;&gt;GBoxOtherSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GBoxOtherSettings.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GBoxOtherSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>36</value>
+  </metadata>
+  <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
+    <value>7, 16</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>687, 720</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9.75pt</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>389, 320</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>EditConfigFile</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
+    <value>toolTip</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>EditConfigFile</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Microarea.Console.Core.PlugIns.PlugInsForm, Microarea.Console.Core, Version=3.12.7.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

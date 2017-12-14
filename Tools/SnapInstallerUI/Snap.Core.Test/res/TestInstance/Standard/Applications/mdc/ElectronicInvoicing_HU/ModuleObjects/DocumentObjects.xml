@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentObjects>
+  <Documents> 
+   <Document namespace="MDC.ElectronicInvoicing_HU.BatchDocuments.EIHUTrasmission" localize="Tax Official Control of Data" classhierarchy="BDEIHUTrasmission" defaultsecurityroles="MDC">
+    <InterfaceClass>ADMEITrasmissionObj</InterfaceClass>
+    <ViewModes>
+      <Mode name="Default" type="batch" />
+      <Mode name="BackGround" type="batch" />
+    </ViewModes>
+   </Document>
+   </Documents>
+</DocumentObjects>

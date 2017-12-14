@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DATASYNCHRO						GET_IDD(IDD_DATASYNCHRO, M.Extensions.TbDataSynchroClient.UINotification)
+#define	IDD_DATASYNCHRO_VIEW				GET_IDD(IDD_DATASYNCHRO_VIEW, M.Extensions.TbDataSynchroClient.UINotification)
+#define	IDC_TG_DATASYNCHRO					GET_IDC(IDC_TG_DATASYNCHRO)

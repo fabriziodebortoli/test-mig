@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink>
+  <Function type="string" namespace="Framework.TbGes.TbGes.TableColumns" localize="Table columns"  >
+    <Param name="Table" type="string" localize="Table name" />
+  </Function>
+  <DbField name="Name" />
+  <ComboBox/>
+</HotKeyLink>

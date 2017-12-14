@@ -1,0 +1,6 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_COLOR_CELL			GET_IDD(IDD_COLOR_CELL, M.Framework.TbWoormViewer.MCLRDLG)
+#define	IDC_COLOR_BTN1			GET_IDC(IDC_COLOR_BTN1)
+#define	IDC_COLOR_BTN2			GET_IDC(IDC_COLOR_BTN2)
+#define	IDC_COLOR_BTN3			GET_IDC(IDC_COLOR_BTN3)

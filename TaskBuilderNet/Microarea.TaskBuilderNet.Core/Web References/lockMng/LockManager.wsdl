@@ -1,0 +1,1046 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://microarea.it/LockManager/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://microarea.it/LockManager/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microarea.it/LockManager/">
+      <s:element name="Init">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InitResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="InitLock">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InitLockResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InitLockResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLockSessionID">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetLockSessionIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLockSessionIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsAlive">
+        <s:complexType />
+      </s:element>
+      <s:element name="IsAliveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAliveResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLockInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLockInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLockInfoResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lockTime" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="processName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLockEntriesAtt">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetLockEntriesAttResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLockEntriesAttResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCompanyDBAndTableLocksList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCompanyDBAndTableLocksListResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetLocksList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLocksListResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="LockRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="processName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LockRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LockRecordResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LockRecordEx">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="processName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LockRecordExResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LockRecordExResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockApp" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsRecordLocked">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsRecordLockedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsRecordLockedResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsCurrentLocked">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsCurrentLockedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCurrentLockedResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsMyLock">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsMyLockResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsMyLockResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockRecordResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllContext">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllContextResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllContextResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAll">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCurrentConnection">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCurrentConnectionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForCurrentConnectionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForCompanyDBNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBNameAndUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBNameAndUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForCompanyDBNameAndUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBNameAndTable">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBNameAndTableResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForCompanyDBNameAndTableResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBNameAndTableAndUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockAllForCompanyDBNameAndTableAndUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockAllForCompanyDBNameAndTableAndUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockCompanyDBNameAndTableAndLock">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="companyDBName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lockKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnlockCompanyDBNameAndTableAndLockResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnlockCompanyDBNameAndTableAndLockResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveUnusedLocks">
+        <s:complexType />
+      </s:element>
+      <s:element name="RemoveUnusedLocksResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="InitSoapIn">
+    <wsdl:part name="parameters" element="tns:Init" />
+  </wsdl:message>
+  <wsdl:message name="InitSoapOut">
+    <wsdl:part name="parameters" element="tns:InitResponse" />
+  </wsdl:message>
+  <wsdl:message name="InitLockSoapIn">
+    <wsdl:part name="parameters" element="tns:InitLock" />
+  </wsdl:message>
+  <wsdl:message name="InitLockSoapOut">
+    <wsdl:part name="parameters" element="tns:InitLockResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLockSessionIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLockSessionID" />
+  </wsdl:message>
+  <wsdl:message name="GetLockSessionIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLockSessionIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsAliveSoapIn">
+    <wsdl:part name="parameters" element="tns:IsAlive" />
+  </wsdl:message>
+  <wsdl:message name="IsAliveSoapOut">
+    <wsdl:part name="parameters" element="tns:IsAliveResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLockInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLockInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetLockInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLockInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLockEntriesAttSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLockEntriesAtt" />
+  </wsdl:message>
+  <wsdl:message name="GetLockEntriesAttSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLockEntriesAttResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCompanyDBAndTableLocksListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCompanyDBAndTableLocksList" />
+  </wsdl:message>
+  <wsdl:message name="GetCompanyDBAndTableLocksListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCompanyDBAndTableLocksListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLocksListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLocksList" />
+  </wsdl:message>
+  <wsdl:message name="GetLocksListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLocksListResponse" />
+  </wsdl:message>
+  <wsdl:message name="LockRecordSoapIn">
+    <wsdl:part name="parameters" element="tns:LockRecord" />
+  </wsdl:message>
+  <wsdl:message name="LockRecordSoapOut">
+    <wsdl:part name="parameters" element="tns:LockRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="LockRecordExSoapIn">
+    <wsdl:part name="parameters" element="tns:LockRecordEx" />
+  </wsdl:message>
+  <wsdl:message name="LockRecordExSoapOut">
+    <wsdl:part name="parameters" element="tns:LockRecordExResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsRecordLockedSoapIn">
+    <wsdl:part name="parameters" element="tns:IsRecordLocked" />
+  </wsdl:message>
+  <wsdl:message name="IsRecordLockedSoapOut">
+    <wsdl:part name="parameters" element="tns:IsRecordLockedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsCurrentLockedSoapIn">
+    <wsdl:part name="parameters" element="tns:IsCurrentLocked" />
+  </wsdl:message>
+  <wsdl:message name="IsCurrentLockedSoapOut">
+    <wsdl:part name="parameters" element="tns:IsCurrentLockedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsMyLockSoapIn">
+    <wsdl:part name="parameters" element="tns:IsMyLock" />
+  </wsdl:message>
+  <wsdl:message name="IsMyLockSoapOut">
+    <wsdl:part name="parameters" element="tns:IsMyLockResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockRecordSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockRecord" />
+  </wsdl:message>
+  <wsdl:message name="UnlockRecordSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllContextSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAllContext" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllContextSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllContextResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAll" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCurrentConnectionSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCurrentConnection" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCurrentConnectionSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCurrentConnectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForUserSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAllForUser" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForUserSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllForUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBName" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameAndUserSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBNameAndUser" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameAndUserSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBNameAndUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameAndTableSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBNameAndTable" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameAndTableSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBNameAndTableResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameAndTableAndUserSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBNameAndTableAndUser" />
+  </wsdl:message>
+  <wsdl:message name="UnlockAllForCompanyDBNameAndTableAndUserSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockAllForCompanyDBNameAndTableAndUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnlockCompanyDBNameAndTableAndLockSoapIn">
+    <wsdl:part name="parameters" element="tns:UnlockCompanyDBNameAndTableAndLock" />
+  </wsdl:message>
+  <wsdl:message name="UnlockCompanyDBNameAndTableAndLockSoapOut">
+    <wsdl:part name="parameters" element="tns:UnlockCompanyDBNameAndTableAndLockResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveUnusedLocksSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveUnusedLocks" />
+  </wsdl:message>
+  <wsdl:message name="RemoveUnusedLocksSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveUnusedLocksResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MicroareaLockManagerSoap">
+    <wsdl:operation name="Init">
+      <wsdl:input message="tns:InitSoapIn" />
+      <wsdl:output message="tns:InitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InitLock">
+      <wsdl:input message="tns:InitLockSoapIn" />
+      <wsdl:output message="tns:InitLockSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLockSessionID">
+      <wsdl:input message="tns:GetLockSessionIDSoapIn" />
+      <wsdl:output message="tns:GetLockSessionIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <wsdl:input message="tns:IsAliveSoapIn" />
+      <wsdl:output message="tns:IsAliveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLockInfo">
+      <wsdl:input message="tns:GetLockInfoSoapIn" />
+      <wsdl:output message="tns:GetLockInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLockEntriesAtt">
+      <wsdl:input message="tns:GetLockEntriesAttSoapIn" />
+      <wsdl:output message="tns:GetLockEntriesAttSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCompanyDBAndTableLocksList">
+      <wsdl:input message="tns:GetCompanyDBAndTableLocksListSoapIn" />
+      <wsdl:output message="tns:GetCompanyDBAndTableLocksListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLocksList">
+      <wsdl:input message="tns:GetLocksListSoapIn" />
+      <wsdl:output message="tns:GetLocksListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LockRecord">
+      <wsdl:input message="tns:LockRecordSoapIn" />
+      <wsdl:output message="tns:LockRecordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LockRecordEx">
+      <wsdl:input message="tns:LockRecordExSoapIn" />
+      <wsdl:output message="tns:LockRecordExSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsRecordLocked">
+      <wsdl:input message="tns:IsRecordLockedSoapIn" />
+      <wsdl:output message="tns:IsRecordLockedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsCurrentLocked">
+      <wsdl:input message="tns:IsCurrentLockedSoapIn" />
+      <wsdl:output message="tns:IsCurrentLockedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsMyLock">
+      <wsdl:input message="tns:IsMyLockSoapIn" />
+      <wsdl:output message="tns:IsMyLockSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockRecord">
+      <wsdl:input message="tns:UnlockRecordSoapIn" />
+      <wsdl:output message="tns:UnlockRecordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllContext">
+      <wsdl:input message="tns:UnlockAllContextSoapIn" />
+      <wsdl:output message="tns:UnlockAllContextSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAll">
+      <wsdl:input message="tns:UnlockAllSoapIn" />
+      <wsdl:output message="tns:UnlockAllSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCurrentConnection">
+      <wsdl:input message="tns:UnlockAllForCurrentConnectionSoapIn" />
+      <wsdl:output message="tns:UnlockAllForCurrentConnectionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForUser">
+      <wsdl:input message="tns:UnlockAllForUserSoapIn" />
+      <wsdl:output message="tns:UnlockAllForUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBName">
+      <wsdl:input message="tns:UnlockAllForCompanyDBNameSoapIn" />
+      <wsdl:output message="tns:UnlockAllForCompanyDBNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndUser">
+      <wsdl:input message="tns:UnlockAllForCompanyDBNameAndUserSoapIn" />
+      <wsdl:output message="tns:UnlockAllForCompanyDBNameAndUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndTable">
+      <wsdl:input message="tns:UnlockAllForCompanyDBNameAndTableSoapIn" />
+      <wsdl:output message="tns:UnlockAllForCompanyDBNameAndTableSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndTableAndUser">
+      <wsdl:input message="tns:UnlockAllForCompanyDBNameAndTableAndUserSoapIn" />
+      <wsdl:output message="tns:UnlockAllForCompanyDBNameAndTableAndUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlockCompanyDBNameAndTableAndLock">
+      <wsdl:input message="tns:UnlockCompanyDBNameAndTableAndLockSoapIn" />
+      <wsdl:output message="tns:UnlockCompanyDBNameAndTableAndLockSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveUnusedLocks">
+      <wsdl:input message="tns:RemoveUnusedLocksSoapIn" />
+      <wsdl:output message="tns:RemoveUnusedLocksSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MicroareaLockManagerSoap" type="tns:MicroareaLockManagerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Init">
+      <soap:operation soapAction="http://microarea.it/LockManager/Init" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InitLock">
+      <soap:operation soapAction="http://microarea.it/LockManager/InitLock" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLockSessionID">
+      <soap:operation soapAction="http://microarea.it/LockManager/GetLockSessionID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <soap:operation soapAction="http://microarea.it/LockManager/IsAlive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLockInfo">
+      <soap:operation soapAction="http://microarea.it/LockManager/GetLockInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLockEntriesAtt">
+      <soap:operation soapAction="http://microarea.it/LockManager/GetLockEntriesAtt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompanyDBAndTableLocksList">
+      <soap:operation soapAction="http://microarea.it/LockManager/GetCompanyDBAndTableLocksList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLocksList">
+      <soap:operation soapAction="http://microarea.it/LockManager/GetLocksList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LockRecord">
+      <soap:operation soapAction="http://microarea.it/LockManager/LockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LockRecordEx">
+      <soap:operation soapAction="http://microarea.it/LockManager/LockRecordEx" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsRecordLocked">
+      <soap:operation soapAction="http://microarea.it/LockManager/IsRecordLocked" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsCurrentLocked">
+      <soap:operation soapAction="http://microarea.it/LockManager/IsCurrentLocked" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsMyLock">
+      <soap:operation soapAction="http://microarea.it/LockManager/IsMyLock" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockRecord">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllContext">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAllContext" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAll">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCurrentConnection">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAllForCurrentConnection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForUser">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAllForUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBName">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndUser">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBNameAndUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndTable">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBNameAndTable" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndTableAndUser">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBNameAndTableAndUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockCompanyDBNameAndTableAndLock">
+      <soap:operation soapAction="http://microarea.it/LockManager/UnlockCompanyDBNameAndTableAndLock" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveUnusedLocks">
+      <soap:operation soapAction="http://microarea.it/LockManager/RemoveUnusedLocks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MicroareaLockManagerSoap12" type="tns:MicroareaLockManagerSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Init">
+      <soap12:operation soapAction="http://microarea.it/LockManager/Init" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InitLock">
+      <soap12:operation soapAction="http://microarea.it/LockManager/InitLock" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLockSessionID">
+      <soap12:operation soapAction="http://microarea.it/LockManager/GetLockSessionID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAlive">
+      <soap12:operation soapAction="http://microarea.it/LockManager/IsAlive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLockInfo">
+      <soap12:operation soapAction="http://microarea.it/LockManager/GetLockInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLockEntriesAtt">
+      <soap12:operation soapAction="http://microarea.it/LockManager/GetLockEntriesAtt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompanyDBAndTableLocksList">
+      <soap12:operation soapAction="http://microarea.it/LockManager/GetCompanyDBAndTableLocksList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLocksList">
+      <soap12:operation soapAction="http://microarea.it/LockManager/GetLocksList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LockRecord">
+      <soap12:operation soapAction="http://microarea.it/LockManager/LockRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LockRecordEx">
+      <soap12:operation soapAction="http://microarea.it/LockManager/LockRecordEx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsRecordLocked">
+      <soap12:operation soapAction="http://microarea.it/LockManager/IsRecordLocked" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsCurrentLocked">
+      <soap12:operation soapAction="http://microarea.it/LockManager/IsCurrentLocked" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsMyLock">
+      <soap12:operation soapAction="http://microarea.it/LockManager/IsMyLock" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockRecord">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllContext">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAllContext" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAll">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAll" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCurrentConnection">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAllForCurrentConnection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForUser">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAllForUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBName">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndUser">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBNameAndUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndTable">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBNameAndTable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockAllForCompanyDBNameAndTableAndUser">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockAllForCompanyDBNameAndTableAndUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnlockCompanyDBNameAndTableAndLock">
+      <soap12:operation soapAction="http://microarea.it/LockManager/UnlockCompanyDBNameAndTableAndLock" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveUnusedLocks">
+      <soap12:operation soapAction="http://microarea.it/LockManager/RemoveUnusedLocks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MicroareaLockManager">
+    <wsdl:port name="MicroareaLockManagerSoap" binding="tns:MicroareaLockManagerSoap">
+      <soap:address location="http://localhost/Development/LockManager/LockManager.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MicroareaLockManagerSoap12" binding="tns:MicroareaLockManagerSoap12">
+      <soap12:address location="http://localhost/Development/LockManager/LockManager.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

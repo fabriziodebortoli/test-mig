@@ -1,0 +1,173 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7  Rect (54,56,481,753) ReportTemplate "Report.erp.core.Basic.wrmt" 
+Properties
+	Begin
+		Title "Arrangement Sheet"
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "aResource Manager,Configuration" 
+	End
+
+PageLayout "default" 
+	Begin
+		Field (257,215,285,394) Alias 2 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (289,215,317,394) Alias 7 FormatStyle "ElapsedTime" 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (338,215,366,394) Alias 3 FormatStyle "Money" 
+			Begin
+				Style "SingleField" 
+				Align 2150 ;
+
+			End
+
+		Field (371,215,399,394) Alias 6 FormatStyle "Money" 
+			Begin
+				Style "SingleField" 
+				Align 2150 ;
+
+			End
+
+		Field (173,215,201,759) Alias 4 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Field (537,9,615,759) Alias 5 
+			Begin
+				Style "SingleField" 
+				Align 2144 ;
+
+			End
+
+		Text (504,9,532,213) "Notes" 
+
+			Begin
+			End
+
+		Text (371,9,399,213) "Total Pay" 
+
+			Begin
+			End
+
+		Text (338,9,366,213) "Basic Pay" 
+
+			Begin
+			End
+
+		Text (289,9,317,213) "Working Hours" 
+
+			Begin
+			End
+
+		Text (257,9,285,213) "Level" 
+
+			Begin
+			End
+
+		Text (141,9,169,213) "Arrangement" 
+
+			Begin
+			End
+
+		Field (141,215,169,394) Alias 1 
+			Begin
+				Style "SingleField" 
+
+			End
+
+		Text (59,9,100,716) "Arrangement Sheet" 
+
+			Begin
+				Style "ListTitleUnderline" 
+			End
+
+		Text (9,590,37,716) "{Application Date} {Time}" 
+
+			Begin
+				Style "Date" 
+				Special
+			End
+
+		Text (1043,316,1064,392) "{Page} / {Page Number}" 
+
+			Begin
+				Style "PageNumber" 
+				Special
+				End
+
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			String       Arrangement [15] Alias 1 ;
+			String       ArrangementLevel [15] Alias 2 ;
+			Money        BasicPay [23] Alias 3 ;
+			String       Description [15] Alias 4 ;
+			String       Notes [15] Alias 5 ;
+			Money        TotalPay [23] Alias 6 ;
+			ElapsedTime  WorkingHours [9] Alias 7 ;
+			String       w_AskFromArrangement [15,1] Alias 8  Hidden  Input Init = ""  ;
+			String       w_AskToArrangement [15,1] Alias 9  Hidden  Input Init = ""  ;
+			Bool         w_AskDialog [1] Alias 10  Hidden Init = TRUE  ;
+			Bool         w_UseArrangementsFilter [1] Alias 11  Hidden  Input Init = FALSE  ;
+			Bool         w_askAllArrangements [3] Alias 12  Hidden  Input Init = TRUE  ;
+			String       w_ArrangementsFilter [15] Alias 13  Hidden ;
+		End
+
+		Rules
+			From RM_Arrangements 
+			Select 
+				Arrangement          Into Arrangement ,
+				ArrangementLevel     Into ArrangementLevel ,
+				BasicPay             Into BasicPay ,
+				Description          Into Description ,
+				Notes                Into Notes ,
+				TotalPay             Into TotalPay ,
+				WorkingHours         Into WorkingHours 
+				Where ( w_UseArrangementsFilter == true ) and ( RM_Arrangements.Arrangement == w_ArrangementsFilter ) 
+				or 
+				( w_UseArrangementsFilter == false ) and ( ( w_askAllArrangements == true ) or 
+				( RM_Arrangements.Arrangement Between w_AskFromArrangement And w_AskToArrangement ) )  
+				Order By  RM_Arrangements.Arrangement ;
+		End
+
+	Dialogs
+		Begin
+			Dialog NoName  "Selections" 
+				Begin
+					Before 
+						Begin
+						End
+					When w_AskDialog 
+					Controls
+						Begin
+							Begin  "Arrangements"  
+								w_askAllArrangements Prompt = "All Arrangements" ;
+								w_AskFromArrangement Prompt = "From" LowerLimit ReadOnly w_askAllArrangements == TRUE  HotLink Framework.TbResourcesMng.TbResourcesMng.Arrangements ( ) ;
+								w_AskToArrangement Prompt = "To" UpperLimit ReadOnly w_askAllArrangements == TRUE  HotLink Framework.TbResourcesMng.TbResourcesMng.Arrangements ( ) ;
+							End
+						End
+					After 
+						Begin
+						End
+				End
+		End
+End
+

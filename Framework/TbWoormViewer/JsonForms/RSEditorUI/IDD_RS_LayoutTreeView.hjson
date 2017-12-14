@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_RS_LayoutTreeView			GET_IDD(IDD_RS_LayoutTreeView, M.Framework.TbWoormViewer.RSEditorUI)
+

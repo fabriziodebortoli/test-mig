@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <RM_ResourceTypes ResourceType="ROOT" Description="Azienda" ImagePath="" TBGuid="98A53E21-102E-4637-BDAE-3DEF8B45767D" />
+  <RM_ResourceTypes ResourceType="01" Description="Divisione" ImagePath="" TBGuid="E7E58B7A-A255-4C2C-B868-05606EAEEDF4" />
+  <RM_ResourceTypes ResourceType="02" Description="Area" ImagePath="" TBGuid="632D3EB9-7139-4021-AA38-8C1D179C7B66" />
+  <RM_ResourceTypes ResourceType="03" Description="Settore" ImagePath="" TBGuid="D64DD943-91DD-4F5D-98B1-4329F6C65D71" />
+  <RM_ResourceTypes ResourceType="04" Description="Dipartimento" ImagePath="" TBGuid="0507C1E7-0ACA-4FB8-A928-4C664A319F43" />
+  <RM_ResourceTypes ResourceType="05" Description="Team" ImagePath="" TBGuid="E2EF4579-F0BC-4E81-8046-A12E701BE1C8" />
+</DataTables>

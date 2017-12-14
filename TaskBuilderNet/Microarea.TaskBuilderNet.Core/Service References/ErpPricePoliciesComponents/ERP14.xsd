@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:Microarea.Web.Services.DefaultSalePrices_GetDefaultDiscountPerc" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.DefaultSalePrices_GetDefaultDiscountPerc" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="handle" type="xs:int" />
+  <xs:element name="Customer" nillable="true" type="xs:string" />
+  <xs:element name="Item" nillable="true" type="xs:string" />
+  <xs:element name="UoM" nillable="true" type="xs:string" />
+  <xs:element name="Quantity" type="xs:double" />
+  <xs:element name="aDiscount1" type="xs:double" />
+  <xs:element name="aDiscount2" type="xs:double" />
+</xs:schema>

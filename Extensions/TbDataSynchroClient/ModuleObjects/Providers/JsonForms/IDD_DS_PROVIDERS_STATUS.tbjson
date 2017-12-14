@@ -1,0 +1,53 @@
+{
+  "collapsible": false,
+  "context": "uiproviders",
+  "height": 45,
+  "id": "IDD_DS_PROVIDERS_STATUS",
+  "items": [
+    {
+      "binding": {
+        "datasource": "ProviderStatusImage"
+      },
+      "bitmap": true,
+      "controlClass": "PictureStatic",
+      "group": true,
+      "height": 12,
+      "id": "IDC_PROVIDERS_STATUS_IMG",
+      "name": "ProviderStatusImage",
+      "type": 2/*Label*/,
+      "width": 16,
+      "x": 2,
+      "y": 2
+    },
+    {
+      "binding": {
+        "datasource": "ProviderStatus"
+      },
+      "controlClass": "StringStatic",
+      "font": {
+        "italic": true
+      },
+      "group": true,
+      "height": 40,
+      "id": "IDC_PROVIDER_STATUS",
+      "type": 2/*Label*/,
+      "width": 326,
+      "x": 19,
+      "y": 2
+    },
+    {
+      "group": true,
+      "height": 8,
+      "id": "IDC_STATIC",
+      "textAlign": 2/*Right*/,
+      "type": 2/*Label*/,
+      "width": 98,
+      "y": 32,
+      "x": 0
+    }
+  ],
+  "name": "ConnectionStatusTileDlg",
+  "size": 4/*Wide*/,
+  "type": 71/*Tile*/,
+  "width": 350
+}

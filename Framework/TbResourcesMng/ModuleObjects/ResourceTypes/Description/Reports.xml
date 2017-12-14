@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ReportObjects>
+  <Reports defaultReport="Framework.TbResourcesMng.ResourceTypesList">
+    <Report namespace="Framework.TbResourcesMng.ResourceTypesList" localize="Resource Types List">
+    </Report>
+  </Reports>
+</ReportObjects>

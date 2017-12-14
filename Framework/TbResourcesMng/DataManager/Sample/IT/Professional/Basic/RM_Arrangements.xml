@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <RM_Arrangements Arrangement="I" Description="Livello 1" ArrangementLevel="1" BasicPay="1137.48" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="d4442292-484d-4f77-b4a1-ab742638e831" />
+  <RM_Arrangements Arrangement="II" Description="Livello 2" ArrangementLevel="2" BasicPay="1246.75" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="bcc2ec7b-3da0-43bf-bf40-4e4d0786831c" />
+  <RM_Arrangements Arrangement="III" Description="Livello 3" ArrangementLevel="3" BasicPay="1371.29" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="0aa8e60f-7045-4b9b-9463-6d096db3321b" />
+  <RM_Arrangements Arrangement="IV" Description="Livello 4" ArrangementLevel="4" BasicPay="1427.94" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="e86f611d-5464-4e75-bc6e-5b11c827935c" />
+  <RM_Arrangements Arrangement="V" Description="Livello 5" ArrangementLevel="5" BasicPay="1524.56" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="8d56188d-308c-4424-a80e-d45469d53294" />
+  <RM_Arrangements Arrangement="VI" Description="Livello 6" ArrangementLevel="6" BasicPay="1745.64" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="74bc2de0-80fa-4484-8203-1d61f8752ef7" />
+  <RM_Arrangements Arrangement="VII" Description="Livello 7" ArrangementLevel="7" BasicPay="1893.83" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="810abeea-febc-49d7-b62d-c0f18a69b391" />
+  <RM_Arrangements Arrangement="VI-P" Description="Livello 6" ArrangementLevel="6" BasicPay="1432.78" TotalPay="0" WorkingHours="21600" Notes="Part time 6 ore" TBGuid="26bf8c12-b998-4201-8a80-dd56b1c00a09" />
+  <RM_Arrangements Arrangement="V-S" Description="Livello Superiore" ArrangementLevel="5" BasicPay="1626.59" TotalPay="0" WorkingHours="28800" Notes="" TBGuid="427de647-1b77-4171-997a-0a40d75eb843" />
+</DataTables>

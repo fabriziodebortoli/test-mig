@@ -1,0 +1,10 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbWoormEngine\JsonForms\RPSYMDLG\IDD_RPSYMTABLE.hjson>
+#include	<TbWoormEngine\JsonForms\RPSYMDLG\IDD_SELFIELD.hjson>
+#include	<TbWoormEngine\JsonForms\RPSYMDLG\IDD_VARFIELD.hjson>
+
+//-----------------------------------------------------------------------------------------------------
+//Type:	IDC
+//-----------------------------------------------------------------------------------------------------
+#define	IDC_CHECK3			GET_IDC(IDC_CHECK3)

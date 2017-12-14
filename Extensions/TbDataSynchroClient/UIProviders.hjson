@@ -1,0 +1,13 @@
+﻿#pragma once
+#ifdef JSON_FORMS
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbDataSynchroClient\ModuleObjects\Providers\JsonForms\IDD_DS_PROVIDERS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\Providers\JsonForms\IDD_DS_PROVIDERS_VIEW.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\Providers\JsonForms\IDD_DS_PROVIDERS_MAIN.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\Providers\JsonForms\IDD_DS_PROVIDERS_CONNECTION.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\Providers\JsonForms\IDD_DS_PROVIDERS_STATUS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\Providers\JsonForms\IDD_DS_PROVIDERS_PARAMETERS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\Providers\JsonForms\IDD_DS_PROVIDERS_DIALOG.hjson>
+#else
+#include "UIProviders.hrc"
+#endif //JSON_FORMS

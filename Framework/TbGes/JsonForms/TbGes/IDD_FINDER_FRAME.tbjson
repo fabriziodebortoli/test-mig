@@ -1,0 +1,15 @@
+﻿{
+	"type": "Frame",
+	"category": "Finder",
+	"id": "IDD_FINDER_FRAME",
+	"name": "Finder",
+	"x": 0,
+	"y": 0,
+	"dockable": false,
+	"child": false,
+	"items": [
+		{
+			"href": "M.Framework.TbGes.TbGes.IDD_EXTDOC_FINDER_TOOLBAR"
+		}
+	]
+}

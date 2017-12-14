@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_SPECIAL_FIELD			GET_IDD(IDD_SPECIAL_FIELD, M.Framework.TbWoormViewer.LISTDLG)
+#define	IDC_SPECIAL_FIELDS			GET_IDC(IDC_SPECIAL_FIELDS)

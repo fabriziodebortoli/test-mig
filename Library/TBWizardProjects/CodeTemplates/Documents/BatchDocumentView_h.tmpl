@@ -1,0 +1,43 @@
+//=============================================================================
+// module name  : @(DocumentViewFileName).h
+//=============================================================================
+#pragma once
+
+//TBWIZ-INJECT{@(DocumentViewClassName)(IncludeFiles)
+//TBWIZ-INJECT}
+
+#include "beginh.dex"
+
+class @(DocumentClassName);
+
+///////////////////////////////////////////////////////////////////////////////
+//	Class @(DocumentViewClassName) Declaration
+///////////////////////////////////////////////////////////////////////////////
+class @(DocumentViewClassName) : public CMasterFormView
+{
+	DECLARE_DYNCREATE(@(DocumentViewClassName))
+
+public:
+	@(DocumentViewClassName)();
+
+public:
+	@(DocumentClassName)* GetDocument () const;
+	virtual	void BuildDataControlLinks ();
+
+protected:
+	virtual void OnSetBatchButtonIDS();
+
+protected:
+	//{{AFX_MSG(@(DocumentViewClassName))
+	//}}AFX_MSG
+
+	DECLARE_MESSAGE_MAP()
+
+	//TBWIZ-INJECT{@(DocumentViewClassName)(AdditionalMembers)
+	//TBWIZ-INJECT}
+};
+
+//TBWIZ-INJECT{@(DocumentViewClassName)(AdditionalDeclarations)
+//TBWIZ-INJECT}
+
+#include "endh.dex"

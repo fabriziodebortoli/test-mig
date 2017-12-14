@@ -1,0 +1,5 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_FMTMNG_TIMEFORMAT			GET_IDD(IDD_FMTMNG_TIMEFORMAT, M.Framework.TbGenlibUI.FormatDialog)
+#define	IDC_FMTMNG_TIME_AM_STR			GET_IDC(IDC_FMTMNG_TIME_AM_STR)
+#define	IDC_FMTMNG_TIME_PM_STR			GET_IDC(IDC_FMTMNG_TIME_PM_STR)

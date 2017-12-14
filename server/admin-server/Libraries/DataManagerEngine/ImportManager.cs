@@ -299,16 +299,20 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 									return true;
 								}
 
+								bool isOptional = (reader.MoveToAttribute(DataManagerConsts.Optional) &&
+									string.Compare(reader.Value, bool.TrueString, StringComparison.InvariantCultureIgnoreCase) == 0);
+
 								// se sono in fase di caricamento dati di default e l'utente
 								// non vuole caricare quelli opzionali allora skippo il file
-								if (
-									importSel.NoOptional &&
-									reader.MoveToAttribute(DataManagerConsts.Optional) &&
-									reader.Value == bool.TrueString
-									)
+								if (importSel.NoOptional)
 								{
-									return true;
+									if (isOptional)
+										return true;
 								}
+								else
+									if (!isOptional)
+										return true;
+
 								continue;
 							}
 

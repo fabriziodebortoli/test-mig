@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Extensions.TbSecurity.TbSecurity.StartSecurity" type="bool" mode="out" sourceInfo="File: Extensions\TbSecurity\SoapFunctions.cpp." localize="Initialize Security module" report="false" WCF="true" securityhidden="true" />
+  </Functions>
+</FunctionObjects>

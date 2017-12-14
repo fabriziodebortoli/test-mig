@@ -1,0 +1,13 @@
+﻿{
+    "href": "M.Framework.TbGes.TbGes.IDD_BATCH_FRAME",
+    "id": "IDD_DMSREPOSITORY_EXPLORER",
+    "name": "DMSRepositoryExplorer",
+    "items": [
+        {
+            "href": "IDD_DMSREPOSITORY_EXPLORER_TOOLBAR"
+        },
+        {
+            "href": "IDD_DMSREPOSITORY_VIEW"
+        }
+    ]
+}

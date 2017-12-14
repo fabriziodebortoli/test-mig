@@ -1,0 +1,155 @@
+﻿{
+   "id" : "IDD_EXTDOC_FINDER_TOOLBAR",
+   "items" : [
+      {
+         "id" : "ID_EXTDOC_TOOLBAR_MAIN",
+         "items" : [
+            {
+               "hint" : "Fix the Finder",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Pin.png",
+               "id" : "ID_FINDER_STAYALIVE",
+               "name" : "StayLive",
+               "text" : "Fix",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "id" : "ID_SEPARATOR",
+               "isSeparator" : true,
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Search for a specific document",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Find.png",
+               "id" : "ID_EXTDOC_FIND",
+               "name" : "Find",
+               "text" : "Search",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Search with radar",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Radar.png",
+               "id" : "ID_EXTDOC_RADAR",
+               "name" : "Radar",
+               "text" : "Radar",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Open the report related to the document",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Print.png",
+               "id" : "ID_EXTDOC_REPORT",
+              "isDropdown": true,
+              "name" : "Print",
+               "text" : "Print",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "id" : "ID_SEPARATOR",
+               "isSeparator" : true,
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Go to first",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.First.png",
+               "id" : "ID_EXTDOC_FIRST",
+               "name" : "First",
+               "text" : "First",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Go to previous",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Prev.png",
+               "id" : "ID_EXTDOC_PREV",
+               "name" : "Prev",
+               "text" : "Previous",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Go to next",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Next.png",
+               "id" : "ID_EXTDOC_NEXT",
+               "name" : "Next",
+               "text" : "Next",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Go to last",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Last.png",
+               "id" : "ID_EXTDOC_LAST",
+               "name" : "Last",
+               "text" : "Last",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Execute the query currently selected",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Query.png",
+               "id" : "ID_EXTDOC_EXEC_QUERY",
+               "name" : "Query",
+               "text" : "Query",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "id" : "ID_SEPARATOR",
+               "isSeparator" : true,
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "hint" : "Save the document",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Save.png",
+               "id" : "ID_EXTDOC_SAVE",
+               "name" : "Save",
+               "text" : "Save",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "alignRight" : true,
+               "hint" : "Switch to...",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.SwitchTo.png",
+               "id" : "ID_EXTDOC_SWITCHTO",
+               "isDropdown" : true,
+               "name" : "SwitchTo",
+               "text" : "Switch to...",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "alignRight" : true,
+               "hint" : "Finish",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Exit.png",
+               "id" : "ID_EXTDOC_EXIT",
+               "name" : "Exit",
+               "text" : "Finish",
+               "type" : 15 /*ToolbarButton*/
+            }
+         ],
+         "name" : "Main",
+         "text" : "Main",
+         "type" : 14 /*Toolbar*/
+      },
+      {
+         "id" : "ID_EXTDOC_TOOLBAR_TOOLS",
+         "items" : [
+            {
+               "hint" : "Customize the document",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Customize.png",
+               "id" : "ID_EXTDOC_CUSTOMIZE",
+               "name" : "Customize",
+               "text" : "Customize",
+               "type" : 15 /*ToolbarButton*/
+            },
+            {
+               "alignRight" : true,
+               "hint" : "Finish",
+               "icon" : "Framework.TbFrameworkImages.Images.25x25.Exit.png",
+               "id" : "ID_EXTDOC_EXIT",
+               "name" : "Exit",
+               "text" : "Finish",
+               "type" : 15 /*ToolbarButton*/
+            }
+         ],
+         "name" : "Tools",
+         "text" : "Tools",
+         "type" : 14 /*Toolbar*/
+      }
+   ],
+   "name" : "AbstractFormDoc",
+   "type" : 67 /*TabbedToolbar*/
+}

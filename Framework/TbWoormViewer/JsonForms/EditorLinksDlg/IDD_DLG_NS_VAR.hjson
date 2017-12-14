@@ -1,0 +1,4 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#define	IDD_DLG_NS_VAR			GET_IDD(IDD_DLG_NS_VAR, M.Framework.TbWoormViewer.EditorLinksDlg)
+#define	IDC_LIST_STR_NS_VAR			GET_IDC(IDC_LIST_STR_NS_VAR)

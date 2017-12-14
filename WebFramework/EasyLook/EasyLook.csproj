@@ -1,0 +1,736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9DF6F9A6-1CEB-4E11-AC79-D062D400B076}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Microarea.Web.EasyLook</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microarea.Web.EasyLook</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;TBWEB</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.0.20820.20049, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services">
+      <Name>System.Web.Services</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApplicationPage.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="ChangeApplicationDate.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="Files\Images\GoToProducerSitePrivateArea.gif" />
+    <Content Include="PrivateAreaBridge.aspx" />
+    <Content Include="DocumentsDetailForm.aspx" />
+    <Content Include="DateSelectionUserControl.ascx" />
+    <Content Include="Files\Images\RunFunction.GIF" />
+    <Content Include="Files\Images\Group.GIF" />
+    <Content Include="EasyLook.css" />
+    <Content Include="EasyLookService.asmx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="Files\Images\ChangeApplicationDate.GIF" />
+    <Content Include="Files\Images\DemoBkgnd.jpg" />
+    <Content Include="Files\Images\DevelopmentBkgnd.jpg" />
+    <Content Include="Files\Images\EasyLook.ico" />
+    <Content Include="Files\Images\EasyLookIcon.ico" />
+    <Content Include="Files\Images\EasyLookLogo.gif" />
+    <Content Include="Files\Images\EasyLookShortcut.ico" />
+    <Content Include="Files\Images\EasyLookShortcut2.ico" />
+    <Content Include="Files\Images\EasyLookShortcut256.ico" />
+    <Content Include="Files\Images\EyeSmall.gif" />
+    <Content Include="Files\Images\GroupsPanelBkgnd.GIF" />
+    <Content Include="Files\Images\Left.GIF" />
+    <Content Include="Files\Images\Login.JPG" />
+    <Content Include="Files\Images\LoginButton.gif" />
+    <Content Include="Files\Images\LogotipoExplorer.gif" />
+    <Content Include="Files\Images\module.ico" />
+    <Content Include="Files\Images\ReportBackGround.GIF" />
+    <Content Include="Files\Images\Right.GIF" />
+    <Content Include="Files\Images\RunAllUsersReport.GIF" />
+    <Content Include="Files\Images\RunCurrentUserReport.GIF" />
+    <Content Include="Files\Images\RunNewReport.GIF" />
+    <Content Include="Files\Images\RunReport.GIF" />
+    <Content Include="Files\Images\Search.GIF" />
+    <Content Include="Files\Images\SfondoNewTrasparente.gif" />
+    <Content Include="Files\Images\ShowReportHistory.GIF" />
+    <Content Include="Files\Images\standard.ico" />
+    <Content Include="Files\Images\Menu.GIF" />
+    <Content Include="Files\Images\DistributorBkgnd.jpg" />
+    <Content Include="Files\Images\ResellerBkgnd.jpg" />
+    <Content Include="Files\Images\RunDocument.GIF" />
+    <Content Include="ErrorPage.aspx" />
+    <Content Include="Files\Images\add-file-32x32.png" />
+    <Content Include="Files\Images\AttachToServer-32x32.png" />
+    <Content Include="Files\Images\Close-32x32.png" />
+    <Content Include="Files\Images\delete-32x32.png" />
+    <Content Include="Files\Images\Error.gif" />
+    <Content Include="Files\Images\computers-24x24.png" />
+    <Content Include="Files\Images\database-24x24.png" />
+    <Content Include="Files\Images\Detail-32x32.png" />
+    <Content Include="Files\Images\folder-24x24.png" />
+    <Content Include="Files\Images\folder-full-32x32.png" />
+    <Content Include="Files\Images\greenBall.png" />
+    <Content Include="Files\Images\LogoMicroarea.png" />
+    <Content Include="Files\Images\Logoff.gif" />
+    <Content Include="Files\Images\Open-32x32.png" />
+    <Content Include="Files\Images\QuarkXPress-Passport-48x48.png" />
+    <Content Include="Files\Images\redBall.png" />
+    <Content Include="Files\Images\Refresh-32x32.png" />
+    <Content Include="Files\Images\RunBatch.GIF" />
+    <Content Include="Files\Images\SnapshotBackground.png" />
+    <Content Include="Files\Images\wizard-128x128.png" />
+    <Content Include="Footer.aspx" />
+    <Content Include="formatter.js" />
+    <Content Include="Global.asax">
+      <SubType>Component</SubType>
+    </Content>
+    <Content Include="header.css" />
+    <Content Include="HistoryPage.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="Default.aspx" />
+    <Content Include="InfinityMenu.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="LogOut.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="MenuArea.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="MenuArea.css" />
+    <Content Include="Module.config" />
+    <Content Include="myDesk\AttachToLogin.aspx" />
+    <Content Include="myDesk\css\desktop.css" />
+    <Content Include="myDesk\css\reset.css" />
+    <Content Include="myDesk\images\Application.png" />
+    <Content Include="myDesk\images\arrowDown.png" />
+    <Content Include="myDesk\images\arrowUp.png" />
+    <Content Include="myDesk\images\bar_bottom.png" />
+    <Content Include="myDesk\images\bar_top.png" />
+    <Content Include="myDesk\images\canvasDel.png" />
+    <Content Include="myDesk\images\close.png" />
+    <Content Include="myDesk\images\close_expose.png" />
+    <Content Include="myDesk\images\DesktopAdd.png" />
+    <Content Include="myDesk\images\DesktopOff.png" />
+    <Content Include="myDesk\images\DesktopOn.png" />
+    <Content Include="myDesk\images\dock-dx.png" />
+    <Content Include="myDesk\images\dock-in.png" />
+    <Content Include="myDesk\images\dock-sx.png" />
+    <Content Include="myDesk\images\Excel.png" />
+    <Content Include="myDesk\images\flap.png" />
+    <Content Include="myDesk\images\folder_close.png" />
+    <Content Include="myDesk\images\folder_open.png" />
+    <Content Include="myDesk\images\menu.png" />
+    <Content Include="myDesk\images\RunBatch.png" />
+    <Content Include="myDesk\images\RunDocument.GIF" />
+    <Content Include="myDesk\images\RunDocumentFunction.png" />
+    <Content Include="myDesk\images\RunReport.GIF" />
+    <Content Include="myDesk\images\RunText.png" />
+    <Content Include="myDesk\images\thumbtack.png" />
+    <Content Include="myDesk\images\thumbtackOn.png" />
+    <Content Include="myDesk\images\trans_black.png" />
+    <Content Include="myDesk\images\trans_white.png" />
+    <Content Include="myDesk\images\wallpaper.gif" />
+    <Content Include="myDesk\images\wallpaper.jpg" />
+    <Content Include="myDesk\images\win.png" />
+    <Content Include="myDesk\images\window_corner.gif" />
+    <Content Include="myDesk\images\Word.png" />
+    <Content Include="myDesk\index.html" />
+    <Content Include="myDesk\js\class.js" />
+    <Content Include="myDesk\js\desktop.js" />
+    <Content Include="myDesk\js\html2canvas.js" />
+    <Content Include="myDesk\js\jquery-1.9.0.js" />
+    <Content Include="myDesk\js\jquery-collision.js" />
+    <Content Include="myDesk\js\jquery-osxbar.js" />
+    <Content Include="myDesk\js\jquery-ui-1.10.0.custom.js" />
+    <Content Include="myDesk\js\jquery.plugin.html2canvas.js" />
+    <Content Include="myDesk\tbAppPage.aspx" />
+    <Content Include="myDesk\tbMenuArea.aspx" />
+    <Content Include="myDesk\tbReportPage.aspx" />
+    <Content Include="myDesk\widget\Calculator\ico.png" />
+    <Content Include="myDesk\widget\Calculator\widget.css" />
+    <Content Include="myDesk\widget\Calculator\widget.js" />
+    <Content Include="myDesk\widget\Calendar\arrows.png" />
+    <Content Include="myDesk\widget\Calendar\ico.png" />
+    <Content Include="myDesk\widget\Calendar\index.html" />
+    <Content Include="myDesk\widget\Calendar\widget.css" />
+    <Content Include="myDesk\widget\Calendar\widget.js" />
+    <Content Include="myDesk\widget\Chat\chat.aspx" />
+    <Content Include="myDesk\widget\Chat\ico.png" />
+    <Content Include="myDesk\widget\Chat\widget.css" />
+    <Content Include="myDesk\widget\Chat\widget.js" />
+    <Content Include="myDesk\widget\Clock\clockface.png" />
+    <Content Include="myDesk\widget\Clock\hourhand.png" />
+    <Content Include="myDesk\widget\Clock\ico.png" />
+    <Content Include="myDesk\widget\Clock\index.html" />
+    <Content Include="myDesk\widget\Clock\minhand.png" />
+    <Content Include="myDesk\widget\Clock\sechand.png" />
+    <Content Include="myDesk\widget\Clock\widget.css" />
+    <Content Include="myDesk\widget\Clock\widget.js" />
+    <Content Include="myDesk\widget\CustomFrame\ico.png" />
+    <Content Include="myDesk\widget\CustomFrame\widget.css" />
+    <Content Include="myDesk\widget\CustomFrame\widget.js" />
+    <Content Include="myDesk\widget\Info\ico.png" />
+    <Content Include="myDesk\widget\Info\test.html" />
+    <Content Include="myDesk\widget\Info\widget.css" />
+    <Content Include="myDesk\widget\Info\widget.js" />
+    <Content Include="myDesk\widget\Microarea\ico.png" />
+    <Content Include="myDesk\widget\Microarea\index.html" />
+    <Content Include="myDesk\widget\Microarea\widget.css" />
+    <Content Include="myDesk\widget\Microarea\widget.js" />
+    <Content Include="myDesk\widget\Postit\ico.png" />
+    <Content Include="myDesk\widget\Postit\widget.css" />
+    <Content Include="myDesk\widget\Postit\widget.js" />
+    <Content Include="myDesk\widget\TagCloud\ico.png" />
+    <Content Include="myDesk\widget\TagCloud\widget.css" />
+    <Content Include="myDesk\widget\TagCloud\widget.js" />
+    <Content Include="myDesk\widget\widget.aspx" />
+    <Content Include="OnlineHelp.aspx" />
+    <Content Include="OpenDocumentsPage.aspx" />
+    <Content Include="MenuItemsPage.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="WebUI\AskDialog.js" />
+    <Content Include="WebUI\DbCatalog.js" />
+    <Content Include="WebUI\docking.png" />
+    <Content Include="WebUI\DocumentRenderObject.js" />
+    <Content Include="WebUI\icon_maximize.gif" />
+    <Content Include="WebUI\icon_minimize.gif" />
+    <Content Include="WebUI\jquery.layout.min.js" />
+    <Content Include="WebUI\Persistence.js" />
+    <Content Include="WebUI\Report.js" />
+    <Content Include="WebUI\ReportDesigner.css" />
+    <Content Include="WebUI\ReportForm.aspx" />
+    <Content Include="WebUI\Document.js" />
+    <Content Include="WebUI\DocumentDesigner.css" />
+    <Content Include="WebUI\DocumentForm.aspx" />
+    <Content Include="WebUI\jquery-ui.css" />
+    <Content Include="WebUI\jquery-ui.min.js" />
+    <Content Include="WebUI\jquery.min.js" />
+    <Content Include="WebUI\PropertyGrid.js" />
+    <Content Include="WebUI\PropertyGridStyle.css" />
+    <Content Include="SearchPage.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="TBPreviewForm.aspx" />
+    <Content Include="TBWindowForm.aspx" />
+    <Content Include="TopPage.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="TreeMenu.css" />
+    <Content Include="TreeMenu.js" />
+    <Content Include="UnsupportedBrowser.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WebUI\ReportViewer.js" />
+    <Content Include="WebUI\toolbar.png" />
+    <Content Include="WebUI\toolbarEditor.png" />
+    <Content Include="WebUI\Widget.js" />
+    <Content Include="WebUI\WndObjType.js" />
+    <Content Include="WoormWebForm.aspx" />
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+    </Compile>
+    <Compile Include="ApplicationPage.aspx.cs">
+      <DependentUpon>ApplicationPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ApplicationPage.aspx.designer.cs">
+      <DependentUpon>ApplicationPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateAreaBridge.aspx.cs">
+      <DependentUpon>PrivateAreaBridge.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PrivateAreaBridge.aspx.designer.cs">
+      <DependentUpon>PrivateAreaBridge.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InfinityHandler.cs" />
+    <Compile Include="InfinityMenu.aspx.cs">
+      <DependentUpon>InfinityMenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InfinityMenu.aspx.designer.cs">
+      <DependentUpon>InfinityMenu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InfinityMenuLoader.cs" />
+    <Compile Include="myDesk\AttachToLogin.aspx.cs">
+      <DependentUpon>AttachToLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="myDesk\AttachToLogin.aspx.designer.cs">
+      <DependentUpon>AttachToLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="myDesk\tbAppPage.aspx.cs">
+      <DependentUpon>tbAppPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="myDesk\tbAppPage.aspx.designer.cs">
+      <DependentUpon>tbAppPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="myDesk\tbMenuArea.aspx.cs">
+      <DependentUpon>tbMenuArea.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="myDesk\tbMenuArea.aspx.designer.cs">
+      <DependentUpon>tbMenuArea.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="myDesk\tbReportPage.aspx.cs">
+      <DependentUpon>tbReportPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="myDesk\tbReportPage.aspx.designer.cs">
+      <DependentUpon>tbReportPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="myDesk\widget\Chat\chat.aspx.cs">
+      <DependentUpon>chat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="myDesk\widget\Chat\chat.aspx.designer.cs">
+      <DependentUpon>chat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="myDesk\widget\widget.aspx.cs">
+      <DependentUpon>widget.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="myDesk\widget\widget.aspx.designer.cs">
+      <DependentUpon>widget.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineHelp.aspx.cs">
+      <DependentUpon>OnlineHelp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OnlineHelp.aspx.designer.cs">
+      <DependentUpon>OnlineHelp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ChangeApplicationDate.aspx.cs">
+      <DependentUpon>ChangeApplicationDate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangeApplicationDate.aspx.designer.cs">
+      <DependentUpon>ChangeApplicationDate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CommonDocumentFunctions.cs" />
+    <Compile Include="DocumentsDetailForm.aspx.cs">
+      <DependentUpon>DocumentsDetailForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DocumentsDetailForm.aspx.designer.cs">
+      <DependentUpon>DocumentsDetailForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DateSelectionUserControl.ascx.cs">
+      <DependentUpon>DateSelectionUserControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DateSelectionUserControl.ascx.designer.cs">
+      <DependentUpon>DateSelectionUserControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EasyLookInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EasyLookInstaller.Designer.cs">
+      <DependentUpon>EasyLookInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.designer.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Helper.cs" />
+    <Compile Include="OpenDocumentsPage.aspx.cs">
+      <DependentUpon>OpenDocumentsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OpenDocumentsPage.aspx.designer.cs">
+      <DependentUpon>OpenDocumentsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="EasyLookService.asmx.cs">
+      <DependentUpon>EasyLookService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Footer.aspx.cs">
+      <DependentUpon>Footer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Footer.aspx.designer.cs">
+      <DependentUpon>Footer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HistoryPage.aspx.cs">
+      <DependentUpon>HistoryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HistoryPage.aspx.designer.cs">
+      <DependentUpon>HistoryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LabelStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LabelStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LogOut.aspx.cs">
+      <DependentUpon>LogOut.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogOut.aspx.designer.cs">
+      <DependentUpon>LogOut.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuArea.aspx.cs">
+      <DependentUpon>MenuArea.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuArea.aspx.designer.cs">
+      <DependentUpon>MenuArea.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuItemsPage.aspx.cs">
+      <DependentUpon>MenuItemsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuItemsPage.aspx.designer.cs">
+      <DependentUpon>MenuItemsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SearchPage.aspx.cs">
+      <DependentUpon>SearchPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SearchPage.aspx.designer.cs">
+      <DependentUpon>SearchPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SsoHandler.cs" />
+    <Compile Include="Strings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TBPreviewForm.aspx.cs">
+      <DependentUpon>TBPreviewForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TBPreviewForm.aspx.designer.cs">
+      <DependentUpon>TBPreviewForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TBWindowForm.aspx.cs">
+      <DependentUpon>TBWindowForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TBWindowForm.aspx.designer.cs">
+      <DependentUpon>TBWindowForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TopPage.aspx.cs">
+      <DependentUpon>TopPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TopPage.aspx.designer.cs">
+      <DependentUpon>TopPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UnsupportedBrowser.aspx.cs">
+      <DependentUpon>UnsupportedBrowser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UnsupportedBrowser.aspx.designer.cs">
+      <DependentUpon>UnsupportedBrowser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUI\ReportForm.aspx.cs">
+      <DependentUpon>ReportForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\ReportForm.aspx.designer.cs">
+      <DependentUpon>ReportForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUI\DocumentForm.aspx.cs">
+      <DependentUpon>DocumentForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\DocumentForm.aspx.designer.cs">
+      <DependentUpon>DocumentForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WoormWebForm.aspx.cs">
+      <DependentUpon>WoormWebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WoormWebForm.aspx.designer.cs">
+      <DependentUpon>WoormWebForm.aspx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ApplicationPage.aspx.resx">
+      <DependentUpon>ApplicationPage.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangeApplicationDate.aspx.resx">
+      <DependentUpon>ChangeApplicationDate.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrivateAreaBridge.aspx.resx">
+      <DependentUpon>PrivateAreaBridge.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateSelectionUserControl.ascx.resx">
+      <DependentUpon>DateSelectionUserControl.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EasyLookService.asmx.resx">
+      <DependentUpon>EasyLookService.asmx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Footer.aspx.resx">
+      <DependentUpon>Footer.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global.asax.resx">
+      <DependentUpon>Global.asax.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistoryPage.aspx.resx">
+      <DependentUpon>HistoryPage.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Default.aspx.resx">
+      <DependentUpon>Default.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.aspx.resx">
+      <DependentUpon>Login.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogOut.aspx.resx">
+      <DependentUpon>LogOut.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuArea.aspx.resx">
+      <DependentUpon>MenuArea.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuItemsPage.aspx.resx">
+      <DependentUpon>MenuItemsPage.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchPage.aspx.resx">
+      <DependentUpon>SearchPage.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LabelStrings.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LabelStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TopPage.aspx.resx">
+      <DependentUpon>TopPage.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnsupportedBrowser.aspx.resx">
+      <DependentUpon>UnsupportedBrowser.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WoormWebForm.aspx.resx">
+      <DependentUpon>WoormWebForm.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentsDetailForm.aspx.resx">
+      <DependentUpon>DocumentsDetailForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="Files\Images\EasyLookShortcut.ico_old" />
+    <Content Include="Files\Images\logoMagoNetEasylook.png" />
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EasyLook.cd" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="myDesk\widget\Clock\Clock.psd" />
+    <None Include="myDesk\widget\widget.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj">
+      <Project>{F2F1C352-B5F8-4E92-A85F-99B012F80504}</Project>
+      <Name>Microarea.TaskBuilderNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj">
+      <Project>{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}</Project>
+      <Name>Microarea.TaskBuilderNet.UI</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Woorm\Microarea.TaskBuilderNet.Woorm.csproj">
+      <Project>{6459DEE4-5924-4257-A076-92C714C69D36}</Project>
+      <Name>Microarea.TaskBuilderNet.Woorm</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

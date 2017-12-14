@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:Microarea.Web.Services.WebProxyObj_DoKey" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.WebProxyObj_DoKey" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="handle" type="xs:int" />
+  <xs:element name="WindowId" nillable="true" type="xs:string" />
+  <xs:element name="keyCode" type="xs:int" />
+  <xs:element name="bShift" type="xs:boolean" />
+  <xs:element name="bCtrl" type="xs:boolean" />
+  <xs:element name="bAlt" type="xs:boolean" />
+  <xs:element name="bKeyIsChar" type="xs:boolean" />
+  <xs:element name="selStart" type="xs:int" />
+  <xs:element name="selEnd" type="xs:int" />
+  <xs:element name="windowText" nillable="true" type="xs:string" />
+</xs:schema>

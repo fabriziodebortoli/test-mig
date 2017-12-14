@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DocumentObjects>
+	<Documents>
+		<Document namespace="Framework.TbWoormEngine.TbWoormEngine.TbWoormAskParameters" localize="TbWoormParameterRequest" classhierarchy="CBaseDocument"  securityhidden="true" published="false"/>
+		<Document namespace="Framework.TbWoormEngine.TbWoormEngine.TbAbstractWoorm" localize="TbAbstractWoorm" securityhidden="true"  published="false" classhierarchy="CWoormDoc" />
+
+
+		
+	</Documents>
+
+</DocumentObjects>

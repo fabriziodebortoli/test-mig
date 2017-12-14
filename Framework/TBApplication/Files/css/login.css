@@ -1,0 +1,62 @@
+@import url("general.css");
+@import url("overrides.css");
+@import url("loginStyle.css");
+
+* {   
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+html {
+    -webkit-tap-highlight-color: #ffffff;
+}
+
+.backgroundImage
+{
+	 width: 100%;
+}
+
+.backgroundLogin {
+    padding-bottom: 10px;
+    width: 100%;
+    min-height:240px;
+    background-color: rgba(255, 255,255, 0.8);
+}
+
+.backgroundbody {
+    height: 100%;
+    width: 100%;
+	  background-size: cover;
+    background-color: rgba(236, 238, 242, 0.40);
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    min-width: initial;
+  
+
+}
+
+.loginCenterPanel {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top:9%;
+
+}
+
+.loginHeaderImage {
+    object-fit:contain;
+    text-align:center;
+    width: 300px;
+    height: 70px;
+    padding-bottom:20px;
+    
+}

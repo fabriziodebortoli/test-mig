@@ -1,0 +1,47 @@
+﻿{
+  "id": "IDD_DATASYNCHRO_MONITOR_FILTER_BY_STATUS",
+  "rcId": 15364,
+  "type": 71,
+  "name": "DataSynchroMonitorFilterByStatus",
+  "text": "Synchronization Status",
+  "size": 1, //tile mini
+  "tileStyle": 2,  //TDS_FILTER
+  "pinnable" :  false,
+  "x": 0,
+  "y": 0,
+  "width": 161,
+  "height": 50,
+  "child": true,
+  "context": "uidsmonitor",
+  "items": [
+    {
+      "id": "IDC_DS_MONITOR_SYNCHSTATUS_ALL",
+      "type": 11, /*check*/
+      "controlClass": "CheckBox",
+      "binding": { "datasource": "SynchStatusAll" },
+      "name": "SynchStatusAll",
+      "x": 4,
+      "y": 2,
+      "width": 122,
+      "height": 12,
+      "isText": true,
+      "text": "All",
+      "vertAlign": 0 /*top*/
+    },
+    {
+      "id": "IDC_DS_MONITOR_SYNCHSTATUS_COMBO",
+      "type": 12, /*combo*/
+      "controlClass": "EnumCombo",
+      "binding": { "datasource": "SynchStatus" },
+      "name": "SynchStatus",
+      "x": 4,
+      "y": 16,
+      "width": 122,
+      "height": 12,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    }
+  ]
+}

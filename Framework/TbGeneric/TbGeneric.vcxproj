@@ -1,0 +1,517 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseDebugInfo|Win32">
+      <Configuration>ReleaseDebugInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2EC6864F-A6D1-4CB1-9A5A-4BFFC02E696E}</ProjectGuid>
+    <RootNamespace>TbGeneric</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Keyword>MFCDLLProj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="..\..\TaskBuilder.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TBAppsBin)\debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Obj\Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TBAppsBin)\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Obj\Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">$(TBAppsBin)\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Obj\ReleaseDebugInfo\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TbOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AFXEXT;_TBGENERIC;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <AdditionalOptions>/Zm130 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>Version.lib;gdiplus.lib;netapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TbGeneric.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);$(TbOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TbGeneric.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)TbGeneric.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AllowIsolation>true</AllowIsolation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Message> Copying CEF,BCG,BLCW32 and GdPicture dlls ...</Message>
+      <Command>xcopy "$(TbOcBin)\bin\release\CEF\*.*" "$(OutDir)" /s /y
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(TBAppsBin)\$(Configuration)" /Y /R
+xcopy "$(TbOcBin)\bin\$(Configuration)\BCLW32.DLL" "$(OutDir)"  /s /y
+xcopy "$(TbOcBin)\bin\$(Configuration)\BCGControlBarPro\*.*" "$(OutDir)" /s /y
+copy "$(TbOcBin)\bin\release\psexec.exe" "$(TargetDir)"
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(SolutionDir)\WebFramework\EasyAttachmentSync\bin" /Y /R</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TBOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;_TBGENERIC;_CRT_SECURE_NO_WARNINGS;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>Version.lib;gdiplus.lib;netapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TbGeneric.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);$(TbOcLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TbGeneric.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)TbGeneric.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <GenerateMapFile>true</GenerateMapFile>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Message> Copying CEF,BCG,BLCW32 and GdPicture dlls ...</Message>
+      <Command>xcopy "$(TbOcBin)\bin\release\CEF\*.*" "$(OutDir)" /s /y
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(TBAppsBin)\$(Configuration)" /Y /R
+xcopy "$(TbOcBin)\bin\release\BCLW32.DLL" "$(OutDir)"  /s /y
+xcopy "$(TbOcBin)\bin\release\BCGControlBarPro\*.*" "$(OutDir)" /s /y
+copy "$(TbOcBin)\bin\release\psexec.exe" "$(TargetDir)"
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(SolutionDir)\WebFramework\EasyAttachmentSync\bin" /Y /R
+</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(TBFramework);$(TBOcDev);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;_TBGENERIC;_CRT_SECURE_NO_WARNINGS;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>Version.lib;gdiplus.lib;netapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TbGeneric.dll</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\TbGeneric.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)TbGeneric.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Message> Copying CEF,BCG,BLCW32 and GdPicture dlls ...</Message>
+      <Command>xcopy "$(TbOcBin)\bin\release\CEF\*.*" "$(OutDir)" /s /y
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(TBAppsBin)\$(Configuration)" /Y /R
+xcopy "$(TbOcBin)\bin\release\BCLW32.DLL" "$(OutDir)"
+xcopy "$(TbOcBin)\bin\release\BCGControlBarPro\*.*" "$(OutDir)" /s /y
+copy "$(TbOcBin)\bin\release\psexec.exe" "$(TargetDir)"
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(SolutionDir)\WebFramework\EasyAttachmentSync\bin" /Y /R</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Link>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Message> Copying CEF,BCG,BLCW32 and GdPicture dlls ...</Message>
+      <Command>xcopy "$(TbOcBin)\bin\release\CEF\*.*" "$(OutDir)" /s /y
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(TBAppsBin)\$(Configuration)" /Y /R
+xcopy "$(TbOcBin)\bin\release\BCLW32.DLL" "$(OutDir)"
+xcopy "$(TbOcBin)\bin\release\BCGControlBarPro\*.*" "$(OutDir)" /s /y
+copy "$(TbOcBin)\bin\release\psexec.exe" "$(TargetDir)"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TbFrameworkImages\TbFrameworkImages.vcxproj">
+      <Project>{fa802c42-4615-4053-985a-70dc6b15784a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\TbNameSolver\TbNameSolver.vcxproj">
+      <Project>{a53bba7f-1b6f-4137-af4e-63c2f44be5d5}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TbXmlCore\TbXmlCore.vcxproj">
+      <Project>{fcd1c83e-7b0a-484f-8e1a-b2b742df619a}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\TBStringLoader\TBStringLoader.vcxproj">
+      <Project>{562e38dc-4acf-4f5b-a2a8-c7b59e8badc9}</Project>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Array.cpp" />
+    <ClCompile Include="BCMenu.cpp" />
+    <ClCompile Include="BinaryFileReader.cpp" />
+    <ClCompile Include="Bitset.cpp" />
+    <ClCompile Include="CheckRecursion.cpp" />
+    <ClCompile Include="CISBitmap.cpp" />
+    <ClCompile Include="CMapi.cpp" />
+    <ClCompile Include="CollateCultureFunctions.cpp" />
+    <ClCompile Include="ContextFunctions.cpp" />
+    <ClCompile Include="Crypt.cpp" />
+    <ClCompile Include="DatabaseObjectsInfo.cpp" />
+    <ClCompile Include="DataFileInfo.cpp" />
+    <ClCompile Include="DataObj.cpp" />
+    <ClCompile Include="DataObjDescription.cpp" />
+    <ClCompile Include="DataTypesFormatters.cpp" />
+    <ClCompile Include="DatesFunctions.cpp" />
+    <ClCompile Include="DatesFunctionsExt.cpp" />
+    <ClCompile Include="Dib.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dibitmap.cpp" />
+    <ClCompile Include="DlgBars.cpp" />
+    <ClCompile Include="DockableFrame.cpp" />
+    <ClCompile Include="DocumentObjectsInfo.cpp" />
+    <ClCompile Include="DropBitmaps.cpp" />
+    <ClCompile Include="EnumsTable.cpp" />
+    <ClCompile Include="FileSystemCacheFileLoader.cpp" />
+    <ClCompile Include="FontsTable.cpp" />
+    <ClCompile Include="FormatsHelpers.cpp" />
+    <ClCompile Include="FormatsTable.cpp" />
+    <ClCompile Include="FormNSChanges.cpp" />
+    <ClCompile Include="FunctionCall.cpp" />
+    <ClCompile Include="FunctionObjectsInfo.cpp" />
+    <ClCompile Include="GeneralFunctions.cpp" />
+    <ClCompile Include="GeneralObjects.cpp" />
+    <ClCompile Include="JsonFormEngine.cpp" />
+    <ClCompile Include="Linefile.cpp" />
+    <ClCompile Include="LocalizableObjs.cpp" />
+    <ClCompile Include="Mlistbox.cpp" />
+    <ClCompile Include="NotifyIcon.cpp" />
+    <ClCompile Include="NumberToLiteral.cpp" />
+    <ClCompile Include="OutdateObjectsInfo.cpp" />
+    <ClCompile Include="PALETTE.CPP" />
+    <ClCompile Include="ParametersSections.cpp" />
+    <ClCompile Include="Pictures.cpp" />
+    <ClCompile Include="ProcessWrapper.cpp" />
+    <ClCompile Include="ReferenceObjectsInfo.cpp" />
+    <ClCompile Include="ReportObjectsInfo.cpp" />
+    <ClCompile Include="Schedule.cpp" />
+    <ClCompile Include="SettingsTable.cpp" />
+    <ClCompile Include="Spin.cpp" />
+    <ClCompile Include="Stack.cpp" />
+    <ClCompile Include="StatusBarMessages.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TBCmdUI.cpp" />
+    <ClCompile Include="TBFileDialog.cpp" />
+    <ClCompile Include="TBGeneric.cpp" />
+    <ClCompile Include="TBScrollBar.cpp" />
+    <ClCompile Include="TBStrings.cpp" />
+    <ClCompile Include="TBThemeManager.cpp" />
+    <ClCompile Include="TBWebFriendlyMenu.cpp" />
+    <ClCompile Include="TileStyle.cpp" />
+    <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="VERCHECK.CPP" />
+    <ClCompile Include="VisualStylesXP.cpp" />
+    <ClCompile Include="WebServiceStateObjects.cpp" />
+    <ClCompile Include="WndObjDescription.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModuleObjects\Enums.xml" />
+    <None Include="TbGeneric.def" />
+    <None Include="BEGINCPP.DEX" />
+    <None Include="BEGINH.DEX" />
+    <None Include="ENDH.DEX" />
+    <None Include="Module.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ARRAY.H" />
+    <ClInclude Include="BCMenu.h" />
+    <ClInclude Include="BinaryFileReader.h" />
+    <ClInclude Include="bitset.h" />
+    <ClInclude Include="CheckRecursion.h" />
+    <ClInclude Include="CISBitmap.h" />
+    <ClInclude Include="CMapi.h" />
+    <ClInclude Include="CollateCultureFunctions.h" />
+    <ClInclude Include="ContextFunctions.h" />
+    <ClInclude Include="CRITICAL.H" />
+    <ClInclude Include="crypt.h" />
+    <ClInclude Include="DatabaseObjectsInfo.h" />
+    <ClInclude Include="DataFileInfo.h" />
+    <ClInclude Include="DataObj.h" />
+    <ClInclude Include="DataObjDescription.h" />
+    <ClInclude Include="DataTypesFormatters.h" />
+    <ClInclude Include="DatesFunctions.h" />
+    <ClInclude Include="DIB.H" />
+    <ClInclude Include="DIBITMAP.H" />
+    <ClInclude Include="DlgBars.h" />
+    <ClInclude Include="DLLMod.h" />
+    <ClInclude Include="DockableFrame.h" />
+    <ClInclude Include="DocumentObjectsInfo.h" />
+    <ClInclude Include="DropBitmaps.h" />
+    <ClInclude Include="EnumsConst.h" />
+    <ClInclude Include="EnumsTable.h" />
+    <ClInclude Include="FileSystemCacheFileLoader.h" />
+    <ClInclude Include="FontsTable.h" />
+    <ClInclude Include="FormatsHelpers.h" />
+    <ClInclude Include="FormatsTable.h" />
+    <ClInclude Include="FormNSChanges.h" />
+    <ClInclude Include="FunctionCall.h" />
+    <ClInclude Include="FunctionObjectsInfo.h" />
+    <ClInclude Include="GeneralFunctions.h" />
+    <ClInclude Include="GeneralObjects.h" />
+    <ClInclude Include="GLOBALS.H" />
+    <ClInclude Include="ISqlRecord.h" />
+    <ClInclude Include="JsonFormEngine.h" />
+    <ClInclude Include="JsonTags.h" />
+    <ClInclude Include="Linefile.h" />
+    <ClInclude Include="LocalizableObjs.h" />
+    <ClInclude Include="MINMAX.H" />
+    <ClInclude Include="MLISTBOX.H" />
+    <ClInclude Include="NotifyIcon.h" />
+    <ClInclude Include="NumberToLiteral.h" />
+    <ClInclude Include="OutdateObjectsInfo.h" />
+    <ClInclude Include="palette.h" />
+    <ClInclude Include="ParametersSections.h" />
+    <ClInclude Include="Pictures.h" />
+    <ClInclude Include="ProcessWrapper.h" />
+    <ClInclude Include="RdeProtocol.h" />
+    <ClInclude Include="ReferenceObjectsInfo.h" />
+    <ClInclude Include="ReportObjectsInfo.h" />
+    <ClInclude Include="SCHEDULE.H" />
+    <ClInclude Include="SettingsTable.h" />
+    <ClInclude Include="SPIN.H" />
+    <ClInclude Include="STACK.H" />
+    <ClInclude Include="StatusBarMessages.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TBCmdUI.h" />
+    <ClInclude Include="TBFileDialog.h" />
+    <ClInclude Include="TBScrollBar.h" />
+    <ClInclude Include="TBStrings.h" />
+    <ClInclude Include="TBThemeManager.h" />
+    <ClInclude Include="TBWebFriendlyMenu.h" />
+    <ClInclude Include="TileStyle.h" />
+    <ClInclude Include="Tools.h" />
+    <ClInclude Include="VERCHECK.H" />
+    <ClInclude Include="VisualStylesXP.h" />
+    <ClInclude Include="WebServiceStateObjects.h" />
+    <ClInclude Include="WndObjDescription.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TbGeneric.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="FileSystemCacheFileLoader.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

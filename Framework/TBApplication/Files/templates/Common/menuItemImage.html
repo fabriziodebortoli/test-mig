@@ -1,0 +1,7 @@
+<!--icona personalizzata-->
+<img ng-src="{{object.customImage = imageService.getStaticImage(object);}}" class="menuItemImage" style="margin-bottom: 10px" ng-class="{'loading': object.isLoading}" ng-show="{{imageService.isCustomImage(object)}}" draggable="false" />
+
+<!--icona di default di document/bactch/report-->
+<span ng-class="{'{{imageService.getObjectIcon(object)}}': !object.isLoading, 'loading': object.isLoading}" class="menuItemImage" ng-hide="{{imageService.isCustomImage(object)}}" draggable="false"></span>
+
+

@@ -1,0 +1,654 @@
+﻿body
+{
+}
+
+/*per evitare visualizzazione delle scrollbar quando non necessario*/
+textarea
+{
+	overflow: auto;
+	resize:none;
+}
+
+.TbWebFormControl
+{
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-image: none;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.TbUpdatePanel
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 0px;
+	height: 0px;
+}
+
+.TBWebControl
+{
+	position: absolute;
+	font-size: 11px;
+}
+
+.TBForm.TBPanel.TBWebControl
+{
+	border-color: Black;
+	border-width: 1px;
+	border-style: outset;
+	background-color: White;
+}
+.TBFormTitle
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	cursor: move;
+	font-size: small;
+	font-style: normal;
+	font-variant: inherit;
+	text-transform: inherit;
+	overflow: hidden;
+	display: inline;
+	width: 100%;
+}
+.TBFormTitleLabel
+{
+	color: White;
+	vertical-align: middle;
+	overflow: hidden;
+	position: relative;
+}
+
+.TBFormBorder
+{
+	filter: alpha(opacity=15);
+	-moz-opacity: .15;
+	opacity: .15;
+	background-color: #FFFFFF;
+	position: absolute;
+}
+
+
+.TBLabel.TBWebControl
+{
+	overflow: hidden;
+}
+
+
+.TBTextBox.TBWebControl
+{
+	border-width: 1px;
+	border-color: #8F9B9C;
+}
+
+.HyperLink
+{
+	background-color: #CCCCCC;
+	color: Blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.Disabled
+{
+	border-color: #8F9B9C;
+	background-color: #F2F2F2;
+}
+
+.TBBorderPanel.TBPanel.TBWebControl
+{
+	border: 2px dashed #66CCFF;
+	position: absolute;
+	background-color: Transparent;
+	left: 0px;
+	top: 0px;
+	visibility: hidden;
+	display: none;
+}
+
+.TBScrollPanel.TBPanel.TBWebControl
+{
+	overflow: auto;
+}
+
+.TBAbstractButton.TBWebControl
+{
+}
+
+.TBImage.TBWebControl
+{
+	overflow: hidden;
+}
+
+.TBButton.TBAbstractButton.TBWebControl
+{
+}
+
+.TBGroupBox.TBWebControl
+{
+	border: 1px solid #8F9B9C;
+	padding: 0px;
+	margin: 0px;
+}
+
+.TBRadioButton.TBAbstractButton.TBWebControl
+{
+}
+
+.TBCheckBox.TBAbstractButton.TBWebControl
+{
+}
+
+.TBDropDownList.TBTextBox.TBWebControl
+{
+}
+
+.TBDropDownListContent
+{
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+	list-style-position: outside;
+	overflow: visible;
+}
+
+.TBMSDropDownListContent
+{
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+	list-style-position: outside;
+	overflow: visible;
+}
+
+.TBDropDownTableContent
+{
+	padding: 0px;
+	margin: 0px;
+	background-color: White;
+}
+
+.PopupPanel
+{
+	position: absolute;
+	background-color: Transparent;
+	border: solid 1px #8F9B9C;
+}
+
+.TBDropDownListPnl
+{
+	background-position: center;
+	background-repeat: no-repeat;
+	position: absolute;
+}
+.TBToolbarContainer
+{
+	position: absolute;
+	left: 0px;
+	border-bottom: 1px solid #8F9B9C;
+	overflow: hidden;
+}
+.TBToolbar.TBPanel.TBWebControl
+{
+	border-top: 1px solid #8F9B9C;
+	overflow: hidden;
+	position: relative;
+}
+.TBToolbarButton.TBWebControl
+{
+	border-style: double;
+}
+
+.TBTabber.TBWebControl
+{
+	overflow: hidden;
+}
+
+.TBTabberPanel.TBPanel.TBWebControl
+{
+	border-style: none;
+	position: absolute;
+	overflow-y: hidden;
+	overflow-x: auto;
+}
+.TabberButtonsLayer
+{
+	position: absolute;
+	background-color: #ffffff;
+	z-index: 1;
+	top: 1px;
+	padding: 0px;
+	margin: 0px;
+}
+.TabberButton
+{
+	vertical-align: middle;
+	text-align: center;
+	top: 0px;
+	height: 20px;
+	width: 30px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.TBHotLink.TBPanel.TBWebControl
+{
+	border-color: #8F9B9C;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.HotlinkUpperButton
+{
+	width: 100%;
+	height: 50%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+.HotlinkLowerButton
+{
+	width: 100%;
+	height: 50%;
+	position: absolute;
+	left: 0px;
+	top: 50%;
+}
+.SpinUpperButton
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+.SpinLowerButton
+{
+	position: absolute;
+	left: 0px;
+	top: 50%;
+}
+.TBListBox.TBWebControl
+{
+}
+.TBChecklListBox.TBWebControl
+{
+	background-color: White;
+	border-color: #8F9B9C;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.TBMenu.TBPanel.TBWebControl
+{
+}
+
+.TBMenuTable
+{
+	border: 1px solid #8F9B9C;
+	background-color: #F4FFFF;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.TBMenuItem
+{
+	background-color: #F4FFFF;
+	text-align: left;
+	border-style: none;
+}
+
+.TBRadar.TBScrollPanel.TBPanel.TBWebControl
+{
+}
+
+.TBRadarTable
+{
+	empty-cells: show;
+	caption-side: top;
+	border-collapse: collapse;
+	table-layout: auto;
+	background-color: White;
+}
+
+.TBRadarRow
+{
+}
+
+.TBRadarHeaderRow th
+{
+	text-align: center;
+	background-color: #E5E5E5;
+	border: 1px solid #8F9B9C;
+	height: 30px;
+}
+
+.TBRadarCell
+{
+	border: 1px solid #8F9B9C;
+	border-width: 1px;
+}
+.TBRadarCellNoData
+{
+	border: 1px solid #8F9B9C;
+	border-width: 1px;
+	padding: 20px;
+}
+
+.TBRadarButtonNoData
+{
+	border-style: none;
+	background-color: White;
+	font-size: medium;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+}
+
+.TBRadarCell.Active
+{
+	background-color: #99CCFF;
+	color: #000000;
+}
+
+.TBTreeView.TBScrollPanel.TBPanel.TBWebControl
+{
+	border-color: #8F9B9C;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.TBTreeNode.TBPanel.TBWebControl
+{
+}
+
+.TBTreeNodeLabel
+{
+	overflow: visible;
+	position: absolute;
+	color: Black;
+	background-color: White;
+}
+.TBTreeNodeLabel.Selected
+{
+	color: White;
+	background-color: #0000FF;
+}
+
+.TBTreeNodeIcon
+{
+	position: absolute;
+}
+.TBTreeNodeToggle
+{
+	position: absolute;
+	top: 3px;
+}
+
+.TBGridContainer.TBPanel.TBWebControl
+{
+	border: 1px solid #8F9B9C;
+}
+
+.TBGrid.TBScrollPanel.TBPanel.TBWebControl
+{
+	background-color: White;
+	border-style: solid;
+	border-color: #8F9B9C;
+	border-width: 1px;
+	overflow: scroll; /*per visualizzare sempre entrambe le scrollbar del body edit*/
+}
+
+.TBGridInnerTable
+{
+	border-collapse: collapse;
+	empty-cells: show;
+}
+
+.TBGridInnerTable td
+{
+	border: 1px solid #8F9B9C;
+	padding: 0px;
+	margin: 0px;
+}
+
+.TBGridInnerTable th
+{
+	border: 1px solid #8F9B9C;
+}
+
+.TBGridFiller
+{
+	height: 100%;
+	border-style: none;
+	border-width: 0px;
+	cursor: pointer;
+}
+.TBGridScroller
+{
+	cursor: pointer;
+}
+.TBGridColTitle.TBPanel.TBWebControl
+{
+	text-align: center;
+	overflow:hidden;
+}
+
+.TBGridCell.TBPanel.TBWebControl
+{
+	background-color: Transparent;
+}
+
+.TBGridCellText
+{
+	background-color: Transparent;
+	left: 0px;
+	top: 0px;
+	margin: 0px;
+	border: none 0px;
+	padding: 0px;
+}
+
+.TBGridCellText.Check
+{
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.TBCssPanel
+{
+	background-color: AliceBlue;
+	font-family: verdana,tahoma,helvetica;
+	font-size: 10pt;
+}
+
+
+.Disabled.TBRadioButton
+{
+	background-color: Transparent;
+}
+.Disabled.TBCheckBox
+{
+	background-color: Transparent;
+}
+.Disabled.TBLabel
+{
+	background-color: Transparent;
+}
+
+.TBListCtrlHeader
+{
+	background-color: Gray;
+}
+
+.TBListCtrlRow
+{
+	background-color: Transparent;
+	color: Black;
+}
+
+.TBListCtrlRow.Selected
+{
+	background-color: Blue;
+	color: White;
+}
+
+.TBTextImageButton.TBWebControl
+{
+	border-style: outset;
+	border-width: 1px;
+	cursor: pointer;
+	background-color: #CCCCCC;
+}
+
+.TBTextImageButtonText
+{
+	position: relative;
+	float: none;
+	top: 3px;
+	left: 3px;
+	cursor: pointer;
+}
+
+.TBTextImageButtonImage
+{
+	position: relative;
+	float: left;
+	height: 100%;
+	cursor: pointer;
+}
+
+/* default layout */
+.tb__tab_default .tb__tab_header
+{
+	white-space: nowrap;
+}
+.tb__tab_default .tb__tab_outer
+{
+	display: -moz-inline-box;
+	display: inline-block;
+}
+.tb__tab_default .tb__tab_inner
+{
+	display: -moz-inline-box;
+	display: inline-block;
+}
+.tb__tab_default .tb__tab_tab
+{
+	margin-right: 4px;
+	overflow: hidden;
+	text-align: center;
+	cursor: pointer;
+	display: -moz-inline-box;
+	display: inline-block;
+}
+
+/* xp theme */
+.tb__tab_xp .tb__tab_header
+{
+	white-space: nowrap;
+	font-family: verdana,tahoma,helvetica;
+	font-size: 11px;
+	background: url("TBWebFormResource.axd?img=Images.tab-line.gif") repeat-x bottom;
+}
+.tb__tab_xp .tb__tab_outer
+{
+	padding-right: 4px;
+	background: url("TBWebFormResource.axd?img=Images.tab-right.gif") no-repeat right;
+	height: 21px;
+}
+.tb__tab_xp .tb__tab_inner
+{
+	padding-left: 3px;
+	background: url("TBWebFormResource.axd?img=Images.tab-left.gif") no-repeat;
+}
+.tb__tab_xp .tb__tab_tab
+{
+	height: 13px;
+	padding: 4px;
+	margin: 0;
+	background: url("TBWebFormResource.axd?img=Images.tab.gif") repeat-x;
+}
+.tb__tab_xp .tb__tab_hover .tb__tab_outer
+{
+	background: url("TBWebFormResource.axd?img=Images.tab-hover-right.gif") no-repeat right;
+}
+.tb__tab_xp .tb__tab_hover .tb__tab_inner
+{
+	background: url("TBWebFormResource.axd?img=Images.tab-hover-left.gif") no-repeat;
+}
+.tb__tab_xp .tb__tab_hover .tb__tab_tab
+{
+	background: url("TBWebFormResource.axd?img=Images.tab-hover.gif") repeat-x;
+}
+.tb__tab_xp .tb__tab_active .tb__tab_outer
+{
+	background: url("TBWebFormResource.axd?img=Images.tab-active-right.gif") no-repeat right;
+}
+.tb__tab_xp .tb__tab_active .tb__tab_inner
+{
+	background: url("TBWebFormResource.axd?img=Images.tab-active-left.gif") no-repeat;
+}
+.tb__tab_xp .tb__tab_active .tb__tab_tab
+{
+	background: url("TBWebFormResource.axd?img=Images.tab-active.gif") repeat-x;
+}
+.tb__tab_xp .tb__tab_body
+{
+	font-family: verdana,tahoma,helvetica;
+	font-size: 10pt;
+	border: 1px solid #999999;
+	border-top: 0;
+	padding: 8px;
+	background-color: #ffffff;
+}
+
+/* scrolling */
+.tb__scroll_horiz
+{
+	overflow-x: scroll;
+}
+.tb__scroll_vert
+{
+	overflow-y: scroll;
+}
+.tb__scroll_both
+{
+	overflow: scroll;
+}
+.tb__scroll_auto
+{
+	overflow: auto;
+}
+
+/* plain theme */
+.tb__tab_plain .tb__tab_outer
+{
+	text-align: center;
+	vertical-align: middle;
+	border: 2px solid #999999;
+}
+.tb__tab_plain .tb__tab_inner
+{
+	text-align: center;
+	vertical-align: middle;
+}
+.tb__tab_plain .tb__tab_body
+{
+	text-align: center;
+	vertical-align: middle;
+}
+.tb__tab_plain .tb__tab_header
+{
+	white-space: nowrap;
+	text-align: center;
+	vertical-align: middle;
+}
+.tb__tab_plain .tb__tab_active .ajax__tab_outer
+{
+	background: #FFFFE1;
+}

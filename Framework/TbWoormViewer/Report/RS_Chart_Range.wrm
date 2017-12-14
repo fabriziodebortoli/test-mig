@@ -1,0 +1,157 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,-1918,1078,-2) 
+PageLayout "default" 
+	Begin
+		Table (5,5) "Range sample" Alias 1  Origin (0,0) Heights (26,18,14,14) 
+			Begin
+				"Category1" Alias 2   Width 121 ;
+				"Value Y" Alias 3  Width 107 FormatStyle "Double" ;
+				"Value Y1" Alias 4   Width 107 FormatStyle "Double";
+				"Value Y a" Alias 5   Width 107 FormatStyle "Double";
+				"Value Y1 a" Alias 6   Width 107 FormatStyle "Double";
+			End
+		Chart Chart_21
+			Begin
+				Alias 21
+				Title "Range bar chart" 
+				Type 15
+				Rect (142,31,642,757) 
+					Begin
+						Transparent
+						DropShadow 4 Color (240,230,140) 
+					End
+				ChartCategories
+					Begin
+							Title "Range bar Chart" 
+							DataSource w_Category1
+					End
+				ChartSeries
+					Begin
+							Title "Serie 2" 
+							Type 15
+							DataSource w_ValueYa
+							DataSource w_ValueY1a
+							Transparent 0.4
+					End													
+				ChartLegend
+					Begin
+						Align 2;
+					End
+			End
+
+		Chart Chart_30
+			Begin
+				Alias 30
+				Title "Range column chart"
+				Type 16
+				 Rect (690,31,1090,757) 
+					Begin
+						Transparent
+						DropShadow 4 Color (240,230,140) 
+					End
+				ChartCategories
+					Begin
+						Title "Range column Chart" 
+						DataSource w_Category1
+					End
+					ChartSeries
+						Begin
+								Title "Serie 1" 
+								Type 16
+								DataSource w_ValueY
+								DataSource w_ValueY1
+								Color (176,255,255) 
+						End
+					ChartSeries
+						Begin
+								Title "Serie 2" 
+								Type 17
+								DataSource w_ValueYa
+								DataSource w_ValueY1a
+								Transparent 0.4
+								Style 1
+								
+						End												
+				ChartLegend
+					Begin
+						Align 2;
+					End
+			End
+	End
+
+Report 
+	Begin NoName
+		Tables
+			Table_Range [5] Alias 1 PageLayout "default" ;
+		End
+
+		Variables
+			String       w_Category1 [23] Alias 2  Column  of Table_Range;
+			Double       w_ValueY [23] Alias 3  Column  of Table_Range;
+			Double       w_ValueY1 [23] Alias 4  Column  of Table_Range;
+			Double       w_ValueYa [23] Alias 5  Column  of Table_Range;
+			Double       w_ValueY1a [23] Alias 6  Column  of Table_Range;
+			String       w_CompanyName [64] Alias 71 Hidden;
+		End
+
+		Rules
+			From MA_Company 
+				Select 
+					CompanyName          Into w_CompanyName ;	
+		end
+
+		Events
+			Report : Do
+				Always 
+					Begin
+					End
+				Before 
+					Begin
+						Call DisplayRangeData ;					
+					End
+				After 
+					Begin
+						
+					End
+				Finalize 
+					Begin
+					End
+		End
+
+	Procedures
+		Begin
+			Procedure  DisplayRangeData
+				Begin				
+					w_Category1 = "Product A"  ;
+					w_ValueY = 80  ;
+					w_ValueY1 = 70;
+					w_ValueYa = 25;
+					w_ValueY1a = -15;
+					Display w_Category1 ,w_ValueY, w_ValueY1, w_ValueYa, w_ValueY1a;
+					NextLine Table_Range ;
+					w_Category1 = "Product B"  ;
+					w_ValueY = 30;
+					w_ValueY1 = 80;
+					w_ValueYa = 44;
+					w_ValueY1a = 66;
+					Display w_Category1, w_ValueY, w_ValueY1, w_ValueYa, w_ValueY1a;
+					NextLine Table_Range;
+					w_Category1 = "Product C"  ;
+					w_ValueY = -40  ;
+					w_ValueY1 = 70;
+					w_ValueYa = 25;
+					w_ValueY1a = 75;
+					Display w_Category1, w_ValueY, w_ValueY1, w_ValueYa, w_ValueY1a;
+					NextLine Table_Range;
+					w_Category1 = "Product D"  ;
+					w_ValueY = 60  ;
+					w_ValueY1 = 100;
+					w_ValueYa = 55;
+					w_ValueY1a = 97;
+					Display w_Category1, w_ValueY, w_ValueY1, w_ValueYa, w_ValueY1a;
+				End
+		End
+End

@@ -11,6 +11,10 @@
           (inputDataChange)="onImportDefaultDataChanged($event)"></admin-checkbox>
       </div>
       <div>
+        <admin-checkbox [checkText]="'Import only default optional data'" [checkId]="'chkImportDefaultOptionalData'" [(checkValue)]="importDefaultOptionalData"
+          (inputDataChange)="onImportDefaultOptionalDataChanged($event)"></admin-checkbox>
+      </div>
+      <div>
         <admin-checkbox [checkText]="'Import sample data'" [checkId]="'chkImportSampleData'" [(checkValue)]="importSampleData" (inputDataChange)="onImportSampleDataChanged($event)"></admin-checkbox>
       </div>
       <div class="mt20">

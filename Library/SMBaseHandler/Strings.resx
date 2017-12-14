@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="Ok" type="System.String">
+		<value>Operation has been completed successfully</value>
+	</data>
+	<data name="NotConsistentXml" type="System.String">
+		<value>The file has not a valid XML format</value>
+	</data>
+	<data name="WrongExtension" type="System.String">
+		<value>The file extension is not valid</value>
+	</data>
+	<data name="WrongSyntax" type="System.String">
+		<value>The file sintax is not valid</value>
+	</data>
+	<data name="AuthenticationFailed" type="System.String">
+		<value>The access credentials are not valid</value>
+	</data>
+	<data name="NotAuthorizedCdS" type="System.String">
+		<value>The user is not an authorized Development Centre</value>
+	</data>
+	<data name="DatabaseConnectionFailed" type="System.String">
+		<value>Database connection failed</value>
+	</data>
+	<data name="NotAuthorizedContents" type="System.String">
+		<value>File contents are not allowed</value>
+	</data>
+	<data name="CryptingFailed" type="System.String">
+		<value>Crypting operation failed</value>
+	</data>
+	<data name="ResponseXmlNotValid" type="System.String">
+		<value>The XML response is not valid</value>
+	</data>
+	<data name="GenericServerError" type="System.String">
+		<value>Generic server side error</value>
+	</data>
+	<data name="TimeError" type="System.String">
+		<value>No synchronization error</value>
+	</data>
+	<data name="NoSyncServerUrl" type="System.String">
+		<value>Web Service address is needed</value>
+	</data>
+	<data name="SyncServerException" type="System.String">
+		<value>Synchronization server generic error</value>
+	</data>
+	<data name="InvalidRequest" type="System.String">
+		<value>The Web Service request was refused</value>
+	</data>
+	<data name="InitializationError" type="System.String">
+		<value>Inizialization error</value>
+	</data>
+	<data name="LockedLogin" type="System.String">
+		<value>The user is locked</value>
+	</data>
+	<data name="PasswordExpired" type="System.String">
+		<value>The password is expired</value>
+	</data>
+	<data name="PasswordToChange" type="System.String">
+		<value>The password has to be changed</value>
+	</data>
+	<data name="OnlyEnglishSite" type="System.String">
+		<value>The access credentials are valid only on the english version of the website</value>
+	</data>
+	<data name="DisabledLogin" type="System.String">
+		<value>The user is disabled</value>
+	</data>
+	<data name="TooMuchLoginErrors" type="System.String">
+		<value>Too many errors during login</value>
+	</data>
+	<data name="ErrorContactingDb" type="System.String">
+		<value>Database connection error</value>
+	</data>
+	<data name="Code" type="System.String">
+		<value>code</value>
+	</data>
+	<data name="GenericError" type="System.String">
+		<value>Generic error</value>
+	</data>
+	<data name="Detail" type="System.String">
+		<value>Details</value>
+	</data>
+	<data name="InvalidHasSerial" type="System.String">
+		<value>Invalid "hasSerial" attribute</value>
+	</data>
+	<data name="IncompleteContent" type="System.String">
+		<value>Sales Module cannot contains only third party functionals modules</value>
+	</data>
+	<data name="ProductNotRegisteredAndNoLicence" type="System.String">
+		<value>Attempt to crypt of several Sales Modules for an unknown or not licenced product.
+Please verify the correctness</value>
+	</data>
+	<data name="ProductNotRegisteredAndNoStandAlone" type="System.String">
+		<value>Attempt to crypt of several Sales Modules for an unknown or incomplete product.
+Please verify the correctness</value>
+	</data>
+	<data name="ShortNamesMissing" type="System.String">
+		<value>The "ShortNames" tag is missing (it contains the 4 characters code of the Sales Module)</value>
+	</data>
+	<data name="ShortNameInvalid">
+		<value>The "ShortNames" value must contain 4 characters.</value>
+	</data>
+	<data name="ShortNamePrivate">
+		<value>The "ShortNames" value is not valid, please change it.</value>
+	</data>
+	<data name="ProductNotActive">
+		<value>The Product is not active.</value>
+	</data>
+	<data name="IncludesInvalid">
+		<value>The "Includes" tag value is not valid.</value>
+	</data>
+</root>

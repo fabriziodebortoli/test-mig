@@ -26,6 +26,7 @@ export class ImportDataBodyContent {
 export class ImportDataParameters {
   OverwriteRecord: boolean = true;
   DeleteTableContext: boolean = false;
+  NoOptional: boolean = true;
 }
 // #endregion
 

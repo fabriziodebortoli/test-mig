@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4262CB62-9CB1-4509-98DD-805C5742C9CA}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>Icons\SysAdmin.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Microarea.Console.Plugin.SysAdmin</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microarea.Console.Plugin.SysAdmin</RootNamespace>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/SysAdminPlugIn/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\..\Apps\AdministrationConsole\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\..\..\Apps\AdministrationConsole\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.2.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Npgsql.3.2.6\lib\net451\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.OracleClient">
+      <Name>System.Data.OracleClient</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Drawing.Design">
+      <Name>System.Drawing.Design</Name>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\TBVersion.cs">
+      <Link>Properties\TBVersion.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUsersToLoginLite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUsersToLoginLite.Designer.cs">
+      <DependentUpon>AddCompanyUsersToLoginLite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\AddCompanyUsersToLoginPostgre.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUsersToLoginPostgre.designer.cs">
+      <DependentUpon>AddCompanyUsersToLoginPostgre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\AddCompanyUserToLoginPostgre.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUserToLoginPostgre.designer.cs">
+      <DependentUpon>AddCompanyUserToLoginPostgre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\BackupDatabase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\BackupDatabase.Designer.cs">
+      <DependentUpon>BackupDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CompanyLite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CompanyLite.Designer.cs">
+      <DependentUpon>CompanyLite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DetailCompanyUserLite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DetailCompanyUserLite.Designer.cs">
+      <DependentUpon>DetailCompanyUserLite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DetailCompanyUserPostgre.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DetailCompanyUserPostgre.Designer.cs">
+      <DependentUpon>DetailCompanyUserPostgre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\LoginLite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\LoginLite.Designer.cs">
+      <DependentUpon>LoginLite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ModifyCompanyUsersToLoginPostgre.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ModifyCompanyUsersToLoginPostgre.Designer.cs">
+      <DependentUpon>ModifyCompanyUsersToLoginPostgre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\RestoreDatabase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\RestoreDatabase.Designer.cs">
+      <DependentUpon>RestoreDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DeleteCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DeleteCompany.Designer.cs">
+      <DependentUpon>DeleteCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\UserLite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\UserLite.Designer.cs">
+      <DependentUpon>UserLite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUsersToLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUsersToLogin.Designer.cs">
+      <DependentUpon>AddCompanyUsersToLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\AddCompanyUserToLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUserToLogin.Designer.cs">
+      <DependentUpon>AddCompanyUserToLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\AddCompanyUserToOracleLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\AddCompanyUserToOracleLogin.Designer.cs">
+      <DependentUpon>AddCompanyUserToOracleLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\AddLoginToCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\AddLoginToCompany.Designer.cs">
+      <DependentUpon>AddLoginToCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CheckCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CheckCompany.Designer.cs">
+      <DependentUpon>CheckCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CloneCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CloneCompany.Designer.cs">
+      <DependentUpon>CloneCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CloneCompanyRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CloneCompanyRole.Designer.cs">
+      <DependentUpon>CloneCompanyRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CloneUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CloneUser.Designer.cs">
+      <DependentUpon>CloneUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Company.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Company.Designer.cs">
+      <DependentUpon>Company.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ConfirmPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ConfirmPassword.Designer.cs">
+      <DependentUpon>ConfirmPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CreateDBForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CreateDBForm.Designer.cs">
+      <DependentUpon>CreateDBForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DetailCompanyUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DetailCompanyUser.Designer.cs">
+      <DependentUpon>DetailCompanyUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DetailOracleCompanyUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DetailOracleCompanyUser.Designer.cs">
+      <DependentUpon>DetailOracleCompanyUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DetailUserRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DetailUserRole.Designer.cs">
+      <DependentUpon>DetailUserRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\EditConfigFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\EditConfigFile.Designer.cs">
+      <DependentUpon>EditConfigFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\JoinRoleUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\JoinRoleUser.Designer.cs">
+      <DependentUpon>JoinRoleUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\JoinUserRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\JoinUserRole.Designer.cs">
+      <DependentUpon>JoinUserRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ListViewDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ListViewDetail.Designer.cs">
+      <DependentUpon>ListViewDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\LoginAdministrator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\LoginAdministrator.Designer.cs">
+      <DependentUpon>LoginAdministrator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ModifyCompanyUsersToLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ModifyCompanyUsersToLogin.Designer.cs">
+      <DependentUpon>ModifyCompanyUsersToLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ModifyCompanyUsersToOracleLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ModifyCompanyUsersToOracleLogin.Designer.cs">
+      <DependentUpon>ModifyCompanyUsersToOracleLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Provider.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Provider.Designer.cs">
+      <DependentUpon>Provider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Role.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Role.Designer.cs">
+      <DependentUpon>Role.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\User.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\User.Designer.cs">
+      <DependentUpon>User.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\UsersBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\UsersBrowser.Designer.cs">
+      <DependentUpon>UsersBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ViewInfoConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ViewInfoConnection.Designer.cs">
+      <DependentUpon>ViewInfoConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SysAdmin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SysAdminStatus.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysAdminStrings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserControls\ApplicationUsers.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\ApplicationUsers.Designer.cs">
+      <DependentUpon>ApplicationUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\BackupInfoGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\BackupInfoGrid.Designer.cs">
+      <DependentUpon>BackupInfoGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\BakCommonObjects.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\DataBaseOracle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DataBaseOracle.Designer.cs">
+      <DependentUpon>DataBaseOracle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DataBasePostgre.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DataBasePostgre.Designer.cs">
+      <DependentUpon>DataBasePostgre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DataBaseSql.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DataBaseSql.Designer.cs">
+      <DependentUpon>DataBaseSql.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DataBaseSqlLite.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DataBaseSqlLite.Designer.cs">
+      <DependentUpon>DataBaseSqlLite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ExtendedListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\ExtendedListView.Designer.cs">
+      <DependentUpon>ExtendedListView.cs</DependentUpon>
+    </Compile>
+    <Content Include="App.ico" />
+    <EmbeddedResource Include="Form\AddCompanyUsersToLoginLite.resx">
+      <DependentUpon>AddCompanyUsersToLoginLite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\AddCompanyUsersToLoginPostgre.resx">
+      <DependentUpon>AddCompanyUsersToLoginPostgre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\AddCompanyUserToLoginPostgre.resx">
+      <DependentUpon>AddCompanyUserToLoginPostgre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\BackupDatabase.resx">
+      <DependentUpon>BackupDatabase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CompanyLite.resx">
+      <DependentUpon>CompanyLite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DetailCompanyUserLite.resx">
+      <DependentUpon>DetailCompanyUserLite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DetailCompanyUserPostgre.resx">
+      <DependentUpon>DetailCompanyUserPostgre.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\LoginLite.resx">
+      <DependentUpon>LoginLite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ModifyCompanyUsersToLoginPostgre.resx">
+      <DependentUpon>ModifyCompanyUsersToLoginPostgre.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\RestoreDatabase.resx">
+      <DependentUpon>RestoreDatabase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CreateDBForm.resx">
+      <DependentUpon>CreateDBForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DeleteCompany.resx">
+      <DependentUpon>DeleteCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\UserLite.resx">
+      <DependentUpon>UserLite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\ConnectMenu.bmp" />
+    <EmbeddedResource Include="Images\DisconnectMenu.bmp" />
+    <Content Include="DatabaseScript\Create\All\MSD_ADVSecurity.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CloneCompany.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CloneCompanyLoginGrants.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CloneCompanyRole.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CloneCompanyRoleGrants.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CompanyDBSlaves.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CompanyLogins.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CompanyRoles.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_CompanyRolesLogins.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_DBMark.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_DeleteCompany.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_DeleteCompanyLogin.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_DeleteCompanyRole.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_DeleteCompanyRoleLogin.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_DeleteLogin.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_DeleteSlave.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_IMagoMenu.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_Logins.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_LoginsArticles.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_Providers.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_SlaveLogins.sql" />
+    <Content Include="DatabaseScript\Create\All\MSD_Trace.sql" />
+    <Content Include="DatabaseScript\Create\CreateInfo.xml" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_10\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_10\Delete_MSD_LoginsArticles.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_11\MSD_ADVSecurity.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_12\Update_MSD_ADVSecurity.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_13\Alter_MSD_CompanyLogins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_14\Alter_MSD_DBMark.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_15\Alter_MSD_ADVSecurity.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_16\Alter_MSD_CloneCompanyRole.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_17\Alter_CloneCompanySP.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_18\MSD_CloneCompanyRole.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_19\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_20\MSD_CloneCompany.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_20\MSD_Companies_ADD.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_21\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_22\Alter_MSD_Logins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_23\Alter_MSD_Logins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_24\UpdatePreferredLanguage.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_25\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_25\MSD_CompanyDBSlaves.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_25\MSD_DeleteCompany.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_25\MSD_DeleteCompanyLogin.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_25\MSD_DeleteLogin.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_25\MSD_DeleteSlave.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_25\MSD_SlaveLogins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_26\Alter_MSD_CompanyLogins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_27\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_28\Alter_MSD_CompanyLogins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_29\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_2\Alter_MSD_Logins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_30\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_31\MSD_CompanyRoles.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_32\MSD_CompanyLogins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_33\MSD_CompanyLogins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_33\MSD_IMagoMenu.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_3\Alter_MSD_Providers.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_4\Alter_MSD_Logins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_5\Alter_MSD_CompanyRoles.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_6\MSD_Trace.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_7\Alter_MSD_CloneCompany.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_7\Alter_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_7\Alter_MSD_Logins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_8\Update_MSD_Companies.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_8\Update_MSD_Logins.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_9\Alter_MSD_DeleteCompany.sql" />
+    <Content Include="DatabaseScript\Upgrade\All\Release_9\Alter_MSD_DeleteCompanyLogin.sql" />
+    <Content Include="DatabaseScript\Upgrade\UpgradeInfo.xml" />
+    <Content Include="ModuleObjects\DatabaseObjects.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="app.config" />
+    <None Include="Module.config" />
+    <EmbeddedResource Include="Form\AddCompanyUsersToLogin.resx">
+      <DependentUpon>AddCompanyUsersToLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\AddCompanyUserToLogin.resx">
+      <DependentUpon>AddCompanyUserToLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\AddCompanyUserToOracleLogin.resx">
+      <DependentUpon>AddCompanyUserToOracleLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\AddLoginToCompany.resx">
+      <DependentUpon>AddLoginToCompany.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CheckCompany.resx">
+      <DependentUpon>CheckCompany.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CloneCompany.resx">
+      <DependentUpon>CloneCompany.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CloneCompanyRole.resx">
+      <DependentUpon>CloneCompanyRole.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CloneUser.resx">
+      <DependentUpon>CloneUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Company.resx">
+      <DependentUpon>Company.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ConfirmPassword.resx">
+      <DependentUpon>ConfirmPassword.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DetailCompanyUser.resx">
+      <DependentUpon>DetailCompanyUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DetailOracleCompanyUser.resx">
+      <DependentUpon>DetailOracleCompanyUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DetailUserRole.resx">
+      <DependentUpon>DetailUserRole.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\EditConfigFile.resx">
+      <DependentUpon>EditConfigFile.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\JoinRoleUser.resx">
+      <DependentUpon>JoinRoleUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\JoinUserRole.resx">
+      <DependentUpon>JoinUserRole.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ListViewDetail.resx">
+      <DependentUpon>ListViewDetail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\LoginAdministrator.resx">
+      <DependentUpon>LoginAdministrator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ModifyCompanyUsersToLogin.resx">
+      <DependentUpon>ModifyCompanyUsersToLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ModifyCompanyUsersToOracleLogin.resx">
+      <DependentUpon>ModifyCompanyUsersToOracleLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Provider.resx">
+      <DependentUpon>Provider.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Role.resx">
+      <DependentUpon>Role.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\User.resx">
+      <DependentUpon>User.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\UsersBrowser.resx">
+      <DependentUpon>UsersBrowser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ViewInfoConnection.resx">
+      <DependentUpon>ViewInfoConnection.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Icons\SysAdmin.ico" />
+    <EmbeddedResource Include="Images\Keys.gif" />
+    <EmbeddedResource Include="Strings.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SysAdmin.resx">
+      <DependentUpon>SysAdmin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ApplicationUsers.resx">
+      <DependentUpon>ApplicationUsers.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\BackupInfoGrid.resx">
+      <DependentUpon>BackupInfoGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DataBaseOracle.resx">
+      <DependentUpon>DataBaseOracle.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DataBasePostgre.resx">
+      <DependentUpon>DataBasePostgre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DataBaseSql.resx">
+      <DependentUpon>DataBaseSql.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DataBaseSqlLite.resx">
+      <DependentUpon>DataBaseSqlLite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ExtendedListView.resx">
+      <DependentUpon>ExtendedListView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj">
+      <Project>{F2F1C352-B5F8-4E92-A85F-99B012F80504}</Project>
+      <Name>Microarea.TaskBuilderNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.UI\Microarea.TaskBuilderNet.UI.csproj">
+      <Project>{0B5A421C-8D2B-4EB0-8C96-89B9B8886CD4}</Project>
+      <Name>Microarea.TaskBuilderNet.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microarea.Console.Core\Microarea.Console.Core.csproj">
+      <Project>{4EFCB940-3FC3-429A-8456-08CF2FBB9D89}</Project>
+      <Name>Microarea.Console.Core</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetFileName)" "..\..\AdministrationConsoleLite\$(ConfigurationName)" /Y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

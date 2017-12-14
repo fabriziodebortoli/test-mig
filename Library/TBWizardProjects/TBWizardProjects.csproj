@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D10E8174-DE5F-45BF-AB49-AECAD02CA001}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>TBWizardProjects</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microarea.Library.TBWizardProjects</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.OracleClient">
+      <Name>System.Data.OracleClient</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Core\Microarea.TaskBuilderNet.Core.csproj">
+      <Project>{DCA1DC48-522C-41FA-9E43-3DCCE3ED0FE3}</Project>
+      <Name>Microarea.TaskBuilderNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Data\Microarea.TaskBuilderNet.Data.csproj">
+      <Project>{F2F1C352-B5F8-4E92-A85F-99B012F80504}</Project>
+      <Name>Microarea.TaskBuilderNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.TaskBuilderNet.Interfaces\Microarea.TaskBuilderNet.Interfaces.csproj">
+      <Project>{D21FD41D-0C68-40EF-A65A-CCFA47A05F3E}</Project>
+      <Name>Microarea.TaskBuilderNet.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PEFileAnalyzer\PEFileAnalyzer.csproj">
+      <Project>{83B041C3-DEB2-4DC3-AE33-E7FA316C1E7E}</Project>
+      <Name>PEFileAnalyzer</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SqlScriptUtility\SqlScriptUtility.csproj">
+      <Name>SqlScriptUtility</Name>
+      <Project>{3455E1AD-11E2-4944-8B31-937048EE6639}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DBObjectsProjectParser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CodeGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CodeTemplateParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InjectionPoint.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReverseEngineer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TableHistoryInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TableInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TBWizardEventHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TBWizardException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TBWizardProjectParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TBWizardProjectsStrings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="CodeTemplates\Application\Application.gif" />
+    <EmbeddedResource Include="CodeTemplates\Application\Application_sln.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTMasterInfo_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTMasterInfo_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTSlaveBufferedInfo_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTSlaveBufferedInfo_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTSlaveInfo_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTSlaveInfo_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\BatchDocumentView_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\BatchDocumentView_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\BatchDocument_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\BatchDocument_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocumentButtonLarge.bmp" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocumentButtonLargeDisabled.bmp" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocumentButtonSmall.bmp" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocumentButtonSmallDisabled.bmp" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocumentView_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocumentView_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocument_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocument_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocument_hrc.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\ClientDocument_rc.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\DocumentView_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\DocumentView_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\Document_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\Document_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\Document_hrc.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Documents\Document_rc.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\beginh_dex.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\endh_dex.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\LibraryInterface_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\Library_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\Library_rc.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\Library_vcproj.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\stdafx_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Libraries\stdafx_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Modules\Application.Module.gif" />
+    <EmbeddedResource Include="CodeTemplates\Modules\ModuleEnums_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\AdditionalColumns_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\AdditionalColumns_h.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\OracleAdditionalColumnsScript.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\OracleCreateScript.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\OracleUpgradeScript.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\Report.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\SQLServerAdditionalColumnsScript.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\SQLServerCreateScript.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\SQLServerUpgradeScript.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\Table_cpp.tmpl" />
+    <EmbeddedResource Include="CodeTemplates\Tables\Table_h.tmpl" />
+    <EmbeddedResource Include="Strings.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Tables\SQLServerViewCreateScript.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Tables\OracleViewCreateScript.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Tables\SQLServerProcedureCreateScript.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Tables\OracleProcedureCreateScript.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Libraries\Library_vcxproj.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Libraries\Library_vcxproj_filters.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Tables\Table_cs.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTMasterInfo_cs.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTSlaveInfo_cs.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\DBTs\DBTSlaveBufferedInfo_cs.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Documents\Document_cs.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeTemplates\Documents\DocumentView_cs.tmpl" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

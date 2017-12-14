@@ -1,0 +1,74 @@
+﻿{
+  "id": "IDD_WIZARD_SEL_CRITERIA_PAGE",
+  "rcId": 2208,
+  "type": 66,
+  "text": "Select export criteria",
+  "x": 0,
+  "y": 0,
+  "width": 214,
+  "height": 188,
+  "child": true,
+  "context": "expcriteriadlg",
+  "items": [
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "You chose to export only the documents matching specific criteria.",
+      "x": 12,
+      "y": 5,
+      "width": 197,
+      "height": 25,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "The procedure detected criteria saved as preferred in a previous export. You can use or edit such values.",
+      "x": 11,
+      "y": 36,
+      "width": 196,
+      "height": 41,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Which criteria do you want to apply:",
+      "x": 20,
+      "y": 83,
+      "width": 159,
+      "height": 54,
+      "group": true
+    },
+    {
+      "id": "IDC_EXPORT_APP_SEL_CHECK",
+      "type": 11,
+      "text": "De&fault",
+      "x": 27,
+      "y": 95,
+      "width": 142,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_EXPORT_USER_SEL_CHECK",
+      "type": 11,
+      "text": "&Custom",
+      "x": 27,
+      "y": 109,
+      "width": 143,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_EXPORT_OSL_SEL_CHECK",
+      "type": 11,
+      "text": "&Auditing tracking",
+      "x": 27,
+      "y": 123,
+      "width": 146,
+      "height": 10,
+      "auto": true
+    }
+  ]
+}

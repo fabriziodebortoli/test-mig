@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<BehaviourObjects>
+   <Services>
+     <Service namespace="Framework.TbGes.TbGes.Autonumber" localize="Auto Numbering Service" />
+     <Service namespace="Framework.TbGes.TbGes.Autoincrement" localize="Autoincrement Numbering Service" />
+   </Services>
+</BehaviourObjects>

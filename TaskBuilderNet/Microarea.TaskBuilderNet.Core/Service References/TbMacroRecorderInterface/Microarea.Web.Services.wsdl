@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:tns="urn:Microarea.Web.Services" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" name="TBMacroRecorderTBMacroRecorder" targetNamespace="urn:Microarea.Web.Services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:Microarea.Web.Services/Imports">
+      <xsd:import namespace="urn:Microarea.Web.Services.SetTestPlan" />
+      <xsd:import namespace="urn:Microarea.Web.Services" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="urn:Microarea.Web.Services.PlayStep" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="urn:Microarea.Web.Services.SetTPManagerHandle" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordMessageBox" />
+      <xsd:import namespace="urn:Microarea.Web.Services.PlayMessageBox" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordParsedAction" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordActivateParsedDialog" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordCloseParsedDialog" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordOpenDocument" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordCloseDocument" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordReportValidation" />
+      <xsd:import namespace="urn:Microarea.Web.Services.RecordCloseReport" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="SetTestPlanIn">
+    <wsdl:part xmlns:q1="urn:Microarea.Web.Services.SetTestPlan" name="xmlTestPlan" element="q1:xmlTestPlan" />
+  </wsdl:message>
+  <wsdl:message name="SetTestPlanIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetTestPlanOut">
+    <wsdl:part xmlns:q2="urn:Microarea.Web.Services.SetTestPlan" name="return" element="q2:return" />
+  </wsdl:message>
+  <wsdl:message name="SetTestPlanOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_SetTestPlan_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q3:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="PlayStepIn">
+    <wsdl:part xmlns:q4="urn:Microarea.Web.Services.PlayStep" name="step" element="q4:step" />
+    <wsdl:part xmlns:q5="urn:Microarea.Web.Services.PlayStep" name="bIsInStepByStep" element="q5:bIsInStepByStep" />
+    <wsdl:part xmlns:q6="urn:Microarea.Web.Services.PlayStep" name="messages" element="q6:messages" />
+  </wsdl:message>
+  <wsdl:message name="PlayStepIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="PlayStepOut">
+    <wsdl:part xmlns:q7="urn:Microarea.Web.Services.PlayStep" name="return" element="q7:return" />
+    <wsdl:part xmlns:q8="urn:Microarea.Web.Services.PlayStep" name="messages" element="q8:messages" />
+  </wsdl:message>
+  <wsdl:message name="PlayStepOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_PlayStep_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q9:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordIn" />
+  <wsdl:message name="RecordIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordOut" />
+  <wsdl:message name="RecordOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_Record_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q10:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="StopRecordIn" />
+  <wsdl:message name="StopRecordIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="StopRecordOut" />
+  <wsdl:message name="StopRecordOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_StopRecord_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q11:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="SetTPManagerHandleIn">
+    <wsdl:part xmlns:q12="urn:Microarea.Web.Services.SetTPManagerHandle" name="handle" element="q12:handle" />
+    <wsdl:part xmlns:q13="urn:Microarea.Web.Services.SetTPManagerHandle" name="tbProcessId" element="q13:tbProcessId" />
+    <wsdl:part xmlns:q14="urn:Microarea.Web.Services.SetTPManagerHandle" name="isVs2005" element="q14:isVs2005" />
+  </wsdl:message>
+  <wsdl:message name="SetTPManagerHandleIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetTPManagerHandleOut">
+    <wsdl:part xmlns:q15="urn:Microarea.Web.Services.SetTPManagerHandle" name="tbProcessId" element="q15:tbProcessId" />
+    <wsdl:part xmlns:q16="urn:Microarea.Web.Services.SetTPManagerHandle" name="isVs2005" element="q16:isVs2005" />
+  </wsdl:message>
+  <wsdl:message name="SetTPManagerHandleOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_SetTPManagerHandle_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q17:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordMessageBoxIn">
+    <wsdl:part xmlns:q18="urn:Microarea.Web.Services.RecordMessageBox" name="msgText" element="q18:msgText" />
+    <wsdl:part xmlns:q19="urn:Microarea.Web.Services.RecordMessageBox" name="type" element="q19:type" />
+    <wsdl:part xmlns:q20="urn:Microarea.Web.Services.RecordMessageBox" name="result" element="q20:result" />
+  </wsdl:message>
+  <wsdl:message name="RecordMessageBoxIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordMessageBoxOut" />
+  <wsdl:message name="RecordMessageBoxOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordMessageBox_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q21:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="PlayMessageBoxIn">
+    <wsdl:part xmlns:q22="urn:Microarea.Web.Services.PlayMessageBox" name="msgText" element="q22:msgText" />
+    <wsdl:part xmlns:q23="urn:Microarea.Web.Services.PlayMessageBox" name="type" element="q23:type" />
+    <wsdl:part xmlns:q24="urn:Microarea.Web.Services.PlayMessageBox" name="result" element="q24:result" />
+    <wsdl:part xmlns:q25="urn:Microarea.Web.Services.PlayMessageBox" name="error" element="q25:error" />
+  </wsdl:message>
+  <wsdl:message name="PlayMessageBoxIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="PlayMessageBoxOut">
+    <wsdl:part xmlns:q26="urn:Microarea.Web.Services.PlayMessageBox" name="return" element="q26:return" />
+    <wsdl:part xmlns:q27="urn:Microarea.Web.Services.PlayMessageBox" name="result" element="q27:result" />
+    <wsdl:part xmlns:q28="urn:Microarea.Web.Services.PlayMessageBox" name="error" element="q28:error" />
+  </wsdl:message>
+  <wsdl:message name="PlayMessageBoxOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_PlayMessageBox_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q29="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q29:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordParsedActionIn">
+    <wsdl:part xmlns:q30="urn:Microarea.Web.Services.RecordParsedAction" name="strValue" element="q30:strValue" />
+    <wsdl:part xmlns:q31="urn:Microarea.Web.Services.RecordParsedAction" name="nID" element="q31:nID" />
+    <wsdl:part xmlns:q32="urn:Microarea.Web.Services.RecordParsedAction" name="nCode" element="q32:nCode" />
+    <wsdl:part xmlns:q33="urn:Microarea.Web.Services.RecordParsedAction" name="strText" element="q33:strText" />
+    <wsdl:part xmlns:q34="urn:Microarea.Web.Services.RecordParsedAction" name="nBooleanValue" element="q34:nBooleanValue" />
+    <wsdl:part xmlns:q35="urn:Microarea.Web.Services.RecordParsedAction" name="strNameSpace" element="q35:strNameSpace" />
+  </wsdl:message>
+  <wsdl:message name="RecordParsedActionIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordParsedActionOut" />
+  <wsdl:message name="RecordParsedActionOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordParsedAction_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q36="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q36:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordActivateParsedDialogIn">
+    <wsdl:part xmlns:q37="urn:Microarea.Web.Services.RecordActivateParsedDialog" name="nID" element="q37:nID" />
+    <wsdl:part xmlns:q38="urn:Microarea.Web.Services.RecordActivateParsedDialog" name="pDialog" element="q38:pDialog" />
+  </wsdl:message>
+  <wsdl:message name="RecordActivateParsedDialogIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordActivateParsedDialogOut" />
+  <wsdl:message name="RecordActivateParsedDialogOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordActivateParsedDialog_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q39="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q39:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseParsedDialogIn">
+    <wsdl:part xmlns:q40="urn:Microarea.Web.Services.RecordCloseParsedDialog" name="nID" element="q40:nID" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseParsedDialogIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseParsedDialogOut" />
+  <wsdl:message name="RecordCloseParsedDialogOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordCloseParsedDialog_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q41="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q41:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordOpenDocumentIn">
+    <wsdl:part xmlns:q42="urn:Microarea.Web.Services.RecordOpenDocument" name="nameSpace" element="q42:nameSpace" />
+  </wsdl:message>
+  <wsdl:message name="RecordOpenDocumentIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordOpenDocumentOut" />
+  <wsdl:message name="RecordOpenDocumentOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordOpenDocument_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q43="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q43:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseDocumentIn">
+    <wsdl:part xmlns:q44="urn:Microarea.Web.Services.RecordCloseDocument" name="nameSpace" element="q44:nameSpace" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseDocumentIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseDocumentOut" />
+  <wsdl:message name="RecordCloseDocumentOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordCloseDocument_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q45="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q45:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordReportValidationIn">
+    <wsdl:part xmlns:q46="urn:Microarea.Web.Services.RecordReportValidation" name="woormDocHandle" element="q46:woormDocHandle" />
+  </wsdl:message>
+  <wsdl:message name="RecordReportValidationIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordReportValidationOut" />
+  <wsdl:message name="RecordReportValidationOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordReportValidation_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q47="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q47:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseReportIn">
+    <wsdl:part xmlns:q48="urn:Microarea.Web.Services.RecordCloseReport" name="woormDocHandle" element="q48:woormDocHandle" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseReportIn_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="RecordCloseReportOut" />
+  <wsdl:message name="RecordCloseReportOut_Headers">
+    <wsdl:part name="HeaderInfo" element="tns:HeaderInfo" />
+  </wsdl:message>
+  <wsdl:message name="TBMacroRecorderTBMacroRecorder_RecordCloseReport_TBSoapFaultFault_FaultMessage">
+    <wsdl:part xmlns:q49="http://schemas.datacontract.org/2004/07/Microarea.TaskBuilderNet.Core.SoapCall" name="detail" element="q49:TBSoapFault" />
+  </wsdl:message>
+  <wsdl:portType name="TBMacroRecorderTBMacroRecorder">
+    <wsdl:operation name="SetTestPlan">
+      <wsdl:input wsaw:Action="#SetTestPlan" name="SetTestPlanIn" message="tns:SetTestPlanIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/SetTestPlanResponse" name="SetTestPlanOut" message="tns:SetTestPlanOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/SetTestPlanTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_SetTestPlan_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayStep">
+      <wsdl:input wsaw:Action="#PlayStep" name="PlayStepIn" message="tns:PlayStepIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/PlayStepResponse" name="PlayStepOut" message="tns:PlayStepOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/PlayStepTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_PlayStep_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Record">
+      <wsdl:input wsaw:Action="#Record" name="RecordIn" message="tns:RecordIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordResponse" name="RecordOut" message="tns:RecordOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_Record_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StopRecord">
+      <wsdl:input wsaw:Action="#StopRecord" name="StopRecordIn" message="tns:StopRecordIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/StopRecordResponse" name="StopRecordOut" message="tns:StopRecordOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/StopRecordTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_StopRecord_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetTPManagerHandle">
+      <wsdl:input wsaw:Action="#SetTPManagerHandle" name="SetTPManagerHandleIn" message="tns:SetTPManagerHandleIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/SetTPManagerHandleResponse" name="SetTPManagerHandleOut" message="tns:SetTPManagerHandleOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/SetTPManagerHandleTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_SetTPManagerHandle_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordMessageBox">
+      <wsdl:input wsaw:Action="#RecordMessageBox" name="RecordMessageBoxIn" message="tns:RecordMessageBoxIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordMessageBoxResponse" name="RecordMessageBoxOut" message="tns:RecordMessageBoxOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordMessageBoxTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordMessageBox_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayMessageBox">
+      <wsdl:input wsaw:Action="#PlayMessageBox" name="PlayMessageBoxIn" message="tns:PlayMessageBoxIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/PlayMessageBoxResponse" name="PlayMessageBoxOut" message="tns:PlayMessageBoxOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/PlayMessageBoxTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_PlayMessageBox_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordParsedAction">
+      <wsdl:input wsaw:Action="#RecordParsedAction" name="RecordParsedActionIn" message="tns:RecordParsedActionIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordParsedActionResponse" name="RecordParsedActionOut" message="tns:RecordParsedActionOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordParsedActionTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordParsedAction_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordActivateParsedDialog">
+      <wsdl:input wsaw:Action="#RecordActivateParsedDialog" name="RecordActivateParsedDialogIn" message="tns:RecordActivateParsedDialogIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordActivateParsedDialogResponse" name="RecordActivateParsedDialogOut" message="tns:RecordActivateParsedDialogOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordActivateParsedDialogTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordActivateParsedDialog_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordCloseParsedDialog">
+      <wsdl:input wsaw:Action="#RecordCloseParsedDialog" name="RecordCloseParsedDialogIn" message="tns:RecordCloseParsedDialogIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordCloseParsedDialogResponse" name="RecordCloseParsedDialogOut" message="tns:RecordCloseParsedDialogOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordCloseParsedDialogTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordCloseParsedDialog_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordOpenDocument">
+      <wsdl:input wsaw:Action="#RecordOpenDocument" name="RecordOpenDocumentIn" message="tns:RecordOpenDocumentIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordOpenDocumentResponse" name="RecordOpenDocumentOut" message="tns:RecordOpenDocumentOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordOpenDocumentTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordOpenDocument_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordCloseDocument">
+      <wsdl:input wsaw:Action="#RecordCloseDocument" name="RecordCloseDocumentIn" message="tns:RecordCloseDocumentIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordCloseDocumentResponse" name="RecordCloseDocumentOut" message="tns:RecordCloseDocumentOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordCloseDocumentTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordCloseDocument_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordReportValidation">
+      <wsdl:input wsaw:Action="#RecordReportValidation" name="RecordReportValidationIn" message="tns:RecordReportValidationIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordReportValidationResponse" name="RecordReportValidationOut" message="tns:RecordReportValidationOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordReportValidationTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordReportValidation_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordCloseReport">
+      <wsdl:input wsaw:Action="#RecordCloseReport" name="RecordCloseReportIn" message="tns:RecordCloseReportIn" />
+      <wsdl:output wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordCloseReportResponse" name="RecordCloseReportOut" message="tns:RecordCloseReportOut" />
+      <wsdl:fault wsaw:Action="urn:Microarea.Web.Services/TBMacroRecorderTBMacroRecorder/RecordCloseReportTBSoapFaultFault" name="TBSoapFaultFault" message="tns:TBMacroRecorderTBMacroRecorder_RecordCloseReport_TBSoapFaultFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TBMacroRecorderTBMacroRecorderSoap" type="tns:TBMacroRecorderTBMacroRecorder">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetTestPlan">
+      <soap:operation soapAction="#SetTestPlan" style="document" />
+      <wsdl:input name="SetTestPlanIn">
+        <soap:header message="tns:SetTestPlanIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="SetTestPlanOut">
+        <soap:header message="tns:SetTestPlanOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="PlayStep">
+      <soap:operation soapAction="#PlayStep" style="document" />
+      <wsdl:input name="PlayStepIn">
+        <soap:header message="tns:PlayStepIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="PlayStepOut">
+        <soap:header message="tns:PlayStepOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Record">
+      <soap:operation soapAction="#Record" style="document" />
+      <wsdl:input name="RecordIn">
+        <soap:header message="tns:RecordIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordOut">
+        <soap:header message="tns:RecordOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="StopRecord">
+      <soap:operation soapAction="#StopRecord" style="document" />
+      <wsdl:input name="StopRecordIn">
+        <soap:header message="tns:StopRecordIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="StopRecordOut">
+        <soap:header message="tns:StopRecordOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SetTPManagerHandle">
+      <soap:operation soapAction="#SetTPManagerHandle" style="document" />
+      <wsdl:input name="SetTPManagerHandleIn">
+        <soap:header message="tns:SetTPManagerHandleIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="SetTPManagerHandleOut">
+        <soap:header message="tns:SetTPManagerHandleOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordMessageBox">
+      <soap:operation soapAction="#RecordMessageBox" style="document" />
+      <wsdl:input name="RecordMessageBoxIn">
+        <soap:header message="tns:RecordMessageBoxIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordMessageBoxOut">
+        <soap:header message="tns:RecordMessageBoxOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="PlayMessageBox">
+      <soap:operation soapAction="#PlayMessageBox" style="document" />
+      <wsdl:input name="PlayMessageBoxIn">
+        <soap:header message="tns:PlayMessageBoxIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="PlayMessageBoxOut">
+        <soap:header message="tns:PlayMessageBoxOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordParsedAction">
+      <soap:operation soapAction="#RecordParsedAction" style="document" />
+      <wsdl:input name="RecordParsedActionIn">
+        <soap:header message="tns:RecordParsedActionIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordParsedActionOut">
+        <soap:header message="tns:RecordParsedActionOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordActivateParsedDialog">
+      <soap:operation soapAction="#RecordActivateParsedDialog" style="document" />
+      <wsdl:input name="RecordActivateParsedDialogIn">
+        <soap:header message="tns:RecordActivateParsedDialogIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordActivateParsedDialogOut">
+        <soap:header message="tns:RecordActivateParsedDialogOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordCloseParsedDialog">
+      <soap:operation soapAction="#RecordCloseParsedDialog" style="document" />
+      <wsdl:input name="RecordCloseParsedDialogIn">
+        <soap:header message="tns:RecordCloseParsedDialogIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordCloseParsedDialogOut">
+        <soap:header message="tns:RecordCloseParsedDialogOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordOpenDocument">
+      <soap:operation soapAction="#RecordOpenDocument" style="document" />
+      <wsdl:input name="RecordOpenDocumentIn">
+        <soap:header message="tns:RecordOpenDocumentIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordOpenDocumentOut">
+        <soap:header message="tns:RecordOpenDocumentOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordCloseDocument">
+      <soap:operation soapAction="#RecordCloseDocument" style="document" />
+      <wsdl:input name="RecordCloseDocumentIn">
+        <soap:header message="tns:RecordCloseDocumentIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordCloseDocumentOut">
+        <soap:header message="tns:RecordCloseDocumentOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordReportValidation">
+      <soap:operation soapAction="#RecordReportValidation" style="document" />
+      <wsdl:input name="RecordReportValidationIn">
+        <soap:header message="tns:RecordReportValidationIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordReportValidationOut">
+        <soap:header message="tns:RecordReportValidationOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecordCloseReport">
+      <soap:operation soapAction="#RecordCloseReport" style="document" />
+      <wsdl:input name="RecordCloseReportIn">
+        <soap:header message="tns:RecordCloseReportIn_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RecordCloseReportOut">
+        <soap:header message="tns:RecordCloseReportOut_Headers" part="HeaderInfo" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="TBSoapFaultFault">
+        <soap:fault use="literal" name="TBSoapFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TBMacroRecorderTBMacroRecorder">
+    <wsdl:port name="TBMacroRecorderTBMacroRecorderSoap" binding="tns:TBMacroRecorderTBMacroRecorderSoap">
+      <soap:address location="http://usr-bruniluca:10000/TestManager.TBMacroRecorder.TBMacroRecorder/TBMacroRecorderTBMacroRecorder" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,326 @@
+﻿{
+  "id": "IDD_OPTIONS",
+  "rcId": 1140,
+  "type": 66,
+  "text": "Report Options",
+  "x": 25,
+  "y": 30,
+  "width": 410,
+  "height": 242,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "listdlg",
+  "items": [
+    {
+      "id": "IDC_BKGN_BITMAP",
+      "type": 13,
+      "x": 10,
+      "y": 22,
+      "width": 223,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_BKGN_BITMAP_CENTER_X",
+      "type": 3,
+      "text": "Center &X",
+      "x": 105,
+      "y": 38,
+      "width": 61,
+      "height": 12
+    },
+    {
+      "id": "IDC_BKGN_BITMAP_CENTER_Y",
+      "type": 3,
+      "text": "Center &Y",
+      "x": 170,
+      "y": 38,
+      "width": 63,
+      "height": 12
+    },
+    {
+      "id": "IDC_BKGN_BITMAP_X",
+      "type": 13,
+      "x": 105,
+      "y": 53,
+      "width": 59,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_BKGN_BITMAP_Y",
+      "type": 13,
+      "x": 170,
+      "y": 53,
+      "width": 62,
+      "height": 12,
+      "autoHScroll": true
+    },
+    {
+      "id": "IDC_DEFAULT_PRINTER",
+      "type": 12,
+      "x": 11,
+      "y": 88,
+      "width": 219,
+      "height": 147,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2
+    },
+    {
+      "id": "IDC_DEFAULT_PRN_NO_BITMAP",
+      "type": 11,
+      "text": "Without &Background",
+      "x": 9,
+      "y": 107,
+      "width": 225,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DEFAULT_PRN_NO_BORDERS",
+      "type": 11,
+      "text": "Without &Border",
+      "x": 9,
+      "y": 120,
+      "width": 226,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DEFAULT_PRN_SHOW_LABELS",
+      "type": 11,
+      "text": "Show &Descriptions",
+      "x": 9,
+      "y": 133,
+      "width": 226,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DEFAULT_PRN_SHOW_TITLES",
+      "type": 11,
+      "text": "Show &Titles",
+      "x": 9,
+      "y": 146,
+      "width": 226,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DEFAULT_PRN_DRAFT_FONT",
+      "type": 11,
+      "text": "Only Fonts for Quick &Print",
+      "x": 9,
+      "y": 159,
+      "width": 226,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_DEFAULT_PRINT_DRAFT",
+      "type": 3,
+      "text": "Quick Pr&int",
+      "x": 20,
+      "y": 173,
+      "width": 133,
+      "height": 12
+    },
+    {
+      "id": "IDC_PRN_NO_BITMAP",
+      "type": 11,
+      "text": "Without &Background",
+      "x": 249,
+      "y": 18,
+      "width": 156,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PRN_NO_BORDERS",
+      "type": 11,
+      "text": "Without &Border",
+      "x": 249,
+      "y": 30,
+      "width": 156,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PRN_SHOW_LABELS",
+      "type": 11,
+      "text": "Show &Descriptions",
+      "x": 249,
+      "y": 42,
+      "width": 156,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PRN_SHOW_TITLES",
+      "type": 11,
+      "text": "Show &Titles",
+      "x": 249,
+      "y": 54,
+      "width": 156,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_PRN_DRAFT_FONT",
+      "type": 11,
+      "text": "Only Fonts for Quick &Print",
+      "x": 249,
+      "y": 66,
+      "width": 133,
+      "height": 24,
+      "auto": true
+    },
+    {
+      "id": "IDC_PRINT_DRAFT",
+      "type": 3,
+      "text": "Quick &Print",
+      "x": 262,
+      "y": 93,
+      "width": 124,
+      "height": 12
+    },
+    {
+      "id": "IDC_CON_NO_BITMAP",
+      "type": 11,
+      "text": "Without &Background",
+      "x": 252,
+      "y": 126,
+      "width": 154,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_CON_NO_BORDERS",
+      "type": 11,
+      "text": "Without &Border",
+      "x": 252,
+      "y": 139,
+      "width": 154,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_CON_SHOW_LABELS",
+      "type": 11,
+      "text": "Show &Descriptions",
+      "x": 252,
+      "y": 152,
+      "width": 154,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_CON_SHOW_TITLES",
+      "type": 11,
+      "text": "Show &Titles",
+      "x": 252,
+      "y": 166,
+      "width": 155,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 124,
+      "y": 224,
+      "width": 75,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 210,
+      "y": 224,
+      "width": 75,
+      "height": 14
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "text": "Show on Screen",
+      "x": 246,
+      "y": 113,
+      "width": 163,
+      "height": 76
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 9,
+      "text": "Show on Printer",
+      "x": 245,
+      "y": 1,
+      "width": 163,
+      "height": 108
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "&Name (right click for search)",
+      "x": 10,
+      "y": 11,
+      "width": 222,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "&Applying point (mm)",
+      "x": 10,
+      "y": 42,
+      "width": 85,
+      "height": 20,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_5",
+      "type": 9,
+      "text": "Background Picture",
+      "x": 3,
+      "y": 1,
+      "width": 239,
+      "height": 70
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "text": "Preferred Printer",
+      "x": 3,
+      "y": 74,
+      "width": 239,
+      "height": 115
+    },
+    {
+      "id": "IDC_CREATEXSD1",
+      "type": 11,
+      "text": "Generate XSD schema (Standard)",
+      "x": 9,
+      "y": 193,
+      "width": 181,
+      "height": 10,
+      "auto": true
+    },
+    {
+      "id": "IDC_CREATEXSD2",
+      "type": 11,
+      "text": "Generate XSD schema (Advanced)",
+      "x": 9,
+      "y": 208,
+      "width": 186,
+      "height": 10,
+      "auto": true
+    }
+  ]
+}

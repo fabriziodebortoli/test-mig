@@ -1,0 +1,58 @@
+﻿{
+  "id": "IDD_DBT_UK_GROUP_PROPERTIES",
+  "rcId": 1068,
+  "type": 66,
+  "text": "Universal Key Group Properties",
+  "x": 0,
+  "y": 0,
+  "width": 190,
+  "height": 103,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "xmlcontrols",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 32,
+      "y": 87,
+      "width": 55,
+      "height": 12,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 99,
+      "y": 87,
+      "width": 59,
+      "height": 12
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "All Universal Keys belonging to the same group have the same function.",
+      "x": 6,
+      "y": 4,
+      "width": 181,
+      "height": 37,
+      "textAlign": 1
+    },
+    {
+      "id": "IDC_UK_FUNCTION_COMBO",
+      "type": 12,
+      "x": 26,
+      "y": 48,
+      "width": 141,
+      "height": 57,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "sort": true
+    }
+  ]
+}

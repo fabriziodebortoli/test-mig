@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Extensions.TbMailer.TbMailer.OnDSNChanged" type="bool" alwaysreceiveevent="true" localize="Company Connection Change" />
+  </Functions>
+</FunctionObjects>

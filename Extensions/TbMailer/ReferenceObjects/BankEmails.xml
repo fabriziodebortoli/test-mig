@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HotKeyLink version="2" accessibility="Public" >
+
+<Function namespace="Extensions.TbMailer.TbMailer.BankEmails" localize="Bank's email address" type="string">
+</Function>
+
+  <!-- Syntax allows comma separated db tables, the first is the hkl master table -->
+  <DbTable name="MA_Banks"  loadFullRecord="false" /> 
+  <DbField name="MA_Banks.Email"/>
+  <DbFieldDescription name="MA_Banks.Description" />
+
+  <Events>
+    <Event name="IsValid" type="bool">
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              return MA_Banks.EMail != '';
+        End
+       ]]>
+      </TbScript>
+    </Event>
+    <Event name="OnAssignSelectedValue" type="bool">
+      <Param name="p_CtrlValue" type="string" localize="Control value" mode="in out" />
+      <Param name="p_HklValue" type="string" localize="Selected value" />
+      <TbScript>
+        <![CDATA[ 
+        Begin
+              if p_CtrlValue != ''
+                then p_CtrlValue = p_CtrlValue + ';' + p_HklValue;
+                else p_CtrlValue = p_HklValue;
+        End
+      ]]>
+      </TbScript>
+    </Event>
+  </Events>
+  
+  <SelectionModes>
+ 
+    <Mode name="Default" type="query">
+  <![CDATA[  
+SELECT 
+  Bank            { COL MA_Banks.Bank }, 
+  Description {+} ' - ' {+} Agency {+} ' - ' {+} Branch { COL MA_Banks.Description }, 
+  Email           { COL MA_Banks.Email }, 
+  Address         { COL MA_Banks.Address },
+  City            { COL MA_Banks.City },
+  IsACompanyBank  { COL MA_Banks.IsACompanyBank }
+FROM MA_Banks
+WHERE Email <> {''} OR EXISTS (
+    SELECT Email FROM MA_BanksPeople
+    WHERE
+      MA_BanksPeople.Bank = MA_Banks.Bank AND
+      MA_BanksPeople.IsACompanyBank = MA_Banks.IsACompanyBank AND
+      MA_BanksPeople.Email <> {''}
+      )
+UNION SELECT
+    Bank {+} ' - ' {+} Name {+} ' ' {+} LastName AS Bank,
+    WorkingPosition AS Description,
+    Email, 
+    {''}  AS [Address],
+    {''} AS City,
+    IsACompanyBank
+    FROM MA_BanksPeople
+ORDER BY 1
+ ]]>
+  </Mode>
+
+</SelectionModes>
+
+</HotKeyLink>

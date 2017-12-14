@@ -1,0 +1,59 @@
+﻿{
+  "id": "IDD_DLG_NS_VAR",
+  "rcId": 1132,
+  "type": 66,
+  "text": "Report's variables",
+  "x": 0,
+  "y": 0,
+  "width": 186,
+  "height": 145,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "editorlinksdlg",
+  "items": [
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "OK",
+      "x": 32,
+      "y": 116,
+      "width": 50,
+      "height": 14,
+      "default": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "Cancel",
+      "x": 109,
+      "y": 116,
+      "width": 50,
+      "height": 14
+    },
+    {
+      "id": "IDC_LIST_STR_NS_VAR",
+      "type": 24,
+      "x": 31,
+      "y": 22,
+      "width": 125,
+      "height": 84,
+      "tabStop": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Select namespace variable",
+      "x": 34,
+      "y": 7,
+      "width": 124,
+      "height": 11,
+      "textAlign": 0
+    }
+  ]
+}

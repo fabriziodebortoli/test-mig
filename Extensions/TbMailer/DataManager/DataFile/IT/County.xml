@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Auxdata>
+  <Header>
+	<Fieldtype name="County" key="1" hidden="0" type="string" />
+	<Fieldtype name="Description" key="0" hidden="0" type="string" />
+	<Fieldtype name="Region" key="0" hidden="1" type="string" />
+  </Header>
+  <Elements>
+	<Element>
+	  <Field name="County">EE</Field>
+	  <Field name="Description">E S T E R O</Field>
+	  <Field name="Region"></Field>
+	</Element>
+	<Element>
+	  <Field name="County">AG</Field>
+	  <Field name="Description">Agrigento</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AL</Field>
+	  <Field name="Description">Alessandria</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AN</Field>
+	  <Field name="Description">Ancona</Field>
+	  <Field name="Region">Marche</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AO</Field>
+	  <Field name="Description">Aosta</Field>
+	  <Field name="Region">Valle D'Aosta</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AP</Field>
+	  <Field name="Description">Ascoli Piceno</Field>
+	  <Field name="Region">Marche</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AQ</Field>
+	  <Field name="Description">L'Aquila</Field>
+	  <Field name="Region">Abruzzo</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AR</Field>
+	  <Field name="Description">Arezzo</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AT</Field>
+	  <Field name="Description">Asti</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+	<Element>
+	  <Field name="County">AV</Field>
+	  <Field name="Description">Avellino</Field>
+	  <Field name="Region">Campania</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BA</Field>
+	  <Field name="Description">Bari</Field>
+	  <Field name="Region">Puglia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BG</Field>
+	  <Field name="Description">Bergamo</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BI</Field>
+	  <Field name="Description">Biella</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BL</Field>
+	  <Field name="Description">Belluno</Field>
+	  <Field name="Region">Veneto</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BN</Field>
+	  <Field name="Description">Benevento</Field>
+	  <Field name="Region">Campania</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BO</Field>
+	  <Field name="Description">Bologna</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BR</Field>
+	  <Field name="Description">Brindisi</Field>
+	  <Field name="Region">Puglia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BS</Field>
+	  <Field name="Description">Brescia</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BZ</Field>
+	  <Field name="Description">Bolzano</Field>
+	  <Field name="Region">Trentino-Alto Adige</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CA</Field>
+	  <Field name="Description">Cagliari</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CB</Field>
+	  <Field name="Description">Campobasso</Field>
+	  <Field name="Region">Molise</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CE</Field>
+	  <Field name="Description">Caserta</Field>
+	  <Field name="Region">Campania</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CH</Field>
+	  <Field name="Description">Chieti</Field>
+	  <Field name="Region">Abruzzo</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CL</Field>
+	  <Field name="Description">Caltanissetta</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CN</Field>
+	  <Field name="Description">Cuneo</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CO</Field>
+	  <Field name="Description">Como</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CR</Field>
+	  <Field name="Description">Cremona</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CS</Field>
+	  <Field name="Description">Cosenza</Field>
+	  <Field name="Region">Calabria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CT</Field>
+	  <Field name="Description">Catania</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CZ</Field>
+	  <Field name="Description">Catanzaro</Field>
+	  <Field name="Region">Calabria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">EN</Field>
+	  <Field name="Description">Enna</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">FC</Field>
+	  <Field name="Description">Forli' Cesena</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">FE</Field>
+	  <Field name="Description">Ferrara</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">FG</Field>
+	  <Field name="Description">Foggia</Field>
+	  <Field name="Region">Puglia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">FI</Field>
+	  <Field name="Description">Firenze</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">FR</Field>
+	  <Field name="Description">Frosinone</Field>
+	  <Field name="Region">Lazio</Field>
+	</Element>
+	<Element>
+	  <Field name="County">GE</Field>
+	  <Field name="Description">Genova</Field>
+	  <Field name="Region">Liguria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">GO</Field>
+	  <Field name="Description">Gorizia</Field>
+	  <Field name="Region">Friuli-Venezia Giulia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">GR</Field>
+	  <Field name="Description">Grosseto</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">IM</Field>
+	  <Field name="Description">Imperia</Field>
+	  <Field name="Region">Liguria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">IS</Field>
+	  <Field name="Description">Isernia</Field>
+	  <Field name="Region">Molise</Field>
+	</Element>
+	<Element>
+	  <Field name="County">KR</Field>
+	  <Field name="Description">Crotone</Field>
+	  <Field name="Region">Calabria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">LC</Field>
+	  <Field name="Description">Lecco</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">LE</Field>
+	  <Field name="Description">Lecce</Field>
+	  <Field name="Region">Puglia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">LI</Field>
+	  <Field name="Description">Livorno</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">LO</Field>
+	  <Field name="Description">Lodi</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">LT</Field>
+	  <Field name="Description">Latina</Field>
+	  <Field name="Region">Lazio</Field>
+	</Element>
+	<Element>
+	  <Field name="County">LU</Field>
+	  <Field name="Description">Lucca</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">MC</Field>
+	  <Field name="Description">Macerata</Field>
+	  <Field name="Region">Marche</Field>
+	</Element>
+	<Element>
+	  <Field name="County">ME</Field>
+	  <Field name="Description">Messina</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">MI</Field>
+	  <Field name="Description">Milano</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">MN</Field>
+	  <Field name="Description">Mantova</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">MO</Field>
+	  <Field name="Description">Modena</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">MS</Field>
+	  <Field name="Description">Massa Carrara</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">MT</Field>
+	  <Field name="Description">Matera</Field>
+	  <Field name="Region">Basilicata</Field>
+	</Element>
+	<Element>
+	  <Field name="County">NA</Field>
+	  <Field name="Description">Napoli</Field>
+	  <Field name="Region">Campania</Field>
+	</Element>
+	<Element>
+	  <Field name="County">NO</Field>
+	  <Field name="Description">Novara</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+	<Element>
+	  <Field name="County">NU</Field>
+	  <Field name="Description">Nuoro</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">OR</Field>
+	  <Field name="Description">Oristano</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PA</Field>
+	  <Field name="Description">Palermo</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PC</Field>
+	  <Field name="Description">Piacenza</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PD</Field>
+	  <Field name="Description">Padova</Field>
+	  <Field name="Region">Veneto</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PE</Field>
+	  <Field name="Description">Pescara</Field>
+	  <Field name="Region">Abruzzo</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PG</Field>
+	  <Field name="Description">Perugia</Field>
+	  <Field name="Region">Umbria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PI</Field>
+	  <Field name="Description">Pisa</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PN</Field>
+	  <Field name="Description">Pordenone</Field>
+	  <Field name="Region">Friuli-Venezia Giulia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PO</Field>
+	  <Field name="Description">Prato</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PR</Field>
+	  <Field name="Description">Parma</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PT</Field>
+	  <Field name="Description">Pistoia</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PU</Field>
+	  <Field name="Description">Pesaro Urbino</Field>
+	  <Field name="Region">Marche</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PV</Field>
+	  <Field name="Description">Pavia</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">PZ</Field>
+	  <Field name="Description">Potenza</Field>
+	  <Field name="Region">Basilicata</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RA</Field>
+	  <Field name="Description">Ravenna</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RC</Field>
+	  <Field name="Description">Reggio Calabria</Field>
+	  <Field name="Region">Calabria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RE</Field>
+	  <Field name="Description">Reggio Emilia</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RG</Field>
+	  <Field name="Description">Ragusa</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RI</Field>
+	  <Field name="Description">Rieti</Field>
+	  <Field name="Region">Lazio</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RM</Field>
+	  <Field name="Description">Roma</Field>
+	  <Field name="Region">Lazio</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RN</Field>
+	  <Field name="Description">Rimini</Field>
+	  <Field name="Region">Emilia-Romagna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">RO</Field>
+	  <Field name="Description">Rovigo</Field>
+	  <Field name="Region">Veneto</Field>
+	</Element>
+	<Element>
+	  <Field name="County">SA</Field>
+	  <Field name="Description">Salerno</Field>
+	  <Field name="Region">Campania</Field>
+	</Element>
+	<Element>
+	  <Field name="County">SI</Field>
+	  <Field name="Description">Siena</Field>
+	  <Field name="Region">Toscana</Field>
+	</Element>
+	<Element>
+	  <Field name="County">SO</Field>
+	  <Field name="Description">Sondrio</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">SP</Field>
+	  <Field name="Description">La Spezia</Field>
+	  <Field name="Region">Liguria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">SR</Field>
+	  <Field name="Description">Siracusa</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">SS</Field>
+	  <Field name="Description">Sassari</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">SV</Field>
+	  <Field name="Description">Savona</Field>
+	  <Field name="Region">Liguria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TA</Field>
+	  <Field name="Description">Taranto</Field>
+	  <Field name="Region">Puglia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TE</Field>
+	  <Field name="Description">Teramo</Field>
+	  <Field name="Region">Abruzzo</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TN</Field>
+	  <Field name="Description">Trento</Field>
+	  <Field name="Region">Trentino-Alto Adige</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TO</Field>
+	  <Field name="Description">Torino</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TP</Field>
+	  <Field name="Description">Trapani</Field>
+	  <Field name="Region">Sicilia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TR</Field>
+	  <Field name="Description">Terni</Field>
+	  <Field name="Region">Umbria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TS</Field>
+	  <Field name="Description">Trieste</Field>
+	  <Field name="Region">Friuli-Venezia Giulia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">TV</Field>
+	  <Field name="Description">Treviso</Field>
+	  <Field name="Region">Veneto</Field>
+	</Element>
+	<Element>
+	  <Field name="County">UD</Field>
+	  <Field name="Description">Udine</Field>
+	  <Field name="Region">Friuli-Venezia Giulia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VA</Field>
+	  <Field name="Description">Varese</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VC</Field>
+	  <Field name="Description">Vercelli</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VE</Field>
+	  <Field name="Description">Venezia</Field>
+	  <Field name="Region">Veneto</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VI</Field>
+	  <Field name="Description">Vicenza</Field>
+	  <Field name="Region">Veneto</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VR</Field>
+	  <Field name="Description">Verona</Field>
+	  <Field name="Region">Veneto</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VT</Field>
+	  <Field name="Description">Viterbo</Field>
+	  <Field name="Region">Lazio</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VV</Field>
+	  <Field name="Description">Vibo Valentia</Field>
+	  <Field name="Region">Calabria</Field>
+	</Element>
+	<Element>
+	  <Field name="County">CI</Field>
+	  <Field name="Description">Carbonia Iglesias</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">OG</Field>
+	  <Field name="Description">Ogliastra</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">OT</Field>
+	  <Field name="Description">Olbia Tempio</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VS</Field>
+	  <Field name="Description">Medio Campidano</Field>
+	  <Field name="Region">Sardegna</Field>
+	</Element>
+	<Element>
+	  <Field name="County">MB</Field>
+	  <Field name="Description">Monza e Brianza</Field>
+	  <Field name="Region">Lombardia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">BT</Field>
+	  <Field name="Description">Barletta Andria Trani</Field>
+	  <Field name="Region">Puglia</Field>
+	</Element>
+	<Element>
+	  <Field name="County">FM</Field>
+	  <Field name="Description">Fermo</Field>
+	  <Field name="Region">Marche</Field>
+	</Element>
+	<Element>
+	  <Field name="County">VB</Field>
+	  <Field name="Description">Verbania</Field>
+	  <Field name="Region">Piemonte</Field>
+	</Element>
+  </Elements>
+</Auxdata>
+
+

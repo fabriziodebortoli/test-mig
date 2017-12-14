@@ -1,0 +1,69 @@
+Progetto VSSMDXP:
+
+Su Sviluppo                   SetWorking folder C:\MICROAREASERVER\SVILUPPO
+
+Su Services                  SetWorking folder C:\MICROAREASERVER\SERVICES
+
+Su SviluppoClient           SetWorking folder C:\MICROAREACLIENT\SVILUPPO
+
+ 
+
+Fare il Get sotto Sviluppo, sotto Services basta fare il get del solo folder
+ApplicationServer e del file ServerConnectio.confjg sotto Services,
+fare il get sotto SviluppoClient e togliere da read only il
+ClientConnection.config. 
+
+Aprire un Visual Dot Net e fare Open Solution sotto
+MicroareaServer|Sviluppo|Running|Standard|TaskBuilder.Net|NetTB.sln
+e compilare la solution.
+
+Settare le seguenti variabili di ambiente:
+
+MicroareaClient=C:\MicroareaClient
+MicroareaServer=C:\MicroareaServer
+MicroareaVersion=Sviluppo
+
+MicroareaUtility=%MicroareaServer%\%MicroareaVersion%\Running\Standard\TaskBuilder\Framework\TbUtility
+
+Mettere la Path delle Lib di OcBin nella Path di sistema
+
+%MicroareaServer%\%MicroareaVersion%\Running\Standard\TaskBuilder\OtherComponents\OcBin
+
+
+Aprire un Visual Dot Net e fare Open Solution sotto
+MicroareaServer|Sviluppo|Running|Standard|TaskBuilder |TaskBuilderXP.sln
+
+Andare in Tools|Options|Project|VC++ Directories e aggiungere:
+
+Nelle Library Files per PRIME
+
+C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\Framework\Lib\$(OutDir)
+C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\OtherComponents\OcLib
+
+Nelle Include Files per PRIME
+
+C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\Framework
+C:\MicroareaServer\Sviluppo\Running\Standard\TaskBuilder\OtherComponents\OcDev
+
+E anche
+
+C:\MICROAREASERVER\SVILUPPO\Running\Standard\TaskBuilderApplications\TestApplication
+
+ 
+Compilare la solution in UnicodeDebug.
+
+ 
+Per fare partire il tutto occorre:
+
+lanciare ApplicationServer.exe sotto
+C:\MicroareaServer\Services\ApplicationServer\bin\debug
+
+far partire il Checker dalla solution NetTB.sln mettendolo come StartUp Project
+con (dalle Properties|Debugging) Command Arguments Build=UnicodeDebug e
+dare F5 oppure fare uno shortcut equivalente
+
+
+TaskBuilder può partire dal Checker impostando il relativo flag o da solo
+(in debug) con F5 impostando TBLoader come StartUp Project e 
+Command C:\MicroareaClient\Sviluppo\TbApps\UnicodeDebug\TbLoader.exe
+

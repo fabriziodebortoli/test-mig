@@ -1,0 +1,107 @@
+﻿{
+    "id": "IDD_TD_SOSDOCSENDER_DOCCLASSES",
+    "type": 71, /*Tile*/
+    "tileStyle": 2, //TDS_FILTER
+    "pinnable": false,
+    "size": 2, /*TILE_STANDARD*/
+    "text": "SOSConnector classes",
+    "width": 245,
+    "height": 112,
+    "items": [
+        {
+            "id": "IDC_SOSDOCSENDER_DOCCLASS_COMBO",
+            "type": 12, /*Combo*/
+            "comboType": 2, /*DropDownList*/
+            "controlClass": "StringComboDropDownList",
+            "itemSource": {
+                "name": "SOSDocClassesItemSource",
+                "namespace": "Extensions.EasyAttachment.TbDMS.SOSDocClassesItemSource"
+            },
+            "binding": {
+                "datasource": "DocumentClass"
+            },
+            "sort": true,
+            "vScroll": true,
+            "width": 154,
+            "height": 12,
+            "x": 77,
+            "y": 5,
+            "controlCaption": "Document class"
+        },
+        {
+            "id": "IDC_SOSDOCSENDER_DOCTYPE_COMBO",
+            "type": 12, /*Combo*/
+            "comboType": 2, /*DropDownList*/
+            "controlClass": "StringComboDropDownList",
+            "itemSource": {
+                "name": "SOSDocTypeItemSource",
+                "namespace": "Extensions.EasyAttachment.TbDMS.SOSDocTypeItemSource"
+            },
+            "binding": {
+                "datasource": "DocumentType"
+            },
+            "sort": true,
+            "vScroll": true,
+            "width": 154,
+            "height": 12,
+            "x": 77,
+            "y": 25,
+            "controlCaption": "Document type"
+        },
+        {
+            "id": "IDC_SOSDOCSENDER_TAXJOURNAL_COMBO",
+            "type": 12, /*Combo*/
+            "comboType": 2, /*DropDownList*/
+            "controlClass": "StringComboDropDownList",
+            "itemSource": {
+                "name": "SOSTaxJournalItemSource",
+                "namespace": "Extensions.EasyAttachment.TbDMS.SOSTaxJournalItemSource"
+            },
+            "binding": {
+                "datasource": "TaxJournal"
+            },
+            "sort": true,
+            "vScroll": true,
+            "width": 154,
+            "height": 12,
+            "x": 77,
+            "y": 45,
+            "controlCaption": "Tax journal"
+        },
+        {
+            "id": "IDC_SOSDOCSENDER_FISCALYEAR_COMBO",
+            "type": 12, /*Combo*/
+            "comboType": 2, /*DropDownList*/
+            "controlClass": "StringComboDropDownList",
+            "itemSource": {
+                "name": "SOSFiscalYearItemSource",
+                "namespace": "Extensions.EasyAttachment.TbDMS.SOSFiscalYearItemSource"
+            },
+            "binding": {
+                "datasource": "FiscalYear"
+            },
+            "sort": true,
+            "vScroll": true,
+            "width": 154,
+            "height": 12,
+            "x": 77,
+            "y": 65,
+            "controlCaption": "Fiscal year"
+        },
+        {
+            "id": "IDC_SOSDOCSENDER_ONLY_MAINDOC",
+            "type": 11, /*Check*/
+            "controlClass": "CheckBox",
+            "binding": {
+                "datasource": "bOnlyMainDoc"
+            },
+            "isText": true,
+            "text": "select only attachments with main document property",
+            "vertAlign": 1, /*Center*/
+            "width": 215,
+            "height": 10,
+            "x": 17,
+            "y": 86
+        }
+    ]
+}

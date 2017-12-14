@@ -1,0 +1,16 @@
+﻿{
+    "type": "Frame",
+    "id": "IDD_ACQUISITION_FROM_DEVICE",
+    "x": 0,
+    "y": 0,
+    "width": 550,
+    "height": 300,
+    "dockable": false,
+    "systemMenu": false,
+    "statusBar": false,
+    "name": "AcquisitionFromDevice",
+    "items": [
+        { "href": "IDD_ACQUISITION_FROM_DEVICE_TOOLBAR" },
+        { "href": "IDD_ACQUISITION_FROM_DEVICE_VIEW" }
+    ]
+}

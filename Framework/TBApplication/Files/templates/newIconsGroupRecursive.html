@@ -1,0 +1,23 @@
+
+<div is-open="tile.isOpen" ng-repeat="tile in tile.Menu | repeatFilter " ng-if="ifTileHasObjects(tile) && !tile.hiddenTile">
+
+    <div class="menulistMenu titleMenuFont" ng-click="tile.isOpen = !tile.isOpen">
+        <div class="link titleFont">
+            {{tile.title}}<i class="glyphicon link" ng-class="{'glyphicon-chevron-up': tile.isOpen, 'glyphicon-chevron-down': !tile.isOpen}"></i>
+        </div>
+    </div>
+
+    <div class="accordionContent" ng-if="tile.isOpen">
+
+        <div ng-repeat="object in tile.Object | repeatFilter ">
+
+            <div class="glyphicon  link" ng-class="{'glyphicon-star': object.isFavorite, 'glyphicon-star-empty': !object.isFavorite}" ng-click="menuService.toggleFavorites(object)">
+            </div>
+            <ng-Menuitemimage  class="menuItemImage link" ng-click="menuService.runFunction(object);" context-menu="menuService.getObjectContextMenu(object)">
+            </ng-Menuitemimage>
+            <div class="truncate link" uib-tooltip="{{object.title}}" tooltip-popup-delay="500" tooltip-append-to-body="true" tooltip-animation="false" ng-click="menuService.runFunction(object);" context-menu="menuService.getObjectContextMenu(object)">{{object.title}}</div>
+
+        </div>
+        <ul ng-include="'templates/newIconsGroupRecursive.html'"></ul>
+    </div>
+</div>

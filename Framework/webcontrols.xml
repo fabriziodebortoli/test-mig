@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebControls>
+	<!--Edit control classes-->
+	<!-- tb-text -->
+	<WebControl controlClass="StringEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="StretchableStrEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="ItemListEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="AddressEdit" control="tb-textarea">
+	 <arg name="[readonly]" value="true"></arg>
+	 <arg name="height" value="[height]"></arg>
+	 <arg name="width" value="[width]"></arg>
+	</WebControl><!--statebutton -->
+	<WebControl controlClass="PathEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="BrowsePathEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="NamespaceEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="LinkEdit" control="tb-link"></WebControl>
+	<WebControl controlClass="PhoneEdit" control="tb-phone">
+		<arg name="mask" value="[mask]"></arg>
+	</WebControl>
+	<WebControl controlClass="EmailAddressEdit" control="tb-email"></WebControl>
+	<WebControl controlClass="IdentifierEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="FileTextStatic" control="tb-text"></WebControl>
+	<WebControl controlClass="StringStatic" control="tb-label-static"></WebControl>
+	<WebControl controlClass="TextEdit" control="tb-text"></WebControl>
+	<WebControl controlClass="TextStatic" control="tb-text">
+		<arg name="[readonly]" value="true"></arg>
+	</WebControl>
+
+	<!-- tb-combo -->
+	<WebControl controlClass="IdentifierCombo" control="tb-combo"></WebControl>
+	<WebControl controlClass="XmlCombo" control="tb-combo"></WebControl>
+	<WebControl controlClass="StringComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="StringComboDropDownList" control="tb-combo"></WebControl>
+	<WebControl controlClass="RadioCombo" control="tb-combo"></WebControl>
+	<WebControl controlClass="IntegerComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="IntegerComboDropDownList" control="tb-combo"></WebControl>
+	<WebControl controlClass="IntMonthNameCombo" control="tb-combo"></WebControl>
+	<WebControl controlClass="IntWeekDaysCombo" control="tb-combo"></WebControl>
+	<WebControl controlClass="LongComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="LongComboDropDownList" control="tb-combo"></WebControl>
+	<WebControl controlClass="DateComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="DateComboDropDownList" control="tb-combo"></WebControl>
+	<WebControl controlClass="DoubleComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="DoubleComboDropDownList" control="tb-combo"></WebControl>
+	<WebControl controlClass="MoneyComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="MoneyComboDropDownList" control="tb-combo"></WebControl>
+	<WebControl controlClass="QuantityComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="QuantityComboDropDownList" control="tb-combo"></WebControl>
+	<WebControl controlClass="PercentComboDropDown" control="tb-combo"></WebControl>
+	<WebControl controlClass="PercentComboDropDownList" control="tb-combo"></WebControl>
+	
+	<!-- tb-numeric-text-box -->
+	<WebControl controlClass="IntegerEdit" control="tb-numeric-text-box">
+		<arg name="formatter" value="Integer"></arg>
+	</WebControl>
+	<WebControl controlClass="IntegerStatic" control="tb-numeric-text-box">
+		<arg name="formatter" value="Integer"></arg>
+		<arg name="disabled" value="true"></arg>
+	</WebControl>
+	<WebControl controlClass="LongEdit" control="tb-numeric-text-box">
+		<arg name="formatter" value="Long"></arg>
+	</WebControl>
+	<WebControl controlClass="LongStatic" control="tb-numeric-text-box">
+		<arg name="formatter" value="Long"></arg>
+		<arg name="disabled" value="true"></arg>
+	</WebControl>
+	<WebControl controlClass="DoubleEdit" control="tb-numeric-text-box">
+		<arg name="formatter" value="Double"></arg>
+	</WebControl>
+	<WebControl controlClass="DoubleStatic" control="tb-numeric-text-box">
+		<arg name="formatter" value="Double"></arg>
+		<arg name="disabled" value="true"></arg>
+	</WebControl>
+	<WebControl controlClass="MoneyEdit" control="tb-numeric-text-box">
+		<arg name="formatter" value="Money"></arg>
+	</WebControl>
+	<WebControl controlClass="MoneyStatic" control="tb-numeric-text-box">
+		<arg name="formatter" value="Money"></arg>
+		<arg name="disabled" value="true"></arg>
+	</WebControl>
+	<WebControl controlClass="QuantityEdit" control="tb-numeric-text-box">
+		<arg name="formatter" value="Integer"></arg>
+	</WebControl>
+	<WebControl controlClass="QuantityStatic" control="tb-numeric-text-box">
+		<arg name="formatter" value="Integer"></arg>
+		<arg name="disabled" value="true"></arg>
+	</WebControl>
+	<WebControl controlClass="PercentEdit" control="tb-numeric-text-box">
+		<arg name="formatter" value="Percent"></arg>
+	</WebControl>
+	<WebControl controlClass="PercentStatic" control="tb-numeric-text-box">
+		<arg name="formatter" value="Percent"></arg>
+		<arg name="disabled" value="true"></arg>
+	</WebControl>
+
+	<!-- tb-section-title -->
+	<WebControl controlClass="LabelStatic" control="tb-section-title"></WebControl>
+	
+	<!-- tb-label-static --><!--
+	<WebControl controlClass="LabelStatic" control="tb-label-static"></WebControl>-->
+
+	<!-- tb-button -->
+	<WebControl controlClass="Button" control="tb-button"></WebControl>
+
+	<!-- tb-RadioButton -->
+	<WebControl controlClass="RadioButton" control="tb-radio"></WebControl>
+
+	<!-- tb-checkbox -->
+	<WebControl controlClass="CheckBox" control="tb-checkbox"></WebControl>
+  <WebControl controlClass="CheckBoxStatic" control="tb-checkbox"></WebControl>
+
+  <!-- tb-bool-edit -->
+  <WebControl controlClass="BoolEdit" control="tb-bool-edit"></WebControl>
+  <WebControl controlClass="BoolStatic" control="tb-bool-edit"></WebControl>
+
+  <!-- tb-enum-combo -->
+	<WebControl controlClass="EnumCombo" control="tb-enum-combo"></WebControl>
+	<WebControl controlClass="EnumStatic" control="tb-enum-combo"></WebControl>
+	<WebControl controlClass="EnumListBox" control="tb-enum-combo"></WebControl>
+	<WebControl controlClass="EnumButton" control="tb-enum-combo"></WebControl>
+
+<!-- tb-date-input -->
+	<WebControl controlClass="DateEdit" control="tb-date-input">
+	  <arg name="formatter" value="Date"></arg>
+	  <arg name="[readonly]" value="false"></arg>
+	</WebControl>
+	<WebControl controlClass="DateStatic" control="tb-date-input">
+	  <arg name="formatter" value="Date"></arg>
+	  <arg name="[readonly]" value="true"></arg>
+	</WebControl>
+	<WebControl controlClass="DateTimeEdit" control="tb-date-input">
+	  <arg name="formatter" value="DateTime"></arg>
+	  <arg name="[readonly]" value="false"></arg>
+	</WebControl>
+	<WebControl controlClass="DateTimeStatic" control="tb-date-input">
+	  <arg name="formatter" value="DateTime"></arg>
+	  <arg name="[readonly]" value="true"></arg>
+	</WebControl>
+  
+  	<!-- tb-time-input 
+	<WebControl controlClass="ElapsedTimeEdit" control="tb-time-input"> 
+	<arg name="[readonly]" value="false"></arg>	</WebControl>
+  	<WebControl controlClass="ElapsedTimeStatic" control="tb-time-input">
+	<arg name="[readonly]" value="true"></arg>	</WebControl>
+	-->
+
+  <!-- tb-image -->
+  <WebControl controlClass="PictureStatic" control="tb-image">
+    <arg name="[height]" value="[height]"></arg>
+    <arg name="[width]" value="[width]"></arg>
+  </WebControl>
+  <WebControl controlClass="NamespaceBitmap" control="tb-image"></WebControl> <!-- da decidere se migrare al ParsedStateImage -->
+  <WebControl controlClass="IntegerBitmap" control="tb-image"></WebControl> <!-- forse da rimuovere -->
+  <WebControl controlClass="ParsedStateImage" control="tb-image"></WebControl>
+  
+  <!-- vari -->
+  <WebControl controlClass="UUidStatic" control="tb-text">
+    <arg name="[readonly]" value="true"></arg>
+  </WebControl>
+  
+  <!-- tb-color-picker -->
+  <WebControl controlClass="ColorEdit" control="tb-color-picker"></WebControl>
+
+  <!-- tb-linear-gauge-->
+  <WebControl controlClass="LinearGauge" control="tb-linear-gauge"></WebControl>
+
+</WebControls>

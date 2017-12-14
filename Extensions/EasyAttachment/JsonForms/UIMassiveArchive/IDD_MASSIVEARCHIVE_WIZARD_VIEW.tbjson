@@ -1,0 +1,21 @@
+{
+    "id": "IDD_MASSIVEARCHIVE_WIZARD_VIEW",
+    "type": 1, //View
+    "text": "Massive archive",
+    "context": "uimassivearchive",
+    "items": [
+        {
+            "id": "IDC_WIZARD_TAB",
+            "type": 16, //Tabber
+            "text": "TabManager",
+            "items": [
+                {
+                    "href": "IDD_WTD_MASSIVEARCHIVE_ADDFILES"
+                },
+                {
+                    "href": "IDD_WTD_MASSIVEARCHIVE_ELABORATION"
+                }
+            ]
+        }
+    ]
+}

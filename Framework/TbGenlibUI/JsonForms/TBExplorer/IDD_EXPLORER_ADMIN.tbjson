@@ -1,0 +1,146 @@
+{
+   "border" : true,
+   "caption" : true,
+   "context" : "tbexplorer",
+   "dialogFrame" : true,
+   "height" : 310,
+   "id" : "IDD_EXPLORER_ADMIN",
+   "items" : [
+      {
+         "comboType" : 2, /*DropDownList*/
+         "height" : 77,
+         "id" : "IDC_COMBO_OBJ",
+         "sort" : true,
+         "type" : 12, /*Combo*/
+         "vScroll" : true,
+         "width" : 140,
+         "x" : 64,
+         "y" : 288
+      },
+      {
+         "editLabels" : true,
+         "hScroll" : true,
+         "hasButtons" : true,
+         "hasLines" : true,
+         "height" : 219,
+         "iconHeight" : 0,
+         "icons" : 0,
+         "id" : "IDC_TREE_OBJ",
+         "infoTip" : true,
+         "type" : 26, /*Tree*/
+         "width" : 389,
+         "x" : 61,
+         "y" : 35
+      },
+      {
+         "autoHScroll" : true,
+         "height" : 13,
+         "id" : "IDC_EDIT_OBJ",
+         "type" : 13, /*Edit*/
+         "width" : 139,
+         "x" : 64,
+         "y" : 260
+      },
+      {
+         "height" : 15,
+         "id" : "IDCANCEL",
+         "text" : "Cancel",
+         "type" : 3, /*Button*/
+         "width" : 75,
+         "x" : 375,
+         "y" : 281
+      },
+      {
+         "height" : 15,
+         "id" : "IDOK",
+         "text" : "Open",
+         "type" : 3, /*Button*/
+         "width" : 75,
+         "x" : 375,
+         "y" : 261
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_OBJ",
+         "text" : "Object Type:",
+         "transparent" : true,
+         "type" : 2, /*Label*/
+         "width" : 91,
+         "x" : 64,
+         "y" : 277
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_SALVA",
+         "text" : "Name:",
+         "transparent" : true,
+         "type" : 2, /*Label*/
+         "width" : 119,
+         "x" : 64,
+         "y" : 251
+      },
+      {
+         "alwaysShowSelection" : true,
+         "autoArrange" : true,
+         "headerTexts" : [],
+         "height" : 270,
+         "id" : "IDC_LISTAPPS",
+         "items" : [],
+         "noColumnHeader" : true,
+         "singleSelection" : true,
+         "type" : 30, /*ListCtrl*/
+         "width" : 57,
+         "x" : 2,
+         "y" : 35
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_CHECK_FOR_ALLUSRS",
+         "text" : "for \"All Users\"",
+         "type" : 11, /*Check*/
+         "visible" : false,
+         "width" : 119,
+         "x" : 214,
+         "y" : 289
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_CHECK_FOR_STD",
+         "text" : "in \"Original\"",
+         "type" : 11, /*Check*/
+         "visible" : false,
+         "width" : 119,
+         "x" : 214,
+         "y" : 276
+      },
+      {
+         "height" : 10,
+         "id" : "IDC_CK_SAVE_IN_CURRENT_LANGUAGE",
+         "multiline" : true,
+         "text" : "in c&urrent language",
+         "type" : 11, /*Check*/
+         "width" : 119,
+         "x" : 214,
+         "y" : 264
+      },
+      {
+         "height" : 50,
+         "id" : "IDC_GROUP_SAVE",
+         "text" : "Save ",
+         "type" : 9, /*Group*/
+         "width" : 127,
+         "x" : 209,
+         "y" : 252
+      }
+   ],
+   "maximizeBox" : true,
+   "modalFrame" : true,
+   "overlapped" : true,
+   "systemMenu" : true,
+   "text" : "ADMIN",
+   "thickFrame" : true,
+   "type" : 66, /*Panel*/
+   "width" : 454
+}

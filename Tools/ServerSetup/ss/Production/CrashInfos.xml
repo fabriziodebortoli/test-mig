@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SetupDefinition xmlns="http://schemas.microarea.it/setup"
+                 configuration="debug"
+                 upgradeGuid="A6128FDD-FCE6-4487-9B7B-E8CE43274F1C"
+                 producer="Microarea S.p.A."
+                 productName="TaskBuilder.Net Debug Symbols"
+                 setupOutputFileName="TaskBuilderNetDebugSymbols"
+                 >
+	<!--Consideriamo questo path come root di partenza: C:\Development\-->
+	<FileSystemStructure>
+		<IncludeFolder name="Apps" recursive="yes">
+			<IncludeFile name="*.pdb" />
+		</IncludeFolder>
+	</FileSystemStructure>
+</SetupDefinition>

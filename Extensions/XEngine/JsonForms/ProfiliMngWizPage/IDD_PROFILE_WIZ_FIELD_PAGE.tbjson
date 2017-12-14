@@ -1,0 +1,123 @@
+﻿{
+  "id": "IDD_PROFILE_WIZ_FIELD_PAGE",
+  "rcId": 2231,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 345,
+  "height": 193,
+  "child": true,
+  "enabled": false,
+  "context": "profilimngwizpage",
+  "items": [
+    {
+      "id": "IDC_PROFILE_WIZARD_FIELD_PAGE",
+      "type": 2,
+      "x": 0,
+      "y": 0,
+      "width": 107,
+      "height": 193,
+      "tabStop": false,
+      "bitmap": true
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 2,
+      "text": "You need to specify the fields of the table you want to export.",
+      "x": 119,
+      "y": 4,
+      "width": 214,
+      "height": 10,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_2",
+      "type": 2,
+      "text": "It is required to export the fields that make up the primary key.",
+      "x": 119,
+      "y": 20,
+      "width": 209,
+      "height": 9,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_3",
+      "type": 2,
+      "text": "Deleting a field which is a segment of an external reference, the reference itself will be removed.",
+      "x": 119,
+      "y": 35,
+      "width": 212,
+      "height": 16,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_4",
+      "type": 2,
+      "text": "Document Bodies",
+      "x": 118,
+      "y": 54,
+      "width": 87,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROF_WIZ_DBT_LIST",
+      "type": 24,
+      "x": 118,
+      "y": 64,
+      "width": 94,
+      "height": 109,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 2,
+      "text": "Body Fields",
+      "x": 229,
+      "y": 54,
+      "width": 90,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_PROF_WIZ_FIELD_LIST",
+      "type": 24,
+      "x": 229,
+      "y": 64,
+      "width": 94,
+      "height": 109,
+      "tabStop": true,
+      "hScroll": true,
+      "vScroll": true,
+      "sort": true,
+      "hasStrings": true,
+      "noIntegralHeight": true,
+      "ownerDraw": 1
+    },
+    {
+      "id": "IDC_PROF_WIZ_SELECTALL_BTN",
+      "type": 3,
+      "text": "&Unmark all",
+      "x": 268,
+      "y": 176,
+      "width": 67,
+      "height": 14,
+      "multiline": true
+    },
+    {
+      "id": "IDC_PROF_WIZ_DIS_EXTREF_CHECK",
+      "type": 11,
+      "text": "Disable external reference check",
+      "x": 117,
+      "y": 177,
+      "width": 144,
+      "height": 10,
+      "auto": true
+    }
+  ]
+}

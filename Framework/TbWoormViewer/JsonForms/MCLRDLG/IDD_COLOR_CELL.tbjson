@@ -1,0 +1,187 @@
+﻿{
+  "id": "IDD_COLOR_CELL",
+  "rcId": 1168,
+  "type": 66,
+  "text": "Cell color",
+  "x": 86,
+  "y": 105,
+  "width": 231,
+  "height": 110,
+  "visible": true,
+  "caption": true,
+  "systemMenu": true,
+  "child": false,
+  "modalFrame": true,
+  "context": "mclrdlg",
+  "items": [
+    {
+      "id": "IDC_COLOR_COMBO0",
+      "type": 12,
+      "x": 6,
+      "y": 21,
+      "width": 57,
+      "height": 96,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "ownerDraw": 2
+    },
+    {
+      "id": "IDC_COLOR_COMBO1",
+      "type": 12,
+      "x": 6,
+      "y": 49,
+      "width": 57,
+      "height": 96,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "ownerDraw": 2
+    },
+    {
+      "id": "IDC_COLOR_COMBO2",
+      "type": 12,
+      "x": 6,
+      "y": 76,
+      "width": 57,
+      "height": 96,
+      "tabStop": true,
+      "vScroll": true,
+      "comboType": 2,
+      "ownerDraw": 2
+    },
+    {
+      "id": "IDC_COLOR_BTN0",
+      "type": 10,
+      "text": "&Cell",
+      "x": 113,
+      "y": 9,
+      "width": 100,
+      "height": 12,
+      "group": true,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLOR_BTN1",
+      "type": 10,
+      "text": "&Row",
+      "x": 113,
+      "y": 21,
+      "width": 100,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLOR_BTN2",
+      "type": 10,
+      "text": "Co&lumn",
+      "x": 113,
+      "y": 33,
+      "width": 100,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDC_COLOR_BTN3",
+      "type": 10,
+      "text": "&All",
+      "x": 113,
+      "y": 45,
+      "width": 100,
+      "height": 12,
+      "auto": true
+    },
+    {
+      "id": "IDOK",
+      "type": 3,
+      "text": "&OK",
+      "x": 130,
+      "y": 75,
+      "width": 78,
+      "height": 13,
+      "group": true
+    },
+    {
+      "id": "IDCANCEL",
+      "type": 3,
+      "text": "&Cancel",
+      "x": 130,
+      "y": 91,
+      "width": 78,
+      "height": 13
+    },
+    {
+      "id": "IDC_COLOR_CUSTOM0",
+      "type": 3,
+      "text": "...",
+      "x": 66,
+      "y": 21,
+      "width": 13,
+      "height": 12
+    },
+    {
+      "id": "IDC_COLOR_CUSTOM1",
+      "type": 3,
+      "text": "...",
+      "x": 66,
+      "y": 49,
+      "width": 13,
+      "height": 12
+    },
+    {
+      "id": "IDC_COLOR_CUSTOM2",
+      "type": 3,
+      "text": "...",
+      "x": 66,
+      "y": 76,
+      "width": 13,
+      "height": 12
+    },
+    {
+      "id": "IDC_COLOR_LABEL0",
+      "type": 2,
+      "text": "&Value",
+      "x": 6,
+      "y": 10,
+      "width": 78,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_COLOR_LABEL1",
+      "type": 2,
+      "text": "&Background",
+      "x": 6,
+      "y": 38,
+      "width": 78,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_COLOR_LABEL2",
+      "type": 2,
+      "text": "Bor&der",
+      "x": 6,
+      "y": 65,
+      "width": 78,
+      "height": 8,
+      "textAlign": 0
+    },
+    {
+      "id": "IDC_STATIC_1",
+      "type": 9,
+      "x": 107,
+      "y": 1,
+      "width": 121,
+      "height": 59
+    },
+    {
+      "id": "IDC_STATIC",
+      "type": 9,
+      "x": 2,
+      "y": 1,
+      "width": 103,
+      "height": 104
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+﻿{
+  "id": "IDD_TB_HEADER_TILE",
+  "type": 71,
+  "x": 0,
+  "y": 0,
+  "width": 654,
+  "height": 54,
+  "child": true,
+  "text": "",
+  "tileStyle": 3, //TDS_HEADER,
+  "hasTitle": false,
+  "size": 4, //TILE_WIDE
+  "flex" :  0,
+  "context": "uitiledialog",
+  "items": [
+    {
+      "id": "IDC_TB_HEADER_TITLE",
+      "type": 2,
+      "controlClass": "LabelStatic",
+      "text": "{{HeaderTitle}}",
+      "multiline": true,
+      "x": 2,
+      "y": 2,
+      "width": 651,
+      "height": 21,
+      "rightAnchor": true,
+      "font": { "size": 12 }
+    },
+    {
+      "id": "IDC_TB_HEADER_SUBTITLE",
+      "type": 2,
+      "controlClass": "LabelStatic",
+      "text": "{{HeaderSubTitle}}",
+      "multiline": true,
+      "x": 2,
+      "y": 24,
+      "width": 651,
+      "height": 33,
+      "rightAnchor": true,
+      "font": { "size": 12 }
+    }
+  ]
+}

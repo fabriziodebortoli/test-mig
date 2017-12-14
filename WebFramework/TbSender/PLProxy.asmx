@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" CodeBehind="PLProxy.asmx.cs" Class="Microarea.WebServices.TbSender.PLProxy" %>

@@ -1,0 +1,14 @@
+﻿<LoginInfo>
+  <userName>  </userName>
+  <companyName></companyName>
+  <password></password>
+  <dbName> </dbName>
+  <dbServer></dbServer>
+  <dbUser></dbUser>
+  <preferredLanguage></preferredLanguage>
+  <applicationLanguage></applicationLanguage>
+  <providerName></providerName>
+</LoginInfo>
+
+
+<!--xdoc.Element("LoginInfo").Element("userName").Value;-->

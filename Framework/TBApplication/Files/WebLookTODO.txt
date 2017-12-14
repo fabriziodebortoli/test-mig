@@ -1,0 +1,335 @@
+- (DONE) Focus in risonanza (con combobox aliena)
+- ottimizzazione gestione focus  
+
+- (DONE) HotLink
+
+- (DONE) HyperLink
+
+- (DONE) risonanza checkbox in "LegalNature" 
+
+http://stackoverflow.com/questions/6153362/how-to-create-custom-extjs-form-field-component
+
+http://jsfiddle.net/rixo/7GKmt/
+
+1) C++: textbox con bottone
+2) JS: aggiungere bottone alla textbox
+3) JS: agganciare evento click al bottone
+4) C++: invocare event handler 
+
+
+- Hyperlinks CParsedCtrl::m_pHyperLink 
+  ParsedCombo
+  stile hyperlink (cambio puntatore onHover) vedi http://www.w3schools.com/css/css_link.asp
+  
+  (DONE) apertura finestra ExtJS conseguente all'evento di click del link (HotKeyLink::BrowserLink). 
+  (DONE) WebProxyObj::InternalDoHyperLink gestione evento lato server c++.
+  (DONE) Label separata dalla combobox => aggiungere campo
+  (DONE) inizializzazione label-link
+  
+- (DONE) gestire click voci menu
+
+- (DONE) WebLinkEdit: controllare in modalità web IIS: dovè l'icona del bottone? La bitmap sembra nulla "CStateButton::OnGetControlDescription":
+
+- (DONE) CString sName = cwsprintf(_T("stbtn%ud.png"), (HBITMAP)*pBitmap);
+
+- (DONE) if (pDesc->m_ImageBuffer.Assign( (HBITMAP)*pBitmap, sName, this))
+- (DONE)		pDesc->SetUpdated(&pDesc->m_ImageBuffer);
+
+- (DONE) Le dimensioni del CStateButton sono nulle perchè la bitmap non viene caricata. La risorsa della bitmap non viene trovata: "AfxFindResourceHandle"
+
+- (DONE) Definizione classe CTBMenu derivata da CMenu che esponga metodo TBTrackMenu: al suo interno scatenerà evento OnBeforeMenuOpen e TrackMenu della classe base CMenu. In TbGeneric
+
+- (DONE) menu perde alcuni click.
+
+- (DONE) menu va chiuso.  
+
+- (DONE) La gestione del click sulle voci di menu non funziona.
+
+- (DONE) Eliminare descrizioni rimosse.
+
+- (DONE) MemoryLeaks introdotti dopo versione 140434 e prima 140556 
+
+- (DONE) TabbedToolbar BCG: produrre descrizione
+
+- (DONE) Tooltip sui bottoni della toolbar
+
+- (DONE) Bottoni separatori nelle toolbar
+
+- DONE) CTBTabbedToolbar esporre GetActiveTab()
+
+- DONE) Selezionare toolbar inizialmente attiva
+
+- cambio ActiveToolbar => 2 rimozioni della stessa Toolbar 
+
+ 16/10/2014
+ 
+- bottoni toolbar che spariscono/si alternano
+
+- CollapsiblePanel in TabbedToolbar
+
+- (DONE) Ottimizzazione descrizioni toolbar, mandare solo quella attiva
+
+
+  20/10/2014
+
+- (DONE) cache su browser delle immagini dei bottoni.
+
+- (DONE) Perchè alcune immagini sono già presenti mentre altre vengono scaricate ogni volta?
+
+- Immagine nera con ID = -1, è un separatore?
+
+- Richieste web da rendere case insensitive lato handler
+
+  21/10/2014
+  
+- (DONE) Bottoni ghost 
+
+- (DONE) bottoni toolbar che spariscono/si alternano
+
+- (DONE) Decorator pattern
+
+
+
+  22/10/2014
+  
+- (DONE) Titles, LegalNatures: StateButton: il bottone è per i fatti suoi. 
+                                     (DONE) La gestione del click del bottone è fuori sincrono con la generazione della descrizione (la descrizione viene fatta prima) 
+                                     (DONE) L'immagine del bottone non viene aggiornata: l'url dell'icona è invariato, in quanto legato all'ID del bottone 
+                                     
+- (DONE) Immagini toolbar.
+
+  23/10/2014
+  
+-	(DONE) HKLMasters: CmasterEdit::CStrEdit::CParedEdit::CParsedCtrl::m_pHotKeyLink::HLKLMasters
+
+- (DONE) Tasti radar: OFM: Contracts: MasterCode
+
+- (DONE) ripristinare codice commentato che impediva compilazione
+
+- (DONE) bottoni degli edit vanno trattati come solo accessori: la descrizione dell'edit avrà le info necessarie del bottone, il JS si occuperà di farne il rendering opportuno. Per le immagini (StateButton) usiamo l'ID della bitmap, il server si occuperà di restituire la bitmap opportuna. 
+
+- (DONE, non viene inviata) controllare se la descrizione del bottone del calendario viene inviata al JS.
+
+- (DONE, si rispristina il funzionamento precedente)(!!!) NamespaceEdit: il click del menu button è gestito dal bottone stesso, non dall'edit come nel caso degli StateButton
+  (DONE, si rispristina il funzionamento precedente) Problemi: la gestione dei vari click non sembra poter essere unificata (il click su MenuButton è gestito direttamente da lui, non è così per gli StateButton, ecc). Gli StateButton possono essere > 1, per distinguere qual'è stato clickato si usa l'ID del bottone clickato => non basta dire che è stato clickato il bottone di un edit, in quanto lui assume di avere + bottoni associati.
+  
+  - (DONE) fare controllo JS per HKL  
+  
+  - (DONE) bottoni tabbed toolbar: dropdown menu (query, radar, print button)
+  
+  - (DONE) ripristinare meccanismo gestione bottoni aggiuntivi: il click è sui bottoni, la descrizione dei bottoni e le info del loro aggiornamento viaggiano nella descrizione del loro edit. Serie di if-else per stabilire il tipo del bottone, ove necessario. Esporre metodo ad-hoc per aggiornamento elementi dipendenti.
+  
+  - (DONE) ripristinare funzionamento bottone NameSpaceEdit.
+  
+  - (DONE) Provare selezione NameSpaceEdit.
+    
+  - (DONE) metodo in CParsedCtrl per invocare direttamente il click del bottone.  
+  
+  - (DONE) gestione abilitazione TxtHKL
+  
+  - (DONE) merge formatter.js e renderengine.js
+  
+  - (DONE) apertura radar.
+  
+  - (DONE) provare ad aggiungere dinamicamente fields e righe alla griglia (update dei campi in BodyEdit)
+   
+  - (DONE) gestione selezione e scroll (Radarvw.cpp) e.g.:OnKeyScrollPageDown, OnLButtonDblClk     
+  
+  - (DONE, non fattibile) si riesce a rendere indipendente il radar javascript da quello c++? Soprattutto per quanto riguarda l'esplorazione dei dati (scroll).
+  
+  - (DONE) scroll: https://stackoverflow.com/questions/20116913/extjs4-catching-the-scroll-event-on-panel                                    
+    
+  - (DONE) gestire tabbed toolbar del radar.  
+  
+  - (DONE, non fattibile) refactoring radar, sketch di come ssganciare radar JS da quello C++.
+  
+  - (DONE) form sotto il radar (la sua parent) non si aggiorna a seguito di una selezione (doppio click su riga radar). 
+  
+  - (DONE) la grid sulla selezione non ha come sender la griglia ma il selectionModel
+  
+  - (DONE) bottoni con tendina nelle toolbar.                        
+  
+  - (DONE) tab inattive/non selezionabili.
+  
+  - (DONE) workers\oher data\internet risulta con bottone, ma in c++ il bottone non c'è.                      
+  
+  - (DONE) elementi da supportare: (DONE) WndObjType_AddressEdit, WndObjType_Title (DONE) WndObjType_Image, (DONE) MailAddressEdit                 
+  
+  - (DONE) ERP\Resources per addressEdit     
+  
+  - (DONE) resources\other data\email non renderizzato: tipo MailAddressEdit     
+  
+  - (DONE) *1* GeoCoder dialog form per scelta indirizzo da controllare, i campi non vengono renderizzati. 
+  
+  - (DONE) *2* a seguito di refresh il bottone dell'AddressEdit risulta disabilitato. 
+  
+  - (DONE) *3* EmailAddressEdit non popolato inizialmente.
+  
+  - (DONE) campi composti non aggiornano correttamente lo stato enable.
+  
+  - (DONE) *2* etichetta tab "Main" si perde se si porta il fuoco su una textbox.
+  
+  - (DONE) *1* contenuto delle tab non si aggiorna se cambia stato browse/edit
+  
+  - (DONE) EmailAddressEdit: campo testo inizialmente di larghezza ridotta.
+  
+  - (DONE) *4* Chiusura dialog con x non viene propagata sul server.
+  
+
+  
+  - (DONE, legato a baco BCGListBox) *1a* Crash TBIISModule con chiusura GeoCoder.    
+  
+  - (DONE) crash pager body edit andando all'ultima pagina
+  
+  - (DONE) pager body edit non passa alla pagina successiva. 
+  
+  - (DONE) pager body edit non correttamente aggiornato.
+   
+  - (DONE) alcuni campi restano readonly.
+  
+  - (DONE) risonanza checkbox nel body edit.
+  
+  - (DONE) vengono inviate descrizioni di tutta la riga, anche se solo il valore della checkbox è stato modificato.
+  
+  - (DONE) pagingToolbar non aggiornato correttamente: forse si deve intervenire nell'handler della load dello store associato alla griglia.
+  
+  - (DONE) *3* ripristinare layout posizionale.
+  
+  - (DONE) info sulla posizione della label rispetto alla sua textbox di riferimento.
+  
+  - (DONE) align label da gestire lato JS
+  
+  - (DONE) align label in combobox
+  
+  - (DONE) refresh tab disabled (resources)
+  
+  - (DONE) refresh valori telefoni (resources)
+  
+  - (DONE) altezza e posizione CB particolari
+  
+  - (DONE) altezza textarea
+  
+  - (DONE) posizione altezza bottone in controlli composti. 
+  
+  - (DONE) notes non ha l'altezza
+  
+  - (DONE) scrollbar che non dovrebbero essere necessarie in groupPanel in Resources 
+  
+  - (DONE, problema di configurazione paginazione) FillBodyEdit perde alcune righe (form resources, tab Custom Data)
+  
+  - (DONE) salvataggio modifiche checkbox
+  
+  - (DONE) aggiornamento checkbox
+  
+  - (DONE) BodyEdit: inserimento, modifica e cancellazione righe.
+   
+  - (DONE) contenuto tab non si aggiorna (a volte :-( ).
+   
+  - (DONE, non riprodotto) edit->save lascia pagina disabilitata.
+   
+  - (DONE) dopo refresh, le tab già consultate non vengono più popolate.
+   
+  - (DONE, al momento non fattibile per errore nel calcolo della dimensione dei bottoni) Posizionamento assoluto bottoni in TabbedToolbar.
+   
+  - (DONE) supporto ListView: 
+        1) provare a cambiare lo store ogni volta che arriva un aggiornamento con dati.
+        2) provare ad usare un verbo path per aggiornare i dati dello store.
+        3) accedere allo store, svuotarlo e ripopolarlo con i dati appena giunti.
+        4) (DONE) aggiornamento proprietà "items".
+   
+  - (DONE) contenuto BodyEdit non si aggiorna in caso di browse. 
+   
+  - (DONE) checkedListView di ricerca body edit: popolamento dati.
+   
+  - (DONE) checkedListView di ricerca body edit: sync righe selezionate da client a server.
+      
+  - (DONE) perse aperture dialogBox di conferma?
+  
+  - (DONE) titolo dialog.
+  
+  - (DONE) i radiobutton dopo refresh vengono serializzati come bottoni e non come radio. 
+  
+  - (DONE) Layout Toolbar.
+
+  - (DONE) layout documento currencies: posizionamento assoluto
+
+  - (DONE) verificare abilitazione iniziale elementi dialog.
+  
+  - (DONE) multiselezione body edit.
+  
+  - (DONE) sync evidenziazione risultato ricerca.
+
+  - (DONE) allineare selezione/paginazione dal client al server.
+
+  - (DONE) paginazione body edit.
+
+  - (DONE) allineamento search.
+
+  - (DONE) riposizionamento finestre di dialogo.
+
+  - (DONE) risonanza checkbox.
+
+  - (DONE) resources->resources: modifica type da team a worker => altre colonne non aggiornate.  
+
+  - (DONE, legato alla selezione) regressione editing griglia: solo per le combo box l'editing funziona, negli altri casi apre e chiude l'editor, o qualcosa di simile.
+
+  - (DONE) HotLink e simili in editor body edit.
+
+  - (DONE, legato alla selezione) regressione editing griglia: solo per le combo box l'editing funziona, negli altri casi apre e chiude l'editor, o qualcosa di simile.
+
+  - (DONE) HotLink e simili in editor body edit.
+
+  - (DONE) Gestione font (nel json c'e' informazione)
+
+  - (DONE) controllare coordinata Y controlli all'interno di una Tile.
+
+  - (DONE) align labels nelle tile.
+
+  - (DONE) gestione colore static area
+
+  - (DONE) editor di griglia HKL non riceve il valore presente in readonly.
+
+  - (DONE) tile senza static area
+
+  - (DONE) controllare propagazione valori da client a server
+
+  - (DONE) controllo x,y >= 0
+
+  - (DONE) migrazione ExtJS 5.1.0
+   
+  - *6* implementazione supporto al Tree.
+   
+  - stallo body edit nel caricamento dati?
+   
+  - meccanismo per indicare quali bottoni di body edit inviare/renderizzare sul JS.
+   
+  - minificazione JS
+   
+  - docking
+    
+  - gestire "SelectedItem" in radar: lo scroll è agganciato a lui.
+    m_pRadarBody->GetActiveGrpRow()
+  
+  - send mail da web.
+  
+  - icone bottoni HKL
+  
+  - WOORM
+  
+  - rowView  embedded
+  
+  - proprietà della cella del body edit, accorparle dentro un oggetto di proprietà.
+
+  - refactoring OnGetControlDescription con metodi virtuali.
+
+  - usare MessageBox.wait.
+
+  - refactoring metodo serializzazione colore
+
+  - Approfondire meccanismo caricamento immagini da server al client.
+  
+  ------
+  DOING:
+  ------
+
+  

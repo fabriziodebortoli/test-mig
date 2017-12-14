@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<FunctionObjects>
+  <Functions>
+    <Function namespace="Framework.TbGes.TbGes.DBTObject_GetRecord" type="long" basetype="SqlRecord, Array, CObArray" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="DBTObject">
+      <Param name="handle" type="long" basetype="DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTObject_GetTable" type="long" basetype="SqlTable, SqlRowSet, SqlObject" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="DBTObject">
+      <Param name="handle" type="long" basetype="DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_AddRecord" type="long" basetype="SqlRecord, Array, CObArray" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_GetRow" type="long" basetype="SqlRecord, Array, CObArray" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="row" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_GetCurrentRow" type="long" basetype="SqlRecord, Array, CObArray" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_SetCurrentRow" type="void" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="row" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_GetCurrentRowIndex" type="long" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_GetSize" type="long" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_InsertRecord" type="long" basetype="SqlRecord, Array, CObArray" mode="out" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="row" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_DeleteRecord" type="void" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="row" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DBTSlaveBuffered_RemoveAll" type="void" sourceInfo="File: Framework\TbGes\DBT.CPP." report="true" inEasyBuilder="false" WCF="true" classType="DBTSlaveBuffered, DBTSlave, DBTObject">
+      <Param name="handle" type="long" basetype="DBTSlaveBuffered, DBTSlave, DBTObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_ActivateTab" type="bool" mode="out" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." localize="The function activate the Tab" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="NsTab" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_PressToolbarButton" type="bool" mode="out" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." localize="The function execs toolbar button's action" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="buttonName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_GetMaster" type="long" basetype="DBTMaster, DBTObject" mode="out" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_GetHotLinkValue" type="string" mode="out" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." localize="It returns the value of a specific field of an hotlink associated to a control.&#xD;&#xA;Value is returned as xmllike string in order to bypass datatype problem" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aCtrlNamespace" type="string" mode="in" />
+      <Param name="aHotLinkFieldName" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_GetFieldData" type="long" basetype="DataObj, CContextInfo" mode="out" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." localize="It returns the address data of a specific field of a DBT.&#xD;&#xA;The function can accept a nRow number or -1 value means current row.&#xD;&#xA;Value is returned as xmllike string in order to bypass datatype problem" report="true" inEasyBuilder="false" WCF="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDBTNamespace" type="string" mode="in" />
+      <Param name="aFieldName" type="string" mode="in" />
+      <Param name="nRow" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_GetFieldValue" type="string" mode="out" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." localize="It returns the value of a specific field of a DBT.&#xD;&#xA;The function can accept a nRow number or -1 value means current row.&#xD;&#xA;Value is returned as xmllike string in order to bypass datatype problem" report="true" inEasyBuilder="false" WCF="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDBTNamespace" type="string" mode="in" />
+      <Param name="aFieldName" type="string" mode="in" />
+      <Param name="nRow" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_SetFieldValue" type="void" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." localize="It update the value of a specific field of a DBT.&#xD;&#xA;The function can accept a nRow number or -1 value means current row.&#xD;&#xA;Value is passed to xmllike string in order to bypass datatype problem" report="true" inEasyBuilder="false" WCF="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="aDBTNamespace" type="string" mode="in" />
+      <Param name="aFieldName" type="string" mode="in" />
+      <Param name="nRow" type="integer" mode="in" />
+      <Param name="aValue" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CAbstractFormDoc_GetConnection" type="long" basetype="SqlSession, SqlObject" mode="out" sourceInfo="File: Framework\TbGes\EXTDOC.CPP." localize="Get document updatable connection" report="true" inEasyBuilder="false" WCF="true" classType="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget">
+      <Param name="handle" type="long" basetype="CAbstractFormDoc, CAbstractDoc, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.HotKeyLink_SetParamValue" type="void" sourceInfo="File: Framework\TbGes\HOTLINK.CPP." localize="Set reference object param value" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" classType="HotKeyLink, HotKeyLinkObj">
+      <Param name="handle" type="long" basetype="HotKeyLink, HotKeyLinkObj" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="name" type="string" mode="in" />
+      <Param name="value" type="long" basetype="DataObj, CContextInfo" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CreateWebProxy" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="out" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="ThreadId" type="long" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CreateWebProxyForThread" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="out" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="ThreadID" type="long" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_GetThreadWindowsBinaryDescription" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_SetUserInteractionMode" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." localize="Sets user interaction mode for the document thread: 0 = Undefined, 1 = Attended, 2 = Unattended" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="Mode" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_GetCommandLinkUrl" type="string" mode="out" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="CommandId" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_OpenDropdownBtn" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="CommandId" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoContextMenu" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_GetTreeViewAdvContextMenu" type="bool" mode="out" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="MenuDescription" type="blob" mode="in out" />
+      <Param name="TreeId" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_GetContextMenu" type="bool" mode="out" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="MenuDescription" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoKey" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="keyCode" type="integer" mode="in" />
+      <Param name="bShift" type="bool" mode="in" />
+      <Param name="bCtrl" type="bool" mode="in" />
+      <Param name="bAlt" type="bool" mode="in" />
+      <Param name="bKeyIsChar" type="bool" mode="in" />
+      <Param name="selStart" type="long" mode="in out" />
+      <Param name="selEnd" type="long" mode="in out" />
+      <Param name="windowText" type="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_GetComboItems" type="array" basetype="string" mode="out" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="SelectedIndex" type="integer" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_SetDate" type="string" mode="out" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Day" type="integer" mode="in" />
+      <Param name="Month" type="integer" mode="in" />
+      <Param name="Year" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_GetThreadContextMessages" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." localize="Return document thread messages list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="clearMessages" type="bool" mode="in" />
+      <Param name="messages" type="array" basetype="string" mode="in out" />
+      <Param name="types" type="array" basetype="integer" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoKeyAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="keyCode" type="integer" mode="in" />
+      <Param name="bShift" type="bool" mode="in" />
+      <Param name="bCtrl" type="bool" mode="in" />
+      <Param name="bAlt" type="bool" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_RunDocumentAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." localize="Open a document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="documentNamespace" type="string" mode="in" />
+      <Param name="DocHandle" type="long" mode="in out" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_RunReportAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." localize="Open a document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="reportNamespace" type="string" mode="in" />
+      <Param name="DocHandle" type="long" mode="in out" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_RunFunctionAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." localize="Open a document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="functionNamespace" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_SelectIndexAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Index" type="integer" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DblClickItemAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Index" type="integer" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_NewRowAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="nCol" type="integer" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoCommandAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="CommandId" type="long" mode="in" />
+      <Param name="CommandType" type="integer" mode="in out" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoUploadFileAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="CommandId" type="long" mode="in" />
+      <Param name="CommandType" type="integer" mode="in out" />
+      <Param name="FilePath" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_MoveToAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="ToWindow" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoCloseAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_ResizeAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Width" type="integer" mode="in" />
+      <Param name="Height" type="integer" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoHotLinkAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Lower" type="bool" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoSpinAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="clickDown" type="bool" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_ActivateTabPageAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="TabId" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_SelectNodeAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="sItem" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_ToggleNodeAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="sItem" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_SelectRadarAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Index" type="integer" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_MoveRowRadarAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Index" type="integer" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_ClickContextMenuAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="ItemID" type="long" mode="in" />
+      <Param name="CommandType" type="integer" mode="in out" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoMoveBodyPageAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="Next" type="bool" mode="in" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoLinkAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="FromWindow" type="string" mode="in" />
+      <Param name="Value" type="string" mode="in" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="nAlias" type="long" mode="in" />
+      <Param name="nRow" type="long" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_DoHyperLinkAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_SelectRowAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_ResizeColumnAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Width" type="integer" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.WebProxyObj_BETreeToggleExpandNodeAction" type="void" sourceInfo="File: Framework\TbGes\WebProxyFunctions.cpp." report="false" inEasyBuilder="false" WCF="true" securityhidden="true" classType="WebProxyObj, CWebServiceStateObject">
+      <Param name="handle" type="long" basetype="WebProxyObj, CWebServiceStateObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
+      <Param name="WindowId" type="string" mode="in" />
+      <Param name="Description" type="blob" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetLogins" type="integer" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Get the number of connected users" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.SetUserInteractionMode" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Sets user interaction mode for the login thread: 0 = Undefined, 1 = Attended, 2 = Unattended" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="mode" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.UseRemoteInterface" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Informs that application is remote controlled (for example by a web application)" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="set" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.Login" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Effect connection to database" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="authenticationToken" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetProcessID" type="long" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Get numeric ID of process in progress" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.KillThread" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Kill the thread" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="ThreadId" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.StopThread" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Stop the thread" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="ThreadId" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CanStopThread" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="return true if thread can be stopped in safe mode" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="ThreadId" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetActiveThreads" type="string" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Get active threads information (all threads of the application)" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.GetLoginActiveThreads" type="string" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Get active threads information all threads of current login)" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.GetDocumentThreads" type="array" basetype="long" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Get the list of thread identifiers for current login" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.SetMenuHandle" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Transmit to Tb the menu handle" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="menuWindowHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.SetDocumentInForeground" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Puts the document's frame into the foreground" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetCurrentUser" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Get user and company in use by this TB" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="strUser" type="string" mode="in out" />
+      <Param name="strCompany" type="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunDocument" type="long" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Open a document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentNamespace" type="string" mode="in" />
+      <Param name="arguments" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunReport" type="long" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Open a report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="reportNamespace" type="string" mode="in" />
+      <Param name="arguments" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunReportFromWoormInfo" type="long" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Open a report using a WoormInfo object" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="woormInfoHandle" type="long" mode="in" />
+      <Param name="arguments" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunFunction" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Run function" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="functionNamespace" type="string" mode="in" />
+      <Param name="arguments" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunFunctionInNewThread" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Run function in a new thread" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="functionNamespace" type="string" mode="in" />
+      <Param name="arguments" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunEditor" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Run Manage file text application" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="functionNamespace" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CloseDocument" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Close document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunIconizedDocument" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Run Iconized Document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CanCloseDocument" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Close document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.ExistDocument" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Verify document existence" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.DestroyDocument" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Destroy document" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentHandle" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CloseAllDocuments" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Close all docuements" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.GetOpenDocuments" type="array" basetype="long" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return ID list of all open documents" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.GetApplicationContextMessages" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return application context messages list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="clearMessages" type="bool" mode="in" />
+      <Param name="messages" type="array" basetype="string" mode="in out" />
+      <Param name="types" type="array" basetype="integer" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetLoginContextMessages" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return login context messages list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="clearMessages" type="bool" mode="in" />
+      <Param name="messages" type="array" basetype="string" mode="in out" />
+      <Param name="types" type="array" basetype="integer" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.OnBeforeCanCloseTB" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="It allows to make actions before closing Task Builder" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.CanCloseTB" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Verify if it is possible to close Task Builder" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.CanCloseLogin" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Verify if it is possible to close Login" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.CloseLogin" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Close current Login context" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.IsLoginValid" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Verify current login context existence" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.CloseTB" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Close Task Builder" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.DestroyTB" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Close Task Builder destroying all open documents" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.AdminDocumentReports" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Open Manage Woorm Report application" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="aUnprotected Report Manager" />
+    <Function namespace="Framework.TbGes.TbGes.AdminDocumentProfiles" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Open the document profiles management tool" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="Configuration, aXtech Parameter Manager" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.XMLDocumentDescription" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Open the document xml description management tool" report="false" inEasyBuilder="false" WCF="true" defaultsecurityroles="Configuration,aXtech Parameter Manager" />
+    <Function namespace="Framework.TbGes.TbGes.GetHotlinkQuery" type="string" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return extraction query of HotLink" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="hotLinkNamespace" type="string" mode="in" />
+      <Param name="arguments" type="string" mode="in" />
+      <Param name="action" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetDocumentParameters" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return parameters for run batch in not interactive modality" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentNamespace" type="string" mode="in" />
+      <Param name="xmlParams" type="string" mode="in out" />
+      <Param name="code" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetReportParameters" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return parameters for run report in not interactive modality" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="reportNamespace" type="string" mode="in" />
+      <Param name="xmlParams" type="string" mode="in out" />
+      <Param name="code" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunBatchInUnattendedMode" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Run bacth in not interactive modality" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="documentNamespace" type="string" mode="in" />
+      <Param name="xmlParams" type="string" mode="in" />
+      <Param name="documentHandle" type="long" mode="in out" />
+      <Param name="messages" type="array" basetype="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.RunReportInUnattendedMode" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Run report in not interactive modality" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="woormInfoHandle" type="long" mode="in" />
+      <Param name="xmlParams" type="string" mode="in" />
+      <Param name="reportHandle" type="long" mode="in out" />
+      <Param name="messages" type="array" basetype="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.GetApplicationDate" type="date" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return application date" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.GetApplicationYear" type="integer" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return year of application date" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.GetApplicationMonth" type="integer" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return month of application date" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.GetApplicationDay" type="integer" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Return day of application date" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.EnableSoapFunctionExecutionControl" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Enables or disables control over SOAP function calls; SOAP function calls are normally restricted when TBLoader is in some particular states (i.e. modal state)" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="enable" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.CanChangeLogin" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Verify if possible change Task Builder login" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="bLock" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.ChangeLogin" type="integer" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Changes Task Builder Login" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="oldAuthenticationToken" type="string" mode="in" />
+      <Param name="newAuthenticationToken" type="string" mode="in" />
+      <Param name="bUnLock" type="bool" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.IsTBLocked" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="if Task Builder functionalities are locked" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.LockTB" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Lock Task Builder functionalities" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="authenticationToken" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.UnLockTB" type="bool" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="UnLock Task Builder functionalities" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="authenticationToken" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.ClearCache" type="void" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="Clears cached objects from client folder" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbGes.TbGes.DisconnectCompany" type="integer" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="disconnect the current company" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="authenticationToken" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbGes.TbGes.ReconnectCompany" type="integer" mode="out" sourceInfo="File: Framework\TbGes\TbGesSoapFunctions.cpp." localize="reconnect the current company" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="authenticationToken" type="string" mode="in" />
+    </Function>
+  </Functions>
+</FunctionObjects>

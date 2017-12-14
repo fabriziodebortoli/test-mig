@@ -1,0 +1,6 @@
+; TBApplicationWrapper.def : Declares the module parameters for the DLL.
+
+LIBRARY      "TBApplicationWrapper"
+
+EXPORTS 
+	 ; Explicit exports can go here

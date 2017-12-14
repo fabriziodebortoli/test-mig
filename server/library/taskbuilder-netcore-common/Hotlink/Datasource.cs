@@ -67,6 +67,21 @@ namespace Microarea.Common.Hotlink
         public List<ElementList> Elements = new List<ElementList>();
     }
 
+
+
+    public class radarInfo
+    {
+       public List<ColumnType> columnInfos { get; set; }
+       public string query { get; set; }
+       public List<string> recordKeys { get; set; }
+    }
+
+    public class ResponseRadarInfo
+    {
+        public radarInfo radarInfo { get; set; }
+    }
+
+
     public class Datasource
     {
         Auxdata auxData;
@@ -261,22 +276,21 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
-
-        public bool PrepareRadar(HttpRequest request)
+        public async Task<ResponseRadarInfo> PrepareRadar(IQueryCollection requestQuery, string nsDoc = "", string name = "")
         {
-            string query =  request.Form["query"];
-            string columnInfos = request.Form["columnInfos"];
+            string documentId = requestQuery["documentID"].ToString();
+            string response = await TbSession.GetRadarQuery(Session, documentId, name);
 
-            List<ColumnType> columns = columnInfos.IsNullOrEmpty() ? null
-                                            : JsonConvert.DeserializeObject<List<ColumnType>>(columnInfos);
+            ResponseRadarInfo responseRadarInfo = JsonConvert.DeserializeObject<ResponseRadarInfo>(response);
+            if (responseRadarInfo == null || responseRadarInfo.radarInfo == null || responseRadarInfo.radarInfo.query.IsNullOrEmpty())
+                return null;
 
-            //------------------------------ 
             this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
 
-            if (!this.CurrentQuery.Define(query, columns))
-                return false;
+            if (!this.CurrentQuery.Define(responseRadarInfo.radarInfo.query, responseRadarInfo.radarInfo.columnInfos))
+                return null;
 
-            return true;
+            return responseRadarInfo;
         }
 
         //--------------------------------------------------------------------
@@ -468,7 +482,7 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
-        public bool GetRowsJson(out string records)
+        public bool GetRowsJson(out string records, List<string> recordKeys = null)
         {
             records = string.Empty;
 
@@ -494,6 +508,10 @@ namespace Microarea.Common.Hotlink
                     records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
                 else
                     records += XmlDescription.DbFieldName.Mid(idx + 1).ToJson("key") + ',';
+            }
+            if (recordKeys != null)
+            {
+                //TODO RSWEB - aggiungere segmenti chiave primaria - unificare sintassi con la precedente
             }
 
             records += "\"columns\":[";
