@@ -11,7 +11,7 @@ export class EventDataService implements OnDestroy {
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
 
-    public radarInfos: EventEmitter<MessageDlgArgs> = new EventEmitter();
+    public radarInfos: EventEmitter<any> = new EventEmitter();
     public radarRecordSelected: EventEmitter<any> = new EventEmitter();
     public behaviours: EventEmitter<any> = new EventEmitter();
 
@@ -33,6 +33,8 @@ export class EventDataService implements OnDestroy {
         const evt = new CommandEventArgs();
         evt.commandId = commandId;
         evt.componentId = componentId;
+        if (evt.commandId === 'ID_EXTDOC_RADAR')
+            this.radarInfos.next('');
         this.command.emit(evt);
     }
 

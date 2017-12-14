@@ -1,3 +1,4 @@
+import { BOService } from './../../../core/services/bo.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
@@ -40,7 +41,10 @@ export class RadarComponent {
         public logger: Logger,
         public eventData: EventDataService,
         public enumsService: EnumsService,
-        private changeDetectorRef: ChangeDetectorRef) {
+        private changeDetectorRef: ChangeDetectorRef,
+        private boService: BOService
+
+    ) {
 
     }
 
@@ -56,9 +60,8 @@ export class RadarComponent {
         // this.columnInfos = radarInfo.columnInfos.slice(0, 10);
 
         let params: URLSearchParams = new URLSearchParams();
-        params.set('query', radarInfo.query);
-        params.set('columnInfos', JSON.stringify(this.columnInfos));
-
+        params.set('documentID', this.boService.mainCmpId);
+       
         this.logger.info('radar', params);
         let subs = this.dataService.getRadarData(params).subscribe((data) => {
             subs.unsubscribe();

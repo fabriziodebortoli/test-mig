@@ -6,6 +6,7 @@ using Microarea.Common.Hotlink;
 using Microarea.DataService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace DataService.Controllers
 {
@@ -169,11 +170,12 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(session);
 
-            if (!ds.PrepareRadar(HttpContext.Request.Query).Result)
+            ResponseRadarInfo responseRadarInfo = ds.PrepareRadar(HttpContext.Request.Query/*nsDoc, , name*/).Result;
+            if (responseRadarInfo == null)
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
             string records;
-            if (!ds.GetRowsJson(out records))
+            if (!ds.GetRowsJson(out records, responseRadarInfo.radarInfo.recordKeys))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------
