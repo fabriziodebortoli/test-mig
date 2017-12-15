@@ -43,22 +43,15 @@ gulp.task('inline-resources', function() {
         .then(() => inlineResources(tmpFolder));
 });
 
-
 /**
  * 4. Run the Angular compiler, ngc, on the /.tmp folder. This will output all
  *    compiled modules to the /build folder.
+ *
+ *    As of Angular 5, ngc accepts an array and no longer returns a promise.
  */
 gulp.task('ngc', function() {
-    return ngc({
-            project: `${tmpFolder}/tsconfig.es5.json`
-        })
-        .then((exitCode) => {
-            if (exitCode === 1) {
-                // This error is caught in the 'compile' task by the runSequence method callback
-                // so that when ngc fails to compile, the whole compile process stops running
-                throw new Error('ngc compilation failed');
-            }
-        });
+    ngc(['--project', `${tmpFolder}/tsconfig.es5.json`]);
+    return Promise.resolve()
 });
 
 /**
@@ -92,7 +85,8 @@ gulp.task('rollup:fesm', function() {
                 'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash',
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
             // Format of generated bundle
@@ -142,7 +136,8 @@ gulp.task('rollup:umd', function() {
                 'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash',
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
             // Format of generated bundle
@@ -193,6 +188,8 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-angular-dropdowns': 'kendoAngularDropdowns',
                 '@progress/kendo-angular-grid': 'kendoAngularGrid',
                 '@progress/kendo-angular-charts': 'kendoAngularCharts',
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component': 'tabstrip_component',
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component': 'tabstripTab_component',
                 'angular-tree-component': 'angularTreeComponent',
                 '@progress/kendo-data-query': 'kendoDataQuery',
                 '@angular/animations': 'animations',

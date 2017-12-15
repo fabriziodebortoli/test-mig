@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
 import {
+    MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
     MatRadioModule,
@@ -14,10 +15,12 @@ import {
     MatTooltipModule,
     MatAutocompleteModule,
     MatSnackBarModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule
 } from '@angular/material';
 
 const MATERIAL_MODULES = [
+    MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
     MatRadioModule,
@@ -27,7 +30,8 @@ const MATERIAL_MODULES = [
     MatTooltipModule,
     MatAutocompleteModule,
     MatSnackBarModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule
 ];
 
 import { TbIconsModule } from '@taskbuilder/icons';

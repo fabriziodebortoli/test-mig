@@ -203,12 +203,6 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-
-    /**
-     * API /loadLocalizedElements
-     * 
-     * @returns {Observable<any>} loadLocalizedElements
-     */
     loadLocalizedElements(): Observable<any> {
         return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', {})
             .map((res: Response) => {
@@ -216,11 +210,6 @@ export class HttpService {
             });
     };
 
-    /**
-     * API /getPreferences
-     * 
-     * @returns {Observable<any>} getPreferences
-     */
     getPreferences(): Observable<any> {
         let urlToRun = this.infoService.getMenuServiceUrl() + 'getPreferences/';
         let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company') }
@@ -232,14 +221,6 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    /**
-     * API /setPreference
-     * 
-     * @param {string} referenceName
-     * @param {string} referenceValue
-     * 
-     * @returns {Observable<any>} setPreference
-     */
     setPreference(referenceName: string, referenceValue: string): Observable<any> {
         let obj = { name: referenceName, value: referenceValue, user: localStorage.getItem('_user'), company: localStorage.getItem('_company') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'setPreference/';
@@ -249,11 +230,6 @@ export class HttpService {
             });
     }
 
-    /**
-    * API /getThemedSettings
-    * 
-    * @returns {Observable<any>} getThemedSettings
-    */
     getThemedSettings(): Observable<any> {
         let obj = { authtoken: sessionStorage.getItem('authtoken') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';

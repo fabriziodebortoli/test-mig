@@ -51,5 +51,6 @@ git commit -m "%message%"
 
 @echo Push
 git push
+git push --tags
 
 @echo Completed!

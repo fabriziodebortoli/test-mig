@@ -49,7 +49,6 @@ namespace Microarea.AdminServer.Controllers.Helpers.DataController
 
 				case "accountRolesForInstance":
 				case "accountRolesForSubscription":
-				case "accountRolesForAccount":
 					return jToken.ToObject<AccountRoles>();
 
 				case "instance":
@@ -72,7 +71,6 @@ namespace Microarea.AdminServer.Controllers.Helpers.DataController
 			}
 		}
 
-		//--------------------------------------------------------------------------------
 		public static OperationResult SaveCluster(List<IModelObject> modelList, BurgerData burgerData)
 		{
 			OperationResult saveResult = new OperationResult(true, String.Empty);
