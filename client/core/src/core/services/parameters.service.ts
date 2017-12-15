@@ -2,17 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { InfoService } from './info.service';
 
-//import { Observable } from 'rxjs.imports';
+// import { Observable } from 'rxjs.imports';
 
 @Injectable()
 export class ParameterService {
     private _parameters = [];
     constructor(private http: HttpService, private infoService: InfoService) { }
 
-    async getParameter(param: string) {
-
+    async getParameter(param: string): Promise<string> {
         const _p = param.split('.');
-        if (_p.length != 2) return null;
+        if (_p.length !== 2) { return null; }
 
         const tableName = _p[0];
         const columnName = _p[1];
@@ -22,15 +21,13 @@ export class ParameterService {
             return value ? value : null;
         }
 
-        await this.updateCachedParamTable(tableName);
-
-        return await this.getParameter(param);
+        this._parameters[tableName] = await this.updateCachedParamTable(tableName);
+        return this._parameters[tableName][columnName];
     }
 
-    private async updateCachedParamTable(table) {
-        let url = this.infoService.getBaseUrl() + "/data-service/parameters/getparameters";
-
-        let r = await this.http.postData(url, { table: table }).toPromise();
-        this._parameters[table] = r.json();
+    private async updateCachedParamTable(table): Promise<any> {
+        const url = this.infoService.getBaseUrl() + '/data-service/parameters/getparameters';
+        const r = await this.http.postData(url, { table: table }).toPromise();
+        return r.json();
     }
 }
