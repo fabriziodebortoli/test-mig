@@ -3,8 +3,29 @@
     margin-left: -28px;
 }
 
+.mat-input-infix,
+.mat-form-field-infix {
+    width: 100%!important;
+}
+
+.mat-form-field-subscript-wrapper,
+.mat-form-field-underline {
+    display: none;
+}
+
+.mat-form-field-label {
+    line-height: 42px !important;
+    font-size: 18px !important;
+    padding-left: 40px;
+}
+
+.mat-input-infix .mat-input-placeholder-wrapper .mat-empty {
+    display: none;
+}
+
 .tb-search {
-    mat-input-container {
+    mat-input-container,
+    .mat-input-container {
         background: #f1f1f1;
         padding: 1px 5px;
         border-radius: 3px;
@@ -16,6 +37,15 @@
         box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);
         display: flex;
         margin: 0 auto;
+        .mat-form-field-wrapper {
+            width: 100%;
+        }
+        .mat-form-field-infix {
+            width: 100%;
+            display: flex;
+            padding: 0;
+            border: none;
+        }
         input {
             width: 100%;
             background: none;
