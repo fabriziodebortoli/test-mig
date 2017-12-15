@@ -8,7 +8,8 @@
     </div>
 </ng-template>
 <ng-template #tableTemplate>
-    <kendo-grid [height]="300"
+    <kendo-grid class="gridBody"
+         [height]="300"
         [data]="gridView$ | async"
         [pageSize]="pageSize"
         [selectable]="true"
@@ -31,9 +32,9 @@
         </ng-template>
         <kendo-grid-column 
                         *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" 
-                        [width]="auto"
+                        [width]="202"
                         id="{{cmpId + col.id}}"
-                        [headerStyle]="{'background-color': '#666','color': '#fff', 'padding':'5px', 'line-height': '1.5em'}">
+                        [headerClass]="{'tableHeader':true}">
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
             <div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
         </ng-template>
