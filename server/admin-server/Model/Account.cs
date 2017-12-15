@@ -213,7 +213,8 @@ namespace Microarea.AdminServer.Model
         //--------------------------------------------------------------------------------
         internal LoginReturnCodes IsValidUser()
         {
-            return VerifyCredential(password, null);
+			// TODO Ilaria: passo pw null altrimenti ri-hasho la pw
+            return VerifyCredential(null, null);
         }
 
         //--------------------------------------------------------------------------------
@@ -227,8 +228,9 @@ namespace Microarea.AdminServer.Model
 
             if (Disabled)
                 return LoginReturnCodes.UserNotAllowed;
+
             bool needtosave = false;
-            bool checkPwd = CheckPassword(password, out needtosave);
+			bool checkPwd = (password == null) ? true : CheckPassword(password, out needtosave);
 
             //salvo le modifiche ai contatori dopo check password, solo se modificati.
             if (burgerdata != null && needtosave && !Save(burgerdata).Result)
