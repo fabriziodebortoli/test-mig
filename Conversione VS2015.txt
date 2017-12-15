@@ -3,8 +3,6 @@ Porting su VisaulStudio 2015:
 CEF
 	ricompilarlo con i tools 140
 
-
-
 MicroareaAddin:
 
 Convertire in automatico Solution e Project
