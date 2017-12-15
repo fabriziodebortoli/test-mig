@@ -49,7 +49,8 @@ export class ThemeService {
                     this.currentTheme = this.themes[i].name.toLowerCase();
             }
             subs.unsubscribe();
-            this.applyTheme(this.currentTheme);
+            if (this.currentTheme)
+               this.applyTheme(this.currentTheme);
         });
     }
 

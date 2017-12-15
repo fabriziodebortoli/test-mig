@@ -183,34 +183,30 @@ namespace Microarea.EasyBuilder.Localization
         //-------------------------------------------------------------------------------
         public void AddLocalizableString(string culture, string name, string value)
         {
-            Dictionary dictLang = null;
-            Dictionaries.TryGetValue(culture, out dictLang);
+            string oldInvValue = string.Empty;
+            Dictionary invDict = null;
+            Dictionaries.TryGetValue(string.Empty, out invDict);
+            oldInvValue = string.Empty;
 
-            string oldValue = "";
-            bool bOK = dictLang.TryGetValue(name, out oldValue);
+            if (invDict.Keys.Contains<string>(name) && !string.IsNullOrEmpty(invDict[name]))
+                oldInvValue = invDict[name];
 
-            if (string.IsNullOrEmpty(culture)/* && value.CompareNoCase(dictLang[name])*/)    //invariant culture
+            bool isInvMissing = !string.IsNullOrEmpty(culture) && string.IsNullOrEmpty(oldInvValue);
+
+            foreach (string lang in Dictionaries.Keys)
             {
-                //se l'invariant culture e <> da esistente => riscrivo tutto
-                //altrimenti non faccio niente
-                if (!bOK || string.Compare(value, oldValue, false) != 0)
-                    foreach (Dictionary dict in dictionaries.Values)
-                        dict[name] = value;
+                Dictionary cultureDict = null;
+                Dictionaries.TryGetValue(lang, out cultureDict);
+
+                if (string.Compare(culture, lang, false) == 0)
+                    cultureDict[name] = value;
                 else
                 {
-                    //verifico altri dizionari => se vuoti => scrivo
-                    foreach (Dictionary dict in Dictionaries.Values)
-                    {
-                        bOK = dict.TryGetValue(name, out oldValue);
-                        if (!bOK || string.IsNullOrEmpty(oldValue))
-                            dict[name] = value;
-                    }
+                    bool emptyOtherCultureLoc = !cultureDict.Keys.Contains<string>(name) || string.IsNullOrEmpty(cultureDict[name]);
+                    if (emptyOtherCultureLoc && (string.IsNullOrEmpty(culture) || isInvMissing))
+                        cultureDict[name] = value;
                 }
-                return;
             }
-            
-            //culture different from invariant => riscrivo solo la stessa
-            dictLang[name] = value;
         }
 
         /// <summary>

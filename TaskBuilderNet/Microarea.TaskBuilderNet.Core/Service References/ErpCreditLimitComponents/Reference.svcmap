@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6eb27c09-678d-4a62-89b1-abb6dc16aa2a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10000/ERP.CreditLimit.Components" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ERP.xsd" MetadataType="Schema" ID="77c71483-4dd1-4668-a67e-bc3f2f29d955" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd6" />
+    <MetadataFile FileName="ERP.disco" MetadataType="Disco" ID="e7a4f4cd-e106-474d-bc9c-502d2fb16839" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?disco" />
+    <MetadataFile FileName="ERP1.xsd" MetadataType="Schema" ID="7075be00-a005-4c3d-af39-1c9f629021ad" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd3" />
+    <MetadataFile FileName="ERP2.xsd" MetadataType="Schema" ID="c9c9599d-a8ea-4fdb-9e2c-a3e16978d225" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd1" />
+    <MetadataFile FileName="ERP3.xsd" MetadataType="Schema" ID="fc5bef2b-f6f4-417d-a10f-d36b7550bbc2" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd4" />
+    <MetadataFile FileName="CreditLimitComponents.wsdl" MetadataType="Wsdl" ID="e614bc00-5cd9-4306-88b1-d6f0a227a946" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?wsdl" />
+    <MetadataFile FileName="ERP4.xsd" MetadataType="Schema" ID="a6e91c2f-98fc-43b3-a41e-f34a986d9e0c" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd2" />
+    <MetadataFile FileName="ERP5.xsd" MetadataType="Schema" ID="f6c5c78c-d835-4e8a-a511-373bba1e1ccf" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd0" />
+    <MetadataFile FileName="ERP6.xsd" MetadataType="Schema" ID="ca5c4c81-ddc5-4b02-ab8a-8dd3e68995eb" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd7" />
+    <MetadataFile FileName="ERP7.xsd" MetadataType="Schema" ID="cd717532-5c24-4604-a5df-013a02f83a9e" SourceId="1" SourceUrl="http://usr-giaccherin2:10000/ERP.CreditLimit.Components?xsd=xsd5" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

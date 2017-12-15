@@ -1194,7 +1194,7 @@ protected:
 class TB_EXPORT CGotoPageDlg : public CParsedDialog
 {
 protected:
-	CIntEdit	m_PageEdit;
+	CLongEdit	m_PageEdit;
 	int&		m_nPage;
 	int			m_nMaxPage;
 

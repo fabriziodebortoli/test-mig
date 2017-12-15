@@ -44,6 +44,7 @@ private:
 	void GetImageFunction				(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void RunFunction					(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void GetHotlinkQuery				(const CString& path, const CNameValueCollection& params, CTBResponse& response);
+	void GetRadarQuery					(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void GetProductInfoFunction			(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void GetApplicationDateFunction		(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void ChangeApplicationDateFunction	(const CString& path, const CNameValueCollection& params, CTBResponse& response);

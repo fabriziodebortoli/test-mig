@@ -29,6 +29,7 @@ namespace Microarea.TbLoaderGate
         public int TbLoaderServicePort { get; set; }
         public string TbLoaderServiceHost { get; set; }
         public bool RecordingMode { get; set; }
+        public bool TestMode { get; set; }
     }
 
     public class TBLoaderService

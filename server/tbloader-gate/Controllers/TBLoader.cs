@@ -25,6 +25,7 @@ namespace Microarea.TbLoaderGate
 	public class TBLoaderController : Controller
 	{
         private readonly IHostingEnvironment hostingEnvironment;
+        private TBLoaderStub stub;
         TBLoaderConnectionParameters options;
 
         public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters, IHostingEnvironment hostingEnvironment)
@@ -66,34 +67,47 @@ namespace Microarea.TbLoaderGate
 					tbName = jObject.GetValue(TbLoaderName)?.ToString();
 				}
 
-				bool newInstance;
-				TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, createTB, out newInstance);
-				if (tb == null)
-				{
-					TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
-					string json = JsonConvert.SerializeObject(res);
-					byte[] buff = Encoding.UTF8.GetBytes(json);
 
-					await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
-				}
-				else
+                if (options.TestMode)
                 {
-                    tbName = tb.name;
-                    if (jObject == null)
-                        jObject = new JObject();
-
-                    jObject[TbLoaderName] = tbName;
-                    string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
-
-                    HttpResponseMessage resp = await SendRequest(url, url.Substring(tb.BaseUrl.Length));
-
-                    HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
-                    HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
-
-                    HttpContext.Response.StatusCode = (int)resp.StatusCode;
-
-                    await resp.Content.CopyToAsync(HttpContext.Response.Body);
+                    if (stub == null)
+                        stub = new TBLoaderStub(hostingEnvironment, null);
+                    await stub.ProcessRequest(subUrl + HttpContext.Request.QueryString.Value, HttpContext.Request, HttpContext.Response);
                 }
+                else
+                {
+
+                    bool newInstance;
+                    TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, createTB, out newInstance);
+                    if (tb == null)
+                    {
+                        TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
+                        string json = JsonConvert.SerializeObject(res);
+                        byte[] buff = Encoding.UTF8.GetBytes(json);
+
+                        await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
+                    }
+                    else
+                    {
+                        tbName = tb.name;
+                        if (jObject == null)
+                            jObject = new JObject();
+
+                        jObject[TbLoaderName] = tbName;
+                        string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
+
+                        HttpResponseMessage resp = await SendRequest(url, url.Substring(tb.BaseUrl.Length));
+
+                        HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
+                        HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
+
+                        HttpContext.Response.StatusCode = (int)resp.StatusCode;
+
+                        await resp.Content.CopyToAsync(HttpContext.Response.Body);
+                    }
+
+                }
+
             }
 			catch (Exception ex)
 			{

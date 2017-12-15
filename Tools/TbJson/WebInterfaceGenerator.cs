@@ -1266,6 +1266,14 @@ namespace Microarea.TbJson
                     {
                         string hkl = jHKL.ToString();
                         hkl = hkl.Replace("\r\n", "").Replace("\"", "'").Replace(" ", "");
+
+                        if (hkl.IndexOf(Constants.getParentNameFunction) != -1)
+                        {
+                            string hklExpr = jHKL.GetValue("name").ToString().Replace(" ", "");
+                            string hklValue = ResolveGetParentNameFunction(hklExpr, jObj);
+                            hkl = hkl.Replace(hklExpr, hklValue);
+                        }
+
                         htmlWriter.WriteAttribute("[hotLink]", hkl);
                     }
                 }
@@ -1351,7 +1359,7 @@ namespace Microarea.TbJson
             string caption = jObj.GetLocalizableString(Constants.controlCaption);
             if (!string.IsNullOrEmpty(caption))
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
-
+                
             if (!string.IsNullOrEmpty(cmpId))
                 htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
 
