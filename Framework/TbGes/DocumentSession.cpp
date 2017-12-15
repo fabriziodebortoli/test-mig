@@ -231,6 +231,7 @@ void CJSonResponse::SetMessage(const CString& sMessage, CDiagnostic::MsgType typ
 	WriteInt(_T("type"), type);
 	CloseObject();
 }
+
 #define BEGIN_JSON_RESPONSE(command)\
 CJsonSerializer resp;\
 resp.WriteString(_T("cmd"), L#command);\
