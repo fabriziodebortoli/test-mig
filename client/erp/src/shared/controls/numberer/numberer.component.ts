@@ -1,9 +1,8 @@
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 
 import { ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService, Store, FormMode } from '@taskbuilder/core';
 import { NumbererStateEnum } from './numberer-state.enum';
 import { isNumeric } from './../../../rxjs.imports';
-import { ParameterService } from '@taskbuilder/core';
 
 export type maskParts = { prefix: string, separator: string, body: string, suffix: string };
 
@@ -56,11 +55,6 @@ export class NumbererComponent extends ControlComponent {
 
     private currentState: NumbererStateEnum;
 
-    ngAfterViewInit() {
-        if (this.maxLength > -1)
-            this.textbox.input.nativeElement.maxLength = this.maxLength;
-    }
-
     ngOnInit() {
         // this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
         // this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
@@ -82,17 +76,6 @@ export class NumbererComponent extends ControlComponent {
                 this.setComponentMask();
             }
         });
-
-        this.getParam();
-
-    }
-
-    async getParam() {
-        let result = await this.parameterService.getParameter('MA_EI_ITParameters.TaxJournal');
-        console.log(result);
-        result = await this.parameterService.getParameter('MA_ItemParameters.ItemAutoNum');
-        let itemAutoNum = (result == '1');
-        console.log(result);
     }
 
     subscribeToSelector() {
@@ -120,7 +103,6 @@ export class NumbererComponent extends ControlComponent {
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
-        private parameterService: ParameterService,
         private store: Store
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
@@ -308,6 +290,14 @@ export class NumbererComponent extends ControlComponent {
 
     ngOnChanges(changes) {
         this.subscribeToSelector();
+
+        if (
+            changes.maxLength &&
+            this.maxLength > -1 &&
+            this.maxLength != this.textbox.input.nativeElement.maxLength
+        ) {
+            this.textbox.input.nativeElement.maxLength = this.maxLength
+        };
     }
 
     changeModelValue(value: string) {

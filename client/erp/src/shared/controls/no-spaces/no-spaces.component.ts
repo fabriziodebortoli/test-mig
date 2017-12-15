@@ -1,4 +1,4 @@
-import { Component, Input,ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { ControlComponent } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { TbComponentService } from '@taskbuilder/core';
@@ -14,6 +14,7 @@ export class NoSpacesEditComponent extends ControlComponent {
   @Input('readonly') readonly: boolean = false;
   @Input() slice: any;
   @Input() selector: any;
+  @Input() public hotLink: { namespace: string, name: string };
 
   errorMessage = '';
   maxLength = 10;
@@ -22,7 +23,7 @@ export class NoSpacesEditComponent extends ControlComponent {
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef:ChangeDetectorRef,
+    changeDetectorRef: ChangeDetectorRef,
     private store: Store
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);

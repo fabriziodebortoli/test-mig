@@ -51,28 +51,6 @@ namespace ErpService.Controllers
             return result;
         }
 
-        [Route("CheckItemsAutoNumbering")]
-        public IActionResult CheckItemsAutoNumbering()
-        {
-            var ui = GetLoginInformation();
-            if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "no auth" };
-
-            var connection = new SqlConnection(ui.CompanyDbConnection);
-            using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
-                "select ItemAutoNum from MA_ItemParameters", null))
-            {
-                if (reader.Read())
-                {
-                    bool itemautonum = reader["ItemAutoNum"].ToString() == "1";
-
-                    var result = new JsonResult(new { ItemsAutoNumbering = itemautonum });
-                    return result;
-                }
-            }
-            return new JsonResult(new { ItemsAutoNumbering = false });
-        }
-
         [Route("GetItemsSearchList")]
         public IActionResult GetItemsSearchList([FromBody] string queryType)
         {

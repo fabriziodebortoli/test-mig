@@ -17,7 +17,7 @@ export class EnumsService {
 
     async getEnumsTableAsync() {
         if (!this.enumsTable) {
-            let result = await this.httpService.getEnumsTable().toPromise();
+            const result = await this.httpService.getEnumsTable().toPromise();
             this.enumsTable = result.enums;
         }
     }
@@ -40,7 +40,7 @@ export class EnumsService {
     getItemFromTagAndValue(tag: string, storedValue: number) {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
-            let currentTag = this.enumsTable.tags[index];
+            const currentTag = this.enumsTable.tags[index];
             if (currentTag !== undefined && currentTag.value === tag) {
 
                 for (let j = 0; j < currentTag.items.length; j++) {
@@ -56,7 +56,7 @@ export class EnumsService {
     getItemsFromTag(tag: string) {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
-            let currentTag = this.enumsTable.tags[index];
+            const currentTag = this.enumsTable.tags[index];
             if (currentTag !== undefined && currentTag.value === tag) {
                 return currentTag.items;
             }
