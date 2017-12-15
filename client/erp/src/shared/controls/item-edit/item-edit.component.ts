@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService, ParameterService } from '@taskbuilder/core';
-//import { ItemsHttpService } from '../../../core/services/items/items-http.service';
+import { ItemsHttpService } from '../../../core/services/items/items-http.service';
 import { BehaviorSubject } from "../../../rxjs.imports";
+
 
 @Component({
     selector: "erp-item-edit",
@@ -25,7 +26,7 @@ export class ItemEditComponent extends ControlComponent {
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
         private store: Store,
-        //private http: ItemsHttpService,
+        private http: ItemsHttpService,
         private parameterService: ParameterService
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
@@ -36,13 +37,9 @@ export class ItemEditComponent extends ControlComponent {
     }
 
     async readParams() {
+        this.maxLength = await this.http.getItemInfo_CodeLength();
         let result = await this.parameterService.getParameter('MA_ItemParameters.ItemAutoNum');
         this.itemsAutoNumbering = (result == '1');
-
-        // this.http.checkItemsAutoNumbering().subscribe(result => {
-        //     this.itemsAutoNumbering = result.json().itemsAutoNumbering;
-        //     this.changeDetectorRef.detectChanges();
-        // })
     }
 }
 

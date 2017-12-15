@@ -3,6 +3,9 @@
     <div class="group">
         <input kendoTextBox [ngModel]="model?.value" required="required" (blur)="removeSpaces()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event"
             [style.width.px]="width" (keydown)="onKeyDown($event)">
+        <ng-template [ngIf]="hotLink">
+            <ng-template [tbHotLink]="hotLink"></ng-template>
+        </ng-template>
         <p>{{errorMessage}}</p>
     </div>
 </div>
