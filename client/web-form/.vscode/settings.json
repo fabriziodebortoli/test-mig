@@ -27,5 +27,6 @@
     },
     "typescript.tsdk": "./node_modules/typescript/lib",
     "typescript.check.tscVersion": false,
-    "vsicons.presets.angular": true
+    "vsicons.presets.angular": true,
+    "git.ignoreLimitWarning": true
 }
