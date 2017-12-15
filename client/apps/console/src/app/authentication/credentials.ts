@@ -29,3 +29,18 @@ export class DatabaseCredentials {
         this.Password = '';
     }
 }
+
+//================================================================================
+export class ChangePasswordInfo {
+    
+  AccountName: string;
+  Password: string;
+  NewPassword: string;
+  
+  constructor() {
+      this.AccountName = '';
+      this.Password = '';
+      this.NewPassword = '';
+  }
+}
+

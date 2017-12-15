@@ -1,44 +1,40 @@
+<!-- #begin dialogs -->
+<admin-dialog [mode]="'fields'" [title]="'Change password'" [message]="''"
+  [(fields)]=changePasswordFields [(opened)]=openChangePasswordDialog [(result)]=changePasswordResult (onClose)="onCloseChangePasswordDialog($event)"></admin-dialog>
+<!-- #end dialogs -->
+
 <div class="container">
   <h2 class="componentTitle">Account {{model.AccountName}}</h2>
-  
+
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile tileNormal">
         Main Data
         <div>
-          <admin-input-text
-            [inputLabel]="'Account Name'"
-            [textType]="'email'"
-            [readOnly]=editing
-            [(inputData)]="model.AccountName"></admin-input-text>
+          <admin-input-text [inputLabel]="'Account Name'" [textType]="'email'" [readOnly]=editing [(inputData)]="model.AccountName"></admin-input-text>
         </div>
         <div>
-          <admin-input-text
-            *ngIf="!editing"
-            [inputLabel]="'Password'"
-            [textType]="'password'"
-            [readOnly]=editing
-            [(inputData)]="model.Password"></admin-input-text>
+          <admin-input-text *ngIf="!editing" [inputLabel]="'Password'" [textType]="'password'" [readOnly]=editing [(inputData)]="model.Password"></admin-input-text>
           <div class="mt20">
-              <admin-button *ngIf="editing" [buttonText]="'Change Password'" class="left-margin-label" (click)="doChangePassword()"></admin-button>
+            <admin-button *ngIf="editing && editingCurrentLoggedAccount" [buttonText]="'Change Password'" class="left-margin-label" (click)="doChangePassword()"></admin-button>
+            <admin-button *ngIf="editing && !editingCurrentLoggedAccount" [buttonText]="'Reset Password'" class="left-margin-label" (click)="doResetPassword()"></admin-button>
           </div>
         </div>
         <div class="mt10">
-          <admin-checkbox [checkId]="'chkPswExpires'" [checkText]="'Password never expires'" [(checkValue)]="model.PasswordNeverExpires" (inputDataChange)="model.PasswordNeverExpires = $event"></admin-checkbox>
+          <admin-checkbox [checkId]="'chkPswExpires'" [checkText]="'Password never expires'" [(checkValue)]="model.PasswordNeverExpires"
+            (inputDataChange)="model.PasswordNeverExpires = $event"></admin-checkbox>
         </div>
         <div>
-            <admin-input-text
-              [inputLabel]="'Full Name'"
-              [textType]="'text'"
-              [(inputData)]="model.FullName"></admin-input-text>
-        </div>             
+          <admin-input-text [inputLabel]="'Full Name'" [textType]="'text'" [(inputData)]="model.FullName"></admin-input-text>
+        </div>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile tileNormal">
         Roles And Security
         <div class="mt20">
-          <admin-checkbox [checkId]="'chkBoxProvAdmin'" [checkText]="'Provisioning Administrator'" [(checkValue)]="model.ProvisioningAdmin" (inputDataChange)="model.ProvisioningAdmin = $event"></admin-checkbox>
+          <admin-checkbox [checkId]="'chkBoxProvAdmin'" [checkText]="'Provisioning Administrator'" [(checkValue)]="model.ProvisioningAdmin"
+            (inputDataChange)="model.ProvisioningAdmin = $event"></admin-checkbox>
         </div>
         <div class="mt20">
           <admin-checkbox [checkId]="'chkBoxInstanceAdmin'" [checkText]="'Instance Administrator'"></admin-checkbox>
@@ -66,25 +62,17 @@
       <div class="adminTile half-tile">
         Regional Settings
         <div class="mt20">
-          <admin-dropdown 
-            [inputLabel]="'Language'" 
-            [(selectedValue)]="model.Language" 
-            [listItems]="languages" 
-            [textField]="'name'" 
+          <admin-dropdown [inputLabel]="'Language'" [(selectedValue)]="model.Language" [listItems]="languages" [textField]="'name'"
             [valueField]="'value'"></admin-dropdown>
         </div>
         <div class="mt20">
-          <admin-dropdown 
-            [inputLabel]="'Regional Settings'" 
-            [(selectedValue)]="model.RegionalSettings" 
-            [listItems]="languages" 
-            [textField]="'name'" 
+          <admin-dropdown [inputLabel]="'Regional Settings'" [(selectedValue)]="model.RegionalSettings" [listItems]="regionalSettings" [textField]="'name'"
             [valueField]="'value'"></admin-dropdown>
-        </div>    
+        </div>
       </div>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="adminTile tileNormal">

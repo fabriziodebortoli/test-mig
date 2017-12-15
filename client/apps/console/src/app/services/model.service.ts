@@ -1,4 +1,4 @@
-import { DatabaseCredentials } from './../authentication/credentials';
+import { DatabaseCredentials, ChangePasswordInfo } from './../authentication/credentials';
 import { AuthorizationProperties } from './../authentication/auth-info';
 import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
@@ -664,8 +664,8 @@ export class ModelService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(environment.adminAPIUrl + 'savecluster', cluster, options)
-      .map((res: Response) => { 
-        return res.json(); 
+      .map((res: Response) => {
+        return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (save cluster)'));
   }
@@ -752,5 +752,26 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (deleteDatabase)'));
+  }
+
+  // change account password
+  //--------------------------------------------------------------------------------------------------------
+  changePassword(body: ChangePasswordInfo): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'password', bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (changePassword)'));
   }
 }
