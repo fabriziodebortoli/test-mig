@@ -233,7 +233,7 @@ namespace Microarea.AdminServer.Services.BurgerData
 
                         burgerDataParameters.ForEach(p =>
                         {
-                            command.Parameters.AddWithValue(p.Name, p.Value);
+                            command.Parameters.AddWithValue(p.Name, p.Value??DBNull.Value);
                         });
 
                         command.ExecuteNonQuery();
