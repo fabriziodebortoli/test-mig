@@ -22,7 +22,7 @@ export type HlComponent = { model: any, slice$?: any, cmpId: string, isCombo?: b
   templateUrl: './tb-hot-link-buttons.component.html',
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
   providers: [PaginatorService, FilterService],
-  encapsulation: ViewEncapsulation.Emulated,
+  //encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, AfterViewChecked {
@@ -91,10 +91,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   selectionColumn = '';
   subscription: Subscription;
 
-  _defaultGridStyle = {'background': 'whitesmoke', 'cursor': 'pointer', 'position': 'fixed',
-                       'font-size': 'small', 'border': '1px solid rgba(0,0,0,.05)'};
-  _filterTypingGridStyle = {'background': 'whitesmoke', 'color': 'darkgrey', 'position': 'fixed',
-                            'font-size': 'small', 'border': '1px solid rgba(0,0,0,.05)'}
+  _defaultGridStyle = {'cursor': 'pointer'};
+  _filterTypingGridStyle = {'color': 'darkgrey'}
   _gridStyle$ = new BehaviorSubject<any>(this._defaultGridStyle);
   get gridStyle(): Observable<any> { return this._gridStyle$.asObservable(); }
 
