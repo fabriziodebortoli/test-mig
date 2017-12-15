@@ -53,32 +53,15 @@ export { MenuService } from './services/menu.service';
 export { ImageService } from './services/image.service';
 export { HttpMenuService } from './services/http-menu.service';
 
-import { LayoutModule } from '@progress/kendo-angular-layout';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-import { DialogModule } from '@progress/kendo-angular-dialog';
-import { InputsModule } from '@progress/kendo-angular-inputs';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-
-
-
 const NG_MODULES = [
     CommonModule,
     ReactiveFormsModule,
     FormsModule
 ];
 
-const KENDO_MODULES = [
-    LayoutModule,
-    ButtonsModule,
-    DialogModule,
-    InputsModule,
-    DropDownsModule
-];
-
 @NgModule({
     imports: [
         NG_MODULES,
-        KENDO_MODULES,
         TbSharedModule,
         TbIconsModule
     ],
