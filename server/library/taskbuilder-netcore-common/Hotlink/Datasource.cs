@@ -524,11 +524,20 @@ namespace Microarea.Common.Hotlink
                     records += ',';
 
                 string fname = f.Name.Replace('.', '_').ToJson("id");
+                string title = f.Title;
+                if (title.IsNullOrWhiteSpace())
+                {
+                    int pos = f.Name.LastIndexOf('.');
+                    if (pos > -1)
+                        title = f.Name.Mid(pos + 1);
+                    else
+                        title = f.Name;
+                }
 
                 records += '{' +
                            fname +
                            ',' +
-                           f.Title.ToJson("caption", false, true) +   ","+
+                           title.ToJson("caption", false, true) +   ","+
                            f.WoormType.ToJson("type", false, false) +
                            '}';
             }
