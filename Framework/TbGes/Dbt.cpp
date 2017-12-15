@@ -3104,10 +3104,13 @@ void DBTSlaveBuffered::AddHotLinkKeyField(HotKeyLink* pHKL, const CString& sKeyF
 		HKLInfo* pInfo = m_arHKLInfos[i];
 		if (pInfo->m_pHKL == pHKL)
 		{
-			if (pInfo->m_strKeyField.IsEmpty())
+			if (pInfo->m_strKeyField.IsEmpty()) {
 				pInfo->m_strKeyField = sKeyField;
-			else
+			}
+			else {
 				ASSERT(pInfo->m_strKeyField == sKeyField);
+				return;
+			}
 		}
 	}
 

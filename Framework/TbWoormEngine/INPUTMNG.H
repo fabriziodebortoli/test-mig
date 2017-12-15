@@ -331,6 +331,8 @@ public:
 	CDynamicContainerTileDlg();
 	~CDynamicContainerTileDlg() {}
 
+	void SetTileDlgName(CString sName);
+
 	//{{AFX_MSG(CDynamicContainerTileDlg)
 	afx_msg	BOOL	OnEraseBkgnd(CDC* pDC);
 	//}}AFX_MSG

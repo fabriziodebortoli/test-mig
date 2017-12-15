@@ -58,8 +58,11 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 		protected Microarea.TaskBuilderNet.Core.ErpItemsServices.TBHeaderInfo itemsServicesClientHeader = null;
 		protected ERPCustomersSuppliersDbl.CustomersSuppliersDblClient customersSuppliersDblClient = null;
 		protected Microarea.TaskBuilderNet.Core.ERPCustomersSuppliersDbl.TBHeaderInfo customersSuppliersDblHeader = null;
+        protected ErpCreditLimitComponents.CreditLimitComponentsClient erpCreditLimitComponentsClient = null;
+       protected Microarea.TaskBuilderNet.Core.ErpCreditLimitComponents.TBHeaderInfo erpCreditLimitComponentsHeader = null;
 
-		private Binding currentBinding = null;
+
+        private Binding currentBinding = null;
 		private Binding mexBinding = null;
 		private bool registerWCFNamespacesOnStart = false;
 		private TimeSpan timeout = TimeSpan.MaxValue;
@@ -348,6 +351,9 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 
 			customersSuppliersDblClient = new ERPCustomersSuppliersDbl.CustomersSuppliersDblClient(currentBinding, new EndpointAddress(BuildURL("http://localhost:10000/ERP.CustomersSuppliers.Dbl/CustomersSuppliersDbl")));
 
+           erpCreditLimitComponentsClient = new ErpCreditLimitComponents.CreditLimitComponentsClient(currentBinding, new EndpointAddress(BuildURL("http://localhost:10000/ERP.CreditLimit.Components/CreditLimitComponents")));
+
+
 			return true;
 		}
 
@@ -377,10 +383,12 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 			erpPricePoliciesComponentsClient.Endpoint.Address = new EndpointAddress(BuildURL(erpPricePoliciesComponentsClient.Endpoint.ListenUri));
 			itemsServicesClient.Endpoint.Address = new EndpointAddress(BuildURL(itemsServicesClient.Endpoint.ListenUri));
 			customersSuppliersDblClient.Endpoint.Address = new EndpointAddress(BuildURL(customersSuppliersDblClient.Endpoint.ListenUri));
-		}
+            erpCreditLimitComponentsClient.Endpoint.Address = new EndpointAddress(BuildURL(erpCreditLimitComponentsClient.Endpoint.ListenUri));
 
-		//-----------------------------------------------------------------------
-		private void InitSoapInterfaceHeader()
+        }
+
+        //-----------------------------------------------------------------------
+        private void InitSoapInterfaceHeader()
 		{
 			if (binding == WCFBinding.None)
 				return;
@@ -405,7 +413,9 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 			itemsServicesClientHeader.AuthToken = authenticationToken;
 			customersSuppliersDblHeader = new ERPCustomersSuppliersDbl.TBHeaderInfo();
 			customersSuppliersDblHeader.AuthToken = authenticationToken;
-		}
+            erpCreditLimitComponentsHeader = new ErpCreditLimitComponents.TBHeaderInfo();
+            erpCreditLimitComponentsHeader.AuthToken = authenticationToken; 
+        }
 		#endregion
 
 		#region Funzioni per istanziare un tb
@@ -2455,10 +2465,64 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 				return false;
 			}
 		}
-		#endregion
+        #endregion
+       
+        #region CreditLimitComponents
+        //-----------------------------------------------------------------------
+        public bool CreditLimitManager_GetData(
+                                                  int handle,
+                                                  string Customer,
+                                                  ref bool CreditLimitManage,
+                                                  ref bool Blocked,
+                                                  ref double OrderedExposure,
+                                                  ref double OrderedMargin,
+                                                  ref double TotalExposure,
+                                                  ref double TotalExposureMargin)
+        {
+            try
+            {
+                return erpCreditLimitComponentsClient.CreditLimitManager_GetData(ref erpCreditLimitComponentsHeader, handle, ref Customer, ref CreditLimitManage, ref Blocked, ref OrderedExposure, ref OrderedMargin, ref TotalExposure, ref TotalExposureMargin);
+            }
+            catch (Exception exc)
+            {
+                Debug.Fail(exc.ToString());
+                return false;
+            }
+        }
 
-		//-----------------------------------------------------------------------
-		public TBWebProxy CreateTBWebProxy()
+        //-----------------------------------------------------------------------
+        public int CreditLimitManager_Create()
+        {
+            try
+            {
+                return erpCreditLimitComponentsClient.CreditLimitManager_Create(ref erpCreditLimitComponentsHeader);
+            }
+            catch (Exception exc)
+            {
+                Debug.Fail(exc.ToString());
+                return -1;
+            }
+        }
+
+        //-----------------------------------------------------------------------
+        public bool CreditLimitManager_Dispose(int handle)
+        {
+            try
+            {
+                return erpCreditLimitComponentsClient.CreditLimitManager_Dispose(ref erpCreditLimitComponentsHeader, handle);
+            }
+            catch (Exception exc)
+            {
+                Debug.Fail(exc.ToString());
+                return false;
+            }
+        }
+       
+        #endregion
+
+     
+        //-----------------------------------------------------------------------
+        public TBWebProxy CreateTBWebProxy()
 		{
 			TbGesClient tbGesClone = new TbGesClient(CreateBinding(false, false), tbGes.Endpoint.Address);
 			return new TBWebProxy(tbGesClone, tbGesHeader);

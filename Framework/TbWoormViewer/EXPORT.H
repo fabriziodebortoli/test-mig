@@ -25,8 +25,8 @@ class TB_EXPORT CExportInfoDlg : public CParsedDialog
 protected:
 	CExportInfo& 	m_ExportInfo;
 
-	CIntEdit		m_FromPageEdit;
-	CIntEdit		m_ToPageEdit;
+	CLongEdit		m_FromPageEdit;
+	CLongEdit		m_ToPageEdit;
 	CBCGPButton		m_MultiRows;
 	CBCGPButton		m_RepeatColumnTitles;
 	CBCGPButton		m_ColumnTitles;

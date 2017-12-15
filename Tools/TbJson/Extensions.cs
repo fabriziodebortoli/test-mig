@@ -125,7 +125,7 @@ namespace Microarea.TbJson
 				return string.Concat("eventData?.model?.", text);
 			}
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
-			return string.Concat("_TB('", text, "')");
+			return string.Concat("_TB('", text.Replace("'", "\\'"), "')");
 		}
   
         //-----------------------------------------------------------------------------

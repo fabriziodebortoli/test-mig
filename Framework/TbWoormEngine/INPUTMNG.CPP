@@ -1340,8 +1340,15 @@ END_MESSAGE_MAP()
 //----------------------------------------------------------------------------
 CDynamicContainerTileDlg::CDynamicContainerTileDlg()
 	:
-	CTileDialog(_NS_TILEDLG("TileMng"), IDD_INPUT_DLG)
+	CTileDialog(_NS_TILEDLG("TileDlg"), IDD_INPUT_DLG)
 {
+}
+
+//------------------------------------------------------------------------------
+void CDynamicContainerTileDlg::SetTileDlgName(CString sName)
+{
+	GetInfoOSL()->m_Namespace.SetObjectName(sName);
+	m_sName = sName;
 }
 
 //----------------------------------------------------------------------------
@@ -2635,7 +2642,8 @@ void InputMng::CreateAskDialog(CTilePanel* pPanel, CAskDialogDataAndGroups* pAsk
 		else
 			strTitle.Empty();
 			
-		CTileDialog* pTile = (CTileDialog*)pPanel->AddTile(pTab, RUNTIME_CLASS(CDynamicContainerTileDlg), IDD_INPUT_DLG, AfxLoadReportString(strTitle, m_pDocument), TILE_STANDARD);
+		CDynamicContainerTileDlg* pTile = (CDynamicContainerTileDlg*)pPanel->AddTile(pTab, RUNTIME_CLASS(CDynamicContainerTileDlg), IDD_INPUT_DLG, AfxLoadReportString(strTitle, m_pDocument), TILE_STANDARD);
+		pTile->SetTileDlgName(_T("TileDlg_") + DataInt(i).ToString());
 		ASSERT(pTile);
 		//if (pAG->m_bHidden) //TODO A.24762
 		//{

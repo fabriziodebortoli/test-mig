@@ -5837,14 +5837,15 @@ void CAbstractFormDoc::Radar()
 {
 	if (AfxIsRemoteInterface())
 	{
-		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-		if (!pSession)
-		{
-			ASSERT(FALSE);
-			return;
-		}
+		//CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		//if (!pSession)
+		//{
+		//	ASSERT(FALSE);
+		//	return;
+		//}
 
-		pSession->PushRadarInfoToClient(this);
+		//TODO manadare un boolean sul client
+		//pSession->PushRadarInfoToClient(this);
 
 		return;
 	}
@@ -7202,12 +7203,6 @@ DBTMaster* CAbstractFormDoc::GetMaster()
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
 {
-	resp.OpenObject(_T("response"));
-
-	TCHAR buff[32];
-	_itot_s((int)GetFrame()->m_hWnd, buff, 10);
-	resp.WriteString(_T("id"), buff);
-
 	resp.OpenObject(_T("radarInfo"));
 
 	SqlRecord*  m_pCallerSqlRecord = m_pDBTMaster->GetRecord();
@@ -7225,12 +7220,9 @@ void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
 
 
 	resp.OpenArray(_T("recordKeys"));
-
 	for (int i = 0; i <= pTable->GetRecord()->GetPrimaryKeyIndexes().GetUpperBound(); i++)
 	{
-		resp.OpenObject();
-		resp.WriteString(_T("key"), pTable->GetRecord()->GetColumnName(i));
-		resp.CloseObject();
+		resp.WriteString(i, pTable->GetRecord()->GetColumnName(i));
 	}
 	resp.CloseArray();
 
@@ -7251,9 +7243,10 @@ void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
 		resp.WriteString(_T("columnName"), strName);
 
 		DataEnum* dEnum = dynamic_cast<DataEnum*>(pSbi->GetDataObj());
-		if (dEnum != NULL) {
-			resp.WriteString(_T("dataType"), _T("Enum"));
-			resp.WriteString(_T("enumTag"), cwsprintf(_T("%d"), dEnum->GetTagValue()));
+		if (dEnum) 
+		{
+			resp.WriteString(_T("dataType"), ::cwsprintf(_T("Enum[%d]"), dEnum->GetTagValue()));
+			//resp.WriteString(_T("enumTag"), cwsprintf(_T("%d"), dEnum->GetTagValue()));
 		}
 		else
 		{
@@ -7268,7 +7261,6 @@ void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
 
 	pTable->Close();
 
-	resp.CloseObject();
 	resp.CloseObject();
 
 	SAFE_DELETE(pTable);

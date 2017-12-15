@@ -110,6 +110,11 @@
     <Compile Include="ApplicationPathFinder.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ErpCreditLimitComponents.asmx.cs">
+      <DependentUpon>ErpCreditLimitComponents.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ErpCreditLimitComponentsEngine.cs" />
     <Compile Include="ErpCustomersSuppliersDbl.asmx.cs">
       <DependentUpon>ErpCustomersSuppliersDbl.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -160,6 +165,7 @@
     <Compile Include="TbServicesEngine.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="ErpCreditLimitComponents.asmx" />
     <Content Include="ErpCustomersSuppliersDbl.asmx" />
     <Content Include="ErpItemsServices.asmx" />
     <Content Include="ErpPricePoliciesComponents.asmx" />

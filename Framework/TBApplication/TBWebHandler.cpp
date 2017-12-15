@@ -17,6 +17,7 @@ CTbWebHandler::CTbWebHandler()
 	functionMap.SetAt(_T("getImage/"),						&CTbWebHandler::GetImageFunction);
 	functionMap.SetAt(_T("runFunction/"),					&CTbWebHandler::RunFunction);
 	functionMap.SetAt(_T("getHotlinkQuery/"),				&CTbWebHandler::GetHotlinkQuery);
+	functionMap.SetAt(_T("getRadarQuery/"),					&CTbWebHandler::GetRadarQuery);
 	functionMap.SetAt(_T("initTBLogin/"),					&CTbWebHandler::InitTBLoginFunction);
 	functionMap.SetAt(_T("doLogoff/"),						&CTbWebHandler::DoLogoffFunction);
 	functionMap.SetAt(_T("canLogoff/"),						&CTbWebHandler::CanLogoffFunction);
@@ -732,6 +733,36 @@ void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollect
 	aResponse.SetOK();
 	aResponse.WriteString(_T("query"), ds.GetString());
 	response.SetData(aResponse);
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::GetRadarQuery(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CJSonResponse aResponse;
+	if (sDocumentID.IsEmpty())
+	{
+		aResponse.SetError();
+		response.SetData(aResponse);
+		return;
+	}
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	ENSURE_SESSION();
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+	if (!pDoc)
+	{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+	}
+
+	CString name = params.GetValueByName(_T("name"));
+
+	CJsonSerializer resp;
+	pDoc->GetJsonRadarInfos(resp);
+
+	aResponse.SetOK();
+	response.SetData(resp);
 }
 
 //--------------------------------------------------------------------------------
