@@ -18,7 +18,7 @@ namespace Microarea.AdminServer.Model
 		int minDBSizeToWarn;
         bool underMaintenance;
         int ticks = TicksHelper.GetTicks();
-        string vATNr;
+        string vATNr = string.Empty;
 
         //---------------------------------------------------------------------
         public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
