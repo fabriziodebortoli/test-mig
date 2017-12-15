@@ -11,7 +11,8 @@ transform(value: {data: any[], total: number, columns: any[]}): {id: any, displa
             let result: {id: any, displayString: string}[] = [];
             result = value.data.map(x => {
                 let idKey = Object.keys(x)[0];
-                let descriptionKey = Object.keys(x)[1];
+                let descriptionKey = 'Description';
+                if (!x[descriptionKey]) { descriptionKey = Object.keys(x)[1]; }
                 return {id: x[idKey], displayString: x[descriptionKey]};
             });
             return result;

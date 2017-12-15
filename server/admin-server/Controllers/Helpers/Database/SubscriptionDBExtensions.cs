@@ -50,6 +50,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 	{
 		public bool OverwriteRecord = true;
 		public bool DeleteTableContext = false;
+		public bool NoOptional = true;
 	}
 	#endregion
 

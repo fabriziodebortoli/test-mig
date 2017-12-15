@@ -62,7 +62,7 @@
             <div class="dropDownNoData k-loading-mask k-loading-image k-loading-color"></div>
         </ng-template>
         <ng-template kendoComboBoxFooterTemplate>
-            <div [style.width.px]="width" 
+            <div *ngIf="!(this.paginator.isFirstPage && this.paginator.noMorePages)" [style.width.px]="width" 
                  [style.display]="'flex'" 
                  [style.background]="'white'"
                  [style.border-top-style]="'solid'"

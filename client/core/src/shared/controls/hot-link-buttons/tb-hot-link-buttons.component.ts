@@ -162,7 +162,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if (this.showTableSubj$.value) { this.closeTable(); } else { this.openTable(); }
   }
 
-  async openDropDown() {
+  openDropDown() {
     this.start();
   }
 

@@ -1,3 +1,4 @@
+import { BOService } from './../../../core/services/bo.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
@@ -32,16 +33,18 @@ export class RadarComponent {
     public skip: number = 0;
     public sort: SortDescriptor[] = [];
     public gridView: GridDataResult;
-    public radarData: any[];
-    public columnInfos: any[] = [];
+    public rows: any[] = [];
+    public columns: any[] = [];
 
     constructor(
         public dataService: DataService,
         public logger: Logger,
         public eventData: EventDataService,
         public enumsService: EnumsService,
-        private changeDetectorRef: ChangeDetectorRef) {
+        private changeDetectorRef: ChangeDetectorRef,
+        private boService: BOService
 
+    ) {
     }
 
     toggle() {
@@ -51,18 +54,20 @@ export class RadarComponent {
     init(radarInfo) {
         this.toggle(); if (this.state === 'closed') return;
         /*dataType*/
-
-        this.columnInfos = radarInfo.columnInfos
-        // this.columnInfos = radarInfo.columnInfos.slice(0, 10);
-
+    
         let params: URLSearchParams = new URLSearchParams();
-        params.set('query', radarInfo.query);
-        params.set('columnInfos', JSON.stringify(this.columnInfos));
-
+        params.set('documentID', this.boService.mainCmpId);
+       
         this.logger.info('radar', params);
+
         let subs = this.dataService.getRadarData(params).subscribe((data) => {
             subs.unsubscribe();
-            this.radarData = data.rows;
+
+            this.columns = data.columns
+            this.columns = data.columns.slice(0, 10);
+    
+            this.rows = data.rows;
+
             this.load();
             this.changeDetectorRef.detectChanges(); 
         });
@@ -84,23 +89,23 @@ export class RadarComponent {
 
     public selectionChange(event: SelectionEvent) {
         if (event.selected) {
-            console.log('rowSelected:', this.radarData[event.index]);
-            this.onRadarRecordSelected(this.radarData[event.index]);
+            console.log('rowSelected:', this.rows[event.index]);
+            this.onRadarRecordSelected(this.rows[event.index]);
         }
     }
 
     public edit(event: SelectionEvent) {
         this.logger.debug('editClick')
         if (event.selected) {
-            console.log('rowDoubleClick:', this.radarData[event.index]);
-            this.onRadarRecordSelected(this.radarData[event.index]);
+            console.log('rowDoubleClick:', this.rows[event.index]);
+            this.onRadarRecordSelected(this.rows[event.index]);
         }
     }
 
     public load(): void {
         this.gridView = {
-            data: orderBy(this.radarData.slice(this.skip, this.skip + this.pageSize), this.sort),
-            total: this.radarData.length
+            data: orderBy(this.rows.slice(this.skip, this.skip + this.pageSize), this.sort),
+            total: this.rows.length
         };
     }
 
@@ -111,8 +116,8 @@ export class RadarComponent {
 
     //TODOLUCA....caching...non chiamare tutte le volte la tabella di enumerativi
     getEnumValue(dataItem: any, column: any): string {
-        let value = dataItem[column.columnName];
-        let tag = column.enumTag;
-        return this.enumsService.getItemFromTagAndValue(tag, value).name;
+        let value = dataItem[column.id];
+        //let tag = column.enumTag;
+        return this.enumsService.getEnumsItem(value).name;
     }
 }
