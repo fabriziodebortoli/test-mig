@@ -631,7 +631,11 @@ void CBusinessServiceProviderObj::DeclareVariable(const CString & sName, DataObj
 	m_pCallerDoc->DeclareVariable(sName, pDataObj);
 	m_arVariables.Add(sName);
 }
-
+//-----------------------------------------------------------------------------
+void CBusinessServiceProviderObj::DeclareVariable(const CString & sName, DataObj& aDataObj)
+{
+	DeclareVariable(sName, &aDataObj);
+}
 //-----------------------------------------------------------------------------
 void CBusinessServiceProviderObj::EnableBEButtonUI(BOOL bEnabled)
 {

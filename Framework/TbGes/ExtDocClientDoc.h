@@ -308,6 +308,8 @@ private:
 	CAbstractFormView* GetViewByCtrlID(UINT nIDC);
 	
 protected:
+	inline void DeclareVariable(const CString& sName, DataObj* pDataObj);
+	inline void DeclareVariable(const CString& sName, DataObj& aDataObj);
 	CTBToolBar* GetToolBar(const CString& sToolBarName);
 	BOOL CreateJsonToolbar(UINT nID);
 	void AttachHotLink		(HotKeyLink*, CString strName = _T(""));

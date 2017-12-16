@@ -123,12 +123,9 @@ typedef	CArray<SelStatus, SelStatus>	SelArray;
 
 #define DECLARE_VAR(a, n)	DeclareVariable(a, n);
 #define DECLARE_VAR_JSON(a)	DECLARE_VAR(_T(#a), &m_##a)
-
-#define DECLARE_CLIENTDOC_VAR(a, n)		m_pServerDocument->DeclareVariable(a, &n);
-#define DECLARE_CLIENTDOC_VAR_JSON(a)	DECLARE_VAR(_T(#a), m_##a)
-
 // pDoc must be: - m_pServerDocument for ClientDoc - m_pCallerDoc or CBusinessServiceProviderDoc for BSP 
 #define DECLARE_VAR_JSON_WITH_PREFIX(prefix, nameVar, pDoc)		ASSERT(pDoc); pDoc->DeclareVariable(prefix#nameVar, &m_##nameVar);
+
 
 class TB_EXPORT DeprecatedSymField : public SymField
 {

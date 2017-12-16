@@ -451,10 +451,10 @@ void CDDMS::InitJSONVariables()
 	m_bEnableBarcode				= AfxGetTbRepositoryManager()->GetDMSSettings()->GetSettings()->l_EnableBarcode;
 	m_bAutomaticBarcodeDetection	= AfxGetTbRepositoryManager()->GetDMSSettings()->GetSettings()->l_AutomaticBarcodeDetection;
 	// AddPapery slaveview
-	DECLARE_CLIENTDOC_VAR(_T("sPaperyDescripion"),		m_sPaperyDescripion);
-	DECLARE_CLIENTDOC_VAR(_T("sPaperyBarcodeValue"),	m_sPaperyBarcodeValue);
-	DECLARE_CLIENTDOC_VAR(_T("sPaperyNotes"),			m_sPaperyNotes);
-	DECLARE_CLIENTDOC_VAR(_T("PaperyBarcodeViewer"),	m_sPaperyBarcodeValue);
+	DECLARE_VAR(_T("sPaperyDescripion"),		m_sPaperyDescripion);
+	DECLARE_VAR(_T("sPaperyBarcodeValue"),	m_sPaperyBarcodeValue);
+	DECLARE_VAR(_T("sPaperyNotes"),			m_sPaperyNotes);
+	DECLARE_VAR(_T("PaperyBarcodeViewer"),	m_sPaperyBarcodeValue);
 	m_sPaperyBarcodeType = CBarCodeTypes::BarCodeDescription(CBarCodeTypes::BarCodeType(MAKELONG((int)AfxGetTbRepositoryManager()->GetDMSSettings()->GetSettings()->l_BarcodeType.GetItemValue(), E_BARCODE_TYPE)));
 	m_sPaperyDescripion = cwsprintf(_TB("Barcode type: {0-%s} - Prefix: {1-%s}"), m_sPaperyBarcodeType, AfxGetTbRepositoryManager()->GetDMSSettings()->GetSettings()->l_BarcodePrefix.Str());
 	//

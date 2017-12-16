@@ -401,7 +401,16 @@ void CClientDoc::SetButtonInfo(UINT nID, UINT nStyle, UINT nIDImage, LPCTSTR lps
 
 	pTabbedToolbar->SetButtonInfo(nID, nStyle, nIDImage, lpszText, bPng);
 }
-
+//-----------------------------------------------------------------------------
+void CClientDoc::DeclareVariable(const CString & sName, DataObj* pDataObj)
+{
+	m_pServerDocument->DeclareVariable(sName, pDataObj);
+}
+//-----------------------------------------------------------------------------
+void CClientDoc::DeclareVariable(const CString & sName, DataObj& aDataObj)
+{
+	DeclareVariable(sName, &aDataObj);
+}
 //-----------------------------------------------------------------------------
 CTBToolBar* CClientDoc::GetToolBar(const CString& sToolBarName)
 {

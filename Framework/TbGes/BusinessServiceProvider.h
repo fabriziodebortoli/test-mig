@@ -11,7 +11,7 @@
 #define _BSP_EVENT(ns) _T(ns) 
 // dichiarazioni di variabili per utilizzo in JSON
 // Nota. pDoc deve essere di tipo CBusinessServiceProviderDoc
-#define DECLARE_VAR_BSP_JSON(a, pDoc)	ASSERT(pDoc); pDoc->DeclareVariable(_T(#a), &GetBSP()->m_##a);
+#define DECLARE_VAR_BSP_JSON(a)	DeclareVariable(_T(#a), &GetBSP()->m_##a);
 
 #define DECLARE_VAR_BSP_OBJ_JSON(a, pDoc) ASSERT(pDoc); pDoc->DeclareVariable(_T(#a), &m_##a);
 
@@ -246,7 +246,8 @@ public:
 				const   UINT						nRowChangedBE = 0,
 				const	UINT						nDocAccelIDR = 0
 		);
-	void DeclareVariable(const CString& sName, DataObj* pDataObj);
+	inline void DeclareVariable(const CString& sName, DataObj* pDataObj);
+	inline void DeclareVariable(const CString& sName, DataObj& aDataObj);
 	virtual void EnableBEButtonUI(BOOL bEnabled);
 
 	// retrieve the BSP underneath the passed view (must be CBusinessServiceProviderView or CBusinessServiceProviderPaneView)
