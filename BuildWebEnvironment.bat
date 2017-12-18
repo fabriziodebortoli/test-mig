@@ -145,6 +145,8 @@ call ng-clean.bat
 
 @ECHO ON
 
+%DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ >> %DevPath%\6_tbjson.log
+
 @cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
 
 call npm i --no-save >> %DevPath%\5_npm_install.log
