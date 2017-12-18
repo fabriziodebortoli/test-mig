@@ -19,6 +19,9 @@ namespace Microarea.TbLoaderGate.Application
         private IHostingEnvironment hostingEnvironment;
         private WebSocket webSocket;
         private string mockFolder = "mock";
+
+        private List<DocumentStub> documents = new List<DocumentStub>();
+        private int latestId = 0;
         public string MockFolder { get { return Path.Combine(hostingEnvironment.ContentRootPath, mockFolder); } }
 
         public TBLoaderStub(IHostingEnvironment hostingEnvironment, WebSocket webSocket)
@@ -30,7 +33,7 @@ namespace Microarea.TbLoaderGate.Application
         internal async Task ProcessRequest(string url, HttpRequest request, HttpResponse response)
         {
             response.StatusCode = 200;
-            
+
             string text = "{}";
             switch (url)
             {
@@ -59,30 +62,123 @@ namespace Microarea.TbLoaderGate.Application
             switch (cmd)
             {
                 case "SetClientWebSocketName":
+                case "checkMessageDialog":
                     break;
                 case "runDocument":
-                    string path = Path.Combine(MockFolder, jObj["ns"]?.ToString(), "runDocument.json");
-                    bool served = false;
-                    if (File.Exists(path))
                     {
-                        JArray jCommands = ReadJsonCommands(path);
-                        if (jCommands != null)
+                        bool served = false;
+                        string ns = jObj["ns"]?.ToString();
+                        if (ns != null)
                         {
-                            foreach (JObject jCmd in jCommands)
-                                await SendMessage(jCmd.ToString());
+                            string path = Path.Combine(MockFolder, ns, "runDocument.json");
+                            if (File.Exists(path))
+                            {
+                                JArray jCommands = ReadJsonCommands(path);
+                                if (jCommands != null)
+                                {
+                                    DocumentStub doc = new DocumentStub() { Id = NewId(), Ns = ns };
+                                    documents.Add(doc);
+                                    foreach (JObject jCmd in jCommands)
+                                    {
+                                        JValue jId = (JValue)jCmd.SelectToken("$..id");
+                                        jId.Value = doc.Id;
+                                        await SendMessage(jCmd.ToString());
+                                    }
+
+                                    served = true;
+                                }
+                            }
                         }
+                        if (!served)
+                        {
+                            DocumentStub doc = new DocumentStub() { Id = NewId(), Ns = ns };
+                            documents.Add(doc);
+                            await SendMessage(string.Concat("{\"args\" : {\"component\" : {\"app\" : \"Framework\",\"id\" : \"", doc.Id, "\",\"mod\" : \"TbGes\",\"name\" : \"IDD_Unsupported\"}},\"cmd\" : \"WindowOpen\"  }"));
+                        }
+
+                        break;
                     }
-                    if (!served)
+                case "getWindowStrings":
                     {
-                        await SendMessage("{\"args\" : {\"component\" : {\"app\" : \"Framework\",\"id\" : \"000000\",\"mod\" : \"TbGes\",\"name\" : \"IDD_Unsupported\"}},\"cmd\" : \"WindowOpen\"  }");
+                        DocumentStub doc = GetDocStub(jObj["cmpId"]?.ToString());
+                        if (doc == null)
+                            break;
+                        string path = Path.Combine(MockFolder, doc.Ns, "getWindowStrings.json");
+                        if (File.Exists(path))
+                        {
+                            JArray jCommands = ReadJsonCommands(path);
+                            if (jCommands != null)
+                            {
+                                foreach (JObject jCmd in jCommands)
+                                {
+                                    foreach (JValue jId in jCmd.SelectTokens("$..id"))
+                                        jId.Value = doc.Id;
+                                    await SendMessage(jCmd.ToString());
+                                }
+                            }
+                        }
+                        break;
+
                     }
-                    break;
+                case "getDocumentData":
+                    {
+                        DocumentStub doc = GetDocStub(jObj["cmpId"]?.ToString());
+                        if (doc == null)
+                            break;
+                        string path = Path.Combine(MockFolder, doc.Ns, "getDocumentData.json");
+                        if (File.Exists(path))
+                        {
+                            JArray jCommands = ReadJsonCommands(path);
+                            if (jCommands != null)
+                            {
+                                foreach (JObject jCmd in jCommands)
+                                {
+                                    foreach (JValue jId in jCmd.SelectTokens("$..id"))
+                                        jId.Value = doc.Id;
+                                    await SendMessage(jCmd.ToString());
+                                }
+                            }
+                        }
+                        break;
+                    }
+                case "doCommand":
+                    {
+                        DocumentStub doc = GetDocStub(jObj["cmpId"]?.ToString());
+                        if (doc == null)
+                            break;
+                        string cmdId = jObj["id"]?.ToString();
+                        switch (cmdId)
+                        {
+                            case "ID_FILE_CLOSE":
+                                {
+                                    documents.Remove(doc);
+                                    await SendMessage(string.Concat("{\"args\" : {\"id\" : \"", doc.Id, "\"},\"cmd\" : \"WindowClose\"  }"));
+                                    break;
+                                }
+                            default: break;
+                        }
+                        break;
+                    }
                 default:
                     break;
             }
 
-           
+
         }
+
+        private DocumentStub GetDocStub(string id)
+        {
+            foreach (DocumentStub doc in documents)
+                if (doc.Id == id)
+                    return doc;
+            return null;
+        }
+
+        private string NewId()
+        {
+            return (++latestId).ToString("000000");
+        }
+
         async Task SendMessage(string message)
         {
             var encoded = Encoding.UTF8.GetBytes(message);
@@ -99,5 +195,11 @@ namespace Microarea.TbLoaderGate.Application
             using (StreamReader sr = new StreamReader(file))
                 return (JObject)JObject.ReadFrom(new JsonTextReader(sr));
         }
+    }
+
+    class DocumentStub
+    {
+        public string Id { get; set; }
+        public string Ns { get; set; }
     }
 }
