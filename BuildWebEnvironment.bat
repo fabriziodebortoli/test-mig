@@ -135,41 +135,24 @@ REM ===========================================================================
 REM Perform the steps to build the web part of the desktop version
 REM ===========================================================================
 
-IF /i EXIST %DevPath%\Standard\web\.git\* (
-    cd %DevPath%\Standard\web
+cd %DevPath%\Standard\Taskbuilder
+ECHO.git pull
+git pull
 
-	ECHO.git pull
-    git pull
-
-    cd %DevPath%\Standard\web\script
-    REM Requires "rimraf" to be installed
-    ECHO.ng-clean.bat
-    call ng-clean.bat 
-) ELSE (
-   cd %DevPath%\Standard\
-
-   REM remove any useless "web" folder existing before
-   IF /i EXIST %DevPath%\Standard\web\* (RMDIR /s /q web)
-    
-	ECHO.git clone
-    git clone https://github.com/Microarea/Taskbuilder.git web
-    cd web
-)
-
-git checkout dev_2_x
+cd %DevPath%\Standard\Taskbuilder\script
+ECHO.ng-clean.bat
+call ng-clean.bat 
 
 @ECHO ON
 
-%DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ >> %DevPath%\6_tbjson.log
+@cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
 
-@cd %DevPath%\Standard\web\client\web-form\ 
+call npm i --no-save >> %DevPath%\5_npm_install.log
 
-call npm i >> %DevPath%\5_npm_install.log
-
-@cd %DevPath%\Standard\web\client\web-form\
+@cd %DevPath%\Standard\Taskbuilder\client\web-form\
 node --max_old_space_size=5120 "node_modules\@angular\cli\bin\ng" build --env=desktop --no-sourcemaps --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Client" >> %DevPath%\7_ng_build.log
 
-@cd %DevPath%\Standard\web\server\web-server
+@cd %DevPath%\Standard\Taskbuilder\server\web-server
 dotnet restore
 iisreset
 dotnet publish --framework netcoreapp2.0 --output "%DevPath%\Standard\TaskBuilder\WebFramework\M4Server" --configuration release >> %DevPath%\8_dotnet_publish.log
