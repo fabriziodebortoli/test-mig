@@ -70,7 +70,8 @@ namespace Microarea.TbLoaderGate.Application
                         string ns = jObj["ns"]?.ToString();
                         if (ns != null)
                         {
-                            string path = Path.Combine(MockFolder, ns, "runDocument.json");
+                            string folder = Path.Combine(MockFolder, ns);
+                            string path = Path.Combine(folder, "runDocument.json");
                             if (File.Exists(path))
                             {
                                 JArray jCommands = ReadJsonCommands(path);
@@ -78,6 +79,8 @@ namespace Microarea.TbLoaderGate.Application
                                 {
                                     DocumentStub doc = new DocumentStub() { Id = NewId(), Ns = ns };
                                     documents.Add(doc);
+                                    foreach (string dataFile in Directory.GetFiles(folder, "*.doc.json"))
+                                        doc.Data.Add(ReadJsonCommands(dataFile));
                                     foreach (JObject jCmd in jCommands)
                                     {
                                         JValue jId = (JValue)jCmd.SelectToken("$..id");
@@ -155,6 +158,46 @@ namespace Microarea.TbLoaderGate.Application
                                     await SendMessage(string.Concat("{\"args\" : {\"id\" : \"", doc.Id, "\"},\"cmd\" : \"WindowClose\"  }"));
                                     break;
                                 }
+
+                            case "ID_EXTDOC_NEW":
+                                {
+                                    string path = Path.Combine(MockFolder, doc.Ns, "new.json");
+                                    JArray jCommands = ReadJsonCommands(path);
+                                    if (jCommands != null)
+                                    {
+                                        foreach (JObject jCmd in jCommands)
+                                        {
+                                            foreach (JValue jId in jCmd.SelectTokens("$..id"))
+                                                jId.Value = doc.Id;
+                                            await SendMessage(jCmd.ToString());
+                                        }
+                                    }
+                                    break;
+                                }
+                            case "2":
+                                {
+                                    break;
+                                }
+                            case "3":
+                                {
+                                    break;
+                                }
+                            case "4":
+                                {
+                                    break;
+                                }
+                            case "5":
+                                {
+                                    break;
+                                }
+                            case "6":
+                                {
+                                    break;
+                                }
+                            case "7":
+                                {
+                                    break;
+                                }
                             default: break;
                         }
                         break;
@@ -199,6 +242,9 @@ namespace Microarea.TbLoaderGate.Application
 
     class DocumentStub
     {
+        enum DocState { Browse, Edit, New }
+        DocState State = DocState.Browse;
+        public List<JArray> Data = new List<JArray>();
         public string Id { get; set; }
         public string Ns { get; set; }
     }
