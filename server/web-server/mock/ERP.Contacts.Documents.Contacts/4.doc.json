@@ -32,6 +32,7 @@
                      "HKLContactSpecification" : {},
                      "HKLCustCtg" : {},
                      "HKLFederalStates" : {},
+                     "HKLFederalStatesCities" : {},
                      "HKLISOCountry" : {},
                      "HKLPeopleBranch" : {},
                      "HKLSupportBank" : {},
@@ -39,7 +40,7 @@
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Tiscornia Srl - Via Isonzo 75 54100 Perugia PG - Partita IVA 02055190108 [0001]"
+                        "value" : "Cicli Provera Srl - Via Etiopia 99 99100 Palermo PA - Partita IVA 08022160106 [0005]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -114,11 +115,102 @@
                         "value" : ""
                      }
                   },
-                  "id" : "265452"
+                  "id" : "462238"
                }
             ]
          },
          "cmd" : "ModelData"
+      },
+      {
+         "args" : {
+            "response" : {
+               "buttonsState" : {
+                  "" : {
+                     "enabled" : true
+                  },
+                  "IDC_STATIC" : {
+                     "enabled" : true
+                  },
+                  "ID_ACTIONS_COPY" : {
+                     "enabled" : true
+                  },
+                  "ID_EXDOC_TAB_SWITCH" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_CUSTOMIZE" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_DELETE" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_EDIT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_ESCAPE" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_EXEC_QUERY" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_EXIT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_EXPORT_XML_DATA" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_FIND" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_FIRST" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_GEN_JSON_MODEL" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_IMPORT_XML_DATA" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_LAST" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_NEW" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_NEXT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_PREV" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_RADAR" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_REFRESH_ROWSET" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_REPORT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_SAVE" : {
+                     "enabled" : false
+                  },
+                  "ID_FORM_EDITOR_EDIT" : {
+                     "enabled" : true
+                  },
+                  "ID_INSPECT" : {
+                     "enabled" : true
+                  },
+                  "ID_SEPARATOR" : {
+                     "enabled" : true
+                  },
+                  "ID_WORKER_WINDOW" : {
+                     "enabled" : true
+                  }
+               },
+               "id" : "462238"
+            }
+         },
+         "cmd" : "ButtonsState"
       },
       {
          "args" : {
@@ -160,7 +252,7 @@
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Tiscornia Srl - Via Isonzo 75 54100 Perugia PG - Partita IVA 02055190108 [0001]"
+                        "value" : "Cicli Provera Srl - Via Etiopia 99 99100 Palermo PA - Partita IVA 08022160106 [0005]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -235,11 +327,102 @@
                         "value" : ""
                      }
                   },
-                  "id" : "265452"
+                  "id" : "462238"
                }
             ]
          },
          "cmd" : "ModelData"
+      },
+      {
+         "args" : {
+            "response" : {
+               "buttonsState" : {
+                  "" : {
+                     "enabled" : true
+                  },
+                  "IDC_STATIC" : {
+                     "enabled" : true
+                  },
+                  "ID_ACTIONS_COPY" : {
+                     "enabled" : true
+                  },
+                  "ID_EXDOC_TAB_SWITCH" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_CUSTOMIZE" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_DELETE" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_EDIT" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_ESCAPE" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_EXEC_QUERY" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_EXIT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_EXPORT_XML_DATA" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_FIND" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_FIRST" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_GEN_JSON_MODEL" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_IMPORT_XML_DATA" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_LAST" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_NEW" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_NEXT" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_PREV" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_RADAR" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_REFRESH_ROWSET" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_REPORT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_SAVE" : {
+                     "enabled" : true
+                  },
+                  "ID_FORM_EDITOR_EDIT" : {
+                     "enabled" : false
+                  },
+                  "ID_INSPECT" : {
+                     "enabled" : true
+                  },
+                  "ID_SEPARATOR" : {
+                     "enabled" : true
+                  },
+                  "ID_WORKER_WINDOW" : {
+                     "enabled" : false
+                  }
+               },
+               "id" : "462238"
+            }
+         },
+         "cmd" : "ButtonsState"
       }
    ]
 }
