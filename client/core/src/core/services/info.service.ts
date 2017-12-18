@@ -54,7 +54,10 @@ export class InfoService {
             });
     }
 
-    load() {
+    load(env) {
+
+        this.isDesktop = env.desktop;
+
         return new Promise((resolve, reject) => {
             this.http.get('assets/config.json')
                 .map(res => res.json())
