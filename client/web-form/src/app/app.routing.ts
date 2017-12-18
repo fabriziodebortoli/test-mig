@@ -19,16 +19,16 @@ import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 
 import { appRoutes } from './applications/app.routing';
 
-let webOnlyRoutes = [
+const webOnlyRoutes = [
   { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
   { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
   ...appRoutes
 ];
-let allEnvRoutes = [
+const allEnvRoutes = [
   { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' }
 ];
-let childrenRoutes = environment.desktop ? [...allEnvRoutes] : [...allEnvRoutes, ...webOnlyRoutes];
+const childrenRoutes = environment.desktop ? [...allEnvRoutes] : [...allEnvRoutes, ...webOnlyRoutes];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
   { path: '', component: HomeComponent, canActivate: [CoreGuard] },

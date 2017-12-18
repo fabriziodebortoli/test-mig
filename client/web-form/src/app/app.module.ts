@@ -13,7 +13,7 @@ import { TbCoreModule, ComponentService, InfoService } from '@taskbuilder/core';
 
 import { environment } from './../environments/environment';
 export function loadConfig(config) {
-    return () => config.load(environment)
+    return () => config.load(environment);
 }
 
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
