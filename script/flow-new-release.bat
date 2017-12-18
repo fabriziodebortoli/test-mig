@@ -27,7 +27,7 @@ git branch release/%release%
 git push -u origin release/%release%
 
 
-cd %installationpath%/Standard/Applications/TFB
+cd %installationpath%/Standard/Applications/TBF
 git checkout develop
 git branch release/%release%
 git push -u origin release/%release%
