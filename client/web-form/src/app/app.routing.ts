@@ -23,11 +23,10 @@ const webOnlyRoutes = [
   { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
   { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
+  { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' },
   ...appRoutes
 ];
-const allEnvRoutes = [
-  { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' }
-];
+const allEnvRoutes = [];
 const childrenRoutes = environment.desktop ? [...allEnvRoutes] : [...allEnvRoutes, ...webOnlyRoutes];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
