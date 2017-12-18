@@ -1,0 +1,246 @@
+{
+   "items" : [
+      {
+         "args" : {
+            "models" : [
+               {
+                  "data" : {
+                     "AutoNumContact" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "Branches" : [],
+                     "Contacts" : {},
+                     "FieldInspector" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "FormMode" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 1
+                     },
+                     "HKLAreaManager" : {},
+                     "HKLBranchAreaManager" : {},
+                     "HKLBranchFederalState" : {},
+                     "HKLChartOfAccounts" : {},
+                     "HKLChartOfAccountsGoods" : {},
+                     "HKLChartOfAccountsServices" : {},
+                     "HKLContactOrigin" : {},
+                     "HKLContactSpecification" : {},
+                     "HKLCustCtg" : {},
+                     "HKLFederalStates" : {},
+                     "HKLFederalStatesCities" : {},
+                     "HKLISOCountry" : {},
+                     "HKLPeopleBranch" : {},
+                     "HKLSupportBank" : {},
+                     "HKLTitles" : {},
+                     "HeaderStripTitle" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Cattani Biciclette Srl - Via Pontevecchio 95 85100 Catanzaro CZ - Partita IVA 06099180102 [0004]"
+                     },
+                     "IsPostaLiteEnabled" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : false
+                     },
+                     "MoneyDecimal" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 2
+                     },
+                     "NAMoneyDecimal" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 2
+                     },
+                     "Notes" : [],
+                     "NrOfDocuments" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 10
+                     },
+                     "PaperyBarcodeViewer" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "PaymentAddressDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "People" : [],
+                     "SendDocumentsToDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "ShipToAddressDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "Title" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Contatti"
+                     },
+                     "TitleDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "_DEBUG" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "sPaperyBarcodeValue" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "sPaperyDescripion" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
+                     },
+                     "sPaperyNotes" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     }
+                  },
+                  "id" : "265452"
+               }
+            ]
+         },
+         "cmd" : "ModelData"
+      },
+      {
+         "args" : {
+            "models" : [
+               {
+                  "data" : {
+                     "AutoNumContact" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "Branches" : [],
+                     "Contacts" : {},
+                     "FieldInspector" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "FormMode" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 3
+                     },
+                     "HKLAreaManager" : {},
+                     "HKLBranchAreaManager" : {},
+                     "HKLBranchFederalState" : {},
+                     "HKLChartOfAccounts" : {},
+                     "HKLChartOfAccountsGoods" : {},
+                     "HKLChartOfAccountsServices" : {},
+                     "HKLContactOrigin" : {},
+                     "HKLContactSpecification" : {},
+                     "HKLCustCtg" : {},
+                     "HKLFederalStates" : {},
+                     "HKLFederalStatesCities" : {},
+                     "HKLISOCountry" : {},
+                     "HKLPeopleBranch" : {},
+                     "HKLSupportBank" : {},
+                     "HKLTitles" : {},
+                     "HeaderStripTitle" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Cattani Biciclette Srl - Via Pontevecchio 95 85100 Catanzaro CZ - Partita IVA 06099180102 [0004]"
+                     },
+                     "IsPostaLiteEnabled" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : false
+                     },
+                     "MoneyDecimal" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 2
+                     },
+                     "NAMoneyDecimal" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 2
+                     },
+                     "Notes" : [],
+                     "NrOfDocuments" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 10
+                     },
+                     "PaperyBarcodeViewer" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "PaymentAddressDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "People" : [],
+                     "SendDocumentsToDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "ShipToAddressDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "Title" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Contatti"
+                     },
+                     "TitleDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "_DEBUG" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "sPaperyBarcodeValue" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "sPaperyDescripion" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
+                     },
+                     "sPaperyNotes" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     }
+                  },
+                  "id" : "265452"
+               }
+            ]
+         },
+         "cmd" : "ModelData"
+      }
+   ]
+}

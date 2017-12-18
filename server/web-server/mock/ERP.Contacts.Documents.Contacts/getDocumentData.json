@@ -1,0 +1,332 @@
+{
+   "items" : [
+      {
+         "args" : {
+            "models" : [
+               {
+                  "data" : {
+                     "AutoNumContact" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "Branches" : [],
+                     "Contacts" : {},
+                     "FieldInspector" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "FormMode" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 1
+                     },
+                     "HKLAreaManager" : {},
+                     "HKLBranchAreaManager" : {},
+                     "HKLBranchFederalState" : {},
+                     "HKLChartOfAccounts" : {},
+                     "HKLChartOfAccountsGoods" : {},
+                     "HKLChartOfAccountsServices" : {},
+                     "HKLContactOrigin" : {},
+                     "HKLContactSpecification" : {},
+                     "HKLCustCtg" : {},
+                     "HKLFederalStates" : {},
+                     "HKLISOCountry" : {},
+                     "HKLSupportBank" : {},
+                     "HKLTitles" : {},
+                     "HeaderStripTitle" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "IsPostaLiteEnabled" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : false
+                     },
+                     "MoneyDecimal" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 2
+                     },
+                     "NAMoneyDecimal" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 2
+                     },
+                     "Notes" : [],
+                     "NrOfDocuments" : {
+                        "enabled" : true,
+                        "type" : 2,
+                        "value" : 10
+                     },
+                     "PaperyBarcodeViewer" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "PaymentAddressDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "People" : [],
+                     "SendDocumentsToDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "ShipToAddressDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "Title" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Contatti"
+                     },
+                     "TitleDescri" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "_DEBUG" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
+                     "sPaperyBarcodeValue" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "sPaperyDescripion" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
+                     },
+                     "sPaperyNotes" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     }
+                  },
+                  "id" : "265452"
+               }
+            ]
+         },
+         "cmd" : "ModelData"
+      },
+      {
+         "args" : {
+            "id" : "265452",
+            "map" : [
+               "IDC_CONTACTS_CHECK_PERSON",
+               "IDC_CONTACTS_TITLECODE",
+               "IDC_CONTACTS_CODEISO",
+               "IDC_CONTACTS_AREA",
+               "IDC_CONTACTS_SALESPERSON",
+               "IDC_CONTACTS_AREAMANAGER",
+               "IDC_CONTACTS_CONVERTED_IN_CUSTOMER",
+               "IDC_CONTACTS_BRANCHES_BRANCH",
+               "IDC_CONTACTS_BRANCHES_COMPNAME",
+               "IDC_CONTACTS_BRANCHES_CITY",
+               "IDC_CONTACTS_BRANCHES_COUNTY",
+               "IDC_CONTACTS_BRANCHES_CODEISO",
+               "IDC_CONTACTS_FEDERALSTATE",
+               "IDC_CONTACTS_ADDRESSES_FEDERALSTATE",
+               "IDC_CONTACTS_BRANCHES_SALESPERSON",
+               "IDC_CONTACTS_PYMTBRANCH",
+               "IDC_CONTACTS_DOCBRANCH",
+               "IDC_CONTACTS_SHIPBRANCH",
+               "IDC_CONTACTS_CODETYPESENT",
+               "IDC_CONTACTS_TAXPAYER_TYPE",
+               "IDC_CONTACTS_KIND"
+            ]
+         },
+         "cmd" : "ServerCommands"
+      },
+      {
+         "args" : {
+            "components" : [
+               {
+                  "activation" : {
+                     "IDC_CONTACTS_ACCOUNTROOT" : true,
+                     "IDC_CONTACTS_ADDITIONALTAX" : false,
+                     "IDC_CONTACTS_ADDRESS" : false,
+                     "IDC_CONTACTS_ADDRESS2" : false,
+                     "IDC_CONTACTS_ADDRESSES_DISTRICT" : false,
+                     "IDC_CONTACTS_ADDRESSES_FEDERALSTATE" : false,
+                     "IDC_CONTACTS_ADDRESSES_STREETNO" : false,
+                     "IDC_CONTACTS_ADDRESSES_ZIPCODE_BR" : false,
+                     "IDC_CONTACTS_AREA" : true,
+                     "IDC_CONTACTS_AREAMANAGER" : true,
+                     "IDC_CONTACTS_BRANCHES_ACC_AREAMANAGER" : true,
+                     "IDC_CONTACTS_BRANCHES_COUNTY" : true,
+                     "IDC_CONTACTS_BRANCHES_DOCLANGUAGE" : true,
+                     "IDC_CONTACTS_BRANCHES_FISCALCODE" : true,
+                     "IDC_CONTACTS_BRANCHES_REGION" : true,
+                     "IDC_CONTACTS_BRANCHES_SALESPERSON" : true,
+                     "IDC_CONTACTS_BRANCHES_TAXOFFICE" : true,
+                     "IDC_CONTACTS_BRANCHES_ZIPCODE" : true,
+                     "IDC_CONTACTS_CITY" : false,
+                     "IDC_CONTACTS_CITYREG" : false,
+                     "IDC_CONTACTS_COMMISSIONCTG" : true,
+                     "IDC_CONTACTS_COMP_REG" : true,
+                     "IDC_CONTACTS_COUNTY" : true,
+                     "IDC_CONTACTS_CURRENCY" : true,
+                     "IDC_CONTACTS_DESCRI_ACCOUNT" : true,
+                     "IDC_CONTACTS_DESCRI_AREA" : true,
+                     "IDC_CONTACTS_DESCRI_AREAMANAGER" : true,
+                     "IDC_CONTACTS_DESCRI_CTGPRO" : true,
+                     "IDC_CONTACTS_DESCRI_CURRENCY" : true,
+                     "IDC_CONTACTS_DESCRI_ESEN" : true,
+                     "IDC_CONTACTS_DESCRI_LANGUAGE" : true,
+                     "IDC_CONTACTS_DESCRI_PORT" : true,
+                     "IDC_CONTACTS_DESCRI_PRICELIST" : true,
+                     "IDC_CONTACTS_DESCRI_SALESPERSON" : true,
+                     "IDC_CONTACTS_DISTRICT" : false,
+                     "IDC_CONTACTS_DOCLANGUAGE" : true,
+                     "IDC_CONTACTS_FEDERALSTATE" : false,
+                     "IDC_CONTACTS_FEDSTATEREG" : false,
+                     "IDC_CONTACTS_FISCALCODE" : true,
+                     "IDC_CONTACTS_GENREGEN" : false,
+                     "IDC_CONTACTS_GENREGNO" : false,
+                     "IDC_CONTACTS_GOODSOFFSET" : true,
+                     "IDC_CONTACTS_GOODSOFFSET_DESCRI" : true,
+                     "IDC_CONTACTS_IN_EXEMPTION" : true,
+                     "IDC_CONTACTS_IN_SUSPENSION" : true,
+                     "IDC_CONTACTS_KIND" : true,
+                     "IDC_CONTACTS_LATITUDE" : false,
+                     "IDC_CONTACTS_LONGITUDE" : false,
+                     "IDC_CONTACTS_NOSENDPOSTALITE" : false,
+                     "IDC_CONTACTS_NOTES_COPY" : true,
+                     "IDC_CONTACTS_NOTES_DISPLAY" : true,
+                     "IDC_CONTACTS_NOTES_PRINT" : true,
+                     "IDC_CONTACTS_PORT" : true,
+                     "IDC_CONTACTS_PRICELIST" : true,
+                     "IDC_CONTACTS_REGION" : true,
+                     "IDC_CONTACTS_SALESPERSON" : true,
+                     "IDC_CONTACTS_SERVICESOFFSET" : true,
+                     "IDC_CONTACTS_SERVICESOFFSET_DESCRI" : true,
+                     "IDC_CONTACTS_STATUS" : false,
+                     "IDC_CONTACTS_STREETNO" : false,
+                     "IDC_CONTACTS_SUFRAMA" : false,
+                     "IDC_CONTACTS_TAXCODEPREFERRED" : true,
+                     "IDC_CONTACTS_TAXOFFICE" : true,
+                     "IDC_CONTACTS_TAXPAYER_TYPE" : false,
+                     "IDC_CONTACTS_ZIPCODE" : true,
+                     "IDC_CONTACTS_ZIPCODE_BR" : false,
+                     "IDC_TG_CONTACTS_ADMINDATA" : true,
+                     "IDD_DATASYNCHRO_DOCK_PANE" : false,
+                     "IDD_TD_CONTACTS_ADMINISTRATIVE_DATA_ACCOUNTING_DATA" : true,
+                     "IDD_TD_CONTACTS_ADMINISTRATIVE_DATA_OFFSET_DATA" : true,
+                     "IDD_TD_CONTACTS_MAIN_DATA_ADDRESS" : true,
+                     "IDD_TD_CONTACTS_MAIN_DATA_ADDRESS_BR" : false,
+                     "IDD_TD_CONTACTS_MAIN_DATA_REGISTERS" : true,
+                     "IDD_TD_CONTACTS_MAIN_DATA_REGISTERS_BR" : false,
+                     "IDD_TD_CONTACTS_SALES_SALESPEOPLE_DATA" : true,
+                     "ID_EXTDOC_GEN_JSON_MODEL" : true,
+                     "ID_INSPECT" : true
+                  },
+                  "id" : "265452"
+               }
+            ]
+         },
+         "cmd" : "ActivationData"
+      },
+      {
+         "args" : {
+            "response" : {
+               "buttonsState" : {
+                  "" : {
+                     "enabled" : true
+                  },
+                  "IDC_STATIC" : {
+                     "enabled" : true
+                  },
+                  "ID_ACTIONS_COPY" : {
+                     "enabled" : true
+                  },
+                  "ID_EXDOC_TAB_SWITCH" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_CUSTOMIZE" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_DELETE" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_EDIT" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_ESCAPE" : {
+                     "enabled" : false
+                  },
+                  "ID_EXTDOC_EXEC_QUERY" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_EXIT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_EXPORT_XML_DATA" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_FIND" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_FIRST" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_GEN_JSON_MODEL" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_IMPORT_XML_DATA" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_LAST" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_NEW" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_NEXT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_PREV" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_RADAR" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_REFRESH_ROWSET" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_REPORT" : {
+                     "enabled" : true
+                  },
+                  "ID_EXTDOC_SAVE" : {
+                     "enabled" : false
+                  },
+                  "ID_FORM_EDITOR_EDIT" : {
+                     "enabled" : true
+                  },
+                  "ID_INSPECT" : {
+                     "enabled" : true
+                  },
+                  "ID_SEPARATOR" : {
+                     "enabled" : true
+                  },
+                  "ID_WORKER_WINDOW" : {
+                     "enabled" : true
+                  }
+               },
+               "id" : "265452"
+            }
+         },
+         "cmd" : "ButtonsState"
+      }
+   ]
+}
