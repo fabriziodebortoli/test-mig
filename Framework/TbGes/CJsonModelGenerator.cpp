@@ -34,7 +34,7 @@ void CJsonModelGenerator::OnGenerate()
 
 	CString sNamespace = m_pCallerDoc->GetNamespace().ToString();
 	sNamespace.TrimLeft(_T("Document."));
-	CString sPath = AfxGetPathFinder()->GetStandardPath() + _T("\\web\\server\\web-server\\mock\\") + sNamespace;
+	CString sPath = AfxGetPathFinder()->GetContainerPath(CPathFinder::TB) + _T("\\server\\web-server\\mock\\") + sNamespace;
 	if (!ExistPath(sPath))
 		CreateDirectoryTree(sPath);
 
