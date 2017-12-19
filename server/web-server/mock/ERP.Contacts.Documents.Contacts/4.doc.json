@@ -12,11 +12,6 @@
                      },
                      "Branches" : [],
                      "Contacts" : {},
-                     "FieldInspector" : {
-                        "enabled" : true,
-                        "type" : 9,
-                        "value" : true
-                     },
                      "FormMode" : {
                         "enabled" : true,
                         "type" : 2,
@@ -40,7 +35,7 @@
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Cicli Provera Srl - Via Etiopia 99 99100 Palermo PA - Partita IVA 08022160106 [0005]"
+                        "value" : "Cicli Provera Srl - Via Etiopia 99 99100 Palermo PA - Tax Number 08022160106 [0005]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -63,11 +58,6 @@
                         "type" : 2,
                         "value" : 10
                      },
-                     "PaperyBarcodeViewer" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
                      "PaymentAddressDescri" : {
                         "enabled" : true,
                         "type" : 1,
@@ -87,7 +77,7 @@
                      "Title" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Contatti"
+                        "value" : "Contacts"
                      },
                      "TitleDescri" : {
                         "enabled" : true,
@@ -98,24 +88,9 @@
                         "enabled" : true,
                         "type" : 9,
                         "value" : true
-                     },
-                     "sPaperyBarcodeValue" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
-                     "sPaperyDescripion" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
-                     },
-                     "sPaperyNotes" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
                      }
                   },
-                  "id" : "462238"
+                  "id" : "133938"
                }
             ]
          },
@@ -125,9 +100,6 @@
          "args" : {
             "response" : {
                "buttonsState" : {
-                  "" : {
-                     "enabled" : true
-                  },
                   "IDC_STATIC" : {
                      "enabled" : true
                   },
@@ -197,9 +169,6 @@
                   "ID_FORM_EDITOR_EDIT" : {
                      "enabled" : true
                   },
-                  "ID_INSPECT" : {
-                     "enabled" : true
-                  },
                   "ID_SEPARATOR" : {
                      "enabled" : true
                   },
@@ -207,7 +176,7 @@
                      "enabled" : true
                   }
                },
-               "id" : "462238"
+               "id" : "133938"
             }
          },
          "cmd" : "ButtonsState"
@@ -224,11 +193,6 @@
                      },
                      "Branches" : [],
                      "Contacts" : {},
-                     "FieldInspector" : {
-                        "enabled" : true,
-                        "type" : 9,
-                        "value" : true
-                     },
                      "FormMode" : {
                         "enabled" : true,
                         "type" : 2,
@@ -252,7 +216,7 @@
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Cicli Provera Srl - Via Etiopia 99 99100 Palermo PA - Partita IVA 08022160106 [0005]"
+                        "value" : "Cicli Provera Srl - Via Etiopia 99 99100 Palermo PA - Tax Number 08022160106 [0005]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -275,11 +239,6 @@
                         "type" : 2,
                         "value" : 10
                      },
-                     "PaperyBarcodeViewer" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
                      "PaymentAddressDescri" : {
                         "enabled" : true,
                         "type" : 1,
@@ -299,7 +258,7 @@
                      "Title" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Contatti"
+                        "value" : "Contacts"
                      },
                      "TitleDescri" : {
                         "enabled" : true,
@@ -310,24 +269,9 @@
                         "enabled" : true,
                         "type" : 9,
                         "value" : true
-                     },
-                     "sPaperyBarcodeValue" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
-                     "sPaperyDescripion" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
-                     },
-                     "sPaperyNotes" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
                      }
                   },
-                  "id" : "462238"
+                  "id" : "133938"
                }
             ]
          },
@@ -337,11 +281,8 @@
          "args" : {
             "response" : {
                "buttonsState" : {
-                  "" : {
-                     "enabled" : true
-                  },
                   "IDC_STATIC" : {
-                     "enabled" : true
+                     "enabled" : false
                   },
                   "ID_ACTIONS_COPY" : {
                      "enabled" : true
@@ -409,17 +350,14 @@
                   "ID_FORM_EDITOR_EDIT" : {
                      "enabled" : false
                   },
-                  "ID_INSPECT" : {
-                     "enabled" : true
-                  },
                   "ID_SEPARATOR" : {
-                     "enabled" : true
+                     "enabled" : false
                   },
                   "ID_WORKER_WINDOW" : {
                      "enabled" : false
                   }
                },
-               "id" : "462238"
+               "id" : "133938"
             }
          },
          "cmd" : "ButtonsState"

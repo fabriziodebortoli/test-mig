@@ -12,11 +12,6 @@
                      },
                      "Branches" : [],
                      "Contacts" : {},
-                     "FieldInspector" : {
-                        "enabled" : true,
-                        "type" : 9,
-                        "value" : true
-                     },
                      "FormMode" : {
                         "enabled" : true,
                         "type" : 2,
@@ -61,11 +56,6 @@
                         "type" : 2,
                         "value" : 10
                      },
-                     "PaperyBarcodeViewer" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
                      "PaymentAddressDescri" : {
                         "enabled" : true,
                         "type" : 1,
@@ -85,7 +75,7 @@
                      "Title" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Contatti"
+                        "value" : "Contacts"
                      },
                      "TitleDescri" : {
                         "enabled" : true,
@@ -96,24 +86,9 @@
                         "enabled" : true,
                         "type" : 9,
                         "value" : true
-                     },
-                     "sPaperyBarcodeValue" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
-                     "sPaperyDescripion" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
-                     },
-                     "sPaperyNotes" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
                      }
                   },
-                  "id" : "462238"
+                  "id" : "133938"
                }
             ]
          },
@@ -123,9 +98,6 @@
          "args" : {
             "response" : {
                "buttonsState" : {
-                  "" : {
-                     "enabled" : true
-                  },
                   "IDC_STATIC" : {
                      "enabled" : true
                   },
@@ -195,9 +167,6 @@
                   "ID_FORM_EDITOR_EDIT" : {
                      "enabled" : true
                   },
-                  "ID_INSPECT" : {
-                     "enabled" : true
-                  },
                   "ID_SEPARATOR" : {
                      "enabled" : true
                   },
@@ -205,14 +174,14 @@
                      "enabled" : true
                   }
                },
-               "id" : "462238"
+               "id" : "133938"
             }
          },
          "cmd" : "ButtonsState"
       },
       {
          "args" : {
-            "id" : "462238",
+            "id" : "133938",
             "map" : [
                "IDC_CONTACTS_CHECK_PERSON",
                "IDC_CONTACTS_TITLECODE",
@@ -320,9 +289,9 @@
                      "IDD_TD_CONTACTS_MAIN_DATA_REGISTERS_BR" : false,
                      "IDD_TD_CONTACTS_SALES_SALESPEOPLE_DATA" : true,
                      "ID_EXTDOC_GEN_JSON_MODEL" : true,
-                     "ID_INSPECT" : true
+                     "ID_INSPECT" : false
                   },
-                  "id" : "462238"
+                  "id" : "133938"
                }
             ]
          },

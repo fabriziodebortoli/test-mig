@@ -12,11 +12,6 @@
                      },
                      "Branches" : [],
                      "Contacts" : {},
-                     "FieldInspector" : {
-                        "enabled" : true,
-                        "type" : 9,
-                        "value" : true
-                     },
                      "FormMode" : {
                         "enabled" : true,
                         "type" : 2,
@@ -39,7 +34,7 @@
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Tiscornia Srl - Via Isonzo 75 54100 Perugia PG - Partita IVA 02055190108 [0001]"
+                        "value" : "Tiscornia Srl - Via Isonzo 75 54100 Perugia PG - Tax Number 02055190108 [0001]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -62,11 +57,6 @@
                         "type" : 2,
                         "value" : 10
                      },
-                     "PaperyBarcodeViewer" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
                      "PaymentAddressDescri" : {
                         "enabled" : true,
                         "type" : 1,
@@ -86,7 +76,7 @@
                      "Title" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Contatti"
+                        "value" : "Contacts"
                      },
                      "TitleDescri" : {
                         "enabled" : true,
@@ -97,24 +87,9 @@
                         "enabled" : true,
                         "type" : 9,
                         "value" : true
-                     },
-                     "sPaperyBarcodeValue" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
-                     "sPaperyDescripion" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
-                     },
-                     "sPaperyNotes" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
                      }
                   },
-                  "id" : "462238"
+                  "id" : "133938"
                }
             ]
          },
@@ -124,9 +99,6 @@
          "args" : {
             "response" : {
                "buttonsState" : {
-                  "" : {
-                     "enabled" : true
-                  },
                   "IDC_STATIC" : {
                      "enabled" : true
                   },
@@ -196,9 +168,6 @@
                   "ID_FORM_EDITOR_EDIT" : {
                      "enabled" : true
                   },
-                  "ID_INSPECT" : {
-                     "enabled" : true
-                  },
                   "ID_SEPARATOR" : {
                      "enabled" : true
                   },
@@ -206,7 +175,7 @@
                      "enabled" : true
                   }
                },
-               "id" : "462238"
+               "id" : "133938"
             }
          },
          "cmd" : "ButtonsState"
@@ -223,11 +192,6 @@
                      },
                      "Branches" : [],
                      "Contacts" : {},
-                     "FieldInspector" : {
-                        "enabled" : true,
-                        "type" : 9,
-                        "value" : true
-                     },
                      "FormMode" : {
                         "enabled" : true,
                         "type" : 2,
@@ -251,7 +215,7 @@
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Tiscornia Srl - Via Isonzo 75 54100 Perugia PG - Partita IVA 02055190108 [0001]"
+                        "value" : "Tiscornia Srl - Via Isonzo 75 54100 Perugia PG - Tax Number 02055190108 [0001]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -274,11 +238,6 @@
                         "type" : 2,
                         "value" : 10
                      },
-                     "PaperyBarcodeViewer" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
                      "PaymentAddressDescri" : {
                         "enabled" : true,
                         "type" : 1,
@@ -298,7 +257,7 @@
                      "Title" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Contatti"
+                        "value" : "Contacts"
                      },
                      "TitleDescri" : {
                         "enabled" : true,
@@ -309,24 +268,9 @@
                         "enabled" : true,
                         "type" : 9,
                         "value" : true
-                     },
-                     "sPaperyBarcodeValue" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
-                     },
-                     "sPaperyDescripion" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
-                     },
-                     "sPaperyNotes" : {
-                        "enabled" : true,
-                        "type" : 1,
-                        "value" : ""
                      }
                   },
-                  "id" : "462238"
+                  "id" : "133938"
                }
             ]
          },
@@ -336,11 +280,8 @@
          "args" : {
             "response" : {
                "buttonsState" : {
-                  "" : {
-                     "enabled" : true
-                  },
                   "IDC_STATIC" : {
-                     "enabled" : true
+                     "enabled" : false
                   },
                   "ID_ACTIONS_COPY" : {
                      "enabled" : true
@@ -408,17 +349,14 @@
                   "ID_FORM_EDITOR_EDIT" : {
                      "enabled" : false
                   },
-                  "ID_INSPECT" : {
-                     "enabled" : true
-                  },
                   "ID_SEPARATOR" : {
-                     "enabled" : true
+                     "enabled" : false
                   },
                   "ID_WORKER_WINDOW" : {
                      "enabled" : false
                   }
                },
-               "id" : "462238"
+               "id" : "133938"
             }
          },
          "cmd" : "ButtonsState"
