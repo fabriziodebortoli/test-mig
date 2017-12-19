@@ -135,10 +135,6 @@ REM ===========================================================================
 REM Perform the steps to build the web part of the desktop version
 REM ===========================================================================
 
-cd %DevPath%\Standard\Taskbuilder
-ECHO.git pull
-git pull
-
 cd %DevPath%\Standard\Taskbuilder\script
 ECHO.ng-clean.bat
 call ng-clean.bat 
