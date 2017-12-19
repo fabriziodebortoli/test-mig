@@ -429,6 +429,17 @@ void CTBActivityDocument::ManagePanelsState(BOOL bEnabledAfterExtract)
 	SetPanelEnabled(m_pPanelFooter,		bEnableFooter);
 }
 
+//--------------------------------------------------------------------------------------------------
+BOOL CTBActivityDocument::BatchEnableControls()
+{
+	BOOL bOK = __super::BatchEnableControls();
+
+	if (bOK && m_bExtractData && !m_bBatchRunning)
+		EnableAllControlLinks(FALSE);
+
+	return bOK;
+}
+
 //----------------------------------------------------------------------------------------------------------
 CTilePanel* CTBActivityDocument::GetPanelFilters()
 {
