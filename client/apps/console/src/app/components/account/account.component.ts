@@ -40,6 +40,8 @@ export class AccountComponent implements OnInit {
   openChangePasswordDialog: boolean = false;
   changePasswordResult: boolean = false;
   changePasswordFields: Array<{ label: string, value: string, hide: boolean }>;
+  openResetPasswordDialog: boolean = false;
+  resetPasswordResult: boolean = false;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -216,9 +218,37 @@ export class AccountComponent implements OnInit {
       }
       );
   }
-
   //--------------------------------------------------------------------------------------------------------
   doResetPassword() {
-    alert('Not implemented yet! :)')
+    this.openResetPasswordDialog = true;
   }
+
+  // evento sulla chiusura della dialog di cambio password
+  //--------------------------------------------------------------------------------------------------------
+  onCloseResetPasswordDialog() {
+    // if 'No' button has been clicked I return
+    if (!this.resetPasswordResult)
+      return;
+      let accountName: string = this.route.snapshot.queryParams['accountNameToEdit'];
+  
+    let resetPassword = this.modelService.resetPassword(accountName).
+      subscribe(
+      changeResult => {
+
+        if (changeResult.Result) {
+        }
+        else
+          alert('Error resetting password! ' + changeResult.Message);
+
+
+       resetPassword.unsubscribe();
+      },
+      changeError => {
+        console.log(changeError);
+        alert(changeError);
+        resetPassword.unsubscribe();
+      }
+      );
+  }
+
 }
