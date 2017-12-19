@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
-    <ProjectReference Include="..\library\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
   </ItemGroup>
 
