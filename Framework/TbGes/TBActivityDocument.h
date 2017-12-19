@@ -145,6 +145,7 @@ public:	//virtual methods exposed by CAbstractFormDoc
 	virtual void				CustomizeBodyEdit			(CBodyEdit* pBE);
 	virtual void				OnBEEnableButton			(CBodyEdit*, CBEButton*);
 	virtual void				OnParsedControlCreated		(CParsedCtrl* pCtrl);
+	virtual BOOL				BatchEnableControls();
 	
 public:	//virtual methods exposed by CTBActivityDocument
 	virtual void				OnRowBEResultsChanged		() {}

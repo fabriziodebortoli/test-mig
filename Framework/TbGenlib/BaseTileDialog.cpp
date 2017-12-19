@@ -1111,10 +1111,10 @@ void CBaseTileDialog::ResizeRightmostControls(int nNewWidth)
 	GetWindowRect(rectActual);
 	ScreenToClient(rectActual);
 
-	nNewWidth = min(max(nNewWidth, GetMinWidth()), GetMaxWidth());
-	
-	if (rectActual.Width() == nNewWidth)
-		return; // same width, no bothering to resize
+	int nNewWidthMin = min(max(nNewWidth, GetMinWidth()), GetMaxWidth());
+	int nNewWidthMax = max(max(nNewWidth, GetMinWidth()), GetMaxWidth());
+
+	BOOL bUpdate = FALSE;
 
 	for (int c = 0; c <= m_Anchored.GetUpperBound(); c++)
 	{
@@ -1126,15 +1126,28 @@ void CBaseTileDialog::ResizeRightmostControls(int nNewWidth)
 		pCtrl->GetWindowRect(rectCtrl);
 		ScreenToClient(rectCtrl);
 		
-		pCtrl->MoveWindow(rectCtrl.left, rectCtrl.top, nNewWidth - AfxGetThemeManager()->GetTileRightPadding() - rectCtrl.left, rectCtrl.Height());
-		if (pCtrl->IsKindOf(RUNTIME_CLASS(CParsedButton)))
+		if (pCtrl->IsKindOf(RUNTIME_CLASS(CLabelStatic)) && rectActual.Width() != nNewWidthMax)
+		{
+			pCtrl->MoveWindow(rectCtrl.left, rectCtrl.top, nNewWidthMax - AfxGetThemeManager()->GetTileRightPadding() - rectCtrl.left, rectCtrl.Height());
+			bUpdate = TRUE;
+		}
+		else
+		{
+			if (rectActual.Width() != nNewWidthMin)
+			{
+				pCtrl->MoveWindow(rectCtrl.left, rectCtrl.top, nNewWidthMin - AfxGetThemeManager()->GetTileRightPadding() - rectCtrl.left, rectCtrl.Height());
+				bUpdate = TRUE;
+			}
+		}
+
+		if (pCtrl->IsKindOf(RUNTIME_CLASS(CParsedButton)) && bUpdate)
 		{
 			CParsedButton* pBoolButton = (CParsedButton*)pCtrl;
 			pBoolButton->RecalculatePaintInfo();
 		}
 		//riposizionamento bottoni
 		CParsedCtrl* pParsedCtrl = ::GetParsedCtrl(pCtrl);
-		if (pParsedCtrl)
+		if (pParsedCtrl && bUpdate)
 		{
 			pParsedCtrl->AdjustButtonsVisualization();
 		}

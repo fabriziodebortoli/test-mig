@@ -584,11 +584,11 @@ public:
 
 	void	EnableControls		();
 protected:
-	BOOL	BatchEnableControls	();
-	BOOL	DispatchPrepareAuxData (BOOL bOnlyDocument = FALSE);
+	virtual BOOL	BatchEnableControls	();
+			BOOL	DispatchPrepareAuxData (BOOL bOnlyDocument = FALSE);
 	
-	void 	PrepareFindQuery	(SqlTable* pTable, BOOL bFromXTech = FALSE);
-	BOOL	PrepareFindQuery	(int& nParamIdx, SqlTable* pTable, SqlRecord* pRec, BOOL bFromXTech = FALSE);
+			void 	PrepareFindQuery	(SqlTable* pTable, BOOL bFromXTech = FALSE);
+			BOOL	PrepareFindQuery	(int& nParamIdx, SqlTable* pTable, SqlRecord* pRec, BOOL bFromXTech = FALSE);
 	virtual void	OnAfterSetFormMode	(FormMode oldFormMode);
 	virtual void	OnAfterCustomizeClientDocs() {}
 
@@ -950,6 +950,8 @@ public:
 	virtual	void DispatchDisableControlsForEdit		();
 	virtual	void DispatchEnableControlsForFind		();
 	virtual	void DispatchDisableControlsAlways		();
+	virtual BOOL DispatchOnBeforeBatchExecute		();
+	virtual void DispatchOnAfterBatchExecute		();
 
 	//da disabilitare i campi se il documento è chiamato da HotLink
 	virtual void OnDisableControlsForCallLink() {};

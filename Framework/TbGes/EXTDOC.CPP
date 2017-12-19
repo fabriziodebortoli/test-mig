@@ -4352,6 +4352,22 @@ BOOL CAbstractFormDoc::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLE
 	return bHandled;
 }
 
+//------------------------------------------------------------------------------
+BOOL CAbstractFormDoc::DispatchOnBeforeBatchExecute()
+{
+	BOOL bOK = OnBeforeBatchExecute();
+
+	return bOK && m_pClientDocs->OnBeforeBatchExecute();
+}
+
+//----------------------------------------------------------------------------------
+void CAbstractFormDoc::DispatchOnAfterBatchExecute()
+{
+	OnAfterBatchExecute();
+	m_pClientDocs->OnAfterBatchExecute();
+}
+
+
 // Reimplementabili per la fantasia bacata del programmatore (non si sa' mai)
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::DisableControlsForBatch()
@@ -5548,7 +5564,7 @@ void CAbstractFormDoc::BatchStart()
 		// Dipende dalla implementazione del programmatore
 		// ed e' il loop stretto gestito dallo schedule che implementa
 		// la funzionalita' batch finale
-		if (OnBeforeBatchExecute() && m_pClientDocs->OnBeforeBatchExecute() && (!m_pHotFilterManager || m_pHotFilterManager->OnBeforeBatchExecute()))
+		if (DispatchOnBeforeBatchExecute() && (!m_pHotFilterManager || m_pHotFilterManager->OnBeforeBatchExecute()))
 		{
 			CPushMessageLoopDepthMng __pushLoopDepth(BATCH);
 			AfxGetThreadContext()->RaiseCallBreakEvent();
@@ -5568,9 +5584,7 @@ void CAbstractFormDoc::BatchStart()
 					pException->Delete();
 			}
 #endif
-			OnAfterBatchExecute();
-			m_pClientDocs->OnAfterBatchExecute();
-
+			DispatchOnAfterBatchExecute();
 			if (!IsInUnattendedMode())
 				GetFirstView()->SendMessage(UM_EXTDOC_BATCH_COMPLETED, NULL, NULL);
 			OnBatchCompleted();
