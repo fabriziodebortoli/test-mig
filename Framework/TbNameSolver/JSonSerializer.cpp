@@ -348,12 +348,12 @@ void CJsonParser::Assign(const Json::Value& root)
 //-----------------------------------------------------------------------------
 bool CJsonParser::Has(LPCTSTR sName)
 {
-	return !(*m_Stack.top())[sName].isNull();
+	return IsObject() && !(*m_Stack.top())[sName].isNull();
 }
 //-----------------------------------------------------------------------------
 bool CJsonParser::IsObject(LPCTSTR sName)
 {
-	return (*m_Stack.top())[sName].isObject();
+	return IsObject() && (*m_Stack.top())[sName].isObject();
 }
 //-----------------------------------------------------------------------------
 Json::Value& CJsonParser::GetCurrent()
