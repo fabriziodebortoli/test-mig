@@ -1519,7 +1519,8 @@ namespace Microarea.EasyBuilder
 				OnCreateControllerCompleted(EventArgs.Empty);
 				return true;
 			}
-			mainForm.HostedControl.CollectAndSaveCodeChanges(true);
+            if (mainForm != null)
+			    mainForm.HostedControl.CollectAndSaveCodeChanges(true);
 			return false;
 		}
 
