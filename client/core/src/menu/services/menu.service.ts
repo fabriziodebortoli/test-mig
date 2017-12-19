@@ -391,6 +391,10 @@ export class MenuService {
             object.isFavorite = false;
             this.removeFromFavoritesInternal(object);
         }
+
+        let subs = this.httpMenuService.updateFavorites(this.favorites).subscribe(() => {
+            subs.unsubscribe()
+        });
     }
 
     //---------------------------------------------------------------------------------------------
@@ -419,12 +423,6 @@ export class MenuService {
                 return;
             }
         }
-    }
-
-    updateAllFavoritesAndMostUsed() {
-        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(() => {
-            sub.unsubscribe();
-        });
     }
 
     //---------------------------------------------------------------------------------------------
@@ -618,12 +616,17 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {
         this.addToMostUsedArray(object);
+        let subs = this.httpMenuService.updateMostUsed(this.mostUsed).subscribe(() => {
+            subs.unsubscribe()
+        });
     }
 
     //---------------------------------------------------------------------------------------------
     removeFromMostUsed(object) {
-
         this.removeFromMostUsedArray(object);
+        let subs =  this.httpMenuService.updateMostUsed(this.mostUsed).subscribe(() => {
+            subs.unsubscribe()
+        });
     };
 
     //---------------------------------------------------------------------------------------------
