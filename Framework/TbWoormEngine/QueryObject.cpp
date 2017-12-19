@@ -485,9 +485,14 @@ BOOL QueryObject::ParseInternal (Parser& parser)
 		parser.SkipToken();
 	} 
 	s = parser.GetAuditString();
+
 	m_strQueryTemplate += s;
 	m_strSql += s;
 	
+	//costanti unicode
+	m_strQueryTemplate.Replace(L" N '", L" N'");
+	m_strSql.Replace(L" N '", L" N'");
+
 	TRACE(_T("\nQuery Name: %s:\nQuery: %s\nSql: %s\n"), m_strQueryName, m_strQueryTemplate, m_strSql);
 	return TRUE;
 }

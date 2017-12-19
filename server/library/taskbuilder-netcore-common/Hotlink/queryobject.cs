@@ -296,13 +296,18 @@ namespace Microarea.Common.Hotlink
 			} 
 
 			auditString	= parser.GetAuditString();
+
 			queryTemplateString += auditString;
 			sqlString += auditString;
-			
-			//Debug.WriteLine(string.Format("\nQuery Name: {0}:\nQuery: {1}\nSql: {2}\n", queryNameString, queryTemplateString, sqlString));
-//			if (parser.LookAhead(Token.EOF))
-//				return  false;
-			return true;
+
+            //costanti unicode
+            queryTemplateString = queryTemplateString.Replace(" N '", " N'");
+            sqlString = sqlString.Replace(" N '", " N'");
+
+            //Debug.WriteLine(string.Format("\nQuery Name: {0}:\nQuery: {1}\nSql: {2}\n", queryNameString, queryTemplateString, sqlString));
+            //			if (parser.LookAhead(Token.EOF))
+            //				return  false;
+            return true;
 		}
 
         //------------------------------------------------------------------------------
