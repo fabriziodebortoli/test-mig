@@ -40,10 +40,10 @@
 
 
 #define ON_JSON_VALUE_CHANGED_EX(parentID, id, memberFxn) \
-	ON_CONTROL(EN_VALUE_CHANGED, GET_IDC(#parentID "_" #id), memberFxn)
+	ON_CONTROL(EN_VALUE_CHANGED, GET_IDC_EX(parentID, id), memberFxn)
 
 #define ON_JSON_VALUE_CHANGED_FOR_FIND_EX(parentID, id, memberFxn) \
-	ON_CONTROL(EN_VALUE_CHANGED_FOR_FIND, GET_IDC(#parentID "_" #id), memberFxn)
+	ON_CONTROL(EN_VALUE_CHANGED_FOR_FIND, GET_IDC_EX(parentID, id), memberFxn)
 
 
 //includere alla fine degli include del .H
