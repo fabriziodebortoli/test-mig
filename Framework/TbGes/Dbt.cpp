@@ -3120,16 +3120,8 @@ void DBTSlaveBuffered::AddHotLinkKeyField(HotKeyLink* pHKL, const CString& sKeyF
 	for (int i = 0; i < m_arHKLKeyInfos.GetCount(); i++)
 	{
 		HKLKeyInfo* pInfo = m_arHKLKeyInfos[i];
-		if (pInfo->m_pHKL == pHKL)
-		{
-			if (pInfo->m_strKeyField.IsEmpty()) {
-				pInfo->m_strKeyField = sKeyField;
-			}
-			else {
-				ASSERT(pInfo->m_strKeyField == sKeyField);
-				return;
-			}
-		}
+		if (pInfo->m_pHKL == pHKL && pInfo->m_strKeyField == sKeyField)
+			return;
 	}
 
 	HKLKeyInfo* pInfo = new HKLKeyInfo;
@@ -3144,18 +3136,8 @@ void DBTSlaveBuffered::AddHotLinkDescriptionField(HotKeyLink* pHKL, const CStrin
 	for (int i = 0; i < m_arHKLDescriptionInfos.GetCount(); i++)
 	{
 		HKLDescriptionInfo* pInfo = m_arHKLDescriptionInfos[i];
-		if (pInfo->m_pHKL == pHKL)
-		{
-			if (pInfo->m_DescriptionField == sDescriField)
-			{
-				return;
-			}
-			if (pInfo->m_DescriptionField.IsEmpty())
-			{
-				pInfo->m_DescriptionField = sDescriField;
-				return;
-			}
-		}
+		if (pInfo->m_pHKL == pHKL && pInfo->m_DescriptionField == sDescriField)
+			return;
 	}
 
 	HKLDescriptionInfo* pInfo = new HKLDescriptionInfo;
