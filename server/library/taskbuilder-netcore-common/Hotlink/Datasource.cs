@@ -299,8 +299,26 @@ namespace Microarea.Common.Hotlink
                     else
                         first = false;
 
-                    if (ff.Operator.CompareNoCase("contains"))
-                        customWhere += ff.field + string.Format(" like '%{0}%'", ff.Value);
+                    if (ff.Operator.CompareNoCase("Contains"))
+                        customWhere += ff.field + string.Format(" LIKE '%{0}%'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("DoesNotContain"))
+                        customWhere += ff.field + string.Format("NOT LIKE '%{0}%'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsEqualTo"))
+                        customWhere += ff.field + string.Format(" = {0}", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
+                        customWhere += ff.field + string.Format(" <> {0}", ff.Value);
+                    else if (ff.Operator.CompareNoCase("StartsWith"))
+                        customWhere += ff.field + string.Format(" LIKE '{0}%'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("EndsWith"))
+                        customWhere += ff.field + string.Format(" LIKE '%{0}'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNull"))
+                        customWhere += ff.field + string.Format(" IS NULL", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNotNull"))
+                        customWhere += ff.field + string.Format(" IS NOT NULL", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsEmpty"))
+                        customWhere += ff.field + string.Format(" = ''", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNotEmpty"))
+                        customWhere += ff.field + string.Format(" <> ''", ff.Value);
                 }
             }
             

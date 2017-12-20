@@ -695,6 +695,11 @@ namespace Microarea.Common.Hotlink
         {
             //query = query.Trim().Remove(0, "select".Length);
             //query = "SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS id," + query + $" OFFSET {(this.pageNumber - 1) * this.rowsForPage} ROWS FETCH NEXT {this.rowsForPage} ROWS ONLY";
+
+            int pos = query.LastIndexOfWord("ORDER BY");
+            if (pos == -1)
+                query += " ORDER BY 1 ";
+
             query +=  $" OFFSET {(this.pageNumber - 1) * this.rowsForPage} ROWS FETCH NEXT {this.rowsForPage} ROWS ONLY";
             return query;
         }
