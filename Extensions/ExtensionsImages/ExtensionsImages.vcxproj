@@ -12,10 +12,14 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{02C95846-FE8A-461A-9372-AAC4ADC5FFD1}</ProjectGuid>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <RootNamespace>ExtensionsImages</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>

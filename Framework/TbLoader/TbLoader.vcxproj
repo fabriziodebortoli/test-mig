@@ -17,10 +17,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F7345082-580B-4E04-A4ED-48D3ECF3C8B0}</ProjectGuid>
     <RootNamespace>TbLoader</RootNamespace>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <Keyword>MFCProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>

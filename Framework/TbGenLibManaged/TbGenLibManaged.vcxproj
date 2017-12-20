@@ -17,10 +17,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{28ED1A12-014C-4331-B17F-E58554094B8A}</ProjectGuid>
     <RootNamespace>TbGenLibManaged</RootNamespace>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <Keyword>ManagedCProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>

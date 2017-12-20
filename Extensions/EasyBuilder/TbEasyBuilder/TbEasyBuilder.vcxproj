@@ -17,10 +17,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C5267F2C-0246-45F8-A535-191747643F4E}</ProjectGuid>
     <RootNamespace>TbEasyBuilder</RootNamespace>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <Keyword>MFCDLLProj</Keyword>
     <ProjectName>TbEasyBuilder</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>

@@ -21,10 +21,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DB9DB8B8-50A1-468D-A67C-30E96269788A}</ProjectGuid>
     <RootNamespace>TBApplicationWrapper</RootNamespace>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <Keyword>MFCDLLProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -153,7 +157,8 @@
     </PostBuildEvent>
     <EmbeddedResource />
     <PreBuildEvent>
-      <Command></Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -206,7 +211,8 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command></Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">

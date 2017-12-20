@@ -125,6 +125,7 @@
     <None Include="UIRSMaintenance.hjson" />
     <None Include="Res\OpenGrantsForm.png" />
     <None Include="Res\OpenGrantsForm.png" />
+    <None Include="Res\OpenGrantsForm.png" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

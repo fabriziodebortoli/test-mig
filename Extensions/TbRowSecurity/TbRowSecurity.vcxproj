@@ -106,10 +106,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{00FAD82E-3C73-467D-9198-AEA57D88BE1F}</ProjectGuid>
     <RootNamespace>TBRowSecurity</RootNamespace>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <RootNamespace>TbRowSecurity</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
