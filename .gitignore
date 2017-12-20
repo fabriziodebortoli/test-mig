@@ -5,6 +5,8 @@ M4Server/
 # Prerequisites
 *.d
 
+Dictionary.bin
+
 # Compiled Object files
 *.slo
 *.lo
