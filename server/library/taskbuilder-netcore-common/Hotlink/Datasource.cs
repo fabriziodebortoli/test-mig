@@ -22,6 +22,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Microarea.Common.Hotlink
 {
+    //-------------------------------------------------------------------------
+
     public class SelectionFieldType
     {
         public string Name;
@@ -67,8 +69,7 @@ namespace Microarea.Common.Hotlink
         public List<ElementList> Elements = new List<ElementList>();
     }
 
-
-
+    //-------------------------------------------------------------------------
     public class radarInfo
     {
        public List<ColumnType> columnInfos { get; set; }
@@ -81,6 +82,33 @@ namespace Microarea.Common.Hotlink
         public radarInfo radarInfo { get; set; }
     }
 
+    //-------------------------------------------------------------------------
+
+    public class FilterField
+    {
+        public string field { get; set; }
+
+        [JsonProperty(PropertyName = "operator")]
+        public string Operator { get; set; }
+ 
+       [JsonProperty(PropertyName = "value")]
+        public string Value { get; set; }
+   }
+
+    public class CustomFilters
+    {
+        public List<FilterField> filters { get; set; }
+
+        public string logic { get; set; }
+    }
+
+
+    public class GridCustomFilters
+    {
+        public CustomFilters cf { get; set; }
+    }
+
+    //-------------------------------------------------------------------------
 
     public class Datasource
     {
@@ -108,66 +136,28 @@ namespace Microarea.Common.Hotlink
         {
             this.Session = new TbSession(ui, "");
          }
- /*
-        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "code")
-        {
-            selection_type.Data = selectionType;
-
-            string s = requestQuery["filter_value"];
-            filter_value.Data = s != null ? s : "%";
-
-            XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
-            if (XmlDescription == null)
-                return false;
-
-            //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
-            foreach (IParameter p in XmlDescription.Parameters)
-            {
-                SymField paramField = new SymField(p.TbType, p.Name);
-
-                string sp = requestQuery[p.Name];
-
-                if (sp == null)
-                {
-                    if (p.Optional)
-                    {
-                        paramField.Assign(p.ValueString);
-                    }
-                }
-                else
-                {
-                    paramField.Assign(sp);
-                }
-
-                SymTable.Add(paramField);
-            }
-
-            //string t = XmlDescription.DbTableName;
-            //DBData.DBInfo.GetColumnType(Session.UserInfo.CompanyDbConnection, t, string columnName)
-
-            //viene cercato il corpo della query ------------------
-            string selectionName = selection_type.Data as string;
-            SelectionMode sm = XmlDescription.GetMode(selectionName);
-            if (sm == null)
-                return false;
-            //-------------------------------
-
-            this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
-
-            if (!this.CurrentQuery.Define(sm.Body))
-                return false;
-
-            //SetPaging(int page, int rows)
-            return true;
-        }
-*/
+ 
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
+            {
+                Debug.Fail("Missing Xml Description of " + Session.Namespace);
                 return false;
+            }
 
             selection_type.Data = selectionType;
+
+            CustomFilters customFilters = null;
+            string cf = requestQuery["customFilters"];
+            if (cf.IsNullOrEmpty() || cf == "{}" || /*tapullo*/ cf == "\"\"")
+                cf = string.Empty;
+            else
+            {
+                customFilters = JsonConvert.DeserializeObject<CustomFilters>(cf);
+                if (customFilters == null || customFilters.filters == null)
+                    Debug.Fail("Missing Xml Description of " + Session.Namespace);
+            }
 
             string likeValue = requestQuery["filter"];
             if (String.IsNullOrEmpty(likeValue) || /*tapullo*/ likeValue== "\"\"") 
@@ -196,7 +186,7 @@ namespace Microarea.Common.Hotlink
  
             if (XmlDescription.IsDatafile)
             {
-                // TODO RSWEB: paginazione anche nella lettura dati da xml
+                // TODO RSWEB: paginazione anche nella lettura dati da xml ?
                 return LoadDataFile();
             }
 
@@ -235,6 +225,24 @@ namespace Microarea.Common.Hotlink
             {
                 if (!XmlDescription.ClassType.IsNullOrEmpty())
                 {
+                    string documentId = requestQuery["documentID"].ToString();
+                    //if (documentId.IsNullOrEmpty())
+                    //{
+                    //    return false;
+                    //}
+
+                    string hklName = requestQuery["hklName"].ToString();
+                    //if (hklName.IsNullOrEmpty())
+                    //{
+                    //    return false;
+                    //}
+
+                    if (hklName.IsNullOrEmpty() != documentId.IsNullOrEmpty())
+                    {
+                        Debug.Fail("Hotlink of Document " + hklName);
+                        return false;
+                    }
+
                     Hotlink.HklAction hklAction = Hotlink.HklAction.Code;
                     if (selectionType.CompareNoCase("description"))
                         hklAction = Hotlink.HklAction.Description;
@@ -243,12 +251,26 @@ namespace Microarea.Common.Hotlink
                     else if (selectionType.CompareNoCase("direct"))
                         hklAction = Hotlink.HklAction.DirectAccess;
 
-                    string documentId = requestQuery["documentID"].ToString();
-                    string hklName = requestQuery["hklName"].ToString();
                     query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction, likeValue, documentId, hklName);
+                    if (query.IsNullOrEmpty())
+                    {
+                        Debug.Fail("GetHotLinkQuery failed ");
+                        return false;
+                    }
 
                     JObject jObject = JObject.Parse(query);
+                    if (jObject == null)
+                    {
+                        Debug.Fail("It fails to parse HotLink Query");
+                        return false;
+                    }
+
                     query = jObject.GetValue("query")?.ToString();
+                    if (query.IsNullOrEmpty())
+                    {
+                        Debug.Fail("HotLink Query is empty");
+                        return false;
+                    }
 
                     this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
                 }
@@ -264,9 +286,31 @@ namespace Microarea.Common.Hotlink
             }
 
             //------------------------------ 
-            if (!this.CurrentQuery.Define(query))
-                return false;
+            string customWhere = string.Empty;
+            if (customFilters != null && customFilters.filters != null && customFilters.filters.Count > 0)
+            {
+                bool first = true;
+                foreach (FilterField ff in customFilters.filters)
+                {
+                    if (!first)
+                    {
+                        customWhere += ' ' + customFilters.logic + ' ';
+                    }
+                    else
+                        first = false;
 
+                    if (ff.Operator.CompareNoCase("contains"))
+                        customWhere += ff.field + string.Format(" like '%{0}%'", ff.Value);
+                }
+            }
+            
+            if (!this.CurrentQuery.Define(query))
+            {
+                Debug.Fail("DS fails to prepare hotlink query");
+                return false;
+            }
+
+            this.CurrentQuery.SetCustomWhere(customWhere);
             if (isPaged)
             {
                 this.CurrentQuery.SetPaging(pageNum, rowsPerPage);
@@ -279,16 +323,54 @@ namespace Microarea.Common.Hotlink
         public async Task<ResponseRadarInfo> PrepareRadar(IQueryCollection requestQuery, string nsDoc = "", string name = "")
         {
             string documentId = requestQuery["documentID"].ToString();
+            if (documentId.IsNullOrEmpty())
+            {
+                Debug.Fail("Radar called without DocumentID");
+                return null;
+            }
+
+            //Paging
+            bool isPaged = false;
+            int pageNum = 0, rowsPerPage = 0;
+            if (!string.IsNullOrEmpty(requestQuery["page"]))
+            {
+                pageNum = 1;
+                int.TryParse(requestQuery["page"], out pageNum);
+                isPaged = true;
+
+                rowsPerPage = 10;
+                if (!string.IsNullOrEmpty(requestQuery["per_page"]))
+                {
+                    int.TryParse(requestQuery["per_page"], out rowsPerPage);
+                }
+            }
+
             string response = await TbSession.GetRadarQuery(Session, documentId, name);
+            if (response.IsNullOrEmpty())
+            {
+                Debug.Fail("GetRadarQuery failed");
+                return null;
+            }
 
             ResponseRadarInfo responseRadarInfo = JsonConvert.DeserializeObject<ResponseRadarInfo>(response);
             if (responseRadarInfo == null || responseRadarInfo.radarInfo == null || responseRadarInfo.radarInfo.query.IsNullOrEmpty())
+            {
+                Debug.Fail("It fails to parse RadarInfo");
                 return null;
+            }
 
             this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
 
             if (!this.CurrentQuery.Define(responseRadarInfo.radarInfo.query, responseRadarInfo.radarInfo.columnInfos))
+            {
+                Debug.Fail("DS fails to prepare radar query");
                 return null;
+            }
+
+            if (isPaged)
+            {
+                this.CurrentQuery.SetPaging(pageNum, rowsPerPage);
+            }
 
             return responseRadarInfo;
         }
@@ -456,7 +538,7 @@ namespace Microarea.Common.Hotlink
             if (!CurrentQuery.Open())
                 return false;
 
-            ArrayList columns = new ArrayList();
+            List<SymField> columns = new List<SymField>();
             CurrentQuery.EnumColumns(columns);
             CurrentQuery.Close();
  
@@ -494,7 +576,7 @@ namespace Microarea.Common.Hotlink
             if (!CurrentQuery.Open())
                 return false;
 
-            ArrayList columns = new ArrayList();
+            List<SymField> columns = new List<SymField>();
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column

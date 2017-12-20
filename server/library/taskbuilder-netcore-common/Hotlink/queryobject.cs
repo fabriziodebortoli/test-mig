@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 using TaskBuilderNetCore.Data;
 
@@ -9,10 +10,9 @@ using Microarea.Common.DBData;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
-using Microarea.Common.Lexan;
-using static Microarea.Common.Lexan.Parser;
 using Microarea.Common.ExpressionManager;
-using System.Collections.Generic;
+using Microarea.Common.Lexan;
+//using static Microarea.Common.Lexan.Parser;
 
 namespace Microarea.Common.Hotlink
 {
@@ -42,7 +42,7 @@ namespace Microarea.Common.Hotlink
 		private DBCommand       tbCommand		= null; //m_pSqlTable
 		private IDataReader		iDataReader		= null; 
 
-		private ArrayList		tagLinkArrayList	= null;
+		private List<TagLink>   tagLinkArrayList	= null;
 		private TbSession	    session		= null;
 		private QueryObject		parentQuery	= null;
 		private int             bindNumber = 0;
@@ -55,6 +55,9 @@ namespace Microarea.Common.Hotlink
 
         private int             pageNumber = 0;
         private int             rowsForPage = 0;
+
+        private string customWhere = string.Empty;
+        private string customSort = string.Empty;
 
         #endregion
 
@@ -81,7 +84,7 @@ namespace Microarea.Common.Hotlink
 			queryNameString		= name;
 			symbolTable			= aSymbolTable;
 			session				= aSession;
-			tagLinkArrayList	= new ArrayList();
+			tagLinkArrayList	= new List<TagLink>();
 			parentQuery			= parent;
 		}
 
@@ -130,18 +133,28 @@ namespace Microarea.Common.Hotlink
             rowsForPage = rows;
         }
 
+        public void SetCustomWhere(string where)
+        {
+            customWhere = where;
+        }
+        public void SetCustomSort(string sort)
+        {
+            customSort = sort;
+        }
+
         //-------------------------------------------------------------------------------
         public int AddLink (string name, TagType direction, object data, int len, Expression whenExpr, QueryObject expandClause)
 		{
-			return tagLinkArrayList.Add(new TagLink(name, direction, data, len, whenExpr, expandClause));
-		}
+			tagLinkArrayList.Add(new TagLink(name, direction, data, len, whenExpr, expandClause));
+            return tagLinkArrayList.Count - 1;
+        }
 
 		//------------------------------------------------------------------------------
 		public bool HasMember (string name) 
 		{
 			for (int i = 0; i < tagLinkArrayList.Count; i++)
 			{
-				TagLink tagLink = (TagLink)(tagLinkArrayList[i]);
+				TagLink tagLink = tagLinkArrayList[i];
 
 				if (string.Compare(tagLink.name, name, StringComparison.OrdinalIgnoreCase) == 0)
 					return true;
@@ -156,7 +169,7 @@ namespace Microarea.Common.Hotlink
         public bool Define(string sql, List<ColumnType> columns = null)
         {
             sql = "QUERY _q" + " BEGIN { " + sql + " } END";
-            Parser parser = new Parser(SourceType.FromString);
+            Parser parser = new Parser(Parser.SourceType.FromString);
             if (!parser.Open(sql))
                 return false;
 
@@ -216,8 +229,10 @@ namespace Microarea.Common.Hotlink
 
             queryTemplateString = string.Empty;
 			sqlString			= string.Empty;
+            customWhere         = string.Empty;
+            customSort          = string.Empty;
 
-			if (parser.Matched(Token.QUERY)) 
+            if (parser.Matched(Token.QUERY)) 
 			{
 				if (!parser.ParseID(out queryNameString)) 
 					return false;
@@ -642,9 +657,31 @@ namespace Microarea.Common.Hotlink
 				TbConnection.Open();
 			}
 
-            if (this.pageNumber != 0)
+            //------------------------------------------------------
+            if (this.pageNumber != 0 && customSort.IsNullOrEmpty())
                 strSql = BuildPaging(strSql, TbConnection);
 
+            if (!customWhere.IsNullOrEmpty())
+            {
+                strSql = "SELECT * FROM (" + strSql + ") AS innerQuery WHERE " + customWhere;
+
+                if (!customSort.IsNullOrEmpty())
+                {
+                    strSql += " ORDER BY " + customSort;
+
+                    if (this.pageNumber != 0)
+                        strSql = BuildPaging(strSql, TbConnection);
+                }
+            }
+            else if (!customSort.IsNullOrEmpty())
+            {
+                strSql = "SELECT * FROM (" + strSql + ") AS innerQuery ORDER BY " + customSort;
+
+                if (this.pageNumber != 0)
+                    strSql = BuildPaging(strSql, TbConnection);
+            }
+
+            //---------------------------------------------
             tbCommand = new DBCommand(strSql, TbConnection);
             tbCommand.CommandTimeout = 0;
 
@@ -944,7 +981,7 @@ namespace Microarea.Common.Hotlink
 		}
 
         //------------------------------------------------------------------------------
-        public void EnumColumns(ArrayList columns)
+        public void EnumColumns(List<SymField> columns)
         {
             for (int i = 0; i < tagLinkArrayList.Count; i++)
             {

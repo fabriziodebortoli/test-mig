@@ -7,6 +7,7 @@ using Microarea.DataService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DataService.Controllers
 {
@@ -71,18 +72,21 @@ namespace DataService.Controllers
             string authHeader = HttpContext.Request.Headers["Authorization"];
             if (string.IsNullOrWhiteSpace(authHeader))
             {
+                Debug.Fail("non sei autenticato! (Authorization)");
+
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
             }
             UserInfo ui = GetLoginInformation();
             if (ui == null)
             {
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                Debug.Fail("Missing login infos");
+                return new ContentResult { StatusCode = 401, Content = "Missing login infos!", ContentType = "application/text" };
             }
 
             TbSession session = new TbSession(ui, nameSpace);
 
             JObject jObject = JObject.Parse(authHeader);
-            string instanceID = jObject.GetValue("tbLoaderName")?.ToString();  //TODO RSWEB  togliere stringa cablata e usare il tostring del datamember del messaggio
+            string instanceID = jObject == null ? null : jObject.GetValue("tbLoaderName")?.ToString();  //TODO RSWEB  togliere stringa cablata e usare il tostring del datamember del messaggio
             if (!string.IsNullOrWhiteSpace(instanceID))
             {
                 session.TbInstanceID = instanceID;
@@ -91,12 +95,14 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(session);
             if (!ds.PrepareQueryAsync(HttpContext.Request.Query, selectionType).Result)
+            {
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
-
+            }
             string records;
             if (!ds.GetRowsJson(out records))
+            {
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
-
+            }
             //---------------------
             return new ContentResult { Content = records, ContentType = "application/json" };
         }
