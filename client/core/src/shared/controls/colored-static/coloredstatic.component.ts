@@ -22,7 +22,7 @@ export class ColoredStaticComponent extends ControlComponent {
   setStyles(background: number, foreground: number, width:number)
   {
 //    let intNumber = 16737111;
-    let hexNumber = 0xff6357;
+//    let hexNumber = 0xff6357;
 
     let htmBackColor = '#' + background.toString(16);
     let htmForeColor = '#' + foreground.toString(16);
