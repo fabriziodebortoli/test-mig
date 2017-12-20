@@ -11,31 +11,2014 @@
                         "value" : true
                      },
                      "Branches" : [],
-                     "Contacts" : {},
+                     "Contacts" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AdditionalTax" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Address" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "Via Torino 88"
+                        },
+                        "Address2" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Area" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "SUD"
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Bank" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Category" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "City" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "Pescara"
+                        },
+                        "CommissionCtg" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompNameComplete" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompanyName" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "Ve.ro.li Srl"
+                        },
+                        "CompanyRegistrNo" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Contact" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "0003"
+                        },
+                        "ContactDate" : {
+                           "enabled" : false,
+                           "type" : 8,
+                           "value" : "2010-01-16T00:00:00"
+                        },
+                        "ContactOrigin" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactPerson" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactSpecification" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactsKind" : {
+                           "enabled" : false,
+                           "tag" : 118,
+                           "type" : 10,
+                           "value" : "7733248"
+                        },
+                        "ConversionDate" : {
+                           "enabled" : false,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "Country" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "County" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "PE"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "EUR"
+                        },
+                        "CustSupp" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : false,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Discount1" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "Discount2" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "DiscountFormula" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "District" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DocumentSendingType" : {
+                           "enabled" : false,
+                           "tag" : 173,
+                           "type" : 10,
+                           "value" : "11337728"
+                        },
+                        "EMail" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ExemptFromTax" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Fax" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "096.32.33.694"
+                        },
+                        "FedStateReg" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "060225580106"
+                        },
+                        "GenRegEntity" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "GenRegNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "GoodsOffset" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "IT"
+                        },
+                        "Internet" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "IsACustSupp" : {
+                           "enabled" : false,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Language" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Latitude" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Longitude" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MailSendingType" : {
+                           "enabled" : false,
+                           "tag" : 190,
+                           "type" : 10,
+                           "value" : "12451840"
+                        },
+                        "MunicipalityReg" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "NaturalPerson" : {
+                           "enabled" : false,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "NoSendPostaLite" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Payment" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "RDDF3"
+                        },
+                        "PaymentAddress" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Port" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PriceList" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "OFF"
+                        },
+                        "Region" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "Abruzzo"
+                        },
+                        "SUFRAMA" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SendDocumentsTo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ServicesOffset" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ShipToAddress" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SkypeID" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "StreetNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SuspendedTax" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2015-07-07T11:50:15"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{89C5842D-F790-4086-A48D-C55EA8FE4F14}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2017-12-15T09:02:21"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TaxCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TaxIdNumber" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "060225580106"
+                        },
+                        "TaxOffice" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TaxpayerType" : {
+                           "enabled" : true,
+                           "tag" : 461,
+                           "type" : 10,
+                           "value" : "30212096"
+                        },
+                        "Telephone1" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "096.32.33.693"
+                        },
+                        "Telephone2" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telex" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TitleCode" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "WorkingTime" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ZIPCode" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "66300"
+                        }
+                     },
+                     "FieldInspector" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
                      "FormMode" : {
                         "enabled" : true,
                         "type" : 2,
                         "value" : 1
                      },
-                     "HKLAreaManager" : {},
-                     "HKLBranchAreaManager" : {},
-                     "HKLBranchFederalState" : {},
-                     "HKLChartOfAccounts" : {},
-                     "HKLChartOfAccountsGoods" : {},
-                     "HKLChartOfAccountsServices" : {},
-                     "HKLContactOrigin" : {},
-                     "HKLContactSpecification" : {},
-                     "HKLCustCtg" : {},
-                     "HKLFederalStates" : {},
-                     "HKLFederalStatesCities" : {},
-                     "HKLISOCountry" : {},
-                     "HKLPeopleBranch" : {},
-                     "HKLSupportBank" : {},
-                     "HKLTitles" : {},
+                     "HKLAreaManager" : {
+                        "AgencyChangeDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BaseAreaMngCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "BaseCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Enasarco" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "HiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "IsACompany" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsACorporation" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnAreaManager" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnEmployee" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "MonthlyFixedAmount" : {
+                           "enabled" : true,
+                           "type" : 5,
+                           "value" : 0.0
+                        },
+                        "Name" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "NoCommissionEdit" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "OneFirmOnly" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Policy" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Supplier" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLBranchAreaManager" : {
+                        "AgencyChangeDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BaseAreaMngCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "BaseCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Enasarco" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "HiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "IsACompany" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsACorporation" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnAreaManager" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnEmployee" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "MonthlyFixedAmount" : {
+                           "enabled" : true,
+                           "type" : 5,
+                           "value" : 0.0
+                        },
+                        "Name" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "NoCommissionEdit" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "OneFirmOnly" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Policy" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Supplier" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLBranchFederalState" : {
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLChartOfAccounts" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "CashFlowType" : {
+                           "enabled" : true,
+                           "tag" : 134,
+                           "type" : 10,
+                           "value" : "8781824"
+                        },
+                        "CodeType" : {
+                           "enabled" : true,
+                           "tag" : 47,
+                           "type" : 10,
+                           "value" : "3080194"
+                        },
+                        "CostAccAccountGroup" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CostCentersDistribution" : {
+                           "enabled" : true,
+                           "tag" : 123,
+                           "type" : 10,
+                           "value" : "8060928"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitCreditSign" : {
+                           "enabled" : true,
+                           "tag" : 125,
+                           "type" : 10,
+                           "value" : "8192002"
+                        },
+                        "DeferralsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DeferralsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DirectCost" : {
+                           "enabled" : true,
+                           "tag" : 126,
+                           "type" : 10,
+                           "value" : "8257540"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "DocToBeIssRecType" : {
+                           "enabled" : true,
+                           "tag" : 472,
+                           "type" : 10,
+                           "value" : "30932992"
+                        },
+                        "ExternalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FullCost" : {
+                           "enabled" : true,
+                           "tag" : 127,
+                           "type" : 10,
+                           "value" : "8323077"
+                        },
+                        "InCurrency" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "JobsDistribution" : {
+                           "enabled" : true,
+                           "tag" : 124,
+                           "type" : 10,
+                           "value" : "8126464"
+                        },
+                        "Ledger" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PostableInCostAcc" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "PostableInJE" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ReportCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "UoM" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLChartOfAccountsGoods" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "CashFlowType" : {
+                           "enabled" : true,
+                           "tag" : 134,
+                           "type" : 10,
+                           "value" : "8781824"
+                        },
+                        "CodeType" : {
+                           "enabled" : true,
+                           "tag" : 47,
+                           "type" : 10,
+                           "value" : "3080194"
+                        },
+                        "CostAccAccountGroup" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CostCentersDistribution" : {
+                           "enabled" : true,
+                           "tag" : 123,
+                           "type" : 10,
+                           "value" : "8060928"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitCreditSign" : {
+                           "enabled" : true,
+                           "tag" : 125,
+                           "type" : 10,
+                           "value" : "8192002"
+                        },
+                        "DeferralsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DeferralsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DirectCost" : {
+                           "enabled" : true,
+                           "tag" : 126,
+                           "type" : 10,
+                           "value" : "8257540"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "DocToBeIssRecType" : {
+                           "enabled" : true,
+                           "tag" : 472,
+                           "type" : 10,
+                           "value" : "30932992"
+                        },
+                        "ExternalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FullCost" : {
+                           "enabled" : true,
+                           "tag" : 127,
+                           "type" : 10,
+                           "value" : "8323077"
+                        },
+                        "InCurrency" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "JobsDistribution" : {
+                           "enabled" : true,
+                           "tag" : 124,
+                           "type" : 10,
+                           "value" : "8126464"
+                        },
+                        "Ledger" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PostableInCostAcc" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "PostableInJE" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ReportCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "UoM" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLChartOfAccountsServices" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "CashFlowType" : {
+                           "enabled" : true,
+                           "tag" : 134,
+                           "type" : 10,
+                           "value" : "8781824"
+                        },
+                        "CodeType" : {
+                           "enabled" : true,
+                           "tag" : 47,
+                           "type" : 10,
+                           "value" : "3080194"
+                        },
+                        "CostAccAccountGroup" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CostCentersDistribution" : {
+                           "enabled" : true,
+                           "tag" : 123,
+                           "type" : 10,
+                           "value" : "8060928"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitCreditSign" : {
+                           "enabled" : true,
+                           "tag" : 125,
+                           "type" : 10,
+                           "value" : "8192002"
+                        },
+                        "DeferralsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DeferralsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DirectCost" : {
+                           "enabled" : true,
+                           "tag" : 126,
+                           "type" : 10,
+                           "value" : "8257540"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "DocToBeIssRecType" : {
+                           "enabled" : true,
+                           "tag" : 472,
+                           "type" : 10,
+                           "value" : "30932992"
+                        },
+                        "ExternalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FullCost" : {
+                           "enabled" : true,
+                           "tag" : 127,
+                           "type" : 10,
+                           "value" : "8323077"
+                        },
+                        "InCurrency" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "JobsDistribution" : {
+                           "enabled" : true,
+                           "tag" : 124,
+                           "type" : 10,
+                           "value" : "8126464"
+                        },
+                        "Ledger" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PostableInCostAcc" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "PostableInJE" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ReportCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "UoM" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLContactOrigin" : {
+                        "ContactOrigin" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Description" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLContactSpecification" : {
+                        "ContactSpecification" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Description" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLCustCtg" : {
+                        "Category" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Description" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLFederalStates" : {
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLFederalStatesCities" : {
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MesoRegion" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MicroRegion" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Region" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLISOCountry" : {
+                        "BlackList" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "CountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "086"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "EUR"
+                        },
+                        "DateFormat" : {
+                           "enabled" : true,
+                           "tag" : 36,
+                           "type" : 10,
+                           "value" : "2359296"
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "Italia"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "EUCountry" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "IT"
+                        },
+                        "Language" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "IT"
+                        },
+                        "NumberFormat" : {
+                           "enabled" : true,
+                           "tag" : 35,
+                           "type" : 10,
+                           "value" : "2293761"
+                        },
+                        "SimplifiedIntrastat" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2015-07-07T11:50:18"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{61258520-FB55-4762-9F25-67B6BE3064FB}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2017-12-15T09:02:19"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TelephonePrefix" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "+39"
+                        },
+                        "TimeFormat" : {
+                           "enabled" : true,
+                           "tag" : 37,
+                           "type" : 10,
+                           "value" : "2424833"
+                        }
+                     },
+                     "HKLPeopleBranch" : {
+                        "Address" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Address2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Branch" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "City" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompNameComplete" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompanyName" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Contact" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactPerson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Country" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "County" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "District" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "EMail" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Fax" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Internet" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Language" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Latitude" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Longitude" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MailSendingType" : {
+                           "enabled" : true,
+                           "tag" : 190,
+                           "type" : 10,
+                           "value" : "12451840"
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Region" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SkypeID" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "StreetNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TaxIdNumber" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TaxOffice" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telephone1" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telephone2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telex" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "WorkingTime" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ZIPCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLSupportBank" : {
+                        "ABI" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ABIPrefix" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Address" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Address2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Agency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Bank" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BankDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "BillsAndPaymentsExtension" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BillsAndPaymentsFolder" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Branch" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CAB" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CABPrefix" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CBICode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CashOrderCBICode" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "CashOrderResultRequest" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ChargesAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "City" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactPerson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Counter" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Country" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "County" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitChargesSeparately" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "District" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "EMail" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FactoringCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FactoringCurrency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Fax" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Identifier" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Internet" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "IsACompanyBank" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsForeign" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PreferredCA" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SIACode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SenderCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SenderReference" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Signature" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "StreetNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Swift" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "Telephone1" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telephone2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telex" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "UseISO20022" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "UseValueDate" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ZIPCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLTitles" : {
+                        "Description" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TitleCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Ve.ro.li Srl - Via Torino 88 66300 Pescara PE - Tax Number 060225580106 [0003]"
+                        "value" : "Ve.ro.li Srl - Via Torino 88 66300 Pescara PE - Partita IVA 060225580106 [0003]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -58,6 +2041,11 @@
                         "type" : 2,
                         "value" : 10
                      },
+                     "PaperyBarcodeViewer" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
                      "PaymentAddressDescri" : {
                         "enabled" : true,
                         "type" : 1,
@@ -77,7 +2065,7 @@
                      "Title" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Contacts"
+                        "value" : "Contatti"
                      },
                      "TitleDescri" : {
                         "enabled" : true,
@@ -88,9 +2076,24 @@
                         "enabled" : true,
                         "type" : 9,
                         "value" : true
+                     },
+                     "sPaperyBarcodeValue" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "sPaperyDescripion" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
+                     },
+                     "sPaperyNotes" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
                      }
                   },
-                  "id" : "133938"
+                  "id" : "1574834"
                }
             ]
          },
@@ -169,6 +2172,9 @@
                   "ID_FORM_EDITOR_EDIT" : {
                      "enabled" : true
                   },
+                  "ID_INSPECT" : {
+                     "enabled" : true
+                  },
                   "ID_SEPARATOR" : {
                      "enabled" : true
                   },
@@ -176,7 +2182,7 @@
                      "enabled" : true
                   }
                },
-               "id" : "133938"
+               "id" : "1574834"
             }
          },
          "cmd" : "ButtonsState"
@@ -192,31 +2198,2014 @@
                         "value" : true
                      },
                      "Branches" : [],
-                     "Contacts" : {},
+                     "Contacts" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AdditionalTax" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Address" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "Via Torino 88"
+                        },
+                        "Address2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Area" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "SUD"
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Bank" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Category" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "City" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "Pescara"
+                        },
+                        "CommissionCtg" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompNameComplete" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompanyName" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "Ve.ro.li Srl"
+                        },
+                        "CompanyRegistrNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Contact" : {
+                           "enabled" : false,
+                           "type" : 1,
+                           "value" : "0003"
+                        },
+                        "ContactDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2010-01-16T00:00:00"
+                        },
+                        "ContactOrigin" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactPerson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactSpecification" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactsKind" : {
+                           "enabled" : true,
+                           "tag" : 118,
+                           "type" : 10,
+                           "value" : "7733248"
+                        },
+                        "ConversionDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "Country" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "County" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "PE"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "EUR"
+                        },
+                        "CustSupp" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Discount1" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "Discount2" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "DiscountFormula" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "District" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DocumentSendingType" : {
+                           "enabled" : true,
+                           "tag" : 173,
+                           "type" : 10,
+                           "value" : "11337728"
+                        },
+                        "EMail" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ExemptFromTax" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Fax" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "096.32.33.694"
+                        },
+                        "FedStateReg" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "060225580106"
+                        },
+                        "GenRegEntity" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "GenRegNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "GoodsOffset" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "IT"
+                        },
+                        "Internet" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "IsACustSupp" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Language" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Latitude" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Longitude" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MailSendingType" : {
+                           "enabled" : false,
+                           "tag" : 190,
+                           "type" : 10,
+                           "value" : "12451840"
+                        },
+                        "MunicipalityReg" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "NaturalPerson" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "NoSendPostaLite" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Payment" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "RDDF3"
+                        },
+                        "PaymentAddress" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Port" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PriceList" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "OFF"
+                        },
+                        "Region" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "Abruzzo"
+                        },
+                        "SUFRAMA" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SendDocumentsTo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ServicesOffset" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ShipToAddress" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SkypeID" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "StreetNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SuspendedTax" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2015-07-07T11:50:15"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{89C5842D-F790-4086-A48D-C55EA8FE4F14}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2017-12-15T09:02:21"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TaxCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TaxIdNumber" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "060225580106"
+                        },
+                        "TaxOffice" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TaxpayerType" : {
+                           "enabled" : true,
+                           "tag" : 461,
+                           "type" : 10,
+                           "value" : "30212096"
+                        },
+                        "Telephone1" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "096.32.33.693"
+                        },
+                        "Telephone2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telex" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TitleCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "WorkingTime" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ZIPCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "66300"
+                        }
+                     },
+                     "FieldInspector" : {
+                        "enabled" : true,
+                        "type" : 9,
+                        "value" : true
+                     },
                      "FormMode" : {
                         "enabled" : true,
                         "type" : 2,
                         "value" : 3
                      },
-                     "HKLAreaManager" : {},
-                     "HKLBranchAreaManager" : {},
-                     "HKLBranchFederalState" : {},
-                     "HKLChartOfAccounts" : {},
-                     "HKLChartOfAccountsGoods" : {},
-                     "HKLChartOfAccountsServices" : {},
-                     "HKLContactOrigin" : {},
-                     "HKLContactSpecification" : {},
-                     "HKLCustCtg" : {},
-                     "HKLFederalStates" : {},
-                     "HKLFederalStatesCities" : {},
-                     "HKLISOCountry" : {},
-                     "HKLPeopleBranch" : {},
-                     "HKLSupportBank" : {},
-                     "HKLTitles" : {},
+                     "HKLAreaManager" : {
+                        "AgencyChangeDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BaseAreaMngCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "BaseCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Enasarco" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "HiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "IsACompany" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsACorporation" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnAreaManager" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnEmployee" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "MonthlyFixedAmount" : {
+                           "enabled" : true,
+                           "type" : 5,
+                           "value" : 0.0
+                        },
+                        "Name" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "NoCommissionEdit" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "OneFirmOnly" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Policy" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Supplier" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLBranchAreaManager" : {
+                        "AgencyChangeDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BaseAreaMngCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "BaseCommission" : {
+                           "enabled" : true,
+                           "type" : 7,
+                           "value" : 0.0
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Enasarco" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "HiringDate" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "IsACompany" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsACorporation" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnAreaManager" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsAnEmployee" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "MonthlyFixedAmount" : {
+                           "enabled" : true,
+                           "type" : 5,
+                           "value" : 0.0
+                        },
+                        "Name" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "NoCommissionEdit" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "OneFirmOnly" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Policy" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Supplier" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLBranchFederalState" : {
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLChartOfAccounts" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "CashFlowType" : {
+                           "enabled" : true,
+                           "tag" : 134,
+                           "type" : 10,
+                           "value" : "8781824"
+                        },
+                        "CodeType" : {
+                           "enabled" : true,
+                           "tag" : 47,
+                           "type" : 10,
+                           "value" : "3080194"
+                        },
+                        "CostAccAccountGroup" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CostCentersDistribution" : {
+                           "enabled" : true,
+                           "tag" : 123,
+                           "type" : 10,
+                           "value" : "8060928"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitCreditSign" : {
+                           "enabled" : true,
+                           "tag" : 125,
+                           "type" : 10,
+                           "value" : "8192002"
+                        },
+                        "DeferralsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DeferralsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DirectCost" : {
+                           "enabled" : true,
+                           "tag" : 126,
+                           "type" : 10,
+                           "value" : "8257540"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "DocToBeIssRecType" : {
+                           "enabled" : true,
+                           "tag" : 472,
+                           "type" : 10,
+                           "value" : "30932992"
+                        },
+                        "ExternalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FullCost" : {
+                           "enabled" : true,
+                           "tag" : 127,
+                           "type" : 10,
+                           "value" : "8323077"
+                        },
+                        "InCurrency" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "JobsDistribution" : {
+                           "enabled" : true,
+                           "tag" : 124,
+                           "type" : 10,
+                           "value" : "8126464"
+                        },
+                        "Ledger" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PostableInCostAcc" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "PostableInJE" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ReportCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "UoM" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLChartOfAccountsGoods" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "CashFlowType" : {
+                           "enabled" : true,
+                           "tag" : 134,
+                           "type" : 10,
+                           "value" : "8781824"
+                        },
+                        "CodeType" : {
+                           "enabled" : true,
+                           "tag" : 47,
+                           "type" : 10,
+                           "value" : "3080194"
+                        },
+                        "CostAccAccountGroup" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CostCentersDistribution" : {
+                           "enabled" : true,
+                           "tag" : 123,
+                           "type" : 10,
+                           "value" : "8060928"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitCreditSign" : {
+                           "enabled" : true,
+                           "tag" : 125,
+                           "type" : 10,
+                           "value" : "8192002"
+                        },
+                        "DeferralsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DeferralsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DirectCost" : {
+                           "enabled" : true,
+                           "tag" : 126,
+                           "type" : 10,
+                           "value" : "8257540"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "DocToBeIssRecType" : {
+                           "enabled" : true,
+                           "tag" : 472,
+                           "type" : 10,
+                           "value" : "30932992"
+                        },
+                        "ExternalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FullCost" : {
+                           "enabled" : true,
+                           "tag" : 127,
+                           "type" : 10,
+                           "value" : "8323077"
+                        },
+                        "InCurrency" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "JobsDistribution" : {
+                           "enabled" : true,
+                           "tag" : 124,
+                           "type" : 10,
+                           "value" : "8126464"
+                        },
+                        "Ledger" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PostableInCostAcc" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "PostableInJE" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ReportCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "UoM" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLChartOfAccountsServices" : {
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AccrualsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "CashFlowType" : {
+                           "enabled" : true,
+                           "tag" : 134,
+                           "type" : 10,
+                           "value" : "8781824"
+                        },
+                        "CodeType" : {
+                           "enabled" : true,
+                           "tag" : 47,
+                           "type" : 10,
+                           "value" : "3080194"
+                        },
+                        "CostAccAccountGroup" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CostCentersDistribution" : {
+                           "enabled" : true,
+                           "tag" : 123,
+                           "type" : 10,
+                           "value" : "8060928"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitCreditSign" : {
+                           "enabled" : true,
+                           "tag" : 125,
+                           "type" : 10,
+                           "value" : "8192002"
+                        },
+                        "DeferralsAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DeferralsDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DirectCost" : {
+                           "enabled" : true,
+                           "tag" : 126,
+                           "type" : 10,
+                           "value" : "8257540"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "DocToBeIssRecType" : {
+                           "enabled" : true,
+                           "tag" : 472,
+                           "type" : 10,
+                           "value" : "30932992"
+                        },
+                        "ExternalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FullCost" : {
+                           "enabled" : true,
+                           "tag" : 127,
+                           "type" : 10,
+                           "value" : "8323077"
+                        },
+                        "InCurrency" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "JobsDistribution" : {
+                           "enabled" : true,
+                           "tag" : 124,
+                           "type" : 10,
+                           "value" : "8126464"
+                        },
+                        "Ledger" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PostableInCostAcc" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "PostableInJE" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ReportCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "UoM" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLContactOrigin" : {
+                        "ContactOrigin" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLContactSpecification" : {
+                        "ContactSpecification" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLCustCtg" : {
+                        "Category" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLFederalStates" : {
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLFederalStatesCities" : {
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MesoRegion" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MicroRegion" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Region" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        }
+                     },
+                     "HKLISOCountry" : {
+                        "BlackList" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "CountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "086"
+                        },
+                        "Currency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "EUR"
+                        },
+                        "DateFormat" : {
+                           "enabled" : true,
+                           "tag" : 36,
+                           "type" : 10,
+                           "value" : "2359296"
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "Italia"
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "EUCountry" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "IT"
+                        },
+                        "Language" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "IT"
+                        },
+                        "NumberFormat" : {
+                           "enabled" : true,
+                           "tag" : 35,
+                           "type" : 10,
+                           "value" : "2293761"
+                        },
+                        "SimplifiedIntrastat" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2015-07-07T11:50:18"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{61258520-FB55-4762-9F25-67B6BE3064FB}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "2017-12-15T09:02:19"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TelephonePrefix" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : "+39"
+                        },
+                        "TimeFormat" : {
+                           "enabled" : true,
+                           "tag" : 37,
+                           "type" : 10,
+                           "value" : "2424833"
+                        }
+                     },
+                     "HKLPeopleBranch" : {
+                        "Address" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Address2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "AreaManager" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Branch" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "City" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompNameComplete" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CompanyName" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Contact" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactPerson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Country" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "County" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "District" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "EMail" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Fax" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FiscalCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Internet" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Language" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Latitude" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Longitude" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "MailSendingType" : {
+                           "enabled" : true,
+                           "tag" : 190,
+                           "type" : 10,
+                           "value" : "12451840"
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Region" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Salesperson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SkypeID" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "StreetNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TaxIdNumber" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TaxOffice" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telephone1" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telephone2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telex" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "WorkingTime" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ZIPCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLSupportBank" : {
+                        "ABI" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ABIPrefix" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Account" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Address" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Address2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Agency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Bank" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BankDays" : {
+                           "enabled" : true,
+                           "type" : 2,
+                           "value" : 0
+                        },
+                        "BillsAndPaymentsExtension" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "BillsAndPaymentsFolder" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Branch" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CAB" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CABPrefix" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CBICode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "CashOrderCBICode" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "CashOrderResultRequest" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ChargesAccount" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "City" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ContactPerson" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Counter" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Country" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "County" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "DebitChargesSeparately" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Disabled" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "District" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "EMail" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FactoringCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FactoringCurrency" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Fax" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "FederalState" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "ISOCountryCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Identifier" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Internet" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "IsACompanyBank" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "IsForeign" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "Notes" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "PreferredCA" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SIACode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SenderCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "SenderReference" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Signature" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "StreetNo" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Swift" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "Telephone1" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telephone2" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "Telex" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "UseISO20022" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "UseValueDate" : {
+                           "enabled" : true,
+                           "type" : 9,
+                           "value" : false
+                        },
+                        "ZIPCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
+                     "HKLTitles" : {
+                        "Description" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        },
+                        "TBCreated" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBCreatedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TBGuid" : {
+                           "enabled" : true,
+                           "type" : 12,
+                           "value" : "{00000000-0000-0000-0000-000000000000}"
+                        },
+                        "TBModified" : {
+                           "enabled" : true,
+                           "type" : 8,
+                           "value" : "1799-12-31T00:00:00"
+                        },
+                        "TBModifiedID" : {
+                           "enabled" : true,
+                           "type" : 3,
+                           "value" : 0
+                        },
+                        "TitleCode" : {
+                           "enabled" : true,
+                           "type" : 1,
+                           "value" : ""
+                        }
+                     },
                      "HeaderStripTitle" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Ve.ro.li Srl - Via Torino 88 66300 Pescara PE - Tax Number 060225580106 [0003]"
+                        "value" : "Ve.ro.li Srl - Via Torino 88 66300 Pescara PE - Partita IVA 060225580106 [0003]"
                      },
                      "IsPostaLiteEnabled" : {
                         "enabled" : true,
@@ -239,6 +4228,11 @@
                         "type" : 2,
                         "value" : 10
                      },
+                     "PaperyBarcodeViewer" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
                      "PaymentAddressDescri" : {
                         "enabled" : true,
                         "type" : 1,
@@ -258,7 +4252,7 @@
                      "Title" : {
                         "enabled" : true,
                         "type" : 1,
-                        "value" : "Contacts"
+                        "value" : "Contatti"
                      },
                      "TitleDescri" : {
                         "enabled" : true,
@@ -269,9 +4263,24 @@
                         "enabled" : true,
                         "type" : 9,
                         "value" : true
+                     },
+                     "sPaperyBarcodeValue" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
+                     },
+                     "sPaperyDescripion" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : "Tipo barcode: CODE39 - Prefisso: EA"
+                     },
+                     "sPaperyNotes" : {
+                        "enabled" : true,
+                        "type" : 1,
+                        "value" : ""
                      }
                   },
-                  "id" : "133938"
+                  "id" : "1574834"
                }
             ]
          },
@@ -350,6 +4359,9 @@
                   "ID_FORM_EDITOR_EDIT" : {
                      "enabled" : false
                   },
+                  "ID_INSPECT" : {
+                     "enabled" : true
+                  },
                   "ID_SEPARATOR" : {
                      "enabled" : false
                   },
@@ -357,7 +4369,7 @@
                      "enabled" : false
                   }
                },
-               "id" : "133938"
+               "id" : "1574834"
             }
          },
          "cmd" : "ButtonsState"

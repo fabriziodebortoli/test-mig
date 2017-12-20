@@ -60,7 +60,6 @@ void CJsonModelGenerator::OnGenerate()
 	if (m_pCallerDoc->m_pDBTMaster->GetRecord()->IsEmpty())
 		m_pCallerDoc->FirstRecord();
 
-	const CUIntArray& idx = m_pCallerDoc->m_pDBTMaster->GetRecord()->GetPrimaryKeyIndexes();
 	CString strOldKey;
 	for (int i = 0; i < m_NrOfDocuments; i++)
 	{

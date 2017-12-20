@@ -20,8 +20,7 @@ namespace Microarea.TbLoaderGate.Application
         private WebSocket webSocket;
         private string mockFolder = "mock";
 
-        private List<DocumentStub> documents = new List<DocumentStub>();
-        private int latestId = 0;
+
         public string MockFolder { get { return Path.Combine(hostingEnvironment.ContentRootPath, mockFolder); } }
 
         public TBLoaderStub(IHostingEnvironment hostingEnvironment, WebSocket webSocket)
@@ -62,6 +61,21 @@ namespace Microarea.TbLoaderGate.Application
             switch (cmd)
             {
                 case "SetClientWebSocketName":
+                    {
+                        await SocketDispatcher.SendSocketOpenMessage(webSocket);
+                        break;
+                    }
+                case "getOpenDocuments":
+                    {
+                        foreach (DocumentStub doc in Cache.Documents)
+                        {
+                            foreach (JObject jCmd in doc.runDocument)
+                            {
+                                await SendMessage(jCmd.ToString());
+                            }
+                        }
+                        break;
+                    }
                 case "checkMessageDialog":
                     break;
                 case "runDocument":
@@ -74,28 +88,28 @@ namespace Microarea.TbLoaderGate.Application
                             string path = Path.Combine(folder, "runDocument.json");
                             if (File.Exists(path))
                             {
-                                JArray jCommands = ReadJsonCommands(path);
-                                if (jCommands != null)
-                                {
-                                    DocumentStub doc = new DocumentStub() { Id = NewId(), Ns = ns };
-                                    documents.Add(doc);
-                                    foreach (string dataFile in Directory.GetFiles(folder, "*.doc.json"))
-                                        doc.Data.Add(ReadJsonCommands(dataFile));
-                                    foreach (JObject jCmd in jCommands)
-                                    {
-                                        JValue jId = (JValue)jCmd.SelectToken("$..id");
-                                        jId.Value = doc.Id;
-                                        await SendMessage(jCmd.ToString());
-                                    }
+                                DocumentStub doc = new DocumentStub() { Id = Cache.NewId(), Ns = ns };
+                                Cache.AddDocument(doc);
+                                doc.runDocument = ReadJsonCommands(path, doc.Id);
+                                doc.newData = ReadJsonCommands(Path.Combine(MockFolder, doc.Ns, "new.json"), doc.Id);
 
-                                    served = true;
+                                foreach (string dataFile in Directory.GetFiles(folder, "*.doc.json"))
+                                    doc.Data.Add(ReadJsonCommands(dataFile, doc.Id));
+
+
+                                foreach (JObject jCmd in doc.runDocument)
+                                {
+
+                                    await SendMessage(jCmd.ToString());
                                 }
+
+                                served = true;
                             }
                         }
                         if (!served)
                         {
-                            DocumentStub doc = new DocumentStub() { Id = NewId(), Ns = ns };
-                            documents.Add(doc);
+                            DocumentStub doc = new DocumentStub() { Id = Cache.NewId(), Ns = ns };
+                            Cache.AddDocument(doc);
                             await SendMessage(string.Concat("{\"args\" : {\"component\" : {\"app\" : \"Framework\",\"id\" : \"", doc.Id, "\",\"mod\" : \"TbGes\",\"name\" : \"IDD_Unsupported\"}},\"cmd\" : \"WindowOpen\"  }"));
                         }
 
@@ -103,19 +117,17 @@ namespace Microarea.TbLoaderGate.Application
                     }
                 case "getWindowStrings":
                     {
-                        DocumentStub doc = GetDocStub(jObj["cmpId"]?.ToString());
+                        DocumentStub doc = Cache.GetDocStub(jObj["cmpId"]?.ToString());
                         if (doc == null)
                             break;
                         string path = Path.Combine(MockFolder, doc.Ns, "getWindowStrings.json");
                         if (File.Exists(path))
                         {
-                            JArray jCommands = ReadJsonCommands(path);
+                            JArray jCommands = ReadJsonCommands(path, doc.Id);
                             if (jCommands != null)
                             {
                                 foreach (JObject jCmd in jCommands)
                                 {
-                                    foreach (JValue jId in jCmd.SelectTokens("$..id"))
-                                        jId.Value = doc.Id;
                                     await SendMessage(jCmd.ToString());
                                 }
                             }
@@ -125,77 +137,103 @@ namespace Microarea.TbLoaderGate.Application
                     }
                 case "getDocumentData":
                     {
-                        DocumentStub doc = GetDocStub(jObj["cmpId"]?.ToString());
+                        DocumentStub doc = Cache.GetDocStub(jObj["cmpId"]?.ToString());
                         if (doc == null)
                             break;
                         string path = Path.Combine(MockFolder, doc.Ns, "getDocumentData.json");
                         if (File.Exists(path))
                         {
-                            JArray jCommands = ReadJsonCommands(path);
-                            if (jCommands != null)
+                            JArray jCommands = doc.CurrentData;
+                            if (jCommands == null)
+                                break;
+                            JArray other = ReadJsonCommands(path, doc.Id);
+                            if (other == null)
+                                break;
+                            jCommands.Append(other);
+                            foreach (JObject jCmd in jCommands)
                             {
-                                foreach (JObject jCmd in jCommands)
-                                {
-                                    foreach (JValue jId in jCmd.SelectTokens("$..id"))
-                                        jId.Value = doc.Id;
-                                    await SendMessage(jCmd.ToString());
-                                }
+                                await SendMessage(jCmd.ToString());
                             }
                         }
                         break;
                     }
                 case "doCommand":
                     {
-                        DocumentStub doc = GetDocStub(jObj["cmpId"]?.ToString());
+                        DocumentStub doc = Cache.GetDocStub(jObj["cmpId"]?.ToString());
                         if (doc == null)
                             break;
                         string cmdId = jObj["id"]?.ToString();
                         switch (cmdId)
                         {
                             case "ID_FILE_CLOSE":
+                            case "ID_EXTDOC_EXIT":
                                 {
-                                    documents.Remove(doc);
+                                    Cache.RemoveDocument(doc);
                                     await SendMessage(string.Concat("{\"args\" : {\"id\" : \"", doc.Id, "\"},\"cmd\" : \"WindowClose\"  }"));
                                     break;
                                 }
 
                             case "ID_EXTDOC_NEW":
                                 {
-                                    string path = Path.Combine(MockFolder, doc.Ns, "new.json");
-                                    JArray jCommands = ReadJsonCommands(path);
-                                    if (jCommands != null)
+                                    if (doc.State == DocumentStub.DocState.Browse)
                                     {
-                                        foreach (JObject jCmd in jCommands)
-                                        {
-                                            foreach (JValue jId in jCmd.SelectTokens("$..id"))
-                                                jId.Value = doc.Id;
-                                            await SendMessage(jCmd.ToString());
-                                        }
+                                        doc.State = DocumentStub.DocState.New;
+                                        await doc.SendCurrentData(this);
                                     }
                                     break;
                                 }
-                            case "2":
+                            case "ID_EXTDOC_FIRST":
                                 {
+                                    if (doc.State == DocumentStub.DocState.Browse && doc.currDoc != 0)
+                                    {
+                                        doc.currDoc = 0;
+                                        await doc.SendCurrentData(this);
+                                    }
                                     break;
                                 }
-                            case "3":
+                            case "ID_EXTDOC_LAST":
                                 {
+                                    if (doc.State == DocumentStub.DocState.Browse && doc.currDoc != doc.Data.Count - 1)
+                                    {
+                                        doc.currDoc = doc.Data.Count - 1;
+                                        await doc.SendCurrentData(this);
+                                    }
                                     break;
                                 }
-                            case "4":
+                            case "ID_EXTDOC_PREV":
                                 {
+                                    if (doc.State == DocumentStub.DocState.Browse && doc.currDoc > 0)
+                                    {
+                                        doc.currDoc--;
+                                        await doc.SendCurrentData(this);
+                                    }
                                     break;
                                 }
-                            case "5":
+                            case "ID_EXTDOC_NEXT":
                                 {
+                                    if (doc.State == DocumentStub.DocState.Browse && doc.currDoc < doc.Data.Count)
+                                    {
+                                        doc.currDoc++;
+                                        await doc.SendCurrentData(this);
+                                    }
                                     break;
                                 }
-                            case "6":
+                            case "ID_EXTDOC_ESCAPE":
                                 {
+                                    if (doc.State != DocumentStub.DocState.Browse)
+                                    {
+                                        doc.State = DocumentStub.DocState.Browse;
+                                        await doc.SendCurrentData(this);
+                                    }
                                     break;
                                 }
-                            case "7":
+                            case "ID_EXTDOC_EDIT":
                                 {
+                                    if (doc.State == DocumentStub.DocState.Browse)
+                                    {
+                                        doc.State = DocumentStub.DocState.Edit;
+                                        await doc.SendCurrentData(this);
+                                    }
                                     break;
                                 }
                             default: break;
@@ -209,28 +247,19 @@ namespace Microarea.TbLoaderGate.Application
 
         }
 
-        private DocumentStub GetDocStub(string id)
-        {
-            foreach (DocumentStub doc in documents)
-                if (doc.Id == id)
-                    return doc;
-            return null;
-        }
 
-        private string NewId()
-        {
-            return (++latestId).ToString("000000");
-        }
-
-        async Task SendMessage(string message)
+        internal async Task SendMessage(string message)
         {
             var encoded = Encoding.UTF8.GetBytes(message);
             var buffer = new ArraySegment<Byte>(encoded, 0, encoded.Length);
             await webSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
         }
-        JArray ReadJsonCommands(string file)
+        JArray ReadJsonCommands(string file, string id)
         {
             JObject jRoot = ReadJsonFile(file);
+
+            foreach (JValue jId in jRoot.SelectTokens("$..id"))
+                jId.Value = id;
             return jRoot["items"] as JArray;
         }
         JObject ReadJsonFile(string file)
@@ -242,10 +271,101 @@ namespace Microarea.TbLoaderGate.Application
 
     class DocumentStub
     {
-        enum DocState { Browse, Edit, New }
-        DocState State = DocState.Browse;
+        public enum DocState { Browse, Edit, New }
+        public DocState State = DocState.Browse;
+        public int currDoc = 0;
+        public JArray runDocument;
+        public JArray newData;
         public List<JArray> Data = new List<JArray>();
         public string Id { get; set; }
         public string Ns { get; set; }
+        public JArray CurrentData
+        {
+            get
+            {
+                if (currDoc < 0 || currDoc >= Data.Count)
+                    return null;
+                JArray data = Data[currDoc];
+                JArray currData = new JArray();
+                switch (State)
+                {
+                    case DocState.Browse:
+                        currData.Add(data[0].DeepClone());
+                        currData.Add(data[1].DeepClone());
+                        break;
+                    case DocState.Edit:
+                        currData.Add(data[2].DeepClone());
+                        currData.Add(data[3].DeepClone());
+                        break;
+                    case DocState.New:
+                        currData.Add(newData[0].DeepClone());
+                        currData.Add(newData[1].DeepClone());
+                        break;
+                    default:
+                        break;
+                }
+                return currData;
+            }
+        }
+
+        internal async Task SendCurrentData(TBLoaderStub stub)
+        {
+            JArray d = CurrentData;
+            if (d != null)
+            {
+                foreach (JObject jCmd in d)
+                {
+                    await stub.SendMessage(jCmd.ToString());
+                }
+            }
+        }
+    }
+
+    static class Cache
+    {
+        private static List<DocumentStub> documents = new List<DocumentStub>();
+        private static int latestId = 0;
+
+        internal static DocumentStub[] Documents
+        {
+            get
+            {
+                lock (typeof(Cache))
+                {
+                    return documents.ToArray();
+                }
+            }
+        }
+        internal static void AddDocument(DocumentStub doc)
+        {
+            lock (typeof(Cache))
+            {
+                documents.Add(doc);
+            }
+        }
+
+        internal static void RemoveDocument(DocumentStub doc)
+        {
+            lock (typeof(Cache))
+            {
+                documents.Remove(doc);
+            }
+        }
+
+        internal static DocumentStub GetDocStub(string id)
+        {
+            lock (typeof(Cache))
+            {
+                foreach (DocumentStub doc in documents)
+                    if (doc.Id == id)
+                        return doc;
+            }
+            return null;
+
+        }
+        internal static string NewId()
+        {
+            return Interlocked.Increment(ref latestId).ToString("000000");
+        }
     }
 }
