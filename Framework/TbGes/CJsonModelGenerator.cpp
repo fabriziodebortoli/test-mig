@@ -52,51 +52,41 @@ void CJsonModelGenerator::OnGenerate()
 	session.Start();
 	m_pCallerDoc->ResetJsonData(dummy);
 	session.PushDataToClients(m_pCallerDoc);
+	session.PushButtonsStateToClients(m_pCallerDoc->GetFrameHandle());
 	session.PushMessageMapToClients(m_pCallerDoc);
 	session.PushActivationDataToClients();
-	session.PushButtonsStateToClients(m_pCallerDoc->GetFrameHandle());
 	session.Stop();
 	session.Save(sPath + _T("\\getDocumentData.json"));
 	if (m_pCallerDoc->m_pDBTMaster->GetRecord()->IsEmpty())
 		m_pCallerDoc->FirstRecord();
 
-	const CUIntArray& idx = m_pCallerDoc->m_pDBTMaster->GetRecord()->GetPrimaryKeyIndexes();
 	CString strOldKey;
 	for (int i = 0; i < m_NrOfDocuments; i++)
 	{
 		if (m_pCallerDoc->m_pDBTMaster->GetRecord()->IsEmpty())
 			break;
-		CString strKey;
-		for (int i = 0; i < idx.GetSize(); i++)
-		{
-			SqlRecordItem* pItem = m_pCallerDoc->m_pDBTMaster->GetRecord()->GetAt(idx.GetAt(i));
-			ASSERT_VALID(pItem);
-
-			CString sv(pItem->GetDataObj()->Str(0, 0));
-			if (i > 0)
-				strKey += _T("_");
-			strKey += sv;
-		}
-
-		ReplaceFileInvalidChars(strKey, _T('_'));
+		CString strKey = m_pCallerDoc->m_pDBTMaster->GetRecord()->GetPrimaryKeyDescription();
 		if (strKey == strOldKey)
 			break;
 		strOldKey = strKey;
 		session.Start();
 		m_pCallerDoc->ResetJsonData(dummy);
 		session.PushDataToClients(m_pCallerDoc);
+		session.PushButtonsStateToClients(m_pCallerDoc->GetFrameHandle());
 		m_pCallerDoc->OnEditRecord();
 		m_pCallerDoc->ResetJsonData(dummy);
 		session.PushDataToClients(m_pCallerDoc);
+		session.PushButtonsStateToClients(m_pCallerDoc->GetFrameHandle());
 		m_pCallerDoc->GoInBrowseMode();
 		session.Stop();
-		session.Save(sPath + _T("\\") + strKey + _T(".json"));
+		session.Save(sPath + _T("\\") + cwsprintf(L"%d", i) + _T(".doc.json"));
 		m_pCallerDoc->NextRecord();
 	}
 	session.Start();
 	m_pCallerDoc->ResetJsonData(dummy);
 	m_pCallerDoc->NewRecord();
 	session.PushDataToClients(m_pCallerDoc);
+	session.PushButtonsStateToClients(m_pCallerDoc->GetFrameHandle());
 	m_pCallerDoc->Escape(FALSE);
 	session.Stop();
 	session.Save(sPath + _T("\\new.json"));

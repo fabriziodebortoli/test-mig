@@ -2406,11 +2406,12 @@ void SqlRecord::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 	for (int i = 0; i < GetSizeEx(); i++)
 	{
 		SqlRecordItem* pItem = GetAt(i);
-		if (pItem->IsMandatory() || !bOnlyWebBound || !pItem->GetDataObj()->IsWebBound())
-			continue;
-		jsonSerializer.OpenObject(pItem->GetBindingName());
-		pItem->GetDataObj()->SerializeToJson(jsonSerializer);
-		jsonSerializer.CloseObject();
+		if (pItem->IsMandatory() || !bOnlyWebBound || pItem->GetDataObj()->IsWebBound())
+		{
+			jsonSerializer.OpenObject(pItem->GetBindingName());
+			pItem->GetDataObj()->SerializeToJson(jsonSerializer);
+			jsonSerializer.CloseObject();
+		}
 	}
 }
 

@@ -177,6 +177,8 @@ namespace Microarea.TbLoaderGate
                                 {
                                     couple = GetWebCouple(coupleName);
                                     couple.serverSocket = await tb.OpenWebSocketAsync(coupleName);
+                                    
+                                    await SendSocketOpenMessage(webSocket);
 #pragma warning disable 4014 //questo deve essere asincrono, non è necessario aspettarlo, gestisce il traffico del socket tb
                                     ManageSocketTraffic(couple.serverSocket, wsMessage, false, coupleName);
 #pragma warning restore 4014
@@ -216,6 +218,15 @@ namespace Microarea.TbLoaderGate
                 Debug.WriteLine(ex.Message);
             }
             DisconnectOtherSocket(coupleName, webSocket);
+        }
+
+        internal static async Task SendSocketOpenMessage(WebSocket webSocket)
+        {
+            JObject resp = new JObject();
+            resp["cmd"] = "SetServerWebSocketName";
+            var encoded = Encoding.UTF8.GetBytes(resp.ToString());
+            var buffer = new ArraySegment<Byte>(encoded, 0, encoded.Length);
+            await webSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         private void RecordRequest(string msg, JObject jObj, RecordedWSMessage parentReq, bool client2server)

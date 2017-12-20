@@ -1,0 +1,820 @@
+{
+   "items" : [
+      {
+         "args" : {
+            "id" : "1574834",
+            "strings" : [
+               {
+                  "b" : "Main",
+                  "t" : "Principale"
+               },
+               {
+                  "b" : "Search",
+                  "t" : "Ricerca"
+               },
+               {
+                  "b" : "Search for a specific document",
+                  "t" : "Cerca uno specifico documento"
+               },
+               {
+                  "b" : "First",
+                  "t" : "Primo"
+               },
+               {
+                  "b" : "Go to first record",
+                  "t" : "Vai al primo record"
+               },
+               {
+                  "b" : "Previous",
+                  "t" : "Precedente"
+               },
+               {
+                  "b" : "Go to previous record",
+                  "t" : "Vai al record precedente"
+               },
+               {
+                  "b" : "Next",
+                  "t" : "Successivo"
+               },
+               {
+                  "b" : "Go to next record",
+                  "t" : "Vai al record successivo"
+               },
+               {
+                  "b" : "Last",
+                  "t" : "Ultimo"
+               },
+               {
+                  "b" : "Go to last record",
+                  "t" : "Vai all'ultimo record"
+               },
+               {
+                  "b" : "Search with radar",
+                  "t" : "Cerca con radar"
+               },
+               {
+                  "b" : "Query",
+                  "t" : "Estrai dati"
+               },
+               {
+                  "b" : "Execute the query currently selected",
+                  "t" : "Esegue la query correntemente selezionata"
+               },
+               {
+                  "b" : "Save",
+                  "t" : "Salva"
+               },
+               {
+                  "b" : "Save the document",
+                  "t" : "Salva il documento"
+               },
+               {
+                  "b" : "Undo Changes",
+                  "t" : "Annulla modifiche"
+               },
+               {
+                  "b" : "Quit current editing",
+                  "t" : "Abbandona editazione corrente"
+               },
+               {
+                  "b" : "New",
+                  "t" : "Nuovo"
+               },
+               {
+                  "b" : "Create new document",
+                  "t" : "Crea un nuovo documento"
+               },
+               {
+                  "b" : "Edit",
+                  "t" : "Modifica"
+               },
+               {
+                  "b" : "Edit current document",
+                  "t" : "Modifica il documento corrente"
+               },
+               {
+                  "b" : "Delete",
+                  "t" : "Elimina"
+               },
+               {
+                  "b" : "Delete the document",
+                  "t" : "Cancella il documento"
+               },
+               {
+                  "b" : "Print",
+                  "t" : "Stampa"
+               },
+               {
+                  "b" : "Open the report related to the document",
+                  "t" : "Lancia il report associato al documento"
+               },
+               {
+                  "b" : "Exit",
+                  "t" : "Esci"
+               },
+               {
+                  "b" : "Exit",
+                  "t" : "Esci"
+               },
+               {
+                  "b" : "Tools",
+                  "t" : "Strumenti"
+               },
+               {
+                  "b" : "Save",
+                  "t" : "Salva"
+               },
+               {
+                  "b" : "Save the document",
+                  "t" : "Salva il documento"
+               },
+               {
+                  "b" : "Undo Changes",
+                  "t" : "Annulla modifiche"
+               },
+               {
+                  "b" : "Quit current editing",
+                  "t" : "Abbandona editazione corrente"
+               },
+               {
+                  "b" : "Refresh data",
+                  "t" : "Ricarica dati"
+               },
+               {
+                  "b" : "Refresh data from company database",
+                  "t" : "Sincronizza dati dal database aziendale"
+               },
+               {
+                  "b" : "Customize",
+                  "t" : "Personalizza"
+               },
+               {
+                  "b" : "Customize the document",
+                  "t" : "Personalizza il documento"
+               },
+               {
+                  "b" : "Share",
+                  "t" : "Condividi"
+               },
+               {
+                  "b" : "Share document link",
+                  "t" : "Condividi link al documento"
+               },
+               {
+                  "b" : "Exit",
+                  "t" : "Esci"
+               },
+               {
+                  "b" : "Exit",
+                  "t" : "Esci"
+               },
+               {
+                  "b" : "Inspect field",
+                  "t" : "Ispeziona campo"
+               },
+               {
+                  "b" : "Main &Data",
+                  "t" : "Dati &Principali"
+               },
+               {
+                  "b" : "Main Data",
+                  "t" : "Dati Principali"
+               },
+               {
+                  "b" : "Main Data",
+                  "t" : "Dati Principali"
+               },
+               {
+                  "b" : "Code",
+                  "t" : "Codice"
+               },
+               {
+                  "b" : "Disabled  ",
+                  "t" : "Disattivo"
+               },
+               {
+                  "b" : "Company Name",
+                  "t" : "Ragione sociale"
+               },
+               {
+                  "b" : "Title",
+                  "t" : "Titolo"
+               },
+               {
+                  "b" : "Natural Person  ",
+                  "t" : "Persona Fisica"
+               },
+               {
+                  "b" : "ISO Country",
+                  "t" : "ISO Stato"
+               },
+               {
+                  "b" : "Type",
+                  "t" : "Tipo"
+               },
+               {
+                  "b" : "Fiscal Code",
+                  "t" : "Codice Fiscale"
+               },
+               {
+                  "b" : "Tax Number",
+                  "t" : "Partita IVA"
+               },
+               {
+                  "b" : "Address Data",
+                  "t" : "Dati Indirizzo"
+               },
+               {
+                  "b" : "ZIP Code",
+                  "t" : "CAP"
+               },
+               {
+                  "b" : "Address",
+                  "t" : "Indirizzo"
+               },
+               {
+                  "b" : "Street No.",
+                  "t" : "Nr. Civico"
+               },
+               {
+                  "b" : "Additional Address",
+                  "t" : "Indirizzo Aggiuntivo"
+               },
+               {
+                  "b" : "District",
+                  "t" : "Distretto"
+               },
+               {
+                  "b" : "Federal State",
+                  "t" : "Stato Federale"
+               },
+               {
+                  "b" : "Municipality",
+                  "t" : "Comune"
+               },
+               {
+                  "b" : "Country",
+                  "t" : "Stato"
+               },
+               {
+                  "b" : "Latitude/Longitude",
+                  "t" : "Latitudine/Longitudine"
+               },
+               {
+                  "b" : "Address Data",
+                  "t" : "Dati Indirizzo"
+               },
+               {
+                  "b" : "Address",
+                  "t" : "Indirizzo"
+               },
+               {
+                  "b" : "Additional Address",
+                  "t" : "Indirizzo Aggiuntivo"
+               },
+               {
+                  "b" : "Municipality",
+                  "t" : "Comune"
+               },
+               {
+                  "b" : "ZIP Code",
+                  "t" : "CAP"
+               },
+               {
+                  "b" : "County",
+                  "t" : "Provincia"
+               },
+               {
+                  "b" : "Region",
+                  "t" : "Regione"
+               },
+               {
+                  "b" : "Country",
+                  "t" : "Stato"
+               },
+               {
+                  "b" : "Latitude/Longitude",
+                  "t" : "Latitudine/Longitudine"
+               },
+               {
+                  "b" : "Other Data",
+                  "t" : "Altri Dati"
+               },
+               {
+                  "b" : "Acquired on",
+                  "t" : "Acquisito il"
+               },
+               {
+                  "b" : "Converted into Customer  ",
+                  "t" : "Convertito in cliente"
+               },
+               {
+                  "b" : "Customer",
+                  "t" : "Cliente"
+               },
+               {
+                  "b" : "Date",
+                  "t" : "Data"
+               },
+               {
+                  "b" : "Category",
+                  "t" : "Categoria"
+               },
+               {
+                  "b" : "Origin",
+                  "t" : "Provenienza"
+               },
+               {
+                  "b" : "Origin Specification",
+                  "t" : "Specifica Provenienza"
+               },
+               {
+                  "b" : "Contacts",
+                  "t" : "Contatti"
+               },
+               {
+                  "b" : "Phone",
+                  "t" : "Telefoni"
+               },
+               {
+                  "b" : "Telex/Fax",
+                  "t" : "Altri Telefoni/Fax"
+               },
+               {
+                  "b" : "Contact Person",
+                  "t" : "Persona di riferimento"
+               },
+               {
+                  "b" : "Working Time",
+                  "t" : "Orario di lavoro"
+               },
+               {
+                  "b" : "Sending Options",
+                  "t" : "Opzioni Invio"
+               },
+               {
+                  "b" : "Send documents by",
+                  "t" : "Invio documenti tramite"
+               },
+               {
+                  "b" : "Email Sending Type",
+                  "t" : "Tipo invio Email"
+               },
+               {
+                  "b" : "Do not send via PostaLite  ",
+                  "t" : "Non inviare tramite PostaLite"
+               },
+               {
+                  "b" : "Registers",
+                  "t" : "Registri"
+               },
+               {
+                  "b" : "Taxpayer Type",
+                  "t" : "Tipo Contribuente"
+               },
+               {
+                  "b" : "Federal State Register",
+                  "t" : "Registro Stato Federale"
+               },
+               {
+                  "b" : "Municipality Register",
+                  "t" : "Registro Comunale"
+               },
+               {
+                  "b" : "General Register",
+                  "t" : "Registro Generale"
+               },
+               {
+                  "b" : "General Register Entity",
+                  "t" : "Entità Registro Generale"
+               },
+               {
+                  "b" : "Registers",
+                  "t" : "Registri"
+               },
+               {
+                  "b" : "Tax Office",
+                  "t" : "Ufficio IVA"
+               },
+               {
+                  "b" : "Register of Companies",
+                  "t" : "REA"
+               },
+               {
+                  "b" : "Othe&r Branches References",
+                  "t" : "Altre Sedi &Riferimenti"
+               },
+               {
+                  "b" : "Other Branches References",
+                  "t" : "Altre Sedi Riferimenti"
+               },
+               {
+                  "b" : "Other Branches",
+                  "t" : "Altre Sedi"
+               },
+               {
+                  "b" : "Other Branches",
+                  "t" : "Altre Sedi"
+               },
+               {
+                  "b" : "Branch",
+                  "t" : "Sede"
+               },
+               {
+                  "b" : "Disabled",
+                  "t" : "Disattiva"
+               },
+               {
+                  "b" : "Company Name",
+                  "t" : "Ragione sociale"
+               },
+               {
+                  "b" : "ISO Country",
+                  "t" : "ISO Stato"
+               },
+               {
+                  "b" : "Fiscal Code",
+                  "t" : "Codice Fiscale"
+               },
+               {
+                  "b" : "Tax Number",
+                  "t" : "Partita IVA"
+               },
+               {
+                  "b" : "Tax Office",
+                  "t" : "Ufficio IVA"
+               },
+               {
+                  "b" : "Federal State",
+                  "t" : "Stato Federale"
+               },
+               {
+                  "b" : "ZIP Code",
+                  "t" : "CAP"
+               },
+               {
+                  "b" : "Address",
+                  "t" : "Indirizzo"
+               },
+               {
+                  "b" : "Street No.",
+                  "t" : "Nr. Civico"
+               },
+               {
+                  "b" : "Additional Address",
+                  "t" : "Indirizzo Aggiuntivo"
+               },
+               {
+                  "b" : "District",
+                  "t" : "Distretto"
+               },
+               {
+                  "b" : "Municipality",
+                  "t" : "Comune"
+               },
+               {
+                  "b" : "ZIP Code",
+                  "t" : "CAP"
+               },
+               {
+                  "b" : "County",
+                  "t" : "Provincia"
+               },
+               {
+                  "b" : "Region",
+                  "t" : "Regione"
+               },
+               {
+                  "b" : "Country",
+                  "t" : "Stato"
+               },
+               {
+                  "b" : "Latitude",
+                  "t" : "Latitudine"
+               },
+               {
+                  "b" : "Longitude",
+                  "t" : "Longitudine"
+               },
+               {
+                  "b" : "Telephone 1",
+                  "t" : "Telefono 1"
+               },
+               {
+                  "b" : "Telephone 2",
+                  "t" : "Telefono 2"
+               },
+               {
+                  "b" : "Telex",
+                  "t" : "Altri Telefoni"
+               },
+               {
+                  "b" : "Sending Type",
+                  "t" : "Tipo Invio"
+               },
+               {
+                  "b" : "Working Time",
+                  "t" : "Orario di lavoro"
+               },
+               {
+                  "b" : "Contact Person",
+                  "t" : "Persona di riferimento"
+               },
+               {
+                  "b" : "Document Language",
+                  "t" : "Lingua documento"
+               },
+               {
+                  "b" : "Salesperson",
+                  "t" : "Agente"
+               },
+               {
+                  "b" : "Area Manager",
+                  "t" : "Capoarea"
+               },
+               {
+                  "b" : "Notes",
+                  "t" : "Note"
+               },
+               {
+                  "b" : "Document Sent to",
+                  "t" : "Sede invio documenti"
+               },
+               {
+                  "b" : "Goods Delivered to",
+                  "t" : "Sede spedizione merce"
+               },
+               {
+                  "b" : "Payments Addressed to",
+                  "t" : "Sede intestazione pagamenti"
+               },
+               {
+                  "b" : "References",
+                  "t" : "Riferimenti"
+               },
+               {
+                  "b" : "References",
+                  "t" : "Riferimenti"
+               },
+               {
+                  "b" : "Title",
+                  "t" : "Titolo"
+               },
+               {
+                  "b" : "Code",
+                  "t" : "Codice"
+               },
+               {
+                  "b" : "Last Name",
+                  "t" : "Cognome"
+               },
+               {
+                  "b" : "Name",
+                  "t" : "Nome"
+               },
+               {
+                  "b" : "Phone 1",
+                  "t" : "Telefono 1"
+               },
+               {
+                  "b" : "Phone 2",
+                  "t" : "Telefono 2"
+               },
+               {
+                  "b" : "Telex",
+                  "t" : "Altri Telefoni"
+               },
+               {
+                  "b" : "Sending Type",
+                  "t" : "Tipo Invio"
+               },
+               {
+                  "b" : "Branch",
+                  "t" : "Sede"
+               },
+               {
+                  "b" : "Working Position",
+                  "t" : "Posizione Lavorativa"
+               },
+               {
+                  "b" : "Notes",
+                  "t" : "Note"
+               },
+               {
+                  "b" : "&Payment Data",
+                  "t" : "&Dati Pagamento"
+               },
+               {
+                  "b" : "Payment Data",
+                  "t" : "Dati pagamento"
+               },
+               {
+                  "b" : "Payment Schedules",
+                  "t" : "Scadenze"
+               },
+               {
+                  "b" : "Payment Term",
+                  "t" : "Condizione Pagamento"
+               },
+               {
+                  "b" : "Bank",
+                  "t" : "Banca"
+               },
+               {
+                  "b" : "Currency",
+                  "t" : "Divisa"
+               },
+               {
+                  "b" : "&Sales",
+                  "t" : "&Vendite"
+               },
+               {
+                  "b" : "Sales",
+                  "t" : "Vendite"
+               },
+               {
+                  "b" : "Document Data",
+                  "t" : "Dati Documento"
+               },
+               {
+                  "b" : "Document Language",
+                  "t" : "Lingua documento"
+               },
+               {
+                  "b" : "Freight",
+                  "t" : "Porto"
+               },
+               {
+                  "b" : "Price List",
+                  "t" : "Listino"
+               },
+               {
+                  "b" : "Standard Discount",
+                  "t" : "Sconto tipico"
+               },
+               {
+                  "b" : "Salespeople",
+                  "t" : "Agenti"
+               },
+               {
+                  "b" : "Salesperson",
+                  "t" : "Agente"
+               },
+               {
+                  "b" : "Area Manager",
+                  "t" : "Capoarea"
+               },
+               {
+                  "b" : "Commission Category",
+                  "t" : "Categoria Provvigionale"
+               },
+               {
+                  "b" : "Sales Area",
+                  "t" : "Area di Vendita"
+               },
+               {
+                  "b" : "&Administrative Data",
+                  "t" : "Dati &Amministrativi"
+               },
+               {
+                  "b" : "Administrative Data",
+                  "t" : "Dati Amministrativi"
+               },
+               {
+                  "b" : "Accounting Data",
+                  "t" : "Dati Contabili"
+               },
+               {
+                  "b" : "Tax Code",
+                  "t" : "Codice IVA"
+               },
+               {
+                  "b" : "Exempt from Tax  ",
+                  "t" : "In esenzione IVA"
+               },
+               {
+                  "b" : "Additional Tax  ",
+                  "t" : "Imposta Addizionale"
+               },
+               {
+                  "b" : "Suspended Tax  ",
+                  "t" : "In sospensione"
+               },
+               {
+                  "b" : "Default Accounts",
+                  "t" : "Conti di Default"
+               },
+               {
+                  "b" : "Chart of Account a/c",
+                  "t" : "Conto"
+               },
+               {
+                  "b" : "Goods Offset",
+                  "t" : "Contropartita Merci"
+               },
+               {
+                  "b" : "Services Offset",
+                  "t" : "Contropartita Servizi"
+               },
+               {
+                  "b" : "&Notes",
+                  "t" : "&Note"
+               },
+               {
+                  "b" : "Notes",
+                  "t" : "Note"
+               },
+               {
+                  "b" : "Notes",
+                  "t" : "Note"
+               },
+               {
+                  "b" : "Notes",
+                  "t" : "Note"
+               },
+               {
+                  "b" : "Notes for Internal Use",
+                  "t" : "Note ad uso interno"
+               },
+               {
+                  "b" : "Notes",
+                  "t" : "Note"
+               },
+               {
+                  "b" : "Notes",
+                  "t" : "Note"
+               },
+               {
+                  "b" : "Print in Quotations",
+                  "t" : "Stampa in Offerta"
+               },
+               {
+                  "b" : "Display in Quotations",
+                  "t" : "Visualizza in Offerta"
+               },
+               {
+                  "b" : "Copy in Quotations",
+                  "t" : "Copia in Offerta"
+               },
+               {
+                  "b" : "Data Synchronizer",
+                  "t" : "Sincronizzazione Dati"
+               },
+               {
+                  "b" : "Force",
+                  "t" : "Forza"
+               },
+               {
+                  "b" : "Force Synchronization",
+                  "t" : "Forza Sincronizzazione"
+               },
+               {
+                  "b" : "Validation",
+                  "t" : "Validazione"
+               },
+               {
+                  "b" : "Validation",
+                  "t" : "Validazione"
+               },
+               {
+                  "b" : "Refresh",
+                  "t" : "Aggiorna"
+               },
+               {
+                  "b" : "Refresh",
+                  "t" : "Aggiorna"
+               },
+               {
+                  "b" : "Data Validation Status",
+                  "t" : "Stato Validazione"
+               },
+               {
+                  "b" : "Data Synchronization Technical Details",
+                  "t" : "Dettagli Tecnici Sincronizzazione Dati"
+               },
+               {
+                  "b" : "Time",
+                  "t" : "Ora"
+               },
+               {
+                  "b" : "Direction",
+                  "t" : "Direzione"
+               },
+               {
+                  "b" : "Copy Msg",
+                  "t" : "Copia Msg"
+               },
+               {
+                  "b" : "Data Synchronization Status",
+                  "t" : "Stato Sincronizzazione"
+               },
+               {
+                  "b" : "Copy Msg",
+                  "t" : "Copia Msg"
+               }
+            ]
+         },
+         "cmd" : "WindowStrings"
+      }
+   ]
+}

@@ -1,0 +1,15 @@
+{
+   "items" : [
+      {
+         "args" : {
+            "component" : {
+               "app" : "ERP",
+               "id" : "1574834",
+               "mod" : "Contacts",
+               "name" : "IDD_CONTACTS"
+            }
+         },
+         "cmd" : "WindowOpen"
+      }
+   ]
+}
