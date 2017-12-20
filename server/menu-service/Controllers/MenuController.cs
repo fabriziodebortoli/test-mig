@@ -161,8 +161,8 @@ namespace Microarea.Menu.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("updateAllFavoritesAndMostUsed")]
-        public IActionResult UpdateAllFavoritesAndMostUsed([FromBody] JObject value)
+        [Route("updateFavorites")]
+        public IActionResult UpdateFavorites([FromBody] JObject value)
         {
             try
             {
@@ -173,8 +173,7 @@ namespace Microarea.Menu.Controllers
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
                 string favorites = value["favorites"]?.Value<string>();
-                string mostUsed = value["mostUsed"]?.Value<string>(); 
-                NewMenuSaver.UpdateAllFavoritesAndMostUsed(favorites, mostUsed, user, company);
+                NewMenuSaver.UpdateFavorites(favorites, user, company);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "text/plain" };
             }
             catch (Exception e)
@@ -182,6 +181,29 @@ namespace Microarea.Menu.Controllers
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
         }
+
+        //---------------------------------------------------------------------
+        [Route("updateMostUsed")]
+        public IActionResult UpdateMostUsed([FromBody] JObject value)
+        {
+            try
+            {
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                string user = value["user"]?.Value<string>();
+                string company = value["company"]?.Value<string>();
+                string mostUsed = value["mostUsed"]?.Value<string>();
+                NewMenuSaver.UpdateMostUsed(mostUsed, user, company);
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "text/plain" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+
 
         //---------------------------------------------------------------------
         [Route("clearCachedData")]

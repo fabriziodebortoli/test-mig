@@ -229,17 +229,30 @@ export class HttpMenuService {
             });
     }
 
-    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<boolean> {
+    updateMostUsed(mostUsed: any): Observable<boolean> {
         let obj = {
             user: localStorage.getItem('_user'), company: localStorage.getItem('_company'),
-            favorites: JSON.stringify(favorites), mostUsed: JSON.stringify(mostUsed)
+            mostUsed: JSON.stringify(mostUsed)
         };
-        var url = this.infoService.getMenuServiceUrl() + 'updateAllFavoritesAndMostUsed/';
+        var url = this.infoService.getMenuServiceUrl() + 'updateMostUsed/';
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
                 return res.ok;
             });
     }
+
+    updateFavorites(favorites: any): Observable<boolean> {
+        let obj = {
+            user: localStorage.getItem('_user'), company: localStorage.getItem('_company'),
+            favorites: JSON.stringify(favorites)
+        };
+        var url = this.infoService.getMenuServiceUrl() + 'updateFavorites/';
+        return this.httpService.postData(url, obj)
+            .map((res: Response) => {
+                return res.ok;
+            });
+    }
+
 
     clearCachedData(): Observable<any> {
         var url = this.infoService.getMenuServiceUrl() + 'clearCachedData/';

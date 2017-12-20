@@ -62,7 +62,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------	
-        private static void UpdateFavorites(string favorites, string user, string company)
+        public static void UpdateFavorites(string favorites, string user, string company)
         {
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserFavoriteFile(pf);
@@ -108,7 +108,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------	
-        private static void UpdateMostUsed(string mostUsed, string user, string company)
+        public static void UpdateMostUsed(string mostUsed, string user, string company)
         {
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
