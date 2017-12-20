@@ -41,12 +41,19 @@ DataObj* GetDataObjFromName(SqlRecord* pRec, const CString& sFieldName)
 	return pDataObj;
 }
 
-HKLInfo* HKLInfo::Clone()
+HKLKeyInfo* HKLKeyInfo::Clone()
 {
-	HKLInfo* pNew = new HKLInfo;
-	pNew->m_DescriptionField = m_DescriptionField;
+	HKLKeyInfo* pNew = new HKLKeyInfo;
 	pNew->m_pHKL = m_pHKL;
 	pNew->m_strKeyField = m_strKeyField;
+	return pNew;
+}
+
+HKLDescriptionInfo* HKLDescriptionInfo::Clone()
+{
+	HKLDescriptionInfo* pNew = new HKLDescriptionInfo;
+	pNew->m_DescriptionField = m_DescriptionField;
+	pNew->m_pHKL = m_pHKL;
 	return pNew;
 }
 
@@ -3022,7 +3029,7 @@ void DBTSlaveBuffered::Init()
 //-----------------------------------------------------------------------------
 void DBTSlaveBuffered::PrepareDynamicColumns(BOOL bUpdateDescriptions)
 {
-	if (m_arHKLInfos.GetCount())
+	if (m_arHKLDescriptionInfos.GetCount())
 	{
 		for (int j = 0; j < GetSize(); j++)
 		{
@@ -3045,16 +3052,27 @@ void DBTSlaveBuffered::PrepareDynamicColumns(SqlRecord *pRec, BOOL bUpdateDescri
 {
 	OnPrepareDynamicColumns(pRec);
 	CMap<void*, void*, bool, bool> hotLinkFindCalled;
-	for (int i = 0; i < m_arHKLInfos.GetCount(); i++)
+	for (int i = 0; i < m_arHKLDescriptionInfos.GetCount(); i++)
 	{
-		hotLinkFindCalled[m_arHKLInfos[i]->m_pHKL] = false;
+		hotLinkFindCalled[m_arHKLDescriptionInfos[i]->m_pHKL] = false;
 	}
-	for (int i = 0; i < m_arHKLInfos.GetCount(); i++)
+	for (int i = 0; i < m_arHKLDescriptionInfos.GetCount(); i++)
 	{
-		HKLInfo* pInfo = m_arHKLInfos[i];
+		HKLDescriptionInfo* pInfo = m_arHKLDescriptionInfos[i];
 		if (!pInfo->m_DescriptionField.IsEmpty())
 		{
-			DataObj* pKey = GetDataObjFromName(pRec, pInfo->m_strKeyField);
+			CString sKeyField;
+			for (int j = 0; j < m_arHKLKeyInfos.GetCount(); j++)
+			{
+				HKLKeyInfo* pKi = m_arHKLKeyInfos[j];
+				if (pKi->m_pHKL == pInfo->m_pHKL)
+				{
+					sKeyField = pKi->m_strKeyField;
+					break;
+				}
+			}
+			DataObj* pKey = GetDataObjFromName(pRec, sKeyField);
+			ASSERT(pKey);
 			if (pKey)
 			{
 				if (bUpdateDescriptions && pInfo->m_pHKL->FindNeeded(pKey, pRec))
@@ -3099,56 +3117,33 @@ void DBTSlaveBuffered::PrepareDynamicColumns(SqlRecord *pRec, BOOL bUpdateDescri
 //-----------------------------------------------------------------------------
 void DBTSlaveBuffered::AddHotLinkKeyField(HotKeyLink* pHKL, const CString& sKeyField)
 {
-	for (int i = 0; i < m_arHKLInfos.GetCount(); i++)
+	for (int i = 0; i < m_arHKLKeyInfos.GetCount(); i++)
 	{
-		HKLInfo* pInfo = m_arHKLInfos[i];
-		if (pInfo->m_pHKL == pHKL)
-		{
-			if (pInfo->m_strKeyField.IsEmpty()) {
-				pInfo->m_strKeyField = sKeyField;
-			}
-			else {
-				ASSERT(pInfo->m_strKeyField == sKeyField);
-				return;
-			}
-		}
+		HKLKeyInfo* pInfo = m_arHKLKeyInfos[i];
+		if (pInfo->m_pHKL == pHKL && pInfo->m_strKeyField == sKeyField)
+			return;
 	}
 
-	HKLInfo* pInfo = new HKLInfo;
+	HKLKeyInfo* pInfo = new HKLKeyInfo;
 	pInfo->m_pHKL = pHKL;
 	pInfo->m_strKeyField = sKeyField;
-	m_arHKLInfos.Add(pInfo);
+	m_arHKLKeyInfos.Add(pInfo);
 }
 //-----------------------------------------------------------------------------
 void DBTSlaveBuffered::AddHotLinkDescriptionField(HotKeyLink* pHKL, const CString& sDescriField)
 {
 	CString sKeyField;
-	for (int i = 0; i < m_arHKLInfos.GetCount(); i++)
+	for (int i = 0; i < m_arHKLDescriptionInfos.GetCount(); i++)
 	{
-		HKLInfo* pInfo = m_arHKLInfos[i];
-		if (pInfo->m_pHKL == pHKL)
-		{
-			if (pInfo->m_DescriptionField == sDescriField)
-			{
-				return;
-			}
-			if (pInfo->m_DescriptionField.IsEmpty())
-			{
-				pInfo->m_DescriptionField = sDescriField;
-				return;
-			}
-			if (sKeyField.IsEmpty())
-				sKeyField = pInfo->m_strKeyField;
-			else
-				ASSERT(sKeyField == pInfo->m_strKeyField);
-		}
+		HKLDescriptionInfo* pInfo = m_arHKLDescriptionInfos[i];
+		if (pInfo->m_pHKL == pHKL && pInfo->m_DescriptionField == sDescriField)
+			return;
 	}
 
-	HKLInfo* pInfo = new HKLInfo;
+	HKLDescriptionInfo* pInfo = new HKLDescriptionInfo;
 	pInfo->m_pHKL = pHKL;
-	pInfo->m_strKeyField = sKeyField;
 	pInfo->m_DescriptionField = sDescriField;
-	m_arHKLInfos.Add(pInfo);
+	m_arHKLDescriptionInfos.Add(pInfo);
 }
 
 //-----------------------------------------------------------------------------
@@ -3959,11 +3954,17 @@ DBTSlave* DBTSlaveBuffered::CreateDBTSlave(DBTSlave* pPrototype)
 		//devo creare il prototipo 
 		if (pSlave->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
 		{
-			TArray<HKLInfo>& prototypeInfos = ((DBTSlaveBuffered*)pPrototype)->m_arHKLInfos;
-			TArray<HKLInfo>& slaveInfos = ((DBTSlaveBuffered*)pSlave)->m_arHKLInfos;
-			for (int i = 0; i < prototypeInfos.GetCount(); i++)
+			TArray<HKLDescriptionInfo>& prototypeDescriInfos = ((DBTSlaveBuffered*)pPrototype)->m_arHKLDescriptionInfos;
+			TArray<HKLDescriptionInfo>& slaveDescriInfos = ((DBTSlaveBuffered*)pSlave)->m_arHKLDescriptionInfos;
+			for (int i = 0; i < prototypeDescriInfos.GetCount(); i++)
 			{
-				slaveInfos.Add(prototypeInfos[i]->Clone());
+				slaveDescriInfos.Add(prototypeDescriInfos[i]->Clone());
+			}
+			TArray<HKLKeyInfo>& prototypeKeyInfos = ((DBTSlaveBuffered*)pPrototype)->m_arHKLKeyInfos;
+			TArray<HKLKeyInfo>& slaveKeyInfos = ((DBTSlaveBuffered*)pSlave)->m_arHKLKeyInfos;
+			for (int i = 0; i < prototypeKeyInfos.GetCount(); i++)
+			{
+				slaveKeyInfos.Add(prototypeKeyInfos[i]->Clone());
 			}
 			((DBTSlaveBuffered*)pSlave)->PrepareDynamicColumns(FALSE);
 			for (int i = 0; i < ((DBTSlaveBuffered*)pPrototype)->m_DBTSlaveData.GetSize(); i++)

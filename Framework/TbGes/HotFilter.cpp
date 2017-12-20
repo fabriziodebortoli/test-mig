@@ -299,12 +299,9 @@ BOOL HotFilterObj::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINF
 	if (res.m_strName.Find(m_sNotificationIDC) == 0)
 	{
 		CString sIdc = res.m_strName.Mid(m_sNotificationIDC.GetLength() + 1);
-		return __super::OnCmdMsg(AfxGetTBResourcesMap()->GetTbResourceID(sIdc, TbResourceType::TbControls), nCode, pExtra, pHandlerInfo);
+		__super::OnCmdMsg(AfxGetTBResourcesMap()->GetTbResourceID(sIdc, TbResourceType::TbControls), nCode, pExtra, pHandlerInfo);
 	}
-	else
-	{
-		return __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
-	}
+	return __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

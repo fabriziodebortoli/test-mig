@@ -596,12 +596,17 @@ public:
 
 typedef  void (__stdcall *ROW_FUNC) (SqlRecord*);
 
-struct HKLInfo
+struct HKLDescriptionInfo
 {
-	CString m_strKeyField;
 	CString m_DescriptionField;
 	HotKeyLink* m_pHKL;
-	HKLInfo* Clone();
+	HKLDescriptionInfo* Clone();
+};
+struct HKLKeyInfo
+{
+	CString m_strKeyField;
+	HotKeyLink* m_pHKL;
+	HKLKeyInfo* Clone();
 };
 DataObj* GetDataObjFromName(SqlRecord* pRec, const CString& sFieldName);
 //=============================================================================
@@ -624,7 +629,8 @@ class TB_EXPORT DBTSlaveBuffered : public DBTSlave, public IDataProvider
 private:
 	DATAOBJ_ROW_FUNC	m_pFnDuplicateKey;
 	CBodyEditPointers	m_arBodyPtr;
-	TArray<HKLInfo>		m_arHKLInfos; //array degli hotlink a cui sono associati campi di decodifica dinamici
+	TArray<HKLDescriptionInfo>m_arHKLDescriptionInfos; //array degli hotlink a cui sono associati campi di decodifica dinamici
+	TArray<HKLKeyInfo>m_arHKLKeyInfos; //array degli hotlink a cui sono associati campi chiave per la decodifica dinamica
 protected:	// data
 	RecordArray*	m_pRecords;				// buffered body
 
