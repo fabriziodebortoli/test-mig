@@ -59,6 +59,13 @@ namespace Microarea.TbLoaderGate
                 byte[] buff = Encoding.UTF8.GetBytes("SetWebSocketName:" + name);
                 ArraySegment<byte> seg = new ArraySegment<byte>(buff);
                 await ws.SendAsync(seg, WebSocketMessageType.Text, true, token);
+
+                JObject jCmd = new JObject();
+                jCmd["cmd"] = "getOpenDocuments";
+                buff = Encoding.UTF8.GetBytes(jCmd.ToString());
+                seg = new ArraySegment<Byte>(buff, 0, buff.Length);
+                await ws.SendAsync(seg, WebSocketMessageType.Text, true, CancellationToken.None);
+
                 return ws;
             }
             catch
