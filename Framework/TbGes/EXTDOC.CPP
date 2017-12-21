@@ -19,7 +19,7 @@
 #include <TbGeneric\WebServiceStateObjects.h>
 #include <TbGeneric\JsonFormEngine.h>
 
-#include <TbGenlib\reswalk.h>
+#include <TbGenlib\reswalk.h> 
 #include <TbGenlib\parsobj.h>
 #include <TbGenlib\messages.h>
 #include <TbGenlib\generic.h> 
@@ -1263,10 +1263,17 @@ BOOL CAbstractFormDoc::TranslateFieldAlias(const CString& sActualDataSource, CSt
 		return FALSE;
 
 	//sField.TrimLeft(ALIAS_IDENTIFIER);
-	CObArray* pAr = NULL;
 	if (sActualDataSource.IsEmpty())
 	{
-		pAr = &m_arFieldAliases;
+		for (int i = 0; i < m_arFieldAliases.GetCount(); i++)
+		{
+			CFieldAlias* pAlias = (CFieldAlias*)m_arFieldAliases.GetAt(i);
+			if (pAlias->m_sAlias == sField)
+			{
+				sField = pAlias->m_sActual;
+				return TRUE;
+			}
+		}
 	}
 	else
 	{
@@ -1275,23 +1282,19 @@ BOOL CAbstractFormDoc::TranslateFieldAlias(const CString& sActualDataSource, CSt
 			CDataSourceAlias* pAlias = (CDataSourceAlias*)m_arDataSourceAliases.GetAt(i);
 			if (pAlias->m_sActual == sActualDataSource)
 			{
-				pAr = &pAlias->m_arFields;
-				break;
+				for (int j = 0; j < pAlias->m_arFields.GetCount(); j++)
+				{
+					CFieldAlias* pFieldAlias = (CFieldAlias*)pAlias->m_arFields.GetAt(j);
+					if (pFieldAlias->m_sAlias == sField)
+					{
+						sField = pFieldAlias->m_sActual;
+						return TRUE;
+					}
+				}
 			}
 		}
 	}
-	if (!pAr)
-		return FALSE;
-
-	for (int i = 0; i < pAr->GetCount(); i++)
-	{
-		CFieldAlias* pAlias = (CFieldAlias*)pAr->GetAt(i);
-		if (pAlias->m_sAlias == sField)
-		{
-			sField = pAlias->m_sActual;
-			return TRUE;
-		}
-	}
+	
 	return FALSE;
 }
 //-----------------------------------------------------------------------------
