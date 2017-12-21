@@ -18,8 +18,8 @@ import { ImportExportConsts } from '../components.helper';
 export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
 
   model: SubscriptionDatabase;
-  modelTest: SubscriptionDatabase;
   originalModel: SubscriptionDatabase;
+  isNewDb: boolean;
 
   // caricamento informazioni configurazione dei dati di default/esempio
   // da passare poi alle singole tab che hanno le dropdown
@@ -44,27 +44,26 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
 
     let dbName = this.route.snapshot.queryParams['databaseToEdit'];
 
-    // istanzio i due model (master e test)
+    // istanzio il model e la sua copia (per individuare le modifiche effettuate)
     this.model = new SubscriptionDatabase();
-    this.modelTest = new SubscriptionDatabase();
     this.originalModel = new SubscriptionDatabase();
 
-    this.model.SubscriptionKey = this.modelTest.SubscriptionKey = subscriptionKey;
+    this.model.SubscriptionKey = subscriptionKey;
 
     // I need the instanceKey where the currentAccount is logged
     let localAccountInfo = localStorage.getItem(this.modelService.currentAccountName);
     if (localAccountInfo != null && localAccountInfo != '') {
       let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
-      this.model.InstanceKey = this.modelTest.InstanceKey = accountInfo.instanceKey;
+      this.model.InstanceKey = accountInfo.instanceKey;
     }
 
     if (dbName === undefined) {
-      this.model.Test = false;
-      this.modelTest.Test = true;
+      let isTestDb = this.route.snapshot.queryParams['test'];
+      this.model.Test = isTestDb;
+      this.isNewDb = true;
       return;
     }
 
-    // in caso di edit viene usato un solo model (anche per il database di test)
     this.model.Name = dbName;
 
     this.databaseService.needsAskCredentials = false;

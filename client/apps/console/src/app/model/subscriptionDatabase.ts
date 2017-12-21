@@ -17,7 +17,7 @@ export class SubscriptionDatabase {
     DatabaseCulture: string;
 	  IsUnicode: boolean = false;
     Provider: string;
-    Test: boolean;
+    Test: boolean = false;
     UnderMaintenance: boolean = false;
 
     constructor() {

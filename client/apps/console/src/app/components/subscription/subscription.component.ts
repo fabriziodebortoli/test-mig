@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { AccountInfo } from '../../authentication/account-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -22,6 +21,10 @@ export class SubscriptionComponent implements OnInit {
   databases: SubscriptionDatabase[];
   readingData: boolean;
   underMaintenance: boolean;
+
+  needsMasterDB: boolean;
+  needsTestDB: boolean;
+  addDatabaseBtnText: string;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -65,7 +68,7 @@ export class SubscriptionComponent implements OnInit {
         let subscriptions: AppSubscription[] = res['Content'];
 
         if (subscriptions.length == 0) {
-          this.readingData = true;
+          this.readingData = false;
           return;
         }
 
@@ -76,10 +79,37 @@ export class SubscriptionComponent implements OnInit {
         this.modelService.getDatabases(subscriptionKey)
           .subscribe(
           res => {
-            this.databases = res['Content'];
+
+            // carico la lista dei db dal provisioning
+            let allDatabases: SubscriptionDatabase[] = res['Content'];
+
+            // riempio due strutture separate per tipo
+            let masterDatabases: SubscriptionDatabase[] = [];
+            let testDatabases: SubscriptionDatabase[] = [];
+            allDatabases.forEach((db) => {
+              if (db.Test)
+                testDatabases.push(db);
+              else masterDatabases.push(db);
+            });
+
+            // aggiungo alla lista globale solo i primi database che trovo 
+            // (se ne possono avere solo due, uno di produzione ed uno di test)
+            this.needsTestDB = (testDatabases.length === 0);
+            if (!this.needsTestDB)
+              this.databases.push(testDatabases[0]);
+
+            this.needsMasterDB = (masterDatabases.length === 0);
+            if (!this.needsMasterDB)
+              this.databases.push(masterDatabases[0]);
+
+            // cambio il testo del button a seconda del db che devo creare
+            this.addDatabaseBtnText = 'Configure ' + (this.needsTestDB ? 'TEST' : 'MASTER') + ' database';
+
             this.readingData = false;
 
+            // se almeno un database e' in manutenzione visualizzo lo spinner
             for (var index = 0; index < this.databases.length; index++) {
+
               var db = this.databases[index];
               if (db.UnderMaintenance) {
                 this.underMaintenance = true;
@@ -127,15 +157,24 @@ export class SubscriptionComponent implements OnInit {
     )
   }
 
+  // e.g. url: localhost:10344/database?subscriptionToEdit=S-ENT&databaseToEdit=I-M4-ENT_S-ENT_Master
   //--------------------------------------------------------------------------------------------------------
   openDatabase(item: object) {
-    // route to edit database, I add in the existing query string the database name
+    // route to edit an existing database, I add in the existing query string the database name
     this.router.navigate(['/database'], { queryParams: { databaseToEdit: item['Name'] }, queryParamsHandling: "merge" });
   }
 
+  // e.g. url: localhost:10344/database/configuration?subscriptionToEdit=S-ENT
   //--------------------------------------------------------------------------------------------------------
   configureDatabase() {
-    // route to add database
+    // route to configure database (when no subscription database exist)
     this.router.navigate(['/database/configuration'], { queryParamsHandling: "preserve" });
+  }
+
+  // e.g. url: localhost:10344/subscription?subscriptionToEdit=S-ENT&test=false
+  //--------------------------------------------------------------------------------------------------------
+  addDatabase() {
+    // route to add new database (when I want to add a master or test database)
+    this.router.navigate(['/database'], { queryParams: { test: !this.needsTestDB }, queryParamsHandling: "merge" });
   }
 }

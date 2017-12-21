@@ -9,7 +9,7 @@
     <admin-tabs>
       <admin-tab [tabTitle]="'Main data'">
         <div class="tab-content">
-          <app-subscription-database [model]="model" [originalModel]="originalModel"></app-subscription-database>
+          <app-subscription-database [model]="model" [originalModel]="originalModel" [isNewDb]=isNewDb></app-subscription-database>
         </div>
       </admin-tab>
       <admin-tab [tabTitle]="'Update structure'">

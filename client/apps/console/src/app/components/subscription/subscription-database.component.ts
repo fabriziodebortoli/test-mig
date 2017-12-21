@@ -20,6 +20,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
   @Input() model: SubscriptionDatabase;
   @Input() originalModel: SubscriptionDatabase;
+  @Input() isNewDb: boolean;
 
   editing: boolean = false;
   step: number;
@@ -69,7 +70,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
       this.model.DMSDBName = this.model.Name + '_DBDMS';
       this.model.DMSDBOwner = prefix + '_Admin';
       this.model.DMSDBPassword = '';
-
+      
       // to initialize the provider in dropdown
       this.initProviderValueDropDown();
       return;

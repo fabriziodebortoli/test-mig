@@ -33,7 +33,7 @@
   <div *ngIf="editing" class="row">
     <div *ngIf="databases.length === 0" class="col-xs-12 col-md-12">
       <div class="box mt20">
-        <div *ngIf="databases.length === 0">
+        <div>
           <app-action-panel [iconSignature]="'notifications'" [message]="'Databases for this subscription have not been configured.'"
             [actionText]="'Configure'" [showButton]="true" (actionFired)="configureDatabase()">
           </app-action-panel>
@@ -46,6 +46,9 @@
         <h4 class="componentTitle" style="display:inline-block;width:100%">Databases</h4>
         <admin-list [readingData]=readingData [showHeader]=true [items]=databases [columnNames]="['Name', 'Description', 'DBServer', 'Test']"
           (onSelectedItem)="openDatabase($event)"></admin-list>
+        <div *ngIf="databases.length == 1">
+          <admin-button [primary]=true [buttonText]="addDatabaseBtnText" (click)="addDatabase()"></admin-button>
+        </div>
       </div>
       <div *ngIf="underMaintenance" class="box mt20">
         <img src="assets/ajax-loader.gif" />
