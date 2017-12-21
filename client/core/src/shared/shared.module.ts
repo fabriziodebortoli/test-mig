@@ -289,6 +289,7 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
+import { ColoredControlDirective} from './directives/colored-control.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
@@ -296,20 +297,23 @@ export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 export { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
+export { ColoredControlDirective} from './directives/colored-control.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
     TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective,
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective, ContextMenuDirective,
-    TbHotLinkDirective, OutSideEventHandlerDirective
+    TbHotLinkDirective, OutSideEventHandlerDirective, ColoredControlDirective
 ];
 
+import { TbColorPipe } from './pipes/tbColor.pipe';
+export { TbColorPipe } from './pipes/tbColor.pipe';
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
 import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
-const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe];
 
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
