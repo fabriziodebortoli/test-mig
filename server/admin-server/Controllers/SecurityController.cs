@@ -7,6 +7,7 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.GWAMCaller;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,8 +19,8 @@ using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
 {
-    //================================================================================
-    public class SecurityController : Controller
+	//================================================================================
+	public class SecurityController : Controller
     {
         private IHostingEnvironment _env;
         AppOptions _settings;

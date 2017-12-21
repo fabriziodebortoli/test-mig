@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Services.BurgerData
+namespace Microarea.AdminServer.Services.GWAMCaller
 {
     //================================================================================
     public class GwamCaller
