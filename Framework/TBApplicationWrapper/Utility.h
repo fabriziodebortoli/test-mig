@@ -197,7 +197,10 @@ public:
 	/// <summary>
 	/// Internal Use
 	/// </summary>
-	static void GetDocuments(System::Collections::Generic::List<System::String^>^ appTitles, System::Collections::Generic::List<System::String^>^ modTitles, System::Collections::Generic::List<System::String^>^ titles, System::Collections::Generic::List<System::String^>^ namespaces);
+	static void GetDocuments
+					(
+						System::Collections::Generic::List<System::Tuple<System::String^, System::String^, System::String^, System::String^>^>^ docsInfos
+					);
 
 	
 	/// <summary>

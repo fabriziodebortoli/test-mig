@@ -309,6 +309,7 @@ public:
 public:
 	CDocumentDescription*	GetDescription		(const CTBNamespace& nsDoc) const;
 	void					GetDescriptionsOf	(const CTBNamespace& nsModule, CObArray& arDescri) const;
+	void					GetDescriptions		(CObArray& arDescri) const;
 
 public:
 	virtual LPCSTR  GetObjectName() const { return "DocumentObjectsTable"; }
@@ -331,5 +332,6 @@ TB_EXPORT DocumentObjectsTablePtr		AFXAPI AfxGetWritableDocumentObjectsTable	();
 TB_EXPORT const CDocumentDescription*	AFXAPI AfxGetDocumentDescription			(const CTBNamespace& aNamespace);
 TB_EXPORT void							AFXAPI AfxAddDocumentDescription			(const CDocumentDescription* pDescription);
 TB_EXPORT CBaseDescriptionArray*		AFXAPI AfxGetDocumentDescriptionsOf			(const CTBNamespace& aNsModule);
+TB_EXPORT CBaseDescriptionArray*		AFXAPI AfxGetDocumentsDescriptions			();
 
 #include "endh.dex"

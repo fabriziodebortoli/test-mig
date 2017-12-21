@@ -406,45 +406,73 @@ bool CUtility::SendAsAttachments(List<System::String^>^ attachmentsFiles, List<S
 }
 
 //------------------------------------------------------------------------------------
-void CUtility::GetDocuments(List<System::String^>^ appTitles, List<System::String^>^ modTitles, List<System::String^>^ titles, List<System::String^>^ namespaces)
+void CUtility::GetDocuments
+				(
+					List<System::Tuple<System::String^, System::String^, System::String^, System::String^>^>^ docsInfos
+				)
 {
-	AfxGetTbCmdManager()->LoadNeededLibraries(CTBNamespace(), NULL, LoadAll);
-	// ciclo per le AddOnApplications e gli AddOnModules che possiedono la definizione
+	CStringArray arExcludedModules;
+
 	for (int i = 0; i <= AfxGetAddOnAppsTable()->GetUpperBound(); i++)
 	{
 		AddOnApplication* pAddOnApp = AfxGetAddOnAppsTable()->GetAt(i);
 		if (!pAddOnApp || AfxGetPathFinder()->IsASystemApplication(pAddOnApp->m_strAddOnAppName))
 			continue;
-
+		
 		for (int n = 0; n <= pAddOnApp->m_pAddOnModules->GetUpperBound(); n++)
 		{
 			AddOnModule* pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(n);
 
 			if (!pAddOnMod || !pAddOnMod->m_bIsValid || !AfxIsActivated(pAddOnMod->GetApplicationName(), pAddOnMod->GetModuleName()))
-				continue;
-			
-			CBaseDescriptionArray* docDescris = AfxGetDocumentDescriptionsOf(pAddOnMod->m_Namespace);
-
-			for (int d = 0; d <= docDescris->GetUpperBound(); d++)
 			{
-				CDocumentDescription* pDescri = (CDocumentDescription*) docDescris->GetAt(d);
-				if (!pDescri || !pDescri->IsRunnableAlone())
-					continue;			
-				
-				// devo saltare i finder
-				CViewModeDescription* pViewMode = pDescri->GetFirstViewMode();
-				if	(pViewMode == NULL || pViewMode->GetType() == VMT_FINDER)
-					continue;
-				
-				appTitles->Add(gcnew String(pAddOnApp->GetTitle()));
-				modTitles->Add(gcnew String(pAddOnMod->GetModuleTitle()));
-				titles->Add(gcnew String(pDescri->GetTitle()));
-				namespaces->Add(gcnew String(pDescri->GetNamespace().ToString()));
+				arExcludedModules.Add(pAddOnMod->GetModuleName());
+				continue;
 			}
-
-			delete docDescris;
 		}
 	}
+
+	CBaseDescriptionArray* pDescriptions = AfxGetDocumentsDescriptions();
+	CDocumentDescription* pDocDescri = NULL;
+
+	if (!pDescriptions)
+		return;
+	
+	for (int i = 0; i < pDescriptions->GetCount(); i++)
+	{
+		pDocDescri = (CDocumentDescription*)pDescriptions->GetAt(i);
+				
+		if (!pDocDescri || !pDocDescri->IsRunnableAlone())
+			continue;
+
+		BOOL bFound = FALSE;
+		for (int i = 0; i < arExcludedModules.GetCount() && !bFound; i++)
+		{
+			if (!pDocDescri->GetOwner().GetModuleName().Compare(arExcludedModules.GetAt(i)))
+				bFound = TRUE;
+		}
+
+		if (bFound)
+			continue;
+
+		// devo saltare i finder
+		CViewModeDescription* pViewMode = pDocDescri->GetFirstViewMode();
+		if (pViewMode == NULL || pViewMode->GetType() == VMT_FINDER)
+			continue;
+
+		docsInfos->Add
+		(
+			gcnew Tuple<System::String^, System::String^, System::String^, System::String^>
+			(
+				gcnew String(pDocDescri->GetOwner().GetApplicationName()),
+				gcnew String(pDocDescri->GetOwner().GetModuleName()),
+				gcnew String(pDocDescri->GetTitle()), 	
+				gcnew String(pDocDescri->GetNamespace().ToString())
+				)
+		);
+
+
+	}
+	delete pDescriptions;
 }
 
 //------------------------------------------------------------------------------------

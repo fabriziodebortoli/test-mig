@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq;
 using Microarea.EasyBuilder.Properties;
 using Microarea.Framework.TBApplicationWrapper;
 using Microarea.TaskBuilderNet.Core.Generic;
@@ -24,11 +25,13 @@ namespace Microarea.EasyBuilder.UI
 		private TreeNode dragNode = null;
 		private string objectType = typeof(BusinessObject).Name;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		//--------------------------------------------------------------------------------
-		public BusinessObjectsExplorer(Editor editor)
+        List<Tuple<string, string, string, string>> DocsInfos = null; 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        //--------------------------------------------------------------------------------
+        public BusinessObjectsExplorer(Editor editor)
 		{
 			InitializeComponent();
 			this.Text = Resources.BusinessObjectsExplorer;
@@ -36,8 +39,16 @@ namespace Microarea.EasyBuilder.UI
 			this.editor = editor;
 			this.editor.ComponentDeleted += new EventHandler<EventArgs>(editor_ComponentDeleted);
 
+            InitTreeNodesInfos();
+
 			LoadBusinessObjects();
 		}
+
+        //------------------------------------------------------------------------------------------
+        private void InitTreeNodesInfos()
+        {
+            DocsInfos = new List<Tuple<string, string, string, string>>();
+        }
 
 		//--------------------------------------------------------------------------------
 		private void editor_ComponentDeleted(object sender, EventArgs e)
@@ -78,6 +89,7 @@ namespace Microarea.EasyBuilder.UI
 		//--------------------------------------------------------------------------------
 		private void LoadBusinessObjects()
 		{
+            SuspendLayout();
 			Cursor = Cursors.WaitCursor;
 			//inibisce il check changed event handler
 			try
@@ -98,7 +110,9 @@ namespace Microarea.EasyBuilder.UI
 				ExpandFirstNode();
 				Cursor = Cursors.Default;
 				treeBusinessObjects.Scrollable = true;
-				treeBusinessObjects.EndUpdate();
+                documentsNode.Expand();
+                treeBusinessObjects.EndUpdate();
+                ResumeLayout();
 			}
 		}
 
@@ -117,53 +131,56 @@ namespace Microarea.EasyBuilder.UI
 					node.ForeColor = treeBusinessObjects.ForeColor;
 					break;
 			}
-			treeBusinessObjects.Update();
-		}
+        }
 
 		//--------------------------------------------------------------------------------
 		private void LoadTreeWithDocuments()
 		{
-			documentsNode = new TreeNode(ControllerSources.BusinessObjectsPropertyName, 0, 0);
+            TreeNode appNode = null;
+
+            documentsNode = new TreeNode(ControllerSources.BusinessObjectsPropertyName, 0, 0);
 			treeBusinessObjects.Nodes.Add(documentsNode);
 
 			try
 			{
-				List<string> appTitles = new List<string>();
-				List<string> modTitles = new List<string>();
-				List<string> titles = new List<string>();
-				List<string> docNamespaces = new List<string>();
-				CUtility.GetDocuments(appTitles, modTitles, titles, docNamespaces);
-				if (titles.Count == 0)
-					return;
+                DocsInfos.Clear();
+				CUtility.GetDocuments(DocsInfos);
+                
+                if (DocsInfos.Count == 0)
+                    return;
 
-				for (int i = 0; i < titles.Count; i++)
-				{
-					string app = appTitles[i];
-					string mod = modTitles[i];
-					string title = titles[i];
-					string nameSpace = docNamespaces[i];
+                var apps = DocsInfos.Select(d => d.Item1).Distinct();
+                foreach (string app in apps)
+                {
+                    appNode = GetNode(documentsNode.Nodes, app, (int)ImageLists.TreeBusinessObjectImageIndex.Application);
+                    appNode.Expand();
+                    //load all modules
+                    var mods = DocsInfos.Where(m => m.Item1 == app).Distinct().OrderBy(x => x.Item2);
+                    foreach (Tuple<string, string, string, string> mod in mods)
+                    {
+                        TreeNode modNode = GetNode(appNode.Nodes, mod.Item2, (int)ImageLists.TreeBusinessObjectImageIndex.Module);
 
-					NameSpace docNs = new NameSpace(nameSpace);
-					Status status = GetStatus(docNs);
-
-					if (IsFiltered(status))
-						continue;
-					
-					TreeNode appNode = GetNode(documentsNode.Nodes, app, (int)ImageLists.TreeBusinessObjectImageIndex.Application);
-					TreeNode modNode = GetNode(appNode.Nodes, mod, (int)ImageLists.TreeBusinessObjectImageIndex.Module);
-					TreeNode docNode = GetNode(modNode.Nodes, title, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24);
-
-					appNode.Expand();
-
-					docNode.Tag = docNs;
-					UpdateNodeUI(docNode, status);
-				}
-			}
+                        var docs = DocsInfos.Where(d => (d.Item1 == app && d.Item2 == mod.Item2)).Distinct().OrderBy(x => x);
+                        
+                        foreach (Tuple<string, string, string, string> doc in docs)
+                        {
+                            string ns = doc.Item4;
+                            NameSpace docNS = new NameSpace(ns);
+                            Status status = GetStatus(docNS);
+                            if (IsFiltered(status))
+                                continue;
+                            //load documents for this mod
+                            TreeNode docNode = GetNode(modNode.Nodes, doc.Item3, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24);
+                            if (docNode != null)
+                                docNode.Tag = docNS;
+                            UpdateNodeUI(docNode, status);
+                        }
+                    }
+                }
+            }
 			finally
 			{
-				Cursor = Cursors.Default;
-				treeBusinessObjects.Scrollable = true;
-				documentsNode.Expand();
+                
 			}
 		}
 
@@ -256,10 +273,13 @@ namespace Microarea.EasyBuilder.UI
 				
 				Status status = GetStatus(nameSpace);
 
-				if (IsFiltered(status))
-					dragNode.Parent.Nodes.Remove(dragNode);
-				else
-					UpdateNodeUI(dragNode, status);
+                if (IsFiltered(status))
+                    dragNode.Parent.Nodes.Remove(dragNode);
+                else
+                {
+                    UpdateNodeUI(dragNode, status);
+                    //treeBusinessObjects.Update();
+                }
 			}
 			catch { }		
 		}
@@ -271,8 +291,6 @@ namespace Microarea.EasyBuilder.UI
 			if (treeBusinessObjects.SelectedNode != null)
 				selectedNode = treeBusinessObjects.SelectedNode.Text;
 			
-			UseWaitCursor = true;
-			treeBusinessObjects.Nodes.Clear();
 			LoadBusinessObjects();
 
 			if (selectedNode != string.Empty)
@@ -282,7 +300,6 @@ namespace Microarea.EasyBuilder.UI
 					treeBusinessObjects.SelectedNode = nodes[0];
 			}
 			
-			UseWaitCursor = false;
 		}
 
 		//-----------------------------------------------------------------------------

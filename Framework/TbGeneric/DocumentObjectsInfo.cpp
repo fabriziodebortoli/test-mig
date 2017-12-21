@@ -794,6 +794,49 @@ CBaseDescriptionArray* AFXAPI AfxGetDocumentDescriptionsOf(const CTBNamespace& a
 	return pDescriptions;
 }
 
+//-------------------------------------------------------------------------------------
+CBaseDescriptionArray* AFXAPI AfxGetDocumentsDescriptions()
+{
+	CBaseDescriptionArray* pDescriptions = new CBaseDescriptionArray();
+	pDescriptions->SetOwns(FALSE);
+
+	DocumentObjectsTable* pStandardTable = (DocumentObjectsTable*)AfxGetApplicationContext()->GetStandardDocumentsTable();
+
+	// standard descriptions
+	if (pStandardTable)
+		pStandardTable->GetDescriptions(*pDescriptions);
+
+	DocumentObjectsTable* pCustomTable = NULL;
+
+	CLoginContext* pContext = AfxGetLoginContext();
+	if (pContext)
+		pCustomTable = pContext->GetObject<DocumentObjectsTable>(&CLoginContext::GetDocumentObjectsTable);
+
+	if (!pCustomTable)
+		return pDescriptions;
+
+	// customization declaration have to substitute standard document
+	CObArray arCustomDescriptions;
+	pCustomTable->GetDescriptions(arCustomDescriptions);
+	if (!arCustomDescriptions.GetSize())
+		return pDescriptions;
+
+	CDocumentDescription* pCstDescri;
+	CDocumentDescription* pStdDescri;
+	for (int i = 0; i <= arCustomDescriptions.GetUpperBound(); i++)
+	{
+		pCstDescri = (CDocumentDescription*)arCustomDescriptions.GetAt(i);
+
+		for (int n = 0; n <= pDescriptions->GetUpperBound(); n++)
+		{
+			pStdDescri = (CDocumentDescription*)pDescriptions->GetAt(n);
+			if (pStdDescri && pCstDescri && pStdDescri->GetNamespace() == pCstDescri->GetNamespace())
+				pDescriptions->SetAt(n, pCstDescri);
+		}
+	}
+	return pDescriptions;
+}
+
 //------------------------------------------------------------------------------
 IMPLEMENT_DYNAMIC(DocumentObjectsTable, CObject)
 
@@ -893,6 +936,21 @@ void DocumentObjectsTable::GetDescriptionsOf (const CTBNamespace& nsModule, CObA
 			_tcsicmp (pItem->GetOwner().GetModuleName(), nsModule.GetModuleName()) == 0
 			) 
 			arDescri.Add (pItem);
+	}
+}
+
+//-----------------------------------------------------------------------------------------
+void DocumentObjectsTable::GetDescriptions(CObArray& arDescri) const
+{
+	CDocumentDescription* pItem;
+	CString strKey;
+	POSITION pos;
+
+	for (pos = m_Documents.GetStartPosition(); pos != NULL;)
+	{
+		m_Documents.GetNextAssoc(pos, strKey, (CObject*&)pItem);
+		if (pItem && !AfxGetPathFinder()->IsASystemApplication(pItem->GetOwner().GetApplicationName()))
+			arDescri.Add(pItem);
 	}
 }
 
