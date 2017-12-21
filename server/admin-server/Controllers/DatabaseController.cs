@@ -897,6 +897,23 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			// controllo se la riga esiste sul database
+			ISubscriptionDatabase iSubDb = this.burgerData.GetObject<SubscriptionDatabase, ISubscriptionDatabase>(String.Empty, ModelTables.SubscriptionDatabases, SqlLogicOperators.AND,
+											new WhereCondition[]
+											{
+												new WhereCondition("InstanceKey", subDatabase.InstanceKey, QueryComparingOperators.IsEqual, false),
+												new WhereCondition("SubscriptionKey", subDatabase.SubscriptionKey, QueryComparingOperators.IsEqual, false),
+												new WhereCondition("Name", subDatabase.Name, QueryComparingOperators.IsEqual, false)
+											});
+			if (iSubDb == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoDatabaseAvailable;
+				opRes.Code = (int)AppReturnCodes.NoSubscriptionDatabasesAvailable;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
 			// devo controllare il flag UnderMaintenance: se a true devo fare return e segnalare che e' gia' in aggiornamento
 
 			// I set subscription UnderMaintenance = true
@@ -937,11 +954,13 @@ namespace Microarea.AdminServer.Controllers
 					// significa che non e' possibile procedere con l'aggiornamento perche':
 					// - i database sono gia' aggiornati
 					// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
-					opRes.Code = -1;
+					opRes.Code = (int)AppReturnCodes.InternalError;
 				}
+				else
+					opRes.Code = (int)AppReturnCodes.OK;
 			}
 			else // anche se la connessione non e' andata a buon fine ritorno il codice -1 cosi da inibire l'upgrade
-				opRes.Code = -1;
+				opRes.Code = (int)AppReturnCodes.InternalError;
 
 			//re-imposto il flag UnderMaintenance a false
 			APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);

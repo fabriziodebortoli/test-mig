@@ -349,6 +349,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The database is not available. You have to save the subscription database first..
+        /// </summary>
+        public static string NoDatabaseAvailable {
+            get {
+                return ResourceManager.GetString("NoDatabaseAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Instances Available.
         /// </summary>
         public static string NoInstancesAvailable {

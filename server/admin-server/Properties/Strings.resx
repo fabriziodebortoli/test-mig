@@ -291,4 +291,8 @@
   <data name="TooLongParameters" xml:space="preserve">
     <value>The parameters are too long.</value>
   </data>
+  <data name="NoDatabaseAvailable" xml:space="preserve">
+    <value>The database is not available. You have to save the subscription database first.</value>
+  </data>
+
 </root>

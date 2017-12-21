@@ -20,6 +20,7 @@ export class DatabaseUpgradeComponent implements OnInit {
 
   canUpdateDb: boolean;
   isUpdateDbRunning: boolean;
+  errorMsg: string;
 
   // default data variables
   importDefaultData: boolean = true;
@@ -30,7 +31,7 @@ export class DatabaseUpgradeComponent implements OnInit {
 
   //-----------------------------------------------------------------------------	
   constructor(
-    private modelService: ModelService, 
+    private modelService: ModelService,
     private dataChannelService: DataChannelService) {
   }
 
@@ -72,11 +73,12 @@ export class DatabaseUpgradeComponent implements OnInit {
   importDefaultDataChanged(setImportDefaultData: boolean) {
     // assign current variable
     this.importDefaultData = setImportDefaultData;
-    // set configurationdropdown readonly
   }
 
   //--------------------------------------------------------------------------------------------------------
   checkDatabase() {
+
+    this.errorMsg = '';
 
     // se l'elaborazione e' in esecuzione ritorno
     if (this.isCheckDbRunning)
@@ -93,21 +95,27 @@ export class DatabaseUpgradeComponent implements OnInit {
         // l'elaborazione e' terminata
         this.isCheckDbRunning = false;
 
-        this.operationsList = checkDbResult['Content'];
+        if (checkDbResult.Result) {
+          // se il Code != 0 significa che:
+          // - i database sono gia' aggiornati
+          // - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
+          // quindi non e' possibile procedere con l'upgrade
+          // (oppure potrebbe non essere andata a buon fine la connessione ai database della subscription)
+          this.canUpdateDb = checkDbResult.Code == 0;
 
-        // se il Code == -1 significa che:
-        // - i database sono gia' aggiornati
-        // - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
-        // quindi non e' possibile procedere con l'upgrade
-        // (oppure potrebbe non essere andata a buon fine la connessione ai database della subscription)
-        this.canUpdateDb = checkDbResult.Code > -1;
+          this.operationsList = checkDbResult['Content'];
+        }
+        else {
+          this.canUpdateDb = checkDbResult.Result;
+          this.errorMsg = checkDbResult.Message;
+        }
 
         checkDb.unsubscribe();
       },
       checkDbError => {
         this.isCheckDbRunning = false;
         console.log(checkDbError);
-        alert(checkDbError);
+        this.errorMsg = checkDbError;
         checkDb.unsubscribe();
       }
       )
