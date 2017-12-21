@@ -60,11 +60,6 @@ namespace Microarea.TbLoaderGate.Application
         {
             switch (cmd)
             {
-                case "SetClientWebSocketName":
-                    {
-                        await SocketDispatcher.SendSocketOpenMessage(webSocket);
-                        break;
-                    }
                 case "getOpenDocuments":
                     {
                         foreach (DocumentStub doc in Cache.Documents)
@@ -92,14 +87,12 @@ namespace Microarea.TbLoaderGate.Application
                                 Cache.AddDocument(doc);
                                 doc.runDocument = ReadJsonCommands(path, doc.Id);
                                 doc.newData = ReadJsonCommands(Path.Combine(MockFolder, doc.Ns, "new.json"), doc.Id);
-
+                                doc.windowStrings = ReadJsonCommands(Path.Combine(MockFolder, doc.Ns, "getWindowStrings.json"), doc.Id);
                                 foreach (string dataFile in Directory.GetFiles(folder, "*.doc.json"))
                                     doc.Data.Add(ReadJsonCommands(dataFile, doc.Id));
 
-
                                 foreach (JObject jCmd in doc.runDocument)
                                 {
-
                                     await SendMessage(jCmd.ToString());
                                 }
 
@@ -120,21 +113,13 @@ namespace Microarea.TbLoaderGate.Application
                         DocumentStub doc = Cache.GetDocStub(jObj["cmpId"]?.ToString());
                         if (doc == null)
                             break;
-                        string path = Path.Combine(MockFolder, doc.Ns, "getWindowStrings.json");
-                        if (File.Exists(path))
+                        foreach (JObject jCmd in doc.windowStrings)
                         {
-                            JArray jCommands = ReadJsonCommands(path, doc.Id);
-                            if (jCommands != null)
-                            {
-                                foreach (JObject jCmd in jCommands)
-                                {
-                                    await SendMessage(jCmd.ToString());
-                                }
-                            }
+                            await SendMessage(jCmd.ToString());
                         }
-                        break;
-
                     }
+                    break;
+
                 case "getDocumentData":
                     {
                         DocumentStub doc = Cache.GetDocStub(jObj["cmpId"]?.ToString());
@@ -236,6 +221,16 @@ namespace Microarea.TbLoaderGate.Application
                                     }
                                     break;
                                 }
+                            //comodi per edit & continue
+                            case "1":
+                            case "2":
+                            case "3":
+                            case "4":
+                            case "5":
+                            case "6":
+                            case "7":
+                            case "8":
+                            case "9":
                             default: break;
                         }
                         break;
@@ -277,6 +272,8 @@ namespace Microarea.TbLoaderGate.Application
         public JArray runDocument;
         public JArray newData;
         public List<JArray> Data = new List<JArray>();
+        internal JArray windowStrings;
+
         public string Id { get; set; }
         public string Ns { get; set; }
         public JArray CurrentData
