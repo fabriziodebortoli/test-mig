@@ -1,0 +1,15 @@
+{
+   "items" : [
+      {
+         "args" : {
+            "component" : {
+               "app" : "ERP",
+               "id" : "1118490",
+               "mod" : "Sales",
+               "name" : "IDD_SALE_DOCUMENT"
+            }
+         },
+         "cmd" : "WindowOpen"
+      }
+   ]
+}

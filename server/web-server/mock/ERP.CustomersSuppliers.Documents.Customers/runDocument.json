@@ -1,0 +1,15 @@
+{
+   "items" : [
+      {
+         "args" : {
+            "component" : {
+               "app" : "ERP",
+               "id" : "1050770",
+               "mod" : "CustomersSuppliers",
+               "name" : "IDD_CUSTOMERS_COMPLETE"
+            }
+         },
+         "cmd" : "WindowOpen"
+      }
+   ]
+}
