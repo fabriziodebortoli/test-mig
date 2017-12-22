@@ -1,3 +1,4 @@
 # ignore activation and eula files recursive from the current folder
 **.config
 **.pdf
+MessagesQueue.bin
