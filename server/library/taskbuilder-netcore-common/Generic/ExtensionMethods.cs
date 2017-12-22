@@ -831,7 +831,7 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this bool b, string name = null, bool bracket = false)
         {
-            return b.ToString().ToLower().ToJson(name, bracket, false, false);
+            return b.ToString(System.Globalization.CultureInfo.InvariantCulture).ToLower().ToJson(name, bracket, false, false);
         }
         public static string ToJson(this char c, string name = null, bool bracket = false, bool escape = false)
         {
