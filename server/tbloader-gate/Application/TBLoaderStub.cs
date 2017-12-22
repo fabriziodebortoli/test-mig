@@ -11,6 +11,9 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Converters;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace Microarea.TbLoaderGate.Application
 {
@@ -222,7 +225,16 @@ namespace Microarea.TbLoaderGate.Application
                                     break;
                                 }
                             //comodi per edit & continue
-                            case "1":
+                            case "ID_EXTDOC_SAVE":
+                                {
+                                    if (doc.State != DocumentStub.DocState.Browse)
+                                    {
+                                        doc.ChangeCurrentData(jObj);
+                                        doc.State = DocumentStub.DocState.Browse;
+                                        await doc.SendCurrentData(this);
+                                    }
+                                    break;
+                                }
                             case "2":
                             case "3":
                             case "4":
@@ -315,6 +327,30 @@ namespace Microarea.TbLoaderGate.Application
                     await stub.SendMessage(jCmd.ToString());
                 }
             }
+        }
+
+        internal void ChangeCurrentData(JObject jObj)
+        {
+            /*
+            if (currDoc < 0 || currDoc >= Data.Count)
+                return;
+            JsonPatchDocument patch = new JsonPatchDocument();
+            JArray mod = (JArray)jObj.SelectToken("model");
+            foreach (JObject op in mod)
+            {
+                patch.Operations.Add(new Operation(op["op"].ToString(), op["path"].ToString(), op["from"]?.ToString(), op["value"]));
+
+            }
+
+            JArray data = Data[currDoc];
+            JObject j = (JObject)data[0].SelectToken("args.models[0]");
+            object o = JsonConvert.DeserializeObject(j["data"].ToString());
+            patch.ApplyTo(o);
+            j["data"] = JsonConvert.SerializeObject(o);
+
+            o = JsonConvert.DeserializeObject(data[2].ToString());
+            patch.ApplyTo(o);
+            data[2] = JsonConvert.SerializeObject(o);*/
         }
     }
 
