@@ -161,7 +161,12 @@ friend class CXMLImportWaitPage;
 friend class CXMLImportProgressPage;
 
 public:	
-	CImpCriteriaWizardView(){ m_bUseOldButtonStyle = TRUE; }
+	CImpCriteriaWizardView()
+		:CWizardFormView()
+	{ 
+		m_bEnableImage = FALSE;
+		m_bUseOldButtonStyle = TRUE;
+	}
 
 private:
 	CImpCriteriaWizardDoc* GetImpCriteriaWizardDoc() const;

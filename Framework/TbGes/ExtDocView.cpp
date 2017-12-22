@@ -4461,7 +4461,8 @@ CWizardFormView::CWizardFormView()
 	m_bIsDirectCallToWizardFinishCall	(FALSE),
 	m_bWizardFinished					(FALSE),
 	m_bUseOldButtonStyle				(FALSE),
-	m_bReExecutable						(TRUE)
+	m_bReExecutable						(TRUE),
+	m_bEnableImage						(TRUE)
 {
 	GetInfoOSL()->SetType(OSLType_BatchTemplate);
 	SetResourceModule(GetDllInstance(RUNTIME_CLASS(CWizardFormView)));//per trovare la risorsa IDD_WIZARD_FORM_VIEW
@@ -4475,7 +4476,8 @@ CWizardFormView::CWizardFormView(const CString& sName, UINT nIDTemplate)
 	m_bIsDirectCallToWizardFinishCall	(FALSE),
 	m_bWizardFinished					(FALSE),
 	m_bUseOldButtonStyle				(FALSE),
-	m_bReExecutable						(TRUE)
+	m_bReExecutable						(TRUE),
+	m_bEnableImage						(TRUE)
 {
 	GetInfoOSL()->SetType(OSLType_BatchTemplate);
 }

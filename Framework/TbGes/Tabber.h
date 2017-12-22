@@ -522,6 +522,12 @@ public:
 	void SetWizardButtons(DWORD dwFlags);
 	virtual BOOL CreateEx(_In_ DWORD dwExStyle, _In_ DWORD dwStyle, _In_ const RECT& rect, _In_ CWnd* pParentWnd, _In_ UINT nID);
 	virtual void GetUsedRect(CRect &rectUsed);
+
+	// Generated message map functions
+	//{{AFX_MSG(CTabWizard)
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg	void OnWindowPosChanging(WINDOWPOS FAR* wndPos);
+	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 

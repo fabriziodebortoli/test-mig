@@ -2898,7 +2898,9 @@ void TabManagers::Dump(CDumpContext& dc) const
 //-----------------------------------------------------------------------------
 IMPLEMENT_DYNCREATE(CTabWizard, CTabManager)
 
+//-----------------------------------------------------------------------------
 BEGIN_MESSAGE_MAP(CTabWizard, CTabManager)
+	ON_WM_SIZE()
 END_MESSAGE_MAP() 
 
 CTabWizard::CTabWizard()
@@ -3026,6 +3028,57 @@ void CTabWizard::GetUsedRect(CRect &rectUsed)
 	{
 		m_pActiveDlg->GetUsedRect(rectUsed);
 	}
+}
+
+//----------------------------------------------------------------------------------
+void CTabWizard::OnSize(UINT nType, int cx, int cy)
+{
+	int nLeftAnchor = 0;
+	int nTopAnchor = 5;
+	int nBottomAnchor = 50;
+	int nRightAnchor = 20;
+	CWizardFormView* pView = NULL;
+	int minHeight = 0;
+	int viewWidth = 0;
+	int viewHeight = 0;
+
+	__super::OnSize(nType, cx, cy);
+	
+	if (GetFormView() && GetFormView()->IsKindOf(RUNTIME_CLASS(CWizardFormView)))
+	{
+		pView = (CWizardFormView*)GetFormView();
+
+		if (!pView->m_bUseOldButtonStyle)
+			return;
+		
+		CRect aRectView;
+		pView->GetClientRect(&aRectView);
+		viewWidth = aRectView.Width();
+		viewHeight = aRectView.Height();
+
+		if (pView->m_bEnableImage)
+		{
+			CWnd* pImg = pView->GetDlgItem(pView->m_IDCBitmap);
+			if (pImg)
+			{
+				CRect aImgRect;
+				pImg->GetWindowRect(&aImgRect);
+				pImg->ScreenToClient(&aImgRect);
+				nLeftAnchor = aImgRect.left + aImgRect.Width() + 10;
+				minHeight = aImgRect.top + aImgRect.Height();
+			}
+		}
+		else
+		{
+			nLeftAnchor = 10;
+			CWnd* pImg = pView->GetDlgItem(pView->m_IDCBitmap);
+			pImg->ShowWindow(SW_HIDE);
+		}
+			
+
+		MoveWindow(nLeftAnchor, nTopAnchor, viewWidth - nLeftAnchor - nRightAnchor, viewHeight - nTopAnchor - nBottomAnchor);
+	}
+
 }
 
 
