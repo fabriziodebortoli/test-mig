@@ -283,13 +283,15 @@
           </IncludeFolder>
           <IncludeFile name="application.config" />
         </IncludeFolder>
-        <IncludeFolder name="MobileWebServicesProvider" virtualPath="[FOLDERNAME]" fragment="yes" createWebApplication="yes" dedicatedAppPool="yes">
-          <IncludeFolder name="bin|Scripts|Styles|WebTest|Utility">
-            <IncludeFile name="*.aspx|*.css|*.js|*.dll" />
-          </IncludeFolder>
-          <IncludeFile name="Global.asax|*.config" />
-          <ExcludeFile name="*.debug.config|*.release.config" />
-        </IncludeFolder>
+        <IncludeFolder name="WMSMobile">
+			<IncludeFolder name="MobileWebServicesProvider" virtualPath="[FOLDERNAME]" fragment="yes" createWebApplication="yes" dedicatedAppPool="yes">
+			  <IncludeFolder name="bin|Scripts|Styles|WebTest|Utility">
+				<IncludeFile name="*.aspx|*.css|*.js|*.dll" />
+			  </IncludeFolder>
+			  <IncludeFile name="Global.asax|*.config" />
+			  <ExcludeFile name="*.debug.config|*.release.config" />
+			</IncludeFolder>
+		</IncludeFolder>
       </IncludeFolder>
       <IncludeFolder name="TaskBuilder">
         <IncludeFolder name="Extensions">
