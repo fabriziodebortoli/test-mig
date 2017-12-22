@@ -2,18 +2,17 @@
 import { ComponentService, ComponentInfoService, EventDataService, BOComponent, ControlComponent, BOService  } from '@taskbuilder/core';
 import { Store, createSelectorByMap } from '@taskbuilder/core';
 
-import { IDD_LANGUAGES_FRAMEService } from './IDD_LANGUAGES_FRAME.service';
+import { DocumentLayoutService } from './document-layout.service';
 
 @Component({
-    selector: 'tb-IDD_LANGUAGES_FRAME',
-    templateUrl: './IDD_LANGUAGES_FRAME.component.html',
-    providers: [IDD_LANGUAGES_FRAMEService, ComponentInfoService],
+    selector: 'tb-document-layout',
+    templateUrl: './document-layout.component.html',
+    providers: [DocumentLayoutService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-    export class IDD_LANGUAGES_FRAMEComponent extends BOComponent implements OnInit, OnDestroy {
-     public IDC_LANGUAGES_CULTURE_itemSource: any;
+export class DocumentLayoutComponent extends BOComponent implements OnInit, OnDestroy {
 
-    constructor(document: IDD_LANGUAGES_FRAMEService,
+    constructor(document: DocumentLayoutService,
         eventData: EventDataService,
         resolver: ComponentFactoryResolver,
         private store: Store,
@@ -25,14 +24,6 @@ import { IDD_LANGUAGES_FRAMEService } from './IDD_LANGUAGES_FRAME.service';
 
     ngOnInit() {
         super.ngOnInit();
-        this.IDC_LANGUAGES_CULTURE_itemSource = {
-  "name": "ItemSourceXml",
-  "namespace": "ItemSource.Framework.TbGes.TbGes.ItemSourceXml",
-  "parameter": "DataFile.ERP.Languages.Culture"
-}; 
-
-        		this.bo.appendToModelStructure({'Languages':['Language','Description','Culture'],'global':['ValidationStatusPicture','ValidationStatus','SynchStatusPicture','SynchDate','SynchDirection','SynchStatusHints','SynchMsg']});
-
     }
 
     ngOnDestroy() {
@@ -43,8 +34,8 @@ import { IDD_LANGUAGES_FRAMEService } from './IDD_LANGUAGES_FRAME.service';
 @Component({
     template: ''
 })
-export class IDD_LANGUAGES_FRAMEFactoryComponent {
+export class DocumentLayoutFactoryComponent {
     constructor(componentService: ComponentService, resolver: ComponentFactoryResolver) {
-        componentService.createComponent(IDD_LANGUAGES_FRAMEComponent, resolver);
+        componentService.createComponent(DocumentLayoutComponent, resolver);
     }
-} 
+}

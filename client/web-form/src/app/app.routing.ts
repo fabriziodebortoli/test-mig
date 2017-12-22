@@ -24,6 +24,7 @@ const webOnlyRoutes = [
   { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
   { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' },
+  { path: 'layout', loadChildren: 'app/layout/layout.module#LayoutModule' },
   ...appRoutes
 ];
 const allEnvRoutes = [];
