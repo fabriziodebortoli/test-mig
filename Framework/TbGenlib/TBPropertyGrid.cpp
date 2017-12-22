@@ -32,7 +32,8 @@ CTBProperty::CTBProperty
 (
 	CString sName,
 	CString sPropertyLeftText,
-	CString sPropertyBottomText
+	CString sPropertyBottomText,
+	int		nRowsNumber
 )
 	:CBCGPProp(sPropertyLeftText),
 	IDisposingSourceImpl(this),
@@ -46,7 +47,8 @@ CTBProperty::CTBProperty
 	m_clrGroupBackground(EMPTY_COLOR),
 	m_clrGroupText(EMPTY_COLOR),
 	m_oldclrGroupBackground(EMPTY_COLOR),
-	m_oldclrGroupText(EMPTY_COLOR)
+	m_oldclrGroupText(EMPTY_COLOR),
+	m_nRowsNumber(nRowsNumber)
 {
 	InitCollapseExpandImages();
 	m_strDescr = sPropertyBottomText;
@@ -56,10 +58,11 @@ CTBProperty::CTBProperty
 //----------------------------------------------------------------------------------------------
 CTBProperty::CTBProperty
 (
-	CString sName,
-	CString sPropertyLeftText,
-	CString sPropertyBottomText,
-	const _variant_t& varValue
+	CString				sName,
+	CString				sPropertyLeftText,
+	CString				sPropertyBottomText,
+	const _variant_t&	varValue,
+	int					nRowsNumber
 )
 	:
 	CBCGPProp(sPropertyLeftText, varValue, sPropertyBottomText),
@@ -74,7 +77,8 @@ CTBProperty::CTBProperty
 	m_clrGroupBackground(EMPTY_COLOR),
 	m_clrGroupText(EMPTY_COLOR),
 	m_oldclrGroupBackground(EMPTY_COLOR),
-	m_oldclrGroupText(EMPTY_COLOR)
+	m_oldclrGroupText(EMPTY_COLOR),
+	m_nRowsNumber(nRowsNumber)
 {
 	InitCollapseExpandImages();
 	m_strDescr = sPropertyBottomText;
@@ -358,6 +362,7 @@ void CTBProperty::SetGroup(BOOL isGroup)
 	this->m_bGroup = isGroup;
 }
 
+//-----------------------------------------------------------------------------------------------
 CTBProperty* CTBProperty::AddSubProperty(CTBProperty* pChildProperty)
 {
 	BOOL bOk = FALSE;
@@ -561,8 +566,20 @@ CWnd* CTBProperty::CreateInPlaceEdit(CRect rectEdit, BOOL& bDefaultFormat)
 		else
 			if (m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CComboBox)))
 				rectEdit.top -= 2;
+			else
+				if	(
+//						m_nRowsNumber > 1 &&
+						(
+							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
+							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
+						)
+					)
+				{
+					CSize cs = m_pParsedCtrl->AdaptNewSize(1, m_nRowsNumber, TRUE);
+					rectEdit.bottom = rectEdit.top + cs.cy;
+				}
 
-		m_pParsedCtrl->GetCtrlCWnd()->SetWindowPos(NULL, rectEdit.left, rectEdit.top, rectEdit.Width(), rectEdit.Height(), SWP_NOZORDER);
+		m_pParsedCtrl->SetCtrlPos(NULL, rectEdit.left, rectEdit.top, rectEdit.Width(), rectEdit.Height(), SWP_NOZORDER);
 
 		//if (m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CComboBox)))
 		//{
@@ -1445,16 +1462,15 @@ BOOL CTBPropertyGrid::OnKeyHit(UINT nIDC, UINT nKey, UINT nHitState)
 		return FALSE;
 
 	CParsedCtrl* pParsedCtrl = GetActiveParsedCtrl();
-	BOOL bDo = (nIDC == (UINT)GetDlgCtrlID() || (pParsedCtrl && nIDC == pParsedCtrl->GetCtrlID()));
+	BOOL bDo = (pParsedCtrl->GetCtrlCWnd()->GetStyle() & ES_WANTRETURN) != ES_WANTRETURN;
 
+	if (bDo)
+	{
+		if (nHitState == WM_KEYDOWN)
+			return DoKeyDown(nKey);
 
-	//	if (bDo) @@@@@@@@@
-	//	{
-	if (nHitState == WM_KEYDOWN)
-		return DoKeyDown(nKey);
-
-	return DoKeyUp(nKey);
-	//    }                           
+		return DoKeyUp(nKey);
+	}                           
 
 	return FALSE;
 }
@@ -1471,16 +1487,15 @@ CTBProperty* CTBPropertyGrid::CreateProperty
 	CRuntimeClass*	pParsedCtrlClass	/* = NULL*/,
 	HotKeyLink*		pHotKeyLink			/* = NULL*/,
 	UINT			nBtnID				/* = BTN_DEFAULT*/,
-	SqlRecord*		pSqlRecord			/*= NULL*/
-)
+	SqlRecord*		pSqlRecord			/*= NULL*/,
+	int				nRowsNumber			/*= 1*/)
 {
 	CTBProperty* pProp = NULL;
 
-
 	if (!pDataObj)
-		pProp = new CTBProperty(sName, sPropertyLeftText, sPropertyBottomText);
+		pProp = new CTBProperty(sName, sPropertyLeftText, sPropertyBottomText, nRowsNumber);
 	else
-		pProp = new CTBProperty(sName, sPropertyLeftText, sPropertyBottomText, (_variant_t)pDataObj->ToString());
+		pProp = new CTBProperty(sName, sPropertyLeftText, sPropertyBottomText, (_variant_t)pDataObj->ToString(), nRowsNumber);
 
 	pProp->SetDescription(sPropertyBottomText);
 	pProp->SetID(nIDC);
@@ -1545,7 +1560,8 @@ CTBProperty* CTBPropertyGrid::AddProperty
 	CRuntimeClass*	pParsedCtrlClass	/* = NULL*/,
 	HotKeyLink*		pHotKeyLink			/*= NULL*/,
 	UINT			nBtnID				/*= BTN_DEFAULT*/,
-	SqlRecord*		pSqlRecord			/*= NULL*/
+	SqlRecord*		pSqlRecord			/*= NULL*/,
+	int				nRowsNumber			/*= 1*/
 )
 {
 	return AddProperty
@@ -1559,7 +1575,8 @@ CTBProperty* CTBPropertyGrid::AddProperty
 		pParsedCtrlClass,
 		pHotKeyLink,
 		nBtnID,
-		pSqlRecord
+		pSqlRecord,
+		nRowsNumber
 	);
 }
 
@@ -1575,10 +1592,11 @@ CTBProperty* CTBPropertyGrid::AddProperty
 	CRuntimeClass*	pParsedCtrlClass	/* = NULL*/,
 	HotKeyLink*		pHotKeyLink			/*= NULL*/,
 	UINT			nBtnID				/*= BTN_DEFAULT*/,
-	SqlRecord*		pSqlRecord			/*= NULL*/
+	SqlRecord*		pSqlRecord			/*= NULL*/,
+	int				nRowsNumber			/*= 1 */
 )
 {
-	CTBProperty* pProp = CreateProperty(sName, sPropertyLeftText, sPropertyBottomText, dwStyle, pDataObj, nIDC, pParsedCtrlClass, pHotKeyLink, nBtnID, pSqlRecord);
+	CTBProperty* pProp = CreateProperty(sName, sPropertyLeftText, sPropertyBottomText, dwStyle, pDataObj, nIDC, pParsedCtrlClass, pHotKeyLink, nBtnID, pSqlRecord, nRowsNumber);
 
 	if (m_pDefaultRootProperty == NULL)
 		__super::AddProperty(pProp);
@@ -1601,7 +1619,8 @@ CTBProperty* CTBPropertyGrid::AddSubItem
 	CRuntimeClass*	pParsedCtrlClass	/*= NULL*/,
 	HotKeyLink*		pHotKeyLink			/*= NULL*/,
 	UINT			nBtnID				/*= BTN_DEFAULT*/,
-	SqlRecord*		pSqlRecord			/*= NULL*/
+	SqlRecord*		pSqlRecord			/*= NULL*/,
+	int				nRowsNumber			/*= 1*/
 )
 {
 	return AddSubItem
@@ -1616,7 +1635,8 @@ CTBProperty* CTBPropertyGrid::AddSubItem
 		pParsedCtrlClass,
 		pHotKeyLink,
 		nBtnID,
-		pSqlRecord
+		pSqlRecord,
+		nRowsNumber
 	);
 }
 
@@ -1633,13 +1653,14 @@ CTBProperty* CTBPropertyGrid::AddSubItem
 	CRuntimeClass*	pParsedCtrlClass	/*= NULL*/,
 	HotKeyLink*		pHotKeyLink			/*= NULL*/,
 	UINT			nBtnID				/*= BTN_DEFAULT*/,
-	SqlRecord*		pSqlRecord			/*= NULL*/
+	SqlRecord*		pSqlRecord			/*= NULL*/,
+	int				nRowsNumber			/*= 1*/
 )
 {
 	if (!pParentProperty)
 		return NULL;
 
-	CTBProperty* pProp = CreateProperty(sName, sPropertyLeftText, sPropertyBottomText, dwStyle, pDataObj, nIDC, pParsedCtrlClass, pHotKeyLink, nBtnID, pSqlRecord);
+	CTBProperty* pProp = CreateProperty(sName, sPropertyLeftText, sPropertyBottomText, dwStyle, pDataObj, nIDC, pParsedCtrlClass, pHotKeyLink, nBtnID, pSqlRecord, nRowsNumber);
 	pParentProperty->AddSubProperty(pProp);
 	if (pParentProperty->GetHierarchyLevel() > 0)
 	{

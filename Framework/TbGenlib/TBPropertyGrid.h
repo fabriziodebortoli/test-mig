@@ -22,13 +22,15 @@ public:
 	CTBProperty	(
 					CString sName,
 					CString sPropertyLeftText,
-					CString sPropertyBottomText
+					CString sPropertyBottomText,
+					int		nRowsNumber = 1
 				);
 	CTBProperty (
-					CString sName,
-					CString sPropertyLeftText,
-					CString sPropertyBottomText,
-					const _variant_t& value
+					CString				sName,
+					CString				sPropertyLeftText,
+					CString				sPropertyBottomText,
+					const _variant_t&	value,
+					int					nRowsNumber = 1
 				);
 	virtual ~CTBProperty();
 
@@ -50,9 +52,7 @@ private:
 	COLORREF			m_clrGroupText;		
 	COLORREF			m_oldclrGroupBackground;
 	COLORREF			m_oldclrGroupText;
-
-
-
+	int					m_nRowsNumber;
 
 private:
 	void				DestroyAndCreateFB			(CFont* fromFont, BOOL bUnderline);
@@ -155,7 +155,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	CTBProperty*		AddProperty	(	
 										CString			sName, 
@@ -167,7 +168,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	CTBProperty*		AddSubItem	(
 										CTBProperty*	pParentProperty,
@@ -180,7 +182,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	CTBProperty*		AddSubItem	(
 										CTBProperty*	pParentProperty,
@@ -193,7 +196,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	BOOL				Create				(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID);
 	void				InitPropList		();
@@ -219,7 +223,8 @@ private:
 												CRuntimeClass*	pParsedCtrlClass = NULL,
 												HotKeyLink*		pHotKeyLink	= NULL,
 												UINT			nBtnID = BTN_DEFAULT,
-												SqlRecord*		pSqlRecord = NULL
+												SqlRecord*		pSqlRecord = NULL,
+												int				nRowsNumber = 1
 											);
 
 	BOOL				DoMoveToProp	(BOOL bPrev = TRUE);

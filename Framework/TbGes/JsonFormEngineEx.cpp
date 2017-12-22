@@ -2443,11 +2443,13 @@ void CJsonPropertyGrid::Customize(CWndObjDescriptionContainer& children, CTBProp
 			wStyle |= ES_PASSWORD;
 		if (pWndDesc->m_bAutoHScroll)
 			wStyle |= ES_AUTOHSCROLL;
+		if (pWndDesc->m_bMultiline)
+			wStyle |= ES_MULTILINE;
 
 		if (pGroup)
-			pProp = AddSubItem(pGroup, sBindingName, sText, sHint, pDataObj, nID, dwNeededStyle | wStyle, pClass, pHotLink, nButtonID, pRec);
+			pProp = AddSubItem(pGroup, sBindingName, sText, sHint, pDataObj, nID, dwNeededStyle | wStyle, pClass, pHotLink, nButtonID, pRec, pWndDesc->m_nRows);
 		else
-			pProp = AddProperty(sBindingName, sText, sHint, pDataObj, nID, dwNeededStyle | wStyle, pClass, pHotLink, nButtonID, pRec);
+			pProp = AddProperty(sBindingName, sText, sHint, pDataObj, nID, dwNeededStyle | wStyle, pClass, pHotLink, nButtonID, pRec, pWndDesc->m_nRows);
 
 		Customize(pWndDesc->m_Children, pProp);
 
