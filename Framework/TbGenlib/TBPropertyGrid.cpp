@@ -568,7 +568,7 @@ CWnd* CTBProperty::CreateInPlaceEdit(CRect rectEdit, BOOL& bDefaultFormat)
 				rectEdit.top -= 2;
 			else
 				if	(
-//						m_nRowsNumber > 1 &&
+						m_nRowsNumber > 1 &&
 						(
 							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
 							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
@@ -1462,9 +1462,8 @@ BOOL CTBPropertyGrid::OnKeyHit(UINT nIDC, UINT nKey, UINT nHitState)
 		return FALSE;
 
 	CParsedCtrl* pParsedCtrl = GetActiveParsedCtrl();
-	BOOL bDo = (pParsedCtrl->GetCtrlCWnd()->GetStyle() & ES_WANTRETURN) != ES_WANTRETURN;
 
-	if (bDo)
+	if (nKey != VK_RETURN || pParsedCtrl && (pParsedCtrl->GetCtrlCWnd()->GetStyle() & ES_WANTRETURN) != ES_WANTRETURN)
 	{
 		if (nHitState == WM_KEYDOWN)
 			return DoKeyDown(nKey);
