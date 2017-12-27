@@ -71,6 +71,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
     } else {
       switch (this.formatter) {
         case 'FiscalYear':
+        case 'Integer':
           this.controlDecimals = 0;
         default:
           if (this.formatterProps && this.formatterProps.refDecNumber) {
@@ -95,7 +96,18 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   }
 
   getFormatOptions(): any {
-    return 'n' + this.getDecimals().toString();
+
+    if (this.decimals > 0) {
+      return 'n' + this.getDecimals().toString();
+    } else {
+      switch (this.formatter) {
+        case 'FiscalYear':
+        case 'Integer':
+          return '#';
+        default:
+          return 'n' + this.getDecimals().toString();
+      }
+    }
   }
 
   public onChange(val: any) {
