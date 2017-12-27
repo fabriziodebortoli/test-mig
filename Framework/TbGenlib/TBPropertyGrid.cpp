@@ -289,15 +289,20 @@ void CTBProperty::OnDrawValue(CDC* pDC, CRect rect)
 		}
 	}
 
-	if (
-		m_pParsedCtrl->GetCtrlData() &&
-		(
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_INT_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_LNG_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_DBL_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_MON_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_QTA_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_PERC_TYPE
+	if 	(
+			//m_nRowsNumber > 1 &&
+			//(
+			//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
+			//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
+			//) ||
+			m_pParsedCtrl->GetCtrlData() &&
+			(
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_INT_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_LNG_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_DBL_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_MON_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_QTA_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_PERC_TYPE
 			)
 		)
 	{
@@ -313,6 +318,14 @@ void CTBProperty::OnDrawValue(CDC* pDC, CRect rect)
 		//CSize aSize = m_pParsedCtrl->AdaptNewSize(10, 1, TRUE);
 		//rect.right = rect.left + (aSize.cx - m_pParsedCtrl->GetAllButtonsWitdh());
 
+		DWORD tStyle = DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX | DT_END_ELLIPSIS;
+		//if (m_nRowsNumber > 1)
+		//{
+		//	CSize aSize = m_pParsedCtrl->AdaptNewSize(1, m_nRowsNumber, TRUE);
+		//	rect.bottom = rect.top + aSize.cy;
+		//	tStyle &= ~DT_SINGLELINE;
+		//}
+
 		rect.DeflateRect(TEXT_MARGIN, 0);
 
 		COLORREF clrOldText = (COLORREF)-1;
@@ -321,8 +334,7 @@ void CTBProperty::OnDrawValue(CDC* pDC, CRect rect)
 			clrOldText = pDC->SetTextColor(m_clrTextValue);
 		}
 
-		pDC->DrawText(strVal, rect,
-			DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | DT_END_ELLIPSIS);
+		pDC->DrawText(strVal, rect, tStyle);
 
 		if (clrOldText != (COLORREF)-1)
 		{
