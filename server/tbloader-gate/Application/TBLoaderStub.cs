@@ -11,6 +11,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Microarea.TbLoaderGate.Application
 {
@@ -222,7 +223,16 @@ namespace Microarea.TbLoaderGate.Application
                                     break;
                                 }
                             //comodi per edit & continue
-                            case "1":
+                            case "ID_EXTDOC_SAVE":
+                                {
+                                    if (doc.State != DocumentStub.DocState.Browse)
+                                    {
+                                        doc.ChangeCurrentData(jObj);
+                                        doc.State = DocumentStub.DocState.Browse;
+                                        await doc.SendCurrentData(this);
+                                    }
+                                    break;
+                                }
                             case "2":
                             case "3":
                             case "4":
@@ -314,6 +324,50 @@ namespace Microarea.TbLoaderGate.Application
                 {
                     await stub.SendMessage(jCmd.ToString());
                 }
+            }
+        }
+
+        internal void ChangeCurrentData(JObject jObj)
+        {
+            JArray mod = (JArray)jObj.SelectToken("model");
+
+            JArray data = Data[currDoc];
+            JObject jData = (JObject)data[0].SelectToken("args.models[0].data");
+            ApplyPatch(jData, mod);
+            jData = (JObject)data[2].SelectToken("args.models[0].data");
+            ApplyPatch(jData, mod);
+        }
+
+        private void ApplyPatch(JObject jData, JArray mod)
+        {
+            foreach (JObject jOp in mod)
+            {
+                string op = jOp["op"].ToString();
+                string path = jOp["path"].ToString();
+                JToken jVal = jOp["value"];
+
+                string jPath = path.Replace("/", ".");
+                JToken jProp = jData.SelectToken(jPath);
+                if (jProp != null)
+                {
+                    if (op == "replace")
+                    {
+                        jProp.Replace(jVal);
+                    }
+                    else if (op == "remove")
+                    {
+                        jProp.Remove();
+                    }
+                    else if (op == "add")
+                    {
+                        Debug.WriteLine("Operation not supported: " + op);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Operation not supported: " + op);
+                    }
+                }
+
             }
         }
     }
