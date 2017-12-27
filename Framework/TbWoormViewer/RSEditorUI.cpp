@@ -1680,18 +1680,22 @@ HTREEITEM CRSTreeCtrl::SelectRSTreeItemByMatchingText(const CString& sMatchText,
 {
 	CWaitCursor wc;
 
-	CString s = sMatchText; s.Trim();
-	if (s.IsEmpty()) return NULL;
-	 s.Trim('*'); s = '*' + s + '*';
+	CString s = sMatchText; 
+	s.Trim(); s.Trim(L"*%");
+	if (s.IsEmpty()) 
+		return NULL;
+	s = '*' + s + '*';
 
 	HTREEITEM ht = FindItemText(s, hCurrentItem);
 	if (ht)
 	{
-		SelectItem(NULL);
-
 		SelectItem(ht);
 		EnsureVisible(ht);
-		//Expand(ht, TVE_EXPAND);
+	}
+	else 
+	{
+		SelectItem(NULL);
+		this->ExpandAll(TVE_COLLAPSE);
 	}
 	return ht;
 }
