@@ -11,9 +11,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Converters;
-using Microsoft.AspNetCore.JsonPatch.Operations;
+using System.Diagnostics;
 
 namespace Microarea.TbLoaderGate.Application
 {
@@ -331,26 +329,46 @@ namespace Microarea.TbLoaderGate.Application
 
         internal void ChangeCurrentData(JObject jObj)
         {
-            /*
-            if (currDoc < 0 || currDoc >= Data.Count)
-                return;
-            JsonPatchDocument patch = new JsonPatchDocument();
             JArray mod = (JArray)jObj.SelectToken("model");
-            foreach (JObject op in mod)
-            {
-                patch.Operations.Add(new Operation(op["op"].ToString(), op["path"].ToString(), op["from"]?.ToString(), op["value"]));
-
-            }
 
             JArray data = Data[currDoc];
-            JObject j = (JObject)data[0].SelectToken("args.models[0]");
-            object o = JsonConvert.DeserializeObject(j["data"].ToString());
-            patch.ApplyTo(o);
-            j["data"] = JsonConvert.SerializeObject(o);
+            JObject jData = (JObject)data[0].SelectToken("args.models[0].data");
+            ApplyPatch(jData, mod);
+            jData = (JObject)data[2].SelectToken("args.models[0].data");
+            ApplyPatch(jData, mod);
+        }
 
-            o = JsonConvert.DeserializeObject(data[2].ToString());
-            patch.ApplyTo(o);
-            data[2] = JsonConvert.SerializeObject(o);*/
+        private void ApplyPatch(JObject jData, JArray mod)
+        {
+            foreach (JObject jOp in mod)
+            {
+                string op = jOp["op"].ToString();
+                string path = jOp["path"].ToString();
+                JToken jVal = jOp["value"];
+
+                string jPath = path.Replace("/", ".");
+                JToken jProp = jData.SelectToken(jPath);
+                if (jProp != null)
+                {
+                    if (op == "replace")
+                    {
+                        jProp.Replace(jVal);
+                    }
+                    else if (op == "remove")
+                    {
+                        jProp.Remove();
+                    }
+                    else if (op == "add")
+                    {
+                        Debug.WriteLine("Operation not supported: " + op);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Operation not supported: " + op);
+                    }
+                }
+
+            }
         }
     }
 
