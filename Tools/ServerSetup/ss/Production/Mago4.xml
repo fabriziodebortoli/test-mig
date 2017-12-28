@@ -8,8 +8,8 @@
                  producerWebSite="http://www.microarea.it"
                  certificatePath="..\..\..\..\..\..\Applications\ERP\k.pfx"
                  certificatePassword="TaskBuilder.3"
-				 	       mainAppFileName="TbAppManager.exe"
-					       consoleAppFileName="AdministrationConsole.exe"
+				 mainAppFileName="TbAppManager.exe"
+				 consoleAppFileName="AdministrationConsole.exe"
                  >
   <!--Consideriamo questo path come root di partenza: C:\Development\-->
   <FileSystemStructure virtualPath="[INSTANCENAME]">
@@ -471,7 +471,7 @@
   <MergeModulesDeny>
     <MergeModule name="Microsoft_VC120_CRT_x64.msm" />
     <MergeModule name="Microsoft_VC120_MFC_x64.msm" />
-    <MergeModule name="Microsoft_VC140_CRT_x64.msm" />
-    <MergeModule name="Microsoft_VC140_MFC_x64.msm" />
+    <MergeModule name="Microsoft_VC140_CRT_x86.msm" />
+    <MergeModule name="Microsoft_VC140_MFC_x86.msm" />
   </MergeModulesDeny>
 </SetupDefinition>
