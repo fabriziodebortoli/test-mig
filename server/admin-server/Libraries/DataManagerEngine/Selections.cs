@@ -1,10 +1,12 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using Microarea.Common.NameSolver;
-using Microarea.AdminServer.Libraries.DatabaseManager;
+using System.Linq;
+
 using TaskBuilderNetCore.Interfaces;
+using Microarea.AdminServer.Libraries.DatabaseManager;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -105,10 +107,9 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		{
 			GetAllApplication();
 
-			ICollection moduleList = new ArrayList();
 			foreach (string appName in applicationList)
 			{
-				moduleList = contextInfo.PathFinder.GetModulesList(appName);
+				List<Common.NameSolver.ModuleInfo> moduleList = contextInfo.PathFinder.GetModulesList(appName).Cast<Common.NameSolver.ModuleInfo>().ToList();
 
 				foreach (Common.NameSolver.ModuleInfo modInfo in moduleList)
 				{

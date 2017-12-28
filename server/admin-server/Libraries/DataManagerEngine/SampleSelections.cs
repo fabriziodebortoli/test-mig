@@ -1,10 +1,12 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using Microarea.Common.NameSolver;
-using Microarea.AdminServer.Libraries.DatabaseManager;
+using System.Linq;
+
 using TaskBuilderNetCore.Interfaces;
+using Microarea.AdminServer.Libraries.DatabaseManager;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -29,14 +31,13 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			if (string.IsNullOrWhiteSpace(SelectedConfiguration) || string.IsNullOrWhiteSpace(SelectedIsoState))
 				return;
 
-			ArrayList moduleList = null;
-			ArrayList fileList = new ArrayList();
+			List<FileInfo> fileList = new List<FileInfo>();
 			GetAllApplication();
 
 			foreach (string appName in applicationList)
 			{
-				moduleList = new ArrayList(ContextInfo.PathFinder.GetModulesList(appName));
-				
+				List<Common.NameSolver.ModuleInfo> moduleList = ContextInfo.PathFinder.GetModulesList(appName).Cast<Common.NameSolver.ModuleInfo>().ToList();
+
 				foreach (Common.NameSolver.ModuleInfo modInfo in moduleList)
 					AddSampleFiles(appName, modInfo.Name, ref fileList);
 			}
@@ -63,7 +64,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		}
 		
 		//---------------------------------------------------------------------------
-		public void AddSampleFiles(string appName, string moduleName, ref ArrayList fileList)
+		public void AddSampleFiles(string appName, string moduleName, ref List<FileInfo> fileList)
 		{	
 			DirectoryInfo standardDir = new DirectoryInfo(Path.Combine(ContextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, moduleName, SelectedIsoState), SelectedConfiguration));			
 			DirectoryInfo customDir = new DirectoryInfo(Path.Combine(ContextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, moduleName, SelectedIsoState),SelectedConfiguration));

@@ -3093,14 +3093,14 @@ namespace Microarea.Common.NameSolver
 		/// <param name="customDir"></param>
 		/// <param name="fileList"></param>
 		//---------------------------------------------------------------------
-		public void GetXMLFilesInPath(DirectoryInfo standardDir, DirectoryInfo customDir, ref ArrayList fileList)
+		public void GetXMLFilesInPath(DirectoryInfo standardDir, DirectoryInfo customDir, ref List<FileInfo> fileList)
 		{
 			if (fileList == null)
 				return;
 
 			//prima considero i file nella directory di custom del modulo
 			//(sia tablename.xml che appendtablename.xml)
-			ArrayList tempList = new ArrayList();
+			List<FileInfo> tempList = new List<FileInfo>();
 			if (customDir.Exists)
 			{
 				foreach (FileInfo file in customDir.GetFiles())

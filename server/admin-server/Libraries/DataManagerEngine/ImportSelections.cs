@@ -1,11 +1,11 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 
-using Microarea.Common.NameSolver;
-using Microarea.AdminServer.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.AdminServer.Libraries.DatabaseManager;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -15,7 +15,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 	//=========================================================================
 	public class ImportSelections : DataManagerSelections
 	{
-		public ArrayList ImportList = new ArrayList();
+		public List<ImportItemInfo> ImportList = new List<ImportItemInfo>();
 
 		public bool InsertExtraFieldsRow = true;  // se true posso inserire la riga anche se non tutti i campi sono presenti sul DB
 		public bool DeleteTableContext = false; // se cancellare o meno il contenuto della tabella prima di importare i dati
