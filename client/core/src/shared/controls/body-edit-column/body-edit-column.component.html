@@ -46,7 +46,7 @@
             <div>{{getValue(dataItem[columnName]?.value)}}</div>
     </ng-template>
 
-    <ng-template *ngSwitchDefault kendoGridCellTemplate let-dataItem>
-        <div>{{dataItem[columnName]?.value}}</div>
+    <ng-template ngSwitchDefault kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem">{{dataItem[columnName]?.value}}</div>
     </ng-template>
 </kendo-grid-column>

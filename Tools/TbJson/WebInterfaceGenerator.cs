@@ -813,9 +813,10 @@ namespace Microarea.TbJson
                             if (!string.IsNullOrEmpty(wc.Name))
                                 htmlWriter.WriteAttribute(Constants.columnType, wc.Name);
 
-                            string id = jObj.GetId();
-                            if (!string.IsNullOrEmpty(id))
-                                htmlWriter.WriteAttribute(Constants.columnName, id);
+                            //TODOLUCA non serve? è già il cmpId che scrive la WriteControlAttributes?
+                            //string id = jObj.GetId();
+                            //if (!string.IsNullOrEmpty(id))
+                            //    htmlWriter.WriteAttribute(Constants.columnName, id);
 
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
