@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -141,9 +142,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// Split
 		/// </summary>
 		//---------------------------------------------------------------------
-		private void Split(string streamToSplit, out ArrayList batches)
+		private void Split(string streamToSplit, out List<string> batches)
 		{
-			batches = new ArrayList();
+			batches = new List<string>();
 			int pos = 0;
 			int start = 0;
 
@@ -329,10 +330,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			error = string.Empty;
 
 			bool errorFound = false;
-			ArrayList str = null;
 
 			// gli statement da eseguire sono splittati tramite il GO
-			Split(strConvert, out str);
+			Split(strConvert, out List<string> strList);
 
 			if (fi != null)
 				this.diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ProcessingFile, fi.FullName));
@@ -340,9 +340,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			TBCommand command = new TBCommand(connection);
 			command.CommandTimeout = timeOut;
 
-			for (int i = 0; i < str.Count; i++)
+			for (int i = 0; i < strList.Count; i++)
 			{
-				string statement = str[i].ToString();
+				string statement = strList[i].ToString();
 
 				// se lo statement è empty passo allo statement successivo (nel caso di GO non corretti)
 				if (string.IsNullOrWhiteSpace(statement))
@@ -358,7 +358,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						statement = string.Empty;
 
 						if (connection.IsSqlConnection())
-							ApplyCollationRegex(str[i].ToString(), out statement);
+							ApplyCollationRegex(strList[i].ToString(), out statement);
 					}
 				}
 
