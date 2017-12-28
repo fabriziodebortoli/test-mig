@@ -99,10 +99,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     let subs = this.httpService.getCompaniesForUser(user).subscribe((result) => {
       this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
 
+      if (this.companies.length == 0) {
+        this.connectionData.company = undefined; 
+      }
       if (this.companies.length > 0 && !this.connectionData.company) {
         this.connectionData.company = this.companies[0];
       }
 
+      
       subs.unsubscribe();
     });
   }
