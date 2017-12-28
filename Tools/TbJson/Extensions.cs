@@ -314,8 +314,10 @@ namespace Microarea.TbJson
                 return ValueType.CONSTANT;
             }
 
-            val = "";
-            return ValueType.NOT_FOUND;
+
+
+            val = result.ToString();
+            return ValueType.PLAIN;
         }
 
         /// <summary>
