@@ -556,7 +556,14 @@ void CRSEditorFrame::OnFindPrev()
 //-----------------------------------------------------------------------------
 void CRSEditorFrame::OnSave()
 {
-	m_pEditView->DoSave();
+	if (m_pEditView->DoSave())
+	{
+		if (m_pEditView->DoClose())
+		{
+			m_pEditView->m_bBusy = FALSE;
+			__super::OnClose();
+		}
+	}	
 }
 
 //-----------------------------------------------------------------------------
