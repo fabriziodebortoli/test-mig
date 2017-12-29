@@ -30,6 +30,8 @@ short TFXDataTip::m_s_maxHeight = 600;
 static CFont*   _font = NULL;
 static CBrush* _brush = NULL;
 
+#define DT_TIP_STYLES	(DT_LEFT | DT_TOP | DT_NOPREFIX | DT_EXPANDTABS)
+
 // hook information
 HHOOK TFXDataTip::m_s_hookProc = NULL;
 TFXDataTip* TFXDataTip::m_s_pCurrent = NULL;
@@ -301,7 +303,8 @@ CSize TFXDataTip::GetSize()
 	HGDIOBJ pOldFont = dc.SelectObject(&_font);
 
 	CRect rect;
-	dc.DrawText(m_TipText, rect, DT_LEFT | DT_TOP | DT_NOPREFIX | DT_EXPANDTABS | DT_CALCRECT);
+	dc.DrawText(m_TipText, rect, DT_TIP_STYLES | DT_CALCRECT);
+	
 	sizeAll.cx = rect.Width();
 	sizeAll.cy = rect.Height();
 
@@ -398,7 +401,7 @@ void TFXDataTip::OnPaint()
 	dc.SetTextColor(AfxGetThemeManager()->GetTooltipForeColor());
 
 	// draw the data tip
-	dc.DrawText(m_TipText, rect, DT_LEFT | DT_TOP | DT_NOPREFIX | DT_END_ELLIPSIS | DT_EXPANDTABS | (DT_TABSTOP | 0x800));
+	dc.DrawText(m_TipText, rect, DT_TIP_STYLES | DT_END_ELLIPSIS);
 
 	// restore the device context
 	dc.SelectObject(pOldFont);
