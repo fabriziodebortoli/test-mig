@@ -657,10 +657,11 @@ BOOL WClauseExpr::Parse(Parser& lex)
 		AddStopTokens(T_SELECT);	//dopo le join
 	}
 
+	//lex.EnableAuditString();
+
 	// per il parser dell'espressione e` necessario conoscere il tipo di ritorno
 	// per poter effettuare gli opportuni check di congruenza, una Where Clause
 	// per definizione dovrebbe tornare TRUE o FALSE
-
 	if (!Expression::Parse(lex, DATA_BOOL_TYPE, TRUE))
 		return FALSE;
 	
@@ -739,7 +740,8 @@ BOOL WClauseExpr::ParseNative(Parser& lex)
 //-----------------------------------------------------------------------------
 BOOL WClauseExpr::ParseVariableOrConstForNativeWhere(Parser& lex)
 {
-	switch (lex.LookAhead())
+	Token tk = lex.LookAhead();
+	switch (tk)
 	{
 		case T_ID:
 	    {
@@ -879,7 +881,20 @@ BOOL WClauseExpr::ParseVariableOrConstForNativeWhere(Parser& lex)
 
 			break;
 	    }
-	
+
+		case T_EQ:
+		case T_NE:
+		{
+			//sostituisce gli operatori di confronto sql
+			CString sAudit = lex.GetAuditString();
+			lex.EnableAuditString(FALSE);
+			lex.SkipToken();
+			lex.EnableAuditString(TRUE);
+			lex.ConcatAuditString(sAudit);
+			lex.ConcatAuditString(::cwsprintf(tk == T_EQ ? T_ASSIGN : T_DIFF));
+			break;
+		}
+
 		case T_TRUE:
 		case T_FALSE:
 		{
