@@ -315,7 +315,10 @@ namespace ManifestGenerator
 
 							//Genero il web.config per disabilitare il request filtering sui file *.exe.config per il deploy via clickonce
 							GenerateWebConfig();
-							
+
+                            //Genero il web.config di istanza per la configurazione dei mime types
+                            GenerateWebConfigForMimeTypes();
+
                             //se la cartella esiste, aggiorno il manifest con eventuali nuove dll (verticali)
                             bool ok = false;
                             if (updating)
@@ -1475,11 +1478,33 @@ namespace ManifestGenerator
 			return true;
 		}
 
-		//--------------------------------------------------------------------------------
-		/// <summary>
-		/// Genera il file ServerConnection.config (se non esiste)
-		/// </summary>
-		private bool GenerateServerConnection(string uiCulture, string appCulture, int webServicesPort)
+        //--------------------------------------------------------------------------------
+        private bool GenerateWebConfigForMimeTypes()
+        {
+            string filePath = Path.Combine(Path.GetDirectoryName(rootPath), "web.config");
+            if (!File.Exists(filePath))
+            {
+                string folder = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                XmlDocument doc = new XmlDocument();
+                using (MemoryStream ms = new MemoryStream(Resource.MimeTypesWeb_config))
+                {
+                    doc.Load(ms);
+                }
+
+                doc.Save(filePath);
+            }
+
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------
+        /// <summary>
+        /// Genera il file ServerConnection.config (se non esiste)
+        /// </summary>
+        private bool GenerateServerConnection(string uiCulture, string appCulture, int webServicesPort)
 		{
 			string filePath = Path.Combine(Path.GetDirectoryName(rootPath), "Custom\\ServerConnection.config");
             XmlDocument doc = new XmlDocument();

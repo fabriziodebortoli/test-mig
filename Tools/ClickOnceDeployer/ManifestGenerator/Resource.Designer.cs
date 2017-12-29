@@ -138,6 +138,16 @@ namespace ManifestGenerator {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] MimeTypesWeb_config {
+            get {
+                object obj = ResourceManager.GetObject("MimeTypesWeb_config", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] MSBuild {
             get {
                 object obj = ResourceManager.GetObject("MSBuild", resourceCulture);
