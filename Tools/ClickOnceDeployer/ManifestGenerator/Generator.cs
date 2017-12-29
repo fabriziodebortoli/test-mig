@@ -1481,21 +1481,27 @@ namespace ManifestGenerator
         //--------------------------------------------------------------------------------
         private bool GenerateWebConfigForMimeTypes()
         {
-            string filePath = Path.Combine(Path.GetDirectoryName(rootPath), "web.config");
-            if (!File.Exists(filePath))
+            var instanceDirInfo = new DirectoryInfo(Path.GetDirectoryName(rootPath));
+            var webConfigFileInfo = new FileInfo(Path.Combine(instanceDirInfo.FullName, "web.config"));
+
+            if (webConfigFileInfo.Exists)
             {
-                string folder = Path.GetDirectoryName(filePath);
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-
-                XmlDocument doc = new XmlDocument();
-                using (MemoryStream ms = new MemoryStream(Resource.MimeTypesWeb_config))
-                {
-                    doc.Load(ms);
-                }
-
-                doc.Save(filePath);
+                File.Move(
+                    webConfigFileInfo.FullName,
+                    Path.Combine(
+                        instanceDirInfo.FullName,
+                        string.Format(CultureInfo.InvariantCulture, "web.config.{0}", DateTime.Now.ToString("yyyyMMddHHmmss"))
+                        )
+                    );
             }
+
+            XmlDocument doc = new XmlDocument();
+            using (MemoryStream ms = new MemoryStream(Resource.MimeTypesWeb_config))
+            {
+                doc.Load(ms);
+            }
+
+            doc.Save(webConfigFileInfo.FullName);
 
             return true;
         }
