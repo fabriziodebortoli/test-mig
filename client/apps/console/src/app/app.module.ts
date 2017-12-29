@@ -41,6 +41,7 @@ import { ImportDataComponent } from './components/database/import-data.component
 import { DatabaseDeleteComponent } from './components/database/database-delete.component';
 import { ActionPanelComponent } from './components/action-panel/action-panel.component';
 import { DatabaseSummaryComponent } from './components/database/database-summary.component';
+import { SubscriptionExternalSourceComponent } from './components/external-source/subscription-external-source.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { DatabaseSummaryComponent } from './components/database/database-summary
     ImportDataComponent,
     DatabaseDeleteComponent,
     ActionPanelComponent,
-    DatabaseSummaryComponent
+    DatabaseSummaryComponent,
+    SubscriptionExternalSourceComponent
   ],
   imports: [
     BrowserModule,

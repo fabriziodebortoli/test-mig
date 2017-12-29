@@ -774,25 +774,111 @@ export class ModelService {
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (changePassword)'));
   }
-    // reset account password
+
+  // reset account password
   //--------------------------------------------------------------------------------------------------------
   resetPassword(accountName: string): Observable<OperationResult> {
-    
-        let authorizationHeader = this.createAuthorizationHeader('app');
-    
-        if (authorizationHeader === '') {
-          return Observable.throw('AuthorizationHeader is missing!');
-        }
-    
-       
-        let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
-        let options = new RequestOptions({ headers: headers });
-    
-        return this.http.post(environment.gwamAPIUrl + 'resetPassword'+ '/'+accountName, '', options)
-          .map((res: Response) => {
-            return res.json();
-          })
-          .catch((error: any) => Observable.throw(error.json().error || 'server error (resetPassword)'));
-      }
 
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'resetPassword' + '/' + accountName, '', options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (resetPassword)'));
+  }
+
+    // returns all external sources for the couple instanceKey + subscriptionKey
+  //--------------------------------------------------------------------------------------------------------
+  getExternalSources(subscriptionKey: string): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (this.currentAccountName === '') {
+      return Observable.throw('AccountName is missing!');
+    }
+
+    // I need the instanceKey where the currentAccount is logged
+    let localAccountInfo = localStorage.getItem(this.currentAccountName);
+    let instancekey: string = '';
+
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instancekey = accountInfo.instanceKey;
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.adminAPIUrl + 'externalsources/' + instancekey + '/' + subscriptionKey, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (getExternalSources)'));
+  }
+
+  // returns a specific externalSource by instanceKey + subscriptionKey + source
+  //--------------------------------------------------------------------------------------------------------
+  getExternalSource(subscriptionKey: string, source: string): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (this.currentAccountName === '') {
+      return Observable.throw('AccountName is missing!');
+    }
+
+    // I need the instanceKey where the currentAccount is logged
+    let localAccountInfo = localStorage.getItem(this.currentAccountName);
+    let instancekey: string = '';
+
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instancekey = accountInfo.instanceKey;
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.adminAPIUrl + 'externalsources/' + instancekey + '/' + subscriptionKey + '/' + source, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (getExternalSource)'));
+  }
+
+  // save the externalSource
+  //--------------------------------------------------------------------------------------------------------
+  saveExternalSource(body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.adminAPIUrl + 'externalsources', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (saveExternalSource)'));
+  }
 }
