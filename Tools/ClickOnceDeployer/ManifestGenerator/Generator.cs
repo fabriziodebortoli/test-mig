@@ -344,7 +344,13 @@ namespace ManifestGenerator
 							{
 								setupAdjustmentThread = StartSetupServer(uiCulture, appCulture, webServicesPort, true);
 
-								return UpdateDeployment(installationName, fileHostName, webHostName, uiCulture, appCulture, webServicesPort, debugOrRelease, multiInstance);
+                                //Genero il web.config per disabilitare il request filtering sui file *.exe.config per il deploy via clickonce
+                                GenerateWebConfig();
+
+                                //Genero il web.config di istanza per la configurazione dei mime types
+                                GenerateWebConfigForMimeTypes();
+
+                                return UpdateDeployment(installationName, fileHostName, webHostName, uiCulture, appCulture, webServicesPort, debugOrRelease, multiInstance);
 							}
 							finally
 							{
