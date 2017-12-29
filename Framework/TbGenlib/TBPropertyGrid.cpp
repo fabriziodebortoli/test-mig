@@ -6,12 +6,15 @@
 #include <TbFrameworkImages\GeneralFunctions.h>
 #include <TbFrameworkImages\CommonImages.h>
 #include <TbGeneric\dibitmap.h>
-#include <TbGes\HotLink.h>
+#include <TbGeneric\ParametersSections.h>  
+#include <TbGeneric\SettingsTable.h>  
 #include <TbGenlib\BaseTileDialog.h>
+#include <TbGenlib\Tfxdatatip.h>
 #include <TbGenlib\PARSBTN.H>
 #include <TbGenlib\PARSEDT.H>
 #include <TbGenlib\ParsEdtOther.h>
 #include <TbGenlib\HyperLink.h>
+#include <TbGes\HotLink.h>
 
 
 #include "TBPropertyGrid.h"
@@ -677,7 +680,6 @@ CString	CTBProperty::OnFormatHotLinkDescription()
 		DataObj* pObj = pHKL->GetField(sName);
 		if (pObj)
 			sDescri = pObj->FormatData();
-
 	}
 
 	if (!m_bHotLinkInline || (!m_bViewHKLCode && !m_bViewHKLDescription) || !m_bViewHKLDescription || (m_bViewHKLDescription && sDescri.IsEmpty()))
@@ -840,7 +842,9 @@ BEGIN_MESSAGE_MAP(CTBPropertyGrid, CBCGPPropList)
 	ON_WM_VSCROLL()
 	ON_WM_KILLFOCUS()
 	ON_WM_SETFOCUS()
+	ON_WM_MOUSEMOVE()
 	ON_WM_MOUSEWHEEL()
+	ON_MESSAGE(WM_MOUSELEAVE, OnMouseLeave)
 	ON_WM_CONTEXTMENU()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
@@ -878,6 +882,11 @@ CTBPropertyGrid::CTBPropertyGrid(const CString sName /*= _T("")*/)
 //----------------------------------------------------------------------------------------------
 CTBPropertyGrid::~CTBPropertyGrid()
 {
+	if (m_pDataTip)
+	{
+		m_pDataTip->On(FALSE);
+		SAFE_DELETE(m_pDataTip);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -927,6 +936,76 @@ void CTBPropertyGrid::RemoveAllComponents()
 	BeginDestroyingComponents();
 	RemoveAll();
 	EndDestroyingComponents();
+}
+
+//-----------------------------------------------------------------------------
+int	CTBPropertyGrid::DoToolHitTest(CPoint point, TOOLINFO* pTI)
+{
+	//See if the point falls onto a cell
+	CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(point));
+	if	(
+			!m_pDataTip							||
+			!pProp								||
+			pProp->m_nRowsNumber == 1			||
+			!pProp->GetControl()				||
+			!pProp->GetControl()->GetCtrlData()	||
+			pProp->GetControl()->GetCtrlData()->IsEmpty()
+		)
+		return __super::OnToolHitTest(point, pTI);
+
+	pTI->hwnd = m_hWnd;
+	pTI->uId = pProp->GetControl()->GetCtrlID();
+	pTI->lpszText = LPSTR_TEXTCALLBACK;
+	pTI->uFlags |= TTF_IDISHWND;
+
+	return pTI->uId;	//By returning a unique value per cell Item,
+						//we ensure that when the mouse moves over another cell,
+						//the tooltip will change
+}
+
+//-----------------------------------------------------------------------------
+BOOL CTBPropertyGrid::DoToolTipNotify(CTooltipProperties& tp)
+{
+	m_ttp.m_ti.uId = tp.m_nControlID;
+	tp.m_strText.Empty();
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------------------------
+void CTBPropertyGrid::OnMouseMove(UINT nFlags, CPoint point)
+{
+	__super::OnMouseMove(nFlags, point);
+
+	CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(point));
+	if	(
+			!m_pDataTip							||
+			!pProp								||
+			pProp->m_nRowsNumber == 1			||
+			!pProp->GetControl()				||
+			!pProp->GetControl()->GetCtrlData()	||
+			pProp->GetControl()->GetCtrlData()->IsEmpty()
+		)
+		return;
+
+	TRACKMOUSEEVENT tk;
+	tk.cbSize = sizeof(tk);
+	tk.dwFlags = TME_LEAVE;
+	tk.dwHoverTime = 0;
+	tk.hwndTrack = m_hWnd;
+	_TrackMouseEvent(&tk);
+
+	m_ttp.m_nControlID = pProp->GetControl()->GetCtrlID();
+	m_ttp.m_ti.uId = m_ttp.m_nControlID;
+	m_ttp.m_strText = pProp->FormatProperty();
+
+	m_pDataTip->Set(point, m_ttp.m_strText);
+}
+
+//-----------------------------------------------------------------------------
+LRESULT CTBPropertyGrid::OnMouseLeave(WPARAM wPawam, LPARAM lParam)
+{
+	return 1; //
 }
 
 //-----------------------------------------------------------------------------
@@ -1434,6 +1513,9 @@ void CTBPropertyGrid::SetDataModified(BOOL bMod)
 //-------------------------------------------------------------------------------------------------
 BOOL CTBPropertyGrid::EditItem(CBCGPProp* pProp, LPPOINT lptClick /*= NULL*/)
 {
+	if (m_pDataTip)
+		m_pDataTip->Hide();
+
 	m_pBadProperty = NULL;
 	return __super::EditItem(pProp, lptClick);
 }
@@ -1501,6 +1583,23 @@ CTBProperty* CTBPropertyGrid::CreateProperty
 	SqlRecord*		pSqlRecord			/*= NULL*/,
 	int				nRowsNumber			/*= 1*/)
 {
+	// se viene usata almeno una property multiline si usa il tooltip per visuAlizzarne l'intero testo
+	if (nRowsNumber > 1 && m_pDataTip == NULL)
+	{
+		DataObj* pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
+		TFXDataTip::SetDelay(pS ? *((DataInt*)pS) : 300);
+
+		pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
+		DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
+		TFXDataTip::SetMaxDim(pS ? *((DataInt*)pS) : 800, pS2 ? *((DataInt*)pS2) : 600);
+
+		GetParent()->EnableToolTips();
+
+		m_pDataTip = new TFXDataTip();
+		m_pDataTip->Create(this);
+		m_pDataTip->On(TRUE);
+	}
+
 	CTBProperty* pProp = NULL;
 
 	if (!pDataObj)

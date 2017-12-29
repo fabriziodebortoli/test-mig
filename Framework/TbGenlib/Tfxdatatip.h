@@ -54,7 +54,7 @@ protected:
 	static LRESULT CALLBACK		KeyboardHookCallback(int code, WPARAM wParam, LPARAM lParam);
 
 	CWnd				*m_parent;
-	CStringList			m_listStrings;
+	CString				m_TipText;
 	CPoint				m_TipPosition,		// Position where to place the tip
 						m_MousePosition;	// Position of mouse when tip is placed
 	CSize				m_TipSurrounding;	// Moving the mouse so far is ok (no hiding of tip)
