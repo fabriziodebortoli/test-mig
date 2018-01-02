@@ -8817,6 +8817,12 @@ void CParsedCtrl::ReadPropertiesFromJson()
 
 	if (m_pOwnerWndDescription->m_nTextLimit > 0)
 		SetCtrlMaxLen(m_pOwnerWndDescription->m_nTextLimit);
+	
+	CString strCaption;
+	if (m_pCaption)
+		m_pCaption->GetWindowText(strCaption);
+	if (strCaption != m_pOwnerWndDescription->m_strControlCaption)
+		SetCtrlCaption(m_pOwnerWndDescription->m_strControlCaption);
 }
 
 //=============================================================================
