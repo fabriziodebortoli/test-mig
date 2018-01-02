@@ -28,18 +28,17 @@ export class BodyEditColumnComponent extends ControlComponent {
   @ViewChild(ColumnComponent) columnComponent;
 
   constructor(
-    public enumsService: EnumsService, 
-    public layoutService: LayoutService, 
+    public enumsService: EnumsService,
+    public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
-    ) {
+  ) {
 
     super(layoutService, tbComponentService, changeDetectorRef);
 
   }
 
   getValue(val) {
-
     let enumItem = this.enumsService.getEnumsItem(val);
     if (enumItem != undefined)
       return enumItem.name;

@@ -10,6 +10,7 @@ class CBaseDocument;
 class CTBPropertyGrid;
 class HotKeyLink;
 class CCheckBitmap;
+class TFXDataTip;
 
 //==================================================================================
 class TB_EXPORT CTBProperty : public CBCGPProp, public IDisposingSourceImpl
@@ -22,13 +23,15 @@ public:
 	CTBProperty	(
 					CString sName,
 					CString sPropertyLeftText,
-					CString sPropertyBottomText
+					CString sPropertyBottomText,
+					int		nRowsNumber = 1
 				);
 	CTBProperty (
-					CString sName,
-					CString sPropertyLeftText,
-					CString sPropertyBottomText,
-					const _variant_t& value
+					CString				sName,
+					CString				sPropertyLeftText,
+					CString				sPropertyBottomText,
+					const _variant_t&	value,
+					int					nRowsNumber = 1
 				);
 	virtual ~CTBProperty();
 
@@ -50,9 +53,7 @@ private:
 	COLORREF			m_clrGroupText;		
 	COLORREF			m_oldclrGroupBackground;
 	COLORREF			m_oldclrGroupText;
-
-
-
+	int					m_nRowsNumber;
 
 private:
 	void				DestroyAndCreateFB			(CFont* fromFont, BOOL bUnderline);
@@ -128,6 +129,9 @@ private:
 	BOOL					m_bDefaultRootProperty;
 	TBThemeManager*			m_pTBThemeManager;
 	BOOL					m_bDestroyingCompoents;
+	TFXDataTip*				m_pDataTip = NULL;
+	CTooltipProperties		m_ttp;
+
 protected:
 	CFont*					m_pHyperlinkFont;
 	COLORREF				m_clrHyperLinkForeColor;
@@ -155,7 +159,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	CTBProperty*		AddProperty	(	
 										CString			sName, 
@@ -167,7 +172,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	CTBProperty*		AddSubItem	(
 										CTBProperty*	pParentProperty,
@@ -180,7 +186,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	CTBProperty*		AddSubItem	(
 										CTBProperty*	pParentProperty,
@@ -193,7 +200,8 @@ public:
 										CRuntimeClass*	pParsedCtrlClass = NULL,
 										HotKeyLink*		pHotKeyLink = NULL,
 										UINT			nBtnID = BTN_DEFAULT,
-										SqlRecord*		pSqlRecord = NULL
+										SqlRecord*		pSqlRecord = NULL,
+										int				nRowsNumber = 1
 									);
 	BOOL				Create				(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID);
 	void				InitPropList		();
@@ -219,7 +227,8 @@ private:
 												CRuntimeClass*	pParsedCtrlClass = NULL,
 												HotKeyLink*		pHotKeyLink	= NULL,
 												UINT			nBtnID = BTN_DEFAULT,
-												SqlRecord*		pSqlRecord = NULL
+												SqlRecord*		pSqlRecord = NULL,
+												int				nRowsNumber = 1
 											);
 
 	BOOL				DoMoveToProp	(BOOL bPrev = TRUE);
@@ -238,11 +247,11 @@ public:
 	virtual void	EnableControlLinks		(BOOL bEnable = TRUE, BOOL bMustSetOSLReadOnly = FALSE);
 
 protected:
-	virtual	void	OnAbortForm			();
-	virtual	BOOL	OnCheckForm			(BOOL bEmitError);
-	virtual	BOOL	OnKeyHit			(UINT nIDC, UINT nKey, UINT nHitState);
-	virtual int		DoToolHitTest		(CPoint, TOOLINFO*)					{ ASSERT(FALSE); return 0; }
-	virtual BOOL	DoToolTipNotify		(CTooltipProperties&)				{ ASSERT(FALSE); return TRUE; }
+	virtual	void	OnAbortForm				();
+	virtual	BOOL	OnCheckForm				(BOOL bEmitError);
+	virtual	BOOL	OnKeyHit				(UINT nIDC, UINT nKey, UINT nHitState);
+	virtual int		DoToolHitTest			(CPoint, TOOLINFO*);
+	virtual BOOL	DoToolTipNotify			(CTooltipProperties&);
 
 	virtual BOOL	SubclassDlgItem		(UINT nID, CWnd* pParent);
 	virtual	BOOL	OnCommand			(WPARAM wParam, LPARAM lParam);
@@ -265,6 +274,8 @@ protected:
 	afx_msg LRESULT	OnValueChanged		(WPARAM wParam, LPARAM lParam);
 	afx_msg void	OnDestroy			();
 	afx_msg BOOL	OnEraseBkgnd		(CDC* pDC);
+	afx_msg void	OnMouseMove			(UINT nFlags, CPoint point);
+	afx_msg LRESULT	OnMouseLeave		(WPARAM wPawam, LPARAM lParam);
 	afx_msg BOOL	OnMouseWheel		(UINT nFlags, short zDelta, CPoint pt);
 	afx_msg LRESULT OnGetControlDescription(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()

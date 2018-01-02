@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.UI;
 using Newtonsoft.Json.Linq;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace Microarea.TbJson
 {
@@ -106,28 +107,39 @@ namespace Microarea.TbJson
             ? jObj[name] as JObject
             : null;
         }
-		/// <summary>
-		/// Prepara una stringa alla localizzazione con _TB()
-		/// </summary>
-		//-----------------------------------------------------------------------------
-		internal static string GetLocalizableString(this JToken jObj, string name)
-		{
-			if (!(jObj is JObject))
-				return null;
-			var result = jObj[name];
+        /// <summary>
+        /// Prepara una stringa alla localizzazione con _TB()
+        /// </summary>
+        //-----------------------------------------------------------------------------
+        internal static string GetLocalizableString(this JToken jObj, string name)
+        {
+            if (!(jObj is JObject))
+                return null;
+            var result = jObj[name];
 
-			if (result == null || !(result is JValue))
-				return null;
-			string text = result.Value<string>();
-			if (text.StartsWith("{{") && text.EndsWith("}}"))
-			{
-				text = text.Substring(2, text.Length - 4);
-				return string.Concat("eventData?.model?.", text);
-			}
+            if (result == null || !(result is JValue))
+                return null;
+            string text = result.Value<string>();
+            if (text.StartsWith("{{") && text.EndsWith("}}"))
+            {
+                text = text.Substring(2, text.Length - 4);
+                return string.Concat("eventData?.model?.", text);
+            }
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
-			return string.Concat("_TB('", text.Replace("'", "\\'"), "')");
-		}
-  
+            text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
+            //HttpUtility.HtmlEncode(text.Replace("'", "\\'"));
+
+            return string.Concat("_TB('", text, "')");
+        }
+
+        //-----------------------------------------------------------------------------
+        private static string ReplaceInLocalizableString(Match match)
+        {
+            if (match.Value == "'")
+                return "\\'";
+            return HttpUtility.HtmlEncode(match.Value);
+        }
+
         //-----------------------------------------------------------------------------
         internal static bool GetBool(this JToken jObj, string name)
         {
@@ -297,13 +309,15 @@ namespace Microarea.TbJson
                     val = "";
                     return ValueType.NOT_FOUND;
                 }
-                
+
                 val = c;
                 return ValueType.CONSTANT;
             }
 
-            val = "";
-            return ValueType.NOT_FOUND;
+
+
+            val = result.ToString();
+            return ValueType.PLAIN;
         }
 
         /// <summary>

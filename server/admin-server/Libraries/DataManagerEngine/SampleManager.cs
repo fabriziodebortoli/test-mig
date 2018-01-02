@@ -1,13 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
-using Microarea.Common.NameSolver;
-using Microarea.AdminServer.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers.Database;
+using Microarea.AdminServer.Libraries.DatabaseManager;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -30,17 +29,15 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		// a differenza di quelli di default, i dati di esempio esistono per l'isostato IT oppure INTL
 		public string SelectedIsoState = string.Empty; 
 
-		// array di appoggio x la gestione dell'importazione dei dati di default
+		// array di appoggio x la gestione dell'importazione dei dati di esempio
 		// in fase di creazione/aggiornamento del database aziendale
-		private ArrayList importFileList = new ArrayList();
+		private List<FileInfo> importFileList = new List<FileInfo>();
 
-		// array di appoggio x tenere traccia dei file contenenti i dati di default da richiamare
+		// array di appoggio x tenere traccia dei file contenenti i dati di esempio da richiamare
 		// per le sole tabelle mancanti
-		private ArrayList importFileForMissingTableList = new ArrayList();
-		private ArrayList importAppendFileForMissingTableList = new ArrayList();
+		private List<FileForMissingTable> importFileForMissingTableList = new List<FileForMissingTable>();
+		private List<FileForMissingTable> importAppendFileForMissingTableList = new List<FileForMissingTable>();
 
-		private Dictionary<string, ArrayList> filesForAppAndModule = new Dictionary<string, ArrayList>();
-	
 		/// <summary>
 		/// viene istanziato dal wizard 
 		/// </summary>

@@ -8,9 +8,13 @@
                  >
   <!-- Il path come root di partenza e' calcolato automaticamente da CCNet -->
   <FileSystemStructure>
-    <!-- Copio gli msi di TBS -->
-    <IncludeFolder name="*" recursive="yes">
+    <!-- Copio gli exe di TBS -->
+    <IncludeFolder name="TaskBuilderStudioMSI" recursive="yes">
       <IncludeFile name="*.exe"/>
+    </IncludeFolder>
+	<!-- Copio msi di InternationalStudio -->
+    <IncludeFolder name="InternationalStudio" recursive="yes">
+      <IncludeFile name="*.msi"/>
     </IncludeFolder>
     <!-- Copio gli zip dei sorgenti di TB e di MagoNet -->
     <IncludeFile name="*.zip"/>

@@ -61,7 +61,7 @@ public:
 
 // Implementation
 protected:
-	virtual LRESULT OnGetBitmapID	();
+	//virtual LRESULT OnGetBitmapID	();
 
 public:	
 	// Generated message map functions
@@ -84,7 +84,7 @@ public:
 
 // Implementation
 protected:
-	virtual LRESULT OnGetBitmapID	();
+	//virtual LRESULT OnGetBitmapID	();
 	virtual void BuildDataControlLinks		();
 	virtual	LRESULT OnWizardNext	();
 
@@ -111,7 +111,7 @@ public:
 protected:
 	virtual void BuildDataControlLinks		();
 	
-	virtual LRESULT OnGetBitmapID	();
+	//virtual LRESULT OnGetBitmapID	();
 
 	virtual	LRESULT OnWizardNext	();
 };
@@ -132,7 +132,7 @@ protected:
 	virtual void	BuildDataControlLinks		();
 	virtual void	OnDisableControlsForBatch	();
 	virtual LRESULT OnWizardNext				();
-	virtual LRESULT OnGetBitmapID				();
+	//virtual LRESULT OnGetBitmapID				();
 
 	// Generated message map functions
 	//{{AFX_MSG(CXMLExportSelProfilePage)
@@ -164,7 +164,7 @@ protected:
 	virtual void	BuildDataControlLinks	();
 	virtual void	OnDisableControlsForBatch();
 
-	virtual LRESULT OnGetBitmapID	();
+	//virtual LRESULT OnGetBitmapID	();
 
 	// Generated message map functions
 	//{{AFX_MSG(CXMLExportCriteriaPage)
@@ -190,7 +190,7 @@ public:
 protected:
 	virtual void	BuildDataControlLinks();
 
-	virtual LRESULT OnGetBitmapID	();
+	//virtual LRESULT OnGetBitmapID	();
 	virtual LRESULT OnWizardBack	();
 
 
@@ -221,7 +221,7 @@ public:
 
 // Implementation
 protected:
-	virtual LRESULT OnGetBitmapID	();
+	//virtual LRESULT OnGetBitmapID	();
 	virtual LRESULT OnWizardNext	();
 	virtual	BOOL	OnCommand		(WPARAM wParam, LPARAM lParam);
 

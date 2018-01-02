@@ -9,8 +9,8 @@
         string Description { get; set; }
 		string Provider { get; set; }
 		string Server { get; set; }
-		string Database { get; set; }
-		string User { get; set; }
+		string DBName { get; set; }
+		string UserId { get; set; }
 		string Password { get; set; }
         bool Disabled { get; set; }
 		bool UnderMaintenance { get; set; }

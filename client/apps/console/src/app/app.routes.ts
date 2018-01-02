@@ -1,5 +1,5 @@
 import { DatabaseSummaryComponent } from './components/database/database-summary.component';
-import {FileUploadComponent} from './components/file-upload/file-upload.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DatabaseConfigurationComponent } from './components/database/database-configuration.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
@@ -16,6 +16,7 @@ import { SubscriptionComponent } from 'app/components/subscription/subscription.
 import { SubscriptionDbHomeComponent } from 'app/components/subscription/subscription-db-home.component';
 import { TestControlsComponent } from 'app/components/test-controls/test-controls.component';
 import { InstanceRegistrationComponent } from 'app/components/instance/instance-registration.component';
+import { SubscriptionExternalSourceComponent } from 'app/components/external-source/subscription-external-source.component';
 
 export const routes: Routes = [
   { 
@@ -88,6 +89,12 @@ export const routes: Routes = [
     canActivateChild: [AuthGuardService],
     component: DatabaseSummaryComponent
   },
+  { 
+    path: 'externalsource', 
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
+    component: SubscriptionExternalSourceComponent
+  },  
   { 
     path: 'fileUpload', 
     component: FileUploadComponent

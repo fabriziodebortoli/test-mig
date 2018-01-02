@@ -106,14 +106,19 @@ namespace Microarea.AdminServer
 
 		// SubscriptionExternalSources
 		public const string ExistSubscriptionExternalSource = @"SELECT COUNT(*) FROM MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
-		public const string SelectSubscriptionExternalSource = @"SELECT * FROM MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
-		public const string InsertSubscriptionExternalSource = @"INSERT INTO MP_SubscriptionExternalSources (InstanceKey, SubscriptionKey, Source, Description, Provider, Server, Database, User, Password, 
+		public const string SelectSubscriptionExternalSources = @"SELECT * FROM MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey";
+		public const string SelectSubscriptionExternalSourceBySource = @"SELECT * FROM MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
+		public const string InsertSubscriptionExternalSource = @"INSERT INTO MP_SubscriptionExternalSources (InstanceKey, SubscriptionKey, Source, Description, Provider, Server, DBName, UserId, Password, 
 																Disabled, UnderMaintenance, AdditionalInfo)  VALUES (@InstanceKey, @SubscriptionKey, @Source, @Description, @Provider, 
-																@Server, @Database, @User, @Password, @Disabled, @UnderMaintenance, @AdditionalInfo)";
-		public const string UpdateSubscriptionExternalSource = @"UPDATE MP_SubscriptionExternalSources SET Description = @Description, Provider = @Provider, Server = @Server, Database = @Database, 
-																User = @User, Password = @Password, Disabled = @Disabled, UnderMaintenance = @UnderMaintenance, AdditionalInfo = @AdditionalInfo
+																@Server, @DBName, @UserId, @Password, @Disabled, @UnderMaintenance, @AdditionalInfo)";
+		public const string UpdateSubscriptionExternalSource = @"UPDATE MP_SubscriptionExternalSources SET Description = @Description, Provider = @Provider, Server = @Server, DBName = @DBName, 
+																UserId = @UserId, Password = @Password, Disabled = @Disabled, UnderMaintenance = @UnderMaintenance, AdditionalInfo = @AdditionalInfo
 																WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
 		public const string DeleteSubscriptionExternalSource = @"DELETE MP_SubscriptionExternalSources WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Source = @Source";
+
+		// SubscriptionExternalSources (BurgerData)
+		public const string SelectExternalSources = @"SELECT * FROM MP_SubscriptionExternalSources WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}'";
+		public const string SelectExternalSourceBySource = @"SELECT * FROM MP_SubscriptionExternalSources WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}' AND Source = '{2}'";
 
 		// Account
 		public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";

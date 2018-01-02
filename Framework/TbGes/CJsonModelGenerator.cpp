@@ -51,8 +51,6 @@ void CJsonModelGenerator::OnGenerate()
 
 	session.Start();
 	m_pCallerDoc->ResetJsonData(dummy);
-	session.PushDataToClients(m_pCallerDoc);
-	session.PushButtonsStateToClients(m_pCallerDoc->GetFrameHandle());
 	session.PushMessageMapToClients(m_pCallerDoc);
 	session.PushActivationDataToClients();
 	session.Stop();

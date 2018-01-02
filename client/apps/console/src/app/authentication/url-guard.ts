@@ -153,6 +153,37 @@ export class UrlGuard {
       }
     }
 
+    // checking external sources (url is like this: /externalsource?subscriptionToEdit=S-ENT&sourceToEdit=sourceName)
+
+    if (url.startsWith('/externalsource')) {
+
+      // better use try/catch to avoid exception when we play with string indexes!
+      
+      try {
+        // I search the subscriptionKey in the url
+        let startSubKeyIdx: number = url.indexOf("=") + 1;
+        let endSubKeyIdx: number = url.indexOf("&");
+
+        let subKey: string = url.substr(startSubKeyIdx, endSubKeyIdx - startSubKeyIdx);
+
+        // then I check the role for this subscription
+
+        if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Subscription, subKey)) {
+          opRes.Message = 'You do not have rights to edit ' + subKey;
+          opRes.Result = false;
+          return opRes;
+        }
+        else {
+          opRes.Result = true;
+          return opRes;
+        }
+      } catch (error) {
+        opRes.Message = error;
+        opRes.Result = false;
+        return opRes;
+      }
+    }
+
     opRes.Message = 'Unknown Url';
     opRes.Result = false;
     return opRes;

@@ -29,6 +29,7 @@
 		GWAMCommunicationError,
         UnknownModelName,
 		NoSubscriptionDatabasesAvailable,
-        NoInstancesAvailable
-    }
+        NoInstancesAvailable,
+		NoExternalSourcesAvailable,
+	}
 }

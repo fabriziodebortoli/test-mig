@@ -815,13 +815,15 @@ class TB_EXPORT CWizardFormView : public CMasterFormView
 
 	DECLARE_DYNCREATE(CWizardFormView)
 
-protected:	
+public:
 	UINT			m_IDCBitmap;
+	BOOL			m_bUseOldButtonStyle;
+	BOOL			m_bEnableImage;
+protected:	
 	CUIntArray		m_PreviousTabs;
 	Array			m_arAnchorControls;
 	BOOL			m_bIsDirectCallToWizardFinishCall;
 	BOOL			m_bWizardFinished;
-	BOOL			m_bUseOldButtonStyle;
 	BOOL			m_bReExecutable;
 
 public:

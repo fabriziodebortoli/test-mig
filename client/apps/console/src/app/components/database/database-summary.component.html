@@ -5,19 +5,6 @@
       <div class="adminTile tileNormal">
         Summary information
         <div>
-          <admin-input-text [inputLabel]="'Name'" [textType]="'text'" [(inputData)]="name" [readOnly]=true></admin-input-text>
-        </div>
-        <div>
-          <admin-input-text [inputLabel]="'ERP database name'" [textType]="'text'" [(inputData)]="erpDbName" [readOnly]=true></admin-input-text>
-        </div>
-        <div>
-          <admin-input-text [inputLabel]="'DMS database name'" [textType]="'text'" [(inputData)]="dmsDbName" [readOnly]=true></admin-input-text>
-        </div>
-        <div>
-          <admin-input-text [inputLabel]="'DBOwner'" [textType]="'text'" [(inputData)]="dbOwner" [readOnly]=true></admin-input-text>
-        </div>
-        <br>
-        <div>
           <admin-list [items]=operationsList [columnNames]="['Message']"></admin-list>
         </div>
         <div *ngIf="!isWorking" class="mt20">

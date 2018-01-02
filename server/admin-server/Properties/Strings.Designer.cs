@@ -358,6 +358,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No external sources available..
+        /// </summary>
+        public static string NoExternalSourcesAvailable {
+            get {
+                return ResourceManager.GetString("NoExternalSourcesAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Instances Available.
         /// </summary>
         public static string NoInstancesAvailable {

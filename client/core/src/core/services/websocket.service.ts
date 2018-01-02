@@ -79,7 +79,6 @@ export class WebSocketService {
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
                         case 'Diagnostic': $this.diagnostic.emit(obj.args); break;
-                        case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
                         case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
                         case 'Behaviours': $this.behaviours.emit(obj.args); break;

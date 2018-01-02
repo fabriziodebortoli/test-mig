@@ -232,6 +232,7 @@ protected:
 
 	Comment				m_Comment;
 	CStringArray		m_CommentTrace;
+	BOOL				m_bAuditComment = FALSE;
 
 protected:
 	Token 	GetBracketsToken	();
@@ -290,10 +291,11 @@ public:
 	Token	GetTokenFound		()	const	{ return m_pLexanState->m_TokenFound; }
 
 	// audit trailing strings function
-	CString	GetAuditString		(BOOL bReset = TRUE)	{ return m_pLexanState->m_pLexBuf->GetAuditString(bReset); }
-	void	EnableAuditString	(BOOL bOn = TRUE)		{ m_pLexanState->m_pLexBuf->EnableAuditString(bOn); }
-	BOOL	IsAuditStringOn	()							{ return m_pLexanState->m_pLexBuf->IsAuditStringOn(); }
-	void	ConcatAuditString (const CString& strLexeme);
+	void	EnableAuditString	(BOOL bOn = TRUE, BOOL bAuditComment = FALSE)		
+		{ m_pLexanState->m_pLexBuf->EnableAuditString(bOn); m_bAuditComment = bAuditComment; }
+	BOOL	IsAuditStringOn		() { return m_pLexanState->m_pLexBuf->IsAuditStringOn(); }
+	CString	GetAuditString		(BOOL bReset = TRUE);
+	void	ConcatAuditString	(const CString& strLexeme);
 
 	// define expansion support
 	BOOL	GetExpandDefine () const			 	{ return m_pLexanState->m_bExpandDefine; }

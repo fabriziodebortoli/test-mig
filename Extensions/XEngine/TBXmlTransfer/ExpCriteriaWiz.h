@@ -98,7 +98,12 @@ class CExpCriteriaWizardView : public CWizardFormView
 	DECLARE_DYNCREATE(CExpCriteriaWizardView)
 
 public:	
-	CExpCriteriaWizardView(){ m_bUseOldButtonStyle = TRUE; }
+	CExpCriteriaWizardView()
+		:CWizardFormView()
+	{
+		m_bEnableImage = FALSE;
+		m_bUseOldButtonStyle = TRUE; 
+	}
 
 private:
 	CExpCriteriaWizardDoc* GetExpCriteriaWizardDoc	() const;

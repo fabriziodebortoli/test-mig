@@ -8,8 +8,8 @@
                  producerWebSite="http://www.microarea.it"
                  certificatePath="..\..\..\..\..\..\Applications\ERP\k.pfx"
                  certificatePassword="TaskBuilder.3"
-				 	       mainAppFileName="TbAppManager.exe"
-					       consoleAppFileName="AdministrationConsole.exe"
+				 mainAppFileName="TbAppManager.exe"
+				 consoleAppFileName="AdministrationConsole.exe"
                  >
   <!--Consideriamo questo path come root di partenza: C:\Development\-->
   <FileSystemStructure virtualPath="[INSTANCENAME]">
@@ -283,13 +283,15 @@
           </IncludeFolder>
           <IncludeFile name="application.config" />
         </IncludeFolder>
-        <IncludeFolder name="MobileWebServicesProvider" virtualPath="[FOLDERNAME]" fragment="yes" createWebApplication="yes" dedicatedAppPool="yes">
-          <IncludeFolder name="bin|Scripts|Styles|WebTest|Utility">
-            <IncludeFile name="*.aspx|*.css|*.js|*.dll" />
-          </IncludeFolder>
-          <IncludeFile name="Global.asax|*.config" />
-          <ExcludeFile name="*.debug.config|*.release.config" />
-        </IncludeFolder>
+        <IncludeFolder name="WMSMobile">
+			<IncludeFolder name="MobileWebServicesProvider" virtualPath="[FOLDERNAME]" fragment="yes" createWebApplication="yes" dedicatedAppPool="yes">
+			  <IncludeFolder name="bin|Scripts|Styles|WebTest|Utility">
+				<IncludeFile name="*.aspx|*.css|*.js|*.dll" />
+			  </IncludeFolder>
+			  <IncludeFile name="Global.asax|*.config" />
+			  <ExcludeFile name="*.debug.config|*.release.config" />
+			</IncludeFolder>
+		</IncludeFolder>
       </IncludeFolder>
       <IncludeFolder name="TaskBuilder">
         <IncludeFolder name="Extensions">
@@ -469,7 +471,7 @@
   <MergeModulesDeny>
     <MergeModule name="Microsoft_VC120_CRT_x64.msm" />
     <MergeModule name="Microsoft_VC120_MFC_x64.msm" />
-    <MergeModule name="Microsoft_VC140_CRT_x64.msm" />
-    <MergeModule name="Microsoft_VC140_MFC_x64.msm" />
+    <MergeModule name="Microsoft_VC140_CRT_x86.msm" />
+    <MergeModule name="Microsoft_VC140_MFC_x86.msm" />
   </MergeModulesDeny>
 </SetupDefinition>

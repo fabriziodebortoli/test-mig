@@ -56,4 +56,32 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="editing" class="row">
+    <div *ngIf="externalSources.length === 0" class="col-xs-12 col-md-12">
+      <div class="box mt20">
+        <div>
+          <app-action-panel [iconSignature]="'notifications'" [message]="'External sources for this subscription have not been configured.'"
+            [actionText]="'Configure'" [showButton]="true" (actionFired)="addExternalSource()">
+          </app-action-panel>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="externalSources.length > 0" class="col-xs-12 col-md-12">
+      <div *ngIf="!externalUnderMaintenance" class="box mt20">
+        <h4 class="componentTitle" style="display:inline-block;width:100%">External sources</h4>
+        <admin-list [readingData]=readingExternalSource [showHeader]=true [items]=externalSources [columnNames]="['Source', 'Description', 'Server']"
+          (onSelectedItem)="openExternalSource($event)"></admin-list>
+          <!-- [rowCommand]="'delete'" (onFireRowCommand)="deleteExternalSource($event)" -->
+        <div>
+          <admin-button [primary]=true [buttonText]="'Add source'" (click)="addExternalSource()"></admin-button>
+        </div>
+      </div>
+      <div *ngIf="externalUnderMaintenance" class="box mt20">
+        <img src="assets/ajax-loader.gif" />
+        <h4>The external sources are under maintenance. Please return later.</h4>
+      </div>
+    </div>
+  </div>
 </div>

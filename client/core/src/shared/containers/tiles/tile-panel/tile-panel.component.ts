@@ -9,10 +9,28 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TilePanelComponent implements OnInit {
 
     public _showAsTile: boolean = true;
-    public isCollapsed: boolean = false;
-    public title: string = '';
-    public icon: string = '';
-    @Input() isCollapsible: boolean = true;
+    @Input() title: string = '';
+    public _isCollapsed: boolean = false;
+    public _isCollapsible: boolean = true;
+    
+
+    @Input()
+    set isCollapsed(value: boolean) {
+      this._isCollapsed = value;
+    }
+  
+    get isCollapsed(): boolean {
+      return this._isCollapsed;
+    }
+  
+    @Input()
+    set isCollapsible(value: boolean) {
+      this._isCollapsible = value;
+    }
+  
+    get isCollapsible(): boolean {
+      return this._isCollapsible;
+    }
 
 
     @Input()
@@ -30,16 +48,10 @@ export class TilePanelComponent implements OnInit {
     }
 
     toggleCollapse(event: MouseEvent): void {
-        if (!this.isCollapsed)
+        if (!this.isCollapsible)
             return;
 
         // event.preventDefault();
         this.isCollapsed = !this.isCollapsed;
     }
-
-    getArrowIcon() {
-        return this.isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled';
-    }
-
-
 }

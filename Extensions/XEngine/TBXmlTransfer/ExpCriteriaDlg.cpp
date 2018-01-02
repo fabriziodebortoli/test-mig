@@ -99,11 +99,11 @@ CXMLExportPresentationPage::CXMLExportPresentationPage(CWnd* pParent /*=NULL*/)
 {
 }
 
-//-----------------------------------------------------------------------------
-LRESULT CXMLExportPresentationPage::OnGetBitmapID()
-{
-	return IDB_WIZARD_SEL_DOC_PAGE;
-}
+////-----------------------------------------------------------------------------
+//LRESULT CXMLExportPresentationPage::OnGetBitmapID()
+//{
+//	return IDB_WIZARD_SEL_DOC_PAGE;
+//}
 
 
 //-----------------------------------------------------------------------------
@@ -119,11 +119,11 @@ CXMLExportSchemaPage::CXMLExportSchemaPage(CWnd* pParent /*=NULL*/)
 
 }
 
-//-----------------------------------------------------------------------------
-LRESULT CXMLExportSchemaPage::OnGetBitmapID()
-{
-	return IDB_WIZARD_SEL_DOC_PAGE;
-}
+////-----------------------------------------------------------------------------
+//LRESULT CXMLExportSchemaPage::OnGetBitmapID()
+//{
+//	return IDB_WIZARD_SEL_DOC_PAGE;
+//}
 
 //-----------------------------------------------------------------------------
 void CXMLExportSchemaPage::BuildDataControlLinks()
@@ -238,11 +238,11 @@ LRESULT CXMLExportSelDocPage::OnWizardNext()
 	return WIZARD_DEFAULT_TAB;
 }
 
-//-----------------------------------------------------------------------------
-LRESULT CXMLExportSelDocPage::OnGetBitmapID()
-{
-	return IDB_WIZARD_SEL_DOC_PAGE;
-}
+////-----------------------------------------------------------------------------
+//LRESULT CXMLExportSelDocPage::OnGetBitmapID()
+//{
+//	return IDB_WIZARD_SEL_DOC_PAGE;
+//}
 
 //////////////////////////////////////////////////////////////////////////////
 //             class CSelProfileCombo definition and implementation
@@ -419,11 +419,11 @@ LRESULT CXMLExportSelProfilePage::OnWizardNext()
 	return WIZARD_DEFAULT_TAB;
 }
 
-//-----------------------------------------------------------------------------
-LRESULT CXMLExportSelProfilePage::OnGetBitmapID()
-{
-	return IDB_WIZARD_SEL_PROF_PAGE;
-}
+////-----------------------------------------------------------------------------
+//LRESULT CXMLExportSelProfilePage::OnGetBitmapID()
+//{
+//	return IDB_WIZARD_SEL_PROF_PAGE;
+//}
 
 
 //-----------------------------------------------------------------------------
@@ -481,11 +481,11 @@ void CXMLExportCriteriaPage::OnDisableControlsForBatch()
 												   );	
 }
 
-//-----------------------------------------------------------------------------
-LRESULT CXMLExportCriteriaPage::OnGetBitmapID()
-{
-	return IDB_WIZARD_SEL_CRITERIA_PAGE;
-}
+////-----------------------------------------------------------------------------
+//LRESULT CXMLExportCriteriaPage::OnGetBitmapID()
+//{
+//	return IDB_WIZARD_SEL_CRITERIA_PAGE;
+//}
 
 
 //-----------------------------------------------------------------------------
@@ -553,11 +553,11 @@ void CXMLExportOSLCriteriaPage::OnOSLToDateChanged()
 	}
 }
 
-//-----------------------------------------------------------------------------
-LRESULT CXMLExportOSLCriteriaPage::OnGetBitmapID()
-{
-	return IDB_WIZARD_SEL_AUDIT_PAGE;
-}
+////-----------------------------------------------------------------------------
+//LRESULT CXMLExportOSLCriteriaPage::OnGetBitmapID()
+//{
+//	return IDB_WIZARD_SEL_AUDIT_PAGE;
+//}
 
 //-----------------------------------------------------------------------------
 // CXMLExportUserCriteriaPage dialog
@@ -641,11 +641,11 @@ LRESULT CXMLExportUserCriteriaPage::OnWizardNext()
 	return WIZARD_DEFAULT_TAB;	
 }
 
-//-----------------------------------------------------------------------------
-LRESULT CXMLExportUserCriteriaPage::OnGetBitmapID()
-{
-	return IDB_WIZARD_SEL_USR_CRITERIA_PAGE;
-}
+////-----------------------------------------------------------------------------
+//LRESULT CXMLExportUserCriteriaPage::OnGetBitmapID()
+//{
+//	return IDB_WIZARD_SEL_USR_CRITERIA_PAGE;
+//}
 
 
 

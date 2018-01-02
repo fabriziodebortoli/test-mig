@@ -22,6 +22,10 @@ export class DatabaseUpgradeComponent implements OnInit {
   isUpdateDbRunning: boolean;
   errorMsg: string;
 
+  // Opendialog variables
+  openMsgDialog: boolean = false;
+  msgDialog: string;
+
   // default data variables
   importDefaultData: boolean = true;
   // lista configurazioni per i dati di default
@@ -141,9 +145,13 @@ export class DatabaseUpgradeComponent implements OnInit {
         this.isUpdateDbRunning = false;
         this.canUpdateDb = false;
 
-        // qui dovrei visualizzare il risultato dell'aggiornamento
+        // @@TODO: dovrei visualizzare il risultato dell'aggiornamento
         // decidere lato back-end quali dettagli ritornare e mostrare all'utente
-        //this.operationsList = updateDbResult['Content'];
+        // this.operationsList = updateDbResult['Content'];
+        this.operationsList = [];
+
+        this.msgDialog = 'Operation completed!';
+        this.openMsgDialog = true;
 
         updateDb.unsubscribe();
       },

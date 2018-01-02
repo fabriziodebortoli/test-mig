@@ -1,19 +1,23 @@
+import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
 import { HttpService } from './../../../core/services/http.service';
-import { OnDestroy, OnInit, AfterViewChecked, Component, Input, HostListener, ElementRef,
-        ViewChild, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation } from '@angular/core';
+import {
+  OnDestroy, OnInit, AfterViewChecked, Component, Input, HostListener, ElementRef,
+  ViewChild, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation
+} from '@angular/core';
 import { URLSearchParams } from '@angular/http';
-import { GridDataResult, PageChangeEvent, PagerComponent,  } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, PagerComponent, } from '@progress/kendo-angular-grid';
 import { filterBy, FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
 import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters } from '../../../core/services/filter.services';
 import * as _ from 'lodash';
+
 
 export type HlComponent = { model: any, slice$?: any, cmpId: string, isCombo?: boolean };
 
@@ -45,11 +49,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this._slice$ = value;
   }
   public get slice$(): Observable<{ model: any, enabled: boolean }> | any {
-    return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
+    return (!this.modelComponent || !this.modelComponent.slice$) ? this._slice$ : this.modelComponent.slice$;
   }
 
-  private gridView$ = new BehaviorSubject<{data: any[], total: number, columns: any[]}>
-  ({data: [], total: 0, columns: [] });
+  private gridView$ = new BehaviorSubject<{ data: any[], total: number, columns: any[] }>
+    ({ data: [], total: 0, columns: [] });
   public columns: any[];
   public selectionTypes: any[] = [];
   public selectionType = 'code';
@@ -91,8 +95,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   selectionColumn = '';
   subscription: Subscription;
 
-  _defaultGridStyle = {'cursor': 'pointer'};
-  _filterTypingGridStyle = {'color': 'darkgrey'}
+  _defaultGridStyle = { 'cursor': 'pointer' };
+  _filterTypingGridStyle = { 'color': 'darkgrey' }
   _gridStyle$ = new BehaviorSubject<any>(this._defaultGridStyle);
   get gridStyle(): Observable<any> { return this._gridStyle$.asObservable(); }
 
@@ -134,7 +138,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
           return;
         } else {
           if (this.optionsPopupRef) { this.optionsPopupRef.close(); }
-            this.optionsPopupRef = null;
+          this.optionsPopupRef = null;
         }
       });
     }
@@ -142,12 +146,21 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     await this.loadOptions();
   }
 
-  toggleTable(anchor, template) {
+  toggleTable(anchorElem, template) {
     this.closeOptions();
     if (!this.tableSub) {
       this.tableSub = this.showTable$.distinctUntilChanged().subscribe(x => {
         if (x) {
-          this.tablePopupRef = this.tablePopupService.open({ anchor: anchor, content: template });
+          let popupA: Align = this.getPopupAlign();
+          let anchorA: Align = this.getAnchorAlign();
+
+          this.tablePopupRef = this.tablePopupService.open({
+            anchor: anchorElem,
+            content: template,
+            popupAlign: popupA,
+            anchorAlign: anchorA
+          });
+
           this.tablePopupRef.popupOpen.asObservable().subscribe(y => this.loadTable());
         } else {
           if (this.tablePopupRef) {
@@ -158,6 +171,52 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       });
     }
     if (this.showTableSubj$.value) { this.closeTable(); } else { this.openTable(); }
+  }
+
+  @ViewChild("anchorTable", { read: ElementRef }) anchorTable: ElementRef;
+
+  getPopupAlign(): Align {
+    let Horizontal = 'left';
+    let Vertical = 'top';
+
+    let height = window.innerHeight;
+    let bottomPoint = this.anchorTable.nativeElement.offsetTop + this.anchorTable.nativeElement.offsetHeight;
+    if (height - bottomPoint <= 300) {
+      Vertical = 'bottom';
+    }
+
+    let width = window.innerWidth;
+    let rightPoint = this.anchorTable.nativeElement.offsetLeft + this.anchorTable.nativeElement.offsetWidth;
+    if (rightPoint > (width *0.45)) {
+      Horizontal = 'right';
+    }
+    return {
+      horizontal: Horizontal,
+      vertical: Vertical
+    } as Align;
+
+  }
+
+  getAnchorAlign(): Align {
+    let Horizontal = 'left';
+    let Vertical = 'bottom';
+
+    let height = window.innerHeight;
+    let bottomPoint = this.anchorTable.nativeElement.offsetTop + this.anchorTable.nativeElement.offsetHeight;
+    if (height - bottomPoint <= 300) {
+      Vertical = 'top';
+    }
+
+    let width = window.innerWidth;
+    let rightPoint = this.anchorTable.nativeElement.offsetLeft + this.anchorTable.nativeElement.offsetWidth;
+    if (rightPoint > (width *0.45)) {
+      Horizontal = 'right';
+    }
+
+    return {
+      horizontal: Horizontal,
+      vertical: Vertical
+    } as Align
   }
 
   openDropDown() {
@@ -174,7 +233,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   openTable() { this.showTableSubj$.next(true); }
   closePopups() { this.closeOptions(); this.closeTable(); }
   get optionsPopupStyle(): any {
-    return {'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)'};
+    return { 'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)' };
   }
 
   getDataItem(d: any): any {
@@ -186,7 +245,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.filterer.configure(200);
     this.paginator.start(1, this.pageSize,
       combineFilters(this.filterer.filterChanged$, this.slice$)
-        .map(x => ({ model: x.right, customFilters: x.left})),
+        .map(x => ({ model: x.right, customFilters: x.left })),
       (pageNumber, serverPageSize, otherParams) => {
         let p: URLSearchParams = new URLSearchParams(this.args);
         p.set('filter', JSON.stringify(otherParams.model.value));
@@ -194,28 +253,28 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         p.set('disabled', '0');
         p.set('page', JSON.stringify(pageNumber + 1));
         p.set('per_page', JSON.stringify(serverPageSize));
-        return this.httpService.getHotlinkData(this.namespace, this.selectionType,  p);
+        return this.httpService.getHotlinkData(this.namespace, this.selectionType, p);
       });
 
     this.subscription = this.paginator.clientData.subscribe((d) => {
-        if (d && d.rows && d.rows.length > 0) {
-          this.selectionColumn = d.key;
-          this.gridView$.next({data: d.rows, total: d.total, columns: d.columns });
-          this.columns = d.columns;
-          this.openTable();
-          this.closeOptions();
-        }
-        setTimeout(() => {
-          if (this.tablePopupRef) {
-            let filters = this.tablePopupRef.popupElement.querySelectorAll('[kendofilterinput]');
-            if (filters && filters[this.changedFilterIndex]) {
-              (filters[this.changedFilterIndex] as HTMLElement).focus();
-            }
+      if (d && d.rows && d.rows.length > 0) {
+        this.selectionColumn = d.key;
+        this.gridView$.next({ data: d.rows, total: d.total, columns: d.columns });
+        this.columns = d.columns;
+        this.openTable();
+        this.closeOptions();
+      }
+      setTimeout(() => {
+        if (this.tablePopupRef) {
+          let filters = this.tablePopupRef.popupElement.querySelectorAll('[kendofilterinput]');
+          if (filters && filters[this.changedFilterIndex]) {
+            (filters[this.changedFilterIndex] as HTMLElement).focus();
           }
-        }, 100);
+        }
+      }, 100);
     });
     this.filterer.filterChanged$.subscribe(x => {
-      this.gridView$.next({data: [], total: 0, columns: this.columns });
+      this.gridView$.next({ data: [], total: 0, columns: this.columns });
       this._gridStyle$.next(this._defaultGridStyle);
     });
 
@@ -229,7 +288,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   ngAfterViewChecked() {
-      console.log('VIEW CHECKED!');
+    console.log('VIEW CHECKED!');
   }
 
   public onFilterChange(filter: CompositeFilterDescriptor): void {

@@ -267,7 +267,9 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return ModelTables.Instances;
 				case "SUBSCRIPTIONINSTANCES":
 					return ModelTables.SubscriptionInstances;
-                default:
+				case "SUBSCRIPTIONEXTERNALSOURCES":
+					return ModelTables.SubscriptionExternalSources;
+				default:
                     return ModelTables.None;
             }
         }
