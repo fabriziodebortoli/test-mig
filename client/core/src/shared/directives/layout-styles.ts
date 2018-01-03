@@ -11,6 +11,7 @@ export class LayoutTypeColumnDirective {
 export class LayoutTypeHboxDirective {
     constructor(el: ElementRef, renderer: Renderer) {
         renderer.setElementClass(el.nativeElement, 'layoutType-hbox', true);
+        renderer.setElementClass(el.nativeElement, 'row', true);
     }
 }
 
