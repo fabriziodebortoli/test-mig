@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, BehaviorSubject, reduce, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
+import { Observable, BehaviorSubject, reduce, map, pluck, distinctUntilChanged, of, concat } from './../../rxjs.imports';
 import { EventDataService } from './eventdata.service';
 import { Logger } from './logger.service';
 import { createSelector, createSelectorByMap } from './../../shared/commons/selector';
@@ -129,7 +129,7 @@ export class StoreT<T> extends Observable<T> {
 @Injectable()
 export class Store extends StoreT<any> {
   constructor(private eventDataService: EventDataService, private logger: Logger) {
-    super(eventDataService.change.map(id => eventDataService.model));
+    super(Observable.of(eventDataService.model).concat(eventDataService.change.map(id => eventDataService.model)));
     this.logger.debug('Store instantiated ' + Math.round(new Date().getTime() / 1000));
   }
 }
