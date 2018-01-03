@@ -1,7 +1,6 @@
 <div class="tb-control tb-numeric-text-box">
-    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-numerictextbox [ngClass]="showError" [(ngModel)]="selectedValue" (blur)="onBlur()" (ngModelChange)="model.value=$event"
-        [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimals()" [disabled]="!model?.enabled" [style.width.px]="width"
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <kendo-numerictextbox [ngClass]="showError" [(ngModel)]="selectedValue" (blur)="onBlur()" (ngModelChange)="model.value=$event" [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimals()" [disabled]="!model?.enabled" [style.width.px]="width"
         [min]='getMinValue()'></kendo-numerictextbox>
     <div class="has-error">{{errorMessage}}</div>
 </div>

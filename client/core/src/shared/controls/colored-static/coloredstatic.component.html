@@ -1,4 +1,4 @@
 <div class="tb-control tb-coloredstatic">
-  <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption> 
-  <kendo-maskedtextbox [ngModel]="model?.value" [disabled]="true" [style.width.px] = "width" tbColored backgroundColor = "{{16737111 | tbColor}}"></kendo-maskedtextbox>
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <kendo-maskedtextbox [ngModel]="model?.value" [disabled]="true" [style.width.px]="width" tbColored backgroundColor="{{16737111 | tbColor}}"></kendo-maskedtextbox>
 </div>

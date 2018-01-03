@@ -1,6 +1,5 @@
 <div class="tb-control tb-fiscal-code">
-    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-maskedtextbox (blur)="onBlur()" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled"
-        [mask]="mask" [style.width.px]="width"></kendo-maskedtextbox>
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <kendo-maskedtextbox (blur)="onBlur()" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [mask]="mask" [style.width.px]="width"></kendo-maskedtextbox>
     <p class="has-error">{{errorMessage}}</p>
 </div>
