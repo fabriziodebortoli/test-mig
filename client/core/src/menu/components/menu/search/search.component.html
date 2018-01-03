@@ -4,7 +4,7 @@
             <span mat-prefix><m4-icon icon="tb-find"></m4-icon></span>
             <input #myInput type="text" matInput [matAutocomplete]="auto" [formControl]="inputControl" placeholder="{{localizationService?.localizedElements?.Search}}">
         </mat-input-container>
-        <mat-autocomplete id="menuSearch" #auto="matAutocomplete" [displayWith]="displayElement">
+        <mat-autocomplete id="menuSearch" #auto="matAutocomplete" [displayWith]="displayElement" class="mat-search">
             <mat-option *ngFor="let option of filteredElements | async" [value]="option">
                 <tb-menu-element class="search-element" [object]="option" [showEasyBuilderOptions]="false" [showLongTooltip]="true"></tb-menu-element>
             </mat-option>

@@ -11,8 +11,7 @@ import { MenuService } from './../../../services/menu.service';
 @Component({
   selector: 'tb-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
   public selected: string = '';
