@@ -131,6 +131,7 @@ const TB_COMPONENTS = [
  * Containers - Contenitori di struttura della pagina derivati dalla versione desktop
  */
 import { TbHeaderComponent } from './containers/header/header.component';
+import { PanelComponent } from './containers/panel/panel.component';
 import { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
 import { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
 import { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-card-header.component';
@@ -157,6 +158,7 @@ import { StatusTilePanelComponent } from './containers/tiles/status-tile-panel/s
 import { StatusTileComponent } from './containers/tiles/status-tile/status-tile.component';
 
 export { TbHeaderComponent } from './containers/header/header.component';
+export { PanelComponent } from './containers/panel/panel.component';
 export { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
 export { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
 export { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-card-header.component';
@@ -183,11 +185,10 @@ export { StatusTilePanelComponent } from './containers/tiles/status-tile-panel/s
 
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
-    TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     TbHeaderComponent, TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
-    StatusTilePanelComponent, StatusTileComponent
+    StatusTilePanelComponent, StatusTileComponent, PanelComponent
 ];
 
 /**
