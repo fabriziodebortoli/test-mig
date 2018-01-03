@@ -26,6 +26,7 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
     changeDetectorRef: ChangeDetectorRef
   ) {
     super(settingsPageService, eventData, null, changeDetectorRef);
+    this.enableLocalization();
     this.isDesktop = infoService.isDesktop;
   }
   ngOnInit() {
