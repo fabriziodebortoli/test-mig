@@ -3,8 +3,7 @@ import { Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
 @Component({
   selector: 'tb-tile',
   templateUrl: './tile.component.html',
-  styleUrls: ['./tile.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./tile.component.scss']
 })
 export class TileComponent implements OnInit {
   @Input() title: string;

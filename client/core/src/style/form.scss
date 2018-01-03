@@ -1,3 +1,8 @@
+.anchored {
+    display: flex;
+    flex-direction: row;
+}
+
 // $body-bg: #fff;
 // // Shadows
 // $shadow-inset: inset 0 2px 2px 0 rgba(0, 0, 0, .14);
@@ -503,8 +508,8 @@ tb-caption label {
     background: #ffffde;
 }
 
-.k-numeric-wrap .k-input{
-    text-align:right;
+.k-numeric-wrap .k-input {
+    text-align: right;
 }
 
 tb-enum-combo {
