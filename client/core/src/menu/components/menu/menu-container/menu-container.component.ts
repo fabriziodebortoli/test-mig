@@ -1,8 +1,6 @@
+import { Subscription } from "rxjs/Rx";
 import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
-import { Subscription } from '../../../../rxjs.imports';
-
-import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';
 
@@ -23,8 +21,7 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
   constructor(
     public menuService: MenuService,
     public utilsService: UtilsService,
-    public settingsService: SettingsService,
-    public localizationService: OldLocalizationService
+    public settingsService: SettingsService
   ) {
 
     this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {

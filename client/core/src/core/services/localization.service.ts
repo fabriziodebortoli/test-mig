@@ -73,7 +73,7 @@ export class LocalizationService {
                 sub.unsubscribe();
             }
 
-            const jItem = { tn: translations, installationVersion: productInfo.installationVersion };
+            const jItem = { tn: translations, v: productInfo.installationVersion };
             localStorage.setItem(dictionaryId, JSON.stringify(jItem));
         });
     }
@@ -90,7 +90,7 @@ export class LocalizationService {
                     try {
                         const jItem = JSON.parse(item);
 
-                        if (jItem.installationVersion === productInfo.installationVersion) {
+                        if (jItem.v === productInfo.installationVersion) {
                             tn = jItem.tn;
                         }
                     } catch (ex) {
@@ -107,7 +107,7 @@ export class LocalizationService {
 
     public translate(translations: Array<any>, baseText: string, args: any[]) {
         let target = baseText;
-        if (translations) {
+        if (translations && translations.length) {
             translations.some(t => {
                 if (t.b === baseText) {
                     target = t.t;

@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TbComponent } from './../../shared/components/tb.component';
+import { Component, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
 import { TabberService } from './../../core/services/tabber.service';
-import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { ImageService } from './../../menu/services/image.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { MenuService } from './../../menu/services/menu.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { SidenavService } from './../../core/services/sidenav.service';
+import { TbComponentService } from './../../core/services/tbcomponent.service';
 
 @Component({
   selector: 'tb-home-sidenav-left',
@@ -14,7 +15,7 @@ import { SidenavService } from './../../core/services/sidenav.service';
   styleUrls: ['./home-sidenav-left.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeSidenavLeftComponent implements OnInit {
+export class HomeSidenavLeftComponent extends TbComponent {
 
   constructor(
     public sidenavService: SidenavService,
@@ -22,11 +23,13 @@ export class HomeSidenavLeftComponent implements OnInit {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public imageService: ImageService,
-    public localizationService: OldLocalizationService,
-    public tabberService: TabberService
-  ) { }
-
-  ngOnInit() { }
+    public tabberService: TabberService,
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
+  ) { 
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
+   }
 
   toggleSidenavLeft(menu: boolean = false) {
     

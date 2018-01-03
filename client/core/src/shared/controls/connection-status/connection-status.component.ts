@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
 import { SocketConnectionStatus } from '../../models/websocket-connection.enum';
-import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { WebSocketService } from './../../../core/services/websocket.service';
 
 import { ControlComponent } from './../control.component';
+import { TbComponent } from './../../components/tb.component';
 
 @Component({
   selector: 'tb-connection-status',
@@ -13,20 +14,19 @@ import { ControlComponent } from './../control.component';
   styleUrls: ['./connection-status.component.scss']
 })
 
-export class ConnectionStatusComponent implements OnDestroy {
+export class ConnectionStatusComponent extends TbComponent implements OnDestroy {
   subscriptions: Subscription[] = [];
-  localizationLoaded: boolean = false;
   connectionStatus: string = "";
   connectionStatusClass: string = "disconnected";
   status: SocketConnectionStatus = SocketConnectionStatus.None;
   constructor(
     public webSocketService: WebSocketService,
-    public localizationService: OldLocalizationService
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
+    super(tbComponentService, changeDetectorRef);
 
-    this.subscriptions.push(localizationService.localizationsLoaded.subscribe((loaded) => {
-      this.localizationLoaded = loaded;
-    }));
+    this.enableLocalization();
     this.subscriptions.push(this.webSocketService.connectionStatus.subscribe((status) => {
       this.status = status;
       this.connectionStatus = this.getConnectedStatusString(status);
@@ -35,16 +35,14 @@ export class ConnectionStatusComponent implements OnDestroy {
   }
 
   public getConnectedStatusString(status: SocketConnectionStatus): string {
-    if (!this.localizationLoaded)
-      return "";
 
     switch (status) {
       case SocketConnectionStatus.Connected:
-        return this.localizationService.localizedElements.Connected;
+        return this._TB('Connected');
       case SocketConnectionStatus.Connecting:
-        return this.localizationService.localizedElements.Connecting;
+        return this._TB('Connecting');
       case SocketConnectionStatus.Disconnected:
-        return this.localizationService.localizedElements.Disconnected;
+        return this._TB('Disconnected');
       default:
         return "";
     }

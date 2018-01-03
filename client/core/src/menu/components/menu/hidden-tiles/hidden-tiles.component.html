@@ -1,12 +1,12 @@
 <div class="hiddenTiles">
     <ul class="hiddenTiles-list">
-        <p *ngIf="menuService.hiddenTilesCount == 0" class="hiddenTiles-empty">{{localizationService?.localizedElements?.EmptyList}}</p>
+        <p *ngIf="menuService.hiddenTilesCount == 0" class="hiddenTiles-empty">{{_TB('Empty list...')}}</p>
 
         <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item" (click)="menuService.removeFromHiddenTiles(tile)">
             <ng-container *ngIf="tile.currentApp == menuService?.selectedApplication?.name && tile.currentGroup == menuService?.selectedGroup?.name &&  tile.currentMenu == menuService?.selectedMenu?.name">
                 <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
                 <span class="truncate" matTooltip="{{tile?.tooltip}}" matTooltipPosition="above" matTooltipShowDelay="500">{{tile.title}}</span>
-                <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
+                <m4-icon class="close" matTooltip="{{_TB('Remove')}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
             </ng-container>
         </li>
         <hr class="separator" *ngIf="menuService.hiddenTilesCount != 0">
@@ -14,7 +14,7 @@
             <ng-container *ngIf="tile.currentApp != menuService?.selectedApplication?.name || tile.currentGroup != menuService?.selectedGroup?.name ||  tile.currentMenu != menuService?.selectedMenu?.name">
                 <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
                 <span class="truncate" matTooltip="{{tile?.tooltip}}" matTooltipPosition="above" matTooltipShowDelay="500">{{tile.title}}</span>
-                <m4-icon class="close" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
+                <m4-icon class="close" matTooltip="{{_TB('Remove')}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
             </ng-container>
         </li>
     </ul>

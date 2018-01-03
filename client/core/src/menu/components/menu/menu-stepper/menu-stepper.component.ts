@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-
-import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';
@@ -19,8 +17,7 @@ export class MenuStepperComponent {
     public httpMenuService: HttpMenuService,
     public menuService: MenuService,
     public utilsService: UtilsService,
-    public imageService: ImageService,
-    public localizationService: OldLocalizationService
+    public imageService: ImageService
   ) { }
 
   public menu: any;
