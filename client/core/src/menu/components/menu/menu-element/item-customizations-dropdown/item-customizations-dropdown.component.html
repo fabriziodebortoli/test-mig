@@ -2,19 +2,19 @@
     <div id="customizationPopup">
         <div class="itemSelected" *ngIf="easystudioService.isDesignable">
             <div (click)="openEasyStudioAndContextIfNeeded(objectM, null)" [ngClass]="getNewCustClass()">
-                {{localizationService?.localizedElements?.OpenEasyStudioNewCustomization}}
+                {{_TB('New EasyStudio customization')}}
             </div>
         </div>
         <div class="itemSelected" *ngIf="easystudioService.isDesignable && isNotEasyStudioDocument">
             <div (click)="openCloneDialog()" [ngClass]="getNewCustClass()">
-                {{localizationService?.localizedElements?.CloneEasyStudioDocument}}
+                {{_TB('Clone as a New Document')}}
             </div>
         </div>
         <div class="is-disabled" *ngIf="!easystudioService.isDesignable">
-            <div>{{localizationService?.localizedElements?.NotDesignableDocument}}</div>
+            <div>{{_TB('This document/batch is not designable')}}</div>
         </div>
         <div *ngIf="easystudioService.customizations !== undefined && easystudioService.customizations.length > 0">
-            <hr />{{localizationService?.localizedElements?.OpenEasyStudioWithCustomization}}:
+            <hr />{{_TB('Edit EasyStudio Customization')}}:
             <div *ngFor="let customization of easystudioService.customizations" class="itemSelected" [ngClass]="getCustomizClass(customization)">
                 <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)" matTooltip="{{getToolTip(customization)}}" matTooltipShowDelay="500" matTooltipPosition='below'>
                     {{customization.customizationName}}

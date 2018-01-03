@@ -1,6 +1,7 @@
-import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
+import { TbComponent } from './../../../../shared/components/tb.component';
 import { EventManagerService } from './../../../../core/services/event-manager.service';
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding, ChangeDetectorRef } from '@angular/core';
 
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
@@ -12,7 +13,7 @@ import { HttpMenuService } from './../../../services/http-menu.service';
   templateUrl: './menu-content.component.html',
   styleUrls: ['./menu-content.component.scss']
 })
-export class MenuContentComponent {
+export class MenuContentComponent extends TbComponent {
 
   @HostBinding('class.brick--width2') width2: boolean = false;
 
@@ -23,11 +24,14 @@ export class MenuContentComponent {
     public utilsService: UtilsService,
     public imageService: ImageService,
     public eventManagerService: EventManagerService,
-    public localizationService: OldLocalizationService
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
 
   }
-  pinned: boolean= false;
+  pinned: boolean = false;
   public objects: any;
   public _tile: any;
 

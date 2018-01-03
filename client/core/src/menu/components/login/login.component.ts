@@ -1,8 +1,8 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { AnyFn } from './../../../shared/commons/selector';
-import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { LoadingService } from './../../../core/services/loading.service';
 import { MenuService } from './../../services/menu.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from '../../../rxjs.imports';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
@@ -13,6 +13,7 @@ import { UtilsService } from './../../../core/services/utils.service';
 import { Logger } from './../../../core/services/logger.service';
 import { HttpService } from './../../../core/services/http.service';
 import { AuthService } from './../../../core/services/auth.service';
+import { TbComponent } from './../../../shared/components/tb.component';
 
 @Component({
   selector: 'tb-login',
@@ -27,7 +28,7 @@ import { AuthService } from './../../../core/services/auth.service';
     )
   ]
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
 
   public placeHolder: { name: string } = { name: "Select company..." };
   // public companies: Array<{ name: string }> = [];
@@ -48,16 +49,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     public httpService: HttpService,
     public utilsService: UtilsService,
     public menuService: MenuService,
-    public localizationService: OldLocalizationService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
     this.loadingService.setLoading(true);
-    this.localizationService.loadLocalizedElements()
   }
 
   //-------------------------------------------------------------------------------------
   ngOnInit() {
-
+    super.ngOnInit();
     this.httpService.isServerUp().subscribe(isServerUp => {
       this.loadingService.setLoading(false);
 
@@ -100,13 +103,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
 
       if (this.companies.length == 0) {
-        this.connectionData.company = undefined; 
+        this.connectionData.company = undefined;
       }
       if (this.companies.length > 0 && !this.connectionData.company) {
         this.connectionData.company = this.companies[0];
       }
 
-      
+
       subs.unsubscribe();
     });
   }
@@ -143,7 +146,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   //-------------------------------------------------------------------------------------
   login(overwrite: boolean = false) {
     this.saveState();
-    this.loadingService.setLoading(true, this.localizationService.localizedElements.Loading);
+    this.loadingService.setLoading(true, this._TB("Loading..."));
     this.connectionData.overwrite = overwrite;
     let subs = this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {

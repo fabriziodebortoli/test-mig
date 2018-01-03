@@ -1,34 +1,33 @@
-import { OldLocalizationService } from './../../core/services/oldlocalization.service';
+import { TbComponent } from './../../shared/components/tb.component';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from '../../rxjs.imports';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { TbComponentService } from './../../core/services/tbcomponent.service';
 
 @Component({
   selector: 'tb-connection-info',
   templateUrl: './connection-info.component.html',
   styleUrls: ['./connection-info.component.scss']
 })
-export class ConnectionInfoComponent implements OnInit, OnDestroy {
+export class ConnectionInfoComponent extends TbComponent implements OnInit, OnDestroy {
 
   public connectionInfos: any;
 
   private subscriptions = [];
   constructor(
     public httpMenuService: HttpMenuService,
-    public localizationService: OldLocalizationService
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
 
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.subscriptions.push(this.httpMenuService.getConnectionInfo().subscribe(result => {
       this.connectionInfos = result;
-      
-    }));
 
-    this.subscriptions.push(this.localizationService.localizationsLoaded.subscribe((loaded) => {
-      if (!loaded)
-        return;
     }));
   }
 

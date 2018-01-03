@@ -1,28 +1,28 @@
 <kendo-dialog *ngIf="openCloneDialog" kendoRippleContainer (close)="cancel()">
     <kendo-dialog-titlebar>
-        {{localizationService?.localizedElements?.CloneEasyStudioDocument}}
+        {{_TB('Clone as a New Document')}}
     </kendo-dialog-titlebar>
     <div class="tit">
-        {{localizationService?.localizedElements?.CloneDialogSubtitle}} {{object?.target}}
+        {{_TB('Creating a new document, based on ')}} {{object?.target}}
     </div>
     <div class="inputs">
         <kendo-textbox-container>
-            <label [for]="newName">{{localizationService?.localizedElements?.CloneDialogDocName}}</label>
+            <label [for]="newName">{{_TB('Document name')}}</label>
             <input kendoTextBox #newName [(ngModel)]="docName" />
         </kendo-textbox-container>
     </div>
     <div class="inputs">
         <kendo-textbox-container>
-            <label [for]="newTitle">{{localizationService?.localizedElements?.CloneDialogDocTitle}}</label>
+            <label [for]="newTitle">{{_TB('Document title')}}</label>
             <input kendoTextBox #newTitle [(ngModel)]="docTitle" />
         </kendo-textbox-container>
     </div>
     <kendo-dialog-actions>
         <button kendoButton (click)="okClone(object, docName, docTitle)" [disabled]="docName === undefined || docTitle === undefined">
-                        {{localizationService?.localizedElements?.Ok}}
+                        {{_TB('Ok')}}
                     </button>
         <button kendoButton (click)="cancel()">
-                        {{localizationService?.localizedElements?.Cancel}}
+                        {{_TB('Cancel')}}
                     </button>
     </kendo-dialog-actions>
 </kendo-dialog>

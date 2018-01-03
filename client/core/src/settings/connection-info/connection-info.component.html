@@ -1,66 +1,66 @@
 <div class=info-container>
     <!-- User -->
     <div class="box">
-        <div>{{localizationService.localizedElements?.CompanyLabel}}:</div>
+        <div>{{_TB('Company')}}:</div>
         <div class='text'>{{connectionInfos?.company}}</div>
     </div>
     <div class="box">
-        <div>{{localizationService.localizedElements?.Username}}:</div>
+        <div>{{_TB('Username')}}:</div>
         <div class='text'>{{connectionInfos?.user}}</div>
     </div>
     <div class="box">
-        <div>{{localizationService.localizedElements?.Administrator}}:</div>
+        <div>{{_TB('Administrator')}}:</div>
         <div class='text'>{{connectionInfos?.admin}}</div>
     </div>
 
     <div class="box">
-        <div>{{localizationService.localizedElements?.TaskBuilderDeveloper}}:</div>
+        <div>{{_TB('TaskBuilder Developer')}}:</div>
         <div class='text'>{{connectionInfos?.ebdev}}</div>
     </div>
     <!-- General -->
 
     <div class="box">
-        <div>{{localizationService.localizedElements?.Instance}}:</div>
+        <div>{{_TB('Instance')}}:</div>
         <div class='text'>{{connectionInfos?.installation}}</div>
     </div>
 
     <div class="box">
-        <div> {{localizationService.localizedElements?.FileApplicationServer}}:</div>
+        <div> {{_TB('File Application Server')}}:</div>
         <div class='text'>{{connectionInfos?.remotefileserver}}</div>
     </div>
     <div class="box">
-        <div> {{localizationService.localizedElements?.WebApplicationServer}}:</div>
+        <div> {{_TB('Web Application Server')}}:</div>
         <div class='text'>{{connectionInfos?.remotewebserver}}</div>
     </div>
     <div class="box">
-        <div> {{localizationService.localizedElements?.Security}}:</div>
+        <div> {{_TB('Security')}}:</div>
         <div class='text'>{{connectionInfos?.security}}</div>
     </div>
     <div class="box">
-        <div> {{localizationService.localizedElements?.Auditing}}:</div>
+        <div> {{_TB('Auditing')}}:</div>
         <div class='text'>{{connectionInfos?.auditing}}</div>
     </div>
     <!--DATABASE -->
     <div class="box">
-        <div> {{localizationService.localizedElements?.DBServer}}:</div>
+        <div> {{_TB('Server')}}:</div>
         <div class='text'>{{connectionInfos?.dbserver}}</div>
     </div>
     <div class="box">
-        <div> {{localizationService.localizedElements?.DBName}}:</div>
+        <div> {{_TB('Database')}}:</div>
         <div class='text'>{{connectionInfos?.dbname}}</div>
     </div>
     <div class="box">
-        <div>{{localizationService.localizedElements?.DBUser}}:</div>
+        <div>{{_TB('User')}}:</div>
         <div class='text'>{{connectionInfos?.dbuser}}</div>
     </div>
 
     <!--DATABASE SIZE (if needed) -->
     <div class="box" *ngIf="connectionInfos?.usedspace" >
-        <div>{{localizationService.localizedElements?.UsedSpace}}:</div>
+        <div>{{_TB('Used space')}}:</div>
         <div class='text'>{{connectionInfos?.usedspace}}</div>
     </div>
     <div class="box" *ngIf="connectionInfos?.freespace">
-        <div> {{localizationService.localizedElements?.FreeSpace}}:</div>
+        <div> {{_TB('Free space')}}:</div>
         <div class='text'>{{connectionInfos?.freespace}}</div>
     </div>
 </div>

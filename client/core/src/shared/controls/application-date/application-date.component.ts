@@ -1,14 +1,15 @@
-import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { formatDate } from '@telerik/kendo-intl';
 
 import { Subscription, Subject } from '../../../rxjs.imports';
 
 import { OperationResult } from './../../models/operation-result.model';
 
-import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
 import { InfoService } from './../../../core/services/info.service';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { TbComponent } from './../../../shared/components/tb.component';
 
 @Component({
     selector: 'tb-application-date',
@@ -16,7 +17,7 @@ import { HttpMenuService } from './../../../menu/services/http-menu.service';
     styleUrls: ['./application-date.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ApplicationDateComponent implements OnInit, OnDestroy {
+export class ApplicationDateComponent extends TbComponent implements OnInit, OnDestroy {
     applicationDate: Date = undefined;
     culture: string = '';
     dateFormat: string = '';
@@ -32,15 +33,19 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
         public infoService: InfoService,
         public httpMenuService: HttpMenuService,
         public taskbuilderService: TaskbuilderService,
-        public localizationService: OldLocalizationService) {
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef) {
+        super(tbComponentService, changeDetectorRef);
+
+        this.enableLocalization();
     }
 
     ngOnInit() {
+        super.ngOnInit();
         this.subscriptions.push(this.taskbuilderService.tbConnection.subscribe((connected) => {
             if (connected)
                 this.getDate();
         }));
-        //this.localizationService.localizedElements
         this.isDesktop = this.infoService.isDesktop;
     }
 
