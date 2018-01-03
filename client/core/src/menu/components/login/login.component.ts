@@ -146,7 +146,7 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
   //-------------------------------------------------------------------------------------
   login(overwrite: boolean = false) {
     this.saveState();
-    this.loadingService.setLoading(true, this._TB("Loading..."));
+    this.loadingService.setLoading(true, this._TB('Loading...'));
     this.connectionData.overwrite = overwrite;
     let subs = this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {

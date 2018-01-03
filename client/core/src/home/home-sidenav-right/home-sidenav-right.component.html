@@ -3,14 +3,14 @@
 </div>
 
 <div class="sidenav-subtitle">
-    <h4>{{this._TB("Favorites")}}
+    <h4>{{this._TB('Favorites')}}
         <m4-icon class="clear" icon="tb-delete" (click)="menuService.clearFavorites()" matTooltip="{{_TB('Clear favorite list')}}" matTooltipPosition="after" *ngIf="menuService.favoritesCount > 0"></m4-icon>
     </h4>
 </div>
 <tb-favorites (itemSelected)="toggleSidenavRight()" class="sidenav"></tb-favorites>
 
 <div class="sidenav-subtitle">
-    <h4>{{this._TB("Recently used")}}
+    <h4>{{this._TB('Recently used')}}
         <m4-icon class="clear" icon="tb-delete" (click)="menuService.clearMostUsed()" matTooltip="{{_TB('Clear most used list') }}" matTooltipPosition="after" *ngIf="menuService.mostUsedCount > 0"></m4-icon>
     </h4>
 </div>
@@ -18,7 +18,7 @@
 
 
 <div class="sidenav-subtitle">
-    <h4>{{this._TB("Hidden tiles")}}
+    <h4>{{this._TB('Hidden tiles')}}
         <m4-icon class="clear" icon="tb-delete" (click)="menuService?.removeAllHiddenTiles()" matTooltip="{{_TB('Clear hidden tiles list') }}" matTooltipPosition="after" *ngIf="menuService?.hiddenTilesCount > 0"></m4-icon>
     </h4>
 </div>
