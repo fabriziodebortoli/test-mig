@@ -39,10 +39,7 @@ export class TopbarMenuUserComponent extends TbComponent implements OnDestroy {
     ) {
         super(tbComponentService, changeDetectorRef);
         this.enableLocalization();
-        const item1 = new ContextMenuItem(this._TB('Settings'), 'idSettingsButton', true, false);
-        const item2 = new ContextMenuItem(this._TB('Help'), 'idHelpButton', true, false);
-        const item3 = new ContextMenuItem(this._TB('Logout'), 'idSignOutButton', true, false);
-        this.menuElements.push(item1, item2, item3);
+        
 
         this.commandSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
 
@@ -57,6 +54,14 @@ export class TopbarMenuUserComponent extends TbComponent implements OnDestroy {
                     break;
             }
         });
+    }
+    onTranslationsReady(){
+        super.onTranslationsReady();
+        this.menuElements.splice(0,this.menuElements.length);
+        const item1 = new ContextMenuItem(this._TB('Settings'), 'idSettingsButton', true, false);
+        const item2 = new ContextMenuItem(this._TB('Help'), 'idHelpButton', true, false);
+        const item3 = new ContextMenuItem(this._TB('Logout'), 'idSignOutButton', true, false);
+        this.menuElements.push(item1, item2, item3);
     }
 
     logout() {
