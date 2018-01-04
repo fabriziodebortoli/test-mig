@@ -9,7 +9,7 @@ import { Observable } from '../../rxjs.imports';
 
 @Injectable()
 export class LocalizationService {
-   
+
     public dictionaryId = '';
     public translations = [];
     constructor(
@@ -18,6 +18,7 @@ export class LocalizationService {
     ) {
         this.dictionaryId = this.calculateDictionaryId(this);
         const ids = this.dictionaryId.split('.');
+        let count = ids.length;
         ids.forEach(id => {
             let subs = this.readFromLocal(id).subscribe(tn => {
                 if (subs) {
@@ -31,12 +32,19 @@ export class LocalizationService {
                             if (subs) {
                                 subs.unsubscribe();
                             }
+                            if (!tn)
+                                tn = [];
+
                             this.translations = this.translations.concat(tn);
+                            if (--count == 0)
+                                this.onTranslationsReady();
                             this.saveToLocal(id, tn);
                         }, err => {
                             if (subs) {
                                 subs.unsubscribe();
                             }
+                            if (--count == 0)
+                                this.onTranslationsReady();
                             //dictionary file may not exist on server
                             if (err && err.status === 404) {
                                 this.saveToLocal(id, []);
@@ -46,7 +54,9 @@ export class LocalizationService {
             });
         });
     }
+    protected onTranslationsReady() {
 
+    }
     public _TB(baseText: string, ...args: any[]) {
         return this.translate(this.translations, baseText, args);
     }
@@ -74,10 +84,12 @@ export class LocalizationService {
             }
 
             const jItem = { tn: translations, v: productInfo.installationVersion };
-            localStorage.setItem(dictionaryId, JSON.stringify(jItem));
+            localStorage.setItem(this.getStorageId(dictionaryId), JSON.stringify(jItem));
         });
     }
-
+    private getStorageId(dictionaryId: string) {
+        return this.infoService.culture.value + '-' + dictionaryId;
+    }
     public readFromLocal(dictionaryId: string): Observable<any> {
         return Observable.create(observer => {
             const sub = this.infoService.getProductInfo(false).subscribe((productInfo: any) => {
@@ -85,7 +97,7 @@ export class LocalizationService {
                     sub.unsubscribe();
                 }
                 let tn = null;
-                const item = localStorage.getItem(dictionaryId);
+                const item = localStorage.getItem(this.getStorageId(dictionaryId));
                 if (item) {
                     try {
                         const jItem = JSON.parse(item);
