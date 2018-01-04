@@ -878,9 +878,9 @@ namespace Microarea.RSWeb.Render
        public void ReRun()
        {
             reRun = true;
-            Report.Engine.OutChannel.PageNumber = 1;
             Report.SymTable.DisplayTables.ResetAllRowsCounter();
-            Report.Engine.CopyStaticField();
+            Report.Engine.PrepareForReRun();
+
             CurrentState = State.Start;
             Step();
         }

@@ -822,14 +822,6 @@ export class MenuService {
         }
     };
 
-    //---------------------------------------------------------------------------------------------
-    getTileTooltip(tile) {
-        // tile.tileTooltip =  //$sce.trustAsHtml(
-        //     this.localizationService.localizedElements.ApplicationLabel + ": " + tile.currentAppTitle + "<br/>" +
-        //     this.localizationService.localizedElements.ModuleLabel + ": " + tile.currentGroupTitle + "<br/>" +
-        //     this.localizationService.localizedElements.MenuLabel + ": " + tile.currentMenuTitle;
-    };
-
     /*controlla se ci sono dei tile nascosti nel menu corrente  --  credo non venga usata*/
     //---------------------------------------------------------------------------------------------
     ifMenuExistInHiddenTiles() {

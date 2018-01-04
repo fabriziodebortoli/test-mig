@@ -28,12 +28,11 @@ export class FormattersService {
     }
 
     getFormatter(key: string): any {
-        return this.formattersTable[key][0];
-    }
+        if (this.formattersTable && this.formattersTable[key])
+            return this.formattersTable[key][0];
 
-    // getFormatter(key: FormatterType): any {
-    //     return this.formattersTable[key];
-    // }
+        return null;
+    }
 }
 
 // export interface Formatter {

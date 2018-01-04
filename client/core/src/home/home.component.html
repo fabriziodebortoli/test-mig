@@ -44,7 +44,7 @@
                     <ng-template kendoTabTitle>
                         <div (click)="menuService.activateMenu()">
                             <m4-icon icon="tb-dashboard"></m4-icon>
-                            <span>{{localizationService?.localizedElements?.Menu}}</span>
+                            <span>{{_TB('Menu')}}</span>
                         </div>
                     </ng-template>
                     <ng-template kendoTabContent>
@@ -60,7 +60,7 @@
                         <div>
                             <m4-icon [icon]="getIcon(info)"></m4-icon>
                             <span>{{info.document?.getTitle()}}</span>
-                            <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="{{localizationService?.localizedElements?.CloseLabel}}" class='close'></m4-icon>
+                            <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="{{_TB('Close')}}" class='close'></m4-icon>
                         </div>
                     </ng-template>
                     <ng-template kendoTabContent>

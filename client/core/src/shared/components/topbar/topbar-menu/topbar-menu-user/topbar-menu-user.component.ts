@@ -1,12 +1,11 @@
 import { DiagnosticService } from './../../../../../core/services/diagnostic.service';
 import { DiagnosticItemComponent } from './../../../../containers/diagnostic-dialog/diagnostic-dialog.component';
-import { OldLocalizationService } from './../../../../../core/services/oldlocalization.service';
 import { SettingsService } from './../../../../../core/services/settings.service';
 import { HttpService } from './../../../../../core/services/http.service';
 import { InfoService } from './../../../../../core/services/info.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
 import { ComponentService } from './../../../../../core/services/component.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from '../../../../../rxjs.imports';
 
 import { CommandEventArgs } from './../../../../models/eventargs.model';
@@ -14,17 +13,18 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 
 import { AuthService } from './../../../../../core/services/auth.service';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
+import { TbComponent } from './../../../../../shared/components/tb.component';
+import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
 
 @Component({
     selector: 'tb-topbar-menu-user',
     templateUrl: './topbar-menu-user.component.html',
     styleUrls: ['./topbar-menu-user.component.scss']
 })
-export class TopbarMenuUserComponent implements OnDestroy {
+export class TopbarMenuUserComponent extends TbComponent implements OnDestroy {
     menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
     commandSubscription: Subscription;
-    localizationsLoadedSubscription: Subscription;
     constructor(
         public componentService: ComponentService,
         public authService: AuthService,
@@ -33,18 +33,13 @@ export class TopbarMenuUserComponent implements OnDestroy {
         public infoService: InfoService,
         public httpService: HttpService,
         public settingsService: SettingsService,
-        public localizationService: OldLocalizationService,
-        public diagnosticService: DiagnosticService
+        public diagnosticService: DiagnosticService,
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef
     ) {
-        this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe((loaded) => {
-            if (!loaded || !this.localizationService.localizedElements)
-                return;
-
-            const item2 = new ContextMenuItem(this.localizationService.localizedElements.Settings, 'idSettingsButton', true, false);
-            const item3 = new ContextMenuItem(this.localizationService.localizedElements.Help, 'idHelpButton', true, false);
-            const item4 = new ContextMenuItem(this.localizationService.localizedElements.Logout, 'idSignOutButton', true, false);
-            this.menuElements.push(/*item1, */item2, item3, item4);
-        });
+        super(tbComponentService, changeDetectorRef);
+        this.enableLocalization();
+        
 
         this.commandSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
 
@@ -59,6 +54,14 @@ export class TopbarMenuUserComponent implements OnDestroy {
                     break;
             }
         });
+    }
+    onTranslationsReady(){
+        super.onTranslationsReady();
+        this.menuElements.splice(0,this.menuElements.length);
+        const item1 = new ContextMenuItem(this._TB('Settings'), 'idSettingsButton', true, false);
+        const item2 = new ContextMenuItem(this._TB('Help'), 'idHelpButton', true, false);
+        const item3 = new ContextMenuItem(this._TB('Logout'), 'idSignOutButton', true, false);
+        this.menuElements.push(item1, item2, item3);
     }
 
     logout() {
@@ -75,7 +78,6 @@ export class TopbarMenuUserComponent implements OnDestroy {
 
     ngOnDestroy() {
         this.commandSubscription.unsubscribe();
-        this.localizationsLoadedSubscription.unsubscribe();
     }
 
     openHelp() {

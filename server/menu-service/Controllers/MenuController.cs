@@ -226,22 +226,6 @@ namespace Microarea.Menu.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("getLocalizedElements")]
-        public IActionResult GetLocalizedElements()
-        {
-            try
-            {
-                string json = NewMenuLoader.GetLocalizationJson();
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
-            }
-            catch (Exception e)
-            {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-            }
-        }
-
-
-        //---------------------------------------------------------------------
         [Route("getProductInfo")]
         public IActionResult GetProductInfo()
         {

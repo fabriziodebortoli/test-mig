@@ -31,7 +31,7 @@ export class TabberComponent implements AfterContentInit {
     this.calcViewHeight();
   }
   calcViewHeight() {
-    this.viewHeight = this.tabContent ? this.tabContent.nativeElement.offsetHeight : 0;
+    // this.viewHeight = this.tabContent ? this.tabContent.nativeElement.offsetHeight : 0;
     this.layoutService.setViewHeight(this.viewHeight);
     console.log("viewHeight", this.viewHeight);
   }

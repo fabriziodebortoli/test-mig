@@ -86,7 +86,13 @@ gulp.task('rollup:fesm', function() {
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
                 '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash',
-                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component',
+                '@progress/kendo-angular-intl/locales/bg/numbers', '@progress/kendo-angular-intl/locales/bg/calendar', '@progress/kendo-angular-intl/locales/de-CH/numbers', '@progress/kendo-angular-intl/locales/de-CH/calendar',
+                '@progress/kendo-angular-intl/locales/el/numbers', '@progress/kendo-angular-intl/locales/el/calendar', '@progress/kendo-angular-intl/locales/en/numbers', '@progress/kendo-angular-intl/locales/en/calendar',
+                '@progress/kendo-angular-intl/locales/es-CL/numbers', '@progress/kendo-angular-intl/locales/es-CL/calendar', '@progress/kendo-angular-intl/locales/hu/numbers', '@progress/kendo-angular-intl/locales/hu/calendar',
+                '@progress/kendo-angular-intl/locales/it-CH/numbers', '@progress/kendo-angular-intl/locales/it-CH/calendar', '@progress/kendo-angular-intl/locales/it/numbers', '@progress/kendo-angular-intl/locales/it/calendar',
+                '@progress/kendo-angular-intl/locales/pl/numbers', '@progress/kendo-angular-intl/locales/pl/calendar', '@progress/kendo-angular-intl/locales/ro/numbers', '@progress/kendo-angular-intl/locales/ro/calendar',
+                '@progress/kendo-angular-intl/locales/si/numbers', '@progress/kendo-angular-intl/locales/si/calendar', '@progress/kendo-angular-intl/locales/tr/numbers', '@progress/kendo-angular-intl/locales/tr/calendar'
             ],
 
             // Format of generated bundle
@@ -137,7 +143,13 @@ gulp.task('rollup:umd', function() {
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
                 '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'lodash',
-                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component',
+                '@progress/kendo-angular-intl/locales/bg/numbers', '@progress/kendo-angular-intl/locales/bg/calendar', '@progress/kendo-angular-intl/locales/de-CH/numbers', '@progress/kendo-angular-intl/locales/de-CH/calendar',
+                '@progress/kendo-angular-intl/locales/el/numbers', '@progress/kendo-angular-intl/locales/el/calendar', '@progress/kendo-angular-intl/locales/en/numbers', '@progress/kendo-angular-intl/locales/en/calendar',
+                '@progress/kendo-angular-intl/locales/es-CL/numbers', '@progress/kendo-angular-intl/locales/es-CL/calendar', '@progress/kendo-angular-intl/locales/hu/numbers', '@progress/kendo-angular-intl/locales/hu/calendar',
+                '@progress/kendo-angular-intl/locales/it-CH/numbers', '@progress/kendo-angular-intl/locales/it-CH/calendar', '@progress/kendo-angular-intl/locales/it/numbers', '@progress/kendo-angular-intl/locales/it/calendar',
+                '@progress/kendo-angular-intl/locales/pl/numbers', '@progress/kendo-angular-intl/locales/pl/calendar', '@progress/kendo-angular-intl/locales/ro/numbers', '@progress/kendo-angular-intl/locales/ro/calendar',
+                '@progress/kendo-angular-intl/locales/si/numbers', '@progress/kendo-angular-intl/locales/si/calendar', '@progress/kendo-angular-intl/locales/tr/numbers', '@progress/kendo-angular-intl/locales/tr/calendar'
             ],
 
             // Format of generated bundle

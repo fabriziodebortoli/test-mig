@@ -1,11 +1,11 @@
 <div class="favorites">
     <ul class="favorites-list">
-        <p *ngIf="menuService?.favoritesCount == 0" class="favorites-empty">{{localizationService?.localizedElements?.EmptyList}}</p>
+        <p *ngIf="menuService?.favoritesCount == 0" class="favorites-empty">{{_TB('Empty list...')}}</p>
         <li *ngFor="let object of menuService?.favorites | slice:0:settingsService?.nrMaxFavorites;" class="favorite-item" (click)="runFunction(object)">
             <div [ngClass]="object.isLoading ? 'loader' : ''"></div>
             <m4-icon class="type" [ngClass]="object?.objectType" icon="{{imageService.getObjectIcon(object)}}" *ngIf="!object.isLoading"></m4-icon>
             <span class="truncate">{{object.title}}</span>
-            <m4-icon class="close" (click)="menuService.toggleFavorites(object)" matTooltip="{{localizationService?.localizedElements?.Remove}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
+            <m4-icon class="close" (click)="menuService.toggleFavorites(object)" matTooltip="{{_TB('Remove')}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
         </li>
     </ul>
 </div>

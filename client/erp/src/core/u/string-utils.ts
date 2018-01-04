@@ -11,6 +11,7 @@ export class StringUtils {
 
     // Replaces \r\n (win) and \r (osx) with \n (unix)
     static toUnixEOL(s: string): string {
-        return s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        s = s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        return s;
     }
 }
