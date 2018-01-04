@@ -90,7 +90,7 @@ export class NumbererComponent extends ControlComponent {
         super.onTranslationsReady();
         this.menuItemDisablePadding = new ContextMenuItem(this._TB('disable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
         this.menuItemEnablePadding = new ContextMenuItem(this._TB('enable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
-        this.menuItemDoPadding = new ContextMenuItem(this._TB('perform digit padding in front of the number') '', true, false, null, this.doPadding.bind(this));
+        this.menuItemDoPadding = new ContextMenuItem(this._TB('perform digit padding in front of the number'), '', true, false, null, this.doPadding.bind(this));
 
     }
     subscribeToSelector() {
