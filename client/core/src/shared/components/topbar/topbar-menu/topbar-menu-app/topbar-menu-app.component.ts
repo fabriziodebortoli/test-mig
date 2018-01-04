@@ -32,10 +32,7 @@ export class TopbarMenuAppComponent extends TbComponent implements OnDestroy {
     ) {
         super(tbComponentService, changeDetectorRef);
         this.enableLocalization();
-        const item1 = new ContextMenuItem(this._TB('Producer Site'), 'idGotoProducerSiteButton', true, false);
-        const item2 = new ContextMenuItem(this._TB('Clear cached data'), 'idClearCachedDataButton', true, false);
-        const item3 = new ContextMenuItem(this._TB('Activate via SMS'), 'idActivateViaSMSButton', true, false);
-        this.menuElements.push(item2, item2, item3);
+
 
         this.eventDataServiceSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
             switch (args.commandId) {
@@ -52,7 +49,14 @@ export class TopbarMenuAppComponent extends TbComponent implements OnDestroy {
             }
         });
     }
-
+    onTranslationsReady() {
+        super.onTranslationsReady();
+        this.menuElements.splice(0, this.menuElements.length);
+        const item1 = new ContextMenuItem(this._TB('Producer Site'), 'idGotoProducerSiteButton', true, false);
+        const item2 = new ContextMenuItem(this._TB('Clear cached data'), 'idClearCachedDataButton', true, false);
+        const item3 = new ContextMenuItem(this._TB('Activate via SMS'), 'idActivateViaSMSButton', true, false);
+        this.menuElements.push(item2, item2, item3);
+    }
     ngOnDestroy() {
         this.eventDataServiceSubscription.unsubscribe();
     }

@@ -32,6 +32,7 @@ export abstract class TbComponent implements OnInit {
           if (tn) {
             this.translations = this.translations.concat(tn);
             this.changeDetectorRef.detectChanges();
+            this.onTranslationsReady();
           } else {
             this.readTranslationsFromServer(id);
           }
@@ -39,7 +40,9 @@ export abstract class TbComponent implements OnInit {
       });
     }
   }
+  protected onTranslationsReady() {
 
+  }
   public readTranslationsFromServer(dictionaryId: string) {
     const subs = this.tbComponentService.readTranslationsFromServer(dictionaryId).subscribe(
       tn => {
@@ -49,6 +52,7 @@ export abstract class TbComponent implements OnInit {
         if (tn) {
           this.translations = this.translations.concat(tn);
           this.changeDetectorRef.detectChanges();
+          this.onTranslationsReady();
         }
         this.translations = tn;
         this.tbComponentService.saveToLocal(dictionaryId, this.translations);
