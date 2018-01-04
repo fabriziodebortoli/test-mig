@@ -24,7 +24,7 @@ export class TileManagerComponent implements AfterContentInit {
   constructor(public layoutService: LayoutService) { }
 
   ngOnInit() {
-    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+    // this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
   }
 
   ngOnDestroy() {
