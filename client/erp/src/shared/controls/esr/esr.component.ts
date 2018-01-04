@@ -47,7 +47,7 @@ export class EsrComponent extends ControlComponent {
         if (!this.model) return;
         this.errorMessage = '';
         let r = Esr.checkEsrDigit(this.model.value);
-        if (!r.result) this.errorMessage = this._TB(r.error);
+        if (!r.result) this.errorMessage = r.error;
       }
 
       get isValid(): boolean { return !this.errorMessage; }

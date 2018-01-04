@@ -409,6 +409,8 @@ namespace Microarea.TaskBuilderNet.Licence.Licence
 
                foreach (string serialNumber in serialNumberS)
                {
+                    if (addedSerials.Contains(serialNumber) && aArticleObj.BasicServer)
+                        add = false;
                     if ((specialVersion && aArticleObj.BasicServer && !addedSerials.Contains(serialNumber)) ||
                         (!specialVersion && ShortNameCorrespond(serialNumber, aArticleObj.ShortNames)))
                     {
@@ -422,7 +424,7 @@ namespace Microarea.TaskBuilderNet.Licence.Licence
                        add = false;
                }
 
-                //il modulo lo devo aggiugere
+                //il modulo lo devo aggiugere 
                 if (add)
                 {
                     productNode.AppendChild(articleNode);

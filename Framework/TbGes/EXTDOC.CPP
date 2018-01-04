@@ -3519,8 +3519,14 @@ void CAbstractFormDoc::OnFrameCreated()
 		pSession->IgnoreModelChanges(false);//da adesso in avanti posso registrare i cambiamenti del model
 		pSession->ResumePushToClient();
 	}
-}
 
+}
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::OnOpenCompleted() 
+{	
+	if (!CanRunDocument())
+		CloseDocument();
+} 
 //-----------------------------------------------------------------------------
 SqlConnection* CAbstractFormDoc::GetDefaultSqlConnection()
 {
@@ -3652,7 +3658,7 @@ endopen:
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::OnNewDocument()
 {
-	return CanRunDocument() && CAbstractFormDoc::OnOpenDocument(NULL);
+	return CAbstractFormDoc::OnOpenDocument(NULL);
 }
 
 //-----------------------------------------------------------------------------

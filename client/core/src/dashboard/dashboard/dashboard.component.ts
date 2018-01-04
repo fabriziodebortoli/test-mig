@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { SettingsService } from './../../core/services/settings.service';
 import { ThemeService } from './../../core/services/theme.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { ImageService } from './../../menu/services/image.service';
 import { MenuService } from './../../menu/services/menu.service';
+import { TbComponent } from './../../shared/components/tb.component';
+import { TbComponentService } from './../../core/services/tbcomponent.service';
 
 @Component({
   selector: 'tb-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent extends TbComponent {
 
   favorites: Array<any> = [];
 
@@ -22,8 +23,12 @@ export class DashboardComponent {
     public utilsService: UtilsService,
     public settingsService: SettingsService,
     public themeService: ThemeService,
-    public localizationService: OldLocalizationService
-  ) { }
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
+  ) { 
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
+  }
 
   runFunction(object) {
     this.menuService.runFunction(object);

@@ -8,7 +8,7 @@ export abstract class TbComponent implements OnInit {
 
   public dictionaryId = '';
   public translations = [];
-
+  private cmpCount = 0;
   constructor(
     public tbComponentService: TbComponentService,
     protected changeDetectorRef: ChangeDetectorRef) {
@@ -23,6 +23,7 @@ export abstract class TbComponent implements OnInit {
   ngOnInit() {
     if (this.dictionaryId) {
       const ids = this.dictionaryId.split('.');
+      this.cmpCount = ids.length;
       ids.forEach(id => {
         const subs = this.tbComponentService.readFromLocal(id).subscribe(tn => {
           if (subs) {
@@ -32,6 +33,9 @@ export abstract class TbComponent implements OnInit {
           if (tn) {
             this.translations = this.translations.concat(tn);
             this.changeDetectorRef.detectChanges();
+            if (--this.cmpCount === 0) {
+              this.onTranslationsReady();
+            }
           } else {
             this.readTranslationsFromServer(id);
           }
@@ -39,24 +43,32 @@ export abstract class TbComponent implements OnInit {
       });
     }
   }
+  protected onTranslationsReady() {
 
+  }
   public readTranslationsFromServer(dictionaryId: string) {
     const subs = this.tbComponentService.readTranslationsFromServer(dictionaryId).subscribe(
       tn => {
         if (subs) {
           subs.unsubscribe();
         }
-        if (tn) {
-          this.translations = this.translations.concat(tn);
-          this.changeDetectorRef.detectChanges();
+        if (!tn) {
+          tn = [];
         }
-        this.translations = tn;
-        this.tbComponentService.saveToLocal(dictionaryId, this.translations);
+        this.translations = this.translations.concat(tn);
+        this.changeDetectorRef.detectChanges();
+        if (--this.cmpCount == 0){
+          this.onTranslationsReady();
+        }
+        this.tbComponentService.saveToLocal(dictionaryId, tn);
+
       },
       err => {
         if (subs) {
           subs.unsubscribe();
         }
+        if (--this.cmpCount == 0)
+          this.onTranslationsReady();
         //dictionary file may not exist on server
         if (err && err.status === 404) {
           this.tbComponentService.saveToLocal(dictionaryId, []);

@@ -804,7 +804,7 @@ namespace Microarea.TbJson
                         {
                             WebControl wc = GetWebControl(jObj);
 
-                            WriteControlAttributes(jObj, wc, true);
+                            //WriteControlAttributes(jObj, wc, true);
 
                             string title = jObj.GetLocalizableString(Constants.text);
                             if (!string.IsNullOrEmpty(title))
@@ -1364,11 +1364,12 @@ namespace Microarea.TbJson
             if (!string.IsNullOrEmpty(cmpId))
                 htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
 
-			WriteAttribute(jObj, Constants.minValue, Constants.minValue);
-			WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
-			WriteAttribute(jObj, Constants.decimals, Constants.decimals);
+            WriteAttribute(jObj, Constants.minValue, Constants.minValue);
+            WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
+            WriteAttribute(jObj, Constants.decimals, Constants.decimals);
+            WriteAttribute(jObj, Constants.numberDecimal, Constants.decimals);
 
-			WriteAttribute(jObj, Constants.width, Constants.width);
+            WriteAttribute(jObj, Constants.width, Constants.width);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
             WriteBindingAttributes(jObj);

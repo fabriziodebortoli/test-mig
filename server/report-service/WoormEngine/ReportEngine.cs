@@ -1202,11 +1202,21 @@ namespace Microarea.RSWeb.WoormEngine
 			this.RepSymTable.SaveAskDialogFieldsState();
 		}
 
-		// tutto ok perche ho valorizzato tutti i campi delle ask (se ci sono).
-		// devo completare il preprocessing dell'ultima dialog presentata e dopo
-		// parte il report e per prima cosa faccio tutte le azioni prima del report
-		//---------------------------------------------------------------------------
-		public bool ExecuteBeforeActions()
+
+        //---------------------------------------------------------------------------
+        internal void PrepareForReRun()
+        {
+            currentAskDialogNo = -1;
+            OutChannel.PageNumber = 1;
+
+            CopyStaticField();
+        }
+
+        // tutto ok perche ho valorizzato tutti i campi delle ask (se ci sono).
+        // devo completare il preprocessing dell'ultima dialog presentata e dopo
+        // parte il report e per prima cosa faccio tutte le azioni prima del report
+        //---------------------------------------------------------------------------
+        public bool ExecuteBeforeActions()
 		{
             ReportEngine.ReportStatus rs = this.Status;
             this.Status = ReportEngine.ReportStatus.Before;

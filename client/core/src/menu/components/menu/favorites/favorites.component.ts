@@ -1,11 +1,12 @@
+import { TbComponent } from './../../../../shared/components/tb.component';
 import { SettingsService } from './../../../../core/services/settings.service';
-import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
-import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
 
 import { UtilsService } from './../../../../core/services/utils.service';
 import { ImageService } from './../../../services/image.service';
 import { MenuService } from './../../../services/menu.service';
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 
 @Component({
   selector: 'tb-favorites',
@@ -13,7 +14,7 @@ import { MenuService } from './../../../services/menu.service';
   styleUrls: ['./favorites.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FavoritesComponent implements OnInit {
+export class FavoritesComponent extends TbComponent  {
 
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
 
@@ -21,12 +22,14 @@ export class FavoritesComponent implements OnInit {
     public menuService: MenuService,
     public imageService: ImageService,
     public utilsService: UtilsService,
-    public localizationService: OldLocalizationService,
     public settingsService: SettingsService,
-  ) { }
-
-  ngOnInit() {
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
+  ) { 
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
   }
+
 
   runFunction(object) {
     this.menuService.runFunction(object);

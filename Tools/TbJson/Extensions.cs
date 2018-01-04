@@ -292,14 +292,15 @@ namespace Microarea.TbJson
                 val = "";
                 return ValueType.NOT_FOUND;
             }
-            if (result.Type == JTokenType.Property)
+            if (result.Type == JTokenType.Property || result.Type == JTokenType.String)
             {
                 val = result.ToString();
                 if (val.StartsWith("{{") && val.EndsWith("}}"))
                 {
-                    val = string.Concat("{{eventData?.model?.", val.Substring(2, val.Length - 4), "}}");
+                    val = string.Concat("eventData?.model?.", val.Substring(2, val.Length - 4));
                     return ValueType.EXPRESSION;
                 }
+                return ValueType.PLAIN;
             }
             if (result.Type == JTokenType.Object)
             {
