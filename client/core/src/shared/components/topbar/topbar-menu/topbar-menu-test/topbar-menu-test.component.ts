@@ -27,17 +27,6 @@ export class TopbarMenuTestComponent  extends TbComponent{
         super(tbComponentService, changeDetectorRef);
         this.enableLocalization();
 
-        const item1 = new ContextMenuItem('Data Service', 'idDataServiceButton', true, false);
-        const item2 = new ContextMenuItem('Reporting Studio', 'idReportingStudioButton', true, false);
-        const item3 = new ContextMenuItem('TB Explorer', 'idTBExplorerButton', true, false);
-        const item4 = new ContextMenuItem('Test Grid Component', 'idTBExplorerButton', true, false);
-        const item5 = new ContextMenuItem('Test Icons', 'idTestIconsButton', true, false);
-        const item6 = new ContextMenuItem('Test Radar', 'idTestRadar', true, false);
-        const item7 = new ContextMenuItem('Test Tree', 'idTestTree', true, false);
-        const item8 = new ContextMenuItem('Test Layout', 'idTestLayout', true, false);
-        this.menuElements.push(item1, item2, item3, item4, item5, item6, item7, item8);
-        
-
         this.eventDataService.command.subscribe((args: CommandEventArgs) => {
             switch (args.commandId) {
                 case 'idDataServiceButton':
@@ -71,7 +60,8 @@ export class TopbarMenuTestComponent  extends TbComponent{
         const item5 = new ContextMenuItem(this._TB('Test Icons'), 'idTestIconsButton', true, false);
         const item6 = new ContextMenuItem(this._TB('Test Radar'), 'idTestRadar', true, false);
         const item7 = new ContextMenuItem(this._TB('Test Tree'), 'idTestTree', true, false);
-        this.menuElements.push(item1, item2, item3, item4, item5, item6, item7);
+        const item8 = new ContextMenuItem(this._TB('Test Layout'), 'idTestLayout', true, false);
+        this.menuElements.push(item1, item2, item3, item4, item5, item6, item7, item8);
     }
     openDataService() {
         this.componentService.createComponentFromUrl('test/dataservice', true);
