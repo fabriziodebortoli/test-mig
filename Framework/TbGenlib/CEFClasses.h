@@ -50,6 +50,7 @@ public:
 	virtual void ExecuteJavascript (const CString& sCode) = 0;
 	virtual void SetCookie (const CString& sUrl, const CString& sName, const CString& sValue) = 0;
 	virtual void Reload() = 0;
+	virtual void ReloadIgnoreCache() = 0;
 	
 };
 class TB_EXPORT CBrowserEventsObj
@@ -60,6 +61,7 @@ public:
 	virtual void DoClose(CBrowserObj* pBrowser) {};
 	virtual bool OnRequest(LPCTSTR lpszRequest, CTBResponse& aResponse){ return false; };
 	virtual void Reload(){};
+	virtual void ReloadIgnoreCache() {};
 };
 class TB_EXPORT CTBResponse
 {
