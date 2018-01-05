@@ -1,15 +1,18 @@
-import { Component, Input, AfterContentInit, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, AfterContentInit, ChangeDetectorRef, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Http, Headers } from '@angular/http';
 
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
+import { InfoService } from './../../../core/services/info.service'
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { ContextMenuItem, FormMode } from './../../../shared/shared.module';
 import { AnimationMetadataType } from '@angular/core/src/animation/dsl';
+import { Collision } from '@progress/kendo-angular-popup';
 
 @Component({
-    selector: "tb-addressedit",
+    selector: 'tb-addressedit',
     templateUrl: './address-edit.component.html',
     styleUrls: ['./address-edit.component.scss']
 })
@@ -20,19 +23,39 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
     @Input() slice: any;
     @Input() selector: any;
 
+    @ViewChild('anchor') public anchor: ElementRef;
+    @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
+
+    public addresses = [];
     private ctrlEnabled = false;
+    private show = false;
+    private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
 
     addressContextMenu: ContextMenuItem[] = [];
     menuItemSearch = new ContextMenuItem('Search for address', '', true, false, null, this.searchForAddress.bind(this));
     menuItemMap = new ContextMenuItem('Show map', '', true, false, null, this.showMap.bind(this));
     menuItemSatellite = new ContextMenuItem('Show satellite view', '', true, false, null, this.showSatellite.bind(this));
 
+    @HostListener('document:click', ['$event'])
+    public documentClick(event: any): void {
+        if (!this.contains(event.target)) {
+            this.close();
+        }
+    }
+
+    private contains(target: any): boolean {
+        return this.anchor.nativeElement.contains(target) ||
+            (this.popup ? this.popup.nativeElement.contains(target) : false);
+    }
+
     constructor(
         public eventData: EventDataService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
-        private store: Store
+        private infoService: InfoService,
+        private store: Store,
+        private http: Http
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
     }
@@ -47,9 +70,6 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
 
     ngAfterContentInit() {
         this.subscribeToSelector();
-    }
-
-    ngOnChanges(changes) {
     }
 
     subscribeToSelector() {
@@ -70,16 +90,12 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
 
     buildContextMenu() {
         this.addressContextMenu.splice(0, this.addressContextMenu.length);
-        if (this.ctrlEnabled){
+        if (this.ctrlEnabled) {
             this.addressContextMenu.push(this.menuItemSearch);
         }
 
         this.addressContextMenu.push(this.menuItemMap);
         this.addressContextMenu.push(this.menuItemSatellite);
-    }
-
-    searchForAddress() {
-        //window.open(link, '_blank');
     }
 
     async showMap() {
@@ -98,6 +114,69 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         }
     }
 
+    async searchForAddress() {
+        let slice = await this.store.select(this.selector).take(1).toPromise();
+
+        if (slice) {
+
+            let productInfo = this.infoService.getProductInfo(true).toPromise();
+
+            let address = this.createAddress(slice);
+            let region = '';
+            if (slice.country.value) {
+                region = `&region=${slice.country.value}`;
+            }
+            let culture = this.infoService.getCulture();
+            let language = '';
+            if (culture === 'BR') {
+                language = '&language=pt-BR';
+            } else {
+                language = `&language=${culture}`;
+            }
+
+            let url = `http://maps.google.com/maps/api/geocode/json?address=${address}&sensor=false${language}${region}`;
+            const r = await this.http.post(url, '').toPromise();
+            // r.json().results[0].address_components.map(x => x.long_name)
+            let result = r.json().results;
+            this.addresses = [];
+            for (let i = 0; i < result.length; i++) {
+                this.addresses.push(result[i]);
+            }
+            this.show = result.length > 0;
+            this.changeDetectorRef.detectChanges();
+        }
+    }
+
+    async onclick(address: any) {
+        this.show = false;
+        let slice = await this.store.select(this.selector).take(1).toPromise();
+
+        slice.address.value = address.address_components.filter(x => x.types.find(x => x === 'route'))[0].long_name;
+        slice.streetNo.value = address.address_components.filter(x => x.types.find(x => x === 'street_number'))[0].long_name;
+        if (address.address_components.filter(x => x.types.find(x => x === 'locality')).length > 0) {
+            slice.city.value = address.address_components.filter(x => x.types.find(x => x === 'locality'))[0].long_name;
+        } else {
+            if (address.address_components.filter(x => x.types.find(x => x === 'neighborhood')).length > 0) {
+                slice.city.value = address.address_components.filter(x => x.types.find(x => x === 'neighborhood'))[0].long_name;
+            }
+        }
+        slice.county.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_2'))[0].short_name;
+        slice.zipCode.value = address.address_components.filter(x => x.types.find(x => x === 'postal_code'))[0].long_name;
+        slice.region.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].long_name;
+        slice.country.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].long_name;
+        slice.isoCode.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].short_name;
+        slice.federal.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].short_name;
+
+        slice.latitude.value = address.geometry.location.lat;
+        slice.longitude.value = address.geometry.location.lng;
+
+        this.changeDetectorRef.detectChanges();
+    }
+
+    close() {
+        this.show = false;
+    }
+
     openMap(slice: any, type: string) {
         let mapUrl = this.createWebLink(slice, type);
         window.open(mapUrl, 'blank');
@@ -112,13 +191,13 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
 
     createAddress(slice: any): string {
         let address = '';
-        address = this.addAddressElem(address, slice.address);
-        address = this.addAddressElem(address, slice.streetNo);
-        address = this.addAddressElem(address, slice.city);
-        address = this.addAddressElem(address, slice.county);
-        address = this.addAddressElem(address, slice.country);
-        address = this.addAddressElem(address, slice.federal);
-        address = this.addAddressElem(address, slice.zipCode);
+        address = this.addAddressElem(address, slice.address.value);
+        address = this.addAddressElem(address, slice.streetNo.value);
+        address = this.addAddressElem(address, slice.city.value);
+        address = this.addAddressElem(address, slice.county.value);
+        address = this.addAddressElem(address, slice.country.value);
+        address = this.addAddressElem(address, slice.federal.value);
+        address = this.addAddressElem(address, slice.zipCode.value);
 
         return address;
     }
