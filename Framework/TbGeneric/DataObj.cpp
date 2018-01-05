@@ -35,6 +35,7 @@ const TCHAR* szEnabled = _T("enabled");
 const TCHAR* szTag = _T("tag");
 const TCHAR* szType = _T("type");
 const TCHAR* szLength = _T("length");
+const TCHAR* szStatus = _T("status");
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -1386,6 +1387,7 @@ void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer)
 	jsonSerializer.WriteInt(szType, GetDataType().m_wType);
 
 	jsonSerializer.WriteInt(szLength, GetColumnLen());
+	jsonSerializer.WriteInt(szStatus, m_wDataStatus);
 	SerializeJsonValue(jsonSerializer);
 }
 
