@@ -1,12 +1,11 @@
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 import { SettingsService } from './../../../../core/services/settings.service';
-import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from '../../../../rxjs.imports';
-
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { OldLocalizationService } from './../../../../core/services/oldlocalization.service';
 import { MenuService } from './../../../services/menu.service';
+import { TbComponent } from './../../../../shared/components/tb.component';
 
 @Component({
   selector: 'tb-search',
@@ -14,7 +13,7 @@ import { MenuService } from './../../../services/menu.service';
   styleUrls: ['./search.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent extends TbComponent implements OnInit, OnDestroy {
   public selected: string = '';
   public inputControl: FormControl;
   public filteredElements: any;
@@ -25,9 +24,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(
     public menuService: MenuService,
     public settingsService: SettingsService,
-    public localizationService: OldLocalizationService
-
-  ) {
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
+  ) { 
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
 
     this.menuService.runFunctionStarted.subscribe(() => {
       this.selected = undefined;
@@ -40,6 +41,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.filteredElements = this.inputControl.valueChanges
       .startWith(null)
       .map(val => this.filter(val));

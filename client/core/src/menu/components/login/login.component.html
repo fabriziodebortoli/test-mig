@@ -10,31 +10,31 @@
     <div class="login-main-content">
         <div class="login-form" *ngIf="!loadingService.isLoading">
             <tb-card>
-                <tb-card-title [title]="localizationService?.localizedElements?.Login"></tb-card-title>
+                <tb-card-title [title]="_TB('Login')"></tb-card-title>
                 <tb-card-content>
 
                     <div class="form-group">
 
                         <div class="form-control">
-                            <p class="floatingLabel">{{localizationService?.localizedElements?.User}}</p>
+                            <p class="floatingLabel">{{_TB('User')}}</p>
                             <kendo-textbox-container>
                                 <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)" name="user">
                             </kendo-textbox-container>
                         </div>
 
                         <div class="form-control">
-                            <p class="floatingLabel">{{localizationService?.localizedElements?.Password}}</p>
+                            <p class="floatingLabel">{{_TB('Password')}}</p>
                             <kendo-textbox-container class="form-control-k">
                                 <input kendoTextBox [(ngModel)]="connectionData.password" (keyup)="keyUpFunction($event)" name="password" type="password">
                             </kendo-textbox-container>
                         </div>
 
                         <div class="form-control">
-                            <p class="floatingLabel">{{localizationService?.localizedElements?.CompanyLabel}}</p>
+                            <p class="floatingLabel">{{_TB('Company')}}</p>
                             <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
                         </div>
 
-                        <mat-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">{{localizationService?.localizedElements?.ClearCachedData}}</mat-checkbox>
+                        <mat-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">{{_TB('Clear cached data')}}</mat-checkbox>
 
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
@@ -54,37 +54,37 @@
 <tb-loading></tb-loading>
 
 <!-- USER ALREADY LOGGED -->
-<kendo-dialog title="{{localizationService?.localizedElements?.UserAlreadyConnectedTitle}}" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
+<kendo-dialog title="{{_TB('User already connected')}}" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
     <div>
-        {{localizationService?.localizedElements?.UserAlreadyConnected}}
+        {{_TB('The user is already connected to the system. Do you want to close previous working session and open new one?')}}
     </div>
     <kendo-dialog-actions>
-        <button kendoButton (click)="userConnectedYes()" [primary]="true">{{localizationService?.localizedElements?.Yes}}</button>
-        <button kendoButton (click)="userConnectedCancel()">{{localizationService?.localizedElements?.Cancel}}</button>
+        <button kendoButton (click)="userConnectedYes()" [primary]="true">{{_TB('Yes')}}</button>
+        <button kendoButton (click)="userConnectedCancel()">{{_TB('Cancel')}}</button>
     </kendo-dialog-actions>
 </kendo-dialog>
 
 <!-- CHANGE PASSWORD -->
-<kendo-dialog title="{{localizationService?.localizedElements?.ChangePassword}}" *ngIf="changePasswordOpened" (close)="userConnectedCancel()">
+<kendo-dialog title="{{_TB('Change password')}}" *ngIf="changePasswordOpened" (close)="userConnectedCancel()">
     <div class="form-group">
-        {{localizationService?.localizedElements?.UserMustChangePassword}}
+        {{_TB('You need to change password')}}
         <div class="form-control">
-            <p class="floatingLabel">{{localizationService?.localizedElements?.Password}}</p>
+            <p class="floatingLabel">{{_TB('Password')}}</p>
             <kendo-textbox-container class="form-control-k">
                 <input kendoTextBox [(ngModel)]="newPassword" (keyup)="keyUpFunction($event)" name="password" type="password">
             </kendo-textbox-container>
         </div>
 
         <div class="form-control">
-            <p class="floatingLabel">{{localizationService?.localizedElements?.ConfirmPassword}}</p>
+            <p class="floatingLabel">{{_TB('Confirm password')}}</p>
             <kendo-textbox-container class="form-control-k">
                 <input kendoTextBox [(ngModel)]="confirmPassword" (keyup)="keyUpFunction($event)" name="confirmPassword" type="password">
             </kendo-textbox-container>
         </div>
 
-        <div class="error" *ngIf="(newPassword && confirmPassword) &&  confirmPassword != newPassword">{{localizationService?.localizedElements?.PasswordsNotMatching}}</div>
+        <div class="error" *ngIf="(newPassword && confirmPassword) &&  confirmPassword != newPassword">{{_TB('The passwords are not matching')}}</div>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton (click)="changePasswordOk()" [primary]="true">{{localizationService?.localizedElements?.Ok}}</button>
+        <button kendoButton (click)="changePasswordOk()" [primary]="true">{{_TB('Ok')}}</button>
     </kendo-dialog-actions>
 </kendo-dialog>

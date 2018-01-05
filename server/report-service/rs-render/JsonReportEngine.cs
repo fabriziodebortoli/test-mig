@@ -18,6 +18,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Interfaces;
+using System.Diagnostics;
 
 namespace Microarea.RSWeb.Render
 {
@@ -204,15 +205,16 @@ namespace Microarea.RSWeb.Render
                         break;
                     }
 
-                /*
+                
                  case MessageBuilder.CommandType.ABORTASK:  //click on CANCEL
-                    {
-                            Debug.Assert(StateMachine.CurrentState == State.RenderingForm);
+                   {
+                       Debug.Assert(StateMachine.CurrentState == State.ExecuteAsk);
 
-                            StateMachine.CurrentState = State.ExecuteUserBreak;
-                            StateMachine.Step();
-                        }
-                 * */
+                       StateMachine.CurrentState = State.ExecuteUserBreak;
+                       StateMachine.Step();
+                       break;
+                   }
+                 
 
                 case MessageBuilder.CommandType.INITTEMPLATE:
                     {

@@ -2,7 +2,7 @@
     <mat-form-field>
         <mat-input-container>
             <span mat-prefix><m4-icon icon="tb-find"></m4-icon></span>
-            <input #myInput type="text" matInput [matAutocomplete]="auto" [formControl]="inputControl" placeholder="{{localizationService?.localizedElements?.Search}}">
+            <input #myInput type="text" matInput [matAutocomplete]="auto" [formControl]="inputControl" placeholder="{{_TB('Search...')}}">
         </mat-input-container>
         <mat-autocomplete id="menuSearch" #auto="matAutocomplete" [displayWith]="displayElement">
             <mat-option *ngFor="let option of filteredElements | async" [value]="option">

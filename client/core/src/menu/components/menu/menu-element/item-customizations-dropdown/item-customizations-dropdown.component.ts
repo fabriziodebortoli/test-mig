@@ -1,10 +1,11 @@
+import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
+import { TbComponent } from './../../../../../shared/components/tb.component';
 import { CloneDocumentDialogComponent } from './../../../../../shared/components/clone-document-dialog/clone-document-dialog.component';
 import { EsCustomizItem } from './../../../../../shared/models/es-customization-item.model';
 import { EasystudioService } from './../../../../../core/services/easystudio.service';
-import { OldLocalizationService } from './../../../../../core/services/oldlocalization.service';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { EasyStudioContextComponent } from './../../../../../shared/components/easystudio-context/easystudio-context.component';
-import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef, HostListener, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpMenuService } from './../../../../services/http-menu.service';
 import { PopupRef, PopupService } from '@progress/kendo-angular-popup';
 
@@ -15,11 +16,8 @@ import { PopupRef, PopupService } from '@progress/kendo-angular-popup';
   encapsulation: ViewEncapsulation.None
 })
 
-export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
+export class ItemCustomizationsDropdownComponent extends TbComponent implements OnDestroy {
   private popupRef: PopupRef;
-
-  public localizationsLoadedSubscription: any;
-  public localizationLoaded: boolean;
 
   @ViewChild('anchor', { read: ElementRef }) public anchor: ElementRef;
   @ViewChild('template', { read: TemplateRef }) public template: TemplateRef<any>;
@@ -31,7 +29,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   offsetTop: any;
   public newName: string;
   public newTitle: string;
-  public isNotEasyStudioDocument : boolean;
+  public isNotEasyStudioDocument: boolean;
 
   @HostListener('window:keyup', ['$event'])
   public keyup(event: KeyboardEvent): void {
@@ -49,25 +47,21 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
 
   constructor(elRef: ElementRef,
     public easystudioService: EasystudioService,
-    public localizationService: OldLocalizationService,
-    public popupService: PopupService) {
+    public popupService: PopupService,
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
+  ) {
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
     this.elRef = elRef.nativeElement;
   }
 
-  openCloneDialog(){
+  openCloneDialog() {
     this.cloneDialog.open();
   }
 
   //--------------------------------------------------------------------------------
-  ngOnInit(): void {
-    this.localizationsLoadedSubscription = this.localizationService.localizationsLoaded.subscribe((loaded) => {
-      this.localizationLoaded = loaded;
-    });
-  }
-
-  //--------------------------------------------------------------------------------
   ngOnDestroy() {
-    this.localizationsLoadedSubscription.unsubscribe();
     if (this.popupRef)
       this.popupRef.close();
 
@@ -138,13 +132,13 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     //   });
     // }
     // else {}
-    if(!this.easystudioService.isContextActive() || (customization !== null && !this.isCustomizationEnabled(customization)))     
+    if (!this.easystudioService.isContextActive() || (customization !== null && !this.isCustomizationEnabled(customization)))
       return;
     let custName = customization !== null ? customization.customizationName : undefined;
     this.easystudioService.runEasyStudio(object.target, custName);
     this.close();
   }
-  
+
   /*//--------------------------------------------------------------------------------
   cloneAsEasyStudioDocumentIfNeeded(object) {
     // if (!(this.currentApplication !== undefined && this.currentApplication !== null && this.currentModule !== undefined && this.currentModule !== undefined)) {
@@ -169,7 +163,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   //--------------------------------------------------------------------------------
   public getToolTip(customization: EsCustomizItem) {
     let message = "";
-    message += this.localizationService.localizedElements.CustomizationNotActive + ":\n";
+    message += this._TB('Customization valid only for context') + ":\n";
     message += customization.applicationOwner + " / " + customization.moduleOwner;
     return message;
   }

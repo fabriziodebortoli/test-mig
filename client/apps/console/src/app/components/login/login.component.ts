@@ -19,13 +19,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   instancesList: Array<string>;
   selectedInstanceKey: string;
 
-  // behaviour
+  // behaviour 
   returnUrl: string;
   welcomeMessage: string;
   loginStep: number;
   appBusy: boolean;
   subscription: Subscription;
   errorMessage: string;
+  // ChangePasswordDialog variables
+  openChangePasswordDialog: boolean = false;
+  changePasswordResult: boolean = false;
+  changePasswordFields: Array<{ label: string, value: string, hide: boolean }>;
 
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
@@ -37,6 +41,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginStep = 1;
     this.appBusy = false;
     this.errorMessage = '';
+    
+    // aggiungo i fields da visualizzare nella ChangePasswordDialog
+    this.changePasswordFields = [
+      { label: 'New password', value: '', hide: true },
+      { label: 'Confirm new password', value: '', hide: true },
+    ];
 
     this.subscription = this.loginService.getMessage().subscribe(msg => { 
 
@@ -212,4 +222,51 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.appBusy = false;
   }
 
+  //--------------------------------------------------------------------------------------------------------
+  doChangePassword() {
+    this.openChangePasswordDialog = true;
+  }
+
+  // evento sulla chiusura della dialog di cambio password
+  //--------------------------------------------------------------------------------------------------------
+  onCloseChangePasswordDialog() {
+    // if 'No' button has been clicked I return
+    if (!this.changePasswordResult)
+      return;
+
+    //test admin connection first!
+
+    let newPw: string = this.changePasswordFields[0].value;
+    let confirmNewPw: string = this.changePasswordFields[1].value;
+
+    if (newPw === '' || confirmNewPw === '') {
+      alert('Field empty!');
+      return;
+    }
+
+    if (newPw !== confirmNewPw) {
+      alert('Passwords are different!');
+      return;
+    }
+
+    let changePassword = this.loginService.changePassword(newPw).
+      subscribe(
+      changeResult => {
+
+        if (changeResult.Result) {
+        }
+        else
+          alert('Error changing password! ' + changeResult.Message);
+
+        // clear local array with dialog values
+        //this.credentialsFields.forEach(element => { element.value = '' });
+        changePassword.unsubscribe();
+      },
+      changeError => {
+        console.log(changeError);
+        alert(changeError);
+        changePassword.unsubscribe();
+      }
+      );
+  }
 }

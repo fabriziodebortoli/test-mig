@@ -1,4 +1,3 @@
-import { OldLocalizationService } from './../../core/services/oldlocalization.service';
 import { ComponentService } from '../../core/services/component.service';
 import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
@@ -24,13 +23,14 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
     public dataService: DataService, 
     settingsPageService: SettingsPageService, 
     public infoService: InfoService,
-    public localizationService: OldLocalizationService,
     changeDetectorRef: ChangeDetectorRef
   ) {
     super(settingsPageService, eventData, null, changeDetectorRef);
+    this.enableLocalization();
     this.isDesktop = infoService.isDesktop;
   }
   ngOnInit() {
+    super.ngOnInit();
     this.eventData.model = { 'Title': { 'value': 'Settings Page' } };
   }
 

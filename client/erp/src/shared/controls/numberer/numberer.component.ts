@@ -42,9 +42,9 @@ export class NumbererComponent extends ControlComponent {
     private subscribedToSelector = false;
 
     numbererContextMenu: ContextMenuItem[] = [];
-    menuItemDisablePadding = new ContextMenuItem('disable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
-    menuItemEnablePadding = new ContextMenuItem('enable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
-    menuItemDoPadding = new ContextMenuItem('perform digit padding in front of the number', '', true, false, null, this.doPadding.bind(this));
+    menuItemDisablePadding: ContextMenuItem;
+    menuItemEnablePadding: ContextMenuItem;
+    menuItemDoPadding: ContextMenuItem;
 
     // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
 
@@ -54,7 +54,16 @@ export class NumbererComponent extends ControlComponent {
     enableStateInEdit = false;
 
     private currentState: NumbererStateEnum;
-
+    constructor(
+        public eventData: EventDataService,
+        layoutService: LayoutService,
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef,
+        private store: Store
+    ) {
+        super(layoutService, tbComponentService, changeDetectorRef);
+        this.enableLocalization();
+    }
     ngOnInit() {
         // this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
         // this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
@@ -77,7 +86,13 @@ export class NumbererComponent extends ControlComponent {
             }
         });
     }
+    onTranslationsReady() {
+        super.onTranslationsReady();
+        this.menuItemDisablePadding = new ContextMenuItem(this._TB('disable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
+        this.menuItemEnablePadding = new ContextMenuItem(this._TB('enable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
+        this.menuItemDoPadding = new ContextMenuItem(this._TB('perform digit padding in front of the number'), '', true, false, null, this.doPadding.bind(this));
 
+    }
     subscribeToSelector() {
         if (!this.subscribedToSelector && this.store && this.selector) {
             this.store
@@ -98,15 +113,7 @@ export class NumbererComponent extends ControlComponent {
         }
     }
 
-    constructor(
-        public eventData: EventDataService,
-        layoutService: LayoutService,
-        tbComponentService: TbComponentService,
-        changeDetectorRef: ChangeDetectorRef,
-        private store: Store
-    ) {
-        super(layoutService, tbComponentService, changeDetectorRef);
-    }
+
 
     onFormModeChanged(formMode: FormMode) {
         this.setComponentMask();

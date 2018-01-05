@@ -112,6 +112,7 @@
         internal const string maxValue = "maxValue";
         internal const string minValue = "minValue";
 		internal const string decimals = "decimals";
+        internal const string numberDecimal = "numberDecimal";
 
         internal const string ngTag = "ng-tag";
         internal const string ngTemplate = "ng-template";

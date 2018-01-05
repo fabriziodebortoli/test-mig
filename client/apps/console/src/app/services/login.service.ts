@@ -73,6 +73,11 @@ export class LoginService {
           {
             this.opRes.Result = false;
             this.opRes.Message = 'Cannot do the login. ' + data.Message;
+            if (data.ResultCode == 19)
+{
+alert ('ds');
+
+}
             this.sendMessage(this.opRes);
             return;
           }
@@ -195,5 +200,19 @@ export class LoginService {
 
     // routing to the app home
     this.router.navigateByUrl('/appHome', { skipLocationChange:true });
+  }
+  
+  // change account password
+  //--------------------------------------------------------------------------------------------------------
+  changePassword(accountName: string): Observable<OperationResult> {
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'password', '', options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (changePassword)'));
   }
 }
