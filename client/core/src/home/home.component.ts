@@ -82,7 +82,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
   initialize() {
 
-    this.loadingService.setLoading(true, "connecting...");
+    this.loadingService.setLoading(true,  this._TB('connecting...'));
 
     this.isDesktop = this.infoService.isDesktop;
 
@@ -131,7 +131,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
-      this.loadingService.setLoading(!connected, connected ? "" : "connecting...");
+      this.loadingService.setLoading(!connected, connected ? "" : this._TB('connecting...'));
     }));
 
   }
