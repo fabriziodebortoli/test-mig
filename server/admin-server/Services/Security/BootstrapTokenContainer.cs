@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Controllers.Helpers.Tokens
+namespace Microarea.AdminServer.Services.Security
 {
 	//================================================================================
 	public class BootstrapTokenContainer

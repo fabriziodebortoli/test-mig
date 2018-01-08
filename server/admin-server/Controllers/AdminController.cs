@@ -9,6 +9,7 @@ using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Services.PostMan;
 using Microarea.AdminServer.Services.PostMan.actuators;
+using Microarea.AdminServer.Services.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

@@ -1,8 +1,7 @@
-using Microarea.AdminServer.Controllers.Helpers.Tokens;
-using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace admin_server_test
