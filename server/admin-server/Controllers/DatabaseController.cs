@@ -1,5 +1,5 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
-using Microarea.AdminServer.Controllers.Helpers.All;
+using Microarea.AdminServer.Controllers.Helpers.Commons;
 using Microarea.AdminServer.Controllers.Helpers.Database;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Libraries.DatabaseManager;
@@ -64,12 +64,18 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			int status;
+
 			try
 			{
 				if (subDatabase != null)
+				{
 					opRes = subDatabase.Save(burgerData);
+					status = 201;
+				}
 				else
 				{
+					status = 200;
 					opRes.Result = false;
 					opRes.Message = Strings.NoValidInput;
 					opRes.Code = (int)AppReturnCodes.InvalidData;
@@ -85,7 +91,7 @@ namespace Microarea.AdminServer.Controllers
 
 			opRes.Message = (opRes.Result) ? Strings.OperationOK : Strings.OperationKO;
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			return new ContentResult { StatusCode = status, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
@@ -370,7 +376,7 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			return new ContentResult { StatusCode = 201, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
@@ -953,7 +959,7 @@ namespace Microarea.AdminServer.Controllers
 			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+			opRes.Content = APIDatabaseHelper.GetMessagesList(dbManager.DBManagerDiagnostic);
 
 			// TODO: dall'attivazione della Subscription devo sapere se provengo da una vecchia versione
 			// forse questo controllo non sara' piu' necessario, dipende cosa verra' deciso a livello commerciale
@@ -991,22 +997,6 @@ namespace Microarea.AdminServer.Controllers
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-		}
-
-		//---------------------------------------------------------------------
-		private List<OperationResult> GetMessagesList(Diagnostic diagnostic)
-		{
-			List<OperationResult> messagesList = new List<OperationResult>();
-
-			IDiagnosticItems items = diagnostic.AllMessages();
-			if (items == null)
-				return messagesList;
-
-			foreach (IDiagnosticItem item in items)
-				if (!string.IsNullOrEmpty(item.FullExplain))
-					messagesList.Add(new OperationResult() { Message = item.FullExplain });
-
-			return messagesList;
 		}
 
 		/// <summary>
@@ -1080,7 +1070,7 @@ namespace Microarea.AdminServer.Controllers
 			
 			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+			opRes.Content = APIDatabaseHelper.GetMessagesList(dbManager.DBManagerDiagnostic);
 
 			//re-imposto il flag UnderMaintenance a false
 			APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Controllers.Helpers.All
+namespace Microarea.AdminServer.Controllers.Helpers.Commons
 {
 	//================================================================================
 	public class AuthorizationHelper
