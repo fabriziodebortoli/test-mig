@@ -1,9 +1,7 @@
-﻿using Microarea.AdminServer.Controllers.Helpers;
-using Microarea.AdminServer.Controllers.Helpers.Commons;
-using Microarea.AdminServer.Controllers.Helpers.Tokens;
+﻿using Microarea.AdminServer.Controllers.Helpers.Commons;
+using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
-using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.GWAMCaller;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Newtonsoft.Json;
@@ -13,7 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Libraries
+namespace Microarea.AdminServer.Services.Security
 {
 	//================================================================================
 	public class SecurityManager
@@ -181,7 +179,6 @@ namespace Microarea.AdminServer.Libraries
 
             return hashed;
         }
-
 
         //-----------------------------------------------------------------------------	
         public static string GetRandomPassword()

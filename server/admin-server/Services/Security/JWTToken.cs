@@ -3,7 +3,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Microarea.AdminServer.Controllers.Helpers.Tokens
+namespace Microarea.AdminServer.Services.Security
 {
 	//================================================================================
 	public class JWTToken

@@ -9,6 +9,7 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.Security;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
