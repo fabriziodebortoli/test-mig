@@ -6,6 +6,7 @@ using Microarea.AdminServer.Libraries.DatabaseManager;
 using Microarea.AdminServer.Libraries.DataManagerEngine;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Model.Services.Queries;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
