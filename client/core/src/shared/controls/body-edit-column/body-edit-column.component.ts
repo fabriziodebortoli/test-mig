@@ -37,13 +37,5 @@ export class BodyEditColumnComponent extends ControlComponent {
     super(layoutService, tbComponentService, changeDetectorRef);
 
   }
-
-  getValue(val) {
-    let enumItem = this.enumsService.getEnumsItem(val);
-    if (enumItem != undefined)
-      return enumItem.name;
-
-    return "";
-  }
 }
 
