@@ -1,7 +1,7 @@
 import { check } from './../../models/check.model';
 import { RsExportService } from './../../rs-export.service';
 import { Subscription } from '../../rxjs.imports';
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges, OnDestroy } from '@angular/core';
 import { formatNumber } from '@telerik/kendo-intl';
 
 @Component({
@@ -10,13 +10,14 @@ import { formatNumber } from '@telerik/kendo-intl';
     styleUrls: ['./exportdialog.component.scss'],
 })
 
-export class ExportdialogComponent {
+export class ExportdialogComponent implements OnDestroy {
     subscriptions: Subscription[] = [];
     from: number;
     to: number;
     copy: number;
 
     inputDisable: boolean = true;
+    multicopyDisable: boolean = true;
 
     check: boolean = true;
     multicopy: boolean = false;
@@ -44,7 +45,7 @@ export class ExportdialogComponent {
         this.rsExportService.exportfile = false;
     }
 
-    setMulticopy(){
+    setMulticopy() {
         this.multicopy = !this.multicopy;
     }
 
@@ -56,6 +57,14 @@ export class ExportdialogComponent {
 
     setRangePages() {
         this.inputDisable = false;
+    }
+
+    changeMulticopy(){
+        if (this.copy > 1)
+            this.multicopyDisable = false;
+        else if(this.copy = 1)
+            this.multicopyDisable = true;
+
     }
 
 }
