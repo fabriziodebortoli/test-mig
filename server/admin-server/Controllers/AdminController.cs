@@ -380,7 +380,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.InvalidCredentials;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 403, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			try
@@ -395,19 +395,23 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			int status;
+
 			if (opRes.Result)
 			{
 				opRes.Result = true;
 				opRes.Message = Strings.OK;
+				status = 201;
 			}
 			else
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.OperationKO;
+				status = 200;
 			}
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			return new ContentResult { StatusCode = status, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		[HttpGet("/api/startup")]
