@@ -30,12 +30,12 @@
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
 
-const TCHAR* szValue = _T("value");
-const TCHAR* szEnabled = _T("enabled");
+//i tag che iniziano con _ sono privati nel model lato client, e vengono wrappati da getter e setter
 const TCHAR* szTag = _T("tag");
-const TCHAR* szType = _T("type");
-const TCHAR* szLength = _T("length");
-const TCHAR* szStatus = _T("status");
+const TCHAR* szValue = _T("_value"); 
+const TCHAR* szType = _T("_type");
+const TCHAR* szLength = _T("_length");
+const TCHAR* szStatus = _T("_status");
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -1383,7 +1383,6 @@ bool DataObj::AlignHKL(HotKeyLink* pHKL)
 //-----------------------------------------------------------------------------
 void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer)
 {
-	jsonSerializer.WriteBool(szEnabled, !IsReadOnly());
 	jsonSerializer.WriteInt(szType, GetDataType().m_wType);
 
 	jsonSerializer.WriteInt(szLength, GetColumnLen());
@@ -1412,8 +1411,8 @@ void DataObj::SignalOnChanged()
 void DataObj::AssignFromJson(CJsonParser& jsonParser)
 {
 	AssignJsonValue(jsonParser);
-	bool enabled = jsonParser.ReadBool(szEnabled);
-	SetReadOnly(!enabled);
+	if (jsonParser.Has(szStatus))
+		m_wDataStatus = jsonParser.ReadInt(szStatus);
 }
 
 //@@ rivedere

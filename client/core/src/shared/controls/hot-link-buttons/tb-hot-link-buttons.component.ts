@@ -288,7 +288,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   ngAfterViewChecked() {
-    console.log('VIEW CHECKED!');
   }
 
   public onFilterChange(filter: CompositeFilterDescriptor): void {
