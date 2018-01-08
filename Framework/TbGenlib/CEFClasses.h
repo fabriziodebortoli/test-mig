@@ -143,6 +143,7 @@ TB_EXPORT CTBRequestHandlerObj* GetRequestHandler(LPCSTR szPath);
 TB_EXPORT CTBRequestHandlerObj* GetRequestHandlerByUrl(CString strUrl);
 void TB_EXPORT DisposeRequestHandlers();
 void TB_EXPORT CEFUninitialize();
+void TB_EXPORT DeleteCache();
 bool TB_EXPORT CreateChildBrowser(HWND hwndParent, LPCTSTR sUrl, BOOL bWaitForBrowserReady, CBrowserEventsObj* pEvents = NULL, const RECT* = NULL);
 bool TB_EXPORT CreatePopupBrowser(LPCTSTR sUrl, BOOL bWaitForBrowserReady, CBrowserEventsObj* pEvents = NULL); 
 TB_EXPORT void GetCookieParams(CString& sCookie, CNameValueCollection& params);
