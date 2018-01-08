@@ -29,7 +29,6 @@ export class WebSocketService extends LocalizationService {
     public message = new EventEmitter<MessageDlgArgs>();
     public diagnostic = new EventEmitter<DiagnosticData>();
     public buttonsState = new EventEmitter<any>();
-    public radarInfos = new EventEmitter<any>();
     public connectionStatus = new EventEmitter<ConnectionStatus>();
     public windowStrings = new EventEmitter<any>();
     public behaviours = new EventEmitter<any>();
@@ -86,7 +85,6 @@ export class WebSocketService extends LocalizationService {
                         case 'MessageDialog': $this.message.emit(obj.args); break;
                         case 'Diagnostic': $this.diagnostic.emit(obj.args); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
-                        case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
                         case 'Behaviours': $this.behaviours.emit(obj.args); break;
 
                         default: break;
@@ -191,12 +189,6 @@ export class WebSocketService extends LocalizationService {
         const data = { cmd: 'browseRecord', cmpId: cmpId, tbGuid: tbGuid };
         this.safeSend(data);
     }
-
-    getRadarInfos(cmpId: String) {
-        const data = { cmd: 'getRadarInfos', cmpId: cmpId };
-        this.safeSend(data);
-    }
-
 
     /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
          const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };

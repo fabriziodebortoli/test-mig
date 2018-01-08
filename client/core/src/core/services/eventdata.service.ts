@@ -10,8 +10,7 @@ export class EventDataService implements OnDestroy {
     public command: EventEmitter<CommandEventArgs> = new EventEmitter();
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
-
-    public radarInfos: EventEmitter<any> = new EventEmitter();
+    public openRadar: EventEmitter<any> = new EventEmitter();
     public radarRecordSelected: EventEmitter<any> = new EventEmitter();
     public behaviours: EventEmitter<any> = new EventEmitter();
 
@@ -26,6 +25,7 @@ export class EventDataService implements OnDestroy {
 
     public activation: any = {}; // contains activation data
     public buttonsState: any = {};
+    public canNavigate = true;
 
     constructor() { }
 
@@ -34,8 +34,9 @@ export class EventDataService implements OnDestroy {
         evt.commandId = commandId;
         evt.componentId = componentId;
         if (evt.commandId === 'ID_EXTDOC_RADAR')
-            this.radarInfos.next('');
-        this.command.emit(evt);
+            this.openRadar.next('');
+        else 
+            this.command.emit(evt);
     }
 
     ngOnDestroy() {

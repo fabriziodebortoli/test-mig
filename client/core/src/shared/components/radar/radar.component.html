@@ -1,43 +1,55 @@
-<div class="radar-container" [@shrinkOut]="state">
-    <h5>Radar
-        <m4-icon class="radar-close" icon="tb-closewindows" (click)="toggle()"></m4-icon>
-    </h5>
+<div class="radar-container" [@shrinkOut]="state.view">
+    <div class="toolbar-top">
+        <div class="toolbar-top-item title">
+            <span class="document-title truncate">{{_TB("Radar")}}</span>
+        </div>
+        <div class="toolbar-top-item functions">
+            <button kendoButton (click)="grid.autoFitColumns()">
+                Auto-fit
+            </button>
+        </div>
+        <div class="toolbar-top-item navigation">
+            <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_FIND?.enabled" icon="tb-find" [caption]="_TB('Search')"
+                cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+            <button kendoButton class="top-button" (click)="selectByIndex(0)" [title]="_TB('First')" [disabled]='state.selectedIndex === 0'>
+                <tb-icon [iconType]="'M4'" [icon]="'tb-first'" class="toolbarIcon"></tb-icon>
+            </button>
+            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='state.selectedIndex === 0'>
+                <tb-icon [iconType]="'M4'" [icon]="'tb-prev'" class="toolbarIcon"></tb-icon>
+            </button>
+            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='state.selectedIndex === state.rows.length - 1'>
+                <tb-icon [iconType]="'M4'" [icon]="'tb-next'" class="toolbarIcon"></tb-icon>
+            </button>
+            <button kendoButton class="top-button" (click)="hide()" [title]="_TB('Close')">
+                <tb-icon [iconType]="'M4'" [icon]="'tb-closewindows'" class="toolbarIcon"></tb-icon>
+            </button>
+        </div>
+    </div>
+    <kendo-grid #grid [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [height]="300" [data]="gridData$ | async"
+            [pageSize]="pageSize" [selectable]="true" [skip]="paginator.skip" [filterable]="true" [filter]="filter" (filterChange)="onFilterChange($event)"
+            (selectionChange)="selectionChanged($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
+            [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="'TBGuid'" [scrollable]="none">
 
-    <!--todoluca, localizzare nomi colonne se già non localizzate-->
-    <kendo-grid [data]="rows" [pageSize]="pageSize" [skip]="skip" [pageable]="true" [height]="206" (pageChange)="pageChange($event)" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [selectable]="true" (selectionChange)="selectionChange($event)"
-        (edit)="editHandler($event)">
-
-        <kendo-grid-command-column title="&nbsp;" width="250">
-            <ng-template kendoGridCellTemplate>
-                <!--button kendoGridEditCommand class="k-primary">edit</button-->
-                <button kendoGridEditCommand class="k-primary">edit<m4-icon icon="tb-edit"></m4-icon></button>
-            </ng-template>
-        </kendo-grid-command-column>
-        <!--ng-template ngFor [ngForOf]="columns" let-column-->
-        <ng-template *ngFor="let column of columns">
-            <kendo-grid-column [ngSwitch]="column.type" field="{{column.id}}" title="{{column.id}}" width="120" [headerClass]="{'tableHeader':true}">
-
-                <ng-template *ngSwitchCase="String" kendoGridCellTemplate let-dataItem>
-                    {{dataItem[column.id]}}
+            <kendo-grid-column [hidden]="col.caption === 'TBGuid'" *ngFor="let col of state.columns" field="{{col.id}}" title="{{col.id | uppercase}}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <div [ngSwitch]="col.type">
+                        <input *ngSwitchCase="'Boolean'" type="checkbox" [checked]="dataItem[col.id]" disabled/>
+                        <div *ngSwitchDefault class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
+                    </div>
                 </ng-template>
-
-                <ng-template *ngSwitchCase="Boolean" kendoGridCellTemplate let-dataItem>
-                    <input type="checkbox" [checked]="dataItem[column.id]" disabled/>
-                </ng-template>
-
-                <ng-template *ngSwitchCase="DateTime" kendoGridCellTemplate let-dataItem>
-                    {{dataItem[column.id]}}
-                </ng-template>
-
-                <ng-template *ngSwitchCase="Double" kendoGridCellTemplate let-dataItem>
-                    {{dataItem[column.id]}}
-                </ng-template>
-    
-                <ng-template *ngSwitchCase="DataEnum" kendoGridCellTemplate let-dataItem>
-                    {{getEnumValue(dataItem, column)}}
-                </ng-template>
-
             </kendo-grid-column>
-        </ng-template>
+
     </kendo-grid>
+
+
+    <kendo-grid-column 
+    *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" 
+    [width]="202"
+    id="{{cmpId + col.id}}"
+    [headerClass]="{'tableHeader':true}">
+<ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+<div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
+</ng-template>
+</kendo-grid-column>
+
 </div>

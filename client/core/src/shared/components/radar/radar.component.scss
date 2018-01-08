@@ -3,26 +3,46 @@ tb-radar {
     display: block;
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     z-index: 1;
-    margin: 0 10px;
+    margin: 10px 10px;
     border-radius: 0 0 5px 5px;
+}
+
+.radar-container .functions button {
+    cursor: pointer;
+    background: #fff;
+    color: #000;
+    padding: 0 15px;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: 300;
+    border: 0;
+}
+
+.radar-container .functions button:hover {
+    background: #f1f1f1;
+}
+
+.radar-container .functions button:focus {
+    box-shadow: none;
 }
 
 .radar-container h5 {
     margin: 10px;
     text-transform: uppercase;
     color: #0277bd;
+    height: 100px;
 }
 
 .radar-close {
     float: right;
 }
 
-.radar-grid {
+/deep/ .radar-grid {
     margin: 10px;
     font-size: 13px;
 }
 
-.radar-grid.k-grid td {
+/deep/ .radar-grid.k-grid td {
     padding: 2px 5px;
     font-size: 12px;
     white-space: nowrap;
@@ -30,24 +50,97 @@ tb-radar {
     text-overflow: ellipsis;
 }
 
-.radar-grid .k-grid-header .k-header>.k-link {
+/deep/ .radar-grid .k-grid-header .k-header>.k-link {
     padding: 5px;
     font-weight: bold;
 }
 
-.radar-grid .k-grid-pager {
+/deep/ .radar-grid .k-grid-pager {
     padding: 0px;
     border-width: 1px 0 0;
     border-color: #e3e3e3;
     font-size: 12px;
 }
 
-.radar-grid.k-grid tr.k-state-selected,
-.radar-grid.k-grid td.k-state-selected {
-    color: #fff;
-    background-color: #0277bd;
+/deep/ .radar-grid .k-grid tr.k-state-selected,
+/deep/ .radar-grid .k-grid td.k-state-selected {
+    color: #fff !important;
+    background-color: #0277bd !important;
 }
 
-.radar-edit {
-    cursor: pointer;
+.radar-container .toolbar-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    height: 30px;
+}
+
+.radar-container .title {
+    flex-grow: 2;
+    display: flex;
+}
+
+.radar-container .navigation {
+    display: flex;
+}
+
+.radar-container .document-title {
+    line-height: 32px;
+    margin: 0 10px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase
+}
+
+.radar-container .top-button {
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    min-width: 30px;
+    border: 0;
+    background: none;
+}
+
+.top-button:hover {
+    background: #f1f1f1
+}
+
+.k-button>span {
+    font-size: 12px;
+    line-height: 30px;
+    height: 30px;
+    margin: 0;
+    padding: 0 8px 0 0;
+    display: none;
+}
+
+.radar-container tb-icon {
+    min-width: 30px;
+    font-size: 20px;
+    line-height: 34px;
+}
+
+.radar-container m4-icon {
+    font-size: 30px;
+    width: 30px;
+}
+
+.radar-container .div-icon {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.radar-container .div-icon img {
+    height: 20px;
+    margin-top: 4px;
+}
+
+.radar-container .toolbarIcon {
+    font-size: 24px;
+    padding-right: 8px;
 }
