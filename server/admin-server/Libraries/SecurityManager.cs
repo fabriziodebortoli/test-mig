@@ -111,7 +111,8 @@ namespace Microarea.AdminServer.Libraries
 		/// <param name="authenticationHeader"></param>
 		/// <returns>OperationResult</returns>
 		//-----------------------------------------------------------------------------	
-		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey, string roleName, string entityKey, string level)
+		public static OperationResult ValidateAuthorization(
+			string authenticationHeader, string secretKey, string roleName, string entityKey, string level)
 		{
 			if (String.IsNullOrEmpty(authenticationHeader))
 				return new OperationResult(false, Strings.AuthorizationHeaderMissing, (int)AppReturnCodes.AuthorizationHeaderMissing);
@@ -188,7 +189,6 @@ namespace Microarea.AdminServer.Libraries
             //todo ripristina
 			return "Microarea..."; // Guid.NewGuid().ToString();
         }
-
 
         #region Crypting /Decrypting
         //---------------------------------------------------------------------
