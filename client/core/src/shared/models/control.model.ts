@@ -53,6 +53,13 @@ export function addControlModelBehaviour(model: any) {
             return (this._status & DataStatus.UPPERCASE) == DataStatus.UPPERCASE;
         }
     });
+
+    Object.defineProperty(model, "visible", {
+        get: function visible(): boolean {
+            const flags = DataStatus.HIDE | DataStatus.OSL_HIDE;
+            return ((this._status & flags) == 0)
+        }
+    });
     model.setStatus = function (bSet: boolean, aStatusFlag: number) {
         this._status = bSet ? this._status | aStatusFlag : this._status & ~aStatusFlag;
     }
