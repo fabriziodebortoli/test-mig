@@ -1,5 +1,5 @@
 ﻿
-namespace Microarea.AdminServer
+namespace Microarea.AdminServer.Model.Services.Queries
 {
     //=========================================================================
     public class Queries

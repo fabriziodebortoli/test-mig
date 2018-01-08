@@ -7,6 +7,7 @@ using System.Data;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.Security;
+using Microarea.AdminServer.Model.Services.Queries;
 
 namespace Microarea.AdminServer.Model
 {
