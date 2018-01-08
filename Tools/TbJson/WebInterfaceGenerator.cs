@@ -766,6 +766,7 @@ namespace Microarea.TbJson
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbBodyEdit, this, false))
                         {
                             WebControl wc = GetWebControl(jObj);
+
                             WriteControlAttributes(jObj, wc);
 
                             jObj.GetString(Constants.id, out string cmpId);
@@ -775,23 +776,23 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
 
                             //binding colonne
-                            htmlWriter.Write(string.Format(" [{0}]=\"{1}_{0}\"", Constants.columns, cmpId));
+                            //htmlWriter.Write(string.Format(" [{0}]=\"{1}_{0}\"", Constants.columns, cmpId));
 
-                            string currentAppendToDeclaration = string.Format("public {0}_{1}: any;\r\n", cmpId, Constants.columns);
-                            if (!toAppendToDeclaration.ToString().Contains(currentAppendToDeclaration))
-                                toAppendToDeclaration.Append(currentAppendToDeclaration);
+                            //string currentAppendToDeclaration = string.Format("public {0}_{1}: any;\r\n", cmpId, Constants.columns);
+                            //if (!toAppendToDeclaration.ToString().Contains(currentAppendToDeclaration))
+                            //    toAppendToDeclaration.Append(currentAppendToDeclaration);
 
                             JArray jBinding = jObj[Constants.items] as JArray;
                             if (jBinding != null)
                             {
-                                string currentAppendToDefinition = string.Format("this.{0}_{1} = {2}; \r\n", cmpId, Constants.columns, jBinding.ToString());
-                                if (!toAppendToDefinition.ToString().Contains(currentAppendToDefinition))
-                                    toAppendToDefinition.Append(currentAppendToDefinition);
+                                //string currentAppendToDefinition = string.Format("this.{0}_{1} = {2}; \r\n", cmpId, Constants.columns, jBinding.ToString());
+                                //if (!toAppendToDefinition.ToString().Contains(currentAppendToDefinition))
+                                //    toAppendToDefinition.Append(currentAppendToDefinition);
 
                                 for (int i = 0; i < jBinding.Count; i++)
                                 {
                                     JObject current = jBinding[i] as JObject;
-                                    WriteBindingAttributes(current, false);
+                                    WriteBindingAttributes(current, true, false);
                                 }
                             }
 
@@ -802,44 +803,54 @@ namespace Microarea.TbJson
                                 htmlWriter.Write(string.Format(" class=\"editableRow\" *ngIf=\"{0}?.currentRow\"", cmpId));
                                 wDiv.CloseBeginTag();
 
-                                GenerateHtmlChildren(jObj, type);
+                                //GenerateHtmlChildren(jObj, type);
+                                for (int i = 0; i < jBinding.Count; i++)
+                                {
+                                    JObject current = jBinding[i] as JObject;
+                                    WebControl wc1 = GetWebControl(current);
+                                    if (wc1 == null)
+                                        continue;
+
+                                    using (OpenCloseTagWriter w1 = new OpenCloseTagWriter(wc1.Name, this, true))
+                                    {
+                                        WriteActivationAttribute(current);
+                                        WriteControlAttributes(current, wc1);
+                                        WriteBindingAttributes(current, true, true);
+                                        w1.CloseBeginTag();
+                                    }
+                                }
                             }
+
+                            GenerateHtmlChildren(jObj, type);
                         }
                         break;
                     }
                 case WndObjType.ColTitle:
                     {
-                        WebControl wc = GetWebControl(jObj);
-                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(wc.Name, this, true))
+                        using (var w = new OpenCloseTagWriter(Constants.tbBodyEditColumn, this, false))
                         {
+                            WebControl wCol = GetWebControl(jObj);
+                            if (jObj == null)
+                                break;
+
+                            WriteColumnAttributes(jObj, wCol);
+
+                            string title = jObj.GetLocalizableString(Constants.text);
+                            if (!string.IsNullOrEmpty(title))
+                                htmlWriter.WriteAttribute(Square(Constants.title), title);
+
+                            if (!string.IsNullOrEmpty(wCol.Name))
+                                htmlWriter.WriteAttribute(Constants.columnType, wCol.Name);
+
+                            //TODOLUCA non serve? è già il cmpId che scrive la WriteControlAttributes?
+                            //string id = jObj.GetId();
+                            //if (!string.IsNullOrEmpty(id))
+                            //    htmlWriter.WriteAttribute(Constants.columnName, id);
+
                             WriteActivationAttribute(jObj);
-                            WriteControlAttributes(jObj, wc);
                             w.CloseBeginTag();
                         }
                         break;
-
-                        //using (var w = new OpenCloseTagWriter(Constants.tbBodyEditColumn, this, false))
-                        //{
-                        //    WebControl wc = GetWebControl(jObj);
-
-                        //    WriteColumnAttributes(jObj, wc);
-
-                        //    string title = jObj.GetLocalizableString(Constants.text);
-                        //    if (!string.IsNullOrEmpty(title))
-                        //        htmlWriter.WriteAttribute(Square(Constants.title), title);
-
-                        //    if (!string.IsNullOrEmpty(wc.Name))
-                        //        htmlWriter.WriteAttribute(Constants.columnType, wc.Name);
-
-                        //    //TODOLUCA non serve? è già il cmpId che scrive la WriteControlAttributes?
-                        //    //string id = jObj.GetId();
-                        //    //if (!string.IsNullOrEmpty(id))
-                        //    //    htmlWriter.WriteAttribute(Constants.columnName, id);
-
-                        //    WriteActivationAttribute(jObj);
-                        //    w.CloseBeginTag();
-                        //}
-                        //break;
                     }
                 case WndObjType.TileGroup:
                     {
@@ -1222,7 +1233,7 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + id);
         }
 
-        private void WriteBindingAttributes(JObject jObj, bool writeHtml = true)
+        private void WriteBindingAttributes(JObject jObj, bool insideEditingLine, bool writeHtml)
         {
             JObject jBinding = jObj[Constants.binding] as JObject;
             if (jBinding == null)
@@ -1272,9 +1283,13 @@ namespace Microarea.TbJson
             {
                 if (isSlaveBuffered)
                 {
-                    //htmlWriter.WriteAttribute("columnName", field);
-                    var cmpId = jParentObject.GetId();
-                    htmlWriter.WriteAttribute("[model]", string.Format("{0}?.currentRow['{1}']", cmpId, field));
+                    if (insideEditingLine)
+                    {
+                        var cmpId = jParentObject.GetId();
+                        htmlWriter.WriteAttribute("[model]", string.Format("{0}?.currentRow['{1}']", cmpId, field));
+                    }
+                    else
+                        htmlWriter.WriteAttribute("columnName", field);
                 }
                 else
                 {
@@ -1347,7 +1362,7 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
 
             WriteAttribute(jObj, Constants.width, Constants.width);
-            WriteBindingAttributes(jObj);
+            WriteBindingAttributes(jObj, false, true);
 
         }
         string getControlId(JObject jObj)
@@ -1407,7 +1422,7 @@ namespace Microarea.TbJson
             WriteAttribute(jObj, Constants.width, Constants.width);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
-            WriteBindingAttributes(jObj);
+            WriteBindingAttributes(jObj, false, true);
 
             var jItemSource = jObj[Constants.itemSource] as JObject;
             if (jItemSource != null)

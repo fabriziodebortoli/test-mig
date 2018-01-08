@@ -18,13 +18,13 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   exportAs: 'body',
   encapsulation: ViewEncapsulation.None
 })
-export class BodyEditComponent extends ControlComponent /*implements AfterContentInit */ {
+export class BodyEditComponent extends ControlComponent implements AfterContentInit {
 
 
   @Input() columns: Array<any>;
   public selectableSettings: SelectableSettings;
 
-   //@ContentChildren(BodyEditColumnComponent) be_columns;
+  @ContentChildren(BodyEditColumnComponent) be_columns;
   @ViewChild(GridComponent) grid;
 
   public currentRow: any = undefined;
@@ -37,16 +37,16 @@ export class BodyEditComponent extends ControlComponent /*implements AfterConten
     };
   }
 
-  // ngAfterContentInit() {
-  //   resolvedPromise.then(() => {
-  //     let cols = this.be_columns.toArray();
-  //     let internalColumnComponents = [];
-  //     for (let i = 0; i < cols.length; i++) {
-  //       internalColumnComponents.push(cols[i].columnComponent);
-  //     }
-  //     this.grid.columns.reset(internalColumnComponents);
-  //   });
-  // }
+  ngAfterContentInit() {
+    resolvedPromise.then(() => {
+      let cols = this.be_columns.toArray();
+      let internalColumnComponents = [];
+      for (let i = 0; i < cols.length; i++) {
+        internalColumnComponents.push(cols[i].columnComponent);
+      }
+      this.grid.columns.reset(internalColumnComponents);
+    });
+  }
 
   ben_row_changed(item) {
     // console.log(item);

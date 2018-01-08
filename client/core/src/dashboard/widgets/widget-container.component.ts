@@ -5,8 +5,7 @@ import { MatSnackBar } from '@angular/material';
 @Component({
   selector: 'tb-widget-container',
   templateUrl: './widget-container.component.html',
-  styleUrls: ['./widget-container.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./widget-container.component.scss']
 })
 export class WidgetContainerComponent implements OnInit, OnDestroy {
   rows: WidgetRow[] = [];

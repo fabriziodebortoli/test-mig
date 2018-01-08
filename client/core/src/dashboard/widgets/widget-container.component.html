@@ -1,6 +1,6 @@
 <div class="widgets-container box-container">
     <div *ngFor="let row of rows" class="widgets-row row">
-        <div *ngFor="let widget of row.cols" class="widget-col" [ngClass]="getColspan(widget.layout.size)" [style.minHeight.px]="widget.layout.height || 300">
+        <div *ngFor="let widget of row.cols" class="widget-col" [ngClass]="getColspan(widget.layout.size)" [style.minHeight.px]="widget.layout.height ? widget.layout.height : 300">
             <tb-widget [widget]="widget"></tb-widget>
         </div>
     </div>

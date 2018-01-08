@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web;
 using Newtonsoft.Json.Linq;
@@ -75,7 +76,9 @@ namespace Microarea.TbJson
                 case WndObjType.PropertyGridItem:
                     return new WebControl(Constants.tbPropertyGridItem);
                 default:
-                    throw new Exception($"Unsupported web control type: {type}");
+                    Debug.Fail(type.ToString() + " Unsupported web control type");
+                    return null;
+                    //throw new Exception($"Unsupported web control type: {type}");
             }
         }
 
