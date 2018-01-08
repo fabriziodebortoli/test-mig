@@ -2274,7 +2274,7 @@ inline void DataObj::SetAccountable		(BOOL value)		{ SetStatus(value,		ACCOUNTAB
 
 inline void DataObj::SetUpdateView		(BOOL bChanged)		{ SetStatus(bChanged,	UPDATE_VIEW);		}
 
-inline void DataObj::SetHide			(BOOL bHide)		{ SetStatus(bHide,		HIDE); }
+inline void DataObj::SetHide			(BOOL bHide)		{ SetStatus(bHide,		HIDE); SetModified(); }
 inline void DataObj::SetOSLHide			(BOOL bHide)		{ SetStatus(bHide,		OSL_HIDE); }
 
 inline void DataObj::SetPrivate			(BOOL bPrivate)		{ SetStatus(bPrivate,	PRIVATE); }
