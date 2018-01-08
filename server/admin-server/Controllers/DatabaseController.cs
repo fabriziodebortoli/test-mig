@@ -64,12 +64,18 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			int status;
+
 			try
 			{
 				if (subDatabase != null)
+				{
 					opRes = subDatabase.Save(burgerData);
+					status = 201;
+				}
 				else
 				{
+					status = 200;
 					opRes.Result = false;
 					opRes.Message = Strings.NoValidInput;
 					opRes.Code = (int)AppReturnCodes.InvalidData;
@@ -85,7 +91,7 @@ namespace Microarea.AdminServer.Controllers
 
 			opRes.Message = (opRes.Result) ? Strings.OperationOK : Strings.OperationKO;
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			return new ContentResult { StatusCode = status, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
@@ -370,7 +376,7 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			return new ContentResult { StatusCode = 201, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
