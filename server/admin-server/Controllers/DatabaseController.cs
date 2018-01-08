@@ -959,7 +959,7 @@ namespace Microarea.AdminServer.Controllers
 			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+			opRes.Content = APIDatabaseHelper.GetMessagesList(dbManager.DBManagerDiagnostic);
 
 			// TODO: dall'attivazione della Subscription devo sapere se provengo da una vecchia versione
 			// forse questo controllo non sara' piu' necessario, dipende cosa verra' deciso a livello commerciale
@@ -997,22 +997,6 @@ namespace Microarea.AdminServer.Controllers
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-		}
-
-		//---------------------------------------------------------------------
-		private List<OperationResult> GetMessagesList(Diagnostic diagnostic)
-		{
-			List<OperationResult> messagesList = new List<OperationResult>();
-
-			IDiagnosticItems items = diagnostic.AllMessages();
-			if (items == null)
-				return messagesList;
-
-			foreach (IDiagnosticItem item in items)
-				if (!string.IsNullOrEmpty(item.FullExplain))
-					messagesList.Add(new OperationResult() { Message = item.FullExplain });
-
-			return messagesList;
 		}
 
 		/// <summary>
@@ -1086,7 +1070,7 @@ namespace Microarea.AdminServer.Controllers
 			
 			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+			opRes.Content = APIDatabaseHelper.GetMessagesList(dbManager.DBManagerDiagnostic);
 
 			//re-imposto il flag UnderMaintenance a false
 			APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(subDatabase, burgerData, false);
