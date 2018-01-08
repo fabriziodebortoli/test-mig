@@ -1,4 +1,4 @@
-import { Component, Input, AfterContentInit, ChangeDetectorRef, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, Input, AfterContentInit, ChangeDetectorRef, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
@@ -8,7 +8,6 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { ContextMenuItem, FormMode } from './../../../shared/shared.module';
-import { AnimationMetadataType } from '@angular/core/src/animation/dsl';
 import { Collision } from '@progress/kendo-angular-popup';
 
 @Component({
@@ -151,7 +150,10 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         this.show = false;
         let slice = await this.store.select(this.selector).take(1).toPromise();
 
-        slice.address.value = address.address_components.filter(x => x.types.find(x => x === 'route'))[0].long_name;
+        if (slice.address) {
+            slice.address.value = address.address_components.filter(x => x.types.find(x => x === 'route'))[0].long_name;
+        }
+
         if (slice.streetNo) {
             slice.streetNo.value = address.address_components.filter(x => x.types.find(x => x === 'street_number'))[0].long_name;
         }
