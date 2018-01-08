@@ -152,23 +152,48 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         let slice = await this.store.select(this.selector).take(1).toPromise();
 
         slice.address.value = address.address_components.filter(x => x.types.find(x => x === 'route'))[0].long_name;
-        slice.streetNo.value = address.address_components.filter(x => x.types.find(x => x === 'street_number'))[0].long_name;
-        if (address.address_components.filter(x => x.types.find(x => x === 'locality')).length > 0) {
-            slice.city.value = address.address_components.filter(x => x.types.find(x => x === 'locality'))[0].long_name;
-        } else {
-            if (address.address_components.filter(x => x.types.find(x => x === 'neighborhood')).length > 0) {
-                slice.city.value = address.address_components.filter(x => x.types.find(x => x === 'neighborhood'))[0].long_name;
+        if (slice.streetNo) {
+            slice.streetNo.value = address.address_components.filter(x => x.types.find(x => x === 'street_number'))[0].long_name;
+        }
+
+        if (slice.city) {
+            if (address.address_components.filter(x => x.types.find(x => x === 'locality')).length > 0) {
+                slice.city.value = address.address_components.filter(x => x.types.find(x => x === 'locality'))[0].long_name;
+            } else {
+                if (address.address_components.filter(x => x.types.find(x => x === 'neighborhood')).length > 0) {
+                    slice.city.value = address.address_components.filter(x => x.types.find(x => x === 'neighborhood'))[0].long_name;
+                }
             }
         }
-        slice.county.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_2'))[0].short_name;
-        slice.zipCode.value = address.address_components.filter(x => x.types.find(x => x === 'postal_code'))[0].long_name;
-        slice.region.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].long_name;
-        slice.country.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].long_name;
-        slice.isoCode.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].short_name;
-        slice.federal.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].short_name;
 
-        slice.latitude.value = address.geometry.location.lat;
-        slice.longitude.value = address.geometry.location.lng;
+        if (slice.county) {
+            slice.county.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_2'))[0].short_name;
+        }
+
+        if (slice.zipCode) {
+            slice.zipCode.value = address.address_components.filter(x => x.types.find(x => x === 'postal_code'))[0].long_name;
+        }
+        if (slice.region) {
+            slice.region.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].long_name;
+        }
+
+        if (slice.country) {
+            slice.country.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].long_name;
+        }
+
+        if (slice.isoCode) {
+            slice.isoCode.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].short_name;
+        }
+
+        if (slice.federal) {
+            slice.federal.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].short_name;
+        }
+
+        if (slice.latitude)
+            slice.latitude.value = address.geometry.location.lat;
+
+        if (slice.longitude)
+            slice.longitude.value = address.geometry.location.lng;
 
         this.changeDetectorRef.detectChanges();
     }
