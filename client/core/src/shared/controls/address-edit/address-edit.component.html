@@ -1,4 +1,4 @@
-<div class="tb-control tb-addressedit" (keyup)="keyUpEvent($event)">
+<div class="tb-control tb-addressedit">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <textarea #anchor name="{{cmpId}}" [readonly]="readonly" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled"
         [ngStyle]="{'height': getCorrectHeight(), 'width':  getCorrectWidth()}"></textarea>
