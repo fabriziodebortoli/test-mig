@@ -204,8 +204,6 @@ namespace Microarea.AdminServer.Services.BurgerData
         //--------------------------------------------------------------------------------
         public bool Save(ModelTables table, BurgerDataParameter[] burgerDataParameterKeyColumns, List<BurgerDataParameter> burgerDataParameters, bool updateIfExisting = true)
         {
-            string queryExistRow = SqlScriptManager.GetExistQueryByModel(table);
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
@@ -214,7 +212,7 @@ namespace Microarea.AdminServer.Services.BurgerData
 
                     bool existRow = false;
 
-                    using (SqlCommand command = new SqlCommand(queryExistRow, connection))
+                    using (SqlCommand command = new SqlCommand(SqlScriptManager.GetExistQueryByModel(table), connection))
                     {
                         foreach (BurgerDataParameter bdParam in burgerDataParameterKeyColumns)
                         {
