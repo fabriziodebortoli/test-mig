@@ -519,8 +519,8 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		[HttpPost("/api/database/check/{subscriptionKey}")]
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/check/{subscriptionKey}")]
 		public IActionResult ApiCheck(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -552,14 +552,16 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		[HttpPost("/api/database/update/{subscriptionKey}")]
+		/// <summary>
+		/// Update subscription database
+		/// </summary>
+		/// <param name="subscriptionKey"></param>
+		/// <param name="extSubDatabase"></param>
+		/// <returns></returns>
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/update/{subscriptionKey}")]
 		public IActionResult ApiUpdate(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
-			// @@TODO: in Angular devo effettuare un controllo preventivo e farmi passare anche le credenziali di amministrazione
-			// vedere se e' corretto riempire una classe esterna con le informazioni delle DatabaseCredentials e SubscriptionDatabase
-			// i nomi dei server devono essere tutti uguali!
-
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -670,8 +672,8 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="configuration"></param>
 		/// <param name="importDataContent"></param>
 		/// <returns></returns>
-		[HttpPost("/api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
 		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
@@ -733,8 +735,8 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="configuration"></param>
 		/// <param name="importDataContent"></param>
 		/// <returns></returns>
-		[HttpPost("/api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
 		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
@@ -794,8 +796,8 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="subscriptionKey"></param>
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
-		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
 		public IActionResult ApiDeleteDatabaseObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -846,8 +848,8 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="subscriptionKey"></param>
 		/// <param name="deleteContent"></param>
 		/// <returns></returns>
-		[HttpPost("/api/database/delete/{subscriptionKey}")]
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/delete/{subscriptionKey}")]
 		public IActionResult ApiDeleteDatabase(string subscriptionKey, [FromBody]DeleteDatabaseBodyContent deleteContent)
 		{
 			OperationResult opRes = new OperationResult();
@@ -899,8 +901,8 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="subscriptionKey"></param>
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
-		[HttpPost("/api/database/checkstructure/{subscriptionKey}")]
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/checkstructure/{subscriptionKey}")]
 		public IActionResult ApiCheckDatabaseStructure(string subscriptionKey, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -1009,8 +1011,8 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="configuration"></param>
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
-		[HttpPost("/api/database/upgradestructure/{subscriptionKey}/{configuration?}")]
 		//---------------------------------------------------------------------
+		[HttpPost("/api/database/upgradestructure/{subscriptionKey}/{configuration?}")]
 		public IActionResult ApiUpgradeDatabaseStructure(string subscriptionKey, string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -1108,9 +1110,9 @@ namespace Microarea.AdminServer.Controllers
 		///        ]
 		///	}
 		///</returns>
+		//---------------------------------------------------------------------
 		[HttpGet("/api/database/configurations/{subscriptionKey}/{configType}/{iso}")]
 		[Produces("application/json")]
-		//---------------------------------------------------------------------
 		public IActionResult ApiGetConfigurations(string subscriptionKey, string configType, string iso)
 		{
 			OperationResult opRes = new OperationResult();
@@ -1261,6 +1263,102 @@ namespace Microarea.AdminServer.Controllers
 			opRes.Result = true;
 			opRes.Content = externalSourcesList;
 			jsonHelper.AddPlainObject(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		/// <summary>
+		/// Delete di oggetti nel database di provisioning (SubscriptionDatabases / SubscriptionExternalSources)
+		/// </summary>
+		/// <param name="instanceKey"></param>
+		/// <param name="subscriptionKey"></param>
+		/// <param name="modelName"></param>
+		/// <param name="apiQueryData"></param>
+		/// <returns></returns>
+		//-----------------------------------------------------------------------------	
+		[HttpDelete("/api/query/{instanceKey}/{subscriptionKey}/{modelName}")]
+		[Produces("application/json")]
+		public IActionResult ApiQueryDelete(string instanceKey, string subscriptionKey, string modelName, [FromBody] APIQueryData apiQueryData)
+		{
+			OperationResult opRes = new OperationResult();
+
+			if (string.IsNullOrWhiteSpace(modelName))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.EmptyModelName;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (apiQueryData == null ||
+				(apiQueryData.MatchingFields.Count == 0 && apiQueryData.LikeFields.Count == 0))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.MissingBody;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			ModelTables modelTable = SqlScriptManager.GetModelTable(modelName);
+
+			if (modelTable == ModelTables.None)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.UnknownModelName;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// checking authorization
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			opRes = SecurityManager.ValidateAuthorization(authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, instanceKey, RoleLevelsStrings.Instance);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			bool queryResult;
+
+			try
+			{
+				DeleteScript deleteScript = new DeleteScript(SqlScriptManager.GetTableName(modelTable));
+				deleteScript.LogicOperatorForAllParameters = SqlLogicOperators.AND;
+
+				foreach (KeyValuePair<string, string> kvp in apiQueryData.MatchingFields)
+				{
+					deleteScript.Add(kvp.Key, kvp.Value, QueryComparingOperators.IsEqual, false);
+				}
+
+				queryResult = this.burgerData.ExecuteNoResultsQuery(deleteScript.GetParameterizedQuery(), deleteScript.SqlParameterList);
+			}
+			catch (Exception e)
+			{
+				opRes.Result = false;
+				opRes.Message = String.Format(Strings.ExceptionMessage, e.Message);
+				opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (!queryResult)
+			{
+				opRes.Result = false;
+				opRes.Message = String.Format(Strings.OperationKO, "BurgerData delete query failed.");
+				opRes.Code = (int)AppReturnCodes.InternalError;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// query executed without exception
+
+			opRes.Result = true;
+			opRes.Message = Strings.OperationOK;
+			opRes.Code = (int)AppReturnCodes.OK;
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}
