@@ -224,13 +224,35 @@ export class SubscriptionComponent implements OnInit {
     // per differenziare il click su delete e sulla open
     if (this.deleteExternalSourceClicked) {
 
+      // faccio un reverse loop ed elimino la riga corrispondente dalla lista
       for (var i = this.externalSources.length - 1; i >= 0; i--) {
         var source = this.externalSources[i];
-        if (source.Source === item['Source'])
+        if (source.Source === item['Source']) {
           this.externalSources.splice(i, 1);
+          break;
+        }
       }
 
       this.deleteExternalSourceClicked = false;
+
+      // chiamo l'API per eseguire la delete sul database
+      let queryDelete = this.modelService.queryAdminDelete(
+        this.model.SubscriptionKey, 
+        'SUBSCRIPTIONEXTERNALSOURCES', 
+        { MatchingFields: { InstanceKey: item['InstanceKey'], SubscriptionKey: item['SubscriptionKey'], Source: item['Source'] } }).subscribe(
+        deleteResult => {
+          if (!deleteResult.Result) {
+          }
+
+          queryDelete.unsubscribe();
+        },
+        deleteError => {
+          console.log(deleteError);
+          alert(deleteError);
+          queryDelete.unsubscribe();
+        }
+      )
+
       return;
     }
 
@@ -245,10 +267,9 @@ export class SubscriptionComponent implements OnInit {
     this.router.navigate(['/externalsource'], { queryParamsHandling: "preserve" });
   }
 
-  // da completare!
+  // sto eliminando una riga
   //--------------------------------------------------------------------------------------------------------
   deleteExternalSource() {
-    alert('delete');
     this.deleteExternalSourceClicked = true;
   }
 }
