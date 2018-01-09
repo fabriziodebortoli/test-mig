@@ -1,10 +1,3 @@
-<div>
-    <input id="{{cmpId}}" 
-        type="text" 
-        [ngModel]="model?.value"
-        [disabled]="!model?.enabled"
-        (blur)="onBlur()"
-        (keydown)="keyPress($event)"
-         (ngModelChange)="model.value=$event"
-         />
+<div [ngClass]="componentClass()">
+    <input id="{{cmpId}}" type="text" [ngModel]="model?.value" [disabled]="!model?.enabled" (blur)="onBlur()" (keydown)="keyPress($event)" (ngModelChange)="model.value=$event" />
 </div>

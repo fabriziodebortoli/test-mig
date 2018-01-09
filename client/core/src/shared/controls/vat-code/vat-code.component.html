@@ -1,5 +1,5 @@
 <!-- http://www.telerik.com/kendo-angular-ui/components/inputs/maskedtextbox/ -->
-<div class="tb-control tb-vat-code">
+<div class="tb-control tb-vat-code" [ngClass]="componentClass()">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <kendo-maskedtextbox (blur)="onBlur($event)" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [mask]="mask" [style.width.px]="width"></kendo-maskedtextbox>
     <button kendoButton (click)="onRealCheck($event)">RealCheck</button>
