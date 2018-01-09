@@ -32,7 +32,7 @@
 
 //i tag che iniziano con _ sono privati nel model lato client, e vengono wrappati da getter e setter
 const TCHAR* szTag = _T("tag");
-const TCHAR* szValue = _T("_value"); 
+const TCHAR* szValue = _T("_value");
 const TCHAR* szType = _T("_type");
 const TCHAR* szLength = _T("_length");
 const TCHAR* szStatus = _T("_status");
@@ -1114,7 +1114,7 @@ template <class T> void	DataObjArray::CalcPercentages(DataObjArray& arPercentage
 {
 	arPercentages.RemoveAll();
 	if (GetSize() == 0) return;
-	if (GetSize() == 1) 
+	if (GetSize() == 1)
 	{
 		arPercentages.Add(new DataPerc(100.0));
 		return;
@@ -1125,7 +1125,7 @@ template <class T> void	DataObjArray::CalcPercentages(DataObjArray& arPercentage
 	T aSum;
 	CalcSum<T>(aSum);
 
-	double dbl = ((double) aSum ) / 100.0;
+	double dbl = ((double)aSum) / 100.0;
 
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -1398,8 +1398,9 @@ void DataObj::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataObj::AssignJsonValue(CJsonParser& jsonParser)
 {
-	CString value = jsonParser.ReadString(szValue);
-	AssignFromXMLString(value);
+	CString value;
+	if (jsonParser.TryReadString(szValue, value))
+		AssignFromXMLString(value);
 }
 //-----------------------------------------------------------------------------
 void DataObj::SignalOnChanged()
@@ -1411,8 +1412,9 @@ void DataObj::SignalOnChanged()
 void DataObj::AssignFromJson(CJsonParser& jsonParser)
 {
 	AssignJsonValue(jsonParser);
-	if (jsonParser.Has(szStatus))
-		m_wDataStatus = jsonParser.ReadInt(szStatus);
+	int status;
+	if (jsonParser.TryReadInt(szStatus, status))
+		m_wDataStatus = status;
 }
 
 //@@ rivedere
@@ -2640,7 +2642,9 @@ void DataBool::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataBool::AssignJsonValue(CJsonParser& jsonParser)
 {
-	m_bValue = jsonParser.ReadBool(szValue);
+	bool value;
+	if (jsonParser.TryReadBool(szValue, value))
+		m_bValue = value;
 }
 //-----------------------------------------------------------------------------
 void DataBool::Assign(const BOOL bValue)
@@ -2880,7 +2884,9 @@ void DataInt::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataInt::AssignJsonValue(CJsonParser& jsonParser)
 {
-	m_nValue = jsonParser.ReadInt(szValue);
+	int value;
+	if (jsonParser.TryReadInt(szValue, value))
+		m_nValue = value;
 }
 //-----------------------------------------------------------------------------
 void DataInt::Assign(const short nValue)
@@ -3136,7 +3142,9 @@ void DataLng::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataLng::AssignJsonValue(CJsonParser& jsonParser)
 {
-	m_nValue = jsonParser.ReadInt(szValue);
+	int value;
+	if (jsonParser.TryReadInt(szValue, value))
+		m_nValue = value;
 }
 //-----------------------------------------------------------------------------
 void* DataLng::GetRawData(DataSize* pDataSize) const
@@ -3817,7 +3825,9 @@ void DataDbl::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataDbl::AssignJsonValue(CJsonParser& jsonParser)
 {
-	m_nValue = jsonParser.ReadDouble(szValue);
+	double value;
+	if (jsonParser.TryReadDouble(szValue, value))
+		m_nValue = value;
 }
 
 //============================================================================================
@@ -4005,13 +4015,13 @@ static void SetDateTimeTypeAndValue(DBTIMESTAMP& aDateTime, DataDate& aDataDate)
 		)
 		if (
 			(
-				aDateTime.day == MIN_TIME_DAY		&&
-				aDateTime.month == MIN_TIME_MONTH	&&
+				aDateTime.day == MIN_TIME_DAY &&
+				aDateTime.month == MIN_TIME_MONTH &&
 				aDateTime.year == MIN_TIME_YEAR
 				) ||
 				(
-					aDateTime.day == MIN_DAY		&&
-					aDateTime.month == MIN_MONTH	&&
+					aDateTime.day == MIN_DAY &&
+					aDateTime.month == MIN_MONTH &&
 					aDateTime.year == MIN_YEAR
 					)
 			)
@@ -4665,8 +4675,8 @@ void DataDate::Assign(const DBTIMESTAMP& aDateTime)
 		if (
 			!IsFullDate() ||
 			!(
-				aDateTime.day == MIN_DAY		&&
-				aDateTime.month == MIN_MONTH	&&
+				aDateTime.day == MIN_DAY &&
+				aDateTime.month == MIN_MONTH &&
 				aDateTime.year == MIN_YEAR
 				)	// Se la data e` nulla il tempo e` non nullo la data viene ignorata
 			)
@@ -4908,8 +4918,8 @@ BOOL DataDate::SetDate(const UWORD wDay, const UWORD wMonth, const SWORD wYear)
 
 	if (
 		(
-			wDay == MIN_DAY		&&
-			wMonth == MIN_MONTH	&&
+			wDay == MIN_DAY &&
+			wMonth == MIN_MONTH &&
 			wYear == MIN_YEAR
 			) ||
 			(
@@ -4928,8 +4938,8 @@ BOOL DataDate::SetDate(const UWORD wDay, const UWORD wMonth, const SWORD wYear)
 		m_DateStruct.year = wYear;
 
 		if (
-			wDay == MIN_DAY		&&
-			wMonth == MIN_MONTH	&&
+			wDay == MIN_DAY &&
+			wMonth == MIN_MONTH &&
 			wYear == MIN_YEAR
 			)
 		{
@@ -5411,8 +5421,9 @@ void DataEnum::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataEnum::AssignJsonValue(CJsonParser& jsonParser)
 {
-	CString value = jsonParser.ReadString(szValue);
-	AssignFromXMLString(value);
+	CString value;
+	if (jsonParser.TryReadString(szValue, value))
+		AssignFromXMLString(value);
 }
 //-----------------------------------------------------------------------------
 void DataEnum::Assign(LPCTSTR pszEnumStr)
@@ -6927,18 +6938,18 @@ CString DataArray::FormatDataForXML(BOOL b) const
 void DataArray::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 {
 	jsonSerializer.WriteString(szValue, FormatDataForXML());
-//  TODO qui sotto implementazione futura per quando anche la functionDescription sara' capace di gestire json
-/*	jsonSerializer.OpenArray(_T("values"));
+	//  TODO qui sotto implementazione futura per quando anche la functionDescription sara' capace di gestire json
+	/*	jsonSerializer.OpenArray(_T("values"));
 
-	for (int i = 0; i < GetSize(); i++)
-	{
-		DataObj* pObj = GetAt(i);
-		jsonSerializer.OpenObject(i);
-		jsonSerializer.WriteString(_T("value"), pObj->FormatDataForXML());
-		jsonSerializer.CloseObject();
-	}
+		for (int i = 0; i < GetSize(); i++)
+		{
+			DataObj* pObj = GetAt(i);
+			jsonSerializer.OpenObject(i);
+			jsonSerializer.WriteString(_T("value"), pObj->FormatDataForXML());
+			jsonSerializer.CloseObject();
+		}
 
-	jsonSerializer.CloseArray();*/
+		jsonSerializer.CloseArray();*/
 }
 
 //-----------------------------------------------------------------------------
