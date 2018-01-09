@@ -1,4 +1,4 @@
-import { Component, Input, AfterContentInit, ChangeDetectorRef, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, Input, AfterContentInit, ChangeDetectorRef, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
@@ -150,11 +150,11 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         this.show = false;
         let slice = await this.store.select(this.selector).take(1).toPromise();
 
-        if (slice.address) {
+        if (slice.address && address.address_components.filter(x => x.types.find(x => x === 'route')).length > 0) {
             slice.address.value = address.address_components.filter(x => x.types.find(x => x === 'route'))[0].long_name;
         }
 
-        if (slice.streetNo) {
+        if (slice.streetNo && address.address_components.filter(x => x.types.find(x => x === 'street_number')).length > 0) {
             slice.streetNo.value = address.address_components.filter(x => x.types.find(x => x === 'street_number'))[0].long_name;
         }
 
@@ -168,34 +168,36 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
             }
         }
 
-        if (slice.county) {
+        if (slice.county && address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_2')).length > 0) {
             slice.county.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_2'))[0].short_name;
         }
 
-        if (slice.zipCode) {
+        if (slice.zipCode && address.address_components.filter(x => x.types.find(x => x === 'postal_code')).length > 0) {
             slice.zipCode.value = address.address_components.filter(x => x.types.find(x => x === 'postal_code'))[0].long_name;
         }
-        if (slice.region) {
+        if (slice.region && address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1')).length > 0) {
             slice.region.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].long_name;
         }
 
-        if (slice.country) {
+        if (slice.country && address.address_components.filter(x => x.types.find(x => x === 'country')).length > 0) {
             slice.country.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].long_name;
         }
 
-        if (slice.isoCode) {
+        if (slice.isoCode && address.address_components.filter(x => x.types.find(x => x === 'country')).length > 0) {
             slice.isoCode.value = address.address_components.filter(x => x.types.find(x => x === 'country'))[0].short_name;
         }
 
-        if (slice.federal) {
+        if (slice.federal && address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1')).length > 0) {
             slice.federal.value = address.address_components.filter(x => x.types.find(x => x === 'administrative_area_level_1'))[0].short_name;
         }
 
-        if (slice.latitude)
+        if (slice.latitude) {
             slice.latitude.value = address.geometry.location.lat;
+        }
 
-        if (slice.longitude)
+        if (slice.longitude) {
             slice.longitude.value = address.geometry.location.lng;
+        }
 
         this.changeDetectorRef.detectChanges();
     }

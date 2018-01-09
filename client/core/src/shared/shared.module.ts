@@ -310,12 +310,14 @@ const TB_DIRECTIVES = [
 
 import { TbColorPipe } from './pipes/tbColor.pipe';
 export { TbColorPipe } from './pipes/tbColor.pipe';
+import { TbToUpper } from './pipes/toupper.pipe';
+export { TbToUpper } from './pipes/toupper.pipe';
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
 import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
-const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe, TbToUpper];
 
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';

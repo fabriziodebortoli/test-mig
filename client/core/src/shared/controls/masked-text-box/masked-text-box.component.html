@@ -1,4 +1,4 @@
 <div class="tb-control tb-masked-text-box">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-maskedtextbox [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [mask]="mask" [rules]="rules" [style.width.px]="width"></kendo-maskedtextbox>
+    <kendo-maskedtextbox [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [mask]="mask" [rules]="rules" [style.width.px]="width"></kendo-maskedtextbox>
 </div>
