@@ -843,7 +843,7 @@ BOOL Expression::Parse(Parser& lex, const DataType& aResultType, BOOL bKeepStrin
 	m_bHasRuleFields			= expParse.HasRuleFields();
 	m_bHasDynamicFragment		= expParse.HasDynamicFragment();
 
-	m_strExprString	= "";
+	m_strExprString.Empty();
 	if (bKeepString)
 	{
 		m_strExprString = expParse.GetString();

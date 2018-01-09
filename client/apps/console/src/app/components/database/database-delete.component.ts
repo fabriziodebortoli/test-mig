@@ -27,6 +27,10 @@ export class DatabaseDeleteComponent implements OnInit {
 
   isReadOnly: boolean = false;
 
+   // Opendialog variables
+   openMsgDialog: boolean = false;
+   msgDialog: string;
+
   // DeleteOpenDialog variables
   openDeleteDialog: boolean = false;
   deleteDialogResult: boolean = false;
@@ -151,7 +155,8 @@ export class DatabaseDeleteComponent implements OnInit {
     let adminPw: string = this.credentialsFields[1].value;
 
     if (adminLogin === '') {
-      alert('Admin login is empty!');
+      this.msgDialog = 'Admin login is empty!';
+      this.openMsgDialog = true;
       return;
     }
 
@@ -172,8 +177,10 @@ export class DatabaseDeleteComponent implements OnInit {
           // I return to subscription homepage and meanwhile databases will be deleted
           this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: this.model.SubscriptionKey } });
         }
-        else
-          alert('Unable to connect! ' + testResult.Message);
+        else {
+          this.msgDialog = 'Unable to connect! ' + testResult.Message;
+          this.openMsgDialog = true;
+        }
 
         // clear local array with dialog values
         this.credentialsFields.forEach(element => { element.value = '' });
@@ -197,7 +204,9 @@ export class DatabaseDeleteComponent implements OnInit {
       subscribe(
       deleteResult => {
 
-        alert('Delete operation successfully completed');
+        this.msgDialog = 'Delete operation successfully completed';
+        this.openMsgDialog = true;
+
         this.isDeleting = false;
         deleteOperation.unsubscribe();
       },
@@ -224,7 +233,9 @@ export class DatabaseDeleteComponent implements OnInit {
       subscribe(
       deleteResult => {
 
-        alert('Delete operation successfully completed');
+        this.msgDialog = 'Delete operation successfully completed';
+        this.openMsgDialog = true;
+
         this.isDeleting = false;
         deleteOperation.unsubscribe();
       },

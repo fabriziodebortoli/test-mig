@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microarea.AdminServer.Model.Services.Queries;
+using System;
 
 namespace Microarea.AdminServer.Services.BurgerData
 {
@@ -267,7 +268,9 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return ModelTables.Instances;
 				case "SUBSCRIPTIONINSTANCES":
 					return ModelTables.SubscriptionInstances;
-                default:
+				case "SUBSCRIPTIONEXTERNALSOURCES":
+					return ModelTables.SubscriptionExternalSources;
+				default:
                     return ModelTables.None;
             }
         }

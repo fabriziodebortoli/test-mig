@@ -1,3 +1,7 @@
+<!-- #begin dialogs -->
+<admin-dialog [mode]="'message'" [title]="'Update'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
+<!-- #end dialogs -->
+
 <div class="row adminTile">
   <div class="box" style="width:60%">
     <admin-button [buttonText]="'Check databases structure'" [primary]=true (click)="checkDatabase()" [readOnly]="isCheckDbRunning || isUpdateDbRunning"></admin-button>

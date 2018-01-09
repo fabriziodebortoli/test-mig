@@ -19,6 +19,8 @@ namespace Microarea.AccountManager.Controllers
         private void SetCulture(string authenticationToken)
         {
             LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            if (loginManagerSession == null)
+                return;
             try
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(loginManagerSession.PreferredLanguage);

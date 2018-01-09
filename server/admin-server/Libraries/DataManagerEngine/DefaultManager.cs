@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
+
+using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.NameSolver;
 using Microarea.AdminServer.Libraries.DatabaseManager;
-using TaskBuilderNetCore.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers.Database;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
@@ -30,16 +30,16 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 
 		// array di appoggio x la gestione dell'importazione dei dati di default
 		// in fase di creazione/aggiornamento del database aziendale
-		private ArrayList importFileList = new ArrayList();
+		private List<FileInfo> importFileList = new List<FileInfo>();
 
 		private Thread myThread;
 
 		// array di appoggio x tenere traccia dei file contenenti i dati di default da richiamare
 		// per le sole tabelle mancanti
-		private ArrayList importFileForMissingTableList = new ArrayList();
-		private ArrayList importAppendFileForMissingTableList = new ArrayList();
+		private List<FileForMissingTable> importFileForMissingTableList = new List<FileForMissingTable>();
+		private List<FileForMissingTable> importAppendFileForMissingTableList = new List<FileForMissingTable>();
 
-		private Dictionary<string, ArrayList> filesForAppAndModule = new Dictionary<string, ArrayList>();
+		//private Dictionary<string, ArrayList> filesForAppAndModule = new Dictionary<string, ArrayList>();
 		# endregion
 
 		# region Costruttori

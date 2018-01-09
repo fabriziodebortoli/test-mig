@@ -1,14 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+
+using TaskBuilderNetCore.Interfaces;
+using Microarea.AdminServer.Libraries.DataManagerEngine;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
-using Microarea.AdminServer.Libraries.DataManagerEngine;
-using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.AdminServer.Libraries.DatabaseManager
 {
@@ -38,9 +39,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		private ContextInfo contextInfo = null;
 		private Diagnostic diagnostic = null;
 
-		private ArrayList tbLevel1List = null;
-		private ArrayList tbLevel2List = null;
-		private ArrayList tbLevel3List = null;
+		private List<string> tbLevel1List = null;
+		private List<string> tbLevel2List = null;
+		private List<string> tbLevel3List = null;
 
 		// array di appoggio (contenente un elenco di script) valorizzato a seconda del livello
 		private List<string> scriptList = null;
@@ -437,9 +438,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			dbStructInfo.GraphLevel2.Topo();
 			dbStructInfo.GraphLevel3.Topo();
 
-			tbLevel1List = new ArrayList();
-			tbLevel2List = new ArrayList();
-			tbLevel3List = new ArrayList();
+			tbLevel1List = new List<string>();
+			tbLevel2List = new List<string>();
+			tbLevel3List = new List<string>();
 
 			if (dbStructInfo.KindOfDb != KindOfDatabase.System)
 			{
@@ -495,7 +496,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// <param name="graph">oggetto di tipo graph</param>
 		/// <param name="tbLevList">arraylist di supporto per i moduli di TB</param>
 		//---------------------------------------------------------------------------
-		private void SortArrays(DirectGraph graph, ArrayList tbLevList)
+		private void SortArrays(DirectGraph graph, List<string> tbLevList)
 		{
 			for (int i = graph.SortedArray.Count - 1; i >= 0; i--)
 			{
@@ -504,7 +505,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 				if (string.Compare(appName, DatabaseLayerConsts.TBModuleName, StringComparison.OrdinalIgnoreCase) == 0)
 				{
-					tbLevList.Add(graph.SortedArray[i]);
+					tbLevList.Add(graph.SortedArray[i] as string);
 					graph.SortedArray.RemoveAt(i);
 				}
 			}
@@ -522,7 +523,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		private bool ManageSQLScript
 			(
-			ArrayList tbLevList,
+			List<string> tbLevList,
 			DirectGraph graph,
 			ModuleDBInfoList moduleToUpdateList,
 			int level,
@@ -541,10 +542,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				if (dbStructInfo.KindOfDb != KindOfDatabase.System)
 				{
 					if (AnalyzeSQLScript(tbLevList, graph, moduleToUpdateList) && dbStructInfo.DBMarkInfo.DBMarkTable.Exists())
-						ok = AnalyzeSQLScript(graph.SortedArray, graph, moduleToUpdateList);
+						ok = AnalyzeSQLScript(graph.SortedArray.Cast<string>().ToList(), graph, moduleToUpdateList);
 				}
 				else
-					ok = AnalyzeSQLScript(graph.SortedArray, graph, moduleToUpdateList);
+					ok = AnalyzeSQLScript(graph.SortedArray.Cast<string>().ToList(), graph, moduleToUpdateList);
 			}
 			catch (Exception)
 			{
@@ -564,7 +565,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// <param name="moduleToUpdateList">array di oggetti di tipo ModuleDBInfoList</param>
 		/// <returns>successo dell'operazione</returns>
 		//---------------------------------------------------------------------------
-		private bool AnalyzeSQLScript(ArrayList listModule, DirectGraph graph, ModuleDBInfoList moduleToUpdateList)
+		private bool AnalyzeSQLScript(List<string> listModule, DirectGraph graph, ModuleDBInfoList moduleToUpdateList)
 		{
 			bool ok = true;
 			ModuleDBInfo dbInfo, dbInfoChild = null;
@@ -954,9 +955,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		{
 			bool success = true;
 
-			tbLevel1List = new ArrayList();
-			tbLevel2List = new ArrayList();
-			tbLevel3List = new ArrayList();
+			tbLevel1List = new List<string>();
+			tbLevel2List = new List<string>();
+			tbLevel3List = new List<string>();
 
 			// se sono in fase di creazione di tabelle mancanti richiamo il Topological Sorting,
 			// se invece sto facendo un vero e proprio upgrade richiamo il Weighted Topological Sorting
@@ -1072,9 +1073,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (dbStructInfo.ModuleToRecoveryList.Count > 0)
 			{
-				tbLevel1List = new ArrayList();
-				tbLevel2List = new ArrayList();
-				tbLevel3List = new ArrayList();
+				tbLevel1List = new List<string>();
+				tbLevel2List = new List<string>();
+				tbLevel3List = new List<string>();
 
 				dbStructInfo.RecoveryGraphLevel1.Topo();
 				dbStructInfo.RecoveryGraphLevel2.Topo();
@@ -1600,7 +1601,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				? string.Format(DatabaseLayerConsts.SqlCreateTableTextUnicode, auditTable)
 				: string.Format(DatabaseLayerConsts.SqlCreateTableText, auditTable);
 
-			ArrayList cols = dbStructInfo.CatalogInfo.GetColumnsInfo(auditTable, contextInfo.Connection);
+			List<CatalogColumn> cols = dbStructInfo.CatalogInfo.GetColumnsInfo(auditTable, contextInfo.Connection);
 
 			foreach (CatalogColumn catCol in cols)
 			{
@@ -1672,7 +1673,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// <param name="columnsInfo">array di colonne</param>
 		/// <returns>script di INSERT</returns>
 		//----------------------------------------------------------------------
-		private string GetInsertIntoScriptForSql_Rel2(string sourceTable, string destinationTable, ArrayList columnsInfo)
+		private string GetInsertIntoScriptForSql_Rel2(string sourceTable, string destinationTable, List<CatalogColumn> columnsInfo)
 		{
 			// non indicando la colonna di tipo IDENTITY nella INSERT non serve impostare la proprietà SET IDENTITY_INSERT
 			string script = string.Format("INSERT INTO [{0}]\r\n(", destinationTable);
@@ -1725,7 +1726,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				? string.Format(DatabaseLayerConsts.SqlCreateTableAuditRel3Unicode, auditTable)
 				: string.Format(DatabaseLayerConsts.SqlCreateTableAuditRel3, auditTable);
 
-			ArrayList cols = dbStructInfo.CatalogInfo.GetColumnsInfo(auditTable, contextInfo.Connection);
+			List<CatalogColumn> cols = dbStructInfo.CatalogInfo.GetColumnsInfo(auditTable, contextInfo.Connection);
 
 			foreach (CatalogColumn catCol in cols)
 			{
@@ -1799,7 +1800,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// <param name="columnsInfo">array di colonne</param>
 		/// <returns>script di INSERT</returns>
 		//----------------------------------------------------------------------
-		private string GetInsertIntoScriptForSql_Rel3(string sourceTable, string destinationTable, ArrayList columnsInfo)
+		private string GetInsertIntoScriptForSql_Rel3(string sourceTable, string destinationTable, List<CatalogColumn> columnsInfo)
 		{
 			string script = string.Format("INSERT INTO [{0}]\r\n(", destinationTable);
 
@@ -2448,10 +2449,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		public string PKName = string.Empty; // nome pk 
 		public string ErpName = string.Empty; // nome tabella corrispondente in ERP
 
-		public ArrayList ColumnsInfo = new ArrayList();	// array di colonne (oggetti di tipo CatalogColumn)
+		public List<CatalogColumn> ColumnsInfo = new List<CatalogColumn>();	// array di colonne (oggetti di tipo CatalogColumn)
 		public StringCollection PKColumnsInfo = new StringCollection(); // collection di nomi di segmenti di chiave primaria
 
-		public ArrayList ErpColumnsInfo = new ArrayList();	// array di colonne (oggetti di tipo CatalogColumn)
+		public List<CatalogColumn> ErpColumnsInfo = new List<CatalogColumn>();	// array di colonne (oggetti di tipo CatalogColumn)
 		public StringCollection ErpPKColumnsInfo = new StringCollection(); // collection di nomi di segmenti di chiave primaria
 
 		/// <summary>

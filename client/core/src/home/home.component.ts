@@ -1,10 +1,10 @@
+import { TbComponentService } from './../core/services/tbcomponent.service';
 import { EventManagerService } from './../core/services/event-manager.service';
 import { ThemeService } from './../core/services/theme.service';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './../settings/settings-container/settings-container.component';
 import { BoolEditComponent } from './../shared/controls/bool-edit/bool-edit.component';
 import { SettingsService } from './../core/services/settings.service';
-import { OldLocalizationService } from './../core/services/oldlocalization.service';
-import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 import { Subscription } from '../rxjs.imports';
 
@@ -28,6 +28,7 @@ import { SidenavService } from './../core/services/sidenav.service';
 import { LoadingService } from './../core/services/loading.service';
 
 import { MenuService } from './../menu/services/menu.service';
+import { TbComponent } from './../shared/components/tb.component';
 
 @Component({
   selector: 'tb-home',
@@ -36,7 +37,7 @@ import { MenuService } from './../menu/services/menu.service';
   encapsulation: ViewEncapsulation.None,
   providers: [ComponentInfoService]
 })
-export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
+export class HomeComponent extends TbComponent implements OnDestroy, AfterContentInit, OnInit {
 
   @ViewChild('sidenavleft') sidenavleft;
   @ViewChild('sidenavright') sidenavright;
@@ -63,7 +64,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public layoutService: LayoutService,
     public tabberService: TabberService,
     public menuService: MenuService,
-    public localizationService: OldLocalizationService,
     public settingsService: SettingsService,
     public enumsService: EnumsService,
     public formattersService: FormattersService,
@@ -71,15 +71,18 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public loadingService: LoadingService,
     public resolver: ComponentFactoryResolver,
     public themeService: ThemeService,
-    public eventManagerService: EventManagerService
-  ) {
-
+    public eventManagerService: EventManagerService,
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
+  ) { 
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
     this.initialize();
   }
 
   initialize() {
 
-    this.loadingService.setLoading(true, "connecting...");
+    this.loadingService.setLoading(true,  this._TB('connecting...'));
 
     this.isDesktop = this.infoService.isDesktop;
 
@@ -122,19 +125,19 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     }));
 
     this.menuService.getMenuElements();
-    this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
     this.formattersService.loadFormattersTable();
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
-      this.loadingService.setLoading(!connected, connected ? "" : "connecting...");
+      this.loadingService.setLoading(!connected, connected ? "" : this._TB('connecting...'));
     }));
 
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.taskbuilderService.openConnection();
   }
 

@@ -37,7 +37,7 @@ namespace Microarea.EasyBuilder
 		/// Occurs when a component has been deleted
 		/// </summary>
 		//-----------------------------------------------------------------------------
-		public event EventHandler<EventArgs> ComponentDeleted;
+		public event EventHandler<DeleteObjectEventArgs> ComponentDeleted;
 
 		//-----------------------------------------------------------------------------
 		internal event EventHandler<CodeMethodEditorEventArgs> OpenCodeEditor;
@@ -77,7 +77,7 @@ namespace Microarea.EasyBuilder
 
 		///<remarks />
 		//-----------------------------------------------------------------------------
-		protected virtual void OnComponentDeleted(EventArgs e)
+		protected virtual void OnComponentDeleted(DeleteObjectEventArgs e)
 		{
 			if (ComponentDeleted != null)
 				ComponentDeleted(this, e);
@@ -112,7 +112,10 @@ namespace Microarea.EasyBuilder
 		}
 
 		//-----------------------------------------------------------------------------
-		internal ComponentDeclarator ComponentDeclarator { get { return componentDeclarator; } set { componentDeclarator = value; } }
+        /// <summary>
+        /// business objects declarator 
+        /// </summary>
+		public ComponentDeclarator ComponentDeclarator { get { return componentDeclarator; } set { componentDeclarator = value; } }
 
 		//---------------------------------------------------------------------
 		internal ISelectionService SelectionService

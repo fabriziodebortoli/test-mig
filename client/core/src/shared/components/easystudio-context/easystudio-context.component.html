@@ -2,12 +2,12 @@
 
     <div class="appAndModule" *ngIf="contextIsValid()">
         <div class="ebButtons">
-            {{localizationService?.localizedElements?.CurrentApplication}} :
+            {{_TB('Current Application')}} :
             <b>{{easystudioService.currentApplication}}</b>
         </div>
 
         <div class="ebButtons">
-            {{localizationService?.localizedElements?.CurrentModule}} :
+            {{_TB('Current Module')}} :
             <b>{{easystudioService.currentModule}}</b>
         </div>
     </div>
@@ -15,7 +15,7 @@
         <m4-icon icon="tb-inscription" (click)="changeCustomizationContext()" matTooltip="{{openCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
     </div>
     <div *ngIf="!contextIsValid()" class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-emptystar" (click)="openDefaultContextMethod()" matTooltip="{{localizationService?.localizedElements?.OpenDefaultContext}}" matTooltipShowDelay="500"></m4-icon>
+        <m4-icon icon="tb-emptystar" (click)="openDefaultContextMethod()" matTooltip="{{_TB('Open Default Context')}}" matTooltipShowDelay="500"></m4-icon>
     </div>
     <div *ngIf="contextIsValid()" class="ebButtons topBarMenuComponentLike">
         <m4-icon icon="tb-shutdown" (click)="close()" matTooltip="{{closeCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
@@ -30,7 +30,7 @@
         <div class="central">
             <nav>
                 <div class=" list8">
-                    <h1 class="tit">{{localizationService?.localizedElements?.Applications}}</h1>
+                    <h1 class="tit">{{_TB('Applications')}}</h1>
                     <ul *ngFor="let app of easystudioService.getApplications()">
                         <li id="{{app}}" [ngClass]="{'selected': applicSelected === app}">
                             <span (click)="setApplic(app);">{{app}}</span>
@@ -40,7 +40,7 @@
             </nav>
             <article id="article" *ngIf="applicSelected !== undefined">
                 <div class=" list8">
-                    <h1 class="tit">{{localizationService?.localizedElements?.Modules}}</h1>
+                    <h1 class="tit">{{_TB('Modules')}}</h1>
                     <ul *ngFor="let mod of easystudioService.getModules()">
                         <li id="{{mod}}" [ngClass]="{'selected': moduleSelected === mod}">
                             <span (click)="setModule(mod)">{{mod}}</span>
@@ -52,33 +52,33 @@
 
         <div *ngIf="!newPairVisible" class="pushbutton">
             <kendo-textbox-container>
-                <label [for]="applicationChosen1">{{localizationService?.localizedElements?.SelectedApplication}}</label>
+                <label [for]="applicationChosen1">{{_TB('Selected application')}}</label>
                 <input kendoTextBox #applicationChosen1 [(ngModel)]="applicSelected" />
             </kendo-textbox-container>
             <kendo-textbox-container>
-                <label [for]="moduleChosen1">{{localizationService?.localizedElements?.SelectedModule}}</label>
+                <label [for]="moduleChosen1">{{_TB('Selected module')}}</label>
                 <input kendoTextBox #moduleChosen1 [(ngModel)]="moduleSelected" />
             </kendo-textbox-container>
-            <m4-icon class="pushB" icon="tb-plusmathfilled" (click)="showNewPair(true)" matTooltip="{{localizationService?.localizedElements?.NewApplicationLabel}}" matTooltipShowDelay="500"></m4-icon>
+            <m4-icon class="pushB" icon="tb-plusmathfilled" (click)="showNewPair(true)" matTooltip="{{_TB('Insert new application name')}}" matTooltipShowDelay="500"></m4-icon>
             <m4-icon class="pushB" icon="{{wantSetPairAsDefault || isDefault ? 'tb-filledstar' : 'tb-emptystar'}}" (click)="setDefaultContext()"></m4-icon>
         </div>
         <div *ngIf="newPairVisible" class="pushbutton selected">
             <kendo-textbox-container class="textBoxCentral">
-                <label class="selected" [for]="applicationChosen">{{localizationService?.localizedElements?.NewApplicationLabel}}</label>
+                <label class="selected" [for]="applicationChosen">{{_TB('Insert new application name')}}</label>
                 <input kendoTextBox #applicationChosen [(ngModel)]="newApplic" />
             </kendo-textbox-container>
             <kendo-textbox-container class="textBoxCentral">
-                <label class="selected" [for]="moduleChosen">{{localizationService?.localizedElements?.NewModuleLabel}}</label>
+                <label class="selected" [for]="moduleChosen">{{_TB('Insert new module name')}}</label>
                 <input kendoTextBox #moduleChosen [(ngModel)]="newModule" />
             </kendo-textbox-container>
-            <m4-icon class="pushB" icon="tb-closewindows" (click)="showNewPair(false)" matTooltip="{{localizationService?.localizedElements?.CloseLabel}}" matTooltipShowDelay="500"></m4-icon>
-            <m4-icon class="pushB" icon="tb-select" (click)="addNewPair(newApplic, newModule)" matTooltip="{{localizationService?.localizedElements?.Ok}}" matTooltipShowDelay="500"></m4-icon>
+            <m4-icon class="pushB" icon="tb-closewindows" (click)="showNewPair(false)" matTooltip="{{_TB('Close')}}" matTooltipShowDelay="500"></m4-icon>
+            <m4-icon class="pushB" icon="tb-select" (click)="addNewPair(newApplic, newModule)" matTooltip="{{_TB('Ok') }}" matTooltipShowDelay="500"></m4-icon>
         </div>
 
         <kendo-dialog-actions>
-            <button kendoButton (click)="refresh()">{{localizationService?.localizedElements?.Refresh}}</button>
-            <button kendoButton (click)="ok()" [disabled]="!selectionIsValid() || newPairVisible">{{localizationService?.localizedElements?.Ok}}</button>
-            <button kendoButton (click)="cancel()">{{localizationService?.localizedElements?.Cancel}}</button>
+            <button kendoButton (click)="refresh()">{{_TB('Refresh') }}</button>
+            <button kendoButton (click)="ok()" [disabled]="!selectionIsValid() || newPairVisible">{{_TB('Ok')}}</button>
+            <button kendoButton (click)="cancel()">{{_TB('Cancel') }}</button>
         </kendo-dialog-actions>
     </kendo-dialog>
 </div>

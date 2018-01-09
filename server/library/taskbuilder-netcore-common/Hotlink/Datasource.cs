@@ -135,8 +135,63 @@ namespace Microarea.Common.Hotlink
         public Datasource(UserInfo ui)
         {
             this.Session = new TbSession(ui, "");
-         }
+        }
+
+        //---------------------------------------------------------------------
+        private string PrepareCustomFilter(string cf)
+        {
+            string customWhere = string.Empty;
+            CustomFilters customFilters = null;
+
+            if (cf.IsNullOrEmpty() || cf == "{}" || /*tapullo*/ cf == "\"\"")
+                return string.Empty;
+
+            customFilters = JsonConvert.DeserializeObject<CustomFilters>(cf);
+            if (customFilters == null || customFilters.filters == null)
+            {
+                Debug.Fail("Missing Xml Description of " + Session.Namespace);
+                return string.Empty;
+            }
+            
+            if (customFilters != null && customFilters.filters != null && customFilters.filters.Count > 0)
+            {
+                bool first = true;
+                foreach (FilterField ff in customFilters.filters)
+                {
+                    if (!first)
+                    {
+                        customWhere += ' ' + customFilters.logic + ' ';
+                    }
+                    else
+                        first = false;
+
+                    if (ff.Operator.CompareNoCase("Contains"))
+                        customWhere += ff.field + string.Format(" LIKE '%{0}%'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("DoesNotContain"))
+                        customWhere += ff.field + string.Format("NOT LIKE '%{0}%'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsEqualTo"))
+                        customWhere += ff.field + string.Format(" = {0}", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
+                        customWhere += ff.field + string.Format(" <> {0}", ff.Value);
+                    else if (ff.Operator.CompareNoCase("StartsWith"))
+                        customWhere += ff.field + string.Format(" LIKE '{0}%'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("EndsWith"))
+                        customWhere += ff.field + string.Format(" LIKE '%{0}'", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNull"))
+                        customWhere += ff.field + string.Format(" IS NULL", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNotNull"))
+                        customWhere += ff.field + string.Format(" IS NOT NULL", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsEmpty"))
+                        customWhere += ff.field + string.Format(" = ''", ff.Value);
+                    else if (ff.Operator.CompareNoCase("IsNotEmpty"))
+                        customWhere += ff.field + string.Format(" <> ''", ff.Value);
+                }
+            }
+
+            return customWhere;
+        }
  
+        //---------------------------------------------------------------------
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
@@ -147,17 +202,6 @@ namespace Microarea.Common.Hotlink
             }
 
             selection_type.Data = selectionType;
-
-            CustomFilters customFilters = null;
-            string cf = requestQuery["customFilters"];
-            if (cf.IsNullOrEmpty() || cf == "{}" || /*tapullo*/ cf == "\"\"")
-                cf = string.Empty;
-            else
-            {
-                customFilters = JsonConvert.DeserializeObject<CustomFilters>(cf);
-                if (customFilters == null || customFilters.filters == null)
-                    Debug.Fail("Missing Xml Description of " + Session.Namespace);
-            }
 
             string likeValue = requestQuery["filter"];
             if (String.IsNullOrEmpty(likeValue) || /*tapullo*/ likeValue== "\"\"") 
@@ -189,6 +233,8 @@ namespace Microarea.Common.Hotlink
                 // TODO RSWEB: paginazione anche nella lettura dati da xml ?
                 return LoadDataFile();
             }
+
+            string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
 
             //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
             FunctionPrototype args = new FunctionPrototype();
@@ -285,43 +331,6 @@ namespace Microarea.Common.Hotlink
                 this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
             }
 
-            //------------------------------ 
-            string customWhere = string.Empty;
-            if (customFilters != null && customFilters.filters != null && customFilters.filters.Count > 0)
-            {
-                bool first = true;
-                foreach (FilterField ff in customFilters.filters)
-                {
-                    if (!first)
-                    {
-                        customWhere += ' ' + customFilters.logic + ' ';
-                    }
-                    else
-                        first = false;
-
-                    if (ff.Operator.CompareNoCase("Contains"))
-                        customWhere += ff.field + string.Format(" LIKE '%{0}%'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("DoesNotContain"))
-                        customWhere += ff.field + string.Format("NOT LIKE '%{0}%'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsEqualTo"))
-                        customWhere += ff.field + string.Format(" = {0}", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
-                        customWhere += ff.field + string.Format(" <> {0}", ff.Value);
-                    else if (ff.Operator.CompareNoCase("StartsWith"))
-                        customWhere += ff.field + string.Format(" LIKE '{0}%'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("EndsWith"))
-                        customWhere += ff.field + string.Format(" LIKE '%{0}'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNull"))
-                        customWhere += ff.field + string.Format(" IS NULL", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNotNull"))
-                        customWhere += ff.field + string.Format(" IS NOT NULL", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsEmpty"))
-                        customWhere += ff.field + string.Format(" = ''", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNotEmpty"))
-                        customWhere += ff.field + string.Format(" <> ''", ff.Value);
-                }
-            }
-            
             if (!this.CurrentQuery.Define(query))
             {
                 Debug.Fail("DS fails to prepare hotlink query");
@@ -329,6 +338,7 @@ namespace Microarea.Common.Hotlink
             }
 
             this.CurrentQuery.SetCustomWhere(customWhere);
+
             if (isPaged)
             {
                 this.CurrentQuery.SetPaging(pageNum, rowsPerPage);
@@ -363,6 +373,8 @@ namespace Microarea.Common.Hotlink
                 }
             }
 
+            string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
+
             string response = await TbSession.GetRadarQuery(Session, documentId, name);
             if (response.IsNullOrEmpty())
             {
@@ -384,6 +396,8 @@ namespace Microarea.Common.Hotlink
                 Debug.Fail("DS fails to prepare radar query");
                 return null;
             }
+
+            this.CurrentQuery.SetCustomWhere(customWhere);
 
             if (isPaged)
             {

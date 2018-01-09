@@ -5966,7 +5966,10 @@ void CParsedCtrl::UpdateCtrlStatus()
 	if (m_pData)
 	{
 		EnableCtrl(!m_pData->IsReadOnly());
-		//@@TODO		ShowCtrl	(m_pData->IsHide() ? SW_HIDE : SW_SHOW);
+		bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
+		bool bHide = TRUE == m_pData->IsHide();
+		if (bVisible == bHide)
+			ShowCtrl (m_pData->IsHide() ? SW_HIDE : SW_SHOW);
 	}
 }
 
@@ -8817,6 +8820,12 @@ void CParsedCtrl::ReadPropertiesFromJson()
 
 	if (m_pOwnerWndDescription->m_nTextLimit > 0)
 		SetCtrlMaxLen(m_pOwnerWndDescription->m_nTextLimit);
+	
+	CString strCaption;
+	if (m_pCaption)
+		m_pCaption->GetWindowText(strCaption);
+	if (strCaption != m_pOwnerWndDescription->m_strControlCaption)
+		SetCtrlCaption(m_pOwnerWndDescription->m_strControlCaption);
 }
 
 //=============================================================================

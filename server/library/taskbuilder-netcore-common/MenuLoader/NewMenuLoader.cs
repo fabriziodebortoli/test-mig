@@ -65,7 +65,6 @@ namespace Microarea.Common.MenuLoader
 			XmlDocument doc = null;
 			try
 			{
-                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
                 MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
 				menuLoader.LoadAllMenus(false, clearCachedData);
 				doc = menuLoader.ProcessMenu();
@@ -266,36 +265,6 @@ namespace Microarea.Common.MenuLoader
 				hiddenTileAttribute.Value = "true";
 			}
 		}
-
-		//-----------------------------------------------------------------
-		public static string GetLocalizationJson()
-        {
-			StringBuilder sb = new StringBuilder();
-			using (StringWriter sw = new StringWriter(sb))
-			{
-				JsonWriter jsonWriter = new JsonTextWriter(sw);
-
-				jsonWriter.WriteStartObject();
-				jsonWriter.WritePropertyName("LocalizedElements");
-
-				jsonWriter.WriteStartObject();
-                foreach (var pi in typeof(MenuStrings).GetProperties())
-                {
-                    if (pi.PropertyType != typeof(string))
-                        continue;
-					jsonWriter.WritePropertyName(pi.Name);
-					jsonWriter.WriteValue(pi.GetValue(null));
-				}
-
-				jsonWriter.WriteEndObject();
-				jsonWriter.WriteEndObject();
-
-				jsonWriter.Close();
-				return sb.ToString();
-			}
-		
-		}
-
 
 		//---------------------------------------------------------------------	
 		private static string GetNrOfElementsToShow(XmlDocument doc)

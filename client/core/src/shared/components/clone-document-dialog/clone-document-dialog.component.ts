@@ -1,7 +1,8 @@
+import { TbComponent } from './../../../shared/components/tb.component';
 import { MatSnackBar } from '@angular/material';
 import { EasystudioService } from './../../../core/services/easystudio.service';
-import { OldLocalizationService } from './../../../core/services/oldlocalization.service';
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, Input } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 
 @Component({
     selector: 'tb-clone-doc-dialog',
@@ -10,7 +11,7 @@ import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, Inp
 })
 
 
-export class CloneDocumentDialogComponent {
+export class CloneDocumentDialogComponent extends TbComponent {
 
     @Input() object: any;
     public docName: string;
@@ -18,9 +19,14 @@ export class CloneDocumentDialogComponent {
     public openCloneDialog = false;
 
     constructor(
-        public localizationService: OldLocalizationService,
         public easystudioService: EasystudioService,
-        public snackBar: MatSnackBar) { }
+        public snackBar: MatSnackBar,
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef
+      ) { 
+        super(tbComponentService, changeDetectorRef);
+        this.enableLocalization();
+     }
 
     cancel() {
         this.openCloneDialog = false;
@@ -35,7 +41,7 @@ export class CloneDocumentDialogComponent {
     okClone(object: any, docName: string, docTitle: string) {
         this.easystudioService.cloneDocument(object, docName, docTitle);
         this.cancel();
-        this.snackBar.open(this.localizationService.localizedElements.NewDocumentCreatedwithSuccess, this.localizationService.localizedElements.Ok);
+        this.snackBar.open(this._TB('New Document Created with Success'), this._TB('Ok'));
        
     }
 

@@ -827,6 +827,14 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 		private void OnClickRewindDatabase(object sender, System.EventArgs e)
 		{
 			interactiveCreation = false;
+
+			// verifico che all'azienda non sia collegato qualche utente lato Mago
+			if (!GetCompanyDBIsFree())
+			{
+				DiagnosticViewer.ShowCustomizeIconMessage(Strings.ErrCompanyDBIsNotFree, string.Empty, MessageBoxIcon.Exclamation);
+				return;
+			}
+
 			PlugInTreeNode companyNode = (PlugInTreeNode)this.consoleTree.SelectedNode;
 
 			if (DiagnosticViewer.ShowQuestion(Strings.MsgStartRewindDatabase, String.Empty) == DialogResult.No)

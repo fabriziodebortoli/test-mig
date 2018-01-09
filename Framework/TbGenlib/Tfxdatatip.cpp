@@ -30,6 +30,8 @@ short TFXDataTip::m_s_maxHeight = 600;
 static CFont*   _font = NULL;
 static CBrush* _brush = NULL;
 
+#define DT_TIP_STYLES	(DT_LEFT | DT_TOP | DT_NOPREFIX | DT_EXPANDTABS)
+
 // hook information
 HHOOK TFXDataTip::m_s_hookProc = NULL;
 TFXDataTip* TFXDataTip::m_s_pCurrent = NULL;
@@ -237,19 +239,16 @@ BOOL TFXDataTip::Hide( )
 void TFXDataTip::ResetText()
 {
 	m_TipPosition = CPoint(0, 0);
-	m_listStrings.RemoveAll();
+	m_TipText.Empty();
 }
 
 //-----------------------------------------------------------------------------
 void TFXDataTip::AddText(LPCTSTR szText)
 {
-	CString str(szText); 	
-
-	str.Remove('\r');
-	str.Trim(L"\n \t");
-
-	if (!str.IsEmpty())
-		m_listStrings.AddTail(str);
+	if (!m_TipText.IsEmpty())
+		m_TipText += _T("\r\n");
+	
+	m_TipText += szText;
 }
 
 //-----------------------------------------------------------------------------
@@ -288,19 +287,7 @@ void TFXDataTip::Set(CPoint point, CString szText)
 		return;
 	}
 
-	szText.Replace(L"\\n", L"\n");
-
-	if (szText.Find('\n') > -1)
-	{
-		CStringArray ar;
-		CStringArray_Split	(ar, szText, L"\n");
-		for (int i = 0; i < ar.GetSize(); i++)
-		{
-			AddText(ar[i]);
-		}
-	}
-	else
-		AddText(szText); 
+	m_TipText = szText;
 
 	SetNewTip(point); 
 }
@@ -308,28 +295,20 @@ void TFXDataTip::Set(CPoint point, CString szText)
 //-----------------------------------------------------------------------------
 CSize TFXDataTip::GetSize() 
 {
-	CSize sizeAll(0, 0), sizeLine;
-    if( m_listStrings.GetCount() == 0 )
+	CSize sizeAll(0, 0);
+    if (m_TipText.IsEmpty())
 		return sizeAll;
 
-	CString		str;
-
 	CClientDC dc(this);
-	dc.SelectObject(&_font);
+	HGDIOBJ pOldFont = dc.SelectObject(&_font);
 
-	// determine the size of the data tip text
-	// in order to size the window correctly
-	POSITION	pos = m_listStrings.GetHeadPosition();
-	while (pos)
-	{
-		str = m_listStrings.GetNext(pos);
+	CRect rect;
+	dc.DrawText(m_TipText, rect, DT_TIP_STYLES | DT_CALCRECT);
+	
+	sizeAll.cx = rect.Width();
+	sizeAll.cy = rect.Height();
 
-		sizeLine = dc.GetTextExtent(str);
-
-		sizeAll.cy += sizeLine.cy;
-		sizeAll.cx = min(max(sizeAll.cx, sizeLine.cx), m_s_maxWidth);
-	}
-	sizeAll.cy = min(sizeAll.cy, m_s_maxHeight);
+	dc.SelectObject(pOldFont);
 	return sizeAll;
 }
 
@@ -344,7 +323,7 @@ void TFXDataTip::Display( )
 		m_s_pCurrent->Hide( );
 	}
 
-    if( m_listStrings.GetCount() == 0 )
+    if (m_TipText.IsEmpty())
 		return;
 
 	CSize sizeAll = GetSize();
@@ -406,6 +385,26 @@ void TFXDataTip::Display( )
 	// set the current data tip window
 	m_bVisible = TRUE;
 	m_s_pCurrent = this;
+}
+
+//-----------------------------------------------------------------------------
+void TFXDataTip::OnPaint()
+{
+	CPaintDC dc(this);  //le OnPaint DEVONO obbligatoriamente avere un CPaintDC al loro interno , altrimenti non funziona niente
+
+	CRect rect;
+	GetClientRect(&rect);
+
+	// initialise the device context for drawing
+	CFont* pOldFont = dc.SelectObject(_font);
+	dc.SetBkColor(AfxGetThemeManager()->GetTooltipBkgColor());
+	dc.SetTextColor(AfxGetThemeManager()->GetTooltipForeColor());
+
+	// draw the data tip
+	dc.DrawText(m_TipText, rect, DT_TIP_STYLES | DT_END_ELLIPSIS);
+
+	// restore the device context
+	dc.SelectObject(pOldFont);
 }
 
 //-----------------------------------------------------------------------------
@@ -481,40 +480,6 @@ BOOL TFXDataTip::PreTranslateMessage(MSG* pMsg)
    }
 
 	return CWnd::PreTranslateMessage(pMsg);
-}
-
-//-----------------------------------------------------------------------------
-void TFXDataTip::OnPaint() 
-{
-	CPaintDC dc(this);  //le OnPaint DEVONO obbligatoriamente avere un CPaintDC al loro interno , altrimenti non funziona niente
-
-    CRect rect;
-    GetClientRect(&rect);
-
-    // initialise the device context for drawing
-    CFont* pOldFont = dc.SelectObject(_font);
-    dc.SetBkColor(AfxGetThemeManager()->GetTooltipBkgColor());
-    dc.SetTextColor(AfxGetThemeManager()->GetTooltipForeColor());
-
-    // draw the data tip
-    dc.SetTextAlign(TA_TOP | TA_LEFT);
-    
-	int h = dc.GetTextExtent(_T("A")).cy;
-
-	int cy = 0;
-	CString		str;
-	POSITION pos = m_listStrings.GetHeadPosition();
-	while (pos)
-	{
-		str = m_listStrings.GetNext(pos);
-		
-		dc.TextOut(rect.left + 2, cy, str);
-		//CSize extent = dc.GetTextExtent(str);
-		cy += h;
-	}
-    
-	// restore the device context
-    dc.SelectObject(pOldFont);
 }
 
 //-----------------------------------------------------------------------------

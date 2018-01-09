@@ -10,14 +10,14 @@
 
             <div class="dashboard-sidebar">
                 <div class="dashboard-sidebar-riq">
-                    <h4>{{localizationService?.localizedElements?.FavoritesLabel}}
-                        <m4-icon class="close" icon="tb-delete" (click)="menuService.clearFavorites()" matTooltip="{{localizationService?.localizedElements?.ClearFavoriteList}}" matTooltipPosition="after" *ngIf="menuService?.favorites.length > 0"></m4-icon>
+                    <h4>{{_TB('Favorites')}}
+                        <m4-icon class="close" icon="tb-delete" (click)="menuService.clearFavorites()" matTooltip="{{_TB('Clear favorite list')}}" matTooltipPosition="after" *ngIf="menuService?.favorites.length > 0"></m4-icon>
                     </h4>
                     <tb-favorites class="dashboard"></tb-favorites>
                 </div>
                 <div class="dashboard-sidebar-riq">
-                    <h4>{{localizationService.localizedElements?.MostUsedLabel}}
-                        <m4-icon class="close" icon="tb-delete" (click)="menuService.clearMostUsed()" matTooltip="{{localizationService?.localizedElements?.ClearMostUsedList}}" matTooltipPosition="after" *ngIf="menuService?.mostUsed.length > 0"></m4-icon>
+                    <h4>{{_TB('Recently used')}}
+                        <m4-icon class="close" icon="tb-delete" (click)="menuService.clearMostUsed()" matTooltip="{{_TB('Clear most used list') }}" matTooltipPosition="after" *ngIf="menuService?.mostUsed.length > 0"></m4-icon>
                     </h4>
                     <tb-most-used class="dashboard"></tb-most-used>
                 </div>

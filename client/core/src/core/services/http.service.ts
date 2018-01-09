@@ -203,13 +203,6 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    loadLocalizedElements(): Observable<any> {
-        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', {})
-            .map((res: Response) => {
-                return res.json();
-            });
-    };
-
     getPreferences(): Observable<any> {
         let urlToRun = this.infoService.getMenuServiceUrl() + 'getPreferences/';
         let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company') }

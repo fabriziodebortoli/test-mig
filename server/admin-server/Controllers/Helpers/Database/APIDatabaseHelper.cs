@@ -665,5 +665,20 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 			return opRes;
 		}
 
+		//---------------------------------------------------------------------
+		public static List<OperationResult> GetMessagesList(Diagnostic diagnostic)
+		{
+			List<OperationResult> messagesList = new List<OperationResult>();
+
+			IDiagnosticItems items = diagnostic.AllMessages();
+			if (items == null)
+				return messagesList;
+
+			foreach (IDiagnosticItem item in items)
+				if (!string.IsNullOrEmpty(item.FullExplain))
+					messagesList.Add(new OperationResult() { Message = item.FullExplain });
+
+			return messagesList;
+		}
 	}
 }

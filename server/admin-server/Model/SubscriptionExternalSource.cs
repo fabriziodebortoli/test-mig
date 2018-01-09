@@ -5,6 +5,7 @@ using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using System.Collections.Generic;
 using Microarea.AdminServer.Libraries;
+using Microarea.AdminServer.Services.Security;
 
 namespace Microarea.AdminServer.Model
 {
@@ -17,11 +18,11 @@ namespace Microarea.AdminServer.Model
 		string description = string.Empty;
 		string provider = string.Empty;
 		string server = string.Empty;
-		string database = string.Empty;
-		string user = string.Empty;
+		string dbName = string.Empty;
+		string userId = string.Empty;
 		string password = string.Empty;
 		bool disabled = false;
-		bool underMaintenance;
+		bool underMaintenance = false;
 		string additionalInfo = string.Empty;
 
 		//---------------------------------------------------------------------
@@ -31,8 +32,8 @@ namespace Microarea.AdminServer.Model
 		public string Description { get { return this.description; } set { this.description = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
 		public string Server { get { return this.server; } set { this.server = value; } }
-		public string Database { get { return this.database; } set { this.database = value; } }
-		public string User { get { return this.user; } set { this.user = value; } }
+		public string DBName { get { return this.dbName; } set { this.dbName= value; } }
+		public string UserId { get { return this.userId; } set { this.userId = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
@@ -56,8 +57,8 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@Description", this.Description));
 			burgerDataParameters.Add(new BurgerDataParameter("@Provider", this.Provider));
 			burgerDataParameters.Add(new BurgerDataParameter("@Server", this.Server));
-            burgerDataParameters.Add(new BurgerDataParameter("@Database", this.Database));
-            burgerDataParameters.Add(new BurgerDataParameter("@User", this.User));
+            burgerDataParameters.Add(new BurgerDataParameter("@DBName", this.DBName));
+            burgerDataParameters.Add(new BurgerDataParameter("@UserId", this.UserId));
             burgerDataParameters.Add(new BurgerDataParameter("@Password", SecurityManager.EncryptString(this.Password)));
             burgerDataParameters.Add(new BurgerDataParameter("@Disabled", this.Disabled));
 			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.UnderMaintenance));
@@ -85,8 +86,8 @@ namespace Microarea.AdminServer.Model
 				Provider = dataReader["Provider"] as string,
 				Description = dataReader["Description"] as string,
 				Server = dataReader["Server"] as string,
-				Database = dataReader["Database"] as string,
-				User = dataReader["User"] as string,
+				DBName = dataReader["DBName"] as string,
+				UserId = dataReader["UserId"] as string,
 				Password = SecurityManager.DecryptString(dataReader["Password"] as string),
 				Disabled = (bool)dataReader["Disabled"],
 				UnderMaintenance = (bool)dataReader["UnderMaintenance"],

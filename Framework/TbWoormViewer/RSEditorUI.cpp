@@ -1695,8 +1695,7 @@ HTREEITEM CRSTreeCtrl::SelectRSTreeItemByMatchingText(const CString& sMatchText,
 	else 
 	{
 		SelectItem(NULL);
-
-		this->ExpandAll(TVE_COLLAPSE);
+		ExpandAll(TVE_COLLAPSE);
 	}
 	return ht;
 }

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { OperationResult } from '../../services/operationResult';
 import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
 import { AuthorizationProperties } from 'app/authentication/auth-info';
+import { SubscriptionExternalSource } from '../../model/subscriptionExternalSource';
 
 @Component({
   selector: 'app-subscription',
@@ -26,11 +27,20 @@ export class SubscriptionComponent implements OnInit {
   needsTestDB: boolean;
   addDatabaseBtnText: string;
 
+  // externalsources
+  externalSources: SubscriptionExternalSource[];
+  readingExternalSource: boolean;
+  externalUnderMaintenance: boolean;
+  deleteExternalSourceClicked: boolean = false;
+
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new AppSubscription();
     this.databases = [];
     this.underMaintenance = false;
+
+    this.externalSources = [];
+    this.externalUnderMaintenance = false;
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -43,6 +53,7 @@ export class SubscriptionComponent implements OnInit {
 
     this.editing = true;
     this.readingData = true;
+    this.readingExternalSource = true;
 
     // first I load the subscription 
 
@@ -122,10 +133,38 @@ export class SubscriptionComponent implements OnInit {
             this.readingData = false;
           }
           )
+
+        // then I load the external sources of selected subscription
+
+        this.modelService.getExternalSources(subscriptionKey)
+          .subscribe(
+          res => {
+
+            // carico la lista dei database esterni
+            this.externalSources = res['Content'];
+
+            this.readingExternalSource = false;
+
+            // se almeno un externalsource e' in manutenzione visualizzo lo spinner
+            for (var index = 0; index < this.externalSources.length; index++) {
+
+              var source = this.externalSources[index];
+              if (source.UnderMaintenance) {
+                this.externalUnderMaintenance = true;
+                break;
+              }
+            }
+          },
+          err => {
+            alert(err);
+            this.readingExternalSource = false;
+          }
+          )
       },
       err => {
         alert(err);
         this.readingData = false;
+        this.readingExternalSource = false;
       }
       )
   }
@@ -176,5 +215,40 @@ export class SubscriptionComponent implements OnInit {
   addDatabase() {
     // route to add new database (when I want to add a master or test database)
     this.router.navigate(['/database'], { queryParams: { test: !this.needsTestDB }, queryParamsHandling: "merge" });
+  }
+
+  // e.g. url: localhost:10344/externalsource?subscriptionToEdit=S-ENT&sourceToEdit=AWS
+  //--------------------------------------------------------------------------------------------------------
+  openExternalSource(item: object) {
+
+    // per differenziare il click su delete e sulla open
+    if (this.deleteExternalSourceClicked) {
+
+      for (var i = this.externalSources.length - 1; i >= 0; i--) {
+        var source = this.externalSources[i];
+        if (source.Source === item['Source'])
+          this.externalSources.splice(i, 1);
+      }
+
+      this.deleteExternalSourceClicked = false;
+      return;
+    }
+
+    // route to edit an existing externalsource, I add in the existing query string the source name
+    this.router.navigate(['/externalsource'], { queryParams: { sourceToEdit: item['Source'] }, queryParamsHandling: "merge" });
+  }
+
+  // e.g. url: localhost:10344/externalsource?subscriptionToEdit=S-ENT&test=false
+  //--------------------------------------------------------------------------------------------------------
+  addExternalSource() {
+    // route to add new externalsource
+    this.router.navigate(['/externalsource'], { queryParamsHandling: "preserve" });
+  }
+
+  // da completare!
+  //--------------------------------------------------------------------------------------------------------
+  deleteExternalSource() {
+    alert('delete');
+    this.deleteExternalSourceClicked = true;
   }
 }

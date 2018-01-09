@@ -1,3 +1,4 @@
+using NpgsqlTypes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,9 +6,9 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using Microarea.Common.CoreTypes;
-using NpgsqlTypes;
+
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.AdminServer.Libraries.DatabaseManager
 {
@@ -148,7 +149,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 	# region ForeignKeyArray
 	//====================================================================================================
-	public class ForeignKeyArray : ArrayList
+	public class ForeignKeyArray : List<ForeignKeyInfo>
 	{
 		//----------------------------------------------------------------------
 		public ForeignKeyArray()
@@ -813,18 +814,17 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		public bool HasAutoIncrementalCol = false;
 		public bool HasDataTextColumn = false;
 
-		protected ArrayList columnsInfo = null; //informazioni sulle colonne (tabelle, view, stored procedure)
-		protected ArrayList paramsInfo = null; //informazioni sui parametri delle stored procedure
+		protected List<CatalogColumn> columnsInfo = null; //informazioni sulle colonne (tabelle, view, stored procedure)
 
-		protected IndexArray indexesInfo = null; //informazioni sugl indici presenti nella tabella
+		protected IndexArray indexesInfo = null;			//informazioni sugl indici presenti nella tabella
 		protected ForeignKeyArray fKConstraintsInfo = null; //tutte le informazioni dei constraints di FK
-		protected ArrayList refFKConstraints = null; 		//per i constraint di FK riferiti alla tabella
+		protected List<RefFKConstraint> refFKConstraints = null; 		//per i constraint di FK riferiti alla tabella
 
-		public ArrayList ColumnsInfo { get { return columnsInfo; } set { columnsInfo = value; } }
+		public List<CatalogColumn> ColumnsInfo { get { return columnsInfo; } set { columnsInfo = value; } }
 		public IndexArray IndexesInfo { get { return indexesInfo; } set { indexesInfo = value; } }
 		
 		public ForeignKeyArray FKConstraintsInfo { get { return fKConstraintsInfo; } }
-		public ArrayList RefFKConstraints { get { return refFKConstraints; } }
+		public List<RefFKConstraint> RefFKConstraints { get { return refFKConstraints; } }
 
 		//--------------------------------------------------------------------------
 		public CatalogTableInfo(string name)
@@ -861,7 +861,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			else
 				throw(new TBException("CatalogTableEntry.LoadColumnsInfo: Invalid connection"));
 
-			columnsInfo = new ArrayList();
+			columnsInfo = new List<CatalogColumn>();
 			bool autoIncrementalColFound = false;
 			bool dataTextColumnFound = false;
 			
@@ -1089,7 +1089,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 				if (fkArray != null)
 				{
-					refFKConstraints = new ArrayList();
+					refFKConstraints = new List<RefFKConstraint>();
 					foreach (ForeignKeyInfo fkInfo in fkArray)
 						refFKConstraints.Add(new RefFKConstraint(fkInfo.Name, fkInfo.PKTableName));
 				}
@@ -1142,10 +1142,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 		//---------------------------------------------------------------------------
 		public string TableName { get ;  set ; }
-		public ArrayList ColumnsInfo { get { return catalogTableInfo.ColumnsInfo; } set { catalogTableInfo.ColumnsInfo = value; } }
+		public List<CatalogColumn> ColumnsInfo { get { return catalogTableInfo.ColumnsInfo; } set { catalogTableInfo.ColumnsInfo = value; } }
 		public IndexArray IndexesInfo { get { return catalogTableInfo.IndexesInfo; } set { catalogTableInfo.IndexesInfo = value; } }
 		public ForeignKeyArray FKConstraintsInfo { get { return catalogTableInfo.FKConstraintsInfo; } }
-		public ArrayList RefFKConstraints { get { return catalogTableInfo.RefFKConstraints; } }
+		public List<RefFKConstraint> RefFKConstraints { get { return catalogTableInfo.RefFKConstraints; } }
 		public CatalogTableInfo CatalogTableInfo { get { return catalogTableInfo; } }
 	
 		//---------------------------------------------------------------------------
@@ -1734,8 +1734,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 		# region Variables and Properties
 		private ArrayList tblDBList;
-		private ArrayList vwDBList;	
-		private ArrayList routineDBList;	
+		private List<CatalogViewEntry> vwDBList;	
+		private List<CatalogRoutineEntry> routineDBList;	
 
 		private string schemaName; //nome dello schema di database 
 		private string dbCollation = string.Empty; //collation del database
@@ -1743,8 +1743,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 	
 		//---------------------------------------------------------------------------
 		public	ArrayList	TblDBList		{ get { return tblDBList; } }
-		public	ArrayList	VwDBList		{ get { return vwDBList; }  }	
-		public	ArrayList	RoutineDBList	{ get { return routineDBList; }  }
+		public List<CatalogViewEntry> VwDBList	{ get { return vwDBList; }  }	
+		public List<CatalogRoutineEntry> RoutineDBList	{ get { return routineDBList; }  }
 		public  bool		Valid			{ get { return valid; } }	
 		public	string		SchemaName		{ get { return schemaName; } }
 		# endregion
@@ -1754,8 +1754,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		public CatalogInfo()
 		{
 			tblDBList		= new ArrayList();
-			vwDBList		= new ArrayList();
-			routineDBList	= new ArrayList();
+			vwDBList		= new List<CatalogViewEntry>();
+			routineDBList	= new List<CatalogRoutineEntry>();
 		}
 		# endregion
 
@@ -2045,7 +2045,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// una specifica tabella (passata come parametro)
 		/// </summary>
 		//---------------------------------------------------------------------------
-		public ArrayList GetColumnsInfo(string tableName, TBConnection tbConnection)
+		public List<CatalogColumn> GetColumnsInfo(string tableName, TBConnection tbConnection)
 		{
 			CatalogTableEntry entry = GetTableEntry(tableName);
 			if (entry == null)

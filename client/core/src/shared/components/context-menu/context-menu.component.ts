@@ -1,5 +1,5 @@
 import { CommandEventArgs } from './../../models/eventargs.model';
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
@@ -8,13 +8,15 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { WebSocketService } from './../../../core/services/websocket.service';
 import { ContextMenuDirective } from './../../directives/context-menu.directive';
 import { ContextMenuItem } from './../../models/context-menu-item.model';
+import { TbComponent } from './../../../shared/components/tb.component';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 
 @Component({
   selector: 'tb-context-menu',
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.scss']
 })
-export class ContextMenuComponent {
+export class ContextMenuComponent  extends TbComponent {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   public collision: Collision = { horizontal: 'flip', vertical: 'fit' };
@@ -32,7 +34,14 @@ export class ContextMenuComponent {
 
 
 
-  constructor(public webSocketService: WebSocketService, public eventDataService: EventDataService) {
+  constructor(
+    public webSocketService: WebSocketService, 
+    public eventDataService: EventDataService,
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
+) {
+    super(tbComponentService, changeDetectorRef);
+    this.enableLocalization();
     // SCENARIO 1: RIEMPIRE DA SERVER
     // this.webSocketService.contextMenu.subscribe((result) => {
     //   this.contextMenu = result.contextMenu;
@@ -41,25 +50,29 @@ export class ContextMenuComponent {
     // SCENARIO 2: RIEMPITO DA HTML
     this.contextMenu = new Array<ContextMenuItem>();
 
-    const subItems_bis = new Array<ContextMenuItem>();
-    const item4 = new ContextMenuItem('solo questo disable unchecked', 'Id4', false, false);
-    subItems_bis.push(item4);
-
-    const subItems = new Array<ContextMenuItem>();
-    const item1 = new ContextMenuItem('disabled unchecked', 'Id1', false, false);
-    const item5 = new ContextMenuItem('enabled checked', 'Id5', true, true);
-    const item2 = new ContextMenuItem('has one sub item', 'Id2', true, false, subItems_bis);
-    subItems.push(item1, item5);
-
-    const item3 = new ContextMenuItem('has 2 sub items', 'Id3', true, false, subItems);
-    this.contextMenu.push(item1, item2, item5, item3);
-
   }
 
   onOpen() {
   }
+  onTranslationsReady(){
+    super.onTranslationsReady();
+    // this.contextMenu.splice(0, this.contextMenu.length);
+    // const subItems_bis = new Array<ContextMenuItem>();
+    // const item4 = new ContextMenuItem(this._TB('only this disable unchecked'), 'Id4', false, false);
+    // subItems_bis.push(item4);
+
+    // const subItems = new Array<ContextMenuItem>();
+    // const item1 = new ContextMenuItem(this._TB('disabled unchecked'), 'Id1', false, false);
+    // const item5 = new ContextMenuItem(this._TB('enabled checked'), 'Id5', true, true);
+    // const item2 = new ContextMenuItem(this._TB('has one sub item'), 'Id2', true, false, subItems_bis);
+    // subItems.push(item1, item5);
+
+    // const item3 = new ContextMenuItem(this._TB('has 2 sub items'), 'Id3', true, false, subItems);
+    // this.contextMenu.push(item1, item2, item5, item3);
+  }
 
   ngOnInit() {
+    super.ngOnInit();
     console.log('ngoninit contextmenu');
     console.log(this.contextMenu);
   }

@@ -82,7 +82,7 @@ namespace Microarea.Tools.TBLocalizer
 			
 			if (!Directory.Exists(moduleFolder)) return paths;
 				
-			string[] vcFiles	= Directory.GetFiles(moduleFolder, "*" + AllStrings.vcExtension, SearchOption.AllDirectories);
+			string[] vcFiles	= Directory.GetFiles(moduleFolder, "*" + AllStrings.vcExtension, SearchOption.TopDirectoryOnly);
 			if (vcFiles.Length != 0)
 			{
 				paths.Add(vcFiles[0]);
@@ -90,7 +90,7 @@ namespace Microarea.Tools.TBLocalizer
 				return paths;
 			}
 
-			string[] vcxFiles = Directory.GetFiles(moduleFolder, "*" + AllStrings.vcxExtension, SearchOption.AllDirectories);
+			string[] vcxFiles = Directory.GetFiles(moduleFolder, "*" + AllStrings.vcxExtension, SearchOption.TopDirectoryOnly);
 			if (vcxFiles.Length != 0)
 			{
 				paths.Add(vcxFiles[0]);
@@ -98,7 +98,7 @@ namespace Microarea.Tools.TBLocalizer
 				return paths;
 			}
 
-			string[] csFiles	= Directory.GetFiles(moduleFolder, "*" + AllStrings.csProjExtension, SearchOption.AllDirectories);
+			string[] csFiles	= Directory.GetFiles(moduleFolder, "*" + AllStrings.csProjExtension, SearchOption.TopDirectoryOnly);
 			if (csFiles.Length != 0)
 			{
 				paths.Add(csFiles[0]);
@@ -113,8 +113,15 @@ namespace Microarea.Tools.TBLocalizer
 				return paths;
 			}
 
-			//posso ancora considerare un tblprj
-			string[] prjFiles	= Directory.GetFiles(moduleFolder, "*" + AllStrings.prjExtension, SearchOption.AllDirectories);
+            string[] jsonFiles = Directory.GetFiles(moduleFolder, "package.json", SearchOption.TopDirectoryOnly);
+            if (jsonFiles.Length != 0)
+            {
+                paths.Add(jsonFiles[0]);
+                extensionType = ProjectDocument.ProjectType.NG;
+                return paths;
+            }
+            //posso ancora considerare un tblprj
+            string[] prjFiles	= Directory.GetFiles(moduleFolder, "*" + AllStrings.prjExtension, SearchOption.TopDirectoryOnly);
 			if (prjFiles.Length != 0)
 			{
 				paths.Add(prjFiles[0]);

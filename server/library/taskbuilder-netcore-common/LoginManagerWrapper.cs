@@ -21,6 +21,8 @@ namespace Microarea.Common.WebServicesWrapper
         //-----------------------------------------------------------------------
         public static LoginManagerSession GetLoginManagerSession(string authenticationToken)
         {
+            if (string.IsNullOrEmpty(authenticationToken))
+                return null;
             lock (staticTicket)
             {
                 LoginManagerSessionTable.TryGetValue(authenticationToken, out LoginManagerSession session);
@@ -303,6 +305,8 @@ namespace Microarea.Common.WebServicesWrapper
         //-----------------------------------------------------------------------------------------
         internal LoginManagerSession GetLoginInformation(string authenticationToken)
         {
+            if (string.IsNullOrEmpty(authenticationToken))
+                return null;
             GetLoginInformationRequest request = new GetLoginInformationRequest(authenticationToken);
             Task<GetLoginInformationResponse> task = loginManagerClient.GetLoginInformationAsync(request);
             GetLoginInformationResponse result = task.Result;
@@ -599,7 +603,6 @@ namespace Microarea.Common.WebServicesWrapper
 
             authenticationToken = task.Result.authenticationToken;
             LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-
             loginManagerSession.CompanyName = company;
             loginManagerSession.LoginManagerSessionState = LoginManagerState.Logged;
 

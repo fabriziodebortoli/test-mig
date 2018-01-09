@@ -748,8 +748,10 @@ void LexBuffer::AllocLexBuffer ()
 //----------------------------------------------------------------------------
 void LexBuffer::ConcatAuditString(const CString& strLexeme)
 {
-	if (m_bAuditStringOn)
-		m_strAuditString += strLexeme + _T(" ");
+	if (m_bAuditStringOn && !strLexeme.IsEmpty())
+	{
+		m_strAuditString += strLexeme + L' ';
+	}
 }
 
 //----------------------------------------------------------------------------
@@ -758,7 +760,7 @@ CString LexBuffer::GetAuditString(BOOL bReset)
 	CString Temp(m_strAuditString);
 
 	if (bReset)
-		m_strAuditString = "";
+		m_strAuditString.Empty();
 
 	return Temp;
 }
@@ -1555,15 +1557,48 @@ Token Lexan::SkipToken ()
 }
 
 //----------------------------------------------------------------------------
+CString	Lexan::GetAuditString(BOOL bReset/* = TRUE*/)
+{ 
+	if (IsAuditStringOn() && m_bAuditComment)
+	{
+		CStringArray arCommentTrace;
+		GetCommentTrace(arCommentTrace/*, bReset*/);
+		if (arCommentTrace.GetCount() > 0)
+		{
+			CString strComment;
+			CStringArray_ConcatComment(arCommentTrace, strComment);
+
+			m_pLexanState->m_pLexBuf->ConcatAuditString(strComment);
+		}
+	}
+
+	return m_pLexanState->m_pLexBuf->GetAuditString(bReset); 
+}
+
+//----------------------------------------------------------------------------
 void Lexan::ConcatAuditString()
 {
-    CString strLexeme(m_pLexanState->m_CurrentSymbol.GetLexeme());
-	m_pLexanState->m_pLexBuf->ConcatAuditString(strLexeme);
+	ConcatAuditString(m_pLexanState->m_CurrentSymbol.GetLexeme());
 }
 
 //----------------------------------------------------------------------------
 void Lexan::ConcatAuditString(const CString& strLexeme)
 {
+	if (!IsAuditStringOn()) 
+		return;
+
+	if (m_bAuditComment)
+	{
+		CStringArray arCommentTrace;
+		GetCommentTrace(arCommentTrace);
+		if (arCommentTrace.GetCount() > 0)
+		{
+			CString strComment;
+			CStringArray_ConcatComment(arCommentTrace, strComment);
+
+			m_pLexanState->m_pLexBuf->ConcatAuditString(strComment);
+		}
+	}
  	m_pLexanState->m_pLexBuf->ConcatAuditString(strLexeme);
 }
 

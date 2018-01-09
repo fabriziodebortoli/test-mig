@@ -1,0 +1,135 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (117,42,894,1760) 
+FontStyles 
+	Begin
+		"TableColumnTitle"  Facename "Verdana"  Size 12 Style (0,0,0,700,255,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"TableColumn"  Facename "Tahoma"  Size 10 Style (0,0,0,700,255,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+	End
+
+PageLayout "default" 
+	Begin
+		Text (13,251,53,518) "External functions test suite" 
+			Begin
+				Pen (0,0,0) Size 0;
+				TextColor (0,128,128) ;
+				Align 2133 ;
+				FontStyle "TableColumnTitle" ;
+			End
+
+		Text (71,10,111,190) "TestDataLngParameter" 
+			Begin
+				Pen (0,0,0) Size 0;
+				Align 2133 ;
+				FontStyle "TableColumn" ;
+			End
+
+		Field (72,201,116,298) Alias 1  /* w_LongParamIn */ FormatStyle "Long" 
+			Begin
+				Label "w_LongParamIn" 
+			End
+
+		Field (75,310,118,511) Alias 2  /* w_LongParamOut */ FormatStyle "Long" 
+			Begin
+				Label "w_LongParamOut" 
+			End
+
+		SqrRect (76,736,119,779) Ratio (50,50) 
+			Begin
+				Pen (0,0,0) Size 2;
+				BkgColor = ( w_LongParamIn == 5 && w_LongParamOut == 6 && w_LongReturnValue == 6 ) ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
+			End
+
+		Field (78,523,121,711) Alias 3  /* w_LongReturnValue */ FormatStyle "Long" 
+			Begin
+				Label "w_LongReturnValue" 
+			End
+
+		Field (139,200,183,297) Alias 11  /* w_StringParamIn */ 
+			Begin
+				Label "w_StringParamIn" 
+			End
+
+		Text (140,11,182,191) "TestDataStrParameter" 
+			Begin
+				Pen (0,0,0) Size 0;
+				Align 2133 ;
+				FontStyle "TableColumn" ;
+			End
+
+		Field (141,306,182,511) Alias 12  /* w_StringParamOut */ 
+			Begin
+				Label "w_StringParamOut" 
+			End
+
+		SqrRect (142,737,183,780) Ratio (50,50) 
+			Begin
+				Pen (0,0,0) Size 2;
+				BkgColor = ( w_StringParamIn == "ParamIN" && w_StringParamOut == "ParamINOUT_modifiedByExternalFunction" && w_StringReturnValue == "ParamIN_modifiedByExternalFunction" ) ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
+			End
+
+		Field (143,523,182,711) Alias 13  /* w_StringReturnValue */ 
+			Begin
+				Label "w_StringReturnValue" 
+			End
+
+		Text (210,11,253,193) "TestDataArrayParameter" 
+			Begin
+				Pen (0,0,0) Size 0;
+				Align 2133 ;
+				FontStyle "TableColumn" ;
+			End
+
+		Field (217,221,259,371) Alias 26  /* w_ZeroElementArrayIn */ 
+			Begin
+				Label "w_ZeroElementArrayIn" 
+			End
+
+		Field (217,423,260,582) Alias 27  /* w_ZeroElementArrayInOut */ 
+			Begin
+				Label "w_ZeroElementArrayInOut" 
+			End
+
+		SqrRect (253,736,295,779) Ratio (50,50) 
+			Begin
+				Pen (0,0,0) Size 2;
+				BkgColor = ( w_ZeroElementArrayIn == "000" && w_ZeroElementArrayInOut == "modified" && w_CounterArrayIn == 3 && w_CounterArrayInOut == 2 ) ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
+			End
+
+		Field (293,424,335,581) Alias 29  /* w_CounterArrayInOut */ FormatStyle "Long" 
+			Begin
+				Label "w_CounterArrayInOut" 
+			End
+
+		Field (295,221,333,370) Alias 28  /* w_CounterArrayIn */ FormatStyle "Long" 
+			Begin
+				Label "w_CounterArrayIn" 
+			End
+
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			Long         w_LongParamIn [12] Alias 1 Init = 5 ;
+			Long         w_LongParamOut [12] Alias 2 Init = 5 ;
+			Long         w_LongReturnValue [13] Alias 3 Init = Framework.TbWoormViewer.TbWoormViewer.TestDataLngParameter ( w_LongParamIn , w_LongParamOut ) ;
+			String       w_StringParamIn [12] Alias 11 Init = "ParamIN" ;
+			String       w_StringParamOut [12] Alias 12 Init = "ParamINOUT" ;
+			String       w_StringReturnValue [13] Alias 13 Init = Framework.TbWoormViewer.TbWoormViewer.TestDataStrParameter ( w_StringParamIn , w_StringParamOut ) ;
+			Array        String       arStringParamIn [23] Alias 21  Hidden  Input Init = [ "000" , "001" , "002" ] ;
+			Array        String       arStringParamInOut [23] Alias 22  Hidden  Input Init = [ "100" , "101" , "102" ] ;
+			Array        Long         arLongParamIn [23] Alias 23  Hidden  Input Init = [ 1 , 2 , 3 ] ;
+			Array        Long         arLongParamInOut [23] Alias 24  Hidden  Input Init = [ 11 , 12 , 13 ] ;
+			Array        String       arStringReturnValue [23] Alias 25  Hidden  Input Init = Framework.TbWoormViewer.TbWoormViewer.TestDataArrayParameter ( arLongParamIn , arLongParamInOut , arStringParamIn , arStringParamInOut ) ;
+			String       w_ZeroElementArrayIn [12] Alias 26 Init = arStringParamIn [ 0 ] ;
+			String       w_ZeroElementArrayInOut [12] Alias 27 Init = arStringParamInOut [ 0 ] ;
+			Long         w_CounterArrayIn [12] Alias 28 Init = Array_Size ( arStringParamIn ) ;
+			Long         w_CounterArrayInOut [12] Alias 29 Init = Array_Size ( arStringParamInOut ) ;
+		End
+
+End
+

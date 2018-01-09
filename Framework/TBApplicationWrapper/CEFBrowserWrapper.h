@@ -33,5 +33,6 @@ public:
 	void ExecuteJavascript	(System::String^ code);
 	void CloseBrowser		(bool forceClose);
 	void Reload				();
+	void ReloadIgnoreCache	();
 };
 

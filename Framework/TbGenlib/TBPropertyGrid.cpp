@@ -6,12 +6,15 @@
 #include <TbFrameworkImages\GeneralFunctions.h>
 #include <TbFrameworkImages\CommonImages.h>
 #include <TbGeneric\dibitmap.h>
-#include <TbGes\HotLink.h>
+#include <TbGeneric\ParametersSections.h>  
+#include <TbGeneric\SettingsTable.h>  
 #include <TbGenlib\BaseTileDialog.h>
+#include <TbGenlib\Tfxdatatip.h>
 #include <TbGenlib\PARSBTN.H>
 #include <TbGenlib\PARSEDT.H>
 #include <TbGenlib\ParsEdtOther.h>
 #include <TbGenlib\HyperLink.h>
+#include <TbGes\HotLink.h>
 
 
 #include "TBPropertyGrid.h"
@@ -289,15 +292,20 @@ void CTBProperty::OnDrawValue(CDC* pDC, CRect rect)
 		}
 	}
 
-	if (
-		m_pParsedCtrl->GetCtrlData() &&
-		(
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_INT_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_LNG_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_DBL_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_MON_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_QTA_TYPE ||
-			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_PERC_TYPE
+	if 	(
+			//m_nRowsNumber > 1 &&
+			//(
+			//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
+			//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
+			//) ||
+			m_pParsedCtrl->GetCtrlData() &&
+			(
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_INT_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_LNG_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_DBL_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_MON_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_QTA_TYPE ||
+				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_PERC_TYPE
 			)
 		)
 	{
@@ -313,6 +321,14 @@ void CTBProperty::OnDrawValue(CDC* pDC, CRect rect)
 		//CSize aSize = m_pParsedCtrl->AdaptNewSize(10, 1, TRUE);
 		//rect.right = rect.left + (aSize.cx - m_pParsedCtrl->GetAllButtonsWitdh());
 
+		DWORD tStyle = DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX | DT_END_ELLIPSIS;
+		//if (m_nRowsNumber > 1)
+		//{
+		//	CSize aSize = m_pParsedCtrl->AdaptNewSize(1, m_nRowsNumber, TRUE);
+		//	rect.bottom = rect.top + aSize.cy;
+		//	tStyle &= ~DT_SINGLELINE;
+		//}
+
 		rect.DeflateRect(TEXT_MARGIN, 0);
 
 		COLORREF clrOldText = (COLORREF)-1;
@@ -321,8 +337,7 @@ void CTBProperty::OnDrawValue(CDC* pDC, CRect rect)
 			clrOldText = pDC->SetTextColor(m_clrTextValue);
 		}
 
-		pDC->DrawText(strVal, rect,
-			DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | DT_END_ELLIPSIS);
+		pDC->DrawText(strVal, rect, tStyle);
 
 		if (clrOldText != (COLORREF)-1)
 		{
@@ -568,7 +583,7 @@ CWnd* CTBProperty::CreateInPlaceEdit(CRect rectEdit, BOOL& bDefaultFormat)
 				rectEdit.top -= 2;
 			else
 				if	(
-//						m_nRowsNumber > 1 &&
+						m_nRowsNumber > 1 &&
 						(
 							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
 							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
@@ -665,7 +680,6 @@ CString	CTBProperty::OnFormatHotLinkDescription()
 		DataObj* pObj = pHKL->GetField(sName);
 		if (pObj)
 			sDescri = pObj->FormatData();
-
 	}
 
 	if (!m_bHotLinkInline || (!m_bViewHKLCode && !m_bViewHKLDescription) || !m_bViewHKLDescription || (m_bViewHKLDescription && sDescri.IsEmpty()))
@@ -828,7 +842,9 @@ BEGIN_MESSAGE_MAP(CTBPropertyGrid, CBCGPPropList)
 	ON_WM_VSCROLL()
 	ON_WM_KILLFOCUS()
 	ON_WM_SETFOCUS()
+	ON_WM_MOUSEMOVE()
 	ON_WM_MOUSEWHEEL()
+	ON_MESSAGE(WM_MOUSELEAVE, OnMouseLeave)
 	ON_WM_CONTEXTMENU()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
@@ -866,6 +882,11 @@ CTBPropertyGrid::CTBPropertyGrid(const CString sName /*= _T("")*/)
 //----------------------------------------------------------------------------------------------
 CTBPropertyGrid::~CTBPropertyGrid()
 {
+	if (m_pDataTip)
+	{
+		m_pDataTip->On(FALSE);
+		SAFE_DELETE(m_pDataTip);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -915,6 +936,76 @@ void CTBPropertyGrid::RemoveAllComponents()
 	BeginDestroyingComponents();
 	RemoveAll();
 	EndDestroyingComponents();
+}
+
+//-----------------------------------------------------------------------------
+int	CTBPropertyGrid::DoToolHitTest(CPoint point, TOOLINFO* pTI)
+{
+	//See if the point falls onto a cell
+	CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(point));
+	if	(
+			!m_pDataTip							||
+			!pProp								||
+			pProp->m_nRowsNumber == 1			||
+			!pProp->GetControl()				||
+			!pProp->GetControl()->GetCtrlData()	||
+			pProp->GetControl()->GetCtrlData()->IsEmpty()
+		)
+		return __super::OnToolHitTest(point, pTI);
+
+	pTI->hwnd = m_hWnd;
+	pTI->uId = pProp->GetControl()->GetCtrlID();
+	pTI->lpszText = LPSTR_TEXTCALLBACK;
+	pTI->uFlags |= TTF_IDISHWND;
+
+	return pTI->uId;	//By returning a unique value per cell Item,
+						//we ensure that when the mouse moves over another cell,
+						//the tooltip will change
+}
+
+//-----------------------------------------------------------------------------
+BOOL CTBPropertyGrid::DoToolTipNotify(CTooltipProperties& tp)
+{
+	m_ttp.m_ti.uId = tp.m_nControlID;
+	tp.m_strText.Empty();
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------------------------
+void CTBPropertyGrid::OnMouseMove(UINT nFlags, CPoint point)
+{
+	__super::OnMouseMove(nFlags, point);
+
+	CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(point));
+	if	(
+			!m_pDataTip							||
+			!pProp								||
+			pProp->m_nRowsNumber == 1			||
+			!pProp->GetControl()				||
+			!pProp->GetControl()->GetCtrlData()	||
+			pProp->GetControl()->GetCtrlData()->IsEmpty()
+		)
+		return;
+
+	TRACKMOUSEEVENT tk;
+	tk.cbSize = sizeof(tk);
+	tk.dwFlags = TME_LEAVE;
+	tk.dwHoverTime = 0;
+	tk.hwndTrack = m_hWnd;
+	_TrackMouseEvent(&tk);
+
+	m_ttp.m_nControlID = pProp->GetControl()->GetCtrlID();
+	m_ttp.m_ti.uId = m_ttp.m_nControlID;
+	m_ttp.m_strText = pProp->FormatProperty();
+
+	m_pDataTip->Set(point, m_ttp.m_strText);
+}
+
+//-----------------------------------------------------------------------------
+LRESULT CTBPropertyGrid::OnMouseLeave(WPARAM wPawam, LPARAM lParam)
+{
+	return 1; //
 }
 
 //-----------------------------------------------------------------------------
@@ -1422,6 +1513,9 @@ void CTBPropertyGrid::SetDataModified(BOOL bMod)
 //-------------------------------------------------------------------------------------------------
 BOOL CTBPropertyGrid::EditItem(CBCGPProp* pProp, LPPOINT lptClick /*= NULL*/)
 {
+	if (m_pDataTip)
+		m_pDataTip->Hide();
+
 	m_pBadProperty = NULL;
 	return __super::EditItem(pProp, lptClick);
 }
@@ -1462,9 +1556,8 @@ BOOL CTBPropertyGrid::OnKeyHit(UINT nIDC, UINT nKey, UINT nHitState)
 		return FALSE;
 
 	CParsedCtrl* pParsedCtrl = GetActiveParsedCtrl();
-	BOOL bDo = (pParsedCtrl->GetCtrlCWnd()->GetStyle() & ES_WANTRETURN) != ES_WANTRETURN;
 
-	if (bDo)
+	if (nKey != VK_RETURN || pParsedCtrl && (pParsedCtrl->GetCtrlCWnd()->GetStyle() & ES_WANTRETURN) != ES_WANTRETURN)
 	{
 		if (nHitState == WM_KEYDOWN)
 			return DoKeyDown(nKey);
@@ -1490,6 +1583,23 @@ CTBProperty* CTBPropertyGrid::CreateProperty
 	SqlRecord*		pSqlRecord			/*= NULL*/,
 	int				nRowsNumber			/*= 1*/)
 {
+	// se viene usata almeno una property multiline si usa il tooltip per visuAlizzarne l'intero testo
+	if (nRowsNumber > 1 && m_pDataTip == NULL)
+	{
+		DataObj* pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
+		TFXDataTip::SetDelay(pS ? *((DataInt*)pS) : 300);
+
+		pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
+		DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
+		TFXDataTip::SetMaxDim(pS ? *((DataInt*)pS) : 800, pS2 ? *((DataInt*)pS2) : 600);
+
+		GetParent()->EnableToolTips();
+
+		m_pDataTip = new TFXDataTip();
+		m_pDataTip->Create(this);
+		m_pDataTip->On(TRUE);
+	}
+
 	CTBProperty* pProp = NULL;
 
 	if (!pDataObj)
