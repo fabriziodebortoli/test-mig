@@ -196,17 +196,15 @@ namespace Microarea.AdminServer.Services.BurgerData
         }
 
         //--------------------------------------------------------------------------------
-        public bool Save(ModelTables table, BurgerDataParameter burgerDataParameterKeyColumn, List<BurgerDataParameter> burgerDataParameters)
+        public bool Save(ModelTables table, BurgerDataParameter burgerDataParameterKeyColumn, List<BurgerDataParameter> burgerDataParameters, bool updateIfExisting = true)
         {
-            return Save(table, new BurgerDataParameter[] { burgerDataParameterKeyColumn }, burgerDataParameters);
+            return Save(table, new BurgerDataParameter[] { burgerDataParameterKeyColumn }, burgerDataParameters, updateIfExisting);
         }
 
         //--------------------------------------------------------------------------------
-        public bool Save(ModelTables table, BurgerDataParameter[] burgerDataParameterKeyColumns, List<BurgerDataParameter> burgerDataParameters)
+        public bool Save(ModelTables table, BurgerDataParameter[] burgerDataParameterKeyColumns, List<BurgerDataParameter> burgerDataParameters, bool updateIfExisting = true)
         {
             string queryExistRow = SqlScriptManager.GetExistQueryByModel(table);
-            string queryUpdateRow = SqlScriptManager.GetUpdateQueryByModel(table);
-            string queryInsertRow = SqlScriptManager.GetInsertQueryByModel(table);
 
             try
             {
@@ -226,14 +224,22 @@ namespace Microarea.AdminServer.Services.BurgerData
                         existRow = (int)command.ExecuteScalar() > 0;
                     }
 
+					if (existRow && !updateIfExisting)
+					{
+						// if row exists and updateIfExisting is false, the row won't get updated
+						return true;
+					}
+
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = existRow ? queryUpdateRow : queryInsertRow;
+                        command.CommandText = existRow ? 
+							SqlScriptManager.GetUpdateQueryByModel(table) : 
+							SqlScriptManager.GetInsertQueryByModel(table);
 
                         burgerDataParameters.ForEach(p =>
                         {
-                            command.Parameters.AddWithValue(p.Name, p.Value??DBNull.Value);
+                            command.Parameters.AddWithValue(p.Name, p.Value ?? DBNull.Value);
                         });
 
                         command.ExecuteNonQuery();
