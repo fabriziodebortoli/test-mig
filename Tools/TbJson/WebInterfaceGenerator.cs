@@ -1422,6 +1422,10 @@ namespace Microarea.TbJson
             WriteAttribute(jObj, Constants.width, Constants.width);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
+
+            if (wc.Name == Constants.tbText)
+                WriteAttribute(jObj, Constants.rows, Constants.rows);
+
             WriteBindingAttributes(jObj, false, true);
 
             var jItemSource = jObj[Constants.itemSource] as JObject;
