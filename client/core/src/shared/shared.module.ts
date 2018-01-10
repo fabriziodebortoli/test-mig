@@ -148,6 +148,7 @@ import { TilePanelComponent } from './containers/tiles/tile-panel/tile-panel.com
 import { TileComponent } from './containers/tiles/tile/tile.component';
 import { TileGroupComponent } from './containers/tiles/tile-group/tile-group.component';
 import { TileManagerComponent } from './containers/tiles/tile-manager/tile-manager.component';
+import { TileManagerTabComponent } from './containers/tiles/tile-manager/tile-manager-tab/tile-manager-tab.component';
 import { DockpaneContainerComponent } from './containers/dockpane/dockpane-container/dockpane-container.component';
 import { DockpaneComponent } from './containers/dockpane/dockpane.component';
 import { ViewContainerComponent } from './containers/view/view-container/view-container.component';
@@ -175,6 +176,7 @@ export { TilePanelComponent } from './containers/tiles/tile-panel/tile-panel.com
 export { TileComponent } from './containers/tiles/tile/tile.component';
 export { TileGroupComponent } from './containers/tiles/tile-group/tile-group.component';
 export { TileManagerComponent } from './containers/tiles/tile-manager/tile-manager.component';
+export { TileManagerTabComponent } from './containers/tiles/tile-manager/tile-manager-tab/tile-manager-tab.component';
 export { DockpaneContainerComponent } from './containers/dockpane/dockpane-container/dockpane-container.component';
 export { DockpaneComponent } from './containers/dockpane/dockpane.component';
 export { ViewContainerComponent } from './containers/view/view-container/view-container.component';
@@ -185,7 +187,7 @@ export { StatusTilePanelComponent } from './containers/tiles/status-tile-panel/s
 
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
-    TbHeaderComponent, TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
+    TbHeaderComponent, TileManagerComponent, TileManagerTabComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
     StatusTilePanelComponent, StatusTileComponent, PanelComponent

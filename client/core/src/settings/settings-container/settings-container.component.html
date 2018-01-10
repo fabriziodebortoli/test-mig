@@ -4,30 +4,34 @@
     <tb-frame-content>
         <tb-view-container>
             <tb-view>
-                <tb-tilemanager>
-                    <tb-tilegroup title="{{_TB('Selections')}}" icon="erp-europe" tbLayoutTypeVbox>
+                <tb-tile-manager>
+                    <tb-tile-manager-tab title="{{_TB('Selections')}}" icon="erp-europe">
                         <ng-template>
-                            <tb-tile title="{{_TB('Select language')}}" *ngIf="!isDesktop" tbTileAutoFill>
-                                <tb-culture-selector></tb-culture-selector>
-                            </tb-tile>
-                            <tb-tile title="{{_TB('Select theme')}}" tbTileStandard>
-                                <tb-theme-changer></tb-theme-changer>
-                            </tb-tile>
+                            <tb-tile-group tbLayoutTypeVbox>
+                                <tb-tile title="{{_TB('Select language')}}" *ngIf="!isDesktop" tbTileAutoFill>
+                                    <tb-culture-selector></tb-culture-selector>
+                                </tb-tile>
+                                <tb-tile title="{{_TB('Select theme')}}" tbTileStandard>
+                                    <tb-theme-changer></tb-theme-changer>
+                                </tb-tile>
+                            </tb-tile-group>
                         </ng-template>
-                    </tb-tilegroup>
-                    <tb-tilegroup title="{{_TB('Product info')}}" icon="tb-info">
+                    </tb-tile-manager-tab>
+                    <tb-tile-manager-tab title="{{_TB('Product info')}}" icon="tb-info">
                         <ng-template>
-                            <tb-layoutcontainer tbLayoutTypeColumn>
-                                <tb-tile title="{{_TB('Product info')}}" tbTileStandard>
-                                    <tb-product-info></tb-product-info>
-                                </tb-tile>
-                                <tb-tile title="{{_TB('Connection Info')}}" tbTileStandard>
-                                    <tb-connection-info></tb-connection-info>
-                                </tb-tile>
-                            </tb-layoutcontainer>
+                            <tb-tile-group>
+                                <tb-layoutcontainer tbLayoutTypeColumn>
+                                    <tb-tile title="{{_TB('Product info')}}" tbTileStandard>
+                                        <tb-product-info></tb-product-info>
+                                    </tb-tile>
+                                    <tb-tile title="{{_TB('Connection Info')}}" tbTileStandard>
+                                        <tb-connection-info></tb-connection-info>
+                                    </tb-tile>
+                                </tb-layoutcontainer>
+                            </tb-tile-group>
                         </ng-template>
-                    </tb-tilegroup>
-                </tb-tilemanager>
+                    </tb-tile-manager-tab>
+                </tb-tile-manager>
             </tb-view>
         </tb-view-container>
     </tb-frame-content>

@@ -6,14 +6,12 @@
     <tb-frame-content>
         <tb-view-container>
             <tb-view>
-                <tb-tilemanager>
-                    <tb-tilegroup tbLayoutTypeVbox>
-                        <tb-tile title="Language" tbTileStandard>
-                            <tb-text caption="Code" cmpId="IDC_LANGUAGES_LANGUAGE" width="96" [model]="eventData?.model?.Languages?.Language"></tb-text>
-                            <tb-text caption="Description" cmpId="IDC_LANGUAGES_DESCRIPTION" width="308" [model]="eventData?.model?.Languages?.Description"></tb-text>
-                        </tb-tile>
-                    </tb-tilegroup>
-                </tb-tilemanager>
+                <tb-tile-group tbLayoutTypeVbox>
+                    <tb-tile title="Language" tbTileStandard>
+                        <tb-text caption="Code" cmpId="IDC_LANGUAGES_LANGUAGE" width="96" [model]="eventData?.model?.Languages?.Language"></tb-text>
+                        <tb-text caption="Description" cmpId="IDC_LANGUAGES_DESCRIPTION" width="308" [model]="eventData?.model?.Languages?.Description"></tb-text>
+                    </tb-tile>
+                </tb-tile-group>
             </tb-view>
         </tb-view-container>
         <tb-dockpane-container>

@@ -1,15 +1,23 @@
 <div class="tile-manager">
-    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
-        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
+
+    <ul class="tile-manager-selector">
+        <li *ngFor="let t of getTilegroups();let i = index" (click)="changeTilegroupByIndex(i)"><span>{{t?.title}}</span></li>
+    </ul>
+
+    <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" [keepTabContent]="true">
+
+        <!-- <kendo-tabstrip-tab *ngFor="let t of getTabs();let i = index" [selected]="i == 0">
             <ng-template kendoTabTitle>
-                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="group-icon"></tb-icon>
-                <span>{{tile?.title}}</span>
+                <tb-icon [iconType]="t?.iconType" [icon]="t?.icon" class="group-icon"></tb-icon>
+                <span>{{t?.title}}</span>
             </ng-template>
             <ng-template kendoTabContent>
                 <div class='kendoTabContent' [style.height.px]="viewHeight">
                     <ng-content></ng-content>
                 </div>
             </ng-template>
-        </kendo-tabstrip-tab>
+        </kendo-tabstrip-tab> -->
+
     </kendo-tabstrip>
+
 </div>
