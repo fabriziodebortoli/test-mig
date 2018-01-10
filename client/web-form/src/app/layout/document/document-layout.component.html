@@ -28,7 +28,7 @@
                                 <tb-enum-combo cmpId="IDC_QUOTATIONS_TST_TAKE_CUST_FROM_MASTER" width="115" [model]="eventData?.model?.CustomerQuotation?.UseCustomerOrContact"></tb-enum-combo>
                                 <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER" width="80" [model]="eventData?.model?.CustomerQuotation?.Customer" [hotLink]="{'name':'HKLMasterCustomer','namespace':'ERP.CustomersSuppliers.Dbl.CustSupp','mustExistData':true}"></tb-text>
                                 <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER_QUOTATION" width="80" [model]="eventData?.model?.CustomerQuotation?.Contact" [hotLink]="{'name':'HKLQuotationCustomer','namespace':'ERP.Contacts.Dbl.Contacts','mustExistData':true}"></tb-text>
-                            </div>
+                                </div>
                             <tb-label-static cmpId="IDC_QUOTATIONS_TST_CUSTDESCRIPTION" width="279" [model]="eventData?.model?.CustDescription"></tb-label-static>
                         </tb-tile>
                     </ng-template>
