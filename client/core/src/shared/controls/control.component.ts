@@ -47,7 +47,9 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
-
+    componentClass() {
+       return (!this.model || this.model.visible) ? '' : 'hiddenControl';
+    }
     get width(): number {
         return this._width;
     }
@@ -72,7 +74,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     set model(val: any) {
-        if (val == undefined) {
+        if (val === undefined) {
             return;
         }
         this._model = val;
