@@ -3,15 +3,18 @@ using System.Net.Mail;
 
 namespace Microarea.AdminServer.Services.PostMan.actuators
 {
+	//================================================================================
 	public class MailActuator : IPostManActuator
 	{
 		string smtpAddress;
 
+		//--------------------------------------------------------------------------------
 		public MailActuator(string smtpAddress)
 		{
 			this.smtpAddress = smtpAddress;
 		}
 
+		//--------------------------------------------------------------------------------
 		public OperationResult Send(string destination, string subject, string body)
 		{
 			OperationResult opRes = new OperationResult(true, "Operation commpleted");
