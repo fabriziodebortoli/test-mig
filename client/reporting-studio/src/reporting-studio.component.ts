@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../core/src/shared/models/eventargs.model';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -114,7 +115,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       }
       else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
     }
-    let message = {
+    let message : any = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
