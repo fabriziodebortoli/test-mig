@@ -1,20 +1,29 @@
 import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
-
-import { Subscription } from '../../../../rxjs.imports';
+import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
+import { TileManagerTabComponent } from './tile-manager-tab/tile-manager-tab.component';
 
 import { LayoutService } from './../../../../core/services/layout.service';
-import { TileManagerTabComponent } from './tile-manager-tab/tile-manager-tab.component';
+import { Subscription } from '../../../../rxjs.imports';
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
 @Component({
   selector: 'tb-tile-manager',
   templateUrl: './tile-manager.component.html',
-  styleUrls: ['./tile-manager.component.scss']
+  styleUrls: ['./tile-manager.component.scss'],
+  animations: [
+    trigger('collapsing', [
+        state('expanded', style({ overflow:'auto' })),
+        state('collapsed', style({ flex:'0 0 40px', overflow:'hidden' })),
+        transition('expanded <=> collapsed', animate('250ms ease-in-out')),
+    ])
+  ]
 })
-
 export class TileManagerComponent implements AfterContentInit {
+
+  selectorCollapsed:string = localStorage.getItem('selectorCollapsed') ? localStorage.getItem('selectorCollapsed') : 'expanded';
+  idxActive:number = 0;
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
 
@@ -31,23 +40,27 @@ export class TileManagerComponent implements AfterContentInit {
         internalTabComponents.push(tilegroups[i].tabComponent);
       }
       this.kendoTabStripInstance.tabs.reset(internalTabComponents);
+      this.changeTilegroupByIndex(0);
     });
   }
 
   changeTilegroupByIndex(i) {
-    console.log('changeTilegroupByIndex', i)
+    this.idxActive = i;
     this.kendoTabStripInstance.selectTab(i)
+    console.log("this.idxActive", this.idxActive)
   }
 
-/** OLD */
+  getSelectorIcon(){
+        return this.selectorCollapsed ? 'tb-circledrightfilled': 'tb-gobackfilled';
+  }
+  
+  toggleSelector(){
+    this.selectorCollapsed = this.selectorCollapsed === 'expanded' ? 'collapsed' : 'expanded';
+    localStorage.setItem('selectorCollapsed', this.selectorCollapsed);
+  }
 
-  // @ContentChildren(TileGroupComponent) tiles: QueryList<TileGroupComponent>;
-  // getTiles() {
-  //   return this.tiles.toArray();
-  // }
-
-  public viewHeightSubscription: Subscription;
-  viewHeight: number;
+  // public viewHeightSubscription: Subscription;
+  // viewHeight: number;
 
   constructor(public layoutService: LayoutService) { }
 
@@ -69,20 +82,4 @@ export class TileManagerComponent implements AfterContentInit {
   //   }
   // }
 
-  // selectTile(tile: TileGroupComponent) {
-  //   if (tile.active) return;
-
-  //   // deactivate all tabs
-  //   this.tiles.toArray().forEach(tile => tile.active = false);
-
-  //   // activate the tab the user has clicked on.
-  //   tile.active = true;
-  // }
-
-  // changeTabByIndex(event) {
-  //   let index = event.index;
-
-  //   let currentTile = this.tiles.toArray()[index];
-  //   this.selectTile(currentTile);
-  // }
 }

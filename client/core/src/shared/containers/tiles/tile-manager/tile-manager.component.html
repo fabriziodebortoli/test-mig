@@ -1,10 +1,22 @@
 <div class="tile-manager">
 
-    <ul class="tile-manager-selector">
-        <li *ngFor="let t of getTilegroups();let i = index" (click)="changeTilegroupByIndex(i)"><span>{{t?.title}}</span></li>
-    </ul>
+    <div class="tile-manager-selector" [ngClass]="{'collapsed': selectorCollapsed === 'collapsed'}" [@collapsing]="selectorCollapsed">
 
-    <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" [keepTabContent]="true">
+        <ul class="selector">
+            <li *ngFor="let t of getTilegroups();let i = index" (click)="changeTilegroupByIndex(i)" [class.active]="idxActive === i">
+                <tb-icon [iconType]="t?.iconType" [icon]="t?.icon" [title]="selectorCollapsed === 'collapsed' ? t?.title : ''"></tb-icon>
+                <span>{{t?.title}}</span>
+            </li>
+        </ul>
+
+        <a (click)="toggleSelector()" class="collapser">
+            <m4-icon [icon]="selectorCollapsed === 'collapsed' ? 'tb-circledrightfilled' : 'tb-gobackfilled'" [title]="selectorCollapsed === 'collapsed' ? 'Expand' : ''"></m4-icon>
+            <span>Collapse</span>
+        </a>
+
+    </div>
+
+    <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" class="tile-manager-content">
 
         <!-- <kendo-tabstrip-tab *ngFor="let t of getTabs();let i = index" [selected]="i == 0">
             <ng-template kendoTabTitle>
