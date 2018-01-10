@@ -128,12 +128,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
     this.formattersService.loadFormattersTable();
-
-    // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
-    this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
-      this.loadingService.setLoading(!connected, connected ? "" : this._TB('connecting...'));
-    }));
-
+    this.loadingService.setLoading(false);
   }
 
   ngOnInit() {
