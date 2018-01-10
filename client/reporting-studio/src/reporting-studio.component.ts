@@ -1,4 +1,3 @@
-import { CommandEventArgs } from './../../core/src/shared/models/eventargs.model';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
