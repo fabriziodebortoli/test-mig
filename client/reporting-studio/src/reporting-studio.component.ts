@@ -114,12 +114,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       }
       else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
     }
-    let message: any = {
+    let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
       authtoken: sessionStorage.getItem('authtoken'),
-      tbLoaderName: localStorage.getItem('tbLoaderName')
+      tbLoaderName: this.infoService.getTbLoaderInfo().name
     };
 
     if (this.args.params.runAtTbLoader) {
