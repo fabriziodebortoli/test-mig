@@ -4,7 +4,7 @@ using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace admin_server_test
+namespace Microarea.AdminServerTest
 {
     [TestClass]
     public class BootstrapTokenTests
