@@ -176,10 +176,10 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   @ViewChild("anchorTable", { read: ElementRef }) anchorTable: ElementRef;
 
   getPopupAlign(): Align {
-    let Horizontal = 'left';
+    let Horizontal = 'right';
     let Vertical = 'top';
 
-    let height = window.innerHeight;
+   let height = window.innerHeight;
     let bottomPoint = this.anchorTable.nativeElement.offsetTop + this.anchorTable.nativeElement.offsetHeight;
     if (height - bottomPoint <= 300) {
       Vertical = 'bottom';
@@ -198,7 +198,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   getAnchorAlign(): Align {
-    let Horizontal = 'left';
+    let Horizontal = 'right';
     let Vertical = 'bottom';
 
     let height = window.innerHeight;
