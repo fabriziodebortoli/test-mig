@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace admin_server_test
 {
     [TestClass]
-    public class AdminServerTest
+    public class BootstrapTokenTests
 	{
 		/// <summary>
 		/// In a real http use, now we shouldsend the bootstrapTokenContainer JSON-ized to the client
