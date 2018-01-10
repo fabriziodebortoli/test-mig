@@ -107,7 +107,7 @@ export class WebSocketService {
                 args:
                 {
                     webSocketName: sessionStorage.getItem('authtoken'),
-                    tbLoaderName: localStorage.getItem('tbLoaderName')
+                    tbLoaderName: this.infoService.getTbLoaderInfo().name
                 }
             }));
 

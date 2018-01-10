@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable, ErrorObservable } from '../../rxjs.imports';
 import { Logger } from './logger.service';
+import { TBLoaderInfo } from './../../shared/models/tbloader-info.model';
 
 export function loadConfig(config) {
     return () => config.load();
@@ -19,7 +20,8 @@ export class InfoService {
     dictionaries: any = null;
     culture = { enabled: true, value: '' };
     cultureId = 'ui_culture';
-
+    tbLoaderInfoId = 'tbLoaderInfo';
+    tbLoaderInfo: TBLoaderInfo;
     getProductInfoPromise: Promise<void>;
 
     constructor(
@@ -47,12 +49,29 @@ export class InfoService {
         return this.culture.value;
     }
 
+    getTbLoaderInfo(): TBLoaderInfo {
+        if (!this.tbLoaderInfo) {
+            let s = localStorage.getItem(this.tbLoaderInfoId);
+            if (s) {
+                this.tbLoaderInfo = JSON.parse(s);
+            }
+            else {
+                this.tbLoaderInfo = new TBLoaderInfo("", 0);
+            }
+        }
+
+        return this.tbLoaderInfo;
+    }
+    setTbLoaderInfo(info: TBLoaderInfo) {
+        this.tbLoaderInfo = info;
+        localStorage.setItem(this.tbLoaderInfoId, JSON.stringify(this.tbLoaderInfo));
+    }
     getAuthorization(): string {
         return JSON.stringify(
             {
                 ui_culture: this.culture.value,
                 authtoken: sessionStorage.getItem('authtoken'),
-                tbLoaderName: localStorage.getItem('tbLoaderName')
+                tbLoaderName: this.getTbLoaderInfo().name
             });
     }
 
