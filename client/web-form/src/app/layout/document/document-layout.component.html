@@ -20,16 +20,20 @@
                 <tb-header tbLayoutTypeHbox tdsHeader>
                     <ng-template>
                         <tb-tile tbTileMini>
+                            <div class=col1>
                             <tb-text caption="Number" cmpId="IDC_QUOTATIONS_TST_QUOTATIONNO" width="90" [model]="eventData?.model?.CustomerQuotation?.QuotationNo"></tb-text>
                             <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_QUOTATIONS_TST_QUOTATIONDATE" width="57" [model]="eventData?.model?.CustomerQuotation?.QuotationDate"></tb-date-input>
+                            </div>
                         </tb-tile>
                         <tb-tile tbTileStandard>
+                                <div class=col1>
                             <div class="anchored">
                                 <tb-enum-combo cmpId="IDC_QUOTATIONS_TST_TAKE_CUST_FROM_MASTER" width="115" [model]="eventData?.model?.CustomerQuotation?.UseCustomerOrContact"></tb-enum-combo>
                                 <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER" width="80" [model]="eventData?.model?.CustomerQuotation?.Customer" [hotLink]="{'name':'HKLMasterCustomer','namespace':'ERP.CustomersSuppliers.Dbl.CustSupp','mustExistData':true}"></tb-text>
                                 <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER_QUOTATION" width="80" [model]="eventData?.model?.CustomerQuotation?.Contact" [hotLink]="{'name':'HKLQuotationCustomer','namespace':'ERP.Contacts.Dbl.Contacts','mustExistData':true}"></tb-text>
                                 </div>
                             <tb-label-static cmpId="IDC_QUOTATIONS_TST_CUSTDESCRIPTION" width="279" [model]="eventData?.model?.CustDescription"></tb-label-static>
+                                </div>
                         </tb-tile>
                     </ng-template>
                 </tb-header>
