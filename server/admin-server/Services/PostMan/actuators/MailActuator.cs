@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 namespace Microarea.AdminServer.Services.PostMan.actuators
 {
@@ -21,16 +23,16 @@ namespace Microarea.AdminServer.Services.PostMan.actuators
 
 			try
 			{
-				using (SmtpClient client = new SmtpClient(this.smtpAddress))
+				using (SmtpClient client = new SmtpClient())
 				{
-					client.UseDefaultCredentials = true;
-
-					MailMessage mailMessage = new MailMessage();
-					mailMessage.From = new MailAddress("m4Provisioning@m4.com");
-					mailMessage.To.Add(destination);
-					mailMessage.Body = body;
+					client.Connect(this.smtpAddress);
+					MimeMessage mailMessage = new MimeMessage();
+					mailMessage.From.Add(new MailboxAddress("m4Provisioning@m4.com"));
+					mailMessage.To.Add(new MailboxAddress(destination));
 					mailMessage.Subject = subject;
+					mailMessage.Body = new TextPart("plain") { Text = body };
 					client.Send(mailMessage);
+					client.Disconnect(true);
 				}
 			}
 			catch (Exception e)
