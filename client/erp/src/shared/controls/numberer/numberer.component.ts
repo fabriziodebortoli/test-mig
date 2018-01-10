@@ -143,15 +143,17 @@ export class NumbererComponent extends ControlComponent {
     }
 
     setComponentMask() {
-        switch (this.eventData.model.FormMode.value) {
-            case FormMode.BROWSE:
-            case FormMode.FIND: {
-                this.mask = '';
-                break;
-            }
-            default: {
-                this.mask = this.valueToMask(this.model.value, this.tbMask);
-                break;
+        if (this.eventData.model.FormMode != undefined) {
+            switch (this.eventData.model.FormMode.value) {
+                case FormMode.BROWSE:
+                case FormMode.FIND: {
+                    this.mask = '';
+                    break;
+                }
+                default: {
+                    this.mask = this.valueToMask(this.model.value, this.tbMask);
+                    break;
+                }
             }
         }
     }
