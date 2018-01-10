@@ -1421,7 +1421,7 @@ void Table::Paint (CDC& DC, CPrintInfo* pInfo)
 		return;
 	if (bHiddenColumnChanged)
 	{
-		m_pDocument->UpdateWindow();
+		m_pDocument->UpdateWindow();	//se la tabella si può essere stretta occorre pulire a destra, oltre il baserect
 
 		Draw(DC, m_BaseRect, pInfo ? pInfo->m_bPreview : FALSE);
 	}

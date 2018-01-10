@@ -2077,12 +2077,12 @@ void CWoormDocMng::Invalidate (BOOL bRepaint)
 void CWoormDocMng::UpdateWindow ()
 {
 	// ignore WM_PAINT with no Invalid area
-	if (m_pInvalidAreas->GetSize() == 0) return;
+	if (m_pInvalidAreas->GetSize() == 0) 
+		return;
 
 	UpdateAllViews (NULL, FALSE, m_pInvalidAreas);
 	m_pInvalidAreas->RemoveAll();
 }
-
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::CreateListObj(CDC& aDC, CBCGPScrollView* aView, BOOL bSkipTrackPoint/* = FALSE*/)
@@ -3594,7 +3594,8 @@ BOOL CWoormDocMng::ParseViewInfo (ViewParser& lex)
 
 	if (bOk)
 	{
-		if (!LoadTemplate(FALSE))
+		//LoadTemplate(BOOL bEditing, BOOL bShowDialog = TRUE, BOOL bImportStaticObjects=TRUE, BOOL bUpdateDoc = TRUE);
+		if (!LoadTemplate(FALSE, TRUE, TRUE, FALSE))
 			m_Layouts.EnumObjects(&CWoormDocMng::ApplyRepeater);
 	}
 
@@ -4470,7 +4471,8 @@ void CWoormDocMng::ReadPage(BOOL bUpdateWnd /* = TRUE*/)
 		// senza cancellare il dato precedente
 		if (AlmostOneTrasparent())
 			Invalidate();
-		UpdateWindow();
+		else
+			UpdateWindow();
 	}
 }
 
@@ -6009,12 +6011,12 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 
 	// si mette in condizione di oggetto corrente non selezionato
 	m_pCurrentObj = NULL;
-	m_pActiveRect->Clear();
+	m_pActiveRect->Clear(FALSE);
 
 	if (!m_bAborted)
 	{
 		Invalidate();
-		UpdateWindow();
+		//UpdateWindow();
 	}
 
 	SetModifiedFlag(FALSE);     // start off with unmodified
@@ -12817,7 +12819,7 @@ void CWoormDocMng::LoadTemplate()
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::LoadTemplate (BOOL bEditing, BOOL bShowDialog, BOOL bImportStaticObjects)
+BOOL CWoormDocMng::LoadTemplate (BOOL bEditing, BOOL bShowDialog, BOOL bImportStaticObjects, BOOL bUpdateDoc /*= TRUE*/)
 {
 	/*if (running)
 		return TRUE;*/
@@ -12859,8 +12861,11 @@ BOOL CWoormDocMng::LoadTemplate (BOOL bEditing, BOOL bShowDialog, BOOL bImportSt
 	if (bEditing)
 		GetWoormFrame()->ShowDDLTemplates();
 
-	Invalidate();
-	UpdateWindow();
+	if (bUpdateDoc)
+	{
+		Invalidate();
+		//UpdateWindow();
+	}
 	m_bLoadingTemplate = FALSE;
 	return TRUE;
 }
@@ -13325,7 +13330,7 @@ void CWoormDocMng::UpdateLayout	()
 	PrepareLayout();
 
 	Invalidate(TRUE);
-	UpdateWindow ();
+	//UpdateWindow ();
 }
 
 //-----------------------------------------------------------------------------
