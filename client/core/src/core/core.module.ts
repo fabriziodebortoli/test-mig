@@ -26,7 +26,7 @@ import { HttpService } from './services/http.service';
 import { InfoService } from './services/info.service';
 import { LayoutService } from './services/layout.service';
 import { Logger } from './services/logger.service';
-import { TaskbuilderService } from './services/taskbuilder.service';
+import { TaskBuilderService } from './services/taskbuilder.service';
 import { SidenavService } from './services/sidenav.service';
 import { TabberService } from './services/tabber.service';
 import { UtilsService } from './services/utils.service';
@@ -62,7 +62,7 @@ export { InfoService } from './services/info.service';
 export { loadConfig } from './services/info.service';
 export { LayoutService } from './services/layout.service';
 export { Logger } from './services/logger.service';
-export { TaskbuilderService } from './services/taskbuilder.service';
+export { TaskBuilderService } from './services/taskbuilder.service';
 export { SidenavService } from './services/sidenav.service';
 export { TabberService } from './services/tabber.service';
 export { UtilsService } from './services/utils.service';
@@ -79,7 +79,7 @@ export const TB_SERVICES = [
     TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService,
     EnumsService, ParameterService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
-    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
+    TaskBuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
     LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
 ];
 

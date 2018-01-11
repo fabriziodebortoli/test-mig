@@ -319,6 +319,7 @@ export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
 const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe, TbToUpper];
 
+export { HotLinkInfo } from './models/hotLinkInfo.model';
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
 export { ControlTypes } from './models/control-types.enum';
@@ -329,7 +330,7 @@ export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDl
 export { OperationResult } from './models/operation-result.model';
 export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
-export { SocketConnectionStatus } from './models/websocket-connection.enum';
+export { ConnectionStatus } from './models/connection-status.enum';
 export { FormMode } from './models/form-mode.enum';
 export * from './models/store.models';
 export * from './commons/selector';

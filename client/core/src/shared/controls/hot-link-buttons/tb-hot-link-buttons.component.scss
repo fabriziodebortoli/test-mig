@@ -77,16 +77,6 @@
     padding: 5px 5px;
 }
 
-::ng-deep .k-i-loading::after,
-.k-loading-image::after {
-    margin-top: 0.75em;
-}
-
-::ng-deep .k-i-loading::before,
-.k-loading-image::before {
-    margin-top: 0.50em;
-}
-
 ::ng-deep .dropDownNoData.k-loading-image::after {
     margin-top: -0.5em;
 }

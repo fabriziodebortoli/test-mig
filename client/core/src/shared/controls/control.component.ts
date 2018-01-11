@@ -96,4 +96,8 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
         }
         this._model.value = val;
     }
+
+    protected onTranslationsReady() { 
+        super.onTranslationsReady();
+    }
 }
