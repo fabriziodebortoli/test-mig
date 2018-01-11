@@ -1,8 +1,9 @@
-﻿using Microarea.AdminServer.Model;
+﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using System;
 
-namespace Microarea.AdminServer.Controllers.Helpers.Tokens
+namespace Microarea.AdminServer.Services.Security
 {
 	//================================================================================
 	public class BootstrapToken

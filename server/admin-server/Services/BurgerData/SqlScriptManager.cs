@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microarea.AdminServer.Model.Services.Queries;
+using System;
 
 namespace Microarea.AdminServer.Services.BurgerData
 {

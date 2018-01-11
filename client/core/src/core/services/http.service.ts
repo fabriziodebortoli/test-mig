@@ -10,6 +10,7 @@ import { LoginCompact } from './../../shared/models/login-compact.model';
 import { InfoService } from './info.service';
 import { UtilsService } from './utils.service';
 import { Logger } from './logger.service';
+import { TBLoaderInfo } from './../../shared/models/tbloader-info.model';
 
 @Injectable()
 export class HttpService {
@@ -27,11 +28,8 @@ export class HttpService {
         let message = jObject && jObject.message ? jObject.message : "";
         let messages = jObject && jObject.messages ? jObject.messages : [];
         messages.push(message);
-        let respJson = JSON.parse(res.headers.get('Authorization'));
-        let tbLoaderName = null;
-        if (respJson)
-            tbLoaderName = respJson['tbLoaderName'];
-        return new OperationResult(!ok, messages, tbLoaderName);
+
+        return new OperationResult(!ok, messages);
     }
 
     isServerUp(): Observable<boolean> {
@@ -118,6 +116,7 @@ export class HttpService {
     openTBConnection(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
+
                 return this.createOperationResult(res);
             });
     }
@@ -135,6 +134,16 @@ export class HttpService {
             'Authorization': this.infoService.getAuthorization()
         });
         return this.http.post(url, data, { withCredentials: true, headers: headers })
+            .map((res: Response) => {
+                let auth = res.headers.get('Authorization');
+                if (auth) {
+                    let respJson = JSON.parse(auth);
+                    if (respJson) {
+                        this.infoService.setTbLoaderInfo(new TBLoaderInfo(respJson.tbLoaderName, respJson.tbLoaderId))
+                    }
+                }
+                return res;
+            })
             .catch(this.handleError);
     }
 

@@ -343,6 +343,12 @@ public:
 		ASSERT(m_pBrowser);
 		m_pBrowser->Reload();
 	}
+
+	void CBrowser::ReloadIgnoreCache()
+	{
+		ASSERT(m_pBrowser);
+		m_pBrowser->ReloadIgnoreCache();
+	}
 };
 
 CTBResponse::CTBResponse()
@@ -711,7 +717,6 @@ void CEFInitialize()
 	hCefThread = CreateThread(NULL, 0, CEFThreadFunction, NULL, 0, NULL);
 	WaitForSingleObject(hCefReady, INFINITE);
 	CloseHandle(hCefReady);
-
 	//thread per gestire le richieste lato server in modo asincrono, altrimenti il browser resta freezato
 	//nel caso di modulo IIS, questo non è necessario, ci pensa IIS a creare i thread
 	if (!AfxGetApplicationContext()->IsIISModule())
@@ -752,6 +757,7 @@ CTBRequestHandlerObj* TB_EXPORT GetRequestHandlerByUrl(CString strUrl)
 
 void CEFUninitialize()
 {
+	
 	if (g_pRequestHandlerThread)
 	{
 		g_pRequestHandlerThread->PostThreadMessage(WM_QUIT, NULL, NULL);
@@ -760,8 +766,35 @@ void CEFUninitialize()
 	
 	VERIFY(CefPostTask(TID_UI, CefCreateClosureTask(base::Bind(&CefQuitMessageLoop))));
 	WaitForSingleObject(hCefThread, INFINITE);
+	
+	DeleteCache();
+}
 
 
+void DeleteCache()
+{
+	try
+	{
+		//qui cancello tutta la cache del cef, tranne local storage dove memorizziamo l'ultima azienda e utente
+		//questo giro di copia/cancella è l'unico modo che cef accetta per la cancellazione
+		CString appDataPath = AfxGetPathFinder()->GetAppDataPath(TRUE);
+		CString localStorage = AfxGetPathFinder()->GetAppDataPath(TRUE) + L"\\CefCache\\Local Storage";
+		CString tempStorage = AfxGetPathFinder()->GetAppDataPath(TRUE) + L"\\Local Storage";
+		CString cefCache = AfxGetPathFinder()->GetAppDataPath(TRUE) + L"\\CefCache";
+		if (!PathFileExists(cefCache) || !PathFileExists(localStorage))
+			return;
+
+		CopyFolderTree(localStorage, tempStorage);
+
+		RemoveFolderTree(cefCache);
+
+		CreateDirectory(cefCache);
+		CopyFolderTree(tempStorage, localStorage);
+		RemoveFolderTree(tempStorage);
+	}
+	catch (...)
+	{
+	}
 }
 
 bool CreatePopupBrowser(LPCTSTR sUrl, BOOL bWaitForBrowserReady, CBrowserEventsObj* pEvents /*= NULL*/)

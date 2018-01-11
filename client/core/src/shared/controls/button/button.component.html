@@ -1,4 +1,4 @@
-<div class="tb-control tb-button">
+<div class="tb-control tb-button" [ngClass]="componentClass()">
     <button (click)='onCommand()' kendoButton id="{{cmpId}}" [disabled]="!(model?.enabled)">
         <m4-icon icon="{{icon}}"></m4-icon>
     </button>

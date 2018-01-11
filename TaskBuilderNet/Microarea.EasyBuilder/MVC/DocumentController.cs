@@ -18,7 +18,7 @@ using Microarea.TaskBuilderNet.Interfaces;
 using Microarea.TaskBuilderNet.Interfaces.EasyBuilder;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 using Microarea.TaskBuilderNet.Interfaces.View;
-
+using Microarea.EasyBuilder.ComponentModel;
 
 namespace Microarea.EasyBuilder.MVC
 {
@@ -250,6 +250,10 @@ namespace Microarea.EasyBuilder.MVC
                     "CreateCodeExtender"
                 );
             constr.Body.Statements.Add(createCodeInvokeExpr);
+            TBSite site = controllerInstance.Site as TBSite;
+            if (site != null && site.Editor != null)
+                site.Editor.ComponentDeclarator.UpdateAttributes(controllerClass);
+
             return controllerClass;
 		}
 

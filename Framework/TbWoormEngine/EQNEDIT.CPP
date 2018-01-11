@@ -1030,7 +1030,7 @@ void CEqnEditDlg::VarFieldChanged()
 			}
 			else  if (pFld->GetDataType() == DATA_RECORD_TYPE)
 			{
-				DataRecord* par = dynamic_cast<DataRecord*>(pFld->GetData());
+				DataTRecord* par = dynamic_cast<DataTRecord*>(pFld->GetData());
 				//TODO
 				ASSERT(FALSE);
 			}

@@ -1,9 +1,7 @@
-﻿using Microarea.AdminServer.Controllers.Helpers;
-using Microarea.AdminServer.Controllers.Helpers.All;
-using Microarea.AdminServer.Controllers.Helpers.Tokens;
+﻿using Microarea.AdminServer.Controllers.Helpers.Commons;
+using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
-using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.GWAMCaller;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Newtonsoft.Json;
@@ -13,7 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Libraries
+namespace Microarea.AdminServer.Services.Security
 {
 	//================================================================================
 	public class SecurityManager
@@ -111,7 +109,8 @@ namespace Microarea.AdminServer.Libraries
 		/// <param name="authenticationHeader"></param>
 		/// <returns>OperationResult</returns>
 		//-----------------------------------------------------------------------------	
-		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey, string roleName, string entityKey, string level)
+		public static OperationResult ValidateAuthorization(
+			string authenticationHeader, string secretKey, string roleName, string entityKey, string level)
 		{
 			if (String.IsNullOrEmpty(authenticationHeader))
 				return new OperationResult(false, Strings.AuthorizationHeaderMissing, (int)AppReturnCodes.AuthorizationHeaderMissing);
@@ -181,14 +180,12 @@ namespace Microarea.AdminServer.Libraries
             return hashed;
         }
 
-
         //-----------------------------------------------------------------------------	
         public static string GetRandomPassword()
 		{
             //todo ripristina
 			return "Microarea..."; // Guid.NewGuid().ToString();
         }
-
 
         #region Crypting /Decrypting
         //---------------------------------------------------------------------

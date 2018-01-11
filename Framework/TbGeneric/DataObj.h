@@ -6,6 +6,7 @@
 #include <TbNameSolver\ThreadContext.h>
 #include <TbNameSolver\Observable.h>
 #include <TbNameSolver\JsonSerializer.h>
+#include <TbNameSolver\CallbackHandler.h>
 
 #include "DatesFunctions.h"
 #include "tbstrings.h"
@@ -15,6 +16,7 @@
 
 //includere alla fine degli include del .H
 #include "beginh.dex"
+//===========================================================================
 
 class EnumItemArray;
 class DataType;
@@ -30,6 +32,7 @@ class RDEData;
 	class DataPerc;
 	class DataBool;
 	class DataEnum;
+	class DataTypeNamedArray;
 
 class SqlTable;
 class ISqlRecord;
@@ -38,36 +41,9 @@ class HotKeyLink;
 typedef UINT	DataSize;
 
 //===========================================================================
-//
-#define DATA_NULL_TYPE  WORD(0)
-#define DATA_STR_TYPE	WORD(1)
-#define DATA_INT_TYPE	WORD(2)
-#define DATA_LNG_TYPE	WORD(3)
-#define DATA_DBL_TYPE	WORD(4)
-#define DATA_MON_TYPE	WORD(5)
-#define DATA_QTA_TYPE	WORD(6)
-#define DATA_PERC_TYPE	WORD(7)
-#define DATA_DATE_TYPE	WORD(8)
-#define DATA_BOOL_TYPE	WORD(9)
-#define DATA_ENUM_TYPE	WORD(10)
-//#define DATA_SET_TYPE		WORD(11) eliminato
-#define DATA_ARRAY_TYPE	WORD(11)
-#define DATA_GUID_TYPE	WORD(12)
-#define DATA_TXT_TYPE	WORD(13)
-#define DATA_VARIANT_TYPE	WORD(14)
-#define DATA_RECORD_TYPE	WORD(15)
-#define DATA_BLOB_TYPE		WORD(16)	//NON implementato
-
-//	WARNING! The DataType sequence must not be changed because
-//	expression evaluation uses next #define
-//allocate expression DATA_TYPE_OP_MAP
-#define LAST_MAPPED_DATA_TYPE	DATA_BLOB_TYPE
-//used in BOOL CDataObjTypesCombo::OnInitCtrl()
-#define LAST_USED_DATA_TYPE		DATA_TXT_TYPE
-//----
 
 //spostato qui poichè viene usato anche in dataobj.cpp. Per non fare l'inclusione di parsobj.h
-//in parsobj.cpp invece c'è già l'include di datoobj.h
+//in parsobj.cpp invece c'è già l'include di dataobj.h
 #define UNDEF_FORMAT	-2		// e` usato dal costruttore di CParsedCtrl
 
 // per la conversione da stringa a datatime utilizzata in fase di parsing-unparsing (anche per il 
@@ -75,7 +51,6 @@ typedef UINT	DataSize;
 #define CONVERT_DATATIME_SUCCEEDED		0
 #define CONVERT_DATATIME_FAILED			1
 #define CONVERT_DATATIME_SYNTAX_ERROR	2
-
 
 //serve per Oracle dove i DataStr sono visti come delle stringhe di lunghezza 38 (compreso le parentesi)
 #define GUID_LEN 38
@@ -117,30 +92,27 @@ public:
 #endif
 };
 
-
-//----------------------------------------------------------------------------
-//------------------------ COMMON FUNCTION PROTOTYPING -----------------------
-//----------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////
 
 //----------------------------------------------------------------------------
 // return tag decodification of data types.
 TB_EXPORT CString		FromDataTypeToDescr			(const DataType& aDataType);	// language depented
 
+//----------------------------------------------------------------------------
 // used to convert string to datatime with a fixed format
 // used in parsing and xmlparsing
-//----------------------------------------------------------------------------
 TB_EXPORT int ConvertStringToDateTime (DataType aType, LPCTSTR lpszInput, DWORD* pValue1, DWORD* pValue2 = NULL);
 
-// ritorna il minimo valore positivo gestito per il datatype corrispondente
 //----------------------------------------------------------------------------
+// ritorna il minimo valore positivo gestito per il datatype corrispondente
 TB_EXPORT CString FromTBTypeToNetType(const DataType& aDataType);
 
 //----------------------------------------------------------------------------
 // return token of data types.
 TB_EXPORT CString FromDataTypeToScriptType(const DataType& aDataType);
 
-// ritorna il nome del tipo .Net corrispondente al datatype corrispondente
 //----------------------------------------------------------------------------
+// ritorna il nome del tipo .Net corrispondente al datatype corrispondente
 TB_EXPORT double GetEpsilonForDataType (const DataType& aDataType) ;
 
 //----------------------------------------------------------------------------
@@ -176,18 +148,62 @@ TB_EXPORT int SelectCompareType(CComboBox*, ECompareType);
 //////////////////////////////////////////////////////////////////////////////
 //					DataType definition
 //////////////////////////////////////////////////////////////////////////////
+//
+#define DATA_NULL_TYPE  WORD(0)
+#define DATA_STR_TYPE	WORD(1)
+#define DATA_INT_TYPE	WORD(2)
+#define DATA_LNG_TYPE	WORD(3)
+#define DATA_DBL_TYPE	WORD(4)
+#define DATA_MON_TYPE	WORD(5)
+#define DATA_QTA_TYPE	WORD(6)
+#define DATA_PERC_TYPE	WORD(7)
+#define DATA_DATE_TYPE	WORD(8)
+#define DATA_BOOL_TYPE	WORD(9)
+#define DATA_ENUM_TYPE	WORD(10)
+//#define DATA_SET_TYPE		WORD(11) removed
+#define DATA_ARRAY_TYPE	WORD(11)
+#define DATA_GUID_TYPE	WORD(12)
+#define DATA_TXT_TYPE	WORD(13)
+#define DATA_VARIANT_TYPE	WORD(14)
+//TODO
+#define DATA_RECORD_TYPE	WORD(15)
+#define DATA_TRECORD_TYPE	WORD(16)	//map to a SqlRecord
+#define DATA_BLOB_TYPE		WORD(17)	//NON implementato
+
+//	WARNING! The DataType sequence must not be changed because
+//	expression evaluation uses next #define
+//allocate expression DATA_TYPE_OP_MAP
+#define LAST_MAPPED_DATA_TYPE	DATA_BLOB_TYPE
+//used in BOOL CDataObjTypesCombo::OnInitCtrl()
+#define LAST_USED_DATA_TYPE		DATA_TXT_TYPE
+//----
+class TB_EXPORT DataTypeRecordDescr: public CObject
+{
+public:
+	DataTypeNamedArray*		m_pRecordFields = NULL;	//record fields declaration
+	CString					m_sName;	
+
+	DataTypeRecordDescr() {}
+	~DataTypeRecordDescr();
+};
+//-----------------------------
+
 class TB_EXPORT DataType
 {
 public:
-	WORD	m_wType;	// indica uno dei tipi sopra definiti
-	WORD	m_wTag;		// serve per specificare la tipologia del dato (enum, date/time)
+	WORD			m_wType = DATA_NULL_TYPE;	// datatype id
+	//union {	//per evitare spreco di memoria
+		WORD		m_wTag; // Some values from DataObj::DataStatus bitvector (FULLDATE, TIME, TB_HANDLE, TB_VOID) to select subtype (time, datetime, elapsedtime, object), or enum tag value
+		//DataType*	m_pBaseType = NULL;	//array base datatype
+	//};
 
 public:
 	DataType()									{ m_wType = DATA_NULL_TYPE; m_wTag = 0; }
 	DataType(WORD wType, WORD wTag = WORD(0))	{ m_wType = wType; m_wTag = wTag; }
 	DataType(const DataType& t)					{ *this = t; }
 	DataType(const CString& st);	//st is the numeric datatype value as LONG
-	
+	~DataType();
+
 public:
    	static  const DataType	Null;
    	static  const DataType	String;
@@ -211,6 +227,7 @@ public:
    	static  const DataType	Object;
   	static  const DataType	Void;
  	static  const DataType	Record;
+	static  const DataType	TRecord;
 
 public:
 	BOOL 	IsFullDate		()		const;
@@ -242,7 +259,6 @@ public:
 
 	static BOOL IsCompatible(const DataType& dtFromType, const DataType& dtToType);
 	static BOOL IsCompatible(VARTYPE vtFromType, const DataType& dtToType);
-
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -2274,7 +2290,7 @@ inline void DataObj::SetAccountable		(BOOL value)		{ SetStatus(value,		ACCOUNTAB
 
 inline void DataObj::SetUpdateView		(BOOL bChanged)		{ SetStatus(bChanged,	UPDATE_VIEW);		}
 
-inline void DataObj::SetHide			(BOOL bHide)		{ SetStatus(bHide,		HIDE); }
+inline void DataObj::SetHide			(BOOL bHide)		{ SetStatus(bHide,		HIDE); SetModified(); }
 inline void DataObj::SetOSLHide			(BOOL bHide)		{ SetStatus(bHide,		OSL_HIDE); }
 
 inline void DataObj::SetPrivate			(BOOL bPrivate)		{ SetStatus(bPrivate,	PRIVATE); }
@@ -2408,7 +2424,7 @@ public:
 };
 
 //////////////////////////////////////////////////////////////////////////////
-//             Class DataStrArray definition
+//             Class DataTypeNamedArray definition
 //////////////////////////////////////////////////////////////////////////////
 //                                                                          
 //=============================================================================
@@ -2537,9 +2553,9 @@ public:
 };
 
 //============================================================================
-class TB_EXPORT DataRecord : public DataObj
+class TB_EXPORT DataTRecord : public DataObj
 {
-	DECLARE_DYNCREATE (DataRecord)
+	DECLARE_DYNCREATE (DataTRecord)
 
 protected:
 	ISqlRecord*	m_pRecord;
@@ -2547,12 +2563,12 @@ protected:
 
 public:
 	// constructors & destructor
-	DataRecord ();
-	DataRecord (const DataRecord& ar);
-	DataRecord (ISqlRecord* pRec, BOOL bOwnRecord);
-	~DataRecord ();
+	DataTRecord ();
+	DataTRecord (const DataTRecord& ar);
+	DataTRecord (ISqlRecord* pRec, BOOL bOwnRecord);
+	~DataTRecord ();
 
-	DataRecord&	operator=	(const DataRecord& ar) {  Assign(ar); return *this; }
+	DataTRecord&	operator=	(const DataTRecord& ar) {  Assign(ar); return *this; }
 
 	virtual void    Assign	(const DataObj& ar);
 
@@ -2702,6 +2718,43 @@ private:
 	BOOL		m_bIsTailMultiLineString;
 
 	DataStr		m_dsOverflowError;
+};
+
+//============================================================================
+class TB_EXPORT BaseField : public CObject, public IDisposingSourceImpl
+{
+	friend class SymTable;
+	DECLARE_DYNAMIC(BaseField)
+protected:
+	CString		m_strName;
+	DataType    m_DataType;
+	DataObj*	m_pData = NULL;
+	BOOL		m_bOwnData = TRUE;
+
+public:
+	BaseField(const CString& strName, DataType dt = DataType::Null, DataObj* pValue = NULL, BOOL bCloneValue = TRUE);
+	BaseField(const BaseField&);
+	virtual ~BaseField();
+
+	const CString&		GetName		() const { return m_strName; }	
+	DataType 			GetDataType	() const { return m_DataType; }
+
+	BOOL		IsArray() const { return GetDataType().m_wType == DATA_ARRAY_TYPE; }
+
+			void	SetDataPtr(DataObj* pData, BOOL bOwnData = TRUE);
+	virtual void	SetDataType(const DataType& newDataType, BOOL bArray = FALSE);
+
+	virtual DataObj*	GetData(int /*nDataLevel = -1*/) const;
+	virtual void		AssignData(const DataObj& aData);
+
+protected:
+	BOOL AllocData();
+
+#ifdef _DEBUG
+public:
+	virtual void Dump(CDumpContext& dc) const;
+	virtual void AssertValid() const;
+#endif //_DEBUG
 };
 
 //============================================================================

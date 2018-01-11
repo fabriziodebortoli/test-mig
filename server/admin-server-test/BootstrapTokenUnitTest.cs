@@ -1,14 +1,13 @@
-using Microarea.AdminServer.Controllers.Helpers.Tokens;
-using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace admin_server_test
+namespace Microarea.AdminServerTest
 {
     [TestClass]
-    public class AdminServerTest
+    public class BootstrapTokenTests
 	{
 		/// <summary>
 		/// In a real http use, now we shouldsend the bootstrapTokenContainer JSON-ized to the client
@@ -77,6 +76,43 @@ namespace admin_server_test
 			OperationResult opRes = SecurityManager.ValidateToken(bootstrapTokenContainer.JwtToken, "secret-key", "Admin", "*", "Instance");
 
 			Assert.IsTrue(opRes.Result);
+		}
+
+		[TestMethod]
+		public void DetectTamperedBootstrapToken()
+		{
+			// this is the container of the bootstrap token
+			BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
+
+			// this is the token, that we fill we custom properties!
+			BootstrapToken bootstrapToken = new BootstrapToken();
+
+			// setting just one token property [...]
+			bootstrapToken.AccountName = "fricceri@m4.com";
+
+			// preparing roles for the token
+			IAccountRoles iRole = new AccountRoles();
+			iRole.AccountName = "fricceri@m4.com";
+			iRole.RoleName = "Admin";
+			iRole.Level = "Instance";
+			iRole.EntityKey = "*";
+			IAccountRoles[] roles = new AccountRoles[1];
+			roles[0] = iRole;
+			bootstrapToken.Roles = roles;
+
+			// injecting the token on its container
+			bootstrapTokenContainer.SetToken(true, 0, "Token has been generated", bootstrapToken, "secret-key");
+
+			// In a real scenario, now the token has been emitted to a client
+			// In a real scenario, the token must be presented to the server as a credential,
+			// so we need to validate it to be sure that it's not been hijacked
+			// In this test, we change the token, like it was tampered. We must reject it.
+
+			// creating a tampered token by adding some dummy text to the original token
+			string tamperedToken = bootstrapTokenContainer.JwtToken + "dummy string";
+
+			OperationResult opRes = SecurityManager.ValidateToken(tamperedToken, "secret-key", "Admin", "*", "Instance");
+			Assert.IsFalse(opRes.Result);
 		}
 	}
 }
