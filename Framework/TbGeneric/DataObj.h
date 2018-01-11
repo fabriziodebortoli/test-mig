@@ -184,7 +184,7 @@ public:
 	CString					m_sName;	
 
 	DataTypeRecordDescr() {}
-	~DataTypeRecordDescr() { SAFE_DELETE(m_pRecordFields); }
+	~DataTypeRecordDescr();
 };
 //-----------------------------
 

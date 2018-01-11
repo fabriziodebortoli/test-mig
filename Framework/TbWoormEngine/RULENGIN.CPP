@@ -119,9 +119,7 @@ void RuleEngine::AddRule(RuleObj* pRule)
 {
 	int nPos = m_UnsortedRules.Add(pRule);
 	
-#ifdef _DEBUG
 	pRule->m_nRuleTag = nPos;
-#endif
 }
 
 //-----------------------------------------------------------------------------
