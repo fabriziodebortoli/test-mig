@@ -64,6 +64,7 @@ const DataType  DataType::Array(DATA_ARRAY_TYPE, 0);
 const DataType  DataType::Variant(DATA_VARIANT_TYPE, 0);
 const DataType  DataType::Object(DATA_LNG_TYPE, DataObj::TB_HANDLE);
 const DataType  DataType::Record(DATA_RECORD_TYPE, 0);
+const DataType  DataType::TRecord(DATA_TRECORD_TYPE, 0);
 
 CString DataType::ToString() const
 {
@@ -134,7 +135,7 @@ static const TCHAR szDataTxt[] = _T("DataTxt");
 static const TCHAR szDataBlob[] = _T("DataBlob");
 static const TCHAR szSeparator[] = _T("::");
 static const TCHAR szDataArray[] = _T("DataArray");
-static const TCHAR szDataRecord[] = _T("DataRecord");
+static const TCHAR szDataTRecord[] = _T("DataTRecord");
 
 //////////////////////////////////////////////////////////////////////////////
 //  COMMON FUNCTION 
@@ -183,7 +184,7 @@ DataObj* DataObj::DataObjCreate(const DataType& aDataType/*, LPCSTR pszFile, int
 	case DATA_TXT_TYPE: pObj = new DataText(); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(); break;
-	case DATA_RECORD_TYPE: pObj = new DataRecord(); break;
+	case DATA_RECORD_TYPE: pObj = new DataTRecord(); break;
 	case DATA_VARIANT_TYPE: return NULL;
 	default: ASSERT_TRACE1(FALSE, "Bad type: %d", aDataType.m_wType); return NULL;
 	}
@@ -246,7 +247,7 @@ DataObj* DataObj::DataObjClone(/*LPCSTR pszFile, int nLine*/) const
 	case DATA_TXT_TYPE: pObj = new DataText(*(DataText*)this); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(*(DataBlob*)this); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(*(DataArray*)this); break;
-	case DATA_RECORD_TYPE: pObj = new DataRecord(*(DataRecord*)this); break;
+	case DATA_RECORD_TYPE: pObj = new DataTRecord(*(DataTRecord*)this); break;
 	default: return NULL;
 	}
 #ifdef _DEBUG
@@ -644,6 +645,16 @@ DataType::DataType(const CString& st)
 
 	m_wType = WORD(l & 0xFFFF);
 	m_wTag = WORD(l >> 16);
+}
+
+//-----------------------------------------------------------------------------
+DataType::~DataType()
+{
+	if (m_pBaseType)
+	{
+		delete m_pBaseType; m_pBaseType = NULL;
+	}
+	SAFE_DELETE (m_pRecordFields);
 }
 
 //-----------------------------------------------------------------------------
@@ -7088,14 +7099,14 @@ void DataArray::AssertValid() const
 #endif //_DEBUG
 
 //============================================================================
-//          DataRecord class implementations
+//          DataTRecord class implementations
 //////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------
-IMPLEMENT_DYNCREATE(DataRecord, DataObj)
+IMPLEMENT_DYNCREATE(DataTRecord, DataObj)
 
 //-----------------------------------------------------------------------------
-DataRecord::DataRecord()
+DataTRecord::DataTRecord()
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7104,7 +7115,7 @@ DataRecord::DataRecord()
 	SetDirty();
 }
 
-DataRecord::DataRecord(const DataRecord& ar)
+DataTRecord::DataTRecord(const DataTRecord& ar)
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7112,19 +7123,19 @@ DataRecord::DataRecord(const DataRecord& ar)
 	Assign(ar);
 }
 
-DataRecord::DataRecord(ISqlRecord* pRec, BOOL bOwnRecord)
+DataTRecord::DataTRecord(ISqlRecord* pRec, BOOL bOwnRecord)
 	:
 	m_pRecord(pRec),
 	m_bOwnRecord(bOwnRecord)
 {}
 
-DataRecord::~DataRecord()
+DataTRecord::~DataTRecord()
 {
 	if (m_bOwnRecord && m_pRecord)
 		m_pRecord->Dispose();
 }
 
-void DataRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
+void DataTRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 {
 	if (m_pRecord && m_bOwnRecord)
 		m_pRecord->Dispose();
@@ -7134,31 +7145,31 @@ void DataRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 }
 
 //-----------------------------------------------------------------------------
-CString DataRecord::Str(int, int) const
+CString DataTRecord::Str(int, int) const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-CString DataRecord::ToString() const
+CString DataTRecord::ToString() const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-void DataRecord::Assign(const DataObj& aDataObj)
+void DataTRecord::Assign(const DataObj& aDataObj)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
 		return;
 
-	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataRecord)))
+	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataTRecord)))
 	{
 		ASSERT(FALSE);
 		return;
 	}
 
-	DataRecord* pDRSrc = dynamic_cast<DataRecord*>(const_cast<DataObj*>(&aDataObj));
+	DataTRecord* pDRSrc = dynamic_cast<DataTRecord*>(const_cast<DataObj*>(&aDataObj));
 
 	if (m_pRecord)
 	{
@@ -7184,7 +7195,7 @@ void DataRecord::Assign(const DataObj& aDataObj)
 }
 
 //-----------------------------------------------------------------------------
-void DataRecord::Assign(LPCTSTR)
+void DataTRecord::Assign(LPCTSTR)
 {
 	if (IsValueLocked())
 		return;
@@ -7193,7 +7204,7 @@ void DataRecord::Assign(LPCTSTR)
 }
 
 //-----------------------------------------------------------------------------
-void DataRecord::Assign(const VARIANT& v)
+void DataTRecord::Assign(const VARIANT& v)
 {
 	if (IsValueLocked())
 		return;
@@ -7202,7 +7213,7 @@ void DataRecord::Assign(const VARIANT& v)
 }
 
 //-----------------------------------------------------------------------------
-void DataRecord::Assign(const RDEData& aRDEData)
+void DataTRecord::Assign(const RDEData& aRDEData)
 {
 	if (IsValueLocked())
 		return;
@@ -7211,7 +7222,7 @@ void DataRecord::Assign(const RDEData& aRDEData)
 }
 
 //-----------------------------------------------------------------------------
-void DataRecord::Clear(BOOL bValid)
+void DataTRecord::Clear(BOOL bValid)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
@@ -7228,13 +7239,13 @@ void DataRecord::Clear(BOOL bValid)
 }
 
 //-----------------------------------------------------------------------------
-int DataRecord::IsEqual(const DataObj& o)	const
+int DataTRecord::IsEqual(const DataObj& o)	const
 {
-	DataRecord* par = (DataRecord*)(const_cast<DataObj*>(&o));
+	DataTRecord* par = (DataTRecord*)(const_cast<DataObj*>(&o));
 	return m_pRecord->IIsEqual(*(par->m_pRecord));
 }
 
-int DataRecord::IsLessThan(const DataObj& o)	const
+int DataTRecord::IsLessThan(const DataObj& o)	const
 {
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
 
@@ -7242,7 +7253,7 @@ int DataRecord::IsLessThan(const DataObj& o)	const
 }
 
 //-----------------------------------------------------------------------------
-CString DataRecord::FormatDataForXML(BOOL b) const
+CString DataTRecord::FormatDataForXML(BOOL b) const
 {
 	//TODO
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
@@ -7259,7 +7270,7 @@ CString DataRecord::FormatDataForXML(BOOL b) const
 }
 
 //-----------------------------------------------------------------------------
-void DataRecord::AssignFromXMLString(LPCTSTR lpszValue)
+void DataTRecord::AssignFromXMLString(LPCTSTR lpszValue)
 {
 	Assign(lpszValue);
 }
@@ -7268,15 +7279,15 @@ void DataRecord::AssignFromXMLString(LPCTSTR lpszValue)
 // Diagnostics
 
 #ifdef _DEBUG
-void DataRecord::Dump(CDumpContext& dc) const
+void DataTRecord::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
-	AFX_DUMP0(dc, "\nDataRecord:");
+	AFX_DUMP0(dc, "\nDataTRecord:");
 	AFX_DUMP1(dc, "\n\tm_wDataStatus = ", m_wDataStatus);
 	AFX_DUMP1(dc, "\n\tContent= ", Str());
 }
 
-void DataRecord::AssertValid() const
+void DataTRecord::AssertValid() const
 {
 	DataObj::AssertValid();
 }
@@ -7713,3 +7724,173 @@ SpecialReportField::SRFname SpecialReportField::NAME;
 SpecialReportField::SRFid	SpecialReportField::ID;
 
 //=============================================================================
+////////////////////////////////////////////////////////////////////////////////
+//									SymField
+////////////////////////////////////////////////////////////////////////////////
+//
+IMPLEMENT_DYNAMIC(BaseField, CObject)
+
+BaseField::BaseField
+				(
+					const CString& strName,
+					DataType dt /*= DataType::Null*/,
+					DataObj* pValue /*= NULL*/,
+					BOOL bOwnData /*= TRUE*/
+				)
+	:
+	IDisposingSourceImpl(this),
+
+	m_strName(strName),
+	m_DataType(dt),
+	m_pData(NULL),
+	m_bOwnData(bOwnData)
+{
+	if (pValue)
+	{
+		if (bOwnData)
+		{
+			m_pData = DataObj::DataObjCreate(dt);
+			m_pData->Assign(*pValue);
+		}
+		else
+			m_pData = pValue;
+	}
+	else
+		AllocData();
+}
+
+//------------------------------------------------------------------------------
+BaseField::BaseField(const BaseField& f)
+	:
+	IDisposingSourceImpl(this),
+
+	m_strName(f.m_strName),
+	m_DataType(f.m_DataType),
+	m_pData(NULL),
+	m_bOwnData(f.m_bOwnData)
+{
+	if (f.m_pData)
+	{
+		if (m_bOwnData)
+		{
+			m_pData = DataObj::DataObjCreate(m_DataType);
+			m_pData->Assign(*f.m_pData);
+			//TODO Elisa
+			//if array -> setnbasedatatype(f.GetBaseDataType)
+		}
+		else
+		{
+			m_pData = f.m_pData;
+		}
+	}
+	else
+		AllocData();
+}
+
+//------------------------------------------------------------------------------
+BaseField::~BaseField()
+{
+	if (m_bOwnData) SAFE_DELETE(m_pData);
+}
+
+//------------------------------------------------------------------------------
+BOOL BaseField::AllocData()
+{
+	if (m_bOwnData)
+		SAFE_DELETE(m_pData);
+
+	if (m_DataType == DataType::Null)
+		return FALSE;
+
+	if (m_DataType != DataType::Variant)
+	{
+		m_bOwnData = TRUE;
+		m_pData = DataObj::DataObjCreate(m_DataType);
+	}
+	return TRUE;
+}
+
+//------------------------------------------------------------------------------
+void BaseField::SetDataPtr(DataObj* pData, BOOL bOwnData /*= TRUE*/)
+{
+	if (m_bOwnData) SAFE_DELETE(m_pData);
+	m_pData = pData;
+	m_bOwnData = bOwnData;
+	if (pData)
+		m_DataType = pData->GetDataType();
+}
+
+//----------------------------------------------------------------------------
+void BaseField::SetDataType(const DataType& newDataType, BOOL bArray/*= FALSE*/)
+{
+	if
+		(
+			m_pData  &&
+			m_pData->GetDataType() == DataType::Array &&
+			bArray &&
+			m_DataType == DataType::Array)
+	{
+		if (((DataArray*)m_pData)->GetBaseDataType() != newDataType)
+		{
+			((DataArray*)m_pData)->RemoveAll();
+			((DataArray*)m_pData)->SetBaseDataType(newDataType);
+		}
+	}
+	else if (
+		newDataType != DataType::Null &&
+		(
+			m_pData == NULL ||
+			newDataType != m_pData->GetDataType() ||
+			bArray != m_pData->IsKindOf(RUNTIME_CLASS(DataArray))
+			)
+		)
+	{
+		if (m_bOwnData) SAFE_DELETE(m_pData);
+		if (bArray)
+		{
+			m_pData = DataObj::DataObjCreate(DataType::Array);
+			((DataArray*)m_pData)->SetBaseDataType(newDataType);
+			m_DataType = DataType::Array;
+		}
+		else
+		{
+			m_pData = DataObj::DataObjCreate(newDataType);
+			m_DataType = newDataType;
+		}
+	}
+}
+
+//------------------------------------------------------------------------------
+void BaseField::AssignData(const DataObj& aData)
+{
+	if (m_pData == NULL)
+	{
+		m_DataType = aData.GetDataType();
+		AllocData();
+	}
+	ASSERT(DataType::IsCompatible(aData.GetDataType(), m_DataType));
+
+	m_pData->Assign(aData);
+}
+
+//------------------------------------------------------------------------------
+DataObj* BaseField::GetData(int /*nDataLevel = -1*/) const
+{
+	return m_pData;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Diagnostics
+
+#ifdef _DEBUG
+void BaseField::Dump(CDumpContext& dc) const
+{
+	ASSERT_VALID(this);
+	AFX_DUMP1(dc, "\nBaseField = ", GetName());
+}
+
+void BaseField::AssertValid() const
+{
+	CObject::AssertValid();
+}
+#endif //_DEBUG
