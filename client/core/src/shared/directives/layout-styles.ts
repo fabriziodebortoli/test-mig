@@ -19,6 +19,7 @@ export class LayoutTypeHboxDirective {
 export class LayoutTypeVboxDirective {
     constructor(el: ElementRef, renderer: Renderer) {
         renderer.setElementClass(el.nativeElement, 'layoutType-vbox', true);
+        renderer.setElementClass(el.nativeElement, 'row', true);
     }
 }
 

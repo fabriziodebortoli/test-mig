@@ -1,15 +1,13 @@
 tb-card-title {
     position: relative;
-    font-size: 1.2rem;
     font-weight: 700;
     color: #000;
-    font-size: 17px;
+    font-size: 14px;
     div {
         display: flex;
         flex-wrap: nowrap;
         flex-basis: row;
         margin-bottom: 8px;
-        padding-left: 3px;
         span {
             flex: 2 0 0%;
             align-self: flex-start;
@@ -19,18 +17,4 @@ tb-card-title {
             margin-right: 6px;
         }
     }
-}
-
-@media screen and (min-width: 1025px) {
-    tb-card-title {
-        div {
-            padding-left: 5px;
-        }
-    }
-}
-
-m4-icon {}
-
-.tds-header tb-card-title {
-    display: none
 }

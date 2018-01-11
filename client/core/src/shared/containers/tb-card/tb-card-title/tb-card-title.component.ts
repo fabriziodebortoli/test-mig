@@ -7,11 +7,14 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class TbCardTitleComponent implements OnInit {
+  
   public _isCollapsible = true;
   public _isCollapsed: boolean = false;
+  
   @Input() title: string;
   @Input() icon: string;
   @Input() iconClass: string;
+
   @Input()
   set isCollapsible(value: boolean) {
     this._isCollapsible = value;
@@ -36,7 +39,6 @@ export class TbCardTitleComponent implements OnInit {
   }
 
   getIcon() {
-
     if (this.icon !== '') { return this.icon; }
     else { return this._isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled'; }
   }
