@@ -1,11 +1,11 @@
-<!--<tb-caption caption="{{caption}}"></tb-caption>
+<!--<tb-caption *ngIf="!hideCaption" caption="{{caption}}"></tb-caption>
 <kendo-dropdownlist id="{{cmpId}}" [data]="items" [textField]="'description'" [valueField]="'code'" [value]="selectedItem" (selectionChange)="onChange()" (open)="fillListBox()">
     <ng-template kendoDropDownListNoDataTemplate>
             <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
         </ng-template>
 </kendo-dropdownlist>-->
 <div class="tb-control tb-combo" [ngClass]="componentClass()">
-    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <tb-caption *ngIf="!hideCaption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <ng-template [ngIf]="hotLink">
         <ng-template [tbHotLink]="hotLink"></ng-template>
     </ng-template>

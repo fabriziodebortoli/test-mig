@@ -49,7 +49,42 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   ben_row_changed(item) {
-    // console.log(item);
+
+    //qui devo inviare al server il cambio riga
+
+    //se il dbt  è editabile
+    // if (!this.model.enabled)
+    //   return;
+    //per il momento permette l'editing anche se il documento non è nello stato corretto
+
+    if (this.currentRow) {
+      for (var prop in this.currentRow) {
+        this.currentRow[prop].enabled = false;
+      }
+    }
+
     this.currentRow = item.selectedRows[0].dataItem;
+    for (var prop in this.currentRow) {
+      this.currentRow[prop].enabled = true;
+    }
+
   }
+
+  public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
+    if (!isEdited) {
+      sender.editCell(rowIndex, columnIndex);
+    }
+  }
+
+  public cellCloseHandler(args: any) {
+    // const { formGroup, dataItem } = args;
+
+    // if (!formGroup.valid) {
+    //      // prevent closing the edited cell if there are invalid values.
+    //     args.preventDefault();
+    // } else if (formGroup.dirty) {
+
+    // }
+  }
+
 }
