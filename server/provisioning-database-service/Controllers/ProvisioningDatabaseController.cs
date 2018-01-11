@@ -15,6 +15,8 @@ using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.ProvisioningDatabase.Controllers
 {
+	[Route("provisioning-database-service")]
+	
 	/// <summary>
 	/// Controller with APIs against database  
 	/// </summary>
@@ -30,6 +32,17 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			//this.settings = settings.Value;
 		}
 
+		//---------------------------------------------------------------------
+		//[HttpGet("/api/database/hello")]
+		[Route("gethello")]
+		public IActionResult ApiHello()
+		{
+			OperationResult opRes = new OperationResult();
+			opRes.Result = true;
+			opRes.Message = "Hello!";
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
 
 		// @@TODO: procedura di creazione automatica su Cloud da rivedere!!!
 		// mi deve essere passata la stringa di connessione dal provisioning
@@ -45,195 +58,195 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="subscriptionKey"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-/*		[HttpPost("/api/database/quickcreate/{instanceKey}/{subscriptionKey}")]
-		public IActionResult ApiQuickCreate(string instanceKey, string subscriptionKey)
-		{
-			OperationResult opRes = new OperationResult();
+		/*		[HttpPost("/api/database/quickcreate/{instanceKey}/{subscriptionKey}")]
+				public IActionResult ApiQuickCreate(string instanceKey, string subscriptionKey)
+				{
+					OperationResult opRes = new OperationResult();
 
-			//************************************************************************************
-			// aggiungere controlli di esistenza database - login - connessioni al server, etc.
-			//************************************************************************************
+					//************************************************************************************
+					// aggiungere controlli di esistenza database - login - connessioni al server, etc.
+					//************************************************************************************
 
-			// creo il record nella tabella con il flag UnderMaintenance a true
+					// creo il record nella tabella con il flag UnderMaintenance a true
 
-			SubscriptionDatabase subDatabase = new SubscriptionDatabase();
-			subDatabase.InstanceKey = instanceKey;
-			subDatabase.SubscriptionKey = subscriptionKey;
-			subDatabase.Name = instanceKey + "_" + subscriptionKey + "_Master";
-			subDatabase.UnderMaintenance = true;
+					SubscriptionDatabase subDatabase = new SubscriptionDatabase();
+					subDatabase.InstanceKey = instanceKey;
+					subDatabase.SubscriptionKey = subscriptionKey;
+					subDatabase.Name = instanceKey + "_" + subscriptionKey + "_Master";
+					subDatabase.UnderMaintenance = true;
 
-			try
-			{
-				opRes = subDatabase.Save(burgerData);
-				opRes.Message = Strings.OperationOK;
-			}
-			catch (Exception exc)
-			{
-				opRes.Result = false;
-				opRes.Message = "010 DatabaseController.QuickCreate" + exc.Message;
-				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					try
+					{
+						opRes = subDatabase.Save(burgerData);
+						opRes.Message = Strings.OperationOK;
+					}
+					catch (Exception exc)
+					{
+						opRes.Result = false;
+						opRes.Message = "010 DatabaseController.QuickCreate" + exc.Message;
+						return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			if (!opRes.Result)
-			{
-				opRes.Message = Strings.OperationKO;
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						opRes.Message = Strings.OperationKO;
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			// imposto i nomi dei database
-			string dbName = instanceKey + "_" + subscriptionKey + "_Master_DB";
-			string dmsDbName = dbName + "_DMS";
+					// imposto i nomi dei database
+					string dbName = instanceKey + "_" + subscriptionKey + "_Master_DB";
+					string dmsDbName = dbName + "_DMS";
 
-			// impostazione parametri creazione contenitore db su Azure
-			// queste impostazioni dovranno essere definite a livello di subscription
-			AzureCreateDBParameters param = new AzureCreateDBParameters();
-			param.DatabaseName = dbName;
-			param.MaxSize = AzureMaxSize.GB1;
+					// impostazione parametri creazione contenitore db su Azure
+					// queste impostazioni dovranno essere definite a livello di subscription
+					AzureCreateDBParameters param = new AzureCreateDBParameters();
+					param.DatabaseName = dbName;
+					param.MaxSize = AzureMaxSize.GB1;
 
-			// impostazione parametri creazione contenitore db su SqlServer
-			SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
-			sqlParam.DatabaseName = dbName;
+					// impostazione parametri creazione contenitore db su SqlServer
+					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
+					sqlParam.DatabaseName = dbName;
 
-			// to create database I need to connect to master
+					// to create database I need to connect to master
 
-			DatabaseTask dTask = new DatabaseTask(true);
-			dTask.CurrentStringConnection =
-				string.Format
-				(
-				NameSolverDatabaseStrings.SQLConnection,
-				settings.DatabaseInfo.DBServer,
-				DatabaseLayerConsts.MasterDatabase,
-				settings.DatabaseInfo.DBUser,
-				settings.DatabaseInfo.DBPassword
-				);
+					DatabaseTask dTask = new DatabaseTask(true);
+					dTask.CurrentStringConnection =
+						string.Format
+						(
+						NameSolverDatabaseStrings.SQLConnection,
+						settings.DatabaseInfo.DBServer,
+						DatabaseLayerConsts.MasterDatabase,
+						settings.DatabaseInfo.DBUser,
+						settings.DatabaseInfo.DBPassword
+						);
 
-			// I create ERP database
-			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
-				dTask.CreateAzureDatabase(param);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+					// I create ERP database
+					opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
+						dTask.CreateAzureDatabase(param);
+					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						jsonHelper.AddPlainObject<OperationResult>(opRes);
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			// I create DMS database
+					// I create DMS database
 
-			param.DatabaseName = dmsDbName;
-			sqlParam.DatabaseName = dmsDbName;
+					param.DatabaseName = dmsDbName;
+					sqlParam.DatabaseName = dmsDbName;
 
-			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
-			 dTask.CreateAzureDatabase(param);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+					opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
+					 dTask.CreateAzureDatabase(param);
+					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						jsonHelper.AddPlainObject<OperationResult>(opRes);
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			// creo la login dbowner
+					// creo la login dbowner
 
-			string loginName = instanceKey + "_" + subscriptionKey + "_Admin";
-			string password = SecurityManager.GetRandomPassword();
+					string loginName = instanceKey + "_" + subscriptionKey + "_Admin";
+					string password = SecurityManager.GetRandomPassword();
 
-			opRes.Result = dTask.CreateLogin(loginName, password);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+					opRes.Result = dTask.CreateLogin(loginName, password);
+					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						jsonHelper.AddPlainObject<OperationResult>(opRes);
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			// associo la login appena creata al database di ERP con il ruolo di db_owner
+					// associo la login appena creata al database di ERP con il ruolo di db_owner
 
-			opRes.Result = dTask.CreateUser(loginName, dbName);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+					opRes.Result = dTask.CreateUser(loginName, dbName);
+					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						jsonHelper.AddPlainObject<OperationResult>(opRes);
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			// associo la login appena creata al database DMS con il ruolo di db_owner
-			opRes.Result = dTask.CreateUser(loginName, dmsDbName);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+					// associo la login appena creata al database DMS con il ruolo di db_owner
+					opRes.Result = dTask.CreateUser(loginName, dmsDbName);
+					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						jsonHelper.AddPlainObject<OperationResult>(opRes);
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			// il Provider deve essere definito a livello di subscription
-			subDatabase.Provider = "SQLAzure";
+					// il Provider deve essere definito a livello di subscription
+					subDatabase.Provider = "SQLAzure";
 
-			subDatabase.DBName = dbName;
-			subDatabase.DBServer = settings.DatabaseInfo.DBServer;
-			subDatabase.DBOwner = loginName;
-			subDatabase.DBPassword = password;
+					subDatabase.DBName = dbName;
+					subDatabase.DBServer = settings.DatabaseInfo.DBServer;
+					subDatabase.DBOwner = loginName;
+					subDatabase.DBPassword = password;
 
-			subDatabase.UseDMS = true;
-			subDatabase.DMSDBName = dmsDbName;
-			subDatabase.DMSDBServer = settings.DatabaseInfo.DBServer;
-			subDatabase.DMSDBOwner = loginName;
-			subDatabase.DMSDBPassword = password;
+					subDatabase.UseDMS = true;
+					subDatabase.DMSDBName = dmsDbName;
+					subDatabase.DMSDBServer = settings.DatabaseInfo.DBServer;
+					subDatabase.DMSDBOwner = loginName;
+					subDatabase.DMSDBPassword = password;
 
-			Debug.WriteLine("-------- DB Name: " + dbName);
-			Debug.WriteLine("-------- DMS DB Name: " + dmsDbName);
-			Debug.WriteLine("-------- Login Name: " + loginName);
-			Debug.WriteLine("-------- Password: " + password);
+					Debug.WriteLine("-------- DB Name: " + dbName);
+					Debug.WriteLine("-------- DMS DB Name: " + dmsDbName);
+					Debug.WriteLine("-------- Login Name: " + loginName);
+					Debug.WriteLine("-------- Password: " + password);
 
-			// creo la struttura leggendo i metadati da filesystem
+					// creo la struttura leggendo i metadati da filesystem
 
-			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
+					opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
+					opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+					if (!opRes.Result)
+					{
+						jsonHelper.AddPlainObject<OperationResult>(opRes);
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			dbManager.ImportDefaultData = true;
-			dbManager.ImportSampleData = false;
-			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+					dbManager.ImportDefaultData = true;
+					dbManager.ImportSampleData = false;
+					opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
+					opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						jsonHelper.AddPlainObject<OperationResult>(opRes);
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			try
-			{
-				// ho terminato l'elaborazione, aggiorno il record nella tabella 
-				// con i dati del database e rimetto il flag UnderMaintenance a false
-				subDatabase.UnderMaintenance = false;
-				opRes = subDatabase.Save(burgerData);
-				opRes.Message = Strings.OperationOK;
-			}
-			catch (Exception exc)
-			{
-				opRes.Result = false;
-				opRes.Message = "020 DatabaseController.QuickCreate" + exc.Message;
-				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					try
+					{
+						// ho terminato l'elaborazione, aggiorno il record nella tabella 
+						// con i dati del database e rimetto il flag UnderMaintenance a false
+						subDatabase.UnderMaintenance = false;
+						opRes = subDatabase.Save(burgerData);
+						opRes.Message = Strings.OperationOK;
+					}
+					catch (Exception exc)
+					{
+						opRes.Result = false;
+						opRes.Message = "020 DatabaseController.QuickCreate" + exc.Message;
+						return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			if (!opRes.Result)
-			{
-				opRes.Message = Strings.OperationKO;
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+					if (!opRes.Result)
+					{
+						opRes.Message = Strings.OperationKO;
+						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
 
-			jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 201, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-		}
-		*/
+					jsonHelper.AddPlainObject<OperationResult>(opRes);
+					return new ContentResult { StatusCode = 201, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				}
+				*/
 
 		/// <summary>
 		/// Try to open connection with credentials in the body
