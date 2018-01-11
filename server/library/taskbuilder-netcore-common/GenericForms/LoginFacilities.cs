@@ -244,8 +244,7 @@ namespace Microarea.Common.GenericForms
 		public static void SetRememberMe(string authenticationToken, string checkedVal)
 		{
 			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-            if (loginManagerSession == null)
-                return;
+
 			bool rememberMe = String.Compare(checkedVal, bool.TrueString, true) == 0 ? true : false;
 			LatestUser.Remember = rememberMe;
 			
@@ -1005,9 +1004,7 @@ namespace Microarea.Common.GenericForms
 				}
 
 				LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-                if (loginManagerSession == null)
-                    return string.Empty;
-                culture = loginManagerSession.ApplicationLanguage;
+				culture = loginManagerSession.ApplicationLanguage;
 				uiCulture = loginManagerSession.PreferredLanguage;
 
 				if (!dontsavelatestuser)

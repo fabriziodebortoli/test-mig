@@ -348,7 +348,7 @@ namespace Microarea.Common.MenuLoader
 
                 return Path.Combine(
                     clientInstallationPath,
-                    string.Format(StandardMenuCachingFileName, CultureInfo.CurrentUICulture.Name)
+                    string.Format(StandardMenuCachingFileName, CultureInfo.CurrentUICulture.Name) 
                     );
             }
 
@@ -401,8 +401,8 @@ namespace Microarea.Common.MenuLoader
                 {
                 }
 
-                //---------------------------------------------------------------------------
-            }
+            //---------------------------------------------------------------------------
+                }
             public static void Delete(string user)
             {
                 try
@@ -430,7 +430,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public event MenuParserEventHandler ScanStandardMenuComponentsStarted;
         public event MenuParserEventHandler ScanStandardMenuComponentsEnded;
-
+        
         //----------------------------------------------------------------------------
         public event FavoritesActionEventHandler RemovingNodeFromFavorites;
         public event FavoritesActionEventHandler AddingNodeToFavorites;
@@ -1029,7 +1029,7 @@ namespace Microarea.Common.MenuLoader
         private void InitSecurityLightDeniedAccesses()
         {
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-            if (session == null || session.LoginManagerSessionState != LoginManagerState.Logged)
+            if (session.LoginManagerSessionState != LoginManagerState.Logged)
                 return;
 
             LoginManager.LoginManagerInstance.RefreshSecurityStatus();
@@ -1043,7 +1043,6 @@ namespace Microarea.Common.MenuLoader
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
             if (
                 aParser == null ||
-                session == null ||
                 session.LoginManagerSessionState != LoginManagerState.Logged ||
                 !LoginManager.LoginManagerInstance.IsSecurityLightEnabled()
                 )
@@ -1185,11 +1184,9 @@ namespace Microarea.Common.MenuLoader
             }
             else
             {
-
-                LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-                if (session == null)
-                    return;
-                List<string> activatedModules = session.GetModules();
+               
+				LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+				List <string> activatedModules = session.GetModules();
                 if (activatedModules == null || activatedModules.Count <= 0)
                 {
                     Debug.Fail("No activated modules found");
@@ -1325,7 +1322,7 @@ namespace Microarea.Common.MenuLoader
 
             string userName = (menuPathFinder.User != null && menuPathFinder.User.Length > 0) ? menuPathFinder.User : NameSolverStrings.AllUsers;
 
-
+           
             foreach (ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
                 if
@@ -1421,7 +1418,7 @@ namespace Microarea.Common.MenuLoader
             if (menuPathFinder == null)
                 return;
 
-
+           
             //se sono stato letto da cache non ricalcolo le informazioni
             //tanto nulla e' cambiato
             if (!cachedInfos.FromFile)
@@ -2789,8 +2786,6 @@ namespace Microarea.Common.MenuLoader
             bool applySecurityFilter = false;
 
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-            if (session == null)
-                return false;
             if (!ignoreAllSecurityChecks)
                 applySecurityFilter = session.IsActivated("MicroareaConsole", "SecurityAdmin") &&
                     (

@@ -30,23 +30,15 @@
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
 
-//i tag che iniziano con _ sono privati nel model lato client, e vengono wrappati da getter e setter
+const TCHAR* szValue = _T("value");
+const TCHAR* szEnabled = _T("enabled");
 const TCHAR* szTag = _T("tag");
-const TCHAR* szValue = _T("_value");
-const TCHAR* szType = _T("_type");
-const TCHAR* szLength = _T("_length");
-const TCHAR* szStatus = _T("_status");
+const TCHAR* szType = _T("type");
 
 #ifdef _DEBUG
 #undef THIS_FILE
 static const char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
-//=============================================================================
-
-DataTypeRecordDescr::~DataTypeRecordDescr()
-{ SAFE_DELETE (m_pRecordFields); }
-
-///////////////////////////////////////////////////////////////////////////////
 
 const DataType  DataType::Null(DATA_NULL_TYPE, 0);
 const DataType  DataType::Void(DATA_NULL_TYPE, DataObj::TB_VOID);
@@ -70,7 +62,6 @@ const DataType  DataType::Array(DATA_ARRAY_TYPE, 0);
 const DataType  DataType::Variant(DATA_VARIANT_TYPE, 0);
 const DataType  DataType::Object(DATA_LNG_TYPE, DataObj::TB_HANDLE);
 const DataType  DataType::Record(DATA_RECORD_TYPE, 0);
-const DataType  DataType::TRecord(DATA_TRECORD_TYPE, 0);
 
 CString DataType::ToString() const
 {
@@ -141,7 +132,7 @@ static const TCHAR szDataTxt[] = _T("DataTxt");
 static const TCHAR szDataBlob[] = _T("DataBlob");
 static const TCHAR szSeparator[] = _T("::");
 static const TCHAR szDataArray[] = _T("DataArray");
-static const TCHAR szDataTRecord[] = _T("DataTRecord");
+static const TCHAR szDataRecord[] = _T("DataRecord");
 
 //////////////////////////////////////////////////////////////////////////////
 //  COMMON FUNCTION 
@@ -190,7 +181,7 @@ DataObj* DataObj::DataObjCreate(const DataType& aDataType/*, LPCSTR pszFile, int
 	case DATA_TXT_TYPE: pObj = new DataText(); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(); break;
-	case DATA_RECORD_TYPE: pObj = new DataTRecord(); break;
+	case DATA_RECORD_TYPE: pObj = new DataRecord(); break;
 	case DATA_VARIANT_TYPE: return NULL;
 	default: ASSERT_TRACE1(FALSE, "Bad type: %d", aDataType.m_wType); return NULL;
 	}
@@ -253,7 +244,7 @@ DataObj* DataObj::DataObjClone(/*LPCSTR pszFile, int nLine*/) const
 	case DATA_TXT_TYPE: pObj = new DataText(*(DataText*)this); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(*(DataBlob*)this); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(*(DataArray*)this); break;
-	case DATA_RECORD_TYPE: pObj = new DataTRecord(*(DataTRecord*)this); break;
+	case DATA_RECORD_TYPE: pObj = new DataRecord(*(DataRecord*)this); break;
 	default: return NULL;
 	}
 #ifdef _DEBUG
@@ -651,16 +642,6 @@ DataType::DataType(const CString& st)
 
 	m_wType = WORD(l & 0xFFFF);
 	m_wTag = WORD(l >> 16);
-}
-
-//-----------------------------------------------------------------------------
-DataType::~DataType()
-{
-	//if (m_pBaseType)
-	//{
-	//	delete m_pBaseType; m_pBaseType = NULL;
-	//}
-	//SAFE_DELETE (m_pRecordFields);
 }
 
 //-----------------------------------------------------------------------------
@@ -1131,7 +1112,7 @@ template <class T> void	DataObjArray::CalcPercentages(DataObjArray& arPercentage
 {
 	arPercentages.RemoveAll();
 	if (GetSize() == 0) return;
-	if (GetSize() == 1)
+	if (GetSize() == 1) 
 	{
 		arPercentages.Add(new DataPerc(100.0));
 		return;
@@ -1142,7 +1123,7 @@ template <class T> void	DataObjArray::CalcPercentages(DataObjArray& arPercentage
 	T aSum;
 	CalcSum<T>(aSum);
 
-	double dbl = ((double)aSum) / 100.0;
+	double dbl = ((double) aSum ) / 100.0;
 
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -1400,10 +1381,8 @@ bool DataObj::AlignHKL(HotKeyLink* pHKL)
 //-----------------------------------------------------------------------------
 void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer)
 {
+	jsonSerializer.WriteBool(szEnabled, !IsReadOnly());
 	jsonSerializer.WriteInt(szType, GetDataType().m_wType);
-
-	jsonSerializer.WriteInt(szLength, GetColumnLen());
-	jsonSerializer.WriteInt(szStatus, m_wDataStatus);
 	SerializeJsonValue(jsonSerializer);
 }
 
@@ -1415,9 +1394,8 @@ void DataObj::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataObj::AssignJsonValue(CJsonParser& jsonParser)
 {
-	CString value;
-	if (jsonParser.TryReadString(szValue, value))
-		AssignFromXMLString(value);
+	CString value = jsonParser.ReadString(szValue);
+	AssignFromXMLString(value);
 }
 //-----------------------------------------------------------------------------
 void DataObj::SignalOnChanged()
@@ -1429,9 +1407,8 @@ void DataObj::SignalOnChanged()
 void DataObj::AssignFromJson(CJsonParser& jsonParser)
 {
 	AssignJsonValue(jsonParser);
-	int status;
-	if (jsonParser.TryReadInt(szStatus, status))
-		m_wDataStatus = status;
+	bool enabled = jsonParser.ReadBool(szEnabled);
+	SetReadOnly(!enabled);
 }
 
 //@@ rivedere
@@ -2659,9 +2636,7 @@ void DataBool::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataBool::AssignJsonValue(CJsonParser& jsonParser)
 {
-	bool value;
-	if (jsonParser.TryReadBool(szValue, value))
-		m_bValue = value;
+	m_bValue = jsonParser.ReadBool(szValue);
 }
 //-----------------------------------------------------------------------------
 void DataBool::Assign(const BOOL bValue)
@@ -2901,9 +2876,7 @@ void DataInt::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataInt::AssignJsonValue(CJsonParser& jsonParser)
 {
-	int value;
-	if (jsonParser.TryReadInt(szValue, value))
-		m_nValue = value;
+	m_nValue = jsonParser.ReadInt(szValue);
 }
 //-----------------------------------------------------------------------------
 void DataInt::Assign(const short nValue)
@@ -3159,9 +3132,7 @@ void DataLng::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataLng::AssignJsonValue(CJsonParser& jsonParser)
 {
-	int value;
-	if (jsonParser.TryReadInt(szValue, value))
-		m_nValue = value;
+	m_nValue = jsonParser.ReadInt(szValue);
 }
 //-----------------------------------------------------------------------------
 void* DataLng::GetRawData(DataSize* pDataSize) const
@@ -3842,9 +3813,7 @@ void DataDbl::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataDbl::AssignJsonValue(CJsonParser& jsonParser)
 {
-	double value;
-	if (jsonParser.TryReadDouble(szValue, value))
-		m_nValue = value;
+	m_nValue = jsonParser.ReadDouble(szValue);
 }
 
 //============================================================================================
@@ -4032,13 +4001,13 @@ static void SetDateTimeTypeAndValue(DBTIMESTAMP& aDateTime, DataDate& aDataDate)
 		)
 		if (
 			(
-				aDateTime.day == MIN_TIME_DAY &&
-				aDateTime.month == MIN_TIME_MONTH &&
+				aDateTime.day == MIN_TIME_DAY		&&
+				aDateTime.month == MIN_TIME_MONTH	&&
 				aDateTime.year == MIN_TIME_YEAR
 				) ||
 				(
-					aDateTime.day == MIN_DAY &&
-					aDateTime.month == MIN_MONTH &&
+					aDateTime.day == MIN_DAY		&&
+					aDateTime.month == MIN_MONTH	&&
 					aDateTime.year == MIN_YEAR
 					)
 			)
@@ -4692,8 +4661,8 @@ void DataDate::Assign(const DBTIMESTAMP& aDateTime)
 		if (
 			!IsFullDate() ||
 			!(
-				aDateTime.day == MIN_DAY &&
-				aDateTime.month == MIN_MONTH &&
+				aDateTime.day == MIN_DAY		&&
+				aDateTime.month == MIN_MONTH	&&
 				aDateTime.year == MIN_YEAR
 				)	// Se la data e` nulla il tempo e` non nullo la data viene ignorata
 			)
@@ -4935,8 +4904,8 @@ BOOL DataDate::SetDate(const UWORD wDay, const UWORD wMonth, const SWORD wYear)
 
 	if (
 		(
-			wDay == MIN_DAY &&
-			wMonth == MIN_MONTH &&
+			wDay == MIN_DAY		&&
+			wMonth == MIN_MONTH	&&
 			wYear == MIN_YEAR
 			) ||
 			(
@@ -4955,8 +4924,8 @@ BOOL DataDate::SetDate(const UWORD wDay, const UWORD wMonth, const SWORD wYear)
 		m_DateStruct.year = wYear;
 
 		if (
-			wDay == MIN_DAY &&
-			wMonth == MIN_MONTH &&
+			wDay == MIN_DAY		&&
+			wMonth == MIN_MONTH	&&
 			wYear == MIN_YEAR
 			)
 		{
@@ -5438,9 +5407,8 @@ void DataEnum::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------
 void DataEnum::AssignJsonValue(CJsonParser& jsonParser)
 {
-	CString value;
-	if (jsonParser.TryReadString(szValue, value))
-		AssignFromXMLString(value);
+	CString value = jsonParser.ReadString(szValue);
+	AssignFromXMLString(value);
 }
 //-----------------------------------------------------------------------------
 void DataEnum::Assign(LPCTSTR pszEnumStr)
@@ -6955,18 +6923,18 @@ CString DataArray::FormatDataForXML(BOOL b) const
 void DataArray::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 {
 	jsonSerializer.WriteString(szValue, FormatDataForXML());
-	//  TODO qui sotto implementazione futura per quando anche la functionDescription sara' capace di gestire json
-	/*	jsonSerializer.OpenArray(_T("values"));
+//  TODO qui sotto implementazione futura per quando anche la functionDescription sara' capace di gestire json
+/*	jsonSerializer.OpenArray(_T("values"));
 
-		for (int i = 0; i < GetSize(); i++)
-		{
-			DataObj* pObj = GetAt(i);
-			jsonSerializer.OpenObject(i);
-			jsonSerializer.WriteString(_T("value"), pObj->FormatDataForXML());
-			jsonSerializer.CloseObject();
-		}
+	for (int i = 0; i < GetSize(); i++)
+	{
+		DataObj* pObj = GetAt(i);
+		jsonSerializer.OpenObject(i);
+		jsonSerializer.WriteString(_T("value"), pObj->FormatDataForXML());
+		jsonSerializer.CloseObject();
+	}
 
-		jsonSerializer.CloseArray();*/
+	jsonSerializer.CloseArray();*/
 }
 
 //-----------------------------------------------------------------------------
@@ -7105,14 +7073,14 @@ void DataArray::AssertValid() const
 #endif //_DEBUG
 
 //============================================================================
-//          DataTRecord class implementations
+//          DataRecord class implementations
 //////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------
-IMPLEMENT_DYNCREATE(DataTRecord, DataObj)
+IMPLEMENT_DYNCREATE(DataRecord, DataObj)
 
 //-----------------------------------------------------------------------------
-DataTRecord::DataTRecord()
+DataRecord::DataRecord()
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7121,7 +7089,7 @@ DataTRecord::DataTRecord()
 	SetDirty();
 }
 
-DataTRecord::DataTRecord(const DataTRecord& ar)
+DataRecord::DataRecord(const DataRecord& ar)
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7129,19 +7097,19 @@ DataTRecord::DataTRecord(const DataTRecord& ar)
 	Assign(ar);
 }
 
-DataTRecord::DataTRecord(ISqlRecord* pRec, BOOL bOwnRecord)
+DataRecord::DataRecord(ISqlRecord* pRec, BOOL bOwnRecord)
 	:
 	m_pRecord(pRec),
 	m_bOwnRecord(bOwnRecord)
 {}
 
-DataTRecord::~DataTRecord()
+DataRecord::~DataRecord()
 {
 	if (m_bOwnRecord && m_pRecord)
 		m_pRecord->Dispose();
 }
 
-void DataTRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
+void DataRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 {
 	if (m_pRecord && m_bOwnRecord)
 		m_pRecord->Dispose();
@@ -7151,31 +7119,31 @@ void DataTRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::Str(int, int) const
+CString DataRecord::Str(int, int) const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::ToString() const
+CString DataRecord::ToString() const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const DataObj& aDataObj)
+void DataRecord::Assign(const DataObj& aDataObj)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
 		return;
 
-	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataTRecord)))
+	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataRecord)))
 	{
 		ASSERT(FALSE);
 		return;
 	}
 
-	DataTRecord* pDRSrc = dynamic_cast<DataTRecord*>(const_cast<DataObj*>(&aDataObj));
+	DataRecord* pDRSrc = dynamic_cast<DataRecord*>(const_cast<DataObj*>(&aDataObj));
 
 	if (m_pRecord)
 	{
@@ -7201,7 +7169,7 @@ void DataTRecord::Assign(const DataObj& aDataObj)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(LPCTSTR)
+void DataRecord::Assign(LPCTSTR)
 {
 	if (IsValueLocked())
 		return;
@@ -7210,7 +7178,7 @@ void DataTRecord::Assign(LPCTSTR)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const VARIANT& v)
+void DataRecord::Assign(const VARIANT& v)
 {
 	if (IsValueLocked())
 		return;
@@ -7219,7 +7187,7 @@ void DataTRecord::Assign(const VARIANT& v)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const RDEData& aRDEData)
+void DataRecord::Assign(const RDEData& aRDEData)
 {
 	if (IsValueLocked())
 		return;
@@ -7228,7 +7196,7 @@ void DataTRecord::Assign(const RDEData& aRDEData)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Clear(BOOL bValid)
+void DataRecord::Clear(BOOL bValid)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
@@ -7245,13 +7213,13 @@ void DataTRecord::Clear(BOOL bValid)
 }
 
 //-----------------------------------------------------------------------------
-int DataTRecord::IsEqual(const DataObj& o)	const
+int DataRecord::IsEqual(const DataObj& o)	const
 {
-	DataTRecord* par = (DataTRecord*)(const_cast<DataObj*>(&o));
+	DataRecord* par = (DataRecord*)(const_cast<DataObj*>(&o));
 	return m_pRecord->IIsEqual(*(par->m_pRecord));
 }
 
-int DataTRecord::IsLessThan(const DataObj& o)	const
+int DataRecord::IsLessThan(const DataObj& o)	const
 {
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
 
@@ -7259,7 +7227,7 @@ int DataTRecord::IsLessThan(const DataObj& o)	const
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::FormatDataForXML(BOOL b) const
+CString DataRecord::FormatDataForXML(BOOL b) const
 {
 	//TODO
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
@@ -7276,7 +7244,7 @@ CString DataTRecord::FormatDataForXML(BOOL b) const
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::AssignFromXMLString(LPCTSTR lpszValue)
+void DataRecord::AssignFromXMLString(LPCTSTR lpszValue)
 {
 	Assign(lpszValue);
 }
@@ -7285,15 +7253,15 @@ void DataTRecord::AssignFromXMLString(LPCTSTR lpszValue)
 // Diagnostics
 
 #ifdef _DEBUG
-void DataTRecord::Dump(CDumpContext& dc) const
+void DataRecord::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
-	AFX_DUMP0(dc, "\nDataTRecord:");
+	AFX_DUMP0(dc, "\nDataRecord:");
 	AFX_DUMP1(dc, "\n\tm_wDataStatus = ", m_wDataStatus);
 	AFX_DUMP1(dc, "\n\tContent= ", Str());
 }
 
-void DataTRecord::AssertValid() const
+void DataRecord::AssertValid() const
 {
 	DataObj::AssertValid();
 }
@@ -7730,173 +7698,3 @@ SpecialReportField::SRFname SpecialReportField::NAME;
 SpecialReportField::SRFid	SpecialReportField::ID;
 
 //=============================================================================
-////////////////////////////////////////////////////////////////////////////////
-//									SymField
-////////////////////////////////////////////////////////////////////////////////
-//
-IMPLEMENT_DYNAMIC(BaseField, CObject)
-
-BaseField::BaseField
-				(
-					const CString& strName,
-					DataType dt /*= DataType::Null*/,
-					DataObj* pValue /*= NULL*/,
-					BOOL bOwnData /*= TRUE*/
-				)
-	:
-	IDisposingSourceImpl(this),
-
-	m_strName(strName),
-	m_DataType(dt),
-	m_pData(NULL),
-	m_bOwnData(bOwnData)
-{
-	if (pValue)
-	{
-		if (bOwnData)
-		{
-			m_pData = DataObj::DataObjCreate(dt);
-			m_pData->Assign(*pValue);
-		}
-		else
-			m_pData = pValue;
-	}
-	else
-		AllocData();
-}
-
-//------------------------------------------------------------------------------
-BaseField::BaseField(const BaseField& f)
-	:
-	IDisposingSourceImpl(this),
-
-	m_strName(f.m_strName),
-	m_DataType(f.m_DataType),
-	m_pData(NULL),
-	m_bOwnData(f.m_bOwnData)
-{
-	if (f.m_pData)
-	{
-		if (m_bOwnData)
-		{
-			m_pData = DataObj::DataObjCreate(m_DataType);
-			m_pData->Assign(*f.m_pData);
-			//TODO Elisa
-			//if array -> setnbasedatatype(f.GetBaseDataType)
-		}
-		else
-		{
-			m_pData = f.m_pData;
-		}
-	}
-	else
-		AllocData();
-}
-
-//------------------------------------------------------------------------------
-BaseField::~BaseField()
-{
-	if (m_bOwnData) SAFE_DELETE(m_pData);
-}
-
-//------------------------------------------------------------------------------
-BOOL BaseField::AllocData()
-{
-	if (m_bOwnData)
-		SAFE_DELETE(m_pData);
-
-	if (m_DataType == DataType::Null)
-		return FALSE;
-
-	if (m_DataType != DataType::Variant)
-	{
-		m_bOwnData = TRUE;
-		m_pData = DataObj::DataObjCreate(m_DataType);
-	}
-	return TRUE;
-}
-
-//------------------------------------------------------------------------------
-void BaseField::SetDataPtr(DataObj* pData, BOOL bOwnData /*= TRUE*/)
-{
-	if (m_bOwnData) SAFE_DELETE(m_pData);
-	m_pData = pData;
-	m_bOwnData = bOwnData;
-	if (pData)
-		m_DataType = pData->GetDataType();
-}
-
-//----------------------------------------------------------------------------
-void BaseField::SetDataType(const DataType& newDataType, BOOL bArray/*= FALSE*/)
-{
-	if
-		(
-			m_pData  &&
-			m_pData->GetDataType() == DataType::Array &&
-			bArray &&
-			m_DataType == DataType::Array)
-	{
-		if (((DataArray*)m_pData)->GetBaseDataType() != newDataType)
-		{
-			((DataArray*)m_pData)->RemoveAll();
-			((DataArray*)m_pData)->SetBaseDataType(newDataType);
-		}
-	}
-	else if (
-		newDataType != DataType::Null &&
-		(
-			m_pData == NULL ||
-			newDataType != m_pData->GetDataType() ||
-			bArray != m_pData->IsKindOf(RUNTIME_CLASS(DataArray))
-			)
-		)
-	{
-		if (m_bOwnData) SAFE_DELETE(m_pData);
-		if (bArray)
-		{
-			m_pData = DataObj::DataObjCreate(DataType::Array);
-			((DataArray*)m_pData)->SetBaseDataType(newDataType);
-			m_DataType = DataType::Array;
-		}
-		else
-		{
-			m_pData = DataObj::DataObjCreate(newDataType);
-			m_DataType = newDataType;
-		}
-	}
-}
-
-//------------------------------------------------------------------------------
-void BaseField::AssignData(const DataObj& aData)
-{
-	if (m_pData == NULL)
-	{
-		m_DataType = aData.GetDataType();
-		AllocData();
-	}
-	ASSERT(DataType::IsCompatible(aData.GetDataType(), m_DataType));
-
-	m_pData->Assign(aData);
-}
-
-//------------------------------------------------------------------------------
-DataObj* BaseField::GetData(int /*nDataLevel = -1*/) const
-{
-	return m_pData;
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// Diagnostics
-
-#ifdef _DEBUG
-void BaseField::Dump(CDumpContext& dc) const
-{
-	ASSERT_VALID(this);
-	AFX_DUMP1(dc, "\nBaseField = ", GetName());
-}
-
-void BaseField::AssertValid() const
-{
-	CObject::AssertValid();
-}
-#endif //_DEBUG

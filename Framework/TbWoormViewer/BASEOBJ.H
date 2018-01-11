@@ -45,7 +45,7 @@ public:
 	virtual CRect	GetActiveRect()							= 0;
 	virtual CRect	GetOriginalRect()						= 0;
 	virtual void	Paint(CDC&, CPrintInfo*)				= 0;
-	virtual void	Clear(BOOL bUpdate = TRUE)				= 0;
+	virtual void	Clear()									= 0;
 	virtual void	Redraw()								= 0;
 	void			EnsureVisible();
 	virtual void	UpdateColor()							= 0;
@@ -74,7 +74,7 @@ public:
 	virtual CRect	GetActiveRect()		{ return m_rectActive; }
 	virtual CRect	GetOriginalRect()	{ return m_originalRect; }
 	virtual void	Paint			(CDC&, CPrintInfo*);
-	virtual void	Clear			(BOOL bUpdate = TRUE);
+	virtual void	Clear			();
 	virtual void	Redraw			();
 	virtual void	UpdateColor		() {/*do nothing*/}
 };
@@ -99,7 +99,7 @@ public:
 	virtual CRect	GetActiveRect()		{ return m_rectActive; }
 	virtual CRect	GetOriginalRect()	{ return m_originalRect; }
 	virtual void	Paint(CDC&, CPrintInfo*);
-	virtual void	Clear(BOOL bUpdate = TRUE);
+	virtual void	Clear();
 	virtual void	Redraw();
 	virtual void	UpdateColor();
 

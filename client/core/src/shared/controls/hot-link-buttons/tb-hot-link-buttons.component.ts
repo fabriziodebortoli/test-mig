@@ -179,7 +179,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     let Horizontal = 'left';
     let Vertical = 'top';
 
-   let height = window.innerHeight;
+    let height = window.innerHeight;
     let bottomPoint = this.anchorTable.nativeElement.offsetTop + this.anchorTable.nativeElement.offsetHeight;
     if (height - bottomPoint <= 300) {
       Vertical = 'bottom';
@@ -288,6 +288,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   ngAfterViewChecked() {
+    console.log('VIEW CHECKED!');
   }
 
   public onFilterChange(filter: CompositeFilterDescriptor): void {

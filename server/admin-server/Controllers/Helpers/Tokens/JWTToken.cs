@@ -3,7 +3,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Microarea.AdminServer.Services.Security
+namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 {
 	//================================================================================
 	public class JWTToken
@@ -14,7 +14,7 @@ namespace Microarea.AdminServer.Services.Security
 		public BootstrapToken payload;
 
 		//--------------------------------------------------------------------------------
-		public string GenerateEncodedToken(string secretKey)
+		public string GetToken(string secretKey)
 		{
 			try
 			{

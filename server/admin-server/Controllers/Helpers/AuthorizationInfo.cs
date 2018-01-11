@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microarea.AdminServer.Services.Security
+namespace Microarea.AdminServer.Controllers.Helpers
 {
     /// <summary>
     /// Contiene le informazioni da passare nell'header delle API per i controlli di sicurezza

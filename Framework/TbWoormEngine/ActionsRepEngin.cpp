@@ -1079,9 +1079,9 @@ BOOL AssignAction::Exec()
 		{
 			DataObj* pObj = m_pField->GetData();
 			ASSERT_VALID(pObj);
-			ASSERT_KINDOF(DataTRecord, pObj);
+			ASSERT_KINDOF(DataRecord, pObj);
 
-			DataTRecord* pDR = dynamic_cast<DataTRecord*>(pObj);
+			DataRecord* pDR = dynamic_cast<DataRecord*>(pObj);
 			ASSERT(pDR->GetIRecord());
 
 			pObj = pDR->GetIRecord()->GetDataObjFromColumnName(this->m_sRecordFieldName);
@@ -2989,9 +2989,9 @@ BOOL DeclareAction::Parse(Parser& parser)
 
 		DataObj* pObj = m_pLocalField->GetData();
 		ASSERT_VALID(pObj);
-		ASSERT_KINDOF(DataTRecord, pObj);
+		ASSERT_KINDOF(DataRecord, pObj);
 
-		DataTRecord* pDRec = dynamic_cast<DataTRecord*> (pObj);
+		DataRecord* pDRec = dynamic_cast<DataRecord*> (pObj);
 		pDRec->SetIRecord(pRec, TRUE);
 	}
 

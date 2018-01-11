@@ -119,7 +119,9 @@ void RuleEngine::AddRule(RuleObj* pRule)
 {
 	int nPos = m_UnsortedRules.Add(pRule);
 	
+#ifdef _DEBUG
 	pRule->m_nRuleTag = nPos;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -188,51 +190,17 @@ BOOL RuleEngine::BuildTree (Parser& parser, GroupBy* pGroupByExp)
 }
 
 //-----------------------------------------------------------------------------
-void RuleEngine::TraceRules(CObArray& ar, CString title)
-{
-	TRACE((LPCTSTR) title);
-
-	for (int kk = 0; kk < ar.GetSize(); kk++)
-	{
-		RuleObj* pR = (RuleObj*)ar[kk];
-		if (!pR) continue;
-		ASSERT_VALID(pR);
-		TRACE((LPCTSTR)::cwsprintf(L"Rule (index:%d, tag:%d, orderpos:%d, id:%d, marked:%d, sorted:%d) %s\n",
-			kk, pR->m_nRuleTag, pR->m_nOrderByPos, pR->m_nRuleId, pR->m_bMark, pR->m_bSorted, (LPCTSTR)pR->GetDescription()));
-
-		if (pR->m_nParentsNum)
-		{
-			for (int i = 0; i < min(pR->m_nParentsNum, pR->m_Parents.GetSize()); i++)
-			{
-				RuleObj* parent = dynamic_cast<RuleObj*>(pR->m_Parents[i]);
-				if (parent)
-				{
-					TRACE3("\tParent rule (index:%d, tag:%d) %s\n", i, parent->m_nRuleTag, (LPCTSTR)parent->GetDescription());
-				}
-			}
-		}
-		if (pR->m_Sons.GetSize())
-		{
-			for (int i = 0; i < pR->m_Sons.GetSize(); i++)
-			{
-				RuleObj* son = dynamic_cast<RuleObj*>(pR->m_Sons[i]);
-				if (son)
-				{
-					TRACE3("\tSon rule (index:%d, tag:%d) %s\n", i, son->m_nRuleTag, (LPCTSTR)son->GetDescription());
-				}
-			}
-		}
-	}
-}
-
 void RuleEngine::TraceRules ()
 {
 #ifdef _DEBUG
-
-	TraceRules(m_UnsortedRules, ::cwsprintf(L"\nUnsorted Rules (LastSubTreePos: %d)\n", m_nLastElementPos));
-
-	TraceRules(m_SortedRules, ::cwsprintf(L"\nSorted Rules\n"));
-
+	TRACE("Sort Rules (LastSubTreePos: %d)\n", m_nLastElementPos);
+	for (int kk = 0; kk < m_SortedRules.GetSize(); kk++)
+	{
+		RuleObj* pR = (RuleObj*) m_SortedRules[kk];
+		if (!pR) continue;
+		ASSERT_VALID(pR);
+		TRACE3("Rule(%d) = %d - %s\n", kk, pR->m_nRuleTag, (LPCTSTR)pR->GetDescription());
+	}
 #endif
 }
 
@@ -348,9 +316,7 @@ void RuleEngine::FindSubTree (CObArray& joinedRules)
 			MakeSubTreeNodes(aSegRule);
 		}
 		else
-		{
 			m_EngineStatus.On(TEMP);
-		}
 	}
 }
 
@@ -402,9 +368,7 @@ int RuleEngine::BuildSubTree ()
 		}
 
 		if ((nr > 0) && bContinueScans && !bRuleMoved && !m_EngineStatus[TEMP])
-		{
 			m_EngineStatus.On(TEMP);
-		}
 		else
 			break;
 	}

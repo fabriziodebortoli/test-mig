@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Microarea.AdminServer.Controllers.Helpers.Commons
+namespace Microarea.AdminServer.Controllers.Helpers.All
 {
 	//================================================================================
 	public interface IJsonHelper

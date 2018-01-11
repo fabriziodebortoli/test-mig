@@ -72,7 +72,8 @@
       <div *ngIf="!externalUnderMaintenance" class="box mt20">
         <h4 class="componentTitle" style="display:inline-block;width:100%">External sources</h4>
         <admin-list [readingData]=readingExternalSource [showHeader]=true [items]=externalSources [columnNames]="['Source', 'Description', 'Server']"
-          (onSelectedItem)="openExternalSource($event)" [rowCommand]="'delete'" (onFireRowCommand)="deleteExternalSource($event)"></admin-list>
+          (onSelectedItem)="openExternalSource($event)"></admin-list>
+          <!-- [rowCommand]="'delete'" (onFireRowCommand)="deleteExternalSource($event)" -->
         <div>
           <admin-button [primary]=true [buttonText]="'Add source'" (click)="addExternalSource()"></admin-button>
         </div>

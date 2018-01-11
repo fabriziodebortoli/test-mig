@@ -36,8 +36,8 @@ namespace Microarea.EasyBuilder.UI
 			InitializeComponent();
 			this.Text = Resources.BusinessObjectsExplorer;
 
-            this.editor = editor;
-            this.editor.ComponentDeleted += new EventHandler<DeleteObjectEventArgs>(editor_ComponentDeleted);
+			this.editor = editor;
+			this.editor.ComponentDeleted += new EventHandler<EventArgs>(editor_ComponentDeleted);
 
             InitTreeNodesInfos();
 
@@ -50,44 +50,11 @@ namespace Microarea.EasyBuilder.UI
             DocsInfos = new List<Tuple<string, string, string, string>>();
         }
 
-        //--------------------------------------------------------------------------------
-        private void editor_ComponentDeleted(object sender, DeleteObjectEventArgs e)
-        {
-            string selectedNode = string.Empty;
-            if (treeBusinessObjects.SelectedNode != null)
-                selectedNode = treeBusinessObjects.SelectedNode.Text;
-
-            var deletedComp = e.Component as Microarea.EasyBuilder.ReferenceableComponent; //Microarea.TaskBuilderNet.Core.EasyBuilder.EasyBuilderComponent;
-
-            if (deletedComp != null)
-            {
-                NameSpace nsDoc = deletedComp.Component as NameSpace;
-
-                if (nsDoc != null)
-                {
-                    string ns = nsDoc.ToString();
-                    var findDeletedDoc = DocsInfos.Where(d => (d.Item4 == ns)).Single();
-
-                    Status status = GetStatus(nsDoc);
-                    if (!IsFiltered(status))
-                    {
-                        TreeNode appNode = GetNode(documentsNode.Nodes, findDeletedDoc.Item1, 0);
-                        TreeNode modNode = GetNode(appNode.Nodes, findDeletedDoc.Item2, 0);
-                        TreeNode docNode = GetNode(modNode.Nodes, findDeletedDoc.Item3, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24);
-                        if (docNode != null)
-                            docNode.Tag = nsDoc;
-                        UpdateNodeUI(docNode, status);
-                    }
-                }
-            }
-
-            if (selectedNode != string.Empty)
-            {
-                TreeNode[] nodes = treeBusinessObjects.Nodes.Find(selectedNode, true);
-                if (nodes.Length > 0)
-                    treeBusinessObjects.SelectedNode = nodes[0];
-            }
-        }
+		//--------------------------------------------------------------------------------
+		private void editor_ComponentDeleted(object sender, EventArgs e)
+		{
+			RefreshUI();
+		}
 
 		/// <summary>
 		/// 

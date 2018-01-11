@@ -11,13 +11,11 @@
     {
 		IPostManActuator postManActuator;
 
-		//--------------------------------------------------------------------------------
 		public PostMan(IPostManActuator iPostManActuator)
 		{
 			this.postManActuator = iPostManActuator;
 		}
 
-		//--------------------------------------------------------------------------------
 		public OperationResult Send(string to, string subject, string body)
 		{
 			return this.postManActuator.Send(to, subject, body);

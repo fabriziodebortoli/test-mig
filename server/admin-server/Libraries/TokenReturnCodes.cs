@@ -1,4 +1,4 @@
-﻿namespace Microarea.AdminServer.Services.Security
+﻿namespace Microarea.AdminServer.Libraries
 {
 	//--------------------------------------------------------------------------------
 	public enum TokenReturnCodes

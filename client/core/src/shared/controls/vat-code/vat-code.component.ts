@@ -34,6 +34,7 @@ export class VATCodeComponent extends ControlComponent {
         super(layoutService, tbComponentService, changeDetectorRef);
 
         this.eventDataService.change.subscribe(cmpId => {
+            this.logger.info("model modificato", cmpId)
         })
     }
 

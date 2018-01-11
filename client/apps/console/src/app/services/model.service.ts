@@ -690,7 +690,6 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error (getConfigurations)'));
   }
 
-  // import default/sample data
   //--------------------------------------------------------------------------------------------------------
   importData(subscriptionKey: string, importDefault: boolean, configuration: string, iso: string, body: ImportDataBodyContent): Observable<OperationResult> {
 
@@ -786,6 +785,7 @@ export class ModelService {
       return Observable.throw('AuthorizationHeader is missing!');
     }
 
+
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
@@ -880,42 +880,5 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (saveExternalSource)'));
-  }
-
-  // delete di oggetti nel database di provisioning (SubscriptionDatabases / SubscriptionExternalSources)
-  //--------------------------------------------------------------------------------------------------------
-  queryAdminDelete(subscriptionKey: string, modelName: string, body: Object): Observable<OperationResult> {
-
-    let authorizationHeader = this.createAuthorizationHeader('jwt');
-
-    if (authorizationHeader === '') {
-      return Observable.throw('AuthorizationHeader is missing!');
-    }
-
-    if (modelName === '') {
-      return Observable.throw('The model name to query is missing!');
-    }
-
-    if (this.currentAccountName === '') {
-      return Observable.throw('AccountName is missing!');
-    }
-
-    // I need the instanceKey where the currentAccount is logged
-    let localAccountInfo = localStorage.getItem(this.currentAccountName);
-    let instancekey: string = '';
-
-    if (localAccountInfo != null && localAccountInfo != '') {
-      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
-      instancekey = accountInfo.instanceKey;
-    }
-
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
-    let options = new RequestOptions({ headers: headers, body: body });
-    
-    return this.http.delete(environment.adminAPIUrl + 'query/' + instancekey + '/' + subscriptionKey + '/' + modelName, options)
-      .map((res: Response) => {
-        return res.json();
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error (queryAdminDelete)'));
   }
 }

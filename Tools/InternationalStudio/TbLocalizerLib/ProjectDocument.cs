@@ -82,9 +82,7 @@ namespace Microarea.Tools.TBLocalizer
 					return AllStrings.vcxExtension;
 				case ProjectType.TBL:
 					return AllStrings.prjExtension;
-                case ProjectType.NG:
-                    return AllStrings.tsExtension;
-                default:
+				default:
 					return "";
 			}
 		}
@@ -100,10 +98,7 @@ namespace Microarea.Tools.TBLocalizer
 			InitDocument(AllStrings.configuration, TypeToExtension(extensionType), null, FileName, null);
 			FileName = tblprjFile;
 			SourceFolder = sourceFolder;
-            if (extensionType == ProjectType.NG)
-                SourceFolder = SourceFolder + "\\src";
-
-            return FileName;
+			return FileName;
 		}
 
 		/// <summary>

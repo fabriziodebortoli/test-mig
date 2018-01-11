@@ -153,7 +153,7 @@ namespace Microarea.TaskBuilderNet.Core.Applications
 
 				try
 				{
-					tbLoaderInterface.UseRemoteInterface(false);
+					tbLoaderInterface.UseRemoteInterface(true);
 				}
 				catch (Exception e)
 				{

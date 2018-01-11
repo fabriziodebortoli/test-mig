@@ -56,19 +56,19 @@ export class ContextMenuComponent  extends TbComponent {
   }
   onTranslationsReady(){
     super.onTranslationsReady();
-    // this.contextMenu.splice(0, this.contextMenu.length);
-    // const subItems_bis = new Array<ContextMenuItem>();
-    // const item4 = new ContextMenuItem(this._TB('only this disable unchecked'), 'Id4', false, false);
-    // subItems_bis.push(item4);
+    this.contextMenu.splice(0, this.contextMenu.length);
+    const subItems_bis = new Array<ContextMenuItem>();
+    const item4 = new ContextMenuItem(this._TB('only this disable unchecked'), 'Id4', false, false);
+    subItems_bis.push(item4);
 
-    // const subItems = new Array<ContextMenuItem>();
-    // const item1 = new ContextMenuItem(this._TB('disabled unchecked'), 'Id1', false, false);
-    // const item5 = new ContextMenuItem(this._TB('enabled checked'), 'Id5', true, true);
-    // const item2 = new ContextMenuItem(this._TB('has one sub item'), 'Id2', true, false, subItems_bis);
-    // subItems.push(item1, item5);
+    const subItems = new Array<ContextMenuItem>();
+    const item1 = new ContextMenuItem(this._TB('disabled unchecked'), 'Id1', false, false);
+    const item5 = new ContextMenuItem(this._TB('enabled checked'), 'Id5', true, true);
+    const item2 = new ContextMenuItem(this._TB('has one sub item'), 'Id2', true, false, subItems_bis);
+    subItems.push(item1, item5);
 
-    // const item3 = new ContextMenuItem(this._TB('has 2 sub items'), 'Id3', true, false, subItems);
-    // this.contextMenu.push(item1, item2, item5, item3);
+    const item3 = new ContextMenuItem(this._TB('has 2 sub items'), 'Id3', true, false, subItems);
+    this.contextMenu.push(item1, item2, item5, item3);
   }
 
   ngOnInit() {

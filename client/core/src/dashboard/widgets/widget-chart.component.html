@@ -5,8 +5,7 @@
         </ng-template>
     </kendo-chart-tooltip>
     <kendo-chart-series *ngIf="widget?.data?.grid?.rows?.length > 0">
-        <kendo-chart-series-item [type]="widget?.layout?.chartFormat?.type" [data]="widget.data?.grid?.rows" [field]="widget?.layout?.chartFormat?.field"
-            [categoryField]="widget?.layout?.chartFormat?.categoryField" [color]="chartColor(widget?.layout?.chartFormat?.color)"
+        <kendo-chart-series-item [type]="widget?.layout?.chartFormat?.type" [data]="widget.data?.grid?.rows" [field]="widget?.layout?.chartFormat?.field" [categoryField]="widget?.layout?.chartFormat?.categoryField" [color]="chartColor(widget?.layout?.chartFormat?.color)"
             [labels]="seriesLabels">
         </kendo-chart-series-item>
     </kendo-chart-series>

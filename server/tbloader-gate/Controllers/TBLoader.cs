@@ -17,56 +17,55 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Microarea.TbLoaderGate
 {
-    class TBLoaderResult
-    {
-        public bool success { get; set; }
-        public string message { get; set; }
-    }
-    public class TBLoaderController : Controller
-    {
+	class TBLoaderResult
+	{
+		public bool success { get; set; }
+		public string message { get; set; }
+	}
+	public class TBLoaderController : Controller
+	{
         private readonly IHostingEnvironment hostingEnvironment;
         private TBLoaderStub stub;
         TBLoaderConnectionParameters options;
 
         public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters, IHostingEnvironment hostingEnvironment)
-        {
+		{
             options = parameters.Value;
             this.hostingEnvironment = hostingEnvironment;
         }
-        const string TbLoaderName = "tbLoaderName";
-        const string TbLoaderId = "tbLoaderId";
-        static readonly int leftTrimCount = "/tbloader/api".Length;
-        [Route("/controller")]
-        public IActionResult Index()
-        {
-            return new ObjectResult("TBLoader Gate default page");
-        }
-        public IActionResult Error()
-        {
-            var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+		const string TbLoaderName = "tbLoaderName";
+		static readonly int leftTrimCount = "/tbloader/api".Length;
+		[Route("/controller")]
+		public IActionResult Index()
+		{
+			return new ObjectResult("TBLoader Gate default page");
+		}
+		public IActionResult Error()
+		{
+			var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
 
-            return new JsonResult(new TBLoaderResult() { message = feature?.Error.Message, success = false });
+			return new JsonResult(new TBLoaderResult() { message = feature?.Error.Message, success = false });
 
-        }
+		}
 
-        [Route("[controller]/api/{*args}")]
-        public async Task ApiAsync()
-        {
-            Debug.WriteLine(HttpContext.Request.Path.Value);
-            string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-            bool createTB = true;// subUrl == "/tb/menu/doLogin/";
-            string tbName = "";
-            try
-            {
-                // tbName = HttpContext.Request.Headers["Authorization"];
-                JObject jObject = null;
-                string authHeader = HttpContext.Request.Headers["Authorization"];
-                if (authHeader != null)
-                {
-                    jObject = JObject.Parse(authHeader);
+		[Route("[controller]/api/{*args}")]
+		public async Task ApiAsync()
+		{
+			Debug.WriteLine(HttpContext.Request.Path.Value);
+			string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
+			bool createTB = true;// subUrl == "/tb/menu/doLogin/";
+			string tbName = "";
+			try
+			{
+				// tbName = HttpContext.Request.Headers["Authorization"];
+				JObject jObject = null;
+				string authHeader = HttpContext.Request.Headers["Authorization"];
+				if (authHeader != null)
+				{
+					jObject = JObject.Parse(authHeader);
 
-                    tbName = jObject.GetValue(TbLoaderName)?.ToString();
-                }
+					tbName = jObject.GetValue(TbLoaderName)?.ToString();
+				}
 
 
                 if (options.TestMode)
@@ -90,19 +89,18 @@ namespace Microarea.TbLoaderGate
                     }
                     else
                     {
-                        string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
-                        HttpResponseMessage resp = await SendRequest(url, url.Substring(tb.BaseUrl.Length));
-
+                        tbName = tb.name;
                         if (jObject == null)
                             jObject = new JObject();
-                        if (jObject[TbLoaderName]?.Value<string>() != tb.name)
-                        {
-                            jObject[TbLoaderName] = tb.name;
-                            jObject[TbLoaderId] = tb.processId;
-                            HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
-                            HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
 
-                        }
+                        jObject[TbLoaderName] = tbName;
+                        string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
+
+                        HttpResponseMessage resp = await SendRequest(url, url.Substring(tb.BaseUrl.Length));
+
+                        HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
+                        HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
+
                         HttpContext.Response.StatusCode = (int)resp.StatusCode;
 
                         await resp.Content.CopyToAsync(HttpContext.Response.Body);
@@ -111,13 +109,13 @@ namespace Microarea.TbLoaderGate
                 }
 
             }
-            catch (Exception ex)
-            {
-                //todo mandare risposta al client 
-                TBLoaderEngine.RemoveTbLoader(tbName);
-                throw new Exception("Error communicating with backend", ex);
-            }
-        }
+			catch (Exception ex)
+			{
+				//todo mandare risposta al client 
+				TBLoaderEngine.RemoveTbLoader(tbName);
+				throw new Exception("Error communicating with backend", ex);
+			}
+		}
 
         public async Task<HttpResponseMessage> SendRequest(string url, string relativeUrl)
         {
@@ -175,26 +173,26 @@ namespace Microarea.TbLoaderGate
         {
             try
             {
-                lock (this)
-                {
-                    RecordedHttpRequest req = new RecordedHttpRequest();
-                    req.Url = url.Substring(relativeUrl.Length);
-                    req.Body = Encoding.UTF8.GetString(ms.ToArray());
-                    using (MemoryStream contentStream = new MemoryStream())
-                    {
-                        resp.Content.CopyToAsync(contentStream).Wait();
-                        req.Response = Encoding.UTF8.GetString(contentStream.ToArray());
-                    }
-                    //copy back response headers
-                    foreach (var h in resp.Headers)
-                    {
-                        foreach (var sv in h.Value)
-                            HttpContext.Request.Headers[h.Key] = sv;
-                    }
-
-                    string fileName = HttpContext.Request.Path.Value.Replace("/", ".") + "tbjson";
-                    req.Save(hostingEnvironment, fileName);
-                }
+				lock (this)
+				{
+					RecordedHttpRequest req = new RecordedHttpRequest();
+					req.Url = url.Substring(relativeUrl.Length);
+					req.Body = Encoding.UTF8.GetString(ms.ToArray());
+					using (MemoryStream contentStream = new MemoryStream())
+					{
+						resp.Content.CopyToAsync(contentStream).Wait();
+						req.Response = Encoding.UTF8.GetString(contentStream.ToArray());
+					}
+					//copy back response headers
+					foreach (var h in resp.Headers)
+					{
+						foreach (var sv in h.Value)
+							HttpContext.Request.Headers[h.Key] = sv;
+					}
+					
+					string fileName = HttpContext.Request.Path.Value.Replace("/", ".") + "tbjson";
+					req.Save(hostingEnvironment, fileName);
+				}
             }
             catch (Exception ex)
             {

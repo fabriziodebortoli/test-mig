@@ -277,7 +277,8 @@ namespace Microarea.EasyBuilder
 
 				ns.Members.Add(aClass);
 
-                List<string> fields = new List<string>();
+
+				List<string> fields = new List<string>();
 				//Aggiunge il metodo personalizzato per la creazione dei control customizzati
 				GenerateCreateComponents(ebSerializer, component, aClass, fields);
 

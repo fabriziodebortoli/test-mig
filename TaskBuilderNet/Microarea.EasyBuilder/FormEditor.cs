@@ -386,7 +386,7 @@ namespace Microarea.EasyBuilder
 				zIndexManager = new ZIndexManager(this);
 				selections = new Selections(this);
 
-				this.ComponentDeleted += new EventHandler<DeleteObjectEventArgs>(FormEditor_ComponentDeleted);
+				this.ComponentDeleted += new EventHandler<EventArgs>(FormEditor_ComponentDeleted);
 
 				serializationAddOnService = new SerializationAddOnService();
 			}
@@ -397,7 +397,7 @@ namespace Microarea.EasyBuilder
 		}
 
 		//-----------------------------------------------------------------------------
-		void FormEditor_ComponentDeleted(object sender, DeleteObjectEventArgs e)
+		void FormEditor_ComponentDeleted(object sender, EventArgs e)
 		{
 			DeleteObjectEventArgs delEventArgs = e as DeleteObjectEventArgs;
 			MToolbar toolbar = view.ToolBar as MToolbar;

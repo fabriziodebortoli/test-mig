@@ -756,6 +756,10 @@ int CTaskBuilderApp::ExitInstance()
 		} // after free object log file cannot be shown
 
 		delete CModuleDescription::s_pReferenceObjectsParser;
+
+		AfxGetApplicationContext()->FreeObjects();
+	
+		AfxGetApplicationContext()->StopLockTracer();
 	
 		if (m_pMainWnd)
 			m_pMainWnd->DestroyWindow();
@@ -767,10 +771,6 @@ int CTaskBuilderApp::ExitInstance()
 			CEFUninitialize();
 
 		AfxDeleteRSIconArray();
-
-		AfxGetApplicationContext()->FreeObjects();
-
-		AfxGetApplicationContext()->StopLockTracer();
 	}
 	catch (...)
 	{

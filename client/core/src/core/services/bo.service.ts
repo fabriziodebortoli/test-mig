@@ -12,7 +12,6 @@ import { Logger } from './logger.service';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
-import { addModelBehaviour } from './../../shared/models/control.model';
 
 @Injectable()
 export class BOService extends DocumentService {
@@ -38,9 +37,7 @@ export class BOService extends DocumentService {
                     if (model.data) {
                         for (const prop in model.data) {
                             if (model.data.hasOwnProperty(prop)) {
-                                const p = model.data[prop];
-                                addModelBehaviour(p);
-                                this.eventData.model[prop] = p;
+                                this.eventData.model[prop] = model.data[prop];
                             }
                         }
                     }

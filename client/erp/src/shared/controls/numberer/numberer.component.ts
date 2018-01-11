@@ -21,8 +21,6 @@ export type maskParts = { prefix: string, separator: string, body: string, suffi
 export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
 
-    @Input() public hotLink: { namespace: string, name: string };
-
     @Input() popUpMenu: boolean = true;
     @Input() maxLength = -1;
 
@@ -143,17 +141,15 @@ export class NumbererComponent extends ControlComponent {
     }
 
     setComponentMask() {
-        if (this.eventData.model.FormMode != undefined) {
-            switch (this.eventData.model.FormMode.value) {
-                case FormMode.BROWSE:
-                case FormMode.FIND: {
-                    this.mask = '';
-                    break;
-                }
-                default: {
-                    this.mask = this.valueToMask(this.model.value, this.tbMask);
-                    break;
-                }
+        switch (this.eventData.model.FormMode.value) {
+            case FormMode.BROWSE:
+            case FormMode.FIND: {
+                this.mask = '';
+                break;
+            }
+            default: {
+                this.mask = this.valueToMask(this.model.value, this.tbMask);
+                break;
             }
         }
     }

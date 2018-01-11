@@ -23,10 +23,7 @@
         <div>{{_TB('Instance')}}:</div>
         <div class='text'>{{connectionInfos?.installation}}</div>
     </div>
-    <div class="box">
-        <div>{{_TB('TbLoader process id')}}:</div>
-        <div class='text'>{{infoService?.tbLoaderInfo?.id}}</div>
-    </div>
+
     <div class="box">
         <div> {{_TB('File Application Server')}}:</div>
         <div class='text'>{{connectionInfos?.remotefileserver}}</div>
@@ -58,7 +55,7 @@
     </div>
 
     <!--DATABASE SIZE (if needed) -->
-    <div class="box" *ngIf="connectionInfos?.usedspace">
+    <div class="box" *ngIf="connectionInfos?.usedspace" >
         <div>{{_TB('Used space')}}:</div>
         <div class='text'>{{connectionInfos?.usedspace}}</div>
     </div>

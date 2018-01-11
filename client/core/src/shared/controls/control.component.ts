@@ -4,7 +4,6 @@ import { Subscription } from '../../rxjs.imports';
 import { LayoutService } from './../../core/services/layout.service';
 import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { TbComponent } from "../components/tb.component";
-import { addControlModelBehaviour, createEmptyModel } from './../../shared/models/control.model';
 
 @Component({
     template: ''
@@ -20,6 +19,8 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     public args: any;
     @Input()
     public validators: Array<any> = [];
+    @Input()
+    public value: any;
     @Input()
     public formatter: string;
 
@@ -47,9 +48,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
-    componentClass() {
-       return (!this.model || this.model.visible) ? '' : 'hiddenControl';
-    }
+
     get width(): number {
         return this._width;
     }
@@ -73,23 +72,11 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     }
 
     @Input()
-    set model(val: any) {
-        if (val === undefined) {
+    set model(model: any) {
+        if (model == undefined)
             return;
-        }
-        this._model = val;
-    }
 
-    get value(): any {
-        return this._model ? this._model.value : undefined;
-    }
-
-    @Input()
-    set value(val: any) {
-        if (!this._model)
-        {
-            this.model = createEmptyModel();
-        }
-        this._model.value = val;
+        this._model = model;
+        this.value = model.value;
     }
 }

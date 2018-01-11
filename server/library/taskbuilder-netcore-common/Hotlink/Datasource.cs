@@ -204,12 +204,9 @@ namespace Microarea.Common.Hotlink
             selection_type.Data = selectionType;
 
             string likeValue = requestQuery["filter"];
-
             if (String.IsNullOrEmpty(likeValue) || /*tapullo*/ likeValue== "\"\"") 
                 likeValue = string.Empty;
 
-            char[] removeChars = { '\\', '\"'};
-            likeValue = likeValue.Trim(removeChars).Trim(removeChars);
             if (!selectionType.CompareNoCase("direct"))
                 filter_value.Data = likeValue + "%";
             else

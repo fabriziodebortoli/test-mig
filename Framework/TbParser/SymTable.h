@@ -18,13 +18,19 @@ class Parser;
 class SymTable;
 
 //============================================================================
-class TB_EXPORT SymField : public BaseField
+class TB_EXPORT SymField : public CObject, public IDisposingSourceImpl
 {
 	friend class SymTable;
 	DECLARE_DYNAMIC(SymField)
 
 private:
+	CString		m_strName;
 	WORD		m_wId;		//such as Woorm 'Alias'
+
+	DataType    m_DataType;
+	DataObj*	m_pData;
+	BOOL		m_bOwnData;
+
 	SymTable*	m_pTable;
 
 	CFunctionDescriptionArray* m_parMethods;
@@ -49,9 +55,17 @@ public:
 	void				SetSymTable		(SymTable* pTable)			{ m_pTable = pTable; }
 	SymTable*			GetSymTable		()	const					{ return m_pTable; }
 
+	virtual void		SetDataPtr		(DataObj* pData, BOOL bOwnData = TRUE);
+	BOOL				AllocData		();
+	virtual void		SetDataType		(const DataType& dataType, BOOL bArray = FALSE);
+
+	DataType 			GetDataType		() const					{ return m_DataType; }
+	BOOL				IsArray			() const					{ return GetDataType().m_wType == DATA_ARRAY_TYPE; }
+
 	WORD				GetId			() const					{ return m_wId;		}	//m_wInternalId, m_nAlias
 	void				SetId			(WORD wId) 					{ m_wId = wId;		}	
 
+	const CString&		GetName			() const					{ return m_strName;	}	//m_strPublicName
 	void				SetName			(LPCTSTR pszName);	
 
 	const CString&		GetTag			() const					{ return m_strTag;	}	
@@ -65,7 +79,7 @@ public:
 
 	virtual DataObj*	GetData			(int /*nDataLevel*/ = -1) const;
 	virtual DataObj*	GetRepData		() 	const { return GetData(); }
-	virtual void		AssignData		(const DataObj& aData);
+	void				AssignData		(const DataObj& aData);
 	virtual void		SetData			(DataObj& aData) 	{ AssignData(aData); }
 
 	void				SetProvider			(IDataProvider* pProvider) { m_pProvider = pProvider; }
@@ -243,6 +257,7 @@ public:
 	//aggiunge una callback da chiamare alla distruzione del documento
 	void AddDisposingHandler (CObject* pListener, ON_DISPOSING_METHOD pHandler) { m_Handler.AddDisposingHandler(pListener, pHandler); }
 	void RemoveDisposingHandlers (CObject* pListener) { m_Handler.RemoveDisposingHandlers(pListener); }
+
 };
 
 //-----------------------------------------------------------------------------

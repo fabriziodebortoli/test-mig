@@ -47,8 +47,7 @@ namespace Microarea.TaskBuilderNet.TbLoaderService
 		{
 			try
 			{
-                tbloader.TbLoader.SetTimeout(TimeSpan.FromSeconds(30));
-                tbloader.TbLoader.CloseTB();
+				tbloader.TbLoader.CloseTB();
 			}
 			catch
 			{

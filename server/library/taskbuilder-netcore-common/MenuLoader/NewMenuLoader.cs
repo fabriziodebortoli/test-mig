@@ -65,6 +65,7 @@ namespace Microarea.Common.MenuLoader
 			XmlDocument doc = null;
 			try
 			{
+                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
                 MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
 				menuLoader.LoadAllMenus(false, clearCachedData);
 				doc = menuLoader.ProcessMenu();

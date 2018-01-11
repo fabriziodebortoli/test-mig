@@ -1,38 +1,33 @@
 ﻿using System;
-using MailKit.Net.Smtp;
-using MailKit;
-using MimeKit;
+using System.Net.Mail;
 
 namespace Microarea.AdminServer.Services.PostMan.actuators
 {
-	//================================================================================
 	public class MailActuator : IPostManActuator
 	{
 		string smtpAddress;
 
-		//--------------------------------------------------------------------------------
 		public MailActuator(string smtpAddress)
 		{
 			this.smtpAddress = smtpAddress;
 		}
 
-		//--------------------------------------------------------------------------------
 		public OperationResult Send(string destination, string subject, string body)
 		{
 			OperationResult opRes = new OperationResult(true, "Operation commpleted");
 
 			try
 			{
-				using (SmtpClient client = new SmtpClient())
+				using (SmtpClient client = new SmtpClient(this.smtpAddress))
 				{
-					client.Connect(this.smtpAddress);
-					MimeMessage mailMessage = new MimeMessage();
-					mailMessage.From.Add(new MailboxAddress("m4Provisioning@m4.com"));
-					mailMessage.To.Add(new MailboxAddress(destination));
+					client.UseDefaultCredentials = true;
+
+					MailMessage mailMessage = new MailMessage();
+					mailMessage.From = new MailAddress("m4Provisioning@m4.com");
+					mailMessage.To.Add(destination);
+					mailMessage.Body = body;
 					mailMessage.Subject = subject;
-					mailMessage.Body = new TextPart("plain") { Text = body };
 					client.Send(mailMessage);
-					client.Disconnect(true);
 				}
 			}
 			catch (Exception e)

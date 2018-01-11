@@ -391,12 +391,10 @@ namespace Microarea.TaskBuilderNet.Licence.Licence
 			foreach (ArticleInfo aArticleObj in aConfigurationObject.Articles)
             {
                 bool add = true;
-                bool noAddMOdule = false;
                 //licensed, name, producer, seriallist
                 if (aArticleObj.IsBackModule()) continue;//
                 if (aArticleObj.Obsolete) continue;//
-                if (!aArticleObj.DefaultDemo && !aArticleObj.BasicServer) noAddMOdule = true ;
-
+                if (!aArticleObj.DefaultDemo && !aArticleObj.BasicServer) continue;
                 XmlElement articleNode = currentDocument.CreateElement(WceElement.SalesModule);
                 articleNode.SetAttribute(WceAttribute.Name, aArticleObj.Name);
                 if (aArticleObj.InternalCode != null && aArticleObj.InternalCode.Length > 0)
@@ -422,16 +420,15 @@ namespace Microarea.TaskBuilderNet.Licence.Licence
                         addedSerials.Add(serialNumber);//in modo da non inserire più di un seriali alla volta.
                     }
 
-                   if ((!specialVersion && noAddMOdule && !ShortNameCorrespond(serialNumber, aArticleObj.ShortNames) ) ||
-                       (specialVersion && noAddMOdule))
-                        //per chiarezza lasciamo l'if così grazie.
+                   if (!specialVersion && !ShortNameCorrespond(serialNumber, aArticleObj.ShortNames))
                        add = false;
-                  
-                }
+               }
 
                 //il modulo lo devo aggiugere 
                 if (add)
+                {
                     productNode.AppendChild(articleNode);
+                }
             }
 			documentElement.AppendChild(productNode);
 			return currentDocument;

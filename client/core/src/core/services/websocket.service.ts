@@ -2,46 +2,42 @@
 import { Observable } from '../../rxjs.imports';
 
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
-import { ConnectionStatus } from './../../shared/models/connection-status.enum';
+import { SocketConnectionStatus } from './../../shared/models/websocket-connection.enum';
 
-import { TaskBuilderService } from './taskbuilder.service';
+import { TaskbuilderService } from './taskbuilder.service';
 import { InfoService } from './info.service';
 import { HttpService } from './http.service';
 import { Logger } from './logger.service';
-import { LoadingService } from './../../core/services/loading.service';
-import { LocalizationService } from './../../core/services/localization.service';
 
 @Injectable()
-export class WebSocketService extends LocalizationService {
+export class WebSocketService {
     public connection: WebSocket;
-    private _socketConnectionStatus = ConnectionStatus.None;
+    public _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
 
-    public error = new EventEmitter<any>();
-    public modelData = new EventEmitter<any>();
-    public serverCommands = new EventEmitter<any>();
-    public windowOpen = new EventEmitter<any>();
-    public windowClose = new EventEmitter<any>();
-    public activationData = new EventEmitter<any>();
-    public itemSource = new EventEmitter<any>();
-    public open = new EventEmitter<any>();
-    public close = new EventEmitter<any>();
-    public message = new EventEmitter<MessageDlgArgs>();
-    public diagnostic = new EventEmitter<DiagnosticData>();
-    public buttonsState = new EventEmitter<any>();
-    public radarInfos = new EventEmitter<any>();
-    public connectionStatus = new EventEmitter<ConnectionStatus>();
-    public windowStrings = new EventEmitter<any>();
-    public behaviours = new EventEmitter<any>();
+    public error: EventEmitter<any> = new EventEmitter();
+    public modelData: EventEmitter<any> = new EventEmitter();
+    public serverCommands: EventEmitter<any> = new EventEmitter();
+    public windowOpen: EventEmitter<any> = new EventEmitter();
+    public windowClose: EventEmitter<any> = new EventEmitter();
+    public activationData: EventEmitter<any> = new EventEmitter();
+    public itemSource: EventEmitter<any> = new EventEmitter();
+    public open: EventEmitter<any> = new EventEmitter();
+    public close: EventEmitter<any> = new EventEmitter();
+    public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
+    public diagnostic: EventEmitter<DiagnosticData> = new EventEmitter();
+    public buttonsState: EventEmitter<any> = new EventEmitter();
+    public radarInfos: EventEmitter<any> = new EventEmitter();
+    public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
+    public windowStrings: EventEmitter<any> = new EventEmitter();
+    public behaviours: EventEmitter<any> = new EventEmitter();
 
     constructor(
         public infoService: InfoService,
         public httpService: HttpService,
-        public logger: Logger,
-        public loadingService: LoadingService, ) {
-        super(infoService, httpService);
+        public logger: Logger) {
     }
 
-    setWsConnectionStatus(status: ConnectionStatus) {
+    setWsConnectionStatus(status: SocketConnectionStatus) {
         if (this.infoService.isDesktop)
             return;
 
@@ -55,7 +51,7 @@ export class WebSocketService extends LocalizationService {
 
         const $this = this;
 
-        this.setWsConnectionStatus(ConnectionStatus.Connecting);
+        this.setWsConnectionStatus(SocketConnectionStatus.Connecting);
 
         const url = this.infoService.getWsUrl();
         this.logger.debug('WebSocket Connection...', url)
@@ -109,13 +105,13 @@ export class WebSocketService extends LocalizationService {
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
                 args:
-                    {
-                        webSocketName: sessionStorage.getItem('authtoken'),
-                        tbLoaderName: this.infoService.getTbLoaderInfo().name
-                    }
+                {
+                    webSocketName: sessionStorage.getItem('authtoken'),
+                    tbLoaderName: localStorage.getItem('tbLoaderName')
+                }
             }));
 
-            this.setWsConnectionStatus(ConnectionStatus.Connected);
+            this.setWsConnectionStatus(SocketConnectionStatus.Connected);
 
             this.open.emit(arg);
 
@@ -123,7 +119,7 @@ export class WebSocketService extends LocalizationService {
 
         this.connection.onclose = (arg) => {
             this.logger.debug("WebSocket onClose", JSON.stringify(arg));
-            this.setWsConnectionStatus(ConnectionStatus.Disconnected);
+            this.setWsConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
         };
     }
@@ -137,23 +133,44 @@ export class WebSocketService extends LocalizationService {
         }
     }
 
+    checkForOpenConnection(): Observable<boolean> {
+
+        return Observable.create(observer => {
+            if (this._socketConnectionStatus === SocketConnectionStatus.Connected) {
+                observer.next(true);
+                observer.complete();
+            } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
+                this.logger.debug('Connection not yet avCannot yet use connection, connecting...');
+                observer.next(false);
+                observer.complete();
+            } else {
+                // const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
+                //     subs.unsubscribe();
+                //     if (ret) {
+                //         observer.next(true);
+                //         observer.complete();
+                //     }
+                // });
+            }
+        });
+    }
 
     safeSend(data: any): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            if (this._socketConnectionStatus === ConnectionStatus.Connected) {
-                this.connection.send(JSON.stringify(data));
-                resolve();
-            } else {
-                this.loadingService.setLoading(true, this._TB('Please wait, establishing connection with backend services...'))
-                const sub = this.connectionStatus.subscribe((status) => {
-                    if (status === ConnectionStatus.Connected) {
-                        this.connection.send(JSON.stringify(data));
-                        resolve();
-                        sub.unsubscribe();
-                        this.loadingService.setLoading(false);
-                    }
-                });
-            }
+            const subs = this.checkForOpenConnection().subscribe(valid => {
+                if (subs) {
+                    subs.unsubscribe();
+                }
+                if (valid) {
+                    this.connection.send(JSON.stringify(data));
+                    resolve();
+                }
+                else {
+                    this.logger.info("Cannot use web socket, perhaps it is connecting");
+                    reject();
+                }
+            });
+
         });
     }
     runDocument(ns: String, args: string = ''): Promise<void> {

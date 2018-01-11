@@ -5213,10 +5213,7 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 					rep = bAddTagIn ?
 								L"{IN " + name + L" } "
 							:
-								name.IsEmpty() ?
-												 rep 
-											   :  
-												 L"/*" + name + L"*/ " + rep;
+								L"/*" + name + L"*/ " + rep;
 					
 					query.Insert(nInx, rep);
 					start = nInx + rep.GetLength();

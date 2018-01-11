@@ -187,16 +187,14 @@ void OldActiveRect::Paint (CDC& DC, CPrintInfo* /*pInfo*/)
 }
 
 //------------------------------------------------------------------------------
-void OldActiveRect::Clear(BOOL bUpdate/* = TRUE*/)
+void OldActiveRect::Clear()
 {
 	if (!m_rectActive.IsRectNull() && !m_rectActive.IsRectEmpty())
 		Invalidate (m_rectActive, TRUE);
 
 	m_rectActive = CRect(0,0,0,0);
 	m_originalRect = CRect(0, 0, 0, 0);
-
-	if (bUpdate)
-		m_pDocument->UpdateWindow();
+	m_pDocument->UpdateWindow();
 }
 
 //------------------------------------------------------------------------------
@@ -305,16 +303,14 @@ void NewActiveRect::SetColor(COLORREF rgb)
 }
 
 //------------------------------------------------------------------------------
-void NewActiveRect::Clear(BOOL bUpdate/* = TRUE*/)
+void NewActiveRect::Clear()
 {
 	if (!m_rectActive.IsRectNull() && !m_rectActive.IsRectEmpty())
-		Invalidate(m_rectActive, TRUE);
+			Invalidate(m_rectActive, TRUE);
 	
 	m_rectActive = CRect(0, 0, 0, 0);
 	m_originalRect = CRect(0, 0, 0, 0);
-
-	if (bUpdate)
-		m_pDocument->UpdateWindow();
+	m_pDocument->UpdateWindow();
 }
 
 //------------------------------------------------------------------------------

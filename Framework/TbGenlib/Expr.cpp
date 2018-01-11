@@ -1091,7 +1091,7 @@ void Expression::AssignResult(DataObj& d, ExpItemVal& res)
 		case DATA_GUID_TYPE	: ((DataGuid&) d).	Assign( CastGuid(res) );	break;
 		case DATA_TXT_TYPE	: ((DataText&) d).	Assign( CastTxt (res) );	break;	
 		case DATA_ARRAY_TYPE	: ((DataArray&) d).		Assign( * CastArray (res) );	break;	
-		case DATA_RECORD_TYPE	: ((DataTRecord&) d).	Assign( * CastTRecord (res) );	break;	
+		case DATA_RECORD_TYPE	: ((DataRecord&) d).	Assign( * CastRecord (res) );	break;	
 		default: TRACE(_T(" Il tipo del DataObj che deve contenere il risultato dell’espressione non è dei tipi supportati.")); ASSERT(FALSE);		// se succede vuol dire che le mappe di compatibilita` sono errate
 	} // switch
 	
@@ -1487,21 +1487,10 @@ DataArray* Expression::CastArray(ExpItemVal& d)
 }
 
 //-----------------------------------------------------------------------------
-/*
 DataRecord* Expression::CastRecord(ExpItemVal& d)
 {
 	if (d.m_pVal && d.m_pVal->IsKindOf(RUNTIME_CLASS(DataRecord)))
 		return ((DataRecord*) d.m_pVal);
-
-	ASSERT(FALSE);
-	return NULL;
-}
-*/
-//-----------------------------------------------------------------------------
-DataTRecord* Expression::CastTRecord(ExpItemVal& d)
-{
-	if (d.m_pVal && d.m_pVal->IsKindOf(RUNTIME_CLASS(DataTRecord)))
-		return ((DataTRecord*)d.m_pVal);
 
 	ASSERT(FALSE);
 	return NULL;
@@ -4186,7 +4175,7 @@ ExpItemVal* Expression::ApplyFunction(ExpItemFun* itemFun, Stack& paramStack)
 		case T_FRECORD_GETFIELD:
 		{
 			p1 = (ExpItemVal*) paramStack.Pop();
-			DataTRecord* dr = CastTRecord(*p1);
+			DataRecord* dr = CastRecord(*p1);
 
 			p2 = (ExpItemVal*) paramStack.Pop();
 			CString sRecField = CastStr(*p2);

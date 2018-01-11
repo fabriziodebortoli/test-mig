@@ -21,7 +21,7 @@ namespace Microarea.EasyBuilder.UI
 
 				if (editor != null)
 				{
-					editor.ComponentDeleted -= new EventHandler<DeleteObjectEventArgs>(editor_ComponentDeleted);
+					editor.ComponentDeleted -= new EventHandler<EventArgs>(editor_ComponentDeleted);
 					editor = null;
 				}
 

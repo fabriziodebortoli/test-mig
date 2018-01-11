@@ -108,7 +108,6 @@
         internal const string href = "href";
 
         internal const string width = "width";
-        internal const string rows = "rows";
 
         internal const string maxValue = "maxValue";
         internal const string minValue = "minValue";

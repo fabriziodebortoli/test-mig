@@ -50,7 +50,6 @@ public:
 	virtual void ExecuteJavascript (const CString& sCode) = 0;
 	virtual void SetCookie (const CString& sUrl, const CString& sName, const CString& sValue) = 0;
 	virtual void Reload() = 0;
-	virtual void ReloadIgnoreCache() = 0;
 	
 };
 class TB_EXPORT CBrowserEventsObj
@@ -61,7 +60,6 @@ public:
 	virtual void DoClose(CBrowserObj* pBrowser) {};
 	virtual bool OnRequest(LPCTSTR lpszRequest, CTBResponse& aResponse){ return false; };
 	virtual void Reload(){};
-	virtual void ReloadIgnoreCache() {};
 };
 class TB_EXPORT CTBResponse
 {
@@ -143,7 +141,6 @@ TB_EXPORT CTBRequestHandlerObj* GetRequestHandler(LPCSTR szPath);
 TB_EXPORT CTBRequestHandlerObj* GetRequestHandlerByUrl(CString strUrl);
 void TB_EXPORT DisposeRequestHandlers();
 void TB_EXPORT CEFUninitialize();
-void TB_EXPORT DeleteCache();
 bool TB_EXPORT CreateChildBrowser(HWND hwndParent, LPCTSTR sUrl, BOOL bWaitForBrowserReady, CBrowserEventsObj* pEvents = NULL, const RECT* = NULL);
 bool TB_EXPORT CreatePopupBrowser(LPCTSTR sUrl, BOOL bWaitForBrowserReady, CBrowserEventsObj* pEvents = NULL); 
 TB_EXPORT void GetCookieParams(CString& sCookie, CNameValueCollection& params);

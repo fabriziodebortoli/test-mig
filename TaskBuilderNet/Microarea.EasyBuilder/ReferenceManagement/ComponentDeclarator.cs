@@ -14,10 +14,7 @@ using System.IO;
 namespace Microarea.EasyBuilder
 {
 	//================================================================================
-    /// <summary>
-    /// business object component declarator
-    /// </summary>
-	public sealed class ComponentDeclarator 
+	internal sealed class ComponentDeclarator 
 	{
 		private Sources sources;
 		private List<ReferenceableComponent> referenceableComponents;
@@ -52,6 +49,7 @@ namespace Microarea.EasyBuilder
 			)
 		{
 			this.sources = sources;
+			this.sources.SourcesUpdated += new EventHandler<EventArgs>(sources_ControllerSourcesUpdated);
 			this.referenceableTypes = referenceableTypes;
 
 			this.loadReferencedComponents = loadReferencedComponents;
@@ -242,7 +240,10 @@ namespace Microarea.EasyBuilder
 			foreach (ReferenceableComponent refComponent in referenceableComponents)
 			{
 				if (refComponent.IsReferencedBy(methodInfo))
-				    refComponent.AddReferencedBy(methodName);
+				{
+					refComponent.AddReferencedBy(methodName);
+					refComponent.SerializeUsingDeclaration(sources);
+				}
 			}
 		}
 
@@ -261,7 +262,7 @@ namespace Microarea.EasyBuilder
 			ReferenceableComponents.Remove(refComponent);
 		}
 
-        //-----------------------------------------------------------------------------
+		//-----------------------------------------------------------------------------
 		internal bool IsDeclared(string contentType, NameSpace componentNameSpace)
 		{
 			// se è nella customizzazione ho il name della classe nella reference relativa
@@ -440,24 +441,14 @@ namespace Microarea.EasyBuilder
 			}
 
 			if (addRef)
-			    ReferenceableComponents.Add(refComponent);
+			{
+				refComponent.SerializeUsingDeclaration(sources);
+				ReferenceableComponents.Add(refComponent);
+			}
 		}
 
-        //------------------------------------------------------------------------------
-        internal void UpdateAttributes(TypeDeclaration controllerClass)
-        {
-            for (int i = 0; i <= ReferenceableComponents.Count - 1; i++)
-            {
-                ReferenceableComponent refComponent = ReferenceableComponents[i];
-                if (refComponent == null)
-                    continue;
-
-                refComponent.SerializeUsingDeclaration(sources, controllerClass);
-            }
-        }
-
-        //-----------------------------------------------------------------------------
-        internal List<ReferenceableComponent> GetReferenceableComponents(Type contentType)
+		//-----------------------------------------------------------------------------
+		internal List<ReferenceableComponent> GetReferenceableComponents(Type contentType)
 		{
 			List<ReferenceableComponent> declarations = new List<ReferenceableComponent>();
 			foreach (ReferenceableComponent declaration in ReferenceableComponents)
@@ -469,6 +460,18 @@ namespace Microarea.EasyBuilder
 			return declarations;
 		}
 
+		//-------------------------------------------------------------------------------
+		private void SaveDeclarations()
+		{
+			foreach (ReferenceableComponent declaration in ReferenceableComponents)
+				declaration.SerializeUsingDeclaration(sources);
+		}
+
+		//-------------------------------------------------------------------------------
+		private void sources_ControllerSourcesUpdated(object sender, EventArgs e)
+		{
+			SaveDeclarations();
+		}
 	}
 
 	//=================================================================================

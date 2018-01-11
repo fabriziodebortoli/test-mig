@@ -103,8 +103,8 @@ namespace Microarea.RSWeb.WoormViewer
 		//---------------------------------------------------------------------------
 		public string FormatToken(string source)
 		{
-            string shortDatePattern =  Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
-            string longDatePattern =  Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern;   
+            string shortDatePattern = "dd/MM/yyyy"; // Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;     TODO rsweb
+            string longDatePattern = "dd/MM/yyyy"; // Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern;    TODO rsweb
 
             switch (source)
             {

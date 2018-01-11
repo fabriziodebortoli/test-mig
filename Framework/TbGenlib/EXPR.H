@@ -169,8 +169,7 @@ protected:
 	double		CastDbl			(ExpItemVal&);
 	GUID		CastGuid		(ExpItemVal&);
 	DataArray*	CastArray		(ExpItemVal&);
-	//DataRecord* CastRecord		(ExpItemVal&);
-	DataTRecord* CastTRecord	(ExpItemVal&);
+	DataRecord*	CastRecord		(ExpItemVal&);
 	SymField*	CastFieldProvider (ExpItemVal&);
 	//IDataProvider* CastProvider (ExpItemVal&);
 

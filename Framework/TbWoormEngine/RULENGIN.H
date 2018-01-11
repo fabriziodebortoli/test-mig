@@ -119,7 +119,7 @@ private:
 	void		FindSubTree			(CObArray&);
 	void		MakeSubTreeNodes 	(RuleObj&);
 	void		TraceRules			();
-	void		TraceRules			(CObArray&, CString title);
+
 };
 
 //============================================================================
@@ -152,7 +152,9 @@ class TB_EXPORT RuleObj : public CObject, public IDisposingSourceImpl
 	
 	DECLARE_DYNAMIC(RuleObj);
 protected:
-	int			m_nRuleTag = -1;
+#ifdef _DEBUG
+	int			m_nRuleTag;
+#endif
 
 	RuleEngine&	m_OwnerEngine;
 

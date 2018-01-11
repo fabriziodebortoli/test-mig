@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable, ErrorObservable } from '../../rxjs.imports';
 import { Logger } from './logger.service';
-import { TBLoaderInfo } from './../../shared/models/tbloader-info.model';
 
 export function loadConfig(config) {
-    return () => config.load();
+    return () => config.load()
 }
 
 @Injectable()
@@ -14,15 +13,12 @@ export class InfoService {
 
     baseUrl: string;
     wsBaseUrl: string;
-    isDesktop = false;
+    isDesktop: boolean = false;
 
-    productInfo: any = null;
-    dictionaries: any = null;
+    productInfo: any;
+    dictionaries: any;
     culture = { enabled: true, value: '' };
     cultureId = 'ui_culture';
-    tbLoaderInfoId = 'tbLoaderInfo';
-    tbLoaderInfo: TBLoaderInfo;
-    getProductInfoPromise: Promise<void>;
 
     constructor(
         public http: Http,
@@ -49,29 +45,12 @@ export class InfoService {
         return this.culture.value;
     }
 
-    getTbLoaderInfo(): TBLoaderInfo {
-        if (!this.tbLoaderInfo) {
-            let s = localStorage.getItem(this.tbLoaderInfoId);
-            if (s) {
-                this.tbLoaderInfo = JSON.parse(s);
-            }
-            else {
-                this.tbLoaderInfo = new TBLoaderInfo("", 0);
-            }
-        }
-
-        return this.tbLoaderInfo;
-    }
-    setTbLoaderInfo(info: TBLoaderInfo) {
-        this.tbLoaderInfo = info;
-        localStorage.setItem(this.tbLoaderInfoId, JSON.stringify(this.tbLoaderInfo));
-    }
     getAuthorization(): string {
         return JSON.stringify(
             {
                 ui_culture: this.culture.value,
                 authtoken: sessionStorage.getItem('authtoken'),
-                tbLoaderName: this.getTbLoaderInfo().name
+                tbLoaderName: localStorage.getItem('tbLoaderName')
             });
     }
 
@@ -83,7 +62,7 @@ export class InfoService {
             this.http.get('assets/config.json')
                 .map(res => res.json())
                 .subscribe(config => {
-                    this.logger.debug('App Configuration', config)
+                    this.logger.debug("App Configuration", config)
 
                     this.baseUrl = config.baseUrl;
                     this.wsBaseUrl = config.wsBaseUrl;
@@ -94,32 +73,24 @@ export class InfoService {
     }
 
     public getProductInfo(ensureIsLogged: boolean): Observable<any> {
-        // posso chiamarla prima della login, allora avrò meno informazioni
-        // se la richiamo a login effettuata mi popola le informazioni mancanti
+        //posso chiamarla prima della login, allora avrò meno informazioni
+        //se la richiamo a login effettuata mi popola le informazioni mancanti
         return Observable.create(observer => {
             if (this.productInfo && (!ensureIsLogged || this.productInfo.userLogged)) {
                 observer.next(this.productInfo);
                 observer.complete();
-            } else {
+            }
+            else {
 
-                if (!this.getProductInfoPromise) {
-                    this.getProductInfoPromise = new Promise((resolve, reject) => {
-                        const params = { authtoken: sessionStorage.getItem('authtoken') };
-                        const url = this.getMenuServiceUrl() + 'getProductInfo/';
-                        const sub = this.request(url, params)
-                            .subscribe(result => {
-                                this.productInfo = result.ProductInfos;
-                                delete this.getProductInfoPromise;
-                                resolve();
-                                sub.unsubscribe();
-                            });
-
+                let params = { authtoken: sessionStorage.getItem('authtoken') };
+                let url = this.getMenuServiceUrl() + 'getProductInfo/';
+                let sub = this.request(url, params)
+                    .subscribe(result => {
+                        this.productInfo = result.ProductInfos;
+                        observer.next(this.productInfo);
+                        observer.complete();
+                        sub.unsubscribe();
                     });
-                }
-                this.getProductInfoPromise.then(() => {
-                    observer.next(this.productInfo);
-                    observer.complete();
-                });
             }
         });
     }
@@ -129,10 +100,12 @@ export class InfoService {
             if (this.dictionaries) {
                 observer.next(this.dictionaries);
                 observer.complete();
-            } else {
-                const url = this.getDataServiceUrl() + 'getinstalleddictionaries';
-                const sub = this.request(url, {})
+            }
+            else {
+                let url = this.getDataServiceUrl() + 'getinstalleddictionaries';
+                let sub = this.request(url, {})
                     .subscribe(result => {
+                        this.logger.debug("dictionaries", result);
                         this.dictionaries = result.dictionaries;
                         sub.unsubscribe();
                         observer.next(this.dictionaries);
@@ -192,32 +165,32 @@ export class InfoService {
     }
 
     getEnumsServiceUrl() {
-        const url = this.getBaseUrl() + '/enums-service/';
+        let url = this.getBaseUrl() + '/enums-service/';
         return url;
     }
 
     getFormattersServiceUrl() {
-        const url = this.getBaseUrl() + '/formatters-service/';
+        let url = this.getBaseUrl() + '/formatters-service/';
         return url;
     }
 
     getDataServiceUrl() {
-        const url = this.getBaseUrl() + '/data-service/';
+        let url = this.getBaseUrl() + '/data-service/';
         return url;
     }
 
     getReportServiceUrl() {
-        const url = this.getBaseUrl() + '/rs/';
+        let url = this.getBaseUrl() + '/rs/';
         return url;
     }
 
     request(url: string, data: Object): Observable<any> {
-        const headers = new Headers();
+        let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers })
             .map(res => res.json())
             .catch((error: any): ErrorObservable => {
-                const errMsg = (error.message) ? error.message :
+                let errMsg = (error.message) ? error.message :
                     error.status ? `${error.status} - ${error.statusText}` : 'Server error';
                 this.logger.error(errMsg);
 

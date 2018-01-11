@@ -2,7 +2,6 @@ import { TbComponent } from './../../shared/components/tb.component';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
-import { InfoService } from './../../core/services/info.service';
 
 @Component({
   selector: 'tb-connection-info',
@@ -16,7 +15,6 @@ export class ConnectionInfoComponent extends TbComponent implements OnInit, OnDe
   private subscriptions = [];
   constructor(
     public httpMenuService: HttpMenuService,
-    public infoService: InfoService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) {

@@ -73,7 +73,7 @@ namespace Microarea.EasyBuilder
 		}
 
 		//-----------------------------------------------------------------------------
-		internal void SerializeUsingDeclaration(Sources sources, TypeDeclaration controllerClass = null)
+		internal void SerializeUsingDeclaration(Sources sources)
 		{
 			List<Expression> args = new List<Expression>();
 			args.Add(new PrimitiveExpression(ContentType));
@@ -86,12 +86,10 @@ namespace Microarea.EasyBuilder
 
 			AttributeSection attrSec = new AttributeSection();
 			attrSec.Attributes.Add(attr);
-            TypeDeclaration aClass = controllerClass == null ?
-                                    EasyBuilderSerializer.GetControllerTypeDeclaration(sources.CustomizationInfos.EbDesignerCompilationUnit) :
-                                    controllerClass;
 
+			TypeDeclaration aClass = EasyBuilderSerializer.GetControllerTypeDeclaration(sources.CustomizationInfos.EbDesignerCompilationUnit);
 
-            if (aClass != null && GetCustomAttribute(aClass) == null)
+			if (aClass != null && GetCustomAttribute(aClass) == null)
 				sources.AddCustomAttribute(aClass, attrSec);
 		}
 

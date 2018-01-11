@@ -123,10 +123,3 @@ void CCEFBrowserWrapper::Reload()
 	if (m_pBrowser)
 		m_pBrowser->Reload();
 }
-
-void CCEFBrowserWrapper::ReloadIgnoreCache()
-{
-	if (m_pBrowser)
-		m_pBrowser->ReloadIgnoreCache();
-}
-

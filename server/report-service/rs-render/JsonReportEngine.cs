@@ -370,9 +370,6 @@ namespace Microarea.RSWeb.Render
             string result = Path.GetTempPath();
             string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
 
-            int numFoglio = 1;
-            string tableName = "";
-
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
             {
                 //crea il documento Excel
@@ -390,9 +387,6 @@ namespace Microarea.RSWeb.Render
 
                 spreadsheet.SheetData sheetData = new spreadsheet.SheetData();
 
-                spreadsheet.Sheets sheets = workbookPart.Workbook.AppendChild(new spreadsheet.Sheets());
-                spreadsheet.Sheet sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Foglio" + numFoglio };
-
                 for (int i = firstPage; i <= lastPage; i++)
                 {
                     woorm.LoadPage(currentPage);
@@ -400,20 +394,10 @@ namespace Microarea.RSWeb.Render
                     foreach (BaseObj o in woorm.Objects)
                     {
                         if (o is Objects.Table)
-                        {   
+                        {
                             Objects.Table t = o as Objects.Table;
 
-                            //Crea un nuovo foglio se ho due tabelle differenti
-                            if (t.GetTableName() != tableName && tableName != "")
-                            {
-                                numFoglio++;
-                                worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
-                                worksheetPart.Worksheet = new spreadsheet.Worksheet();
-                                sheetData = new spreadsheet.SheetData();
-                                sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)numFoglio, Name = "Foglio" + numFoglio };
-                            }
-
-                            if (currentPage == firstPage || t.GetTableName() != tableName)
+                            if (currentPage == firstPage)
                             {
                                 List<spreadsheet.Column> columList = new List<spreadsheet.Column>();
                                 List<spreadsheet.Cell> cells = new List<spreadsheet.Cell>();
@@ -444,7 +428,10 @@ namespace Microarea.RSWeb.Render
                                 columns.Append(columList);
                                 worksheetPart.Worksheet.AppendChild(columns);
 
+                                spreadsheet.Sheets sheets = workbookPart.Workbook.AppendChild(new spreadsheet.Sheets());
+                                spreadsheet.Sheet sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = woorm.Properties.Title };
                                 sheets.Append(sheet);
+
                                 workbookPart.Workbook.Save();
 
                                 sheetData = worksheetPart.Worksheet.AppendChild(new spreadsheet.SheetData());
@@ -478,9 +465,7 @@ namespace Microarea.RSWeb.Render
                                 sheetData.AppendChild(row);
                             }
                             worksheetPart.Worksheet.Save();
-                            
-                            //Salvo il nome della tabella
-                            tableName = t.GetTableName();
+                            //currentPage++;
 
                             if (currentPage == lastPage)
                                 return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
@@ -490,10 +475,7 @@ namespace Microarea.RSWeb.Render
                     currentPage++;
                 }
             }
-            if(tableName != "")
-                return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
-            else
-                return "Errore".ToJson();
+            return "Errore".ToJson();
         }
 
         private spreadsheet.Cell ConstructCell(string value, spreadsheet.CellValues dataType, uint styleIndex = 0)

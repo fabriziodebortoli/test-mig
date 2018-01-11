@@ -1128,7 +1128,7 @@ protected:
 	afx_msg void OnUpdateLoadTemplate		(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateUnloadTemplate		(CCmdUI* pCmdUI);
 	void LoadTemplate();
-			BOOL LoadTemplate				(BOOL bEditing, BOOL bShowDialog = TRUE, BOOL bImportStaticObjects=TRUE, BOOL bUpdateDoc = TRUE);
+			BOOL LoadTemplate				(BOOL bEditing, BOOL bShowDialog = TRUE, BOOL bImportStaticObjects=TRUE);
 			void UnloadTemplate				();
 			void RemoveTemplateStyles		();
 			void RemoveTemplateStyles		(CLayout* pObjects);

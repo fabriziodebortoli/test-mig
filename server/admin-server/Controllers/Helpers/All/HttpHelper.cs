@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Controllers.Helpers.Commons
+namespace Microarea.AdminServer.Controllers.Helpers.All
 {
 	//================================================================================
 	public interface IHttpHelper

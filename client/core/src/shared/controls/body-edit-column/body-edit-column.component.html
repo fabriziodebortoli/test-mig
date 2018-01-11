@@ -1,14 +1,12 @@
 <kendo-grid-column field="{{columnName}}" title="{{title}}"  [width]="width" [ngSwitch]="columnType">
     <!-- <ng-template *ngSwitchCase="'tb-text'" kendoGridCellTemplate let-dataItem>
         <tb-text cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-text>
-    </ng-template>-->
+    </ng-template>
 
-   <ng-template *ngSwitchCase="'tb-checkbox'" kendoGridCellTemplate let-dataItem>
-        <!-- <tb-checkbox cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-checkbox> -->
+    <ng-template *ngSwitchCase="'tb-checkbox'" kendoGridCellTemplate let-dataItem>
+        <tb-checkbox cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-checkbox>
+    </ng-template>
 
-        <input type="checkbox" [checked]="dataItem[columnName]?.value" [disabled]="!dataItem[columnName]?.enabled" />
-    </ng-template> 
-<!--
     <ng-template *ngSwitchCase="'tb-enum-combo'" kendoGridCellTemplate let-dataItem>
         <tb-enum-combo cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-enum-combo>
     </ng-template>
@@ -44,9 +42,8 @@
     <ng-template *ngSwitchCase="'tb-numeric-text-box'" kendoGridCellTemplate let-dataItem>
         <tb-numeric-text-box cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-numeric-text-box>
     </ng-template> -->
-
     <ng-template *ngSwitchCase="'tb-enum-combo'" kendoGridCellTemplate let-dataItem>
-            <div>{{dataItem[columnName]?.value | tbEnums: 'Enum' | async }}</div>
+            <div>{{getValue(dataItem[columnName]?.value)}}</div>
     </ng-template>
 
     <ng-template ngSwitchDefault kendoGridCellTemplate let-dataItem>

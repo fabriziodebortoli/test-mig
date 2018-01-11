@@ -196,14 +196,18 @@ namespace Microarea.AdminServer.Services.BurgerData
         }
 
         //--------------------------------------------------------------------------------
-        public bool Save(ModelTables table, BurgerDataParameter burgerDataParameterKeyColumn, List<BurgerDataParameter> burgerDataParameters, bool updateIfExisting = true)
+        public bool Save(ModelTables table, BurgerDataParameter burgerDataParameterKeyColumn, List<BurgerDataParameter> burgerDataParameters)
         {
-            return Save(table, new BurgerDataParameter[] { burgerDataParameterKeyColumn }, burgerDataParameters, updateIfExisting);
+            return Save(table, new BurgerDataParameter[] { burgerDataParameterKeyColumn }, burgerDataParameters);
         }
 
         //--------------------------------------------------------------------------------
-        public bool Save(ModelTables table, BurgerDataParameter[] burgerDataParameterKeyColumns, List<BurgerDataParameter> burgerDataParameters, bool updateIfExisting = true)
+        public bool Save(ModelTables table, BurgerDataParameter[] burgerDataParameterKeyColumns, List<BurgerDataParameter> burgerDataParameters)
         {
+            string queryExistRow = SqlScriptManager.GetExistQueryByModel(table);
+            string queryUpdateRow = SqlScriptManager.GetUpdateQueryByModel(table);
+            string queryInsertRow = SqlScriptManager.GetInsertQueryByModel(table);
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
@@ -212,7 +216,7 @@ namespace Microarea.AdminServer.Services.BurgerData
 
                     bool existRow = false;
 
-                    using (SqlCommand command = new SqlCommand(SqlScriptManager.GetExistQueryByModel(table), connection))
+                    using (SqlCommand command = new SqlCommand(queryExistRow, connection))
                     {
                         foreach (BurgerDataParameter bdParam in burgerDataParameterKeyColumns)
                         {
@@ -222,22 +226,14 @@ namespace Microarea.AdminServer.Services.BurgerData
                         existRow = (int)command.ExecuteScalar() > 0;
                     }
 
-					if (existRow && !updateIfExisting)
-					{
-						// if row exists and updateIfExisting is false, the row won't get updated
-						return true;
-					}
-
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = existRow ? 
-							SqlScriptManager.GetUpdateQueryByModel(table) : 
-							SqlScriptManager.GetInsertQueryByModel(table);
+                        command.CommandText = existRow ? queryUpdateRow : queryInsertRow;
 
                         burgerDataParameters.ForEach(p =>
                         {
-                            command.Parameters.AddWithValue(p.Name, p.Value ?? DBNull.Value);
+                            command.Parameters.AddWithValue(p.Name, p.Value??DBNull.Value);
                         });
 
                         command.ExecuteNonQuery();
@@ -334,7 +330,7 @@ namespace Microarea.AdminServer.Services.BurgerData
     {
         List<ParamCouple> whereParameters;
         List<ParamCouple> whereSQLParameters;
-        List<string> selectFields;
+        Hashtable fields;
         string tableName;
         SqlLogicOperators logicOperatorForAllParameters;
         bool useDistinctClause;
@@ -359,7 +355,7 @@ namespace Microarea.AdminServer.Services.BurgerData
         {
             whereParameters = new List<ParamCouple>();
             whereSQLParameters = new List<ParamCouple>();
-			selectFields = new List<string>();
+            fields = new Hashtable();
             this.tableName = tableName;
             this.logicOperatorForAllParameters = SqlLogicOperators.AND;
             sqlParametersList = new List<SqlParameter>();
@@ -389,7 +385,7 @@ namespace Microarea.AdminServer.Services.BurgerData
         //--------------------------------------------------------------------------------
         public void AddSelectField(string name)
         {
-            selectFields.Add(name);
+            fields.Add(name, name);
         }
 
         //--------------------------------------------------------------------------------
@@ -397,11 +393,12 @@ namespace Microarea.AdminServer.Services.BurgerData
         {
             StringBuilder strWhereParams = new StringBuilder();
             StringBuilder strSelectField = new StringBuilder();
+            IDictionaryEnumerator enumInterface;
+            bool isFirst = true;
             string logicOperator = String.Format(" {0} ", this.logicOperatorForAllParameters.ToString());
             string param;
-			bool isFirst = true;
 
-			whereParameters.ForEach(p =>
+            whereParameters.ForEach(p =>
             {
                 param = String.Concat(p.ParamName, p.ParamValue);
 
@@ -414,22 +411,21 @@ namespace Microarea.AdminServer.Services.BurgerData
                     strWhereParams.Append(String.Concat(logicOperator, param));
             });
 
-			string field;
-			isFirst = true;
+            enumInterface = fields.GetEnumerator();
+            isFirst = true;
 
-			selectFields.ForEach(p =>
-			{
-				field = p;
+            while (enumInterface.MoveNext())
+            {
+                string field = enumInterface.Value.ToString();
 
-				if (isFirst)
-				{
-					strSelectField.Append(field);
-					isFirst = false;
-				}
-				else
-					strSelectField.Append(String.Concat(",", field));
-			});
-
+                if (isFirst)
+                {
+                    strSelectField.Append(field);
+                    isFirst = false;
+                }
+                else
+                    strSelectField.Append(String.Concat(",", field));
+            }
 
             if (strSelectField.Length == 0)
             {
@@ -470,23 +466,23 @@ namespace Microarea.AdminServer.Services.BurgerData
                     strWhereParams.Append(String.Concat(logicOperator, param));
             });
 
-			string field;
-			isFirst = true;
+            enumInterface = fields.GetEnumerator();
+            isFirst = true;
 
-			selectFields.ForEach(p =>
-			{
-				field = p;
+            while (enumInterface.MoveNext())
+            {
+                string field = enumInterface.Value.ToString();
 
-				if (isFirst)
-				{
-					strSelectField.Append(field);
-					isFirst = false;
-				}
-				else
-					strSelectField.Append(String.Concat(",", field));
-			});
+                if (isFirst)
+                {
+                    strSelectField.Append(field);
+                    isFirst = false;
+                }
+                else
+                    strSelectField.Append(String.Concat(",", field));
+            }
 
-			if (strSelectField.Length == 0)
+            if (strSelectField.Length == 0)
             {
                 strSelectField.Append("*");
             }

@@ -6,7 +6,7 @@ import { Subscription, Subject } from '../../../rxjs.imports';
 import { OperationResult } from './../../models/operation-result.model';
 
 import { InfoService } from './../../../core/services/info.service';
-import { TaskBuilderService } from './../../../core/services/taskbuilder.service';
+import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { TbComponent } from './../../../shared/components/tb.component';
@@ -32,7 +32,7 @@ export class ApplicationDateComponent extends TbComponent implements OnInit, OnD
     constructor(
         public infoService: InfoService,
         public httpMenuService: HttpMenuService,
-        public taskbuilderService: TaskBuilderService,
+        public taskbuilderService: TaskbuilderService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef) {
         super(tbComponentService, changeDetectorRef);

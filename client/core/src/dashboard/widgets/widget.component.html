@@ -5,13 +5,13 @@
         <span class="widget-spacer"></span>
         <m4-icon icon="tb-link" *ngIf="widget.link" class="widget-icon" (click)="executeLink()"></m4-icon>
     </tb-card-header>
-    <tb-card-content class="tb-card-content">
+    <tb-card-content class="widget-content tb-card-content">
         <div #cardContent class="widget-content">
             <mat-spinner *ngIf="widget?.isLoading" class="widget-spinner"></mat-spinner>
             <div class="widget-content-area" *ngIf="!widget?.isLoading">
-                <tb-widget-stats *ngIf="widget?.layout?.style === 'stats'" [widget]="widget"></tb-widget-stats>
-                <tb-widget-grid *ngIf="widget?.layout?.style === 'grid'" [widget]="widget"></tb-widget-grid>
-                <tb-widget-chart *ngIf="widget?.layout?.style === 'chart'" [widget]="widget"></tb-widget-chart>
+                <tb-widget-stats *ngIf="widget.layout.style === 'stats'" [widget]="widget"></tb-widget-stats>
+                <tb-widget-grid *ngIf="widget.layout.style === 'grid'" [widget]="widget"></tb-widget-grid>
+                <tb-widget-chart *ngIf="widget.layout.style === 'chart'" [widget]="widget"></tb-widget-chart>
                 <div *ngIf="widget.layout.style === 'void'">
                     <p>Widget not found: {{widget.namespace}}</p>
                 </div>

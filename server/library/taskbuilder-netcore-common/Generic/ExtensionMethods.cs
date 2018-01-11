@@ -877,8 +877,8 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this DateTime d, string name = null, bool bracket = false)
         {
-            //       o: 2008-06-15T21:15:07.0000000   see https://msdn.microsoft.com/it-it/library/zdtaw1bw(v=vs.110).aspx
-            return d.ToString("o").ToJson(name, bracket, false, true);
+            //TODO RSWEB datetime to string manca culture
+            return d.ToString("yyyy-MM-dd").ToJson(name, bracket, false, true);
         }
 
         //----------------------------------------------------------------------------------
