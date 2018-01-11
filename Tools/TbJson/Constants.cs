@@ -19,8 +19,10 @@
         internal const string tbViewContainer = "tb-view-container";
         internal const string tbDockPane = "tb-dockpane";
         internal const string tbDockPaneContainer = "tb-dockpane-container";
-        internal const string tbTileManager = "tb-tilemanager";
-        internal const string tbTileGroup = "tb-tilegroup";
+        internal const string tbTileManager = "tb-tile-manager";
+        internal const string tbTileManagerTab = "tb-tile-manager-tab";
+        internal const string tbTileGroup = "tb-tile-group";
+        internal const string tbHeader = "tb-header";
         internal const string tbStatusTilePanel = "tb-status-tile-panel";
         internal const string tbStatusTile = "tb-status-tile";
         internal const string tbTile = "tb-tile";
@@ -108,6 +110,7 @@
         internal const string href = "href";
 
         internal const string width = "width";
+        internal const string rows = "rows";
 
         internal const string maxValue = "maxValue";
         internal const string minValue = "minValue";
