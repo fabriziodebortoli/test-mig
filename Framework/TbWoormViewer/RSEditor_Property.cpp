@@ -1503,6 +1503,8 @@ void CRS_ObjectPropertyView::OnApply()	//OnSave
 		}
 	}
 
+	
+
 	switch (m_pPropGrid->m_NewElement_Type)
 	{
 	case CRS_PropertyGrid::NewElementType::NEW_ELEMENT:
@@ -22994,7 +22996,9 @@ BOOL CRSCommonProp::OnUpdateValue()
 		if (AfxGetTokensTable()->IsInLanguage(name))
 		{
 			SetColoredState(CrsProp::State::Error);
-			AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
+			SetDescription(_TB("The name collides with a reserved word of TaskBuilder"));
+			m_pPropertyView->m_NewName = name;
+			//AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
 			break;
 		}
 		else
@@ -23003,7 +23007,7 @@ BOOL CRSCommonProp::OnUpdateValue()
 		if (GetDocument()->GetEditorSymTable()->GetField(name))
 		{
 			SetColoredState(CrsProp::State::Error);
-			AfxMessageBox(_TB("Field name allready exists"));
+			AfxMessageBox(_TB("Field name already exists"));
 			break;
 		}
 		else
