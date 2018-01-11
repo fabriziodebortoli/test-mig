@@ -22,6 +22,7 @@ namespace Microarea.ProvisioningDatabase.Infrastructure
         public void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
 			services.AddTransient<IJsonHelper, JsonHelper>();
+			services.AddTransient<IHttpHelper, HttpHelper>();
 		}
 
         public void MapRoutes(IRouteBuilder routes)
