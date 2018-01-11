@@ -134,6 +134,26 @@ namespace Microarea.Common.Generic
             return src.IndexOfWord(word.Reverse(), startIndex, noCase);
         }
 
+        public static string ReplaceQualifier(this string source, string newQ = "")
+        {
+            for (int pos = source.IndexOf('.'); pos > 0; pos = source.IndexOf('.'))
+            {
+                if (pos < (source.Length -1) && char.IsLetter(source[pos + 1]))
+                {
+                    int j = pos - 1;
+                    for (; j >= 0 && char.IsLetterOrDigit(source[j]); j--);
+                    if (j < (pos - 1))
+                    {
+                        source = source.Remove(j, pos - j + 1);
+                        if (!newQ.IsNullOrEmpty())
+                            source = source.InsertSub(newQ, j);
+                    }
+                }
+            }
+
+            return source;
+        }
+
         /// <summary>
         /// Implement  c++ & VB LEFT syntax checking parameters boundary avoiding exception.
         /// returns the left count character
