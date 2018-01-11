@@ -1,4 +1,4 @@
-﻿namespace Microarea.ProvisioningDatabase.Libraries
+﻿namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 {
 	//--------------------------------------------------------------------------------
 	public enum AppReturnCodes
