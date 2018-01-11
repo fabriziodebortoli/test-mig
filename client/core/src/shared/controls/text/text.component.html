@@ -2,11 +2,11 @@
     <tb-caption *ngIf="!hideCaption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
         <ng-template [ngIf]="rows<2">
-            <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur()"
-                [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width"></kendo-maskedtextbox>
+            <input kendoTextBox maxlength="{{model?.length}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur()"
+                [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" />
         </ng-template>
         <ng-template [ngIf]="rows>1">
-            <textarea name="{{cmpId}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event"
+            <textarea name="{{cmpId}}" maxlength="{{model?.length}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event"
                 [disabled]="!model?.enabled" [style.width.px]="width" rows = "{{rows}}"></textarea>
         </ng-template>
         <ng-template [ngIf]="hotLink">
