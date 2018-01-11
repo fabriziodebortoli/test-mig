@@ -43,6 +43,8 @@ namespace Microarea.RSWeb.Models
                 session.TbInstanceID = tbIstanceID;
                 session.LoggedToTb = true;
             }
+            Thread.CurrentThread.CurrentUICulture = ui.UserUICulture;
+            Thread.CurrentThread.CurrentCulture = ui.UserCulture;
 
             JsonReportEngine engine = new JsonReportEngine(session);
 

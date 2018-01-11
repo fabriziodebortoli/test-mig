@@ -1,10 +1,11 @@
 ﻿using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.Security;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Controllers.Helpers.All
+namespace Microarea.AdminServer.Controllers.Helpers.Commons
 {
 	//================================================================================
 	public class AuthorizationHelper

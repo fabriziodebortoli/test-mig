@@ -252,7 +252,7 @@ namespace Microarea.Tools.TBLocalizer
         public static string FILTERCSV          = Strings.CsvFiles + "|*.csv";
 		
 		public static string FILTERSLN			= string.Format(Strings.SolutionFiles, slnExtension, slnExtension);
-		public static string FILTERPRJ = Strings.ProjectFiles + " (*.tblprj; *.csproj; *.vcproj; *.vcxproj) | *.tblprj; *.csproj; *.vcproj; *.vcxproj";
+		public static string FILTERPRJ = Strings.ProjectFiles + " (*.tblprj; *.csproj; *.vcproj; *.vcxproj; package.json) | *.tblprj; *.csproj; *.vcproj; *.vcxproj; package.json";
 
 		public static string GLOSSARYNAME		= "glossary.{0}.xml";
         public static string GLOSSARYDEFAULTFOLDER = AppDataPath + @"\Glossary";

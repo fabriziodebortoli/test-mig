@@ -140,7 +140,7 @@ TB_EXPORT CTBResourcesMap*	AFXAPI AfxGetTBResourcesMap ();
 
 #define GET_IDR(Name, Context)		AfxGetTBResourcesMap()->GetTbResourceID(_T(#Name), TbResources, 1, _T(#Context))
 #define GET_IDC(Name)				AfxGetTBResourcesMap()->GetTbResourceID(_T(#Name), TbControls)
-#define GET_IDC_EX(ParentName, Name)GET_IDC(#ParentName "_" #Name)
+#define GET_IDC_EX(ParentName, Name)AfxGetTBResourcesMap()->GetTbResourceID(_T(#ParentName "_" #Name), TbControls)
 #define GET_IDC_RANGE(Name, Count)	AfxGetTBResourcesMap()->GetTbResourceID(_T(#Name), TbControls, Count)
 #define DEFINE_FIXED_CTRL(Name)		AfxGetTBResourcesMap()->AddFixedResource (TbControls, _T(#Name), Name);
 #define ADD_FIXED_CTRL(nr)			AddFixedResource (TbControls, _T(#nr), nr);AddFixedResource (TbCommands, _T(#nr), nr);

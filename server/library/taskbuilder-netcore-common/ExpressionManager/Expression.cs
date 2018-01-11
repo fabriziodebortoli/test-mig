@@ -24,6 +24,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net;
 using static Microarea.Common.Applications.TbSession;
+using System.Threading;
 
 namespace Microarea.Common.ExpressionManager
 {
@@ -3512,7 +3513,7 @@ namespace Microarea.Common.ExpressionManager
 						}
 						else
 						{
-							string s = "";// System.Threading.Thread.CurrentThread.CurrentUICulture.Name;                TODO rsweb
+							string s = Thread.CurrentThread.CurrentUICulture.Name;
 							return new Value(s);
 						}
 

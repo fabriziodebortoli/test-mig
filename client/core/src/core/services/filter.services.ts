@@ -8,7 +8,9 @@ export function combineFilters<L, R>(left: Observable<L>, right: Observable<R>):
     if (!left && !right)  { return Observable.throw('You must specify at least one argument'); }
     if (!left) { return right.map(x => ({ right: x })); }
     if (!right) { return left.map(x => ({ left: x })); }
-    return left.combineLatest(right, (v1, v2) => ({left: v1, right: v2}));
+    return left.combineLatest(right, (v1, v2) => {
+        return {left: v1, right: v2}
+    });
 }
 
 function debounceFirst<T>(observable: Observable<T>, dueTime: number): Observable<{ value: T, isFirst: boolean }> {
@@ -64,18 +66,33 @@ export class FilterService implements OnDestroy {
         return this.filterTyping$.filter(x => x.isFirst);
     }
 
-    public configure(debounceTime: number) {
+    public start(debounceTime: number) {
         if (debounceTime >= this.debounceTime) { this.debounceTime = debounceTime; }
         this.filterSubject$ = new BehaviorSubject<CompositeFilter>({});
     }
 
+    public stop() {
+       this.reset();
+    }
+
+    private reset() {
+        if(this.filterSubject$)
+            this.filterSubject$.complete();
+        this.filterSubject$ = null;
+        this.debounceTime = 200;
+        this._debounced = true;
+        this._filter = null;
+        this._previousFilter = null;
+        this._changedField = '';
+    }
+
     public onFilterChanged(value: CompositeFilter) {
-        this.filterSubject$.next(value);
+        if (this.filterSubject$) this.filterSubject$.next(value);
     }
 
     constructor(private ngZone: NgZone) { }
 
     ngOnDestroy() {
-        if (this.filterSubject$) { this.filterSubject$.complete(); }
+        if (this.filterSubject$) { this.reset(); }
     }
 }

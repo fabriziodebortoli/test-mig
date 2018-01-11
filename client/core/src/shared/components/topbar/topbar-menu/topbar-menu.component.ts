@@ -26,7 +26,7 @@ export class TopbarMenuComponent implements OnDestroy{
     public httpService: HttpService) {
     this.isDesktop = infoService.isDesktop;
     this.isESActivated = settingsService.IsEasyStudioActivated;
-    this.subscription= httpService.isActivated('BPMConnector','Core').subscribe( res => {
+    this.subscription= httpService.isActivated('BPM','Connector').subscribe( res => {
       this.isBPMActivated = res.result;
     });
   }

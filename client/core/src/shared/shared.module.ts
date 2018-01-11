@@ -316,12 +316,15 @@ const TB_DIRECTIVES = [
 
 import { TbColorPipe } from './pipes/tbColor.pipe';
 export { TbColorPipe } from './pipes/tbColor.pipe';
+import { TbToUpper } from './pipes/toupper.pipe';
+export { TbToUpper } from './pipes/toupper.pipe';
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
 import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
-const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe, TbToUpper];
+
 
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
@@ -333,7 +336,7 @@ export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDl
 export { OperationResult } from './models/operation-result.model';
 export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
-export { SocketConnectionStatus } from './models/websocket-connection.enum';
+export { ConnectionStatus } from './models/connection-status.enum';
 export { FormMode } from './models/form-mode.enum';
 export * from './models/store.models';
 export * from './commons/selector';

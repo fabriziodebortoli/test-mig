@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Controllers.Helpers.Tokens
+namespace Microarea.AdminServer.Services.Security
 {
 	//================================================================================
 	public class BootstrapTokenContainer
@@ -51,7 +48,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			jWTTokenHeader.typ = AuthorizationInfo.TypeJwtName;
 			jwtToken.header = jWTTokenHeader;
 			jwtToken.payload = bootstrapToken;
-			return jwtToken.GetToken(secretKey);
+			return jwtToken.GenerateEncodedToken(secretKey);
 		}
 	}
 }

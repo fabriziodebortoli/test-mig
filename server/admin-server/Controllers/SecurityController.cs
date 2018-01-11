@@ -1,13 +1,14 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
-using Microarea.AdminServer.Controllers.Helpers.All;
-using Microarea.AdminServer.Controllers.Helpers.Tokens;
+using Microarea.AdminServer.Controllers.Helpers.Commons;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Model.Services.Queries;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Services.GWAMCaller;
+using Microarea.AdminServer.Services.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -39,11 +40,10 @@ namespace Microarea.AdminServer.Controllers
             this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
             _httpHelper = httpHelper;
             burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-
         }
 
         // <summary>
-        // Provides login token
+        // Given user credentials, this method returns a BootstrapToken (JWT)
         // </summary>
         //-----------------------------------------------------------------------------	
         [HttpPost("/api/tokens/{instanceKey}")]

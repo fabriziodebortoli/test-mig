@@ -8,31 +8,21 @@ import { Store } from '../../core/services/store.service';
 import { createSelector, createSelectorByMap } from '../../shared/commons/selector';
 import { EventDataService } from '../../core/services/eventdata.service';
 import { Observable } from './../../rxjs.imports';
-
-export type HlDefinition = { namespace: string, name: string, ctx?: any };
-export type BadHlDefinition = { name: HlDefinition }
+import { HotLinkInfo } from './../models/hotLinkInfo.model';
+import * as _ from 'lodash';
 
 @Directive({
     selector: '[tbHotLink]'
 })
 export class TbHotLinkDirective implements OnInit {
-    namespace: string;
-    name: any;
+    hotLinkInfo: HotLinkInfo;
     model: any;
     private cmp: ComponentRef<TbHotlinkButtonsComponent>
 
-    @Input() set tbHotLink(hl: any) {
-        let goodHl: any;
-        try {
-            goodHl = JSON.parse(hl.name.replace (/\'/g, '"'));
-        } catch (e) {
-            goodHl = hl;
-        }
-
-        this.namespace = goodHl.namespace;
-        this.name = goodHl.name;
-        if (goodHl.ctx) {
-            this.model = goodHl.ctx;
+    @Input() set tbHotLink(hl: HotLinkInfo) {
+        this.hotLinkInfo = hl;
+        if (hl.ctx) {
+            this.model = hl.ctx;
         }
     }
 
@@ -45,29 +35,35 @@ export class TbHotLinkDirective implements OnInit {
     ngOnInit() {
         const compFactory = this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
         this.cmp = this.viewContainer.createComponent(compFactory);
+        let selTest =  createSelector(s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : '',
+        p => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : '');
         let selector;
         if (!this.model) {
             let ancestor = (this.viewContainer as any)._view.component as HlComponent;
             if (ancestor) { this.cmp.instance.modelComponent = ancestor; }
-            if (this.cmp.instance.modelComponent.isCombo) {
-                console.log('COMBO ATTACH!');
-            }
             selector = createSelector(
                 s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.enabled : false,
                 s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : undefined,
-                s => this.cmp.instance.modelComponent.model ? { value: this.cmp.instance.modelComponent.model.value,
-                                                                enabled: this.cmp.instance.modelComponent.model.enabled } :
-                                                              { value: undefined, enabled: false });
+                s => _.get(ancestor.hotLink.selector, this.eventDataService.model) ? 
+                            _.get(ancestor.hotLink.selector, this.eventDataService.model) : undefined,
+                s => { 
+                           if (this.cmp.instance.modelComponent.model){
+                           return { value: this.cmp.instance.modelComponent.model.value,
+                                    enabled: this.cmp.instance.modelComponent.model.enabled,
+                                    selector: _.get(ancestor.hotLink.selector, this.eventDataService.model),
+                                     };
+                       } else {
+                           return { value: undefined, enabled: false, selector: _.get(ancestor.hotLink.selector, this.eventDataService.model) }
+                       }
+                    });
             this.cmp.instance.slice$ = this.store
             .select(selector)
-            .startWith( { value: undefined,  enabled: false })
             .filter(x => !x.value || (x.value !== this.cmp.instance.value));
         } else {
             this.cmp.instance.model = this.model;
             this.cmp.instance.slice$ = Observable.of(this.model);
         }
 
-        this.cmp.instance.namespace = this.namespace;
-        this.cmp.instance.name = this.name;
+        this.cmp.instance.hotLinkInfo = this.hotLinkInfo; 
     }
 }

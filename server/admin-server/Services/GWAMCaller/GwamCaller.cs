@@ -1,9 +1,10 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
-using Microarea.AdminServer.Controllers.Helpers.All;
+using Microarea.AdminServer.Controllers.Helpers.Commons;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
+using Microarea.AdminServer.Services.Security;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,15 @@ namespace Microarea.AdminServer.Services.GWAMCaller
         string GWAMUrl;
         AuthorizationInfo authInfo;
         IInstance instance;
-        bool GwamDown = false;
+        bool GWAMDown;
 
         //----------------------------------------------------------------------
         public GwamCaller(IHttpHelper httpHelper, string GWAMUrl, IInstance instance)
         {
             this.httpHelper = httpHelper;
             this.GWAMUrl = GWAMUrl;
-            this.instance = instance == null ? new Instance() : instance;
+			this.GWAMDown = false;
+			this.instance = instance == null ? new Instance() : instance;
             this.authInfo =  this.instance.GetAuthorizationInfo();
         }
 
@@ -43,7 +45,7 @@ namespace Microarea.AdminServer.Services.GWAMCaller
             // GWAM call could not end correctly: so we check the object
             if (res.Status == TaskStatus.Faulted)
             {
-                GwamDown = true;
+                GWAMDown = true;
                 //imposto il flag pending per capire quanto tempo passa fuori copertura
                 if (!instance.VerifyPendingDate())
                 {
@@ -56,7 +58,7 @@ namespace Microarea.AdminServer.Services.GWAMCaller
                 opRes.Result = true;
                 opRes.Code = GwamMessageStrings.GoOnDespiteGWAM; // gwam non risponde ma possiamo lavorare offline
             }
-            else GwamDown = false;
+            else GWAMDown = false;
 
             opRes = JsonConvert.DeserializeObject<OperationResult>(res.Result as string);
             return opRes;
@@ -66,7 +68,7 @@ namespace Microarea.AdminServer.Services.GWAMCaller
         internal async Task<Task<string>> GetInstancesListFromGWAM(string accountName)
         {
             OperationResult opRes = new OperationResult();
-            if (GwamDown)
+            if (GWAMDown)
                 return (Task<string>)opRes.Content;
 
             string url = String.Format("{0}listInstances/{1}", this.GWAMUrl, accountName);
@@ -84,7 +86,7 @@ namespace Microarea.AdminServer.Services.GWAMCaller
         //----------------------------------------------------------------------
         internal OperationResult VerifyAccountModificationGWAM(AccountModification accMod)
         {
-            if (GwamDown)
+            if (GWAMDown)
                 return new OperationResult();
 
             Task<string> res = VerifyAccountModificationGWAMAsync(accMod).Result;
@@ -162,7 +164,7 @@ namespace Microarea.AdminServer.Services.GWAMCaller
         //----------------------------------------------------------------------
         internal OperationResult GetInstance()
         {
-            if (GwamDown)
+            if (GWAMDown)
                 return new OperationResult();
 
             Task<string> res = GetInstanceAsync(instance.InstanceKey, instance.Ticks).Result;

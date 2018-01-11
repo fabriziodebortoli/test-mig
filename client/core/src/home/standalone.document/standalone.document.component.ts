@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { ComponentService } from './../../core/services/component.service';
 import { WebSocketService } from './../../core/services/websocket.service';
-import { TaskbuilderService } from './../../core/services/taskbuilder.service';
+import { TaskBuilderService } from './../../core/services/taskbuilder.service';
 import { DynamicCmpComponent } from './../../shared/components/dynamic-cmp.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class StandaloneDocumentComponent implements OnInit {
   constructor(
     public activatedRoute: ActivatedRoute,
     public webSocketService: WebSocketService,
-    public taskbuilderService: TaskbuilderService,
+    public taskbuilderService: TaskBuilderService,
     public componentService: ComponentService
   ) {
 
