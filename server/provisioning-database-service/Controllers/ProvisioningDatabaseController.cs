@@ -32,16 +32,13 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			//this.settings = settings.Value;
 		}
 
-		//---------------------------------------------------------------------
-		//[HttpGet("/api/database/hello")]
-		[Route("gethello")]
-		public IActionResult ApiHello()
+		[HttpGet]
+		[Route("api")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiHome()
 		{
-			OperationResult opRes = new OperationResult();
-			opRes.Result = true;
-			opRes.Message = "Hello!";
-			jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Provisioning Database Service API");
+			return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
 		// @@TODO: procedura di creazione automatica su Cloud da rivedere!!!
@@ -253,7 +250,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// </summary>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/testconnection/{subscriptionKey}")]
+		[HttpPost("api/database/testconnection/{subscriptionKey}")]
 		public IActionResult ApiTestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
@@ -316,7 +313,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="dbCredentials"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/exist/{subscriptionKey}/{dbName}")]
+		[HttpPost("api/database/exist/{subscriptionKey}/{dbName}")]
 		public IActionResult ApiExistDatabase(string subscriptionKey, string dbName, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
@@ -361,7 +358,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		}
 
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/check/{subscriptionKey}")]
+		[HttpPost("api/database/check/{subscriptionKey}")]
 		public IActionResult ApiCheck(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -387,7 +384,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="extSubDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/update/{subscriptionKey}")]
+		[HttpPost("api/database/update/{subscriptionKey}")]
 		public IActionResult ApiUpdate(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -470,7 +467,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="importDataContent"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
+		[HttpPost("api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
 		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
@@ -520,7 +517,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="importDataContent"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
+		[HttpPost("api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
 		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
@@ -568,7 +565,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
+		[HttpPost("api/database/deleteobjects/{subscriptionKey}")]
 		public IActionResult ApiDeleteDatabaseObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -607,7 +604,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="deleteContent"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/delete/{subscriptionKey}")]
+		[HttpPost("api/database/delete/{subscriptionKey}")]
 		public IActionResult ApiDeleteDatabase(string subscriptionKey, [FromBody]DeleteDatabaseBodyContent deleteContent)
 		{
 			OperationResult opRes = new OperationResult();
@@ -644,7 +641,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/checkstructure/{subscriptionKey}")]
+		[HttpPost("api/database/checkstructure/{subscriptionKey}")]
 		public IActionResult ApiCheckDatabaseStructure(string subscriptionKey, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -707,7 +704,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("/api/database/upgradestructure/{subscriptionKey}/{configuration?}")]
+		[HttpPost("api/database/upgradestructure/{subscriptionKey}/{configuration?}")]
 		public IActionResult ApiUpgradeDatabaseStructure(string subscriptionKey, string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
@@ -775,7 +772,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		///	}
 		///</returns>
 		//---------------------------------------------------------------------
-		[HttpGet("/api/database/configurations/{subscriptionKey}/{configType}/{iso}")]
+		[HttpGet("api/database/configurations/{subscriptionKey}/{configType}/{iso}")]
 		[Produces("application/json")]
 		public IActionResult ApiGetConfigurations(string subscriptionKey, string configType, string iso)
 		{
