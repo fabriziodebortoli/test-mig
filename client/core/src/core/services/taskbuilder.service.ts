@@ -13,9 +13,10 @@ import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 import { DiagnosticService } from './diagnostic.service';
 import { Logger } from './logger.service';
+import { ConnectionStatus } from './../../shared/models/connection-status.enum';
 
 @Injectable()
-export class TaskbuilderService {
+export class TaskBuilderService {
     defaultUrl = ['home'];
     errorMessages: string[] = [];
     redirectUrl = this.defaultUrl;
@@ -26,6 +27,8 @@ export class TaskbuilderService {
 
     subscriptions: Subscription[] = [];
     stopConnection: boolean = false;
+    _connectionStatus = ConnectionStatus.None;
+    public connectionStatus = new EventEmitter<ConnectionStatus>();
     constructor(
         public httpService: HttpService,
         public socket: WebSocketService,
@@ -53,6 +56,8 @@ export class TaskbuilderService {
         // Vera connessione quando anche il WS è connesso
         this.subscriptions.push(this.socket.open.subscribe(() => {
             this.connected.next(true);
+            this.setConnectionStatus(ConnectionStatus.Connected);
+        
         }));
 
         // riconnessione alla chiusura del WS
@@ -60,6 +65,7 @@ export class TaskbuilderService {
             this.tbConnection.next(false);
             this.connected.next(false);
 
+            this.setConnectionStatus(ConnectionStatus.Disconnected);
             this.logger.debug("Riconnessione in corso...")
             this.openConnection();
 
@@ -73,6 +79,10 @@ export class TaskbuilderService {
 
     }
 
+    setConnectionStatus(status: ConnectionStatus) {
+        this._connectionStatus = status;
+        this.connectionStatus.emit(status);
+    }
     dispose() {
         this.tbConnection.next(false);
         this.connected.next(false);
@@ -85,6 +95,7 @@ export class TaskbuilderService {
 
     openTbConnection(): Observable<boolean> {
 
+        this.setConnectionStatus(ConnectionStatus.Connecting);
         let authtoken = sessionStorage.getItem('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
         let isDesktop = this.infoService.isDesktop;
@@ -106,9 +117,6 @@ export class TaskbuilderService {
                         this.diagnosticService.showDiagnostic(tbRes.messages).subscribe(() => this.authService.logout());
 
                     } else {
-                        localStorage.setItem('tbLoaderName', tbRes.tbLoaderName);
-                        this.logger.debug("TbLoader Connected...", tbRes.tbLoaderName);
-
                         this.themeService.loadThemes();
                         this.tbConnection.next(true);
                     }

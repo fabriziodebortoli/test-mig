@@ -119,7 +119,7 @@ private:
 	void		FindSubTree			(CObArray&);
 	void		MakeSubTreeNodes 	(RuleObj&);
 	void		TraceRules			();
-
+	void		TraceRules			(CObArray&, CString title);
 };
 
 //============================================================================

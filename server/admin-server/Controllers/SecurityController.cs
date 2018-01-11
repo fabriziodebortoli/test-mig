@@ -40,11 +40,10 @@ namespace Microarea.AdminServer.Controllers
             this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
             _httpHelper = httpHelper;
             burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-
         }
 
         // <summary>
-        // Provides login token
+        // Given user credentials, this method returns a BootstrapToken (JWT)
         // </summary>
         //-----------------------------------------------------------------------------	
         [HttpPost("/api/tokens/{instanceKey}")]

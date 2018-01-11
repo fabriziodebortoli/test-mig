@@ -329,7 +329,7 @@ export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDl
 export { OperationResult } from './models/operation-result.model';
 export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
-export { SocketConnectionStatus } from './models/websocket-connection.enum';
+export { ConnectionStatus } from './models/connection-status.enum';
 export { FormMode } from './models/form-mode.enum';
 export * from './models/store.models';
 export * from './commons/selector';

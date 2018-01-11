@@ -334,7 +334,7 @@ namespace Microarea.AdminServer.Services.BurgerData
     {
         List<ParamCouple> whereParameters;
         List<ParamCouple> whereSQLParameters;
-        Hashtable fields;
+        List<string> selectFields;
         string tableName;
         SqlLogicOperators logicOperatorForAllParameters;
         bool useDistinctClause;
@@ -359,7 +359,7 @@ namespace Microarea.AdminServer.Services.BurgerData
         {
             whereParameters = new List<ParamCouple>();
             whereSQLParameters = new List<ParamCouple>();
-            fields = new Hashtable();
+			selectFields = new List<string>();
             this.tableName = tableName;
             this.logicOperatorForAllParameters = SqlLogicOperators.AND;
             sqlParametersList = new List<SqlParameter>();
@@ -389,7 +389,7 @@ namespace Microarea.AdminServer.Services.BurgerData
         //--------------------------------------------------------------------------------
         public void AddSelectField(string name)
         {
-            fields.Add(name, name);
+            selectFields.Add(name);
         }
 
         //--------------------------------------------------------------------------------
@@ -397,12 +397,11 @@ namespace Microarea.AdminServer.Services.BurgerData
         {
             StringBuilder strWhereParams = new StringBuilder();
             StringBuilder strSelectField = new StringBuilder();
-            IDictionaryEnumerator enumInterface;
-            bool isFirst = true;
             string logicOperator = String.Format(" {0} ", this.logicOperatorForAllParameters.ToString());
             string param;
+			bool isFirst = true;
 
-            whereParameters.ForEach(p =>
+			whereParameters.ForEach(p =>
             {
                 param = String.Concat(p.ParamName, p.ParamValue);
 
@@ -415,21 +414,22 @@ namespace Microarea.AdminServer.Services.BurgerData
                     strWhereParams.Append(String.Concat(logicOperator, param));
             });
 
-            enumInterface = fields.GetEnumerator();
-            isFirst = true;
+			string field;
+			isFirst = true;
 
-            while (enumInterface.MoveNext())
-            {
-                string field = enumInterface.Value.ToString();
+			selectFields.ForEach(p =>
+			{
+				field = p;
 
-                if (isFirst)
-                {
-                    strSelectField.Append(field);
-                    isFirst = false;
-                }
-                else
-                    strSelectField.Append(String.Concat(",", field));
-            }
+				if (isFirst)
+				{
+					strSelectField.Append(field);
+					isFirst = false;
+				}
+				else
+					strSelectField.Append(String.Concat(",", field));
+			});
+
 
             if (strSelectField.Length == 0)
             {
@@ -470,23 +470,23 @@ namespace Microarea.AdminServer.Services.BurgerData
                     strWhereParams.Append(String.Concat(logicOperator, param));
             });
 
-            enumInterface = fields.GetEnumerator();
-            isFirst = true;
+			string field;
+			isFirst = true;
 
-            while (enumInterface.MoveNext())
-            {
-                string field = enumInterface.Value.ToString();
+			selectFields.ForEach(p =>
+			{
+				field = p;
 
-                if (isFirst)
-                {
-                    strSelectField.Append(field);
-                    isFirst = false;
-                }
-                else
-                    strSelectField.Append(String.Concat(",", field));
-            }
+				if (isFirst)
+				{
+					strSelectField.Append(field);
+					isFirst = false;
+				}
+				else
+					strSelectField.Append(String.Concat(",", field));
+			});
 
-            if (strSelectField.Length == 0)
+			if (strSelectField.Length == 0)
             {
                 strSelectField.Append("*");
             }
