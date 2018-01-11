@@ -3,6 +3,7 @@ import { Injectable, EventEmitter, OnDestroy } from '@angular/core';
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
 import { CommandEventArgs } from './../../shared/models/eventargs.model';
 import { ComponentInfo } from './../../shared/models/component-info.model';
+import { BehaviorSubject } from './../../rxjs.imports';
 
 @Injectable()
 export class EventDataService implements OnDestroy {
@@ -10,9 +11,9 @@ export class EventDataService implements OnDestroy {
     public command: EventEmitter<CommandEventArgs> = new EventEmitter();
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
-    public openRadar: EventEmitter<any> = new EventEmitter();
     public radarRecordSelected: EventEmitter<any> = new EventEmitter();
     public behaviours: EventEmitter<any> = new EventEmitter();
+    public showRadar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();
@@ -25,7 +26,6 @@ export class EventDataService implements OnDestroy {
 
     public activation: any = {}; // contains activation data
     public buttonsState: any = {};
-    public canNavigate = true;
 
     constructor() { }
 
@@ -33,10 +33,7 @@ export class EventDataService implements OnDestroy {
         const evt = new CommandEventArgs();
         evt.commandId = commandId;
         evt.componentId = componentId;
-        if (evt.commandId === 'ID_EXTDOC_RADAR')
-            this.openRadar.next('');
-        else 
-            this.command.emit(evt);
+        this.command.emit(evt);
     }
 
     ngOnDestroy() {

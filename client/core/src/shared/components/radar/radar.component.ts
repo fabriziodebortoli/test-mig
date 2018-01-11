@@ -4,6 +4,7 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentService } from './../../../core/services/document.service';
+import { Store } from './../../../core/services/store.service';
 import { Component, ViewEncapsulation, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
 import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
@@ -14,12 +15,14 @@ import { DataService } from './../../../core/services/data.service';
 import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
-import { Subscription, BehaviorSubject } from './../../../rxjs.imports';
+import { Subscription, BehaviorSubject, Observable } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
+import { FormMode } from './../../../shared/models/form-mode.enum';
 import * as _ from 'lodash';
 
 export const GridStyles = { default: { 'cursor': 'pointer' }, filterTyping: { 'color': 'darkgrey' } };
 export const ViewStates = { opened: 'opened', closed: 'closed' };
+
 export class RadarState {
     readonly rows = [];
     readonly columns = [];
@@ -34,7 +37,7 @@ export class RadarState {
     selector: 'tb-radar',
     templateUrl: './radar.component.html',
     styleUrls: ['./radar.component.scss'],
-    encapsulation: ViewEncapsulation.Emulated,
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('shrinkOut', [
@@ -54,10 +57,13 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     gridStyle$ = new BehaviorSubject<any>(GridStyles.default);
     private _filter: CompositeFilterDescriptor;
     private state = new RadarState();
+    pinned = false;
+    canNavigate: Observable<boolean>;
 
-    constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService, private elRef: ElementRef,
-        public changeDetectorRef: ChangeDetectorRef, private dataService: DataService, private paginator: PaginatorService, private filterer: FilterService,
-        layoutService: LayoutService, tbComponentService: TbComponentService) {
+    constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
+        private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
+        private paginator: PaginatorService, private filterer: FilterService, layoutService: LayoutService,
+        tbComponentService: TbComponentService, private store: Store) {
         super(layoutService, tbComponentService, changeDetectorRef)
         this.start();
     }
@@ -65,7 +71,7 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     private start() {
         this.filterer.configure(200);
         this.paginator.start(1, this.pageSize,
-            combineFiltersMap(this.eventData.openRadar, this.filterer.filterChanged$, (l, r) => ({ customFilters: l, model: r })),
+            combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ customFilters: l, model: r })),
             (pageNumber, serverPageSize, otherParams?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
@@ -76,7 +82,6 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
                 return this.dataService.getRadarData(p);
             });
         this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
-            this.exitFindMode();
             this.setState(d);
             this.setFocus('[kendofilterinput]', this.state.lastChangedFilterIndex);
         });
@@ -85,15 +90,20 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
             this.gridStyle$.next(GridStyles.default);
         });
         this.filterer.filterChanging$.subscribe(x => this.gridStyle$.next(GridStyles.filterTyping));
+        this.canNavigate = this.store.select(m => m.FormMode.value).map(m => m !== FormMode.EDIT);
+        this.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
     }
 
     setState(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }, maxColumns = 10) {
         maxColumns = Math.min(d.columns.length, maxColumns);
         const rows = d.columns.length < maxColumns ? d.rows :
             d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)].slice(0, maxColumns).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
-        this.state = { ...this.state, columns: [d.columns.find(c => c.id == this.selectionColumnId), ...d.columns].slice(0, maxColumns), rows: rows };
+        this.state = {
+            ...this.state,
+            columns: [d.columns.find(c => c.id == this.selectionColumnId), ...d.columns].slice(0, maxColumns),
+            rows: rows
+        };
         this.gridData$.next({ data: this.state.rows, total: d.total, columns: this.state.columns });
-        this.show();
     }
 
     private get filter(): CompositeFilterDescriptor {
@@ -122,17 +132,27 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     }
 
     selectByIndex(idx: number) {
-        const id = this.state.rows[idx][this.selectionColumnId];
-        this.state = {
-            ...this.state,
-            selectedIndex: this.coerce(idx, 0, this.state.rows.length),
-            selectionKeys: [id]
-        };
+        if (this.isFormMode(FormMode.EDIT)) return;
+        this.state = { ...this.state, selectedIndex: this.coerce(idx, 0, this.state.rows.length) };
+        this.selectByItem(this.state.rows[this.state.selectedIndex]);
+    }
+
+    selectByItem(item) {
+        if (this.isFormMode(FormMode.EDIT)) return;
+        const id = item[this.selectionColumnId];
+        this.state = { ...this.state, selectionKeys: [id] };
         this.eventData.radarRecordSelected.emit(id);
     }
 
+    selectAndEdit(item) {
+        if (this.isFormMode(FormMode.EDIT)) return;
+        if (!this.pinned) this.eventData.showRadar.next(false);
+        this.selectByItem(item);
+        this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
+    }
+
     exitFindMode() {
-        if (!this.eventData.buttonsState.ID_EXTDOC_FIND.enabled)
+        if (this.isFormMode(FormMode.EDIT))
             this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
     }
 
@@ -140,14 +160,9 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
         this.stop();
     }
 
-    show() {
-        this.state = { ...this.state, view: ViewStates.opened };
-        this.eventData.canNavigate = false;
-    }
-
-    hide() {
-        this.state = { ...this.state, view: ViewStates.closed };
-        this.eventData.canNavigate = true;
+    private show(show: boolean) {
+        show && this.exitFindMode();
+        this.state = { ...this.state, view: show ? ViewStates.opened : ViewStates.closed };
     }
 
     private setFocus(selector: string, index: number) {
@@ -157,6 +172,7 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
         }, 100);
     }
 
+    isFormMode = (formMode: FormMode): boolean => _.get(this.eventData, 'model.FormMode.value') === formMode;
     coerce = (value: number, min: number = 0, max: number): number => Math.min(max - 1, Math.max(value, min));
     selectPrevious = () => this.selectByIndex(this.state.selectedIndex - 1);
     selectNext = () => this.selectByIndex(this.state.selectedIndex + 1);

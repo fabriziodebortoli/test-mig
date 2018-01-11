@@ -37,12 +37,12 @@ tb-radar {
     float: right;
 }
 
-/deep/ .radar-grid {
+.radar-grid {
     margin: 10px;
     font-size: 13px;
 }
 
-/deep/ .radar-grid.k-grid td {
+.radar-grid.k-grid td {
     padding: 2px 5px;
     font-size: 12px;
     white-space: nowrap;
@@ -50,20 +50,19 @@ tb-radar {
     text-overflow: ellipsis;
 }
 
-/deep/ .radar-grid .k-grid-header .k-header>.k-link {
-    padding: 5px;
+.radar-grid .k-grid-header .k-header>.k-link {
     font-weight: bold;
 }
 
-/deep/ .radar-grid .k-grid-pager {
+.radar-grid .k-grid-pager {
     padding: 0px;
     border-width: 1px 0 0;
     border-color: #e3e3e3;
     font-size: 12px;
 }
 
-/deep/ .radar-grid .k-grid tr.k-state-selected,
-/deep/ .radar-grid .k-grid td.k-state-selected {
+.radar-grid .k-grid tr.k-state-selected,
+.radar-grid .k-grid td.k-state-selected {
     color: #fff !important;
     background-color: #0277bd !important;
 }
@@ -121,18 +120,29 @@ tb-radar {
 .radar-container tb-icon {
     min-width: 30px;
     font-size: 20px;
-    line-height: 34px;
+    line-height: 37px;
 }
 
-.radar-container m4-icon {
-    font-size: 30px;
-    width: 30px;
+.radar-container #close-button m4-icon {
+    font-size: 17px;
+}
+
+.radar-container #cell-icon m4-icon {
+    font-size: 9px;
 }
 
 .radar-container .div-icon {
     width: 30px;
-    height: 30px;
-    line-height: 30px;
+    line-height: 34px;
+}
+
+.radar-container #close-button .div-icon {
+    line-height: 25px;
+}
+
+.radar-container #cell-icon .div-icon {
+    line-height: 9px;
+    width: 0px;
 }
 
 .radar-container .div-icon img {
@@ -143,4 +153,16 @@ tb-radar {
 .radar-container .toolbarIcon {
     font-size: 24px;
     padding-right: 8px;
+}
+
+.radar-container #cell-icon {
+    min-width: 0px;
+    font-size: 24px;
+}
+
+.radar-container .cell-button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
 }
