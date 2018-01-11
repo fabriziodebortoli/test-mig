@@ -1,0 +1,35 @@
+﻿namespace Microarea.ProvisioningDatabase.Libraries
+{
+	//--------------------------------------------------------------------------------
+	public enum AppReturnCodes
+	{
+		OK,
+		ExceptionOccurred,
+		Undefined,
+		AccountNameCannotBeEmpty,
+		InvalidAccountName,
+		NoSubscriptionsAvailable,
+		InstanceNotValid,
+		UserUpToDate,
+		UserLoaded,
+		AuthorizationHeaderMissing,
+		InvalidCredentials,
+		SubscriptionKeyEmpty,
+		EmptyCredentials,
+		InternalError,
+		UserIsExpired,
+		UserDisabled,
+		UserLocked,
+		InstanceKeyEmpty,
+		InvalidToken,
+		SuspectedToken,
+		MissingToken,
+		GWAMNotResponding,
+		InvalidData,
+		GWAMCommunicationError,
+        UnknownModelName,
+		NoSubscriptionDatabasesAvailable,
+        NoInstancesAvailable,
+		NoExternalSourcesAvailable,
+	}
+}
