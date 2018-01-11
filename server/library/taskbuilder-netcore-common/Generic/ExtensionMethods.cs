@@ -131,7 +131,7 @@ namespace Microarea.Common.Generic
 
             string src = source.Reverse();
 
-            return src.IndexOfWord(word.Reverse(), startIndex, noCase);
+            return  source.Length - src.IndexOfWord(word.Reverse(), startIndex, noCase) - word.Length;
         }
 
         public static string ReplaceQualifier(this string source, string newQ = "")
@@ -141,10 +141,10 @@ namespace Microarea.Common.Generic
                 if (pos < (source.Length -1) && char.IsLetter(source[pos + 1]))
                 {
                     int j = pos - 1;
-                    for (; j >= 0 && char.IsLetterOrDigit(source[j]); j--);
+                    for (; j >= 0 && (char.IsLetterOrDigit(source[j]) || source[j] == '_'); j--);
                     if (j < (pos - 1))
                     {
-                        source = source.Remove(j, pos - j + 1);
+                        source = source.Remove(j +1 , pos - j );
                         if (!newQ.IsNullOrEmpty())
                             source = source.InsertSub(newQ, j);
                     }
