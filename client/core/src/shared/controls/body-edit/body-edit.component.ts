@@ -15,7 +15,6 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   selector: 'tb-body-edit',
   templateUrl: './body-edit.component.html',
   styleUrls: ['./body-edit.component.scss'],
-  exportAs: 'body',
   encapsulation: ViewEncapsulation.None
 })
 export class BodyEditComponent extends ControlComponent implements AfterContentInit {

@@ -1,4 +1,4 @@
 <div class="tb-control tb-color-picker" [ngClass]="componentClass()">
-    <tb-caption *ngIf="!hideCaption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <input id="{{cmpId}}" type="text" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption" class="tb-color-picker" />
 </div>

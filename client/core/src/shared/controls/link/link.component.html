@@ -1,5 +1,5 @@
 <div class="tb-control tb-link" [ngClass]="componentClass()">
-    <tb-caption *ngIf="!hideCaption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <kendo-maskedtextbox [ngClass]="showError" [(ngModel)]="selectedValue" required="required" (blur)="onBlur()" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event"></kendo-maskedtextbox>
     <ng-container #stateButton></ng-container>
     <div class="has-error">{{errorMessage}}</div>

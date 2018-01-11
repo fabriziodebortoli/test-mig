@@ -9,7 +9,7 @@
         </ng-template>
         <ng-template kendoGridEditTemplate let-dataItem="dataItem">
             <div *ngIf="dataItem">
-                <tb-text [hideCaption]="true" cmpId="{{cmpId}}" [model]="dataItem[columnName]"  [hotLink]="hotLink" class="column"></tb-text>
+                <tb-text cmpId="{{cmpId}}" [model]="dataItem[columnName]"  [hotLink]="hotLink" class="column"></tb-text>
             </div>
         </ng-template>
     </div>
@@ -24,7 +24,7 @@
 
         <ng-template kendoGridEditTemplate let-dataItem="dataItem">
             <div *ngIf="dataItem">
-                <tb-checkbox [hideCaption]="true" cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-checkbox>
+                <tb-checkbox cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-checkbox>
             </div>
         </ng-template>
     </div>
@@ -38,7 +38,7 @@
         </ng-template>
         <ng-template kendoGridEditTemplate let-dataItem="dataItem">
             <div *ngIf="dataItem">
-                <tb-enum-combo [hideCaption]="true" [model]="dataItem[columnName]"></tb-enum-combo>
+                <tb-enum-combo [model]="dataItem[columnName]"></tb-enum-combo>
             </div>
         </ng-template>
     </div>
@@ -52,7 +52,7 @@
         </ng-template>
         <ng-template kendoGridEditTemplate let-dataItem="dataItem">
             <div *ngIf="dataItem">
-                <tb-combo [hideCaption]="true" [model]="dataItem[columnName]" [hotLink]="hotLink"></tb-combo>
+                <tb-combo [model]="dataItem[columnName]" [hotLink]="hotLink"></tb-combo>
             </div>
         </ng-template>
     </div>

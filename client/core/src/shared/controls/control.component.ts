@@ -16,10 +16,6 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     public caption: string;
-
-    @Input()
-    hideCaption : boolean = false;
-
     @Input()
     public args: any;
     @Input()

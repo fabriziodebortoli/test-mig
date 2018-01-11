@@ -771,7 +771,7 @@ namespace Microarea.TbJson
 
                             jObj.GetString(Constants.id, out string cmpId);
 
-                            htmlWriter.Write(string.Format(" #{0}=\"body\"", cmpId));
+                            //htmlWriter.Write(string.Format(" #{0}=\"body\"", cmpId));
 
                             WriteActivationAttribute(jObj);
 
@@ -1233,7 +1233,7 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + id);
         }
 
-        private void WriteBindingAttributes(JObject jObj, bool insideEditingLine, bool writeHtml)
+        private void WriteBindingAttributes(JObject jObj, bool writeHtml)
         {
             JObject jBinding = jObj[Constants.binding] as JObject;
             if (jBinding == null)
@@ -1283,13 +1283,13 @@ namespace Microarea.TbJson
             {
                 if (isSlaveBuffered)
                 {
-                    if (insideEditingLine)
-                    {
-                        var cmpId = jParentObject.GetId();
-                        htmlWriter.WriteAttribute("[model]", string.Format("{0}?.currentRow['{1}']", cmpId, field));
-                    }
-                    else
-                        htmlWriter.WriteAttribute("columnName", field);
+                    //if (insideEditingLine)
+                    //{
+                    //    var cmpId = jParentObject.GetId();
+                    //    htmlWriter.WriteAttribute("[model]", string.Format("{0}?.currentRow['{1}']", cmpId, field));
+                    //}
+                    //else
+                    htmlWriter.WriteAttribute("columnName", field);
                 }
                 else
                 {
@@ -1317,7 +1317,6 @@ namespace Microarea.TbJson
                     htmlWriter.WriteAttribute("[hotLink]", hkl);
                 }
             }
-
         }
 
         //-----------------------------------------------------------------------------------------
@@ -1362,7 +1361,7 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
 
             WriteAttribute(jObj, Constants.width, Constants.width);
-            WriteBindingAttributes(jObj, false, true);
+            WriteBindingAttributes(jObj, true);
 
         }
         string getControlId(JObject jObj)
@@ -1426,7 +1425,7 @@ namespace Microarea.TbJson
             if (wc.Name == Constants.tbText)
                 WriteAttribute(jObj, Constants.rows, Constants.rows);
 
-            WriteBindingAttributes(jObj, false, true);
+            WriteBindingAttributes(jObj, true);
 
             var jItemSource = jObj[Constants.itemSource] as JObject;
             if (jItemSource != null)

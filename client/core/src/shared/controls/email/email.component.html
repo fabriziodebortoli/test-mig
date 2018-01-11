@@ -1,5 +1,5 @@
 <div class="tb-control tb-email" [ngClass]="componentClass()">
-    <tb-caption *ngIf="!hideCaption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <!--<input id="{{cmpId}}" type="text" [ngClass]="showError" class="tb-text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [readonly]="readonly" />-->
 
     <kendo-maskedtextbox id="{{cmpId}}"  [mask]="mask" [ngClass]="showError" class="tb-text" [ngModel]="model?.value | toUpper: model?.uppercase" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event"  ></kendo-maskedtextbox>
