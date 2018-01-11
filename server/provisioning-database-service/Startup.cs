@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Microarea.ProvisioningDatabase
 {
@@ -9,10 +10,16 @@ namespace Microarea.ProvisioningDatabase
 	public class Startup
     {
 		//---------------------------------------------------------------------
-		public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+		public Startup(IHostingEnvironment env)
+		{
+			var builder = new ConfigurationBuilder()
+			   .SetBasePath(env.ContentRootPath)
+			   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+			   .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+			builder.AddEnvironmentVariables();
+			Configuration = builder.Build();
+		}
 
         public IConfiguration Configuration { get; }
 
@@ -20,19 +27,27 @@ namespace Microarea.ProvisioningDatabase
 		//---------------------------------------------------------------------
 		public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-        }
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
+			services.AddMvc();
+		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		//---------------------------------------------------------------------
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseMvc();
-        }
-    }
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		{
+			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+			loggerFactory.AddDebug();
+			app.UseCors("CorsPolicy");
+			app.UseSession();
+			app.UseStaticFiles();
+			app.UseMvc();
+		}
+	}
 }
