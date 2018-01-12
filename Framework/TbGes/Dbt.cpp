@@ -4203,7 +4203,14 @@ DBTObject*	DBTSlaveBuffered::GetDBTObject(const CTBNamespace& aNs) const
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
-	jsonSerializer.OpenArray(GetName());
+	jsonSerializer.OpenObject(GetName());
+
+	SqlRecord *pPrototypeRecord = this->GetRecord();
+	jsonSerializer.OpenObject(_T("prototype"));
+	pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
+	jsonSerializer.CloseObject();
+
+	jsonSerializer.OpenArray(_T("rows"));
 	for (int i = 0; i < GetRowCount(); i++)
 	{
 		SqlRecord *pRecord = GetRow(i);
@@ -4212,21 +4219,26 @@ void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializ
 		jsonSerializer.CloseObject();
 	}
 	jsonSerializer.CloseArray();
+	jsonSerializer.CloseObject();
 }
 
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::SetJson(BOOL bWithChildren, CJsonParser& jsonParser)
 {
-	if (jsonParser.BeginReadArray(GetName()))
+	if (jsonParser.BeginReadObject(GetName()))
 	{
-		for (int i = 0; i < GetRowCount(); i++)
+		if (jsonParser.BeginReadArray(_T("rows")))
 		{
-			SqlRecord *pRecord = GetRow(i);
-			if (jsonParser.BeginReadObject(i))
+			for (int i = 0; i < GetRowCount(); i++)
 			{
-				pRecord->SetJson(jsonParser);
-				jsonParser.EndReadObject();
+				SqlRecord *pRecord = GetRow(i);
+				if (jsonParser.BeginReadObject(i))
+				{
+					pRecord->SetJson(jsonParser);
+					jsonParser.EndReadObject();
+				}
 			}
+			jsonParser.EndReadArray();
 		}
 		jsonParser.EndReadObject();
 	}
