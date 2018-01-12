@@ -12,7 +12,19 @@ namespace Microarea.TbJson
         /// Racchiude un tag tra parentesi quadre
         /// </summary>
         public static string Square(string tag) => $"[{tag}]";
-
+        public static bool AdjustExpression(ref string text)
+        {
+            if (text.StartsWith("{{") && text.EndsWith("}}"))
+            {
+                text = text.Substring(2, text.Length - 4);
+                text = string.Concat("eventData?.model?.", text);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static JObject FindAnchoredObjectInSiblings(JArray jItems, JObject currentObject)
         {
             string anchorName = string.Empty;

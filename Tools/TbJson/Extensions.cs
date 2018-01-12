@@ -120,10 +120,9 @@ namespace Microarea.TbJson
             if (result == null || !(result is JValue))
                 return null;
             string text = result.Value<string>();
-            if (text.StartsWith("{{") && text.EndsWith("}}"))
+            if (Helpers.AdjustExpression(ref text))
             {
-                text = text.Substring(2, text.Length - 4);
-                return string.Concat("eventData?.model?.", text);
+                return text;
             }
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
             text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
