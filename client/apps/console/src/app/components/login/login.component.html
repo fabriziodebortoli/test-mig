@@ -1,5 +1,6 @@
 <!-- #begin dialogs -->
 <admin-dialog [mode]="'fields'" [title]="'Change password'" [message]="'Please change password'" [(fields)]=changePasswordFields [(opened)]=openChangePasswordDialog [(result)]=changePasswordResult (onClose)="onCloseChangePasswordDialog($event)"></admin-dialog>
+<admin-dialog [mode]="'message'" [title]="'Import'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
 <!-- #end dialogs -->
 <div class="container pad10">
     <div class="row center-xs">

@@ -1,3 +1,4 @@
+import { gauge } from './../../models/gauge.model';
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { RsExportService } from './../../rs-export.service';
@@ -150,6 +151,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       else if (element.chart !== undefined) {
         obj = new chart(element.chart);
       }
+      else if (element.gauge !== undefined) {
+        obj = new gauge(element.gauge);
+      }
       else //skip unknown objects
         continue;
 
@@ -232,6 +236,15 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             obj.category_title = element.chart.category_axis.title;
             obj.categories = element.chart.category_axis.categories;
           }
+        }
+        else if (element.gauge !== undefined) {
+          id = element.gauge.baserect.baseobj.id;
+          value = element.gauge.value;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
+            continue;
+          }
+          obj.value = value;
         }
       } catch (a) {
         console.log(a);

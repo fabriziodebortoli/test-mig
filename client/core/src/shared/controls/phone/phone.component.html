@@ -1,4 +1,4 @@
-<div class="tb-control tb-phone">
-    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled"></kendo-maskedtextbox>
+<div class="tb-control tb-phone" [ngClass]="componentClass()">
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <input kendoTextBox maxlength="{{model?.length}}" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [style.width.px]="width"/>
 </div>

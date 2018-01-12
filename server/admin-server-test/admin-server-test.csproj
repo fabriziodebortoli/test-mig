@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>Microarea.AdminServerTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -705,8 +705,7 @@ namespace Microarea.Common.Applications
            
             this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 
-            //TODO RSWEB
-            //System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(StateMachine.ReportSession.UICulture);
+            Thread.CurrentThread.CurrentUICulture = ui.UserUICulture;
         }
 
         //---------------------------------------------------------------------

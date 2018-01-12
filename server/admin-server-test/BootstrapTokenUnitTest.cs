@@ -4,10 +4,10 @@ using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace admin_server_test
+namespace Microarea.AdminServerTest
 {
     [TestClass]
-    public class AdminServerTest
+    public class BootstrapTokenTests
 	{
 		/// <summary>
 		/// In a real http use, now we shouldsend the bootstrapTokenContainer JSON-ized to the client

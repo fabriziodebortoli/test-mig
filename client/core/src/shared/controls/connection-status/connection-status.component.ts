@@ -1,9 +1,9 @@
+import { TaskBuilderService } from './../../../core/services/taskbuilder.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
-import { SocketConnectionStatus } from '../../models/websocket-connection.enum';
-import { WebSocketService } from './../../../core/services/websocket.service';
+import { ConnectionStatus } from '../../models/connection-status.enum';
 
 import { ControlComponent } from './../control.component';
 import { TbComponent } from './../../components/tb.component';
@@ -17,44 +17,46 @@ import { TbComponent } from './../../components/tb.component';
 export class ConnectionStatusComponent extends TbComponent implements OnDestroy {
   subscriptions: Subscription[] = [];
   connectionStatus: string = "";
-  connectionStatusClass: string = "disconnected";
-  status: SocketConnectionStatus = SocketConnectionStatus.None;
+  status = ConnectionStatus.None;
+  connectionStatusClass = this.getConnectionStatusClass();
   constructor(
-    public webSocketService: WebSocketService,
+    public tbService: TaskBuilderService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) {
     super(tbComponentService, changeDetectorRef);
 
     this.enableLocalization();
-    this.subscriptions.push(this.webSocketService.connectionStatus.subscribe((status) => {
+    this.subscriptions.push(this.tbService.connectionStatus.subscribe((status) => {
       this.status = status;
-      this.connectionStatus = this.getConnectedStatusString(status);
-      this.connectionStatusClass = this.getConnectionStatusClass(status);
+      this.connectionStatus = this.getConnectedStatusString();
+      this.connectionStatusClass = this.getConnectionStatusClass();
     }));
   }
 
-  public getConnectedStatusString(status: SocketConnectionStatus): string {
+  public getConnectedStatusString(): string {
 
-    switch (status) {
-      case SocketConnectionStatus.Connected:
+    switch (this.status) {
+      case ConnectionStatus.Connected:
         return this._TB('Connected');
-      case SocketConnectionStatus.Connecting:
+      case ConnectionStatus.Connecting:
         return this._TB('Connecting');
-      case SocketConnectionStatus.Disconnected:
+      case ConnectionStatus.Disconnected:
+      case ConnectionStatus.None:
         return this._TB('Disconnected');
       default:
         return "";
     }
   }
 
-  public getConnectionStatusClass(status: SocketConnectionStatus): string {
-    switch (status) {
-      case SocketConnectionStatus.Connected:
+  public getConnectionStatusClass(): string {
+    switch (this.status) {
+      case ConnectionStatus.Connected:
         return "connected";
-      case SocketConnectionStatus.Connecting:
+      case ConnectionStatus.Connecting:
         return "connecting";
-      case SocketConnectionStatus.Disconnected:
+      case ConnectionStatus.Disconnected:
+      case ConnectionStatus.None:
         return "disconnected";
       default:
         return "";

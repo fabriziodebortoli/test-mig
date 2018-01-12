@@ -158,6 +158,7 @@ namespace Microarea.Common.Hotlink
                 bool first = true;
                 foreach (FilterField ff in customFilters.filters)
                 {
+                    string colName = ff.field.Replace("__", ".");
                     if (!first)
                     {
                         customWhere += ' ' + customFilters.logic + ' ';
@@ -166,25 +167,25 @@ namespace Microarea.Common.Hotlink
                         first = false;
 
                     if (ff.Operator.CompareNoCase("Contains"))
-                        customWhere += ff.field + string.Format(" LIKE '%{0}%'", ff.Value);
+                        customWhere += colName + string.Format(" LIKE '%{0}%'", ff.Value);
                     else if (ff.Operator.CompareNoCase("DoesNotContain"))
-                        customWhere += ff.field + string.Format("NOT LIKE '%{0}%'", ff.Value);
+                        customWhere += colName + string.Format("NOT LIKE '%{0}%'", ff.Value);
                     else if (ff.Operator.CompareNoCase("IsEqualTo"))
-                        customWhere += ff.field + string.Format(" = {0}", ff.Value);
+                        customWhere += colName + string.Format(" = {0}", ff.Value);
                     else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
-                        customWhere += ff.field + string.Format(" <> {0}", ff.Value);
+                        customWhere += colName + string.Format(" <> {0}", ff.Value);
                     else if (ff.Operator.CompareNoCase("StartsWith"))
-                        customWhere += ff.field + string.Format(" LIKE '{0}%'", ff.Value);
+                        customWhere += colName + string.Format(" LIKE '{0}%'", ff.Value);
                     else if (ff.Operator.CompareNoCase("EndsWith"))
-                        customWhere += ff.field + string.Format(" LIKE '%{0}'", ff.Value);
+                        customWhere += colName + string.Format(" LIKE '%{0}'", ff.Value);
                     else if (ff.Operator.CompareNoCase("IsNull"))
-                        customWhere += ff.field + string.Format(" IS NULL", ff.Value);
+                        customWhere += colName + string.Format(" IS NULL", ff.Value);
                     else if (ff.Operator.CompareNoCase("IsNotNull"))
-                        customWhere += ff.field + string.Format(" IS NOT NULL", ff.Value);
+                        customWhere += colName + string.Format(" IS NOT NULL", ff.Value);
                     else if (ff.Operator.CompareNoCase("IsEmpty"))
-                        customWhere += ff.field + string.Format(" = ''", ff.Value);
+                        customWhere += colName + string.Format(" = ''", ff.Value);
                     else if (ff.Operator.CompareNoCase("IsNotEmpty"))
-                        customWhere += ff.field + string.Format(" <> ''", ff.Value);
+                        customWhere += colName + string.Format(" <> ''", ff.Value);
                 }
             }
 
@@ -204,9 +205,12 @@ namespace Microarea.Common.Hotlink
             selection_type.Data = selectionType;
 
             string likeValue = requestQuery["filter"];
+
             if (String.IsNullOrEmpty(likeValue) || /*tapullo*/ likeValue== "\"\"") 
                 likeValue = string.Empty;
 
+            char[] removeChars = { '\\', '\"'};
+            likeValue = likeValue.Trim(removeChars).Trim(removeChars);
             if (!selectionType.CompareNoCase("direct"))
                 filter_value.Data = likeValue + "%";
             else
@@ -619,7 +623,7 @@ namespace Microarea.Common.Hotlink
                 SymField f0 = columns[0] as SymField;
                 int idx = f0.Name.IndexOf('.');
                 if (idx > 0)
-                    records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+                    records += XmlDescription.DbFieldName.Replace(".", "__").ToJson("key") + ',';
                 else
                     records += XmlDescription.DbFieldName.Mid(idx + 1).ToJson("key") + ',';
             }
@@ -637,7 +641,7 @@ namespace Microarea.Common.Hotlink
                 else
                     records += ',';
 
-                string fname = f.Name.Replace('.', '_').ToJson("id");
+                string fname = f.Name.Replace(".", "__").ToJson("id");
                 string title = f.Title;
                 if (title.IsNullOrWhiteSpace())
                 {
@@ -681,7 +685,7 @@ namespace Microarea.Common.Hotlink
                         rows += ',';
                     }
                  
-                    rows += o.ToJson(f.Name.Replace('.', '_'));
+                    rows += o.ToJson(f.Name.Replace(".", "__"));
                 }
                 rows += "},\n";
             }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Services.Security
 {
@@ -51,7 +48,7 @@ namespace Microarea.AdminServer.Services.Security
 			jWTTokenHeader.typ = AuthorizationInfo.TypeJwtName;
 			jwtToken.header = jWTTokenHeader;
 			jwtToken.payload = bootstrapToken;
-			return jwtToken.GetToken(secretKey);
+			return jwtToken.GenerateEncodedToken(secretKey);
 		}
 	}
 }

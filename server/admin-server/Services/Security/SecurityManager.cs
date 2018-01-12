@@ -2,7 +2,7 @@
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
-using Microarea.AdminServer.Services.GWAMCaller;
+using Microarea.AdminServer.Services.ExternalUrlCallers;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Newtonsoft.Json;
 using System;

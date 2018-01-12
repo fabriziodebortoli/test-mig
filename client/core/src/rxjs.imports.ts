@@ -19,6 +19,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/publishLast';
 
 export * from 'rxjs/observable/of';
 export * from 'rxjs/operator/reduce';
@@ -26,12 +27,14 @@ export * from 'rxjs/operator/concat';
 export * from 'rxjs/operator/map';
 export * from 'rxjs/operator/pluck';
 export * from 'rxjs/operator/distinctUntilChanged';
+export * from 'rxjs/operator/publishLast';
 
 export * from 'rxjs/Subject';
 export * from 'rxjs/Subscription';
 export * from 'rxjs/Subscriber';
 export * from 'rxjs/Observer';
 export * from 'rxjs/Observable';
+export * from 'rxjs/observable/ConnectableObservable';
 export * from 'rxjs/observable/ErrorObservable';
 export * from 'rxjs/BehaviorSubject';
 export * from 'rxjs/util/TimeoutError';

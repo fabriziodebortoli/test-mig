@@ -14,7 +14,7 @@ namespace Microarea.AdminServer.Services.Security
 		public BootstrapToken payload;
 
 		//--------------------------------------------------------------------------------
-		public string GetToken(string secretKey)
+		public string GenerateEncodedToken(string secretKey)
 		{
 			try
 			{

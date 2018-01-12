@@ -21,6 +21,7 @@ export class DatabaseCredentials {
     Login: string;
     Password: string;
     
+    
     constructor() {
         this.Provider = '';
         this.Server = '';
@@ -36,11 +37,13 @@ export class ChangePasswordInfo {
   AccountName: string;
   Password: string;
   NewPassword: string;
+  Temporary: boolean;
   
   constructor() {
       this.AccountName = '';
       this.Password = '';
       this.NewPassword = '';
+      this.Temporary = false;
   }
 }
 

@@ -23,13 +23,13 @@ export class DataService extends DocumentService {
     return headers;
   }
 
-  getData(nameSpace: string, selectionType: string, params: URLSearchParams): Observable<Response> {
+  getData(nameSpace: string, selectionType: string, params: URLSearchParams): Observable<any> {
     let url: string = this.infoService.getBaseUrl() + '/data-service/getdata/' + nameSpace + '/' + selectionType;
 
     return this.http.get(url, { headers: this.createAuthorizationHeader(), search: params, withCredentials: true }).map((res: Response) => res.json());
   }
 
-  getColumns(nameSpace: string, selectionType: string): Observable<Response> {
+  getColumns(nameSpace: string, selectionType: string): Observable<any> {
     let url: string = this.infoService.getBaseUrl() + '/data-service/getcolumns/' + nameSpace + '/' + selectionType;
 
     return this.http.get(url, { headers: this.createAuthorizationHeader(), withCredentials: true }).map((res: Response) => res.json());

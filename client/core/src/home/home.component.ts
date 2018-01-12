@@ -23,7 +23,7 @@ import { FormattersService } from './../core/services/formatters.service';
 import { TabberService } from './../core/services/tabber.service';
 import { LayoutService } from './../core/services/layout.service';
 import { ComponentService } from './../core/services/component.service';
-import { TaskbuilderService } from './../core/services/taskbuilder.service';
+import { TaskBuilderService } from './../core/services/taskbuilder.service';
 import { SidenavService } from './../core/services/sidenav.service';
 import { LoadingService } from './../core/services/loading.service';
 
@@ -59,7 +59,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
   constructor(
     public sidenavService: SidenavService,
-    public taskbuilderService: TaskbuilderService,
+    public taskbuilderService: TaskBuilderService,
     public componentService: ComponentService,
     public layoutService: LayoutService,
     public tabberService: TabberService,
@@ -128,12 +128,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
     this.formattersService.loadFormattersTable();
-
-    // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
-    this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
-      this.loadingService.setLoading(!connected, connected ? "" : this._TB('connecting...'));
-    }));
-
+    this.loadingService.setLoading(false);
   }
 
   ngOnInit() {
