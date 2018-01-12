@@ -41,6 +41,12 @@ const TCHAR* szStatus = _T("_status");
 #undef THIS_FILE
 static const char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
+//=============================================================================
+
+DataTypeRecordDescr::~DataTypeRecordDescr()
+{ SAFE_DELETE (m_pRecordFields); }
+
+///////////////////////////////////////////////////////////////////////////////
 
 const DataType  DataType::Null(DATA_NULL_TYPE, 0);
 const DataType  DataType::Void(DATA_NULL_TYPE, DataObj::TB_VOID);
@@ -650,11 +656,11 @@ DataType::DataType(const CString& st)
 //-----------------------------------------------------------------------------
 DataType::~DataType()
 {
-	if (m_pBaseType)
-	{
-		delete m_pBaseType; m_pBaseType = NULL;
-	}
-	SAFE_DELETE (m_pRecordFields);
+	//if (m_pBaseType)
+	//{
+	//	delete m_pBaseType; m_pBaseType = NULL;
+	//}
+	//SAFE_DELETE (m_pRecordFields);
 }
 
 //-----------------------------------------------------------------------------

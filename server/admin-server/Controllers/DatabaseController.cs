@@ -11,7 +11,6 @@ using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Services.Security;
-using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Hosting;
@@ -49,6 +48,7 @@ namespace Microarea.AdminServer.Controllers
 		/// <summary>
 		/// Insert/update subscription database
 		/// </summary>
+		/// <remarks>presente solo nell'admin</remarks>
 		//-----------------------------------------------------------------------------	
 		[HttpPost("/api/databases")]
 		public IActionResult ApiDatabases([FromBody] SubscriptionDatabase subDatabase)
@@ -104,6 +104,7 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="subscriptionKey"></param>
 		/// <param name="dbName"></param>
 		/// <returns></returns>
+		/// <remarks>presente solo nell'admin</remarks>
 		//-----------------------------------------------------------------------------	
 		[HttpGet("/api/databases/{instanceKey}/{subscriptionKey}/{dbName?}")]
 		[Produces("application/json")]
@@ -182,6 +183,9 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/quickcreate/{instanceKey}/{subscriptionKey}")]
 		public IActionResult ApiQuickCreate(string instanceKey, string subscriptionKey)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -389,6 +393,8 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/testconnection/{subscriptionKey}")]
 		public IActionResult ApiTestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -404,13 +410,18 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbCredentials == null)
+			if (dbCredentials == null || !dbCredentials.Validate())
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
+
+			// qui devo chiamare il provisioning database service
+
+
 
 			// if databaseName is empty I use master
 			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
@@ -465,6 +476,9 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/exist/{subscriptionKey}/{dbName}")]
 		public IActionResult ApiExistDatabase(string subscriptionKey, string dbName, [FromBody] DatabaseCredentials dbCredentials)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -480,11 +494,12 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbCredentials == null)
+			if (dbCredentials == null || !dbCredentials.Validate())
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -523,6 +538,9 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/check/{subscriptionKey}")]
 		public IActionResult ApiCheck(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -543,6 +561,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -562,6 +581,9 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/update/{subscriptionKey}")]
 		public IActionResult ApiUpdate(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -676,6 +698,9 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
 		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -696,6 +721,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -739,6 +765,10 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
 		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
+
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -759,6 +789,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -800,6 +831,10 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
 		public IActionResult ApiDeleteDatabaseObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
 		{
+
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -820,6 +855,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -852,6 +888,10 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/delete/{subscriptionKey}")]
 		public IActionResult ApiDeleteDatabase(string subscriptionKey, [FromBody]DeleteDatabaseBodyContent deleteContent)
 		{
+
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -872,6 +912,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -905,6 +946,9 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/checkstructure/{subscriptionKey}")]
 		public IActionResult ApiCheckDatabaseStructure(string subscriptionKey, [FromBody] SubscriptionDatabase subDatabase)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -1015,6 +1059,8 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/upgradestructure/{subscriptionKey}/{configuration?}")]
 		public IActionResult ApiUpgradeDatabaseStructure(string subscriptionKey, string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -1115,6 +1161,9 @@ namespace Microarea.AdminServer.Controllers
 		[Produces("application/json")]
 		public IActionResult ApiGetConfigurations(string subscriptionKey, string configType, string iso)
 		{
+			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -1279,6 +1328,9 @@ namespace Microarea.AdminServer.Controllers
 		[Produces("application/json")]
 		public IActionResult ApiQueryDelete(string instanceKey, string subscriptionKey, string modelName, [FromBody] APIQueryData apiQueryData)
 		{
+			// @@TODO: DEVE ESSERE SOLO NELL'ADMIN!!!!
+
+
 			OperationResult opRes = new OperationResult();
 
 			if (string.IsNullOrWhiteSpace(modelName))

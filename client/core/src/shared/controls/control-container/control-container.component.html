@@ -1,5 +1,5 @@
 <div class="tb-control tb-text">
-    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
         <ng-content></ng-content>
         <ng-container #contextMenu></ng-container>

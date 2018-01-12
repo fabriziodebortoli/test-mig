@@ -658,24 +658,32 @@ namespace Microarea.Common.Hotlink
 			}
 
             //------------------------------------------------------
-            if (this.pageNumber != 0 && customSort.IsNullOrEmpty())
+            if (this.pageNumber != 0 && customSort.IsNullOrEmpty() && customWhere.IsNullOrEmpty())
                 strSql = BuildPaging(strSql, TbConnection);
 
-            if (!customWhere.IsNullOrEmpty())
+            else if (!customWhere.IsNullOrEmpty())
             {
-                strSql = "SELECT * FROM (" + strSql + ") AS innerQuery WHERE " + customWhere;
+                string sortClause = string.Empty;
+                int posSort  = strSql.LastIndexOfWord("order by");
+                if (posSort > 0)
+                {
+                    sortClause = strSql.Mid(posSort);
+                    strSql = strSql.Left(posSort);
+                }
+
+                strSql = "SELECT * FROM (" + strSql + ") AS innerQuery WHERE " + customWhere.ReplaceQualifier() + ' ' + sortClause.ReplaceQualifier();
 
                 if (!customSort.IsNullOrEmpty())
                 {
-                    strSql += " ORDER BY " + customSort;
-
-                    if (this.pageNumber != 0)
-                        strSql = BuildPaging(strSql, TbConnection);
-                }
+                    strSql += (sortClause.IsNullOrEmpty() ? "": " ORDER BY ") + customSort.ReplaceQualifier();
+               }
+ 
+                if (this.pageNumber != 0)
+                    strSql = BuildPaging(strSql, TbConnection);
             }
             else if (!customSort.IsNullOrEmpty())
             {
-                strSql = "SELECT * FROM (" + strSql + ") AS innerQuery ORDER BY " + customSort;
+                strSql = "SELECT * FROM (" + strSql + ") AS innerQuery ORDER BY " + customSort.ReplaceQualifier();
 
                 if (this.pageNumber != 0)
                     strSql = BuildPaging(strSql, TbConnection);

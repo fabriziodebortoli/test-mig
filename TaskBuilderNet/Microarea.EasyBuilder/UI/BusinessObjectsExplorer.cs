@@ -6,6 +6,8 @@ using System.Linq;
 using Microarea.EasyBuilder.Properties;
 using Microarea.Framework.TBApplicationWrapper;
 using Microarea.TaskBuilderNet.Core.Generic;
+using Microarea.TaskBuilderNet.Core.NameSolver;
+using Microarea.TaskBuilderNet.Interfaces;
 
 namespace Microarea.EasyBuilder.UI
 {
@@ -55,7 +57,7 @@ namespace Microarea.EasyBuilder.UI
         {
             string selectedNode = string.Empty;
             if (treeBusinessObjects.SelectedNode != null)
-                selectedNode = treeBusinessObjects.SelectedNode.Text;
+                selectedNode = treeBusinessObjects.SelectedNode.Name;
 
             var deletedComp = e.Component as Microarea.EasyBuilder.ReferenceableComponent; //Microarea.TaskBuilderNet.Core.EasyBuilder.EasyBuilderComponent;
 
@@ -69,14 +71,32 @@ namespace Microarea.EasyBuilder.UI
                     var findDeletedDoc = DocsInfos.Where(d => (d.Item4 == ns)).Single();
 
                     Status status = GetStatus(nsDoc);
+                    TreeNode appNode = GetNodeByName(documentsNode.Nodes, findDeletedDoc.Item1);
+
+                    if (appNode == null)
+                        return;
+
+                    TreeNode modNode = GetNodeByName(appNode.Nodes, string.Concat(findDeletedDoc.Item1 + findDeletedDoc.Item2));
+
+                    if (modNode == null)
+                        return;
+
+                    TreeNode docNode = GetNodeByName(modNode.Nodes, findDeletedDoc.Item4);
                     if (!IsFiltered(status))
                     {
-                        TreeNode appNode = GetNode(documentsNode.Nodes, findDeletedDoc.Item1, 0);
-                        TreeNode modNode = GetNode(appNode.Nodes, findDeletedDoc.Item2, 0);
-                        TreeNode docNode = GetNode(modNode.Nodes, findDeletedDoc.Item3, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24);
-                        if (docNode != null)
-                            docNode.Tag = nsDoc;
+                        if (docNode == null)
+                            docNode = AddNode(modNode.Nodes, findDeletedDoc.Item3, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24, nsDoc, nsDoc);
+                        
                         UpdateNodeUI(docNode, status);
+                    }
+                    else
+                    {
+                        if (docNode != null)
+                        {
+                            modNode.Nodes.Remove(docNode);
+                            if (modNode.Nodes.Count <= 0)
+                                appNode.Nodes.Remove(modNode);
+                        }
                     }
                 }
             }
@@ -152,6 +172,9 @@ namespace Microarea.EasyBuilder.UI
 		//--------------------------------------------------------------------------------
 		private void UpdateNodeUI(TreeNode node, Status status)
 		{
+            if (node == null)
+                return;
+
 			switch (status)
 			{
 				case Status.Exposed:
@@ -182,19 +205,21 @@ namespace Microarea.EasyBuilder.UI
                 if (DocsInfos.Count == 0)
                     return;
 
-                var apps = DocsInfos.Select(d => d.Item1).Distinct();
+                var apps = DocsInfos.OrderBy(y => y.Item1).GroupBy(x => x.Item1).Select(x => x.First().Item1);
                 foreach (string app in apps)
                 {
-                    appNode = GetNode(documentsNode.Nodes, app, (int)ImageLists.TreeBusinessObjectImageIndex.Application);
+                    String appTitle = CUtility.GetAppTitleByAppName(app);
+                    appNode = AddNode(documentsNode.Nodes, appTitle, (int)ImageLists.TreeBusinessObjectImageIndex.Application, app);
                     appNode.Expand();
                     //load all modules
-                    var mods = DocsInfos.Where(m => m.Item1 == app).Distinct().OrderBy(x => x.Item2);
+                    var mods = DocsInfos.OrderBy(y => y.Item2).GroupBy(x => new { x.Item1, x.Item2 }).Where(x => x.First().Item1 == app).Select(x => x.First());
                     foreach (Tuple<string, string, string, string> mod in mods)
                     {
-                        TreeNode modNode = GetNode(appNode.Nodes, mod.Item2, (int)ImageLists.TreeBusinessObjectImageIndex.Module);
+                        TreeNode modNode = null; 
 
-                        var docs = DocsInfos.Where(d => (d.Item1 == app && d.Item2 == mod.Item2)).Distinct().OrderBy(x => x);
-                        
+                        var docs = DocsInfos.Where(d => (d.Item1 == app && d.Item2 == mod.Item2)).OrderBy(x => x.Item3);
+
+                        bool bFirstTime = true;
                         foreach (Tuple<string, string, string, string> doc in docs)
                         {
                             string ns = doc.Item4;
@@ -202,10 +227,19 @@ namespace Microarea.EasyBuilder.UI
                             Status status = GetStatus(docNS);
                             if (IsFiltered(status))
                                 continue;
+
+                            if (bFirstTime)
+                            {
+                                //add module node only whether has children to add to
+                                string modTitle = "";
+                                IBaseApplicationInfo appInfo = BasePathFinder.BasePathFinderInstance.GetApplicationInfoByName(app);
+                                IBaseModuleInfo modInfo = appInfo.GetModuleInfoByName(mod.Item2);
+                                modTitle = modInfo.Title;
+                                modNode = AddNode(appNode.Nodes, modTitle, (int)ImageLists.TreeBusinessObjectImageIndex.Module, string.Concat(app, mod.Item2));
+                                bFirstTime = false;
+                            }
                             //load documents for this mod
-                            TreeNode docNode = GetNode(modNode.Nodes, doc.Item3, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24);
-                            if (docNode != null)
-                                docNode.Tag = docNS;
+                            TreeNode docNode = AddNode(modNode.Nodes, doc.Item3, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24, ns, docNS);
                             UpdateNodeUI(docNode, status);
                         }
                     }
@@ -244,17 +278,32 @@ namespace Microarea.EasyBuilder.UI
 			return Status.InErrorState;
 		}
 
-		//-----------------------------------------------------------------------------
-		private TreeNode GetNode(TreeNodeCollection nodes, string text, int imageindex)
-		{
-			foreach (TreeNode node in nodes)
-				if (node.Text == text)
-					return node;
-			TreeNode n = new TreeNode(text, imageindex, imageindex);
-			n.Name = text;
-			nodes.Add(n);
-			return n;
-		}
+        //------------------------------------------------------------------------------------------------------------------
+        private TreeNode GetNodeByName(TreeNodeCollection nodes, string name)
+        {
+            foreach (TreeNode node in nodes)
+                if (node.Name.Equals(name))
+                    return node;
+
+            return null;
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        private TreeNode AddNode(TreeNodeCollection nodes, string text, int imageindex, string name, NameSpace ns = null)
+        {
+            TreeNode n = new TreeNode(text, imageindex, imageindex);
+
+            if (n == null)
+                return null;
+
+            n.Name = name;
+            nodes.Add(n);
+
+            if (ns != null)
+                n.Tag = ns;
+           
+            return n;
+        }
 
 		//-----------------------------------------------------------------------------
 		private void ExpandFirstNode()

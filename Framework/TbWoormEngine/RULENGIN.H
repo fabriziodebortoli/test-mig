@@ -152,9 +152,7 @@ class TB_EXPORT RuleObj : public CObject, public IDisposingSourceImpl
 	
 	DECLARE_DYNAMIC(RuleObj);
 protected:
-#ifdef _DEBUG
-	int			m_nRuleTag;
-#endif
+	int			m_nRuleTag = -1;
 
 	RuleEngine&	m_OwnerEngine;
 

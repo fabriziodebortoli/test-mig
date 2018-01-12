@@ -319,6 +319,7 @@ export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
 const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe, TbToUpper];
 
+export { HotLinkInfo } from './models/hotLinkInfo.model';
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
 export { ControlTypes } from './models/control-types.enum';

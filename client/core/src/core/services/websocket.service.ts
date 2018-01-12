@@ -150,7 +150,7 @@ export class WebSocketService extends LocalizationService {
                         this.connection.send(JSON.stringify(data));
                         resolve();
                         sub.unsubscribe();
-                        //this.loadingService.setLoading(false);
+                        this.loadingService.setLoading(false);
                     }
                 });
             }
