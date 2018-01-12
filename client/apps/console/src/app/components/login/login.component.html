@@ -1,6 +1,7 @@
 <!-- #begin dialogs -->
 <admin-dialog [mode]="'fields'" [title]="'Change password'" [message]="'Please change password'" [(fields)]=changePasswordFields [(opened)]=openChangePasswordDialog [(result)]=changePasswordResult (onClose)="onCloseChangePasswordDialog($event)"></admin-dialog>
 <admin-dialog [mode]="'message'" [title]="'Import'" [message]="msgDialog" [(opened)]=openMsgDialog [(result)]=dialogResult></admin-dialog>
+<admin-dialog [mode]="'yesno'" [title]="'Reset password'" [message]="'Do you want to reset password for this account? You will receive a temporary password in your email.'" [(opened)]=openResetPasswordDialog [(result)]=resetPasswordResult (onClose)="onCloseResetPasswordDialog($event)"></admin-dialog>
 <!-- #end dialogs -->
 <div class="container pad10">
     <div class="row center-xs">
@@ -26,9 +27,7 @@
                 <div *ngIf="loginStep == 1">
                     <admin-input-text (keydown)="onKeyDown($event)" [material]=true [inputLabel]="'AccountName'" [(inputData)]="credentials.accountName"></admin-input-text>
                 </div>
-                <div *ngIf="loginStep == 1" class="login-forgot-box">
-                    <a (click)="doForgottenPassword()" class="hint-label">Forgot your password?</a>
-                </div>
+
                 <div *ngIf="loginStep == 2">
                     <div *ngIf="instancesList.length > 0" class="pt10">
                         <select (keydown)="onKeyDown($event)" autofocus [(ngModel)]="selectedInstanceKey" class="login-select">
@@ -41,6 +40,9 @@
                 </div>
                 <div *ngIf="loginStep == 3">
                     <admin-input-text (keydown)="onKeyDown($event)" [material]=true [inputLabel]="'Password'" [textType]="'password'" [(inputData)]="credentials.password" [readOnly]="appBusy"></admin-input-text>
+                </div>
+                <div *ngIf="loginStep == 3" class="login-forgot-box">
+                    <a (click)="doForgottenPassword()" class="hint-label">Forgot your password?</a>
                 </div>
                 <div class="alertLabel" *ngIf="errorMessage !== ''">
                     {{ errorMessage }}

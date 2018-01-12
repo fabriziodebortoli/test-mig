@@ -33,6 +33,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   // msgdialog variables
   openMsgDialog: boolean = false;
   msgDialog: string;
+  // resetdialog variables
+  openResetPasswordDialog: boolean = false;
+  resetPasswordResult: boolean = false;
 
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
@@ -214,10 +217,37 @@ export class LoginComponent implements OnInit, OnDestroy {
   
   }
 
+
+// evento sulla chiusura della dialog di cambio password
+//--------------------------------------------------------------------------------------------------------
+onCloseResetPasswordDialog() {
+  // if 'No' button has been clicked I return
+  if (!this.resetPasswordResult)
+    return;
+    let accountName: string = this.route.snapshot.queryParams['accountNameToEdit'];
+
+  let resetPassword = this.loginService.resetPassword(this.credentials.accountName).
+    subscribe(
+    changeResult => {
+
+      if (changeResult.Result) {
+      }
+      else
+        alert('Error resetting password! ' + changeResult.Message);
+
+
+     resetPassword.unsubscribe();
+    },
+    changeError => {
+      console.log(changeError);
+      alert(changeError);
+      resetPassword.unsubscribe();
+    }
+    );
+}
   //--------------------------------------------------------------------------------
   doForgottenPassword() {
-    alert('Sorry, not implemented yet.');
-    return;
+    this.openResetPasswordDialog = true;
   }
 
   //--------------------------------------------------------------------------------

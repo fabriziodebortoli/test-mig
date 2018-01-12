@@ -214,4 +214,21 @@ export class LoginService {
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error (changePassword)'));
   }
+
+  
+  // reset account password
+  //--------------------------------------------------------------------------------------------------------
+  resetPassword(accountName: string): Observable<OperationResult> {
+
+   
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'resetPassword' + '/' + accountName, '', options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error (resetPassword)'));
+  }
+
 }
