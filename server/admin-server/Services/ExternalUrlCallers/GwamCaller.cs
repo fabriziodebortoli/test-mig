@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microarea.AdminServer.Services.GWAMCaller
+namespace Microarea.AdminServer.Services.ExternalUrlCallers
 {
     //================================================================================
     public class GwamCaller
