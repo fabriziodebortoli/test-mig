@@ -73,7 +73,6 @@ export class StatsFormat {
 }
 
 export class GridFormat {
-  maxRows: number;
   columns?: WidgetColumn[];
   color?: string;
 }
@@ -150,9 +149,14 @@ export class WidgetsService {
         return;
       }
 
-      let subs = this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, wdg.provider.params).subscribe((dsData: any) => {
+      let p: URLSearchParams = new URLSearchParams();
+      p.set('page', "1"); // always paginated, default 10 rows if not otherwise stated 
+      if (wdg.provider.maxRows && wdg.provider.maxRows > 0) {
+        p.set('per_page', String(wdg.provider.maxRows));
+      }
+      let subs = this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, p).subscribe((dsData: any) => {
 
-        wdg.data.grid.rows = wdg.provider.maxRows ? dsData.rows.slice(0, wdg.provider.maxRows) : dsData.rows;
+        wdg.data.grid.rows = dsData.rows;
         wdg.data.grid.columns = (wdg.layout.gridFormat && wdg.layout.gridFormat.columns) ? wdg.layout.gridFormat.columns : dsData.columns;
         //wdg.isLoading = false;
         subs.unsubscribe();
