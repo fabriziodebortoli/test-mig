@@ -1503,8 +1503,6 @@ void CRS_ObjectPropertyView::OnApply()	//OnSave
 		}
 	}
 
-	
-
 	switch (m_pPropGrid->m_NewElement_Type)
 	{
 	case CRS_PropertyGrid::NewElementType::NEW_ELEMENT:
@@ -2148,6 +2146,14 @@ void CRS_ObjectPropertyView::CreateNewBreakingEvent(BOOL onlyColumns)
 	CString name = m_pPropGrid->GetProperty(0)->GetSubItem(0)->GetValue();
 	name.Trim();
 
+	//ELI C
+	/*if(!m_pPropGrid->GetProperty(0)->GetSubItem(0)->CheckPropName(FALSE)) return;
+	else
+	{
+	((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
+	}*/
+
+	//---------------------------------------------------------------------------------------------
 	//if name is empty this block gives higlights the property
 	if (name.IsEmpty())
 	{
@@ -2169,8 +2175,8 @@ void CRS_ObjectPropertyView::CreateNewBreakingEvent(BOOL onlyColumns)
 		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::State::Error);
 		return;
 	}
+	//--------------------------------------------------------------------------------------------------
 
-	//-----
 	((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::State::Normal);
 
 	EventsData* pEventsData = GetDocument()->m_pEditorManager->GetPrgData()->GetEventsData();
@@ -2769,7 +2775,26 @@ void CRS_ObjectPropertyView::CreateNewElement()
 
 	DWORD_PTR option = m_pPropGrid->GetProperty(0)->GetSubItem(0)->GetOptionData(index);
 
-	m_NewName.Trim();
+
+	//ELI C
+	BOOL bEmptyAllowed = option == 2;
+	CString errMsg = _T("");
+	if (!((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->CheckPropValue(bEmptyAllowed, errMsg))
+	{
+		if (!errMsg.IsEmpty())
+			AfxMessageBox(errMsg);
+		return;
+	}		
+	else
+	{
+		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
+	}
+
+	WoormTable*	pSymTable = GetDocument()->GetEditorSymTable();
+
+	//-------------------------------------------------------------------------------------------------
+
+	/*m_NewName.Trim();
 	if (m_NewName.IsEmpty() && option != 2)
 	{
 		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Error); 
@@ -2798,17 +2823,19 @@ void CRS_ObjectPropertyView::CreateNewElement()
 	else
 		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
 
+
 	WoormTable*	pSymTable = GetDocument()->GetEditorSymTable();
 
-	if (pSymTable->GetField(m_NewName)/* && !pSymTable->GetField(m_NewName)->IsHidden()*/)
+	if (pSymTable->GetField(m_NewName))
 	{
 		AfxMessageBox(_TB("This name allready exists"));
 		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Error);
 		return;
 	}
-
 	else
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
+		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);*/
+
+	//-------------------------------------------------------------------------------------------------
 
 	if (m_NewType == DataType::Null || m_NewType == DataType::Enum /*generic enum type*/)
 	{
@@ -4460,12 +4487,30 @@ void CRS_ObjectPropertyView::CreateNewDBElement()
 		if (!ifChecked)
 			continue;
 
+		
 		//Variable name
 		CrsProp* propVarName = dynamic_cast<CrsProp*>(pColProp->GetSubItem(0));
 		ASSERT_VALID(propVarName);
+
+		//ELI C
+		CString errMsg = _T("");
+		if (!propVarName->CheckPropValue(FALSE, errMsg))
+		{
+			if (!errMsg.IsEmpty())
+				AfxMessageBox(errMsg);
+			return;
+		}
+		else
+		{
+			((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
+		}
+
 		CString name = propVarName->GetValue();
 		name = name.Trim();
-		if (name.IsEmpty())
+
+		//---------------------------------------------------------------------------------
+
+		/*if (name.IsEmpty())
 		{
 			propVarName->SetColoredState(CrsProp::Error);
 			return;
@@ -4501,7 +4546,10 @@ void CRS_ObjectPropertyView::CreateNewDBElement()
 		}
 
 		else
-			propVarName->SetColoredState(CrsProp::Normal);
+			propVarName->SetColoredState(CrsProp::Normal);*/
+
+		//---------------------------------------------------------------------------------
+
 
 		const SqlColumnInfo* currentColumn = dynamic_cast<const SqlColumnInfo*>((CObject*)propVarName->GetData());
 		ASSERT_VALID(currentColumn);
@@ -21824,6 +21872,67 @@ BOOL CrsProp::InsertOption(int index, LPCTSTR lpszOption, BOOL bInsertUnique/* =
 	return TRUE;
 }
 
+//-----------------------------------------------------------------------------
+BOOL CrsProp::CheckPropValue(BOOL bAllowEmpty, CString &errMsg)
+{
+	CString name = GetValue();
+
+	CString emptyErr = _TB("Empty value is not allowed");
+	CString invalidErr = _TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number");
+	CString reservedErr = _TB("The name collides with a reserved word of TaskBuilder");
+	CString existErr = _TB("TThis name allready exists");
+
+	CString sCurrDescri = GetDescription();
+	errMsg = _T("");
+
+	if (!bAllowEmpty && name.IsEmpty())
+	{
+		errMsg = emptyErr;
+		SetColoredState(CrsProp::Mandatory);		
+	}
+
+	else if (!IsValidName(name))
+	{
+		errMsg = invalidErr;
+		SetColoredState(CrsProp::Error);
+	}
+
+	else if (AfxGetTokensTable()->IsInLanguage(name))
+	{
+		errMsg = reservedErr;
+		SetColoredState(CrsProp::Error);
+	}
+
+	else if (GetDocument()->GetEditorSymTable()->GetField(name))
+	{
+		errMsg = existErr;
+		SetColoredState(CrsProp::Error);
+	}
+
+	if (!errMsg.IsEmpty() )
+	{ 
+		int test = sCurrDescri.Find(errMsg);
+		if(sCurrDescri.Find(errMsg) < 0)
+			SetDescription(sCurrDescri + (!sCurrDescri.IsEmpty() ? _T("\n") : _T("")) + errMsg);
+		return false;
+	}		
+	else
+	{ 
+		sCurrDescri.Replace(emptyErr, _T(""));
+		sCurrDescri.Replace(invalidErr, _T(""));
+		sCurrDescri.Replace(reservedErr, _T(""));
+		sCurrDescri.Replace(existErr, _T(""));
+
+		if (sCurrDescri.ReverseFind('\n') == 0)
+			sCurrDescri.Delete(sCurrDescri.GetLength() - 1, 1);
+
+		SetDescription(sCurrDescri);
+		/*SetOriginalDescription();*/
+		SetColoredState(CrsProp::Normal);
+		return true;
+	}
+}
+
 //*******************************************************************************************
 void CrsProp::SetFilter(const CString& strFilter)
 {
@@ -22993,11 +23102,11 @@ BOOL CRSCommonProp::OnUpdateValue()
 	{
 		CString name = this->GetValue();
 
-		if (AfxGetTokensTable()->IsInLanguage(name))
+		/*if (AfxGetTokensTable()->IsInLanguage(name))
 		{
 			SetColoredState(CrsProp::State::Error);
 			SetDescription(_TB("The name collides with a reserved word of TaskBuilder"));
-			m_pPropertyView->m_NewName = name;
+			//m_pPropertyView->m_NewName = name;
 			//AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
 			break;
 		}
@@ -23011,9 +23120,15 @@ BOOL CRSCommonProp::OnUpdateValue()
 			break;
 		}
 		else
-			SetColoredState(CrsProp::Normal);
+			SetColoredState(CrsProp::Normal);*/
 
-		m_pPropertyView->m_NewName = name;
+		CString errMsg = _T("");
+
+		if (CheckPropValue(false, errMsg))
+		{
+			CString name = this->GetValue();
+			m_pPropertyView->m_NewName = name;
+		}
 		break;
 	}
 
