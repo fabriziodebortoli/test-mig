@@ -102,7 +102,7 @@ namespace Microarea.TbJson
                 return;
             bool slave = jRoot.GetWndObjType() == WndObjType.Dialog;
             AdjustStructure(jRoot);
-
+            //CheckDuplicates(jRoot);
             string file = null;
             if (!string.IsNullOrEmpty(mergedJsonDir))
             {
@@ -229,6 +229,19 @@ namespace Microarea.TbJson
             UpdateModuleFile(modulePath, mod, container, name);
             UpdateRoutingFile(appsPath, app, mod);
         }
+        private void CheckDuplicates(JObject jRoot)
+        {
+            var tokens = jRoot.SelectTokens("..id");
+            var query = tokens.GroupBy(x => x)
+              .Where(g => g.Count() > 1 && g.Key.Parent.Parent.GetWndObjType() != WndObjType.ToolbarButton)
+              .ToList();
+
+            if (query.Count > 0)
+            {
+                foreach (var t in query)
+                    Console.Out.WriteLineAsync("Duplicate ID: " + t.Key);
+            }
+        }
 
         private string GetModelInitCode()
         {
@@ -325,6 +338,18 @@ namespace Microarea.TbJson
             {
                 jFrom.Remove(propNameFrom);
                 jTo[propNameTo] = jProp;
+            }
+            else
+            {
+                jProp = jTo[propNameTo];
+            }
+
+            if (jProp != null)
+            {
+                string text = jProp.ToString();
+                if (Helpers.AdjustExpression(ref text))
+                    jTo[propNameTo] = text;
+               
             }
         }
 

@@ -119,9 +119,9 @@ namespace Microarea.TbJson
             if (result == null || !(result is JValue))
                 return null;
             string text = result.Value<string>();
-            if (text.StartsWith("{{") && text.EndsWith("}}"))
+            if (Helpers.AdjustExpression(ref text))
             {
-                return text.ResolveInterplation();
+                return text;
             }
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
             text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
@@ -293,9 +293,8 @@ namespace Microarea.TbJson
             if (result.Type == JTokenType.Property || result.Type == JTokenType.String)
             {
                 val = result.ToString();
-                if (val.StartsWith("{{") && val.EndsWith("}}"))
+                if (Helpers.AdjustExpression(ref val))
                 {
-                    val = val.ResolveInterplation();
                     return ValueType.EXPRESSION;
                 }
                 return ValueType.PLAIN;
