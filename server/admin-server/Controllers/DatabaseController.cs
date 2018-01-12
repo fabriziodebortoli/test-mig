@@ -48,12 +48,11 @@ namespace Microarea.AdminServer.Controllers
 		/// <summary>
 		/// Insert/update subscription database
 		/// </summary>
+		/// <remarks>presente solo nell'admin</remarks>
 		//-----------------------------------------------------------------------------	
 		[HttpPost("/api/databases")]
 		public IActionResult ApiDatabases([FromBody] SubscriptionDatabase subDatabase)
 		{
-			// @@TODO: DEVE ESSERE SOLO NELL'ADMIN!!!!
-
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
 			// check AuthorizationHeader first
@@ -105,13 +104,12 @@ namespace Microarea.AdminServer.Controllers
 		/// <param name="subscriptionKey"></param>
 		/// <param name="dbName"></param>
 		/// <returns></returns>
+		/// <remarks>presente solo nell'admin</remarks>
 		//-----------------------------------------------------------------------------	
 		[HttpGet("/api/databases/{instanceKey}/{subscriptionKey}/{dbName?}")]
 		[Produces("application/json")]
 		public IActionResult ApiGetDatabases(string instanceKey, string subscriptionKey, string dbName)
 		{
-			// @@TODO: DEVE ESSERE SOLO NELL'ADMIN!!!!
-
 			OperationResult opRes = new OperationResult();
 
 			if (string.IsNullOrWhiteSpace(instanceKey))
@@ -170,7 +168,6 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
-
 
 		/// <summary>
 		/// Creazione automatica:
@@ -396,9 +393,7 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/database/testconnection/{subscriptionKey}")]
 		public IActionResult ApiTestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
 		{
-
 			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
-
 
 			OperationResult opRes = new OperationResult();
 
@@ -415,13 +410,18 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbCredentials == null)
+			if (dbCredentials == null || !dbCredentials.Validate())
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
+
+			// qui devo chiamare il provisioning database service
+
+
 
 			// if databaseName is empty I use master
 			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
@@ -494,11 +494,12 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (dbCredentials == null)
+			if (dbCredentials == null || !dbCredentials.Validate())
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -560,6 +561,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -719,6 +721,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -786,6 +789,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -851,6 +855,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
@@ -907,6 +912,7 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = Strings.NoValidInput;
 				opRes.Code = (int)AppReturnCodes.InvalidData;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
