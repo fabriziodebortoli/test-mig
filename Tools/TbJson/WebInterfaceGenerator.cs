@@ -1314,7 +1314,7 @@ namespace Microarea.TbJson
                         hkl = hkl.Replace(hklExpr, hklValue);
                     }
 
-                    htmlWriter.WriteAttribute("[hotLink]", hkl);
+                    htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
                 }
             }
         }
@@ -1415,7 +1415,7 @@ namespace Microarea.TbJson
             if (!string.IsNullOrEmpty(caption))
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
 
-        
+
             WriteAttribute(jObj, Constants.decimals, Constants.decimals);
             WriteAttribute(jObj, Constants.numberDecimal, Constants.decimals);
             WriteAttribute(jObj, Constants.width, Constants.width);
