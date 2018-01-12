@@ -54,14 +54,14 @@ export class ConnectionStatusComponent extends TbComponent implements OnDestroy 
   public getConnectionStatusClass(): string {
     switch (this.status) {
       case ConnectionStatus.Connected:
-        return 'connected';
+        return 'tbconnected';
       case ConnectionStatus.Connecting:
-        return 'connecting';
+        return 'tbconnecting';
       case ConnectionStatus.Unavailable:
-        return 'unavailable';
+        return 'tbunavailable';
       case ConnectionStatus.Disconnected:
       case ConnectionStatus.None:
-        return 'disconnected';
+        return 'tbdisconnected';
     }
   }
   ngOnDestroy() {

@@ -3,19 +3,22 @@
     cursor: pointer;
 }
 
-.connected {
+.tbconnected {
     color: rgba(100, 255, 60, 0.4);
+    cursor: default;
 }
 
-.disconnected {
+.tbdisconnected {
     color: rgba(255, 40, 62, 0.952);
+    cursor: default;
 }
 
-.connecting {
+.tbconnecting {
     color: rgba(255, 255, 0, 0.4);
+    cursor: wait;
 }
 
-.unavailable {
+.tbunavailable {
     color: rgba(94, 204, 238, 0.993);
     cursor: pointer;
 }
