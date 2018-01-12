@@ -41,6 +41,17 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
+		[HttpGet]
+		[Route("api/status")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiStatus()
+		{
+			OperationResult opRes = new OperationResult();
+			opRes.Result = true;
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
 		// @@TODO: procedura di creazione automatica su Cloud da rivedere!!!
 		// mi deve essere passata la stringa di connessione dal provisioning
 
