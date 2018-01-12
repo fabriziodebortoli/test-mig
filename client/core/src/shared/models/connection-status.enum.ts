@@ -1,1 +1,1 @@
-export enum ConnectionStatus {None, Connected, Disconnected, Connecting};
+export enum ConnectionStatus {None, Connected, Disconnected, Connecting, Unavailable};

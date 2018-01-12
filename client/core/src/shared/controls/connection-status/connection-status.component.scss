@@ -8,9 +8,14 @@
 }
 
 .disconnected {
-    color: rgba(255, 40, 60, 0.4);
+    color: rgba(255, 40, 62, 0.952);
 }
 
 .connecting {
     color: rgba(255, 255, 0, 0.4);
+}
+
+.unavailable {
+    color: rgba(94, 204, 238, 0.993);
+    cursor: pointer;
 }

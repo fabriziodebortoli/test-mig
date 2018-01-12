@@ -11,7 +11,6 @@ import { OperationResult } from './../../shared/models/operation-result.model';
 import { InfoService } from './info.service';
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
-import { DiagnosticService } from './diagnostic.service';
 import { Logger } from './logger.service';
 import { ConnectionStatus } from './../../shared/models/connection-status.enum';
 
@@ -26,8 +25,7 @@ export class TaskBuilderService {
     connected: Subject<boolean> = new BehaviorSubject(false);
 
     subscriptions: Subscription[] = [];
-    stopConnection: boolean = false;
-    _connectionStatus = ConnectionStatus.None;
+    public _connectionStatus = ConnectionStatus.None;
     public connectionStatus = new EventEmitter<ConnectionStatus>();
     constructor(
         public httpService: HttpService,
@@ -36,7 +34,6 @@ export class TaskBuilderService {
         public router: Router,
         public infoService: InfoService,
         public eventManagerService: EventManagerService,
-        public diagnosticService: DiagnosticService,
         public authService: AuthService,
         private themeService: ThemeService
     ) {
@@ -48,8 +45,9 @@ export class TaskBuilderService {
                 if (!infoService.isDesktop) {
                     this.socket.wsConnect();
                 }
-                else
+                else {
                     this.connected.next(true);
+                }
             }
         }));
 
@@ -57,7 +55,7 @@ export class TaskBuilderService {
         this.subscriptions.push(this.socket.open.subscribe(() => {
             this.connected.next(true);
             this.setConnectionStatus(ConnectionStatus.Connected);
-        
+
         }));
 
         // riconnessione alla chiusura del WS
@@ -89,33 +87,28 @@ export class TaskBuilderService {
     }
 
     // provo ad aprire connessione TB
-    openConnection() {
-        this.openTbConnection().delay(this.timeout).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true || this.stopConnection === true)).subscribe();
+    public openConnection() {
+        this.openTbConnection().subscribe();
     }
 
     openTbConnection(): Observable<boolean> {
 
         this.setConnectionStatus(ConnectionStatus.Connecting);
-        let authtoken = sessionStorage.getItem('authtoken');
-        this.logger.debug("openTbConnection...", authtoken);
-        let isDesktop = this.infoService.isDesktop;
+        const authtoken = sessionStorage.getItem('authtoken');
+        this.logger.debug('openTbConnection...', authtoken);
+        const isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
             this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop })
                 .timeout(this.timeout)
                 .catch((error: any) => Observable.throw(error))
                 .subscribe((tbRes: OperationResult) => {
-                    this.logger.debug("openTBConnection result...", tbRes);
+                    this.logger.debug('openTBConnection result...', tbRes);
 
                     if (tbRes.error) {
-                        this.stopConnection = true;
-
-                        this.logger.debug("error messages:", tbRes.messages);
-                        // il TB c'è ma non riesce a collegare
-                        this.logger.error("openTBConnection Connection Error - Reconnecting...");
-                        this.tbConnection.next(true); //passo true perchè la connessione è finita, anche se in maniera fallimentare, in questo modo stoppo il loading
-
-                        this.diagnosticService.showDiagnostic(tbRes.messages).subscribe(() => this.authService.logout());
-
+                        this.logger.debug('error messages:', tbRes.messages);
+                        this.tbConnection.next(false);
+                        this.setConnectionStatus(ConnectionStatus.Unavailable);
+                        this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);
                     } else {
                         this.themeService.loadThemes();
                         this.tbConnection.next(true);

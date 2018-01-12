@@ -16,7 +16,7 @@ import { TbComponent } from './../../components/tb.component';
 
 export class ConnectionStatusComponent extends TbComponent implements OnDestroy {
   subscriptions: Subscription[] = [];
-  connectionStatus: string = "";
+  connectionStatus = '';
   status = ConnectionStatus.None;
   connectionStatusClass = this.getConnectionStatusClass();
   constructor(
@@ -41,6 +41,8 @@ export class ConnectionStatusComponent extends TbComponent implements OnDestroy 
         return this._TB('Connected');
       case ConnectionStatus.Connecting:
         return this._TB('Connecting');
+      case ConnectionStatus.Unavailable:
+        return this._TB('Backend services not available; clic to try to reconnect');
       case ConnectionStatus.Disconnected:
       case ConnectionStatus.None:
         return this._TB('Disconnected');
@@ -52,18 +54,24 @@ export class ConnectionStatusComponent extends TbComponent implements OnDestroy 
   public getConnectionStatusClass(): string {
     switch (this.status) {
       case ConnectionStatus.Connected:
-        return "connected";
+        return 'connected';
       case ConnectionStatus.Connecting:
-        return "connecting";
+        return 'connecting';
+      case ConnectionStatus.Unavailable:
+        return 'unavailable';
       case ConnectionStatus.Disconnected:
       case ConnectionStatus.None:
-        return "disconnected";
-      default:
-        return "";
+        return 'disconnected';
     }
   }
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+  reconnect() {
+    if (this.tbService._connectionStatus == ConnectionStatus.Unavailable) {
+      this.tbService.openConnection();
+    }
+
   }
 }
 

@@ -10,7 +10,9 @@ export class DiagnosticService {
     observer: Subject<any>;
 
     constructor() { }
-
+    showError(message: string) {
+        this.showDiagnostic([{text: message}]);
+    }
     showDiagnostic(messages) {
         this.observer = new Subject<any>();
         this.messages = messages;
