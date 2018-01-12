@@ -156,7 +156,7 @@ import { ViewComponent } from './containers/view/view.component';
 import { FrameContentComponent } from './containers/frame/frame-content/frame-content.component';
 import { FrameComponent } from './containers/frame/frame.component';
 import { StatusTilePanelComponent } from './containers/tiles/status-tile-panel/status-tile-panel.component';
-import { StatusTileComponent } from './containers/tiles/status-tile/status-tile.component';
+import { StatusTileComponent } from './containers/tiles/status-tile-panel/status-tile/status-tile.component';
 
 export { TbHeaderComponent } from './containers/header/header.component';
 export { PanelComponent } from './containers/panel/panel.component';
@@ -184,6 +184,7 @@ export { ViewComponent } from './containers/view/view.component';
 export { FrameContentComponent } from './containers/frame/frame-content/frame-content.component';
 export { FrameComponent } from './containers/frame/frame.component';
 export { StatusTilePanelComponent } from './containers/tiles/status-tile-panel/status-tile-panel.component';
+export { StatusTileComponent } from './containers/tiles/status-tile-panel/status-tile/status-tile.component';
 
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
