@@ -10,16 +10,19 @@ using Microarea.AdminServer.Model.Services.Queries;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.ExternalUrlCallers;
 using Microarea.AdminServer.Services.Security;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.AdminServer.Controllers
@@ -32,17 +35,47 @@ namespace Microarea.AdminServer.Controllers
 	{
 		private IHostingEnvironment environment;
 		private IJsonHelper jsonHelper;
+		private IHttpHelper httpHelper;
 		private AppOptions settings;
+
+		string databaseServiceUrl;
+
 		private BurgerData burgerData;
+		private DatabaseServiceCaller dbServiceCaller;
 
 		//---------------------------------------------------------------------
-		public DatabaseController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
+		public DatabaseController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
 		{
 			environment = env;
 			this.jsonHelper = jsonHelper;
+			this.httpHelper = httpHelper;
 			this.settings = settings.Value;
+			this.databaseServiceUrl = this.settings.ExternalUrls.DatabaseServiceUrl;
 
+			dbServiceCaller = new DatabaseServiceCaller(httpHelper, this.databaseServiceUrl);
 			burgerData = new BurgerData(this.settings.DatabaseInfo.ConnectionString);
+		}
+
+		[HttpGet]
+		[Route("api/databaseservicestatus")]
+		//-----------------------------------------------------------------------------	
+		public async Task<IActionResult> ApiDatabaseServiceStatus()
+		{
+			Task<string> responseData = await dbServiceCaller.CheckDatabaseServiceStatus();
+
+			OperationResult opRes = new OperationResult();
+
+			if (responseData.Status == TaskStatus.Faulted)
+			{
+				opRes.Result = false;
+				opRes.Message = string.Format(Strings.GenericServiceNotResponding, "Provisioning Database Service", string.Empty);
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			opRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
@@ -391,7 +424,7 @@ namespace Microarea.AdminServer.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("/api/database/testconnection/{subscriptionKey}")]
-		public IActionResult ApiTestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
+		public async Task<IActionResult> ApiTestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			// @@TODO: DEVE RICHIAMARE IL PROVISIONING-DATABASE-SERVICE!!!!
 
@@ -420,8 +453,6 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			// qui devo chiamare il provisioning database service
-
-
 
 			// if databaseName is empty I use master
 			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
