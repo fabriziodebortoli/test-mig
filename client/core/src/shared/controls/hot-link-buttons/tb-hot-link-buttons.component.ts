@@ -4,7 +4,8 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
 import { HttpService } from './../../../core/services/http.service';
-import { OnDestroy, OnInit, Component, Input, HostListener, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation } from '@angular/core';
+import { OnDestroy, OnInit, Component, Input, HostListener, ElementRef, ViewContainerRef,
+  ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { GridDataResult, PageChangeEvent, PagerComponent,  } from '@progress/kendo-angular-grid';
 import { filterBy, FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
@@ -15,7 +16,7 @@ import { FilterService, combineFilters } from '../../../core/services/filter.ser
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import * as _ from 'lodash';
 
-export type HlComponent = { model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
+export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
 
 @Component({
   selector: 'tb-hotlink-buttons',
@@ -24,7 +25,7 @@ export type HlComponent = { model: any, slice$?: any, cmpId: string, isCombo?: b
   providers: [PaginatorService, FilterService],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy {
+export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, OnInit {
 
   private _modelComponent: HlComponent
   @Input() public get modelComponent(): HlComponent {
@@ -116,7 +117,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     private ngZone: NgZone,
     private elRef: ElementRef,
     private optionsPopupService: PopupService,
-    private tablePopupService: PopupService
+    private tablePopupService: PopupService,
+    private vcr: ViewContainerRef
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }
@@ -355,6 +357,14 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     let ns = this.currentHotLinkNamespace;
     if (!ns) ns = this.hotLinkInfo.namespace;
     this.httpService.getHotlinkSelectionTypes(ns).toPromise().then(json => this.selectionTypes = json.selections);
+  }
+
+  ngOnInit() {
+    // fix for themes css conflict in form.scss style 
+    if(this.modelComponent && !this.modelComponent.width) {
+      let textBox = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0);
+      if (textBox) { (textBox as HTMLElement).style.width = 'auto'; }
+    }
   }
 
   ngOnDestroy() {
