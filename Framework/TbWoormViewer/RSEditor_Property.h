@@ -516,8 +516,8 @@ public:
 	BOOL	AddSubItem(CBCGPProp* pSubProp, CBCGPPropList* pWndList = NULL);
 
 	int GetOptionDataIndex(DWORD_PTR) const;
-
 	BOOL				InsertOption	(int index, LPCTSTR lpszOption, BOOL bInsertUnique/* = TRUE*/, DWORD_PTR dwData/* = 0*/);
+	BOOL				CheckPropValue(BOOL bAllowEmpty, CString &errMsg);
 	CRS_PropertyGrid*	GetPropertyGrid();
 	void				UpdateMmProp	();
 	virtual void		UpdateIntValue	(int previousValue) {};
