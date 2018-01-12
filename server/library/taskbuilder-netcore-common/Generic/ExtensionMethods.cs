@@ -131,7 +131,11 @@ namespace Microarea.Common.Generic
 
             string src = source.Reverse();
 
-            return  source.Length - src.IndexOfWord(word.Reverse(), startIndex, noCase) - word.Length;
+            int index = src.IndexOfWord(word.Reverse(), startIndex, noCase);
+            if (index == -1)
+                return -1;
+
+            return  source.Length - index - word.Length;
         }
 
         public static string ReplaceQualifier(this string source, string newQ = "")
