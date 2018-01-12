@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { environment } from './../../environments/environment';
 import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
-import { Credentials } from './../authentication/credentials';
+import { Credentials , ChangePasswordInfo} from './../authentication/credentials';
 import { OperationResult } from './operationResult';
 import { RoleNames, RoleLevels } from './../authentication/auth-helpers';
 import { UrlGuard } from "app/authentication/url-guard";
@@ -73,11 +73,7 @@ export class LoginService {
           {
             this.opRes.Result = false;
             this.opRes.Message = 'Cannot do the login. ' + data.Message;
-            if (data.ResultCode == 19)
-{
-alert ('ds');
-
-}
+            this.opRes.Code = data.ResultCode;
             this.sendMessage(this.opRes);
             return;
           }
@@ -86,6 +82,7 @@ alert ('ds');
           {
             this.opRes.Result = false;
             this.opRes.Message = 'Empty token';
+            this.opRes.Code = data.ResultCode;
             this.sendMessage(this.opRes);
             return;
           }
@@ -202,14 +199,16 @@ alert ('ds');
     this.router.navigateByUrl('/appHome', { skipLocationChange:true });
   }
   
+  
   // change account password
   //--------------------------------------------------------------------------------------------------------
-  changePassword(accountName: string): Observable<OperationResult> {
+  changePassword(body: ChangePasswordInfo): Observable<OperationResult> {
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
+    let bodyString = JSON.stringify(body);
 
-    return this.http.post(environment.gwamAPIUrl + 'password', '', options)
+    return this.http.post(environment.gwamAPIUrl + 'password', bodyString, options)
       .map((res: Response) => {
         return res.json();
       })
